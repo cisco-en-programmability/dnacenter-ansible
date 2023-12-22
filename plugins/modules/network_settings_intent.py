@@ -1953,105 +1953,121 @@ class DnacNetwork(DnacBase):
 
         return self
 
-    def validate_dnac_config(self, state, config):
+    def verify_diff_merged(self, config):
         """
-        Validating the DNAC configuration with the playbook details.
+        Validating the DNAC configuration with the playbook details
+        when state is merged (Create/Update).
 
         Parameters:
-            state (str) - State of the task. merged - Create or
-            Update global pool, reserve pool , network servers else
-            deleted - Delete global pool, reserve pool, network servers.
-
             config (dict) - Playbook details containing Global Pool,
             Reserved Pool, and Network Management configuration.
 
         Returns:
-            None
+            self
         """
 
         self.get_have(config)
         self.log(str(self.have))
         self.log(str(self.want))
-        if state == "merged":
-            if config.get("global_pool_details") is not None:
-                obj_params = [
-                    ("settings", "settings"),
-                ]
-                self.log(str(self.want.get("wantGlobal")))
-                self.log(str(self.have.get("globalPool").get("details")))
-                if self.requires_update(self.have.get("globalPool").get("details"),
-                                        self.want.get("wantGlobal"), obj_params):
-                    self.msg = "Global Pool Config is not applied to the DNAC"
-                    self.status = "failed"
-                    return self
+        if config.get("global_pool_details") is not None:
+            obj_params = [
+                ("settings", "settings"),
+            ]
+            self.log(str(self.want.get("wantGlobal")))
+            self.log(str(self.have.get("globalPool").get("details")))
+            if self.requires_update(self.have.get("globalPool").get("details"),
+                                    self.want.get("wantGlobal"), obj_params):
+                self.msg = "Global Pool Config is not applied to the DNAC"
+                self.status = "failed"
+                return self
 
-                self.log("Successfully validated Global Pool")
-                self.result.get("response")[0].get("globalPool").update({"Validation": "Success"})
+            self.log("Successfully validated Global Pool")
+            self.result.get("response")[0].get("globalPool").update({"Validation": "Success"})
 
-            if config.get("reserve_pool_details") is not None:
-                obj_params = [
-                    ("name", "name"),
-                    ("type", "type"),
-                    ("ipv6AddressSpace", "ipv6AddressSpace"),
-                    ("ipv4GlobalPool", "ipv4GlobalPool"),
-                    ("ipv4Prefix", "ipv4Prefix"),
-                    ("ipv4PrefixLength", "ipv4PrefixLength"),
-                    ("ipv4GateWay", "ipv4GateWay"),
-                    ("ipv4DhcpServers", "ipv4DhcpServers"),
-                    ("ipv4DnsServers", "ipv4DnsServers"),
-                    ("ipv6GateWay", "ipv6GateWay"),
-                    ("ipv6DhcpServers", "ipv6DhcpServers"),
-                    ("ipv6DnsServers", "ipv6DnsServers"),
-                    ("ipv4TotalHost", "ipv4TotalHost"),
-                    ("slaacSupport", "slaacSupport")
-                ]
-                if self.requires_update(self.have.get("reservePool").get("details"),
-                                        self.want.get("wantReserve"), obj_params):
-                    self.log(str(self.want.get("wantReserve")))
-                    self.log(str(self.have.get("reservePool").get("details")))
-                    self.msg = "Reserve Pool Config is not applied to the DNAC"
-                    self.status = "failed"
-                    return self
+        if config.get("reserve_pool_details") is not None:
+            obj_params = [
+                ("name", "name"),
+                ("type", "type"),
+                ("ipv6AddressSpace", "ipv6AddressSpace"),
+                ("ipv4GlobalPool", "ipv4GlobalPool"),
+                ("ipv4Prefix", "ipv4Prefix"),
+                ("ipv4PrefixLength", "ipv4PrefixLength"),
+                ("ipv4GateWay", "ipv4GateWay"),
+                ("ipv4DhcpServers", "ipv4DhcpServers"),
+                ("ipv4DnsServers", "ipv4DnsServers"),
+                ("ipv6GateWay", "ipv6GateWay"),
+                ("ipv6DhcpServers", "ipv6DhcpServers"),
+                ("ipv6DnsServers", "ipv6DnsServers"),
+                ("ipv4TotalHost", "ipv4TotalHost"),
+                ("slaacSupport", "slaacSupport")
+            ]
+            if self.requires_update(self.have.get("reservePool").get("details"),
+                                    self.want.get("wantReserve"), obj_params):
+                self.log(str(self.want.get("wantReserve")))
+                self.log(str(self.have.get("reservePool").get("details")))
+                self.msg = "Reserve Pool Config is not applied to the DNAC"
+                self.status = "failed"
+                return self
 
-                self.log("Successfully validated the Reserve Pool")
-                self.result.get("response")[1].get("reservePool").update({"Validation": "Success"})
+            self.log("Successfully validated the Reserve Pool")
+            self.result.get("response")[1].get("reservePool").update({"Validation": "Success"})
 
-            if config.get("network_management_details") is not None:
-                obj_params = [
-                    ("settings", "settings"),
-                    ("site_name", "site_name")
-                ]
-                if self.requires_update(self.have.get("network").get("net_details"),
-                                        self.want.get("wantNetwork"), obj_params):
-                    self.msg = "Network Functions Config is not applied to the DNAC"
-                    self.status = "failed"
-                    return self
+        if config.get("network_management_details") is not None:
+            obj_params = [
+                ("settings", "settings"),
+                ("site_name", "site_name")
+            ]
+            if self.requires_update(self.have.get("network").get("net_details"),
+                                    self.want.get("wantNetwork"), obj_params):
+                self.msg = "Network Functions Config is not applied to the DNAC"
+                self.status = "failed"
+                return self
 
-                self.log("Successfully validated the Network Functions")
-                self.result.get("response")[2].get("network").update({"Validation": "Success"})
-        elif state == "deleted":
-            if config.get("global_pool_details") is not None:
-                global_pool_exists = self.have.get("globalPool").get("exists")
-                if global_pool_exists:
-                    self.msg = "Global Pool Config is not applied to the DNAC"
-                    self.status = "failed"
-                    return self
+            self.log("Successfully validated the Network Functions")
+            self.result.get("response")[2].get("network").update({"Validation": "Success"})
 
-                self.log("Successfully validated Global Pool")
-                self.result.get("response")[0].get("globalPool").update({"Validation": "Success"})
+        self.msg = "Successfully validated the Global Pool, Reserve Pool \
+                    and the Network Functions."
+        self.status = "success"
+        return self
 
-            if config.get("reserve_pool_details") is not None:
-                reserve_pool_exists = self.have.get("reservePool").get("exists")
-                if reserve_pool_exists:
-                    self.msg = "Reserve Pool Config is not applied to the DNAC"
-                    self.status = "failed"
-                    return self
+    def verify_diff_deleted(self, config):
+        """
+        Validating the DNAC configuration with the playbook details
+        when state is deleted (delete).
 
-                self.log("Successfully validated Reserve Pool")
-                self.result.get("response")[1].get("reservePool").update({"Validation": "Success"})
+        Parameters:
+            config (dict) - Playbook details containing Global Pool,
+            Reserved Pool, and Network Management configuration.
 
-        self.msg = "Successfully validated the Global Pool, Reserve Pool, \
-                    Network functions"
+        Returns:
+            self
+        """
+
+        self.get_have(config)
+        self.log(str(self.have))
+        self.log(str(self.want))
+        if config.get("global_pool_details") is not None:
+            global_pool_exists = self.have.get("globalPool").get("exists")
+            if global_pool_exists:
+                self.msg = "Global Pool Config is not applied to the DNAC"
+                self.status = "failed"
+                return self
+
+            self.log("Successfully validated Global Pool")
+            self.result.get("response")[0].get("globalPool").update({"Validation": "Success"})
+
+        if config.get("reserve_pool_details") is not None:
+            reserve_pool_exists = self.have.get("reservePool").get("exists")
+            if reserve_pool_exists:
+                self.msg = "Reserve Pool Config is not applied to the DNAC"
+                self.status = "failed"
+                return self
+
+            self.log("Successfully validated Reserve Pool")
+            self.result.get("response")[1].get("reservePool").update({"Validation": "Success"})
+
+        self.msg = "Successfully validated the Global Pool, Reserve Pool"
         self.status = "success"
         return self
 
@@ -2109,7 +2125,7 @@ def main():
             dnac_network.get_want(config).check_return_status()
         dnac_network.get_diff_state_apply[state](config).check_return_status()
         if config_verify:
-            dnac_network.validate_dnac_config(state, config).check_return_status()
+            dnac_network.verify_diff_state_apply[state](config).check_return_status()
 
     module.exit_json(**dnac_network.result)
 

@@ -2143,7 +2143,7 @@ class DnacTemplate(DnacBase):
             if value is None:
                 creation_id = task_details.get("data")
             else:
-                creation_id = value.get("data").get("templateId")
+                creation_id = value.get("templateId")
             if not creation_id:
                 self.log("data is not found for taskid: {0}".format(task_id))
                 continue
