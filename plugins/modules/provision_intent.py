@@ -542,22 +542,21 @@ class Dnacprovision(DnacBase):
 
         status = status_response.get("status")
 
-        if status == "success":
-            response = self.dnac_apply['exec'](
-                family="sda",
-                function="delete_provisioned_wired_device",
-                op_modifies=True,
-                params={
-                    "device_management_\
-                    ip_address":
-                    self.validated_config[0]["management_ip_address"]
-                },
-            )
-
-        else:
+        if status != "success":
             self.result['msg'] = "Passed IP address is not provisioned"
             self.result['response'] = self.want["prov_params"]
             return self
+
+        response = self.dnac_apply['exec'](
+            family="sda",
+            function="delete_provisioned_wired_device",
+            op_modifies=True,
+            params={
+                "device_management_\
+                ip_address":
+                self.validated_config[0]["management_ip_address"]
+            },
+        )
 
         task_id = response.get("taskId")
         deletion_info = self.get_task_status(task_id=task_id)
