@@ -104,5 +104,5 @@
         config:
           - device_info:
               - serial_number: FTC2320E0HB  #Will get deleted
-              - serial_number: FTC2320E0HA  #Doesn't exist in the iobentory
+              - serial_number: FTC2320E0HA  #Doesn't exist in the inventory
               - serial_number: FKC2310E0HB  #Doesn't exist in the inventory
