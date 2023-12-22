@@ -586,6 +586,51 @@ class DnacNetwork(DnacBase):
                                              requested_obj.get(ansible_param))
                    for (dnac_param, ansible_param) in obj_params)
 
+    def get_obj_params(self, get_object):
+        """
+        Get the required comparison obj_params value
+ 
+        Parameters:
+            get_object (str) - identifier for the required obj_params
+
+        Returns:
+            obj_params (list) - obj_params value for comparison.
+        """
+
+        try:
+            if get_object is "GlobalPool":
+                obj_params = [
+                    ("settings", "settings"),
+                ]
+            elif get_object is "ReservePool":
+                obj_params = [
+                    ("name", "name"),
+                    ("type", "type"),
+                    ("ipv6AddressSpace", "ipv6AddressSpace"),
+                    ("ipv4GlobalPool", "ipv4GlobalPool"),
+                    ("ipv4Prefix", "ipv4Prefix"),
+                    ("ipv4PrefixLength", "ipv4PrefixLength"),
+                    ("ipv4GateWay", "ipv4GateWay"),
+                    ("ipv4DhcpServers", "ipv4DhcpServers"),
+                    ("ipv4DnsServers", "ipv4DnsServers"),
+                    ("ipv6GateWay", "ipv6GateWay"),
+                    ("ipv6DhcpServers", "ipv6DhcpServers"),
+                    ("ipv6DnsServers", "ipv6DnsServers"),
+                    ("ipv4TotalHost", "ipv4TotalHost"),
+                    ("slaacSupport", "slaacSupport")
+                ]
+            elif get_object is "Network":
+                obj_params = [
+                    ("settings", "settings"),
+                    ("site_name", "site_name")
+                ]
+            else:
+                raise ValueError("Unexpected value: {}".format(get_object))
+        except Exception as msg:
+            self.log("Error message:" + msg)
+
+        return obj_params
+
     def get_site_id(self, site_name):
         """
         Get the site id from the site name.
@@ -1639,9 +1684,7 @@ class DnacNetwork(DnacBase):
             return
 
         # Pool exists, check update is required
-        obj_params = [
-            ("settings", "settings"),
-        ]
+        obj_params = self.get_obj_params("GlobalPool")
         if not self.requires_update(self.have.get("globalPool").get("details"),
                                     self.want.get("wantGlobal"), obj_params):
             self.log("Global pool doesn't requires an update")
@@ -1731,22 +1774,7 @@ class DnacNetwork(DnacBase):
             return
 
         # Check update is required
-        obj_params = [
-            ("name", "name"),
-            ("type", "type"),
-            ("ipv6AddressSpace", "ipv6AddressSpace"),
-            ("ipv4GlobalPool", "ipv4GlobalPool"),
-            ("ipv4Prefix", "ipv4Prefix"),
-            ("ipv4PrefixLength", "ipv4PrefixLength"),
-            ("ipv4GateWay", "ipv4GateWay"),
-            ("ipv4DhcpServers", "ipv4DhcpServers"),
-            ("ipv4DnsServers", "ipv4DnsServers"),
-            ("ipv6GateWay", "ipv6GateWay"),
-            ("ipv6DhcpServers", "ipv6DhcpServers"),
-            ("ipv6DnsServers", "ipv6DnsServers"),
-            ("ipv4TotalHost", "ipv4TotalHost"),
-            ("slaacSupport", "slaacSupport")
-        ]
+        obj_params = self.get_obj_params("ReservePool")
         if not self.requires_update(self.have.get("reservePool").get("details"),
                                     self.want.get("wantReserve"), obj_params):
             self.log("Reserved ip subpool doesn't require an update")
@@ -1790,10 +1818,7 @@ class DnacNetwork(DnacBase):
         site_name = config.get("network_management_details").get("site_name")
         result_network = self.result.get("response")[2].get("network")
         result_network.get("response").update({site_name: {}})
-        obj_params = [
-            ("settings", "settings"),
-            ("site_name", "site_name")
-        ]
+        obj_params = self.get_obj_params("Network")
 
         # Check update is required or not
         if not self.requires_update(self.have.get("network").get("net_details"),
@@ -1970,9 +1995,7 @@ class DnacNetwork(DnacBase):
         self.log(str(self.have))
         self.log(str(self.want))
         if config.get("global_pool_details") is not None:
-            obj_params = [
-                ("settings", "settings"),
-            ]
+            obj_params = self.get_obj_params("GlobalPool")
             self.log(str(self.want.get("wantGlobal")))
             self.log(str(self.have.get("globalPool").get("details")))
             if self.requires_update(self.have.get("globalPool").get("details"),
@@ -1985,22 +2008,7 @@ class DnacNetwork(DnacBase):
             self.result.get("response")[0].get("globalPool").update({"Validation": "Success"})
 
         if config.get("reserve_pool_details") is not None:
-            obj_params = [
-                ("name", "name"),
-                ("type", "type"),
-                ("ipv6AddressSpace", "ipv6AddressSpace"),
-                ("ipv4GlobalPool", "ipv4GlobalPool"),
-                ("ipv4Prefix", "ipv4Prefix"),
-                ("ipv4PrefixLength", "ipv4PrefixLength"),
-                ("ipv4GateWay", "ipv4GateWay"),
-                ("ipv4DhcpServers", "ipv4DhcpServers"),
-                ("ipv4DnsServers", "ipv4DnsServers"),
-                ("ipv6GateWay", "ipv6GateWay"),
-                ("ipv6DhcpServers", "ipv6DhcpServers"),
-                ("ipv6DnsServers", "ipv6DnsServers"),
-                ("ipv4TotalHost", "ipv4TotalHost"),
-                ("slaacSupport", "slaacSupport")
-            ]
+            obj_params = self.get_obj_params("ReservePool")
             if self.requires_update(self.have.get("reservePool").get("details"),
                                     self.want.get("wantReserve"), obj_params):
                 self.log(str(self.want.get("wantReserve")))
@@ -2013,10 +2021,7 @@ class DnacNetwork(DnacBase):
             self.result.get("response")[1].get("reservePool").update({"Validation": "Success"})
 
         if config.get("network_management_details") is not None:
-            obj_params = [
-                ("settings", "settings"),
-                ("site_name", "site_name")
-            ]
+            obj_params = self.get_obj_params("Network")
             if self.requires_update(self.have.get("network").get("net_details"),
                                     self.want.get("wantNetwork"), obj_params):
                 self.msg = "Network Functions Config is not applied to the DNAC"
