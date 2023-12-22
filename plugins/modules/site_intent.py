@@ -307,7 +307,6 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     validate_list_of_dicts,
     log,
     get_dict_result,
-    dnac_compare_equality,
 )
 
 floor_plan = {
