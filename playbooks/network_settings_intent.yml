@@ -18,6 +18,7 @@
         dnac_debug: "{{ dnac_debug }}"
         dnac_log: True
         state: merged
+        config_verify: True
         config:
         - global_pool_details:
             settings:
@@ -95,6 +96,7 @@
         dnac_debug: "{{ dnac_debug }}"
         dnac_log: True
         state: deleted
+        config_verify: True
         config:
         - global_pool_details:
             settings:
