@@ -332,7 +332,6 @@ class Dnacprovision(DnacBase):
         return site_type
 
     def get_wired_params(self):
-
         """
         Prepares the payload for provisioning of the wired devices
 
@@ -349,6 +348,7 @@ class Dnacprovision(DnacBase):
           paramters and stores it for further processing and calling the
           parameters in other APIs.
         """
+
         wired_params = {
             "deviceManagementIpAddress": self.validated_config[0]["management_ip_address"],
             "siteNameHierarchy": self.validated_config[0].get("site_name")
@@ -357,7 +357,6 @@ class Dnacprovision(DnacBase):
         return wired_params
 
     def get_wireless_params(self):
-
         """
         Prepares the payload for provisioning of the wireless devices
 
@@ -375,6 +374,7 @@ class Dnacprovision(DnacBase):
           paramters and stores it for further processing and calling the
           parameters in other APIs.
         """
+
         wireless_params = [
             {
                 "site": self.validated_config[0].get("site_name"),
@@ -406,7 +406,6 @@ class Dnacprovision(DnacBase):
         return wireless_params
 
     def get_want(self):
-
         """
         Get all provision related informantion from the playbook
         Args:
@@ -422,6 +421,7 @@ class Dnacprovision(DnacBase):
             It stores all the paramters passed from the playbook for further processing
             before calling the APIs
         """
+
         self.want = {}
         self.want["device_type"] = self.get_dev_type()
         if self.want["device_type"] == "wired":
@@ -437,7 +437,6 @@ class Dnacprovision(DnacBase):
         return self
 
     def get_diff_merged(self):
-
         """
         Add to provision database
         Args:
@@ -451,6 +450,7 @@ class Dnacprovision(DnacBase):
             Cisco DNA Center. The updated results and status are stored in the
             class instance for further use.
         """
+
         device_type = self.want.get("device_type")
         if device_type == "wired":
             try:
@@ -470,7 +470,7 @@ class Dnacprovision(DnacBase):
             status = status_response.get("status")
 
             if status == "success":
-                response = response = self.dnac_apply['exec'](
+                response = self.dnac_apply['exec'](
                     family="sda",
                     function="re_provision_wired_device",
                     op_modifies=True,
@@ -495,6 +495,7 @@ class Dnacprovision(DnacBase):
         else:
             self.result['msg'] = "Passed device is neither wired nor wireless"
             self.result['response'] = self.want["prov_params"]
+            return self
 
         task_id = response.get("taskId")
         provision_info = self.get_task_status(task_id=task_id)
@@ -506,7 +507,6 @@ class Dnacprovision(DnacBase):
         return self
 
     def get_diff_deleted(self):
-
         """
         Delete from provision database
         Args:
@@ -519,7 +519,51 @@ class Dnacprovision(DnacBase):
             raise Exception if any error occured.
         """
 
-        pass
+        device_type = self.want.get("device_type")
+
+        if device_type != "wired":
+            self.result['msg'] = "APIs are not supported for the device"
+            return self
+
+        try:
+            status_response = self.dnac_apply['exec'](
+                family="sda",
+                function="get_provisioned_wired_device",
+                op_modifies=True,
+                params={
+                    "device_management_\
+                    ip_address":
+                    self.validated_config[0]["management_ip_address"]
+                },
+            )
+
+        except Exception:
+            status_response = {}
+
+        status = status_response.get("status")
+
+        if status == "success":
+            response = self.dnac_apply['exec'](
+                family="sda",
+                function="delete_provisioned_wired_device",
+                op_modifies=True,
+                params={"device_management_\
+                    ip_address":
+                    self.validated_config[0]["management_ip_address"]
+                },
+            )
+
+        else:
+            self.result['msg'] = "Passed IP address is not provisioned"
+            self.result['response'] = self.want["prov_params"]
+            return self
+
+        task_id = response.get("taskId")
+        deletion_info = self.get_task_status(task_id=task_id)
+        self.result["changed"] = True
+        self.result['msg'] = "Deletion done Successfully"
+        self.result['diff'] = self.validated_config
+        self.result['response'] = task_id
 
         return self
 
