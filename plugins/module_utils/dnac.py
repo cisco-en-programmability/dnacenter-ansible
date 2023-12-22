@@ -55,6 +55,14 @@ class DnacBase():
                                      'rendered': self.get_diff_rendered,
                                      'parsed': self.get_diff_parsed
                                      }
+        self.verify_diff_state_apply = {'merged': self.verify_diff_merged,
+                                        'deleted': self.verify_diff_deleted,
+                                        'replaced': self.verify_diff_replaced,
+                                        'overridden': self.verify_diff_overridden,
+                                        'gathered': self.verify_diff_gathered,
+                                        'rendered': self.verify_diff_rendered,
+                                        'parsed': self.verify_diff_parsed
+                                        }
         self.dnac_log = dnac_params.get("dnac_log")
         log(str(dnac_params))
         self.supported_states = ["merged", "deleted", "replaced", "overridden", "gathered", "rendered", "parsed"]
@@ -100,7 +108,42 @@ class DnacBase():
     def get_diff_parsed(self):
         # Implement logic to parse a configuration file
         self.parsed = True
-        return True
+        return self
+
+    def verify_diff_merged(self):
+        # Implement logic to verify the merged resource configuration
+        self.merged = True
+        return self
+
+    def verify_diff_deleted(self):
+        # Implement logic to verify the deleted resource
+        self.deleted = True
+        return self
+
+    def verify_diff_replaced(self):
+        # Implement logic to verify the replaced resource
+        self.replaced = True
+        return self
+
+    def verify_diff_overridden(self):
+        # Implement logic to verify the overwritten resource
+        self.overridden = True
+        return self
+
+    def verify_diff_gathered(self):
+        # Implement logic to verify the gathered data about the resource
+        self.gathered = True
+        return self
+
+    def verify_diff_rendered(self):
+        # Implement logic to verify the rendered configuration template
+        self.rendered = True
+        return self
+
+    def verify_diff_parsed(self):
+        # Implement logic to verify the parsed configuration file
+        self.parsed = True
+        return self
 
     def log(self, message, frameIncrement=0):
         """Log messages into dnac.log file"""
