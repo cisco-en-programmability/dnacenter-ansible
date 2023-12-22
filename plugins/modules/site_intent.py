@@ -25,6 +25,10 @@ author: Madhan Sankaranarayanan (@madhansansel)
         Rishita Chowdhary (@rishitachowdhary)
         Abhishek Maheshwari (@abhishekmaheshwari)
 options:
+  config_verify:
+    description: Set to True to verify the Cisco DNA Center config after applying the playbook config.
+    type: bool
+    default: False
   state:
     description: The state of DNAC after module completion.
     type: str
@@ -406,6 +410,7 @@ class DnacSite(DnacBase):
                     address=location.get("attributes").get("address"),
                     latitude=location.get("attributes").get("latitude"),
                     longitude=location.get("attributes").get("longitude"),
+                    country=location.get("attributes").get("country"),
                 )
             )
 
@@ -541,9 +546,8 @@ class DnacSite(DnacBase):
     def get_site_name(self, site):
         """
         Get and Return the site name.
-
         Parameters:
-            self (object): An instance of a class used for interacting with Cisco DNA Center.
+          - self (object): An instance of a class used for interacting with Cisco DNA Center.
           - site (dict): A dictionary containing information about the site.
         Returns:
           - str: The constructed site name.
@@ -561,10 +565,97 @@ class DnacSite(DnacBase):
 
         return site_name
 
+    def compare_float_values(self, ele1, ele2, precision=2):
+        """
+        Compare two floating-point values with a specified precision.
+        Args:
+            - self (object): An instance of a class used for interacting with Cisco DNA Center.
+            - ele1 (float): The first floating-point value to be compared.
+            - ele2 (float): The second floating-point value to be compared.
+            - precision (int, optional): The number of decimal places to consider in the comparison, Defaults to 2.
+        Return:
+            bool: True if the rounded values are equal within the specified precision, False otherwise.
+        Description:
+            This method compares two floating-point values, ele1 and ele2, by rounding them
+            to the specified precision and checking if the rounded values are equal. It returns
+            True if the rounded values are equal within the specified precision, and False otherwise.
+        """
+
+        return round(float(ele1), precision) == round(float(ele2), precision)
+
+    def is_area_updated(self, updated_site, requested_site):
+        """
+        Check if the area site details have been updated.
+        Args:
+            - self (object): An instance of a class used for interacting with Cisco DNA Center.
+            - updated_site (dict): The site details after the update.
+            - requested_site (dict): The site details as requested for the update.
+        Return:
+            bool: True if the area details (name and parentName) have been updated, False otherwise.
+        Description:
+            This method compares the area details (name and parentName) of the updated site
+            with the requested site and returns True if they are equal, indicating that the area
+            details have been updated. Returns False if there is a mismatch in the area site details.
+        """
+
+        return (
+            updated_site['name'] == requested_site['name'] and
+            updated_site['parentName'] == requested_site['parentName']
+        )
+
+    def is_building_updated(self, updated_site, requested_site):
+        """
+        Check if the building details in a site have been updated.
+        Args:
+            - self (object): An instance of a class used for interacting with Cisco DNA Center.
+            - updated_site (dict): The site details after the update.
+            - requested_site (dict): The site details as requested for the update.
+        Return:
+            bool: True if the building details have been updated, False otherwise.
+        Description:
+            This method compares the building details of the updated site with the requested site.
+            It checks if the name, parentName, latitude, longitude, and address (if provided) are
+            equal, indicating that the building details have been updated. Returns True if the
+            details match, and False otherwise.
+        """
+
+        return (
+            updated_site['name'] == requested_site['name'] and
+            updated_site['parentName'] == requested_site['parentName'] and
+            self.compare_float_values(updated_site['latitude'], requested_site['latitude']) and
+            self.compare_float_values(updated_site['longitude'], requested_site['longitude']) and
+            (requested_site['address'] is None or updated_site['address'] == requested_site['address'])
+        )
+
+    def is_floor_updated(self, updated_site, requested_site):
+        """
+        Check if the floor details in a site have been updated.
+
+        Args:
+            - self (object): An instance of a class used for interacting with Cisco DNA Center.
+            - updated_site (dict): The site details after the update.
+            - requested_site (dict): The site details as requested for the update.
+        Return:
+            bool: True if the floor details have been updated, False otherwise.
+        Description:
+            This method compares the floor details of the updated site with the requested site.
+            It checks if the name, rf_model, length, width, and height are equal, indicating
+            that the floor details have been updated. Returns True if the details match, and False otherwise.
+        """
+
+        keys_to_compare = ['length', 'width', 'height']
+        if updated_site['name'] != requested_site['name'] or updated_site['rf_model'] != requested_site['rfModel']:
+            return False
+
+        for key in keys_to_compare:
+            if not self.compare_float_values(updated_site[key], requested_site[key]):
+                return False
+
+        return True
+
     def site_requires_update(self):
         """
         Check if the site requires updates.
-
         Parameters:
             self (object): An instance of a class used for interacting with Cisco DNA Center.
         Returns:
@@ -576,29 +667,19 @@ class DnacSite(DnacBase):
             specified parameters, such as the site type and site details.
         """
 
-        requested_site = self.want.get("site_params")
-        current_site = self.have.get("current_site")
-
-        self.log("Current Site: " + str(current_site))
+        type = self.have['current_site']['type']
+        updated_site = self.have['current_site']['site'][type]
+        requested_site = self.want['site_params']['site'][type]
+        self.log("Current Site: " + str(updated_site))
         self.log("Requested Site: " + str(requested_site))
 
-        if requested_site.get('type') == "building":
-            requested_address = requested_site['site']['building']['address']
-            current_address = current_site['site']['building']['address']
+        if type == "building":
+            return not self.is_building_updated(updated_site, requested_site)
 
-            if requested_address is None or requested_address == current_address:
-                return False
+        elif type == "floor":
+            return not self.is_floor_updated(updated_site, requested_site)
 
-            return True
-
-        obj_params = [
-            ("type", "type"),
-            ("site", "site")
-        ]
-
-        return any(not dnac_compare_equality(current_site.get(dnac_param),
-                                             requested_site.get(ansible_param))
-                   for (dnac_param, ansible_param) in obj_params)
+        return not self.is_area_updated(updated_site, requested_site)
 
     def get_have(self, config):
         """
@@ -610,9 +691,9 @@ class DnacSite(DnacBase):
           - self (object): An instance of a class used for interacting with  Cisco DNA Center.
         Description:
             This method queries Cisco DNA Center to check if a specified site
-          exists. If the site exists, it retrieves details about the current
-          site, including the site ID and other relevant information. The
-          results are stored in the 'have' attribute for later reference.
+            exists. If the site exists, it retrieves details about the current
+            site, including the site ID and other relevant information. The
+            results are stored in the 'have' attribute for later reference.
         """
 
         site_exists = False
@@ -635,9 +716,7 @@ class DnacSite(DnacBase):
 
     def get_want(self, config):
         """
-        Get all site-related information from the playbook needed for
-        creation in Cisco DNA Center.
-
+        Get all site-related information from the playbook needed for creation/updation/deletion of site in Cisco DNA Center.
         Parameters:
             self (object): An instance of a class used for interacting with Cisco DNA Center.
             config (dict): A dictionary containing configuration information.
@@ -664,11 +743,9 @@ class DnacSite(DnacBase):
         """
         Update/Create site information in Cisco DNA Center with fields
         provided in the playbook.
-
         Parameters:
           self (object): An instance of a class used for interacting with Cisco DNA Center.
           config (dict): A dictionary containing configuration information.
-
         Returns:
             self (object): An instance of a class used for interacting with Cisco DNA Center.
         Description:
@@ -700,8 +777,10 @@ class DnacSite(DnacBase):
             else:
                 # Site does not neet update
                 self.result['response'] = self.have.get("current_site")
-                self.result['msg'] = "Site - {0} does not need update".format(self.have.get("current_site"))
-                self.module.exit_json(**self.result)
+                self.msg = "Site - {0} does not need any update".format(self.have.get("current_site"))
+                self.log(self.msg)
+                self.result['msg'] = self.msg
+                return self
 
         else:
             # Creating New Site
@@ -799,16 +878,10 @@ class DnacSite(DnacBase):
     def get_diff_deleted(self, config):
         """
         Call Cisco DNA Center API to delete sites with provided inputs.
-
         Parameters:
+          - self (object): An instance of a class used for interacting with Cisco DNA Center.
           - config (dict): Dictionary containing information for site deletion.
         Returns:
-            If the deletion is successful, 'changed' is set to True, and the
-          'response' includes execution details and the deleted site ID. If
-          an error occurs during the deletion, the method uses 'fail_json' to
-          raise an exception with the error message.  If the site does not
-          exist, the method raises an exception with a message indicating that
-          the site was not found.
           - self: The result dictionary includes the following keys:
               - 'changed' (bool): Indicates whether changes were made
                  during the deletion process.
@@ -816,9 +889,8 @@ class DnacSite(DnacBase):
                  and the deleted site ID.
               - 'msg' (str): A message indicating the status of the deletion operation.
         Description:
-            This method initiates the deletion of a site by calling the
-          'delete_site' function in the 'sites' family of the Cisco DNA
-          Center API. It uses the site ID obtained from the 'have' attribute.
+            This method initiates the deletion of a site by calling the 'delete_site' function in the 'sites' family
+            of the Cisco DNA Center API. It uses the site ID obtained from the 'have' attribute.
         """
 
         site_exists = self.have.get("site_exists")
@@ -860,6 +932,70 @@ class DnacSite(DnacBase):
 
         return self
 
+    def verify_diff_merged(self, config):
+        """
+        Verify the merged status(Creation/Updation) of site configuration in Cisco DNA Center.
+        Args:
+            - self (object): An instance of a class used for interacting with Cisco DNA Center.
+            - config (dict): The configuration details to be verified.
+        Return:
+            - self (object): An instance of a class used for interacting with Cisco DNA Center.
+        Description:
+            This method checks the merged status of a configuration in Cisco DNA Center by retrieving the current state
+            (have) and desired state (want) of the configuration, logs the states, and validates whether the specified
+            site exists in the DNA Center configuration.
+        """
+
+        self.get_have(config)
+        self.log(str(self.have))
+        self.log(str(self.want))
+        # Code to validate dnac config for merged state
+        site_exist = self.have.get("site_exists")
+
+        if site_exist:
+            self.status = "success"
+            msg = "Requested Site - {0} present in Cisco DNA Center and creation verified.".format(self.want.get("site_name"))
+            self.log(msg)
+        require_update = self.site_requires_update()
+
+        if not require_update:
+            self.log("Site - {0} Updation Verified Successfully.".format(self.want.get("site_name")))
+            self. status = "success"
+            return self
+
+        self.log("Playbook paramater doesnot match with the Cisco DNA Center means Merged task not executed successfully.")
+
+        return self
+
+    def verify_diff_deleted(self, config):
+        """
+        Verify the deletion status of site configuration in Cisco DNA Center.
+        Args:
+            - self (object): An instance of a class used for interacting with Cisco DNA Center.
+            - config (dict): The configuration details to be verified.
+        Return:
+            - self (object): An instance of a class used for interacting with Cisco DNA Center.
+        Description:
+            This method checks the deletion status of a configuration in Cisco DNA Center.
+            It validates whether the specified site exists in the DNA Center configuration.
+        """
+
+        self.get_have(config)
+        self.log(str(self.have))
+        self.log(str(self.want))
+        # Code to validate dnac config for delete state
+        site_exist = self.have.get("site_exists")
+
+        if not site_exist:
+            self.status = "success"
+            msg = "Requested Site - {0} already deleted from Cisco DNA Center and verified successfully.".format(self.want.get("site_name"))
+            self.log(msg)
+            return self
+
+        self.log("Playbook paramater doesnot match with the Cisco DNA Center means Deletion not executed successfully.")
+
+        return self
+
 
 def main():
     """ main entry point for module execution
@@ -874,6 +1010,7 @@ def main():
                     'dnac_debug': {'type': 'bool', 'default': False},
                     'dnac_log': {'type': 'bool', 'default': False},
                     'validate_response_schema': {'type': 'bool', 'default': True},
+                    "config_verify": {"type": 'bool', "default": False},
                     'config': {'required': True, 'type': 'list', 'elements': 'dict'},
                     'state': {'default': 'merged', 'choices': ['merged', 'deleted']}
                     }
@@ -890,12 +1027,15 @@ def main():
         dnac_site.check_return_status()
 
     dnac_site.validate_input().check_return_status()
+    config_verify = dnac_site.params.get("config_verify")
 
     for config in dnac_site.validated_config:
         dnac_site.reset_values()
         dnac_site.get_want(config).check_return_status()
         dnac_site.get_have(config).check_return_status()
         dnac_site.get_diff_state_apply[state](config).check_return_status()
+        if config_verify:
+            dnac_site.verify_diff_state_apply[state](config).check_return_status()
 
     module.exit_json(**dnac_site.result)
 
