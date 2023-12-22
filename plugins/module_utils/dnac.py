@@ -56,13 +56,13 @@ class DnacBase():
                                      'parsed': self.get_diff_parsed
                                      }
         self.verify_diff_state_apply = {'merged': self.verify_diff_merged,
-                                     'deleted': self.verify_diff_deleted,
-                                     'replaced': self.verify_diff_replaced,
-                                     'overridden': self.verify_diff_overridden,
-                                     'gathered': self.verify_diff_gathered,
-                                     'rendered': self.verify_diff_rendered,
-                                     'parsed': self.verify_diff_parsed
-                                     }
+                                        'deleted': self.verify_diff_deleted,
+                                        'replaced': self.verify_diff_replaced,
+                                        'overridden': self.verify_diff_overridden,
+                                        'gathered': self.verify_diff_gathered,
+                                        'rendered': self.verify_diff_rendered,
+                                        'parsed': self.verify_diff_parsed
+                                        }
         self.dnac_log = dnac_params.get("dnac_log")
         log(str(dnac_params))
         self.supported_states = ["merged", "deleted", "replaced", "overridden", "gathered", "rendered", "parsed"]
