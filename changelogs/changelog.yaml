@@ -763,3 +763,10 @@ releases:
           - Changes in site intent module to support one-shot site deletion
           - To Support provisioning wired device, reboot AP's, export device list, delete provisioned devices.
           - Change the variable names into snake case in all the intent modules for better readability.
+    6.10.1:
+      release_date: "2023-12-22"
+      changes:
+        release_summary: Changes in network settings, site, inventory and provisioning intent modules
+        minor_changes:
+          - Introducing config_verify to verify the state operations in Catalyst Center in network settings and site intent module
+          - Changes to support inventory and provisioning intent modules
