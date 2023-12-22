@@ -955,6 +955,7 @@ class DnacSite(DnacBase):
             self.status = "success"
             msg = "Requested Site - {0} present in Cisco DNA Center and creation verified.".format(self.want.get("site_name"))
             self.log(msg)
+
         require_update = self.site_requires_update()
 
         if not require_update:
