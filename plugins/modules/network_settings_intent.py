@@ -2045,8 +2045,8 @@ class DnacNetwork(DnacBase):
         """
 
         self.get_have(config)
-        self.log(str(self.have))
-        self.log(str(self.want))
+        self.log("DNAC retrieved details: " + str(self.have))
+        self.log("Playbook details: " + str(self.want))
         if config.get("global_pool_details") is not None:
             global_pool_exists = self.have.get("globalPool").get("exists")
             if global_pool_exists:
@@ -2054,7 +2054,7 @@ class DnacNetwork(DnacBase):
                 self.status = "failed"
                 return self
 
-            self.log("Successfully validated Global Pool")
+            self.log("Successfully validated absence of Global Pool")
             self.result.get("response")[0].get("globalPool").update({"Validation": "Success"})
 
         if config.get("reserve_pool_details") is not None:
@@ -2064,10 +2064,10 @@ class DnacNetwork(DnacBase):
                 self.status = "failed"
                 return self
 
-            self.log("Successfully validated Reserve Pool")
+            self.log("Successfully validated the absence of Reserve Pool")
             self.result.get("response")[1].get("reservePool").update({"Validation": "Success"})
 
-        self.msg = "Successfully validated the Global Pool, Reserve Pool"
+        self.msg = "Successfully validated the absence of Global Pool/Reserve Pool"
         self.status = "success"
         return self
 
