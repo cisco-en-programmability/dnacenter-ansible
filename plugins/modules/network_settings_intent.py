@@ -423,6 +423,9 @@ class DnacNetwork(DnacBase):
             {"reservePool": {"response": {}, "msg": {}}},
             {"network": {"response": {}, "msg": {}}}
         ]
+        self.global_pool_obj_params = self.get_obj_params("GlobalPool")
+        self.reserve_pool_obj_params = self.get_obj_params("ReservePool")
+        self.network_obj_params = self.get_obj_params("Network")
 
     def validate_input(self):
         """
@@ -1684,9 +1687,8 @@ class DnacNetwork(DnacBase):
             return
 
         # Pool exists, check update is required
-        obj_params = self.get_obj_params("GlobalPool")
         if not self.requires_update(self.have.get("globalPool").get("details"),
-                                    self.want.get("wantGlobal"), obj_params):
+                                    self.want.get("wantGlobal"), self.global_pool_obj_params):
             self.log("Global pool doesn't requires an update")
             result_global_pool.get("response").get(name).update({
                 "Cisco DNA Center params":
@@ -1774,9 +1776,8 @@ class DnacNetwork(DnacBase):
             return
 
         # Check update is required
-        obj_params = self.get_obj_params("ReservePool")
         if not self.requires_update(self.have.get("reservePool").get("details"),
-                                    self.want.get("wantReserve"), obj_params):
+                                    self.want.get("wantReserve"), self.reserve_pool_obj_params):
             self.log("Reserved ip subpool doesn't require an update")
             result_reserve_pool.get("response").get(name) \
                 .update({"Cisco DNA Center params": self.have.get("reservePool").get("details")})
@@ -1818,11 +1819,10 @@ class DnacNetwork(DnacBase):
         site_name = config.get("network_management_details").get("site_name")
         result_network = self.result.get("response")[2].get("network")
         result_network.get("response").update({site_name: {}})
-        obj_params = self.get_obj_params("Network")
 
         # Check update is required or not
         if not self.requires_update(self.have.get("network").get("net_details"),
-                                    self.want.get("wantNetwork"), obj_params):
+                                    self.want.get("wantNetwork"), self.network_obj_params):
 
             self.log("Network doesn't require an update")
             result_network.get("response").get(site_name).update({
@@ -1995,11 +1995,10 @@ class DnacNetwork(DnacBase):
         self.log(str(self.have))
         self.log(str(self.want))
         if config.get("global_pool_details") is not None:
-            obj_params = self.get_obj_params("GlobalPool")
             self.log(str(self.want.get("wantGlobal")))
             self.log(str(self.have.get("globalPool").get("details")))
             if self.requires_update(self.have.get("globalPool").get("details"),
-                                    self.want.get("wantGlobal"), obj_params):
+                                    self.want.get("wantGlobal"), self.global_pool_obj_params):
                 self.msg = "Global Pool Config is not applied to the DNAC"
                 self.status = "failed"
                 return self
@@ -2008,9 +2007,8 @@ class DnacNetwork(DnacBase):
             self.result.get("response")[0].get("globalPool").update({"Validation": "Success"})
 
         if config.get("reserve_pool_details") is not None:
-            obj_params = self.get_obj_params("ReservePool")
             if self.requires_update(self.have.get("reservePool").get("details"),
-                                    self.want.get("wantReserve"), obj_params):
+                                    self.want.get("wantReserve"), self.reserve_pool_obj_params):
                 self.log(str(self.want.get("wantReserve")))
                 self.log(str(self.have.get("reservePool").get("details")))
                 self.msg = "Reserve Pool Config is not applied to the DNAC"
@@ -2021,9 +2019,8 @@ class DnacNetwork(DnacBase):
             self.result.get("response")[1].get("reservePool").update({"Validation": "Success"})
 
         if config.get("network_management_details") is not None:
-            obj_params = self.get_obj_params("Network")
             if self.requires_update(self.have.get("network").get("net_details"),
-                                    self.want.get("wantNetwork"), obj_params):
+                                    self.want.get("wantNetwork"), self.network_obj_params):
                 self.msg = "Network Functions Config is not applied to the DNAC"
                 self.status = "failed"
                 return self
