@@ -2292,19 +2292,18 @@ class DnacTemplate(DnacBase):
             function='get_projects_details'
         )
         for values in export_values:
-            self.log(str(values.get("projectName")))
+            self.log(str(values.get("project_name")))
             template_details = template_details.get("response")
             self.log(str(template_details))
-            self.log(str(values.get("projectName")))
             all_template_details = get_dict_result(template_details,
                                                    "name",
-                                                   values.get("projectName"))
+                                                   values.get("project_name"))
             self.log(str(all_template_details))
             all_template_details = all_template_details.get("templates")
             self.log(str(all_template_details))
             template_detail = get_dict_result(all_template_details,
                                               "name",
-                                              values.get("templateName"))
+                                              values.get("template_name"))
             self.log(str(template_detail))
             if template_detail is None:
                 self.msg = "Invalid project_name and template_name in export"
