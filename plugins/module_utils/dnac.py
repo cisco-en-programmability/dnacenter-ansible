@@ -108,7 +108,7 @@ class DnacBase():
     def get_diff_parsed(self):
         # Implement logic to parse a configuration file
         self.parsed = True
-        return True
+        return self
 
     def verify_diff_merged(self):
         # Implement logic to verify the merged resource configuration
@@ -116,7 +116,7 @@ class DnacBase():
         return self
 
     def verify_diff_deleted(self):
-        # Implement logic to verify the merged resource
+        # Implement logic to verify the deleted resource
         self.deleted = True
         return self
 
@@ -143,7 +143,7 @@ class DnacBase():
     def verify_diff_parsed(self):
         # Implement logic to verify the parsed configuration file
         self.parsed = True
-        return True
+        return self
 
     def log(self, message, frameIncrement=0):
         """Log messages into dnac.log file"""
