@@ -547,7 +547,8 @@ class Dnacprovision(DnacBase):
                 family="sda",
                 function="delete_provisioned_wired_device",
                 op_modifies=True,
-                params={"device_management_\
+                params={
+                    "device_management_\
                     ip_address":
                     self.validated_config[0]["management_ip_address"]
                 },
