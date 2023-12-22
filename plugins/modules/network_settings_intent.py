@@ -589,7 +589,7 @@ class DnacNetwork(DnacBase):
     def get_obj_params(self, get_object):
         """
         Get the required comparison obj_params value
- 
+
         Parameters:
             get_object (str) - identifier for the required obj_params
 
@@ -598,11 +598,11 @@ class DnacNetwork(DnacBase):
         """
 
         try:
-            if get_object is "GlobalPool":
+            if get_object == "GlobalPool":
                 obj_params = [
                     ("settings", "settings"),
                 ]
-            elif get_object is "ReservePool":
+            elif get_object == "ReservePool":
                 obj_params = [
                     ("name", "name"),
                     ("type", "type"),
@@ -619,13 +619,13 @@ class DnacNetwork(DnacBase):
                     ("ipv4TotalHost", "ipv4TotalHost"),
                     ("slaacSupport", "slaacSupport")
                 ]
-            elif get_object is "Network":
+            elif get_object == "Network":
                 obj_params = [
                     ("settings", "settings"),
                     ("site_name", "site_name")
                 ]
             else:
-                raise ValueError("Unexpected value: {}".format(get_object))
+                raise ValueError("Unexpected value: {0}".format(get_object))
         except Exception as msg:
             self.log("Error message:" + msg)
 
