@@ -678,7 +678,7 @@ class DnacPnp(DnacBase):
         self.msg = "Successfully collected all parameters from playbook " + \
             "for comparison"
         self.status = "success"
-        #
+
         return self
 
     def get_diff_merged(self):
@@ -811,83 +811,84 @@ class DnacPnp(DnacBase):
                     self.status = "failed"
                     return self
 
-        else:
-            prov_dev_response = self.dnac_apply['exec'](
-                family="device_onboarding_pnp",
-                function='get_device_count',
-                op_modifies=True,
-                params=provisioned_count_params,
-            )
-            plan_dev_response = self.dnac_apply['exec'](
-                family="device_onboarding_pnp",
-                function='get_device_count',
-                op_modifies=True,
-                params=planned_count_params,
-            )
+        prov_dev_response = self.dnac_apply['exec'](
+            family="device_onboarding_pnp",
+            function='get_device_count',
+            op_modifies=True,
+            params=provisioned_count_params,
+        )
+        plan_dev_response = self.dnac_apply['exec'](
+            family="device_onboarding_pnp",
+            function='get_device_count',
+            op_modifies=True,
+            params=planned_count_params,
+        )
 
-            dev_details_response = self.dnac_apply['exec'](
-                family="device_onboarding_pnp",
-                function="get_device_by_id",
-                params={"id": self.have["device_id"]}
-            )
+        dev_details_response = self.dnac_apply['exec'](
+            family="device_onboarding_pnp",
+            function="get_device_by_id",
+            params={"id": self.have["device_id"]}
+        )
 
-            pnp_state = dev_details_response.get("deviceInfo").get("state")
+        pnp_state = dev_details_response.get("deviceInfo").get("state")
 
-            if not self.want["site_name"]:
-                self.result['response'] = self.have.get("device_found")
-                self.result['msg'] = "Device is already added"
-            else:
-                update_payload = {"deviceInfo": self.want.get('pnp_params')[0].get("deviceInfo")}
-                update_response = self.dnac_apply['exec'](
-                    family="device_onboarding_pnp",
-                    function="update_device",
-                    params={"id": self.have["device_id"],
-                            "payload": update_payload},
-                    op_modifies=True,
-                )
-                self.log(str(update_response))
-
-                if pnp_state == "Error":
-                    reset_paramters = self.get_reset_params()
-                    reset_response = self.dnac_apply['exec'](
-                        family="device_onboarding_pnp",
-                        function="update_device",
-                        params={"payload": reset_paramters},
-                        op_modifies=True,
-                    )
-                    self.log(str(reset_response))
-                    self.result['msg'] = "Device reset done Successfully"
-                    self.result['response'] = reset_response
-                    self.result['diff'] = self.validated_config
-                    self.result['changed'] = True
-
-                if (
-                    prov_dev_response.get("response") == 0 and
-                    plan_dev_response.get("response") == 0 and
-                    pnp_state == "Unclaimed"
-                ):
-                    claim_params = self.get_claim_params()
-                    self.log(str(claim_params))
-
-                    claim_response = self.dnac_apply['exec'](
-                        family="device_onboarding_pnp",
-                        function='claim_a_device_to_a_site',
-                        op_modifies=True,
-                        params=claim_params,
-                    )
-                    self.log(str(claim_response))
-                    if claim_response.get("response") == "Device Claimed":
-                        self.result['msg'] = "Only Device Claimed Successfully"
-                        self.result['response'] = claim_response
-                        self.result['diff'] = self.validated_config
-                        self.result['changed'] = True
-                else:
-                    self.result['response'] = self.have.get("device_found")
-                    self.result['msg'] = "Device is already claimed"
-                    if update_response.get("deviceInfo"):
-                        self.result['changed'] = True
-
+        if not self.want["site_name"]:
+            self.result['response'] = self.have.get("device_found")
+            self.result['msg'] = "Device is already added"
             return self
+
+        update_payload = {"deviceInfo": self.want.get('pnp_params')[0].get("deviceInfo")}
+        update_response = self.dnac_apply['exec'](
+            family="device_onboarding_pnp",
+            function="update_device",
+            params={"id": self.have["device_id"],
+                    "payload": update_payload},
+            op_modifies=True,
+        )
+        self.log(str(update_response))
+
+        if pnp_state == "Error":
+            reset_paramters = self.get_reset_params()
+            reset_response = self.dnac_apply['exec'](
+                family="device_onboarding_pnp",
+                function="update_device",
+                params={"payload": reset_paramters},
+                op_modifies=True,
+            )
+            self.log(str(reset_response))
+            self.result['msg'] = "Device reset done Successfully"
+            self.result['response'] = reset_response
+            self.result['diff'] = self.validated_config
+            self.result['changed'] = True
+
+        if not (
+            prov_dev_response.get("response") == 0 and
+            plan_dev_response.get("response") == 0 and
+            pnp_state == "Unclaimed"
+        ):
+            self.result['response'] = self.have.get("device_found")
+            self.result['msg'] = "Device is already claimed"
+            if update_response.get("deviceInfo"):
+                self.result['changed'] = True
+                return self
+
+        claim_params = self.get_claim_params()
+        self.log(str(claim_params))
+
+        claim_response = self.dnac_apply['exec'](
+            family="device_onboarding_pnp",
+            function='claim_a_device_to_a_site',
+            op_modifies=True,
+            params=claim_params,
+        )
+        self.log(str(claim_response))
+        if claim_response.get("response") == "Device Claimed":
+            self.result['msg'] = "Only Device Claimed Successfully"
+            self.result['response'] = claim_response
+            self.result['diff'] = self.validated_config
+            self.result['changed'] = True
+
+        return self
 
     def get_diff_deleted(self):
         """
