@@ -91,7 +91,7 @@ options:
         suboptions:
           hostname:
             description: Pnp Device's hostname that we want to keep post claiming. Hostname can only
-            be changed during claiming not bulk adding/ single adding
+                be changed during claiming not bulk adding/ single adding
             type: str
           state:
             description: Pnp Device's onbording state (Unclaimed/Claimed/Provisioned).
