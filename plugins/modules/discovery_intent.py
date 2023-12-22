@@ -119,16 +119,16 @@ options:
       snmp_priv_protocol:
         description: SNMP privacy protocol (DES/AES128)
         type: str
-      snmp_r_o_community:
+      snmp_ro_community:
         description: Snmp RO community of the devices to be discovered
         type: str
-      snmp_r_o_community_desc:
+      snmp_ro_community_desc:
         description: Description for Snmp RO community
         type: str
-      snmp_r_w_community:
+      snmp_rw_community:
         description: Snmp RW community of the devices to be discovered
         type: str
-      snmp_r_w_community_desc:
+      snmp_rw_community_desc:
         description: Description for Snmp RW community
         type: str
       snmp_username:
@@ -198,10 +198,10 @@ EXAMPLES = r"""
           snmp_mode: string
           snmp_priv_passphrse: string
           snmp_priv_protocol: string
-          snmp_r_o_community: string
-          snmp_r_o_community_desc: string
-          snmp_r_w_community: string
-          snmp_r_w_community_desc: string
+          snmp_ro_community: string
+          snmp_ro_community_desc: string
+          snmp_rw_community: string
+          snmp_rw_community_desc: string
           snmp_username: string
           snmp_version: string
           timeout: integer
@@ -331,10 +331,10 @@ class DnacDiscovery(DnacBase):
             'snmp_mode': {'type': 'str', 'required': False},
             'snmp_priv_passphrase': {'type': 'str', 'required': False},
             'snmp_priv_protocol': {'type': 'str', 'required': False},
-            'snmp_r_o_community': {'type': 'str', 'required': False},
-            'snmp_r_o_community_desc': {'type': 'str', 'required': False},
-            'snmp_r_w_community': {'type': 'str', 'required': False},
-            'snmp_r_w_community_desc': {'type': 'str', 'required': False},
+            'snmp_ro_community': {'type': 'str', 'required': False},
+            'snmp_ro_community_desc': {'type': 'str', 'required': False},
+            'snmp_rw_community': {'type': 'str', 'required': False},
+            'snmp_rw_community_desc': {'type': 'str', 'required': False},
             'snmp_username': {'type': 'str', 'required': False},
             'snmp_version': {'type': 'str', 'required': True},
             'timeout': {'type': 'str', 'required': False},
@@ -498,13 +498,13 @@ class DnacDiscovery(DnacBase):
         new_object_params['snmpPrivProtocol'] = self.validated_config[0].get(
             'snmp_priv_protocol')
         new_object_params['snmpROCommunity'] = self.validated_config[0].get(
-            'snmp_r_o_community')
+            'snmp_ro_community')
         new_object_params['snmpROCommunityDesc'] = self.validated_config[0].get(
-            'snmp_r_o_community_desc')
+            'snmp_ro_community_desc')
         new_object_params['snmpRWCommunity'] = self.validated_config[0].get(
-            'snmp_r_w_community')
+            'snmp_rw_community')
         new_object_params['snmpRWCommunityDesc'] = self.validated_config[0].get(
-            'snmp_r_w_community_desc')
+            'snmp_rw_community_desc')
         new_object_params['snmpUserName'] = self.validated_config[0].get(
             'snmp_username')
         new_object_params['snmpVersion'] = self.validated_config[0].get('snmp_version')
