@@ -23,8 +23,10 @@ else:
     LOGGING_IN_STANDARD = True
 import os.path
 import copy
+import json
 import datetime
 import inspect
+import re
 
 
 class DnacBase():
@@ -53,6 +55,14 @@ class DnacBase():
                                      'rendered': self.get_diff_rendered,
                                      'parsed': self.get_diff_parsed
                                      }
+        self.verify_diff_state_apply = {'merged': self.verify_diff_merged,
+                                        'deleted': self.verify_diff_deleted,
+                                        'replaced': self.verify_diff_replaced,
+                                        'overridden': self.verify_diff_overridden,
+                                        'gathered': self.verify_diff_gathered,
+                                        'rendered': self.verify_diff_rendered,
+                                        'parsed': self.verify_diff_parsed
+                                        }
         self.dnac_log = dnac_params.get("dnac_log")
         log(str(dnac_params))
         self.supported_states = ["merged", "deleted", "replaced", "overridden", "gathered", "rendered", "parsed"]
@@ -98,7 +108,42 @@ class DnacBase():
     def get_diff_parsed(self):
         # Implement logic to parse a configuration file
         self.parsed = True
-        return True
+        return self
+
+    def verify_diff_merged(self):
+        # Implement logic to verify the merged resource configuration
+        self.merged = True
+        return self
+
+    def verify_diff_deleted(self):
+        # Implement logic to verify the deleted resource
+        self.deleted = True
+        return self
+
+    def verify_diff_replaced(self):
+        # Implement logic to verify the replaced resource
+        self.replaced = True
+        return self
+
+    def verify_diff_overridden(self):
+        # Implement logic to verify the overwritten resource
+        self.overridden = True
+        return self
+
+    def verify_diff_gathered(self):
+        # Implement logic to verify the gathered data about the resource
+        self.gathered = True
+        return self
+
+    def verify_diff_rendered(self):
+        # Implement logic to verify the rendered configuration template
+        self.rendered = True
+        return self
+
+    def verify_diff_parsed(self):
+        # Implement logic to verify the parsed configuration file
+        self.parsed = True
+        return self
 
     def log(self, message, frameIncrement=0):
         """Log messages into dnac.log file"""
@@ -117,6 +162,27 @@ class DnacBase():
             self.module.exit_json(**self.result)
         elif "invalid" in self.status:
             self.module.fail_json(msg=self.msg, response=[])
+
+    def is_valid_password(self, password):
+        """
+        Check if a password is valid.
+        Args:
+            self (object): An instance of a class that provides access to Cisco DNA Center.
+            password (str): The password to be validated.
+        Returns:
+            bool: True if the password is valid, False otherwise.
+        Description:
+            The function checks the validity of a password based on the following criteria:
+            - Minimum 8 characters.
+            - At least one lowercase letter.
+            - At least one uppercase letter.
+            - At least one digit.
+            - At least one special character
+        """
+
+        pattern = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[-=\\;,./~!@#$%^&*()_+{}[\]|:?]).{8,}$"
+
+        return re.match(pattern, password) is not None
 
     def get_dnac_params(self, params):
         """Store the DNAC parameters from the playbook"""
@@ -158,7 +224,7 @@ class DnacBase():
 
         return result
 
-    def check_task_response_status(self, response, validation_string):
+    def check_task_response_status(self, response, validation_string, data=False):
         """
         Get the site id from the site name.
 
@@ -181,18 +247,29 @@ class DnacBase():
             self.status = "exited"
             return self
 
-        task_id = response.get("response").get("taskId")
+        response = response.get("response")
+        if response.get("errorcode") is not None:
+            self.msg = response.get("response").get("detail")
+            self.status = "failed"
+            return self
+
+        task_id = response.get("taskId")
         while True:
             task_details = self.get_task_details(task_id)
             self.log(str(task_details))
 
             if task_details.get("isError") is True:
-                self.msg = str(task_details.get("progress"))
+                if task_details.get("failureReason"):
+                    self.msg = str(task_details.get("failureReason"))
+                else:
+                    self.msg = str(task_details.get("progress"))
                 self.status = "failed"
                 break
 
             if validation_string in task_details.get("progress").lower():
                 self.result['changed'] = True
+                if data is True:
+                    self.msg = task_details.get("data")
                 self.status = "success"
                 break
 
@@ -264,6 +341,25 @@ class DnacBase():
                 break
 
         return self
+
+    def check_string_dictionary(self, task_details_data):
+        """
+        Check whether the input is string dictionary or string.
+
+        Parameters:
+            task_details_data (string) - Input either string dictionary or string.
+
+        Returns:
+            value (dict) - If the input is string dictionary, else returns None.
+        """
+
+        try:
+            value = json.loads(task_details_data)
+            if isinstance(value, dict):
+                return value
+        except json.JSONDecodeError:
+            pass
+        return None
 
 
 def log(msg, frameIncrement=0):
