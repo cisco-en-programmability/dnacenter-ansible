@@ -973,8 +973,8 @@ class DnacPnp(DnacBase):
         Description:
             This method checks the merged status of a configuration in Cisco DNA Center by
             retrieving the current state (have) and desired state (want) of the configuration,
-            logs the states, and validates whether the specified site exists in the DNA
-            Center configuration.
+            logs the states, and validates whether the specified device(s) exists in the DNA
+            Center configuration's PnP Database.
         """
 
         self.log(str(self.have))
@@ -1029,7 +1029,8 @@ class DnacPnp(DnacBase):
             - self (object): An instance of a class used for interacting with Cisco DNA Center.
         Description:
             This method checks the deletion status of a configuration in Cisco DNA Center.
-            It validates whether the specified site exists in the DNA Center configuration.
+            It validates whether the specified device(s) exists in the DNA Center configuration's
+            PnP Database.
         """
 
         self.log(str(self.have))
