@@ -946,7 +946,6 @@ class DnacDevice(DnacBase):
                 else:
                     self.msg = "Could not get the File ID so can't export device details in csv file"
                 self.log(self.msg)
-
                 return response
 
         # With this File ID call the Download File by FileID API and process the response
@@ -988,10 +987,10 @@ class DnacDevice(DnacBase):
         try:
             encryption_method = encryption_dict.get(snmp_protocol)
         except Exception as e:
-            self.log("Given SNMP protcol not present")
+            self.log("Given SNMP protcol {0} not present".format(snmp_protocol))
 
         if not encryption_method:
-            self.msg = "Invalid SNMP protocol specified for encryption."
+            self.msg = "Invalid SNMP protocol {0} specified for encryption.".format(snmp_protocol)
             self.log(self.msg)
             self.status = "failed"
             return self
