@@ -920,8 +920,8 @@ class DnacDevice(DnacBase):
         Description:
             The function initiates the export API in Cisco DNA Center to generate a CSV file containing detailed information
             about devices.The response from the API includes task details and a file ID.
-
         """
+
         response = self.dnac._exec(
             family="devices",
             function='export_device_list',
@@ -931,6 +931,7 @@ class DnacDevice(DnacBase):
         self.log(str(response))
         response = response.get("response")
         task_id = response.get("taskId")
+
         while True:
             execution_details = self.get_task_details(task_id)
 
@@ -945,7 +946,8 @@ class DnacDevice(DnacBase):
                 else:
                     self.msg = "Could not get the File ID so can't export device details in csv file"
                 self.log(self.msg)
-                self.check_return_status()
+
+                return response
 
         # With this File ID call the Download File by FileID API and process the response
         response = self.dnac._exec(
@@ -975,7 +977,6 @@ class DnacDevice(DnacBase):
             self.msg = "pyzipper is required for this module. Install pyzipper to use this functionality."
             self.log(self.msg)
             self.status = "failed"
-
             return self
 
         snmp_protocol = self.config[0].get('snmp_priv_protocol', 'CISCOAES128')
@@ -984,7 +985,16 @@ class DnacDevice(DnacBase):
             'CISCOAES192': 'pyzipper.WZ_AES192',
             'CISCOAES256': 'pyzipper.WZ_AES'
         }
-        encryption_method = encryption_dict[snmp_protocol]
+        try:
+            encryption_method = encryption_dict.get(snmp_protocol)
+        except Exception as e:
+            self.log("Given SNMP protcol not present")
+
+        if not encryption_method:
+            self.msg = "Invalid SNMP protocol specified for encryption."
+            self.log(self.msg)
+            self.status = "failed"
+            return self
 
         # Create a PyZipper object with the password
         with pyzipper.AESZipFile(zip_data, 'r', compression=pyzipper.ZIP_LZMA, encryption=encryption_method) as zip_ref:
@@ -1060,11 +1070,13 @@ class DnacDevice(DnacBase):
             }
 
             response = self.trigger_export_api(payload_params)
+            self.check_return_status()
 
             if payload_params["operationEnum"] == "0":
                 temp_file_name = response.filename
                 output_file_name = temp_file_name.split(".")[0] + ".csv"
                 csv_reader = self.decrypt_and_read_csv(response, password)
+                self.check_return_status()
             else:
                 encoded_resp = response.data.decode(encoding='utf-8')
                 self.log(str(encoded_resp))
@@ -1879,7 +1891,9 @@ class DnacDevice(DnacBase):
         Returns:
             dict: A dictionary containing details of the device obtained from the Cisco DNA Center.
         Description:
-            Retrieves the response of a device with the specified management IP address from Cisco DNA Center.
+            This method communicates with Cisco DNA Center to retrieve the details of a device with the specified
+            management IP address. It executes the 'get_device_list' API call with the provided device IP address,
+            logs the response, and returns a dictionary containing information about the device.
         """
 
         try:
@@ -1896,6 +1910,144 @@ class DnacDevice(DnacBase):
             raise Exception(error_message)
 
         return response
+
+    def check_device_role(self, device_ip):
+        """
+        Checks if the device role and role source for a device in Cisco DNA Center match the specified values in the configuration.
+        Args:
+            self (object): An instance of a class used for interacting with Cisco DNA Center.
+            device_ip (str): The management IP address of the device for which the device role is to be checked.
+        Returns:
+            bool: True if the device role and role source match the specified values, False otherwise.
+        Description:
+            This method retrieves the device role and role source for a device in Cisco DNA Center using the
+            'get_device_response' method and compares the retrieved values with specified values in the configuration
+            for updating device roles.
+        """
+
+        device_role_args = self.config[0].get('update_device_role')
+        role = device_role_args.get('role')
+        role_source = device_role_args.get('role_source')
+        response = self.get_device_response(device_ip)
+
+        return response.get('role') == role and response.get('roleSource') == role_source
+
+    def check_interface_details(self, device_ip):
+        """
+        Checks if the interface details for a device in Cisco DNA Center match the specified values in the configuration.
+        Args:
+            self (object): An instance of a class used for interacting with Cisco DNA Center.
+            device_ip (str): The management IP address of the device for which interface details are to be checked.
+        Returns:
+            bool: True if the interface details match the specified values, False otherwise.
+        Description:
+            This method retrieves the interface details for a device in Cisco DNA Center using the 'get_interface_by_ip' API call.
+            It then compares the retrieved details with the specified values in the configuration for updating interface details.
+            If all specified parameters match the retrieved values or are not provided in the playbook parameters, the function
+            returns True, indicating successful validation.
+        """
+
+        response = self.dnac._exec(
+            family="devices",
+            function='get_interface_by_ip',
+            params={"ip_address": device_ip}
+        )
+        response = response.get("response")[0]
+        response_params = {
+            'description': response.get('description'),
+            'adminStatus': response.get('adminStatus'),
+            'voiceVlanId': response.get('voiceVlan'),
+            'vlanId': int(response.get('vlanId'))
+        }
+
+        interface_playbook_params = self.config[0].get('update_interface_details')
+        playbook_params = {
+            'description': interface_playbook_params.get('description', ''),
+            'adminStatus': interface_playbook_params.get('admin_status'),
+            'voiceVlanId': interface_playbook_params.get('voice_vlan_id', ''),
+            'vlanId': interface_playbook_params.get('vlan_id')
+        }
+
+        for key, value in playbook_params.items():
+            if not value:
+                continue
+            elif response_params[key] != value:
+                return False
+
+        return True
+
+    def check_credential_update(self):
+        """
+        Checks if the credentials for devices in the configuration match the updated values in Cisco DNA Center.
+        Args:
+            self (object): An instance of a class used for interacting with Cisco DNA Center.
+        Returns:
+            bool: True if the credentials match the updated values, False otherwise.
+        Description:
+            This method triggers the export API in Cisco DNA Center to obtain the updated credential details for
+            the specified devices. It then decrypts and reads the CSV file containing the updated credentials,
+            comparing them with the credentials specified in the configuration.
+        """
+
+        device_ips = self.config[0].get("ip_address")
+        device_uuids = self.get_device_ids(device_ips)
+        password = "Testing@123"
+        payload_params = {"deviceUuids": device_uuids, "password": password, "operationEnum": "0"}
+        response = self.trigger_export_api(payload_params)
+        self.check_return_status()
+        csv_reader = self.decrypt_and_read_csv(response, password)
+        self.check_return_status()
+        device_data = next(csv_reader, None)
+
+        if not device_data:
+            return False
+
+        csv_data_dict = {
+            'snmp_retry': device_data['snmp_retries'],
+            'cli_transport': device_data['protocol'],
+            'username': device_data['cli_username'],
+            'password': device_data['cli_password'],
+            'enable_password': device_data['cli_enable_password'],
+            'snmp_username': device_data['snmpv3_user_name'],
+            'snmp_auth_protocol': device_data['snmpv3_auth_type']
+        }
+
+        config = self.config[0]
+        for key in csv_data_dict:
+            if key in config and csv_data_dict[key] is not None:
+                if key == "snmp_retry" and int(csv_data_dict[key]) != int(config[key]):
+                    return False
+                elif csv_data_dict[key] != config[key]:
+                    return False
+
+        return True
+
+    def get_provision_wired_device(self, device_ip):
+        """
+        Retrieves the provisioning status of a wired device with the specified management IP address in Cisco DNA Center.
+        Args:
+            self (object): An instance of a class used for interacting with Cisco DNA Center.
+            device_ip (str): The management IP address of the wired device for which provisioning status is to be retrieved.
+        Returns:
+            bool: True if the device is provisioned successfully, False otherwise.
+        Description:
+            This method communicates with Cisco DNA Center to check the provisioning status of a wired device.
+            It executes the 'get_provisioned_wired_device' API call with the provided device IP address and
+            logs the response.
+        """
+
+        response = self.dnac._exec(
+            family="sda",
+            function='get_provisioned_wired_device',
+            op_modifies=True,
+            params={"device_management_ip_address": device_ip}
+        )
+
+        if response.get("status") == "failed":
+            self.log("Cannot do provisioning for wired device {0} because of {1}.".format(device_ip, response.get('description')))
+            return False
+
+        return True
 
     def get_want(self, config):
         """
@@ -1996,72 +2148,53 @@ class DnacDevice(DnacBase):
                 self.log(msg)
                 return self
 
-            if self.config[0].get('update_device_role'):
-                for device_ip in device_to_update:
-                    device_id = self.get_device_ids([device_ip])
-                    device_role_args = self.config[0].get('update_device_role')
-
-                    if 'role' not in device_role_args or 'role_source' not in device_role_args:
-                        self.msg = "Mandatory paramter(role/sourceRole) to update Device Role are missing"
-                        self.status = "failed"
-                        return self
-
-                    # Check if the same role of device is present in dnac then no need to change the state
+            if credential_update:
+                # Update Device details and credentails
+                try:
+                    self.mandatory_parameter().check_return_status()
                     response = self.dnac._exec(
                         family="devices",
-                        function='get_device_list',
-                        params={"managementIpAddress": device_ip}
+                        function='sync_devices',
+                        op_modifies=True,
+                        params=self.want.get("device_params"),
                     )
-                    response = response.get('response')[0]
 
-                    if response.get('role') == device_role_args.get('role'):
-                        self.status = "success"
-                        self.result['changed'] = False
-                        log_msg = "Device Role - {0} same in Cisco DNA Center as well, no updation needed".format(device_role_args.get('role'))
-                        continue
+                    self.log(str(response))
 
-                    device_role_params = {
-                        'role': device_role_args.get('role'),
-                        'roleSource': device_role_args.get('role_source'),
-                        'id': device_id[0]
-                    }
+                    if response and isinstance(response, dict):
+                        task_id = response.get('response').get('taskId')
 
-                    try:
-                        response = self.dnac._exec(
-                            family="devices",
-                            function='update_device_role',
-                            op_modifies=True,
-                            params=device_role_params,
-                        )
-                        self.log(str(response))
+                        while True:
+                            execution_details = self.get_task_details(task_id)
 
-                        if response and isinstance(response, dict):
-                            task_id = response.get('response').get('taskId')
+                            if execution_details.get("endTime"):
+                                self.status = "success"
+                                self.result['changed'] = True
+                                self.result['response'] = execution_details
+                                break
+                            elif execution_details.get("isError"):
+                                self.status = "failed"
+                                failure_reason = execution_details.get("failureReason")
+                                if failure_reason:
+                                    self.msg = "Device Updation get failed because of {0}".format(failure_reason)
+                                else:
+                                    self.msg = "Device Updation get failed"
+                                self.log(self.msg)
+                                break
 
-                            while True:
-                                execution_details = self.get_task_details(task_id)
+                        self.log("Device Updated Successfully")
+                        self.log("Updated devices are :" + str(device_to_update))
+                        self.msg = "Device " + str(device_to_update) + " updated Successfully !!"
+                        self.log(self.msg)
 
-                                if 'successfully' in execution_details.get("progress"):
-                                    self.status = "success"
-                                    self.result['changed'] = True
-                                    self.result['response'] = execution_details
-                                    self.log("Device Role Updated Successfully")
-                                    msg = "Device " + str(device_to_update) + " Role updated Successfully !!"
-                                    break
-                                elif execution_details.get("isError"):
-                                    self.status = "failed"
-                                    failure_reason = execution_details.get("failureReason")
-                                    if failure_reason:
-                                        self.msg = "Device Role Updation get failed because of {0}".format(failure_reason)
-                                    else:
-                                        self.msg = "Device Role Updation get failed"
-                                    self.log(self.msg)
-                                    break
+                except Exception as e:
+                    error_message = "Error while Updating device in Cisco DNA Center - {0}".format(str(e))
+                    self.log(error_message)
+                    raise Exception(error_message)
 
-                    except Exception as e:
-                        error_message = "Error while Updating device role in Cisco DNA Center - {0}".format(str(e))
-                        self.log(error_message)
-                        raise Exception(error_message)
+                self.msg = "Devices {0} present in Cisco DNA Center and updated successfully".format(config['ip_address'])
+                self.log(self.msg)
+                self.status = "success"
 
             if self.config[0].get('update_interface_details'):
                 # Call the Get interface details by device IP API and fetch the interface Id
@@ -2123,55 +2256,75 @@ class DnacDevice(DnacBase):
                         self.status = "success"
                         self.result['changed'] = False
                         self.msg = "Port actions are only supported on user facing/access ports as it's not allowed or No Updation required"
-                        self.log(msg)
-
-            if credential_update:
-                # Update Device details and credentails
-                try:
-                    self.mandatory_parameter().check_return_status()
-                    response = self.dnac._exec(
-                        family="devices",
-                        function='sync_devices',
-                        op_modifies=True,
-                        params=self.want.get("device_params"),
-                    )
-
-                    self.log(str(response))
-
-                    if response and isinstance(response, dict):
-                        task_id = response.get('response').get('taskId')
-
-                        while True:
-                            execution_details = self.get_task_details(task_id)
-
-                            if execution_details.get("endTime"):
-                                self.status = "success"
-                                self.result['changed'] = True
-                                self.result['response'] = execution_details
-                                break
-                            elif execution_details.get("isError"):
-                                self.status = "failed"
-                                failure_reason = execution_details.get("failureReason")
-                                if failure_reason:
-                                    self.msg = "Device Updation get failed because of {0}".format(failure_reason)
-                                else:
-                                    self.msg = "Device Updation get failed"
-                                self.log(self.msg)
-                                break
-
-                        self.log("Device Updated Successfully")
-                        self.log("Updated devices are :" + str(device_to_update))
-                        self.msg = "Device " + str(device_to_update) + " updated Successfully !!"
                         self.log(self.msg)
 
-                except Exception as e:
-                    error_message = "Error while Updating device in Cisco DNA Center - {0}".format(str(e))
-                    self.log(error_message)
-                    raise Exception(error_message)
+            if self.config[0].get('update_device_role'):
+                for device_ip in device_to_update:
+                    device_id = self.get_device_ids([device_ip])
+                    device_role_args = self.config[0].get('update_device_role')
 
-                self.msg = "Devices {0} present in Cisco DNA Center and updated successfully".format(config['ip_address'])
-                self.log(self.msg)
-                self.status = "success"
+                    if 'role' not in device_role_args or 'role_source' not in device_role_args:
+                        self.msg = "Mandatory paramter(role/sourceRole) to update Device Role are missing"
+                        self.status = "failed"
+                        return self
+
+                    # Check if the same role of device is present in dnac then no need to change the state
+                    response = self.dnac._exec(
+                        family="devices",
+                        function='get_device_list',
+                        params={"managementIpAddress": device_ip}
+                    )
+                    response = response.get('response')[0]
+
+                    if response.get('role') == device_role_args.get('role'):
+                        self.status = "success"
+                        self.result['changed'] = False
+                        log_msg = "Device Role - {0} same in Cisco DNA Center as well, no updation needed".format(device_role_args.get('role'))
+                        self.log(log_msg)
+                        continue
+
+                    device_role_params = {
+                        'role': device_role_args.get('role'),
+                        'roleSource': device_role_args.get('role_source'),
+                        'id': device_id[0]
+                    }
+
+                    try:
+                        response = self.dnac._exec(
+                            family="devices",
+                            function='update_device_role',
+                            op_modifies=True,
+                            params=device_role_params,
+                        )
+                        self.log(str(response))
+
+                        if response and isinstance(response, dict):
+                            task_id = response.get('response').get('taskId')
+
+                            while True:
+                                execution_details = self.get_task_details(task_id)
+
+                                if 'successfully' in execution_details.get("progress"):
+                                    self.status = "success"
+                                    self.result['changed'] = True
+                                    self.result['response'] = execution_details
+                                    self.log("Device Role Updated Successfully")
+                                    msg = "Device " + str(device_to_update) + " Role updated Successfully !!"
+                                    break
+                                elif execution_details.get("isError"):
+                                    self.status = "failed"
+                                    failure_reason = execution_details.get("failureReason")
+                                    if failure_reason:
+                                        self.msg = "Device Role Updation get failed because of {0}".format(failure_reason)
+                                    else:
+                                        self.msg = "Device Role Updation get failed"
+                                    self.log(self.msg)
+                                    break
+
+                    except Exception as e:
+                        error_message = "Error while Updating device role in Cisco DNA Center - {0}".format(str(e))
+                        self.log(error_message)
+                        raise Exception(error_message)
 
         # If we want to add device in inventory
         if device_added:
@@ -2420,20 +2573,27 @@ class DnacDevice(DnacBase):
             - self (object): An instance of a class used for interacting with Cisco DNA Center.
         Description:
             This method checks the merged status of a configuration in Cisco DNA Center by retrieving the current state
-            (have) and desired state (want) of the configuration, logs the states, and validates whether the devices
-            addition/updation/provisioning operation succeed in Cisco DNA Center.
+            (have) and desired state (want) of the configuration, logs the states, and validates whether the specified
+            site exists in the DNA Center configuration.
+
+            The function performs the following verifications:
+            - Checks for devices added to Cisco DNA Center and logs the status.
+            - Verifies updated device roles and logs the status.
+            - Verifies updated interface details and logs the status.
+            - Verifies updated device credentials and logs the status.
+            - Verifies the creation of a global User Defined Field (UDF) and logs the status.
+            - Verifies the provisioning of wired devices and logs the status.
         """
 
         self.get_have(config)
-        self.log(str(self.have))
-        self.log(str(self.want))
+        self.log("Current config in Cisco DNA Center: {0}".format(str(self.have)))
+        self.log("Input paramter given in Playbook config: {0}".format(str(self.want)))
 
         devices_to_add = self.have["device_not_in_dnac"]
         device_added = self.config[0].get("device_added", False)
         device_updated = self.config[0].get("device_updated", False)
         credential_update = self.config[0].get("credential_update", False)
         device_type = self.config[0].get("type", "NETWORK_DEVICE")
-
         device_ips = self.config[0].get("ip_address")
 
         if device_added:
@@ -2442,118 +2602,34 @@ class DnacDevice(DnacBase):
                 msg = "Requested Devices - {0} Added in Cisco DNA Center and Addition verified.".format(str(device_ips))
                 self.log(msg)
             else:
-                self.log("Playbook paramater doesnot match with the Cisco DNA Center means Device Addition task not executed successfully.")
-
-        if device_updated and self.config[0].get('update_device_role'):
-            device_role_flag = True
-
-            for device_ip in device_ips:
-                device_role_args = self.config[0].get('update_device_role')
-                role = device_role_args.get('role')
-                role_source = device_role_args.get('role_source')
-                response = self.get_device_response(device_ip)
-
-                if response.get('role') != role or response.get('roleSource') != role_source:
-                    device_role_flag = False
-                    break
-
-            if device_role_flag:
-                self.status = "success"
-                msg = "Device Role - {0} with Role Source {1} updated and verified successfully".format(role, role_source)
-                self.log(msg)
-            else:
-                self.log("Playbook paramater doesnot match with the Cisco DNA Center means Update device role task not executed successfully.")
+                self.log("Playbook parameter does not match with Cisco Catalyst Center, meaning device addition task not executed successfully.")
 
         if device_updated and self.config[0].get('update_interface_details'):
             interface_update_flag = True
 
             for device_ip in device_ips:
-                response = self.dnac._exec(
-                    family="devices",
-                    function='get_interface_by_ip',
-                    params={"ip_address": device_ip}
-                )
-                response = response.get("response")[0]
-                response_params = {
-                    'description': response.get('description'),
-                    'adminStatus': response.get('adminStatus'),
-                    'voiceVlanId': response.get('voiceVlan'),
-                    'vlanId': int(response.get('vlanId'))
-                }
-
-                interface_playbook_params = self.config[0].get('update_interface_details')
-                playbook_params = {
-                    'description': interface_playbook_params.get('description', ''),
-                    'adminStatus': interface_playbook_params.get('admin_status'),
-                    'voiceVlanId': interface_playbook_params.get('voice_vlan_id', ''),
-                    'vlanId': interface_playbook_params.get('vlan_id')
-                }
-
-                for key, value in playbook_params.items():
-                    if not value:
-                        continue
-                    elif response_params[key] != value:
-                        interface_update_flag = False
-                        break
-
-                if not interface_update_flag:
+                if not self.check_interface_details(device_ip):
+                    interface_update_flag = False
                     break
 
             if interface_update_flag:
                 self.status = "success"
-                msg = "Interface Details are updated and verified successfully for devices {0}".format(str(device_ips))
+                msg = "Interface details updated and verified successfully for devices {0}.".format(device_ips)
                 self.log(msg)
             else:
-                self.log("Playbook paramater doesnot match with the Cisco DNA Center means Update Interface Details task not executed successfully.")
+                self.log("Playbook parameter does not match with Cisco Catalyst Center, meaning update interface details task not executed successfully.")
 
-        if device_updated and credential_update:
-            credential_update_flag = True
-            if device_type == "NETWORK_DEVICE":
-                device_uuids = self.get_device_ids(device_ips)
-                password = "Testing@123"
-                payload_params = {
-                    "deviceUuids": device_uuids,
-                    "password": password,
-                    "operationEnum": "0"
-                }
+        if device_updated and credential_update and device_type == "NETWORK_DEVICE":
+            credential_update_flag = self.check_credential_update()
 
-                response = self.trigger_export_api(payload_params)
-                csv_reader = self.decrypt_and_read_csv(response, password)
-                device_data = []
-                for row in csv_reader:
-                    device_data.append(row)
-
-                csv_data_dict = {
-                    'snmp_retry': device_data[0]['snmp_retries'],
-                    'cli_transport': device_data[0]['protocol'],
-                    'username': device_data[0]['cli_username'],
-                    'password': device_data[0]['cli_password'],
-                    'enable_password': device_data[0]['cli_enable_password'],
-                    'snmp_username': device_data[0]['snmpv3_user_name'],
-                    'snmp_auth_protocol': device_data[0]['snmpv3_auth_type']
-                }
-
-                for key, value in csv_data_dict.items():
-                    if key not in config or value is None:
-                        continue
-
-                    if key == "snmp_retry":
-                        if int(value) != int(config[key]):
-                            credential_update_flag = False
-                            break
-                    elif value != config[key]:
-                        self.log(key)
-                        credential_update_flag = False
-                        break
-
-                if credential_update_flag:
-                    self.status = "success"
-                    msg = "Device Credentials and details updated and verified successfully in Cisco DNA Center."
-                    self.log(msg)
-                else:
-                    self.log("Playbook paramater doesnot match with the Cisco DNA Center means Device Updation task not executed properly.")
+            if credential_update_flag:
+                self.status = "success"
+                msg = "Device credentials and details updated and verified successfully in Cisco Catalyst Center."
+                self.log(msg)
             else:
-                self.log("Cannot compare the paramter for device type {0} in the Playbook with Cisco DNA Center.".format(device_type))
+                self.log("Playbook parameter does not match with Cisco Catalyst Center, meaning device updation task not executed properly.")
+        elif device_type != "NETWORK_DEVICE":
+            self.log("Cannot compare the parameter for device type {0} in the playbook with Cisco Catalyst Center.".format(device_type))
 
         if self.config[0].get('add_user_defined_field'):
             field_name = self.config[0].get('add_user_defined_field').get('name')
@@ -2566,30 +2642,35 @@ class DnacDevice(DnacBase):
             else:
                 self.log("Playbook paramater doesnot match with the Cisco DNA Center means creating Global UDF task not executed successfully.")
 
+        if device_updated and self.config[0].get('update_device_role'):
+            device_role_flag = True
+
+            for device_ip in device_ips:
+                if not self.check_device_role(device_ip):
+                    device_role_flag = False
+                    break
+
+            if device_role_flag:
+                self.status = "success"
+                msg = "Device roles updated and verified successfully."
+                self.log(msg)
+            else:
+                self.log("Playbook parameter does not match with Cisco Catalyst Center, meaning update device role task not executed successfully.")
+
         if self.config[0].get('provision_wired_device'):
             provision_wired_flag = True
 
             for device_ip in device_ips:
-                response = self.dnac._exec(
-                    family="sda",
-                    function='get_provisioned_wired_device',
-                    op_modifies=True,
-                    params={"device_management_ip_address": device_ip}
-                )
-
-                if response.get("status") == "failed":
-                    description = response.get("description")
-                    error_msg = "Cannot do Provisioning for Wired device {0} beacuse of {1}".format(device_ip, description)
-                    self.log(error_msg)
+                if not self.get_provision_wired_device(device_ip):
                     provision_wired_flag = False
                     break
 
             if provision_wired_flag:
                 self.status = "success"
-                msg = "Wired Devices {0} gets Provisioned and verified successfully".format(str(device_ips))
+                msg = "Wired devices {0} get provisioned and verified successfully.".format(device_ips)
                 self.log(msg)
             else:
-                self.log("Playbook paramater doesnot match with the Cisco DNA Center means Provisioning task not executed successfully.")
+                self.log("Playbook parameter does not match with Cisco Catalyst Center, meaning provisioning task not executed successfully.")
 
         return self
 
