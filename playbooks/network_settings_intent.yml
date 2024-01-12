@@ -24,7 +24,7 @@
             settings:
               ip_pool:
               - name: Global_Pool2
-                gateway: "" #use this for updating
+                gateway: '' #use this for updating
                 ip_address_space: IPv6 #required when we are creating
                 cidr: 2001:db8::/64  #required when we are creating
                 type: Generic
@@ -42,7 +42,7 @@
             ipv6_prefix: True
             ipv6_prefix_length: 64
             ipv6_global_pool: 2001:db8::/64
-            ipv6_subnet: "2001:db8::"
+            ipv6_subnet: '2001:db8::'
             site_name: Global/Chennai/Trill
             slaac_support: True
             # prev_name: IP_Pool_4
@@ -63,7 +63,7 @@
                 # shared_secret: string #ISE
               message_of_the_day:
                 banner_message: hello
-                retain_existing_banner: "true"
+                retain_existing_banner: 'true'
               netflow_collector:
                 ip_address: 10.0.0.4
                 port: 443
