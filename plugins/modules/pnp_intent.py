@@ -151,6 +151,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     dnac_log: True
     state: merged
+    config_verify: True
     config:
         - template_name: string
           image_name: string
