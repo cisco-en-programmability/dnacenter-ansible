@@ -964,7 +964,7 @@ class DnacPnp(DnacBase):
 
     def verify_diff_merged(self, config):
         """
-        Verify the merged status(Creation/Updation) of site configuration in Cisco DNA Center.
+        Verify the merged status(Creation/Updation) of PnP configuration in Cisco DNA Center.
         Args:
             - self (object): An instance of a class used for interacting with Cisco DNA Center.
             - config (dict): The configuration details to be verified.
@@ -1021,7 +1021,7 @@ class DnacPnp(DnacBase):
 
     def verify_diff_deleted(self, config):
         """
-        Verify the deletion status of site configuration in Cisco DNA Center.
+        Verify the deletion status of PnP configuration in Cisco DNA Center.
         Args:
             - self (object): An instance of a class used for interacting with Cisco DNA Center.
             - config (dict): The configuration details to be verified.
