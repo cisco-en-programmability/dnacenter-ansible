@@ -24,6 +24,10 @@ author: Madhan Sankaranarayanan (@madhansansel)
         Rishita Chowdhary (@rishitachowdhary)
         Abinash Mishra (@abimishr)
 options:
+  config_verify:
+    description: Set to True to verify the Cisco DNA Center config after applying the playbook config.
+    type: bool
+    default: False
   state:
     description: The state of DNAC after module completion.
     type: str
@@ -477,6 +481,18 @@ class DnacPnp(DnacBase):
         return claim_params
 
     def get_reset_params(self):
+        """
+        Get the paramters needed for resetting the device in an errored state.
+        Parameters:
+          - self: The instance of the class containing the 'config'
+                  attribute to be validated.
+        Returns:
+          The method returns an instance of the class with updated attributes:
+          - reset_params: A dictionary needed for calling the PUT call
+                          for update device details API.
+        Example:
+          The stored dictionary can be used to call the API update device details
+        """
 
         reset_params = {
             "deviceResetList": [
@@ -775,6 +791,7 @@ class DnacPnp(DnacBase):
                     self.result['response'] = dev_add_response
                     self.result['diff'] = self.validated_config
                     self.result['changed'] = True
+                    return self
                 else:
                     self.msg = "Device Addition Failed"
                     self.status = "failed"
@@ -806,6 +823,7 @@ class DnacPnp(DnacBase):
                     self.result['response'] = claim_response
                     self.result['diff'] = self.validated_config
                     self.result['changed'] = True
+                    return self
                 else:
                     self.msg = "Device Claim Failed"
                     self.status = "failed"
@@ -823,7 +841,6 @@ class DnacPnp(DnacBase):
             op_modifies=True,
             params=planned_count_params,
         )
-
         dev_details_response = self.dnac_apply['exec'](
             family="device_onboarding_pnp",
             function="get_device_by_id",
@@ -945,6 +962,117 @@ class DnacPnp(DnacBase):
 
         return self
 
+    def verify_diff_merged(self, config):
+        """
+        Verify the merged status(Creation/Updation) of site configuration in Cisco DNA Center.
+        Args:
+            - self (object): An instance of a class used for interacting with Cisco DNA Center.
+            - config (dict): The configuration details to be verified.
+        Return:
+            - self (object): An instance of a class used for interacting with Cisco DNA Center.
+        Description:
+            This method checks the merged status of a configuration in Cisco DNA Center by
+            retrieving the current state (have) and desired state (want) of the configuration,
+            logs the states, and validates whether the specified site exists in the DNA
+            Center configuration.
+        """
+
+        self.log(str(self.have))
+        self.log(str(self.want))
+        # Code to validate dnac config for merged state
+        device_response = self.dnac_apply['exec'](
+            family="device_onboarding_pnp",
+            function='get_device_list',
+            params={"serial_number": self.want.get("serial_number")}
+        )
+
+        if len(self.want.get("pnp_params")) == 1:
+            if not self.want["site_name"]:
+                if len(device_response) == 1:
+                    self.status = "success"
+                    msg = (
+                        "Requested Device with Serial No. {0} is "
+                        "present in Cisco DNA Center and "
+                        "addition verified.".format(self.want.get("serial_number")))
+                    self.log(msg)
+
+        elif len(self.want.get("pnp_params")) > 1:
+            devices_added = []
+            for device in self.want.get("pnp_params"):
+                multi_device_response = self.dnac_apply['exec'](
+                    family="device_onboarding_pnp",
+                    function='get_device_list',
+                    params={"serial_number": device["deviceInfo"]["serialNumber"]}
+                )
+                if (multi_device_response and (len(multi_device_response) == 1)):
+                    msg = (
+                        "Requested Device with Serial No. {0} is "
+                        "present in Cisco DNA Center and"
+                        " addition verified.".format(device["deviceInfo"]["serialNumber"]))
+                    self.log(msg)
+                else:
+                    msg = (
+                        "Requested Device with Serial No. {0} is "
+                        "not present in Cisco DNA "
+                        "Center".format(device["deviceInfo"]["serialNumber"]))
+                self.status = "success"
+
+        return self
+
+    def verify_diff_deleted(self, config):
+        """
+        Verify the deletion status of site configuration in Cisco DNA Center.
+        Args:
+            - self (object): An instance of a class used for interacting with Cisco DNA Center.
+            - config (dict): The configuration details to be verified.
+        Return:
+            - self (object): An instance of a class used for interacting with Cisco DNA Center.
+        Description:
+            This method checks the deletion status of a configuration in Cisco DNA Center.
+            It validates whether the specified site exists in the DNA Center configuration.
+        """
+
+        self.log(str(self.have))
+        self.log(str(self.want))
+        # Code to validate dnac config for merged state
+        device_response = self.dnac_apply['exec'](
+            family="device_onboarding_pnp",
+            function='get_device_list',
+            params={"serial_number": self.want.get("serial_number")}
+        )
+
+        if len(self.want.get("pnp_params")) == 1:
+            if not self.want["site_name"]:
+                if not len(device_response) == 1:
+                    self.status = "success"
+                    msg = (
+                        "Requested Device with Serial No. {0} is "
+                        "not present in the Cisco DNA"
+                        " Center.".format(self.want.get("serial_number")))
+                    self.log(msg)
+
+        elif len(self.want.get("pnp_params")) > 1:
+            devices_added = []
+            for device in self.want.get("pnp_params"):
+                multi_device_response = self.dnac_apply['exec'](
+                    family="device_onboarding_pnp",
+                    function='get_device_list',
+                    params={"serial_number": device["deviceInfo"]["serialNumber"]}
+                )
+                if not (multi_device_response and (len(multi_device_response) == 1)):
+                    msg = (
+                        "Requested Device with Serial No. {0} is "
+                        "not present in the Cisco DNA"
+                        "Center.".format(device["deviceInfo"]["serialNumber"]))
+                    self.log(msg)
+                else:
+                    msg = (
+                        "Requested Device with Serial No. {0} is "
+                        "present in Cisco DNA Center".format(device["deviceInfo"]["serialNumber"]))
+                self.status = "success"
+
+        return self
+
 
 def main():
     """
@@ -960,6 +1088,7 @@ def main():
                     'dnac_debug': {'type': 'bool', 'default': False},
                     'dnac_log': {'type': 'bool', 'default': False},
                     'validate_response_schema': {'type': 'bool', 'default': True},
+                    'config_verify': {"type": 'bool', "default": False},
                     'config': {'required': True, 'type': 'list', 'elements': 'dict'},
                     'state': {'default': 'merged', 'choices': ['merged', 'deleted']}
                     }
@@ -975,12 +1104,15 @@ def main():
         dnac_pnp.check_return_status()
 
     dnac_pnp.validate_input().check_return_status()
+    config_verify = dnac_pnp.params.get("config_verify")
 
     for config in dnac_pnp.validated_config:
         dnac_pnp.reset_values()
         dnac_pnp.get_want(config).check_return_status()
         dnac_pnp.get_have().check_return_status()
         dnac_pnp.get_diff_state_apply[state]().check_return_status()
+        if config_verify:
+            dnac_pnp.verify_diff_state_apply[state](config).check_return_status()
 
     module.exit_json(**dnac_pnp.result)
 
