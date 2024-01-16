@@ -845,7 +845,7 @@ class DnacNetwork(DnacBase):
             }
         }
         network_settings = network_details.get("settings")
-        if dhcp_details.get("value") != []:
+        if dhcp_details and dhcp_details.get("value") != []:
             network_settings.update({"dhcpServer": dhcp_details.get("value")})
         else:
             network_settings.update({"dhcpServer": [""]})
@@ -859,7 +859,7 @@ class DnacNetwork(DnacBase):
                 }
             })
 
-        if ntpserver_details.get("value") != []:
+        if ntpserver_details and ntpserver_details.get("value") != []:
             network_settings.update({"ntpServer": ntpserver_details.get("value")})
         else:
             network_settings.update({"ntpServer": [""]})
