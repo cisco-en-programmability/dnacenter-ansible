@@ -25,6 +25,10 @@ extends_documentation_fragment:
 author: Muthu Rakesh (@MUTHU-RAKESH-27)
         Madhan Sankaranarayanan (@madhansansel)
 options:
+  config_verify:
+    description: Set to True to verify the Cisco DNA Center after applying the playbook config.
+    type: bool
+    default: False
   state:
     description: The state of Cisco DNA Center after module completion.
     type: str
@@ -1056,7 +1060,7 @@ class DnacCredential(DnacBase):
                 value = {
                     "username": item.get("username"),
                     "description": item.get("description"),
-                    "snmpMode": item.get("snmp_mode"),
+                    "snmpMode": item.get("snmpMode"),
                     "id": item.get("id"),
                 }
                 if value.get("snmpMode") == "AUTHNOPRIV":
@@ -2407,6 +2411,103 @@ class DnacCredential(DnacBase):
 
         return self
 
+    def verify_diff_merged(self, config):
+        """
+        Validating the DNAC configuration with the playbook details
+        when state is merged (Create/Update).
+
+        Parameters:
+            config (dict) - Playbook details containing Global Pool,
+            Reserved Pool, and Network Management configuration.
+
+        Returns:
+            self
+        """
+
+        self.log(str("Entered the verify function."))
+        self.get_have(config)
+        self.get_want(config)
+        self.log("DNAC retrieved details: " + str(self.have))
+        self.log("Playbook details: " + str(self.want))
+
+        if config.get("global_credential_details") is not None:
+            if self.want.get("want_create"):
+                self.msg = "Global Device Credentials config is not applied to the DNAC"
+                self.status = "failed"
+                return self
+
+            if self.want.get("want_update"):
+                credential_types = ["cliCredential", "snmpV2cRead", "snmpV2cWrite",
+                                    "httpsRead", "httpsWrite", "snmpV3"]
+                value_mapping = {
+                    "cliCredential": ["username", "description", "id"],
+                    "snmpV2cRead": ["description", "id"],
+                    "snmpV2cWrite": ["description", "id"],
+                    "httpsRead": ["description", "username", "port", "id"],
+                    "httpsWrite": ["description", "username", "port", "id"],
+                    "snmpV3": ["username", "description", "snmpMode", "id"]
+                }
+                for credential_type in credential_types:
+                    if self.want.get(credential_type):
+                        want_credential = self.want.get(credential_type)
+                        if self.have.get(credential_type):
+                            have_credential = self.have.get(credential_type)
+                        values = value_mapping.get(credential_type)
+                        for value in values:
+                            equality = have_credential.get(value) is want_credential.get(value)
+                            if not have_credential or not equality:
+                                self.msg = "{0} config is not applied ot the DNAC".format(credential_type)
+                                self.status = "failed"
+                                return self
+
+            self.log("Successfully validated Global Device Credential")
+            self.result.get("response")[0].get("globalCredential").update({"Validation": "Success"})
+
+        if config.get("assign_credentials_to_site") is not None:
+            self.log("Successfully validated the Assign Device Credential to site")
+            self.result.get("response")[0].get("assignCredential").update({"Validation": "Success"})
+
+        self.msg = "Successfully validated the Global Device Credential and \
+                    Assign Device Credential to Site."
+        self.status = "success"
+        return self
+
+    def verify_diff_deleted(self, config):
+        """
+        Validating the DNAC configuration with the playbook details
+        when state is deleted (delete).
+
+        Parameters:
+            config (dict) - Playbook details containing Global Pool,
+            Reserved Pool, and Network Management configuration.
+
+        Returns:
+            self
+        """
+
+        self.get_have(config)
+        self.log("DNAC retrieved details: " + str(self.have))
+        self.log("Playbook details: " + str(self.want))
+
+        if config.get("global_credential_details") is not None:
+            have_global_credential = self.have.get("globalCredential")
+            credential_types = ["cliCredential", "snmpV2cRead", "snmpV2cWrite",
+                                "httpsRead", "httpsWrite", "snmpV3"]
+            for credential_type in credential_types:
+                for item in have_global_credential.get(credential_type):
+                    if item is not None:
+                        self.msg = "Delete Global Device Credentials config \
+                                    is not applied to the config"
+                        self.status = "failed"
+                        return self
+
+            self.log("Successfully validated absence of Global Device Credential.")
+            self.result.get("response")[0].get("globalCredential").update({"Validation": "Success"})
+
+        self.msg = "Successfully validated the absence of Global Device Credential."
+        self.status = "success"
+        return self
+
     def reset_values(self):
         """
         Reset all neccessary attributes to default values
@@ -2436,6 +2537,7 @@ def main():
         "dnac_version": {"type": 'str', "default": '2.2.3.3'},
         "dnac_debug": {"type": 'bool', "default": False},
         "dnac_log": {"type": 'bool', "default": False},
+        "config_verify": {"type": 'bool', "default": False},
         "config": {"type": 'list', "required": True, "elements": 'dict'},
         "state": {"default": 'merged', "choices": ['merged', 'deleted']},
         "validate_response_schema": {"type": 'bool', "default": True},
@@ -2445,6 +2547,7 @@ def main():
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=False)
     dnac_credential = DnacCredential(module)
     state = dnac_credential.params.get("state")
+    config_verify = dnac_credential.params.get("config_verify")
     if state not in dnac_credential.supported_states:
         dnac_credential.status = "invalid"
         dnac_credential.msg = "State {0} is invalid".format(state)
@@ -2458,6 +2561,8 @@ def main():
         if state != "deleted":
             dnac_credential.get_want(config).check_return_status()
         dnac_credential.get_diff_state_apply[state](config).check_return_status()
+        if config_verify:
+            dnac_credential.verify_diff_state_apply[state](config).check_return_status()
 
     module.exit_json(**dnac_credential.result)
 
