@@ -2449,13 +2449,13 @@ class DnacCredential(DnacBase):
                 }
                 for credential_type in credential_types:
                     if self.want.get(credential_type):
-                        want_cli_credential = self.want.get(credential_type)
+                        want_credential = self.want.get(credential_type)
                         if self.have.get(credential_type):
-                            have_cli_credential = self.have.get(credential_type)
+                            have_credential = self.have.get(credential_type)
                         values = value_mapping.get(credential_type)
                         for value in values:
-                            equality = have_cli_credential.get(value) is want_cli_credential.get(value)
-                            if not have_cli_credential or not equality:
+                            equality = have_credential.get(value) is want_credential.get(value)
+                            if not have_credential or not equality:
                                 self.msg = "{0} config is not applied ot the DNAC".format(credential_type)
                                 self.status = "failed"
                                 return self
@@ -2492,7 +2492,7 @@ class DnacCredential(DnacBase):
         if config.get("global_credential_details") is not None:
             have_global_credential = self.have.get("globalCredential")
             credential_types = ["cliCredential", "snmpV2cRead", "snmpV2cWrite",
-                      "httpsRead", "httpsWrite", "snmpV3"]
+                                "httpsRead", "httpsWrite", "snmpV3"]
             for credential_type in credential_types:
                 for item in have_global_credential.get(credential_type):
                     if item is not None:
