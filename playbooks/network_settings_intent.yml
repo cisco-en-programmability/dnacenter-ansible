@@ -1,6 +1,6 @@
 - hosts: dnac_servers
   vars_files:
-    - credentials_245.yml
+    - credentials.yml
   gather_facts: no
   connection: local
   tasks:
@@ -79,7 +79,7 @@
                 configure_dnac_ip: false
                 # ip_addresses:
                 # - 10.0.0.6
-              syslogServer:
+              syslog_server:
                 configure_dnac_ip: false
                 # ip_addresses:
                 # - 10.0.0.7

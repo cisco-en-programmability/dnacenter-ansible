@@ -256,7 +256,7 @@ options:
                     elements: str
                     type: list
                 type: dict
-              syslogServer:
+              syslog_server:
                 description: Network V2's syslogServer.
                 suboptions:
                   configure_dnac_ip:
@@ -359,7 +359,7 @@ EXAMPLES = r"""
           snmp_server:
             configure_dnac_ip: True
             ip_addresses: list
-          syslogServer:
+          syslog_server:
             configure_dnac_ip: True
             ip_addresses: list
         site_name: string
@@ -499,7 +499,7 @@ class DnacNetwork(DnacBase):
                         "primary_ip_address": {"type": 'string'},
                         "secondary_ip_address": {"type": 'string'}
                     },
-                    "syslogServer": {
+                    "syslog_server": {
                         "type": 'dict',
                         "ip_addresses": {"type": 'list'},
                         "configure_dnac_ip": {"type": 'bool'}
@@ -544,6 +544,7 @@ class DnacNetwork(DnacBase):
         }
 
         # Validate playbook params against the specification (temp_spec)
+        self.config = self.camel_to_snake_case(self.config)
         valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
         if invalid_params:
             self.msg = "Invalid parameters in playbook: {0}".format("\n".join(invalid_params))
@@ -1474,7 +1475,7 @@ class DnacNetwork(DnacBase):
         else:
             del want_network_settings["snmpServer"]
 
-        syslogServer = network_management_details.get("syslogServer")
+        syslogServer = network_management_details.get("syslog_server")
         if syslogServer is not None:
             if syslogServer.get("configure_dnac_ip") is not None:
                 want_network_settings.get("syslogServer").update({

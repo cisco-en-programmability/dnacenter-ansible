@@ -840,6 +840,7 @@ class DnacCredential(DnacBase):
         }
 
         # Validate playbook params against the specification (temp_spec)
+        self.config = self.camel_to_snake_case(self.config)
         valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
         if invalid_params:
             self.msg = "Invalid parameters in playbook: {0}".format("\n".join(invalid_params))
