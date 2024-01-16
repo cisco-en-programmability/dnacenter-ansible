@@ -376,6 +376,8 @@ class DnacBase():
             new_config = {}
             for key, value in config.items():
                 new_key = re.sub(r'([a-z0-9])([A-Z])', r'\1_\2', key).lower()
+                if new_key != key:
+                    self.log("{0} will be deprecated soon. Please use {1}.".format(key, new_key))
                 new_value = self.camel_to_snake_case(value)
                 new_config[new_key] = new_value
         elif isinstance(config, list):
