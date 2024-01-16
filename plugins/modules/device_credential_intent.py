@@ -2429,84 +2429,41 @@ class DnacCredential(DnacBase):
         self.get_want(config)
         self.log("DNAC retrieved details: " + str(self.have))
         self.log("Playbook details: " + str(self.want))
+
         if config.get("global_credential_details") is not None:
             if self.want.get("want_create"):
                 self.msg = "Global Device Credentials config is not applied to the DNAC"
                 self.status = "failed"
                 return self
+
             if self.want.get("want_update"):
-                if self.want.get("cliCredential"):
-                    want_cli_credential = self.want.get("cliCredential")
-                    if self.have.get("cliCredential"):
-                        have_cli_credential = self.have.get("cliCredential")
-                    values = ["username", "description", "id"]
-                    for value in values:
-                        equality = have_cli_credential.get(value) is want_cli_credential.get(value)
-                        if not have_cli_credential or not equality:
-                            self.msg = "CLI Credentials config is not applied ot the DNAC"
-                            self.status = "failed"
-                            return self
-                if self.want.get("snmpV2cRead"):
-                    want_snmp_v2c_read = self.want.get("snmpV2cRead")
-                    if self.have.get("snmpV2cRead"):
-                        have_snmp_v2c_read = self.have.get("snmpV2cRead")
-                    values = ["description", "id"]
-                    for value in values:
-                        equality = have_snmp_v2c_read.get(value) is want_snmp_v2c_read.get(value)
-                        if not want_snmp_v2c_read or not equality:
-                            self.msg = "snmpV2cRead Credentials config is not applied to the DNAC"
-                            self.status = "failed"
-                            return self
-                if self.want.get("snmpV2cWrite"):
-                    want_snmp_v2c_write = self.want.get("snmpV2cWrite")
-                    if self.have.get("snmpV2cWrite"):
-                        have_snmp_v2c_write = self.have.get("snmpV2cWrite")
-                    values = ["description", "id"]
-                    for value in values:
-                        equality = have_snmp_v2c_write.get(value) is want_snmp_v2c_write.get(value)
-                        if not have_snmp_v2c_write or equality:
-                            self.msg = "snmpV2cWrite Credentials config is not applied to the DNAC"
-                            self.status = "failed"
-                            return self
-                if self.want.get("httpsRead"):
-                    want_https_read = self.want.get("httpsRead")
-                    if self.have.get("httpsRead"):
-                        have_https_read = self.have.get("httpsRead")
-                    values = ["description", "username", "port", "id"]
-                    for value in values:
-                        equality = have_https_read.get(value) is want_https_read.get(value)
-                        if not have_https_read or not equality:
-                            self.msg = "httpsRead Credentials config is not applied to the DNAC"
-                            self.status = "failed"
-                            return self
-                if self.want.get("httpsWrite"):
-                    want_https_write = self.want.get("httpsWrite")
-                    if self.have.get("httpsWrite"):
-                        have_https_write = self.have.get("httpsWrite")
-                    values = ["description", "username", "port", "id"]
-                    for value in values:
-                        equality = have_https_write.get(value) is want_https_write.get(value)
-                        if not have_https_write or not equality:
-                            self.msg = "httpsWrite Credentials config is not applied to the DNAC"
-                            self.status = "failed"
-                            return self
-                if self.want.get("snmpV3"):
-                    want_snmp_v3 = self.want.get("snmpV3")
-                    if self.have.get("snmpV3"):
-                        have_snmp_v3 = self.have.get("snmpV3")
-                    values = ["username", "description", "snmpMode", "id"]
-                    for value in values:
-                        equality = have_snmp_v3.get(value) is have_snmp_v3.get(value)
-                        if not have_snmp_v3 or not equality:
-                            self.msg = "snmpV3 Credentails config is not applied to the DNAC"
-                            self.status = "failed"
-                            return self
+                credential_types = ["cliCredential", "snmpV2cRead", "snmpV2cWrite",
+                                    "httpsRead", "httpsWrite", "snmpV3"]
+                value_mapping = {
+                    "cliCredential": ["username", "description", "id"],
+                    "snmpV2cRead": ["description", "id"],
+                    "snmpV2cWrite": ["description", "id"],
+                    "httpsRead": ["description", "username", "port", "id"],
+                    "httpsWrite": ["description", "username", "port", "id"],
+                    "snmpV3": ["username", "description", "snmpMode", "id"]
+                }
+                for credential_type in credential_types:
+                    if self.want.get(credential_type):
+                        want_cli_credential = self.want.get(credential_type)
+                        if self.have.get(credential_type):
+                            have_cli_credential = self.have.get(credential_type)
+                        values = value_mapping.get(credential_type)
+                        for value in values:
+                            equality = have_cli_credential.get(value) is want_cli_credential.get(value)
+                            if not have_cli_credential or not equality:
+                                self.msg = "{0} config is not applied ot the DNAC".format(credential_type)
+                                self.status = "failed"
+                                return self
 
             self.log("Successfully validated Global Device Credential")
             self.result.get("response")[0].get("globalCredential").update({"Validation": "Success"})
 
         if config.get("assign_credentials_to_site") is not None:
-
             self.log("Successfully validated the Assign Device Credential to site")
             self.result.get("response")[0].get("assignCredential").update({"Validation": "Success"})
 
@@ -2531,12 +2488,13 @@ class DnacCredential(DnacBase):
         self.get_have(config)
         self.log("DNAC retrieved details: " + str(self.have))
         self.log("Playbook details: " + str(self.want))
+
         if config.get("global_credential_details") is not None:
             have_global_credential = self.have.get("globalCredential")
-            values = ["cliCredential", "snmpV2cRead", "snmpV2cWrite",
+            credential_types = ["cliCredential", "snmpV2cRead", "snmpV2cWrite",
                       "httpsRead", "httpsWrite", "snmpV3"]
-            for value in values:
-                for item in have_global_credential.get(value):
+            for credential_type in credential_types:
+                for item in have_global_credential.get(credential_type):
                     if item is not None:
                         self.msg = "Delete Global Device Credentials config \
                                     is not applied to the config"
