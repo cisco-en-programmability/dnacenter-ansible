@@ -25,52 +25,49 @@ jobs:
       - checkout
 
       - run:
-            name: Install Dependencies and Pyenv
-            command: |
-              set -x
-              sudo apt-get update
-              sudo apt-get install -y --no-install-recommends libssl-dev libreadline-dev sqlite3 libsqlite3-dev zlib1g-dev xz-utils
-              git clone https://github.com/pyenv/pyenv.git ~/.pyenv
-              echo -e '#!/bin/bash\n\nexport PATH="$HOME/.pyenv/bin:$PATH"\n'\
-                      'eval "$(pyenv init --path)"\n'\
-                      'eval "$(pyenv virtualenv-init -)"' > ~/.pyenv_setup.sh
-              chmod +x ~/.pyenv_setup.sh
+          name: Install Dependencies and Pyenv
+          command: |
+            set -x
+            sudo apt-get update
+            sudo apt-get install -y --no-install-recommends libssl-dev libreadline-dev sqlite3 libsqlite3-dev zlib1g-dev xz-utils
+            git clone https://github.com/pyenv/pyenv.git ~/.pyenv
+            echo -e '#!/bin/bash\n\nexport PATH="$HOME/.pyenv/bin:$PATH"\n'\
+                    'eval "$(pyenv init --path)"\n'\
+                    'eval "$(pyenv virtualenv-init -)"' > ~/.pyenv_setup.sh
+            chmod +x ~/.pyenv_setup.sh
 
-        - run:
-            name: Setup Pyenv
-            command: |
-              set -x
-              source ~/.pyenv_setup.sh
+      - run:
+          name: Install Python version << parameters.py_version >> in Pyenv
+          command: |
+            set -x
+            source ~/.pyenv_setup.sh
+            pyenv install << parameters.py_version >>
+            pyenv global << parameters.py_version >>
+            pyenv rehash
+            pyenv versions
+            pyenv version
+            cat ~/.pyenv/version
+      - run:
+          name: Create Python << parameters.py_version >>  Virtual Environment 
+          command: |
+            set -x
+            pyenv virtualenv << parameters.py_version >>  ansible
+            python --version
+            pip --version
 
-        - run:
-            name: Install Python version << parameters.py_version >> in Pyenv
-            command: |
-              set -x
-              pyenv install << parameters.py_version >>
-              pyenv global << parameters.py_version >>
-              pyenv rehash
-              pyenv versions
-              pyenv version
-              cat ~/.pyenv/version
-
-        - run:
-            name: Create Python << parameters.py_version >> Virtual Environment 
-            command: |
-              set -x
-              pyenv virtualenv << parameters.py_version >> ansible
-
-        - run:
-            name: Activate Virtual Environment, Install Dependencies, and install Ansible 
-            command: |
-              set -x
-              pyenv local ansible
-              pip install --upgrade pip
-              pip install jinja2
-              pip install PyYAML
-              pip install cryptography
-              pip install paramiko
-              pip install ansible
-              pwd
+      - run:
+          name: Activate Virtual Environment, Install Dependencies and install Ansible 
+          command: |
+            set -x
+            pyenv local ansible
+            pip install --upgrade pip
+            pip install jinja2
+            pip install PyYAML
+            pip install cryptography
+            pip install paramiko
+            pip install ansible
+            ansible --version
+            pwd
 
 workflows:
   test-build:
