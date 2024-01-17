@@ -49,10 +49,10 @@ jobs:
 
             # Append pyenv-related configuration to ~/.bashrc
             cat <<'EOF' >> ~/.bashrc
-            export PYENV_ROOT="$HOME/.pyenv"
-            [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-            eval "$(pyenv init -)"
-            EOF
+      export PYENV_ROOT="$HOME/.pyenv"
+      [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+      eval "$(pyenv init -)"
+      EOF
 
             # Reload the shell to apply changes
             source ~/.bashrc
