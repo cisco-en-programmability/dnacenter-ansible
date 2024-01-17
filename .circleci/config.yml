@@ -30,7 +30,10 @@ jobs:
             echo 'export PATH="$HOME/.pyenv/bin:$PATH"' >> $HOME/.bashrc
             echo 'eval "$(pyenv init --path)"' >> $HOME/.bashrc
             echo 'eval "$(pyenv virtualenv-init -)"' >> $HOME/.bashrc
-            source $HOME/.bashrc
+            cat $HOME/.bashrc
+          #After Reloading the shell (exec "$SHELL") CICD pipeline to exhibits unexpected behaviour hence reloading environment variables with below command
+            source $HOME/.bashrc 
+
 
       - run:
           name: Install Python version << parameters.py_version >> in Pyenv
