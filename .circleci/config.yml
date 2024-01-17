@@ -31,11 +31,10 @@ jobs:
       - run:
           name: Install Python version << parameters.py_version >> in Pyenv
           command: |
-            echo 'export PATH="$HOME/.pyenv/bin:$PATH"' >> $HOME/.bashrc
-            echo 'eval "$(pyenv init --path)"' >> $HOME/.bashrc
-            echo 'eval "$(pyenv virtualenv-init -)"' >> $HOME/.bashrc
-            cat $HOME/.bashrc
-            source $HOME/.bashrc
+            set -x
+            export PATH="$HOME/.pyenv/bin:$PATH"
+            eval "$(pyenv init --path)"
+            eval "$(pyenv virtualenv-init -)"
             pyenv install << parameters.py_version >>
             pyenv global << parameters.py_version >>
             pyenv rehash
