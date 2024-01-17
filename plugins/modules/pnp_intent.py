@@ -792,11 +792,12 @@ class DnacPnp(DnacBase):
                     self.result['response'] = dev_add_response
                     self.result['diff'] = self.validated_config
                     self.result['changed'] = True
-                    return self
+
                 else:
                     self.msg = "Device Addition Failed"
                     self.status = "failed"
-                    return self
+
+                return self
 
             else:
                 self.log("Adding device to pnp database")
@@ -824,11 +825,12 @@ class DnacPnp(DnacBase):
                     self.result['response'] = claim_response
                     self.result['diff'] = self.validated_config
                     self.result['changed'] = True
-                    return self
+
                 else:
                     self.msg = "Device Claim Failed"
                     self.status = "failed"
-                    return self
+
+                return self
 
         prov_dev_response = self.dnac_apply['exec'](
             family="device_onboarding_pnp",
@@ -978,46 +980,28 @@ class DnacPnp(DnacBase):
             Center configuration's PnP Database.
         """
 
-        self.log(str(self.have))
-        self.log(str(self.want))
+        self.log(f"Current State (have): {self.have}")
+        self.log(f"Desired State (want): {self.want}")
         # Code to validate dnac config for merged state
-        device_response = self.dnac_apply['exec'](
-            family="device_onboarding_pnp",
-            function='get_device_list',
-            params={"serial_number": self.want.get("serial_number")}
-        )
+        for device in self.want.get("pnp_params"):
+            device_response = self.dnac_apply['exec'](
+                family="device_onboarding_pnp",
+                function='get_device_list',
+                params={"serial_number": device["deviceInfo"]["serialNumber"]}
+            )
+            if (device_response and (len(device_response) == 1)):
+                msg = (
+                    "Requested Device with Serial No. {0} is "
+                    "present in Cisco DNA Center and"
+                    " addition verified.".format(device["deviceInfo"]["serialNumber"]))
+                self.log(msg)
+            else:
+                msg = (
+                    "Requested Device with Serial No. {0} is "
+                    "not present in Cisco DNA "
+                    "Center".format(device["deviceInfo"]["serialNumber"]))
 
-        if len(self.want.get("pnp_params")) == 1:
-            if not self.want["site_name"]:
-                if len(device_response) == 1:
-                    self.status = "success"
-                    msg = (
-                        "Requested Device with Serial No. {0} is "
-                        "present in Cisco DNA Center and "
-                        "addition verified.".format(self.want.get("serial_number")))
-                    self.log(msg)
-
-        elif len(self.want.get("pnp_params")) > 1:
-            devices_added = []
-            for device in self.want.get("pnp_params"):
-                multi_device_response = self.dnac_apply['exec'](
-                    family="device_onboarding_pnp",
-                    function='get_device_list',
-                    params={"serial_number": device["deviceInfo"]["serialNumber"]}
-                )
-                if (multi_device_response and (len(multi_device_response) == 1)):
-                    msg = (
-                        "Requested Device with Serial No. {0} is "
-                        "present in Cisco DNA Center and"
-                        " addition verified.".format(device["deviceInfo"]["serialNumber"]))
-                    self.log(msg)
-                else:
-                    msg = (
-                        "Requested Device with Serial No. {0} is "
-                        "not present in Cisco DNA "
-                        "Center".format(device["deviceInfo"]["serialNumber"]))
-                self.status = "success"
-
+        self.status = "success"
         return self
 
     def verify_diff_deleted(self, config):
@@ -1034,45 +1018,27 @@ class DnacPnp(DnacBase):
             PnP Database.
         """
 
-        self.log(str(self.have))
-        self.log(str(self.want))
-        # Code to validate dnac config for merged state
-        device_response = self.dnac_apply['exec'](
-            family="device_onboarding_pnp",
-            function='get_device_list',
-            params={"serial_number": self.want.get("serial_number")}
-        )
+        self.log(f"Current State (have): {self.have}")
+        self.log(f"Desired State (want): {self.want}")
+        # Code to validate dnac config for deleted state
+        for device in self.want.get("pnp_params"):
+            device_response = self.dnac_apply['exec'](
+                family="device_onboarding_pnp",
+                function='get_device_list',
+                params={"serial_number": device["deviceInfo"]["serialNumber"]}
+            )
+            if not (device_response and (len(device_response) == 1)):
+                msg = (
+                    "Requested Device with Serial No. {0} is "
+                    "not present in the Cisco DNA"
+                    "Center.".format(device["deviceInfo"]["serialNumber"]))
+                self.log(msg)
+            else:
+                msg = (
+                    "Requested Device with Serial No. {0} is "
+                    "present in Cisco DNA Center".format(device["deviceInfo"]["serialNumber"]))
 
-        if len(self.want.get("pnp_params")) == 1:
-            if not self.want["site_name"]:
-                if not len(device_response) == 1:
-                    self.status = "success"
-                    msg = (
-                        "Requested Device with Serial No. {0} is "
-                        "not present in the Cisco DNA"
-                        " Center.".format(self.want.get("serial_number")))
-                    self.log(msg)
-
-        elif len(self.want.get("pnp_params")) > 1:
-            devices_added = []
-            for device in self.want.get("pnp_params"):
-                multi_device_response = self.dnac_apply['exec'](
-                    family="device_onboarding_pnp",
-                    function='get_device_list',
-                    params={"serial_number": device["deviceInfo"]["serialNumber"]}
-                )
-                if not (multi_device_response and (len(multi_device_response) == 1)):
-                    msg = (
-                        "Requested Device with Serial No. {0} is "
-                        "not present in the Cisco DNA"
-                        "Center.".format(device["deviceInfo"]["serialNumber"]))
-                    self.log(msg)
-                else:
-                    msg = (
-                        "Requested Device with Serial No. {0} is "
-                        "present in Cisco DNA Center".format(device["deviceInfo"]["serialNumber"]))
-                self.status = "success"
-
+        self.status = "success"
         return self
 
 
