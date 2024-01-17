@@ -17,6 +17,10 @@ jobs:
     working_directory: ~/repo 
     #machine: true
 
+    environment:
+      PATH: "$HOME/.pyenv/bin:$PATH"
+      PYENV_ROOT: "$HOME/.pyenv"
+
     steps:
       - checkout
 
@@ -27,14 +31,16 @@ jobs:
             sudo apt-get update
             sudo apt-get install -y --no-install-recommends libssl-dev libreadline-dev sqlite3 libsqlite3-dev zlib1g-dev xz-utils
             git clone https://github.com/pyenv/pyenv.git ~/.pyenv
+            echo 'export PATH="$HOME/.pyenv/bin:$PATH"' >> $HOME/.bashrc
+            echo 'eval "$(pyenv init --path)"' >> $HOME/.bashrc
+            echo 'eval "$(pyenv virtualenv-init -)"' >> $HOME/.bashrc
+            cat $HOME/.bashrc
+            source $HOME/.bashrc
 
       - run:
           name: Install Python version << parameters.py_version >> in Pyenv
           command: |
             set -x
-            export PATH="$HOME/.pyenv/bin:$PATH"
-            eval "$(pyenv init --path)"
-            eval "$(pyenv virtualenv-init -)"
             pyenv install << parameters.py_version >>
             pyenv global << parameters.py_version >>
             pyenv rehash
@@ -45,10 +51,13 @@ jobs:
           name: Create Python << parameters.py_version >>  Virtual Environment 
           command: |
             pyenv virtualenv << parameters.py_version >>  ansible
+            python --version
+            pip --version
 
       - run:
           name: Activate Virtual Environment, Install Dependencies and install Ansible 
           command: |
+            set -x
             pyenv local ansible
             pip install --upgrade pip
             pip install jinja2
