@@ -65,6 +65,7 @@ jobs:
             pip install cryptography
             pip install paramiko
             pip install ansible
+            ansible --version
 
 workflows:
   test-build:
