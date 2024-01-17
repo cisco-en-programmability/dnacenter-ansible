@@ -18,10 +18,24 @@ jobs:
       - checkout
 
       - run:
-          name: Install Dependencies 
+          name: Install Dependencies and Pyenv
           command: |
-            sudo apt-get update
-            sudo apt-get install -y libssl-dev libreadline-dev sqlite3 libsqlite3-dev zlib1g-dev xz-utils
+            sudo apt-get install -y --no-install-recommends libssl-dev libreadline-dev sqlite3 libsqlite3-dev zlib1g-dev xz-utils
+            curl https://pyenv.run | bash
+            echo 'export PATH="$HOME/.pyenv/bin:$PATH"' >> $HOME/.bashrc
+            echo 'eval "$(pyenv init --path)"' >> $HOME/.bashrc
+            echo 'eval "$(pyenv virtualenv-init -)"' >> $HOME/.bashrc
+            exec "$SHELL"
+
+      - run:
+          name: Install Python version << parameters.py_version >> in Pyenv
+          command: |
+            pyenv install << parameters.py_version >>
+            pyenv global << parameters.py_version >>
+            pyenv rehash
+            pyenv versions
+            pyenv version
+            cat ~/.pyenv/version
 
 workflows:
   test-build:
