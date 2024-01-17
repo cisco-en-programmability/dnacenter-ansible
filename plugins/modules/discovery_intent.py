@@ -22,6 +22,10 @@ extends_documentation_fragment:
 author: Abinash Mishra (@abimishr)
         Phan Nguyen (phannguy)
 options:
+  config_verify:
+    description: Set to True to verify the Cisco DNA Center config after applying the playbook config.
+    type: bool
+    default: False
   state:
     description: The state of DNAC after module completion.
     type: str
@@ -48,7 +52,7 @@ options:
             type: str
             required: true
       discovery_type:
-        description: Type of discovery (SINGLE/RANGE/MULTI RANGE/CDP/LLDP/CIDR)
+        description: Type of discovery (SINGLE/RANGE/MULTI RANGE/CDP/LLDP)
         type: str
         required: true
       cdp_level:
@@ -81,7 +85,8 @@ options:
         elements: str
       discovery_name:
         description: Name of the discovery task
-        type: dict
+        type: str
+        required: true
       netconf_port:
         description: Port for the netconf credentials
         type: str
@@ -176,7 +181,7 @@ EXAMPLES = r"""
     dnac_log: True
     state: merged
     config:
-        - device_list:
+        - devices_list:
             - name: string
               ip: string
           discovery_type: string
@@ -317,8 +322,9 @@ class DnacDiscovery(DnacBase):
                                'elements': 'str'},
             'lldp_level': {'type': 'int', 'required': False,
                            'default': 16},
-            'discovery_name': {'type': 'dict', 'required': False,
-                               'default': '{0}'.format(default_dicovery_name)},
+            'prefix_length': {'type': 'int', 'required': False,
+                              'default': 30},
+            'discovery_name': {'type': 'str', 'required': True},
             'netconf_port': {'type': 'str', 'required': False},
             'password_list': {'type': 'list', 'required': False,
                               'elements': 'str'},
@@ -391,6 +397,7 @@ class DnacDiscovery(DnacBase):
             params=self.validated_config[0].get('headers'),
         )
         response = response.get('response')
+        self.log(response)
         for value in response.values():
             if not value:
                 continue
@@ -436,8 +443,17 @@ class DnacDiscovery(DnacBase):
 
         ip_address_list = [device['ip'] for device in devices_list]
 
-        if self.validated_config[0].get('discovery_type') == "SINGLE":
-            ip_address_list = ip_address_list[0]
+        if self.validated_config[0].get('discovery_type') in ["SINGLE","CDP","LLDP"]:
+            if len(ip_address_list) == 1:
+                ip_address_list = ip_address_list[0]
+            else:
+                self.module.fail_json(msg="Device list's length is longer than 1", response=[])
+        elif self.validated_config[0].get('discovery_type') == "CIDR":
+            if len(ip_address_list) == 1 and prefix_length:
+                ip_address_list = ip_address_list[0]
+                ip_address_list = str(ip_address_list) + "/" +str(prefix_length)
+            else:
+                self.module.fail_json(msg="Device list's length is longer than 1", response=[])
         else:
             ip_address_list = list(
                 map(
@@ -447,6 +463,7 @@ class DnacDiscovery(DnacBase):
             )
             ip_address_list = ','.join(ip_address_list)
 
+        self.log("Collected IP address/addresses are {0}".format(ip_address_list))
         return ip_address_list
 
     def create_params(self, credential_ids=None, ip_address_list=None):
@@ -510,6 +527,7 @@ class DnacDiscovery(DnacBase):
         new_object_params['snmpVersion'] = self.validated_config[0].get('snmp_version')
         new_object_params['timeout'] = self.validated_config[0].get('timeout')
         new_object_params['userNameList'] = self.validated_config[0].get('user_name_list')
+        self.log(new_object_params)
 
         return new_object_params
 
@@ -541,6 +559,8 @@ class DnacDiscovery(DnacBase):
             op_modifies=True,
         )
 
+        self.log(result)
+
         self.result.update(dict(discovery_result=result))
         return result.response.get('taskId')
 
@@ -567,6 +587,7 @@ class DnacDiscovery(DnacBase):
                 params=params,
             )
             response = response.response
+            self.log(response)
             if response.get('isError') or re.search(
                 'failed', response.get('progress'), flags=re.IGNORECASE
             ):
@@ -605,6 +626,8 @@ class DnacDiscovery(DnacBase):
             params=params
         )
 
+        self.log(response)
+
         return next(
             filter(
                 lambda x: x['name'] == self.validated_config[0].get('discovery_name'),
@@ -630,6 +653,7 @@ class DnacDiscovery(DnacBase):
         if not discovery:
             msg = 'Cannot find any discovery task with name {0} -- Discovery result: {1}'.format(
                 self.validated_config[0].get("discovery_name"), discovery)
+            self.log(msg)
             self.module.fail_json(msg=msg)
 
         while True:
@@ -643,6 +667,7 @@ class DnacDiscovery(DnacBase):
         if not result:
             msg = 'Cannot find any discovery task with name {0} -- Discovery result: {1}'.format(
                 self.validated_config[0].get("discovery_name"), discovery)
+            self,log(msg)
             self.module.fail_json(msg=msg)
 
         self.result.update(dict(discovery_range=discovery))
@@ -677,6 +702,8 @@ class DnacDiscovery(DnacBase):
                 params=params,
             )
             devices = response.response
+
+            self.log(devices)
             if all(res.get('reachabilityStatus') == 'Success' for res in devices):
                 result = True
                 break
@@ -704,7 +731,6 @@ class DnacDiscovery(DnacBase):
                        returns None and updates the 'exist_discovery' entry in
                        the result dictionary to None.
         """
-
         discovery = self.lookup_discovery_by_range_via_name()
         if not discovery:
             self.result.update(dict(exist_discovery=discovery))
@@ -732,6 +758,8 @@ class DnacDiscovery(DnacBase):
             function="delete_discovery_by_id",
             params=params,
         )
+
+        self.log(response)
         self.result.update(dict(delete_discovery=response))
         return response.response.get('taskId')
 
@@ -795,6 +823,81 @@ class DnacDiscovery(DnacBase):
 
         return self
 
+    def verify_diff_merged(self, config):
+        """
+        Verify the merged status(Creation/Updation) of Discovery in Cisco DNA Center.
+        Args:
+            - self (object): An instance of a class used for interacting with Cisco DNA Center.
+            - config (dict): The configuration details to be verified.
+        Return:
+            - self (object): An instance of a class used for interacting with Cisco DNA Center.
+        Description:
+            This method checks the merged status of a configuration in Cisco DNA Center by
+            retrieving the current state (have) and desired state (want) of the configuration,
+            logs the states, and validates whether the specified device(s) exists in the DNA
+            Center configuration's Discovery Database.
+        """
+
+        self.log("Current State (have): {0}".format(self.have))
+        # Code to validate dnac config for merged state
+        discovery_task_info = self.get_discoveries_by_range_until_success()
+        discovery_id = discovery_task_info.get('id')
+        params = dict(
+            id=discovery_id
+        )
+        response = self.dnac_apply['exec'](
+            family="discovery",
+            function='get_discovery_by_id',
+            params=params
+        )
+        
+        if response:
+            discovery_name = response.get('response').get('name')
+            self.log("Requested Discovery with name {0} is completed".format(discovery_name))
+
+        else:
+            self.log("Requested Discovery with name {0} is not completed".format(discovery_name))
+        self.status = "success"
+
+        return self
+
+    def verify_diff_deleted(self, config):
+        """
+        Verify the deletion status of Discovery in Cisco DNA Center.
+        Args:
+            - self (object): An instance of a class used for interacting with Cisco DNA Center.
+            - config (dict): The configuration details to be verified.
+        Return:
+            - self (object): An instance of a class used for interacting with Cisco DNA Center.
+        Description:
+            This method checks the deletion status of a configuration in Cisco DNA Center.
+            It validates whether the specified discovery(s) exists in the DNA Center configuration's
+            Discovery Database.
+        """
+
+        self.log("Current State (have): {0}".format(self.have))
+        # Code to validate dnac config for deleted state
+        discovery_task_info = self.get_discoveries_by_range_until_success()
+        discovery_id = discovery_task_info.get('id')
+        params = dict(
+            id=discovery_id
+        )
+        response = self.dnac_apply['exec'](
+            family="discovery",
+            function='get_discovery_by_id',
+            params=params
+        )
+
+        if response:
+            discovery_name = response.get('response').get('name')
+            self.log("Requested Discovery with name {0} is present".format(discovery_name))
+
+        else:
+            self.log("Requested Discovery with name {0} is not present and deleted".format(discovery_name))
+        self.status = "success"
+
+        return self
+
 
 def main():
     """ main entry point for module execution
@@ -809,6 +912,7 @@ def main():
                     'dnac_debug': {'type': 'bool', 'default': False},
                     'dnac_log': {'type': 'bool', 'default': False},
                     'validate_response_schema': {'type': 'bool', 'default': True},
+                    'config_verify': {"type": 'bool', "default": False},
                     'config': {'required': True, 'type': 'list', 'elements': 'dict'},
                     'state': {'default': 'merged', 'choices': ['merged', 'deleted']}
                     }
@@ -817,6 +921,7 @@ def main():
                            supports_check_mode=False)
 
     dnac_discovery = DnacDiscovery(module)
+    config_verify = dnac_discovery.params.get("config_verify")
 
     state = dnac_discovery.params.get("state")
     if state not in dnac_discovery.supported_states:
@@ -827,6 +932,8 @@ def main():
     dnac_discovery.validate_input().check_return_status()
     for config in dnac_discovery.validated_config:
         dnac_discovery.get_diff_state_apply[state]().check_return_status()
+        if config_verify:
+            dnac_discovery.verify_diff_state_apply[state](config).check_return_status()
 
     module.exit_json(**dnac_discovery.result)
 
