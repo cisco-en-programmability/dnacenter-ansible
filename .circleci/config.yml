@@ -10,10 +10,6 @@ jobs:
         type: string
         default: "3.8.10"
 
-      ansible_version:
-        type: string
-        default: "2.12.3"
-
     working_directory: ~/repo 
     #machine: true
 
@@ -37,7 +33,7 @@ jobs:
             chmod +x ~/.pyenv_setup.sh
 
       - run:
-          name: Install Python version << parameters.py_version >> in Pyenv
+          name: Create Python << parameters.py_version >>  Virtual Environment, Activate Virtual Environment, Install Dependencies and install Ansible  
           command: |
             set -x
             source ~/.pyenv_setup.sh
@@ -46,23 +42,21 @@ jobs:
             pyenv versions
             pyenv version
             cat ~/.pyenv/version
-      - run:
-          name: Create Python << parameters.py_version >>  Virtual Environment, Activate Virtual Environment, Install Dependencies and install Ansible  
-          command: |
-            set -x
             pyenv virtualenv << parameters.py_version >>  ansible
             python --version
             pip --version
             pyenv local ansible
             pip install --upgrade pip
-            pip install jinja2
-            pip install PyYAML
-            pip install cryptography
-            pip install paramiko
-            pip install ansible
-            pip install dnacentersdk
+            pip install jinja2 PyYAML cryptography paramiko
+            pip install ansible dnacentersdk
             ansible --version
             dnacentersdk --version
+
+      - run:
+          name: 
+          command: |
+            set -x
+            
 
 workflows:
   test-build:
