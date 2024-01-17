@@ -31,7 +31,6 @@ jobs:
             echo 'eval "$(pyenv init --path)"' >> $HOME/.bashrc
             echo 'eval "$(pyenv virtualenv-init -)"' >> $HOME/.bashrc
             cat $HOME/.bashrc
-          #After Reloading the shell (exec "$SHELL") CICD pipeline to exhibits unexpected behaviour hence reloading environment variables with below command
             source $HOME/.bashrc 
 
 
