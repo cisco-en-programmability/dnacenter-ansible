@@ -31,7 +31,7 @@ jobs:
             echo 'eval "$(pyenv init --path)"' >> $HOME/.bashrc
             echo 'eval "$(pyenv virtualenv-init -)"' >> $HOME/.bashrc
             cat $HOME/.bashrc
-            source $HOME/.bashrc 
+            bash -l -c 'echo "Shell reloaded"'
 
 
       - run:
