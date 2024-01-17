@@ -44,7 +44,7 @@
             records_to_return: 25
             snmp_version: v2
 
-   - name: Execute discovery devices using CDP/LLDP/CIDR
+    - name: Execute discovery devices using CDP/LLDP/CIDR
       cisco.dnac.discovery_intent:
         <<: *dnac_login
         state: merged
