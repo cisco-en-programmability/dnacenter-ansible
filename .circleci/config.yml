@@ -33,7 +33,7 @@ jobs:
             chmod +x ~/.pyenv_setup.sh
 
       - run:
-          name: Create Python << parameters.py_version >>  Virtual Environment, Activate Virtual Environment, Install Dependencies and install Ansible  
+          name: Install Python << parameters.py_version >> using pyenv, Create Python << parameters.py_version >>  Virtual Environment, Activate Virtual Environment, Install Dependencies and install Ansible  
           command: |
             set -x
             source ~/.pyenv_setup.sh
@@ -42,11 +42,6 @@ jobs:
             pyenv versions
             pyenv version
             cat ~/.pyenv/version
-
-      - run:
-          name: 
-          command: |
-            set -x
             pip install pyenv-virtualenv
             pyenv virtualenv << parameters.py_version >>  ansible
             python --version
@@ -57,6 +52,9 @@ jobs:
             pip install ansible dnacentersdk
             ansible --version
             dnacentersdk --version
+            
+
+
 
 workflows:
   test-build:
