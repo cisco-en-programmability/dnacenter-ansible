@@ -2,6 +2,9 @@ version: 2.1
 
 jobs:
   build:
+    docker:
+      - image: ubuntu:20.04
+
     parameters: 
       py_version:
         type: string
@@ -12,7 +15,7 @@ jobs:
         default: "2.12.3"
 
     working_directory: ~/repo 
-    machine: true
+    #machine: true
 
     steps:
       - checkout
@@ -20,6 +23,7 @@ jobs:
       - run:
           name: Install Dependencies and Pyenv
           command: |
+            set -x
             sudo apt-get update
             sudo apt-get install -y --no-install-recommends libssl-dev libreadline-dev sqlite3 libsqlite3-dev zlib1g-dev xz-utils
             curl https://pyenv.run | bash
