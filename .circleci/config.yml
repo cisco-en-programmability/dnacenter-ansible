@@ -17,9 +17,9 @@ jobs:
     working_directory: ~/repo 
     #machine: true
 
-    environment:
-      PATH: "$HOME/.pyenv/bin:$PATH"
-      PYENV_ROOT: "$HOME/.pyenv"
+    #environment:
+    #  PATH: "$HOME/.pyenv/bin:$PATH"
+    #  PYENV_ROOT: "$HOME/.pyenv"
 
     steps:
       - checkout
