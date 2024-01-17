@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: cimg/base:2024.01
+      - image: cimg/base:current
 
     parameters: 
       py_version:
@@ -30,7 +30,7 @@ jobs:
             echo 'export PATH="$HOME/.pyenv/bin:$PATH"' >> $HOME/.bashrc
             echo 'eval "$(pyenv init --path)"' >> $HOME/.bashrc
             echo 'eval "$(pyenv virtualenv-init -)"' >> $HOME/.bashrc
-            exec "$SHELL"
+            source $HOME/.bashrc
 
       - run:
           name: Install Python version << parameters.py_version >> in Pyenv
