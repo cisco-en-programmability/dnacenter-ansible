@@ -1,29 +1,29 @@
-  version: 2.1
+version: 2.1
 
-  jobs:
-    build:
-      parameters: 
-        py_version:
-          type: string
-          default: "3.8.10"
+jobs:
+  build:
+    parameters: 
+      py_version:
+        type: string
+        default: "3.8.10"
 
-        ansible_version:
-          type: string
-          default: "2.12.3"
+      ansible_version:
+        type: string
+        default: "2.12.3"
 
-      working_directory: ~/repo 
-      machine: true
+    working_directory: ~/repo 
+    machine: true
 
-      steps:
-        - checkout
+    steps:
+      - checkout
 
-        - run:
-          name: Install Dependencies 
-          command: |
-            sudo apt-get update
-            sudo apt-get install -y libssl-dev libreadline-dev sqlite3 libsqlite3-dev zlib1g-dev xz-utils
+      - run:
+        name: Install Dependencies 
+        command: |
+          sudo apt-get update
+          sudo apt-get install -y libssl-dev libreadline-dev sqlite3 libsqlite3-dev zlib1g-dev xz-utils
 
-  workflows:
-    test-build:
-      jobs:
-        - build
+workflows:
+  test-build:
+    jobs:
+      - build
