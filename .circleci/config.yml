@@ -43,7 +43,6 @@ jobs:
             source ~/.pyenv_setup.sh
             pyenv install << parameters.py_version >>
             pyenv global << parameters.py_version >>
-            pyenv rehash
             pyenv versions
             pyenv version
             cat ~/.pyenv/version
