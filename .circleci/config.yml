@@ -50,7 +50,6 @@ jobs:
           name: Create Python << parameters.py_version >>  Virtual Environment, Activate Virtual Environment, Install Dependencies and install Ansible  
           command: |
             set -x
-            source ~/.pyenv_setup.sh
             pyenv virtualenv << parameters.py_version >>  ansible
             python --version
             pip --version
@@ -61,7 +60,9 @@ jobs:
             pip install cryptography
             pip install paramiko
             pip install ansible
+            pip install dnacentersdk
             ansible --version
+            dnacentersdk --version
 
 workflows:
   test-build:
