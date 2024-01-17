@@ -37,15 +37,32 @@ jobs:
           name: Install Python << parameters.py_version >> using pyenv, Create Python << parameters.py_version >>  Virtual Environment, Activate Virtual Environment, Install Dependencies and install Ansible  
           command: |
             set -x
+
+            #Loading pyenv configuration
             source ~/.pyenv_setup.sh
+
+            #Installing Python 
             pyenv install << parameters.py_version >>
+
+            #Set Global Python version
             pyenv global << parameters.py_version >>
-            echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
-            echo '[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc
-            echo 'eval "$(pyenv init -)"' >> ~/.bashrc
+
+            # Append pyenv-related configuration to ~/.bashrc
+            cat <<'EOF' >> ~/.bashrc
+            export PYENV_ROOT="$HOME/.pyenv"
+            [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+            eval "$(pyenv init -)"
+            EOF
+
+            # Reload the shell to apply changes
             source ~/.bashrc
+
             pyenv shell << parameters.py_version >>
+
+            #Install pip
             python -m ensurepip --default-pip
+
+            #Crosschecking setup
             pyenv which pip
             pyenv which python
             pyenv versions
