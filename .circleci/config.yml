@@ -27,6 +27,7 @@ jobs:
             sudo apt-get update
             sudo apt-get install -y --no-install-recommends libssl-dev libreadline-dev sqlite3 libsqlite3-dev zlib1g-dev xz-utils
             git clone https://github.com/pyenv/pyenv.git ~/.pyenv
+            git clone https://github.com/pyenv/pyenv-virtualenv.git $(pyenv root)/plugins/pyenv-virtualenv
             echo -e '#!/bin/bash\n\nexport PATH="$HOME/.pyenv/bin:$PATH"\n'\
                     'eval "$(pyenv init --path)"\n'\
                     'eval "$(pyenv virtualenv-init -)"' > ~/.pyenv_setup.sh
@@ -39,19 +40,15 @@ jobs:
             source ~/.pyenv_setup.sh
             pyenv install << parameters.py_version >>
             pyenv global << parameters.py_version >>
+            pyenv shell << parameters.py_version >>
+            python -m ensurepip --default-pip
+            pyenv which pip
+            pyenv which python
             pyenv versions
             pyenv version
             cat ~/.pyenv/version
-            pip install pyenv-virtualenv
-            pyenv virtualenv << parameters.py_version >>  ansible
-            python --version
-            pip --version
-            pyenv local ansible
-            pip install --upgrade pip
-            pip install jinja2 PyYAML cryptography paramiko
-            pip install ansible dnacentersdk
-            ansible --version
-            dnacentersdk --version
+            
+            
             
 
 
