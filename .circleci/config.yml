@@ -41,6 +41,21 @@ jobs:
             pyenv versions
             pyenv version
             cat ~/.pyenv/version
+      - run:
+          name: Create Python << parameters.py_version >>  Virtual Environment 
+          command: |
+            pyenv virtualenv << parameters.py_version >>  ansible
+
+      - run:
+          name: Activate Virtual Environment, Install Dependencies and install Ansible 
+          command: |
+            pyenv local ansible
+            pip install --upgrade pip
+            pip install jinja2
+            pip install PyYAML
+            pip install cryptography
+            pip install paramiko
+            pip install ansible
 
 workflows:
   test-build:
