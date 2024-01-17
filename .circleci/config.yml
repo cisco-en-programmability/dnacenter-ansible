@@ -20,6 +20,7 @@ jobs:
       - run:
           name: Install Dependencies and Pyenv
           command: |
+            sudo apt-get update
             sudo apt-get install -y --no-install-recommends libssl-dev libreadline-dev sqlite3 libsqlite3-dev zlib1g-dev xz-utils
             curl https://pyenv.run | bash
             echo 'export PATH="$HOME/.pyenv/bin:$PATH"' >> $HOME/.bashrc
