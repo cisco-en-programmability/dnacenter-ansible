@@ -24,13 +24,36 @@ jobs:
           name: Install Dependencies and Pyenv
           command: |
             set -x
-            pyenv local python_<< parameters.py_version >>
-            export PYENV_ROOT="/home/circleci/.pyenv"
-            export PATH="$PYENV_ROOT/bin:$PATH"
-            export PATH="$PYENV_ROOT/shims/python3:$PATH"
-            export PATH="$PYENV_ROOT/shims/python:$PATH"
-            export PYTHONPATH="$PYENV_ROOT/shims/python3:$PYTHONPATH"
-            export PYTHONPATH="$PYENV_ROOT/shims/python:$PYTHONPATH"
+            sudo apt-get update
+            sudo apt-get install -y --no-install-recommends libssl-dev libreadline-dev sqlite3 libsqlite3-dev zlib1g-dev xz-utils
+            git clone https://github.com/pyenv/pyenv.git ~/.pyenv
+            echo -e '#!/bin/bash\n\nexport PATH="$HOME/.pyenv/bin:$PATH"\n'\
+                    'eval "$(pyenv init --path)"\n'\
+                    'eval "$(pyenv virtualenv-init -)"' > ~/.pyenv_setup.sh
+            chmod +x ~/.pyenv_setup.sh
+
+      - run:
+          name: Create Python << parameters.py_version >>  Virtual Environment, Activate Virtual Environment, Install Dependencies and install Ansible  
+          command: |
+            set -x
+            source ~/.pyenv_setup.sh
+            pyenv install << parameters.py_version >>
+            pyenv global << parameters.py_version >>
+            pyenv versions
+            pyenv version
+            cat ~/.pyenv/version
+
+      - run:
+          name: 
+          command: |
+            set -x
+            pip install pyenv-virtualenv
+            pyenv virtualenv << parameters.py_version >>  ansible
+            python --version
+            pip --version
+            pyenv local ansible
+            pip install --upgrade pip
+            pip install jinja2 PyYAML cryptography paramiko
             pip install ansible dnacentersdk
             ansible --version
             dnacentersdk --version
