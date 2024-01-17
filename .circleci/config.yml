@@ -26,12 +26,12 @@ jobs:
             set -x
             sudo apt-get update
             sudo apt-get install -y --no-install-recommends libssl-dev libreadline-dev sqlite3 libsqlite3-dev zlib1g-dev xz-utils
-            curl https://pyenv.run | bash
+            git clone https://github.com/pyenv/pyenv.git ~/.pyenv
             echo 'export PATH="$HOME/.pyenv/bin:$PATH"' >> $HOME/.bashrc
             echo 'eval "$(pyenv init --path)"' >> $HOME/.bashrc
             echo 'eval "$(pyenv virtualenv-init -)"' >> $HOME/.bashrc
             cat $HOME/.bashrc
-            bash -l -c 'echo "Shell reloaded"'
+            source $HOME/.bashrc
 
 
       - run:
