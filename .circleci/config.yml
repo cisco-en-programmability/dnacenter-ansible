@@ -40,7 +40,8 @@ jobs:
             source ~/.pyenv_setup.sh
             pyenv install << parameters.py_version >>
             pyenv global << parameters.py_version >>
-            pyenv init
+            export PYENV_ROOT="/home/circleci/.pyenv"
+            export PATH="$PYENV_ROOT/bin:$PATH"
             pyenv shell << parameters.py_version >>
             python -m ensurepip --default-pip
             pyenv which pip
