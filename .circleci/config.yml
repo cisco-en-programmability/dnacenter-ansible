@@ -5,11 +5,11 @@
       parameters: 
         py_version:
           type: string
-          default: 3.8.10
+          default: "3.8.10"
 
         ansible_version:
           type: string
-          default: 2.12.3
+          default: "2.12.3"
 
       working_directory: ~/repo 
       machine: true
@@ -23,3 +23,7 @@
             sudo apt-get update
             sudo apt-get install -y libssl-dev libreadline-dev sqlite3 libsqlite3-dev zlib1g-dev xz-utils
 
+  workflows:
+    test-build:
+      jobs:
+        - build
