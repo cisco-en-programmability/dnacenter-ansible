@@ -980,8 +980,8 @@ class DnacPnp(DnacBase):
             Center configuration's PnP Database.
         """
 
-        self.log(f"Current State (have): {self.have}")
-        self.log(f"Desired State (want): {self.want}")
+        self.log(f"Current State (have): {0}".format(self.have))
+        self.log(f"Desired State (want): {0}".format(self.want))
         # Code to validate dnac config for merged state
         for device in self.want.get("pnp_params"):
             device_response = self.dnac_apply['exec'](
@@ -1018,8 +1018,8 @@ class DnacPnp(DnacBase):
             PnP Database.
         """
 
-        self.log(f"Current State (have): {self.have}")
-        self.log(f"Desired State (want): {self.want}")
+        self.log(f"Current State (have): {0}".format(self.have))
+        self.log(f"Desired State (want): {0}".format(self.want))
         # Code to validate dnac config for deleted state
         for device in self.want.get("pnp_params"):
             device_response = self.dnac_apply['exec'](
