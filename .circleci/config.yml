@@ -38,31 +38,32 @@ jobs:
           command: |
             set -x
 
-            #Loading pyenv configuration
+          # Loading pyenv configuration
             source ~/.pyenv_setup.sh
 
-            #Installing Python 
+          # Installing Python 
             pyenv install << parameters.py_version >>
 
-            #Set Global Python version
+          # Set Global Python version
             pyenv global << parameters.py_version >>
 
-            # Append pyenv-related configuration to ~/.bashrc
-            cat <<'EOF' >> ~/.bashrc
-      export PYENV_ROOT="$HOME/.pyenv"
-      [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-      eval "$(pyenv init -)"
-      EOF
+            export PYENV_ROOT="/home/circleci/.pyenv"
+            export PATH="$PYENV_ROOT/bin:$PATH"
+            export PATH="$PYENV_ROOT/shims/python3:$PATH"
+            export PATH="$PYENV_ROOT/shims/python:$PATH"
+            export PYTHONPATH="$PYENV_ROOT/shims/python3:$PYTHONPATH"
+            export PYTHONPATH="$PYENV_ROOT/shims/python:$PYTHONPATH"
 
-            # Reload the shell to apply changes
-            source ~/.bashrc
+
+          # Reload the shell to apply changes
+          # source ~/.bashrc
 
             pyenv shell << parameters.py_version >>
 
-            #Install pip
+          # Install pip
             python -m ensurepip --default-pip
 
-            #Crosschecking setup
+          # Crosschecking setup
             pyenv which pip
             pyenv which python
             pyenv versions
