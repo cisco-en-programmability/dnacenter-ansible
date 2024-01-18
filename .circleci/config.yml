@@ -51,6 +51,9 @@ jobs:
             #Source the bash file again
             source $HOME/.bash_profile
 
+            # Bug fix for No module named '_ctypes'
+            sudo apt-get install libffi-dev
+
             # Installing Python 
             pyenv install << parameters.py_version >>
 
