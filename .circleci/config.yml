@@ -71,16 +71,16 @@ jobs:
             cat ~/.pyenv/version
 
             # Activate Virtual Environment
-            # pip install pyenv-virtualenv
             git clone https://github.com/pyenv/pyenv-virtualenv.git ~/.pyenv/plugins/pyenv-virtualenv
             pyenv virtualenv << parameters.py_version >>  ansible
             pyenv local ansible
             
-            
             # Install ansible, dnacentersdk
             pip install --upgrade pip
             pip install jinja2 PyYAML cryptography paramiko
-            pip install ansible dnacentersdk
+            pyenv global system << parameters.py_version >>
+            pip install ansible 
+            pip install dnacentersdk
             ansible --version
             dnacentersdk --version
 
