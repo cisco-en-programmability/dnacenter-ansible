@@ -47,16 +47,13 @@ jobs:
             # Set Global Python version
             pyenv global << parameters.py_version >>
 
-            export PYENV_ROOT="/home/circleci/.pyenv"
-            export PATH="$PYENV_ROOT/bin:$PATH"
-            export PATH="$PYENV_ROOT/shims/python3:$PATH"
-            export PATH="$PYENV_ROOT/shims/python:$PATH"
-            export PYTHONPATH="$PYENV_ROOT/shims/python3:$PYTHONPATH"
-            export PYTHONPATH="$PYENV_ROOT/shims/python:$PYTHONPATH"
-
+            # Appending pyenv-related configuration to ~/.bashrc
+            echo 'export PYENV_ROOT="$HOME/.pyenv"' >> $HOME/.bash_profile
+            echo '[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"' >> $HOME/.bash_profile
+            echo 'eval "$(pyenv init -)"' >> $HOME/.bash_profile
 
             # Reload the shell to apply changes
-            # source ~/.bashrc
+            exec $SHELL
 
             pyenv shell << parameters.py_version >>
 
