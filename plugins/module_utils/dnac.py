@@ -163,7 +163,7 @@ class DnacBase():
             and logging.getLevelName(level) >= logging.getLevelName(self.dnac_log_level)
         ):
             message = "Module: " + self.__class__.__name__ + ", " + message
-            log(message, level, frameIncrement)
+            log(message, level,(1 + frameIncrement))
 
     def check_return_status(self):
         """API to check the return status value and exit/fail the module"""
