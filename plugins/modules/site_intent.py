@@ -56,7 +56,7 @@ options:
                 description: Name of the area (eg Area1).
                 type: str
               parentName:
-                description: Parent name of the area to be created.
+                description: Complete Parent name of the Area to be created/deleted(eg Global/).
                 type: str
           building:
             description: Building Details.
@@ -75,7 +75,7 @@ options:
                 description: Name of the building (eg building1).
                 type: str
               parent_name:
-                description: Parent name of building to be created.
+                description: Complete Parent name of the Building to be created/deleted(eg Global/USA/San Francisco).
                 type: str
           floor:
             description: Site Create's floor.
@@ -1010,7 +1010,7 @@ def main():
                     'dnac_debug': {'type': 'bool', 'default': False},
                     'dnac_log': {'type': 'bool', 'default': False},
                     'validate_response_schema': {'type': 'bool', 'default': True},
-                    "config_verify": {"type": 'bool', "default": False},
+                    'config_verify': {'type': 'bool', "default": False},
                     'config': {'required': True, 'type': 'list', 'elements': 'dict'},
                     'state': {'default': 'merged', 'choices': ['merged', 'deleted']}
                     }
