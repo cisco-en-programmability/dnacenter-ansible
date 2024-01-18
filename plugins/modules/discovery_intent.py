@@ -64,14 +64,14 @@ options:
         type: int
         default: 16
       start_index:
-        description: Start index for the header in fetching global v2 credentials
+        description: Start index for the header in fetching SNMP v2 credentials
         type: int
       enable_password_list:
         description: List of enable passwords for the CLI crfedentials
         type: list
         elements: str
       records_to_return:
-        description: Number of records to returnfor the header in fetching global v2 credentials
+        description: Number of records to return for the header in fetching global v2 credentials
         type: int
       http_read_credential:
         description: HTTP read credentials for hosting a device
@@ -188,7 +188,7 @@ EXAMPLES = r"""
           cdp_level: string
           lldp_level: string
           start_index: integer
-          enable_pasword_list: list
+          enable_password_list: list
           records_to_return: integer
           http_read_credential: string
           http_write_credential: string
@@ -201,7 +201,7 @@ EXAMPLES = r"""
           snmp_auth_passphrase: string
           snmp_auth_protocol: string
           snmp_mode: string
-          snmp_priv_passphrse: string
+          snmp_priv_passphrase: string
           snmp_priv_protocol: string
           snmp_ro_community: string
           snmp_ro_community_desc: string
@@ -211,6 +211,24 @@ EXAMPLES = r"""
           snmp_version: string
           timeout: integer
           username_list: list
+- name: Delete disovery by name
+  cisco.dnac.discovery_intent:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: True
+    state: deleted
+    config:
+        - devices_list:
+            - name: string
+              ip: string
+          start_index: integer
+          records_to_return: integer
+          discovery_name: string
 """
 
 RETURN = r"""
@@ -305,7 +323,6 @@ class DnacDiscovery(DnacBase):
             self.status = "success"
             return self
 
-        default_dicovery_name = 'discovery_' + str(time.time())
         discovery_spec = {
             'cdp_level': {'type': 'int', 'required': False,
                           'default': 16},
@@ -314,7 +331,8 @@ class DnacDiscovery(DnacBase):
                                      'elements': 'str'},
             'devices_list': {'type': 'list', 'required': True,
                              'elements': 'dict'},
-            'start_index': {'type': 'int', 'required': False},
+            'start_index': {'type': 'int', 'required': False,
+                            'default': 25},
             'records_to_return': {'type': 'int', 'required': False},
             'http_read_credential': {'type': 'dict', 'required': False},
             'http_write_credential': {'type': 'dict', 'required': False},
