@@ -234,10 +234,10 @@ EXAMPLES = r"""
     config:
     - import_image_details:
         type: string
-        urlDetails:
+        url_details:
           payload:
           - source_url: string
-            is_third_party: bool
+            third_party: bool
             image_family: string
             vendor: string
             application_type: string
@@ -259,6 +259,33 @@ EXAMPLES = r"""
         distribute_if_needed: bool
         device_serial_number: string
         image_name: string
+
+- name: Import an image from local, tag it as golden.
+  cisco.dnac.swim_intent:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: True
+    config:
+    - import_image_details:
+        type: string
+        local_image_details:
+            file_path: string
+            is_third_party: bool
+            third_party_vendor: string
+            third_party_image_family: string
+            third_party_application_type: string
+      tagging_details:
+        image_name: string
+        device_role: string
+        device_family_name: string
+        device_type: string
+        site_name: string
+        tagging: bool
 
 - name: Tag the given image as golden and load it on device
   cisco.dnac.swim_intent:
@@ -472,6 +499,7 @@ class DnacSwims(DnacBase):
             log("Image Id: " + str(image_id))
         else:
             error_message = "Image {0} not found".format(name)
+            self.log(error_message)
             self.module.fail_json(msg="Image not found", response=image_response)
 
         return image_id
@@ -675,9 +703,9 @@ class DnacSwims(DnacBase):
 
             device_params = dict(
                 hostname=distribution_details.get("device_hostname"),
-                serial_number=distribution_details.get("device_serial_number"),
-                management_ip_address=distribution_details.get("device_ip_address"),
-                mac_address=distribution_details.get("device_mac_address"),
+                serialNumber=distribution_details.get("device_serial_number"),
+                managementIpAddress=distribution_details.get("device_ip_address"),
+                macAddress=distribution_details.get("device_mac_address"),
             )
             device_id = self.get_device_id(device_params)
             if device_id is not None:
@@ -709,9 +737,9 @@ class DnacSwims(DnacBase):
 
             device_params = dict(
                 hostname=activation_details.get("device_hostname"),
-                serial_number=activation_details.get("device_serial_number"),
-                management_ip_address=activation_details.get("device_ip_address"),
-                mac_address=activation_details.get("device_mac_address"),
+                serialNumber=activation_details.get("device_serial_number"),
+                managementIpAddress=activation_details.get("device_ip_address"),
+                macAddress=activation_details.get("device_mac_address"),
             )
             device_id = self.get_device_id(device_params)
             if device_id is not None:
@@ -776,11 +804,18 @@ class DnacSwims(DnacBase):
             if import_type == "url":
                 image_name = self.want.get("url_import_details").get("payload")[0].get("source_url")
             else:
-                image_name = self.want.get("local_import_details").get("filePath")
+                image_name = self.want.get("local_import_details").get("file_path")
 
             # Code to check if the image already exists in DNAC
             name = image_name.split('/')[-1]
             image_exist = self.is_image_exist(name)
+
+            import_key_mapping = {
+                'source_url': 'sourceURL',
+                'image_family': 'imageFamily',
+                'application_type': 'applicationType',
+                'third_party': 'thirdParty',
+            }
 
             if image_exist:
                 image_id = self.get_image_id(name)
@@ -793,19 +828,29 @@ class DnacSwims(DnacBase):
                 return self
 
             if self.want.get("import_type") == "url":
+                import_payload_dict = {}
+                temp_payload = self.want.get("url_import_details").get("payload")[0]
+                keys_to_change = list(import_key_mapping.keys())
+
+                for key, val in temp_payload.items():
+                    if key in keys_to_change:
+                        api_key_name = import_key_mapping[key]
+                        import_payload_dict[api_key_name] = val
+
+                import_image_payload = [import_payload_dict]
                 import_params = dict(
-                    payload=self.want.get("url_import_details").get("payload"),
-                    schedule_at=self.want.get("url_import_details").get("schedule_at"),
-                    schedule_desc=self.want.get("url_import_details").get("schedule_desc"),
-                    schedule_origin=self.want.get("url_import_details").get("schedule_origin"),
+                    payload=import_image_payload,
+                    scheduleAt=self.want.get("url_import_details").get("schedule_at"),
+                    scheduleDesc=self.want.get("url_import_details").get("schedule_desc"),
+                    scheduleOrigin=self.want.get("url_import_details").get("schedule_origin"),
                 )
                 import_function = 'import_software_image_via_url'
             else:
                 import_params = dict(
-                    is_third_party=self.want.get("local_import_details").get("is_third_party"),
-                    third_party_vendor=self.want.get("local_import_details").get("third_party_vendor"),
-                    third_party_image_family=self.want.get("local_import_details").get("third_party_image_family"),
-                    third_party_application_type=self.want.get("local_import_details").get("third_party_application_type"),
+                    isThirdParty=self.want.get("local_import_details").get("is_third_party"),
+                    thirdPartyVendor=self.want.get("local_import_details").get("third_party_vendor"),
+                    thirdPartyImageFamily=self.want.get("local_import_details").get("third_party_image_family"),
+                    thirdPartyApplicationType=self.want.get("local_import_details").get("third_party_application_type"),
                     file_path=self.want.get("local_import_details").get("file_path"),
                 )
                 import_function = 'import_local_software_image'
@@ -858,7 +903,7 @@ class DnacSwims(DnacBase):
 
         except Exception as e:
             self.log("Import Image details are not given in the playbook")
-            self.status = "success"
+            self.status = "failed"
             self.result['changed'] = False
 
         return self
@@ -900,10 +945,10 @@ class DnacSwims(DnacBase):
 
         else:
             image_params = dict(
-                image_id=self.have.get("tagging_image_id"),
-                site_id=self.have.get("site_id"),
-                device_family_identifier=self.have.get("device_family_identifier"),
-                device_role=tagging_details.get("deviceRole")
+                imageId=self.have.get("tagging_image_id"),
+                siteId=self.have.get("site_id"),
+                deviceFamilyIdentifier=self.have.get("device_family_identifier"),
+                deviceRole=tagging_details.get("deviceRole")
             )
             log("Image params for un-tagging image as golden:" + str(image_params))
 
@@ -978,13 +1023,13 @@ class DnacSwims(DnacBase):
                         break
 
                     if task_details.get("isError"):
-                        error_msg = "Image with Id {0} Distribution Failed".format(image_id)
                         self.status = "failed"
+                        self.msg = "Image with Id {0} Distribution Failed".format(image_id)
+                        self.log(self.msg)
                         self.result['response'] = task_details
-                        self.msg = error_msg
-                        return self
+                        break
 
-                self.result['response'] = task_details if task_details else response
+                    self.result['response'] = task_details if task_details else response
 
             return self
 
@@ -1033,18 +1078,18 @@ class DnacSwims(DnacBase):
 
         if device_distribution_count == 0:
             self.status = "failed"
-            msg = "Image with Id {0} Distribution Failed for all devices".format(image_id)
+            self.msg = "Image with Id {0} Distribution Failed for all devices".format(image_id)
         elif device_distribution_count == len(device_uuid_list):
             self.result['changed'] = True
             self.status = "success"
-            msg = "Image with Id {0} Distributed Successfully for all devices".format(image_id)
+            self.msg = "Image with Id {0} Distributed Successfully for all devices".format(image_id)
         else:
             self.result['changed'] = True
             self.status = "success"
-            msg = "Image with Id {0} Distributed and partially Successfull".format(image_id)
+            self.msg = "Image with Id {0} Distributed and partially Successfull".format(image_id)
 
-        self.result['msg'] = msg
-        self.log(msg)
+        self.result['msg'] = self.msg
+        self.log(self.msg)
 
         return self
 
