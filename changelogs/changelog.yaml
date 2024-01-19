@@ -764,9 +764,9 @@ releases:
           - To Support provisioning wired device, reboot AP's, export device list, delete provisioned devices.
           - Change the variable names into snake case in all the intent modules for better readability.
     6.10.1:
-      release_date: "2023-12-22"
+      release_date: "2024-01-20"
       changes:
-        release_summary: Changes in network settings, site, inventory and provisioning intent modules
+        release_summary: Changes in network settings, site, discovery, inventory, swim, credential and provisioning intent modules
         minor_changes:
           - Introducing config_verify to verify the state operations in Catalyst Center in network settings and site intent module
           - Changes to support inventory and provisioning intent modules
