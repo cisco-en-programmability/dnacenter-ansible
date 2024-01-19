@@ -64,6 +64,7 @@ class DnacBase():
                                         'parsed': self.verify_diff_parsed
                                         }
         self.dnac_log = dnac_params.get("dnac_log")
+        self.dnac_log_level = dnac_params.get("dnac_log_level").upper()
         log(str(dnac_params))
         self.supported_states = ["merged", "deleted", "replaced", "overridden", "gathered", "rendered", "parsed"]
         self.result = {"changed": False, "diff": [], "response": [], "warnings": []}
@@ -145,12 +146,24 @@ class DnacBase():
         self.parsed = True
         return self
 
-    def log(self, message, frameIncrement=0):
-        """Log messages into dnac.log file"""
+    def log(self, message, level="info", frameIncrement=0):
+        """Logs/Appends messages into dnac.log file if logging is enabled and the log level is appropriate
+        Args:
+            self (obj, required): An instance of the DnacBase Class.
+            message (str, required): The log message to be recorded.
+            level (str, optional): The log level, default is "info".
+                                   The log level can be one of 'DEBUG', 'INFO', 'WARNING', 'ERROR', or 'CRITICAL'.
+            frameIncrement (int, optional): The number of frames to increment in the call stack, default is 0.
+        """
 
-        if self.dnac_log:
+        level = level.upper()
+        if (
+            self.dnac_log
+            and self.dnac_log_level in ('DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL')
+            and logging.getLevelName(level) >= logging.getLevelName(self.dnac_log_level)
+        ):
             message = "Module: " + self.__class__.__name__ + ", " + message
-            log(message, (1 + frameIncrement))
+            log(message, level, (1 + frameIncrement))
 
     def check_return_status(self):
         """API to check the return status value and exit/fail the module"""
@@ -193,7 +206,8 @@ class DnacBase():
                        "dnac_password": params.get("dnac_password"),
                        "dnac_verify": params.get("dnac_verify"),
                        "dnac_debug": params.get("dnac_debug"),
-                       "dnac_log": params.get("dnac_log")
+                       "dnac_log": params.get("dnac_log"),
+                       "dnac_log_level": params.get("dnac_log_level")
                        }
         return dnac_params
 
@@ -387,13 +401,13 @@ class DnacBase():
         return new_config
 
 
-def log(msg, frameIncrement=0):
+def log(msg, level='info', frameIncrement=0):
     with open('dnac.log', 'a') as of:
         callerframerecord = inspect.stack()[1 + frameIncrement]
         frame = callerframerecord[0]
         info = inspect.getframeinfo(frame)
         d = datetime.datetime.now().replace(microsecond=0).isoformat()
-        of.write("---- %s ---- %s@%s ---- %s \n" % (d, info.lineno, info.function, msg))
+        of.write("---- %s ---- %s@%s ---- %s: %s\n" % (d, info.lineno, info.function, level.upper(), msg))
 
 
 def is_list_complex(x):
