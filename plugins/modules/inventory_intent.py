@@ -1110,7 +1110,7 @@ class DnacDevice(DnacBase):
 
         return self
 
-    def check_ap_devices(self, device_ips):
+    def get_ap_devices(self, device_ips):
         """
         Args:
             self (object): An instance of a class used for interacting with Cisco DNA Center.
@@ -1131,15 +1131,12 @@ class DnacDevice(DnacBase):
                     function='get_device_list',
                     params={"managementIpAddress": device_ip}
                 )
-                response = response.get('response')
-                if not response:
-                    continue
-                response = response[0]
-                if response['family'] == "Unified AP":
-                    ap_device_list.append(device_ip)
+                response = response.get('response', [])
 
+                if response and response[0].get('family', '') == "Unified AP":
+                    ap_device_list.append(device_ip)
             except Exception as e:
-                error_message = "Error while Getting the response of device from Cisco DNA Center - {0}".format(str(e))
+                error_message = "Error while getting the response of device from Cisco DNA Center - {0}".format(str(e))
                 self.log(error_message)
                 raise Exception(error_message)
 
@@ -1163,19 +1160,19 @@ class DnacDevice(DnacBase):
         device_ips = self.config[0].get("ip_address", [])
 
         if not device_ips:
-            self.msg = "Cannot perform the Resync operation as device's {0} are not present in Cisco DNA Center".format(str(device_ips))
+            self.msg = "Cannot perform the Resync operation as device's {0} are not present inCisco Catalyst Center".format(str(device_ips))
             self.status = "success"
             self.result['changed'] = False
             self.log(self.msg)
             return self
 
-        ap_devices = self.check_ap_devices(device_ips)
-        self.log("AP Devices from the playbook input are : {0}".format(str(ap_devices)))
+        ap_devices = self.get_ap_devices(device_ips)
+        self.log("AP Devices from the playbook input are: {0}".format(str(ap_devices)))
 
         if ap_devices:
             for ap_ip in ap_devices:
                 device_ips.remove(ap_ip)
-            self.log("Following devices {0} are AP so can't perform resync operation.".format(str(ap_devices)))
+            self.log("Following devices {0} are AP, so can't perform resync operation.".format(str(ap_devices)))
 
         device_ids = self.get_device_ids(device_ips)
         try:
@@ -1237,7 +1234,7 @@ class DnacDevice(DnacBase):
 
         device_ips = self.config[0].get("ip_address", [])
         if device_ips:
-            ap_devices = self.check_ap_devices(device_ips)
+            ap_devices = self.get_ap_devices(device_ips)
             self.log("AP Devices from the playbook input are : {0}".format(str(ap_devices)))
             for device_ip in device_ips:
                 if device_ip not in ap_devices:
