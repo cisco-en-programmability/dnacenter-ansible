@@ -407,7 +407,7 @@ def log(msg, level='info', frameIncrement=0):
         frame = callerframerecord[0]
         info = inspect.getframeinfo(frame)
         d = datetime.datetime.now().replace(microsecond=0).isoformat()
-        of.write("---- %s ---- %s@%s ---- %s: %s \n" % (d, info.lineno, info.function, level.upper(), msg))
+        of.write("---- %s ---- %s@%s ---- %s: %s\n" % (d, info.lineno, info.function, level.upper(), msg))
 
 
 def is_list_complex(x):
