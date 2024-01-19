@@ -18,6 +18,7 @@
         dnac_debug: "{{ dnac_debug }}"
         dnac_log: true
         state: "merged"
+        config_verify: true
         #ignore_errors: true        #Enable this to continue execution even the task fails
         config:
         - configuration_templates:
