@@ -401,7 +401,7 @@ class DnacBase():
         return new_config
 
 
-def log(msg,  level='info', frameIncrement=0):
+def log(msg, level='info', frameIncrement=0):
     with open('dnac.log', 'a') as of:
         callerframerecord = inspect.stack()[1 + frameIncrement]
         frame = callerframerecord[0]
