@@ -2653,14 +2653,14 @@ class DnacTemplate(DnacBase):
         """
 
         if config.get("configuration_templates") is not None:
-            template_available = self.get_have_project(config)
-            self.log(str(template_available))
-            if not template_available:
+            is_template_available = self.get_have_project(config)
+            self.log(str(is_template_available))
+            if not is_template_available:
                 self.msg = "Configuration Template config is not applied to the DNAC."
                 self.status = "failed"
                 return self
 
-            self.get_have_template(config, template_available)
+            self.get_have_template(config, is_template_available)
             self.log("DNAC retrieved details: " + str(self.have_template.get("template")))
             self.log("Playbook details: " + str(self.want.get("template_params")))
             template_params = ["language", "name", "projectName", "softwareType",
@@ -2670,7 +2670,7 @@ class DnacTemplate(DnacBase):
                     self.msg = " Configuration Template config is not applied to the DNAC."
                     self.status = "failed"
                     return self
-                self.result.get("response").update({"Validation": "Success"})
+            self.result.get("response").update({"Validation": "Success"})
 
         self.msg = "Successfully validated the Configuration Templates."
         self.status = "success"
@@ -2702,10 +2702,10 @@ class DnacTemplate(DnacBase):
                 template_info = get_dict_result(template_list,
                                                 "name",
                                                 templateName)
-            if template_info:
-                self.msg = "Configuration Template config is not applied to the DNAC."
-                self.status = "failed"
-                return self
+                if template_info:
+                    self.msg = "Configuration Template config is not applied to the DNAC."
+                    self.status = "failed"
+                    return self
 
             self.log("Successfully validated absence of Template in the DNAC.")
             self.result.get("response").update({"Validation": "Success"})
