@@ -1449,7 +1449,13 @@ class DnacDevice(DnacBase):
         """
 
         site_name = self.config[0]['provision_wired_device']['site_name']
+        device_in_dnac = self.device_exists_in_dnac()
         device_ips = self.config[0]['ip_address']
+
+        for device_ip in device_ips:
+            if device_ip not in device_in_dnac:
+                device_ips.remove(device_ip)
+
         device_type = "Wired"
         provision_count, already_provision_count = 0, 0
 
