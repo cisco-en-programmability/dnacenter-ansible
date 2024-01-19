@@ -1478,7 +1478,12 @@ class DnacDevice(DnacBase):
                 while True:
                     response = self.get_device_response(device_ip)
                     self.log("Device is in {0} state waiting for Managed State.".format(response['managementState']))
-                    if response['managementState'] == "Managed" and response['collectionStatus'] == "Managed" and response["hostname"]:
+
+                    if (
+                        response.get('managementState') == "Managed"
+                        and response.get('collectionStatus') == "Managed"
+                        and response.get("hostname")
+                    ):
                         break
 
                 response = self.dnac._exec(

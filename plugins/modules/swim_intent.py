@@ -692,6 +692,7 @@ class DnacSwims(DnacBase):
             if site_name:
                 site_exists = False
                 (site_exists, site_id) = self.site_exists(site_name)
+
                 if site_exists:
                     have["site_id"] = site_id
                     self.log("Site Exists: " + str(site_exists) + "\n Site_id:" + str(site_id))
