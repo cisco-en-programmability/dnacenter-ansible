@@ -64,7 +64,7 @@ class DnacBase():
                                         'parsed': self.verify_diff_parsed
                                         }
         self.dnac_log = dnac_params.get("dnac_log")
-        self.dnac_log_level = dnac_params.get("dnac_log_level").upper() #Converting to Upper Case 
+        self.dnac_log_level = dnac_params.get("dnac_log_level").upper()
         log(str(dnac_params))
         self.supported_states = ["merged", "deleted", "replaced", "overridden", "gathered", "rendered", "parsed"]
         self.result = {"changed": False, "diff": [], "response": [], "warnings": []}
@@ -151,7 +151,7 @@ class DnacBase():
         Args:
             self (obj, required): An instance of the DnacBase Class.
             message (str, required): The log message to be recorded.
-            level (str, optional): The log level, default is "info". 
+            level (str, optional): The log level, default is "info".
                                    The log level can be one of 'DEBUG', 'INFO', 'WARNING', 'ERROR', or 'CRITICAL'.
             frameIncrement (int, optional): The number of frames to increment in the call stack, default is 0.
         """
@@ -163,7 +163,7 @@ class DnacBase():
             and logging.getLevelName(level) >= logging.getLevelName(self.dnac_log_level)
         ):
             message = "Module: " + self.__class__.__name__ + ", " + message
-            log(message, level,(1 + frameIncrement))
+            log(message, level, (1 + frameIncrement))
 
     def check_return_status(self):
         """API to check the return status value and exit/fail the module"""
@@ -400,6 +400,7 @@ class DnacBase():
             return config
         return new_config
 
+
 def log(msg,  level='info', frameIncrement=0):
     with open('dnac.log', 'a') as of:
         callerframerecord = inspect.stack()[1 + frameIncrement]
@@ -407,6 +408,7 @@ def log(msg,  level='info', frameIncrement=0):
         info = inspect.getframeinfo(frame)
         d = datetime.datetime.now().replace(microsecond=0).isoformat()
         of.write("---- %s ---- %s@%s ---- %s: %s \n" % (d, info.lineno, info.function, level.upper(), msg))
+
 
 def is_list_complex(x):
     return isinstance(x[0], dict) or isinstance(x[0], list)
