@@ -24,21 +24,20 @@
         <<: *dnac_login
         dnac_log: True
         state: merged
+        config_verify: True
         config:
-          - device_info:
-              - serial_number: FKC2310E0HB
-                hostname: 1-5
+            - device_info:
+              - serial_number: QD2425L8M7
                 state: Unclaimed
                 pid: c9300-24P
                 is_sudi_required: False
 
-              - serial_number: FTC2320E0HB
-                hostname: 1-6
+              - serial_number: QTC2320E0H9
                 state: Unclaimed
                 pid: c9300-24P
+                hostname: Test-123
 
               - serial_number: ETC2320E0HB
-                hostname: 1-7
                 state: Unclaimed
                 pid: c9300-24P
 
@@ -89,7 +88,7 @@
               hostname: IAC-EWLC-Claimed
             device_info:
               - serial_number: FOX2639PAY7
-                hostname: WLC
+                hostname: New_WLC
                 state: Unclaimed
                 pid: C9800-CL-K9
             gateway: 204.192.101.1
@@ -103,8 +102,9 @@
         <<: *dnac_login
         dnac_log: True
         state: deleted
+        config_verify: True
         config:
           - device_info:
-              - serial_number: FKC2310E0HK
-              - serial_number: FTC2320E0HA
-              - serial_number: FKC2310E0HB
+              - serial_number: QD2425L8M7  #Will get deleted
+              - serial_number: FTC2320E0HA  #Doesn't exist in the inventory
+              - serial_number: FKC2310E0HB  #Doesn't exist in the inventory
