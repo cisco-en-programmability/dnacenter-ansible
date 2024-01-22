@@ -42,7 +42,7 @@ cisco.dnac.network_settings_intent module -- Resource module for IP Address pool
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.10.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.10.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1488,17 +1488,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/network_management_details/settings/syslogServer"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/network_management_details/settings/syslog_server"></div>
 
-      .. _ansible_collections.cisco.dnac.network_settings_intent_module__parameter-config/network_management_details/settings/syslogserver:
+      .. _ansible_collections.cisco.dnac.network_settings_intent_module__parameter-config/network_management_details/settings/syslog_server:
 
       .. rst-class:: ansible-option-title
 
-      **syslogServer**
+      **syslog_server**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/network_management_details/settings/syslogServer" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/network_management_details/settings/syslog_server" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -1522,9 +1522,9 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/network_management_details/settings/syslogServer/configure_dnac_ip"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/network_management_details/settings/syslog_server/configure_dnac_ip"></div>
 
-      .. _ansible_collections.cisco.dnac.network_settings_intent_module__parameter-config/network_management_details/settings/syslogserver/configure_dnac_ip:
+      .. _ansible_collections.cisco.dnac.network_settings_intent_module__parameter-config/network_management_details/settings/syslog_server/configure_dnac_ip:
 
       .. rst-class:: ansible-option-title
 
@@ -1532,7 +1532,7 @@ Parameters
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/network_management_details/settings/syslogServer/configure_dnac_ip" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/network_management_details/settings/syslog_server/configure_dnac_ip" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -1564,9 +1564,9 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/network_management_details/settings/syslogServer/ip_addresses"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/network_management_details/settings/syslog_server/ip_addresses"></div>
 
-      .. _ansible_collections.cisco.dnac.network_settings_intent_module__parameter-config/network_management_details/settings/syslogserver/ip_addresses:
+      .. _ansible_collections.cisco.dnac.network_settings_intent_module__parameter-config/network_management_details/settings/syslog_server/ip_addresses:
 
       .. rst-class:: ansible-option-title
 
@@ -1574,7 +1574,7 @@ Parameters
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/network_management_details/settings/syslogServer/ip_addresses" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/network_management_details/settings/syslog_server/ip_addresses" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -2491,6 +2491,48 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config_verify"></div>
+
+      .. _ansible_collections.cisco.dnac.network_settings_intent_module__parameter-config_verify:
+
+      .. rst-class:: ansible-option-title
+
+      **config_verify**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config_verify" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Set to True to verify the Cisco DNA Center after applying the playbook config.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div>
 
       .. _ansible_collections.cisco.dnac.network_settings_intent_module__parameter-dnac_debug:
@@ -2974,7 +3016,7 @@ Examples
               snmp_server:
                 configure_dnac_ip: True
                 ip_addresses: list
-              syslogServer:
+              syslog_server:
                 configure_dnac_ip: True
                 ip_addresses: list
             site_name: string

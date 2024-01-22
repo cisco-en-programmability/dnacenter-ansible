@@ -42,7 +42,7 @@ cisco.dnac.swim_intent module -- Intent module for SWIM related functions
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.10.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.10.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -2235,10 +2235,10 @@ Examples
         config:
         - import_image_details:
             type: string
-            urlDetails:
+            url_details:
               payload:
               - source_url: string
-                is_third_party: bool
+                third_party: bool
                 image_family: string
                 vendor: string
                 application_type: string
@@ -2260,6 +2260,33 @@ Examples
             distribute_if_needed: bool
             device_serial_number: string
             image_name: string
+
+    - name: Import an image from local, tag it as golden.
+      cisco.dnac.swim_intent:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: True
+        config:
+        - import_image_details:
+            type: string
+            local_image_details:
+                file_path: string
+                is_third_party: bool
+                third_party_vendor: string
+                third_party_image_family: string
+                third_party_application_type: string
+          tagging_details:
+            image_name: string
+            device_role: string
+            device_family_name: string
+            device_type: string
+            site_name: string
+            tagging: bool
 
     - name: Tag the given image as golden and load it on device
       cisco.dnac.swim_intent:
