@@ -55,7 +55,16 @@ class DnacBase():
                                      'rendered': self.get_diff_rendered,
                                      'parsed': self.get_diff_parsed
                                      }
+        self.verify_diff_state_apply = {'merged': self.verify_diff_merged,
+                                        'deleted': self.verify_diff_deleted,
+                                        'replaced': self.verify_diff_replaced,
+                                        'overridden': self.verify_diff_overridden,
+                                        'gathered': self.verify_diff_gathered,
+                                        'rendered': self.verify_diff_rendered,
+                                        'parsed': self.verify_diff_parsed
+                                        }
         self.dnac_log = dnac_params.get("dnac_log")
+        self.dnac_log_level = dnac_params.get("dnac_log_level").upper()
         log(str(dnac_params))
         self.supported_states = ["merged", "deleted", "replaced", "overridden", "gathered", "rendered", "parsed"]
         self.result = {"changed": False, "diff": [], "response": [], "warnings": []}
@@ -100,14 +109,61 @@ class DnacBase():
     def get_diff_parsed(self):
         # Implement logic to parse a configuration file
         self.parsed = True
-        return True
+        return self
 
-    def log(self, message, frameIncrement=0):
-        """Log messages into dnac.log file"""
+    def verify_diff_merged(self):
+        # Implement logic to verify the merged resource configuration
+        self.merged = True
+        return self
 
-        if self.dnac_log:
+    def verify_diff_deleted(self):
+        # Implement logic to verify the deleted resource
+        self.deleted = True
+        return self
+
+    def verify_diff_replaced(self):
+        # Implement logic to verify the replaced resource
+        self.replaced = True
+        return self
+
+    def verify_diff_overridden(self):
+        # Implement logic to verify the overwritten resource
+        self.overridden = True
+        return self
+
+    def verify_diff_gathered(self):
+        # Implement logic to verify the gathered data about the resource
+        self.gathered = True
+        return self
+
+    def verify_diff_rendered(self):
+        # Implement logic to verify the rendered configuration template
+        self.rendered = True
+        return self
+
+    def verify_diff_parsed(self):
+        # Implement logic to verify the parsed configuration file
+        self.parsed = True
+        return self
+
+    def log(self, message, level="info", frameIncrement=0):
+        """Logs/Appends messages into dnac.log file if logging is enabled and the log level is appropriate
+        Args:
+            self (obj, required): An instance of the DnacBase Class.
+            message (str, required): The log message to be recorded.
+            level (str, optional): The log level, default is "info".
+                                   The log level can be one of 'DEBUG', 'INFO', 'WARNING', 'ERROR', or 'CRITICAL'.
+            frameIncrement (int, optional): The number of frames to increment in the call stack, default is 0.
+        """
+
+        level = level.upper()
+        if (
+            self.dnac_log
+            and self.dnac_log_level in ('DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL')
+            and logging.getLevelName(level) >= logging.getLevelName(self.dnac_log_level)
+        ):
             message = "Module: " + self.__class__.__name__ + ", " + message
-            log(message, (1 + frameIncrement))
+            log(message, level, (1 + frameIncrement))
 
     def check_return_status(self):
         """API to check the return status value and exit/fail the module"""
@@ -150,7 +206,8 @@ class DnacBase():
                        "dnac_password": params.get("dnac_password"),
                        "dnac_verify": params.get("dnac_verify"),
                        "dnac_debug": params.get("dnac_debug"),
-                       "dnac_log": params.get("dnac_log")
+                       "dnac_log": params.get("dnac_log"),
+                       "dnac_log_level": params.get("dnac_log_level")
                        }
         return dnac_params
 
@@ -318,14 +375,39 @@ class DnacBase():
             pass
         return None
 
+    def camel_to_snake_case(self, config):
+        """
+        Convert camel case keys to snake case keys in the config.
 
-def log(msg, frameIncrement=0):
+        Parameters:
+            config (list) - Playbook details provided by the user.
+
+        Returns:
+            new_config (list) - Updated config after eliminating the camel cases.
+        """
+
+        if isinstance(config, dict):
+            new_config = {}
+            for key, value in config.items():
+                new_key = re.sub(r'([a-z0-9])([A-Z])', r'\1_\2', key).lower()
+                if new_key != key:
+                    self.log("{0} will be deprecated soon. Please use {1}.".format(key, new_key))
+                new_value = self.camel_to_snake_case(value)
+                new_config[new_key] = new_value
+        elif isinstance(config, list):
+            return [self.camel_to_snake_case(item) for item in config]
+        else:
+            return config
+        return new_config
+
+
+def log(msg, level='info', frameIncrement=0):
     with open('dnac.log', 'a') as of:
         callerframerecord = inspect.stack()[1 + frameIncrement]
         frame = callerframerecord[0]
         info = inspect.getframeinfo(frame)
         d = datetime.datetime.now().replace(microsecond=0).isoformat()
-        of.write("---- %s ---- %s@%s ---- %s \n" % (d, info.lineno, info.function, msg))
+        of.write("---- %s ---- %s@%s ---- %s: %s\n" % (d, info.lineno, info.function, level.upper(), msg))
 
 
 def is_list_complex(x):
