@@ -1,6 +1,6 @@
 - hosts: dnac_servers
   vars_files:
-    - credentials_245.yml
+    - credentials.yml
   gather_facts: no
   connection: local
   tasks:
@@ -18,12 +18,13 @@
         dnac_debug: "{{ dnac_debug }}"
         dnac_log: True
         state: merged
+        config_verify: True
         config:
         - global_pool_details:
             settings:
               ip_pool:
               - name: Global_Pool2
-                gateway: "" #use this for updating
+                gateway: '' #use this for updating
                 ip_address_space: IPv6 #required when we are creating
                 cidr: 2001:db8::/64  #required when we are creating
                 type: Generic
@@ -41,7 +42,7 @@
             ipv6_prefix: True
             ipv6_prefix_length: 64
             ipv6_global_pool: 2001:db8::/64
-            ipv6_subnet: "2001:db8::"
+            ipv6_subnet: '2001:db8::'
             site_name: Global/Chennai/Trill
             slaac_support: True
             # prev_name: IP_Pool_4
@@ -62,7 +63,7 @@
                 # shared_secret: string #ISE
               message_of_the_day:
                 banner_message: hello
-                retain_existing_banner: "true"
+                retain_existing_banner: 'true'
               netflow_collector:
                 ip_address: 10.0.0.4
                 port: 443
@@ -78,7 +79,7 @@
                 configure_dnac_ip: false
                 # ip_addresses:
                 # - 10.0.0.6
-              syslogServer:
+              syslog_server:
                 configure_dnac_ip: false
                 # ip_addresses:
                 # - 10.0.0.7
@@ -95,6 +96,7 @@
         dnac_debug: "{{ dnac_debug }}"
         dnac_log: True
         state: deleted
+        config_verify: True
         config:
         - global_pool_details:
             settings:
