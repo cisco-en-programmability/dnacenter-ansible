@@ -6,7 +6,7 @@
 Cisco.Dnac
 ==========
 
-Collection version 6.10.0
+Collection version 6.10.1
 
 .. contents::
    :local:
@@ -30,6 +30,8 @@ Ansible Modules for Cisco DNA Center
 * Akash Bhaskaran <akabhask@cisco.com>
 * Abinash Mishra <abimishr@cisco.com>
 * Abhishek Maheshwari <abmahesh@cisco.com>
+* Phan Nguyen <phannguy@cisco.com>
+* Rugvedi Kapse <rukapse@cisco.com>
 
 **Supported ansible-core versions:**
 

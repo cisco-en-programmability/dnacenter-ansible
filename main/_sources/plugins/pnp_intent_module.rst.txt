@@ -42,7 +42,7 @@ cisco.dnac.pnp_intent module -- Resource module for Site and PnP related functio
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.10.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.10.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -71,6 +71,7 @@ Synopsis
 - Manage operations add device, claim device and unclaim device of Onboarding Configuration(PnP) resource
 - API to add device to pnp inventory and claim it to a site.
 - API to delete device from the pnp inventory.
+- API to reset the device from errored state.
 
 
 .. Aliases
@@ -202,7 +203,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Pnp Device's hostname.
+      Pnp Device's hostname that we want to keep post claiming. Hostname can only be changed during claiming not bulk adding/ single adding
 
 
       .. raw:: html
@@ -816,6 +817,48 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config_verify"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config_verify:
+
+      .. rst-class:: ansible-option-title
+
+      **config_verify**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config_verify" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Set to True to verify the Cisco DNA Center config after applying the playbook config.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div>
 
       .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-dnac_debug:
@@ -1221,8 +1264,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are device\_onboarding\_pnp.DeviceOnboardingPnp.add\_device, device\_onboarding\_pnp.DeviceOnboardingPnp.get\_device\_list, device\_onboarding\_pnp.DeviceOnboardingPnp.claim\_a\_device\_to\_a\_site, device\_onboarding\_pnp.DeviceOnboardingPnp.delete\_device\_by\_id\_from\_pnp, device\_onboarding\_pnp.DeviceOnboardingPnp.get\_device\_count, device\_onboarding\_pnp.DeviceOnboardingPnp.get\_device\_by\_id, sites.Sites.get\_site, software\_image\_management\_swim.SoftwareImageManagementSwim.get\_software\_image\_details, configuration\_templates.ConfigurationTemplates.gets\_the\_templates\_available
-   - Paths used are post /dna/intent/api/v1/onboarding/pnp-device post /dna/intent/api/v1/onboarding/pnp-device/site-claim post /dna/intent/api/v1/onboarding/pnp-device/{id} get /dna/intent/api/v1/onboarding/pnp-device/count get /dna/intent/api/v1/onboarding/pnp-device get /dna/intent/api/v1/site get /dna/intent/api/v1/image/importation get /dna/intent/api/v1/template-programmer/template
+   - SDK Method used are device\_onboarding\_pnp.DeviceOnboardingPnp.add\_device, device\_onboarding\_pnp.DeviceOnboardingPnp.get\_device\_list, device\_onboarding\_pnp.DeviceOnboardingPnp.claim\_a\_device\_to\_a\_site, device\_onboarding\_pnp.DeviceOnboardingPnp.delete\_device\_by\_id\_from\_pnp, device\_onboarding\_pnp.DeviceOnboardingPnp.get\_device\_count, device\_onboarding\_pnp.DeviceOnboardingPnp.get\_device\_by\_id, device\_onboarding\_pnp.DeviceOnboardingPnp.update\_device, sites.Sites.get\_site, software\_image\_management\_swim.SoftwareImageManagementSwim.get\_software\_image\_details, configuration\_templates.ConfigurationTemplates.gets\_the\_templates\_available
+   - Paths used are post /dna/intent/api/v1/onboarding/pnp-device post /dna/intent/api/v1/onboarding/pnp-device/site-claim post /dna/intent/api/v1/onboarding/pnp-device/{id} get /dna/intent/api/v1/onboarding/pnp-device/count get /dna/intent/api/v1/onboarding/pnp-device put /onboarding/pnp-device/${id} get /dna/intent/api/v1/site get /dna/intent/api/v1/image/importation get /dna/intent/api/v1/template-programmer/template
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -1249,6 +1292,7 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         dnac_log: True
         state: merged
+        config_verify: True
         config:
             - template_name: string
               image_name: string
