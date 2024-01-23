@@ -2,8 +2,6 @@ version: 2.1
 
 jobs:
   build:
-    docker:
-      - image: cimg/base:current
 
     parameters: 
       ansible_cisco_dnac_version:
