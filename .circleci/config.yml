@@ -2,14 +2,15 @@ version: 2.1
 
 jobs:
   build:
-    machine: true
-    resource_class: rukapse/dnacenter-ansible
-
+    
     parameters: 
       ansible_cisco_dnac_version:
         type: string
         default: "6.9.0"
 
+    machine: true
+    resource_class: rukapse/dnacenter-ansible
+    
     working_directory: ~/repo 
     
     steps:
