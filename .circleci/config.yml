@@ -1,46 +1,11 @@
 version: 2.1
-
+workflows:
+  testing:
+    jobs:
+      - runner-test
 jobs:
-  build:
-    
-    parameters: 
-      ansible_cisco_dnac_version:
-        type: string
-        default: "6.9.0"
-
+  runner-test:
     machine: true
     resource_class: rukapse/dnacenter-ansible
-    
-    working_directory: ~/repo 
-    
     steps:
-      - checkout
-
-      - run:
-          name: Activate Virtual Environment, Install ansible and Build collection tarball
-          command: |
-            set -x
-            # Activate Virtual Environment
-            pyenv local ansible
-            export PYENV_ROOT="/home/circleci/.pyenv"
-            export PATH="$PYENV_ROOT/bin:$PATH"
-            export PATH="$PYENV_ROOT/shims/python3:$PATH"
-            export PATH="$PYENV_ROOT/shims/python:$PATH"
-            export PYTHONPATH="$PYENV_ROOT/shims/python3:$PYTHONPATH"
-            export PYTHONPATH="$PYENV_ROOT/shims/python:$PYTHONPATH"
-            
-            # Install ansible, dnacentersdk
-            pip install --upgrade pip
-            pip install jinja2 PyYAML cryptography paramiko
-            pip install ansible 
-            pip install dnacentersdk
-            ansible --version
-
-            # Build collection and store resulting tarball in directory /home/circleci/.cache/v<< parameters.ansible_cisco_dnac_version >>/collection-tarballs
-            ansible-galaxy collection build --force --output-path "${HOME}/.cache/v<< parameters.ansible_cisco_dnac_version >>/collection-tarballs"
-
-
-workflows:
-  test-build:
-    jobs:
-      - build
+      - run: echo "Hi I'm on Runners!"
