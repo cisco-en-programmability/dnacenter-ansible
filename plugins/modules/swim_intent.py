@@ -30,6 +30,10 @@ author: Madhan Sankaranarayanan (@madhansansel)
         Rishita Chowdhary (@rishitachowdhary)
         Abhishek Maheshwari (@abmahesh)
 options:
+  dnac_log_level:
+    description: Log levels are used to categorize the logs based on their severity.
+    type: str
+    default: INFO
   state:
     description: The state of DNAC after module completion.
     type: str
@@ -230,6 +234,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
     dnac_log: True
     config:
     - import_image_details:
@@ -269,6 +274,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
     dnac_log: True
     config:
     - import_image_details:
@@ -296,6 +302,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
     dnac_log: True
     config:
     - tagging_details:
@@ -315,6 +322,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
     dnac_log: True
     config:
     - image_distribution_details:
@@ -332,6 +340,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
     dnac_log: True
     config:
     - image_activation_details:
@@ -914,7 +923,7 @@ class DnacSwims(DnacBase):
 
         except Exception as e:
             self.status = "failed"
-            self.msg = "Import Image details are not given in the playbook or Import Image API not triggered successfully."
+            self.msg = "Import Image details are not provided in the playbook, or the Import Image API was not triggered successfully."
             self.log(self.msg)
             self.result['response'] = self.msg
 
@@ -1277,6 +1286,7 @@ def main():
                     'dnac_verify': {'type': 'bool', 'default': 'True'},
                     'dnac_version': {'type': 'str', 'default': '2.2.3.3'},
                     'dnac_debug': {'type': 'bool', 'default': False},
+                    'dnac_log_level': {'type': 'str', 'default': 'INFO'},
                     'dnac_log': {'type': 'bool', 'default': False},
                     'validate_response_schema': {'type': 'bool', 'default': True},
                     'config': {'required': True, 'type': 'list', 'elements': 'dict'},
