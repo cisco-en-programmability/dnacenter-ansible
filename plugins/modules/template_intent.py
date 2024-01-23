@@ -30,6 +30,10 @@ author: Madhan Sankaranarayanan (@madhansansel)
         Akash Bhaskaran (@akabhask)
         Muthu Rakesh (@MUTHU-RAKESH-27)
 options:
+  config_verify:
+    description: Set to True to verify the Cisco DNA Center after applying the playbook config.
+    type: bool
+    default: False
   state:
     description: The state of DNAC after module completion.
     type: str
@@ -1436,8 +1440,7 @@ class DnacTemplate(DnacBase):
             }
         }
         # Validate template params
-        self.log(str(self.config))
-        self.log(str(temp_spec))
+        self.config = self.camel_to_snake_case(self.config)
         valid_temp, invalid_params = validate_list_of_dicts(
             self.config, temp_spec
         )
@@ -2292,19 +2295,18 @@ class DnacTemplate(DnacBase):
             function='get_projects_details'
         )
         for values in export_values:
-            self.log(str(values.get("projectName")))
+            self.log(str(values.get("project_name")))
             template_details = template_details.get("response")
             self.log(str(template_details))
-            self.log(str(values.get("projectName")))
             all_template_details = get_dict_result(template_details,
                                                    "name",
-                                                   values.get("projectName"))
+                                                   values.get("project_name"))
             self.log(str(all_template_details))
             all_template_details = all_template_details.get("templates")
             self.log(str(all_template_details))
             template_detail = get_dict_result(all_template_details,
                                               "name",
-                                              values.get("templateName"))
+                                              values.get("template_name"))
             self.log(str(template_detail))
             if template_detail is None:
                 self.msg = "Invalid project_name and template_name in export"
@@ -2637,6 +2639,81 @@ class DnacTemplate(DnacBase):
         self.status = "success"
         return self
 
+    def verify_diff_merged(self, config):
+        """
+        Validating the DNAC configuration with the playbook details
+        when state is merged (Create/Update).
+
+        Parameters:
+            config (dict) - Playbook details containing Global Pool,
+            Reserved Pool, and Network Management configuration.
+
+        Returns:
+            self
+        """
+
+        if config.get("configuration_templates") is not None:
+            is_template_available = self.get_have_project(config)
+            self.log(str(is_template_available))
+            if not is_template_available:
+                self.msg = "Configuration Template config is not applied to the DNAC."
+                self.status = "failed"
+                return self
+
+            self.get_have_template(config, is_template_available)
+            self.log("DNAC retrieved details: " + str(self.have_template.get("template")))
+            self.log("Playbook details: " + str(self.want.get("template_params")))
+            template_params = ["language", "name", "projectName", "softwareType",
+                               "softwareVariant", "templateContent"]
+            for item in template_params:
+                if self.have_template.get("template").get(item) != self.want.get("template_params").get(item):
+                    self.msg = " Configuration Template config is not applied to the DNAC."
+                    self.status = "failed"
+                    return self
+            self.result.get("response").update({"Validation": "Success"})
+
+        self.msg = "Successfully validated the Configuration Templates."
+        self.status = "success"
+        return self
+
+    def verify_diff_deleted(self, config):
+        """
+        Validating the DNAC configuration with the playbook details
+        when state is deleted (delete).
+
+        Parameters:
+            config (dict) - Playbook details containing Global Pool,
+            Reserved Pool, and Network Management configuration.
+
+        Returns:
+            self
+        """
+
+        if config.get("configuration_templates") is not None:
+            self.log("DNAC retrieved details: " + str(self.have))
+            self.log("Playbook details: " + str(self.want))
+            template_list = self.dnac_apply['exec'](
+                family="configuration_templates",
+                function="gets_the_templates_available",
+                params={"projectNames": config.get("projectName")},
+            )
+            if template_list and isinstance(template_list, list):
+                templateName = config.get("configuration_templates").get("template_name")
+                template_info = get_dict_result(template_list,
+                                                "name",
+                                                templateName)
+                if template_info:
+                    self.msg = "Configuration Template config is not applied to the DNAC."
+                    self.status = "failed"
+                    return self
+
+            self.log("Successfully validated absence of Template in the DNAC.")
+            self.result.get("response").update({"Validation": "Success"})
+
+        self.msg = "Successfully validated the absence of Template in the DNAC."
+        self.status = "success"
+        return self
+
     def reset_values(self):
         """
         Reset all neccessary attributes to default values.
@@ -2665,6 +2742,7 @@ def main():
                     'dnac_debug': {'type': 'bool', 'default': False},
                     'dnac_log': {'type': 'bool', 'default': False},
                     'validate_response_schema': {'type': 'bool', 'default': True},
+                    "config_verify": {"type": 'bool', "default": False},
                     'config': {'required': True, 'type': 'list', 'elements': 'dict'},
                     'state': {'default': 'merged', 'choices': ['merged', 'deleted']}
                     }
@@ -2673,6 +2751,7 @@ def main():
     dnac_template = DnacTemplate(module)
     dnac_template.validate_input().check_return_status()
     state = dnac_template.params.get("state")
+    config_verify = dnac_template.params.get("config_verify")
     if state not in dnac_template.supported_states:
         dnac_template.status = "invalid"
         dnac_template.msg = "State {0} is invalid".format(state)
@@ -2683,6 +2762,8 @@ def main():
         dnac_template.get_have(config).check_return_status()
         dnac_template.get_want(config).check_return_status()
         dnac_template.get_diff_state_apply[state](config).check_return_status()
+        if config_verify:
+            dnac_template.verify_diff_state_apply[state](config).check_return_status()
 
     module.exit_json(**dnac_template.result)
 
