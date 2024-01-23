@@ -44,4 +44,4 @@ jobs:
 workflows:
   testing:
     jobs:
-      - runner-test
+      - build
