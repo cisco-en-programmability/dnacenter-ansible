@@ -6,94 +6,39 @@ jobs:
       - image: cimg/base:current
 
     parameters: 
-      py_version:
-        type: string
-        default: "3.8.10"
-
       ansible_cisco_dnac_version:
         type: string
         default: "6.9.0"
 
     working_directory: ~/repo 
-    #machine: true
-
-    #environment:
-    #  PATH: "$HOME/.pyenv/bin:$PATH"
-    #  PYENV_ROOT: "$HOME/.pyenv"
+    machine: true
+    resource_class: rukapse/dnacenter-ansible
 
     steps:
       - checkout
 
       - run:
-          name: Install Dependencies and Pyenv
+          name: Activate Virtual Environment, Install ansible and Build collection tarball
           command: |
             set -x
-            sudo apt-get update
-            sudo apt-get install -y --no-install-recommends libssl-dev libreadline-dev sqlite3 libsqlite3-dev zlib1g-dev xz-utils
-            git clone https://github.com/pyenv/pyenv.git ~/.pyenv
-            echo -e '#!/bin/bash\n\nexport PATH="$HOME/.pyenv/bin:$PATH"\n'\
-                    'eval "$(pyenv init --path)"\n'\
-                    'eval "$(pyenv virtualenv-init -)"' > ~/.pyenv_setup.sh
-            chmod +x ~/.pyenv_setup.sh
-
-      - run:
-          name: Install Python << parameters.py_version >> using pyenv, Create Python << parameters.py_version >>  Virtual Environment, Activate Virtual Environment, Install Dependencies and install Ansible  
-          command: |
-            set -x
-
-            # Loading pyenv configuration
-            source ~/.pyenv_setup.sh
-
-            # Appending pyenv-related configuration to ~/.bashrc
-            echo 'export PYENV_ROOT="$HOME/.pyenv"' >> $HOME/.bash_profile
-            echo '[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"' >> $HOME/.bash_profile
-            echo 'eval "$(pyenv init -)"' >> $HOME/.bash_profile
-
-            # Reload the shell to apply changes
-            # exec $SHELL
-
-            #Source the bash file again
-            source $HOME/.bash_profile
-
-            # Bug fix for No module named '_ctypes'
-            sudo apt-get install libffi-dev
-
-            # Installing Python 
-            pyenv install << parameters.py_version >>
-
-            # Set Global Python version
-            pyenv global << parameters.py_version >>
-
-            # Set PYENV_VERSION version in shell
-            pyenv shell << parameters.py_version >>
-
-            # Install pip
-            python -m ensurepip --default-pip
-
-            # Crosschecking setup
-            pyenv which pip
-            pyenv which python
-            pyenv versions
-            pyenv version
-            cat ~/.pyenv/version
-
             # Activate Virtual Environment
-            git clone https://github.com/pyenv/pyenv-virtualenv.git ~/.pyenv/plugins/pyenv-virtualenv
-            pyenv virtualenv << parameters.py_version >>  ansible
             pyenv local ansible
+            export PYENV_ROOT="/home/circleci/.pyenv"
+            export PATH="$PYENV_ROOT/bin:$PATH"
+            export PATH="$PYENV_ROOT/shims/python3:$PATH"
+            export PATH="$PYENV_ROOT/shims/python:$PATH"
+            export PYTHONPATH="$PYENV_ROOT/shims/python3:$PYTHONPATH"
+            export PYTHONPATH="$PYENV_ROOT/shims/python:$PYTHONPATH"
             
             # Install ansible, dnacentersdk
             pip install --upgrade pip
             pip install jinja2 PyYAML cryptography paramiko
-            pyenv global system << parameters.py_version >>
             pip install ansible 
             pip install dnacentersdk
             ansible --version
 
             # Build collection and store resulting tarball in directory /home/circleci/.cache/v<< parameters.ansible_cisco_dnac_version >>/collection-tarballs
             ansible-galaxy collection build --force --output-path "${HOME}/.cache/v<< parameters.ansible_cisco_dnac_version >>/collection-tarballs"
-
-
 
 
 workflows:
