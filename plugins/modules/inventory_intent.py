@@ -28,6 +28,10 @@ options:
     description: Set to True to verify the Cisco DNA Center config after applying the playbook config.
     type: bool
     default: False
+  dnac_log_level:
+    description: Log levels are used to categorize the logs based on their severity.
+    type: str
+    default: INFO
   state:
     description: The state of Cisco DNA Center after module completion.
     type: str
@@ -269,6 +273,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
     dnac_log: False
     state: merged
     config:
@@ -309,6 +314,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
     dnac_log: False
     state: merged
     config:
@@ -339,6 +345,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
     dnac_log: False
     state: merged
     config:
@@ -355,6 +362,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
     dnac_log: False
     state: merged
     config:
@@ -375,6 +383,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
     dnac_log: False
     state: merged
     config:
@@ -400,6 +409,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
     dnac_log: False
     state: merged
     config:
@@ -440,6 +450,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
     dnac_log: False
     state: merged
     config:
@@ -457,6 +468,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
     dnac_log: False
     state: merged
     config:
@@ -483,6 +495,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
     dnac_log: False
     state: merged
     config:
@@ -502,6 +515,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
     dnac_log: False
     state: merged
     config:
@@ -524,6 +538,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
     dnac_log: False
     state: merged
     config:
@@ -543,6 +558,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
     dnac_log: False
     state: merged
     config:
@@ -562,6 +578,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
     dnac_log: False
     state: merged
     config:
@@ -579,6 +596,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
     dnac_log: False
     state: merged
     config:
@@ -596,6 +614,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     dnac_log: False
+    dnac_log_level: "{{dnac_log_level}}"
     state: deleted
     config:
       - ip_address:
@@ -611,6 +630,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
     dnac_log: False
     state: deleted
     config:
@@ -1159,29 +1179,30 @@ class DnacDevice(DnacBase):
 
         # Code for triggers the resync operation using the retrieved device IDs and force sync parameter.
         device_ips = self.config[0].get("ip_address", [])
+        input_device_ips = device_ips.copy()
         device_in_dnac = self.device_exists_in_dnac()
 
-        for device_ip in device_ips:
+        for device_ip in input_device_ips:
             if device_ip not in device_in_dnac:
-                device_ips.remove(device_ip)
+                input_device_ips.remove(device_ip)
 
-        ap_devices = self.get_ap_devices(device_ips)
+        ap_devices = self.get_ap_devices(input_device_ips)
         self.log("AP Devices from the playbook input are: {0}".format(str(ap_devices)))
 
         if ap_devices:
             for ap_ip in ap_devices:
-                device_ips.remove(ap_ip)
+                input_device_ips.remove(ap_ip)
             self.log("Following devices {0} are AP, so can't perform resync operation.".format(str(ap_devices)))
 
-        if not device_ips:
-            self.msg = "Cannot perform the Resync operation as device's {0} are not present in Cisco Catalyst Center".format(str(device_ips))
+        if not input_device_ips:
+            self.msg = "Cannot perform the Resync operation as the device(s) with IP(s) {0} are not present in Cisco Catalyst Center".format(str(device_ips))
             self.status = "success"
             self.result['changed'] = False
             self.result['response'] = self.msg
-            self.log(self.msg)
+            self.log(self.msg, "INFO")
             return self
 
-        device_ids = self.get_device_ids(device_ips)
+        device_ids = self.get_device_ids(input_device_ips)
         try:
             force_sync = self.config[0].get("force_sync", False)
             resync_param_dict = {
@@ -1206,8 +1227,8 @@ class DnacDevice(DnacBase):
                         self.status = "success"
                         self.result['changed'] = True
                         self.result['response'] = execution_details
-                        self.log("Device Resynced Successfully and Resynced devices are :" + str(device_ips))
-                        self.msg = "Device " + str(device_ips) + " Resynced Successfully !!"
+                        self.log("Device Resynced Successfully and Resynced devices are :" + str(input_device_ips))
+                        self.msg = "Device " + str(input_device_ips) + " Resynced Successfully !!"
                         break
                     elif execution_details.get("isError"):
                         self.status = "failed"
@@ -1240,14 +1261,16 @@ class DnacDevice(DnacBase):
         """
 
         device_ips = self.config[0].get("ip_address", [])
-        if device_ips:
-            ap_devices = self.get_ap_devices(device_ips)
-            self.log("AP Devices from the playbook input are : {0}".format(str(ap_devices)))
-            for device_ip in device_ips:
-                if device_ip not in ap_devices:
-                    device_ips.remove(device_ip)
+        input_device_ips = device_ips.copy()
 
-        if not device_ips:
+        if input_device_ips:
+            ap_devices = self.get_ap_devices(input_device_ips)
+            self.log("AP Devices from the playbook input are : {0}".format(str(ap_devices)))
+            for device_ip in input_device_ips:
+                if device_ip not in ap_devices:
+                    input_device_ips.remove(device_ip)
+
+        if not input_device_ips:
             self.msg = "No AP Devices IP given in the playbook so can't perform reboot operation"
             self.status = "success"
             self.result['changed'] = False
@@ -1257,7 +1280,7 @@ class DnacDevice(DnacBase):
 
         # Get and store the apEthernetMacAddress of given devices
         ap_mac_address_list = []
-        for device_ip in device_ips:
+        for device_ip in input_device_ips:
             response = self.dnac._exec(
                 family="devices",
                 function='get_device_list',
@@ -1303,8 +1326,8 @@ class DnacDevice(DnacBase):
                     self.status = "success"
                     self.result['changed'] = True
                     self.result['response'] = execution_details
-                    self.log("AP Devices Rebooted Successfully and Rebooted devices are :" + str(device_ips))
-                    self.msg = "Device " + str(device_ips) + " Rebooted Successfully !!"
+                    self.log("AP Devices rebooted successfully. Rebooted devices: {0}".format(str(input_device_ips)), "INFO")
+                    self.msg = "AP Device(s) {0} successfully rebooted!".format(str(input_device_ips))
                     break
                 elif execution_details.get("isError"):
                     self.status = "failed"
@@ -1457,15 +1480,16 @@ class DnacDevice(DnacBase):
         site_name = self.config[0]['provision_wired_device']['site_name']
         device_in_dnac = self.device_exists_in_dnac()
         device_ips = self.config[0]['ip_address']
+        input_device_ips = device_ips.copy()
 
-        for device_ip in device_ips:
+        for device_ip in input_device_ips:
             if device_ip not in device_in_dnac:
-                device_ips.remove(device_ip)
+                input_device_ips.remove(device_ip)
 
         device_type = "Wired"
         provision_count, already_provision_count = 0, 0
 
-        if not site_name and not device_ips:
+        if not site_name and not input_device_ips:
             self.status = "failed"
             self.msg = "Site/Devices are required for Provisioning of Wired Devices."
             self.log(self.msg)
@@ -1476,7 +1500,7 @@ class DnacDevice(DnacBase):
             'siteNameHierarchy': site_name
         }
 
-        for device_ip in device_ips:
+        for device_ip in input_device_ips:
             try:
                 provision_wired_params['deviceManagementIpAddress'] = device_ip
                 count = 1
@@ -1499,7 +1523,8 @@ class DnacDevice(DnacBase):
                         break
 
                 if not managed_flag:
-                    self.log("Device {0} not coming to managed state so cannot perform provisioning operation".format(device_ip))
+                    self.log("Device {0} is not transitioning to the managed state, so provisioning operation cannot be performed."
+                             .format(device_ip), 'warning')
                     continue
 
                 response = self.dnac._exec(
@@ -1674,23 +1699,41 @@ class DnacDevice(DnacBase):
 
         device_in_dnac = self.device_exists_in_dnac()
         device_ips = self.config[0]['ip_address']
+        input_device_ips = device_ips.copy()
 
-        for device_ip in device_ips:
+        for device_ip in input_device_ips:
             if device_ip not in device_in_dnac:
-                device_ips.remove(device_ip)
+                input_device_ips.remove(device_ip)
 
-        for device_ip in device_ips:
+        for device_ip in input_device_ips:
             try:
                 # Collect the device parameters from the playbook to perform wireless provisioing
                 self.get_wireless_param(device_ip).check_return_status()
                 provisioning_params = self.wireless_param
+                count = 1
+                managed_flag = True
 
                 # Check till device comes into managed state
                 while True:
                     response = self.get_device_response(device_ip)
                     self.log("Device is in {0} state waiting for Managed State.".format(response['managementState']))
-                    if response['managementState'] == "Managed":
+
+                    if (
+                        response.get('managementState') == "Managed"
+                        and response.get('collectionStatus') == "Managed"
+                        and response.get("hostname")
+                    ):
                         break
+
+                    count = count + 1
+                    if count > 200:
+                        managed_flag = False
+                        break
+
+                if not managed_flag:
+                    self.log("Device {0} is not transitioning to the managed state, so provisioning operation cannot be performed."
+                             .format(device_ip), 'warning')
+                    continue
 
                 # Now we have provisioning_param so we can do wireless provisioning
                 response = self.dnac_apply['exec'](
@@ -2238,10 +2281,10 @@ class DnacDevice(DnacBase):
                 # Update Device details and credentails
                 device_uuids = self.get_device_ids(device_to_update)
                 password = "Testing@123"
-                payload_params = {"deviceUuids": device_uuids, "password": password, "operationEnum": "0"}
-                response = self.trigger_export_api(payload_params)
+                export_payload = {"deviceUuids": device_uuids, "password": password, "operationEnum": "0"}
+                export_response = self.trigger_export_api(export_payload)
                 self.check_return_status()
-                csv_reader = self.decrypt_and_read_csv(response, password)
+                csv_reader = self.decrypt_and_read_csv(export_response, password)
                 self.check_return_status()
                 device_data = next(csv_reader, None)
                 playbook_params = self.want.get("device_params")
@@ -2272,7 +2315,6 @@ class DnacDevice(DnacBase):
                     mapped_key = device_key_mapping[key]
 
                     if playbook_params[mapped_key] is None:
-
                         if playbook_params['snmpMode'] == "AUTHPRIV":
                             playbook_params['snmpAuthPassphrase'] = csv_data_dict['snmp_auth_passphrase']
                             playbook_params['snmpPrivPassphrase'] = csv_data_dict['snmp_priv_passphrase']
@@ -2862,6 +2904,7 @@ def main():
                     'dnac_verify': {'type': 'bool', 'default': 'True'},
                     'dnac_version': {'type': 'str', 'default': '2.2.3.3'},
                     'dnac_debug': {'type': 'bool', 'default': False},
+                    'dnac_log_level': {'type': 'str', 'default': 'INFO'},
                     'dnac_log': {'type': 'bool', 'default': False},
                     'validate_response_schema': {'type': 'bool', 'default': True},
                     'config_verify': {'type': 'bool', "default": False},
