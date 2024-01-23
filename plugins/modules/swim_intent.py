@@ -855,10 +855,10 @@ class DnacSwims(DnacBase):
                 import_function = 'import_software_image_via_url'
             else:
                 import_params = dict(
-                    isThirdParty=self.want.get("local_import_details").get("is_third_party"),
-                    thirdPartyVendor=self.want.get("local_import_details").get("third_party_vendor"),
-                    thirdPartyImageFamily=self.want.get("local_import_details").get("third_party_image_family"),
-                    thirdPartyApplicationType=self.want.get("local_import_details").get("third_party_application_type"),
+                    is_third_party=self.want.get("local_import_details").get("is_third_party"),
+                    third_party_vendor=self.want.get("local_import_details").get("third_party_vendor"),
+                    third_party_image_family=self.want.get("local_import_details").get("third_party_image_family"),
+                    third_party_application_type=self.want.get("local_import_details").get("third_party_application_type"),
                     file_path=self.want.get("local_import_details").get("file_path"),
                 )
                 import_function = 'import_local_software_image'
@@ -874,9 +874,11 @@ class DnacSwims(DnacBase):
 
             task_details = {}
             task_id = response.get("response").get("taskId")
+
             while (True):
                 task_details = self.get_task_details(task_id)
                 name = image_name.split('/')[-1]
+
                 if task_details and \
                         ("completed successfully" in task_details.get("progress").lower()):
                     self.result['changed'] = True
@@ -887,7 +889,7 @@ class DnacSwims(DnacBase):
                     break
 
                 if task_details and task_details.get("isError"):
-                    if "already exists" in task_details.get("failureReason"):
+                    if "already exists" in task_details.get("failureReason", ""):
                         self.msg = "SWIM Image {0} already exists in the Cisco DNA Center".format(name)
                         self.result['msg'] = self.msg
                         self.log(self.msg)
@@ -896,8 +898,9 @@ class DnacSwims(DnacBase):
                         break
                     else:
                         self.status = "failed"
-                        self.msg = task_details.get("failureReason")
-                        self.result[response] = task_details
+                        self.msg = task_details.get("failureReason", "SWIM Image {0} seems to be invalid".format(image_name))
+                        self.log(self.msg)
+                        self.result['response'] = self.msg
                         return self
 
             self.result['response'] = task_details if task_details else response
@@ -910,9 +913,10 @@ class DnacSwims(DnacBase):
             return self
 
         except Exception as e:
-            self.log("Import Image details are not given in the playbook")
             self.status = "failed"
-            self.result['changed'] = False
+            self.msg = "Import Image details are not given in the playbook or Import Image API not triggered successfully."
+            self.log(self.msg)
+            self.result['response'] = self.msg
 
         return self
 
