@@ -776,5 +776,5 @@ releases:
         release_summary: Set dnac log level if it is not set in the playbook.
         minor_changes:
           - Set dnac log level if it is not set in the playbook.
-          - Handle provisioning of device if it’s not in managed state for longer.
+          - Handle provisioning of device if it is not in managed state for longer.
           - Set the logging levels for device credentails intent module.
