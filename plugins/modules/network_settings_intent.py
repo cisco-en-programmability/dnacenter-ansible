@@ -411,7 +411,6 @@ response_3:
 """
 
 import copy
-from multiprocessing.util import ForkAwareThreadLock
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
