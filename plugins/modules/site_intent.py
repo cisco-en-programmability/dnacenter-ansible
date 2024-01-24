@@ -29,6 +29,11 @@ options:
     description: Set to True to verify the Cisco DNA Center config after applying the playbook config.
     type: bool
     default: False
+  dnac_log_level:
+    description: Specifies the log level for Cisco Catalyst Center logging, categorizing logs by severity.
+        Options- [CRITICAL, ERROR, WARNING, INFO, DEBUG]
+    type: str
+    default: INFO
   state:
     description: The state of DNAC after module completion.
     type: str
@@ -129,6 +134,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
     dnac_log: "{{dnac_log}}"
     state: merged
     config:
@@ -147,6 +153,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
     dnac_log: "{{dnac_log}}"
     state: merged
     config:
@@ -168,6 +175,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
     dnac_log: "{{dnac_log}}"
     state: merged
     config:
@@ -191,6 +199,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
     dnac_log: "{{dnac_log}}"
     state: merged
     config:
@@ -212,6 +221,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
     dnac_log: "{{dnac_log}}"
     state: deleted
     config:
@@ -353,7 +363,7 @@ class DnacSite(DnacBase):
             type=dict(required=False, type='str'),
             site=dict(required=True, type='dict'),
         )
-
+        self.config = self.camel_to_snake_case(self.config)
         # Validate site params
         valid_temp, invalid_params = validate_list_of_dicts(
             self.config, temp_spec
@@ -1008,6 +1018,7 @@ def main():
                     'dnac_verify': {'type': 'bool', 'default': 'True'},
                     'dnac_version': {'type': 'str', 'default': '2.2.3.3'},
                     'dnac_debug': {'type': 'bool', 'default': False},
+                    'dnac_log_level': {'type': 'str', 'default': 'INFO'},
                     'dnac_log': {'type': 'bool', 'default': False},
                     'validate_response_schema': {'type': 'bool', 'default': True},
                     'config_verify': {'type': 'bool', "default": False},
