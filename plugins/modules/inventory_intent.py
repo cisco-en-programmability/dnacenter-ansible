@@ -29,8 +29,8 @@ options:
     type: bool
     default: False
   dnac_log_level:
-    description: Defines log levels to categorize logs by severity.
-        Options- [CRITICAL, ERROR, WARNING, DEBUG, INFO]
+    description: Specifies the log level for Cisco Catalyst Center logging, categorizing logs by severity.
+        Options- [CRITICAL, ERROR, WARNING, INFO, DEBUG]
     type: str
     default: INFO
   state:

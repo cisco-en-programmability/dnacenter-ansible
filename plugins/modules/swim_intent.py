@@ -31,8 +31,8 @@ author: Madhan Sankaranarayanan (@madhansansel)
         Abhishek Maheshwari (@abmahesh)
 options:
   dnac_log_level:
-    description: Defines log levels to categorize logs by severity.
-        Options- [CRITICAL, ERROR, WARNING, DEBUG, INFO]
+    description: Specifies the log level for Cisco Catalyst Center logging, categorizing logs by severity.
+        Options- [CRITICAL, ERROR, WARNING, INFO, DEBUG]
     type: str
     default: INFO
   state:
@@ -821,7 +821,7 @@ class DnacSwims(DnacBase):
             import_type = self.want.get("import_type")
 
             if not import_type:
-                self.msg = "For Importig SWIM Image, details are not provided"
+                self.msg = "Error: Details required for importing SWIM image. Please provide the necessary information."
                 self.result['msg'] = self.msg
                 self.log(self.msg, "WARNING")
                 self.status = "success"
@@ -933,8 +933,9 @@ class DnacSwims(DnacBase):
 
         except Exception as e:
             self.status = "failed"
-            self.msg = "Import Image details are not provided in the playbook, or the Import Image API was not triggered successfully."
-            self.log(self.msg)
+            self.msg = """Error: Import image details are not provided in the playbook, or the Import Image API was not
+                 triggered successfully. Please ensure the necessary details are provided and verify the status of the Import Image process."""
+            self.log(self.msg, "ERROR")
             self.result['response'] = self.msg
 
         return self
