@@ -28,6 +28,9 @@ import datetime
 import inspect
 import re
 
+# Global log config variables
+__first_log_written = False
+
 
 class DnacBase():
 
@@ -65,7 +68,9 @@ class DnacBase():
                                         }
         self.dnac_log = dnac_params.get("dnac_log")
         self.dnac_log_level = dnac_params.get("dnac_log_level").upper()
-        log(str(dnac_params))
+        self.dnac_log_file_path = dnac_params.get("dnac_log_file_path")
+        self.dnac_logs_append = dnac_params.get("dnac_logs_append")
+        self.log(str(dnac_params))
         self.supported_states = ["merged", "deleted", "replaced", "overridden", "gathered", "rendered", "parsed"]
         self.result = {"changed": False, "diff": [], "response": [], "warnings": []}
 
@@ -157,13 +162,18 @@ class DnacBase():
         """
 
         level = level.upper()
+
+        # Validate dnac_log_level and level
+        valid_log_levels = ('DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL')
+        if level and self.dnac_log_level not in valid_log_levels:
+            raise ValueError("Invalid log level: 'dnac_log_level: {}' and 'level: {}'. Expected one of {}.".format(self.dnac_log_level, level, valid_log_levels))
+
         if (
             self.dnac_log
-            and self.dnac_log_level in ('DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL')
             and logging.getLevelName(level) >= logging.getLevelName(self.dnac_log_level)
         ):
             message = "Module: " + self.__class__.__name__ + ", " + message
-            log(message, level, (1 + frameIncrement))
+            log(message, level, self.dnac_log_file_path, self.dnac_logs_append, (1 + frameIncrement))
 
     def check_return_status(self):
         """API to check the return status value and exit/fail the module"""
@@ -207,7 +217,9 @@ class DnacBase():
                        "dnac_verify": params.get("dnac_verify"),
                        "dnac_debug": params.get("dnac_debug"),
                        "dnac_log": params.get("dnac_log"),
-                       "dnac_log_level": params.get("dnac_log_level")
+                       "dnac_log_level": params.get("dnac_log_level"),
+                       "dnac_log_file_path": params.get("dnac_log_file_path"),
+                       "dnac_logs_append": params.get("dnac_logs_append"),
                        }
         return dnac_params
 
@@ -231,7 +243,7 @@ class DnacBase():
             params={"task_id": task_id}
         )
 
-        log(str(response))
+        self.log(str(response))
 
         if response and isinstance(response, dict):
             result = response.get('response')
@@ -401,13 +413,50 @@ class DnacBase():
         return new_config
 
 
-def log(msg, level='info', frameIncrement=0):
-    with open('dnac.log', 'a') as of:
+def log(msg, level='INFO', dnac_log_file_path='dnac.log', dnac_logs_append=True, frameIncrement=0):
+    """Logs/Appends messages into the specified log file or to dnac.log file by default 
+        
+    Args:
+        msg (str, required): The log message to be recorded.
+        level (str, optional): The log level, default is "info".
+                              The log level can be one of 'DEBUG', 'INFO', 'WARNING', 'ERROR', or 'CRITICAL'.
+        dnac_log_file_path (str, optional): The path to the log file, default is 'dnac.log'.
+        dnac_logs_append (bool, optional): A boolean indicating whether to append to an existing log file or create a new one, default is True.
+        frameIncrement (int, optional): The number of frames to increment in the call stack, default is 0.
+    
+    Note: 
+        Validates if the directory exists and raises an exception if it doesn't.
+        File gets created if it doesn't exist
+    """
+
+    global __first_log_written
+
+    # Validate dnac_log_file_path is absolute or relative
+    if not os.path.isabs(dnac_log_file_path):
+        dnac_log_file_path = os.path.join(os.getcwd(), dnac_log_file_path)
+
+    # Validate if the directory exists
+    log_directory = os.path.dirname(dnac_log_file_path)
+    if not os.path.exists(log_directory):
+        raise FileNotFoundError("The directory for log file '{}' does not exist.".format(dnac_log_file_path))
+
+    # Check if the file extension is .log
+    if not dnac_log_file_path.lower().endswith('.log'):
+        raise ValueError("The specified log file '{}' does not have a .log extension.".format(dnac_log_file_path))
+
+    # Change mode based on dnac_logs_append
+    if not __first_log_written and not dnac_logs_append:
+        mode = 'w'
+    else:
+        mode = 'a'
+        
+    with open(dnac_log_file_path, mode) as of:
         callerframerecord = inspect.stack()[1 + frameIncrement]
         frame = callerframerecord[0]
         info = inspect.getframeinfo(frame)
-        d = datetime.datetime.now().replace(microsecond=0).isoformat()
-        of.write("---- %s ---- %s@%s ---- %s: %s\n" % (d, info.lineno, info.function, level.upper(), msg))
+        current_datetime = datetime.datetime.now().replace(microsecond=0).isoformat()
+        of.write("---- {} ---- {}@{} ---- {}: {}\n".format(current_datetime, info.lineno, info.function, level.upper(), msg))
+        __first_log_written = True
 
 
 def is_list_complex(x):
@@ -685,7 +734,7 @@ def validate_list_of_dicts(param_list, spec, module=None):
             break
         for param in spec:
             item = list_entry.get(param)
-            log(str(item))
+            #log(str(item))
             if item is None:
                 if spec[param].get("required"):
                     invalid_params.append(
