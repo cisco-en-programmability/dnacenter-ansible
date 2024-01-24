@@ -1004,6 +1004,38 @@ class DnacSwims(DnacBase):
 
         return self
 
+    def get_device_ip_from_id(self, device_id):
+        """
+        Retrieve the management IP address of a device from Cisco DNA Center using its ID.
+        Args:
+            - self (object): An instance of a class used for interacting with Cisco DNA Center.
+            - device_id (str): The unique identifier of the device in Cisco DNA Center.
+        Returns:
+            str: The management IP address of the specified device.
+        Raises:
+            Exception: If there is an error while retrieving the response from Cisco DNA Center.
+        Description:
+            This method queries Cisco DNA Center for the device details based on its unique identifier (ID).
+            It uses the 'get_device_list' function in the 'devices' family, extracts the management IP address
+            from the response, and returns it. If any error occurs during the process, an exception is raised
+            with an appropriate error message logged.
+        """
+
+        try:
+            response = self.dnac._exec(
+                family="devices",
+                function='get_device_list',
+                params={"id": device_id}
+            )
+            response = response.get('response')[0]
+            device_ip = response.get("managementIpAddress")
+
+            return device_ip
+        except Exception as e:
+            error_message = "Error while getting the response of device from Cisco DNA Center - {0}".format(str(e))
+            self.log(error_message, "ERROR")
+            raise Exception(error_message)
+
     def get_diff_distribution(self):
         """
         Get image distribution parameters from the playbook and trigger image distribution.
@@ -1073,7 +1105,9 @@ class DnacSwims(DnacBase):
 
         self.log("List of device UUID's for Image Distribution " + str(device_uuid_list))
         device_distribution_count = 0
+        device_ips_list = []
         for device_uuid in device_uuid_list:
+            device_management_ip = self.get_device_ip_from_id(device_uuid)
             distribution_params = dict(
                 payload=[dict(
                     deviceUuid=device_uuid,
@@ -1106,6 +1140,7 @@ class DnacSwims(DnacBase):
                         error_msg = "Image with Id {0} Distribution Failed".format(image_id)
                         self.log(error_msg)
                         self.result['response'] = task_details
+                        device_ips_list.append(device_management_ip)
                         break
 
         if device_distribution_count == 0:
@@ -1119,6 +1154,7 @@ class DnacSwims(DnacBase):
             self.result['changed'] = True
             self.status = "success"
             self.msg = "Image with Id {0} Distributed and partially Successfull".format(image_id)
+            self.log("For Devices {0} Image Distribution gets Failed".format(str(device_ips_list)), "CRITICAL")
 
         self.result['msg'] = self.msg
         self.log(self.msg)
@@ -1200,7 +1236,10 @@ class DnacSwims(DnacBase):
         # if len(device_uuid_list) > 0:
         self.log("List of device UUID's for Image Activation" + str(device_uuid_list))
         device_activation_count = 0
+        device_ips_list = []
+
         for device_uuid in device_uuid_list:
+            device_management_ip = self.get_device_ip_from_id(device_uuid)
             payload = [dict(
                 activateLowerImageVersion=activation_details.get("activate_lower_image_version"),
                 deviceUpgradeMode=activation_details.get("device_upgrade_mode"),
@@ -1239,6 +1278,7 @@ class DnacSwims(DnacBase):
                     if task_details.get("isError"):
                         error_msg = "Image with Id {0} Activation Failed".format(image_id)
                         self.result['response'] = task_details
+                        device_ips_list.append(device_management_ip)
                         break
 
         if device_activation_count == 0:
@@ -1252,6 +1292,7 @@ class DnacSwims(DnacBase):
             self.result['changed'] = True
             self.status = "success"
             msg = "Image with Id {0} Activated and partially Successfull".format(image_id)
+            self.log("For Devices {0} Image Activation gets Failed".format(str(device_ips_list)), "CRITICAL")
 
         self.result['msg'] = msg
         self.log(msg)
