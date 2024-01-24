@@ -170,8 +170,8 @@ class DnacBase():
         # Validate dnac_log_level and level
         valid_log_levels = ('DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL')
         if level and self.dnac_log_level not in valid_log_levels:
-            raise ValueError("Invalid log level: 'dnac_log_level: {}' and 'level: {}'."
-                            " Expected one of {}.".format(self.dnac_log_level, level, valid_log_levels))
+            raise ValueError("Invalid log level: 'dnac_log_level: {0}' and 'level: {1}'."
+                            " Expected one of {2}.".format(self.dnac_log_level, level, valid_log_levels))
 
         if (
             self.dnac_log
@@ -443,11 +443,11 @@ def log(msg, level='INFO', dnac_log_file_path='dnac.log', dnac_logs_append=True,
     # Validate if the directory exists
     log_directory = os.path.dirname(dnac_log_file_path)
     if not os.path.exists(log_directory):
-        raise FileNotFoundError("The directory for log file '{}' does not exist.".format(dnac_log_file_path))
+        raise FileNotFoundError("The directory for log file '{0}' does not exist.".format(dnac_log_file_path))
 
     # Check if the file extension is .log
     if not dnac_log_file_path.lower().endswith('.log'):
-        raise ValueError("The specified log file '{}' does not have a .log extension.".format(dnac_log_file_path))
+        raise ValueError("The specified log file '{0}' does not have a .log extension.".format(dnac_log_file_path))
 
     # Change mode based on dnac_logs_append
     if not __first_log_written and not dnac_logs_append:
@@ -459,7 +459,7 @@ def log(msg, level='INFO', dnac_log_file_path='dnac.log', dnac_logs_append=True,
         frame = callerframerecord[0]
         info = inspect.getframeinfo(frame)
         current_datetime = datetime.datetime.now().replace(microsecond=0).isoformat()
-        of.write("---- {} ---- {}@{} ---- {}: {}\n".format(current_datetime, info.lineno, info.function, level.upper(), msg))
+        of.write("---- {0} ---- {1}@{2} ---- {3}: {4}\n".format(current_datetime, info.lineno, info.function, level.upper(), msg))
         __first_log_written = True
 
 
