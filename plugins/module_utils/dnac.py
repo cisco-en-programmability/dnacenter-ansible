@@ -71,8 +71,10 @@ class DnacBase():
         # Check if 'dnac_log_level' in the playbook params. If available,
         # convert it to uppercase; otherwise, set it to 'INFO'
         self.dnac_log_level = dnac_params.get("dnac_log_level", "INFO").upper()
+        self.dnac_log_file_path = dnac_params.get("dnac_log_file_path")
+        self.dnac_logs_append = dnac_params.get("dnac_logs_append")
 
-        log(str(dnac_params))
+        self.log(str(dnac_params))
         self.supported_states = ["merged", "deleted", "replaced", "overridden", "gathered", "rendered", "parsed"]
         self.result = {"changed": False, "diff": [], "response": [], "warnings": []}
 
@@ -153,7 +155,7 @@ class DnacBase():
         self.parsed = True
         return self
 
-    def log(self, message, level="info", frameIncrement=0):
+    def log(self, message, level="INFO", frameIncrement=0):
         """Logs/Appends messages into dnac.log file if logging is enabled and the log level is appropriate
         Args:
             self (obj, required): An instance of the DnacBase Class.
@@ -428,7 +430,7 @@ def log(msg, level='INFO', dnac_log_file_path='dnac.log', dnac_logs_append=True,
     
     Note: 
         Validates if the directory exists and raises an exception if it doesn't.
-        File gets created if it doesn't exist
+        File gets created if it doesn't already exist.
     """
 
     global __first_log_written
@@ -451,7 +453,6 @@ def log(msg, level='INFO', dnac_log_file_path='dnac.log', dnac_logs_append=True,
         mode = 'w'
     else:
         mode = 'a'
-        
     with open(dnac_log_file_path, mode) as of:
         callerframerecord = inspect.stack()[1 + frameIncrement]
         frame = callerframerecord[0]
