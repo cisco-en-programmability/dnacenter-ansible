@@ -30,7 +30,7 @@ options:
     default: False
   dnac_log_level:
     description: Defines log levels to categorize logs by severity.
-        Choices - [DEBUG, , INFO, WARNING, CRITICAL, ERROR]
+        Options- [CRITICAL, ERROR, WARNING, DEBUG, INFO]
     type: str
     default: INFO
   state:
