@@ -170,7 +170,8 @@ class DnacBase():
         # Validate dnac_log_level and level
         valid_log_levels = ('DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL')
         if level and self.dnac_log_level not in valid_log_levels:
-            raise ValueError("Invalid log level: 'dnac_log_level: {}' and 'level: {}'. Expected one of {}.".format(self.dnac_log_level, level, valid_log_levels))
+            raise ValueError("Invalid log level: 'dnac_log_level: {}' and 'level: {}'."
+                            " Expected one of {}.".format(self.dnac_log_level, level, valid_log_levels))
 
         if (
             self.dnac_log
@@ -418,8 +419,8 @@ class DnacBase():
 
 
 def log(msg, level='INFO', dnac_log_file_path='dnac.log', dnac_logs_append=True, frameIncrement=0):
-    """Logs/Appends messages into the specified log file or to dnac.log file by default 
-        
+    """Logs/Appends messages into the specified log file or to dnac.log file by default
+
     Args:
         msg (str, required): The log message to be recorded.
         level (str, optional): The log level, default is "info".
@@ -427,8 +428,8 @@ def log(msg, level='INFO', dnac_log_file_path='dnac.log', dnac_logs_append=True,
         dnac_log_file_path (str, optional): The path to the log file, default is 'dnac.log'.
         dnac_logs_append (bool, optional): A boolean indicating whether to append to an existing log file or create a new one, default is True.
         frameIncrement (int, optional): The number of frames to increment in the call stack, default is 0.
-    
-    Note: 
+
+    Note:
         Validates if the directory exists and raises an exception if it doesn't.
         File gets created if it doesn't already exist.
     """
@@ -737,7 +738,7 @@ def validate_list_of_dicts(param_list, spec, module=None):
             break
         for param in spec:
             item = list_entry.get(param)
-            #log(str(item))
+            # log(str(item))
             if item is None:
                 if spec[param].get("required"):
                     invalid_params.append(
