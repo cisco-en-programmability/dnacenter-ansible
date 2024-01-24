@@ -819,6 +819,15 @@ class DnacSwims(DnacBase):
 
         try:
             import_type = self.want.get("import_type")
+
+            if not import_type:
+                self.msg = "For Importig SWIM Image, details are not provided"
+                self.result['msg'] = self.msg
+                self.log(self.msg, "WARNING")
+                self.status = "success"
+                self.result['changed'] = False
+                return self
+
             if import_type == "url":
                 image_name = self.want.get("url_import_details").get("payload")[0].get("source_url")
             else:
