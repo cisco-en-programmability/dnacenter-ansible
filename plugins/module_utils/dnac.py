@@ -67,10 +67,12 @@ class DnacBase():
                                         'parsed': self.verify_diff_parsed
                                         }
         self.dnac_log = dnac_params.get("dnac_log")
-        self.dnac_log_level = dnac_params.get("dnac_log_level").upper()
-        self.dnac_log_file_path = dnac_params.get("dnac_log_file_path")
-        self.dnac_logs_append = dnac_params.get("dnac_logs_append")
-        self.log(str(dnac_params))
+
+        # Check if 'dnac_log_level' in the playbook params. If available,
+        # convert it to uppercase; otherwise, set it to 'INFO'
+        self.dnac_log_level = dnac_params.get("dnac_log_level", "INFO").upper()
+
+        log(str(dnac_params))
         self.supported_states = ["merged", "deleted", "replaced", "overridden", "gathered", "rendered", "parsed"]
         self.result = {"changed": False, "diff": [], "response": [], "warnings": []}
 

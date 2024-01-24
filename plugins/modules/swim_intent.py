@@ -30,6 +30,11 @@ author: Madhan Sankaranarayanan (@madhansansel)
         Rishita Chowdhary (@rishitachowdhary)
         Abhishek Maheshwari (@abmahesh)
 options:
+  dnac_log_level:
+    description: Specifies the log level for Cisco Catalyst Center logging, categorizing logs by severity.
+        Options- [CRITICAL, ERROR, WARNING, INFO, DEBUG]
+    type: str
+    default: INFO
   state:
     description: The state of DNAC after module completion.
     type: str
@@ -230,6 +235,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
     dnac_log: True
     config:
     - import_image_details:
@@ -269,6 +275,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
     dnac_log: True
     config:
     - import_image_details:
@@ -296,6 +303,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
     dnac_log: True
     config:
     - tagging_details:
@@ -315,6 +323,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
     dnac_log: True
     config:
     - image_distribution_details:
@@ -332,6 +341,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
     dnac_log: True
     config:
     - image_activation_details:
@@ -809,6 +819,15 @@ class DnacSwims(DnacBase):
 
         try:
             import_type = self.want.get("import_type")
+
+            if not import_type:
+                self.msg = "Error: Details required for importing SWIM image. Please provide the necessary information."
+                self.result['msg'] = self.msg
+                self.log(self.msg, "WARNING")
+                self.status = "success"
+                self.result['changed'] = False
+                return self
+
             if import_type == "url":
                 image_name = self.want.get("url_import_details").get("payload")[0].get("source_url")
             else:
@@ -855,10 +874,10 @@ class DnacSwims(DnacBase):
                 import_function = 'import_software_image_via_url'
             else:
                 import_params = dict(
-                    isThirdParty=self.want.get("local_import_details").get("is_third_party"),
-                    thirdPartyVendor=self.want.get("local_import_details").get("third_party_vendor"),
-                    thirdPartyImageFamily=self.want.get("local_import_details").get("third_party_image_family"),
-                    thirdPartyApplicationType=self.want.get("local_import_details").get("third_party_application_type"),
+                    is_third_party=self.want.get("local_import_details").get("is_third_party"),
+                    third_party_vendor=self.want.get("local_import_details").get("third_party_vendor"),
+                    third_party_image_family=self.want.get("local_import_details").get("third_party_image_family"),
+                    third_party_application_type=self.want.get("local_import_details").get("third_party_application_type"),
                     file_path=self.want.get("local_import_details").get("file_path"),
                 )
                 import_function = 'import_local_software_image'
@@ -874,9 +893,11 @@ class DnacSwims(DnacBase):
 
             task_details = {}
             task_id = response.get("response").get("taskId")
+
             while (True):
                 task_details = self.get_task_details(task_id)
                 name = image_name.split('/')[-1]
+
                 if task_details and \
                         ("completed successfully" in task_details.get("progress").lower()):
                     self.result['changed'] = True
@@ -887,7 +908,7 @@ class DnacSwims(DnacBase):
                     break
 
                 if task_details and task_details.get("isError"):
-                    if "already exists" in task_details.get("failureReason"):
+                    if "already exists" in task_details.get("failureReason", ""):
                         self.msg = "SWIM Image {0} already exists in the Cisco DNA Center".format(name)
                         self.result['msg'] = self.msg
                         self.log(self.msg)
@@ -896,8 +917,9 @@ class DnacSwims(DnacBase):
                         break
                     else:
                         self.status = "failed"
-                        self.msg = task_details.get("failureReason")
-                        self.result[response] = task_details
+                        self.msg = task_details.get("failureReason", "SWIM Image {0} seems to be invalid".format(image_name))
+                        self.log(self.msg)
+                        self.result['response'] = self.msg
                         return self
 
             self.result['response'] = task_details if task_details else response
@@ -910,9 +932,11 @@ class DnacSwims(DnacBase):
             return self
 
         except Exception as e:
-            self.log("Import Image details are not given in the playbook")
             self.status = "failed"
-            self.result['changed'] = False
+            self.msg = """Error: Import image details are not provided in the playbook, or the Import Image API was not
+                 triggered successfully. Please ensure the necessary details are provided and verify the status of the Import Image process."""
+            self.log(self.msg, "ERROR")
+            self.result['response'] = self.msg
 
         return self
 
@@ -980,6 +1004,38 @@ class DnacSwims(DnacBase):
             self.result['response'] = task_details if task_details else response
 
         return self
+
+    def get_device_ip_from_id(self, device_id):
+        """
+        Retrieve the management IP address of a device from Cisco DNA Center using its ID.
+        Args:
+            - self (object): An instance of a class used for interacting with Cisco DNA Center.
+            - device_id (str): The unique identifier of the device in Cisco DNA Center.
+        Returns:
+            str: The management IP address of the specified device.
+        Raises:
+            Exception: If there is an error while retrieving the response from Cisco DNA Center.
+        Description:
+            This method queries Cisco DNA Center for the device details based on its unique identifier (ID).
+            It uses the 'get_device_list' function in the 'devices' family, extracts the management IP address
+            from the response, and returns it. If any error occurs during the process, an exception is raised
+            with an appropriate error message logged.
+        """
+
+        try:
+            response = self.dnac._exec(
+                family="devices",
+                function='get_device_list',
+                params={"id": device_id}
+            )
+            response = response.get('response')[0]
+            device_ip = response.get("managementIpAddress")
+
+            return device_ip
+        except Exception as e:
+            error_message = "Error while getting the response of device from Cisco DNA Center - {0}".format(str(e))
+            self.log(error_message, "ERROR")
+            raise Exception(error_message)
 
     def get_diff_distribution(self):
         """
@@ -1050,7 +1106,9 @@ class DnacSwims(DnacBase):
 
         self.log("List of device UUID's for Image Distribution " + str(device_uuid_list))
         device_distribution_count = 0
+        device_ips_list = []
         for device_uuid in device_uuid_list:
+            device_management_ip = self.get_device_ip_from_id(device_uuid)
             distribution_params = dict(
                 payload=[dict(
                     deviceUuid=device_uuid,
@@ -1083,6 +1141,7 @@ class DnacSwims(DnacBase):
                         error_msg = "Image with Id {0} Distribution Failed".format(image_id)
                         self.log(error_msg)
                         self.result['response'] = task_details
+                        device_ips_list.append(device_management_ip)
                         break
 
         if device_distribution_count == 0:
@@ -1096,6 +1155,7 @@ class DnacSwims(DnacBase):
             self.result['changed'] = True
             self.status = "success"
             self.msg = "Image with Id {0} Distributed and partially Successfull".format(image_id)
+            self.log("For Devices {0} Image Distribution gets Failed".format(str(device_ips_list)), "CRITICAL")
 
         self.result['msg'] = self.msg
         self.log(self.msg)
@@ -1177,7 +1237,10 @@ class DnacSwims(DnacBase):
         # if len(device_uuid_list) > 0:
         self.log("List of device UUID's for Image Activation" + str(device_uuid_list))
         device_activation_count = 0
+        device_ips_list = []
+
         for device_uuid in device_uuid_list:
+            device_management_ip = self.get_device_ip_from_id(device_uuid)
             payload = [dict(
                 activateLowerImageVersion=activation_details.get("activate_lower_image_version"),
                 deviceUpgradeMode=activation_details.get("device_upgrade_mode"),
@@ -1216,6 +1279,7 @@ class DnacSwims(DnacBase):
                     if task_details.get("isError"):
                         error_msg = "Image with Id {0} Activation Failed".format(image_id)
                         self.result['response'] = task_details
+                        device_ips_list.append(device_management_ip)
                         break
 
         if device_activation_count == 0:
@@ -1229,6 +1293,7 @@ class DnacSwims(DnacBase):
             self.result['changed'] = True
             self.status = "success"
             msg = "Image with Id {0} Activated and partially Successfull".format(image_id)
+            self.log("For Devices {0} Image Activation gets Failed".format(str(device_ips_list)), "CRITICAL")
 
         self.result['msg'] = msg
         self.log(msg)
@@ -1273,6 +1338,7 @@ def main():
                     'dnac_verify': {'type': 'bool', 'default': 'True'},
                     'dnac_version': {'type': 'str', 'default': '2.2.3.3'},
                     'dnac_debug': {'type': 'bool', 'default': False},
+                    'dnac_log_level': {'type': 'str', 'default': 'INFO'},
                     'dnac_log': {'type': 'bool', 'default': False},
                     'validate_response_schema': {'type': 'bool', 'default': True},
                     'config': {'required': True, 'type': 'list', 'elements': 'dict'},
