@@ -890,13 +890,15 @@ class DnacCredential(DnacBase):
             )
             self.log("Received API response from 'get_site': {0}".format(response), "DEBUG")
             if not response:
-                self.log("Failed to retrieve the site ID for the site name: {0}".format(site_name), "ERROR")
+                self.log("Failed to retrieve the site ID for the site name: {0}"
+                         .format(site_name), "ERROR")
                 return None
 
             _id = response.get("response")[0].get("id")
             self.log("Site ID for the site name {0}: {1}".format(site_name, _id), "INFO")
         except Exception as exec:
-            self.log("Exception occurred while getting site_id from the site_name: {0}".format(exec), "CRITICAL")
+            self.log("Exception occurred while getting site_id from the site_name: {0}"
+                     .format(exec), "CRITICAL")
             return None
 
         return _id
@@ -918,9 +920,11 @@ class DnacCredential(DnacBase):
                 function='get_all_global_credentials_v2',
             )
             global_credentials = global_credentials.get("response")
-            self.log("All Global Device Credentials Details " + str(global_credentials), "DEBUG")
+            self.log("All Global Device Credentials Details: {0}"
+                     .format(global_credentials), "DEBUG")
         except Exception as exec:
-            self.log("Exception occurred while getting global device credentials: {0}".format(exec), "CRITICAL")
+            self.log("Exception occurred while getting global device credentials: {0}"
+                     .format(exec), "CRITICAL")
             return None
 
         return global_credentials
@@ -1494,7 +1498,7 @@ class DnacCredential(DnacBase):
             CredentialDetails = config.get("global_credential_details")
             self.get_have_device_credentials(CredentialDetails).check_return_status()
 
-        self.log("Current State (have): " + str(self.have), "INFO")
+        self.log("Current State (have): {0}".format(self.have), "INFO")
         self.msg = "Successfully retrieved the details from the Cisco DNA Center"
         self.status = "success"
         return self
@@ -1830,7 +1834,7 @@ class DnacCredential(DnacBase):
                             self.msg = "auth_password length should be greater than 8"
                             self.status = "failed"
                             return self
-                        self.log("snmp_mode: {0}".format(create_credential[create_snmpv3_ptr]
+                        self.log("snmpMode: {0}".format(create_credential[create_snmpv3_ptr]
                                  .get("snmpMode")), "DEBUG")
                     if create_credential[create_snmpv3_ptr].get("snmpMode") == "AUTHPRIV":
                         privs = ["privacy_password", "privacy_type"]
@@ -2193,13 +2197,15 @@ class DnacCredential(DnacBase):
             return self
 
         credential_params = want_create
-        self.log("Creating Global Credential API input parameters: {0}".format(credential_params), "DEBUG")
+        self.log("Creating Global Credential API input parameters: {0}"
+                 .format(credential_params), "DEBUG")
         response = self.dnac._exec(
             family="discovery",
             function='create_global_credentials_v2',
             params=credential_params,
         )
-        self.log("Received API response from 'create_global_credentials_v2': {0}".format(response), "DEBUG")
+        self.log("Received API response from 'create_global_credentials_v2': {0}"
+                 .format(response), "DEBUG")
         validation_string = "global credential addition performed"
         self.check_task_response_status(response, validation_string).check_return_status()
         self.log("Global Credential Created Successfully", "INFO")
@@ -2261,10 +2267,12 @@ class DnacCredential(DnacBase):
                     function='update_global_credentials_v2',
                     params=credential_params,
                 )
-                self.log("Received API response for 'update_global_credentials_v2': {0}".format(response), "DEBUG")
+                self.log("Received API response for 'update_global_credentials_v2': {0}"
+                         .format(response), "DEBUG")
                 validation_string = "global credential update performed"
                 self.check_task_response_status(response, validation_string).check_return_status()
-        self.log("Updating Device Credential API input parameters: {0}".format(final_response), "DEBUG")
+        self.log("Updating Device Credential API input parameters: {0}"
+                 .format(final_response), "DEBUG")
         self.log("Global Device Credential Updated Successfully", "INFO")
         result_global_credential.update({
             "Updation": {
@@ -2292,7 +2300,8 @@ class DnacCredential(DnacBase):
         result_assign_credential = self.result.get("response")[0].get("assignCredential")
         credential_params = self.want.get("assign_credentials")
         final_response = []
-        self.log("Assigning Device Credential to site API input parameters: {0}".format(credential_params), "DEBUG")
+        self.log("Assigning Device Credential to site API input parameters: {0}"
+                 .format(credential_params), "DEBUG")
         if not credential_params:
             result_assign_credential.update({
                 "No Assign Credentials": {
@@ -2313,12 +2322,14 @@ class DnacCredential(DnacBase):
                 function='assign_device_credential_to_site_v2',
                 params=credential_params,
             )
-            self.log("Response for API assign_device_credential_to_site_v2: " +
-                     str(response), "DEBUG")
+            self.log("Response for API assign_device_credential_to_site_v2: {0}"
+                     .format(response), "DEBUG")
             validation_string = "desired common settings operation successful"
             self.check_task_response_status(response, validation_string).check_return_status()
-        self.log("Device Credential Assigned to site {0} is Successfully.".format(site_ids), "INFO")
-        self.log("Desired State for Assign Credentials to a Site: {0}".format(final_response), "DEBUG")
+        self.log("Device Credential Assigned to site {0} is Successfully."
+                 .format(site_ids), "INFO")
+        self.log("Desired State for Assign Credentials to a Site: {0}"
+                 .format(final_response), "DEBUG")
         result_assign_credential.update({
             "Assign Credentials": {
                 "response": final_response,
@@ -2397,13 +2408,15 @@ class DnacCredential(DnacBase):
                     function="delete_global_credential_v2",
                     params={"id": _id},
                 )
-                self.log("Received API response for 'delete_global_credential_v2': {0}".format(response), "DEBUG")
+                self.log("Received API response for 'delete_global_credential_v2': {0}"
+                         .format(response), "DEBUG")
                 validation_string = "global credential deleted successfully"
                 self.check_task_response_status(response, validation_string).check_return_status()
                 final_response.get(item).append(_id)
                 config_itr = config_itr + 1
 
-        self.log("Deleting Device Credential API input parameters: {0}".format(final_response), "DEBUG")
+        self.log("Deleting Device Credential API input parameters: {0}"
+                 .format(final_response), "DEBUG")
         self.log("Successfully Deleted Global Device Credential.", "INFO")
         result_global_credential.update({
             "Deletion": {
@@ -2448,8 +2461,8 @@ class DnacCredential(DnacBase):
         self.log(str("Entered the verify function."), "DEBUG")
         self.get_have(config)
         self.get_want(config)
-        self.log("Current State (have): " + str(self.have), "INFO")
-        self.log("Desired State (want): " + str(self.want), "INFO")
+        self.log("Current State (have): {0}".format(self.have), "INFO")
+        self.log("Desired State (want): {0}".format(self.want), "INFO")
 
         if config.get("global_credential_details") is not None:
             if self.want.get("want_create"):
@@ -2507,8 +2520,8 @@ class DnacCredential(DnacBase):
         """
 
         self.get_have(config)
-        self.log("Current State (have): " + str(self.have), "INFO")
-        self.log("Desired State (want): " + str(self.want), "INFO")
+        self.log("Current State (have): {0}".format(self.have), "INFO")
+        self.log("Desired State (want): {0}".format(self.want), "INFO")
 
         if config.get("global_credential_details") is not None:
             have_global_credential = self.have.get("globalCredential")
