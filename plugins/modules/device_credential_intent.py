@@ -1830,7 +1830,7 @@ class DnacCredential(DnacBase):
                             self.msg = "auth_password length should be greater than 8"
                             self.status = "failed"
                             return self
-                        self.log("snmpMode: {0}".format(create_credential[create_snmpv3_ptr]
+                        self.log("snmp_mode: {0}".format(create_credential[create_snmpv3_ptr]
                                  .get("snmpMode")), "DEBUG")
                     if create_credential[create_snmpv3_ptr].get("snmpMode") == "AUTHPRIV":
                         privs = ["privacy_password", "privacy_type"]
