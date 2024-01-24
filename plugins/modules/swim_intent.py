@@ -31,7 +31,8 @@ author: Madhan Sankaranarayanan (@madhansansel)
         Abhishek Maheshwari (@abmahesh)
 options:
   dnac_log_level:
-    description: Log levels are used to categorize the logs based on their severity.
+    description: Defines log levels to categorize logs by severity.
+        Choices - [DEBUG, , INFO, WARNING, CRITICAL, ERROR]
     type: str
     default: INFO
   state:
