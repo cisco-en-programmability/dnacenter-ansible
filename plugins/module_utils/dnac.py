@@ -170,8 +170,8 @@ class DnacBase():
         # Validate dnac_log_level and level
         valid_log_levels = ('DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL')
         if level and self.dnac_log_level not in valid_log_levels:
-            raise ValueError("Invalid log level: 'dnac_log_level: {0}' and 'level: {1}'."
-                            " Expected one of {2}.".format(self.dnac_log_level, level, valid_log_levels))
+            raise ValueError("Invalid log level: 'dnac_log_level:{0}' and 'level:{1}'."
+                             " Expected one of {2}.".format(self.dnac_log_level, level, valid_log_levels))
 
         if (
             self.dnac_log
