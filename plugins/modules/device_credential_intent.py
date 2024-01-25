@@ -2251,7 +2251,8 @@ class DnacCredential(DnacBase):
         values = ["cliCredential", "snmpV2cRead", "snmpV2cWrite",
                   "httpsRead", "httpsWrite", "snmpV3"]
         final_response = []
-        self.log("Desired State for updation: {0}".format(want_update), "DEBUG")
+        self.log("Desired State for global device credentials updation: {0}"
+                 .format(want_update), "DEBUG")
         while flag:
             flag = False
             credential_params = {}

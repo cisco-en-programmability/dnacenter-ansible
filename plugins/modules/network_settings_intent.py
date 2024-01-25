@@ -668,7 +668,7 @@ class DnacNetwork(DnacBase):
                 return None
 
             _id = response.get("response")[0].get("id")
-            self.log("Site ID: {0}".format(_id), "DEBUG")
+            self.log("Site ID for site name '{0}': {1}".format(site_name, _id), "DEBUG")
         except Exception as msg:
             self.log("Exception occurred while retrieving site_id from the site_name: {0}"
                      .format(msg), "CRITICAL")
@@ -1768,7 +1768,7 @@ class DnacNetwork(DnacBase):
                  .format(self.want.get("wantReserve")), "DEBUG")
 
         # Check pool exist, if not create and return
-        self.log("Ipv4 global pool: {0}"
+        self.log("IPv4 global pool: {0}"
                  .format(self.want.get("wantReserve").get("ipv4GlobalPool")), "DEBUG")
         site_name = config.get("reserve_pool_details").get("site_name")
         reserve_params = self.want.get("wantReserve")
@@ -2037,7 +2037,7 @@ class DnacNetwork(DnacBase):
                 self.status = "failed"
                 return self
 
-            self.log("Successfully validated the reserve pool '{0}'."
+            self.log("Successfully validated the reserved pool '{0}'."
                      .format(self.want.get("wantReserve").get("name")), "INFO")
             self.result.get("response")[1].get("reservePool").update({"Validation": "Success"})
 
@@ -2088,7 +2088,7 @@ class DnacNetwork(DnacBase):
         if config.get("reserve_pool_details") is not None:
             reserve_pool_exists = self.have.get("reservePool").get("exists")
             if reserve_pool_exists:
-                self.msg = "Reserved Pool Config is not applied to the DNAC"
+                self.msg = "Reserved Pool Config is not applied to the Catalyst Center"
                 self.status = "failed"
                 return self
 

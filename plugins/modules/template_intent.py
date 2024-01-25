@@ -1609,7 +1609,7 @@ class DnacTemplate(DnacBase):
         i = 0
         self.log("Template params details: {0}".format(template_params), "DEBUG")
         for item in template_params:
-            self.log("Template Pprams items: {0}".format(item), "DEBUG")
+            self.log("Template params items: {0}".format(item), "DEBUG")
             templateParams.append({})
             binding = item.get("binding")
             if binding is not None:
