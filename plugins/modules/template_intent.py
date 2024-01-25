@@ -1607,9 +1607,9 @@ class DnacTemplate(DnacBase):
 
         templateParams = []
         i = 0
-        self.log("Template Params Details: {0}".format(template_params), "DEBUG")
+        self.log("Template params details: {0}".format(template_params), "DEBUG")
         for item in template_params:
-            self.log("Template Params Items: {0}".format(item), "DEBUG")
+            self.log("Template Pprams items: {0}".format(item), "DEBUG")
             templateParams.append({})
             binding = item.get("binding")
             if binding is not None:
@@ -1689,11 +1689,11 @@ class DnacTemplate(DnacBase):
                 templateParams[i].update({"required": required})
 
             range = item.get("range")
-            self.log("Template Params Range List: {0}".format(range), "DEBUG")
+            self.log("Template params range list: {0}".format(range), "DEBUG")
             if range is not None:
                 templateParams[i].update({"range": []})
                 _range = templateParams[i].get("range")
-                self.log("Template Params Range: {0}".format(_range), "DEBUG")
+                self.log("Template params range: {0}".format(_range), "DEBUG")
                 j = 0
                 for value in range:
                     _range.append({})
@@ -1716,9 +1716,9 @@ class DnacTemplate(DnacBase):
                         return self.check_return_status()
                     j = j + 1
 
-            self.log("Template Params Details: {0}".format(templateParams), "DEBUG")
+            self.log("Template params details: {0}".format(templateParams), "DEBUG")
             selection = item.get("selection")
-            self.log("Template Params Selection: {0}".format(selection), "DEBUG")
+            self.log("Template params selection: {0}".format(selection), "DEBUG")
             if selection is not None:
                 templateParams[i].update({"selection": {}})
                 _selection = templateParams[i].get("selection")
@@ -1842,7 +1842,7 @@ class DnacTemplate(DnacBase):
             temp_params (dict) - Organized template parameters.
         """
 
-        self.log("Template Params Playbook Details: {0}".format(params), "DEBUG")
+        self.log("Template params playbook details: {0}".format(params), "DEBUG")
         temp_params = {
             "tags": self.get_tags(params.get("template_tag")),
             "author": params.get("author"),
@@ -1877,12 +1877,12 @@ class DnacTemplate(DnacBase):
             "version": params.get("version"),
             "project_id": params.get("project_id")
         }
-        self.log("Formatted Template Params Details: {0}".format(temp_params), "DEBUG")
+        self.log("Formatted template params details: {0}".format(temp_params), "DEBUG")
         copy_temp_params = copy.deepcopy(temp_params)
         for item in copy_temp_params:
             if temp_params[item] is None:
                 del temp_params[item]
-        self.log("Formatted Template Params Details: {0}".format(temp_params), "DEBUG")
+        self.log("Formatted template params details: {0}".format(temp_params), "DEBUG")
         return temp_params
 
     def get_template(self, config):
@@ -2069,7 +2069,7 @@ class DnacTemplate(DnacBase):
 
         want = {}
         configuration_templates = config.get("configuration_templates")
-        self.log("Playbook Details: {0}".format(config), "INFO")
+        self.log("Playbook details: {0}".format(config), "INFO")
         if configuration_templates:
             template_params = self.get_template_params(configuration_templates)
             project_params = self.get_project_params(configuration_templates)
@@ -2107,7 +2107,6 @@ class DnacTemplate(DnacBase):
         project_params = self.want.get("project_params")
 
         if is_create_project:
-            self.log("Project Created.", "DEBUG")
             params_key = project_params
             name = "project: {0}".format(project_params.get('name'))
             validation_string = "Successfully created project"
@@ -2125,28 +2124,31 @@ class DnacTemplate(DnacBase):
             params=params_key,
         )
         if not isinstance(response, dict):
-            self.log("Response not in dictionary format.", "CRITICAL")
+            self.log("Response of '{0}' is not in dictionary format."
+                     .format(creation_value), "CRITICAL")
             return creation_id, created
 
         task_id = response.get("response").get("taskId")
         if not task_id:
-            self.log("Task id {0} not found".format(task_id), "CRITICAL")
+            self.log("Task id {0} not found for '{1}'.".format(task_id, creation_value), "CRITICAL")
             return creation_id, created
 
         while not created:
             task_details = self.get_task_details(task_id)
             if not task_details:
-                self.log("Failed to get task details for taskid: {0}".format(task_id), "CRITICAL")
+                self.log("Failed to get task details of '{0}' for taskid: {1}"
+                         .format(creation_value, task_id), "CRITICAL")
                 return creation_id, created
 
-            self.log("task_details: {0}".format(task_details), "DEBUG")
+            self.log("Task details for {0}: {1}".format(creation_value, task_details), "DEBUG")
             if task_details.get("isError"):
-                self.log("isError set to true for taskid: {0}".format(task_id), "ERROR")
+                self.log("Error occurred for '{0}' with taskid: {1}"
+                         .format(creation_value, task_id), "ERROR")
                 return creation_id, created
 
             if validation_string not in task_details.get("progress"):
-                self.log("progress set to {0} for taskid: {1}"
-                         .format(task_details.get('progress'), task_id), "DEBUG")
+                self.log("'{0}' progress set to {1} for taskid: {2}"
+                         .format(creation_value, task_details.get('progress'), task_id), "DEBUG")
                 continue
 
             task_details_data = task_details.get("data")
@@ -2156,7 +2158,8 @@ class DnacTemplate(DnacBase):
             else:
                 creation_id = value.get("templateId")
             if not creation_id:
-                self.log("Data is not found for taskid: {0}".format(task_id), "DEBUG")
+                self.log("Export data is not found for '{0}' with taskid : {1}"
+                         .format(creation_value, task_id), "DEBUG")
                 continue
 
             created = True
@@ -2183,7 +2186,8 @@ class DnacTemplate(DnacBase):
         """
 
         if self.have_template.get("isCommitPending"):
-            self.log("Template is in saved state and needs to be updated and committed.", "DEBUG")
+            self.log("Template '{0}' is in saved state and needs to be updated and committed."
+                     .format(self.have_template.get("template").get("name")), "DEBUG")
             return True
 
         current_obj = self.have_template.get("template")
@@ -2304,22 +2308,22 @@ class DnacTemplate(DnacBase):
         )
         for values in export_values:
             project_name = values.get("project_name")
-            self.log("Project Name for Export Template: {0}".format(project_name), "DEBUG")
+            self.log("Project name for export template: {0}".format(project_name), "DEBUG")
             template_details = template_details.get("response")
-            self.log("Template Details: {0}".format(template_details), "DEBUG")
+            self.log("Template details: {0}".format(template_details), "DEBUG")
             all_template_details = get_dict_result(template_details,
                                                    "name",
                                                    project_name)
-            self.log("Template Details under the Project Name {0}: {1}"
+            self.log("Template details under the project name {0}: {1}"
                      .format(project_name, all_template_details), "DEBUG")
             all_template_details = all_template_details.get("templates")
-            self.log("Template Details under the Project Name {0}: {1}"
+            self.log("Template details under the project name {0}: {1}"
                      .format(project_name, all_template_details), "DEBUG")
             template_name = values.get("template_name")
             template_detail = get_dict_result(all_template_details,
                                               "name",
                                               template_name)
-            self.log("Template Details with Template Name {0}: {1}"
+            self.log("Template details with template name {0}: {1}"
                      .format(template_name, template_detail), "DEBUG")
             if template_detail is None:
                 self.msg = "Invalid project_name and template_name in export"
@@ -2357,8 +2361,8 @@ class DnacTemplate(DnacBase):
 
             is_template_found = self.have_template.get("template_found")
             template_params = self.want.get("template_params")
-            self.log("Template Details in Playbook: {0}".format(template_params), "DEBUG")
-            self.log("Template Details in DNAC: {0}".format(self.have_template), "DEBUG")
+            self.log("Desired template details: {0}".format(template_params), "DEBUG")
+            self.log("Current template details: {0}".format(self.have_template), "DEBUG")
             template_id = None
             template_updated = False
             self.validate_input_merge(is_template_found).check_return_status()
@@ -2375,7 +2379,8 @@ class DnacTemplate(DnacBase):
                         op_modifies=True,
                     )
                     template_updated = True
-                    self.log("Updating Existing Template.", "INFO")
+                    self.log("Updating existing template '{0}'."
+                             .format(self.have_template.get("template").get("name")), "INFO")
                 else:
                     # Template does not need update
                     self.result.update({
@@ -2413,7 +2418,7 @@ class DnacTemplate(DnacBase):
                 self.result['changed'] = True
                 self.result['msg'] = task_details.get('progress')
                 self.result['diff'] = config.get("configuration_templates")
-                self.log("Task Details: {0}".format(task_details), "DEBUG")
+                self.log("Task details for 'version_template': {0}".format(task_details), "DEBUG")
                 self.result['response'] = task_details if task_details else response
 
                 if not self.result.get('msg'):
@@ -2435,7 +2440,7 @@ class DnacTemplate(DnacBase):
         export = config.get("export")
         if export:
             export_project = export.get("project")
-            self.log("Export Project Playbook Details: {0}"
+            self.log("Export project playbook details: {0}"
                      .format(export_project), "DEBUG")
             if export_project:
                 response = self.dnac._exec(
@@ -2452,7 +2457,7 @@ class DnacTemplate(DnacBase):
             export_values = export.get("template")
             if export_values:
                 self.get_export_template_values(export_values).check_return_status()
-                self.log("Export Template Playbook Details: {0}"
+                self.log("Exporting template playbook details: {0}"
                          .format(self.export_template), "DEBUG")
                 response = self.dnac._exec(
                     family="configuration_templates",
@@ -2494,7 +2499,7 @@ class DnacTemplate(DnacBase):
                 # "payload": "{0}".format(payload)
                 "payload": payload
             }
-            self.log("Import Project Details from the Playbook: {0}"
+            self.log("Importing project details from the playbook: {0}"
                      .format(_import_project), "DEBUG")
             if _import_project:
                 response = self.dnac._exec(
@@ -2522,7 +2527,7 @@ class DnacTemplate(DnacBase):
                 "projectName": _import_template.get("project_name"),
                 "payload": self.get_template_params(payload)
             }
-            self.log("Import Template Details from the Playbook: {0}"
+            self.log("Import template details from the playbook: {0}"
                      .format(_import_template), "DEBUG")
             if _import_template:
                 response = self.dnac._exec(
@@ -2600,7 +2605,7 @@ class DnacTemplate(DnacBase):
             self.result['msg'] = task_details.get('progress')
             self.result['diff'] = config.get("configuration_templates")
 
-            self.log("Task Details: {0}".format(task_details), "DEBUG")
+            self.log("Task details for '{0}': {1}".format(deletion_value, task_details), "DEBUG")
             self.result['response'] = task_details if task_details else response
             if not self.result['msg']:
                 self.result['msg'] = "Error while deleting {name} : "
@@ -2643,8 +2648,9 @@ class DnacTemplate(DnacBase):
                     self.status = "failed"
                     return self
             else:
-                self.log("Template Name is empty, deleting the project and "
-                         "associated templates", "INFO")
+                self.log("Template name is empty, deleting the project '{0}' and "
+                         "associated templates"
+                         .format(config.get("configuration_templates").get("project_name")), "INFO")
                 is_project_deletable = self.have_project.get("isDeletable")
                 if is_project_deletable:
                     self.delete_project_or_template(config, is_delete_project=True)
@@ -2672,7 +2678,7 @@ class DnacTemplate(DnacBase):
 
         if config.get("configuration_templates") is not None:
             is_template_available = self.get_have_project(config)
-            self.log("Template Availability: {0}".format(is_template_available), "INFO")
+            self.log("Template availability: {0}".format(is_template_available), "INFO")
             if not is_template_available:
                 self.msg = "Configuration Template config is not applied to the DNAC."
                 self.status = "failed"
@@ -2688,7 +2694,7 @@ class DnacTemplate(DnacBase):
                     self.msg = " Configuration Template config is not applied to the DNAC."
                     self.status = "failed"
                     return self
-            self.log("Successfully validated the Template in the DNAC.", "INFO")
+            self.log("Successfully validated the Template in the Catalyst Center.", "INFO")
             self.result.get("response").update({"Validation": "Success"})
 
         self.msg = "Successfully validated the Configuration Templates."
@@ -2726,7 +2732,7 @@ class DnacTemplate(DnacBase):
                     self.status = "failed"
                     return self
 
-            self.log("Successfully validated absence of Template in the DNAC.", "INFO")
+            self.log("Successfully validated absence of template in the Catalyst Center.", "INFO")
             self.result.get("response").update({"Validation": "Success"})
 
         self.msg = "Successfully validated the absence of Template in the DNAC."
