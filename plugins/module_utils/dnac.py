@@ -71,12 +71,13 @@ class DnacBase():
         # Check if 'dnac_log_level' in the playbook params. If available,
         # convert it to uppercase; otherwise, set it to 'INFO'
         self.dnac_log_level = dnac_params.get("dnac_log_level", "INFO").upper()
-        self.dnac_log_file_path = dnac_params.get("dnac_log_file_path")
-        self.dnac_logs_append = dnac_params.get("dnac_logs_append")
+        self.dnac_log_file_path = dnac_params.get("dnac_log_file_path", "dnac.log")
+        self.dnac_logs_append = dnac_params.get("dnac_logs_append", "True")
 
         self.log(str(dnac_params))
         self.supported_states = ["merged", "deleted", "replaced", "overridden", "gathered", "rendered", "parsed"]
         self.result = {"changed": False, "diff": [], "response": [], "warnings": []}
+        self.log_written = False
 
     @abstractmethod
     def validate_input(self):
@@ -178,7 +179,8 @@ class DnacBase():
             and logging.getLevelName(level) >= logging.getLevelName(self.dnac_log_level)
         ):
             message = "Module: " + self.__class__.__name__ + ", " + message
-            log(message, level, self.dnac_log_file_path, self.dnac_logs_append, (1 + frameIncrement))
+            log(message, self.log_written, level, self.dnac_log_file_path, self.dnac_logs_append, (1 + frameIncrement))
+            self.log_written = True
 
     def check_return_status(self):
         """API to check the return status value and exit/fail the module"""
@@ -418,7 +420,7 @@ class DnacBase():
         return new_config
 
 
-def log(msg, level='INFO', dnac_log_file_path='dnac.log', dnac_logs_append=True, frameIncrement=0):
+def log(msg, log_written, level='INFO', dnac_log_file_path='dnac.log', dnac_logs_append=True, frameIncrement=0):
     """Logs/Appends messages into the specified log file or to dnac.log file by default
 
     Args:
@@ -459,7 +461,7 @@ def log(msg, level='INFO', dnac_log_file_path='dnac.log', dnac_logs_append=True,
         frame = callerframerecord[0]
         info = inspect.getframeinfo(frame)
         current_datetime = datetime.datetime.now().replace(microsecond=0).isoformat()
-        of.write("---- {0} ---- {1}@{2} ---- {3}: {4}\n".format(current_datetime, info.lineno, info.function, level.upper(), msg))
+        of.write("{5}-{6}--- {0} ---- {1}@{2} ---- {3}: {4}\n".format(current_datetime, info.lineno, info.function, level.upper(), msg, log_written, frameIncrement))
         __first_log_written = True
 
 
