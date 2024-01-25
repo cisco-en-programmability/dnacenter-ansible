@@ -42,7 +42,7 @@ cisco.dnac.swim_intent module -- Intent module for SWIM related functions
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.10.1).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.10.2).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1919,6 +1919,44 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log_level"></div>
+
+      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-dnac_log_level:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log_level**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log_level" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the log level for Cisco Catalyst Center logging, categorizing logs by severity. Options- [CRITICAL, ERROR, WARNING, INFO, DEBUG]
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"INFO"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div>
 
       .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-dnac_password:
@@ -2231,6 +2269,7 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
+        dnac_log_level: "{{dnac_log_level}}"
         dnac_log: True
         config:
         - import_image_details:
@@ -2270,6 +2309,7 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
+        dnac_log_level: "{{dnac_log_level}}"
         dnac_log: True
         config:
         - import_image_details:
@@ -2297,6 +2337,7 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
+        dnac_log_level: "{{dnac_log_level}}"
         dnac_log: True
         config:
         - tagging_details:
@@ -2316,6 +2357,7 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
+        dnac_log_level: "{{dnac_log_level}}"
         dnac_log: True
         config:
         - image_distribution_details:
@@ -2333,6 +2375,7 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
+        dnac_log_level: "{{dnac_log_level}}"
         dnac_log: True
         config:
         - image_activation_details:
