@@ -66,10 +66,11 @@ class DnacBase():
         self.dnac_log = dnac_params.get("dnac_log")
 
         self.dnac_log_level = dnac_params.get("dnac_log_level")
-        self.is_valid_log_level()
         if self.dnac_log_level is None:
             self.dnac_log_level = "INFO"
-        self.dnac_log_level = self.dnac_log_level.upper()
+        else:
+            self.dnac_log_level = self.dnac_log_level.upper()
+            self.is_valid_log_level()
 
         log(str(dnac_params))
         self.supported_states = ["merged", "deleted", "replaced", "overridden", "gathered", "rendered", "parsed"]
