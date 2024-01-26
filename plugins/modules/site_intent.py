@@ -355,7 +355,7 @@ class DnacSite(DnacBase):
 
         if not self.config:
             self.status = "success"
-            self.msg = "config not available in playbook for validattion"
+            self.msg = "Configuration is not available in the playbook for validation"
             self.log(self.msg, "ERROR")
             return self
 
@@ -483,14 +483,14 @@ class DnacSite(DnacBase):
             )
 
         except Exception as e:
-            self.log("The input site {0} is not valid or site is not present.".format(self.want.get("site_name")), "WARNING")
-
+            self.log("The provided site name '{0}' is either invalid or not present in the Cisco Catalyst Center."
+                     .format(self.want.get("site_name")), "WARNING")
         if response:
             response = response.get("response")
             self.log("Received API response from 'get_site': {0}".format(str(response)), "DEBUG")
             current_site = self.get_current_site(response)
             site_exists = True
-            self.log("Site {0} exist in Cisco Catalyst Center".format(self.want.get("site_name")), "INFO")
+            self.log("Site '{0}' exist in Cisco Catalyst Center".format(self.want.get("site_name")), "INFO")
 
         return (site_exists, current_site)
 
@@ -544,13 +544,13 @@ class DnacSite(DnacBase):
             try:
                 site_info["floor"]["rfModel"] = floor_details.get("rf_model")
             except Exception as e:
-                self.log("Floor {0} doesnot have rfModel attribute".format(floor_details.get('name')), "WARNING")
+                self.log("The attribute 'rf_model' is missing in floor '{0}'.".format(floor_details.get('name')), "WARNING")
 
         site_params = dict(
             type=typeinfo,
             site=site_info,
         )
-        self.log("Parameters for site is: {0}".format(str(site_params)), "DEBUG")
+        self.log("Site parameters: {0}".format(str(site_params)), "DEBUG")
 
         return site_params
 
@@ -572,7 +572,7 @@ class DnacSite(DnacBase):
         parent_name = site.get("site").get(site_type).get("parent_name")
         name = site.get("site").get(site_type).get("name")
         site_name = '/'.join([parent_name, name])
-        self.log("Name of the site is: {0}".format(site_name), "INFO")
+        self.log("Site name: {0}".format(site_name), "INFO")
 
         return site_name
 
@@ -714,7 +714,7 @@ class DnacSite(DnacBase):
         # check if given site exits, if exists store current site info
         (site_exists, current_site) = self.site_exists()
 
-        self.log("Current Site details: {0}".format(str(current_site)), "DEBUG")
+        self.log("Current Site details (have): {0}".format(str(current_site)), "DEBUG")
 
         if site_exists:
             have["site_id"] = current_site.get("siteId")
@@ -832,9 +832,9 @@ class DnacSite(DnacBase):
                     (site_exists, current_site) = self.site_exists()
 
                     if site_exists:
-                        log_msg = "Site {0} created Successfully".format(self.want.get("site_name"))
+                        log_msg = "Site '{0}' created successfully".format(self.want.get("site_name"))
                         self.log(log_msg, "INFO")
-                        self.log("Current site: {0}".format(str(current_site)), "DEBUG")
+                        self.log("Current site (have): {0}".format(str(current_site)), "DEBUG")
                         self.result['msg'] = log_msg
                         self.result['response'].update({"siteId": current_site.get('site_id')})
 
@@ -870,21 +870,21 @@ class DnacSite(DnacBase):
                 while True:
                     execution_details = self.get_execution_details(executionid)
                     if execution_details.get("status") == "SUCCESS":
-                        self.msg = "Site - {0} deleted successfully".format(site_name)
+                        self.msg = "Site '{0}' deleted successfully".format(site_name)
                         self.result['changed'] = True
                         self.result['response'] = self.msg
                         self.status = "success"
                         self.log(self.msg, "INFO")
                         break
                     elif execution_details.get("bapiError"):
-                        self.log("Execution error response for 'delete_site': {0}".format(execution_details.get("bapiError")), "ERROR")
+                        self.log("Error response for 'delete_site' execution: {0}".format(execution_details.get("bapiError")), "ERROR")
                         self.module.fail_json(msg=execution_details.get("bapiError"), response=execution_details)
                         break
 
         except Exception as e:
             self.status = "failed"
-            self.msg = "Cannot Delete device from Inventory because of {0}".format(str(e))
-            self.log(self.msg, "CRITICAL")
+            self.msg = "Exception occurred while deleting device from inventory: {0}".format(str(e))
+            self.log(self.msg, "ERROR")
 
         return self
 
@@ -910,11 +910,11 @@ class DnacSite(DnacBase):
         site_name = self.want.get("site_name")
         if not site_exists:
             self.status = "success"
-            self.msg = "Cannot delete Site - {0} as it's not found in Cisco Catalyst Center".format(site_name)
+            self.msg = "Unable to delete site '{0}' as it's not found in Cisco Catalyst Center".format(site_name)
             self.result.update({'changed': False,
                                 'response': self.msg,
                                 'msg': self.msg})
-            self.log(self.msg, "WARNING")
+            self.log(self.msg, "INFO")
 
             return self
 
@@ -942,7 +942,7 @@ class DnacSite(DnacBase):
 
         # Delete the final parent site
         self.delete_single_site(site_id, site_name)
-        self.msg = "Site - {0} and it's child sites deleted successfully".format(site_name)
+        self.msg = "The site '{0}' and its child sites have been deleted successfully".format(site_name)
         self.result['response'] = self.msg
         self.log(self.msg, "INFO")
 
@@ -972,17 +972,18 @@ class DnacSite(DnacBase):
 
         if site_exist:
             self.status = "success"
-            self.msg = "Requested Site - {0} present in Cisco Catalyst Center and creation verified.".format(site_name)
+            self.msg = "The requested site '{0}' is present in the Cisco Catalyst Center and its creation has been verified.".format(site_name)
             self.log(self.msg, "INFO")
 
         require_update = self.site_requires_update()
 
         if not require_update:
-            self.log("Site - {0} Updation Verified Successfully.".format(site_name), "INFO")
+            self.log("The update for site '{0}' has been successfully verified.".format(site_name), "INFO")
             self. status = "success"
             return self
 
-        self.log("Playbook paramater doesnot match with the Cisco Catalyst Center means Merged task not executed successfully.", "INFO")
+        self.log("""The playbook input parameter does not align with the Cisco Catalyst Center, indicating that the merge task
+                was not executed successfully.""", "INFO")
 
         return self
 
@@ -1008,11 +1009,12 @@ class DnacSite(DnacBase):
 
         if not site_exist:
             self.status = "success"
-            msg = "Requested Site - {0} already deleted from Cisco Catalyst Center and verified successfully.".format(self.want.get("site_name"))
+            msg = """The requested site '{0}' has already been deleted from the Cisco Catalyst Center and this has been
+                successfully verified.""".format(self.want.get("site_name"))
             self.log(msg, "INFO")
             return self
 
-        self.log("Playbook paramater doesnot match with the Cisco Catalyst Center means Deletion not executed successfully.", "INFO")
+        self.log("Playbook parameter did not match with the Cisco Catalyst Center, indicating that the deletion was not executed successfully.", "INFO")
 
         return self
 

@@ -418,7 +418,7 @@ class DnacSwims(DnacBase):
 
         if not self.config:
             self.status = "success"
-            self.msg = "config not available in playbook for validation"
+            self.msg = "Configuration is not available in the playbook for validation"
             self.log(self.msg, "ERROR")
             return self
 
@@ -472,7 +472,7 @@ class DnacSwims(DnacBase):
                 params={"name": site_name},
             )
         except Exception as e:
-            self.log("Exception occured- Site {0} doesnot exist in Cisco Catalyst Center".format(site_name), "CRITICAL")
+            self.log("An exception occurred: Site '{0}' does not exist in the Cisco Catalyst Center".format(site_name), "ERROR")
             self.module.fail_json(msg="Site not found")
 
         if response:
@@ -509,11 +509,11 @@ class DnacSwims(DnacBase):
 
         if (len(image_list) == 1):
             image_id = image_list[0].get("imageUuid")
-            self.log("SWIM image {0} having the Id: {1}".format(name, image_id), "INFO")
+            self.log("SWIM image '{0}' has the ID: {1}".format(name, image_id), "INFO")
         else:
-            error_message = "SWIM image {0} not found".format(name)
-            self.log(error_message, "WARNING")
-            self.module.fail_json(msg="SWIM image not found", response=image_response)
+            error_message = "SWIM image '{0}' could not be found".format(name)
+            self.log(error_message, "ERROR")
+            self.module.fail_json(msg=error_message, response=image_response)
 
         return image_id
 
@@ -716,7 +716,7 @@ class DnacSwims(DnacBase):
 
                 if site_exists:
                     have["site_id"] = site_id
-                    self.log("Site {0} exists having the site id: {1}".format(site_name, str(site_id)), "DEBUG")
+                    self.log("Site '{0}' exists and has the site ID: {1}".format(site_name, str(site_id)), "DEBUG")
 
             # check if image for distributon is available
             if distribution_details.get("image_name"):
@@ -728,8 +728,8 @@ class DnacSwims(DnacBase):
                 have["distribution_image_id"] = self.have.get("imported_image_id")
 
             else:
-                self.log("Image details for distribution not provided", "CRITICAL")
-                self.module.fail_json(msg="Image details for distribution not provided", response=[])
+                self.log("Image details required for distribution have not been provided", "ERROR")
+                self.module.fail_json(msg="Image details required for distribution have not been provided", response=[])
 
             device_params = dict(
                 hostname=distribution_details.get("device_hostname"),
@@ -754,8 +754,8 @@ class DnacSwims(DnacBase):
             elif self.have.get("imported_image_id"):
                 have["activation_image_id"] = self.have.get("imported_image_id")
             else:
-                self.log("Image details for activation not provided", "CRITICAL")
-                self.module.fail_json(msg="Image details for activation not provided", response=[])
+                self.log("Image details required for activation have not been provided", "ERROR")
+                self.module.fail_json(msg="Image details required for activation have not been provided", response=[])
 
             site_name = activation_details.get("site_name")
             if site_name:
@@ -763,7 +763,7 @@ class DnacSwims(DnacBase):
                 (site_exists, site_id) = self.site_exists(site_name)
                 if site_exists:
                     have["site_id"] = site_id
-                    self.log("Site {0} exists having the site id: {1}".format(site_name, str(site_id)), "INFO")
+                    self.log("The site '{0}' exists and has the site ID '{1}'".format(site_name, str(site_id)), "INFO")
 
             device_params = dict(
                 hostname=activation_details.get("device_hostname"),
@@ -862,7 +862,7 @@ class DnacSwims(DnacBase):
             if image_exist:
                 image_id = self.get_image_id(name)
                 self.have["imported_image_id"] = image_id
-                self.msg = "Image {0} already exists in the Cisco Catalyst Center".format(name)
+                self.msg = "Image '{0}' already exists in the Cisco Catalyst Center".format(name)
                 self.result['msg'] = self.msg
                 self.log(self.msg, "INFO")
                 self.status = "success"
@@ -979,7 +979,7 @@ class DnacSwims(DnacBase):
                 deviceFamilyIdentifier=self.have.get("device_family_identifier"),
                 deviceRole=tagging_details.get("device_role")
             )
-            self.log("Image params for tagging image as golden: {0}".format(str(image_params)), "INFO")
+            self.log("Parameters for tagging the image as golden: {0}".format(str(image_params)), "INFO")
 
             response = self.dnac._exec(
                 family="software_image_management_swim",
@@ -996,7 +996,7 @@ class DnacSwims(DnacBase):
                 device_family_identifier=self.have.get("device_family_identifier"),
                 device_role=tagging_details.get("device_role")
             )
-            self.log("Image params for tagging image as golden: {0}".format(str(image_params)), "INFO")
+            self.log("Parameters for un-tagging the image as golden: {0}".format(str(image_params)), "INFO")
 
             response = self.dnac._exec(
                 family="software_image_management_swim",
@@ -1048,7 +1048,7 @@ class DnacSwims(DnacBase):
 
             return device_ip
         except Exception as e:
-            error_message = "Error while getting the response of device from Cisco Catalyst Center - {0}".format(str(e))
+            error_message = "Error occurred while getting the response of device from Cisco Catalyst Center: {0}".format(str(e))
             self.log(error_message, "ERROR")
             raise Exception(error_message)
 
@@ -1116,12 +1116,12 @@ class DnacSwims(DnacBase):
 
         if len(device_uuid_list) == 0:
             self.status = "failed"
-            self.msg = "No devices found for Image Distribution"
+            self.msg = "Image Distribution cannot proceed due to the absence of device(s)"
             self.result['msg'] = self.msg
             self.log(self.msg, "WARNING")
             return self
 
-        self.log("List of device UUID's for Image Distribution: {0}".format(str(device_uuid_list)), "INFO")
+        self.log("Device UUIDs involved in Image Distribution: {0}".format(str(device_uuid_list)), "INFO")
 
         device_distribution_count = 0
         device_ips_list = []
@@ -1257,7 +1257,7 @@ class DnacSwims(DnacBase):
             self.log(self.msg, "WARNING")
             return self
 
-        self.log("List of device UUID's for Image Activation: {0}".format(str(device_uuid_list)), "INFO")
+        self.log("Device UUIDs involved in Image Activation: {0}".format(str(device_uuid_list)), "INFO")
         device_activation_count = 0
         device_ips_list = []
 
