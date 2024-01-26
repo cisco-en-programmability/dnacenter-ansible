@@ -196,6 +196,8 @@ options:
       voice_vlan_id:
         description: Identifier used to distinguish a specific VLAN that is dedicated to voice traffic.
         type: int
+      interface_name:
+        description: Name of Interface in order to update the interface details of device.(Eg GigabitEthernet1/0/11, FortyGigabitEthernet1/1/2)
       deployment_mode:
         description: Preview/Deploy [Preview means the configuration is not pushed to the device. Deploy makes the configuration pushed to the device]
         type: str
@@ -529,6 +531,7 @@ EXAMPLES = r"""
           vlan_id: int
           voice_vlan_id: int
           deployment_mode: str
+          interface_name: str
 
 - name: Export Device Details in a CSV file Interface details with IP Address
   cisco.dnac.inventory_intent:
@@ -747,6 +750,7 @@ class DnacDevice(DnacBase):
                 'description': {'type': 'str'},
                 'vlan_id': {'type': 'int'},
                 'voice_vlan_id': {'type': 'int'},
+                'interface_name': {'type': 'str'},
             },
             'export_device_list': {
                 'type': 'dict',
@@ -1980,12 +1984,13 @@ class DnacDevice(DnacBase):
 
         return device_ids
 
-    def get_interface_from_ip(self, device_ip):
+    def get_interface_from_id_and_name(self, device_id, interface_name):
         """
         Get the interface ID for a device in Cisco DNA Center based on its IP address.
         Parameters:
             self (object): An instance of a class used for interacting with Cisco DNA Center.
-            device_ip (str): The IP address of the device.
+            device_id (str): The id of the device.
+            interface_name(str): name of the interface for which details need to be collected.
         Returns:
             str: The interface ID for the specified device.
         Description:
@@ -1995,17 +2000,21 @@ class DnacDevice(DnacBase):
         """
 
         try:
+            interface_detail_params = {
+                'device_id': device_id,
+                'name': interface_name
+            }
             response = self.dnac._exec(
                 family="devices",
-                function='get_interface_by_ip',
-                params={"ip_address": device_ip}
+                function='get_interface_details',
+                params=interface_detail_params
             )
             self.log(str(response))
             response = response.get("response")
 
             if response:
-                interface_id = response[0]["id"]
-                self.log("Fetch Interface Id for device {0} successfully !!".format(device_ip))
+                interface_id = response["id"]
+                self.log("Fetch Interface Id for device successfully !!")
                 return interface_id
 
         except Exception as e:
@@ -2062,7 +2071,7 @@ class DnacDevice(DnacBase):
 
         return response.get('role') == role and response.get('roleSource') == role_source
 
-    def check_interface_details(self, device_ip):
+    def check_interface_details(self, device_ip, interface_name):
         """
         Checks if the interface details for a device in Cisco DNA Center match the specified values in the configuration.
         Args:
@@ -2076,13 +2085,26 @@ class DnacDevice(DnacBase):
             If all specified parameters match the retrieved values or are not provided in the playbook parameters, the function
             returns True, indicating successful validation.
         """
+        device_id = self.get_device_ids([device_ip])
 
+        if not device_id:
+            self.log("Device {0} not present in Cisco Catalyst Center so cannot update interface details".format(device_ip))
+            return False
+        interface_detail_params = {
+            'device_id': device_id[0],
+            'name': interface_name
+        }
         response = self.dnac._exec(
             family="devices",
-            function='get_interface_by_ip',
-            params={"ip_address": device_ip}
+            function='get_interface_details',
+            params=interface_detail_params
         )
-        response = response.get("response")[0]
+        self.log(str(response))
+        response = response.get("response")
+
+        if not response:
+            return False
+
         response_params = {
             'description': response.get('description'),
             'adminStatus': response.get('adminStatus'),
@@ -2229,7 +2251,7 @@ class DnacDevice(DnacBase):
             field_name = self.config[0].get('add_user_defined_field').get('name')
 
             if field_name is None:
-                self.msg = "Mandatory paramter for User Define Field - name is missing"
+                self.msg = "Mandatory paramter for User Define Field 'name' is missing"
                 self.status = "failed"
                 return self
 
@@ -2271,7 +2293,7 @@ class DnacDevice(DnacBase):
                     break
 
             if not device_present:
-                msg = "Cannot perform Update operation as device - {0} not present in Cisco DNA Center".format(str(device_to_update))
+                msg = "Cannot perform Update operation as device: {0} not present in Cisco DNA Center".format(str(device_to_update))
                 self.status = "success"
                 self.result['changed'] = False
                 self.result['response'] = msg
@@ -2369,7 +2391,11 @@ class DnacDevice(DnacBase):
             if self.config[0].get('update_interface_details'):
                 # Call the Get interface details by device IP API and fetch the interface Id
                 for device_ip in device_to_update:
-                    interface_id = self.get_interface_from_ip(device_ip)
+                    interface_params = self.config[0].get('update_interface_details')
+                    interface_name = interface_params.get('interface_name')
+                    device_id = self.get_device_ids([device_ip])
+                    interface_id = self.get_interface_from_id_and_name(device_id[0], interface_name)
+
                     # Now we call update interface details api with required parameter
                     try:
                         interface_params = self.config[0].get('update_interface_details')
@@ -2781,9 +2807,10 @@ class DnacDevice(DnacBase):
 
         if device_updated and self.config[0].get('update_interface_details'):
             interface_update_flag = True
+            interface_name = self.config[0].get('update_interface_details').get('interface_name')
 
             for device_ip in device_ips:
-                if not self.check_interface_details(device_ip):
+                if not self.check_interface_details(device_ip, interface_name):
                     interface_update_flag = False
                     break
 
