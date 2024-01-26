@@ -165,7 +165,6 @@ class DnacBase():
         level = level.upper()
         if (
             self.dnac_log
-            and self.dnac_log_level in ('DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL')
             and logging.getLevelName(level) >= logging.getLevelName(self.dnac_log_level)
         ):
             message = "Module: " + self.__class__.__name__ + ", " + message
