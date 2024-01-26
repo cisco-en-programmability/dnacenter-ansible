@@ -65,9 +65,12 @@ class DnacBase():
                                         }
         self.dnac_log = dnac_params.get("dnac_log")
 
-        # Check if 'dnac_log_level' in the playbook params. If available,
-        # convert it to uppercase; otherwise, set it to 'INFO'
-        self.dnac_log_level = dnac_params.get("dnac_log_level", "INFO").upper()
+        self.dnac_log_level = dnac_params.get("dnac_log_level")
+        if self.dnac_log_level is None:
+            self.dnac_log_level = "INFO"
+        else:
+            self.dnac_log_level = self.dnac_log_level.upper()
+            self.is_valid_log_level()
 
         log(str(dnac_params))
         self.supported_states = ["merged", "deleted", "replaced", "overridden", "gathered", "rendered", "parsed"]
@@ -163,7 +166,6 @@ class DnacBase():
         level = level.upper()
         if (
             self.dnac_log
-            and self.dnac_log_level in ('DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL')
             and logging.getLevelName(level) >= logging.getLevelName(self.dnac_log_level)
         ):
             message = "Module: " + self.__class__.__name__ + ", " + message
@@ -403,6 +405,12 @@ class DnacBase():
         else:
             return config
         return new_config
+
+    def is_valid_log_level(self):
+        valid_log_levels = ('DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL')
+        if self.dnac_log_level not in valid_log_levels:
+            raise ValueError("Invalid log level: 'dnac_log_level:{0}'."
+                             " Expected one of {1}.".format(self.dnac_log_level, valid_log_levels))
 
 
 def log(msg, level='info', frameIncrement=0):
