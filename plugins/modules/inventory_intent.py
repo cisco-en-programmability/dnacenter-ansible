@@ -224,16 +224,17 @@ options:
             description: Ip Address allocated to the interface
             type: str
           interface_netmask_in_cidr:
-            description: Interface mask in cidr.
+            description: The netmask of the interface, given in CIDR notation. This is an integer that represents the
+                number of bits set in the netmask
             type: int
           interface_gateway:
-            description: name of the gateway for the interface
+            description: The name identifier for the gateway associated with the interface.
             type: str
           lag_or_port_number:
-            description: Lag or port number of interface
+            description: The Link Aggregation Group (LAG) number or port number assigned to the interface.
             type: int
           vlan_id:
-            description: Vlan Ifd of interface
+            description: The VLAN (Virtual Local Area Network) ID associated with the network interface.
             type: int
           interface_name:
             description: Name of the interface.
@@ -887,7 +888,7 @@ class DnacDevice(DnacBase):
             self.status = "success"
 
         except Exception as e:
-            error_message = "Error while creating Global UDF in Cisco Catalyst Center: {0}".format(str(e))
+            error_message = "Error while creating Global UDF(User Defined Field) in Cisco Catalyst Center: {0}".format(str(e))
             log(error_message, "ERROR")
 
         return self
@@ -1062,7 +1063,7 @@ class DnacDevice(DnacBase):
 
         if not device_ips:
             self.status = "failed"
-            self.msg = "No Devices are given in the playbook so can't export device details"
+            self.msg = "Cannot export device details as no devices are specified in the playbook"
             self.log(self.msg, "ERROR")
             return self
 
@@ -1233,16 +1234,16 @@ class DnacDevice(DnacBase):
                         self.status = "success"
                         self.result['changed'] = True
                         self.result['response'] = execution_details
-                        self.msg = "Device Resynced Successfully and Resynced devices are: {0}".format(str(input_device_ips))
+                        self.msg = "Devices have been successfully resynced. Devices resynced: {0}".format(str(input_device_ips))
                         self.log(self.msg, "INFO")
                         break
                     elif execution_details.get("isError"):
                         self.status = "failed"
                         failure_reason = execution_details.get("failureReason")
                         if failure_reason:
-                            self.msg = "Device Resynced get failed because of {0}".format(failure_reason)
+                            self.msg = "Device resynced get failed because of {0}".format(failure_reason)
                         else:
-                            self.msg = "Device Resynced get failed."
+                            self.msg = "Device resynced get failed."
                         self.log(self.msg, "ERROR")
                         break
 
@@ -1818,7 +1819,7 @@ class DnacDevice(DnacBase):
             udf_id = udf[0].get("id")
 
         except Exception as e:
-            error_message = "Exception occurred while getting Global UDF ID from Cisco Catalyst Center: {0}".format(str(e))
+            error_message = "Exception occurred while getting Global User Defined Fields(UDF) ID from Cisco Catalyst Center: {0}".format(str(e))
             self.log(error_message, "ERROR")
 
         return udf_id
@@ -2002,9 +2003,9 @@ class DnacDevice(DnacBase):
         Returns:
             str: The interface ID for the specified device and interface name.
         Description:
-          The function sends a request to Cisco Catalyst Center to retrieve the interface information
-          for the device with the provided device id and interface name and extracts the interface ID from the
-          response, and returns the interface ID.
+            The function sends a request to Cisco Catalyst Center to retrieve the interface information
+            for the device with the provided device id and interface name and extracts the interface ID from the
+            response, and returns the interface ID.
         """
 
         try:
@@ -2040,9 +2041,9 @@ class DnacDevice(DnacBase):
             Returns:
                 str: The interface ID for the specified device.
             Description:
-            The function sends a request to Cisco DNA Center to retrieve the interface information
-            for the device with the provided IP address and extracts the interface ID from the
-            response, and returns the interface ID.
+                The function sends a request to Cisco DNA Center to retrieve the interface information
+                for the device with the provided IP address and extracts the interface ID from the
+                response, and returns the interface ID.
             """
 
             try:
@@ -2147,7 +2148,7 @@ class DnacDevice(DnacBase):
         response = response.get("response")
 
         if not response:
-            self.log("Doesnot get the response of 'get_interface_details' api.", "DEBUG")
+            self.log("No response received from the API 'get_interface_details'.", "DEBUG")
             return False
 
         response_params = {
@@ -2324,7 +2325,7 @@ class DnacDevice(DnacBase):
             self.add_field_to_devices(device_ids).check_return_status()
 
             self.result['changed'] = True
-            self.msg = "Global User Defined Added with name '{0}' added to device Successfully !".format(field_name)
+            self.msg = "Global User Defined Field(UDF) named '{0}' has been successfully added to the device.".format(field_name)
             self.log(self.msg, "INFO")
 
         config['type'] = device_type
@@ -2520,7 +2521,7 @@ class DnacDevice(DnacBase):
                     if response.get('role') == device_role_args.get('role'):
                         self.status = "success"
                         self.result['changed'] = False
-                        log_msg = "Device Role '{0}' same in Cisco Catalyst Center as well, no updation needed".format(device_role_args.get('role'))
+                        log_msg = "The device role '{0}' is already set in Cisco Catalyst Center, no update is needed.".format(device_role_args.get('role'))
                         self.log(log_msg, "INFO")
                         continue
 
@@ -2725,7 +2726,7 @@ class DnacDevice(DnacBase):
                             self.status = "failed"
                             failure_reason = execution_details.get("failureReason")
                             if failure_reason:
-                                self.msg = "Global UDF deletion get failed because of {0}".format(failure_reason)
+                                self.msg = "Failed to delete Global User Defined Field(UDF) due to: {0}".format(failure_reason)
                             else:
                                 self.msg = "Global UDF deletion get failed."
                             self.log(self.msg, "ERROR")
@@ -2797,7 +2798,7 @@ class DnacDevice(DnacBase):
 
                         if 'success' in execution_details.get("progress"):
                             self.status = "success"
-                            self.msg = "Device deleted successfully from Cisco Catalyst Center"
+                            self.msg = "Device '{0}' was successfully deleted from Cisco Catalyst Center".format(device_ip)
                             self.log(self.msg, "INFO")
                             self.result['changed'] = True
                             self.result['response'] = execution_details
@@ -2806,9 +2807,9 @@ class DnacDevice(DnacBase):
                             self.status = "failed"
                             failure_reason = execution_details.get("failureReason")
                             if failure_reason:
-                                self.msg = "Device deletion get failed because of {0}".format(failure_reason)
+                                self.msg = "Device '{0}' deletion get failed due to: {1}".format(device_ip, failure_reason)
                             else:
-                                self.msg = "Device deletion get failed."
+                                self.msg = "Device '{0}' deletion get failed.".format(device_ip)
                             self.log(self.msg, "ERROR")
                             break
                     self.result['msg'] = self.msg
@@ -2851,10 +2852,12 @@ class DnacDevice(DnacBase):
         if device_added:
             if not devices_to_add:
                 self.status = "success"
-                msg = "Requested Device(s) '{0}' Added in Cisco Catalyst Center and Addition verified.".format(str(device_ips))
+                msg = """Requested device(s) '{0}' have been successfully added to the Cisco Catalyst Center and their
+                     addition has been verified.""".format(str(device_ips))
                 self.log(msg, "INFO")
             else:
-                self.log("Playbook parameter does not match with Cisco Catalyst Center, meaning device addition task not executed successfully.", "INFO")
+                self.log("""Playbook's input does not match with Cisco Catalyst Center, indicating that the device addition
+                     task may not have executed successfully.""", "INFO")
 
         if device_updated and self.config[0].get('update_interface_details'):
             interface_update_flag = True
@@ -2870,8 +2873,8 @@ class DnacDevice(DnacBase):
                 msg = "Interface details updated and verified successfully for devices {0}.".format(device_ips)
                 self.log(msg, "INFO")
             else:
-                self.log("""Playbook parameter does not match with Cisco Catalyst Center, meaning update interface details
-                         task not executed successfully.""", "INFO")
+                self.log("""Playbook's input does not match with Cisco Catalyst Center, indicating that the update
+                         interface details task may not have executed successfully.""", "INFO")
 
         if device_updated and credential_update and device_type == "NETWORK_DEVICE":
             credential_update_flag = self.check_credential_update()
@@ -2883,7 +2886,8 @@ class DnacDevice(DnacBase):
             else:
                 self.log("Playbook parameter does not match with Cisco Catalyst Center, meaning device updation task not executed properly.", "INFO")
         elif device_type != "NETWORK_DEVICE":
-            self.log("Cannot compare the parameter for device type {0} in the playbook with Cisco Catalyst Center.".format(device_type), "WARNING")
+            self.log("""Unable to compare the parameter for device type '{0}' in the playbook with the one in Cisco Catalyst Center."""
+                     .format(device_type), "WARNING")
 
         if self.config[0].get('add_user_defined_field'):
             field_name = self.config[0].get('add_user_defined_field').get('name')
@@ -2894,7 +2898,8 @@ class DnacDevice(DnacBase):
                 msg = "Global UDF {0} created and verified successfully".format(field_name)
                 self.log(msg, "INFO")
             else:
-                self.log("Playbook paramater doesnot match with the Cisco Catalyst Center means creating Global UDF task not executed successfully.", "INFO")
+                self.log("""Mismatch between playbook parameter and Cisco Catalyst Center detected, indicating that
+                         the task of creating Global UDF may not have executed successfully.""", "INFO")
 
         if device_updated and self.config[0].get('update_device_role'):
             device_role_flag = True
@@ -2909,7 +2914,8 @@ class DnacDevice(DnacBase):
                 msg = "Device roles updated and verified successfully."
                 self.log(msg, "INFO")
             else:
-                self.log("Playbook parameter does not match with Cisco Catalyst Center, meaning update device role task not executed successfully.", "INFO")
+                self.log("""Mismatch between playbook parameter 'role' and Cisco Catalyst Center detected, indicating the
+                         device role update task may not have executed successfully.""", "INFO")
 
         if self.config[0].get('provision_wired_device'):
             provision_wired_flag = True
@@ -2924,7 +2930,8 @@ class DnacDevice(DnacBase):
                 msg = "Wired devices {0} get provisioned and verified successfully.".format(device_ips)
                 self.log(msg, "INFO")
             else:
-                self.log("Playbook parameter does not match with Cisco Catalyst Center, meaning provisioning task not executed successfully.", "INFO")
+                self.log("""Mismatch between playbook's input and Cisco Catalyst Center detected, indicating that
+                         the provisioning task may not have executed successfully.""", "INFO")
 
         return self
 
@@ -2953,22 +2960,24 @@ class DnacDevice(DnacBase):
 
             if udf_id is None:
                 self.status = "success"
-                msg = "Global UDF '{0}' deleted from Cisco Catalyst Center and verified successfully.".format(field_name)
+                msg = "Global UDF named '{0}' has been successfully deleted from Cisco Catalyst Center and the deletion has been verified.".format(field_name)
                 self.log(msg, "INFO")
                 return self
 
         device_delete_flag = True
         for device_ip in input_devices:
             if device_ip in device_in_dnac:
+                device_after_deletion = device_ip
                 device_delete_flag = False
                 break
 
         if device_delete_flag:
             self.status = "success"
-            self.msg = "Requested Devices '{0}' Deleted from Cisco Catalyst Center and Deletion verified.".format(str(input_devices))
+            self.msg = "Requested device(s) '{0}' deleted from Cisco Catalyst Center and the deletion has been verified.".format(str(input_devices))
             self.log(self.msg, "INFO")
         else:
-            self.log("Playbook paramater doesnot match with the Cisco Catalyst Center means Device Deletion task not executed successfully.", "INFO")
+            self.log("""Mismatch between playbook parameter device({0}) and Cisco Catalyst Center detected, indicating that
+                     the device deletion task may not have executed successfully.""".format(device_after_deletion), "INFO")
 
         return self
 

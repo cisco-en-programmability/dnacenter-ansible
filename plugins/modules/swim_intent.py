@@ -90,7 +90,7 @@ options:
                   source_url:
                     description: Swim Import Image Via Url.
                     type: str
-                  third_party:
+                  is_third_party:
                     description: ThirdParty flag.
                     type: bool
                   vendor:
@@ -243,7 +243,7 @@ EXAMPLES = r"""
         url_details:
           payload:
           - source_url: string
-            third_party: bool
+            is_third_party: bool
             image_family: string
             vendor: string
             application_type: string
@@ -805,7 +805,7 @@ class DnacSwims(DnacBase):
             elif want["import_type"] == "local":
                 want["local_import_details"] = config.get("import_image_details").get("local_image_details")
             else:
-                self.log("Incorrect import type. Supported Values: local or url", "CRITICAL")
+                self.log("The import type '{0}' provided is incorrect. Only 'local' or 'url' are supported.".format(want["import_type"]), "CRITICAL")
                 self.module.fail_json(msg="Incorrect import type. Supported Values: local or url")
 
         want["tagging_details"] = config.get("tagging_details")
@@ -836,10 +836,10 @@ class DnacSwims(DnacBase):
             import_type = self.want.get("import_type")
 
             if not import_type:
+                self.status = "success"
                 self.msg = "Error: Details required for importing SWIM image. Please provide the necessary information."
                 self.result['msg'] = self.msg
                 self.log(self.msg, "WARNING")
-                self.status = "success"
                 self.result['changed'] = False
                 return self
 
@@ -856,7 +856,7 @@ class DnacSwims(DnacBase):
                 'source_url': 'sourceURL',
                 'image_family': 'imageFamily',
                 'application_type': 'applicationType',
-                'third_party': 'thirdParty',
+                'is_third_party': 'thirdParty',
             }
 
             if image_exist:
@@ -1153,12 +1153,12 @@ class DnacSwims(DnacBase):
                             ("completed successfully" in task_details.get("progress")):
                         self.result['changed'] = True
                         self.status = "success"
-                        self.result['msg'] = "Image with Id {0} Distributed Successfully".format(image_id)
+                        self.result['msg'] = "Image with Id '{0}' Distributed successfully".format(image_id)
                         device_distribution_count += 1
                         break
 
                     if task_details.get("isError"):
-                        error_msg = "Image with Id {0} Distribution Failed".format(image_id)
+                        error_msg = "Image with Id '{0}' Distribution failed".format(image_id)
                         self.log(error_msg, "WARNING")
                         self.result['response'] = task_details
                         device_ips_list.append(device_management_ip)
@@ -1174,8 +1174,8 @@ class DnacSwims(DnacBase):
         else:
             self.result['changed'] = True
             self.status = "success"
-            self.msg = "Image with Id {0} Distributed and partially Successfull".format(image_id)
-            self.log("For Devices {0} Image Distribution gets Failed".format(str(device_ips_list)), "CRITICAL")
+            self.msg = "Image with Id '{0}' Distributed and partially successfull".format(image_id)
+            self.log("For device(s) {0} image Distribution gets failed".format(str(device_ips_list)), "CRITICAL")
 
         self.result['msg'] = self.msg
         self.log(self.msg, "INFO")
@@ -1239,7 +1239,7 @@ class DnacSwims(DnacBase):
                     break
 
                 if task_details.get("isError"):
-                    error_msg = "Activation for Image with Id - {0} gets Failed".format(image_id)
+                    error_msg = "Activation for Image with Id '{0}' gets failed".format(image_id)
                     self.status = "failed"
                     self.result['response'] = task_details
                     self.msg = error_msg
@@ -1252,7 +1252,7 @@ class DnacSwims(DnacBase):
 
         if len(device_uuid_list) == 0:
             self.status = "failed"
-            self.msg = "No Devices found for Image Activation"
+            self.msg = "No devices found for Image Activation"
             self.result['msg'] = self.msg
             self.log(self.msg, "WARNING")
             return self
@@ -1296,12 +1296,12 @@ class DnacSwims(DnacBase):
                             ("completed successfully" in task_details.get("progress")):
                         self.result['changed'] = True
                         self.status = "success"
-                        self.result['msg'] = "Image with Id {0} Activated Successfully".format(image_id)
+                        self.result['msg'] = "Image with Id '{0}' activated successfully".format(image_id)
                         device_activation_count += 1
                         break
 
                     if task_details.get("isError"):
-                        error_msg = "Image with Id {0} Activation Failed".format(image_id)
+                        error_msg = "Image with Id '{0}' activation failed".format(image_id)
                         self.log(error_msg, "WARNING")
                         self.result['response'] = task_details
                         device_ips_list.append(device_management_ip)
@@ -1309,16 +1309,16 @@ class DnacSwims(DnacBase):
 
         if device_activation_count == 0:
             self.status = "failed"
-            msg = "Image with Id {0} Activation Failed for all devices".format(image_id)
+            msg = "Image with Id '{0}' activation failed for all devices".format(image_id)
         elif device_activation_count == len(device_uuid_list):
             self.result['changed'] = True
             self.status = "success"
-            msg = "Image with Id {0} Activated Successfully for all devices".format(image_id)
+            msg = "Image with Id '{0}' activated successfully for all devices".format(image_id)
         else:
             self.result['changed'] = True
             self.status = "success"
-            msg = "Image with Id {0} Activated and partially Successfull".format(image_id)
-            self.log("For Devices {0} Image Activation gets Failed".format(str(device_ips_list)), "CRITICAL")
+            msg = "Image with Id '{0}' activated and partially successfull".format(image_id)
+            self.log("For Device(s) {0} Image activation gets Failed".format(str(device_ips_list)), "CRITICAL")
 
         self.result['msg'] = msg
         self.log(msg, "INFO")
