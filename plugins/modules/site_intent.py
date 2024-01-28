@@ -490,7 +490,7 @@ class DnacSite(DnacBase):
             self.log("Received API response from 'get_site': {0}".format(str(response)), "DEBUG")
             current_site = self.get_current_site(response)
             site_exists = True
-            self.log("Site '{0}' exist in Cisco Catalyst Center".format(self.want.get("site_name")), "INFO")
+            self.log("Site '{0}' exists in Cisco Catalyst Center".format(self.want.get("site_name")), "INFO")
 
         return (site_exists, current_site)
 
@@ -883,7 +883,7 @@ class DnacSite(DnacBase):
 
         except Exception as e:
             self.status = "failed"
-            self.msg = "Exception occurred while deleting device from inventory: {0}".format(str(e))
+            self.msg = "Exception occurred while deleting site '{0}' due to: {1}".format(site_name, str(e))
             self.log(self.msg, "ERROR")
 
         return self
@@ -982,8 +982,8 @@ class DnacSite(DnacBase):
             self. status = "success"
             return self
 
-        self.log("""The playbook input parameter does not align with the Cisco Catalyst Center, indicating that the merge task
-                was not executed successfully.""", "INFO")
+        self.log("""The playbook input for site '{0}' does not align with the Cisco Catalyst Center, indicating that the merge task
+                 may not have executed successfully.""".format(site_name), "INFO")
 
         return self
 
@@ -1013,8 +1013,8 @@ class DnacSite(DnacBase):
                 successfully verified.""".format(self.want.get("site_name"))
             self.log(msg, "INFO")
             return self
-
-        self.log("Playbook parameter did not match with the Cisco Catalyst Center, indicating that the deletion was not executed successfully.", "INFO")
+        self.log("""Mismatch between the playbook input for site '{0}' and the Cisco Catalyst Center indicates that
+                 the deletion was not executed successfully.""".format(self.want.get("site_name")), "INFO")
 
         return self
 
