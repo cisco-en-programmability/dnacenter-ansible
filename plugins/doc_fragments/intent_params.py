@@ -54,12 +54,6 @@ options:
               If set to true the log file will be created at the location of the execution with the name dnac.log
         type: bool
         default: false
-    dnac_log_level:
-        description:
-            - Specifies the desired log level for Cisco Catalyst Center logging.
-              Options - [CRITICAL, ERROR, WARNING, INFO, DEBUG]
-        type: str
-        default: WARNING
     validate_response_schema:
         description:
           - Flag for Cisco DNA Center SDK to enable the validation of request bodies against a JSON schema.
