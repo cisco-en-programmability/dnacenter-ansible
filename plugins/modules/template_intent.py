@@ -30,6 +30,11 @@ author: Madhan Sankaranarayanan (@madhansansel)
         Akash Bhaskaran (@akabhask)
         Muthu Rakesh (@MUTHU-RAKESH-27)
 options:
+  dnac_log_level:
+    description: Specifies the desired log level for Cisco Catalyst Center logging.
+                    Options - [CRITICAL, ERROR, WARNING, INFO, DEBUG]
+    type: str
+    default: INFO
   config_verify:
     description: Set to True to verify the Cisco DNA Center after applying the playbook config.
     type: bool
@@ -2761,7 +2766,7 @@ def main():
                     'dnac_version': {'type': 'str', 'default': '2.2.3.3'},
                     'dnac_debug': {'type': 'bool', 'default': False},
                     'dnac_log': {'type': 'bool', 'default': False},
-                    "dnac_log_level": {"type": 'str', "default": 'WARNING'},
+                    "dnac_log_level": {"type": "str", "default": "INFO"},
                     'validate_response_schema': {'type': 'bool', 'default': True},
                     "config_verify": {"type": 'bool', "default": False},
                     'config': {'required': True, 'type': 'list', 'elements': 'dict'},
