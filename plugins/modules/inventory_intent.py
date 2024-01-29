@@ -1012,7 +1012,10 @@ class DnacDevice(DnacBase):
         encryption_dict = {
             'AES128': 'pyzipper.WZ_AES128',
             'AES192': 'pyzipper.WZ_AES192',
-            'AES256': 'pyzipper.WZ_AES'
+            'AES256': 'pyzipper.WZ_AES',
+            'CISCOAES128': 'pyzipper.WZ_AES128',
+            'CISCOAES192': 'pyzipper.WZ_AES192',
+            'CISCOAES256': 'pyzipper.WZ_AES'
         }
         try:
             encryption_method = encryption_dict.get(snmp_protocol)
@@ -1526,7 +1529,7 @@ class DnacDevice(DnacBase):
                     ):
                         break
                     count = count + 1
-                    if count > 200:
+                    if count > 400:
                         managed_flag = False
                         break
 
@@ -2392,6 +2395,13 @@ class DnacDevice(DnacBase):
                             playbook_params['snmpPrivPassphrase'] = csv_data_dict['snmp_priv_passphrase']
                         playbook_params[mapped_key] = csv_data_dict[key]
 
+                snmp_protocol_mapping = {
+                    'AES128': 'CISCOAES128',
+                    'AES192': 'CISCOAES192',
+                    'AES256': 'CISCOAES256'
+                }
+                protocol_type = playbook_params['snmpPrivProtocol']
+                playbook_params['snmpPrivProtocol'] = snmp_protocol_mapping[protocol_type]
                 try:
                     response = self.dnac._exec(
                         family="devices",
@@ -2571,13 +2581,21 @@ class DnacDevice(DnacBase):
         # If we want to add device in inventory
         if device_added:
             config['ip_address'] = devices_to_add
+            device_params = self.want.get("device_params")
+            snmp_protocol_mapping = {
+                'AES128': 'CISCOAES128',
+                'AES192': 'CISCOAES192',
+                'AES256': 'CISCOAES256'
+            }
+            protocol_type = device_params['snmpPrivProtocol']
+            device_params['snmpPrivProtocol'] = snmp_protocol_mapping[protocol_type]
             self.mandatory_parameter().check_return_status()
             try:
                 response = self.dnac._exec(
                     family="devices",
                     function='add_device',
                     op_modifies=True,
-                    params=self.want.get("device_params"),
+                    params=device_params,
                 )
                 self.log("Received API response from 'add_device': {0}".format(str(response)), "DEBUG")
 
