@@ -30,6 +30,7 @@ import re
 
 _first_log_written = False
 
+
 class DnacBase():
 
     """Class contains members which can be reused for all intent modules"""
@@ -74,7 +75,6 @@ class DnacBase():
         self.log('Dnac parameters: {}'.format(str(dnac_params)), 'DEBUG')
         self.supported_states = ["merged", "deleted", "replaced", "overridden", "gathered", "rendered", "parsed"]
         self.result = {"changed": False, "diff": [], "response": [], "warnings": []}
-
 
     @abstractmethod
     def validate_input(self):
@@ -175,13 +175,13 @@ class DnacBase():
             and logging.getLevelName(level) >= logging.getLevelName(self.dnac_log_level.upper())
         ):
             message = "Module: " + self.__class__.__name__ + ", " + message
-            log(message, level, self.dnac_log_file_path, self.dnac_append_logs,  (1 + frameIncrement))
+            log(message, level, self.dnac_log_file_path, self.dnac_append_logs, (1 + frameIncrement))
 
     def is_valid_level(self, message, level):
         if not isinstance(level, str):
             raise ValueError("Invalid log level type passed when logging the following msg: {0} level:{1}."
-                              " Expected a string.".format(message, level))
-        if level.upper() not in ('INFO', 'DEBUG', 'WARNING',  'ERROR', 'CRITICAL'):
+                            " Expected a string.".format(message, level))
+        if level.upper() not in ('INFO', 'DEBUG', 'WARNING', 'ERROR', 'CRITICAL'):
             raise ValueError("Invalid log level passed when logging the following msg: {0} level:{1}.".format(message, level))
 
     def check_return_status(self):
@@ -291,7 +291,7 @@ class DnacBase():
         task_id = response.get("taskId")
         while True:
             task_details = self.get_task_details(task_id)
-            self.log('Task details: {}'.format( str(task_details)), 'DEBUG')
+            self.log('Task details: {}'.format(str(task_details)), 'DEBUG')
 
             if task_details.get("isError") is True:
                 if task_details.get("failureReason"):
@@ -436,11 +436,11 @@ class LogConfig():
         """Validates if the logging level is string and of expected value"""
         if self.dnac_log_level not in self.valid_log_levels:
             raise ValueError("Invalid log level: 'dnac_log_level:{0}'."
-                              " Expected one of {1}.".format(self.dnac_log_level, self.valid_log_levels))
+                            "Expected one of {1}.".format(self.dnac_log_level, self.valid_log_levels))
 
     def validate_dnac_log_file_path(self):
         """
-        Validates the specified log file path, ensuring it is either absolute or relative, 
+        Validates the specified log file path, ensuring it is either absolute or relative,
         the directory exists, and has a .log extension.
         """
         # Convert the path to absolute if it's relative
@@ -466,6 +466,7 @@ def log(message, level='INFO', dnac_log_file_path='dnac.log', dnac_append_logs=T
         current_datetime = datetime.datetime.now().replace(microsecond=0).isoformat()
         of.write("---- {0} ---- {1}@{2} ---- {3}: {4}\n".format(current_datetime, info.lineno, info.function, level, message))
         _first_log_written = True
+
 
 def is_list_complex(x):
     return isinstance(x[0], dict) or isinstance(x[0], list)
