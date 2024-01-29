@@ -67,13 +67,14 @@ class DnacBase():
         self.dnac_log = dnac_params.get("dnac_log")
         self.dnac_log_level = dnac_params.get("dnac_log_level") or 'INFO'
         self.dnac_log_file_path = dnac_params.get("dnac_log_file_path") or 'dnac.log'
-        if dnac_params.get("dnac_append_logs") == None:
+        if dnac_params.get("dnac_append_logs") is None:
             self.dnac_append_logs = True
         else:
             self.dnac_append_logs = dnac_params.get("dnac_append_logs")
         self.log('Dnac parameters: {}'.format(str(dnac_params)), 'DEBUG')
         self.supported_states = ["merged", "deleted", "replaced", "overridden", "gathered", "rendered", "parsed"]
         self.result = {"changed": False, "diff": [], "response": [], "warnings": []}
+
 
     @abstractmethod
     def validate_input(self):
@@ -163,9 +164,8 @@ class DnacBase():
         """
         global _first_log_written
 
-        
-        if _first_log_written == False:
-            log_config = LogConfig(self.dnac_log_level, self.dnac_log_file_path)
+        if _first_log_written is False:
+            LogConfig(self.dnac_log_level, self.dnac_log_file_path)
 
         self.is_valid_level(message, level)
         level = level.upper()
@@ -421,8 +421,10 @@ class DnacBase():
             return config
         return new_config
 
-    
+
 class LogConfig():
+    """Configuration class for validating logging parameters"""
+
     def __init__(self, dnac_log_level='INFO', dnac_log_file_path='dnac.log'):
         self.valid_log_levels = ('DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL')
         self.dnac_log_level = dnac_log_level.upper()
@@ -453,7 +455,7 @@ class LogConfig():
 def log(message, level='INFO', dnac_log_file_path='dnac.log', dnac_append_logs=True, frameIncrement=0):
     global _first_log_written
 
-    if _first_log_written == False and dnac_append_logs == False:
+    if _first_log_written is False and dnac_append_logs is False:
         mode = 'w'
     else:
         mode = 'a'
@@ -462,7 +464,7 @@ def log(message, level='INFO', dnac_log_file_path='dnac.log', dnac_append_logs=T
         frame = callerframerecord[0]
         info = inspect.getframeinfo(frame)
         current_datetime = datetime.datetime.now().replace(microsecond=0).isoformat()
-        of.write("{5}-{6}---- {0} ---- {1}@{2} ---- {3}: {4}\n".format(current_datetime, info.lineno, info.function, level, message, _first_log_written, dnac_append_logs ))
+        of.write("---- {0} ---- {1}@{2} ---- {3}: {4}\n".format(current_datetime, info.lineno, info.function, level, message))
         _first_log_written = True
 
 def is_list_complex(x):
