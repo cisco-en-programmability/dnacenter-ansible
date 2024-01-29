@@ -176,11 +176,11 @@ class DnacBase():
         ):
             message = "Module: " + self.__class__.__name__ + ", " + message
             log(message, level, self.dnac_log_file_path, self.dnac_append_logs, (1 + frameIncrement))
+            _first_log_written = True
 
     def is_valid_level(self, message, level):
         if not isinstance(level, str):
-            raise ValueError("Invalid log level type passed when logging the following msg: {0} level:{1}."
-                                " Expected a string.".format(message, level))
+            raise ValueError("Invalid log level type passed when logging the following msg: {0} level:{1}. Expected a string.".format(message, level))
         if level.upper() not in ('INFO', 'DEBUG', 'WARNING', 'ERROR', 'CRITICAL'):
             raise ValueError("Invalid log level passed when logging the following msg: {0} level:{1}.".format(message, level))
 
@@ -435,8 +435,7 @@ class LogConfig():
     def validate_dnac_log_level(self):
         """Validates if the logging level is string and of expected value"""
         if self.dnac_log_level not in self.valid_log_levels:
-            raise ValueError("Invalid log level: 'dnac_log_level:{0}'."
-                                "Expected one of {1}.".format(self.dnac_log_level, self.valid_log_levels))
+            raise ValueError("Invalid log level: 'dnac_log_level:{0}'. Expected one of {1}.".format(self.dnac_log_level, self.valid_log_levels))
 
     def validate_dnac_log_file_path(self):
         """
@@ -465,8 +464,6 @@ def log(message, level='INFO', dnac_log_file_path='dnac.log', dnac_append_logs=T
         info = inspect.getframeinfo(frame)
         current_datetime = datetime.datetime.now().replace(microsecond=0).isoformat()
         of.write("---- {0} ---- {1}@{2} ---- {3}: {4}\n".format(current_datetime, info.lineno, info.function, level, message))
-        _first_log_written = True
-
 
 def is_list_complex(x):
     return isinstance(x[0], dict) or isinstance(x[0], list)
