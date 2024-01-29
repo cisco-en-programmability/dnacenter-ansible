@@ -180,7 +180,7 @@ class DnacBase():
     def is_valid_level(self, message, level):
         if not isinstance(level, str):
             raise ValueError("Invalid log level type passed when logging the following msg: {0} level:{1}."
-                            " Expected a string.".format(message, level))
+                                " Expected a string.".format(message, level))
         if level.upper() not in ('INFO', 'DEBUG', 'WARNING', 'ERROR', 'CRITICAL'):
             raise ValueError("Invalid log level passed when logging the following msg: {0} level:{1}.".format(message, level))
 
@@ -436,7 +436,7 @@ class LogConfig():
         """Validates if the logging level is string and of expected value"""
         if self.dnac_log_level not in self.valid_log_levels:
             raise ValueError("Invalid log level: 'dnac_log_level:{0}'."
-                            "Expected one of {1}.".format(self.dnac_log_level, self.valid_log_levels))
+                                "Expected one of {1}.".format(self.dnac_log_level, self.valid_log_levels))
 
     def validate_dnac_log_file_path(self):
         """
