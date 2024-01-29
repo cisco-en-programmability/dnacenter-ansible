@@ -154,7 +154,7 @@ class DnacBase():
         return self
 
     def log(self, message, level="INFO", frameIncrement=0):
-        """Logs/Appends messages into dnac.log file if logging is enabled and the log level is appropriate
+        """Logs formatted messages with specified log level and incrementing the call stack frame
         Args:
             self (obj, required): An instance of the DnacBase Class.
             message (str, required): The log message to be recorded.
@@ -179,6 +179,7 @@ class DnacBase():
             _first_log_written = True
 
     def is_valid_level(self, message, level):
+        """Validates if the specified log level is a string and one of the expected values"""
         if not isinstance(level, str):
             raise ValueError("Invalid log level type passed when logging the following msg: {0} level:{1}. Expected a string.".format(message, level))
         if level.upper() not in ('INFO', 'DEBUG', 'WARNING', 'ERROR', 'CRITICAL'):
@@ -452,8 +453,7 @@ class LogConfig():
 
 
 def log(message, level='INFO', dnac_log_file_path='dnac.log', dnac_append_logs=True, frameIncrement=0):
-    global _first_log_written
-
+    """Writes/Appends logs to the specified log file"""
     if _first_log_written is False and dnac_append_logs is False:
         mode = 'w'
     else:
@@ -464,6 +464,7 @@ def log(message, level='INFO', dnac_log_file_path='dnac.log', dnac_append_logs=T
         info = inspect.getframeinfo(frame)
         current_datetime = datetime.datetime.now().replace(microsecond=0).isoformat()
         of.write("---- {0} ---- {1}@{2} ---- {3}: {4}\n".format(current_datetime, info.lineno, info.function, level, message))
+
 
 def is_list_complex(x):
     return isinstance(x[0], dict) or isinstance(x[0], list)
