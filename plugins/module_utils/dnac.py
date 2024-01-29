@@ -72,7 +72,7 @@ class DnacBase():
             self.dnac_append_logs = True
         else:
             self.dnac_append_logs = dnac_params.get("dnac_append_logs")
-        self.log('Dnac parameters: {}'.format(str(dnac_params)), 'DEBUG')
+        self.log('Dnac parameters: {0}'.format(str(dnac_params)), 'DEBUG')
         self.supported_states = ["merged", "deleted", "replaced", "overridden", "gathered", "rendered", "parsed"]
         self.result = {"changed": False, "diff": [], "response": [], "warnings": []}
 
@@ -253,7 +253,7 @@ class DnacBase():
             params={"task_id": task_id}
         )
 
-        self.log('Tas Details: {}'.format(str(response)), 'DEBUG')
+        self.log('Tas Details: {0}'.format(str(response)), 'DEBUG')
 
         if response and isinstance(response, dict):
             result = response.get('response')
@@ -292,7 +292,7 @@ class DnacBase():
         task_id = response.get("taskId")
         while True:
             task_details = self.get_task_details(task_id)
-            self.log('Task details: {}'.format(str(task_details)), 'DEBUG')
+            self.log('Task details: {0}'.format(str(task_details)), 'DEBUG')
 
             if task_details.get("isError") is True:
                 if task_details.get("failureReason"):
