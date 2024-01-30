@@ -29,11 +29,6 @@ options:
     description: Set to True to verify the Cisco Catalyst Center config after applying the playbook config.
     type: bool
     default: False
-  dnac_log_level:
-    description: Specifies the log level for Cisco Catalyst Center logging, categorizing logs by severity.
-        Options- [CRITICAL, ERROR, WARNING, INFO, DEBUG]
-    type: str
-    default: INFO
   state:
     description: The state of Catalyst Center after module completion.
     type: str
@@ -1030,7 +1025,7 @@ def main():
                     'dnac_verify': {'type': 'bool', 'default': 'True'},
                     'dnac_version': {'type': 'str', 'default': '2.2.3.3'},
                     'dnac_debug': {'type': 'bool', 'default': False},
-                    'dnac_log_level': {'type': 'str', 'default': 'INFO'},
+                    'dnac_log_level': {'type': 'str', 'default': 'WARNING'},
                     'dnac_log': {'type': 'bool', 'default': False},
                     'validate_response_schema': {'type': 'bool', 'default': True},
                     'config_verify': {'type': 'bool', "default": False},
