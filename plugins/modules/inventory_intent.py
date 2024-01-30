@@ -438,7 +438,7 @@ EXAMPLES = r"""
         snmp_username: string
         snmp_version: string
         type: string
-        device_update: true
+        device_updated: true
         credential_update: true
         update_mgmt_ipaddresslist:
         - exist_mgmt_ipaddress: string
@@ -1097,7 +1097,7 @@ class DnacDevice(DnacBase):
                 "deviceUuids": device_uuids,
                 "password": password,
                 "operationEnum": export_device_list.get("operation_enum", "0"),
-                "paramters": export_device_list.get("paramters")
+                "parameters": export_device_list.get("parameters")
             }
 
             response = self.trigger_export_api(payload_params)
@@ -2025,6 +2025,7 @@ class DnacDevice(DnacBase):
             response = response.get("response")
 
             if response:
+                self.status = "success"
                 interface_id = response["id"]
                 self.log("""Successfully fetched interface ID ({0}) by using device id {1} and interface name {2}."""
                          .format(interface_id, device_id, interface_name), "INFO")
@@ -2033,7 +2034,9 @@ class DnacDevice(DnacBase):
         except Exception as e:
             error_message = "Error while fetching interface id for interface({0}) from Cisco Catalyst Center: {1}".format(interface_name, str(e))
             self.log(error_message, "ERROR")
-            raise Exception(error_message)
+            self.msg = error_message
+            self.status = "failed"
+            return self
 
         def get_interface_from_ip(self, device_ip):
             """
@@ -2402,6 +2405,16 @@ class DnacDevice(DnacBase):
                 }
                 protocol_type = playbook_params['snmpPrivProtocol']
                 playbook_params['snmpPrivProtocol'] = snmp_protocol_mapping[protocol_type]
+
+                if playbook_params['snmpMode'] == "NOAUTHNOPRIV":
+                    playbook_params.pop('snmpAuthPassphrase', None)
+                    playbook_params.pop('snmpPrivPassphrase', None)
+                    playbook_params.pop('snmpPrivProtocol', None)
+                    playbook_params.pop('snmpAuthProtocol', None)
+                elif playbook_params['snmpMode'] == "AUTHNOPRIV":
+                    playbook_params.pop('snmpPrivPassphrase', None)
+                    playbook_params.pop('snmpPrivProtocol', None)
+
                 try:
                     response = self.dnac._exec(
                         family="devices",
@@ -2450,6 +2463,7 @@ class DnacDevice(DnacBase):
                     interface_name = interface_params.get('interface_name')
                     device_id = self.get_device_ids([device_ip])
                     interface_id = self.get_interface_from_id_and_name(device_id[0], interface_name)
+                    self.check_return_status()
 
                     # Now we call update interface details api with required parameter
                     try:
