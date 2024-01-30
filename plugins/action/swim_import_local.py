@@ -20,6 +20,7 @@ from ansible_collections.cisco.dnac.plugins.plugin_utils.dnac import (
     DNACSDK,
     dnac_argument_spec,
 )
+import os
 
 # Get common arguements specification
 argument_spec = dnac_argument_spec()
@@ -72,6 +73,8 @@ class ActionModule(ActionBase):
             third_party_image_family=params.get("thirdPartyImageFamily"),
             third_party_application_type=params.get("thirdPartyApplicationType"),
             file_path=params.get("filePath"),
+            multipart_fields = {'file': (os.path.basename(params.get("filePath")), open(params.get("filePath"), 'rb'))},
+            multipart_monitor_callback = None
         )
         return new_object
 
