@@ -21,6 +21,10 @@ extends_documentation_fragment:
   - cisco.dnac.intent_params
 author: Abinash Mishra (@abimishr)
 options:
+  config_verify:
+    description: Set to True to verify the Cisco Catalyst Center config after applying the playbook config.
+    type: bool
+    default: False
   state:
     description: The state of DNAC after module completion.
     type: str
@@ -582,6 +586,8 @@ def main():
                     'dnac_version': {'type': 'str', 'default': '2.2.3.3'},
                     'dnac_debug': {'type': 'bool', 'default': False},
                     'dnac_log': {'type': 'bool', 'default': False},
+                    "dnac_log_level": {"type": 'str', "default": 'WARNING'},
+                    "config_verify": {"type": 'bool', "default": False},
                     'validate_response_schema': {'type': 'bool', 'default': True},
                     'config': {'required': True, 'type': 'list', 'elements': 'dict'},
                     'state': {'default': 'merged', 'choices': ['merged', 'deleted']}
