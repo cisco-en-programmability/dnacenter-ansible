@@ -21,12 +21,6 @@ extends_documentation_fragment:
   - cisco.dnac.intent_params
 author: Abinash Mishra (@abimishr)
 options:
-  dnac_log_level:
-    description:
-        - Specifies the desired log level for Cisco Catalyst Center logging.
-            Options - [CRITICAL, ERROR, WARNING, INFO, DEBUG]
-    type: str
-    default: WARNING
   config_verify:
     description: Set to True to verify the Cisco Catalyst Center config after applying the playbook config.
     type: bool
