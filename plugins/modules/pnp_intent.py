@@ -1,4 +1,4 @@
-#!/usr/bin/python
+\#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2022, Cisco Systems
@@ -28,6 +28,11 @@ options:
     description: Set to True to verify the Cisco DNA Center config after applying the playbook config.
     type: bool
     default: False
+  dnac_log_level:
+    description: Specifies the log level for Cisco Catalyst Center logging, categorizing logs by severity.
+        Options- [CRITICAL, ERROR, WARNING, INFO, DEBUG]
+    type: str
+    default: WARNING
   state:
     description: The state of DNAC after module completion.
     type: str
@@ -149,6 +154,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
     dnac_log: True
     state: merged
     config_verify: True
@@ -280,13 +286,12 @@ class DnacPnp(DnacBase):
         if invalid_params:
             self.msg = "Invalid parameters in playbook: {0}".format(
                 "\n".join(invalid_params))
+            self.log(str(self.msg), "ERROR")
             self.status = "failed"
             return self
-
         self.validated_config = valid_pnp
-        self.log(str(valid_pnp))
-
-        self.msg = "Successfully validated input"
+        self.msg = "Successfully validated playbook config params: {0}".format(str(valid_pnp))
+        self.log(str(self.msg), "INFO")
         self.status = "success"
 
         return self
@@ -318,14 +323,16 @@ class DnacPnp(DnacBase):
                 params={"name": self.want.get("site_name")},
             )
         except Exception:
+            self.log("Site {0} not found".format(self.want.get("site_name")), "CRITICAL")
             self.module.fail_json(msg="Site not found", response=[])
 
         if response:
-            self.log(str(response))
+            self.log("Site details of {0} received are {1}".format(self.want.get("site_name"), str(response)), "DEBUG")
             site = response.get("response")
             if len(site) == 1:
                 site_id = site[0].get("id")
                 site_exists = True
+                self.log("Site Id is {0} and site name is {1}".format(site_id, self.want.get("site_name")), "INFO")
 
         return (site_exists, site_id)
 
@@ -352,15 +359,17 @@ class DnacPnp(DnacBase):
                 params={"name": self.want.get("site_name")},
             )
         except Exception:
+            self.log("Site {0} not found".format(self.want.get("site_name")), "CRITICAL")
             self.module.fail_json(msg="Site not found", response=[])
 
         if response:
-            self.log(str(response))
+            self.log("Site details of {0} received are {1}".format(self.want.get("site_name"), str(response)), "DEBUG")
             site = response.get("response")
             site_additional_info = site[0].get("additionalInfo")
             for item in site_additional_info:
                 if item["nameSpace"] == "Location":
                     site_type = item.get("attributes").get("type")
+                    self.log("Site Type is {0}".format(site_type), "INFO")
 
         return site_type
 
@@ -392,6 +401,7 @@ class DnacPnp(DnacBase):
             device_dict["deviceInfo"] = param
             device_info_list.append(device_dict)
 
+        self.log("PnP paramters passed are {0}".format(str(params_list)), "INFO")
         return device_info_list
 
     def get_image_params(self, params):
@@ -416,6 +426,8 @@ class DnacPnp(DnacBase):
             'image_name': params.get('image_name'),
             'is_tagged_golden': params.get('golden_image')
         }
+
+        self.log("Image details are {0}".format(str(image_params)), "INFO")
         return image_params
 
     def get_claim_params(self):
@@ -479,6 +491,7 @@ class DnacPnp(DnacBase):
             claim_params["type"] = "AccessPoint"
             claim_params["rfProfile"] = self.validated_config[0]["rf_profile"]
 
+        self.log("Paramters used for claiming are {0}".format(str(claim_params)), "INFO")
         return claim_params
 
     def get_reset_params(self):
@@ -517,6 +530,7 @@ class DnacPnp(DnacBase):
             ]
         }
 
+        self.log("Paramters used for resetting from deleted state are {0}".format(str(reset_params)), "INFO")
         return reset_params
 
     def get_have(self):
@@ -545,9 +559,10 @@ class DnacPnp(DnacBase):
                 function='get_device_list',
                 params={"serial_number": self.want.get("serial_number")}
             )
-            self.log(str(device_response))
+            self.log("Device details of the device with serial number {0} are {1}".format(self.want.get("serial_number"), str(device_response)), "DEBUG")
 
             if not (device_response and (len(device_response) == 1)):
+                self.log("Device with with serial number {0} is not found in the inventory".format(self.want.get("serial_number")), "WARNING")
                 self.msg = "Adding the device to database"
                 self.status = "success"
                 self.have = have
@@ -566,7 +581,7 @@ class DnacPnp(DnacBase):
                     params=self.want.get("image_params"),
                 )
                 image_list = image_response.get("response")
-                self.log(str(image_response))
+                self.log("Image details obtained from the API 'get software image details' are {0}".format(str(image_response)), "DEBUG")
 
                 # check if project has templates or not
                 template_list = self.dnac_apply['exec'](
@@ -574,21 +589,23 @@ class DnacPnp(DnacBase):
                     function='gets_the_templates_available',
                     params={"project_names": self.want.get("project_name")},
                 )
-                self.log(str(template_list))
+                self.log("Templates list under the project {0} is {1}".format(self.want.get("project_name"), str(template_list)), "DEBUG")
 
                 dev_details_response = self.dnac_apply['exec'](
                     family="device_onboarding_pnp",
                     function="get_device_by_id",
                     params={"id": device_response[0].get("id")}
                 )
-
+                self.log("Device details of the existing device after calling the API 'get device by id' are {0}".format(str(dev_details_response)), "DEBUG")
                 install_mode = dev_details_response.get("deviceInfo").get("mode")
+                self.log("Installation mode of the device with the serial no. {0} is {1}".format(self.want.get("serial_number"), install_mode), "INFO")
 
                 # check if given site exits, if exists store current site info
                 site_exists = False
                 if not isinstance(self.want.get("site_name"), str) and \
                         not self.want.get('pnp_params')[0].get('deviceInfo'):
                     self.msg = "Name of the site must be a string"
+                    self.log(str(self.msg), "ERROR")
                     self.status = "failed"
                     return self
 
@@ -597,12 +614,13 @@ class DnacPnp(DnacBase):
 
                 if site_exists:
                     have["site_id"] = site_id
-                    self.log("Site Exists: " + str(site_exists) + "\n Site_id:" + str(site_id))
-                    self.log("Site Name:" + str(site_name))
+                    self.log("Site Exists: " + str(site_exists) + "\n Site_id:" + str(site_id), "INFO")
+                    self.log("Site Name:" + str(site_name), "INFO")
                     if self.want.get("pnp_type") == "access_point":
                         if self.get_site_type() != "floor":
                             self.msg = "Type of the site must \
                                 be a floor for claiming an AP"
+                            self.log(str(self.msg), "ERROR")
                             self.status = "failed"
                             return self
 
@@ -611,17 +629,19 @@ class DnacPnp(DnacBase):
                             self.msg = "Installation mode must be in \
                             INSTALL mode to upgrade the image. Current mode is\
                             {0}".format(install_mode)
+                            self.log(str(self.msg), "CRITICAL")
                             self.status = "failed"
                             return self
 
                         have["image_id"] = image_list[0].get("imageUuid")
-                        self.log("Image Id: " + str(have["image_id"]))
+                        self.log("Image Id is {0}".format(str(have["image_id"])), "INFO")
 
                     template_name = self.want.get("template_name")
                     if template_name:
                         if not (template_list and isinstance(template_list, list)):
                             self.msg = "Project Not Found \
                                 or Project is Empty"
+                            self.log(self.msg, "CRITICAL")
                             self.status = "failed"
                             return self
 
@@ -629,18 +649,21 @@ class DnacPnp(DnacBase):
                         if template_details:
                             have["template_id"] = template_details.get("templateId")
                         else:
-                            self.msg = "Template Not found"
+                            self.msg = "Template {0} Not found".format(template_name)
+                            self.log(self.msg, "CRITICAL")
                             self.status = "failed"
                             return self
 
                 else:
                     if not self.want.get('pnp_params')[0].get('deviceInfo'):
                         self.msg = "Either Site Name or Device details must be added"
+                        self.log(self.msg, "ERROR")
                         self.status = "failed"
                         return self
 
         self.msg = "Successfully collected all project and template \
                     parameters from dnac for comparison"
+        self.log(self.msg, "INFO")
         self.status = "success"
         self.have = have
         return self
@@ -694,6 +717,7 @@ class DnacPnp(DnacBase):
             self.want["rf_profile"] = config.get("rf_profile")
         self.msg = "Successfully collected all parameters from playbook " + \
             "for comparison"
+        self.log(self.msg, "INFO")
         self.status = "success"
 
         return self
@@ -717,6 +741,7 @@ class DnacPnp(DnacBase):
 
         if not isinstance(self.want.get("pnp_params"), list):
             self.msg = "Device Info must be passed as a list"
+            self.log(self.msg, "ERROR")
             self.status = "failed"
             return self
 
@@ -728,13 +753,16 @@ class DnacPnp(DnacBase):
                     function='get_device_list',
                     params={"serial_number": device["deviceInfo"]["serialNumber"]}
                 )
-
+                self.log("Device details for the serial number {0}\
+                    obtained from the API 'get device list'\
+                        are {1}".format(device["deviceInfo"]["serialNumber"], str(multi_device_response)), "DEBUG")
                 if (multi_device_response and (len(multi_device_response) == 1)):
                     devices_added.append(device)
-
+                    self.log("Details of the added device is {0}".format(str(device)), "INFO")
             if (len(self.want.get("pnp_params")) - len(devices_added)) == 0:
                 self.result['response'] = []
                 self.result['msg'] = "Devices are already added"
+                self.log(self.result['msg'], "WARNING")
                 return self
 
             bulk_list = [
@@ -748,15 +776,18 @@ class DnacPnp(DnacBase):
                 params={"payload": bulk_list},
                 op_modifies=True,
             )
+            self.log("Devices imported response from the API 'import_devices_in_bulk' is {0}".format(bulk_params), "DEBUG")
             if len(bulk_params.get("successList")) > 0:
                 self.result['msg'] = "{0} device(s) imported successfully".format(
                     len(bulk_params.get("successList")))
+                self.log(self.result['msg'], "INFO")
                 self.result['response'] = bulk_params
                 self.result['diff'] = self.validated_config
                 self.result['changed'] = True
                 return self
 
             self.msg = "Bulk import failed"
+            self.log(self.msg, "CRITICAL")
             self.status = "failed"
             return self
 
@@ -773,11 +804,12 @@ class DnacPnp(DnacBase):
         if not self.have.get("device_found"):
             if not self.want['pnp_params']:
                 self.msg = "Device needs to be added before claiming. Please add device_info"
+                self.log(self.msg, "ERROR")
                 self.status = "failed"
                 return self
 
             if not self.want["site_name"]:
-                self.log("Adding device to pnp database")
+                self.log("Adding device to pnp database", "INFO")
                 dev_add_response = self.dnac_apply['exec'](
                     family="device_onboarding_pnp",
                     function="add_device",
@@ -786,15 +818,17 @@ class DnacPnp(DnacBase):
                 )
 
                 self.have["deviceInfo"] = dev_add_response.get("deviceInfo")
-                self.log(str(dev_add_response))
+                self.log("Single device addition response from the API 'add device' is {0}".format(str(dev_add_response)), "DEBUG")
                 if self.have["deviceInfo"]:
                     self.result['msg'] = "Only Device Added Successfully"
+                    self.log(self.result['msg'], "INFO")
                     self.result['response'] = dev_add_response
                     self.result['diff'] = self.validated_config
                     self.result['changed'] = True
 
                 else:
                     self.msg = "Device Addition Failed"
+                    self.log(self.result['msg'], "CRITICAL")
                     self.status = "failed"
 
                 return self
@@ -808,7 +842,7 @@ class DnacPnp(DnacBase):
                     op_modifies=True,
                 )
                 self.have["deviceInfo"] = dev_add_response.get("deviceInfo")
-                self.log(str(dev_add_response))
+                self.log("Single device addition response from the API 'add device'is {0}".format(str(dev_add_response)), "DEBUG")
                 claim_params = self.get_claim_params()
                 claim_params["deviceId"] = dev_add_response.get("id")
                 claim_response = self.dnac_apply['exec'](
@@ -818,16 +852,18 @@ class DnacPnp(DnacBase):
                     params=claim_params,
                 )
 
-                self.log(str(claim_response))
+                self.log("Single claiming response from the API 'claim a device to a site' is {0}".format(str(dev_add_response)), "DEBUG")
                 if claim_response.get("response") == "Device Claimed" \
                         and self.have["deviceInfo"]:
                     self.result['msg'] = "Device Added and Claimed Successfully"
+                    self.log(self.result['msg'], "INFO")
                     self.result['response'] = claim_response
                     self.result['diff'] = self.validated_config
                     self.result['changed'] = True
 
                 else:
                     self.msg = "Device Claim Failed"
+                    self.log(self.result['msg'], "CRITICAL")
                     self.status = "failed"
 
                 return self
@@ -838,23 +874,30 @@ class DnacPnp(DnacBase):
             op_modifies=True,
             params=provisioned_count_params,
         )
+        self.log("Devices which are provisioned response from the API 'get device count' is {0}".format(str(prov_dev_response)), "DEBUG")
+
         plan_dev_response = self.dnac_apply['exec'](
             family="device_onboarding_pnp",
             function='get_device_count',
             op_modifies=True,
             params=planned_count_params,
         )
+        self.log("Devices which are in planned state response from the API 'get device count' is {0}".format(str(plan_dev_response)), "DEBUG")
+
         dev_details_response = self.dnac_apply['exec'](
             family="device_onboarding_pnp",
             function="get_device_by_id",
             params={"id": self.have["device_id"]}
         )
+        self.log("Device's details from the API 'get device by id' is {0}".format(str(dev_details_response)), "DEBUG")
 
         pnp_state = dev_details_response.get("deviceInfo").get("state")
+        self.log("PnP state of the device is {0}".format(pnp_state), "INFO")
 
         if not self.want["site_name"]:
             self.result['response'] = self.have.get("device_found")
             self.result['msg'] = "Device is already added"
+            self.log(self.result['msg'], "WARNING")
             return self
 
         update_payload = {"deviceInfo": self.want.get('pnp_params')[0].get("deviceInfo")}
@@ -865,7 +908,7 @@ class DnacPnp(DnacBase):
                     "payload": update_payload},
             op_modifies=True,
         )
-        self.log(str(update_response))
+        self.log("Update in the device's config API response is {0}".format(str(update_response)), "DEBUG")
 
         if pnp_state == "Error":
             reset_paramters = self.get_reset_params()
@@ -875,8 +918,9 @@ class DnacPnp(DnacBase):
                 params={"payload": reset_paramters},
                 op_modifies=True,
             )
-            self.log(str(reset_response))
+            self.log("Errored state resolution response from the API is {0}".format(str(reset_response)), "DEBUG")
             self.result['msg'] = "Device reset done Successfully"
+            self.log(self.result['msg'], "INFO")
             self.result['response'] = reset_response
             self.result['diff'] = self.validated_config
             self.result['changed'] = True
@@ -888,12 +932,13 @@ class DnacPnp(DnacBase):
         ):
             self.result['response'] = self.have.get("device_found")
             self.result['msg'] = "Device is already claimed"
+            self.log(self.result['msg'], "WARNING")
             if update_response.get("deviceInfo"):
                 self.result['changed'] = True
                 return self
 
         claim_params = self.get_claim_params()
-        self.log(str(claim_params))
+        self.log("Paramters for claiming the device are {0}".format(str(claim_params)), "DEBUG")
 
         claim_response = self.dnac_apply['exec'](
             family="device_onboarding_pnp",
@@ -901,9 +946,10 @@ class DnacPnp(DnacBase):
             op_modifies=True,
             params=claim_params,
         )
-        self.log(str(claim_response))
+        self.log("Claiming response obtained from the API 'claim a device to a site' is {0}".format(str(claim_response)), "DEBUG")
         if claim_response.get("response") == "Device Claimed":
             self.result['msg'] = "Only Device Claimed Successfully"
+            self.log(self.result['msg'], "INFO")
             self.result['response'] = claim_response
             self.result['diff'] = self.validated_config
             self.result['changed'] = True
@@ -934,7 +980,7 @@ class DnacPnp(DnacBase):
                 function='get_device_list',
                 params={"serial_number": device["deviceInfo"]["serialNumber"]}
             )
-
+            self.log("Device details for the serial number {0} are {1}".format(device["deviceInfo"]["serialNumber"], str(multi_device_response)), "DEBUG")
             if multi_device_response and len(multi_device_response) == 1:
                 device_id = multi_device_response[0].get("id")
 
@@ -945,7 +991,8 @@ class DnacPnp(DnacBase):
                     params={"id": device_id},
                 )
 
-                self.log(str(response))
+                self.log("Device details for the device deleted with \
+                    serial number {0} are {1}".format(device["deviceInfo"]["serialNumber"], str(response)), "DEBUG")
 
                 if response.get("deviceInfo", {}).get("state") == "Deleted":
                     devices_deleted.append(device["deviceInfo"]["serialNumber"])
@@ -953,14 +1000,17 @@ class DnacPnp(DnacBase):
                 else:
                     self.result['response'] = response
                     self.result['msg'] = "Error while deleting the device"
+                    self.log(self.result['msg'], "CRITICAL")
 
         if len(devices_deleted) > 0:
             self.result['changed'] = True
             self.result['response'] = devices_deleted
             self.result['diff'] = self.want.get("pnp_params")
             self.result['msg'] = "{0} Device(s) Deleted Successfully".format(len(devices_deleted))
+            self.log(self.result['msg'], "INFO")
         else:
             self.result['msg'] = "Device(s) Not Found"
+            self.log(self.result['msg'], "WARNING")
             self.result['response'] = devices_deleted
 
         return self
@@ -980,8 +1030,8 @@ class DnacPnp(DnacBase):
             Center configuration's PnP Database.
         """
 
-        self.log("Current State (have): {0}".format(self.have))
-        self.log("Desired State (want): {0}".format(self.want))
+        self.log("Current State (have): {0}".format(str(self.have)), "INFO")
+        self.log("Desired State (want): {0}".format(str(config)), "INFO")
         # Code to validate dnac config for merged state
         for device in self.want.get("pnp_params"):
             device_response = self.dnac_apply['exec'](
@@ -994,12 +1044,14 @@ class DnacPnp(DnacBase):
                     "Requested Device with Serial No. {0} is "
                     "present in Cisco DNA Center and"
                     " addition verified.".format(device["deviceInfo"]["serialNumber"]))
-                self.log(msg)
+                self.log(msg, "INFO")
+
             else:
                 msg = (
                     "Requested Device with Serial No. {0} is "
                     "not present in Cisco DNA "
                     "Center".format(device["deviceInfo"]["serialNumber"]))
+                self.log(msg, "WARNING")
 
         self.status = "success"
         return self
@@ -1018,8 +1070,8 @@ class DnacPnp(DnacBase):
             PnP Database.
         """
 
-        self.log("Current State (have): {0}".format(self.have))
-        self.log("Desired State (want): {0}".format(self.want))
+        self.log("Current State (have): {0}".format(str(self.have)), "INFO")
+        self.log("Desired State (want): {0}".format(str(config)), "INFO")
         # Code to validate dnac config for deleted state
         for device in self.want.get("pnp_params"):
             device_response = self.dnac_apply['exec'](
@@ -1032,11 +1084,13 @@ class DnacPnp(DnacBase):
                     "Requested Device with Serial No. {0} is "
                     "not present in the Cisco DNA"
                     "Center.".format(device["deviceInfo"]["serialNumber"]))
-                self.log(msg)
+                self.log(msg, "INFO")
+
             else:
                 msg = (
                     "Requested Device with Serial No. {0} is "
                     "present in Cisco DNA Center".format(device["deviceInfo"]["serialNumber"]))
+                self.log(msg, "WARNING")
 
         self.status = "success"
         return self
@@ -1055,6 +1109,7 @@ def main():
                     'dnac_version': {'type': 'str', 'default': '2.2.3.3'},
                     'dnac_debug': {'type': 'bool', 'default': False},
                     'dnac_log': {'type': 'bool', 'default': False},
+                    'dnac_log_level': {'type': 'str', 'default': 'WARNING'},
                     'validate_response_schema': {'type': 'bool', 'default': True},
                     'config_verify': {"type": 'bool', "default": False},
                     'config': {'required': True, 'type': 'list', 'elements': 'dict'},
