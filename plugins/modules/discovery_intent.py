@@ -736,7 +736,7 @@ class DnacDiscovery(DnacBase):
             )
             devices = response.response
 
-            self.log("Devices Information retrieved from the get discovered network devices by discovery id API is {0}".format(str(devices)), "DEBUG")
+            self.log("Retrieved device details using the API 'get_discovered_network_devices_by_discovery_id': {0}".format(str(devices)), "DEBUG")
             if all(res.get('reachabilityStatus') == 'Success' for res in devices):
                 result = True
                 break
@@ -752,7 +752,7 @@ class DnacDiscovery(DnacBase):
             self.log(msg, "CRITICAL")
             self.module.fail_json(msg=msg)
 
-        self.log('Discovery network device with id {0} has not completed'.format(discovery_id), "INFO")
+        self.log('Discovery network device with id {0} got completed'.format(discovery_id), "INFO")
         self.result.update(dict(discovery_device_info=devices))
         return result
 
@@ -794,9 +794,9 @@ class DnacDiscovery(DnacBase):
             params=params,
         )
 
-        self.log("Response collected from delete discovery by id API is {0}".format(str(response)), "DEBUG")
+        self.log("Response collected from API 'delete_discovery_by_id': {0}".format(str(response)), "DEBUG")
         self.result.update(dict(delete_discovery=response))
-        self.log("Task Id of the delteion task is {0}".format(response.response.get('taskId')), "INFO")
+        self.log("Task Id of the deletion task is {0}".format(response.response.get('taskId')), "INFO")
         return response.response.get('taskId')
 
     def get_diff_merged(self):
