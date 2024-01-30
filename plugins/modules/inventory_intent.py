@@ -438,7 +438,7 @@ EXAMPLES = r"""
         snmp_username: string
         snmp_version: string
         type: string
-        device_update: true
+        device_updated: true
         credential_update: true
         update_mgmt_ipaddresslist:
         - exist_mgmt_ipaddress: string
