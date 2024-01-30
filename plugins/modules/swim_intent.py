@@ -34,7 +34,7 @@ options:
     description: Specifies the log level for Cisco Catalyst Center logging, categorizing logs by severity.
         Options- [CRITICAL, ERROR, WARNING, INFO, DEBUG]
     type: str
-    default: INFO
+    default: WARNING
   state:
     description: The state of Catalyst Center after module completion.
     type: str
@@ -309,7 +309,6 @@ EXAMPLES = r"""
     - tagging_details:
         image_name: string
         device_role: string
-        device_family_name: string
         device_type: string
         site_name: string
         tagging: bool
@@ -584,7 +583,7 @@ class DnacSwims(DnacBase):
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             site_name (str): The name of the site for which device UUIDs are requested.
             device_family (str): The family/type of devices to filter on.
-            device_role (str): The role of devices to filter on. If None, all roles are considered.
+            device_role (str): The role of devices to filter on. If None, 'ALL' roles are considered.
         Returns:
             list: A list of device UUIDs that match the specified criteria.
         Description:
@@ -977,7 +976,7 @@ class DnacSwims(DnacBase):
                 imageId=self.have.get("tagging_image_id"),
                 siteId=self.have.get("site_id"),
                 deviceFamilyIdentifier=self.have.get("device_family_identifier"),
-                deviceRole=tagging_details.get("device_role")
+                deviceRole=tagging_details.get("device_role", "ALL").upper()
             )
             self.log("Parameters for tagging the image as golden: {0}".format(str(image_params)), "INFO")
 
@@ -994,7 +993,7 @@ class DnacSwims(DnacBase):
                 image_id=self.have.get("tagging_image_id"),
                 site_id=self.have.get("site_id"),
                 device_family_identifier=self.have.get("device_family_identifier"),
-                device_role=tagging_details.get("device_role")
+                device_role=tagging_details.get("device_role", "ALL").upper()
             )
             self.log("Parameters for un-tagging the image as golden: {0}".format(str(image_params)), "INFO")
 
@@ -1014,8 +1013,22 @@ class DnacSwims(DnacBase):
                 self.result['changed'] = True
                 self.result['msg'] = task_details.get("progress")
                 self.status = "success"
-
-            self.result['response'] = task_details if task_details else response
+                self.result['response'] = task_details if task_details else response
+            elif task_details.get("isError"):
+                failure_reason = task_details.get("failureReason", "")
+                if failure_reason and "An inheritted tag cannot be un-tagged" in failure_reason:
+                    self.status = "success"
+                    self.result['changed'] = False
+                    self.msg = failure_reason
+                    self.result['msg'] = failure_reason
+                    self.log(self.msg, "WARNING")
+                else:
+                    error_message = task_details.get("failureReason", "Error: while tagging/un-tagging the golden swim image.")
+                    self.status = "failed"
+                    self.msg = error_message
+                    self.result['msg'] = error_message
+                    self.log(self.msg, "ERROR")
+                self.result['response'] = self.msg
 
         return self
 
@@ -1068,7 +1081,7 @@ class DnacSwims(DnacBase):
         distribution_details = self.want.get("distribution_details")
         site_name = distribution_details.get("site_name")
         device_family = distribution_details.get("device_family_name")
-        device_role = distribution_details.get("device_role")
+        device_role = distribution_details.get("device_role", "ALL")
         device_uuid_list = self.get_device_uuids(site_name, device_family, device_role)
         image_id = self.have.get("distribution_image_id")
 
@@ -1198,7 +1211,7 @@ class DnacSwims(DnacBase):
         activation_details = self.want.get("activation_details")
         site_name = activation_details.get("site_name")
         device_family = activation_details.get("device_family_name")
-        device_role = activation_details.get("device_role")
+        device_role = activation_details.get("device_role", "ALL")
         device_uuid_list = self.get_device_uuids(site_name, device_family, device_role)
         image_id = self.have.get("activation_image_id")
 
@@ -1363,7 +1376,7 @@ def main():
                     'dnac_verify': {'type': 'bool', 'default': 'True'},
                     'dnac_version': {'type': 'str', 'default': '2.2.3.3'},
                     'dnac_debug': {'type': 'bool', 'default': False},
-                    'dnac_log_level': {'type': 'str', 'default': 'INFO'},
+                    'dnac_log_level': {'type': 'str', 'default': 'WARNING'},
                     'dnac_log': {'type': 'bool', 'default': False},
                     'validate_response_schema': {'type': 'bool', 'default': True},
                     'config': {'required': True, 'type': 'list', 'elements': 'dict'},

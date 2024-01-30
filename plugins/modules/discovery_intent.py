@@ -26,6 +26,11 @@ options:
     description: Set to True to verify the Cisco DNA Center config after applying the playbook config.
     type: bool
     default: False
+  dnac_log_level:
+    description: Specifies the log level for Cisco Catalyst Center logging, categorizing logs by severity.
+        Options- [CRITICAL, ERROR, WARNING, INFO, DEBUG]
+    type: str
+    default: WARNING
   state:
     description: The state of DNAC after module completion.
     type: str
@@ -179,6 +184,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     dnac_log: True
+    dnac_log_level: "{{dnac_log_level}}"
     state: merged
     config:
         - devices_list:
@@ -190,8 +196,8 @@ EXAMPLES = r"""
           start_index: integer
           enable_password_list: list
           records_to_return: integer
-          http_read_credential: string
-          http_write_credential: string
+          http_read_credential: dict
+          http_write_credential: dict
           ip_filter_list: list
           discovery_name: string
           password_list: list
@@ -373,13 +379,13 @@ class DnacDiscovery(DnacBase):
         if invalid_params:
             self.msg = "Invalid parameters in playbook: {0}".format(
                 "\n".join(invalid_params))
+            self.log(str(self.msg), "ERROR")
             self.status = "failed"
             return self
 
         self.validated_config = valid_discovery
-        self.log(str(valid_discovery))
-
-        self.msg = "Successfully validated input"
+        self.msg = "Successfully validated playbook configuration parameters using 'validate_input': {0}".format(str(valid_discovery))
+        self.log(str(self.msg), "INFO")
         self.status = "success"
         return self
 
@@ -393,6 +399,7 @@ class DnacDiscovery(DnacBase):
                                  the class instance.
         """
 
+        self.log("Credential IDs list is {0}".format(str(self.creds_ids_list)), "INFO")
         return self.creds_ids_list
 
     def get_dnac_global_credentials_v2_info(self):
@@ -415,14 +422,15 @@ class DnacDiscovery(DnacBase):
             params=self.validated_config[0].get('headers'),
         )
         response = response.get('response')
-        self.log(response)
+        self.log("The Global credentials response from 'get all global credentials v2' API is {0}".format(str(response)), "DEBUG")
         for value in response.values():
             if not value:
                 continue
             self.creds_ids_list.extend(element.get('id') for element in value)
 
         if not self.creds_ids_list:
-            msg = 'Not found any credentials to discover'
+            msg = 'Not found any credentials to perform discovery'
+            self.log(msg, "CRITICAL")
             self.module.fail_json(msg=msg)
 
         self.result.update(dict(credential_ids=self.creds_ids_list))
@@ -438,6 +446,7 @@ class DnacDiscovery(DnacBase):
         """
         devices_list = self.validated_config[0].get('devices_list')
         self.result.update(dict(devices_info=devices_list))
+        self.log("Devices list info passed is {0}".format(str(devices_list)), "INFO")
         return devices_list
 
     def preprocessing_devices_info(self, devices_list=None):
@@ -461,16 +470,19 @@ class DnacDiscovery(DnacBase):
 
         ip_address_list = [device['ip'] for device in devices_list]
 
+        self.log("Discovery type passed for the discovery is {0}".format(self.validated_config[0].get('discovery_type')), "INFO")
         if self.validated_config[0].get('discovery_type') in ["SINGLE", "CDP", "LLDP"]:
             if len(ip_address_list) == 1:
                 ip_address_list = ip_address_list[0]
             else:
+                self.log("Device list's length is longer than 1", "ERROR")
                 self.module.fail_json(msg="Device list's length is longer than 1", response=[])
         elif self.validated_config[0].get('discovery_type') == "CIDR":
             if len(ip_address_list) == 1 and self.validated_config[0].get('prefix_length'):
                 ip_address_list = ip_address_list[0]
                 ip_address_list = str(ip_address_list) + "/" + str(self.validated_config[0].get('prefix_length'))
             else:
+                self.log("Device list's length is longer than 1", "ERROR")
                 self.module.fail_json(msg="Device list's length is longer than 1", response=[])
         else:
             ip_address_list = list(
@@ -481,7 +493,7 @@ class DnacDiscovery(DnacBase):
             )
             ip_address_list = ','.join(ip_address_list)
 
-        self.log("Collected IP address/addresses are {0}".format(ip_address_list))
+        self.log("Collected IP address/addresses are {0}".format(str(ip_address_list)), "INFO")
         return ip_address_list
 
     def create_params(self, credential_ids=None, ip_address_list=None):
@@ -545,7 +557,7 @@ class DnacDiscovery(DnacBase):
         new_object_params['snmpVersion'] = self.validated_config[0].get('snmp_version')
         new_object_params['timeout'] = self.validated_config[0].get('timeout')
         new_object_params['userNameList'] = self.validated_config[0].get('user_name_list')
-        self.log(new_object_params)
+        self.log("The payload/object created for calling the start discovery API is {0}".format(str(new_object_params)), "INFO")
 
         return new_object_params
 
@@ -577,9 +589,10 @@ class DnacDiscovery(DnacBase):
             op_modifies=True,
         )
 
-        self.log(result)
+        self.log("The response received post discovery creation API called is {0}".format(str(result)), "DEBUG")
 
         self.result.update(dict(discovery_result=result))
+        self.log("Task Id of the API task created is {0}".format(result.response.get('taskId')), "INFO")
         return result.response.get('taskId')
 
     def get_task_status(self, task_id=None):
@@ -605,17 +618,19 @@ class DnacDiscovery(DnacBase):
                 params=params,
             )
             response = response.response
-            self.log(response)
+            self.log("Task status for the task id {0} is {1}".format(str(task_id), str(response)), "INFO")
             if response.get('isError') or re.search(
                 'failed', response.get('progress'), flags=re.IGNORECASE
             ):
                 msg = 'Discovery task with id {0} has not completed - Reason: {1}'.format(
                     task_id, response.get("failureReason"))
+                self.log(msg, "CRITICAL")
                 self.module.fail_json(msg=msg)
                 return False
 
             if response.get('progress') != 'In Progress':
                 result = True
+                self.log("The Process is completed", "INFO")
                 break
             time.sleep(3)
 
@@ -644,7 +659,7 @@ class DnacDiscovery(DnacBase):
             params=params
         )
 
-        self.log(response)
+        self.log("Response of the get discoveries via range API is {0}".format(str(response)), "DEBUG")
 
         return next(
             filter(
@@ -670,8 +685,8 @@ class DnacDiscovery(DnacBase):
 
         if not discovery:
             msg = 'Cannot find any discovery task with name {0} -- Discovery result: {1}'.format(
-                self.validated_config[0].get("discovery_name"), discovery)
-            self.log(msg)
+                str(self.validated_config[0].get("discovery_name")), str(discovery))
+            self.log(msg, "INFO")
             self.module.fail_json(msg=msg)
 
         while True:
@@ -684,8 +699,8 @@ class DnacDiscovery(DnacBase):
 
         if not result:
             msg = 'Cannot find any discovery task with name {0} -- Discovery result: {1}'.format(
-                self.validated_config[0].get("discovery_name"), discovery)
-            self.log(msg)
+                str(self.validated_config[0].get("discovery_name")), str(discovery))
+            self.log(msg, "CRITICAL")
             self.module.fail_json(msg=msg)
 
         self.result.update(dict(discovery_range=discovery))
@@ -721,7 +736,7 @@ class DnacDiscovery(DnacBase):
             )
             devices = response.response
 
-            self.log(devices)
+            self.log("Retrieved device details using the API 'get_discovered_network_devices_by_discovery_id': {0}".format(str(devices)), "DEBUG")
             if all(res.get('reachabilityStatus') == 'Success' for res in devices):
                 result = True
                 break
@@ -734,8 +749,10 @@ class DnacDiscovery(DnacBase):
 
         if not result:
             msg = 'Discovery network device with id {0} has not completed'.format(discovery_id)
+            self.log(msg, "CRITICAL")
             self.module.fail_json(msg=msg)
 
+        self.log('Discovery network device with id {0} got completed'.format(discovery_id), "INFO")
         self.result.update(dict(discovery_device_info=devices))
         return result
 
@@ -777,8 +794,9 @@ class DnacDiscovery(DnacBase):
             params=params,
         )
 
-        self.log(response)
+        self.log("Response collected from API 'delete_discovery_by_id': {0}".format(str(response)), "DEBUG")
         self.result.update(dict(delete_discovery=response))
+        self.log("Task Id of the deletion task is {0}".format(response.response.get('taskId')), "INFO")
         return response.response.get('taskId')
 
     def get_diff_merged(self):
@@ -812,6 +830,7 @@ class DnacDiscovery(DnacBase):
         self.result['diff'] = self.validated_config
         self.result['response'] = discovery_task_id
         self.result.update(dict(msg='Discovery Created Successfully'))
+        self.log(self.result['msg'], "INFO")
         return self
 
     def get_diff_deleted(self):
@@ -829,6 +848,7 @@ class DnacDiscovery(DnacBase):
         if not exist_discovery:
             self.result['msg'] = "Discovery {0} Not Found".format(
                 self.validated_config[0].get("discovery_name"))
+            self.log(self.result['msg'], "ERROR")
             return self
 
         params = dict(id=exist_discovery.get('id'))
@@ -838,7 +858,7 @@ class DnacDiscovery(DnacBase):
         self.result['msg'] = "Discovery Deleted Successfully"
         self.result['diff'] = self.validated_config
         self.result['response'] = discovery_task_id
-
+        self.log(self.result['msg'], "INFO")
         return self
 
     def verify_diff_merged(self, config):
@@ -856,7 +876,8 @@ class DnacDiscovery(DnacBase):
             Center configuration's Discovery Database.
         """
 
-        self.log(str(self.have))
+        self.log("Current State (have): {0}".format(str(self.have)), "INFO")
+        self.log("Desired State (want): {0}".format(str(config)), "INFO")
         # Code to validate dnac config for merged state
         discovery_task_info = self.get_discoveries_by_range_until_success()
         discovery_id = discovery_task_info.get('id')
@@ -871,10 +892,10 @@ class DnacDiscovery(DnacBase):
 
         if response:
             discovery_name = response.get('response').get('name')
-            self.log("Requested Discovery with name {0} is completed".format(discovery_name))
+            self.log("Requested Discovery with name {0} is completed".format(discovery_name), "INFO")
 
         else:
-            self.log("Requested Discovery with name {0} is not completed".format(discovery_name))
+            self.log("Requested Discovery with name {0} is not completed".format(discovery_name), "WARNING")
         self.status = "success"
 
         return self
@@ -893,7 +914,8 @@ class DnacDiscovery(DnacBase):
             Discovery Database.
         """
 
-        self.log(str(self.have))
+        self.log("Current State (have): {0}".format(str(self.have)), "INFO")
+        self.log("Desired State (want): {0}".format(str(config)), "INFO")
         # Code to validate dnac config for deleted state
         discovery_task_info = self.get_discoveries_by_range_until_success()
         discovery_id = discovery_task_info.get('id')
@@ -908,10 +930,10 @@ class DnacDiscovery(DnacBase):
 
         if response:
             discovery_name = response.get('response').get('name')
-            self.log("Requested Discovery with name {0} is present".format(discovery_name))
+            self.log("Requested Discovery with name {0} is present".format(discovery_name), "WARNING")
 
         else:
-            self.log("Requested Discovery with name {0} is not present and deleted".format(discovery_name))
+            self.log("Requested Discovery with name {0} is not present and deleted".format(discovery_name), "INFO")
         self.status = "success"
 
         return self
@@ -929,6 +951,7 @@ def main():
                     'dnac_version': {'type': 'str', 'default': '2.2.3.3'},
                     'dnac_debug': {'type': 'bool', 'default': False},
                     'dnac_log': {'type': 'bool', 'default': False},
+                    'dnac_log_level': {'type': 'str', 'default': 'WARNING'},
                     'validate_response_schema': {'type': 'bool', 'default': True},
                     'config_verify': {"type": 'bool', "default": False},
                     'config': {'required': True, 'type': 'list', 'elements': 'dict'},
@@ -949,7 +972,10 @@ def main():
 
     dnac_discovery.validate_input().check_return_status()
     for config in dnac_discovery.validated_config:
+        dnac_discovery.reset_values()
         dnac_discovery.get_diff_state_apply[state]().check_return_status()
+        if config_verify:
+            dnac_discovery.verify_diff_state_apply[state](config).check_return_status()
 
     module.exit_json(**dnac_discovery.result)
 
