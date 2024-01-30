@@ -153,7 +153,7 @@ class DnacBase():
         self.parsed = True
         return self
 
-    def log(self, message, level="INFO", frameIncrement=0):
+    def log(self, message, level="WARNING", frameIncrement=0):
         """Logs formatted messages with specified log level and incrementing the call stack frame
         Args:
             self (obj, required): An instance of the DnacBase Class.
@@ -165,25 +165,51 @@ class DnacBase():
         global _first_log_written
 
         if _first_log_written is False:
-            LogConfig(self.dnac_log_level, self.dnac_log_file_path)
+            self.validate_dnac_log_level()
+            self.validate_dnac_log_file_path()
 
-        self.is_valid_level(message, level)
+        self.validate_level(message, level)
         level = level.upper()
+        self.dnac_log_level = self.dnac_log_level.upper()
 
         if (
             self.dnac_log
-            and logging.getLevelName(level) >= logging.getLevelName(self.dnac_log_level.upper())
+            and logging.getLevelName(level) >= logging.getLevelName(self.dnac_log_level)
         ):
             message = "Module: " + self.__class__.__name__ + ", " + message
-            log(message, level, self.dnac_log_file_path, self.dnac_append_logs, (1 + frameIncrement))
-            _first_log_written = True
+            mode = 'w' if not _first_log_written and not self.dnac_append_logs else 'a'
+            with open(self.dnac_log_file_path, mode) as of:
+                callerframerecord = inspect.stack()[frameIncrement]
+                frame = callerframerecord[0]
+                info = inspect.getframeinfo(frame)
+                current_datetime = datetime.datetime.now().replace(microsecond=0).isoformat()
+                of.write("---- {0} ---- {1}@{2} ---- {3}: {4}\n".format(current_datetime, info.lineno, info.function, level, message))
+                _first_log_written = True
 
-    def is_valid_level(self, message, level):
+    def validate_level(self, message, level):
         """Validates if the specified log level is a string and one of the expected values"""
         if not isinstance(level, str):
             raise ValueError("Invalid log level type passed when logging the following msg: {0} level:{1}. Expected a string.".format(message, level))
         if level.upper() not in ('INFO', 'DEBUG', 'WARNING', 'ERROR', 'CRITICAL'):
             raise ValueError("Invalid log level passed when logging the following msg: {0} level:{1}.".format(message, level))
+
+    def validate_dnac_log_level(self):
+        """Validates if the logging level is string and of expected value"""
+        if self.dnac_log_level not in ('INFO', 'DEBUG', 'WARNING', 'ERROR', 'CRITICAL'):
+            raise ValueError("Invalid log level: 'dnac_log_level:{0}'".format(self.dnac_log_level))
+
+    def validate_dnac_log_file_path(self):
+        """
+        Validates the specified log file path, ensuring it is either absolute or relative,
+        the directory exists, and has a .log extension.
+        """
+        # Convert the path to absolute if it's relative
+        dnac_log_file_path = os.path.abspath(self.dnac_log_file_path)
+
+        # Validate if the directory exists
+        log_directory = os.path.dirname(dnac_log_file_path)
+        if not os.path.exists(log_directory):
+            raise FileNotFoundError("The directory for log file '{0}' does not exist.".format(dnac_log_file_path))
 
     def check_return_status(self):
         """API to check the return status value and exit/fail the module"""
@@ -421,49 +447,6 @@ class DnacBase():
         else:
             return config
         return new_config
-
-
-class LogConfig():
-    """Configuration class for validating logging parameters"""
-
-    def __init__(self, dnac_log_level='INFO', dnac_log_file_path='dnac.log'):
-        self.valid_log_levels = ('DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL')
-        self.dnac_log_level = dnac_log_level.upper()
-        self.dnac_log_file_path = dnac_log_file_path
-        self.validate_dnac_log_level()
-        self.validate_dnac_log_file_path()
-
-    def validate_dnac_log_level(self):
-        """Validates if the logging level is string and of expected value"""
-        if self.dnac_log_level not in self.valid_log_levels:
-            raise ValueError("Invalid log level: 'dnac_log_level:{0}'. Expected one of {1}.".format(self.dnac_log_level, self.valid_log_levels))
-
-    def validate_dnac_log_file_path(self):
-        """
-        Validates the specified log file path, ensuring it is either absolute or relative,
-        the directory exists, and has a .log extension.
-        """
-        # Convert the path to absolute if it's relative
-        dnac_log_file_path = os.path.abspath(self.dnac_log_file_path)
-
-        # Validate if the directory exists
-        log_directory = os.path.dirname(dnac_log_file_path)
-        if not os.path.exists(log_directory):
-            raise FileNotFoundError("The directory for log file '{0}' does not exist.".format(dnac_log_file_path))
-
-
-def log(message, level='INFO', dnac_log_file_path='dnac.log', dnac_append_logs=True, frameIncrement=0):
-    """Writes/Appends logs to the specified log file"""
-    if _first_log_written is False and dnac_append_logs is False:
-        mode = 'w'
-    else:
-        mode = 'a'
-    with open(dnac_log_file_path, mode) as of:
-        callerframerecord = inspect.stack()[1 + frameIncrement]
-        frame = callerframerecord[0]
-        info = inspect.getframeinfo(frame)
-        current_datetime = datetime.datetime.now().replace(microsecond=0).isoformat()
-        of.write("---- {0} ---- {1}@{2} ---- {3}: {4}\n".format(current_datetime, info.lineno, info.function, level, message))
 
 
 def is_list_complex(x):
