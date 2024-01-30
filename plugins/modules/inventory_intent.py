@@ -438,7 +438,7 @@ EXAMPLES = r"""
         snmp_username: string
         snmp_version: string
         type: string
-        device_update: true
+        device_updated: true
         credential_update: true
         update_mgmt_ipaddresslist:
         - exist_mgmt_ipaddress: string
@@ -1012,7 +1012,10 @@ class DnacDevice(DnacBase):
         encryption_dict = {
             'AES128': 'pyzipper.WZ_AES128',
             'AES192': 'pyzipper.WZ_AES192',
-            'AES256': 'pyzipper.WZ_AES'
+            'AES256': 'pyzipper.WZ_AES',
+            'CISCOAES128': 'pyzipper.WZ_AES128',
+            'CISCOAES192': 'pyzipper.WZ_AES192',
+            'CISCOAES256': 'pyzipper.WZ_AES'
         }
         try:
             encryption_method = encryption_dict.get(snmp_protocol)
@@ -1094,7 +1097,7 @@ class DnacDevice(DnacBase):
                 "deviceUuids": device_uuids,
                 "password": password,
                 "operationEnum": export_device_list.get("operation_enum", "0"),
-                "paramters": export_device_list.get("paramters")
+                "parameters": export_device_list.get("parameters")
             }
 
             response = self.trigger_export_api(payload_params)
@@ -1526,7 +1529,7 @@ class DnacDevice(DnacBase):
                     ):
                         break
                     count = count + 1
-                    if count > 200:
+                    if count > 400:
                         managed_flag = False
                         break
 
@@ -2022,6 +2025,7 @@ class DnacDevice(DnacBase):
             response = response.get("response")
 
             if response:
+                self.status = "success"
                 interface_id = response["id"]
                 self.log("""Successfully fetched interface ID ({0}) by using device id {1} and interface name {2}."""
                          .format(interface_id, device_id, interface_name), "INFO")
@@ -2030,7 +2034,9 @@ class DnacDevice(DnacBase):
         except Exception as e:
             error_message = "Error while fetching interface id for interface({0}) from Cisco Catalyst Center: {1}".format(interface_name, str(e))
             self.log(error_message, "ERROR")
-            raise Exception(error_message)
+            self.msg = error_message
+            self.status = "failed"
+            return self
 
         def get_interface_from_ip(self, device_ip):
             """
@@ -2392,6 +2398,23 @@ class DnacDevice(DnacBase):
                             playbook_params['snmpPrivPassphrase'] = csv_data_dict['snmp_priv_passphrase']
                         playbook_params[mapped_key] = csv_data_dict[key]
 
+                snmp_protocol_mapping = {
+                    'AES128': 'CISCOAES128',
+                    'AES192': 'CISCOAES192',
+                    'AES256': 'CISCOAES256'
+                }
+                protocol_type = playbook_params['snmpPrivProtocol']
+                playbook_params['snmpPrivProtocol'] = snmp_protocol_mapping[protocol_type]
+
+                if playbook_params['snmpMode'] == "NOAUTHNOPRIV":
+                    playbook_params.pop('snmpAuthPassphrase', None)
+                    playbook_params.pop('snmpPrivPassphrase', None)
+                    playbook_params.pop('snmpPrivProtocol', None)
+                    playbook_params.pop('snmpAuthProtocol', None)
+                elif playbook_params['snmpMode'] == "AUTHNOPRIV":
+                    playbook_params.pop('snmpPrivPassphrase', None)
+                    playbook_params.pop('snmpPrivProtocol', None)
+
                 try:
                     response = self.dnac._exec(
                         family="devices",
@@ -2440,6 +2463,7 @@ class DnacDevice(DnacBase):
                     interface_name = interface_params.get('interface_name')
                     device_id = self.get_device_ids([device_ip])
                     interface_id = self.get_interface_from_id_and_name(device_id[0], interface_name)
+                    self.check_return_status()
 
                     # Now we call update interface details api with required parameter
                     try:
@@ -2571,13 +2595,21 @@ class DnacDevice(DnacBase):
         # If we want to add device in inventory
         if device_added:
             config['ip_address'] = devices_to_add
+            device_params = self.want.get("device_params")
+            snmp_protocol_mapping = {
+                'AES128': 'CISCOAES128',
+                'AES192': 'CISCOAES192',
+                'AES256': 'CISCOAES256'
+            }
+            protocol_type = device_params['snmpPrivProtocol']
+            device_params['snmpPrivProtocol'] = snmp_protocol_mapping[protocol_type]
             self.mandatory_parameter().check_return_status()
             try:
                 response = self.dnac._exec(
                     family="devices",
                     function='add_device',
                     op_modifies=True,
-                    params=self.want.get("device_params"),
+                    params=device_params,
                 )
                 self.log("Received API response from 'add_device': {0}".format(str(response)), "DEBUG")
 
