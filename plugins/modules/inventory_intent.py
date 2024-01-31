@@ -888,7 +888,7 @@ class DnacDevice(DnacBase):
 
         except Exception as e:
             error_message = "Error while creating Global UDF(User Defined Field) in Cisco Catalyst Center: {0}".format(str(e))
-            log(error_message, "ERROR")
+            self.log(error_message, "ERROR")
 
         return self
 
@@ -2067,7 +2067,7 @@ class DnacDevice(DnacBase):
 
             except Exception as e:
                 error_message = "Error while fetching Interface Id for device '{0}' from Cisco Catalyst Center: {1}".format(device_ip, str(e))
-                log(error_message, "ERROR")
+                self.log(error_message, "ERROR")
                 raise Exception(error_message)
 
     def get_device_response(self, device_ip):
