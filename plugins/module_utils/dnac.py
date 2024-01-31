@@ -28,14 +28,13 @@ import datetime
 import inspect
 import re
 
-_first_log_written = False
-
 
 class DnacBase():
 
     """Class contains members which can be reused for all intent modules"""
 
     __metaclass__ = ABCMeta
+    __is_log_init = False
 
     def __init__(self, module):
         self.module = module
@@ -63,15 +62,25 @@ class DnacBase():
                                         'overridden': self.verify_diff_overridden,
                                         'gathered': self.verify_diff_gathered,
                                         'rendered': self.verify_diff_rendered,
-                                        'parsed': self.verify_diff_parsed
+                                         'parsed': self.verify_diff_parsed
                                         }
         self.dnac_log = dnac_params.get("dnac_log")
-        self.dnac_log_level = dnac_params.get("dnac_log_level") or 'INFO'
-        self.dnac_log_file_path = dnac_params.get("dnac_log_file_path") or 'dnac.log'
-        if dnac_params.get("dnac_append_logs") is None:
-            self.dnac_append_logs = True
-        else:
-            self.dnac_append_logs = dnac_params.get("dnac_append_logs")
+
+        if self.dnac_log and DnacBase.__is_log_init is False:
+            self.dnac_log_level = dnac_params.get("dnac_log_level") or 'INFO'
+            self.validate_dnac_log_level()
+            self.dnac_log_file_path = dnac_params.get("dnac_log_file_path") or 'dnac.log'
+            self.validate_dnac_log_file_path()
+
+            if dnac_params.get("dnac_log_append") is False:
+                self.dnac_log_append = False
+                self.dnac_log_mode = 'w'
+            else:
+                self.dnac_log_append = True
+                self.dnac_log_mode = 'a'
+            self.log_file = open(self.dnac_log_file_path, self.dnac_log_mode)
+            DnacBase.__is_log_init = True
+
         self.log('Dnac parameters: {0}'.format(str(dnac_params)), 'DEBUG')
         self.supported_states = ["merged", "deleted", "replaced", "overridden", "gathered", "rendered", "parsed"]
         self.result = {"changed": False, "diff": [], "response": [], "warnings": []}
@@ -153,46 +162,6 @@ class DnacBase():
         self.parsed = True
         return self
 
-    def log(self, message, level="WARNING", frameIncrement=0):
-        """Logs formatted messages with specified log level and incrementing the call stack frame
-        Args:
-            self (obj, required): An instance of the DnacBase Class.
-            message (str, required): The log message to be recorded.
-            level (str, optional): The log level, default is "info".
-                                   The log level can be one of 'DEBUG', 'INFO', 'WARNING', 'ERROR', or 'CRITICAL'.
-            frameIncrement (int, optional): The number of frames to increment in the call stack, default is 0.
-        """
-        global _first_log_written
-
-        if _first_log_written is False:
-            self.validate_dnac_log_level()
-            self.validate_dnac_log_file_path()
-
-        self.validate_level(message, level)
-        level = level.upper()
-        self.dnac_log_level = self.dnac_log_level.upper()
-
-        if (
-            self.dnac_log
-            and logging.getLevelName(level) >= logging.getLevelName(self.dnac_log_level)
-        ):
-            message = "Module: " + self.__class__.__name__ + ", " + message
-            mode = 'w' if not _first_log_written and not self.dnac_append_logs else 'a'
-            with open(self.dnac_log_file_path, mode) as of:
-                callerframerecord = inspect.stack()[frameIncrement]
-                frame = callerframerecord[0]
-                info = inspect.getframeinfo(frame)
-                current_datetime = datetime.datetime.now().replace(microsecond=0).isoformat()
-                of.write("---- {0} ---- {1}@{2} ---- {3}: {4}\n".format(current_datetime, info.lineno, info.function, level, message))
-                _first_log_written = True
-
-    def validate_level(self, message, level):
-        """Validates if the specified log level is a string and one of the expected values"""
-        if not isinstance(level, str):
-            raise ValueError("Invalid log level type passed when logging the following msg: {0} level:{1}. Expected a string.".format(message, level))
-        if level.upper() not in ('INFO', 'DEBUG', 'WARNING', 'ERROR', 'CRITICAL'):
-            raise ValueError("Invalid log level passed when logging the following msg: {0} level:{1}.".format(message, level))
-
     def validate_dnac_log_level(self):
         """Validates if the logging level is string and of expected value"""
         if self.dnac_log_level not in ('INFO', 'DEBUG', 'WARNING', 'ERROR', 'CRITICAL'):
@@ -210,6 +179,40 @@ class DnacBase():
         log_directory = os.path.dirname(dnac_log_file_path)
         if not os.path.exists(log_directory):
             raise FileNotFoundError("The directory for log file '{0}' does not exist.".format(dnac_log_file_path))
+
+    def validate_level(self, message, level):
+        """Validates if the specified log level is a string and one of the expected values"""
+        if not isinstance(level, str):
+            raise ValueError("Invalid log level type passed when logging the following msg: {0} level:{1}. Expected a string.".format(message, level))
+        if level.upper() not in ('INFO', 'DEBUG', 'WARNING', 'ERROR', 'CRITICAL'):
+            raise ValueError("Invalid log level passed when logging the following msg: {0} level:{1}.".format(message, level))
+
+    def log(self, message, level="WARNING", frameIncrement=0):
+        """Logs formatted messages with specified log level and incrementing the call stack frame
+        Args:
+            self (obj, required): An instance of the DnacBase Class.
+            message (str, required): The log message to be recorded.
+            level (str, optional): The log level, default is "info".
+                                   The log level can be one of 'DEBUG', 'INFO', 'WARNING', 'ERROR', or 'CRITICAL'.
+            frameIncrement (int, optional): The number of frames to increment in the call stack, default is 0.
+        """
+
+        if self.dnac_log:
+            self.validate_level(message, level)
+            level = level.upper()
+            self.dnac_log_level = self.dnac_log_level.upper()
+
+            if logging.getLevelName(level) >= logging.getLevelName(self.dnac_log_level):
+                message = "Module: " + self.__class__.__name__ + ", " + message
+                callerframerecord = inspect.stack()[frameIncrement]
+                frame = callerframerecord[0]
+                info = inspect.getframeinfo(frame)
+                current_datetime = datetime.datetime.now().replace(microsecond=0).isoformat()
+                self.log_file.write("---- {0} ---- {1}@{2} ---- {3}: {4}\n".format(current_datetime, info.lineno, info.function, level, message))
+
+    def close_log_file(self):
+        """Closes the open log file"""
+        self.log_file.close()
 
     def check_return_status(self):
         """API to check the return status value and exit/fail the module"""
@@ -255,7 +258,7 @@ class DnacBase():
                        "dnac_log": params.get("dnac_log"),
                        "dnac_log_level": params.get("dnac_log_level"),
                        "dnac_log_file_path": params.get("dnac_log_file_path"),
-                       "dnac_append_logs": params.get("dnac_append_logs")
+                       "dnac_log_append": params.get("dnac_log_append")
                        }
         return dnac_params
 
@@ -448,6 +451,10 @@ class DnacBase():
             return config
         return new_config
 
+    def __del__(self):
+        """Destructor method to close the log file when the object is deleted"""
+        if hasattr(self, 'log_file') and self.log_file is not None:
+            self.close_log_file()
 
 def is_list_complex(x):
     return isinstance(x[0], dict) or isinstance(x[0], list)
