@@ -382,6 +382,7 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     get_dict_result,
 )
 from ansible.module_utils.basic import AnsibleModule
+import os
 
 
 class DnacSwims(DnacBase):
@@ -882,12 +883,14 @@ class DnacSwims(DnacBase):
                 )
                 import_function = 'import_software_image_via_url'
             else:
+                file_path = self.want.get("local_import_details").get("file_path")
                 import_params = dict(
                     is_third_party=self.want.get("local_import_details").get("is_third_party"),
                     third_party_vendor=self.want.get("local_import_details").get("third_party_vendor"),
                     third_party_image_family=self.want.get("local_import_details").get("third_party_image_family"),
                     third_party_application_type=self.want.get("local_import_details").get("third_party_application_type"),
-                    file_path=self.want.get("local_import_details").get("file_path"),
+                    multipart_fields={'file': (os.path.basename(file_path), open(file_path, 'rb'), 'application/octet-stream')},
+                    multipart_monitor_callback=None
                 )
                 import_function = 'import_local_software_image'
 
