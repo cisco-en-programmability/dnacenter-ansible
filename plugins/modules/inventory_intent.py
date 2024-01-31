@@ -28,11 +28,6 @@ options:
     description: Set to True to verify the Cisco Catalyst Center config after applying the playbook config.
     type: bool
     default: False
-  dnac_log_level:
-    description: Specifies the log level for Cisco Catalyst Center logging, categorizing logs by severity.
-        Options- [CRITICAL, ERROR, WARNING, INFO, DEBUG]
-    type: str
-    default: INFO
   state:
     description: The state of Cisco Catalyst Center after module completion.
     type: str
@@ -72,6 +67,21 @@ options:
         description: Device's ipAddress. Required for Adding/Updating/Deleting/Resyncing Device except Meraki Devices.
         elements: str
         type: list
+      hostname_list:
+        description: "A list of hostnames representing devices. Operations such as updating, deleting, resyncing, or rebooting
+            can be performed as alternatives to using IP addresses."
+        elements: str
+        type: list
+      serial_number_list:
+        description: A list of serial numbers representing devices. Operations such as updating, deleting, resyncing, or rebooting
+            can be performed as alternatives to using IP addresses.
+        elements: str
+        type: list
+      mac_address_list:
+        description:  "A list of MAC addresses representing devices. Operations such as updating, deleting, resyncing, or rebooting
+            can be performed as alternatives to using IP addresses."
+        elements: str
+        type: list
       netconf_port:
         description: Device's netconf port.
         type: str
@@ -103,7 +113,6 @@ options:
         description: Device's snmp Private Protocol. Required for Adding Network, Compute, Third Party Devices.
             Must be given in playbook if you are updating the device credentails.
         type: str
-        default: "AES128"
       snmp_ro_community:
         description: Device's snmp ROCommunity. Required for Adding V2C Devices.
         type: str
@@ -707,7 +716,7 @@ class DnacDevice(DnacBase):
         """
 
         temp_spec = {
-            'cli_transport': {'default': "telnet", 'type': 'str'},
+            'cli_transport': {'type': 'str'},
             'compute_device': {'type': 'bool'},
             'enable_password': {'type': 'str'},
             'extended_discovery_info': {'type': 'str'},
@@ -716,6 +725,9 @@ class DnacDevice(DnacBase):
             'http_secure': {'type': 'bool'},
             'http_username': {'type': 'str'},
             'ip_address': {'type': 'list', 'elements': 'str'},
+            'hostname_list': {'type': 'list', 'elements': 'str'},
+            'serial_number_list': {'type': 'list', 'elements': 'str'},
+            'mac_address_list': {'type': 'list', 'elements': 'str'},
             'netconf_port': {'type': 'str'},
             'password': {'type': 'str'},
             'serial_number': {'type': 'str'},
@@ -723,7 +735,7 @@ class DnacDevice(DnacBase):
             'snmp_auth_protocol': {'default': "SHA", 'type': 'str'},
             'snmp_mode': {'default': "AUTHPRIV", 'type': 'str'},
             'snmp_priv_passphrase': {'type': 'str'},
-            'snmp_priv_protocol': {'default': "AES128", 'type': 'str'},
+            'snmp_priv_protocol': {'type': 'str'},
             'snmp_ro_community': {'default': "public", 'type': 'str'},
             'snmp_rw_community': {'default': "private", 'type': 'str'},
             'snmp_retry': {'default': 3, 'type': 'int'},
@@ -794,6 +806,43 @@ class DnacDevice(DnacBase):
         self.status = "success"
 
         return self
+
+    def get_device_ips_from_config_priority(self):
+        """
+        Retrieve device IPs based on the configuration.
+        Args:
+            -  self (object): An instance of a class used for interacting with Cisco Cisco Catalyst Center.
+        Returns:
+            list: A list containing device IPs.
+        Description:
+            This method retrieves device IPs based on the priority order specified in the configuration.
+            It first checks if device IPs are available. If not, it checks hostnames, serial numbers,
+            and MAC addresses in order and retrieves IPs based on availability.
+            If none of the information is available, an empty list is returned.
+        """
+        # Retrieve device IPs from the configuration
+        device_ips = self.config[0].get("ip_address")
+
+        if device_ips:
+            return device_ips
+
+        # If device IPs are not available, check hostnames
+        device_hostnames = self.config[0].get("hostname_list")
+        if device_hostnames:
+            return self.get_device_ips_from_hostname(device_hostnames)
+
+        # If hostnames are not available, check serial numbers
+        device_serial_numbers = self.config[0].get("serial_number_list")
+        if device_serial_numbers:
+            return self.get_device_ips_from_serial_number(device_serial_numbers)
+
+        # If serial numbers are not available, check MAC addresses
+        device_mac_addresses = self.config[0].get("mac_address_list")
+        if device_mac_addresses:
+            return self.get_device_ips_from_mac_address(device_mac_addresses)
+
+        # If no information is available, return an empty list
+        return []
 
     def device_exists_in_dnac(self):
         """
@@ -1062,7 +1111,7 @@ class DnacDevice(DnacBase):
             The CSV data is then parsed and written to a file.
         """
 
-        device_ips = self.config[0].get("ip_address", [])
+        device_ips = self.get_device_ips_from_config_priority()
 
         if not device_ips:
             self.status = "failed"
@@ -1188,7 +1237,7 @@ class DnacDevice(DnacBase):
         """
 
         # Code for triggers the resync operation using the retrieved device IDs and force sync parameter.
-        device_ips = self.config[0].get("ip_address", [])
+        device_ips = self.get_device_ips_from_config_priority()
         input_device_ips = device_ips.copy()
         device_in_dnac = self.device_exists_in_dnac()
 
@@ -1270,7 +1319,7 @@ class DnacDevice(DnacBase):
             the progress of the reboot operation.
         """
 
-        device_ips = self.config[0].get("ip_address", [])
+        device_ips = self.get_device_ips_from_config_priority()
         input_device_ips = device_ips.copy()
 
         if input_device_ips:
@@ -1490,7 +1539,7 @@ class DnacDevice(DnacBase):
 
         site_name = self.config[0]['provision_wired_device']['site_name']
         device_in_dnac = self.device_exists_in_dnac()
-        device_ips = self.config[0]['ip_address']
+        device_ips = self.get_device_ips_from_config_priority()
         input_device_ips = device_ips.copy()
 
         for device_ip in input_device_ips:
@@ -1711,7 +1760,7 @@ class DnacDevice(DnacBase):
         device_type = "Wireless"
 
         device_in_dnac = self.device_exists_in_dnac()
-        device_ips = self.config[0]['ip_address']
+        device_ips = self.get_device_ips_from_config_priority()
         input_device_ips = device_ips.copy()
 
         for device_ip in input_device_ips:
@@ -1883,7 +1932,7 @@ class DnacDevice(DnacBase):
         """
 
         have = {}
-        want_device = config.get("ip_address")
+        want_device = self.get_device_ips_from_config_priority()
 
         # Get the list of device that are present in Cisco Catalyst Center
         device_in_dnac = self.device_exists_in_dnac()
@@ -1968,7 +2017,7 @@ class DnacDevice(DnacBase):
             list: The list of unique device IDs for the specified devices.
         Description:
             Queries Cisco Catalyst Center to retrieve the unique device ID associated with a device having the specified
-            IP address. If the device is not found in Cisco Catalyst Center, it raises an exception.
+            IP address. If the device is not found in Cisco Catalyst Center, then print the log message with error severity.
         """
 
         device_ids = []
@@ -1992,13 +2041,114 @@ class DnacDevice(DnacBase):
             except Exception as e:
                 error_message = "Error while fetching device '{0}' from Cisco Catalyst Center: {1}".format(device_ip, str(e))
                 self.log(error_message, "ERROR")
-                raise Exception(error_message)
 
         return device_ids
 
+    def get_device_ips_from_hostname(self, hostname_list):
+        """
+        Get the list of unique device IPs for list of specified hostnames of devices in Cisco Catalyst Center.
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            hostname_list (list): The hostnames of devices for which you want to retrieve the device IPs.
+        Returns:
+            list: The list of unique device IPs for the specified devices hostname list.
+        Description:
+            Queries Cisco Catalyst Center to retrieve the unique device IP's associated with a device having the specified
+            list of hostnames. If a device is not found in Cisco Catalyst Center, an error log message is printed.
+        """
+
+        device_ips = []
+        for hostname in hostname_list:
+            try:
+                response = self.dnac._exec(
+                    family="devices",
+                    function='get_device_list',
+                    params={"hostname": hostname}
+                )
+                if response:
+                    self.log("Received API response from 'get_device_list': {0}".format(str(response)), "DEBUG")
+                    response = response.get("response")
+                    if response:
+                        device_ip = response[0]["managementIpAddress"]
+                        if device_ip:
+                            device_ips.append(device_ip)
+            except Exception as e:
+                error_message = "Exception occurred while fetching device from Cisco Catalyst Center: {0}".format(str(e))
+                self.log(error_message, "ERROR")
+
+        return device_ips
+
+    def get_device_ips_from_serial_number(self, serial_number_list):
+        """
+        Get the list of unique device IPs for a specified list of serial numbers in Cisco Catalyst Center.
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            serial_number_list (list): The list of serial number of devices for which you want to retrieve the device IPs.
+        Returns:
+            list: The list of unique device IPs for the specified devices with serial numbers.
+        Description:
+            Queries Cisco Catalyst Center to retrieve the unique device IPs associated with a device having the specified
+            serial numbers.If a device is not found in Cisco Catalyst Center, an error log message is printed.
+        """
+
+        device_ips = []
+        for serial_number in serial_number_list:
+            try:
+                response = self.dnac._exec(
+                    family="devices",
+                    function='get_device_list',
+                    params={"serialNumber": serial_number}
+                )
+                if response:
+                    self.log("Received API response from 'get_device_list': {0}".format(str(response)), "DEBUG")
+                    response = response.get("response")
+                    if response:
+                        device_ip = response[0]["managementIpAddress"]
+                        if device_ip:
+                            device_ips.append(device_ip)
+            except Exception as e:
+                error_message = "Exception occurred while fetching device from Cisco Catalyst Center - {0}".format(str(e))
+                self.log(error_message, "ERROR")
+
+        return device_ips
+
+    def get_device_ips_from_mac_address(self, mac_address_list):
+        """
+        Get the list of unique device IPs for list of specified mac address of devices in Cisco Catalyst Center.
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            mac_address_list (list): The list of mac address of devices for which you want to retrieve the device IPs.
+        Returns:
+            list: The list of unique device IPs for the specified devices.
+        Description:
+            Queries Cisco Catalyst Center to retrieve the unique device IPs associated with a device having the specified
+            mac addresses. If a device is not found in Cisco Catalyst Center, an error log message is printed.
+        """
+
+        device_ips = []
+        for mac_address in mac_address_list:
+            try:
+                response = self.dnac._exec(
+                    family="devices",
+                    function='get_device_list',
+                    params={"macAddress": mac_address}
+                )
+                if response:
+                    self.log("Received API response from 'get_device_list': {0}".format(str(response)), "DEBUG")
+                    response = response.get("response")
+                    if response:
+                        device_ip = response[0]["managementIpAddress"]
+                        if device_ip:
+                            device_ips.append(device_ip)
+            except Exception as e:
+                error_message = "Exception occurred while fetching device from Cisco Catalyst Center - {0}".format(str(e))
+                self.log(error_message, "ERROR")
+
+        return device_ips
+
     def get_interface_from_id_and_name(self, device_id, interface_name):
         """
-        Retrieve the interface ID for a device in Cisco DNA Center based on device id and interface name.
+        Retrieve the interface ID for a device in Cisco Catalyst Center based on device id and interface name.
         Parameters:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             device_id (str): The id of the device.
@@ -2040,14 +2190,14 @@ class DnacDevice(DnacBase):
 
         def get_interface_from_ip(self, device_ip):
             """
-            Get the interface ID for a device in Cisco DNA Center based on its IP address.
+            Get the interface ID for a device in Cisco Catalyst Center based on its IP address.
             Parameters:
-                self (object): An instance of a class used for interacting with Cisco DNA Center.
+                self (object): An instance of a class used for interacting with Cisco Catalyst Center.
                 device_ip (str): The IP address of the device.
             Returns:
                 str: The interface ID for the specified device.
             Description:
-                The function sends a request to Cisco DNA Center to retrieve the interface information
+                The function sends a request to Cisco Catalyst Center to retrieve the interface information
                 for the device with the provided IP address and extracts the interface ID from the
                 response, and returns the interface ID.
             """
@@ -2193,7 +2343,7 @@ class DnacDevice(DnacBase):
             comparing them with the credentials specified in the configuration.
         """
 
-        device_ips = self.config[0].get("ip_address")
+        device_ips = self.get_device_ips_from_config_priority()
         device_uuids = self.get_device_ids(device_ips)
         password = "Testing@123"
         payload_params = {"deviceUuids": device_uuids, "password": password, "operationEnum": "0"}
@@ -2208,7 +2358,6 @@ class DnacDevice(DnacBase):
 
         csv_data_dict = {
             'snmp_retry': device_data['snmp_retries'],
-            'cli_transport': device_data['protocol'],
             'username': device_data['cli_username'],
             'password': device_data['cli_password'],
             'enable_password': device_data['cli_enable_password'],
@@ -2316,8 +2465,8 @@ class DnacDevice(DnacBase):
                 # Create the Global UDF
                 self.create_user_defined_field().check_return_status()
 
-            # Get device Id with its IP Address
-            device_ips = self.config[0].get("ip_address")
+            # Get device Id based on config priority
+            device_ips = self.get_device_ips_from_config_priority()
             device_ids = self.get_device_ids(device_ips)
 
             if len(device_ids) == 0:
@@ -2339,7 +2488,7 @@ class DnacDevice(DnacBase):
             config['http_port'] = self.config[0].get("http_port", "443")
 
         if device_updated:
-            device_to_update = self.config[0].get("ip_address")
+            device_to_update = self.get_device_ips_from_config_priority()
             # First check if device present in Cisco Catalyst Center or not
             device_present = False
             for device in device_to_update:
@@ -2366,9 +2515,14 @@ class DnacDevice(DnacBase):
                 self.check_return_status()
                 device_data = next(csv_reader, None)
                 playbook_params = self.want.get("device_params")
+                playbook_params['ipAddress'] = device_to_update
+
+                if not playbook_params['cliTransport']:
+                    playbook_params['cliTransport'] = device_data['protocol']
+                if not playbook_params['snmpPrivProtocol']:
+                    playbook_params['snmpPrivProtocol'] = device_data['snmpv3_privacy_type']
 
                 csv_data_dict = {
-                    'cli_transport': device_data['protocol'],
                     'username': device_data['cli_username'],
                     'password': device_data['cli_password'],
                     'enable_password': device_data['cli_enable_password'],
@@ -2382,12 +2536,11 @@ class DnacDevice(DnacBase):
 
                 device_key_mapping = {
                     'username': 'userName',
-                    'cli_transport': 'cliTransport',
                     'password': 'password',
                     'enable_password': 'enablePassword',
                     'snmp_username': 'snmpUserName'
                 }
-                device_update_key_list = ["username", "password", "enable_password", "cli_transport", "snmp_username"]
+                device_update_key_list = ["username", "password", "enable_password", "snmp_username"]
 
                 for key in device_update_key_list:
                     mapped_key = device_key_mapping[key]
@@ -2397,14 +2550,6 @@ class DnacDevice(DnacBase):
                             playbook_params['snmpAuthPassphrase'] = csv_data_dict['snmp_auth_passphrase']
                             playbook_params['snmpPrivPassphrase'] = csv_data_dict['snmp_priv_passphrase']
                         playbook_params[mapped_key] = csv_data_dict[key]
-
-                snmp_protocol_mapping = {
-                    'AES128': 'CISCOAES128',
-                    'AES192': 'CISCOAES192',
-                    'AES256': 'CISCOAES256'
-                }
-                protocol_type = playbook_params['snmpPrivProtocol']
-                playbook_params['snmpPrivProtocol'] = snmp_protocol_mapping[protocol_type]
 
                 if playbook_params['snmpMode'] == "NOAUTHNOPRIV":
                     playbook_params.pop('snmpAuthPassphrase', None)
@@ -2452,7 +2597,7 @@ class DnacDevice(DnacBase):
                     self.log(error_message, "ERROR")
                     raise Exception(error_message)
 
-                self.msg = "Devices {0} present in Cisco Catalyst Center and updated successfully".format(config['ip_address'])
+                self.msg = "Devices {0} present in Cisco Catalyst Center and updated successfully".format(str(device_to_update))
                 self.log(self.msg, "INFO")
                 self.status = "success"
 
@@ -2596,13 +2741,13 @@ class DnacDevice(DnacBase):
         if device_added:
             config['ip_address'] = devices_to_add
             device_params = self.want.get("device_params")
-            snmp_protocol_mapping = {
-                'AES128': 'CISCOAES128',
-                'AES192': 'CISCOAES192',
-                'AES256': 'CISCOAES256'
-            }
-            protocol_type = device_params['snmpPrivProtocol']
-            device_params['snmpPrivProtocol'] = snmp_protocol_mapping[protocol_type]
+
+            if not device_params['cliTransport']:
+                device_params['cliTransport'] = "ssh"
+
+            if not device_params['snmpPrivProtocol']:
+                device_params['snmpPrivProtocol'] = "AES128"
+
             self.mandatory_parameter().check_return_status()
             try:
                 response = self.dnac._exec(
@@ -2666,8 +2811,8 @@ class DnacDevice(DnacBase):
                 # Create the Global UDF
                 self.create_user_defined_field().check_return_status()
 
-            # Get device Id with its IP Address
-            device_ips = self.config[0].get("ip_address")
+            # Get device Id based on config priority
+            device_ips = self.get_device_ips_from_config_priority()
             device_ids = self.get_device_ids(device_ips)
 
             if not device_ids:
@@ -2691,7 +2836,7 @@ class DnacDevice(DnacBase):
 
         # Once Wireless device get added we will assign device to site and Provisioned it
         if self.config[0].get('provision_wireless_device'):
-            device_ips = self.config[0]['ip_address']
+            device_ips = self.get_device_ips_from_config_priority()
             self.provisioned_wireless_devices(device_ips).check_return_status()
 
         if device_resynced:
@@ -2719,7 +2864,7 @@ class DnacDevice(DnacBase):
             the Global User Defined Field that are associated to the devices.
         """
 
-        device_to_delete = config.get("ip_address")
+        device_to_delete = self.get_device_ips_from_config_priority()
         self.result['msg'] = []
 
         if self.config[0].get('add_user_defined_field'):
@@ -2879,7 +3024,7 @@ class DnacDevice(DnacBase):
         device_updated = self.config[0].get("device_updated", False)
         credential_update = self.config[0].get("credential_update", False)
         device_type = self.config[0].get("type", "NETWORK_DEVICE")
-        device_ips = self.config[0].get("ip_address")
+        device_ips = self.get_device_ips_from_config_priority()
 
         if device_added:
             if not devices_to_add:
@@ -3025,7 +3170,7 @@ def main():
                     'dnac_verify': {'type': 'bool', 'default': 'True'},
                     'dnac_version': {'type': 'str', 'default': '2.2.3.3'},
                     'dnac_debug': {'type': 'bool', 'default': False},
-                    'dnac_log_level': {'type': 'str', 'default': 'INFO'},
+                    'dnac_log_level': {'type': 'str', 'default': 'WARNING'},
                     'dnac_log': {'type': 'bool', 'default': False},
                     'validate_response_schema': {'type': 'bool', 'default': True},
                     'config_verify': {'type': 'bool', "default": False},
