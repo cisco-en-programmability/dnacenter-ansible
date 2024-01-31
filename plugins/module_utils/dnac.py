@@ -62,7 +62,7 @@ class DnacBase():
                                         'overridden': self.verify_diff_overridden,
                                         'gathered': self.verify_diff_gathered,
                                         'rendered': self.verify_diff_rendered,
-                                         'parsed': self.verify_diff_parsed
+                                        'parsed': self.verify_diff_parsed
                                         }
         self.dnac_log = dnac_params.get("dnac_log")
 
@@ -455,6 +455,7 @@ class DnacBase():
         """Destructor method to close the log file when the object is deleted"""
         if hasattr(self, 'log_file') and self.log_file is not None:
             self.close_log_file()
+
 
 def is_list_complex(x):
     return isinstance(x[0], dict) or isinstance(x[0], list)
