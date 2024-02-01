@@ -22,6 +22,10 @@ extends_documentation_fragment:
 author: Abinash Mishra (@abimishr)
         Phan Nguyen (phannguy)
 options:
+  config_verify:
+    description: Set to True to verify the Cisco DNA Center config after applying the playbook config.
+    type: bool
+    default: False
   state:
     description: The state of DNAC after module completion.
     type: str
