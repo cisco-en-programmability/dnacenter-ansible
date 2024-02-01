@@ -16,6 +16,8 @@
       dnac_port: "{{ dnac_port }}"
       dnac_version: "{{ dnac_version }}"
       dnac_debug: "{{ dnac_debug }}"
+      dnac_log: True
+      dnac_log_level: DEBUG
 
   tasks:
     - name: Execute discovery devices using MULTI RANGE
@@ -24,21 +26,11 @@
         state: merged
         config_verify: True
         config:
-          - devices_list:
-              - name: SJ-BN-9300
-                site: Global/USA/SAN JOSE/BLD23
-                role: MAPSERVER,BORDERNODE,INTERNAL,EXTERNAL,SDATRANSIT
-                l2interface: TenGigabitEthernet1/1/8
-                ip: 204.1.2.1
-              - name: NY-BN-9300
-                site: Global/USA/New York/BLDNYC
-                role: MAPSERVER,BORDERNODE,INTERNAL,EXTERNAL,SDATRANSIT,NOIPTRANSIT,ECA
-                managed_ap_site: Global/USA/New York/BLDNYC/FLOOR1
-                rolling_ap_count: 25
-                l2interface: TenGigabitEthernet1/1/6
-                ip: 204.1.2.3
+          - ip_address_list:
+              - 204.1.2.1 #It will be taken as 204.1.2.1 - 204.1.2.1
+              - 205.2.1.1-205.2.1.10
             discovery_type: "MULTI RANGE"
-            discovery_name: Multi_Range_Discovery_Test
+            discovery_name: File_111
             protocol_order: ssh
             start_index: 1
             records_to_return: 25
@@ -50,12 +42,8 @@
         state: merged
         config_verify: True
         config:
-          - devices_list:   #List length should be one
-              - name: SJ-BN-9300
-                site: Global/USA/SAN JOSE/BLD23
-                role: MAPSERVER,BORDERNODE,INTERNAL,EXTERNAL,SDATRANSIT
-                l2interface: TenGigabitEthernet1/1/8
-                ip: 204.1.2.1
+          - ip_address_list:   #List length should be one
+              - 204.1.2.1
             discovery_type: "CDP" #Can be LLDP and CIDR
             cdp_level: 16 #Instead use lldp for LLDP and prefix length for CIDR
             discovery_name: CDP_Test_1
