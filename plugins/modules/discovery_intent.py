@@ -138,7 +138,7 @@ options:
         description: Time to wait for device response in seconds
         type: int
       cli_cred_len:
-       description: Total CLI credentials that needs to be used. This value can vary from 1 to 5.
+       description: Specifies the total number of CLI credentials to be used, ranging from 1 to 5.
        type: int
        default: 1
 requirements:
@@ -446,51 +446,48 @@ class DnacDiscovery(DnacBase):
         """
         ip_address_list = self.validated_config[0].get('ip_address_list')
         self.result.update(dict(devices_info=ip_address_list))
-        self.log("Devices list info passed: {0}".format(str(ip_address_list)), "INFO")
+        self.log("Details of the device list passed: {0}".format(str(ip_address_list)), "INFO")
         return ip_address_list
 
-    def preprocessing_devices_info(self, ip_address_list=None):
+    def preprocess_device_discovery(self, ip_address_list=None):
         """
         Preprocess the devices' information. Extract the IP addresses from
         the list of devices and perform additional processing based on the
         'discovery_type' in the validated configuration.
 
         Parameters:
-          - ip_address_list: The list of devices to preprocess. If not
-                          provided, an empty list is used.
+          - ip_address_list: The list of devices' IP addresses intended for preprocessing.
+                             If not provided, an empty list will be used.
 
         Returns:
-          - ip_address_list: If 'discovery_type' is "SINGLE", it returns the
-                             first IP address. Otherwise, it returns a string
-                             of IP ranges separated by commas.
+          - ip_address_list: It returns IP address list for the API to process. The value passed
+                             for single, CDP, LLDP, CIDR, Range and Multi Range varies depending
+                             on the need.
         """
 
         if ip_address_list is None:
             ip_address_list = []
-
-        self.log("Discovery type passed for the discovery is {0}".format(self.validated_config[0].get('discovery_type')), "INFO")
-        if self.validated_config[0].get('discovery_type') in ["SINGLE", "CDP", "LLDP"]:
+        discovery_type = self.validated_config[0].get('discovery_type')
+        self.log("Discovery type passed for the discovery is {0}".format(discovery_type), "INFO")
+        if discovery_type in ["SINGLE", "CDP", "LLDP"]:
             if len(ip_address_list) == 1:
                 ip_address_list = ip_address_list[0]
             else:
-                self.log("IP Address list's length is longer than 1", "ERROR")
-                self.module.fail_json(msg="IP Address list's length is longer than 1", response=[])
-        elif self.validated_config[0].get('discovery_type') == "CIDR":
+                self.preprocess_device_discovery_handle_error()
+        elif discovery_type == "CIDR":
             if len(ip_address_list) == 1 and self.validated_config[0].get('prefix_length'):
                 ip_address_list = ip_address_list[0]
                 ip_address_list = str(ip_address_list) + "/" + str(self.validated_config[0].get('prefix_length'))
             else:
-                self.log("IP Address list's length is longer than 1", "ERROR")
-                self.module.fail_json(msg="IP Address list's length is longer than 1", response=[])
-        elif self.validated_config[0].get('discovery_type') == "RANGE":
+                self.preprocess_device_discovery_handle_error()
+        elif discovery_type == "RANGE":
             if len(ip_address_list) == 1:
                 if len(str(ip_address_list[0]).split("-")) == 2:
                     ip_address_list = ip_address_list[0]
                 else:
                     ip_address_list = "{0}-{1}".format(ip_address_list[0], ip_address_list[0])
             else:
-                self.log("IP Address list's length is longer than 1", "ERROR")
-                self.module.fail_json(msg="IP Address list's length is longer than 1", response=[])
+                self.preprocess_device_discovery_handle_error()
         else:
             new_ip_collected = []
             for ip in ip_address_list:
@@ -500,6 +497,15 @@ class DnacDiscovery(DnacBase):
             ip_address_list = ','.join(new_ip_collected)
         self.log("Collected IP address/addresses are {0}".format(str(ip_address_list)), "INFO")
         return str(ip_address_list)
+
+    def preprocess_device_discovery_handle_error(self):
+        """
+        Method for failing discovery based on the length of list of IP Addresses passed
+        for performing discovery.
+        """
+
+        self.log("IP Address list's length is longer than 1", "ERROR")
+        self.module.fail_json(msg="IP Address list's length is longer than 1", response=[])
 
     def create_params(self, credential_ids=None, ip_address_list=None):
         """
@@ -817,7 +823,7 @@ class DnacDiscovery(DnacBase):
 
         self.get_dnac_global_credentials_v2_info()
         devices_list_info = self.get_devices_list_info()
-        ip_address_list = self.preprocessing_devices_info(devices_list_info)
+        ip_address_list = self.preprocess_device_discovery(devices_list_info)
         exist_discovery = self.get_exist_discovery()
         if exist_discovery:
             params = dict(id=exist_discovery.get('id'))
