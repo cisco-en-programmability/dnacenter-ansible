@@ -22,15 +22,6 @@ extends_documentation_fragment:
 author: Abinash Mishra (@abimishr)
         Phan Nguyen (phannguy)
 options:
-  config_verify:
-    description: Set to True to verify the Cisco DNA Center config after applying the playbook config.
-    type: bool
-    default: False
-  dnac_log_level:
-    description: Specifies the log level for Cisco Catalyst Center logging, categorizing logs by severity.
-        Options- [CRITICAL, ERROR, WARNING, INFO, DEBUG]
-    type: str
-    default: WARNING
   state:
     description: The state of DNAC after module completion.
     type: str
@@ -43,19 +34,11 @@ options:
     elements: dict
     required: true
     suboptions:
-      devices_list:
-        description: List of devices with details necessary for discovering the devices.
+      ip_address_list:
+        description: List of IP addresses to be discoverred.
         type: list
-        elements: dict
+        elements: str
         required: true
-        suboptions:
-          name:
-            description: Hostname of the device
-            type: str
-          ip:
-            description: Management IP address of the device
-            type: str
-            required: true
       discovery_type:
         description: Type of discovery (SINGLE/RANGE/MULTI RANGE/CDP/LLDP)
         type: str
@@ -147,10 +130,13 @@ options:
       snmp_version:
         description: Version of SNMP (v2/v3)
         type: str
-        required: true
       timeout:
         description: Time to wait for device response in seconds
         type: int
+      cli_cred_len:
+       description: Total CLI credentials that needs to be used. This value can vary from 1 to 5.
+       type: int
+       default: 1
 requirements:
 - dnacentersdk == 2.6.10
 - python >= 3.5
@@ -186,10 +172,9 @@ EXAMPLES = r"""
     dnac_log: True
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
+    config_verify: True
     config:
-        - devices_list:
-            - name: string
-              ip: string
+        - ip_address_list: list
           discovery_type: string
           cdp_level: string
           lldp_level: string
@@ -217,6 +202,7 @@ EXAMPLES = r"""
           snmp_version: string
           timeout: integer
           username_list: list
+          cli_cred_length: integer
 - name: Delete disovery by name
   cisco.dnac.discovery_intent:
     dnac_host: "{{dnac_host}}"
@@ -227,11 +213,11 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     dnac_log: True
+    dnac_log_level: "{{dnac_log_level}}"
     state: deleted
+    config_verify: True
     config:
-        - devices_list:
-            - name: string
-              ip: string
+        - ip_address_list: list
           start_index: integer
           records_to_return: integer
           discovery_name: string
@@ -335,8 +321,8 @@ class DnacDiscovery(DnacBase):
             'discovery_type': {'type': 'str', 'required': True},
             'enable_password_list': {'type': 'list', 'required': False,
                                      'elements': 'str'},
-            'devices_list': {'type': 'list', 'required': True,
-                             'elements': 'dict'},
+            'ip_address_list': {'type': 'list', 'required': True,
+                                'elements': 'str'},
             'start_index': {'type': 'int', 'required': False,
                             'default': 25},
             'records_to_return': {'type': 'int', 'required': False},
@@ -366,10 +352,12 @@ class DnacDiscovery(DnacBase):
             'snmp_rw_community': {'type': 'str', 'required': False},
             'snmp_rw_community_desc': {'type': 'str', 'required': False},
             'snmp_username': {'type': 'str', 'required': False},
-            'snmp_version': {'type': 'str', 'required': True},
+            'snmp_version': {'type': 'str', 'required': False},
             'timeout': {'type': 'str', 'required': False},
             'username_list': {'type': 'list', 'required': False,
-                              'elements': 'str'}
+                              'elements': 'str'},
+            'cli_cred_len': {'type': 'int', 'required': False,
+                             'default': 1}
         }
 
         # Validate discovery params
@@ -399,7 +387,7 @@ class DnacDiscovery(DnacBase):
                                  the class instance.
         """
 
-        self.log("Credential IDs list is {0}".format(str(self.creds_ids_list)), "INFO")
+        self.log("Credential Ids list passed is {0}".format(str(self.creds_ids_list)), "INFO")
         return self.creds_ids_list
 
     def get_dnac_global_credentials_v2_info(self):
@@ -422,11 +410,19 @@ class DnacDiscovery(DnacBase):
             params=self.validated_config[0].get('headers'),
         )
         response = response.get('response')
+        cli_len_inp = self.validated_config[0].get("cli_cred_len")
+        if cli_len_inp > 5:
+            cli_len_inp = 5
         self.log("The Global credentials response from 'get all global credentials v2' API is {0}".format(str(response)), "DEBUG")
-        for value in response.values():
-            if not value:
-                continue
-            self.creds_ids_list.extend(element.get('id') for element in value)
+        cli_len = 0
+        for key in response.keys():
+            if key == "cliCredential":
+                for element in response.get(key):
+                    while cli_len < cli_len_inp:
+                        self.creds_ids_list.append(element.get('id'))
+                        cli_len += 1
+            else:
+                self.creds_ids_list.extend(element.get('id') for element in response.get(key))
 
         if not self.creds_ids_list:
             msg = 'Not found any credentials to perform discovery'
@@ -441,22 +437,22 @@ class DnacDiscovery(DnacBase):
         It then updates the result attribute with this list.
 
         Returns:
-          - devices_list: The list of devices extracted from the
+          - ip_address_list: The list of devices extracted from the
                           'validated_config' attribute.
         """
-        devices_list = self.validated_config[0].get('devices_list')
-        self.result.update(dict(devices_info=devices_list))
-        self.log("Devices list info passed is {0}".format(str(devices_list)), "INFO")
-        return devices_list
+        ip_address_list = self.validated_config[0].get('ip_address_list')
+        self.result.update(dict(devices_info=ip_address_list))
+        self.log("Devices list info passed: {0}".format(str(ip_address_list)), "INFO")
+        return ip_address_list
 
-    def preprocessing_devices_info(self, devices_list=None):
+    def preprocessing_devices_info(self, ip_address_list=None):
         """
         Preprocess the devices' information. Extract the IP addresses from
         the list of devices and perform additional processing based on the
         'discovery_type' in the validated configuration.
 
         Parameters:
-          - devices_list: The list of devices to preprocess. If not
+          - ip_address_list: The list of devices to preprocess. If not
                           provided, an empty list is used.
 
         Returns:
@@ -465,36 +461,41 @@ class DnacDiscovery(DnacBase):
                              of IP ranges separated by commas.
         """
 
-        if devices_list is None:
-            devices_list = []
-
-        ip_address_list = [device['ip'] for device in devices_list]
+        if ip_address_list is None:
+            ip_address_list = []
 
         self.log("Discovery type passed for the discovery is {0}".format(self.validated_config[0].get('discovery_type')), "INFO")
         if self.validated_config[0].get('discovery_type') in ["SINGLE", "CDP", "LLDP"]:
             if len(ip_address_list) == 1:
                 ip_address_list = ip_address_list[0]
             else:
-                self.log("Device list's length is longer than 1", "ERROR")
-                self.module.fail_json(msg="Device list's length is longer than 1", response=[])
+                self.log("IP Address list's length is longer than 1", "ERROR")
+                self.module.fail_json(msg="IP Address list's length is longer than 1", response=[])
         elif self.validated_config[0].get('discovery_type') == "CIDR":
             if len(ip_address_list) == 1 and self.validated_config[0].get('prefix_length'):
                 ip_address_list = ip_address_list[0]
                 ip_address_list = str(ip_address_list) + "/" + str(self.validated_config[0].get('prefix_length'))
             else:
-                self.log("Device list's length is longer than 1", "ERROR")
-                self.module.fail_json(msg="Device list's length is longer than 1", response=[])
+                self.log("IP Address list's length is longer than 1", "ERROR")
+                self.module.fail_json(msg="IP Address list's length is longer than 1", response=[])
+        elif self.validated_config[0].get('discovery_type') == "RANGE":
+            if len(ip_address_list) == 1:
+                if len(str(ip_address_list[0]).split("-")) == 2:
+                    ip_address_list = ip_address_list[0]
+                else:
+                    ip_address_list = "{0}-{1}".format(ip_address_list[0], ip_address_list[0])
+            else:
+                self.log("IP Address list's length is longer than 1", "ERROR")
+                self.module.fail_json(msg="IP Address list's length is longer than 1", response=[])
         else:
-            ip_address_list = list(
-                map(
-                    lambda x: '{0}-{value}'.format(x, value=x),
-                    ip_address_list
-                )
-            )
-            ip_address_list = ','.join(ip_address_list)
-
+            new_ip_collected = []
+            for ip in ip_address_list:
+                if len(str(ip).split("-")) != 2:
+                    ip_collected = "{0}-{0}".format(ip)
+                new_ip_collected.append(ip_collected)
+            ip_address_list = ','.join(new_ip_collected)
         self.log("Collected IP address/addresses are {0}".format(str(ip_address_list)), "INFO")
-        return ip_address_list
+        return str(ip_address_list)
 
     def create_params(self, credential_ids=None, ip_address_list=None):
         """
