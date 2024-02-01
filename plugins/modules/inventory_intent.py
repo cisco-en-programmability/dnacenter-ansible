@@ -2565,7 +2565,7 @@ class DnacDevice(DnacBase):
                         new_mgmt_ipaddress = playbook_params['updateMgmtIPaddressList'][0]['newMgmtIpAddress']
                         if new_mgmt_ipaddress in self.have['device_in_dnac']:
                             self.status = "failed"
-                            self.msg = "Device with IP address {0} already exists in Inventory".format(new_mgmt_ipaddress)
+                            self.msg = "Device with IP address '{0}' already exists in inventory".format(new_mgmt_ipaddress)
                             self.log(self.msg, "ERROR")
                             self.result['response'] = self.msg
                     else:
@@ -2589,7 +2589,6 @@ class DnacDevice(DnacBase):
                                     self.result['response'] = execution_details
                                     self.msg = "Devices {0} present in Cisco Catalyst Center and updated successfully".format(str(device_to_update))
                                     self.log(self.msg, "INFO")
-                                    self.status = "success"
                                     break
                                 elif execution_details.get("isError"):
                                     self.status = "failed"
