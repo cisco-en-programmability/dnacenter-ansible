@@ -327,7 +327,6 @@ class DnacBase():
             task_details = self.get_task_details(task_id)
             self.dnac_file_logger.debug('Getting task details from task ID %s: %s', task_id, str(task_details))
 
-
             if task_details.get("isError") is True:
                 if task_details.get("failureReason"):
                     self.msg = str(task_details.get("failureReason"))
