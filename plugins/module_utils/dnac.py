@@ -24,7 +24,7 @@ else:
 import os.path
 import copy
 import json
-import datetime
+# import datetime
 import inspect
 import re
 
@@ -34,6 +34,7 @@ class DnacBase():
     """Class contains members which can be reused for all intent modules"""
 
     __metaclass__ = ABCMeta
+    __is_log_init = False
 
     def __init__(self, module):
         self.module = module
@@ -65,14 +66,22 @@ class DnacBase():
                                         }
         self.dnac_log = dnac_params.get("dnac_log")
 
-        self.dnac_log_level = dnac_params.get("dnac_log_level")
-        if self.dnac_log_level is None:
-            self.dnac_log_level = "INFO"
-        else:
+        if self.dnac_log and not DnacBase.__is_log_init:
+            self.dnac_log_level = dnac_params.get("dnac_log_level") or 'WARNING'
+            self.validate_dnac_log_level()
             self.dnac_log_level = self.dnac_log_level.upper()
-            self.is_valid_log_level()
+            self.dnac_log_file_path = dnac_params.get("dnac_log_file_path") or 'dnac.log'
+            self.validate_dnac_log_file_path()
+            self.dnac_log_mode = 'w' if not dnac_params.get("dnac_log_append") else 'a'
+            self.setup_logger('dnac_file_logger')
+            self.dnac_file_logger = logging.getLogger('dnac_file_logger')
+            DnacBase.__is_log_init = True
+            self.dnac_file_logger.debug('Logging configured and initiated')
+        elif not self.dnac_log:
+            # If dnac_log is False, return an empty logger
+            self.dnac_file_logger = logging.getLogger('empty_logger')
 
-        log(str(dnac_params))
+        self.dnac_file_logger.debug('Dnac parameters: %s', str(dnac_params))
         self.supported_states = ["merged", "deleted", "replaced", "overridden", "gathered", "rendered", "parsed"]
         self.result = {"changed": False, "diff": [], "response": [], "warnings": []}
 
@@ -153,28 +162,67 @@ class DnacBase():
         self.parsed = True
         return self
 
-    def log(self, message, level="info", frameIncrement=0):
-        """Logs/Appends messages into dnac.log file if logging is enabled and the log level is appropriate
+    def setup_logger(self, logger_name):
+        """Set up a logger with specified name and configuration based on dnac_log_level"""
+        level_mapping = {
+            'INFO': logging.INFO,
+            'DEBUG': logging.DEBUG,
+            'WARNING': logging.WARNING,
+            'ERROR': logging.ERROR,
+            'CRITICAL': logging.CRITICAL
+        }
+        level = level_mapping.get(self.dnac_log_level, logging.WARNING)
+
+        logger = logging.getLogger(logger_name)
+        formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(module)s:%(funcName)s:%(lineno)d --- %(message)s', datefmt='%m-%d-%Y %H:%M:%S')
+
+        file_handler = logging.FileHandler(self.dnac_log_file_path, mode=self.dnac_log_mode)
+        file_handler.setFormatter(formatter)
+
+        logger.setLevel(level)
+        logger.addHandler(file_handler)
+
+    def validate_dnac_log_level(self):
+        """Validates if the logging level is string and of expected value"""
+        if self.dnac_log_level not in ('INFO', 'DEBUG', 'WARNING', 'ERROR', 'CRITICAL'):
+            raise ValueError("Invalid log level: 'dnac_log_level:{0}'".format(self.dnac_log_level))
+
+    def validate_dnac_log_file_path(self):
+        """
+        Validates the specified log file path, ensuring it is either absolute or relative,
+        the directory exists, and has a .log extension.
+        """
+        # Convert the path to absolute if it's relative
+        dnac_log_file_path = os.path.abspath(self.dnac_log_file_path)
+
+        # Validate if the directory exists
+        log_directory = os.path.dirname(dnac_log_file_path)
+        if not os.path.exists(log_directory):
+            raise FileNotFoundError("The directory for log file '{0}' does not exist.".format(dnac_log_file_path))
+
+    def log(self, message, level="WARNING", frameIncrement=0):
+        """Logs formatted messages with specified log level and incrementing the call stack frame
         Args:
             self (obj, required): An instance of the DnacBase Class.
             message (str, required): The log message to be recorded.
             level (str, optional): The log level, default is "info".
                                    The log level can be one of 'DEBUG', 'INFO', 'WARNING', 'ERROR', or 'CRITICAL'.
-            frameIncrement (int, optional): The number of frames to increment in the call stack, default is 0.
         """
 
-        level = level.upper()
-        if (
-            self.dnac_log
-            and logging.getLevelName(level) >= logging.getLevelName(self.dnac_log_level)
-        ):
+        if self.dnac_log:
             message = "Module: " + self.__class__.__name__ + ", " + message
-            log(message, level, (1 + frameIncrement))
+            callerframerecord = inspect.stack()[frameIncrement]
+            frame = callerframerecord[0]
+            info = inspect.getframeinfo(frame)
+            # log_message = "{0}@{1} --- {2}".format(info.lineno, info.function, message)
+            log_method = getattr(self.dnac_file_logger, level.lower())
+            log_method(message)
 
     def check_return_status(self):
         """API to check the return status value and exit/fail the module"""
 
-        self.log("status: {0}, msg:{1}".format(self.status, self.msg), frameIncrement=1)
+        # self.log("status: {0}, msg:{1}".format(self.status, self.msg), frameIncrement=1)
+        self.dnac_file_logger.debug("status: %s, msg: %s", self.status, self.msg)
         if "failed" in self.status:
             self.module.fail_json(msg=self.msg, response=[])
         elif "exited" in self.status:
@@ -213,7 +261,9 @@ class DnacBase():
                        "dnac_verify": params.get("dnac_verify"),
                        "dnac_debug": params.get("dnac_debug"),
                        "dnac_log": params.get("dnac_log"),
-                       "dnac_log_level": params.get("dnac_log_level")
+                       "dnac_log_level": params.get("dnac_log_level"),
+                       "dnac_log_file_path": params.get("dnac_log_file_path"),
+                       "dnac_log_append": params.get("dnac_log_append")
                        }
         return dnac_params
 
@@ -237,7 +287,8 @@ class DnacBase():
             params={"task_id": task_id}
         )
 
-        log(str(response), "DEBUG")
+        self.log('Task Details: {0}'.format(str(response)), 'DEBUG')
+        self.dnac_file_logger.debug("Retrieving task details by the API 'get_task_by_id' using task ID: %s, Response: %s", str(task_id), str(response))
 
         if response and isinstance(response, dict):
             result = response.get('response')
@@ -276,7 +327,7 @@ class DnacBase():
         task_id = response.get("taskId")
         while True:
             task_details = self.get_task_details(task_id)
-            self.log(str(task_details))
+            self.dnac_file_logger.debug('Getting task details from task ID %s: %s', task_id, str(task_details))
 
             if task_details.get("isError") is True:
                 if task_details.get("failureReason"):
@@ -293,8 +344,7 @@ class DnacBase():
                 self.status = "success"
                 break
 
-            self.log("progress set to {0} for taskid: {1}"
-                     .format(task_details.get('progress'), task_id))
+            self.dnac_file_logger.debug("progress set to %s for taskid: %s", task_details.get('progress'), task_id)
 
         return self
 
@@ -315,13 +365,13 @@ class DnacBase():
             response (dict) - Status for API execution
         """
 
-        self.log("Execution Id " + str(execid))
+        self.dnac_file_logger.debug("Execution Id %s", str(execid))
         response = self.dnac._exec(
             family="task",
             function='get_business_api_execution_details',
             params={"execution_id": execid}
         )
-        self.log("Response for the current execution" + str(response))
+        self.dnac_file_logger.debug("Response for the current execution %s", str(response))
         return response
 
     def check_execution_response_status(self, response):
@@ -335,7 +385,7 @@ class DnacBase():
             self
         """
 
-        self.log(str(response))
+        self.dnac_file_logger.debug(str(response))
         if not response:
             self.msg = "response is empty"
             self.status = "failed"
@@ -397,7 +447,7 @@ class DnacBase():
             for key, value in config.items():
                 new_key = re.sub(r'([a-z0-9])([A-Z])', r'\1_\2', key).lower()
                 if new_key != key:
-                    self.log("{0} will be deprecated soon. Please use {1}.".format(key, new_key))
+                    self.dnac_file_logger.debug("%s will be deprecated soon. Please use %s.", key, new_key)
                 new_value = self.camel_to_snake_case(value)
                 new_config[new_key] = new_value
         elif isinstance(config, list):
@@ -405,21 +455,6 @@ class DnacBase():
         else:
             return config
         return new_config
-
-    def is_valid_log_level(self):
-        valid_log_levels = ('DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL')
-        if self.dnac_log_level not in valid_log_levels:
-            raise ValueError("Invalid log level: 'dnac_log_level:{0}'."
-                             " Expected one of {1}.".format(self.dnac_log_level, valid_log_levels))
-
-
-def log(msg, level='info', frameIncrement=0):
-    with open('dnac.log', 'a') as of:
-        callerframerecord = inspect.stack()[1 + frameIncrement]
-        frame = callerframerecord[0]
-        info = inspect.getframeinfo(frame)
-        d = datetime.datetime.now().replace(microsecond=0).isoformat()
-        of.write("---- %s ---- %s@%s ---- %s: %s\n" % (d, info.lineno, info.function, level.upper(), msg))
 
 
 def is_list_complex(x):
@@ -697,7 +732,6 @@ def validate_list_of_dicts(param_list, spec, module=None):
             break
         for param in spec:
             item = list_entry.get(param)
-            log(str(item))
             if item is None:
                 if spec[param].get("required"):
                     invalid_params.append(
