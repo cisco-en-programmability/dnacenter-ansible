@@ -24,17 +24,18 @@
         <<: *dnac_login
         dnac_log: True
         state: merged
+        config_verify: True
         config:
-          - site_name: Global/USA/San Francisco/BGL_18
-            device_info:
-              - serial_number: CD2425L8M7
+            - device_info:
+              - serial_number: QD2425L8M7
                 state: Unclaimed
                 pid: c9300-24P
                 is_sudi_required: False
 
-              - serial_number: FTC2320E0H9
+              - serial_number: QTC2320E0H9
                 state: Unclaimed
                 pid: c9300-24P
+                hostname: Test-123
 
               - serial_number: ETC2320E0HB
                 state: Unclaimed
@@ -101,8 +102,9 @@
         <<: *dnac_login
         dnac_log: True
         state: deleted
+        config_verify: True
         config:
           - device_info:
-              - serial_number: FTC2320E0HB  #Will get deleted
+              - serial_number: QD2425L8M7  #Will get deleted
               - serial_number: FTC2320E0HA  #Doesn't exist in the inventory
               - serial_number: FKC2310E0HB  #Doesn't exist in the inventory
