@@ -2561,45 +2561,49 @@ class DnacDevice(DnacBase):
                     playbook_params.pop('snmpPrivProtocol', None)
 
                 try:
-                    response = self.dnac._exec(
-                        family="devices",
-                        function='sync_devices',
-                        op_modifies=True,
-                        params=playbook_params,
-                    )
-                    self.log("Received API response from 'sync_devices': {0}".format(str(response)), "DEBUG")
+                    if playbook_params['updateMgmtIPaddressList']:
+                        new_mgmt_ipaddress = playbook_params['updateMgmtIPaddressList'][0]['newMgmtIpAddress']
+                        if new_mgmt_ipaddress in self.have['device_in_dnac']:
+                            self.status = "failed"
+                            self.msg = "Device with IP address {0} already exists in Inventory".format(new_mgmt_ipaddress)
+                            self.log(self.msg, "ERROR")
+                            self.result['response'] = self.msg
+                    else:
+                        response = self.dnac._exec(
+                            family="devices",
+                            function='sync_devices',
+                            op_modifies=True,
+                            params=playbook_params,
+                        )
+                        self.log("Received API response from 'sync_devices': {0}".format(str(response)), "DEBUG")
 
-                    if response and isinstance(response, dict):
-                        task_id = response.get('response').get('taskId')
+                        if response and isinstance(response, dict):
+                            task_id = response.get('response').get('taskId')
 
-                        while True:
-                            execution_details = self.get_task_details(task_id)
+                            while True:
+                                execution_details = self.get_task_details(task_id)
 
-                            if execution_details.get("endTime"):
-                                self.status = "success"
-                                self.result['changed'] = True
-                                self.result['response'] = execution_details
-                                self.msg = "Device(s) {0} updated successfully".format(str(device_to_update))
-                                self.log(self.msg, "INFO")
-                                break
-                            elif execution_details.get("isError"):
-                                self.status = "failed"
-                                failure_reason = execution_details.get("failureReason")
-                                if failure_reason:
-                                    self.msg = "Device Updation get failed because of {0}".format(failure_reason)
-                                else:
-                                    self.msg = "Device Updation get failed"
-                                self.log(self.msg, "ERROR")
-                                break
-
+                                if execution_details.get("endTime"):
+                                    self.status = "success"
+                                    self.result['changed'] = True
+                                    self.result['response'] = execution_details
+                                    self.msg = "Devices {0} present in Cisco Catalyst Center and updated successfully".format(str(device_to_update))
+                                    self.log(self.msg, "INFO")
+                                    self.status = "success"
+                                    break
+                                elif execution_details.get("isError"):
+                                    self.status = "failed"
+                                    failure_reason = execution_details.get("failureReason")
+                                    if failure_reason:
+                                        self.msg = "Device Updation get failed because of {0}".format(failure_reason)
+                                    else:
+                                        self.msg = "Device Updation get failed"
+                                    self.log(self.msg, "ERROR")
+                                    break
                 except Exception as e:
                     error_message = "Error while updating device in Cisco Catalyst Center: {0}".format(str(e))
                     self.log(error_message, "ERROR")
                     raise Exception(error_message)
-
-                self.msg = "Devices {0} present in Cisco Catalyst Center and updated successfully".format(str(device_to_update))
-                self.log(self.msg, "INFO")
-                self.status = "success"
 
             if self.config[0].get('update_interface_details'):
                 # Call the Get interface details by device IP API and fetch the interface Id

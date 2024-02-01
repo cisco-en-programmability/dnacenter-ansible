@@ -237,7 +237,7 @@ class DnacBase():
             params={"task_id": task_id}
         )
 
-        log(str(response))
+        log(str(response), "DEBUG")
 
         if response and isinstance(response, dict):
             result = response.get('response')
