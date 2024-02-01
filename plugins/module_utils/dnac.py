@@ -287,7 +287,7 @@ class DnacBase():
             params={"task_id": task_id}
         )
 
-        log("Retrieving task details by the API 'get_task_by_id' using task ID: {0}, Response: {1}".format(str(response)), 'DEBUG')
+        self.dnac_file_logger.debug("Retrieving task details by the API 'get_task_by_id' using task ID: {0}, Response: {1}".format(str(response)))
 
         if response and isinstance(response, dict):
             result = response.get('response')
