@@ -40,7 +40,7 @@ options:
     required: True
     suboptions:
       cli_transport:
-        description: Device's cli transport protocol. Required for Adding Network Devices.
+        description: Device's cli transport protocol(ssh/telnet). Required for Adding Network Devices.
         type: str
       compute_device:
         description: Compute Device flag.
@@ -2567,6 +2567,37 @@ class DnacDevice(DnacBase):
                             self.msg = "Device with IP address '{0}' already exists in inventory".format(new_mgmt_ipaddress)
                             self.log(self.msg, "ERROR")
                             self.result['response'] = self.msg
+                        else:
+                            response = self.dnac._exec(
+                                family="devices",
+                                function='sync_devices',
+                                op_modifies=True,
+                                params=playbook_params,
+                            )
+                            self.log("Received API response from 'sync_devices': {0}".format(str(response)), "DEBUG")
+
+                            if response and isinstance(response, dict):
+                                task_id = response.get('response').get('taskId')
+
+                                while True:
+                                    execution_details = self.get_task_details(task_id)
+                                    if execution_details.get("isError"):
+                                        self.status = "failed"
+                                        failure_reason = execution_details.get("failureReason")
+                                        if failure_reason:
+                                            self.msg = "Device Updation get failed because of {0}".format(failure_reason)
+                                        else:
+                                            self.msg = "Device Updation get failed"
+                                        self.log(self.msg, "ERROR")
+                                        break
+                                    elif execution_details.get("endTime"):
+                                        self.status = "success"
+                                        self.result['changed'] = True
+                                        self.result['response'] = execution_details
+                                        self.msg = "Devices {0} present in Cisco Catalyst Center and updated successfully".format(str(device_to_update))
+                                        self.log(self.msg, "INFO")
+                                        break
+
                     else:
                         response = self.dnac._exec(
                             family="devices",
@@ -2582,14 +2613,7 @@ class DnacDevice(DnacBase):
                             while True:
                                 execution_details = self.get_task_details(task_id)
 
-                                if execution_details.get("endTime"):
-                                    self.status = "success"
-                                    self.result['changed'] = True
-                                    self.result['response'] = execution_details
-                                    self.msg = "Devices {0} present in Cisco Catalyst Center and updated successfully".format(str(device_to_update))
-                                    self.log(self.msg, "INFO")
-                                    break
-                                elif execution_details.get("isError"):
+                                if execution_details.get("isError"):
                                     self.status = "failed"
                                     failure_reason = execution_details.get("failureReason")
                                     if failure_reason:
@@ -2598,6 +2622,14 @@ class DnacDevice(DnacBase):
                                         self.msg = "Device Updation get failed"
                                     self.log(self.msg, "ERROR")
                                     break
+                                elif execution_details.get("endTime"):
+                                    self.status = "success"
+                                    self.result['changed'] = True
+                                    self.result['response'] = execution_details
+                                    self.msg = "Devices {0} present in Cisco Catalyst Center and updated successfully".format(str(device_to_update))
+                                    self.log(self.msg, "INFO")
+                                    break
+
                 except Exception as e:
                     error_message = "Error while updating device in Cisco Catalyst Center: {0}".format(str(e))
                     self.log(error_message, "ERROR")
