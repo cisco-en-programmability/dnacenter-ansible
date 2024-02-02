@@ -30,6 +30,10 @@ author: Madhan Sankaranarayanan (@madhansansel)
         Rishita Chowdhary (@rishitachowdhary)
         Abhishek Maheshwari (@abmahesh)
 options:
+  config_verify:
+    description: Set to True to verify the Cisco Catalyst Center config after applying the playbook config.
+    type: bool
+    default: False
   state:
     description: The state of Catalyst Center after module completion.
     type: str
@@ -1084,6 +1088,7 @@ class DnacSwims(DnacBase):
         image_id = self.have.get("distribution_image_id")
 
         if self.have.get("distribution_device_id"):
+            self.single_device_distribution = False
             distribution_params = dict(
                 payload=[dict(
                     deviceUuid=self.have.get("distribution_device_id"),
@@ -1111,6 +1116,7 @@ class DnacSwims(DnacBase):
                             ("completed successfully" in task_details.get("progress")):
                         self.result['changed'] = True
                         self.status = "success"
+                        self.single_device_distribution = True
                         self.result['msg'] = "Image with Id {0} Distributed Successfully".format(image_id)
                         break
 
@@ -1136,6 +1142,9 @@ class DnacSwims(DnacBase):
 
         device_distribution_count = 0
         device_ips_list = []
+        self.complete_successful_distribution = False
+        self.partial_successful_distribution = False
+
         for device_uuid in device_uuid_list:
             device_management_ip = self.get_device_ip_from_id(device_uuid)
             distribution_params = dict(
@@ -1181,10 +1190,12 @@ class DnacSwims(DnacBase):
         elif device_distribution_count == len(device_uuid_list):
             self.result['changed'] = True
             self.status = "success"
+            self.complete_successful_distribution = True
             self.msg = "Image with Id {0} Distributed Successfully for all devices".format(image_id)
         else:
             self.result['changed'] = True
             self.status = "success"
+            self.partial_successful_distribution = False
             self.msg = "Image with Id '{0}' Distributed and partially successfull".format(image_id)
             self.log("For device(s) {0} image Distribution gets failed".format(str(device_ips_list)), "CRITICAL")
 
@@ -1214,6 +1225,7 @@ class DnacSwims(DnacBase):
         image_id = self.have.get("activation_image_id")
 
         if self.have.get("activation_device_id"):
+            self.single_device_activation = False
             payload = [dict(
                 activateLowerImageVersion=activation_details.get("activate_lower_image_version"),
                 deviceUpgradeMode=activation_details.get("device_upgrade_mode"),
@@ -1247,6 +1259,7 @@ class DnacSwims(DnacBase):
                     self.result['changed'] = True
                     self.result['msg'] = "Image Activated successfully"
                     self.status = "success"
+                    self.single_device_activation = True
                     break
 
                 if task_details.get("isError"):
@@ -1271,6 +1284,8 @@ class DnacSwims(DnacBase):
         self.log("Device UUIDs involved in Image Activation: {0}".format(str(device_uuid_list)), "INFO")
         device_activation_count = 0
         device_ips_list = []
+        self.complete_successful_activation = False
+        self.partial_successful_activation = False
 
         for device_uuid in device_uuid_list:
             device_management_ip = self.get_device_ip_from_id(device_uuid)
@@ -1324,10 +1339,12 @@ class DnacSwims(DnacBase):
         elif device_activation_count == len(device_uuid_list):
             self.result['changed'] = True
             self.status = "success"
+            self.complete_successful_activation = True
             msg = "Image with Id '{0}' activated successfully for all devices".format(image_id)
         else:
             self.result['changed'] = True
             self.status = "success"
+            self.partial_successful_activation = True
             msg = "Image with Id '{0}' activated and partially successfull".format(image_id)
             self.log("For Device(s) {0} Image activation gets Failed".format(str(device_ips_list)), "CRITICAL")
 
@@ -1362,6 +1379,125 @@ class DnacSwims(DnacBase):
 
         return self
 
+    def verify_diff_merged(self, config):
+        """
+        Verify the merged status(Importing/Tagging/Distributing/Actiavting) the SWIM Image in devices in Cisco Catalyst Center.
+        Args:
+            - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            - config (dict): The configuration details to be verified.
+        Return:
+            - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+        Description:
+            This method checks the merged status of a configuration in Cisco Catalyst Center by retrieving the current state
+            (have) and desired state (want) of the configuration, logs the states, and validates whether the specified
+            SWIM operation performed or not.
+        """
+
+        self.get_have()
+        self.log("Current State (have): {0}".format(str(self.have)), "INFO")
+        self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
+
+        import_type = self.want.get("import_type")
+
+        if import_type:
+            if import_type == "url":
+                image_name = self.want.get("url_import_details").get("payload")[0].get("source_url")
+            else:
+                image_name = self.want.get("local_import_details").get("file_path")
+
+            # Code to check if the image already exists in Catalyst Center
+            name = image_name.split('/')[-1]
+            image_exist = self.is_image_exist(name)
+            if image_exist:
+                self.status = "success"
+                self.msg = "The requested Image '{0}' imported in the Cisco Catalyst Center and Image presence has been verified.".format(name)
+                self.log(self.msg, "INFO")
+            else:
+                self.log("""The playbook input for SWIM Image '{0}' does not align with the Cisco Catalyst Center, indicating that image
+                         may not have imported successfully.""".format(name), "INFO")
+
+        if self.want.get("tagging_details"):
+            tagging_details = self.want.get("tagging_details")
+            tag_image_golden = tagging_details.get("tagging")
+
+            image_params = dict(
+                image_id=self.have.get("tagging_image_id"),
+                site_id=self.have.get("site_id"),
+                device_family_identifier=self.have.get("device_family_identifier"),
+                device_role=tagging_details.get("device_role", "ALL").upper()
+            )
+            self.log("Parameters for checking the status of image: {0}".format(str(image_params)), "INFO")
+
+            response = self.dnac._exec(
+                family="software_image_management_swim",
+                function='get_golden_tag_status_of_an_image',
+                op_modifies=True,
+                params=image_params
+            )
+            self.log("Received API response from 'get_golden_tag_status_of_an_image': {0}".format(str(response)), "DEBUG")
+
+            response = response.get('response')
+            if response:
+                image_status = response['taggedGolden']
+                if image_status == tag_image_golden:
+                    if tag_image_golden:
+                        self.msg = """The requested image '{0}' has been tagged as golden in the Cisco Catalyst Center and image status
+                                has been verified.""".format(name)
+                        self.log(self.msg, "INFO")
+                    else:
+                        self.msg = """The requested image '{0}' has been un-tagged as golden in the Cisco Catalyst Center and
+                                image status has been verified.""".format(name)
+                        self.log(self.msg, "INFO")
+            else:
+                self.log("""Mismatch between the playbook input for tagging/un-tagging image as golden and the Cisco Catalyst Center indicates that
+                         the tagging/un-tagging task was not executed successfully.""", "INFO")
+
+        if self.want.get("distribution_details"):
+            image_id = self.have.get("distribution_image_id")
+
+            if self.have.get("distribution_device_id"):
+                if self.single_device_distribution:
+                    self.msg = """The requested image with device id '{0}' has been distributed successfully in the Cisco Catalyst Center and
+                             image status has been verified.""".format(self.have.get("distribution_device_id"))
+                    self.log(self.msg, "INFO")
+                else:
+                    self.log("""Mismatch between the playbook input for distributing image to device with id '{0}' and the Cisco Catalyst Center indicates that
+                         the distribution task was not executed successfully.""".format(self.have.get("distribution_device_id")), "INFO")
+            elif self.complete_successful_distribution:
+                self.msg = """The requested image with id '{0}' distributed successfully on all devices in that particular site
+                         in the Cisco Catalyst Center.""".format(image_id)
+                self.log(self.msg, "INFO")
+            elif self.partial_successful_distribution:
+                self.msg = "The requested image with id '{0}' distributed partially on some devices in the Cisco Catalyst Center.".format(image_id)
+                self.log(self.msg, "INFO")
+            else:
+                self.msg = "The requested image with id '{0}' failed to distributed on devices in the Cisco Catalyst Center.".format(image_id)
+                self.log(self.msg, "INFO")
+
+        if self.want.get("activation_details"):
+            image_id = self.have.get("activation_image_id")
+
+            if self.have.get("activation_device_id"):
+                if self.single_device_activation:
+                    self.msg = """The requested image with device id '{0}' has been activated successfully in the Cisco Catalyst Center and
+                             image status has been verified.""".format(self.have.get("activation_device_id"))
+                    self.log(self.msg, "INFO")
+                else:
+                    self.log("""Mismatch between the playbook input for activating image to device with id '{0}' and the Cisco Catalyst Center indicates that
+                         the activation task was not executed successfully.""".format(self.have.get("activation_device_id")), "INFO")
+            elif self.complete_successful_activation:
+                self.msg = """The requested image with id '{0}' activated successfully on all devices in that particular site
+                         in the Cisco Catalyst Center.""".format(image_id)
+                self.log(self.msg, "INFO")
+            elif self.partial_successful_activation:
+                self.msg = "The requested image with id '{0}' activated partially on some devices in the Cisco Catalyst Center.".format(image_id)
+                self.log(self.msg, "INFO")
+            else:
+                self.msg = "The requested image with id '{0}' failed to activate on devices in the Cisco Catalyst Center.".format(image_id)
+                self.log(self.msg, "INFO")
+
+        return self
+
 
 def main():
     """ main entry point for module execution
@@ -1377,6 +1513,7 @@ def main():
                     'dnac_log_level': {'type': 'str', 'default': 'WARNING'},
                     'dnac_log': {'type': 'bool', 'default': False},
                     'validate_response_schema': {'type': 'bool', 'default': True},
+                    'config_verify': {'type': 'bool', "default": False},
                     'config': {'required': True, 'type': 'list', 'elements': 'dict'},
                     'state': {'default': 'merged', 'choices': ['merged']}
                     }
@@ -1393,12 +1530,16 @@ def main():
         dnac_swims.check_return_status()
 
     dnac_swims.validate_input().check_return_status()
+    config_verify = dnac_swims.params.get("config_verify")
+
     for config in dnac_swims.validated_config:
         dnac_swims.reset_values()
         dnac_swims.get_want(config).check_return_status()
         dnac_swims.get_diff_import().check_return_status()
         dnac_swims.get_have().check_return_status()
         dnac_swims.get_diff_state_apply[state](config).check_return_status()
+        if config_verify:
+            dnac_swims.verify_diff_state_apply[state](config).check_return_status()
 
     module.exit_json(**dnac_swims.result)
 
