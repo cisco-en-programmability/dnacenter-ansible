@@ -516,6 +516,40 @@ class DnacSwims(DnacBase):
 
         return image_id
 
+    def get_image_name_from_id(self, image_id):
+        """
+        Retrieve the unique image name based on the provided image id.
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            id (str): The unique image ID (UUID) of the software image to search for.
+        Returns:
+            str: The image name corresponding to the given unique image ID (UUID)
+        Raises:
+            AnsibleFailJson: If the image is not found in the response.
+        Description:
+            This function sends a request to Cisco Catalyst Center to retrieve details about a software image based on its id.
+            It extracts and returns the image name if a single matching image is found. If no image or multiple
+            images are found with the same name, it raises an exception.
+        """
+
+        image_response = self.dnac._exec(
+            family="software_image_management_swim",
+            function='get_software_image_details',
+            params={"image_uuid": image_id},
+        )
+        self.log("Received API response from 'get_software_image_details': {0}".format(str(image_response)), "DEBUG")
+        image_list = image_response.get("response")
+
+        if (len(image_list) == 1):
+            image_name = image_list[0].get("name")
+            self.log("SWIM image '{0}' has been fetched successfully from Cisco Catalyst Center".format(image_name), "INFO")
+        else:
+            error_message = "SWIM image with Id '{0}' could not be found in Cisco Catalyst Center".format(image_id)
+            self.log(error_message, "ERROR")
+            self.module.fail_json(msg=error_message, response=image_response)
+
+        return image_id
+
     def is_image_exist(self, name):
         """
         Retrieve the unique image ID based on the provided image name.
@@ -1379,6 +1413,175 @@ class DnacSwims(DnacBase):
 
         return self
 
+    def verify_diff_imported(self, import_type):
+        """
+        Verify the successful import of a software image into Cisco Catalyst Center.
+        Args:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            import_type (str): The type of import, either 'url' or 'local'.
+        Returns:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+        Description:
+            This method verifies the successful import of a software image into Cisco Catalyst Center.
+            It checks whether the image exists in Catalyst Center based on the provided import type.
+            If the image exists, the status is set to 'success', and a success message is logged.
+            If the image does not exist, a warning message is logged indicating a potential import failure.
+        """
+
+        if import_type == "url":
+            image_name = self.want.get("url_import_details").get("payload")[0].get("source_url")
+        else:
+            image_name = self.want.get("local_import_details").get("file_path")
+
+        # Code to check if the image already exists in Catalyst Center
+        name = image_name.split('/')[-1]
+        image_exist = self.is_image_exist(name)
+        if image_exist:
+            self.status = "success"
+            self.msg = "The requested Image '{0}' imported in the Cisco Catalyst Center and Image presence has been verified.".format(name)
+            self.log(self.msg, "INFO")
+        else:
+            self.log("""The playbook input for SWIM Image '{0}' does not align with the Cisco Catalyst Center, indicating that image
+                        may not have imported successfully.""".format(name), "INFO")
+
+        return self
+
+    def verify_diff_tagged(self):
+        """
+        Verify the Golden tagging status of a software image in Cisco Catalyst Center.
+        Args:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+        Returns:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+        Description:
+            This method verifies the tagging status of a software image in Cisco Catalyst Center.
+            It retrieves tagging details from the input, including the desired tagging status and image ID.
+            Using the provided image ID, it obtains image parameters required for checking the image status.
+            The method then queries Catalyst Center to get the golden tag status of the image.
+            If the image status matches the desired tagging status, a success message is logged.
+            If there is a mismatch between the playbook input and the Catalyst Center, a warning message is logged.
+        """
+
+        tagging_details = self.want.get("tagging_details")
+        tag_image_golden = tagging_details.get("tagging")
+        image_id = self.have.get("tagging_image_id")
+        image_name = self.get_image_name_from_id(image_id)
+
+        image_params = dict(
+            image_id=self.have.get("tagging_image_id"),
+            site_id=self.have.get("site_id"),
+            device_family_identifier=self.have.get("device_family_identifier"),
+            device_role=tagging_details.get("device_role", "ALL").upper()
+        )
+        self.log("Parameters for checking the status of image: {0}".format(str(image_params)), "INFO")
+
+        response = self.dnac._exec(
+            family="software_image_management_swim",
+            function='get_golden_tag_status_of_an_image',
+            op_modifies=True,
+            params=image_params
+        )
+        self.log("Received API response from 'get_golden_tag_status_of_an_image': {0}".format(str(response)), "DEBUG")
+
+        response = response.get('response')
+        if response:
+            image_status = response['taggedGolden']
+            if image_status == tag_image_golden:
+                if tag_image_golden:
+                    self.msg = """The requested image '{0}' has been tagged as golden in the Cisco Catalyst Center and
+                             its status has been successfully verified.""".format(image_name)
+                    self.log(self.msg, "INFO")
+                else:
+                    self.msg = """The requested image '{0}' has been un-tagged as golden in the Cisco Catalyst Center and
+                            image status has been verified.""".format(image_name)
+                    self.log(self.msg, "INFO")
+        else:
+            self.log("""Mismatch between the playbook input for tagging/un-tagging image as golden and the Cisco Catalyst Center indicates that
+                        the tagging/un-tagging task was not executed successfully.""", "INFO")
+
+        return self
+
+    def verify_diff_distributed(self):
+        """
+        Verify the distribution status of a software image in Cisco Catalyst Center.
+        Args:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            import_type (str): The type of import, either 'url' or 'local'.
+        Returns:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+        Description:
+            This method verifies the distribution status of a software image in Cisco Catalyst Center.
+            It retrieves the image ID and name from the input and if distribution device ID is provided, it checks the distribution status for that
+            list of specific device and logs the info message based on distribution status.
+        """
+
+        image_id = self.have.get("distribution_image_id")
+        image_name = self.get_image_name_from_id(image_id)
+
+        if self.have.get("distribution_device_id"):
+            if self.single_device_distribution:
+                self.msg = """The requested image '{0}', associated with the device ID '{1}', has been successfully distributed in the Cisco Catalyst Center
+                     and its status has been verified.""".format(image_name, self.have.get("distribution_device_id"))
+                self.log(self.msg, "INFO")
+            else:
+                self.log("""Mismatch between the playbook input for distributing the image to the device with ID '{0}' and the actual state in the
+                         Cisco Catalyst Center suggests that the distribution task might not have been executed
+                         successfully.""".format(self.have.get("distribution_device_id")), "INFO")
+        elif self.complete_successful_distribution:
+            self.msg = """The requested image '{0}', with ID '{1}', has been successfully distributed to all devices within the specified
+                     site in the Cisco Catalyst Center.""".format(image_name, image_id)
+            self.log(self.msg, "INFO")
+        elif self.partial_successful_distribution:
+            self.msg = """T"The requested image '{0}', with ID '{1}', has been partially distributed across some devices in the Cisco Catalyst
+                     Center.""".format(image_name, image_id)
+            self.log(self.msg, "INFO")
+        else:
+            self.msg = """The requested image '{0}', with ID '{1}', failed to be distributed across devices in the Cisco Catalyst
+                     Center.""".format(image_name, image_id)
+            self.log(self.msg, "INFO")
+
+        return self
+
+    def verify_diff_activated(self):
+        """
+        Verify the activation status of a software image in Cisco Catalyst Center.
+        Args:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+        Returns:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+        Description:
+            This method verifies the activation status of a software image in Cisco Catalyst Center and retrieves the image ID and name from
+            the input. If activation device ID is provided, it checks the activation status for that specific device. Based on activation status
+            a corresponding message is logged.
+        """
+
+        image_id = self.have.get("activation_image_id")
+        image_name = self.get_image_name_from_id(image_id)
+
+        if self.have.get("activation_device_id"):
+            if self.single_device_activation:
+                self.msg = """The requested image '{0}', associated with the device ID '{1}', has been successfully activated in the Cisco Catalyst
+                         Center and its status has been verified.""".format(image_name, self.have.get("activation_device_id"))
+                self.log(self.msg, "INFO")
+            else:
+                self.log("""Mismatch between the playbook's input for activating the image '{0}' on the device with ID '{1}' and the actual state in
+                         the Cisco Catalyst Center suggests that the activation task might not have been executed
+                         successfully.""".format(image_name, self.have.get("activation_device_id")), "INFO")
+        elif self.complete_successful_activation:
+            self.msg = """The requested image '{0}', with ID '{1}', has been successfully activated on all devices within the specified site in the
+                     Cisco Catalyst Center.""".format(image_name, image_id)
+            self.log(self.msg, "INFO")
+        elif self.partial_successful_activation:
+            self.msg = """"The requested image '{0}', with ID '{1}', has been partially activated on some devices in the Cisco
+                     Catalyst Center.""".format(image_name, image_id)
+            self.log(self.msg, "INFO")
+        else:
+            self.msg = """The activation of the requested image '{0}', with ID '{1}', failed on devices in the Cisco
+                     Catalyst Center.""".format(image_name, image_id)
+            self.log(self.msg, "INFO")
+
+        return self
+
     def verify_diff_merged(self, config):
         """
         Verify the merged status(Importing/Tagging/Distributing/Actiavting) the SWIM Image in devices in Cisco Catalyst Center.
@@ -1398,103 +1601,20 @@ class DnacSwims(DnacBase):
         self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
 
         import_type = self.want.get("import_type")
-
         if import_type:
-            if import_type == "url":
-                image_name = self.want.get("url_import_details").get("payload")[0].get("source_url")
-            else:
-                image_name = self.want.get("local_import_details").get("file_path")
+            self.verify_diff_imported(import_type).check_return_status()
 
-            # Code to check if the image already exists in Catalyst Center
-            name = image_name.split('/')[-1]
-            image_exist = self.is_image_exist(name)
-            if image_exist:
-                self.status = "success"
-                self.msg = "The requested Image '{0}' imported in the Cisco Catalyst Center and Image presence has been verified.".format(name)
-                self.log(self.msg, "INFO")
-            else:
-                self.log("""The playbook input for SWIM Image '{0}' does not align with the Cisco Catalyst Center, indicating that image
-                         may not have imported successfully.""".format(name), "INFO")
+        tagged = self.want.get("tagging_details")
+        if tagged:
+            self.verify_diff_tagged().check_return_status()
 
-        if self.want.get("tagging_details"):
-            tagging_details = self.want.get("tagging_details")
-            tag_image_golden = tagging_details.get("tagging")
+        distribution_details = self.want.get("distribution_details")
+        if distribution_details:
+            self.verify_diff_distributed().check_return_status()
 
-            image_params = dict(
-                image_id=self.have.get("tagging_image_id"),
-                site_id=self.have.get("site_id"),
-                device_family_identifier=self.have.get("device_family_identifier"),
-                device_role=tagging_details.get("device_role", "ALL").upper()
-            )
-            self.log("Parameters for checking the status of image: {0}".format(str(image_params)), "INFO")
-
-            response = self.dnac._exec(
-                family="software_image_management_swim",
-                function='get_golden_tag_status_of_an_image',
-                op_modifies=True,
-                params=image_params
-            )
-            self.log("Received API response from 'get_golden_tag_status_of_an_image': {0}".format(str(response)), "DEBUG")
-
-            response = response.get('response')
-            if response:
-                image_status = response['taggedGolden']
-                if image_status == tag_image_golden:
-                    if tag_image_golden:
-                        self.msg = """The requested image '{0}' has been tagged as golden in the Cisco Catalyst Center and image status
-                                has been verified.""".format(name)
-                        self.log(self.msg, "INFO")
-                    else:
-                        self.msg = """The requested image '{0}' has been un-tagged as golden in the Cisco Catalyst Center and
-                                image status has been verified.""".format(name)
-                        self.log(self.msg, "INFO")
-            else:
-                self.log("""Mismatch between the playbook input for tagging/un-tagging image as golden and the Cisco Catalyst Center indicates that
-                         the tagging/un-tagging task was not executed successfully.""", "INFO")
-
-        if self.want.get("distribution_details"):
-            image_id = self.have.get("distribution_image_id")
-
-            if self.have.get("distribution_device_id"):
-                if self.single_device_distribution:
-                    self.msg = """The requested image with device id '{0}' has been distributed successfully in the Cisco Catalyst Center and
-                             image status has been verified.""".format(self.have.get("distribution_device_id"))
-                    self.log(self.msg, "INFO")
-                else:
-                    self.log("""Mismatch between the playbook input for distributing image to device with id '{0}' and the Cisco Catalyst Center indicates that
-                         the distribution task was not executed successfully.""".format(self.have.get("distribution_device_id")), "INFO")
-            elif self.complete_successful_distribution:
-                self.msg = """The requested image with id '{0}' distributed successfully on all devices in that particular site
-                         in the Cisco Catalyst Center.""".format(image_id)
-                self.log(self.msg, "INFO")
-            elif self.partial_successful_distribution:
-                self.msg = "The requested image with id '{0}' distributed partially on some devices in the Cisco Catalyst Center.".format(image_id)
-                self.log(self.msg, "INFO")
-            else:
-                self.msg = "The requested image with id '{0}' failed to distributed on devices in the Cisco Catalyst Center.".format(image_id)
-                self.log(self.msg, "INFO")
-
-        if self.want.get("activation_details"):
-            image_id = self.have.get("activation_image_id")
-
-            if self.have.get("activation_device_id"):
-                if self.single_device_activation:
-                    self.msg = """The requested image with device id '{0}' has been activated successfully in the Cisco Catalyst Center and
-                             image status has been verified.""".format(self.have.get("activation_device_id"))
-                    self.log(self.msg, "INFO")
-                else:
-                    self.log("""Mismatch between the playbook input for activating image to device with id '{0}' and the Cisco Catalyst Center indicates that
-                         the activation task was not executed successfully.""".format(self.have.get("activation_device_id")), "INFO")
-            elif self.complete_successful_activation:
-                self.msg = """The requested image with id '{0}' activated successfully on all devices in that particular site
-                         in the Cisco Catalyst Center.""".format(image_id)
-                self.log(self.msg, "INFO")
-            elif self.partial_successful_activation:
-                self.msg = "The requested image with id '{0}' activated partially on some devices in the Cisco Catalyst Center.".format(image_id)
-                self.log(self.msg, "INFO")
-            else:
-                self.msg = "The requested image with id '{0}' failed to activate on devices in the Cisco Catalyst Center.".format(image_id)
-                self.log(self.msg, "INFO")
+        activation_details = self.want.get("activation_details")
+        if activation_details:
+            self.verify_diff_activated().check_return_status()
 
         return self
 
