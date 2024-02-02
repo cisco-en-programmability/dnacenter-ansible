@@ -778,3 +778,9 @@ releases:
           - Set dnac log level if it is not set in the playbook.
           - Handle provisioning of device if it is not in managed state for longer.
           - Set the logging levels for device credentails intent module.
+    6.10.3:
+      release_date: "2024-01-30"
+      changes:
+        release_summary: Fixing swim_import_local action.
+        minor_changes:
+          - Building additional parameters needed in sdk.
