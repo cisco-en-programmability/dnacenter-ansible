@@ -40,7 +40,8 @@ options:
     required: True
     suboptions:
       cli_transport:
-        description: Device's cli transport protocol(ssh/telnet). Required for Adding Network Devices.
+        description: The essential prerequisite for adding Network devices is the specification of the transport
+            protocol (either SSH or Telnet) used by the device.
         type: str
       compute_device:
         description: Compute Device flag.
@@ -2512,62 +2513,104 @@ class DnacDevice(DnacBase):
                 self.check_return_status()
                 csv_reader = self.decrypt_and_read_csv(export_response, password)
                 self.check_return_status()
-                device_data = next(csv_reader, None)
-                playbook_params = self.want.get("device_params")
-                playbook_params['ipAddress'] = device_to_update
+                device_details = {}
 
-                if not playbook_params['cliTransport']:
-                    playbook_params['cliTransport'] = device_data['protocol']
-                if not playbook_params['snmpPrivProtocol']:
-                    playbook_params['snmpPrivProtocol'] = device_data['snmpv3_privacy_type']
+                for row in csv_reader:
+                    ip_address = row['ip_address']
+                    device_details[ip_address] = row
 
-                csv_data_dict = {
-                    'username': device_data['cli_username'],
-                    'password': device_data['cli_password'],
-                    'enable_password': device_data['cli_enable_password'],
-                }
+                for device_ip in device_to_update:
+                    playbook_params = self.want.get("device_params").copy()
+                    playbook_params['ipAddress'] = [device_ip]
+                    device_data = device_details[device_ip]
 
-                if device_data['snmp_version'] == '3':
-                    csv_data_dict['snmp_username'] = device_data['snmpv3_user_name']
-                    if device_data['snmpv3_privacy_password']:
-                        csv_data_dict['snmp_auth_passphrase'] = device_data['snmpv3_auth_password']
-                        csv_data_dict['snmp_priv_passphrase'] = device_data['snmpv3_privacy_password']
+                    if not playbook_params['cliTransport']:
+                        playbook_params['cliTransport'] = device_data['protocol']
+                    if not playbook_params['snmpPrivProtocol']:
+                        playbook_params['snmpPrivProtocol'] = device_data['snmpv3_privacy_type']
 
-                device_key_mapping = {
-                    'username': 'userName',
-                    'password': 'password',
-                    'enable_password': 'enablePassword',
-                    'snmp_username': 'snmpUserName'
-                }
-                device_update_key_list = ["username", "password", "enable_password", "snmp_username"]
+                    csv_data_dict = {
+                        'username': device_data['cli_username'],
+                        'password': device_data['cli_password'],
+                        'enable_password': device_data['cli_enable_password'],
+                    }
 
-                for key in device_update_key_list:
-                    mapped_key = device_key_mapping[key]
+                    if device_data['snmp_version'] == '3':
+                        csv_data_dict['snmp_username'] = device_data['snmpv3_user_name']
+                        if device_data['snmpv3_privacy_password']:
+                            csv_data_dict['snmp_auth_passphrase'] = device_data['snmpv3_auth_password']
+                            csv_data_dict['snmp_priv_passphrase'] = device_data['snmpv3_privacy_password']
 
-                    if playbook_params[mapped_key] is None:
-                        if playbook_params['snmpMode'] == "AUTHPRIV":
-                            playbook_params['snmpAuthPassphrase'] = csv_data_dict['snmp_auth_passphrase']
-                            playbook_params['snmpPrivPassphrase'] = csv_data_dict['snmp_priv_passphrase']
-                        playbook_params[mapped_key] = csv_data_dict[key]
+                    device_key_mapping = {
+                        'username': 'userName',
+                        'password': 'password',
+                        'enable_password': 'enablePassword',
+                        'snmp_username': 'snmpUserName'
+                    }
+                    device_update_key_list = ["username", "password", "enable_password", "snmp_username"]
 
-                if playbook_params['snmpMode'] == "NOAUTHNOPRIV":
-                    playbook_params.pop('snmpAuthPassphrase', None)
-                    playbook_params.pop('snmpPrivPassphrase', None)
-                    playbook_params.pop('snmpPrivProtocol', None)
-                    playbook_params.pop('snmpAuthProtocol', None)
-                elif playbook_params['snmpMode'] == "AUTHNOPRIV":
-                    playbook_params.pop('snmpPrivPassphrase', None)
-                    playbook_params.pop('snmpPrivProtocol', None)
+                    for key in device_update_key_list:
+                        mapped_key = device_key_mapping[key]
 
-                try:
-                    if playbook_params['updateMgmtIPaddressList']:
-                        new_mgmt_ipaddress = playbook_params['updateMgmtIPaddressList'][0]['newMgmtIpAddress']
-                        if new_mgmt_ipaddress in self.have['device_in_dnac']:
-                            self.status = "failed"
-                            self.msg = "Device with IP address '{0}' already exists in inventory".format(new_mgmt_ipaddress)
-                            self.log(self.msg, "ERROR")
-                            self.result['response'] = self.msg
+                        if playbook_params[mapped_key] is None:
+                            if playbook_params['snmpMode'] == "AUTHPRIV":
+                                playbook_params['snmpAuthPassphrase'] = csv_data_dict['snmp_auth_passphrase']
+                                playbook_params['snmpPrivPassphrase'] = csv_data_dict['snmp_priv_passphrase']
+                            playbook_params[mapped_key] = csv_data_dict[key]
+
+                    if playbook_params['snmpMode'] == "NOAUTHNOPRIV":
+                        playbook_params.pop('snmpAuthPassphrase', None)
+                        playbook_params.pop('snmpPrivPassphrase', None)
+                        playbook_params.pop('snmpPrivProtocol', None)
+                        playbook_params.pop('snmpAuthProtocol', None)
+                    elif playbook_params['snmpMode'] == "AUTHNOPRIV":
+                        playbook_params.pop('snmpPrivPassphrase', None)
+                        playbook_params.pop('snmpPrivProtocol', None)
+
+                    try:
+                        if playbook_params['updateMgmtIPaddressList']:
+                            new_mgmt_ipaddress = playbook_params['updateMgmtIPaddressList'][0]['newMgmtIpAddress']
+                            if new_mgmt_ipaddress in self.have['device_in_dnac']:
+                                self.status = "failed"
+                                self.msg = "Device with IP address '{0}' already exists in inventory".format(new_mgmt_ipaddress)
+                                self.log(self.msg, "ERROR")
+                                self.result['response'] = self.msg
+                            else:
+                                self.log("Playbook parameter for updating device new management ip address: {0}".format(str(playbook_params)), "DEBUG")
+                                response = self.dnac._exec(
+                                    family="devices",
+                                    function='sync_devices',
+                                    op_modifies=True,
+                                    params=playbook_params,
+                                )
+                                self.log("Received API response from 'sync_devices': {0}".format(str(response)), "DEBUG")
+
+                                if response and isinstance(response, dict):
+                                    task_id = response.get('response').get('taskId')
+
+                                    while True:
+                                        execution_details = self.get_task_details(task_id)
+                                        if execution_details.get("isError"):
+                                            self.status = "failed"
+                                            failure_reason = execution_details.get("failureReason")
+                                            if failure_reason:
+                                                self.msg = """Device new management IP updation for device '{0}'
+                                                         get failed due to {1}""".format(device_ip, failure_reason)
+                                            else:
+                                                self.msg = "Device new management IP updation for device '{0}' get failed".format(device_ip)
+                                            self.log(self.msg, "ERROR")
+                                            break
+                                        elif execution_details.get("endTime"):
+                                            self.status = "success"
+                                            self.result['changed'] = True
+                                            self.result['response'] = execution_details
+                                            self.msg = """Device '{0}' present in Cisco Catalyst Center and new management ip '{1}' have been
+                                                     updated successfully""".format(device_ip, new_mgmt_ipaddress)
+                                            self.log(self.msg, "INFO")
+                                            break
+
                         else:
+                            self.log("Playbook parameter for updating devices: {0}".format(str(playbook_params)), "DEBUG")
                             response = self.dnac._exec(
                                 family="devices",
                                 function='sync_devices',
@@ -2581,59 +2624,28 @@ class DnacDevice(DnacBase):
 
                                 while True:
                                     execution_details = self.get_task_details(task_id)
+
                                     if execution_details.get("isError"):
                                         self.status = "failed"
                                         failure_reason = execution_details.get("failureReason")
                                         if failure_reason:
-                                            self.msg = "Device Updation get failed because of {0}".format(failure_reason)
+                                            self.msg = "Device Updation for device '{0}' get failed due to {1}".format(device_ip, failure_reason)
                                         else:
-                                            self.msg = "Device Updation get failed"
+                                            self.msg = "Device Updation for device '{0}' get failed".format(device_ip)
                                         self.log(self.msg, "ERROR")
                                         break
                                     elif execution_details.get("endTime"):
                                         self.status = "success"
                                         self.result['changed'] = True
                                         self.result['response'] = execution_details
-                                        self.msg = "Devices {0} present in Cisco Catalyst Center and updated successfully".format(str(device_to_update))
+                                        self.msg = "Device '{0}' present in Cisco Catalyst Center and have been updated successfully".format(device_ip)
                                         self.log(self.msg, "INFO")
                                         break
 
-                    else:
-                        response = self.dnac._exec(
-                            family="devices",
-                            function='sync_devices',
-                            op_modifies=True,
-                            params=playbook_params,
-                        )
-                        self.log("Received API response from 'sync_devices': {0}".format(str(response)), "DEBUG")
-
-                        if response and isinstance(response, dict):
-                            task_id = response.get('response').get('taskId')
-
-                            while True:
-                                execution_details = self.get_task_details(task_id)
-
-                                if execution_details.get("isError"):
-                                    self.status = "failed"
-                                    failure_reason = execution_details.get("failureReason")
-                                    if failure_reason:
-                                        self.msg = "Device Updation get failed because of {0}".format(failure_reason)
-                                    else:
-                                        self.msg = "Device Updation get failed"
-                                    self.log(self.msg, "ERROR")
-                                    break
-                                elif execution_details.get("endTime"):
-                                    self.status = "success"
-                                    self.result['changed'] = True
-                                    self.result['response'] = execution_details
-                                    self.msg = "Devices {0} present in Cisco Catalyst Center and updated successfully".format(str(device_to_update))
-                                    self.log(self.msg, "INFO")
-                                    break
-
-                except Exception as e:
-                    error_message = "Error while updating device in Cisco Catalyst Center: {0}".format(str(e))
-                    self.log(error_message, "ERROR")
-                    raise Exception(error_message)
+                    except Exception as e:
+                        error_message = "Error while updating device in Cisco Catalyst Center: {0}".format(str(e))
+                        self.log(error_message, "ERROR")
+                        raise Exception(error_message)
 
             if self.config[0].get('update_interface_details'):
                 # Call the Get interface details by device IP API and fetch the interface Id
