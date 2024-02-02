@@ -174,7 +174,7 @@ class DnacBase():
         level = level_mapping.get(self.dnac_log_level, logging.WARNING)
 
         logger = logging.getLogger(logger_name)
-        formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(module)s:%(funcName)s:%(lineno)d --- %(message)s', datefmt='%m-%d-%Y %H:%M:%S')
+        formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(module)s: %(funcName)s: %(lineno)d --- %(message)s', datefmt='%m-%d-%Y %H:%M:%S')
 
         file_handler = logging.FileHandler(self.dnac_log_file_path, mode=self.dnac_log_mode)
         file_handler.setFormatter(formatter)
