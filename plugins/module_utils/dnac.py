@@ -68,20 +68,20 @@ class DnacBase():
 
         if self.dnac_log and not DnacBase.__is_log_init:
             self.dnac_log_level = dnac_params.get("dnac_log_level") or 'WARNING'
-            self.validate_dnac_log_level()
             self.dnac_log_level = self.dnac_log_level.upper()
+            self.validate_dnac_log_level()
             self.dnac_log_file_path = dnac_params.get("dnac_log_file_path") or 'dnac.log'
             self.validate_dnac_log_file_path()
             self.dnac_log_mode = 'w' if not dnac_params.get("dnac_log_append") else 'a'
-            self.setup_logger('dnac_file_logger')
-            self.dnac_file_logger = logging.getLogger('dnac_file_logger')
+            self.setup_logger('logger')
+            self.logger = logging.getLogger('logger')
             DnacBase.__is_log_init = True
-            self.dnac_file_logger.debug('Logging configured and initiated')
+            self.log('Logging configured and initiated', "DEBUG")
         elif not self.dnac_log:
             # If dnac_log is False, return an empty logger
-            self.dnac_file_logger = logging.getLogger('empty_logger')
+            self.logger = logging.getLogger('empty_logger')
 
-        self.dnac_file_logger.debug('Dnac parameters: %s', str(dnac_params))
+        self.log('Dnac parameters: {0}'.format(dnac_params), "DEBUG")
         self.supported_states = ["merged", "deleted", "replaced", "overridden", "gathered", "rendered", "parsed"]
         self.result = {"changed": False, "diff": [], "response": [], "warnings": []}
 
@@ -174,7 +174,8 @@ class DnacBase():
         level = level_mapping.get(self.dnac_log_level, logging.WARNING)
 
         logger = logging.getLogger(logger_name)
-        formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(module)s: %(funcName)s: %(lineno)d --- %(message)s', datefmt='%m-%d-%Y %H:%M:%S')
+        # formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(module)s: %(funcName)s: %(lineno)d --- %(message)s', datefmt='%m-%d-%Y %H:%M:%S')
+        formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s', datefmt='%m-%d-%Y %H:%M:%S')
 
         file_handler = logging.FileHandler(self.dnac_log_file_path, mode=self.dnac_log_mode)
         file_handler.setFormatter(formatter)
@@ -210,19 +211,21 @@ class DnacBase():
         """
 
         if self.dnac_log:
-            message = "Module: " + self.__class__.__name__ + ", " + message
-            callerframerecord = inspect.stack()[frameIncrement]
+            # of.write("---- %s ---- %s@%s ---- %s \n" % (d, info.lineno, info.function, msg))
+            # message = "Module: " + self.__class__.__name__ + ", " + message
+            class_name = self.__class__.__name__
+            callerframerecord = inspect.stack()[1 + frameIncrement]
             frame = callerframerecord[0]
             info = inspect.getframeinfo(frame)
-            # log_message = "{0}@{1} --- {2}".format(info.lineno, info.function, message)
-            log_method = getattr(self.dnac_file_logger, level.lower())
-            log_method(message)
+            log_message = " %s: %s: %s: %s \n" % (class_name, info.function, info.lineno, message)
+            log_method = getattr(self.logger, level.lower())
+            log_method(log_message)
 
     def check_return_status(self):
         """API to check the return status value and exit/fail the module"""
 
         # self.log("status: {0}, msg:{1}".format(self.status, self.msg), frameIncrement=1)
-        self.dnac_file_logger.debug("status: %s, msg: %s", self.status, self.msg)
+        self.log("status: {0}, msg: {1}".format(self.status, self.msg), "DEBUG")
         if "failed" in self.status:
             self.module.fail_json(msg=self.msg, response=[])
         elif "exited" in self.status:
@@ -288,7 +291,7 @@ class DnacBase():
         )
 
         self.log('Task Details: {0}'.format(str(response)), 'DEBUG')
-        self.dnac_file_logger.debug("Retrieving task details by the API 'get_task_by_id' using task ID: %s, Response: %s", str(task_id), str(response))
+        self.log("Retrieving task details by the API 'get_task_by_id' using task ID: {0}, Response: {1}".format(task_id, response), "DEBUG")
 
         if response and isinstance(response, dict):
             result = response.get('response')
@@ -327,7 +330,7 @@ class DnacBase():
         task_id = response.get("taskId")
         while True:
             task_details = self.get_task_details(task_id)
-            self.dnac_file_logger.debug('Getting task details from task ID %s: %s', task_id, str(task_details))
+            self.log('Getting task details from task ID {0}: {1}'.format(task_id, task_details), "DEBUG")
 
             if task_details.get("isError") is True:
                 if task_details.get("failureReason"):
@@ -344,7 +347,7 @@ class DnacBase():
                 self.status = "success"
                 break
 
-            self.dnac_file_logger.debug("progress set to %s for taskid: %s", task_details.get('progress'), task_id)
+            self.log("progress set to {0} for taskid: {1}".format(task_details.get('progress'), task_id), "DEBUG")
 
         return self
 
@@ -365,13 +368,13 @@ class DnacBase():
             response (dict) - Status for API execution
         """
 
-        self.dnac_file_logger.debug("Execution Id %s", str(execid))
+        self.log("Execution Id: {0}".format(execid), "DEBUG")
         response = self.dnac._exec(
             family="task",
             function='get_business_api_execution_details',
             params={"execution_id": execid}
         )
-        self.dnac_file_logger.debug("Response for the current execution %s", str(response))
+        self.log("Response for the current execution: {0}".format(response))
         return response
 
     def check_execution_response_status(self, response):
@@ -385,7 +388,6 @@ class DnacBase():
             self
         """
 
-        self.dnac_file_logger.debug(str(response))
         if not response:
             self.msg = "response is empty"
             self.status = "failed"
@@ -447,7 +449,7 @@ class DnacBase():
             for key, value in config.items():
                 new_key = re.sub(r'([a-z0-9])([A-Z])', r'\1_\2', key).lower()
                 if new_key != key:
-                    self.dnac_file_logger.debug("%s will be deprecated soon. Please use %s.", key, new_key)
+                    self.log("{0} will be deprecated soon. Please use {1}.".format(key, new_key), "DEBUG")
                 new_value = self.camel_to_snake_case(value)
                 new_config[new_key] = new_value
         elif isinstance(config, list):
