@@ -372,7 +372,7 @@ class DnacDiscovery(DnacBase):
                                                  'elements': 'str'}
             discovery_spec["discovery_type"] = {'type': 'str', 'required': True}
 
-        if state == "deleted":
+        elif state == "deleted":
             if self.config[0].get("delete_all") is True:
                 self.validated_config = [{"delete_all": True}]
                 self.msg = "Sucessfully collected input for deletion of all the discoveries"
