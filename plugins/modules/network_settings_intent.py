@@ -27,16 +27,19 @@ author: Muthu Rakesh (@MUTHU-RAKESH-27)
 options:
   dnac_log_file_path:
     description:
-    - Controls the logging behavior.
-    - Logs will be recorded only if dnac_log is set to True.
-    - If the path is unspecified,
-    - When dnac_log_append is True, a dnac.log file will be generated in the current Ansible running directory, and logs will be appended.
-    - When dnac_log_append is False, a dnac.log file will be generated, and logs will be overwritten.
-    - If a path is specified,
-    - When dnac_log_append is True, the file will open in append mode.
-    - When dnac_log_append is False, the file will open in write (w) mode.
-    - In scenarios with a single file shared among multiple modules, without append mode, the file content will be overwritten after each module execution.
-    - For a shared log file, setting append mode to False for the first module (to overwrite the file), and for all subsequent modules, set append mode to true.
+        - Governs logging. Logs are recorded if dnac_log is True.
+        - If unspecified,
+        - When 'dnac_log_append' is True, 'dnac.log' is generated in the
+            current Ansible directory; logs are appended.
+        - When 'dnac_log_append' is False, 'dnac.log' is generated; logs
+            are overwritten.
+        - If a path is specified,
+        - When 'dnac_log_append' is True, the file opens in append mode.
+        - When 'dnac_log_append' is False, the file opens in write (w) mode.
+        - In shared file scenarios, without append mode, content is
+            overwritten after each module execution.
+        - For a shared log file, set append to False for the 1st module
+            (to overwrite); for subsequent modules, set append to True.
     type: str
     default: dnac.log
   dnac_log_append:
