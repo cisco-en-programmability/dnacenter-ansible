@@ -491,11 +491,13 @@ class DnacDiscovery(DnacBase):
                 self.preprocess_device_discovery_handle_error()
         elif discovery_type == "CIDR":
             if len(ip_address_list) == 1:
-                if len(ip_address_list[0].split("/")) == 2:
-                    ip_address_list = ip_address_list[0]
+                cidr_notation = ip_address_list[0]
+                if len(cidr_notation.split("/")) == 2:
+                    ip_address_list = cidr_notation
                 else:
-                    ip_address_list = str(ip_address_list[0]) + "/" + str("30")
-                    self.log("Prefix length is not given, hence taking 30 as default", "WARNING")
+                    ip_address_list = "{0}/30".format(cidr_notation)
+                    self.log("CIDR notation is being used for discovery and it requires a prefix length to be specified, such as 1.1.1.1/24.\
+                        As no prefix length was provided, it will default to 30.", "WARNING")
             else:
                 self.preprocess_device_discovery_handle_error()
         elif discovery_type == "RANGE":
