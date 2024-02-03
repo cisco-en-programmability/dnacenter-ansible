@@ -372,11 +372,12 @@ class DnacDiscovery(DnacBase):
                                                  'elements': 'str'}
             discovery_spec["discovery_type"] = {'type': 'str', 'required': True}
 
-        if (self.config[0].get("delete_all") is True and state == "deleted"):
-            self.validated_config = [{"delete_all": True}]
-            self.msg = "Sucessfully collected input for deletion of all the discoveries"
-            self.log(self.msg, "WARNING")
-            return self
+        if state == "deleted":
+            if self.config[0].get("delete_all") is True:
+                self.validated_config = [{"delete_all": True}]
+                self.msg = "Sucessfully collected input for deletion of all the discoveries"
+                self.log(self.msg, "WARNING")
+                return self
 
         # Validate discovery params
         valid_discovery, invalid_params = validate_list_of_dicts(
@@ -494,6 +495,7 @@ class DnacDiscovery(DnacBase):
                     ip_address_list = ip_address_list[0]
                 else:
                     ip_address_list = str(ip_address_list[0]) + "/" + str("30")
+                    self.log("Prefix length is not given, hence taking 30 as default", "WARNING")
             else:
                 self.preprocess_device_discovery_handle_error()
         elif discovery_type == "RANGE":
@@ -906,7 +908,7 @@ class DnacDiscovery(DnacBase):
             discovery_task_id = self.delete_exist_discovery(params=params)
             complete_discovery = self.get_task_status(task_id=discovery_task_id)
             self.result["changed"] = True
-            self.result['msg'] = "Discovery Deleted Successfully"
+            self.result['msg'] = "Successfully deleted discovery"
             self.result['diff'] = self.validated_config
             self.result['response'] = discovery_task_id
 
