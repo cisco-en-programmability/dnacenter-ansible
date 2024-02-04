@@ -331,7 +331,26 @@ EXAMPLES = r"""
         device_role: string
         device_type: string
         site_name: string
-        tagging: bool
+        tagging: true
+
+- name: Un-tagged the given image as golden and load it on device
+  cisco.dnac.swim_intent:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
+    dnac_log: True
+    config:
+    - tagging_details:
+        image_name: string
+        device_role: string
+        device_type: string
+        site_name: string
+        tagging: false
 
 - name: Distribute the given image on devices associated to that site with specified role.
   cisco.dnac.swim_intent:
@@ -1027,6 +1046,41 @@ class DnacSwims(DnacBase):
 
         tagging_details = self.want.get("tagging_details")
         tag_image_golden = tagging_details.get("tagging")
+        image_name = self.get_image_name_from_id(self.have.get("tagging_image_id"))
+
+        image_params = dict(
+            image_id=self.have.get("tagging_image_id"),
+            site_id=self.have.get("site_id"),
+            device_family_identifier=self.have.get("device_family_identifier"),
+            device_role=tagging_details.get("device_role", "ALL").upper()
+        )
+
+        response = self.dnac._exec(
+            family="software_image_management_swim",
+            function='get_golden_tag_status_of_an_image',
+            op_modifies=True,
+            params=image_params
+        )
+        self.log("Received API response from 'get_golden_tag_status_of_an_image': {0}".format(str(response)), "DEBUG")
+
+        response = response.get('response')
+        if response:
+            image_status = response['taggedGolden']
+            if image_status and image_status == tag_image_golden:
+                self.status = "success"
+                self.result['changed'] = False
+                self.msg = "SWIM Image '{0}' already tagged as Golden image in Cisco Catalyst Center".format(image_name)
+                self.result['msg'] = self.msg
+                self.log(self.msg, "INFO")
+                return self
+
+            if not image_status and image_status == tag_image_golden:
+                self.status = "success"
+                self.result['changed'] = False
+                self.msg = "SWIM Image '{0}' already un-tagged from Golden image in Cisco Catalyst Center".format(image_name)
+                self.result['msg'] = self.msg
+                self.log(self.msg, "INFO")
+                return self
 
         if tag_image_golden:
             image_params = dict(
@@ -1046,12 +1100,6 @@ class DnacSwims(DnacBase):
             self.log("Received API response from 'tag_as_golden_image': {0}".format(str(response)), "DEBUG")
 
         else:
-            image_params = dict(
-                image_id=self.have.get("tagging_image_id"),
-                site_id=self.have.get("site_id"),
-                device_family_identifier=self.have.get("device_family_identifier"),
-                device_role=tagging_details.get("device_role", "ALL").upper()
-            )
             self.log("Parameters for un-tagging the image as golden: {0}".format(str(image_params)), "INFO")
 
             response = self.dnac._exec(
