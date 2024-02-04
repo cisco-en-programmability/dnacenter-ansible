@@ -57,14 +57,13 @@ options:
     dnac_log_level:
       description:
         - Sets the threshold for log level. Messages with a level equal to or higher than
-          this will be logged. Levels are listed in order of severity.
+          this will be logged. Levels are listed in order of severity [CRITICAL, ERROR, WARNING, INFO, DEBUG].
         - CRITICAL: Indicates serious errors halting the program. Displays only CRITICAL messages.
         - ERROR: Indicates problems preventing a function. Displays ERROR and CRITICAL messages.
         - WARNING: Indicates potential future issues. Displays WARNING, ERROR, CRITICAL messages.
         - INFO: Tracks normal operation. Displays INFO, WARNING, ERROR, CRITICAL messages.
         - DEBUG: Provides detailed diagnostic info. Displays all log messages.
       type: str
-      choices: [CRITICAL, ERROR, WARNING, INFO, DEBUG]
       default: WARNING
     dnac_log_file_path:
       description:
