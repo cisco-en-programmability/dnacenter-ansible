@@ -30,6 +30,27 @@ author: Madhan Sankaranarayanan (@madhansansel)
         Rishita Chowdhary (@rishitachowdhary)
         Abhishek Maheshwari (@abmahesh)
 options:
+  dnac_log_file_path:
+    description:
+    - Governs logging. Logs are recorded if dnac_log is True.
+    - If unspecified,
+      - When 'dnac_log_append' is True, 'dnac.log' is generated in the
+        current Ansible directory; logs are appended.
+      - When 'dnac_log_append' is False, 'dnac.log' is generated; logs
+        are overwritten.
+    - If a path is specified,
+      - When 'dnac_log_append' is True, the file opens in append mode.
+      - When 'dnac_log_append' is False, the file opens in write (w) mode.
+      - In shared file scenarios, without append mode, content is
+        overwritten after each module execution.
+      - For a shared log file, set append to False for the 1st module
+        (to overwrite); for subsequent modules, set append to True.
+    type: str
+    default: dnac.log
+  dnac_log_append:
+    description: Determines the mode of the file. Set to True for 'append' mode. Set to False for 'write' mode.
+    type: bool
+    default: True
   config_verify:
     description: Set to True to verify the Cisco Catalyst Center config after applying the playbook config.
     type: bool
@@ -1631,6 +1652,8 @@ def main():
                     'dnac_version': {'type': 'str', 'default': '2.2.3.3'},
                     'dnac_debug': {'type': 'bool', 'default': False},
                     'dnac_log_level': {'type': 'str', 'default': 'WARNING'},
+                    "dnac_log_file_path": {"type": 'str', "default": 'dnac.log'},
+                    "dnac_log_append": {"type": 'bool', "default": True},
                     'dnac_log': {'type': 'bool', 'default': False},
                     'validate_response_schema': {'type': 'bool', 'default': True},
                     'config_verify': {'type': 'bool', "default": False},
