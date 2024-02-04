@@ -455,6 +455,27 @@ EXAMPLES = r"""
           new_mgmt_ipaddress: string
         username: string
 
+- name: Update new management IP address of device in inventory
+  cisco.dnac.inventory_intent:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
+    dnac_log: False
+    state: merged
+    config:
+      - device_updated: true
+        ip_address:
+        - string
+        credential_update: true
+        update_mgmt_ipaddresslist:
+        - exist_mgmt_ipaddress: string
+          new_mgmt_ipaddress: string
+
 - name: Associate Wired Devices to site and Provisioned it in Inventory
   cisco.dnac.inventory_intent:
     dnac_host: "{{dnac_host}}"
@@ -2402,6 +2423,170 @@ class DnacDevice(DnacBase):
 
         return True
 
+    def update_interface_detail_of_device(self, device_to_update):
+        """
+        Update interface details for a device in Cisco Catalyst Center.
+        Args:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            device_to_update (list): A list of IP addresses of devices to be updated.
+        Returns:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+        Description:
+            This method updates interface details for devices in Cisco Catalyst Center.
+            It iterates over the list of devices to be updated, retrieves interface parameters from the configuration,
+            calls the update interface details API with the required parameters, and checks the execution response.
+            If the update is successful, it sets the status to 'success' and logs an informational message.
+        """
+
+        # Call the Get interface details by device IP API and fetch the interface Id
+        for device_ip in device_to_update:
+            interface_params = self.config[0].get('update_interface_details')
+            interface_name = interface_params.get('interface_name')
+            device_id = self.get_device_ids([device_ip])
+            interface_id = self.get_interface_from_id_and_name(device_id[0], interface_name)
+            self.check_return_status()
+
+            # Now we call update interface details api with required parameter
+            try:
+                interface_params = self.config[0].get('update_interface_details')
+                temp_params = {
+                    'description': interface_params.get('description', ''),
+                    'adminStatus': interface_params.get('admin_status'),
+                    'voiceVlanId': interface_params.get('voice_vlan_id'),
+                    'vlanId': interface_params.get('vlan_id')
+                }
+                payload_params = {}
+                for key, value in temp_params.items():
+                    if value is not None:
+                        payload_params[key] = value
+
+                update_interface_params = {
+                    'payload': payload_params,
+                    'interface_uuid': interface_id,
+                    'deployment_mode': interface_params.get('deployment_mode', 'Deploy')
+                }
+                response = self.dnac._exec(
+                    family="devices",
+                    function='update_interface_details',
+                    op_modifies=True,
+                    params=update_interface_params,
+                )
+                self.log("Received API response from 'update_interface_details': {0}".format(str(response)), "DEBUG")
+
+                if response and isinstance(response, dict):
+                    task_id = response.get('response').get('taskId')
+
+                    while True:
+                        execution_details = self.get_task_details(task_id)
+
+                        if 'SUCCESS' in execution_details.get("progress"):
+                            self.status = "success"
+                            self.result['changed'] = True
+                            self.result['response'] = execution_details
+                            self.msg = "Updated Interface Details for device '{0}' successfully".format(device_ip)
+                            self.log(self.msg, "INFO")
+                            break
+                        elif execution_details.get("isError"):
+                            self.status = "failed"
+                            failure_reason = execution_details.get("failureReason")
+                            if failure_reason:
+                                self.msg = "Interface Updation get failed because of {0}".format(failure_reason)
+                            else:
+                                self.msg = "Interface Updation get failed"
+                            self.log(self.msg, "ERROR")
+                            break
+
+            except Exception as e:
+                error_message = "Error while updating interface details in Cisco Catalyst Center: {0}".format(str(e))
+                self.log(error_message, "INFO")
+                self.status = "success"
+                self.result['changed'] = False
+                self.msg = "Port actions are only supported on user facing/access ports as it's not allowed or No Updation required"
+                self.log(self.msg, "INFO")
+
+        return self
+
+    def check_managementip_execution_response(self, response, device_ip, new_mgmt_ipaddress):
+        """
+        Check the execution response of a management IP update task.
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            response (dict): The response received after initiating the management IP update task.
+            device_ip (str): The IP address of the device for which the management IP was updated.
+            new_mgmt_ipaddress (str): The new management IP address of the device.
+        Returns:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+        Description:
+            This method checks the execution response of a management IP update task in Cisco Catalyst Center.
+            It continuously queries the task details until the task is completed or an error occurs.
+            If the task is successful, it sets the status to 'success' and logs an informational message.
+            If the task fails, it sets the status to 'failed' and logs an error message with the failure reason, if available.
+        """
+
+        task_id = response.get('response').get('taskId')
+
+        while True:
+            execution_details = self.get_task_details(task_id)
+            if execution_details.get("isError"):
+                self.status = "failed"
+                failure_reason = execution_details.get("failureReason")
+                if failure_reason:
+                    self.msg = "Device new management IP updation for device '{0}' get failed due to {1}".format(device_ip, failure_reason)
+                else:
+                    self.msg = "Device new management IP updation for device '{0}' get failed".format(device_ip)
+                self.log(self.msg, "ERROR")
+                break
+            elif execution_details.get("endTime"):
+                self.status = "success"
+                self.result['changed'] = True
+                self.result['response'] = execution_details
+                self.msg = """Device '{0}' present in Cisco Catalyst Center and new management ip '{1}' have been
+                            updated successfully""".format(device_ip, new_mgmt_ipaddress)
+                self.log(self.msg, "INFO")
+                break
+
+        return self
+
+    def check_device_update_execution_response(self, response, device_ip):
+        """
+        Check the execution response of a device update task.
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            response (dict): The response received after initiating the device update task.
+            device_ip (str): The IP address of the device for which the update is performed.
+        Returns:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+        Description:
+            This method checks the execution response of a device update task in Cisco Catalyst Center.
+            It continuously queries the task details until the task is completed or an error occurs.
+            If the task is successful, it sets the status to 'success' and logs an informational message.
+            If the task fails, it sets the status to 'failed' and logs an error message with the failure reason, if available.
+        """
+
+        task_id = response.get('response').get('taskId')
+
+        while True:
+            execution_details = self.get_task_details(task_id)
+
+            if execution_details.get("isError"):
+                self.status = "failed"
+                failure_reason = execution_details.get("failureReason")
+                if failure_reason:
+                    self.msg = "Device Updation for device '{0}' get failed due to {1}".format(device_ip, failure_reason)
+                else:
+                    self.msg = "Device Updation for device '{0}' get failed".format(device_ip)
+                self.log(self.msg, "ERROR")
+                break
+            elif execution_details.get("endTime"):
+                self.status = "success"
+                self.result['changed'] = True
+                self.result['response'] = execution_details
+                self.msg = "Device '{0}' present in Cisco Catalyst Center and have been updated successfully".format(device_ip)
+                self.log(self.msg, "INFO")
+                break
+
+        return self
+
     def get_want(self, config):
         """
         Get all the device related information from playbook that is needed to be
@@ -2586,28 +2771,8 @@ class DnacDevice(DnacBase):
                                 self.log("Received API response from 'sync_devices': {0}".format(str(response)), "DEBUG")
 
                                 if response and isinstance(response, dict):
-                                    task_id = response.get('response').get('taskId')
-
-                                    while True:
-                                        execution_details = self.get_task_details(task_id)
-                                        if execution_details.get("isError"):
-                                            self.status = "failed"
-                                            failure_reason = execution_details.get("failureReason")
-                                            if failure_reason:
-                                                self.msg = """Device new management IP updation for device '{0}'
-                                                         get failed due to {1}""".format(device_ip, failure_reason)
-                                            else:
-                                                self.msg = "Device new management IP updation for device '{0}' get failed".format(device_ip)
-                                            self.log(self.msg, "ERROR")
-                                            break
-                                        elif execution_details.get("endTime"):
-                                            self.status = "success"
-                                            self.result['changed'] = True
-                                            self.result['response'] = execution_details
-                                            self.msg = """Device '{0}' present in Cisco Catalyst Center and new management ip '{1}' have been
-                                                     updated successfully""".format(device_ip, new_mgmt_ipaddress)
-                                            self.log(self.msg, "INFO")
-                                            break
+                                    self.check_managementip_execution_response(response, device_ip, new_mgmt_ipaddress)
+                                    self.check_return_status()
 
                         else:
                             self.log("Playbook parameter for updating devices: {0}".format(str(playbook_params)), "DEBUG")
@@ -2620,27 +2785,8 @@ class DnacDevice(DnacBase):
                             self.log("Received API response from 'sync_devices': {0}".format(str(response)), "DEBUG")
 
                             if response and isinstance(response, dict):
-                                task_id = response.get('response').get('taskId')
-
-                                while True:
-                                    execution_details = self.get_task_details(task_id)
-
-                                    if execution_details.get("isError"):
-                                        self.status = "failed"
-                                        failure_reason = execution_details.get("failureReason")
-                                        if failure_reason:
-                                            self.msg = "Device Updation for device '{0}' get failed due to {1}".format(device_ip, failure_reason)
-                                        else:
-                                            self.msg = "Device Updation for device '{0}' get failed".format(device_ip)
-                                        self.log(self.msg, "ERROR")
-                                        break
-                                    elif execution_details.get("endTime"):
-                                        self.status = "success"
-                                        self.result['changed'] = True
-                                        self.result['response'] = execution_details
-                                        self.msg = "Device '{0}' present in Cisco Catalyst Center and have been updated successfully".format(device_ip)
-                                        self.log(self.msg, "INFO")
-                                        break
+                                self.check_device_update_execution_response(response, device_ip)
+                                self.check_return_status()
 
                     except Exception as e:
                         error_message = "Error while updating device in Cisco Catalyst Center: {0}".format(str(e))
@@ -2648,71 +2794,7 @@ class DnacDevice(DnacBase):
                         raise Exception(error_message)
 
             if self.config[0].get('update_interface_details'):
-                # Call the Get interface details by device IP API and fetch the interface Id
-                for device_ip in device_to_update:
-                    interface_params = self.config[0].get('update_interface_details')
-                    interface_name = interface_params.get('interface_name')
-                    device_id = self.get_device_ids([device_ip])
-                    interface_id = self.get_interface_from_id_and_name(device_id[0], interface_name)
-                    self.check_return_status()
-
-                    # Now we call update interface details api with required parameter
-                    try:
-                        interface_params = self.config[0].get('update_interface_details')
-                        temp_params = {
-                            'description': interface_params.get('description', ''),
-                            'adminStatus': interface_params.get('admin_status'),
-                            'voiceVlanId': interface_params.get('voice_vlan_id'),
-                            'vlanId': interface_params.get('vlan_id')
-                        }
-                        payload_params = {}
-                        for key, value in temp_params.items():
-                            if value is not None:
-                                payload_params[key] = value
-
-                        update_interface_params = {
-                            'payload': payload_params,
-                            'interface_uuid': interface_id,
-                            'deployment_mode': interface_params.get('deployment_mode', 'Deploy')
-                        }
-                        response = self.dnac._exec(
-                            family="devices",
-                            function='update_interface_details',
-                            op_modifies=True,
-                            params=update_interface_params,
-                        )
-                        self.log("Received API response from 'update_interface_details': {0}".format(str(response)), "DEBUG")
-
-                        if response and isinstance(response, dict):
-                            task_id = response.get('response').get('taskId')
-
-                            while True:
-                                execution_details = self.get_task_details(task_id)
-
-                                if 'SUCCESS' in execution_details.get("progress"):
-                                    self.status = "success"
-                                    self.result['changed'] = True
-                                    self.result['response'] = execution_details
-                                    self.msg = "Updated Interface Details for device '{0}' successfully".format(device_ip)
-                                    self.log(self.msg, "INFO")
-                                    break
-                                elif execution_details.get("isError"):
-                                    self.status = "failed"
-                                    failure_reason = execution_details.get("failureReason")
-                                    if failure_reason:
-                                        self.msg = "Interface Updation get failed because of {0}".format(failure_reason)
-                                    else:
-                                        self.msg = "Interface Updation get failed"
-                                    self.log(self.msg, "ERROR")
-                                    break
-
-                    except Exception as e:
-                        error_message = "Error while updating interface details in Cisco Catalyst Center: {0}".format(str(e))
-                        self.log(error_message, "INFO")
-                        self.status = "success"
-                        self.result['changed'] = False
-                        self.msg = "Port actions are only supported on user facing/access ports as it's not allowed or No Updation required"
-                        self.log(self.msg, "INFO")
+                self.update_interface_detail_of_device(device_to_update).check_return_status()
 
             if self.config[0].get('update_device_role'):
                 for device_ip in device_to_update:
