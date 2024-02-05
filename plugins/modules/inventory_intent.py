@@ -2731,7 +2731,10 @@ class DnacDevice(DnacBase):
                     device_data = device_details[device_ip]
 
                     if not playbook_params['cliTransport']:
-                        playbook_params['cliTransport'] = device_data['protocol']
+                        if device_data['protocol'] == "ssh2":
+                            playbook_params['cliTransport'] = "ssh"
+                        else:
+                            playbook_params['cliTransport'] = device_data['protocol']
                     if not playbook_params['snmpPrivProtocol']:
                         playbook_params['snmpPrivProtocol'] = device_data['snmpv3_privacy_type']
 
@@ -2896,6 +2899,15 @@ class DnacDevice(DnacBase):
 
             if not device_params['snmpPrivProtocol']:
                 device_params['snmpPrivProtocol'] = "AES128"
+
+            if device_params['snmpMode'] == "NOAUTHNOPRIV":
+                device_params.pop('snmpAuthPassphrase', None)
+                device_params.pop('snmpPrivPassphrase', None)
+                device_params.pop('snmpPrivProtocol', None)
+                device_params.pop('snmpAuthProtocol', None)
+            elif device_params['snmpMode'] == "AUTHNOPRIV":
+                device_params.pop('snmpPrivPassphrase', None)
+                device_params.pop('snmpPrivProtocol', None)
 
             self.mandatory_parameter().check_return_status()
             try:
