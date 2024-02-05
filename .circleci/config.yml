@@ -18,6 +18,9 @@ jobs:
           command: |
             ssh-add -l
             ls -l ~/.ssh
+      - add_ssh_keys:
+          fingerprints:
+            - "SHA256:J0xQGHm/j7txCuHdPam0+Ty+9VpEELCMJo8eYptUYO0"
       - checkout 
 
 workflows:
