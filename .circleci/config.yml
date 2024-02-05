@@ -20,6 +20,7 @@ jobs:
           name: Activate Virtual Environment, Install ansible and Build collection tarball
           command: |
             set -x
+            
             # Activate Virtual Environment
             pyenv local ansible
             export PYENV_ROOT="/home/circleci/.pyenv"
@@ -28,7 +29,7 @@ jobs:
             export PATH="$PYENV_ROOT/shims/python:$PATH"
             export PYTHONPATH="$PYENV_ROOT/shims/python3:$PYTHONPATH"
             export PYTHONPATH="$PYENV_ROOT/shims/python:$PYTHONPATH"
-            
+
             # Install ansible, dnacentersdk
             pip install --upgrade pip
             pip install jinja2 PyYAML cryptography paramiko
