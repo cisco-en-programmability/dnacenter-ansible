@@ -2731,7 +2731,10 @@ class DnacDevice(DnacBase):
                     device_data = device_details[device_ip]
 
                     if not playbook_params['cliTransport']:
-                        playbook_params['cliTransport'] = device_data['protocol']
+                        if device_data['protocol'] == "ssh2":
+                            playbook_params['cliTransport'] = "ssh"
+                        else:
+                            playbook_params['cliTransport'] = device_data['protocol']
                     if not playbook_params['snmpPrivProtocol']:
                         playbook_params['snmpPrivProtocol'] = device_data['snmpv3_privacy_type']
 
