@@ -13,15 +13,9 @@ jobs:
     resource_class: rukapse/dnacenter-ansible
     
     steps:
-      - run:
-          name: Confirm SSH keys
-          command: |
-            ssh-add -l
-            ls -l ~/.ssh
-      - add_ssh_keys:
-          fingerprints:
-            - "SHA256:J0xQGHm/j7txCuHdPam0+Ty+9VpEELCMJo8eYptUYO0"
-      - checkout 
+      - checkout:
+          github:
+            fingerprint: "SHA256:J0xQGHm/j7txCuHdPam0+Ty+9VpEELCMJo8eYptUYO0"
 
 workflows:
   testing:
