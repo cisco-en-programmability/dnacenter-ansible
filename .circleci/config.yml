@@ -19,16 +19,16 @@ jobs:
           name: Set up SSH key
           command: echo -e "Host github.com\n  IdentityFile ~/.ssh/id_rsa" > ~/.ssh/config
 
+      - add_ssh_keys:
+          fingerprints:
+            - "SHA256:J0xQGHm/j7txCuHdPam0+Ty+9VpEELCMJo8eYptUYO0"
+
       - run:
           name: Debug SSH key and Connectivity
           command: |
             cat ~/.ssh/id_rsa
             ls -la ~/.ssh
             ssh -Tvvv git@github.com
-
-      # - add_ssh_keys:
-      #    fingerprints:
-      #      - "SHA256:J0xQGHm/j7txCuHdPam0+Ty+9VpEELCMJo8eYptUYO0"
 
       - checkout
       
