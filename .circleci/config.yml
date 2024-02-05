@@ -14,13 +14,17 @@ jobs:
     working_directory: ~/repo 
     
     steps:
-      - run:
-          name: Debug SSH key
-          command: cat ~/.ssh/id_rsa
 
       - run:
           name: Set up SSH key
           command: echo -e "Host github.com\n  IdentityFile ~/.ssh/id_rsa" > ~/.ssh/config
+
+      - run:
+          name: Debug SSH key and Connectivity
+          command: |
+            cat ~/.ssh/id_rsa
+            ls -la ~/.ssh
+            ssh -Tvvv git@github.com
 
       # - add_ssh_keys:
       #    fingerprints:
