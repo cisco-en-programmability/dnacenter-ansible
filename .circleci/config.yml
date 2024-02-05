@@ -19,8 +19,7 @@ jobs:
       - run:
           name: Activate Virtual Environment, Install ansible and Build collection tarball
           command: |
-            set -x
-            
+            set -x 
             # Activate Virtual Environment
             pyenv local ansible
             export PYENV_ROOT="/home/circleci/.pyenv"
