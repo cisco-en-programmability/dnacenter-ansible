@@ -15,15 +15,15 @@ jobs:
     
     steps:
       - run:
-        name: Debug SSH key
-        command: cat ~/.ssh/id_rsa
-        
-      - checkout
+          name: Debug SSH key
+          command: cat ~/.ssh/id_rsa
 
       - add_ssh_keys:
           fingerprints:
             - "SHA256:J0xQGHm/j7txCuHdPam0+Ty+9VpEELCMJo8eYptUYO0"
 
+      - checkout
+      
       - run:
           name: Activate Virtual Environment, Install ansible and Build collection tarball
           command: |
