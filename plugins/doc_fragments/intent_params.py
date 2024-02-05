@@ -50,42 +50,51 @@ options:
         default: false
     dnac_log:
         description:
-          - Flag for logging playbook execution details.
-            If set to true the log file will be created at the location of the execution with the name dnac.log
+          - Flag to enable/disable playbook execution logging.
+          - When true and dnac_log_file_path is provided,
+            - Create the log file at the execution location with the specified name.
+          - When true and dnac_log_file_path is not provided,
+            - Create the log file at the execution location with the name 'dnac.log'.
+          - When false,
+            - Logging is disabled.
+          - If the log file doesn't exist,
+            - It is created in append or write mode based on the "dnac_log_append" flag.
+          - If the log file exists,
+            - It is overwritten or appended based on the "dnac_log_append" flag.
         type: bool
         default: false
     dnac_log_level:
-      description:
-        - Sets the threshold for log level. Messages with a level equal to or higher than
-          this will be logged. Levels are listed in order of severity [CRITICAL, ERROR, WARNING, INFO, DEBUG].
-        - CRITICAL indicates serious errors halting the program. Displays only CRITICAL messages.
-        - ERROR indicates problems preventing a function. Displays ERROR and CRITICAL messages.
-        - WARNING indicates potential future issues. Displays WARNING, ERROR, CRITICAL messages.
-        - INFO tracks normal operation. Displays INFO, WARNING, ERROR, CRITICAL messages.
-        - DEBUG provides detailed diagnostic info. Displays all log messages.
-      type: str
-      default: WARNING
+        description:
+          - Sets the threshold for log level. Messages with a level equal to or higher than
+            this will be logged. Levels are listed in order of severity [CRITICAL, ERROR, WARNING, INFO, DEBUG].
+          - CRITICAL indicates serious errors halting the program. Displays only CRITICAL messages.
+          - ERROR indicates problems preventing a function. Displays ERROR and CRITICAL messages.
+          - WARNING indicates potential future issues. Displays WARNING, ERROR, CRITICAL messages.
+          - INFO tracks normal operation. Displays INFO, WARNING, ERROR, CRITICAL messages.
+          - DEBUG provides detailed diagnostic info. Displays all log messages.
+        type: str
+        default: WARNING
     dnac_log_file_path:
-      description:
-      - Governs logging. Logs are recorded if dnac_log is True.
-      - If path is not specified,
-        - When 'dnac_log_append' is True, 'dnac.log' is generated in the
-          current Ansible directory; logs are appended.
-        - When 'dnac_log_append' is False, 'dnac.log' is generated; logs
-          are overwritten.
-      - If path is specified,
-        - When 'dnac_log_append' is True, the file opens in append mode.
-        - When 'dnac_log_append' is False, the file opens in write (w) mode.
-        - In shared file scenarios, without append mode, content is
-          overwritten after each module execution.
-        - For a shared log file, set append to False for the 1st module
-          (to overwrite); for subsequent modules, set append to True.
-      type: str
-      default: dnac.log
+        description:
+        - Governs logging. Logs are recorded if dnac_log is True.
+        - If path is not specified,
+          - When 'dnac_log_append' is True, 'dnac.log' is generated in the
+            current Ansible directory; logs are appended.
+          - When 'dnac_log_append' is False, 'dnac.log' is generated; logs
+            are overwritten.
+        - If path is specified,
+          - When 'dnac_log_append' is True, the file opens in append mode.
+          - When 'dnac_log_append' is False, the file opens in write (w) mode.
+          - In shared file scenarios, without append mode, content is
+            overwritten after each module execution.
+          - For a shared log file, set append to False for the 1st module
+            (to overwrite); for subsequent modules, set append to True.
+        type: str
+        default: dnac.log
     dnac_log_append:
-      description: Determines the mode of the file. Set to True for 'append' mode. Set to False for 'write' mode.
-      type: bool
-      default: True
+        description: Determines the mode of the file. Set to True for 'append' mode. Set to False for 'write' mode.
+        type: bool
+        default: True
     validate_response_schema:
         description:
           - Flag for Cisco DNA Center SDK to enable the validation of request bodies against a JSON schema.
