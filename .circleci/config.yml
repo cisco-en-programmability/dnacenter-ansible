@@ -15,9 +15,9 @@ jobs:
     
     steps:
       - checkout:
-        key:
-          fingerprint: "SHA256:J0xQGHm/j7txCuHdPam0+Ty+9VpEELCMJo8eYptUYO0"
-        path: "~/my-repo"
+      - add_ssh_keys:
+      fingerprints:
+        - "SHA256:J0xQGHm/j7txCuHdPam0+Ty+9VpEELCMJo8eYptUYO0"
 
       - run:
           name: Activate Virtual Environment, Install ansible and Build collection tarball
