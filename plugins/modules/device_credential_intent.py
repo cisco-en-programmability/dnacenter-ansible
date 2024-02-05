@@ -1971,19 +1971,19 @@ class DnacCredential(DnacBase):
             cliId = cli_credential.get("id")
             cliDescription = cli_credential.get("description")
             cliUsername = cli_credential.get("username")
-            if cliId or cliDescription and cliUsername:
 
+            if cliId or cliDescription and cliUsername:
                 # All CLI details from the Cisco DNA Center
                 cli_details = global_credentials.get("cliCredential")
                 if not cli_details:
-                    self.msg = "No Global CLI Credential is available"
+                    self.msg = "Global CLI credential is not available"
                     self.status = "failed"
                     return self
                 cliDetail = None
                 if cliId:
                     cliDetail = get_dict_result(cli_details, "id", cliId)
                     if not cliDetail:
-                        self.msg = "CLI credential ID is invalid"
+                        self.msg = "The ID for the CLI credential is not valid."
                         self.status = "failed"
                         return self
                 elif cliDescription and cliUsername:
@@ -1992,7 +1992,7 @@ class DnacCredential(DnacBase):
                                 item.get("username") == cliUsername:
                             cliDetail = item
                     if not cliDetail:
-                        self.msg = "CLI credential username and description is invalid"
+                        self.msg = "The username and description of the CLI credential are invalid"
                         self.status = "failed"
                         return self
                 want.get("assign_credentials").update({"cliId": cliDetail.get("id")})
@@ -2006,14 +2006,14 @@ class DnacCredential(DnacBase):
                 # All snmpV2cRead details from the Cisco DNA Center
                 snmpV2cRead_details = global_credentials.get("snmpV2cRead")
                 if not snmpV2cRead_details:
-                    self.msg = "No Global snmpV2cRead Credential is available"
+                    self.msg = "Global snmpV2cRead credential is not available"
                     self.status = "failed"
                     return self
                 snmpV2cReadDetail = None
                 if snmpV2cReadId:
                     snmpV2cReadDetail = get_dict_result(snmpV2cRead_details, "id", snmpV2cReadId)
                     if not snmpV2cReadDetail:
-                        self.msg = "snmpV2cRead credential ID is invalid"
+                        self.msg = "The ID of the snmpV2cRead credential is not valid."
                         self.status = "failed"
                         return self
                 elif snmpV2cReadDescription:
@@ -2021,7 +2021,7 @@ class DnacCredential(DnacBase):
                         if item.get("description") == snmpV2cReadDescription:
                             snmpV2cReadDetail = item
                     if not snmpV2cReadDetail:
-                        self.msg = "snmpV2cRead credential username and description is invalid"
+                        self.msg = "The username and description for the snmpV2cRead credential are invalid."
                         self.status = "failed"
                         return self
                 want.get("assign_credentials").update({"snmpV2ReadId": snmpV2cReadDetail.get("id")})
@@ -2035,14 +2035,14 @@ class DnacCredential(DnacBase):
                 # All snmpV2cWrite details from the Cisco DNA Center
                 snmpV2cWrite_details = global_credentials.get("snmpV2cWrite")
                 if not snmpV2cWrite_details:
-                    self.msg = "No Global snmpV2cWrite Credential is available"
+                    self.msg = "Global snmpV2cWrite Credential is not available"
                     self.status = "failed"
                     return self
                 snmpV2cWriteDetail = None
                 if snmpV2cWriteId:
                     snmpV2cWriteDetail = get_dict_result(snmpV2cWrite_details, "id", snmpV2cWriteId)
                     if not snmpV2cWriteDetail:
-                        self.msg = "snmpV2cWrite credential ID is invalid"
+                        self.msg = "The ID of the snmpV2cWrite credential is invalid."
                         self.status = "failed"
                         return self
                 elif snmpV2cWriteDescription:
@@ -2050,7 +2050,7 @@ class DnacCredential(DnacBase):
                         if item.get("description") == snmpV2cWriteDescription:
                             snmpV2cWriteDetail = item
                     if not snmpV2cWriteDetail:
-                        self.msg = "snmpV2cWrite credential username and description is invalid"
+                        self.msg = "The username and description of the snmpV2cWrite credential are invalid."
                         self.status = "failed"
                         return self
                 want.get("assign_credentials").update({"snmpV2WriteId": snmpV2cWriteDetail.get("id")})
@@ -2065,14 +2065,14 @@ class DnacCredential(DnacBase):
                 # All httpRead details from the Cisco DNA Center
                 httpRead_details = global_credentials.get("httpsRead")
                 if not httpRead_details:
-                    self.msg = "No Global httpRead Credential is available"
+                    self.msg = "Global httpRead Credential is not available."
                     self.status = "failed"
                     return self
                 httpReadDetail = None
                 if httpReadId:
                     httpReadDetail = get_dict_result(httpRead_details, "id", httpReadId)
                     if not httpReadDetail:
-                        self.msg = "httpRead credential ID is invalid"
+                        self.msg = "The ID of the httpRead credential is not valid."
                         self.status = "failed"
                         return self
                 elif httpReadDescription and httpReadUsername:
@@ -2081,7 +2081,7 @@ class DnacCredential(DnacBase):
                                 item.get("username") == httpReadUsername:
                             httpReadDetail = item
                     if not httpReadDetail:
-                        self.msg = "httpRead credential description and username is invalid"
+                        self.msg = "The description and username for the httpRead credential are invalid."
                         self.status = "failed"
                         return self
                 want.get("assign_credentials").update({"httpRead": httpReadDetail.get("id")})
@@ -2096,14 +2096,14 @@ class DnacCredential(DnacBase):
                 # All httpWrite details from the Cisco DNA Center
                 httpWrite_details = global_credentials.get("httpsWrite")
                 if not httpWrite_details:
-                    self.msg = "No Global httpWrite Credential is available"
+                    self.msg = "Global httpWrite credential is not available."
                     self.status = "failed"
                     return self
                 httpWriteDetail = None
                 if httpWriteId:
                     httpWriteDetail = get_dict_result(httpWrite_details, "id", httpWriteId)
                     if not httpWriteDetail:
-                        self.msg = "httpWrite credential ID is invalid"
+                        self.msg = "The ID of the httpWrite credential is not valid."
                         self.status = "failed"
                         return self
                 elif httpWriteDescription and httpWriteUsername:
@@ -2112,7 +2112,7 @@ class DnacCredential(DnacBase):
                                 item.get("username") == httpWriteUsername:
                             httpWriteDetail = item
                     if not httpWriteDetail:
-                        self.msg = "httpWrite credential description and username is invalid"
+                        self.msg = "The description and username for the httpWrite credential are invalid."
                         self.status = "failed"
                         return self
                 want.get("assign_credentials").update({"httpWrite": httpWriteDetail.get("id")})
@@ -2126,14 +2126,14 @@ class DnacCredential(DnacBase):
                 # All snmpV3 details from the Cisco DNA Center
                 snmpV3_details = global_credentials.get("snmpV3")
                 if not snmpV3_details:
-                    self.msg = "No Global snmpV3 Credential is available"
+                    self.msg = "Global snmpV3 Credential is not available."
                     self.status = "failed"
                     return self
                 snmpV3Detail = None
                 if snmpV3Id:
                     snmpV3Detail = get_dict_result(snmpV3_details, "id", snmpV3Id)
                     if not snmpV3Detail:
-                        self.msg = "snmpV3 credential ID is invalid"
+                        self.msg = "The ID of the snmpV3 credential is not valid."
                         self.status = "failed"
                         return self
                 elif snmpV3Description:
@@ -2141,7 +2141,7 @@ class DnacCredential(DnacBase):
                         if item.get("description") == snmpV3Description:
                             snmpV3Detail = item
                     if not snmpV3Detail:
-                        self.msg = "snmpV2cWrite credential username and description is invalid"
+                        self.msg = "The username and description for the snmpV2cWrite credential are invalid."
                         self.status = "failed"
                         return self
                 want.get("assign_credentials").update({"snmpV3Id": snmpV3Detail.get("id")})
