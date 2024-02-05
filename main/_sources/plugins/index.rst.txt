@@ -6,7 +6,7 @@
 Cisco.Dnac
 ==========
 
-Collection version 6.10.3
+Collection version 6.10.4
 
 .. contents::
    :local:
@@ -416,7 +416,7 @@ Modules
 * :ref:`task_info module <ansible_collections.cisco.dnac.task_info_module>` -- Information module for Task
 * :ref:`task_operation_info module <ansible_collections.cisco.dnac.task_operation_info_module>` -- Information module for Task Operation
 * :ref:`task_tree_info module <ansible_collections.cisco.dnac.task_tree_info_module>` -- Information module for Task Tree
-* :ref:`template_intent module <ansible_collections.cisco.dnac.template_intent_module>` -- 
+* :ref:`template_intent module <ansible_collections.cisco.dnac.template_intent_module>` -- Resource module for Template functions
 * :ref:`template_preview module <ansible_collections.cisco.dnac.template_preview_module>` -- Resource module for Template Preview
 * :ref:`templates_details_info module <ansible_collections.cisco.dnac.templates_details_info_module>` -- Information module for Templates Details
 * :ref:`threat_detail module <ansible_collections.cisco.dnac.threat_detail_module>` -- Resource module for Threat Detail

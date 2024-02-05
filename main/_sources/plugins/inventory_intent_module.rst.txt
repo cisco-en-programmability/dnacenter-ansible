@@ -42,7 +42,7 @@ cisco.dnac.inventory_intent module -- Resource module for Network Device
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.10.3).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.10.4).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -245,7 +245,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Device's cli transport protocol. Required for Adding Network Devices.
+      The essential prerequisite for adding Network devices is the specification of the transport protocol (either SSH or Telnet) used by the device.
 
 
       .. raw:: html
@@ -595,7 +595,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Ip Address allocated to the interface
+      The name identifier for the gateway associated with the interface.
 
 
       .. raw:: html
@@ -663,7 +663,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Ip Address allocated to the interface
+      Name of the interface.
 
 
       .. raw:: html
@@ -697,7 +697,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Ip Address allocated to the interface
+      The netmask of the interface, given in CIDR notation. This is an integer that represents the number of bits set in the netmask
 
 
       .. raw:: html
@@ -731,7 +731,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Ip Address allocated to the interface
+      The Link Aggregation Group (LAG) number or port number assigned to the interface.
 
 
       .. raw:: html
@@ -765,7 +765,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Ip Address allocated to the interface
+      The VLAN (Virtual Local Area Network) ID associated with the network interface.
 
 
       .. raw:: html
@@ -877,6 +877,40 @@ Parameters
 
       - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
       - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/hostname_list"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_intent_module__parameter-config/hostname_list:
+
+      .. rst-class:: ansible-option-title
+
+      **hostname_list**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/hostname_list" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A list of hostnames representing devices. Operations such as updating, deleting, resyncing, or rebooting can be performed as alternatives to using IP addresses.
 
 
       .. raw:: html
@@ -1030,6 +1064,40 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/interface_name"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_intent_module__parameter-config/interface_name:
+
+      .. rst-class:: ansible-option-title
+
+      **interface_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/interface_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specify the interface name to update the details of the device interface. (For example, GigabitEthernet1/0/11, FortyGigabitEthernet1/1/2)
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/ip_address"></div>
 
       .. _ansible_collections.cisco.dnac.inventory_intent_module__parameter-config/ip_address:
@@ -1055,6 +1123,40 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Device's ipAddress. Required for Adding/Updating/Deleting/Resyncing Device except Meraki Devices.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/mac_address_list"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_intent_module__parameter-config/mac_address_list:
+
+      .. rst-class:: ansible-option-title
+
+      **mac_address_list**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/mac_address_list" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A list of MAC addresses representing devices. Operations such as updating, deleting, resyncing, or rebooting can be performed as alternatives to using IP addresses.
 
 
       .. raw:: html
@@ -1420,6 +1522,40 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/serial_number_list"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_intent_module__parameter-config/serial_number_list:
+
+      .. rst-class:: ansible-option-title
+
+      **serial_number_list**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/serial_number_list" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A list of serial numbers representing devices. Operations such as updating, deleting, resyncing, or rebooting can be performed as alternatives to using IP addresses.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/site_name"></div>
 
       .. _ansible_collections.cisco.dnac.inventory_intent_module__parameter-config/site_name:
@@ -1624,10 +1760,6 @@ Parameters
 
       Device's snmp Private Protocol. Required for Adding Network, Compute, Third Party Devices. Must be given in playbook if you are updating the device credentails.
 
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"AES128"`
 
       .. raw:: html
 
@@ -2162,7 +2294,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Set to True to verify the Cisco DNA Center config after applying the playbook config.
+      Set to True to verify the Cisco Catalyst Center config after applying the playbook config.
 
 
       .. rst-class:: ansible-option-line
@@ -2280,7 +2412,17 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Flag for logging playbook execution details. If set to true the log file will be created at the location of the execution with the name dnac.log
+      Flag to enable/disable playbook execution logging.
+
+      When true and dnac\_log\_file\_path is provided, - Create the log file at the execution location with the specified name.
+
+      When true and dnac\_log\_file\_path is not provided, - Create the log file at the execution location with the name 'dnac.log'.
+
+      When false, - Logging is disabled.
+
+      If the log file doesn't exist, - It is created in append or write mode based on the "dnac\_log\_append" flag.
+
+      If the log file exists, - It is overwritten or appended based on the "dnac\_log\_append" flag.
 
 
       .. rst-class:: ansible-option-line
@@ -2290,6 +2432,90 @@ Parameters
       - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
       - :ansible-option-choices-entry:`true`
 
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log_append"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_intent_module__parameter-dnac_log_append:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log_append**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log_append" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Determines the mode of the file. Set to True for 'append' mode. Set to False for 'write' mode.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log_file_path"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_intent_module__parameter-dnac_log_file_path:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log_file_path**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log_file_path" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Governs logging. Logs are recorded if dnac\_log is True.
+
+      If path is not specified, - When 'dnac\_log\_append' is True, 'dnac.log' is generated in the current Ansible directory; logs are appended. - When 'dnac\_log\_append' is False, 'dnac.log' is generated; logs are overwritten.
+
+      If path is specified, - When 'dnac\_log\_append' is True, the file opens in append mode. - When 'dnac\_log\_append' is False, the file opens in write (w) mode. - In shared file scenarios, without append mode, content is overwritten after each module execution. - For a shared log file, set append to False for the 1st module (to overwrite); for subsequent modules, set append to True.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"dnac.log"`
 
       .. raw:: html
 
@@ -2322,12 +2548,22 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Specifies the log level for Cisco Catalyst Center logging, categorizing logs by severity. Options- [CRITICAL, ERROR, WARNING, INFO, DEBUG]
+      Sets the threshold for log level. Messages with a level equal to or higher than this will be logged. Levels are listed in order of severity [CRITICAL, ERROR, WARNING, INFO, DEBUG].
+
+      CRITICAL indicates serious errors halting the program. Displays only CRITICAL messages.
+
+      ERROR indicates problems preventing a function. Displays ERROR and CRITICAL messages.
+
+      WARNING indicates potential future issues. Displays WARNING, ERROR, CRITICAL messages.
+
+      INFO tracks normal operation. Displays INFO, WARNING, ERROR, CRITICAL messages.
+
+      DEBUG provides detailed diagnostic info. Displays all log messages.
 
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"INFO"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"WARNING"`
 
       .. raw:: html
 
@@ -2556,7 +2792,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      The state of Cisco DNA Center after module completion.
+      The state of Cisco Catalyst Center after module completion.
 
 
       .. rst-class:: ansible-option-line
@@ -2637,11 +2873,11 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Devices AddDevice2 <https://developer.cisco.com/docs/dna-center/#!add-device>`_
+   `Cisco Catalyst Center documentation for Devices AddDevice2 <https://developer.cisco.com/docs/dna-center/#!add-device>`_
        Complete reference of the AddDevice2 API.
-   `Cisco DNA Center documentation for Devices DeleteDeviceById <https://developer.cisco.com/docs/dna-center/#!delete-device-by-id>`_
+   `Cisco Catalyst Center documentation for Devices DeleteDeviceById <https://developer.cisco.com/docs/dna-center/#!delete-device-by-id>`_
        Complete reference of the DeleteDeviceById API.
-   `Cisco DNA Center documentation for Devices SyncDevices2 <https://developer.cisco.com/docs/dna-center/#!sync-devices>`_
+   `Cisco Catalyst Center documentation for Devices SyncDevices2 <https://developer.cisco.com/docs/dna-center/#!sync-devices>`_
        Complete reference of the SyncDevices2 API.
 
 .. Examples
@@ -2822,12 +3058,33 @@ Examples
             snmp_username: string
             snmp_version: string
             type: string
-            device_update: true
+            device_updated: true
             credential_update: true
             update_mgmt_ipaddresslist:
             - exist_mgmt_ipaddress: string
               new_mgmt_ipaddress: string
             username: string
+
+    - name: Update new management IP address of device in inventory
+      cisco.dnac.inventory_intent:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log_level: "{{dnac_log_level}}"
+        dnac_log: False
+        state: merged
+        config:
+          - device_updated: true
+            ip_address:
+            - string
+            credential_update: true
+            update_mgmt_ipaddresslist:
+            - exist_mgmt_ipaddress: string
+              new_mgmt_ipaddress: string
 
     - name: Associate Wired Devices to site and Provisioned it in Inventory
       cisco.dnac.inventory_intent:
@@ -2916,6 +3173,7 @@ Examples
               vlan_id: int
               voice_vlan_id: int
               deployment_mode: str
+              interface_name: str
 
     - name: Export Device Details in a CSV file Interface details with IP Address
       cisco.dnac.inventory_intent:
@@ -3077,7 +3335,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
         <div class="ansible-option-cell">
 
-      A dictionary or list with the response returned by the Cisco DNA Center Python SDK
+      A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
 
 
       .. rst-class:: ansible-option-line
