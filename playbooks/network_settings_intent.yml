@@ -17,6 +17,9 @@
         dnac_verify: "{{ dnac_verify }}"
         dnac_debug: "{{ dnac_debug }}"
         dnac_log: True
+        dnac_log_level: "{{ dnac_log_level }}"
+        dnac_log_append: True
+        dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: merged
         config_verify: True
         config:
@@ -95,6 +98,7 @@
         dnac_verify: "{{ dnac_verify }}"
         dnac_debug: "{{ dnac_debug }}"
         dnac_log: True
+        dnac_log_level: "{{ dnac_log_level }}"
         state: deleted
         config_verify: True
         config:

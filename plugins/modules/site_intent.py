@@ -26,16 +26,11 @@ author: Madhan Sankaranarayanan (@madhansansel)
         Abhishek Maheshwari (@abhishekmaheshwari)
 options:
   config_verify:
-    description: Set to True to verify the Cisco DNA Center config after applying the playbook config.
+    description: Set to True to verify the Cisco Catalyst Center config after applying the playbook config.
     type: bool
     default: False
-  dnac_log_level:
-    description: Specifies the log level for Cisco Catalyst Center logging, categorizing logs by severity.
-        Options- [CRITICAL, ERROR, WARNING, INFO, DEBUG]
-    type: str
-    default: INFO
   state:
-    description: The state of DNAC after module completion.
+    description: The state of Catalyst Center after module completion.
     type: str
     choices: [ merged, deleted ]
     default: merged
@@ -235,7 +230,7 @@ EXAMPLES = r"""
 RETURN = r"""
 #Case_1: Site is successfully created/updated/deleted
 response_1:
-  description: A dictionary with API execution details as returned by the Cisco DNAC Python SDK
+  description: A dictionary with API execution details as returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >
@@ -276,7 +271,7 @@ response_2:
 
 #Case_3: Error while creating/updating/deleting site
 response_3:
-  description: A dictionary with API execution details as returned by the Cisco DNAC Python SDK
+  description: A dictionary with API execution details as returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >
@@ -301,7 +296,7 @@ response_3:
 
 #Case_4: Site not found when atempting to delete site
 response_4:
-  description: A list with the response returned by the Cisco DNAC Python
+  description: A list with the response returned by the Cisco Catalyst Center Python
   returned: always
   type: list
   sample: >
@@ -315,7 +310,6 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
     validate_list_of_dicts,
-    log,
     get_dict_result,
 )
 
@@ -341,7 +335,7 @@ class DnacSite(DnacBase):
         Checks the configuration provided in the playbook against a predefined specification
         to ensure it adheres to the expected structure and data types.
         Parameters:
-            self (object): An instance of a class used for interacting with Cisco DNA Center.
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
         Returns:
             The method returns an instance of the class with updated attributes:
                 - self.msg: A message describing the validation result.
@@ -355,8 +349,9 @@ class DnacSite(DnacBase):
         """
 
         if not self.config:
-            self.msg = "config not available in playbook for validattion"
             self.status = "success"
+            self.msg = "Configuration is not available in the playbook for validation"
+            self.log(self.msg, "ERROR")
             return self
 
         temp_spec = dict(
@@ -364,6 +359,7 @@ class DnacSite(DnacBase):
             site=dict(required=True, type='dict'),
         )
         self.config = self.camel_to_snake_case(self.config)
+
         # Validate site params
         valid_temp, invalid_params = validate_list_of_dicts(
             self.config, temp_spec
@@ -373,20 +369,22 @@ class DnacSite(DnacBase):
             self.msg = "Invalid parameters in playbook: {0}".format(
                 "\n".join(invalid_params)
             )
+            self.log(self.msg, "ERROR")
             self.status = "failed"
             return self
 
         self.validated_config = valid_temp
-        log(str(valid_temp))
-        self.msg = "Successfully validated input"
+        self.msg = "Successfully validated playbook config params: {0}".format(str(valid_temp))
+        self.log(self.msg, "INFO")
         self.status = "success"
+
         return self
 
     def get_current_site(self, site):
         """
         Get the current site information.
         Parameters:
-          self (object): An instance of a class used for interacting with Cisco DNA Center.
+          self (object): An instance of a class used for interacting with Cisco Catalyst Center.
           - site (list): A list containing information about the site.
         Returns:
           - dict: A dictionary containing the extracted site information.
@@ -446,13 +444,13 @@ class DnacSite(DnacBase):
             siteId=site[0].get("id")
         )
 
-        log(str(current_site))
+        self.log("Current site details: {0}".format(str(current_site)), "INFO")
 
         return current_site
 
     def site_exists(self):
         """
-        Check if the site exists in Cisco DNA Center.
+        Check if the site exists in Cisco Catalyst Center.
 
         Parameters:
           - self (object): An instance of the class containing the method.
@@ -464,7 +462,7 @@ class DnacSite(DnacBase):
                    - dict: Contains information about the existing site. If the
                            site doesn't exist, this dictionary is empty.
         Description:
-            Checks the existence of a site in Cisco DNA Center by querying the
+            Checks the existence of a site in Cisco Catalyst Center by querying the
           'get_site' function in the 'sites' family. It utilizes the
           'site_name' parameter from the 'want' attribute to identify the site.
         """
@@ -480,16 +478,14 @@ class DnacSite(DnacBase):
             )
 
         except Exception as e:
-            self.log("The input site {0} is not valid or site is not present.".format(self.want.get("site_name")))
-
+            self.log("The provided site name '{0}' is either invalid or not present in the Cisco Catalyst Center."
+                     .format(self.want.get("site_name")), "WARNING")
         if response:
-            self.log(str(response))
-
             response = response.get("response")
+            self.log("Received API response from 'get_site': {0}".format(str(response)), "DEBUG")
             current_site = self.get_current_site(response)
             site_exists = True
-
-        log(str(self.validated_config))
+            self.log("Site '{0}' exists in Cisco Catalyst Center".format(self.want.get("site_name")), "INFO")
 
         return (site_exists, current_site)
 
@@ -498,7 +494,7 @@ class DnacSite(DnacBase):
         Store the site-related parameters.
 
         Parameters:
-          self (object): An instance of a class used for interacting with Cisco DNA Center.
+          self (object): An instance of a class used for interacting with Cisco Catalyst Center.
           - params (dict): Dictionary containing site-related parameters.
         Returns:
           - dict: Dictionary containing the stored site-related parameters.
@@ -543,12 +539,13 @@ class DnacSite(DnacBase):
             try:
                 site_info["floor"]["rfModel"] = floor_details.get("rf_model")
             except Exception as e:
-                self.log("Floor doesnot have rfModel attribute")
+                self.log("The attribute 'rf_model' is missing in floor '{0}'.".format(floor_details.get('name')), "WARNING")
 
         site_params = dict(
             type=typeinfo,
             site=site_info,
         )
+        self.log("Site parameters: {0}".format(str(site_params)), "DEBUG")
 
         return site_params
 
@@ -556,7 +553,7 @@ class DnacSite(DnacBase):
         """
         Get and Return the site name.
         Parameters:
-          - self (object): An instance of a class used for interacting with Cisco DNA Center.
+          - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
           - site (dict): A dictionary containing information about the site.
         Returns:
           - str: The constructed site name.
@@ -570,7 +567,7 @@ class DnacSite(DnacBase):
         parent_name = site.get("site").get(site_type).get("parent_name")
         name = site.get("site").get(site_type).get("name")
         site_name = '/'.join([parent_name, name])
-        self.log(site_name)
+        self.log("Site name: {0}".format(site_name), "INFO")
 
         return site_name
 
@@ -578,7 +575,7 @@ class DnacSite(DnacBase):
         """
         Compare two floating-point values with a specified precision.
         Args:
-            - self (object): An instance of a class used for interacting with Cisco DNA Center.
+            - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             - ele1 (float): The first floating-point value to be compared.
             - ele2 (float): The second floating-point value to be compared.
             - precision (int, optional): The number of decimal places to consider in the comparison, Defaults to 2.
@@ -596,7 +593,7 @@ class DnacSite(DnacBase):
         """
         Check if the area site details have been updated.
         Args:
-            - self (object): An instance of a class used for interacting with Cisco DNA Center.
+            - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             - updated_site (dict): The site details after the update.
             - requested_site (dict): The site details as requested for the update.
         Return:
@@ -616,7 +613,7 @@ class DnacSite(DnacBase):
         """
         Check if the building details in a site have been updated.
         Args:
-            - self (object): An instance of a class used for interacting with Cisco DNA Center.
+            - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             - updated_site (dict): The site details after the update.
             - requested_site (dict): The site details as requested for the update.
         Return:
@@ -641,7 +638,7 @@ class DnacSite(DnacBase):
         Check if the floor details in a site have been updated.
 
         Args:
-            - self (object): An instance of a class used for interacting with Cisco DNA Center.
+            - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             - updated_site (dict): The site details after the update.
             - requested_site (dict): The site details as requested for the update.
         Return:
@@ -666,7 +663,7 @@ class DnacSite(DnacBase):
         """
         Check if the site requires updates.
         Parameters:
-            self (object): An instance of a class used for interacting with Cisco DNA Center.
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
         Returns:
             bool: True if the site requires updates, False otherwise.
         Description:
@@ -679,8 +676,8 @@ class DnacSite(DnacBase):
         type = self.have['current_site']['type']
         updated_site = self.have['current_site']['site'][type]
         requested_site = self.want['site_params']['site'][type]
-        self.log("Current Site: " + str(updated_site))
-        self.log("Requested Site: " + str(requested_site))
+        self.log("Current Site type: {0}".format(str(updated_site)), "INFO")
+        self.log("Requested Site type: {0}".format(str(requested_site)), "INFO")
 
         if type == "building":
             return not self.is_building_updated(updated_site, requested_site)
@@ -692,14 +689,14 @@ class DnacSite(DnacBase):
 
     def get_have(self, config):
         """
-        Get the site details from DNAC
+        Get the site details from Cisco Catalyst Center
         Parameters:
-          - self (object): An instance of a class used for interacting with Cisco DNA Center.
+          - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
           - config (dict): A dictionary containing the configuration details.
         Returns:
-          - self (object): An instance of a class used for interacting with  Cisco DNA Center.
+          - self (object): An instance of a class used for interacting with  Cisco Catalyst Center.
         Description:
-            This method queries Cisco DNA Center to check if a specified site
+            This method queries Cisco Catalyst Center to check if a specified site
             exists. If the site exists, it retrieves details about the current
             site, including the site ID and other relevant information. The
             results are stored in the 'have' attribute for later reference.
@@ -712,7 +709,7 @@ class DnacSite(DnacBase):
         # check if given site exits, if exists store current site info
         (site_exists, current_site) = self.site_exists()
 
-        log("Site Exists: " + str(site_exists) + "\n Current Site:" + str(current_site))
+        self.log("Current Site details (have): {0}".format(str(current_site)), "DEBUG")
 
         if site_exists:
             have["site_id"] = current_site.get("siteId")
@@ -720,20 +717,21 @@ class DnacSite(DnacBase):
             have["current_site"] = current_site
 
         self.have = have
+        self.log("Current State (have): {0}".format(str(self.have)), "INFO")
 
         return self
 
     def get_want(self, config):
         """
-        Get all site-related information from the playbook needed for creation/updation/deletion of site in Cisco DNA Center.
+        Get all site-related information from the playbook needed for creation/updation/deletion of site in Cisco Catalyst Center.
         Parameters:
-            self (object): An instance of a class used for interacting with Cisco DNA Center.
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             config (dict): A dictionary containing configuration information.
         Returns:
-            self (object): An instance of a class used for interacting with Cisco DNA Center.
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
         Description:
             Retrieves all site-related information from playbook that is
-            required for creating a site in Cisco DNA Center. It includes
+            required for creating a site in Cisco Catalyst Center. It includes
             parameters such as 'site_params' and 'site_name.' The gathered
             information is stored in the 'want' attribute for later reference.
         """
@@ -743,25 +741,25 @@ class DnacSite(DnacBase):
             site_params=self.get_site_params(config),
             site_name=self.get_site_name(config),
         )
-
         self.want = want
+        self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
 
         return self
 
     def get_diff_merged(self, config):
         """
-        Update/Create site information in Cisco DNA Center with fields
+        Update/Create site information in Cisco Catalyst Center with fields
         provided in the playbook.
         Parameters:
-          self (object): An instance of a class used for interacting with Cisco DNA Center.
+          self (object): An instance of a class used for interacting with Cisco Catalyst Center.
           config (dict): A dictionary containing configuration information.
         Returns:
-            self (object): An instance of a class used for interacting with Cisco DNA Center.
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
         Description:
-            This method determines whether to update or create a site in Cisco DNA Center based on the provided
+            This method determines whether to update or create a site in Cisco Catalyst Center based on the provided
             configuration information. If the specified site exists, the method checks if it requires an update
             by calling the 'site_requires_update' method. If an update is required, it calls the 'update_site'
-            function from the 'sites' family of the Cisco DNA Center API. If the site does not require an update,
+            function from the 'sites' family of the Cisco Catalyst Center API. If the site does not require an update,
             the method exits, indicating that the site is up to date.
         """
 
@@ -787,7 +785,7 @@ class DnacSite(DnacBase):
                 # Site does not neet update
                 self.result['response'] = self.have.get("current_site")
                 self.msg = "Site - {0} does not need any update".format(self.have.get("current_site"))
-                self.log(self.msg)
+                self.log(self.msg, "INFO")
                 self.result['msg'] = self.msg
                 return self
 
@@ -800,8 +798,7 @@ class DnacSite(DnacBase):
                 op_modifies=True,
                 params=self.want.get("site_params"),
             )
-
-            log(str(response))
+            self.log("Received API response from 'create_site': {0}".format(str(response)), "DEBUG")
             site_created = True
 
         if site_created or site_updated:
@@ -821,7 +818,7 @@ class DnacSite(DnacBase):
 
                 if site_updated:
                     log_msg = "Site - {0} Updated Successfully".format(self.want.get("site_name"))
-                    self.log(log_msg)
+                    self.log(log_msg, "INFO")
                     self.result['msg'] = log_msg
                     self.result['response'].update({"siteId": self.have.get("site_id")})
 
@@ -830,9 +827,9 @@ class DnacSite(DnacBase):
                     (site_exists, current_site) = self.site_exists()
 
                     if site_exists:
-                        log_msg = "Site - {0} Created Successfully".format(current_site)
-                        self.log(log_msg)
-                        self.log("Current site:" + str(current_site))
+                        log_msg = "Site '{0}' created successfully".format(self.want.get("site_name"))
+                        self.log(log_msg, "INFO")
+                        self.log("Current site (have): {0}".format(str(current_site)), "DEBUG")
                         self.result['msg'] = log_msg
                         self.result['response'].update({"siteId": current_site.get('site_id')})
 
@@ -840,15 +837,15 @@ class DnacSite(DnacBase):
 
     def delete_single_site(self, site_id, site_name):
         """"
-        Delete a single site in the Cisco DNA Center.
+        Delete a single site in the Cisco Catalyst Center.
         Parameters:
-            self (object): An instance of a class used for interacting with Cisco DNA Center.
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             site_id (str): The ID of the site to be deleted.
             site_name (str): The name of the site to be deleted.
         Returns:
-            self (object): An instance of a class used for interacting with Cisco DNA Center.
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
         Description:
-            This function initiates the deletion of a site in the Cisco DNA Center by calling the delete API.
+            This function initiates the deletion of a site in the Cisco Catalyst Center by calling the delete API.
             If the deletion is successful, the result is marked as changed, and the status is set to "success."
             If an error occurs during the deletion process, the status is set to "failed," and the log contains
             details about the error.
@@ -862,33 +859,35 @@ class DnacSite(DnacBase):
             )
 
             if response and isinstance(response, dict):
+                self.log("Received API response from 'delete_site': {0}".format(str(response)), "DEBUG")
                 executionid = response.get("executionId")
+
                 while True:
                     execution_details = self.get_execution_details(executionid)
                     if execution_details.get("status") == "SUCCESS":
-                        msg = "Site - {0} deleted successfully".format(site_name)
+                        self.msg = "Site '{0}' deleted successfully".format(site_name)
                         self.result['changed'] = True
-                        self.result['response'] = msg
+                        self.result['response'] = self.msg
                         self.status = "success"
-                        self.log(msg)
+                        self.log(self.msg, "INFO")
                         break
                     elif execution_details.get("bapiError"):
+                        self.log("Error response for 'delete_site' execution: {0}".format(execution_details.get("bapiError")), "ERROR")
                         self.module.fail_json(msg=execution_details.get("bapiError"), response=execution_details)
                         break
 
         except Exception as e:
-            msg = "Cannot Delete device from Inventory because of {0}".format(str(e))
-            self.log(msg)
             self.status = "failed"
-            self.msg = msg
+            self.msg = "Exception occurred while deleting site '{0}' due to: {1}".format(site_name, str(e))
+            self.log(self.msg, "ERROR")
 
         return self
 
     def get_diff_deleted(self, config):
         """
-        Call Cisco DNA Center API to delete sites with provided inputs.
+        Call Cisco Catalyst Center API to delete sites with provided inputs.
         Parameters:
-          - self (object): An instance of a class used for interacting with Cisco DNA Center.
+          - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
           - config (dict): Dictionary containing information for site deletion.
         Returns:
           - self: The result dictionary includes the following keys:
@@ -899,17 +898,19 @@ class DnacSite(DnacBase):
               - 'msg' (str): A message indicating the status of the deletion operation.
         Description:
             This method initiates the deletion of a site by calling the 'delete_site' function in the 'sites' family
-            of the Cisco DNA Center API. It uses the site ID obtained from the 'have' attribute.
+            of the Cisco Catalyst Center API. It uses the site ID obtained from the 'have' attribute.
         """
 
         site_exists = self.have.get("site_exists")
+        site_name = self.want.get("site_name")
         if not site_exists:
-            msg = msg = "Cannot delete Site - {0} as it's not found in Cisco DNA Center".format(self.want.get("site_name"))
-            self.result.update({'changed': False,
-                                'response': msg,
-                                'msg': msg})
-            self.log(msg)
             self.status = "success"
+            self.msg = "Unable to delete site '{0}' as it's not found in Cisco Catalyst Center".format(site_name)
+            self.result.update({'changed': False,
+                                'response': self.msg,
+                                'msg': self.msg})
+            self.log(self.msg, "INFO")
+
             return self
 
         # Check here if the site have the childs then fetch it using get membership API and then sort it
@@ -921,9 +922,10 @@ class DnacSite(DnacBase):
             params={"site_id": site_id},
         )
         site_response = mem_response.get("site").get("response")
+        self.log("Site {0} response along with it's child sites: {1}".format(site_name, str(site_response)), "DEBUG")
 
         if len(site_response) == 0:
-            self.delete_single_site(site_id, self.want.get("site_name"))
+            self.delete_single_site(site_id, site_name)
             return self
 
         # Sorting the response in reverse order based on hierarchy levels
@@ -934,75 +936,80 @@ class DnacSite(DnacBase):
             self.delete_single_site(item['id'], item['name'])
 
         # Delete the final parent site
-        self.delete_single_site(site_id, self.want.get("site_name"))
-        msg = "Site - {0} and it's child sites deleted successfully".format(self.want.get("site_name"))
-        self.result['response'] = msg
-        self.log(msg)
+        self.delete_single_site(site_id, site_name)
+        self.msg = "The site '{0}' and its child sites have been deleted successfully".format(site_name)
+        self.result['response'] = self.msg
+        self.log(self.msg, "INFO")
 
         return self
 
     def verify_diff_merged(self, config):
         """
-        Verify the merged status(Creation/Updation) of site configuration in Cisco DNA Center.
+        Verify the merged status(Creation/Updation) of site configuration in Cisco Catalyst Center.
         Args:
-            - self (object): An instance of a class used for interacting with Cisco DNA Center.
+            - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             - config (dict): The configuration details to be verified.
         Return:
-            - self (object): An instance of a class used for interacting with Cisco DNA Center.
+            - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
         Description:
-            This method checks the merged status of a configuration in Cisco DNA Center by retrieving the current state
+            This method checks the merged status of a configuration in Cisco Catalyst Center by retrieving the current state
             (have) and desired state (want) of the configuration, logs the states, and validates whether the specified
-            site exists in the DNA Center configuration.
+            site exists in the Catalyst Center configuration.
         """
 
         self.get_have(config)
-        self.log(str(self.have))
-        self.log(str(self.want))
+        self.log("Current State (have): {0}".format(str(self.have)), "INFO")
+        self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
+
         # Code to validate dnac config for merged state
         site_exist = self.have.get("site_exists")
+        site_name = self.want.get("site_name")
 
         if site_exist:
             self.status = "success"
-            msg = "Requested Site - {0} present in Cisco DNA Center and creation verified.".format(self.want.get("site_name"))
-            self.log(msg)
+            self.msg = "The requested site '{0}' is present in the Cisco Catalyst Center and its creation has been verified.".format(site_name)
+            self.log(self.msg, "INFO")
 
         require_update = self.site_requires_update()
 
         if not require_update:
-            self.log("Site - {0} Updation Verified Successfully.".format(self.want.get("site_name")))
+            self.log("The update for site '{0}' has been successfully verified.".format(site_name), "INFO")
             self. status = "success"
             return self
 
-        self.log("Playbook paramater doesnot match with the Cisco DNA Center means Merged task not executed successfully.")
+        self.log("""The playbook input for site '{0}' does not align with the Cisco Catalyst Center, indicating that the merge task
+                 may not have executed successfully.""".format(site_name), "INFO")
 
         return self
 
     def verify_diff_deleted(self, config):
         """
-        Verify the deletion status of site configuration in Cisco DNA Center.
+        Verify the deletion status of site configuration in Cisco Catalyst Center.
         Args:
-            - self (object): An instance of a class used for interacting with Cisco DNA Center.
+            - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             - config (dict): The configuration details to be verified.
         Return:
-            - self (object): An instance of a class used for interacting with Cisco DNA Center.
+            - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
         Description:
-            This method checks the deletion status of a configuration in Cisco DNA Center.
-            It validates whether the specified site exists in the DNA Center configuration.
+            This method checks the deletion status of a configuration in Cisco Catalyst Center.
+            It validates whether the specified site exists in the Catalyst Center configuration.
         """
 
         self.get_have(config)
-        self.log(str(self.have))
-        self.log(str(self.want))
+        self.log("Current State (have): {0}".format(str(self.have)), "INFO")
+        self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
+
         # Code to validate dnac config for delete state
         site_exist = self.have.get("site_exists")
 
         if not site_exist:
             self.status = "success"
-            msg = "Requested Site - {0} already deleted from Cisco DNA Center and verified successfully.".format(self.want.get("site_name"))
-            self.log(msg)
+            msg = """The requested site '{0}' has already been deleted from the Cisco Catalyst Center and this has been
+                successfully verified.""".format(self.want.get("site_name"))
+            self.log(msg, "INFO")
             return self
-
-        self.log("Playbook paramater doesnot match with the Cisco DNA Center means Deletion not executed successfully.")
+        self.log("""Mismatch between the playbook input for site '{0}' and the Cisco Catalyst Center indicates that
+                 the deletion was not executed successfully.""".format(self.want.get("site_name")), "INFO")
 
         return self
 
@@ -1018,7 +1025,9 @@ def main():
                     'dnac_verify': {'type': 'bool', 'default': 'True'},
                     'dnac_version': {'type': 'str', 'default': '2.2.3.3'},
                     'dnac_debug': {'type': 'bool', 'default': False},
-                    'dnac_log_level': {'type': 'str', 'default': 'INFO'},
+                    'dnac_log_level': {'type': 'str', 'default': 'WARNING'},
+                    "dnac_log_file_path": {"type": 'str', "default": 'dnac.log'},
+                    "dnac_log_append": {"type": 'bool', "default": True},
                     'dnac_log': {'type': 'bool', 'default': False},
                     'validate_response_schema': {'type': 'bool', 'default': True},
                     'config_verify': {'type': 'bool', "default": False},

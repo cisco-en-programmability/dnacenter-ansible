@@ -25,11 +25,6 @@ extends_documentation_fragment:
 author: Muthu Rakesh (@MUTHU-RAKESH-27)
         Madhan Sankaranarayanan (@madhansansel)
 options:
-  dnac_log_level:
-    description: Specifies the desired log level for Cisco Catalyst Center logging.
-                    Options - [CRITICAL, ERROR, WARNING, INFO, DEBUG]
-    type: str
-    default: INFO
   config_verify:
     description: Set to True to verify the Cisco DNA Center after applying the playbook config.
     type: bool
@@ -1971,173 +1966,185 @@ class DnacCredential(DnacBase):
             site_id.append(siteId)
         want.update({"site_id": site_id})
         global_credentials = self.get_global_credentials_params()
-        cliId = AssignCredentials.get("cli_credential").get("id")
-        cliDescription = AssignCredentials.get("cli_credential").get("description")
-        cliUsername = AssignCredentials.get("cli_credential").get("username")
-        if cliId or cliDescription and cliUsername:
+        cli_credential = AssignCredentials.get("cli_credential")
+        if cli_credential:
+            cliId = cli_credential.get("id")
+            cliDescription = cli_credential.get("description")
+            cliUsername = cli_credential.get("username")
 
-            # All CLI details from the Cisco DNA Center
-            cli_details = global_credentials.get("cliCredential")
-            if not cli_details:
-                self.msg = "No Global CLI Credential is available"
-                self.status = "failed"
-                return self
-            cliDetail = None
-            if cliId:
-                cliDetail = get_dict_result(cli_details, "id", cliId)
-                if not cliDetail:
-                    self.msg = "CLI credential ID is invalid"
+            if cliId or cliDescription and cliUsername:
+                # All CLI details from the Cisco DNA Center
+                cli_details = global_credentials.get("cliCredential")
+                if not cli_details:
+                    self.msg = "Global CLI credential is not available"
                     self.status = "failed"
                     return self
-            elif cliDescription and cliUsername:
-                for item in cli_details:
-                    if item.get("description") == cliDescription and \
-                            item.get("username") == cliUsername:
-                        cliDetail = item
-                if not cliDetail:
-                    self.msg = "CLI credential username and description is invalid"
-                    self.status = "failed"
-                    return self
-            want.get("assign_credentials").update({"cliId": cliDetail.get("id")})
+                cliDetail = None
+                if cliId:
+                    cliDetail = get_dict_result(cli_details, "id", cliId)
+                    if not cliDetail:
+                        self.msg = "The ID for the CLI credential is not valid."
+                        self.status = "failed"
+                        return self
+                elif cliDescription and cliUsername:
+                    for item in cli_details:
+                        if item.get("description") == cliDescription and \
+                                item.get("username") == cliUsername:
+                            cliDetail = item
+                    if not cliDetail:
+                        self.msg = "The username and description of the CLI credential are invalid"
+                        self.status = "failed"
+                        return self
+                want.get("assign_credentials").update({"cliId": cliDetail.get("id")})
 
-        snmpV2cReadId = AssignCredentials.get("snmp_v2c_read").get("id")
-        snmpV2cReadDescription = AssignCredentials.get("snmp_v2c_read").get("description")
-        if snmpV2cReadId or snmpV2cReadDescription:
+        snmp_v2c_read = AssignCredentials.get("snmp_v2c_read")
+        if snmp_v2c_read:
+            snmpV2cReadId = snmp_v2c_read.get("id")
+            snmpV2cReadDescription = snmp_v2c_read.get("description")
+            if snmpV2cReadId or snmpV2cReadDescription:
 
-            # All snmpV2cRead details from the Cisco DNA Center
-            snmpV2cRead_details = global_credentials.get("snmpV2cRead")
-            if not snmpV2cRead_details:
-                self.msg = "No Global snmpV2cRead Credential is available"
-                self.status = "failed"
-                return self
-            snmpV2cReadDetail = None
-            if snmpV2cReadId:
-                snmpV2cReadDetail = get_dict_result(snmpV2cRead_details, "id", snmpV2cReadId)
-                if not snmpV2cReadDetail:
-                    self.msg = "snmpV2cRead credential ID is invalid"
+                # All snmpV2cRead details from the Cisco DNA Center
+                snmpV2cRead_details = global_credentials.get("snmpV2cRead")
+                if not snmpV2cRead_details:
+                    self.msg = "Global snmpV2cRead credential is not available"
                     self.status = "failed"
                     return self
-            elif snmpV2cReadDescription:
-                for item in snmpV2cRead_details:
-                    if item.get("description") == snmpV2cReadDescription:
-                        snmpV2cReadDetail = item
-                if not snmpV2cReadDetail:
-                    self.msg = "snmpV2cRead credential username and description is invalid"
-                    self.status = "failed"
-                    return self
-            want.get("assign_credentials").update({"snmpV2ReadId": snmpV2cReadDetail.get("id")})
+                snmpV2cReadDetail = None
+                if snmpV2cReadId:
+                    snmpV2cReadDetail = get_dict_result(snmpV2cRead_details, "id", snmpV2cReadId)
+                    if not snmpV2cReadDetail:
+                        self.msg = "The ID of the snmpV2cRead credential is not valid."
+                        self.status = "failed"
+                        return self
+                elif snmpV2cReadDescription:
+                    for item in snmpV2cRead_details:
+                        if item.get("description") == snmpV2cReadDescription:
+                            snmpV2cReadDetail = item
+                    if not snmpV2cReadDetail:
+                        self.msg = "The username and description for the snmpV2cRead credential are invalid."
+                        self.status = "failed"
+                        return self
+                want.get("assign_credentials").update({"snmpV2ReadId": snmpV2cReadDetail.get("id")})
 
-        snmpV2cWriteId = AssignCredentials.get("snmp_v2c_write").get("id")
-        snmpV2cWriteDescription = AssignCredentials.get("snmp_v2c_write").get("description")
-        if snmpV2cWriteId or snmpV2cWriteDescription:
+        snmp_v2c_write = AssignCredentials.get("snmp_v2c_write")
+        if snmp_v2c_write:
+            snmpV2cWriteId = snmp_v2c_write.get("id")
+            snmpV2cWriteDescription = snmp_v2c_write.get("description")
+            if snmpV2cWriteId or snmpV2cWriteDescription:
 
-            # All snmpV2cWrite details from the Cisco DNA Center
-            snmpV2cWrite_details = global_credentials.get("snmpV2cWrite")
-            if not snmpV2cWrite_details:
-                self.msg = "No Global snmpV2cWrite Credential is available"
-                self.status = "failed"
-                return self
-            snmpV2cWriteDetail = None
-            if snmpV2cWriteId:
-                snmpV2cWriteDetail = get_dict_result(snmpV2cWrite_details, "id", snmpV2cWriteId)
-                if not snmpV2cWriteDetail:
-                    self.msg = "snmpV2cWrite credential ID is invalid"
+                # All snmpV2cWrite details from the Cisco DNA Center
+                snmpV2cWrite_details = global_credentials.get("snmpV2cWrite")
+                if not snmpV2cWrite_details:
+                    self.msg = "Global snmpV2cWrite Credential is not available"
                     self.status = "failed"
                     return self
-            elif snmpV2cWriteDescription:
-                for item in snmpV2cWrite_details:
-                    if item.get("description") == snmpV2cWriteDescription:
-                        snmpV2cWriteDetail = item
-                if not snmpV2cWriteDetail:
-                    self.msg = "snmpV2cWrite credential username and description is invalid"
-                    self.status = "failed"
-                    return self
-            want.get("assign_credentials").update({"snmpV2WriteId": snmpV2cWriteDetail.get("id")})
+                snmpV2cWriteDetail = None
+                if snmpV2cWriteId:
+                    snmpV2cWriteDetail = get_dict_result(snmpV2cWrite_details, "id", snmpV2cWriteId)
+                    if not snmpV2cWriteDetail:
+                        self.msg = "The ID of the snmpV2cWrite credential is invalid."
+                        self.status = "failed"
+                        return self
+                elif snmpV2cWriteDescription:
+                    for item in snmpV2cWrite_details:
+                        if item.get("description") == snmpV2cWriteDescription:
+                            snmpV2cWriteDetail = item
+                    if not snmpV2cWriteDetail:
+                        self.msg = "The username and description of the snmpV2cWrite credential are invalid."
+                        self.status = "failed"
+                        return self
+                want.get("assign_credentials").update({"snmpV2WriteId": snmpV2cWriteDetail.get("id")})
 
-        httpReadId = AssignCredentials.get("https_read").get("id")
-        httpReadDescription = AssignCredentials.get("https_read").get("description")
-        httpReadUsername = AssignCredentials.get("https_read").get("username")
-        if httpReadId or httpReadDescription and httpReadUsername:
+        https_read = AssignCredentials.get("https_read")
+        if https_read:
+            httpReadId = https_read.get("id")
+            httpReadDescription = https_read.get("description")
+            httpReadUsername = https_read.get("username")
+            if httpReadId or httpReadDescription and httpReadUsername:
 
-            # All httpRead details from the Cisco DNA Center
-            httpRead_details = global_credentials.get("httpsRead")
-            if not httpRead_details:
-                self.msg = "No Global httpRead Credential is available"
-                self.status = "failed"
-                return self
-            httpReadDetail = None
-            if httpReadId:
-                httpReadDetail = get_dict_result(httpRead_details, "id", httpReadId)
-                if not httpReadDetail:
-                    self.msg = "httpRead credential ID is invalid"
+                # All httpRead details from the Cisco DNA Center
+                httpRead_details = global_credentials.get("httpsRead")
+                if not httpRead_details:
+                    self.msg = "Global httpRead Credential is not available."
                     self.status = "failed"
                     return self
-            elif httpReadDescription and httpReadUsername:
-                for item in httpRead_details:
-                    if item.get("description") == httpReadDescription and \
-                            item.get("username") == httpReadUsername:
-                        httpReadDetail = item
-                if not httpReadDetail:
-                    self.msg = "httpRead credential description and username is invalid"
-                    self.status = "failed"
-                    return self
-            want.get("assign_credentials").update({"httpRead": httpReadDetail.get("id")})
+                httpReadDetail = None
+                if httpReadId:
+                    httpReadDetail = get_dict_result(httpRead_details, "id", httpReadId)
+                    if not httpReadDetail:
+                        self.msg = "The ID of the httpRead credential is not valid."
+                        self.status = "failed"
+                        return self
+                elif httpReadDescription and httpReadUsername:
+                    for item in httpRead_details:
+                        if item.get("description") == httpReadDescription and \
+                                item.get("username") == httpReadUsername:
+                            httpReadDetail = item
+                    if not httpReadDetail:
+                        self.msg = "The description and username for the httpRead credential are invalid."
+                        self.status = "failed"
+                        return self
+                want.get("assign_credentials").update({"httpRead": httpReadDetail.get("id")})
 
-        httpWriteId = AssignCredentials.get("https_write").get("id")
-        httpWriteDescription = AssignCredentials.get("https_write").get("description")
-        httpWriteUsername = AssignCredentials.get("https_write").get("username")
-        if httpWriteId or httpWriteDescription and httpWriteUsername:
+        https_write = AssignCredentials.get("https_write")
+        if https_write:
+            httpWriteId = https_write.get("id")
+            httpWriteDescription = https_write.get("description")
+            httpWriteUsername = https_write.get("username")
+            if httpWriteId or httpWriteDescription and httpWriteUsername:
 
-            # All httpWrite details from the Cisco DNA Center
-            httpWrite_details = global_credentials.get("httpsWrite")
-            if not httpWrite_details:
-                self.msg = "No Global httpWrite Credential is available"
-                self.status = "failed"
-                return self
-            httpWriteDetail = None
-            if httpWriteId:
-                httpWriteDetail = get_dict_result(httpWrite_details, "id", httpWriteId)
-                if not httpWriteDetail:
-                    self.msg = "httpWrite credential ID is invalid"
+                # All httpWrite details from the Cisco DNA Center
+                httpWrite_details = global_credentials.get("httpsWrite")
+                if not httpWrite_details:
+                    self.msg = "Global httpWrite credential is not available."
                     self.status = "failed"
                     return self
-            elif httpWriteDescription and httpWriteUsername:
-                for item in httpWrite_details:
-                    if item.get("description") == httpWriteDescription and \
-                            item.get("username") == httpWriteUsername:
-                        httpWriteDetail = item
-                if not httpWriteDetail:
-                    self.msg = "httpWrite credential description and username is invalid"
-                    self.status = "failed"
-                    return self
-            want.get("assign_credentials").update({"httpWrite": httpWriteDetail.get("id")})
+                httpWriteDetail = None
+                if httpWriteId:
+                    httpWriteDetail = get_dict_result(httpWrite_details, "id", httpWriteId)
+                    if not httpWriteDetail:
+                        self.msg = "The ID of the httpWrite credential is not valid."
+                        self.status = "failed"
+                        return self
+                elif httpWriteDescription and httpWriteUsername:
+                    for item in httpWrite_details:
+                        if item.get("description") == httpWriteDescription and \
+                                item.get("username") == httpWriteUsername:
+                            httpWriteDetail = item
+                    if not httpWriteDetail:
+                        self.msg = "The description and username for the httpWrite credential are invalid."
+                        self.status = "failed"
+                        return self
+                want.get("assign_credentials").update({"httpWrite": httpWriteDetail.get("id")})
 
-        snmpV3Id = AssignCredentials.get("snmp_v3").get("id")
-        snmpV3Description = AssignCredentials.get("snmp_v3").get("description")
-        if snmpV3Id or snmpV3Description:
+        snmp_v3 = AssignCredentials.get("snmp_v3")
+        if snmp_v3:
+            snmpV3Id = snmp_v3.get("id")
+            snmpV3Description = snmp_v3.get("description")
+            if snmpV3Id or snmpV3Description:
 
-            # All snmpV3 details from the Cisco DNA Center
-            snmpV3_details = global_credentials.get("snmpV3")
-            if not snmpV3_details:
-                self.msg = "No Global snmpV3 Credential is available"
-                self.status = "failed"
-                return self
-            snmpV3Detail = None
-            if snmpV3Id:
-                snmpV3Detail = get_dict_result(snmpV3_details, "id", snmpV3Id)
-                if not snmpV3Detail:
-                    self.msg = "snmpV3 credential ID is invalid"
+                # All snmpV3 details from the Cisco DNA Center
+                snmpV3_details = global_credentials.get("snmpV3")
+                if not snmpV3_details:
+                    self.msg = "Global snmpV3 Credential is not available."
                     self.status = "failed"
                     return self
-            elif snmpV3Description:
-                for item in snmpV3_details:
-                    if item.get("description") == snmpV3Description:
-                        snmpV3Detail = item
-                if not snmpV3Detail:
-                    self.msg = "snmpV2cWrite credential username and description is invalid"
-                    self.status = "failed"
-                    return self
-            want.get("assign_credentials").update({"snmpV3Id": snmpV3Detail.get("id")})
+                snmpV3Detail = None
+                if snmpV3Id:
+                    snmpV3Detail = get_dict_result(snmpV3_details, "id", snmpV3Id)
+                    if not snmpV3Detail:
+                        self.msg = "The ID of the snmpV3 credential is not valid."
+                        self.status = "failed"
+                        return self
+                elif snmpV3Description:
+                    for item in snmpV3_details:
+                        if item.get("description") == snmpV3Description:
+                            snmpV3Detail = item
+                    if not snmpV3Detail:
+                        self.msg = "The username and description for the snmpV2cWrite credential are invalid."
+                        self.status = "failed"
+                        return self
+                want.get("assign_credentials").update({"snmpV3Id": snmpV3Detail.get("id")})
         self.log("Desired State (want): {0}".format(want), "INFO")
         self.want.update(want)
         self.msg = "Collected the Credentials needed to be assigned from the Cisco DNA Center"
@@ -2572,7 +2579,9 @@ def main():
         "dnac_version": {"type": 'str', "default": '2.2.3.3'},
         "dnac_debug": {"type": 'bool', "default": False},
         "dnac_log": {"type": 'bool', "default": False},
-        "dnac_log_level": {"type": "str", "default": "INFO"},
+        "dnac_log_level": {"type": 'str', "default": 'WARNING'},
+        "dnac_log_file_path": {"type": 'str', "default": 'dnac.log'},
+        "dnac_log_append": {"type": 'bool', "default": True},
         "config_verify": {"type": 'bool', "default": False},
         "config": {"type": 'list', "required": True, "elements": 'dict'},
         "state": {"default": 'merged', "choices": ['merged', 'deleted']},

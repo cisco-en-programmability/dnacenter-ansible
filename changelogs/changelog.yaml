@@ -784,3 +784,11 @@ releases:
         release_summary: Fixing swim_import_local action.
         minor_changes:
           - Building additional parameters needed in sdk.
+    6.10.4:
+      release_date: "2024-02-05"
+      changes:
+        release_summary: Enhancements in Cisco Catalyst Center logging
+        minor_changes:
+          - Introducing log levels and log file path
+          - Updated Documentation in template intent module
+          - Enhancements in device_credential, inventory, discovery and template intent modules.
