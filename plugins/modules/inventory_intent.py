@@ -2876,6 +2876,15 @@ class DnacDevice(DnacBase):
             if not device_params['snmpPrivProtocol']:
                 device_params['snmpPrivProtocol'] = "AES128"
 
+            if device_params['snmpMode'] == "NOAUTHNOPRIV":
+                device_params.pop('snmpAuthPassphrase', None)
+                device_params.pop('snmpPrivPassphrase', None)
+                device_params.pop('snmpPrivProtocol', None)
+                device_params.pop('snmpAuthProtocol', None)
+            elif device_params['snmpMode'] == "AUTHNOPRIV":
+                device_params.pop('snmpPrivPassphrase', None)
+                device_params.pop('snmpPrivProtocol', None)
+
             self.mandatory_parameter().check_return_status()
             try:
                 response = self.dnac._exec(
