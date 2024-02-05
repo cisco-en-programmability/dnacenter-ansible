@@ -50,13 +50,17 @@ options:
         default: false
     dnac_log:
         description:
-          - Flag for logging playbook execution details.
-          - If set to true and dnac_log_file_path is provided,
-            - The log file will be created at the location of the execution with the provided name.
-          - If set to true and dnac_log_file_path is not provided,
-            - The log file will be created at the location of the execution with the name 'dnac.log'.
-          - If set to false,
-            - Logging will not take place.
+          - Flag to enable/disable playbook execution logging.
+          - When true and dnac_log_file_path is provided,
+            - Create the log file at the execution location with the specified name.
+          - When true and dnac_log_file_path is not provided,
+            - Create the log file at the execution location with the name 'dnac.log'.
+          - When false,
+            - Logging is disabled.
+          - If the log file doesn't exist,
+            - It is created in append or write mode based on the "dnac_log_append" flag.
+          - If the log file exists,
+            - It is overwritten or appended based on the "dnac_log_append" flag.
         type: bool
         default: false
     dnac_log_level:
