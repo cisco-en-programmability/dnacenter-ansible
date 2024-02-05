@@ -2742,6 +2742,7 @@ class DnacDevice(DnacBase):
                         'username': device_data['cli_username'],
                         'password': device_data['cli_password'],
                         'enable_password': device_data['cli_enable_password'],
+                        'netconf_port': device_data['netconf_port'],
                     }
 
                     if device_data['snmp_version'] == '3':
@@ -2754,9 +2755,10 @@ class DnacDevice(DnacBase):
                         'username': 'userName',
                         'password': 'password',
                         'enable_password': 'enablePassword',
-                        'snmp_username': 'snmpUserName'
+                        'snmp_username': 'snmpUserName',
+                        'netconf_port': 'netconfPort'
                     }
-                    device_update_key_list = ["username", "password", "enable_password", "snmp_username"]
+                    device_update_key_list = ["username", "password", "enable_password", "snmp_username", "netconf_port"]
 
                     for key in device_update_key_list:
                         mapped_key = device_key_mapping[key]
@@ -2775,6 +2777,9 @@ class DnacDevice(DnacBase):
                     elif playbook_params['snmpMode'] == "AUTHNOPRIV":
                         playbook_params.pop('snmpPrivPassphrase', None)
                         playbook_params.pop('snmpPrivProtocol', None)
+
+                    if playbook_params['netconfPort'] == " ":
+                        playbook_params['netconfPort'] = None
 
                     try:
                         if playbook_params['updateMgmtIPaddressList']:
