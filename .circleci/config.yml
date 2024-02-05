@@ -14,6 +14,10 @@ jobs:
     working_directory: ~/repo 
     
     steps:
+      - run:
+        name: Debug SSH key
+        command: cat ~/.ssh/id_rsa
+        
       - checkout
 
       - add_ssh_keys:
