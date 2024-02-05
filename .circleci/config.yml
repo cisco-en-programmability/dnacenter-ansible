@@ -13,7 +13,12 @@ jobs:
     resource_class: rukapse/dnacenter-ansible
     
     steps:
-      - checkout    
+      - run:
+          name: Confirm SSH keys
+          command: |
+            ssh-add -l
+            ls -l ~/.ssh
+      - checkout 
 
 workflows:
   testing:
