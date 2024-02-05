@@ -13,13 +13,7 @@ jobs:
     resource_class: rukapse/dnacenter-ansible
     
     steps:
-      - checkout:
-          path: ~/repo
-          key: 
-            fingerprint: "SHA256:J0xQGHm/j7txCuHdPam0+Ty+9VpEELCMJo8eYptUYO0"
-            type: rsa
-
-      
+      - checkout    
 
 workflows:
   testing:
