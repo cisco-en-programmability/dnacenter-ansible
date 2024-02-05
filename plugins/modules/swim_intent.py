@@ -15,13 +15,13 @@ module: swim_intent
 short_description: Intent module for SWIM related functions
 description:
 - Manage operation related to image importation, distribution, activation and tagging image as golden
-- API to fetch a software image from remote file system using URL for HTTP/FTP and upload it to DNA Center.
+- API to fetch a software image from remote file system using URL for HTTP/FTP and upload it to Catalyst Center.
   Supported image files extensions are bin, img, tar, smu, pie, aes, iso, ova, tar_gz and qcow2.
-- API to fetch a software image from local file system and upload it to DNA Center
+- API to fetch a software image from local file system and upload it to Catalyst Center
   Supported image files extensions are bin, img, tar, smu, pie, aes, iso, ova, tar_gz and qcow2.
 - API to tag/untag image as golen for a given family of devices
 - API to distribute a software image on a given device. Software image must be imported successfully into
-  DNA Center before it can be distributed.
+  Catalyst Center before it can be distributed.
 - API to activate a software image on a given device. Software image must be present in the device flash.
 version_added: '6.6.0'
 extends_documentation_fragment:
@@ -30,13 +30,12 @@ author: Madhan Sankaranarayanan (@madhansansel)
         Rishita Chowdhary (@rishitachowdhary)
         Abhishek Maheshwari (@abmahesh)
 options:
-  dnac_log_level:
-    description: Specifies the log level for Cisco Catalyst Center logging, categorizing logs by severity.
-        Options- [CRITICAL, ERROR, WARNING, INFO, DEBUG]
-    type: str
-    default: INFO
+  config_verify:
+    description: Set to True to verify the Cisco Catalyst Center config after applying the playbook config.
+    type: bool
+    default: False
   state:
-    description: The state of DNAC after module completion.
+    description: The state of Catalyst Center after module completion.
     type: str
     choices: [ merged ]
     default: merged
@@ -90,7 +89,7 @@ options:
                   source_url:
                     description: Swim Import Image Via Url.
                     type: str
-                  third_party:
+                  is_third_party:
                     description: ThirdParty flag.
                     type: bool
                   vendor:
@@ -243,7 +242,7 @@ EXAMPLES = r"""
         url_details:
           payload:
           - source_url: string
-            third_party: bool
+            is_third_party: bool
             image_family: string
             vendor: string
             application_type: string
@@ -309,10 +308,28 @@ EXAMPLES = r"""
     - tagging_details:
         image_name: string
         device_role: string
-        device_family_name: string
         device_type: string
         site_name: string
-        tagging: bool
+        tagging: true
+
+- name: Un-tagged the given image as golden and load it on device
+  cisco.dnac.swim_intent:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
+    dnac_log: True
+    config:
+    - tagging_details:
+        image_name: string
+        device_role: string
+        device_type: string
+        site_name: string
+        tagging: false
 
 - name: Distribute the given image on devices associated to that site with specified role.
   cisco.dnac.swim_intent:
@@ -358,7 +375,7 @@ EXAMPLES = r"""
 RETURN = r"""
 #Case: SWIM image is successfully imported, tagged as golden, distributed and activated on a device
 response:
-  description: A dictionary with activation details as returned by the DNAC Python SDK
+  description: A dictionary with activation details as returned by the Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >
@@ -388,6 +405,7 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     get_dict_result,
 )
 from ansible.module_utils.basic import AnsibleModule
+import os
 
 
 class DnacSwims(DnacBase):
@@ -417,8 +435,9 @@ class DnacSwims(DnacBase):
         """
 
         if not self.config:
-            self.msg = "config not available in playbook for validattion"
             self.status = "success"
+            self.msg = "Configuration is not available in the playbook for validation"
+            self.log(self.msg, "ERROR")
             return self
 
         temp_spec = dict(
@@ -427,32 +446,36 @@ class DnacSwims(DnacBase):
             image_distribution_details=dict(type='dict'),
             image_activation_details=dict(type='dict'),
         )
+        self.config = self.camel_to_snake_case(self.config)
 
         # Validate swim params
         valid_temp, invalid_params = validate_list_of_dicts(
             self.config, temp_spec
         )
+
         if invalid_params:
             self.msg = "Invalid parameters in playbook: {0}".format(invalid_params)
+            self.log(self.msg, "ERROR")
             self.status = "failed"
             return self
 
         self.validated_config = valid_temp
-        self.log(str(valid_temp))
-        self.msg = "Successfully validated input"
+        self.msg = "Successfully validated playbook config params: {0}".format(str(valid_temp))
+        self.log(self.msg, "INFO")
         self.status = "success"
+
         return self
 
     def site_exists(self, site_name):
         """
         Parameters:
-            self (object): An instance of a class used for interacting with Cisco DNA Center.
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
         Returns:
             tuple: A tuple containing two values:
             - site_exists (bool): A boolean indicating whether the site exists (True) or not (False).
             - site_id (str or None): The ID of the site if it exists, or None if the site is not found.
         Description:
-            This method checks the existence of a site in the DNAC. If the site is found,it sets 'site_exists' to True,
+            This method checks the existence of a site in the Catalyst Center. If the site is found,it sets 'site_exists' to True,
             retrieves the site's ID, and returns both values in a tuple. If the site does not exist, 'site_exists' is set
             to False, and 'site_id' is None. If an exception occurs during the site lookup, an exception is raised.
         """
@@ -467,11 +490,11 @@ class DnacSwims(DnacBase):
                 params={"name": site_name},
             )
         except Exception as e:
+            self.log("An exception occurred: Site '{0}' does not exist in the Cisco Catalyst Center".format(site_name), "ERROR")
             self.module.fail_json(msg="Site not found")
 
         if response:
-            self.log(str(response))
-
+            self.log("Received API response from 'get_site': {0}".format(str(response)), "DEBUG")
             site = response.get("response")
             site_id = site[0].get("id")
             site_exists = True
@@ -482,14 +505,14 @@ class DnacSwims(DnacBase):
         """
         Retrieve the unique image ID based on the provided image name.
         Parameters:
-            self (object): An instance of a class used for interacting with Cisco DNA Center.
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             name (str): The name of the software image to search for.
         Returns:
             str: The unique image ID (UUID) corresponding to the given image name.
         Raises:
             AnsibleFailJson: If the image is not found in the response.
         Description:
-            This function sends a request to Cisco DNAC to retrieve details about a software image based on its name.
+            This function sends a request to Cisco Catalyst Center to retrieve details about a software image based on its name.
             It extracts and returns the image ID if a single matching image is found. If no image or multiple
             images are found with the same name, it raises an exception.
         """
@@ -499,17 +522,50 @@ class DnacSwims(DnacBase):
             function='get_software_image_details',
             params={"image_name": name},
         )
-
-        self.log(str(image_response))
-
+        self.log("Received API response from 'get_software_image_details': {0}".format(str(image_response)), "DEBUG")
         image_list = image_response.get("response")
+
         if (len(image_list) == 1):
             image_id = image_list[0].get("imageUuid")
-            self.log("Image Id: " + str(image_id))
+            self.log("SWIM image '{0}' has the ID: {1}".format(name, image_id), "INFO")
         else:
-            error_message = "Image {0} not found".format(name)
-            self.log(error_message)
-            self.module.fail_json(msg="Image not found", response=image_response)
+            error_message = "SWIM image '{0}' could not be found".format(name)
+            self.log(error_message, "ERROR")
+            self.module.fail_json(msg=error_message, response=image_response)
+
+        return image_id
+
+    def get_image_name_from_id(self, image_id):
+        """
+        Retrieve the unique image name based on the provided image id.
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            id (str): The unique image ID (UUID) of the software image to search for.
+        Returns:
+            str: The image name corresponding to the given unique image ID (UUID)
+        Raises:
+            AnsibleFailJson: If the image is not found in the response.
+        Description:
+            This function sends a request to Cisco Catalyst Center to retrieve details about a software image based on its id.
+            It extracts and returns the image name if a single matching image is found. If no image or multiple
+            images are found with the same name, it raises an exception.
+        """
+
+        image_response = self.dnac._exec(
+            family="software_image_management_swim",
+            function='get_software_image_details',
+            params={"image_uuid": image_id},
+        )
+        self.log("Received API response from 'get_software_image_details': {0}".format(str(image_response)), "DEBUG")
+        image_list = image_response.get("response")
+
+        if (len(image_list) == 1):
+            image_name = image_list[0].get("name")
+            self.log("SWIM image '{0}' has been fetched successfully from Cisco Catalyst Center".format(image_name), "INFO")
+        else:
+            error_message = "SWIM image with Id '{0}' could not be found in Cisco Catalyst Center".format(image_id)
+            self.log(error_message, "ERROR")
+            self.module.fail_json(msg=error_message, response=image_response)
 
         return image_id
 
@@ -517,14 +573,14 @@ class DnacSwims(DnacBase):
         """
         Retrieve the unique image ID based on the provided image name.
         Parameters:
-            self (object): An instance of a class used for interacting with Cisco DNA Center.
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             name (str): The name of the software image to search for.
         Returns:
             str: The unique image ID (UUID) corresponding to the given image name.
         Raises:
             AnsibleFailJson: If the image is not found in the response.
         Description:
-            This function sends a request to Cisco DNAC to retrieve details about a software image based on its name.
+            This function sends a request to Cisco Catalyst Center to retrieve details about a software image based on its name.
             It extracts and returns the image ID if a single matching image is found. If no image or multiple
             images are found with the same name, it raises an exception.
         """
@@ -535,8 +591,9 @@ class DnacSwims(DnacBase):
             function='get_software_image_details',
             params={"image_name": name},
         )
-        self.log(str(image_response))
+        self.log("Received API response from 'get_software_image_details': {0}".format(str(image_response)), "DEBUG")
         image_list = image_response.get("response")
+
         if (len(image_list) == 1):
             image_exist = True
 
@@ -546,12 +603,12 @@ class DnacSwims(DnacBase):
         """
         Retrieve the unique device ID based on the provided parameters.
         Parameters:
-            self (object): An instance of a class used for interacting with Cisco DNA Center.
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             params (dict): A dictionary containing parameters to filter devices.
         Returns:
             str: The unique device ID corresponding to the filtered device.
         Description:
-            This function sends a request to Cisco DNA Center to retrieve a list of devices based on the provided
+            This function sends a request to Cisco Catalyst Center to retrieve a list of devices based on the provided
             filtering parameters. If a single matching device is found, it extracts and returns the device ID. If
             no device or multiple devices match the criteria, it raises an exception.
         """
@@ -561,14 +618,14 @@ class DnacSwims(DnacBase):
             function='get_device_list',
             params=params,
         )
-        self.log(str(response))
+        self.log("Received API response from 'get_device_list': {0}".format(str(response)), "DEBUG")
 
         device_list = response.get("response")
         if (len(device_list) == 1):
             device_id = device_list[0].get("id")
-            self.log("Device Id: " + str(device_id))
+            self.log("Device Id: {0}".format(str(device_id)), "INFO")
         else:
-            self.log("Device not found")
+            self.log("Device not found", "WARNING")
 
         return device_id
 
@@ -576,10 +633,10 @@ class DnacSwims(DnacBase):
         """
         Retrieve a list of device UUIDs based on the specified criteria.
         Parameters:
-            self (object): An instance of a class used for interacting with Cisco DNA Center.
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             site_name (str): The name of the site for which device UUIDs are requested.
             device_family (str): The family/type of devices to filter on.
-            device_role (str): The role of devices to filter on. If None, all roles are considered.
+            device_role (str): The role of devices to filter on. If None, 'ALL' roles are considered.
         Returns:
             list: A list of device UUIDs that match the specified criteria.
         Description:
@@ -606,7 +663,9 @@ class DnacSwims(DnacBase):
             op_modifies=True,
             params=site_params,
         )
+        self.log("Received API response from 'get_membership': {0}".format(str(response)), "DEBUG")
         response = response['device'][0]['response']
+
         if len(response) > 0:
             for item in response:
                 if item["reachabilityStatus"] != "Reachable":
@@ -620,14 +679,14 @@ class DnacSwims(DnacBase):
         """
         Retrieve and store the device family identifier based on the provided family name.
         Parameters:
-            self (object): An instance of a class used for interacting with Cisco DNA Center.
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             family_name (str): The name of the device family for which to retrieve the identifier.
         Returns:
             None
         Raises:
             AnsibleFailJson: If the family name is not found in the response.
         Description:
-            This function sends a request to Cisco DNA Center to retrieve a list of device family identifiers.It then
+            This function sends a request to Cisco Catalyst Center to retrieve a list of device family identifiers.It then
             searches for a specific family name within the response and stores its associated identifier. If the family
             name is found, the identifier is stored; otherwise, an exception is raised.
         """
@@ -637,15 +696,18 @@ class DnacSwims(DnacBase):
             family="software_image_management_swim",
             function='get_device_family_identifiers',
         )
-        self.log(str(response))
+        self.log("Received API response from 'get_device_family_identifiers': {0}".format(str(response)), "DEBUG")
         device_family_db = response.get("response")
+
         if device_family_db:
             device_family_details = get_dict_result(device_family_db, 'deviceFamily', family_name)
+
             if device_family_details:
                 device_family_identifier = device_family_details.get("deviceFamilyIdentifier")
                 have["device_family_identifier"] = device_family_identifier
-                self.log("Family device indentifier:" + str(device_family_identifier))
+                self.log("Family device indentifier: {0}".format(str(device_family_identifier)), "INFO")
             else:
+                self.log("Device Family: {0} not found".format(str(family_name)), "ERROR")
                 self.module.fail_json(msg="Family Device Name not found", response=[])
             self.have.update(have)
 
@@ -659,7 +721,7 @@ class DnacSwims(DnacBase):
         Description:
             This function populates the 'have' dictionary with details related to software images, site information,
             device families, distribution devices, and activation devices based on user-provided data in the 'want' dictionary.
-            It validates and retrieves the necessary information from Cisco DNAC to support later actions.
+            It validates and retrieves the necessary information from Cisco Catalyst Center to support later actions.
         """
 
         if self.want.get("tagging_details"):
@@ -674,6 +736,7 @@ class DnacSwims(DnacBase):
                 have["tagging_image_id"] = self.have.get("imported_image_id")
 
             else:
+                self.log("Image details for tagging not provided", "CRITICAL")
                 self.module.fail_json(msg="Image details for tagging not provided", response=[])
 
             # check if given site exists, store siteid
@@ -684,11 +747,11 @@ class DnacSwims(DnacBase):
                 (site_exists, site_id) = self.site_exists(site_name)
                 if site_exists:
                     have["site_id"] = site_id
-                    self.log("Site Exists: " + str(site_exists) + "\n Site_id:" + str(site_id))
+                    self.log("Site {0} exists having the site id: {1}".format(site_name, str(site_id)), "DEBUG")
             else:
                 # For global site, use -1 as siteId
                 have["site_id"] = "-1"
-                self.log("Site Name not given by user. Using global site.")
+                self.log("Site Name not given by user. Using global site.", "WARNING")
 
             self.have.update(have)
             # check if given device family name exists, store indentifier value
@@ -705,7 +768,7 @@ class DnacSwims(DnacBase):
 
                 if site_exists:
                     have["site_id"] = site_id
-                    self.log("Site Exists: " + str(site_exists) + "\n Site_id:" + str(site_id))
+                    self.log("Site '{0}' exists and has the site ID: {1}".format(site_name, str(site_id)), "DEBUG")
 
             # check if image for distributon is available
             if distribution_details.get("image_name"):
@@ -717,7 +780,8 @@ class DnacSwims(DnacBase):
                 have["distribution_image_id"] = self.have.get("imported_image_id")
 
             else:
-                self.module.fail_json(msg="Image details for distribution not provided", response=[])
+                self.log("Image details required for distribution have not been provided", "ERROR")
+                self.module.fail_json(msg="Image details required for distribution have not been provided", response=[])
 
             device_params = dict(
                 hostname=distribution_details.get("device_hostname"),
@@ -741,9 +805,9 @@ class DnacSwims(DnacBase):
 
             elif self.have.get("imported_image_id"):
                 have["activation_image_id"] = self.have.get("imported_image_id")
-
             else:
-                self.module.fail_json(msg="Image details for activation not provided", response=[])
+                self.log("Image details required for activation have not been provided", "ERROR")
+                self.module.fail_json(msg="Image details required for activation have not been provided", response=[])
 
             site_name = activation_details.get("site_name")
             if site_name:
@@ -751,7 +815,7 @@ class DnacSwims(DnacBase):
                 (site_exists, site_id) = self.site_exists(site_name)
                 if site_exists:
                     have["site_id"] = site_id
-                    self.log("Site Exists: " + str(site_exists) + "\n Site_id:" + str(site_id))
+                    self.log("The site '{0}' exists and has the site ID '{1}'".format(site_name, str(site_id)), "INFO")
 
             device_params = dict(
                 hostname=activation_details.get("device_hostname"),
@@ -760,9 +824,11 @@ class DnacSwims(DnacBase):
                 macAddress=activation_details.get("device_mac_address"),
             )
             device_id = self.get_device_id(device_params)
+
             if device_id is not None:
                 have["activation_device_id"] = device_id
             self.have.update(have)
+            self.log("Current State (have): {0}".format(str(self.have)), "INFO")
 
         return self
 
@@ -770,7 +836,7 @@ class DnacSwims(DnacBase):
         """
         Retrieve and store import, tagging, distribution, and activation details from playbook configuration.
         Parameters:
-            self (object): An instance of a class used for interacting with Cisco DNA Center.
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             config (dict): The configuration dictionary containing image import and other details.
         Returns:
             self: The current instance of the class with updated 'want' attributes.
@@ -791,6 +857,7 @@ class DnacSwims(DnacBase):
             elif want["import_type"] == "local":
                 want["local_import_details"] = config.get("import_image_details").get("local_image_details")
             else:
+                self.log("The import type '{0}' provided is incorrect. Only 'local' or 'url' are supported.".format(want["import_type"]), "CRITICAL")
                 self.module.fail_json(msg="Incorrect import type. Supported Values: local or url")
 
         want["tagging_details"] = config.get("tagging_details")
@@ -798,7 +865,7 @@ class DnacSwims(DnacBase):
         want["activation_details"] = config.get("image_activation_details")
 
         self.want = want
-        self.log(str(self.want))
+        self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
 
         return self
 
@@ -806,9 +873,9 @@ class DnacSwims(DnacBase):
         """
         Check the image import type and fetch the image ID for the imported image for further use.
         Parameters:
-            self (object): An instance of a class used for interacting with Cisco DNA Center.
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
         Returns:
-            self (object): An instance of a class used for interacting with Cisco DNA Center.
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
         Description:
             This function checks the type of image import (URL or local) and proceeds with the import operation accordingly.
             It then monitors the import task's progress and updates the 'result' dictionary. If the operation is successful,
@@ -821,10 +888,10 @@ class DnacSwims(DnacBase):
             import_type = self.want.get("import_type")
 
             if not import_type:
+                self.status = "success"
                 self.msg = "Error: Details required for importing SWIM image. Please provide the necessary information."
                 self.result['msg'] = self.msg
                 self.log(self.msg, "WARNING")
-                self.status = "success"
                 self.result['changed'] = False
                 return self
 
@@ -833,7 +900,7 @@ class DnacSwims(DnacBase):
             else:
                 image_name = self.want.get("local_import_details").get("file_path")
 
-            # Code to check if the image already exists in DNAC
+            # Code to check if the image already exists in Catalyst Center
             name = image_name.split('/')[-1]
             image_exist = self.is_image_exist(name)
 
@@ -841,15 +908,15 @@ class DnacSwims(DnacBase):
                 'source_url': 'sourceURL',
                 'image_family': 'imageFamily',
                 'application_type': 'applicationType',
-                'third_party': 'thirdParty',
+                'is_third_party': 'thirdParty',
             }
 
             if image_exist:
                 image_id = self.get_image_id(name)
                 self.have["imported_image_id"] = image_id
-                self.msg = "Image {0} already exists in the Cisco DNA Center".format(name)
+                self.msg = "Image '{0}' already exists in the Cisco Catalyst Center".format(name)
                 self.result['msg'] = self.msg
-                self.log(self.msg)
+                self.log(self.msg, "INFO")
                 self.status = "success"
                 self.result['changed'] = False
                 return self
@@ -873,12 +940,14 @@ class DnacSwims(DnacBase):
                 )
                 import_function = 'import_software_image_via_url'
             else:
+                file_path = self.want.get("local_import_details").get("file_path")
                 import_params = dict(
                     is_third_party=self.want.get("local_import_details").get("is_third_party"),
                     third_party_vendor=self.want.get("local_import_details").get("third_party_vendor"),
                     third_party_image_family=self.want.get("local_import_details").get("third_party_image_family"),
                     third_party_application_type=self.want.get("local_import_details").get("third_party_application_type"),
-                    file_path=self.want.get("local_import_details").get("file_path"),
+                    multipart_fields={'file': (os.path.basename(file_path), open(file_path, 'rb'), 'application/octet-stream')},
+                    multipart_monitor_callback=None
                 )
                 import_function = 'import_local_software_image'
 
@@ -888,8 +957,7 @@ class DnacSwims(DnacBase):
                 op_modifies=True,
                 params=import_params,
             )
-
-            self.log(str(response))
+            self.log("Received API response from {0}: {1}".format(import_function, str(response)), "DEBUG")
 
             task_details = {}
             task_id = response.get("response").get("taskId")
@@ -904,21 +972,21 @@ class DnacSwims(DnacBase):
                     self.status = "success"
                     self.msg = "Swim Image {0} imported successfully".format(name)
                     self.result['msg'] = self.msg
-                    self.log(self.msg)
+                    self.log(self.msg, "INFO")
                     break
 
                 if task_details and task_details.get("isError"):
                     if "already exists" in task_details.get("failureReason", ""):
-                        self.msg = "SWIM Image {0} already exists in the Cisco DNA Center".format(name)
+                        self.msg = "SWIM Image {0} already exists in the Cisco Catalyst Center".format(name)
                         self.result['msg'] = self.msg
-                        self.log(self.msg)
+                        self.log(self.msg, "INFO")
                         self.status = "success"
                         self.result['changed'] = False
                         break
                     else:
                         self.status = "failed"
                         self.msg = task_details.get("failureReason", "SWIM Image {0} seems to be invalid".format(image_name))
-                        self.log(self.msg)
+                        self.log(self.msg, "WARNING")
                         self.result['response'] = self.msg
                         return self
 
@@ -944,28 +1012,63 @@ class DnacSwims(DnacBase):
         """
         Tag or untag a software image as golden based on provided tagging details.
         Parameters:
-            self (object): An instance of a class used for interacting with Cisco DNA Center.
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
         Returns:
-            self (object): An instance of a class used for interacting with Cisco DNA Center.
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
         Description:
-            This function tags or untags a software image as a golden image in Cisco DNAC based on the provided
+            This function tags or untags a software image as a golden image in Cisco Catalyst Center based on the provided
             tagging details. The tagging action is determined by the value of the 'tagging' attribute
             in the 'tagging_details' dictionary.If 'tagging' is True, the image is tagged as golden, and if 'tagging'
-            is False, the golden tag is removed. The function sends the appropriate request to Cisco DNAC and updates the
+            is False, the golden tag is removed. The function sends the appropriate request to Cisco Catalyst Center and updates the
             task details in the 'result' dictionary. If the operation is successful, 'changed' is set to True.
         """
 
         tagging_details = self.want.get("tagging_details")
         tag_image_golden = tagging_details.get("tagging")
+        image_name = self.get_image_name_from_id(self.have.get("tagging_image_id"))
+
+        image_params = dict(
+            image_id=self.have.get("tagging_image_id"),
+            site_id=self.have.get("site_id"),
+            device_family_identifier=self.have.get("device_family_identifier"),
+            device_role=tagging_details.get("device_role", "ALL").upper()
+        )
+
+        response = self.dnac._exec(
+            family="software_image_management_swim",
+            function='get_golden_tag_status_of_an_image',
+            op_modifies=True,
+            params=image_params
+        )
+        self.log("Received API response from 'get_golden_tag_status_of_an_image': {0}".format(str(response)), "DEBUG")
+
+        response = response.get('response')
+        if response:
+            image_status = response['taggedGolden']
+            if image_status and image_status == tag_image_golden:
+                self.status = "success"
+                self.result['changed'] = False
+                self.msg = "SWIM Image '{0}' already tagged as Golden image in Cisco Catalyst Center".format(image_name)
+                self.result['msg'] = self.msg
+                self.log(self.msg, "INFO")
+                return self
+
+            if not image_status and image_status == tag_image_golden:
+                self.status = "success"
+                self.result['changed'] = False
+                self.msg = "SWIM Image '{0}' already un-tagged from Golden image in Cisco Catalyst Center".format(image_name)
+                self.result['msg'] = self.msg
+                self.log(self.msg, "INFO")
+                return self
 
         if tag_image_golden:
             image_params = dict(
                 imageId=self.have.get("tagging_image_id"),
                 siteId=self.have.get("site_id"),
                 deviceFamilyIdentifier=self.have.get("device_family_identifier"),
-                deviceRole=tagging_details.get("device_role")
+                deviceRole=tagging_details.get("device_role", "ALL").upper()
             )
-            self.log("Image params for tagging image as golden:" + str(image_params))
+            self.log("Parameters for tagging the image as golden: {0}".format(str(image_params)), "INFO")
 
             response = self.dnac._exec(
                 family="software_image_management_swim",
@@ -973,16 +1076,10 @@ class DnacSwims(DnacBase):
                 op_modifies=True,
                 params=image_params
             )
-            self.log(str(response))
+            self.log("Received API response from 'tag_as_golden_image': {0}".format(str(response)), "DEBUG")
 
         else:
-            image_params = dict(
-                image_id=self.have.get("tagging_image_id"),
-                site_id=self.have.get("site_id"),
-                device_family_identifier=self.have.get("device_family_identifier"),
-                device_role=tagging_details.get("device_role")
-            )
-            self.log("Image params for un-tagging image as golden:" + str(image_params))
+            self.log("Parameters for un-tagging the image as golden: {0}".format(str(image_params)), "INFO")
 
             response = self.dnac._exec(
                 family="software_image_management_swim",
@@ -990,7 +1087,7 @@ class DnacSwims(DnacBase):
                 op_modifies=True,
                 params=image_params
             )
-            self.log(str(response))
+            self.log("Received API response from 'remove_golden_tag_for_image': {0}".format(str(response)), "DEBUG")
 
         if response:
             task_details = {}
@@ -1000,23 +1097,37 @@ class DnacSwims(DnacBase):
                 self.result['changed'] = True
                 self.result['msg'] = task_details.get("progress")
                 self.status = "success"
-
-            self.result['response'] = task_details if task_details else response
+                self.result['response'] = task_details if task_details else response
+            elif task_details.get("isError"):
+                failure_reason = task_details.get("failureReason", "")
+                if failure_reason and "An inheritted tag cannot be un-tagged" in failure_reason:
+                    self.status = "success"
+                    self.result['changed'] = False
+                    self.msg = failure_reason
+                    self.result['msg'] = failure_reason
+                    self.log(self.msg, "WARNING")
+                else:
+                    error_message = task_details.get("failureReason", "Error: while tagging/un-tagging the golden swim image.")
+                    self.status = "failed"
+                    self.msg = error_message
+                    self.result['msg'] = error_message
+                    self.log(self.msg, "ERROR")
+                self.result['response'] = self.msg
 
         return self
 
     def get_device_ip_from_id(self, device_id):
         """
-        Retrieve the management IP address of a device from Cisco DNA Center using its ID.
-        Args:
-            - self (object): An instance of a class used for interacting with Cisco DNA Center.
-            - device_id (str): The unique identifier of the device in Cisco DNA Center.
+        Retrieve the management IP address of a device from Cisco Catalyst Center using its ID.
+        Parameters:
+            - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            - device_id (str): The unique identifier of the device in Cisco Catalyst Center.
         Returns:
             str: The management IP address of the specified device.
         Raises:
-            Exception: If there is an error while retrieving the response from Cisco DNA Center.
+            Exception: If there is an error while retrieving the response from Cisco Catalyst Center.
         Description:
-            This method queries Cisco DNA Center for the device details based on its unique identifier (ID).
+            This method queries Cisco Catalyst Center for the device details based on its unique identifier (ID).
             It uses the 'get_device_list' function in the 'devices' family, extracts the management IP address
             from the response, and returns it. If any error occurs during the process, an exception is raised
             with an appropriate error message logged.
@@ -1028,12 +1139,13 @@ class DnacSwims(DnacBase):
                 function='get_device_list',
                 params={"id": device_id}
             )
+            self.log("Received API response from 'get_device_list': {0}".format(str(response)), "DEBUG")
             response = response.get('response')[0]
             device_ip = response.get("managementIpAddress")
 
             return device_ip
         except Exception as e:
-            error_message = "Error while getting the response of device from Cisco DNA Center - {0}".format(str(e))
+            error_message = "Error occurred while getting the response of device from Cisco Catalyst Center: {0}".format(str(e))
             self.log(error_message, "ERROR")
             raise Exception(error_message)
 
@@ -1041,9 +1153,9 @@ class DnacSwims(DnacBase):
         """
         Get image distribution parameters from the playbook and trigger image distribution.
         Parameters:
-            self (object): An instance of a class used for interacting with Cisco DNA Center.
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
         Returns:
-            self (object): An instance of a class used for interacting with Cisco DNA Center.
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
         Description:
             This function retrieves image distribution parameters from the playbook's 'distribution_details' and triggers
             the distribution of the specified software image to the specified device. It monitors the distribution task's
@@ -1053,18 +1165,19 @@ class DnacSwims(DnacBase):
         distribution_details = self.want.get("distribution_details")
         site_name = distribution_details.get("site_name")
         device_family = distribution_details.get("device_family_name")
-        device_role = distribution_details.get("device_role")
+        device_role = distribution_details.get("device_role", "ALL")
         device_uuid_list = self.get_device_uuids(site_name, device_family, device_role)
         image_id = self.have.get("distribution_image_id")
 
         if self.have.get("distribution_device_id"):
+            self.single_device_distribution = False
             distribution_params = dict(
                 payload=[dict(
                     deviceUuid=self.have.get("distribution_device_id"),
                     imageUuid=image_id
                 )]
             )
-            self.log("Distribution Params: " + str(distribution_params))
+            self.log("Distribution Params: {0}".format(str(distribution_params)), "INFO")
 
             response = self.dnac._exec(
                 family="software_image_management_swim",
@@ -1072,6 +1185,8 @@ class DnacSwims(DnacBase):
                 op_modifies=True,
                 params=distribution_params,
             )
+            self.log("Received API response from 'trigger_software_image_distribution': {0}".format(str(response)), "DEBUG")
+
             if response:
                 task_details = {}
                 task_id = response.get("response").get("taskId")
@@ -1083,13 +1198,14 @@ class DnacSwims(DnacBase):
                             ("completed successfully" in task_details.get("progress")):
                         self.result['changed'] = True
                         self.status = "success"
+                        self.single_device_distribution = True
                         self.result['msg'] = "Image with Id {0} Distributed Successfully".format(image_id)
                         break
 
                     if task_details.get("isError"):
                         self.status = "failed"
                         self.msg = "Image with Id {0} Distribution Failed".format(image_id)
-                        self.log(self.msg)
+                        self.log(self.msg, "WARNING")
                         self.result['response'] = task_details
                         break
 
@@ -1099,14 +1215,18 @@ class DnacSwims(DnacBase):
 
         if len(device_uuid_list) == 0:
             self.status = "failed"
-            msg = "No devices found for Image Distribution"
-            self.result['msg'] = msg
-            self.log(msg)
+            self.msg = "Image Distribution cannot proceed due to the absence of device(s)"
+            self.result['msg'] = self.msg
+            self.log(self.msg, "WARNING")
             return self
 
-        self.log("List of device UUID's for Image Distribution " + str(device_uuid_list))
+        self.log("Device UUIDs involved in Image Distribution: {0}".format(str(device_uuid_list)), "INFO")
+
         device_distribution_count = 0
         device_ips_list = []
+        self.complete_successful_distribution = False
+        self.partial_successful_distribution = False
+
         for device_uuid in device_uuid_list:
             device_management_ip = self.get_device_ip_from_id(device_uuid)
             distribution_params = dict(
@@ -1115,13 +1235,15 @@ class DnacSwims(DnacBase):
                     imageUuid=image_id
                 )]
             )
-            self.log("Distribution Params: " + str(distribution_params))
+            self.log("Distribution Params: {0}".format(str(distribution_params)), "INFO")
             response = self.dnac._exec(
                 family="software_image_management_swim",
                 function='trigger_software_image_distribution',
                 op_modifies=True,
                 params=distribution_params,
             )
+            self.log("Received API response from 'trigger_software_image_distribution': {0}".format(str(response)), "DEBUG")
+
             if response:
                 task_details = {}
                 task_id = response.get("response").get("taskId")
@@ -1133,13 +1255,13 @@ class DnacSwims(DnacBase):
                             ("completed successfully" in task_details.get("progress")):
                         self.result['changed'] = True
                         self.status = "success"
-                        self.result['msg'] = "Image with Id {0} Distributed Successfully".format(image_id)
+                        self.result['msg'] = "Image with Id '{0}' Distributed successfully".format(image_id)
                         device_distribution_count += 1
                         break
 
                     if task_details.get("isError"):
-                        error_msg = "Image with Id {0} Distribution Failed".format(image_id)
-                        self.log(error_msg)
+                        error_msg = "Image with Id '{0}' Distribution failed".format(image_id)
+                        self.log(error_msg, "WARNING")
                         self.result['response'] = task_details
                         device_ips_list.append(device_management_ip)
                         break
@@ -1150,15 +1272,17 @@ class DnacSwims(DnacBase):
         elif device_distribution_count == len(device_uuid_list):
             self.result['changed'] = True
             self.status = "success"
+            self.complete_successful_distribution = True
             self.msg = "Image with Id {0} Distributed Successfully for all devices".format(image_id)
         else:
             self.result['changed'] = True
             self.status = "success"
-            self.msg = "Image with Id {0} Distributed and partially Successfull".format(image_id)
-            self.log("For Devices {0} Image Distribution gets Failed".format(str(device_ips_list)), "CRITICAL")
+            self.partial_successful_distribution = False
+            self.msg = "Image with Id '{0}' Distributed and partially successfull".format(image_id)
+            self.log("For device(s) {0} image Distribution gets failed".format(str(device_ips_list)), "CRITICAL")
 
         self.result['msg'] = self.msg
-        self.log(self.msg)
+        self.log(self.msg, "INFO")
 
         return self
 
@@ -1166,9 +1290,9 @@ class DnacSwims(DnacBase):
         """
         Get image activation parameters from the playbook and trigger image activation.
         Parameters:
-            self (object): An instance of a class used for interacting with Cisco DNA Center.
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
         Returns:
-            self (object): An instance of a class used for interacting with Cisco DNA Center.
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
         Description:
             This function retrieves image activation parameters from the playbook's 'activation_details' and triggers the
             activation of the specified software image on the specified device. It monitors the activation task's progress and
@@ -1178,11 +1302,12 @@ class DnacSwims(DnacBase):
         activation_details = self.want.get("activation_details")
         site_name = activation_details.get("site_name")
         device_family = activation_details.get("device_family_name")
-        device_role = activation_details.get("device_role")
+        device_role = activation_details.get("device_role", "ALL")
         device_uuid_list = self.get_device_uuids(site_name, device_family, device_role)
         image_id = self.have.get("activation_image_id")
 
         if self.have.get("activation_device_id"):
+            self.single_device_activation = False
             payload = [dict(
                 activateLowerImageVersion=activation_details.get("activate_lower_image_version"),
                 deviceUpgradeMode=activation_details.get("device_upgrade_mode"),
@@ -1195,7 +1320,7 @@ class DnacSwims(DnacBase):
                 schedule_validate=activation_details.get("scehdule_validate"),
                 payload=payload
             )
-            self.log("Activation Params: " + str(activation_params))
+            self.log("Activation Params: {0}".format(str(activation_params)), "INFO")
 
             response = self.dnac._exec(
                 family="software_image_management_swim",
@@ -1203,6 +1328,8 @@ class DnacSwims(DnacBase):
                 op_modifies=True,
                 params=activation_params,
             )
+            self.log("Received API response from 'trigger_software_image_activation': {0}".format(str(response)), "DEBUG")
+
             task_details = {}
             task_id = response.get("response").get("taskId")
 
@@ -1214,13 +1341,15 @@ class DnacSwims(DnacBase):
                     self.result['changed'] = True
                     self.result['msg'] = "Image Activated successfully"
                     self.status = "success"
+                    self.single_device_activation = True
                     break
 
                 if task_details.get("isError"):
-                    error_msg = "Activation for Image with Id - {0} gets Failed".format(image_id)
+                    error_msg = "Activation for Image with Id '{0}' gets failed".format(image_id)
                     self.status = "failed"
                     self.result['response'] = task_details
                     self.msg = error_msg
+                    self.log(error_msg, "WARNING")
                     return self
 
             self.result['response'] = task_details if task_details else response
@@ -1229,15 +1358,16 @@ class DnacSwims(DnacBase):
 
         if len(device_uuid_list) == 0:
             self.status = "failed"
-            msg = "No Devices found for Image Activation"
-            self.result['msg'] = msg
-            self.log(msg)
+            self.msg = "No devices found for Image Activation"
+            self.result['msg'] = self.msg
+            self.log(self.msg, "WARNING")
             return self
 
-        # if len(device_uuid_list) > 0:
-        self.log("List of device UUID's for Image Activation" + str(device_uuid_list))
+        self.log("Device UUIDs involved in Image Activation: {0}".format(str(device_uuid_list)), "INFO")
         device_activation_count = 0
         device_ips_list = []
+        self.complete_successful_activation = False
+        self.partial_successful_activation = False
 
         for device_uuid in device_uuid_list:
             device_management_ip = self.get_device_ip_from_id(device_uuid)
@@ -1253,7 +1383,7 @@ class DnacSwims(DnacBase):
                 schedule_validate=activation_details.get("scehdule_validate"),
                 payload=payload
             )
-            self.log("Activation Params: " + str(activation_params))
+            self.log("Activation Params: {0}".format(str(activation_params)), "INFO")
 
             response = self.dnac._exec(
                 family="software_image_management_swim",
@@ -1261,6 +1391,8 @@ class DnacSwims(DnacBase):
                 op_modifies=True,
                 params=activation_params,
             )
+            self.log("Received API response from 'trigger_software_image_activation': {0}".format(str(response)), "DEBUG")
+
             if response:
                 task_details = {}
                 task_id = response.get("response").get("taskId")
@@ -1272,31 +1404,34 @@ class DnacSwims(DnacBase):
                             ("completed successfully" in task_details.get("progress")):
                         self.result['changed'] = True
                         self.status = "success"
-                        self.result['msg'] = "Image with Id {0} Activated Successfully".format(image_id)
+                        self.result['msg'] = "Image with Id '{0}' activated successfully".format(image_id)
                         device_activation_count += 1
                         break
 
                     if task_details.get("isError"):
-                        error_msg = "Image with Id {0} Activation Failed".format(image_id)
+                        error_msg = "Image with Id '{0}' activation failed".format(image_id)
+                        self.log(error_msg, "WARNING")
                         self.result['response'] = task_details
                         device_ips_list.append(device_management_ip)
                         break
 
         if device_activation_count == 0:
             self.status = "failed"
-            msg = "Image with Id {0} Activation Failed for all devices".format(image_id)
+            msg = "Image with Id '{0}' activation failed for all devices".format(image_id)
         elif device_activation_count == len(device_uuid_list):
             self.result['changed'] = True
             self.status = "success"
-            msg = "Image with Id {0} Activated Successfully for all devices".format(image_id)
+            self.complete_successful_activation = True
+            msg = "Image with Id '{0}' activated successfully for all devices".format(image_id)
         else:
             self.result['changed'] = True
             self.status = "success"
-            msg = "Image with Id {0} Activated and partially Successfull".format(image_id)
-            self.log("For Devices {0} Image Activation gets Failed".format(str(device_ips_list)), "CRITICAL")
+            self.partial_successful_activation = True
+            msg = "Image with Id '{0}' activated and partially successfull".format(image_id)
+            self.log("For Device(s) {0} Image activation gets Failed".format(str(device_ips_list)), "CRITICAL")
 
         self.result['msg'] = msg
-        self.log(msg)
+        self.log(msg, "INFO")
 
         return self
 
@@ -1304,7 +1439,7 @@ class DnacSwims(DnacBase):
         """
         Get tagging details and then trigger distribution followed by activation if specified in the playbook.
         Parameters:
-            self (object): An instance of a class used for interacting with Cisco DNA Center.
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             config (dict): The configuration dictionary containing tagging, distribution, and activation details.
         Returns:
             self: The current instance of the class with updated 'result' and 'have' attributes.
@@ -1326,6 +1461,211 @@ class DnacSwims(DnacBase):
 
         return self
 
+    def verify_diff_imported(self, import_type):
+        """
+        Verify the successful import of a software image into Cisco Catalyst Center.
+        Args:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            import_type (str): The type of import, either 'url' or 'local'.
+        Returns:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+        Description:
+            This method verifies the successful import of a software image into Cisco Catalyst Center.
+            It checks whether the image exists in Catalyst Center based on the provided import type.
+            If the image exists, the status is set to 'success', and a success message is logged.
+            If the image does not exist, a warning message is logged indicating a potential import failure.
+        """
+
+        if import_type == "url":
+            image_name = self.want.get("url_import_details").get("payload")[0].get("source_url")
+        else:
+            image_name = self.want.get("local_import_details").get("file_path")
+
+        # Code to check if the image already exists in Catalyst Center
+        name = image_name.split('/')[-1]
+        image_exist = self.is_image_exist(name)
+        if image_exist:
+            self.status = "success"
+            self.msg = "The requested Image '{0}' imported in the Cisco Catalyst Center and Image presence has been verified.".format(name)
+            self.log(self.msg, "INFO")
+        else:
+            self.log("""The playbook input for SWIM Image '{0}' does not align with the Cisco Catalyst Center, indicating that image
+                        may not have imported successfully.""".format(name), "INFO")
+
+        return self
+
+    def verify_diff_tagged(self):
+        """
+        Verify the Golden tagging status of a software image in Cisco Catalyst Center.
+        Args:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+        Returns:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+        Description:
+            This method verifies the tagging status of a software image in Cisco Catalyst Center.
+            It retrieves tagging details from the input, including the desired tagging status and image ID.
+            Using the provided image ID, it obtains image parameters required for checking the image status.
+            The method then queries Catalyst Center to get the golden tag status of the image.
+            If the image status matches the desired tagging status, a success message is logged.
+            If there is a mismatch between the playbook input and the Catalyst Center, a warning message is logged.
+        """
+
+        tagging_details = self.want.get("tagging_details")
+        tag_image_golden = tagging_details.get("tagging")
+        image_id = self.have.get("tagging_image_id")
+        image_name = self.get_image_name_from_id(image_id)
+
+        image_params = dict(
+            image_id=self.have.get("tagging_image_id"),
+            site_id=self.have.get("site_id"),
+            device_family_identifier=self.have.get("device_family_identifier"),
+            device_role=tagging_details.get("device_role", "ALL").upper()
+        )
+        self.log("Parameters for checking the status of image: {0}".format(str(image_params)), "INFO")
+
+        response = self.dnac._exec(
+            family="software_image_management_swim",
+            function='get_golden_tag_status_of_an_image',
+            op_modifies=True,
+            params=image_params
+        )
+        self.log("Received API response from 'get_golden_tag_status_of_an_image': {0}".format(str(response)), "DEBUG")
+
+        response = response.get('response')
+        if response:
+            image_status = response['taggedGolden']
+            if image_status == tag_image_golden:
+                if tag_image_golden:
+                    self.msg = """The requested image '{0}' has been tagged as golden in the Cisco Catalyst Center and
+                             its status has been successfully verified.""".format(image_name)
+                    self.log(self.msg, "INFO")
+                else:
+                    self.msg = """The requested image '{0}' has been un-tagged as golden in the Cisco Catalyst Center and
+                            image status has been verified.""".format(image_name)
+                    self.log(self.msg, "INFO")
+        else:
+            self.log("""Mismatch between the playbook input for tagging/un-tagging image as golden and the Cisco Catalyst Center indicates that
+                        the tagging/un-tagging task was not executed successfully.""", "INFO")
+
+        return self
+
+    def verify_diff_distributed(self):
+        """
+        Verify the distribution status of a software image in Cisco Catalyst Center.
+        Args:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            import_type (str): The type of import, either 'url' or 'local'.
+        Returns:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+        Description:
+            This method verifies the distribution status of a software image in Cisco Catalyst Center.
+            It retrieves the image ID and name from the input and if distribution device ID is provided, it checks the distribution status for that
+            list of specific device and logs the info message based on distribution status.
+        """
+
+        image_id = self.have.get("distribution_image_id")
+        image_name = self.get_image_name_from_id(image_id)
+
+        if self.have.get("distribution_device_id"):
+            if self.single_device_distribution:
+                self.msg = """The requested image '{0}', associated with the device ID '{1}', has been successfully distributed in the Cisco Catalyst Center
+                     and its status has been verified.""".format(image_name, self.have.get("distribution_device_id"))
+                self.log(self.msg, "INFO")
+            else:
+                self.log("""Mismatch between the playbook input for distributing the image to the device with ID '{0}' and the actual state in the
+                         Cisco Catalyst Center suggests that the distribution task might not have been executed
+                         successfully.""".format(self.have.get("distribution_device_id")), "INFO")
+        elif self.complete_successful_distribution:
+            self.msg = """The requested image '{0}', with ID '{1}', has been successfully distributed to all devices within the specified
+                     site in the Cisco Catalyst Center.""".format(image_name, image_id)
+            self.log(self.msg, "INFO")
+        elif self.partial_successful_distribution:
+            self.msg = """T"The requested image '{0}', with ID '{1}', has been partially distributed across some devices in the Cisco Catalyst
+                     Center.""".format(image_name, image_id)
+            self.log(self.msg, "INFO")
+        else:
+            self.msg = """The requested image '{0}', with ID '{1}', failed to be distributed across devices in the Cisco Catalyst
+                     Center.""".format(image_name, image_id)
+            self.log(self.msg, "INFO")
+
+        return self
+
+    def verify_diff_activated(self):
+        """
+        Verify the activation status of a software image in Cisco Catalyst Center.
+        Args:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+        Returns:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+        Description:
+            This method verifies the activation status of a software image in Cisco Catalyst Center and retrieves the image ID and name from
+            the input. If activation device ID is provided, it checks the activation status for that specific device. Based on activation status
+            a corresponding message is logged.
+        """
+
+        image_id = self.have.get("activation_image_id")
+        image_name = self.get_image_name_from_id(image_id)
+
+        if self.have.get("activation_device_id"):
+            if self.single_device_activation:
+                self.msg = """The requested image '{0}', associated with the device ID '{1}', has been successfully activated in the Cisco Catalyst
+                         Center and its status has been verified.""".format(image_name, self.have.get("activation_device_id"))
+                self.log(self.msg, "INFO")
+            else:
+                self.log("""Mismatch between the playbook's input for activating the image '{0}' on the device with ID '{1}' and the actual state in
+                         the Cisco Catalyst Center suggests that the activation task might not have been executed
+                         successfully.""".format(image_name, self.have.get("activation_device_id")), "INFO")
+        elif self.complete_successful_activation:
+            self.msg = """The requested image '{0}', with ID '{1}', has been successfully activated on all devices within the specified site in the
+                     Cisco Catalyst Center.""".format(image_name, image_id)
+            self.log(self.msg, "INFO")
+        elif self.partial_successful_activation:
+            self.msg = """"The requested image '{0}', with ID '{1}', has been partially activated on some devices in the Cisco
+                     Catalyst Center.""".format(image_name, image_id)
+            self.log(self.msg, "INFO")
+        else:
+            self.msg = """The activation of the requested image '{0}', with ID '{1}', failed on devices in the Cisco
+                     Catalyst Center.""".format(image_name, image_id)
+            self.log(self.msg, "INFO")
+
+        return self
+
+    def verify_diff_merged(self, config):
+        """
+        Verify the merged status(Importing/Tagging/Distributing/Actiavting) the SWIM Image in devices in Cisco Catalyst Center.
+        Args:
+            - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            - config (dict): The configuration details to be verified.
+        Return:
+            - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+        Description:
+            This method checks the merged status of a configuration in Cisco Catalyst Center by retrieving the current state
+            (have) and desired state (want) of the configuration, logs the states, and validates whether the specified
+            SWIM operation performed or not.
+        """
+
+        self.get_have()
+        self.log("Current State (have): {0}".format(str(self.have)), "INFO")
+        self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
+
+        import_type = self.want.get("import_type")
+        if import_type:
+            self.verify_diff_imported(import_type).check_return_status()
+
+        tagged = self.want.get("tagging_details")
+        if tagged:
+            self.verify_diff_tagged().check_return_status()
+
+        distribution_details = self.want.get("distribution_details")
+        if distribution_details:
+            self.verify_diff_distributed().check_return_status()
+
+        activation_details = self.want.get("activation_details")
+        if activation_details:
+            self.verify_diff_activated().check_return_status()
+
+        return self
+
 
 def main():
     """ main entry point for module execution
@@ -1338,9 +1678,12 @@ def main():
                     'dnac_verify': {'type': 'bool', 'default': 'True'},
                     'dnac_version': {'type': 'str', 'default': '2.2.3.3'},
                     'dnac_debug': {'type': 'bool', 'default': False},
-                    'dnac_log_level': {'type': 'str', 'default': 'INFO'},
+                    'dnac_log_level': {'type': 'str', 'default': 'WARNING'},
+                    "dnac_log_file_path": {"type": 'str', "default": 'dnac.log'},
+                    "dnac_log_append": {"type": 'bool', "default": True},
                     'dnac_log': {'type': 'bool', 'default': False},
                     'validate_response_schema': {'type': 'bool', 'default': True},
+                    'config_verify': {'type': 'bool', "default": False},
                     'config': {'required': True, 'type': 'list', 'elements': 'dict'},
                     'state': {'default': 'merged', 'choices': ['merged']}
                     }
@@ -1357,12 +1700,16 @@ def main():
         dnac_swims.check_return_status()
 
     dnac_swims.validate_input().check_return_status()
+    config_verify = dnac_swims.params.get("config_verify")
+
     for config in dnac_swims.validated_config:
         dnac_swims.reset_values()
         dnac_swims.get_want(config).check_return_status()
         dnac_swims.get_diff_import().check_return_status()
         dnac_swims.get_have().check_return_status()
         dnac_swims.get_diff_state_apply[state](config).check_return_status()
+        if config_verify:
+            dnac_swims.verify_diff_state_apply[state](config).check_return_status()
 
     module.exit_json(**dnac_swims.result)
 
