@@ -14,13 +14,6 @@ jobs:
     working_directory: ~/repo 
     
     steps:
-      - run:
-          name: Debug SSH key and Connectivity
-          command: |
-            cat ~/.ssh/id_rsa
-            ls -la ~/.ssh
-            ssh -Tvvv git@github.com
-
       - checkout
       
       - run:
