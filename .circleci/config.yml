@@ -10,7 +10,6 @@ jobs:
 
     machine: true
     resource_class: rukapse/dnacenter-ansible
-    working_directory: ~/repo 
 
     environment:
       CIRCLE_PROJECT_REPONAME: << pipeline.trigger_parameters.github_app.repo_name >>
@@ -22,7 +21,7 @@ jobs:
             set -x 
             echo "CIRCLE_PROJECT_REPONAME: $CIRCLE_PROJECT_REPONAME"
             env
-    - run:
+      - run:
           name: Remove existing directory and collection tarball
           command: |
             set -x 
@@ -140,21 +139,18 @@ jobs:
       - run:
           name: Copy static files
           command: |
-           
             cp /home/circleci/static/credentials.yml /home/circleci/repo/dnacenter-ansible/playbooks/credentials.yml
             cp /home/circleci/static/hosts /home/circleci/repo/dnacenter-ansible/playbooks/hosts
 
       - run:
-        name: Install the collection tarball
+          name: Install the collection tarball
           command: |
             set -x 
             pyenv versions
             python --version
             ansible --version  
 
-          
             ansible-galaxy collection install --force ${HOME}/.cache/v<< parameters.ansible_cisco_dnac_version >>/collection-tarballs/*.tar.gz
-            
             
       - run:
           name: Run sanity tests
@@ -166,14 +162,11 @@ jobs:
 
             ansible-playbook -i hosts site_workflow_manager.yml -vvvv
 
-
       - run:
           name: Remove Existing Directory
           command: |
             set -x 
             rm -rf ${HOME}/repo/dnacenter-ansible
-
-
 
 workflows:
   testing:
