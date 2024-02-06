@@ -54,6 +54,7 @@ jobs:
             # Build collection and store resulting tarball in directory /home/circleci/.cache/v<< parameters.ansible_cisco_dnac_version >>/collection-tarballs
             ansible-galaxy collection build --force --output-path "${HOME}/.cache/v<< parameters.ansible_cisco_dnac_version >>/collection-tarballs"
 
+
 workflows:
   testing:
     jobs:
