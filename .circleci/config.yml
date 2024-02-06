@@ -13,11 +13,10 @@ jobs:
     resource_class: rukapse/dnacenter-ansible
     
     steps:
-      - checkout:
-          git:
-            url: https://github.com/rukapse/dnacenter-ansible.git
-          submodules: false  # Disable submodules, as they may still use SSH
-          depth: 1  
+      - run:
+          name: Clone Git repository
+          command: git clone --depth=1 https://github.com/rukapse/dnacenter-ansible.git
+
 workflows:
   testing:
     jobs:
