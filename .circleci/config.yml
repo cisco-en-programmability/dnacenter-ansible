@@ -23,11 +23,12 @@ jobs:
             set -x 
             echo "REPO_URL: $REPO_URL"
             env
-            
+
       - checkout:
           git: 
             depth: 1
             url: $REPO_URL
+
 
 workflows:
   testing:
