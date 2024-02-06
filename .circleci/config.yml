@@ -16,7 +16,8 @@ jobs:
       - checkout:
           git:
             url: https://github.com/rukapse/dnacenter-ansible.git
-
+          submodules: false  # Disable submodules, as they may still use SSH
+          depth: 1  
 workflows:
   testing:
     jobs:
