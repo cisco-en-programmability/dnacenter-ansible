@@ -3,7 +3,7 @@
 # Copyright (c) 2023, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-"""Ansible module to perform operations on device credentials in Cisco DNA Center."""
+"""Ansible module to perform operations on device credentials in Cisco Catalyst Center."""
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -11,7 +11,7 @@ __author__ = ['Muthu Rakesh, Madhan Sankaranarayanan']
 
 DOCUMENTATION = r"""
 ---
-module: device_credential_intent
+module: device_credential_workflow_manager
 short_description: Resource module for Global Device Credentials and Assigning Credentials to sites.
 description:
 - Manage operations on Global Device Credentials and Assigning Credentials to sites.
@@ -26,11 +26,11 @@ author: Muthu Rakesh (@MUTHU-RAKESH-27)
         Madhan Sankaranarayanan (@madhansansel)
 options:
   config_verify:
-    description: Set to True to verify the Cisco DNA Center after applying the playbook config.
+    description: Set to True to verify the Cisco Catalyst Center after applying the playbook config.
     type: bool
     default: False
   state:
-    description: The state of Cisco DNA Center after module completion.
+    description: The state of Cisco Catalyst Center after module completion.
     type: str
     choices: [ merged, deleted ]
     default: merged
@@ -301,16 +301,16 @@ requirements:
 - dnacentersdk >= 2.5.5
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Discovery CreateGlobalCredentialsV2
+- name: Cisco Catalyst Center documentation for Discovery CreateGlobalCredentialsV2
   description: Complete reference of the CreateGlobalCredentialsV2 API.
   link: https://developer.cisco.com/docs/dna-center/#!create-global-credentials-v-2
-- name: Cisco DNA Center documentation for Discovery DeleteGlobalCredentialV2
+- name: Cisco Catalyst Center documentation for Discovery DeleteGlobalCredentialV2
   description: Complete reference of the DeleteGlobalCredentialV2 API.
   link: https://developer.cisco.com/docs/dna-center/#!delete-global-credential-v-2
-- name: Cisco DNA Center documentation for Discovery UpdateGlobalCredentialsV2
+- name: Cisco Catalyst Center documentation for Discovery UpdateGlobalCredentialsV2
   description: Complete reference of the UpdateGlobalCredentialsV2 API.
   link: https://developer.cisco.com/docs/dna-center/#!update-global-credentials-v-2
-- name: Cisco DNA Center documentation for Network Settings AssignDeviceCredentialToSiteV2
+- name: Cisco Catalyst Center documentation for Network Settings AssignDeviceCredentialToSiteV2
   description: Complete reference of the AssignDeviceCredentialToSiteV2 API.
   link: https://developer.cisco.com/docs/dna-center/#!assign-device-credential-to-site-v-2
 notes:
@@ -330,7 +330,7 @@ notes:
 EXAMPLES = r"""
 ---
   - name: Create Credentials and assign it to a site.
-    cisco.dnac.device_credential_intent:
+    cisco.dnac.device_credential_workflow_manager:
     dnac_host: "{{ dnac_host }}"
     dnac_port: "{{ dnac_port }}"
     dnac_username: "{{ dnac_username }}"
@@ -389,7 +389,7 @@ EXAMPLES = r"""
         - string
 
   - name: Create Multiple Credentials.
-    cisco.dnac.device_credential_intent:
+    cisco.dnac.device_credential_workflow_manager:
     dnac_host: "{{ dnac_host }}"
     dnac_port: "{{ dnac_port }}"
     dnac_username: "{{ dnac_username }}"
@@ -456,7 +456,7 @@ EXAMPLES = r"""
           port: 443
 
   - name: Update global device credentials using id
-    cisco.dnac.device_credential_intent:
+    cisco.dnac.device_credential_workflow_manager:
     dnac_host: "{{ dnac_host }}"
     dnac_port: "{{ dnac_port }}"
     dnac_username: "{{ dnac_username }}"
@@ -506,7 +506,7 @@ EXAMPLES = r"""
           id: string
 
   - name: Update multiple global device credentials using id
-    cisco.dnac.device_credential_intent:
+    cisco.dnac.device_credential_workflow_manager:
     dnac_host: "{{ dnac_host }}"
     dnac_port: "{{ dnac_port }}"
     dnac_username: "{{ dnac_username }}"
@@ -585,7 +585,7 @@ EXAMPLES = r"""
           id: string
 
   - name: Update global device credential name/description using old name and description.
-    cisco.dnac.device_credential_intent:
+    cisco.dnac.device_credential_workflow_manager:
     dnac_host: "{{ dnac_host }}"
     dnac_port: "{{ dnac_port }}"
     dnac_username: "{{ dnac_username }}"
@@ -637,7 +637,7 @@ EXAMPLES = r"""
           old_username: string
 
   - name: Assign Credentials to sites using old description and username.
-    cisco.dnac.device_credential_intent:
+    cisco.dnac.device_credential_workflow_manager:
     dnac_host: "{{ dnac_host }}"
     dnac_port: "{{ dnac_port }}"
     dnac_username: "{{ dnac_username }}"
@@ -674,7 +674,7 @@ EXAMPLES = r"""
 RETURN = r"""
 # Case_1: Successful creation/updation/deletion of global device credentials
 dnac_response1:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >
@@ -688,7 +688,7 @@ dnac_response1:
 
 # Case_2: Successful assignment of global device credentials to a site.
 dnac_response2:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >
@@ -710,7 +710,7 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
 )
 
 
-class DnacCredential(DnacBase):
+class DeviceCredential(DnacBase):
     """Class containing member attributes for device credential intent module"""
 
     def __init__(self, module):
@@ -852,7 +852,6 @@ class DnacCredential(DnacBase):
         }
 
         # Validate playbook params against the specification (temp_spec)
-        self.config = self.camel_to_snake_case(self.config)
         valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
         if invalid_params:
             self.msg = "Invalid parameters in playbook: {0}".format("\n".join(invalid_params))
@@ -900,7 +899,7 @@ class DnacCredential(DnacBase):
 
     def get_global_credentials_params(self):
         """
-        Get the current Global Device Credentials from Cisco DNA Center.
+        Get the current Global Device Credentials from Cisco Catalyst Center.
 
         Parameters:
             self - The current object details.
@@ -926,14 +925,14 @@ class DnacCredential(DnacBase):
 
     def get_cli_params(self, cliDetails):
         """
-        Format the CLI parameters for the CLI credential configuration in Cisco DNA Center.
+        Format the CLI parameters for the CLI credential configuration in Cisco Catalyst Center.
 
         Parameters:
-            cliDetails (list of dict) - Cisco DNA Center details containing CLI Credentials.
+            cliDetails (list of dict) - Cisco Catalyst Center details containing CLI Credentials.
 
         Returns:
             cliCredential (list of dict) - Processed CLI credential data
-            in the format suitable for the Cisco DNA Center config.
+            in the format suitable for the Cisco Catalyst Center config.
         """
 
         cliCredential = []
@@ -952,15 +951,15 @@ class DnacCredential(DnacBase):
     def get_snmpV2cRead_params(self, snmpV2cReadDetails):
         """
         Format the snmpV2cRead parameters for the snmpV2cRead
-        credential configuration in Cisco DNA Center.
+        credential configuration in Cisco Catalyst Center.
 
         Parameters:
-            snmpV2cReadDetails (list of dict) - Cisco DNA Center
+            snmpV2cReadDetails (list of dict) - Cisco Catalyst Center
             Details containing snmpV2cRead Credentials.
 
         Returns:
             snmpV2cRead (list of dict) - Processed snmpV2cRead credential
-            data in the format suitable for the Cisco DNA Center config.
+            data in the format suitable for the Cisco Catalyst Center config.
         """
 
         snmpV2cRead = []
@@ -978,15 +977,15 @@ class DnacCredential(DnacBase):
     def get_snmpV2cWrite_params(self, snmpV2cWriteDetails):
         """
         Format the snmpV2cWrite parameters for the snmpV2cWrite
-        credential configuration in Cisco DNA Center.
+        credential configuration in Cisco Catalyst Center.
 
         Parameters:
-            snmpV2cWriteDetails (list of dict) - Cisco DNA Center
+            snmpV2cWriteDetails (list of dict) - Cisco Catalyst Center
             Details containing snmpV2cWrite Credentials.
 
         Returns:
             snmpV2cWrite (list of dict) - Processed snmpV2cWrite credential
-            data in the format suitable for the Cisco DNA Center config.
+            data in the format suitable for the Cisco Catalyst Center config.
         """
 
         snmpV2cWrite = []
@@ -1004,15 +1003,15 @@ class DnacCredential(DnacBase):
     def get_httpsRead_params(self, httpsReadDetails):
         """
         Format the httpsRead parameters for the httpsRead
-        credential configuration in Cisco DNA Center.
+        credential configuration in Cisco Catalyst Center.
 
         Parameters:
-            httpsReadDetails (list of dict) - Cisco DNA Center
+            httpsReadDetails (list of dict) - Cisco Catalyst Center
             Details containing httpsRead Credentials.
 
         Returns:
             httpsRead (list of dict) - Processed httpsRead credential
-            data in the format suitable for the Cisco DNA Center config.
+            data in the format suitable for the Cisco Catalyst Center config.
         """
 
         httpsRead = []
@@ -1032,15 +1031,15 @@ class DnacCredential(DnacBase):
     def get_httpsWrite_params(self, httpsWriteDetails):
         """
         Format the httpsWrite parameters for the httpsWrite
-        credential configuration in Cisco DNA Center.
+        credential configuration in Cisco Catalyst Center.
 
         Parameters:
-            httpsWriteDetails (list of dict) - Cisco DNA Center
+            httpsWriteDetails (list of dict) - Cisco Catalyst Center
             Details containing httpsWrite Credentials.
 
         Returns:
             httpsWrite (list of dict) - Processed httpsWrite credential
-            data in the format suitable for the Cisco DNA Center config.
+            data in the format suitable for the Cisco Catalyst Center config.
         """
 
         httpsWrite = []
@@ -1059,14 +1058,14 @@ class DnacCredential(DnacBase):
 
     def get_snmpV3_params(self, snmpV3Details):
         """
-        Format the snmpV3 parameters for the snmpV3 credential configuration in Cisco DNA Center.
+        Format the snmpV3 parameters for the snmpV3 credential configuration in Cisco Catalyst Center.
 
         Parameters:
-            snmpV3Details (list of dict) - Cisco DNA Center details containing snmpV3 Credentials.
+            snmpV3Details (list of dict) - Cisco Catalyst Center details containing snmpV3 Credentials.
 
         Returns:
             snmpV3 (list of dict) - Processed snmpV3 credential
-            data in the format suitable for the Cisco DNA Center config.
+            data in the format suitable for the Cisco Catalyst Center config.
         """
 
         snmpV3 = []
@@ -1093,7 +1092,7 @@ class DnacCredential(DnacBase):
     def get_cli_credentials(self, CredentialDetails, global_credentials):
         """
         Get the current CLI Credential from
-        Cisco DNA Center based on the provided playbook details.
+        Cisco Catalyst Center based on the provided playbook details.
         Check this API using the check_return_status.
 
         Parameters:
@@ -1106,9 +1105,9 @@ class DnacCredential(DnacBase):
 
         # playbook CLI Credential details
         all_CLI = CredentialDetails.get("cli_credential")
-        # All CLI details from Cisco DNA Center
+        # All CLI details from Cisco Catalyst Center
         cli_details = global_credentials.get("cliCredential")
-        # Cisco DNA Center details for the CLI Credential given in the playbook
+        # Cisco Catalyst Center details for the CLI Credential given in the playbook
         cliDetails = []
         if all_CLI and cli_details:
             for cliCredential in all_CLI:
@@ -1156,7 +1155,7 @@ class DnacCredential(DnacBase):
     def get_snmpV2cRead_credentials(self, CredentialDetails, global_credentials):
         """
         Get the current snmpV2cRead Credential from
-        Cisco DNA Center based on the provided playbook details.
+        Cisco Catalyst Center based on the provided playbook details.
         Check this API using the check_return_status.
 
         Parameters:
@@ -1169,9 +1168,9 @@ class DnacCredential(DnacBase):
 
         # Playbook snmpV2cRead Credential details
         all_snmpV2cRead = CredentialDetails.get("snmp_v2c_read")
-        # All snmpV2cRead details from the Cisco DNA Center
+        # All snmpV2cRead details from the Cisco Catalyst Center
         snmpV2cRead_details = global_credentials.get("snmpV2cRead")
-        # Cisco DNA Center details for the snmpV2cRead Credential given in the playbook
+        # Cisco Catalyst Center details for the snmpV2cRead Credential given in the playbook
         snmpV2cReadDetails = []
         if all_snmpV2cRead and snmpV2cRead_details:
             for snmpV2cReadCredential in all_snmpV2cRead:
@@ -1209,7 +1208,7 @@ class DnacCredential(DnacBase):
     def get_snmpV2cWrite_credentials(self, CredentialDetails, global_credentials):
         """
         Get the current snmpV2cWrite Credential from
-        Cisco DNA Center based on the provided playbook details.
+        Cisco Catalyst Center based on the provided playbook details.
         Check this API using the check_return_status.
 
         Parameters:
@@ -1222,9 +1221,9 @@ class DnacCredential(DnacBase):
 
         # Playbook snmpV2cWrite Credential details
         all_snmpV2cWrite = CredentialDetails.get("snmp_v2c_write")
-        # All snmpV2cWrite details from the Cisco DNA Center
+        # All snmpV2cWrite details from the Cisco Catalyst Center
         snmpV2cWrite_details = global_credentials.get("snmpV2cWrite")
-        # Cisco DNA Center details for the snmpV2cWrite Credential given in the playbook
+        # Cisco Catalyst Center details for the snmpV2cWrite Credential given in the playbook
         snmpV2cWriteDetails = []
         if all_snmpV2cWrite and snmpV2cWrite_details:
             for snmpV2cWriteCredential in all_snmpV2cWrite:
@@ -1262,7 +1261,7 @@ class DnacCredential(DnacBase):
     def get_httpsRead_credentials(self, CredentialDetails, global_credentials):
         """
         Get the current httpsRead Credential from
-        Cisco DNA Center based on the provided playbook details.
+        Cisco Catalyst Center based on the provided playbook details.
         Check this API using the check_return_status.
 
         Parameters:
@@ -1275,9 +1274,9 @@ class DnacCredential(DnacBase):
 
         # Playbook httpsRead Credential details
         all_httpsRead = CredentialDetails.get("https_read")
-        # All httpsRead details from the Cisco DNA Center
+        # All httpsRead details from the Cisco Catalyst Center
         httpsRead_details = global_credentials.get("httpsRead")
-        # Cisco DNA Center details for the httpsRead Credential given in the playbook
+        # Cisco Catalyst Center details for the httpsRead Credential given in the playbook
         httpsReadDetails = []
         if all_httpsRead and httpsRead_details:
             for httpsReadCredential in all_httpsRead:
@@ -1325,7 +1324,7 @@ class DnacCredential(DnacBase):
     def get_httpsWrite_credentials(self, CredentialDetails, global_credentials):
         """
         Get the current httpsWrite Credential from
-        Cisco DNA Center based on the provided playbook details.
+        Cisco Catalyst Center based on the provided playbook details.
         Check this API using the check_return_status.
 
         Parameters:
@@ -1338,9 +1337,9 @@ class DnacCredential(DnacBase):
 
         # Playbook httpsWrite Credential details
         all_httpsWrite = CredentialDetails.get("https_write")
-        # All httpsWrite details from the Cisco DNA Center
+        # All httpsWrite details from the Cisco Catalyst Center
         httpsWrite_details = global_credentials.get("httpsWrite")
-        # Cisco DNA Center details for the httpsWrite Credential given in the playbook
+        # Cisco Catalyst Center details for the httpsWrite Credential given in the playbook
         httpsWriteDetails = []
         if all_httpsWrite and httpsWrite_details:
             for httpsWriteCredential in all_httpsWrite:
@@ -1384,7 +1383,7 @@ class DnacCredential(DnacBase):
     def get_snmpV3_credentials(self, CredentialDetails, global_credentials):
         """
         Get the current snmpV3 Credential from
-        Cisco DNA Center based on the provided playbook details.
+        Cisco Catalyst Center based on the provided playbook details.
         Check this API using the check_return_status.
 
         Parameters:
@@ -1397,9 +1396,9 @@ class DnacCredential(DnacBase):
 
         # Playbook snmpV3 Credential details
         all_snmpV3 = CredentialDetails.get("snmp_v3")
-        # All snmpV3 details from the Cisco DNA Center
+        # All snmpV3 details from the Cisco Catalyst Center
         snmpV3_details = global_credentials.get("snmpV3")
-        # Cisco DNA Center details for the snmpV3 Credential given in the playbook
+        # Cisco Catalyst Center details for the snmpV3 Credential given in the playbook
         snmpV3Details = []
         if all_snmpV3 and snmpV3_details:
             for snmpV3Credential in all_snmpV3:
@@ -1430,7 +1429,7 @@ class DnacCredential(DnacBase):
     def get_have_device_credentials(self, CredentialDetails):
         """
         Get the current Global Device Credentials from
-        Cisco DNA Center based on the provided playbook details.
+        Cisco Catalyst Center based on the provided playbook details.
         Check this API using the check_return_status.
 
         Parameters:
@@ -1470,14 +1469,14 @@ class DnacCredential(DnacBase):
 
         self.log("Global device credential details: {0}"
                  .format(self.have.get("globalCredential")), "DEBUG")
-        self.msg = "Collected the Global Device Credential Details from the Cisco DNA Center"
+        self.msg = "Collected the Global Device Credential Details from the Cisco Catalyst Center"
         self.status = "success"
         return self
 
     def get_have(self, config):
         """
         Get the current Global Device Credentials and
-        Device Credentials assigned to a site in Cisco DNA Center.
+        Device Credentials assigned to a site in Cisco Catalyst Center.
 
         Parameters:
             config (dict) - Playbook details containing Global Device
@@ -1494,7 +1493,7 @@ class DnacCredential(DnacBase):
             self.get_have_device_credentials(CredentialDetails).check_return_status()
 
         self.log("Current State (have): {0}".format(self.have), "INFO")
-        self.msg = "Successfully retrieved the details from the Cisco DNA Center"
+        self.msg = "Successfully retrieved the details from the Cisco Catalyst Center"
         self.status = "success"
         return self
 
@@ -1931,7 +1930,7 @@ class DnacCredential(DnacBase):
                     update_snmpv3_ptr = update_snmpv3_ptr + 1
                 have_snmpv3_ptr = have_snmpv3_ptr + 1
         self.want.update(want)
-        self.msg = "Collected the Global Credentials from the Cisco DNA Center"
+        self.msg = "Collected the Global Credentials from the Cisco Catalyst Center"
         self.status = "success"
         return self
 
@@ -1973,7 +1972,7 @@ class DnacCredential(DnacBase):
             cliUsername = cli_credential.get("username")
 
             if cliId or cliDescription and cliUsername:
-                # All CLI details from the Cisco DNA Center
+                # All CLI details from the Cisco Catalyst Center
                 cli_details = global_credentials.get("cliCredential")
                 if not cli_details:
                     self.msg = "Global CLI credential is not available"
@@ -2003,7 +2002,7 @@ class DnacCredential(DnacBase):
             snmpV2cReadDescription = snmp_v2c_read.get("description")
             if snmpV2cReadId or snmpV2cReadDescription:
 
-                # All snmpV2cRead details from the Cisco DNA Center
+                # All snmpV2cRead details from the Cisco Catalyst Center
                 snmpV2cRead_details = global_credentials.get("snmpV2cRead")
                 if not snmpV2cRead_details:
                     self.msg = "Global snmpV2cRead credential is not available"
@@ -2032,7 +2031,7 @@ class DnacCredential(DnacBase):
             snmpV2cWriteDescription = snmp_v2c_write.get("description")
             if snmpV2cWriteId or snmpV2cWriteDescription:
 
-                # All snmpV2cWrite details from the Cisco DNA Center
+                # All snmpV2cWrite details from the Cisco Catalyst Center
                 snmpV2cWrite_details = global_credentials.get("snmpV2cWrite")
                 if not snmpV2cWrite_details:
                     self.msg = "Global snmpV2cWrite Credential is not available"
@@ -2062,7 +2061,7 @@ class DnacCredential(DnacBase):
             httpReadUsername = https_read.get("username")
             if httpReadId or httpReadDescription and httpReadUsername:
 
-                # All httpRead details from the Cisco DNA Center
+                # All httpRead details from the Cisco Catalyst Center
                 httpRead_details = global_credentials.get("httpsRead")
                 if not httpRead_details:
                     self.msg = "Global httpRead Credential is not available."
@@ -2093,7 +2092,7 @@ class DnacCredential(DnacBase):
             httpWriteUsername = https_write.get("username")
             if httpWriteId or httpWriteDescription and httpWriteUsername:
 
-                # All httpWrite details from the Cisco DNA Center
+                # All httpWrite details from the Cisco Catalyst Center
                 httpWrite_details = global_credentials.get("httpsWrite")
                 if not httpWrite_details:
                     self.msg = "Global httpWrite credential is not available."
@@ -2123,7 +2122,7 @@ class DnacCredential(DnacBase):
             snmpV3Description = snmp_v3.get("description")
             if snmpV3Id or snmpV3Description:
 
-                # All snmpV3 details from the Cisco DNA Center
+                # All snmpV3 details from the Cisco Catalyst Center
                 snmpV3_details = global_credentials.get("snmpV3")
                 if not snmpV3_details:
                     self.msg = "Global snmpV3 Credential is not available."
@@ -2147,7 +2146,7 @@ class DnacCredential(DnacBase):
                 want.get("assign_credentials").update({"snmpV3Id": snmpV3Detail.get("id")})
         self.log("Desired State (want): {0}".format(want), "INFO")
         self.want.update(want)
-        self.msg = "Collected the Credentials needed to be assigned from the Cisco DNA Center"
+        self.msg = "Collected the Credentials needed to be assigned from the Cisco Catalyst Center"
         self.status = "success"
         return self
 
@@ -2181,7 +2180,7 @@ class DnacCredential(DnacBase):
 
     def create_device_credentials(self):
         """
-        Create Global Device Credential to the Cisco DNA
+        Create Global Device Credential to the Cisco Catalyst
         Center based on the provided playbook details.
         Check the return value of the API with check_return_status().
 
@@ -2228,7 +2227,7 @@ class DnacCredential(DnacBase):
 
     def update_device_credentials(self):
         """
-        Update Device Credential to the Cisco DNA Center based on the provided playbook details.
+        Update Device Credential to the Cisco Catalyst Center based on the provided playbook details.
         Check the return value of the API with check_return_status().
 
         Parameters:
@@ -2294,7 +2293,7 @@ class DnacCredential(DnacBase):
 
     def assign_credentials_to_site(self):
         """
-        Assign Global Device Credential to the Cisco DNA
+        Assign Global Device Credential to the Cisco Catalyst
         Center based on the provided playbook details.
         Check the return value of the API with check_return_status().
 
@@ -2351,7 +2350,7 @@ class DnacCredential(DnacBase):
     def get_diff_merged(self, config):
         """
         Update or Create Global Device Credential and assign device
-        credential to a site in Cisco DNA Center based on the playbook provided.
+        credential to a site in Cisco Catalyst Center based on the playbook provided.
 
         Parameters:
             config (list of dict) - Playbook details containing Global
@@ -2374,7 +2373,7 @@ class DnacCredential(DnacBase):
 
     def delete_device_credential(self, config):
         """
-        Delete Global Device Credential in Cisco DNA Center based on the playbook details.
+        Delete Global Device Credential in Cisco Catalyst Center based on the playbook details.
         Check the return value of the API with check_return_status().
 
         Parameters:
@@ -2438,7 +2437,7 @@ class DnacCredential(DnacBase):
 
     def get_diff_deleted(self, config):
         """
-        Delete Global Device Credential in Cisco DNA Center based on the playbook details.
+        Delete Global Device Credential in Cisco Catalyst Center based on the playbook details.
 
         Parameters:
             config (dict) - Playbook details containing Global Device Credential information.
@@ -2455,7 +2454,7 @@ class DnacCredential(DnacBase):
 
     def verify_diff_merged(self, config):
         """
-        Validating the DNAC configuration with the playbook details
+        Validating the Cisco Catalyst Center configuration with the playbook details
         when state is merged (Create/Update).
 
         Parameters:
@@ -2474,7 +2473,7 @@ class DnacCredential(DnacBase):
 
         if config.get("global_credential_details") is not None:
             if self.want.get("want_create"):
-                self.msg = "Global Device Credentials config is not applied to the DNAC"
+                self.msg = "Global Device Credentials config is not applied to the Cisco Catalyst Center"
                 self.status = "failed"
                 return self
 
@@ -2498,7 +2497,7 @@ class DnacCredential(DnacBase):
                         for value in values:
                             equality = have_credential.get(value) is want_credential.get(value)
                             if not have_credential or not equality:
-                                self.msg = "{0} config is not applied ot the DNAC".format(credential_type)
+                                self.msg = "{0} config is not applied ot the Cisco Catalyst Center".format(credential_type)
                                 self.status = "failed"
                                 return self
 
@@ -2516,7 +2515,7 @@ class DnacCredential(DnacBase):
 
     def verify_diff_deleted(self, config):
         """
-        Validating the DNAC configuration with the playbook details
+        Validating the Cisco Catalyst Center configuration with the playbook details
         when state is deleted (delete).
 
         Parameters:
@@ -2590,26 +2589,26 @@ def main():
 
     # Create an AnsibleModule object with argument specifications
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=False)
-    dnac_credential = DnacCredential(module)
-    state = dnac_credential.params.get("state")
-    config_verify = dnac_credential.params.get("config_verify")
-    if state not in dnac_credential.supported_states:
-        dnac_credential.status = "invalid"
-        dnac_credential.msg = "State {0} is invalid".format(state)
-        dnac_credential.check_return_status()
+    ccc_credential = DeviceCredential(module)
+    state = ccc_credential.params.get("state")
+    config_verify = ccc_credential.params.get("config_verify")
+    if state not in ccc_credential.supported_states:
+        ccc_credential.status = "invalid"
+        ccc_credential.msg = "State {0} is invalid".format(state)
+        ccc_credential.check_return_status()
 
-    dnac_credential.validate_input().check_return_status()
+    ccc_credential.validate_input().check_return_status()
 
-    for config in dnac_credential.config:
-        dnac_credential.reset_values()
-        dnac_credential.get_have(config).check_return_status()
+    for config in ccc_credential.config:
+        ccc_credential.reset_values()
+        ccc_credential.get_have(config).check_return_status()
         if state != "deleted":
-            dnac_credential.get_want(config).check_return_status()
-        dnac_credential.get_diff_state_apply[state](config).check_return_status()
+            ccc_credential.get_want(config).check_return_status()
+        ccc_credential.get_diff_state_apply[state](config).check_return_status()
         if config_verify:
-            dnac_credential.verify_diff_state_apply[state](config).check_return_status()
+            ccc_credential.verify_diff_state_apply[state](config).check_return_status()
 
-    module.exit_json(**dnac_credential.result)
+    module.exit_json(**ccc_credential.result)
 
 
 if __name__ == "__main__":

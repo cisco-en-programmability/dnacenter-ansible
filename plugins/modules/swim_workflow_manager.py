@@ -11,7 +11,7 @@ __author__ = ("Madhan Sankaranarayanan, Rishita Chowdhary, Abhishek Maheshwari")
 
 DOCUMENTATION = r"""
 ---
-module: swim_intent
+module: swim_workflow_manager
 short_description: Intent module for SWIM related functions
 description:
 - Manage operation related to image importation, distribution, activation and tagging image as golden
@@ -226,7 +226,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Import an image from a URL, tag it as golden and load it on device
-  cisco.dnac.swim_intent:
+  cisco.dnac.swim_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -266,7 +266,7 @@ EXAMPLES = r"""
         image_name: string
 
 - name: Import an image from local, tag it as golden.
-  cisco.dnac.swim_intent:
+  cisco.dnac.swim_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -294,7 +294,7 @@ EXAMPLES = r"""
         tagging: bool
 
 - name: Tag the given image as golden and load it on device
-  cisco.dnac.swim_intent:
+  cisco.dnac.swim_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -313,7 +313,7 @@ EXAMPLES = r"""
         tagging: true
 
 - name: Un-tagged the given image as golden and load it on device
-  cisco.dnac.swim_intent:
+  cisco.dnac.swim_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -332,7 +332,7 @@ EXAMPLES = r"""
         tagging: false
 
 - name: Distribute the given image on devices associated to that site with specified role.
-  cisco.dnac.swim_intent:
+  cisco.dnac.swim_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -350,7 +350,7 @@ EXAMPLES = r"""
         device_family_name: string
 
 - name: Activate the given image on devices associated to that site with specified role.
-  cisco.dnac.swim_intent:
+  cisco.dnac.swim_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -408,7 +408,7 @@ from ansible.module_utils.basic import AnsibleModule
 import os
 
 
-class DnacSwims(DnacBase):
+class Swim(DnacBase):
     """Class containing member attributes for Swim intent module"""
 
     def __init__(self, module):
@@ -446,7 +446,6 @@ class DnacSwims(DnacBase):
             image_distribution_details=dict(type='dict'),
             image_activation_details=dict(type='dict'),
         )
-        self.config = self.camel_to_snake_case(self.config)
 
         # Validate swim params
         valid_temp, invalid_params = validate_list_of_dicts(
@@ -1691,27 +1690,27 @@ def main():
     module = AnsibleModule(argument_spec=element_spec,
                            supports_check_mode=False)
 
-    dnac_swims = DnacSwims(module)
-    state = dnac_swims.params.get("state")
+    ccc_swims = Swim(module)
+    state = ccc_swims.params.get("state")
 
-    if state not in dnac_swims.supported_states:
-        dnac_swims.status = "invalid"
-        dnac_swims.msg = "State {0} is invalid".format(state)
-        dnac_swims.check_return_status()
+    if state not in ccc_swims.supported_states:
+        ccc_swims.status = "invalid"
+        ccc_swims.msg = "State {0} is invalid".format(state)
+        ccc_swims.check_return_status()
 
-    dnac_swims.validate_input().check_return_status()
-    config_verify = dnac_swims.params.get("config_verify")
+    ccc_swims.validate_input().check_return_status()
+    config_verify = ccc_swims.params.get("config_verify")
 
-    for config in dnac_swims.validated_config:
-        dnac_swims.reset_values()
-        dnac_swims.get_want(config).check_return_status()
-        dnac_swims.get_diff_import().check_return_status()
-        dnac_swims.get_have().check_return_status()
-        dnac_swims.get_diff_state_apply[state](config).check_return_status()
+    for config in ccc_swims.validated_config:
+        ccc_swims.reset_values()
+        ccc_swims.get_want(config).check_return_status()
+        ccc_swims.get_diff_import().check_return_status()
+        ccc_swims.get_have().check_return_status()
+        ccc_swims.get_diff_state_apply[state](config).check_return_status()
         if config_verify:
-            dnac_swims.verify_diff_state_apply[state](config).check_return_status()
+            ccc_swims.verify_diff_state_apply[state](config).check_return_status()
 
-    module.exit_json(**dnac_swims.result)
+    module.exit_json(**ccc_swims.result)
 
 
 if __name__ == '__main__':

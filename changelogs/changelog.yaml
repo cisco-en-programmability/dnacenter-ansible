@@ -778,3 +778,17 @@ releases:
           - Set dnac log level if it is not set in the playbook.
           - Handle provisioning of device if it is not in managed state for longer.
           - Set the logging levels for device credentails intent module.
+    6.10.3:
+      release_date: "2024-01-30"
+      changes:
+        release_summary: Fixing swim_import_local action.
+        minor_changes:
+          - Building additional parameters needed in sdk.
+    6.10.4:
+      release_date: "2024-02-05"
+      changes:
+        release_summary: Enhancements in Cisco Catalyst Center logging
+        minor_changes:
+          - Introducing log levels and log file path
+          - Updated Documentation in template intent module
+          - Enhancements in device_credential, inventory, discovery and template intent modules.
