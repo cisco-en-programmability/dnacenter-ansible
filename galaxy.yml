@@ -1,7 +1,7 @@
 ---
 namespace: cisco
 name: dnac
-version: 6.10.2
+version: 6.10.4
 readme: README.md
 authors:
   - Rafael Campos <rcampos@altus.cr>

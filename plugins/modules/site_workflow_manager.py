@@ -11,7 +11,7 @@ __author__ = ("Madhan Sankaranarayanan, Rishita Chowdhary, Abhishek Maheshwari")
 
 DOCUMENTATION = r"""
 ---
-module: site_intent
+module: site_workflow_manager
 short_description: Resource module for Site operations
 description:
 - Manage operation create, update and delete of the resource Sites.
@@ -121,7 +121,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Create a new area site
-  cisco.dnac.site_intent:
+  cisco.dnac.site_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -140,7 +140,7 @@ EXAMPLES = r"""
       type: string
 
 - name: Create a new building site
-  cisco.dnac.site_intent:
+  cisco.dnac.site_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -162,7 +162,7 @@ EXAMPLES = r"""
       type: string
 
 - name: Create a Floor site under the building
-  cisco.dnac.site_intent:
+  cisco.dnac.site_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -186,7 +186,7 @@ EXAMPLES = r"""
       type: string
 
 - name: Updating the Floor details under the building
-  cisco.dnac.site_intent:
+  cisco.dnac.site_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -208,7 +208,7 @@ EXAMPLES = r"""
       type: string
 
 - name: Deleting any site you need site name and parentName
-  cisco.dnac.site_intent:
+  cisco.dnac.site_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -322,7 +322,7 @@ floor_plan = {
 }
 
 
-class DnacSite(DnacBase):
+class Site(DnacBase):
     """Class containing member attributes for site intent module"""
 
     def __init__(self, module):
@@ -358,7 +358,6 @@ class DnacSite(DnacBase):
             type=dict(required=False, type='str'),
             site=dict(required=True, type='dict'),
         )
-        self.config = self.camel_to_snake_case(self.config)
 
         # Validate site params
         valid_temp, invalid_params = validate_list_of_dicts(
@@ -961,7 +960,7 @@ class DnacSite(DnacBase):
         self.log("Current State (have): {0}".format(str(self.have)), "INFO")
         self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
 
-        # Code to validate dnac config for merged state
+        # Code to validate ccc config for merged state
         site_exist = self.have.get("site_exists")
         site_name = self.want.get("site_name")
 
@@ -999,7 +998,7 @@ class DnacSite(DnacBase):
         self.log("Current State (have): {0}".format(str(self.have)), "INFO")
         self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
 
-        # Code to validate dnac config for delete state
+        # Code to validate ccc config for delete state
         site_exist = self.have.get("site_exists")
 
         if not site_exist:
@@ -1038,26 +1037,26 @@ def main():
     module = AnsibleModule(argument_spec=element_spec,
                            supports_check_mode=False)
 
-    dnac_site = DnacSite(module)
-    state = dnac_site.params.get("state")
+    ccc_site = Site(module)
+    state = ccc_site.params.get("state")
 
-    if state not in dnac_site.supported_states:
-        dnac_site.status = "invalid"
-        dnac_site.msg = "State {0} is invalid".format(state)
-        dnac_site.check_return_status()
+    if state not in ccc_site.supported_states:
+        ccc_site.status = "invalid"
+        ccc_site.msg = "State {0} is invalid".format(state)
+        ccc_site.check_return_status()
 
-    dnac_site.validate_input().check_return_status()
-    config_verify = dnac_site.params.get("config_verify")
+    ccc_site.validate_input().check_return_status()
+    config_verify = ccc_site.params.get("config_verify")
 
-    for config in dnac_site.validated_config:
-        dnac_site.reset_values()
-        dnac_site.get_want(config).check_return_status()
-        dnac_site.get_have(config).check_return_status()
-        dnac_site.get_diff_state_apply[state](config).check_return_status()
+    for config in ccc_site.validated_config:
+        ccc_site.reset_values()
+        ccc_site.get_want(config).check_return_status()
+        ccc_site.get_have(config).check_return_status()
+        ccc_site.get_diff_state_apply[state](config).check_return_status()
         if config_verify:
-            dnac_site.verify_diff_state_apply[state](config).check_return_status()
+            ccc_site.verify_diff_state_apply[state](config).check_return_status()
 
-    module.exit_json(**dnac_site.result)
+    module.exit_json(**ccc_site.result)
 
 
 if __name__ == '__main__':

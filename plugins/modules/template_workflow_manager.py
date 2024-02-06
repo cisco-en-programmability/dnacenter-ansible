@@ -1,8 +1,8 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# Copyright (c) 2022, Cisco Systems
+# Copyright (c) 2024, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-"""Ansible module to perform operations on project and templates in DNAC."""
+"""Ansible module to perform operations on project and templates in Cisco Catalyst Center."""
 
 from __future__ import absolute_import, division, print_function
 
@@ -11,7 +11,7 @@ __author__ = ['Madhan Sankaranarayanan, Rishita Chowdhary, Akash Bhaskaran, Muth
 
 DOCUMENTATION = r"""
 ---
-module: template_intent
+module: template_workflow_manager
 short_description: Resource module for Template functions
 description:
 - Manage operations create, update and delete of the resource Configuration Template.
@@ -31,11 +31,11 @@ author: Madhan Sankaranarayanan (@madhansansel)
         Muthu Rakesh (@MUTHU-RAKESH-27)
 options:
   config_verify:
-    description: Set to True to verify the Cisco DNA Center after applying the playbook config.
+    description: Set to True to verify the Cisco Catalyst Center after applying the playbook config.
     type: bool
     default: False
   state:
-    description: The state of DNAC after module completion.
+    description: The state of Cisco Catalyst Center after module completion.
     type: str
     choices: [ merged, deleted ]
     default: merged
@@ -1128,7 +1128,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Create a new template, export and import the project and template.
-  cisco.dnac.template_intent:
+  cisco.dnac.template_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -1228,7 +1228,7 @@ EXAMPLES = r"""
 RETURN = r"""
 # Case_1: Successful creation/updation/deletion of template/project
 response_1:
-  description: A dictionary with versioning details of the template as returned by the DNAC Python SDK
+  description: A dictionary with versioning details of the template as returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >
@@ -1251,7 +1251,7 @@ response_1:
 
 # Case_2: Error while deleting a template or when given project is not found
 response_2:
-  description: A list with the response returned by the Cisco DNAC Python SDK
+  description: A list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: list
   sample: >
@@ -1262,7 +1262,7 @@ response_2:
 
 # Case_3: Given template already exists and requires no update
 response_3:
-  description: A dictionary with the exisiting template deatails as returned by the Cisco DNAC Python SDK
+  description: A dictionary with the exisiting template deatails as returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >
@@ -1273,7 +1273,7 @@ response_3:
 
 # Case_4: Given template list that needs to be exported
 response_4:
-  description: Details of the templates in the list as returned by the Cisco DNAC Python SDK
+  description: Details of the templates in the list as returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >
@@ -1284,7 +1284,7 @@ response_4:
 
 # Case_5: Given project list that needs to be exported
 response_5:
-  description: Details of the projects in the list as returned by the Cisco DNAC Python SDK
+  description: Details of the projects in the list as returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >
@@ -1305,7 +1305,7 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
 )
 
 
-class DnacTemplate(DnacBase):
+class Template(DnacBase):
     """Class containing member attributes for template intent module"""
 
     def __init__(self, module):
@@ -1460,7 +1460,7 @@ class DnacTemplate(DnacBase):
 
     def get_project_params(self, params):
         """
-        Store project parameters from the playbook for template processing in DNAC.
+        Store project parameters from the playbook for template processing in Cisco Catalyst Center.
 
         Parameters:
             params (dict) - Playbook details containing Project information.
@@ -1476,7 +1476,7 @@ class DnacTemplate(DnacBase):
 
     def get_tags(self, _tags):
         """
-        Store tags from the playbook for template processing in DNAC.
+        Store tags from the playbook for template processing in Cisco Catalyst Center.
         Check using check_return_status()
 
         Parameters:
@@ -1509,7 +1509,7 @@ class DnacTemplate(DnacBase):
 
     def get_device_types(self, device_types):
         """
-        Store device types parameters from the playbook for template processing in DNAC.
+        Store device types parameters from the playbook for template processing in Cisco Catalyst Center.
         Check using check_return_status()
 
         Parameters:
@@ -1546,7 +1546,7 @@ class DnacTemplate(DnacBase):
 
     def get_validation_errors(self, validation_errors):
         """
-        Store template parameters from the playbook for template processing in DNAC.
+        Store template parameters from the playbook for template processing in Cisco Catalyst Center.
 
         Parameters:
             validation_errors (dict) - Playbook details containing validation errors information.
@@ -1587,7 +1587,7 @@ class DnacTemplate(DnacBase):
 
     def get_template_info(self, template_params):
         """
-        Store template params from the playbook for template processing in DNAC.
+        Store template params from the playbook for template processing in Cisco Catalyst Center.
         Check using check_return_status()
 
         Parameters:
@@ -1735,7 +1735,7 @@ class DnacTemplate(DnacBase):
 
     def get_containing_templates(self, containing_templates):
         """
-        Store tags from the playbook for template processing in DNAC.
+        Store tags from the playbook for template processing in Cisco Catalyst Center.
         Check using check_return_status()
 
         Parameters:
@@ -1828,7 +1828,7 @@ class DnacTemplate(DnacBase):
 
     def get_template_params(self, params):
         """
-        Store template parameters from the playbook for template processing in DNAC.
+        Store template parameters from the playbook for template processing in Cisco Catalyst Center.
 
         Parameters:
             params (dict) - Playbook details containing Template information.
@@ -1906,7 +1906,7 @@ class DnacTemplate(DnacBase):
 
     def get_have_project(self, config):
         """
-        Get the current project related information from DNAC.
+        Get the current project related information from Cisco Catalyst Center.
 
         Parameters:
             config (dict) - Playbook details containing Project information.
@@ -1921,16 +1921,16 @@ class DnacTemplate(DnacBase):
 
         # Check if project exists.
         project_details = self.get_project_details(given_projectName)
-        # DNAC returns project details even if the substring matches.
-        # Hence check the projectName retrieved from DNAC.
+        # Cisco Catalyst Center returns project details even if the substring matches.
+        # Hence check the projectName retrieved from Cisco Catalyst Center.
         if not (project_details and isinstance(project_details, list)):
-            self.log("Project: {0} not found, need to create new project in DNAC"
+            self.log("Project: {0} not found, need to create new project in Cisco Catalyst Center"
                      .format(given_projectName), "INFO")
             return None
 
         fetched_projectName = project_details[0].get('name')
         if fetched_projectName != given_projectName:
-            self.log("Project {0} provided is not exact match in DNAC DB"
+            self.log("Project {0} provided is not exact match in Cisco Catalyst Center DB"
                      .format(given_projectName), "INFO")
             return None
 
@@ -1944,7 +1944,7 @@ class DnacTemplate(DnacBase):
 
     def get_have_template(self, config, template_available):
         """
-        Get the current template related information from DNAC.
+        Get the current template related information from Cisco Catalyst Center.
 
         Parameters:
             config (dict) - Playbook details containing Template information.
@@ -1982,7 +1982,7 @@ class DnacTemplate(DnacBase):
             params={"projectNames": config.get("projectName")},
         )
         have_template["isCommitPending"] = True
-        # This check will fail if specified template is there not committed in dnac
+        # This check will fail if specified template is there not committed in Cisco Catalyst Center
         if template_list and isinstance(template_list, list):
             template_info = get_dict_result(template_list,
                                             "name",
@@ -2002,13 +2002,13 @@ class DnacTemplate(DnacBase):
                  " is {1}".format(templateName, have_template.get('isCommitPending')), "INFO")
 
         self.have_template = have_template
-        self.msg = "Successfully collected all template parameters from dnac for comparison"
+        self.msg = "Successfully collected all template parameters from Cisco Catalyst Center for comparison"
         self.status = "success"
         return self
 
     def get_have(self, config):
         """
-        Get the current project and template details from DNAC.
+        Get the current project and template details from Cisco Catalyst Center.
 
         Parameters:
             config (dict) - Playbook details containing Project/Template information.
@@ -2027,7 +2027,7 @@ class DnacTemplate(DnacBase):
                 self.get_have_template(config, template_available)
 
         self.msg = "Successfully collected all project and template \
-                    parameters from dnac for comparison"
+                    parameters from Cisco Catalyst Center for comparison"
         self.status = "success"
         return self
 
@@ -2053,7 +2053,7 @@ class DnacTemplate(DnacBase):
     def get_want(self, config):
         """
         Get all the template and project related information from playbook
-        that is needed to be created in DNAC.
+        that is needed to be created in Cisco Catalyst Center.
 
         Parameters:
             config (dict) - Playbook details.
@@ -2085,7 +2085,7 @@ class DnacTemplate(DnacBase):
 
     def create_project_or_template(self, is_create_project=False):
         """
-        Call DNAC API to create project or template based on the input provided.
+        Call Cisco Catalyst Center API to create project or template based on the input provided.
 
         Parameters:
             is_create_project (bool) - Default value is False.
@@ -2250,9 +2250,9 @@ class DnacTemplate(DnacBase):
 
     def validate_input_merge(self, template_exists):
         """
-        Validate input after getting all the parameters from DNAC.
+        Validate input after getting all the parameters from Cisco Catalyst Center.
         "If mandate like deviceTypes, softwareType and language "
-        "already present in DNAC for a template."
+        "already present in Cisco Catalyst Center for a template."
         "It is not required to be provided in playbook, "
         "but if it is new creation error will be thrown to provide these fields.
 
@@ -2332,7 +2332,7 @@ class DnacTemplate(DnacBase):
 
     def update_configuration_templates(self, config):
         """
-        Update/Create templates and projects in DNAC with fields provided in DNAC.
+        Update/Create templates and projects in CCC with fields provided in Cisco Catalyst Center.
 
         Parameters:
             config (dict) - Playbook details containing template information.
@@ -2423,7 +2423,7 @@ class DnacTemplate(DnacBase):
 
     def handle_export(self, config):
         """
-        Export templates and projects in DNAC with fields provided in DNAC.
+        Export templates and projects in CCC with fields provided in Cisco Catalyst Center.
 
         Parameters:
             config (dict) - Playbook details containing template information.
@@ -2469,7 +2469,7 @@ class DnacTemplate(DnacBase):
 
     def handle_import(self, config):
         """
-        Import templates and projects in DNAC with fields provided in DNAC.
+        Import templates and projects in CCC with fields provided in Cisco Catalyst Center.
 
         Parameters:
             config (dict) - Playbook details containing template information.
@@ -2538,7 +2538,7 @@ class DnacTemplate(DnacBase):
 
     def get_diff_merged(self, config):
         """
-        Update/Create templates and projects in DNAC with fields provided in DNAC.
+        Update/Create templates and projects in CCC with fields provided in Cisco Catalyst Center.
         Export the tempaltes and projects.
         Import the templates and projects.
         Check using check_return_status().
@@ -2568,7 +2568,7 @@ class DnacTemplate(DnacBase):
 
     def delete_project_or_template(self, config, is_delete_project=False):
         """
-        Call DNAC API to delete project or template with provided inputs.
+        Call Cisco Catalyst Center API to delete project or template with provided inputs.
 
         Parameters:
             config (dict) - Playbook details containing template information.
@@ -2613,7 +2613,7 @@ class DnacTemplate(DnacBase):
 
     def get_diff_deleted(self, config):
         """
-        Delete projects or templates in DNAC with fields provided in playbook.
+        Delete projects or templates in Cisco Catalyst Center with fields provided in playbook.
 
         Parameters:
             config (dict) - Playbook details containing template information.
@@ -2660,7 +2660,7 @@ class DnacTemplate(DnacBase):
 
     def verify_diff_merged(self, config):
         """
-        Validating the DNAC configuration with the playbook details
+        Validating the Cisco Catalyst Center configuration with the playbook details
         when state is merged (Create/Update).
 
         Parameters:
@@ -2675,7 +2675,7 @@ class DnacTemplate(DnacBase):
             is_template_available = self.get_have_project(config)
             self.log("Template availability: {0}".format(is_template_available), "INFO")
             if not is_template_available:
-                self.msg = "Configuration Template config is not applied to the DNAC."
+                self.msg = "Configuration Template config is not applied to the Cisco Catalyst Center."
                 self.status = "failed"
                 return self
 
@@ -2686,7 +2686,7 @@ class DnacTemplate(DnacBase):
                                "softwareVariant", "templateContent"]
             for item in template_params:
                 if self.have_template.get("template").get(item) != self.want.get("template_params").get(item):
-                    self.msg = " Configuration Template config is not applied to the DNAC."
+                    self.msg = " Configuration Template config is not applied to the Cisco Catalyst Center."
                     self.status = "failed"
                     return self
             self.log("Successfully validated the Template in the Catalyst Center.", "INFO")
@@ -2698,7 +2698,7 @@ class DnacTemplate(DnacBase):
 
     def verify_diff_deleted(self, config):
         """
-        Validating the DNAC configuration with the playbook details
+        Validating the Cisco Catalyst Center configuration with the playbook details
         when state is deleted (delete).
 
         Parameters:
@@ -2723,14 +2723,14 @@ class DnacTemplate(DnacBase):
                                                 "name",
                                                 templateName)
                 if template_info:
-                    self.msg = "Configuration Template config is not applied to the DNAC."
+                    self.msg = "Configuration Template config is not applied to the Cisco Catalyst Center."
                     self.status = "failed"
                     return self
 
             self.log("Successfully validated absence of template in the Catalyst Center.", "INFO")
             self.result.get("response").update({"Validation": "Success"})
 
-        self.msg = "Successfully validated the absence of Template in the DNAC."
+        self.msg = "Successfully validated the absence of Template in the Cisco Catalyst Center."
         self.status = "success"
         return self
 
@@ -2771,24 +2771,24 @@ def main():
                     }
     module = AnsibleModule(argument_spec=element_spec,
                            supports_check_mode=False)
-    dnac_template = DnacTemplate(module)
-    dnac_template.validate_input().check_return_status()
-    state = dnac_template.params.get("state")
-    config_verify = dnac_template.params.get("config_verify")
-    if state not in dnac_template.supported_states:
-        dnac_template.status = "invalid"
-        dnac_template.msg = "State {0} is invalid".format(state)
-        dnac_template.check_return_status()
+    ccc_template = Template(module)
+    ccc_template.validate_input().check_return_status()
+    state = ccc_template.params.get("state")
+    config_verify = ccc_template.params.get("config_verify")
+    if state not in ccc_template.supported_states:
+        ccc_template.status = "invalid"
+        ccc_template.msg = "State {0} is invalid".format(state)
+        ccc_template.check_return_status()
 
-    for config in dnac_template.validated_config:
-        dnac_template.reset_values()
-        dnac_template.get_have(config).check_return_status()
-        dnac_template.get_want(config).check_return_status()
-        dnac_template.get_diff_state_apply[state](config).check_return_status()
+    for config in ccc_template.validated_config:
+        ccc_template.reset_values()
+        ccc_template.get_have(config).check_return_status()
+        ccc_template.get_want(config).check_return_status()
+        ccc_template.get_diff_state_apply[state](config).check_return_status()
         if config_verify:
-            dnac_template.verify_diff_state_apply[state](config).check_return_status()
+            ccc_template.verify_diff_state_apply[state](config).check_return_status()
 
-    module.exit_json(**dnac_template.result)
+    module.exit_json(**ccc_template.result)
 
 
 if __name__ == '__main__':
