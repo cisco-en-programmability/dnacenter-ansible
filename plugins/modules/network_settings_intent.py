@@ -415,7 +415,7 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
 )
 
 
-class DnacNetwork(DnacBase):
+class NetworkSettings(DnacBase):
     """Class containing member attributes for network intent module"""
 
     def __init__(self, module):
@@ -2125,6 +2125,8 @@ def main():
         "dnac_debug": {"type": 'bool', "default": False},
         "dnac_log": {"type": 'bool', "default": False},
         "dnac_log_level": {"type": 'str', "default": 'WARNING'},
+        "dnac_log_file_path": {"type": 'str', "default": 'dnac.log'},
+        "dnac_log_append": {"type": 'bool', "default": True},
         "config_verify": {"type": 'bool', "default": False},
         "config": {"type": 'list', "required": True, "elements": 'dict'},
         "state": {"default": 'merged', "choices": ['merged', 'deleted']},
@@ -2133,7 +2135,7 @@ def main():
 
     # Create an AnsibleModule object with argument specifications
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=False)
-    dnac_network = DnacNetwork(module)
+    dnac_network = NetworkSettings(module)
     state = dnac_network.params.get("state")
     config_verify = dnac_network.params.get("config_verify")
     if state not in dnac_network.supported_states:
