@@ -52,8 +52,14 @@ jobs:
             cd /home/circleci/repo/dnacenter-ansible
             
             # Build collection and store resulting tarball in directory /home/circleci/.cache/v<< parameters.ansible_cisco_dnac_version >>/collection-tarballs
-            ansible-galaxy collection build --force --output-path "${HOME}/.cache/v<< parameters.ansible_cisco_dnac_version >>/collection-tarballs"
+              ansible-galaxy collection build --force --output-path "${HOME}/.cache/v<< parameters.ansible_cisco_dnac_version >>/collection-tarballs"
 
+      - run:
+          name: Remove Existing Directory
+          command: |
+            set -x 
+            rm -rf ${HOME}/repo/dnacenter-ansible
+            rm -rf ${HOME}/.cache/v<< parameters.ansible_version >>/
 
 workflows:
   testing:
