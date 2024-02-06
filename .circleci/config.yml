@@ -11,22 +11,23 @@ jobs:
 
     machine: true
     resource_class: rukapse/dnacenter-ansible
-    
+
+    environment:
+      CIRCLE_PROJECT_REPONAME: << pipeline.trigger_parameters.github_app.repo_name >>
+      REPO_URL: << pipeline.trigger_parameters.github_app.repo_url >>
+      CIRCLE_PROJECT_USERNAME: << pipeline.trigger_parameters.github_app.user_name >>
+
+
     steps:
       - run:
           name: Debug Information
           command: |
+            set -x 
+            echo "CIRCLE_PROJECT_REPONAME: $CIRCLE_PROJECT_REPONAME"
             echo "REPO_URL: $REPO_URL"
+            echo "CIRCLE_PROJECT_USERNAME: $CIRCLE_PROJECT_USERNAME"
             env
 
-      - checkout:
-          git: 
-            depth: 1
-            url: $REPO_URL
-
-      - run:
-          name: Custom Git Clone
-          command: git clone --depth=1 $REPO_URL
 
 workflows:
   testing:
