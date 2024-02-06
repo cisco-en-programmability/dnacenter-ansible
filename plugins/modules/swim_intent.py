@@ -567,7 +567,7 @@ class DnacSwims(DnacBase):
             self.log(error_message, "ERROR")
             self.module.fail_json(msg=error_message, response=image_response)
 
-        return image_id
+        return image_name
 
     def is_image_exist(self, name):
         """
