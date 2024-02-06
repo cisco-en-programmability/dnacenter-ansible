@@ -20,6 +20,7 @@ from ansible_collections.cisco.dnac.plugins.plugin_utils.dnac import (
     DNACSDK,
     dnac_argument_spec,
 )
+import os
 
 # Get common arguements specification
 argument_spec = dnac_argument_spec()
@@ -41,7 +42,8 @@ required_together = []
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail(
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False
@@ -70,8 +72,12 @@ class ActionModule(ActionBase):
             is_third_party=params.get("isThirdParty"),
             third_party_vendor=params.get("thirdPartyVendor"),
             third_party_image_family=params.get("thirdPartyImageFamily"),
-            third_party_application_type=params.get("thirdPartyApplicationType"),
+            third_party_application_type=params.get(
+                "thirdPartyApplicationType"),
             file_path=params.get("filePath"),
+            multipart_fields={'file': (os.path.basename(params.get(
+                "filePath")), open(params.get("filePath"), 'rb'))},
+            multipart_monitor_callback=None
         )
         return new_object
 
