@@ -172,5 +172,9 @@ workflows:
   testing:
     jobs:
       - pre
-      - build
-      - sanity-tests
+      - build:
+          requires:
+            - pre
+      - sanity-tests:
+          requires:
+            - build
