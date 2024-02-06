@@ -1,0 +1,54 @@
+---
+- name: Configure device credentials on Cisco DNA Center
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  vars_files:
+    - "input_swim.yml"
+    - "credentials.yml"
+  tasks:
+    - name: Import an image, tag it as golden and load it on device
+      cisco.dnac.swim_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        config_verify: true
+        config:
+        - import_image_details:
+            # type: "local"
+            # local_image_details:
+            #   file_path: "/Users/abmahesh/Downloads/cat9k_iosxe.17.12.01.SPA.bin"
+            #   is_third_party: false
+            type: "{{ item.type }}"
+            url_details:
+              payload:
+              - source_url: http://10.197.156.28/stda/abimishr/cat9k_iosxe.17.12.01.SPA.bin
+                third_party: False
+          tagging_details:
+            image_name: "{{item.image_name}}"
+            site_name: "{{item.site_name}}"
+            device_role: "{{ item.device_role }}"
+            device_family_name: "{{ item.device_family_name }}"
+            device_type: "{{item.device_type}}"
+            tagging: false
+          image_distribution_details:
+            image_name: "{{item.image_name}}"
+            site_name: "{{item.site_name}}"
+            device_role: "{{ item.device_role }}"
+            device_family_name: "{{ item.device_family_name }}"
+          image_activation_details:
+            site_name: "{{item.site_name}}"
+            device_role: "{{ item.device_role }}"
+            device_family_name: "{{ item.device_family_name }}"
+            scehdule_validate: false
+            distribute_if_needed: true
+
+      with_items: "{{ image_details }}"
+      tags:
+        - swim  
