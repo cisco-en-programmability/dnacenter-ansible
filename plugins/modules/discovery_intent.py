@@ -70,9 +70,35 @@ options:
       http_read_credential:
         description: HTTP read credentials for hosting a device
         type: dict
+        suboptions:
+            password:
+                description: HTTP(S) password and is mandatory for using HTTP credentials.
+                type: str
+            port:
+                description: HTTP(S) port and is mandatory for using HTTP credentials.
+                type: int
+            secure:
+                description: Flag for HTTP(S) and is not mandatory for using HTTP credentials.
+                type: bool
+            username:
+                description: HTTP(S) username and is mandatory for using HTTP credentials.
+                type: str
       http_write_credential:
         description: HTTP write credentials for hosting a device
         type: dict
+        suboptions:
+            password:
+                description: HTTP(S) password and is mandatory for using HTTP credentials.
+                type: str
+            port:
+                description: HTTP(S) port and is mandatory for using HTTP credentials.
+                type: int
+            secure:
+                description: Flag for HTTP(S) and is not mandatory for using HTTP credentials.
+                type: bool
+            username:
+                description: HTTP(S) username and is mandatory for using HTTP credentials.
+                type: str
       ip_filter_list:
         description: List of IP adddrsess that needs to get filtered out from the IP addresses added
         type: list
@@ -195,8 +221,8 @@ EXAMPLES = r"""
           start_index: integer
           enable_password_list: list
           records_to_return: integer
-          http_read_credential: dict
-          http_write_credential: dict
+          http_read_credential: dictionary
+          http_write_credential: dictionary
           ip_filter_list: list
           discovery_name: string
           password_list: list
@@ -567,6 +593,32 @@ class DnacDiscovery(DnacBase):
         if credential_ids is None:
             credential_ids = []
 
+        http_read_credential = self.validated_config[0].get('http_read_credential')
+        http_write_credential = self.validated_config[0].get('http_write_credential')
+        if http_read_credential:
+            if not (http_read_credential.get('password') and isinstance(http_read_credential.get('password'), str)):
+                msg = "Http Read Credential must have a password of type string"
+            if not (http_read_credential.get('username') and isinstance(http_read_credential.get('username'), str)):
+                msg = "Http Read Credential must have a username of type string"
+            if not (http_read_credential.get('password') and isinstance(http_read_credential.get('password'), int)):
+                msg = "Http Read Credential must have port of type integer"
+            if not isinstance(http_read_credential.get('secure'), bool):
+                msg = "Secure must be of type bool"
+            self.log(msg, "CRITICAL")
+            self.module.fail_json(msg=msg)
+
+        if http_write_credential:
+            if not (http_write_credential.get('password') and isinstance(http_read_credential.get('password'), str)):
+                msg = "Http Write Credential must have a password of type string"
+            if not (http_write_credential.get('username') and isinstance(http_read_credential.get('username'), str)):
+                msg = "Http Write Credential must have a username of type string"
+            if not (http_write_credential.get('password') and isinstance(http_read_credential.get('password'), int)):
+                msg = "Http Write Credential must have port of type integer"
+            if not isinstance(http_write_credential.get('secure'), bool):
+                msg = "Secure must be of type bool"
+            self.log(msg, "CRITICAL")
+            self.module.fail_json(msg=msg)
+
         new_object_params = {}
         new_object_params['cdpLevel'] = self.validated_config[0].get('cdp_level')
         new_object_params['discoveryType'] = self.validated_config[0].get('discovery_type')
@@ -702,13 +754,13 @@ class DnacDiscovery(DnacBase):
         start_index = self.validated_config[0].get("start_index")
         records_to_return = self.validated_config[0].get("records_to_return")
 
-        response = {"response":[]}
+        response = {"response": []}
         if records_to_return > 500:
-            num_intervals = records_to_return//500
-            for num in range(0,num_intervals+1):
+            num_intervals = records_to_return // 500
+            for num in range(0, num_intervals + 1):
                 params = dict(
-                    start_index=1 + num*500,
-                    records_to_return =500,
+                    start_index=1 + num * 500,
+                    records_to_return=500,
                     headers=self.validated_config[0].get("headers")
                 )
                 response_part = self.dnac_apply['exec'](
