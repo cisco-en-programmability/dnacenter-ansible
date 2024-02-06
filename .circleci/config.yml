@@ -14,8 +14,8 @@ jobs:
     
     steps:
       - checkout:
-          github:
-            fingerprint: "SHA256:J0xQGHm/j7txCuHdPam0+Ty+9VpEELCMJo8eYptUYO0"
+          git:
+            url: https://github.com/rukapse/dnacenter-ansible.git
 
 workflows:
   testing:
