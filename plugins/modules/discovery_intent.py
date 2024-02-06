@@ -71,34 +71,34 @@ options:
         description: HTTP read credentials for hosting a device
         type: dict
         suboptions:
+            username:
+                description: The username for HTTP(S) authentication, which is mandatory when using HTTP credentials.
+                type: str
             password:
-                description: HTTP(S) password and is mandatory for using HTTP credentials.
+                description: The password for HTTP(S) authentication. Mandatory for utilizing HTTP credentials.
                 type: str
             port:
-                description: HTTP(S) port and is mandatory for using HTTP credentials.
+                description: The HTTP(S) port number, which is mandatory for using HTTP credentials.
                 type: int
             secure:
-                description: Flag for HTTP(S) and is not mandatory for using HTTP credentials.
+                description: This is a flag for HTTP(S). Its usage is not mandatory for HTTP credentials.
                 type: bool
-            username:
-                description: HTTP(S) username and is mandatory for using HTTP credentials.
-                type: str
       http_write_credential:
         description: HTTP write credentials for hosting a device
         type: dict
         suboptions:
+            username:
+                description: The username for HTTP(S) authentication, which is mandatory when using HTTP credentials.
+                type: str
             password:
-                description: HTTP(S) password and is mandatory for using HTTP credentials.
+                description: The password for HTTP(S) authentication. Mandatory for utilizing HTTP credentials.
                 type: str
             port:
-                description: HTTP(S) port and is mandatory for using HTTP credentials.
+                description: The HTTP(S) port number, which is mandatory for using HTTP credentials.
                 type: int
             secure:
-                description: Flag for HTTP(S) and is not mandatory for using HTTP credentials.
+                description: This is a flag for HTTP(S). Its usage is not mandatory for HTTP credentials.
                 type: bool
-            username:
-                description: HTTP(S) username and is mandatory for using HTTP credentials.
-                type: str
       ip_filter_list:
         description: List of IP adddrsess that needs to get filtered out from the IP addresses added
         type: list
@@ -574,6 +574,14 @@ class DnacDiscovery(DnacBase):
         self.log("IP Address list's length is longer than 1", "ERROR")
         self.module.fail_json(msg="IP Address list's length is longer than 1", response=[])
 
+    def http_cred_failure(self, msg=None):
+        """
+        Method for failing discovery if there is any discrepancy in the http credentials
+        passed by the user
+        """
+        self.log(msg, "CRITICAL")
+        self.module.fail_json(msg=msg)
+
     def create_params(self, credential_ids=None, ip_address_list=None):
         """
         Create a new parameter object based on the validated configuration,
@@ -597,27 +605,31 @@ class DnacDiscovery(DnacBase):
         http_write_credential = self.validated_config[0].get('http_write_credential')
         if http_read_credential:
             if not (http_read_credential.get('password') and isinstance(http_read_credential.get('password'), str)):
-                msg = "Http Read Credential must have a password of type string"
+                msg = "The password for the HTTP read credential must be of string type."
+                self.http_cred_failure(msg=msg)
             if not (http_read_credential.get('username') and isinstance(http_read_credential.get('username'), str)):
-                msg = "Http Read Credential must have a username of type string"
-            if not (http_read_credential.get('password') and isinstance(http_read_credential.get('password'), int)):
-                msg = "Http Read Credential must have port of type integer"
+                msg = "The username for the HTTP read credential must be of string type."
+                self.http_cred_failure(msg=msg)
+            if not (http_read_credential.get('port') and isinstance(http_read_credential.get('port'), int)):
+                msg = "The port for the HTTP read Credential must be of integer type."
+                self.http_cred_failure(msg=msg)
             if not isinstance(http_read_credential.get('secure'), bool):
-                msg = "Secure must be of type bool"
-            self.log(msg, "CRITICAL")
-            self.module.fail_json(msg=msg)
+                msg = "Secure for HTTP read Credential must be of type boolean."
+                self.http_cred_failure(msg=msg)
 
         if http_write_credential:
-            if not (http_write_credential.get('password') and isinstance(http_read_credential.get('password'), str)):
-                msg = "Http Write Credential must have a password of type string"
-            if not (http_write_credential.get('username') and isinstance(http_read_credential.get('username'), str)):
-                msg = "Http Write Credential must have a username of type string"
-            if not (http_write_credential.get('password') and isinstance(http_read_credential.get('password'), int)):
-                msg = "Http Write Credential must have port of type integer"
+            if not (http_write_credential.get('password') and isinstance(http_write_credential.get('password'), str)):
+                msg = "The password for the HTTP write credential must be of string type."
+                self.http_cred_failure(msg=msg)
+            if not (http_write_credential.get('username') and isinstance(http_write_credential.get('username'), str)):
+                msg = "The username for the HTTP write credential must be of string type."
+                self.http_cred_failure(msg=msg)
+            if not (http_write_credential.get('port') and isinstance(http_write_credential.get('port'), int)):
+                msg = "The port for the HTTP write Credential must be of integer type."
+                self.http_cred_failure(msg=msg)
             if not isinstance(http_write_credential.get('secure'), bool):
-                msg = "Secure must be of type bool"
-            self.log(msg, "CRITICAL")
-            self.module.fail_json(msg=msg)
+                msg = "Secure for HTTP write Credential must be of type boolean."
+                self.http_cred_failure(msg=msg)
 
         new_object_params = {}
         new_object_params['cdpLevel'] = self.validated_config[0].get('cdp_level')
