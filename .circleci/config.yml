@@ -1,8 +1,35 @@
 version: 2.1
 
 jobs:
-  build:
-    
+
+  pre:
+    parameters: 
+      ansible_cisco_dnac_version:
+        type: string
+        default: "6.9.0"
+
+    machine: true
+    resource_class: rukapse/dnacenter-ansible
+    working_directory: ~/repo 
+
+    environment:
+      CIRCLE_PROJECT_REPONAME: << pipeline.trigger_parameters.github_app.repo_name >>
+
+    steps:
+      - run:
+          name: Debug information
+          command: |
+            set -x 
+            echo "CIRCLE_PROJECT_REPONAME: $CIRCLE_PROJECT_REPONAME"
+            env
+    - run:
+          name: Remove existing directory and collection tarball
+          command: |
+            set -x 
+            rm -rf ${HOME}/repo/$CIRCLE_PROJECT_REPONAME
+            rm -rf ${HOME}/.cache/v<< parameters.ansible_cisco_dnac_version >>/
+
+  build: 
     parameters: 
       ansible_cisco_dnac_version:
         type: string
@@ -17,7 +44,7 @@ jobs:
 
     steps:
       - run:
-          name: Debug Information
+          name: Debug information
           command: |
             set -x 
             echo "REPO_URL: $REPO_URL"
@@ -58,10 +85,99 @@ jobs:
           command: |
             set -x 
             rm -rf ${HOME}/repo/dnacenter-ansible
-            rm -rf ${HOME}/.cache/v<< parameters.ansible_cisco_dnac_version >>/
+
+  sanity-tests:
+    parameters: 
+      ansible_cisco_dnac_version:
+        type: string
+        default: "6.9.0"
+
+    machine: true
+    resource_class: rukapse/dnacenter-ansible
+    working_directory: ~/repo 
+
+    environment:
+      REPO_URL: << pipeline.trigger_parameters.github_app.repo_url >>
+
+    steps:
+      - run:
+          name: Debug information
+          command: |
+            set -x 
+            echo "REPO_URL: $REPO_URL"
+            env
+
+      - run:
+          name: Custom Git Clone
+          command: git clone --depth=1 $REPO_URL
+
+      - run:
+          name: Activate Virtual Environment, Install ansible and Build collection tarball
+          command: |
+            set -x 
+            # Activate Virtual Environment
+            pyenv local ansible
+            export PYENV_ROOT="/home/circleci/.pyenv"
+            export PATH="$PYENV_ROOT/bin:$PATH"
+            export PATH="$PYENV_ROOT/shims/python3:$PATH"
+            export PATH="$PYENV_ROOT/shims/python:$PATH"
+            export PYTHONPATH="$PYENV_ROOT/shims/python3:$PYTHONPATH"
+            export PYTHONPATH="$PYENV_ROOT/shims/python:$PYTHONPATH"
+
+            export PATH="/home/circleci/.ansible/collections/:$PATH"
+            export PYTHONPATH="/home/circleci/.ansible/collections/:$PYTHONPATH"
+
+            # Install ansible, dnacentersdk
+            pip install --upgrade pip
+            pip install jinja2 PyYAML cryptography paramiko
+            pip install ansible 
+            pip install dnacentersdk
+            ansible --version
+
+          environment:
+            PYTHONPATH: /home/circleci/.ansible/collections/:$PYTHONPATH
+            
+      - run:
+          name: Copy static files
+          command: |
+           
+            cp /home/circleci/static/credentials.yml /home/circleci/repo/dnacenter-ansible/playbooks/credentials.yml
+            cp /home/circleci/static/hosts /home/circleci/repo/dnacenter-ansible/playbooks/hosts
+
+      - run:
+        name: Install the collection tarball
+          command: |
+            set -x 
+            pyenv versions
+            python --version
+            ansible --version  
+
+          
+            ansible-galaxy collection install --force ${HOME}/.cache/v<< parameters.ansible_cisco_dnac_version >>/collection-tarballs/*.tar.gz
+            
+            
+      - run:
+          name: Run sanity tests
+          command: |
+            export ANSIBLE_PERSISTENT_CONNECT_TIMEOUT=1000
+            export ANSIBLE_PERSISTENT_COMMAND_TIMEOUT=1000
+
+            cd /home/circleci/repo/dnacenter-ansible/playbooks
+
+            ansible-playbook -i hosts site_workflow_manager.yml -vvvv
+
+
+      - run:
+          name: Remove Existing Directory
+          command: |
+            set -x 
+            rm -rf ${HOME}/repo/dnacenter-ansible
+
 
 
 workflows:
   testing:
     jobs:
+      - pre
       - build
+      - sanity-tests
