@@ -4,10 +4,6 @@
   gather_facts: no
   connection: local
   tasks:
-#
-# Project Info  Section
-#
-
     - name: Create global pool, reserve subpool and network functions
       cisco.dnac.network_settings_workflow_manager:
         dnac_host: "{{ dnac_host }}"
