@@ -25,9 +25,8 @@ jobs:
             env
 
       - checkout:
-          git: 
-            depth: 1
-            url: $REPO_URL
+          name: Custom Git Clone
+          command: git clone --depth=1 $REPO_URL
 
       - run:
           name: Activate Virtual Environment, Install ansible and Build collection tarball
@@ -54,8 +53,6 @@ jobs:
             
             # Build collection and store resulting tarball in directory /home/circleci/.cache/v<< parameters.ansible_cisco_dnac_version >>/collection-tarballs
             ansible-galaxy collection build --force --output-path "${HOME}/.cache/v<< parameters.ansible_cisco_dnac_version >>/collection-tarballs"
-
-
 
 workflows:
   testing:
