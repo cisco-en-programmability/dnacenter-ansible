@@ -5,9 +5,6 @@
   gather_facts: false
   connection: local
   tasks:
-#
-# Project Info  Section
-#
     - name: Test project template
       cisco.dnac.template_workflow_manager:
         dnac_host: "{{ dnac_host }}"
