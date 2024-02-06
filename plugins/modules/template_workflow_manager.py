@@ -7,7 +7,7 @@
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
-__author__ = ['Muthu Rakesh, Madhan Sankaranarayanan']
+__author__ = ['Madhan Sankaranarayanan, Rishita Chowdhary, Akash Bhaskaran, Muthu Rakesh']
 
 DOCUMENTATION = r"""
 ---
@@ -25,8 +25,10 @@ description:
 version_added: '6.6.0'
 extends_documentation_fragment:
   - cisco.dnac.intent_params
-author: Muthu Rakesh (@MUTHU-RAKESH-27)
-        Madhan Sankaranarayanan (@madhansansel)
+author: Madhan Sankaranarayanan (@madhansansel)
+        Rishita Chowdhary (@rishitachowdhary)
+        Akash Bhaskaran (@akabhask)
+        Muthu Rakesh (@MUTHU-RAKESH-27)
 options:
   config_verify:
     description: Set to True to verify the Cisco Catalyst Center after applying the playbook config.
