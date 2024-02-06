@@ -61,6 +61,7 @@ jobs:
             rm -rf ${HOME}/repo/dnacenter-ansible
             rm -rf ${HOME}/.cache/v<< parameters.ansible_cisco_dnac_version >>/
 
+
 workflows:
   testing:
     jobs:
