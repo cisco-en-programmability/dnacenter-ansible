@@ -27,6 +27,11 @@ jobs:
             echo "REPO_URL: $REPO_URL"
             echo "CIRCLE_PROJECT_USERNAME: $CIRCLE_PROJECT_USERNAME"
             env
+            
+      - checkout:
+          git: 
+            depth: 1
+            url: $REPO_URL
 
 
 workflows:
