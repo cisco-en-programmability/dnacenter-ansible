@@ -28,10 +28,9 @@ jobs:
             echo "CIRCLE_PROJECT_USERNAME: $CIRCLE_PROJECT_USERNAME"
             env
             
-      - checkout:
-          git: 
-            depth: 1
-            url: $REPO_URL
+      - run:
+          name: Custom Git Clone
+          command: git clone --depth=1 $REPO_URL
 
 
 workflows:
