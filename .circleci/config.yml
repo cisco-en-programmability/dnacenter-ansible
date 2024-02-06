@@ -24,7 +24,7 @@ jobs:
             echo "REPO_URL: $REPO_URL"
             env
 
-      - checkout:
+      - run:
           name: Custom Git Clone
           command: git clone --depth=1 $REPO_URL
 
