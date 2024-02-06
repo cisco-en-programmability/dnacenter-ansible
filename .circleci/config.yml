@@ -14,14 +14,8 @@ jobs:
     
     steps:
       - run:
-          name: Debug Information
-          command: |
-            echo "CIRCLE_PROJECT_USERNAME: $CIRCLE_PROJECT_USERNAME"
-            echo "CIRCLE_PROJECT_REPONAME: $CIRCLE_PROJECT_REPONAME"
-            echo "Cloning repository..."
-            git clone --depth=1 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git
-            cd $CIRCLE_PROJECT_REPONAME
-            git rev-parse HEAD
+          name: Clone Git repository
+          command: git clone --depth=1 $REPO_URL
 
 workflows:
   testing:
