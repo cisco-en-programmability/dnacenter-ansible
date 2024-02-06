@@ -15,7 +15,7 @@ jobs:
     steps:
       - run:
           name: Clone Git repository
-          command: git clone --depth=1 https://github.com/rukapse/dnacenter-ansible.git
+          command: git clone --depth=1 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git
 
 workflows:
   testing:
