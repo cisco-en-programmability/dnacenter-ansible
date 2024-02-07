@@ -711,7 +711,7 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
 
 
 class DeviceCredential(DnacBase):
-    """Class containing member attributes for device credential intent module"""
+    """Class containing member attributes for device_credential_workflow_manager module"""
 
     def __init__(self, module):
         super().__init__(module)
