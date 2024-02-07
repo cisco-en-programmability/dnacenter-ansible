@@ -1306,7 +1306,7 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
 
 
 class Template(DnacBase):
-    """Class containing member attributes for template intent module"""
+    """Class containing member attributes for template_workflow_manager module"""
 
     def __init__(self, module):
         super().__init__(module)
