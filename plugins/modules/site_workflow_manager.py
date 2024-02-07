@@ -323,7 +323,7 @@ floor_plan = {
 
 
 class Site(DnacBase):
-    """Class containing member attributes for site intent module"""
+    """Class containing member attributes for Site workflow_manager module"""
 
     def __init__(self, module):
         super().__init__(module)
