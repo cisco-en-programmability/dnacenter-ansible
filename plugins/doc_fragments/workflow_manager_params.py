@@ -16,23 +16,23 @@ class ModuleDocFragment(object):
 options:
     dnac_host:
         description:
-          - The Cisco Catalyst Center hostname.
+          - The hostname of the Cisco Catalyst Center.
         type: str
         required: true
     dnac_port:
         description:
-          - The Cisco Catalyst Center port.
+          - Specifies the port number associated with the Cisco Catalyst Center.
         type: str
         default: '443'
     dnac_username:
         description:
-          - The Cisco Catalyst Center username to authenticate.
+          - The username for authentication at the Cisco Catalyst Center.
         type: str
         default: admin
         aliases: [ user ]
     dnac_password:
         description:
-          - The Cisco Catalyst Center password to authenticate.
+          - The password for authentication at the Cisco Catalyst Center.
         type: str
     dnac_verify:
         description:
@@ -41,12 +41,12 @@ options:
         default: true
     dnac_version:
         description:
-          - Informs the SDK which version of Cisco Catalyst Center to use.
+          - Specifies the version of the Cisco Catalyst Center that the SDK should use.
         type: str
         default: 2.2.3.3
     dnac_debug:
         description:
-          - Flag for Cisco Catalyst Center SDK to enable debugging.
+          - Indicates whether debugging is enabled in the Cisco Catalyst Center SDK.
         type: bool
         default: false
     dnac_log:
