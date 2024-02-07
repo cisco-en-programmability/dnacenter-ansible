@@ -24,7 +24,7 @@ description:
 - API to manage operation create of the resource Configuration Template Import Template.
 version_added: '6.6.0'
 extends_documentation_fragment:
-  - cisco.dnac.intent_params
+  - cisco.dnac.workflow_manager_params
 author: Madhan Sankaranarayanan (@madhansansel)
         Rishita Chowdhary (@rishitachowdhary)
         Akash Bhaskaran (@akabhask)
