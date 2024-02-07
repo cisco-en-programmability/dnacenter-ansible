@@ -12,7 +12,7 @@ __author__ = ("Madhan Sankaranarayanan, Rishita Chowdhary, Abhishek Maheshwari")
 DOCUMENTATION = r"""
 ---
 module: swim_workflow_manager
-short_description: Intent module for SWIM related functions
+short_description: workflow_manager module for SWIM related functions
 description:
 - Manage operation related to image importation, distribution, activation and tagging image as golden
 - API to fetch a software image from remote file system using URL for HTTP/FTP and upload it to Catalyst Center.
@@ -25,7 +25,7 @@ description:
 - API to activate a software image on a given device. Software image must be present in the device flash.
 version_added: '6.6.0'
 extends_documentation_fragment:
-  - cisco.dnac.intent_params
+  - cisco.dnac.workflow_manager_params
 author: Madhan Sankaranarayanan (@madhansansel)
         Rishita Chowdhary (@rishitachowdhary)
         Abhishek Maheshwari (@abmahesh)
