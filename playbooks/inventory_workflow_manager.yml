@@ -22,13 +22,10 @@
         state: merged
         config:
         - username: "{{item.username}}"
-          enable_password: "{{item.enable_password}}"
           password: "{{item.password}}"
+          enable_password: "{{item.enable_password}}"
           ip_address: "{{item.ip_address}}"
           cli_transport: "{{item.cli_transport}}"
-          # hostname_list: "{{item.hostname_list}}"
-          # serial_number_list: "{{item.serial_number_list}}"
-          # mac_address_list: "{{item.mac_address_list}}"
           snmp_auth_passphrase: "{{item.snmp_auth_passphrase}}"
           snmp_auth_protocol: "{{item.snmp_auth_protocol}}"
           snmp_mode: "{{item.snmp_mode}}"

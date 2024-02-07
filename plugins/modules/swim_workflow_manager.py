@@ -409,7 +409,7 @@ import os
 
 
 class Swim(DnacBase):
-    """Class containing member attributes for Swim intent module"""
+    """Class containing member attributes for Swim workflow_manager module"""
 
     def __init__(self, module):
         super().__init__(module)
