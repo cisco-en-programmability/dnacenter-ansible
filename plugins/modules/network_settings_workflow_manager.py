@@ -21,7 +21,7 @@ description:
   and/or DNS center server settings.
 version_added: '6.6.0'
 extends_documentation_fragment:
-  - cisco.dnac.intent_params
+  - cisco.dnac.workflow_manager_params
 author: Muthu Rakesh (@MUTHU-RAKESH-27)
         Madhan Sankaranarayanan (@madhansansel)
 options:
