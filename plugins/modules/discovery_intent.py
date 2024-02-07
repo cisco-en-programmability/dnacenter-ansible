@@ -70,9 +70,35 @@ options:
       http_read_credential:
         description: HTTP read credentials for hosting a device
         type: dict
+        suboptions:
+            username:
+                description: The username for HTTP(S) authentication, which is mandatory when using HTTP credentials.
+                type: str
+            password:
+                description: The password for HTTP(S) authentication. Mandatory for utilizing HTTP credentials.
+                type: str
+            port:
+                description: The HTTP(S) port number, which is mandatory for using HTTP credentials.
+                type: int
+            secure:
+                description: This is a flag for HTTP(S). Its usage is not mandatory for HTTP credentials.
+                type: bool
       http_write_credential:
         description: HTTP write credentials for hosting a device
         type: dict
+        suboptions:
+            username:
+                description: The username for HTTP(S) authentication, which is mandatory when using HTTP credentials.
+                type: str
+            password:
+                description: The password for HTTP(S) authentication. Mandatory for utilizing HTTP credentials.
+                type: str
+            port:
+                description: The HTTP(S) port number, which is mandatory for using HTTP credentials.
+                type: int
+            secure:
+                description: This is a flag for HTTP(S). Its usage is not mandatory for HTTP credentials.
+                type: bool
       ip_filter_list:
         description: List of IP adddrsess that needs to get filtered out from the IP addresses added
         type: list
@@ -195,8 +221,8 @@ EXAMPLES = r"""
           start_index: integer
           enable_password_list: list
           records_to_return: integer
-          http_read_credential: dict
-          http_write_credential: dict
+          http_read_credential: dictionary
+          http_write_credential: dictionary
           ip_filter_list: list
           discovery_name: string
           password_list: list
@@ -429,12 +455,32 @@ class DnacDiscovery(DnacBase):
             params=self.validated_config[0].get('headers'),
         )
         response = response.get('response')
-        cli_len_inp = self.validated_config[0].get("cli_cred_len")
-        if cli_len_inp > 5:
-            cli_len_inp = 5
         self.log("The Global credentials response from 'get all global credentials v2' API is {0}".format(str(response)), "DEBUG")
+
+        cli_len_inp = self.validated_config[0].get("cli_cred_len")
+        if response.get("cliCredential") is None:
+            msg = 'Not found any CLI credentials to perform discovery'
+            self.log(msg, "CRITICAL")
+            self.module.fail_json(msg=msg)
+
+        if response.get("snmpV2cRead") is None and response.get("snmpV2cWrite") is None and response.get("snmpV3"):
+            msg = 'Not found any SNMP credentials to perform discovery'
+            self.log(msg, "CRITICAL")
+            self.module.fail_json(msg=msg)
+
+        total_cli = len(response.get("cliCredential"))
+        if total_cli > 5:
+            if cli_len_inp > 5:
+                cli_len_inp = 5
+
+        elif total_cli < 6 and cli_len_inp > total_cli:
+            cli_len_inp = total_cli
+
         cli_len = 0
+
         for key in response.keys():
+            if response[key] is None:
+                response[key] = []
             if key == "cliCredential":
                 for element in response.get(key):
                     while cli_len < cli_len_inp:
@@ -442,7 +488,6 @@ class DnacDiscovery(DnacBase):
                         cli_len += 1
             else:
                 self.creds_ids_list.extend(element.get('id') for element in response.get(key))
-
         if not self.creds_ids_list:
             msg = 'Not found any credentials to perform discovery'
             self.log(msg, "CRITICAL")
@@ -529,6 +574,14 @@ class DnacDiscovery(DnacBase):
         self.log("IP Address list's length is longer than 1", "ERROR")
         self.module.fail_json(msg="IP Address list's length is longer than 1", response=[])
 
+    def http_cred_failure(self, msg=None):
+        """
+        Method for failing discovery if there is any discrepancy in the http credentials
+        passed by the user
+        """
+        self.log(msg, "CRITICAL")
+        self.module.fail_json(msg=msg)
+
     def create_params(self, credential_ids=None, ip_address_list=None):
         """
         Create a new parameter object based on the validated configuration,
@@ -547,6 +600,36 @@ class DnacDiscovery(DnacBase):
 
         if credential_ids is None:
             credential_ids = []
+
+        http_read_credential = self.validated_config[0].get('http_read_credential')
+        http_write_credential = self.validated_config[0].get('http_write_credential')
+        if http_read_credential:
+            if not (http_read_credential.get('password') and isinstance(http_read_credential.get('password'), str)):
+                msg = "The password for the HTTP read credential must be of string type."
+                self.http_cred_failure(msg=msg)
+            if not (http_read_credential.get('username') and isinstance(http_read_credential.get('username'), str)):
+                msg = "The username for the HTTP read credential must be of string type."
+                self.http_cred_failure(msg=msg)
+            if not (http_read_credential.get('port') and isinstance(http_read_credential.get('port'), int)):
+                msg = "The port for the HTTP read Credential must be of integer type."
+                self.http_cred_failure(msg=msg)
+            if not isinstance(http_read_credential.get('secure'), bool):
+                msg = "Secure for HTTP read Credential must be of type boolean."
+                self.http_cred_failure(msg=msg)
+
+        if http_write_credential:
+            if not (http_write_credential.get('password') and isinstance(http_write_credential.get('password'), str)):
+                msg = "The password for the HTTP write credential must be of string type."
+                self.http_cred_failure(msg=msg)
+            if not (http_write_credential.get('username') and isinstance(http_write_credential.get('username'), str)):
+                msg = "The username for the HTTP write credential must be of string type."
+                self.http_cred_failure(msg=msg)
+            if not (http_write_credential.get('port') and isinstance(http_write_credential.get('port'), int)):
+                msg = "The port for the HTTP write Credential must be of integer type."
+                self.http_cred_failure(msg=msg)
+            if not isinstance(http_write_credential.get('secure'), bool):
+                msg = "Secure for HTTP write Credential must be of type boolean."
+                self.http_cred_failure(msg=msg)
 
         new_object_params = {}
         new_object_params['cdpLevel'] = self.validated_config[0].get('cdp_level')
@@ -680,24 +763,42 @@ class DnacDiscovery(DnacBase):
                        of discoveries. If no matching discovery is found, it
                        returns None.
         """
-        params = dict(
-            start_index=self.validated_config[0].get("start_index"),
-            records_to_return=self.validated_config[0].get("records_to_return"),
-            headers=self.validated_config[0].get("headers"),
-        )
+        start_index = self.validated_config[0].get("start_index")
+        records_to_return = self.validated_config[0].get("records_to_return")
 
-        response = self.dnac_apply['exec'](
-            family="discovery",
-            function='get_discoveries_by_range',
-            params=params
-        )
+        response = {"response": []}
+        if records_to_return > 500:
+            num_intervals = records_to_return // 500
+            for num in range(0, num_intervals + 1):
+                params = dict(
+                    start_index=1 + num * 500,
+                    records_to_return=500,
+                    headers=self.validated_config[0].get("headers")
+                )
+                response_part = self.dnac_apply['exec'](
+                    family="discovery",
+                    function='get_discoveries_by_range',
+                    params=params
+                )
+                response["response"].extend(response_part["response"])
+        else:
+            params = dict(
+                start_index=self.validated_config[0].get("start_index"),
+                records_to_return=self.validated_config[0].get("records_to_return"),
+                headers=self.validated_config[0].get("headers"),
+            )
 
+            response = self.dnac_apply['exec'](
+                family="discovery",
+                function='get_discoveries_by_range',
+                params=params
+            )
         self.log("Response of the get discoveries via range API is {0}".format(str(response)), "DEBUG")
 
         return next(
             filter(
                 lambda x: x['name'] == self.validated_config[0].get('discovery_name'),
-                response.response
+                response.get("response")
             ), None
         )
 
