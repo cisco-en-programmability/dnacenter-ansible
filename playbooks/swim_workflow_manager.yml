@@ -21,10 +21,6 @@
         config_verify: true
         config:
         - import_image_details:
-            # type: "local"
-            # local_image_details:
-            #   file_path: "/Users/abmahesh/Downloads/cat9k_iosxe.17.12.01.SPA.bin"
-            #   is_third_party: false
             type: "{{ item.type }}"
             url_details:
               payload:
