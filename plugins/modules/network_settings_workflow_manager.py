@@ -416,7 +416,7 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
 
 
 class NetworkSettings(DnacBase):
-    """Class containing member attributes for network intent module"""
+    """Class containing member attributes for network_settings_workflow_manager module"""
 
     def __init__(self, module):
         super().__init__(module)
