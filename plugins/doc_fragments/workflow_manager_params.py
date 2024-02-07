@@ -6,6 +6,7 @@
 
 from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
+__author__ = ['Madhan Sankaranarayanan, Muthu Rakesh']
 
 
 class ModuleDocFragment(object):
@@ -15,23 +16,23 @@ class ModuleDocFragment(object):
 options:
     dnac_host:
         description:
-          - The Cisco DNA Center hostname.
+          - The Cisco Catalyst Center hostname.
         type: str
         required: true
     dnac_port:
         description:
-          - The Cisco DNA Center port.
+          - The Cisco Catalyst Center port.
         type: str
         default: '443'
     dnac_username:
         description:
-          - The Cisco DNA Center username to authenticate.
+          - The Cisco Catalyst Center username to authenticate.
         type: str
         default: admin
         aliases: [ user ]
     dnac_password:
         description:
-          - The Cisco DNA Center password to authenticate.
+          - The Cisco Catalyst Center password to authenticate.
         type: str
     dnac_verify:
         description:
@@ -40,12 +41,12 @@ options:
         default: true
     dnac_version:
         description:
-          - Informs the SDK which version of Cisco DNA Center to use.
+          - Informs the SDK which version of Cisco Catalyst Center to use.
         type: str
         default: 2.2.3.3
     dnac_debug:
         description:
-          - Flag for Cisco DNA Center SDK to enable debugging.
+          - Flag for Cisco Catalyst Center SDK to enable debugging.
         type: bool
         default: false
     dnac_log:
@@ -97,11 +98,11 @@ options:
         default: True
     validate_response_schema:
         description:
-          - Flag for Cisco DNA Center SDK to enable the validation of request bodies against a JSON schema.
+          - Flag for Cisco Catalyst Center SDK to enable the validation of request bodies against a JSON schema.
         type: bool
         default: true
 notes:
     - "Does not support C(check_mode)"
-    - "The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK"
-    - "The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection"
+    - "The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK"
+    - "The parameters starting with dnac_ are used by the Cisco Catalyst Center Python SDK to establish the connection"
 '''
