@@ -159,12 +159,8 @@ jobs:
       - run:
           name: Copy static files
           command: |
-            echo "STATIC_GROUP_VARS: $STATIC_GROUP_VARS"
-            echo "GROUP_VARS: $GROUP_VARS"
-            echo "STATIC_HOSTS: $STATIC_HOSTS"
-            echo "HOSTS: $HOSTS"
-            cp ${STATIC_GROUP_VARS} ${GROUP_VARS}
-            cp ${STATIC_HOSTS} ${HOSTS}
+            cp cp $HOME/static/group_vars/dnac_servers.yaml group_vars/dnac_servers.yaml
+            cp $HOME/static/hosts hosts
 
       - run:
           name: Install the collection tarball
