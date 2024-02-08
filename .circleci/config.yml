@@ -99,6 +99,10 @@ jobs:
     environment:
       REPO_URL: << pipeline.trigger_parameters.github_app.repo_url >>
       CIRCLE_PROJECT_REPONAME: << pipeline.trigger_parameters.github_app.repo_name >>
+      STATIC_GROUP_VARS: << parameters.STATIC_GROUP_VARS
+      GROUP_VARS: << parameters.GROUP_VARS >>
+      STATIC_HOSTS: << parameters.STATIC_HOSTS
+      HOSTS: << parameters.HOSTS >>
 
     steps:
       - run:
@@ -159,8 +163,10 @@ jobs:
       - run:
           name: Copy static files
           command: |
-            echo "STATIC_GROUP_VARS: ${STATIC_GROUP_VARS}"
-            echo "STATIC_HOSTS: ${STATIC_HOSTS}"
+            echo "STATIC_GROUP_VARS: $STATIC_GROUP_VARS"
+            echo "GROUP_VARS: $GROUP_VARS"
+            echo "STATIC_HOSTS: $STATIC_HOSTS"
+            echo "HOSTS: $HOSTS"
             cp ${STATIC_GROUP_VARS} ${GROUP_VARS}
             cp ${STATIC_HOSTS} ${HOSTS}
 
