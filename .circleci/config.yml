@@ -141,7 +141,6 @@ jobs:
       - run:
           name: Create Roles File header
           command: |
-            touch ccc_roles.yml
             echo "---" > ccc_roles.yml
             echo "- hosts: dnac_servers" >> ccc_roles.yml
             echo "  gather_facts: no" >> ccc_roles.yml
@@ -155,7 +154,7 @@ jobs:
             echo "  roles:" >> ccc_roles.yml
             echo "    - ccc_site_management" >> ccc_roles.yml
 
-            cat ccc_roles.yaml
+            cat ccc_roles.yml
 
       - run:
           name: Copy static files
