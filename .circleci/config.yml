@@ -178,7 +178,7 @@ jobs:
           command: |
             export ANSIBLE_PERSISTENT_CONNECT_TIMEOUT=1000
             export ANSIBLE_PERSISTENT_COMMAND_TIMEOUT=1000
-            export ANSIBLE_ROLES_PATH=$INTEGRATION_TESTS
+            export ANSIBLE_ROLES_PATH=/home/circleci/repo/tests/integration/
 
             env
 
