@@ -159,7 +159,7 @@ jobs:
       - run:
           name: Copy static files
           command: |
-            cp cp $HOME/static/group_vars/dnac_servers.yaml group_vars/dnac_servers.yaml
+            cp cp $HOME/static/group_vars/dnac_servers.yml group_vars/dnac_servers.yml
             cp $HOME/static/hosts hosts
 
       - run:
@@ -178,6 +178,9 @@ jobs:
             export ANSIBLE_PERSISTENT_CONNECT_TIMEOUT=1000
             export ANSIBLE_PERSISTENT_COMMAND_TIMEOUT=1000
             export ANSIBLE_ROLES_PATH=$INTEGRATION_TESTS
+
+            env
+            
             ansible-playbook -i hosts ccc_roles.yml -vvvv
 
       - run:
