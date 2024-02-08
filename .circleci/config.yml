@@ -141,7 +141,7 @@ jobs:
       - run:
           name: Create Roles File header
           command: |
-            echo "---" > ccc_roles.yml
+            echo "---" > $HOME/ccc_roles.yml
             echo "- hosts: dnac_servers" >> ccc_roles.yml
             echo "  gather_facts: no" >> ccc_roles.yml
             echo "  connection: ansible.netcommon.httpapi" >> ccc_roles.yml
