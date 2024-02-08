@@ -159,7 +159,7 @@ jobs:
       - run:
           name: Copy static files
           command: |
-          mkdir -p group_vars
+            mkdir -p group_vars
             cp ${HOME}/static/group_vars/dnac_servers.yml group_vars/dnac_servers.yml
             cp ${HOME}/static/hosts hosts
 
