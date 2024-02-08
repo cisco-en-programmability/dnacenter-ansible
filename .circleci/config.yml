@@ -159,8 +159,10 @@ jobs:
       - run:
           name: Copy static files
           command: |
-            cp $STATIC_GROUP_VARS $GROUP_VARS
-            cp $STATIC_HOSTS $HOSTS 
+            echo "STATIC_GROUP_VARS: ${STATIC_GROUP_VARS}"
+            echo "STATIC_HOSTS: ${STATIC_HOSTS}"
+            cp ${STATIC_GROUP_VARS} ${GROUP_VARS}
+            cp ${STATIC_HOSTS} ${HOSTS}
 
       - run:
           name: Install the collection tarball
