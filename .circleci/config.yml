@@ -40,6 +40,7 @@ jobs:
 
     environment:
       REPO_URL: << pipeline.trigger_parameters.github_app.repo_url >>
+      CIRCLE_PROJECT_REPONAME: << pipeline.trigger_parameters.github_app.repo_name >>
 
     steps:
       - run:
@@ -59,7 +60,7 @@ jobs:
             set -x 
             # Activate Virtual Environment
             pyenv local ansible
-            export PYENV_ROOT="/home/circleci/.pyenv"
+            export PYENV_ROOT="$HOME/.pyenv"
             export PATH="$PYENV_ROOT/bin:$PATH"
             export PATH="$PYENV_ROOT/shims/python3:$PATH"
             export PATH="$PYENV_ROOT/shims/python:$PATH"
@@ -74,16 +75,16 @@ jobs:
             ansible --version
 
             # Change directory to dnacenter-ansible
-            cd /home/circleci/repo/dnacenter-ansible
+            cd $HOME/repo/dnacenter-ansible
             
-            # Build collection and store resulting tarball in directory /home/circleci/.cache/v<< parameters.ansible_cisco_dnac_version >>/collection-tarballs
-              ansible-galaxy collection build --force --output-path "${HOME}/.cache/v<< parameters.ansible_cisco_dnac_version >>/collection-tarballs"
+            # Build collection and store resulting tarball in directory $HOME/.cache/v<< parameters.ansible_cisco_dnac_version >>/collection-tarballs
+            ansible-galaxy collection build --force --output-path "${HOME}/.cache/v<< parameters.ansible_cisco_dnac_version >>/collection-tarballs"
 
       - run:
           name: Remove Existing Directory
           command: |
             set -x 
-            rm -rf ${HOME}/repo/dnacenter-ansible
+            rm -rf ${HOME}/repo/$CIRCLE_PROJECT_REPONAME
 
   sanity-tests:
     parameters: 
@@ -97,6 +98,7 @@ jobs:
 
     environment:
       REPO_URL: << pipeline.trigger_parameters.github_app.repo_url >>
+      CIRCLE_PROJECT_REPONAME: << pipeline.trigger_parameters.github_app.repo_name >>
 
     steps:
       - run:
@@ -116,15 +118,15 @@ jobs:
             set -x 
             # Activate Virtual Environment
             pyenv local ansible
-            export PYENV_ROOT="/home/circleci/.pyenv"
+            export PYENV_ROOT="$HOME/.pyenv"
             export PATH="$PYENV_ROOT/bin:$PATH"
             export PATH="$PYENV_ROOT/shims/python3:$PATH"
             export PATH="$PYENV_ROOT/shims/python:$PATH"
             export PYTHONPATH="$PYENV_ROOT/shims/python3:$PYTHONPATH"
             export PYTHONPATH="$PYENV_ROOT/shims/python:$PYTHONPATH"
 
-            export PATH="/home/circleci/.ansible/collections/:$PATH"
-            export PYTHONPATH="/home/circleci/.ansible/collections/:$PYTHONPATH"
+            export PATH="$HOME/.ansible/collections/:$PATH"
+            export PYTHONPATH="$HOME/.ansible/collections/:$PYTHONPATH"
 
             # Install ansible, dnacentersdk
             pip install --upgrade pip
@@ -134,13 +136,31 @@ jobs:
             ansible --version
 
           environment:
-            PYTHONPATH: /home/circleci/.ansible/collections/:$PYTHONPATH
-            
+            PYTHONPATH: $HOME/.ansible/collections/:$PYTHONPATH
+
+      - run:
+          name: Create Roles File header
+          command: |
+            echo "---" > ccc_roles.yml
+            echo "- hosts: dnac_servers" >> ccc_roles.yml
+            echo "  gather_facts: no" >> ccc_roles.yml
+            echo "  connection: ansible.netcommon.httpapi" >> ccc_roles.yml
+            echo "  " >> ccc_roles.yml
+            echo "  tasks:" >> ccc_roles.yml
+            echo "  " >> ccc_roles.yml
+            echo "  vars:" >> ccc_roles.yml
+            echo "    debug: false" >> ccc_roles.yml
+            echo "  " >> ccc_roles.yml
+            echo "  roles:" >> ccc_roles.yml
+            echo "    - ccc_site_management" >> ccc_roles.yml
+
+            cat ccc_roles.yaml
+
       - run:
           name: Copy static files
           command: |
-            cp /home/circleci/static/credentials.yml /home/circleci/repo/dnacenter-ansible/playbooks/credentials.yml
-            cp /home/circleci/static/hosts /home/circleci/repo/dnacenter-ansible/playbooks/hosts
+            cp $STATIC_GROUP_VARS $GROUP_VARS
+            cp $STATIC_HOSTS $HOSTS 
 
       - run:
           name: Install the collection tarball
@@ -157,16 +177,15 @@ jobs:
           command: |
             export ANSIBLE_PERSISTENT_CONNECT_TIMEOUT=1000
             export ANSIBLE_PERSISTENT_COMMAND_TIMEOUT=1000
-
-            cd /home/circleci/repo/dnacenter-ansible/playbooks
-
-            ansible-playbook -i hosts site_workflow_manager.yml -vvvv
+            export ANSIBLE_ROLES_PATH=$INTEGRATION_TESTS
+            ansible-playbook -i hosts ccc_roles.yml -vvvv
 
       - run:
           name: Remove Existing Directory
           command: |
             set -x 
-            rm -rf ${HOME}/repo/dnacenter-ansible
+            rm -rf ${HOME}/repo/$CIRCLE_PROJECT_REPONAME
+
 
 workflows:
   testing:
