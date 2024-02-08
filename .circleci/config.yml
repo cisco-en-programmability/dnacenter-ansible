@@ -159,8 +159,8 @@ jobs:
       - run:
           name: Copy static files
           command: |
-            cp cp $HOME/static/group_vars/dnac_servers.yml group_vars/dnac_servers.yml
-            cp $HOME/static/hosts hosts
+            cp cp ${HOME}/static/group_vars/dnac_servers.yml group_vars/dnac_servers.yml
+            cp ${HOME}/static/hosts hosts
 
       - run:
           name: Install the collection tarball
@@ -180,7 +180,7 @@ jobs:
             export ANSIBLE_ROLES_PATH=$INTEGRATION_TESTS
 
             env
-            
+
             ansible-playbook -i hosts ccc_roles.yml -vvvv
 
       - run:
