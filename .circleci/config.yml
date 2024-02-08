@@ -99,10 +99,11 @@ jobs:
     environment:
       REPO_URL: << pipeline.trigger_parameters.github_app.repo_url >>
       CIRCLE_PROJECT_REPONAME: << pipeline.trigger_parameters.github_app.repo_name >>
-      STATIC_GROUP_VARS: << pipeline.trigger_parameters.github_app.STATIC_GROUP_VARS >>
-      GROUP_VARS: << pipeline.trigger_parameters.github_app.GROUP_VARS >>
-      STATIC_HOSTS: << pipeline.trigger_parameters.github_app.STATIC_HOSTS >>
-      HOSTS: << pipeline.trigger_parameters.github_app.HOSTS >>
+      GROUP_VARS: $GROUP_VARS
+      HOSTS: $HOSTS
+      INTEGRATION_TESTS: $INTEGRATION_TESTS
+      STATIC_GROUP_VARS: $STATIC_GROUP_VARS
+      STATIC_HOSTS: $STATIC_HOSTS
 
     steps:
       - run:
