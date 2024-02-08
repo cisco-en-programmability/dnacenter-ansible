@@ -21,7 +21,7 @@ extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
 author: Abinash Mishra (@abimishr)
         Phan Nguyen (@phannguy)
-        Madhan Sankaranarayanan (@madsanka)
+        Madhan Sankaranarayanan (@madhansansel)
 options:
   config_verify:
     description: Set to True to verify the Cisco Catalyst Center config after applying the playbook config.
