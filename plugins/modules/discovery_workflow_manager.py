@@ -248,6 +248,7 @@ EXAMPLES = r"""
           timeout: integer
           username_list: list
           cli_cred_len: integer
+
 - name: Delete disovery by name
   cisco.dnac.discovery_workflow_manager:
     dnac_host: "{{dnac_host}}"
