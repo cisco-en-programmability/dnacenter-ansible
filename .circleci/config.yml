@@ -52,7 +52,7 @@ jobs:
 
       - run:
           name: Custom Git Clone
-          command: git clone --depth=1 $REPO_URL
+          command: git clone --depth=1 -b circleci-setup $REPO_URL
 
       - run:
           name: Activate Virtual Environment, Install ansible and Build collection tarball
@@ -110,7 +110,7 @@ jobs:
 
       - run:
           name: Custom Git Clone
-          command: git clone --depth=1 $REPO_URL
+          command: git clone --depth=1 -b circleci-setup $REPO_URL
 
       - run:
           name: Activate Virtual Environment, Install ansible and Build collection tarball
@@ -152,7 +152,7 @@ jobs:
             echo "    debug: false" >> ccc_roles.yml
             echo "  " >> ccc_roles.yml
             echo "  roles:" >> ccc_roles.yml
-            echo "    - /home/circleci/repo/tests/integration/ccc_site_management" >> ccc_roles.yml
+            echo "    - /home/circleci/repo/dnacenter-ansible/tests/integration/ccc_site_management" >> ccc_roles.yml
 
             cat ccc_roles.yml
 
