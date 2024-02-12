@@ -879,6 +879,12 @@ class Discovery(DnacBase):
             self.log("Retrieved device details using the API 'get_discovered_network_devices_by_discovery_id': {0}".format(str(devices)), "DEBUG")
             if all(res.get('reachabilityStatus') == 'Success' for res in devices):
                 result = True
+                self.log("All devices in the range are reachable", "INFO")
+                break
+
+            elif any(res.get('reachabilityStatus') == 'Success' for res in devices):
+                result = True
+                self.log("Some devices in the range are reachable", "INFO")
                 break
 
             count += 1
