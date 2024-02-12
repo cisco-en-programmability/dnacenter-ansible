@@ -152,7 +152,7 @@ jobs:
             echo "    debug: false" >> ccc_roles.yml
             echo "  " >> ccc_roles.yml
             echo "  roles:" >> ccc_roles.yml
-            echo "    - /home/circleci/repo/dnacenter-ansible/tests/integration/ccc_site_management" >> ccc_roles.yml
+            echo "    - ccc_site_management" >> ccc_roles.yml
 
             cat ccc_roles.yml
 
@@ -178,7 +178,7 @@ jobs:
           command: |
             export ANSIBLE_PERSISTENT_CONNECT_TIMEOUT=1000
             export ANSIBLE_PERSISTENT_COMMAND_TIMEOUT=1000
-            export ANSIBLE_ROLES_PATH=/home/circleci/repo/tests/integration/
+            export ANSIBLE_ROLES_PATH=/home/circleci/repo/dnacenter-ansible/tests/integration
 
             ansible-playbook -i hosts ccc_roles.yml -vvvv
 
