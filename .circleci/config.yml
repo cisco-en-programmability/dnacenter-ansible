@@ -144,7 +144,7 @@ jobs:
             echo "---" > ccc_roles.yml
             echo "- hosts: dnac_servers" >> ccc_roles.yml
             echo "  gather_facts: no" >> ccc_roles.yml
-            echo "  connection: ansible.netcommon.httpapi" >> ccc_roles.yml
+            echo "  connection: local" >> ccc_roles.yml
             echo "  " >> ccc_roles.yml
             echo "  tasks:" >> ccc_roles.yml
             echo "  " >> ccc_roles.yml
