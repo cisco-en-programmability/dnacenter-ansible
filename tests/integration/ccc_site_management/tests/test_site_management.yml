@@ -1,0 +1,104 @@
+---
+- debug: msg="Starting site management test"
+- debug: msg="Role Path {{ role_path }}"
+
+#############################################
+#                CREATE SITE               ##
+#############################################
+
+- block:
+
+  - name: Test creating area with valid parameters
+    cisco.dnac.site_workflow_manager:
+      dnac_host: "{{ dnac_host }}"
+      dnac_username: "{{ dnac_username }}"
+      dnac_password: "{{ dnac_password }}"
+      dnac_verify: "{{ dnac_verify }}"
+      dnac_port: "{{ dnac_port }}"
+      dnac_version: "{{ dnac_version }}"
+      dnac_debug: "{{ dnac_debug }}"
+      dnac_log: true
+      dnac_log_level: DEBUG
+      config_verify: true
+      state: merged
+      config:
+        - site:
+            area:
+              name: Abc
+              parent_name: 'Global'
+          type: area
+    register: result_create_site
+
+  - name: Assert area creation success
+    assert:
+      that:
+        - result_create_site.changed == true
+        - result_create_site.response.status == "SUCCESS"
+        - "'created successfully' in result_create_site.msg"
+        - result_create_site.response.bapiName == "Create Site" 
+
+#############################################
+#        IDEMPOTENCY CHECK SITE            ##
+#############################################
+
+- block:
+
+  - name: Test idempotency by creating area with valid parameters again
+    cisco.dnac.site_workflow_manager:
+      dnac_host: "{{ dnac_host }}"
+      dnac_username: "{{ dnac_username }}"
+      dnac_password: "{{ dnac_password }}"
+      dnac_verify: "{{ dnac_verify }}"
+      dnac_port: "{{ dnac_port }}"
+      dnac_version: "{{ dnac_version }}"
+      dnac_debug: "{{ dnac_debug }}"
+      dnac_log: true
+      dnac_log_level: DEBUG
+      config_verify: true
+      state: merged
+      config:
+        - site:
+            area:
+              name: Abc
+              parent_name: 'Global'
+          type: area
+    register: result_idempotent
+
+  - name: Assert idempotency of area creation
+    assert:
+      that:
+        - result_idempotent.changed == false
+        - "'does not need any update' in result_idempotent.msg"
+
+#############################################
+#                DELETE SITE               ##
+#############################################
+
+- block:
+
+  - name: Test deleting area with valid parameters 
+    cisco.dnac.site_workflow_manager:
+      dnac_host: "{{ dnac_host }}"
+      dnac_username: "{{ dnac_username }}"
+      dnac_password: "{{ dnac_password }}"
+      dnac_verify: "{{ dnac_verify }}"
+      dnac_port: "{{ dnac_port }}"
+      dnac_version: "{{ dnac_version }}"
+      dnac_debug: "{{ dnac_debug }}"
+      dnac_log: true
+      dnac_log_level: DEBUG
+      config_verify: true
+      state: deleted
+      config:
+        - site:
+            area:
+              name: Abc
+              parent_name: 'Global'
+          type: area
+    register: result_delete_site
+
+  - name: Assert deletion of area success
+    assert:
+      that:
+        - result_delete_site.changed == true
+        - "'deleted successfully' in result_delete_site.response"
