@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-# Copyright (c) 2022, Cisco Systems
+# Copyright (c) 2024, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
@@ -20,7 +20,7 @@ description:
 - Deletes site with area/building/floor with specified hierarchy.
 version_added: '6.6.0'
 extends_documentation_fragment:
-  - cisco.dnac.intent_params
+  - cisco.dnac.workflow_manager_params
 author: Madhan Sankaranarayanan (@madhansansel)
         Rishita Chowdhary (@rishitachowdhary)
         Abhishek Maheshwari (@abhishekmaheshwari)
@@ -323,7 +323,7 @@ floor_plan = {
 
 
 class Site(DnacBase):
-    """Class containing member attributes for site intent module"""
+    """Class containing member attributes for Site workflow_manager module"""
 
     def __init__(self, module):
         super().__init__(module)

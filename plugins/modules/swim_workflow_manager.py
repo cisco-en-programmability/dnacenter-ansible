@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-# Copyright (c) 2022, Cisco Systems
+# Copyright (c) 2024, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
@@ -12,7 +12,7 @@ __author__ = ("Madhan Sankaranarayanan, Rishita Chowdhary, Abhishek Maheshwari")
 DOCUMENTATION = r"""
 ---
 module: swim_workflow_manager
-short_description: Intent module for SWIM related functions
+short_description: workflow_manager module for SWIM related functions
 description:
 - Manage operation related to image importation, distribution, activation and tagging image as golden
 - API to fetch a software image from remote file system using URL for HTTP/FTP and upload it to Catalyst Center.
@@ -25,7 +25,7 @@ description:
 - API to activate a software image on a given device. Software image must be present in the device flash.
 version_added: '6.6.0'
 extends_documentation_fragment:
-  - cisco.dnac.intent_params
+  - cisco.dnac.workflow_manager_params
 author: Madhan Sankaranarayanan (@madhansansel)
         Rishita Chowdhary (@rishitachowdhary)
         Abhishek Maheshwari (@abmahesh)
@@ -409,7 +409,7 @@ import os
 
 
 class Swim(DnacBase):
-    """Class containing member attributes for Swim intent module"""
+    """Class containing member attributes for Swim workflow_manager module"""
 
     def __init__(self, module):
         super().__init__(module)

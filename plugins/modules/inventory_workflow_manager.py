@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-# Copyright (c) 2022, Cisco Systems
+# Copyright (c) 2024, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
@@ -20,7 +20,7 @@ description:
 - Sync the devices provided as input.
 version_added: '6.8.0'
 extends_documentation_fragment:
-  - cisco.dnac.intent_params
+  - cisco.dnac.workflow_manager_params
 author: Abhishek Maheshwari (@abmahesh)
         Madhan Sankaranarayanan (@madhansansel)
 options:
@@ -106,7 +106,6 @@ options:
       snmp_mode:
         description: Device's snmp Mode.
         type: str
-        default: "AUTHPRIV"
       snmp_priv_passphrase:
         description: Device's snmp Private Passphrase. Required for Adding Network, Compute, Third Party Devices.
         type: str
@@ -754,7 +753,7 @@ class Inventory(DnacBase):
             'serial_number': {'type': 'str'},
             'snmp_auth_passphrase': {'type': 'str'},
             'snmp_auth_protocol': {'default': "SHA", 'type': 'str'},
-            'snmp_mode': {'default': "AUTHPRIV", 'type': 'str'},
+            'snmp_mode': {'type': 'str'},
             'snmp_priv_passphrase': {'type': 'str'},
             'snmp_priv_protocol': {'type': 'str'},
             'snmp_ro_community': {'default': "public", 'type': 'str'},
@@ -2708,6 +2707,18 @@ class Inventory(DnacBase):
                     playbook_params = self.want.get("device_params").copy()
                     playbook_params['ipAddress'] = [device_ip]
                     device_data = device_details[device_ip]
+                    if device_data['snmpv3_privacy_password'] == ' ':
+                        device_data['snmpv3_privacy_password'] = None
+                    if device_data['snmpv3_auth_password'] == ' ':
+                        device_data['snmpv3_auth_password'] = None
+
+                    if not playbook_params['snmpMode']:
+                        if device_data['snmpv3_privacy_password']:
+                            playbook_params['snmpMode'] = "AUTHPRIV"
+                        elif device_data['snmpv3_auth_password']:
+                            playbook_params['snmpMode'] = "AUTHNOPRIV"
+                        else:
+                            playbook_params['snmpMode'] = "NOAUTHNOPRIV"
 
                     if not playbook_params['cliTransport']:
                         if device_data['protocol'] == "ssh2":
@@ -2877,6 +2888,8 @@ class Inventory(DnacBase):
         if device_added:
             config['ip_address'] = devices_to_add
             device_params = self.want.get("device_params")
+            if not device_params['snmpMode']:
+                device_params['snmpMode'] = "AUTHPRIV"
 
             if not device_params['cliTransport']:
                 device_params['cliTransport'] = "ssh"
