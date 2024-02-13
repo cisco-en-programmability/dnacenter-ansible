@@ -62,7 +62,10 @@ options:
         type: str
         default: Onboarding Configuration
       pnp_type:
-        description: Device type of the Pnp device (Default/catalyst_wlc/access_point/stack_switch)
+        description: Device type of the Pnp device (Default/CatalystWLC/AccessPoint/StackSwitch). Default can be
+        used for a switch or a router. CatalystWLC should be used for 9800 series wireless Controllers. AccessPoint should
+        be used while claiming an AP. StackSwitch must be used for a bundle of switches ating as a single switch and is available
+        on the ACCESS layer.
         type: str
         default: Default
       static_ip:
@@ -78,7 +81,8 @@ options:
         description: Vlan Id allocated for claimimg of Wireless Controller
         type: str
       ip_interface_name:
-        description: Name of the Interface used for Pnp by the Wireless Controller
+        description: Name of the Interface used for Pnp by the Wireless Controller. It should be configured on the Controller
+            before claiming.
         type: str
       rf_profile:
         description: Radio frequecy profile of the AP being claimed (HIGH/LOW/TYPICAL)
@@ -478,16 +482,14 @@ class PnP(DnacBase):
             'configInfo': configinfo,
         }
 
-        if claim_params["type"] == "catalyst_wlc":
-            claim_params["type"] = "CatalystWLC"
+        if claim_params["type"] == "CatalystWLC":
             claim_params["staticIP"] = self.validated_config[0]['static_ip']
             claim_params["subnetMask"] = self.validated_config[0]['subnet_mask']
             claim_params["gateway"] = self.validated_config[0]['gateway']
             claim_params["vlanId"] = str(self.validated_config[0]['vlan_id'])
             claim_params["ipInterfaceName"] = self.validated_config[0]['ip_interface_name']
 
-        if claim_params["type"] == "access_point":
-            claim_params["type"] = "AccessPoint"
+        if claim_params["type"] == "AccessPoint":
             claim_params["rfProfile"] = self.validated_config[0]["rf_profile"]
 
         self.log("Paramters used for claiming are {0}".format(str(claim_params)), "INFO")
@@ -615,7 +617,7 @@ class PnP(DnacBase):
                 if site_exists:
                     have["site_id"] = site_id
                     self.log("Site Exists: {0}\nSite Name: {1}\nSite ID: {2}".format(site_exists, site_name, site_id), "INFO")
-                    if self.want.get("pnp_type") == "access_point":
+                    if self.want.get("pnp_type") == "AccessPoint":
                         if self.get_site_type() != "floor":
                             self.msg = "The site type must be specified as 'floor'\
                                 for claiming an AP"
@@ -705,14 +707,14 @@ class PnP(DnacBase):
                 get("hostname")
             )
 
-        if self.want["pnp_type"] == "catalyst_wlc":
+        if self.want["pnp_type"] == "CatalystWLC":
             self.want["static_ip"] = config.get('static_ip')
             self.want["subnet_mask"] = config.get('subnet_mask')
             self.want["gateway"] = config.get('gateway')
             self.want["vlan_id"] = config.get('vlan_id')
             self.want["ip_interface_name"] = config.get('ip_interface_name')
 
-        elif self.want["pnp_type"] == "access_point":
+        elif self.want["pnp_type"] == "AccessPoint":
             self.want["rf_profile"] = config.get("rf_profile")
         self.msg = "Successfully collected all parameters from playbook " + \
             "for comparison"
@@ -912,7 +914,7 @@ class PnP(DnacBase):
             reset_paramters = self.get_reset_params()
             reset_response = self.dnac_apply['exec'](
                 family="device_onboarding_pnp",
-                function="update_device",
+                function="reset_device",
                 params={"payload": reset_paramters},
                 op_modifies=True,
             )
@@ -922,6 +924,8 @@ class PnP(DnacBase):
             self.result['response'] = reset_response
             self.result['diff'] = self.validated_config
             self.result['changed'] = True
+
+            return self
 
         if not (
             prov_dev_response.get("response") == 0 and
