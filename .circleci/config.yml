@@ -190,6 +190,7 @@ jobs:
 
 
 workflows:
+  version: 2
   testing:
     jobs:
       - pre
@@ -199,3 +200,13 @@ workflows:
       - sanity-tests:
           requires:
             - build
+  # daily-scheduled:
+  #   triggers:
+  #     - schedule:
+  #         cron: "0 0 * * *"
+  #         filters:
+  #           branches:
+  #             only:
+  #               - main
+
+
