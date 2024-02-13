@@ -81,7 +81,7 @@ class DnacBase():
             # If dnac_log is False, return an empty logger
             self.logger = logging.getLogger('empty_logger')
 
-        self.log('Dnac parameters: {0}'.format(dnac_params), "DEBUG")
+        self.log('Cisco Catalyst Center parameters: {0}'.format(dnac_params), "DEBUG")
         self.supported_states = ["merged", "deleted", "replaced", "overridden", "gathered", "rendered", "parsed"]
         self.result = {"changed": False, "diff": [], "response": [], "warnings": []}
 
@@ -237,7 +237,7 @@ class DnacBase():
         """
         Check if a password is valid.
         Args:
-            self (object): An instance of a class that provides access to Cisco DNA Center.
+            self (object): An instance of a class that provides access to Cisco Catalyst Center.
             password (str): The password to be validated.
         Returns:
             bool: True if the password is valid, False otherwise.
@@ -255,7 +255,7 @@ class DnacBase():
         return re.match(pattern, password) is not None
 
     def get_dnac_params(self, params):
-        """Store the DNAC parameters from the playbook"""
+        """Store the Cisco Catalyst Center parameters from the playbook"""
 
         dnac_params = {"dnac_host": params.get("dnac_host"),
                        "dnac_port": params.get("dnac_port"),
@@ -272,15 +272,15 @@ class DnacBase():
 
     def get_task_details(self, task_id):
         """
-        Get the details of a specific task in Cisco DNA Center.
+        Get the details of a specific task in Cisco Catalyst Center.
         Args:
-            self (object): An instance of a class that provides access to Cisco DNA Center.
+            self (object): An instance of a class that provides access to Cisco Catalyst Center.
             task_id (str): The unique identifier of the task for which you want to retrieve details.
         Returns:
             dict or None: A dictionary containing detailed information about the specified task,
             or None if the task with the given task_id is not found.
         Description:
-            If the task with the specified task ID is not found in Cisco DNA Center, this function will return None.
+            If the task with the specified task ID is not found in Cisco Catalyst Center, this function will return None.
         """
 
         result = None
@@ -379,7 +379,7 @@ class DnacBase():
 
     def check_execution_response_status(self, response):
         """
-        Checks the reponse status provided by API in the DNAC
+        Checks the reponse status provided by API in the Cisco Catalyst Center
 
         Parameters:
             response (dict) - API response

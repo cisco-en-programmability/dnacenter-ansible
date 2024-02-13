@@ -1,12 +1,12 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-# Copyright (c) 2022, Cisco Systems
+# Copyright (c) 2024, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
-__author__ = ("Abinash Mishra, Phan Nguyen")
+__author__ = ("Abinash Mishra, Phan Nguyen, Madhan Sankaranarayanan")
 
 DOCUMENTATION = r"""
 ---
@@ -20,14 +20,15 @@ version_added: '6.6.0'
 extends_documentation_fragment:
   - cisco.dnac.intent_params
 author: Abinash Mishra (@abimishr)
-        Phan Nguyen (phannguy)
+        Phan Nguyen (@phannguy)
+        Madhan Sankaranarayanan (@madhansansel)
 options:
   config_verify:
-    description: Set to True to verify the Cisco DNA Center config after applying the playbook config.
+    description: Set to True to verify the Cisco Catalyst Center config after applying the playbook config.
     type: bool
     default: False
   state:
-    description: The state of DNAC after module completion.
+    description: The state of Cisco Catalyst Center after module completion.
     type: str
     choices: [ merged, deleted ]
     default: merged
@@ -39,7 +40,11 @@ options:
     required: true
     suboptions:
       ip_address_list:
-        description: List of IP addresses to be discoverred.
+        description: List of IP addresses to be discovered. For CDP/LLDP/SINGLE based discovery, we should
+            pass a list with single element like - 10.197.156.22. For CIDR based discovery, we should pass a list with
+            single element like - 10.197.156.22/22. For RANGE based discovery, we should pass a list with single element
+            and range like - 10.197.156.1-10.197.156.100. For MULTI RANGE based discovery, we should pass a list with multiple
+            elementd like - 10.197.156.1-10.197.156.100 and in next line - 10.197.157.1-10.197.157.100.
         type: list
         elements: str
         required: true
@@ -70,9 +75,35 @@ options:
       http_read_credential:
         description: HTTP read credentials for hosting a device
         type: dict
+        suboptions:
+            username:
+                description: The username for HTTP(S) authentication, which is mandatory when using HTTP credentials.
+                type: str
+            password:
+                description: The password for HTTP(S) authentication. Mandatory for utilizing HTTP credentials.
+                type: str
+            port:
+                description: The HTTP(S) port number, which is mandatory for using HTTP credentials.
+                type: int
+            secure:
+                description: This is a flag for HTTP(S). Its usage is not mandatory for HTTP credentials.
+                type: bool
       http_write_credential:
         description: HTTP write credentials for hosting a device
         type: dict
+        suboptions:
+            username:
+                description: The username for HTTP(S) authentication, which is mandatory when using HTTP credentials.
+                type: str
+            password:
+                description: The password for HTTP(S) authentication. Mandatory for utilizing HTTP credentials.
+                type: str
+            port:
+                description: The HTTP(S) port number, which is mandatory for using HTTP credentials.
+                type: int
+            secure:
+                description: This is a flag for HTTP(S). Its usage is not mandatory for HTTP credentials.
+                type: bool
       ip_filter_list:
         description: List of IP adddrsess that needs to get filtered out from the IP addresses added
         type: list
@@ -195,8 +226,8 @@ EXAMPLES = r"""
           start_index: integer
           enable_password_list: list
           records_to_return: integer
-          http_read_credential: dict
-          http_write_credential: dict
+          http_read_credential: dictionary
+          http_write_credential: dictionary
           ip_filter_list: list
           discovery_name: string
           password_list: list
@@ -217,6 +248,7 @@ EXAMPLES = r"""
           timeout: integer
           username_list: list
           cli_cred_len: integer
+
 - name: Delete disovery by name
   cisco.dnac.discovery_intent:
     dnac_host: "{{dnac_host}}"
@@ -237,7 +269,7 @@ EXAMPLES = r"""
 RETURN = r"""
 #Case_1: When the device(s) are discovered successfully.
 response_1:
-  description: A dictionary with the response returned by the Cisco DNAC Python SDK
+  description: A dictionary with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >
@@ -252,7 +284,7 @@ response_1:
 
 #Case_2: Given device details or SNMP mode are not provided
 response_2:
-  description: A list with the response returned by the Cisco DNAC Python SDK
+  description: A list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: list
   sample: >
@@ -263,7 +295,7 @@ response_2:
 
 #Case_3: Error while deleting a discovery
 response_3:
-  description: A string with the response returned by the Cisco DNAC Python SDK
+  description: A string with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >
@@ -281,7 +313,7 @@ import time
 import re
 
 
-class DnacDiscovery(DnacBase):
+class Discovery(DnacBase):
     def __init__(self, module):
         """
         Initialize an instance of the class. It also initializes an empty
@@ -409,7 +441,7 @@ class DnacDiscovery(DnacBase):
         self.log("Credential Ids list passed is {0}".format(str(self.creds_ids_list)), "INFO")
         return self.creds_ids_list
 
-    def get_dnac_global_credentials_v2_info(self):
+    def get_ccc_global_credentials_v2_info(self):
         """
         Retrieve the global credentials information (version 2).
         It applies the 'get_all_global_credentials_v2' function and extracts
@@ -429,12 +461,32 @@ class DnacDiscovery(DnacBase):
             params=self.validated_config[0].get('headers'),
         )
         response = response.get('response')
-        cli_len_inp = self.validated_config[0].get("cli_cred_len")
-        if cli_len_inp > 5:
-            cli_len_inp = 5
         self.log("The Global credentials response from 'get all global credentials v2' API is {0}".format(str(response)), "DEBUG")
+
+        cli_len_inp = self.validated_config[0].get("cli_cred_len")
+        if response.get("cliCredential") is None:
+            msg = 'Not found any CLI credentials to perform discovery'
+            self.log(msg, "CRITICAL")
+            self.module.fail_json(msg=msg)
+
+        if response.get("snmpV2cRead") is None and response.get("snmpV2cWrite") is None and response.get("snmpV3"):
+            msg = 'Not found any SNMP credentials to perform discovery'
+            self.log(msg, "CRITICAL")
+            self.module.fail_json(msg=msg)
+
+        total_cli = len(response.get("cliCredential"))
+        if total_cli > 5:
+            if cli_len_inp > 5:
+                cli_len_inp = 5
+
+        elif total_cli < 6 and cli_len_inp > total_cli:
+            cli_len_inp = total_cli
+
         cli_len = 0
+
         for key in response.keys():
+            if response[key] is None:
+                response[key] = []
             if key == "cliCredential":
                 for element in response.get(key):
                     while cli_len < cli_len_inp:
@@ -442,7 +494,6 @@ class DnacDiscovery(DnacBase):
                         cli_len += 1
             else:
                 self.creds_ids_list.extend(element.get('id') for element in response.get(key))
-
         if not self.creds_ids_list:
             msg = 'Not found any credentials to perform discovery'
             self.log(msg, "CRITICAL")
@@ -529,6 +580,14 @@ class DnacDiscovery(DnacBase):
         self.log("IP Address list's length is longer than 1", "ERROR")
         self.module.fail_json(msg="IP Address list's length is longer than 1", response=[])
 
+    def http_cred_failure(self, msg=None):
+        """
+        Method for failing discovery if there is any discrepancy in the http credentials
+        passed by the user
+        """
+        self.log(msg, "CRITICAL")
+        self.module.fail_json(msg=msg)
+
     def create_params(self, credential_ids=None, ip_address_list=None):
         """
         Create a new parameter object based on the validated configuration,
@@ -547,6 +606,36 @@ class DnacDiscovery(DnacBase):
 
         if credential_ids is None:
             credential_ids = []
+
+        http_read_credential = self.validated_config[0].get('http_read_credential')
+        http_write_credential = self.validated_config[0].get('http_write_credential')
+        if http_read_credential:
+            if not (http_read_credential.get('password') and isinstance(http_read_credential.get('password'), str)):
+                msg = "The password for the HTTP read credential must be of string type."
+                self.http_cred_failure(msg=msg)
+            if not (http_read_credential.get('username') and isinstance(http_read_credential.get('username'), str)):
+                msg = "The username for the HTTP read credential must be of string type."
+                self.http_cred_failure(msg=msg)
+            if not (http_read_credential.get('port') and isinstance(http_read_credential.get('port'), int)):
+                msg = "The port for the HTTP read Credential must be of integer type."
+                self.http_cred_failure(msg=msg)
+            if not isinstance(http_read_credential.get('secure'), bool):
+                msg = "Secure for HTTP read Credential must be of type boolean."
+                self.http_cred_failure(msg=msg)
+
+        if http_write_credential:
+            if not (http_write_credential.get('password') and isinstance(http_write_credential.get('password'), str)):
+                msg = "The password for the HTTP write credential must be of string type."
+                self.http_cred_failure(msg=msg)
+            if not (http_write_credential.get('username') and isinstance(http_write_credential.get('username'), str)):
+                msg = "The username for the HTTP write credential must be of string type."
+                self.http_cred_failure(msg=msg)
+            if not (http_write_credential.get('port') and isinstance(http_write_credential.get('port'), int)):
+                msg = "The port for the HTTP write Credential must be of integer type."
+                self.http_cred_failure(msg=msg)
+            if not isinstance(http_write_credential.get('secure'), bool):
+                msg = "Secure for HTTP write Credential must be of type boolean."
+                self.http_cred_failure(msg=msg)
 
         new_object_params = {}
         new_object_params['cdpLevel'] = self.validated_config[0].get('cdp_level')
@@ -596,7 +685,7 @@ class DnacDiscovery(DnacBase):
 
     def create_discovery(self, credential_ids=None, ip_address_list=None):
         """
-        Start a new discovery process in the DNA Center. It creates the
+        Start a new discovery process in the Cisco Catalyst Center. It creates the
         parameters required for the discovery and then calls the
         'start_discovery' function. The result of the discovery process
         is added to the 'result' attribute.
@@ -630,7 +719,7 @@ class DnacDiscovery(DnacBase):
 
     def get_task_status(self, task_id=None):
         """
-        Monitor the status of a task in the DNA Center. It checks the task
+        Monitor the status of a task in the Cisco Catalyst Center. It checks the task
         status periodically until the task is no longer 'In Progress'.
         If the task encounters an error or fails, it immediately fails the
         module and returns False.
@@ -673,38 +762,56 @@ class DnacDiscovery(DnacBase):
     def lookup_discovery_by_range_via_name(self):
         """
         Retrieve a specific discovery by name from a range of
-        discoveries in the DNA Center.
+        discoveries in the Cisco Catalyst Center.
 
         Returns:
           - discovery: The discovery with the specified name from the range
                        of discoveries. If no matching discovery is found, it
                        returns None.
         """
-        params = dict(
-            start_index=self.validated_config[0].get("start_index"),
-            records_to_return=self.validated_config[0].get("records_to_return"),
-            headers=self.validated_config[0].get("headers"),
-        )
+        start_index = self.validated_config[0].get("start_index")
+        records_to_return = self.validated_config[0].get("records_to_return")
 
-        response = self.dnac_apply['exec'](
-            family="discovery",
-            function='get_discoveries_by_range',
-            params=params
-        )
+        response = {"response": []}
+        if records_to_return > 500:
+            num_intervals = records_to_return // 500
+            for num in range(0, num_intervals + 1):
+                params = dict(
+                    start_index=1 + num * 500,
+                    records_to_return=500,
+                    headers=self.validated_config[0].get("headers")
+                )
+                response_part = self.dnac_apply['exec'](
+                    family="discovery",
+                    function='get_discoveries_by_range',
+                    params=params
+                )
+                response["response"].extend(response_part["response"])
+        else:
+            params = dict(
+                start_index=self.validated_config[0].get("start_index"),
+                records_to_return=self.validated_config[0].get("records_to_return"),
+                headers=self.validated_config[0].get("headers"),
+            )
 
+            response = self.dnac_apply['exec'](
+                family="discovery",
+                function='get_discoveries_by_range',
+                params=params
+            )
         self.log("Response of the get discoveries via range API is {0}".format(str(response)), "DEBUG")
 
         return next(
             filter(
                 lambda x: x['name'] == self.validated_config[0].get('discovery_name'),
-                response.response
+                response.get("response")
             ), None
         )
 
     def get_discoveries_by_range_until_success(self):
         """
         Continuously retrieve a specific discovery by name from a range of
-        discoveries in the DNA Center until the discovery is complete.
+        discoveries in the Cisco Catalyst Center until the discovery is complete.
 
         Returns:
           - discovery: The completed discovery with the specified name from
@@ -742,7 +849,7 @@ class DnacDiscovery(DnacBase):
     def get_discovery_device_info(self, discovery_id=None, task_id=None):
         """
         Retrieve the information of devices discovered by a specific discovery
-        process in the DNA Center. It checks the reachability status of the
+        process in the Cisco Catalyst Center. It checks the reachability status of the
         devices periodically until all devices are reachable or until a
         maximum of 3 attempts.
 
@@ -772,6 +879,12 @@ class DnacDiscovery(DnacBase):
             self.log("Retrieved device details using the API 'get_discovered_network_devices_by_discovery_id': {0}".format(str(devices)), "DEBUG")
             if all(res.get('reachabilityStatus') == 'Success' for res in devices):
                 result = True
+                self.log("All devices in the range are reachable", "INFO")
+                break
+
+            elif any(res.get('reachabilityStatus') == 'Success' for res in devices):
+                result = True
+                self.log("Some devices in the range are reachable", "INFO")
                 break
 
             count += 1
@@ -811,7 +924,7 @@ class DnacDiscovery(DnacBase):
 
     def delete_exist_discovery(self, params):
         """
-        Delete an existing discovery in the DNA Center by its ID.
+        Delete an existing discovery in the Cisco Catalyst Center by its ID.
 
         Parameters:
           - params: A dictionary containing the parameters for the delete
@@ -835,7 +948,7 @@ class DnacDiscovery(DnacBase):
     def get_diff_merged(self):
         """
         Retrieve the information of devices discovered by a specific discovery
-        process in the DNA Center, delete existing discoveries if they exist,
+        process in the Cisco Catalyst Center, delete existing discoveries if they exist,
         and create a new discovery. The function also updates various
         attributes of the class instance.
 
@@ -843,7 +956,7 @@ class DnacDiscovery(DnacBase):
           - self: The instance of the class with updated attributes.
         """
 
-        self.get_dnac_global_credentials_v2_info()
+        self.get_ccc_global_credentials_v2_info()
         devices_list_info = self.get_devices_list_info()
         ip_address_list = self.preprocess_device_discovery(devices_list_info)
         exist_discovery = self.get_exist_discovery()
@@ -868,7 +981,7 @@ class DnacDiscovery(DnacBase):
 
     def get_diff_deleted(self):
         """
-        Delete an existing discovery in the DNA Center by its name, and
+        Delete an existing discovery in the Cisco Catalyst Center by its name, and
         updates various attributes of the class instance. If no
         discovery with the specified name is found, the function
         updates the 'msg' attribute with an appropriate message.
@@ -919,14 +1032,14 @@ class DnacDiscovery(DnacBase):
 
     def verify_diff_merged(self, config):
         """
-        Verify the merged status(Creation/Updation) of Discovery in Cisco DNA Center.
+        Verify the merged status(Creation/Updation) of Discovery in Cisco Catalyst Center.
         Args:
-            - self (object): An instance of a class used for interacting with Cisco DNA Center.
+            - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             - config (dict): The configuration details to be verified.
         Return:
-            - self (object): An instance of a class used for interacting with Cisco DNA Center.
+            - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
         Description:
-            This method checks the merged status of a configuration in Cisco DNA Center by
+            This method checks the merged status of a configuration in Cisco Catalyst Center by
             retrieving the current state (have) and desired state (want) of the configuration,
             logs the states, and validates whether the specified device(s) exists in the DNA
             Center configuration's Discovery Database.
@@ -934,7 +1047,7 @@ class DnacDiscovery(DnacBase):
 
         self.log("Current State (have): {0}".format(str(self.have)), "INFO")
         self.log("Desired State (want): {0}".format(str(config)), "INFO")
-        # Code to validate dnac config for merged state
+        # Code to validate Cisco Catalyst Center config for merged state
         discovery_task_info = self.get_discoveries_by_range_until_success()
         discovery_id = discovery_task_info.get('id')
         params = dict(
@@ -957,21 +1070,21 @@ class DnacDiscovery(DnacBase):
 
     def verify_diff_deleted(self, config):
         """
-        Verify the deletion status of Discovery in Cisco DNA Center.
+        Verify the deletion status of Discovery in Cisco Catalyst Center.
         Args:
-            - self (object): An instance of a class used for interacting with Cisco DNA Center.
+            - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             - config (dict): The configuration details to be verified.
         Return:
-            - self (object): An instance of a class used for interacting with Cisco DNA Center.
+            - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
         Description:
-            This method checks the deletion status of a configuration in Cisco DNA Center.
-            It validates whether the specified discovery(s) exists in the DNA Center configuration's
+            This method checks the deletion status of a configuration in Cisco Catalyst Center.
+            It validates whether the specified discovery(s) exists in the Cisco Catalyst Center configuration's
             Discovery Database.
         """
 
         self.log("Current State (have): {0}".format(str(self.have)), "INFO")
         self.log("Desired State (want): {0}".format(str(config)), "INFO")
-        # Code to validate dnac config for deleted state
+        # Code to validate Cisco Catalyst Center config for deleted state
         discovery_task_info = self.lookup_discovery_by_range_via_name()
         discovery_name = config.get('discovery_name')
         if discovery_task_info:
@@ -1008,23 +1121,23 @@ def main():
     module = AnsibleModule(argument_spec=element_spec,
                            supports_check_mode=False)
 
-    dnac_discovery = DnacDiscovery(module)
-    config_verify = dnac_discovery.params.get("config_verify")
+    ccc_discovery = Discovery(module)
+    config_verify = ccc_discovery.params.get("config_verify")
 
-    state = dnac_discovery.params.get("state")
-    if state not in dnac_discovery.supported_states:
-        dnac_discovery.status = "invalid"
-        dnac_discovery.msg = "State {0} is invalid".format(state)
-        dnac_discovery.check_return_status()
+    state = ccc_discovery.params.get("state")
+    if state not in ccc_discovery.supported_states:
+        ccc_discovery.status = "invalid"
+        ccc_discovery.msg = "State {0} is invalid".format(state)
+        ccc_discovery.check_return_status()
 
-    dnac_discovery.validate_input(state=state).check_return_status()
-    for config in dnac_discovery.validated_config:
-        dnac_discovery.reset_values()
-        dnac_discovery.get_diff_state_apply[state]().check_return_status()
+    ccc_discovery.validate_input(state=state).check_return_status()
+    for config in ccc_discovery.validated_config:
+        ccc_discovery.reset_values()
+        ccc_discovery.get_diff_state_apply[state]().check_return_status()
         if config_verify:
-            dnac_discovery.verify_diff_state_apply[state](config).check_return_status()
+            ccc_discovery.verify_diff_state_apply[state](config).check_return_status()
 
-    module.exit_json(**dnac_discovery.result)
+    module.exit_json(**ccc_discovery.result)
 
 
 if __name__ == '__main__':
