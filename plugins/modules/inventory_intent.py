@@ -181,6 +181,19 @@ options:
         default: false
       role:
         description: Role of device which can be ACCESS, CORE, DISTRIBUTION, BORDER ROUTER, UNKNOWN.
+            ALL - This role typically represents all devices within the network, regardless of their specific roles or functions.
+            UNKNOWN - This role is assigned to devices whose roles or functions have not been identified or classified within Cisco Catalsyt Center.
+                This could happen if the platform is unable to determine the device's role based on available information.
+            ACCESS - This role typically represents switches or access points that serve as access points for end-user devices to connect to the network.
+                These devices are often located at the edge of the network and provide connectivity to end-user devices.
+            BORDER ROUTER - These are devices that connect different network domains or segments together. They often serve as
+                gateways between different networks, such as connecting an enterprise network to the internet or connecting
+                multiple branch offices.
+            DISTRIBUTION - This role represents function as distribution switches or routers in hierarchical network designs. They aggregate traffic
+                from access switches and route it toward the core of the network or toward other distribution switches.
+            CORE - This role typically represents high-capacity switches or routers that form the backbone of the network. They handle large volumes
+                of traffic and provide connectivity between different parts of network, such as connecting distribution switches or
+                providing interconnection between different network segments.
         type: str
         default: "ACCESS"
       role_source:
@@ -315,7 +328,7 @@ EXAMPLES = r"""
         snmp_username: string
         snmp_version: string
         type: string
-        device_added: true
+        device_added: True
         username: string
 
 - name: Add new Compute device in Inventory with full credentials.Inputs needed for Compute Device
@@ -344,9 +357,9 @@ EXAMPLES = r"""
         snmp_retry:  3
         snmp_timeout: 5
         snmp_username: string
-        compute_device: true
+        compute_device: True
         username: string
-        device_added: true
+        device_added: True
         type: "COMPUTE_DEVICE"
 
 - name: Add new Meraki device in Inventory with full credentials.Inputs needed for Meraki Device.
@@ -363,7 +376,7 @@ EXAMPLES = r"""
     state: merged
     config:
       - http_password: string
-        device_added: true
+        device_added: True
         type: "MERAKI_DASHBOARD"
 
 - name: Add new Firepower Management device in Inventory with full credentials.Input needed to add Device.
@@ -384,7 +397,7 @@ EXAMPLES = r"""
         http_username: string
         http_password: string
         http_port: string
-        device_added: true
+        device_added: True
         type: "FIREPOWER_MANAGEMENT_SYSTEM"
 
 - name: Add new Third Party device in Inventory with full credentials.Input needed to add Device.
@@ -410,7 +423,7 @@ EXAMPLES = r"""
         snmp_retry:  3
         snmp_timeout: 5
         snmp_username: string
-        device_added: true
+        device_added: True
         type: "THIRD_PARTY_DEVICE"
 
 - name: Update device details or credentails in Inventory
@@ -447,8 +460,8 @@ EXAMPLES = r"""
         snmp_username: string
         snmp_version: string
         type: string
-        device_updated: true
-        credential_update: true
+        device_updated: True
+        credential_update: True
         update_mgmt_ipaddresslist:
         - exist_mgmt_ipaddress: string
           new_mgmt_ipaddress: string
@@ -467,10 +480,10 @@ EXAMPLES = r"""
     dnac_log: False
     state: merged
     config:
-      - device_updated: true
+      - device_updated: True
         ip_address:
         - string
-        credential_update: true
+        credential_update: True
         update_mgmt_ipaddresslist:
         - exist_mgmt_ipaddress: string
           new_mgmt_ipaddress: string
@@ -535,7 +548,7 @@ EXAMPLES = r"""
     config:
       - ip_address:
         - string
-        device_updated: true
+        device_updated: True
         update_device_role:
           role: string
           role_source: string
@@ -555,7 +568,7 @@ EXAMPLES = r"""
     config:
       - ip_address:
         - string
-        device_updated: true
+        device_updated: True
         update_interface_details:
           description: str
           admin_status: str
@@ -619,7 +632,7 @@ EXAMPLES = r"""
     config:
       - ip_address:
         - string
-        device_resync: true
+        device_resync: True
         force_sync: false
 
 - name: Reboot AP Devices with IP Addresses
@@ -637,7 +650,7 @@ EXAMPLES = r"""
     config:
       - ip_address:
         - string
-        reboot_device: true
+        reboot_device: True
 
 - name: Delete Provision/Unprovision Devices by IP Address
   cisco.dnac.inventory_intent:
@@ -1755,9 +1768,9 @@ class DnacDevice(DnacBase):
                     site_type = item.get("attributes").get("type")
 
         except Exception as e:
-            self.msg = "Error while fetching the site '{0}'.".format(site_name)
+            self.msg = "Error while fetching the site '{0}' and given site not found in Cisco Catalyst Center".format(site_name)
             self.log(self.msg, "ERROR")
-            self.module.fail_json(msg="Site not found", response=[])
+            self.module.fail_json(msg=self.msg, response=[self.msg])
 
         return site_type
 
