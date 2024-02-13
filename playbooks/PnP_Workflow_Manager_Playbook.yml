@@ -82,7 +82,7 @@
         state: merged
         config:
           - site_name: Global/USA/San Francisco/BGL_18
-            pnp_type: catalyst_wlc
+            pnp_type: CatalystWLC
             template_name: "Ansible_PNP_WLC"
             image_name: C9800-40-universalk9_wlc.17.12.01.SPA.bin
             template_params:
