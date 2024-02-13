@@ -63,9 +63,9 @@ options:
         default: Onboarding Configuration
       pnp_type:
         description: Device type of the Pnp device (Default/CatalystWLC/AccessPoint/StackSwitch). Default can be
-        used for a switch or a router. CatalystWLC should be used for 9800 series wireless Controllers. AccessPoint should
-        be used while claiming an AP. StackSwitch must be used for a bundle of switches ating as a single switch and is available
-        on the ACCESS layer.
+            used for a switch or a router. CatalystWLC should be used for 9800 series wireless Controllers. AccessPoint should
+            be used while claiming an AP. StackSwitch must be used for a bundle of switches ating as a single switch and is available
+            on the ACCESS layer.
         type: str
         default: Default
       static_ip:
