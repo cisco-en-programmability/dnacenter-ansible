@@ -52,7 +52,7 @@ jobs:
 
       - run:
           name: Custom Git Clone
-          command: git clone --depth=1 -b circleci-setup $REPO_URL
+          command: git clone --depth=1 $REPO_URL
 
       - run:
           name: Activate Virtual Environment, Install ansible and Build collection tarball
@@ -110,7 +110,7 @@ jobs:
 
       - run:
           name: Custom Git Clone
-          command: git clone --depth=1 -b circleci-setup $REPO_URL
+          command: git clone --depth=1 $REPO_URL
 
       - run:
           name: Activate Virtual Environment, Install ansible and Build collection tarball
@@ -190,7 +190,6 @@ jobs:
 
 
 workflows:
-  version: 2
   testing:
     jobs:
       - pre
@@ -208,5 +207,3 @@ workflows:
   #           branches:
   #             only:
   #               - main
-
-
