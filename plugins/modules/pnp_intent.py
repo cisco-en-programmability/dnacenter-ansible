@@ -62,12 +62,15 @@ options:
         type: str
         default: Onboarding Configuration
       pnp_type:
-        description: Device type of the Pnp device (Default/CatalystWLC/AccessPoint/StackSwitch). Default can be
-            used for a switch or a router. CatalystWLC should be used for 9800 series wireless Controllers. AccessPoint should
-            be used while claiming an AP. StackSwitch must be used for a bundle of switches ating as a single switch and is available
-            on the ACCESS layer.
+        description: Specifies the device type for the Plug and Play (PnP) device.
+            - Options include 'Default', 'CatalystWLC', 'AccessPoint', or 'StackSwitch'.
+            - 'Default' is applicable to switches and routers.
+            - 'CatalystWLC' should be selected for 9800 series wireless controllers.
+            - 'AccessPoint' is used when claiming an access point.
+            - 'StackSwitch' should be chosen for a group of switches that operate as a single switch, typically used in the access layer.
         type: str
-        default: Default
+        choices: [ 'Default', 'CatalystWLC', 'AccessPoint', 'StackSwitch' ]
+        default: 'Default'
       static_ip:
         description: Management IP address of the Wireless Controller
         type: str
@@ -81,28 +84,39 @@ options:
         description: Vlan Id allocated for claimimg of Wireless Controller
         type: str
       ip_interface_name:
-        description: Name of the Interface used for Pnp by the Wireless Controller. It should be configured on the Controller
-            before claiming.
+        description: Specifies the interface name utilized for Plug and Play (PnP) by the Wireless Controller.
+            Ensure this interface is pre-configured on the Controller prior to device claiming.
         type: str
       rf_profile:
-        description: Radio frequecy profile of the AP being claimed (HIGH/LOW/TYPICAL)
+        description:
+            - Radio Frequecy (RF) profile of the AP being claimed.
+            - RF Profiles allow you to tune groups of APs that share a common coverage zone together.
+            - They selectively change how Radio Resource Management will operate the APs within that coverage zone.
+            - HIGH RF profile allows you to use more power and allows to join AP with the client in an easier fashion.
+            - TYPICAL RF profile is a blend of moderate power and moderate visibility to the client.
+            - LOW RF profile allows you to consume lesser power and has least visibility to the client.
         type: str
+        choices: [ 'HIGH', 'LOW', 'TYPICAL' ]
       device_info:
-        description: Pnp Device's device_info. This is mainly for adding the devices that are
-            not a part of the PnP database. For single addition the length of the list must be equal to one.
-            Followed by single addition a device can be claimed as well if site name is provided.
-            For Bulk Import of devices the size of the list must be greater than 1 and can be only used for adding.
-            For claiming the devices please use separate tasks or configs in the case of bulk import.
+        description:
+            - Provides the device-specific information required for adding devices to the PnP database that are not already present.
+            - For adding a single device, the list should contain exactly one set of device information. If a site name is also provided,
+              the device can be claimed immediately after being added.
+            - For bulk import, the list must contain information for more than one device. Bulk import is intended solely for adding devices;
+              claiming must be performed with separate tasks or configurations.
         type: list
         required: true
         elements: dict
         suboptions:
           hostname:
-            description: Pnp Device's hostname that we want to keep post claiming. Hostname can only
-                be changed during claiming not bulk adding/ single adding
+            description:
+            - Defines the desired hostname for the PnP device after it has been claimed.
+            - The hostname can only be assigned or changed during the claim process, not during bulk or single device additions.
             type: str
           state:
-            description: Pnp Device's onbording state (Unclaimed/Claimed/Provisioned).
+            description:
+                - Represents the onboarding state of the PnP device.
+                - Possible values are 'Unclaimed', 'Claimed', or 'Provisioned'.
             type: str
           pid:
             description: Pnp Device's pid.
