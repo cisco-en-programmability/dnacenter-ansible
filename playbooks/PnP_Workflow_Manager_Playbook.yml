@@ -56,7 +56,7 @@
                 pid: c9300-24P
                 is_sudi_required: True
 
-    - name: Claim an added Switch with template and image upgrade to a site only
+    - name: Claim a pre-added switch, apply a template, and perform an image upgrade for a specific site
       cisco.dnac.pnp_workflow_manager:
         <<: *dnac_login
         dnac_log: True
@@ -75,7 +75,7 @@
                 state: Unclaimed
                 pid: C9300-48UXM
 
-    - name: Claim an added Wireless Controller with template and image upgrade to a site only
+    - name: Claim an existing Wireless Controller, apply a template, and upgrade its image for a specified site
       cisco.dnac.pnp_workflow_manager:
         <<: *dnac_login
         dnac_log: True
@@ -98,7 +98,7 @@
             subnet_mask: 255.255.255.0
             vlan_id: 1101
 
-    - name: Delete multiple devices from the Pnp dashboard #If device is not present it won't fail
+    - name: Remove multiple devices from the PnP dashboard safely (ignores non-existent devices)
       cisco.dnac.pnp_workflow_manager:
         <<: *dnac_login
         dnac_log: True

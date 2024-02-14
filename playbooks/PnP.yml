@@ -56,7 +56,7 @@
                 pid: c9300-24P
                 is_sudi_required: True
 
-    - name: Claim an added Switch with template and image upgrade to a site only
+    - name: Claim a pre-added switch, apply a template, and perform an image upgrade for a specific site
       cisco.dnac.pnp_intent:
         <<: *dnac_login
         dnac_log: True
@@ -75,14 +75,14 @@
                 state: Unclaimed
                 pid: C9300-48UXM
 
-    - name: Claim an added Wireless Controller with template and image upgrade to a site only
+    - name: Claim an existing Wireless Controller, apply a template, and upgrade its image for a specified site
       cisco.dnac.pnp_intent:
         <<: *dnac_login
         dnac_log: True
         state: merged
         config:
           - site_name: Global/USA/San Francisco/BGL_18
-            pnp_type: catalyst_wlc
+            pnp_type: CatalystWLC
             template_name: "Ansible_PNP_WLC"
             image_name: C9800-40-universalk9_wlc.17.12.01.SPA.bin
             template_params:
@@ -98,7 +98,7 @@
             subnet_mask: 255.255.255.0
             vlan_id: 1101
 
-    - name: Delete multiple devices from the Pnp dashboard #If device is not present it won't fail
+    - name: Remove multiple devices from the PnP dashboard safely (ignores non-existent devices)
       cisco.dnac.pnp_intent:
         <<: *dnac_login
         dnac_log: True
@@ -109,3 +109,4 @@
               - serial_number: QD2425L8M7  #Will get deleted
               - serial_number: FTC2320E0HA  #Doesn't exist in the inventory
               - serial_number: FKC2310E0HB  #Doesn't exist in the inventory
+
