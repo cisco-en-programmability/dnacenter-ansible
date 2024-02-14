@@ -42,7 +42,7 @@ options:
     required: true
     suboptions:
       global_pool_details:
-        description: Global ip pool manages IPv4 and IPv6 IP pools.
+        description: Manages IPv4 and IPv6 IP pools in the global level.
         type: dict
         suboptions:
           settings:
@@ -50,38 +50,54 @@ options:
             type: dict
             suboptions:
               ip_pool:
-                description: Global Pool's ippool.
+                description: ippool list contains the global pool details.
                 elements: dict
                 type: list
                 suboptions:
                   dhcp_server_ips:
-                    description: Dhcp Server Ips.
+                    description: >
+                      Responsible for automatically assigning IP addresses and
+                      network configuration parameters to devices on a local network.
                     elements: str
                     type: list
                   dns_server_ips:
-                    description: Dns Server Ips.
+                    description: Responsible for translating domain names into corresponding IP addresses.
                     elements: str
                     type: list
                   gateway:
-                    description: Gateway.
+                    description: Serves as an entry or exit point for data traffic between networks.
                     type: str
                   ip_address_space:
-                    description: Ip address space.
+                    description: Ip address space either IPv4 or IPv6.
                     type: str
                   cidr:
-                    description: Ip pool cidr.
+                    description: Allows efficient allocation of address space.
                     type: str
                   prev_name:
-                    description: previous name.
+                    description: >
+                      Previous name of the global pool.
+                      Use this only for changing the name of the global pool.
                     type: str
                   name:
-                    description: Ip Pool Name.
+                    description: Name of the Global Ip Pool.
                     type: str
+                  type:
+                    description: >
+                      Includes both the Generic Ip Pool and Tunnel Ip Pool.
+                      Generic - Used for general purpose within the network such as device
+                                management or communication between the network devices.
+                      Tunnel - Designated for the tunnel interfaces to encapsulate packetes
+                               within the network protocol. It is used in VPN connections,
+                               GRE tunnels, or other types of overlay networks.
+                    default: Generic
+                    choices: [Generic, Tunnel]
+                    type: str
+
       reserve_pool_details:
         description: Reserving IP subpool from the global pool
         type: dict
         suboptions:
-          ipv4DhcpServers:
+          ipv4_dhcp_servers:
             description: IPv4 input for dhcp server ip example 1.1.1.1.
             elements: str
             type: list
@@ -89,7 +105,7 @@ options:
             description: IPv4 input for dns server ip example 4.4.4.4.
             elements: str
             type: list
-          ipv4GateWay:
+          ipv4_gateway:
             description: Gateway ip address details, example 175.175.0.1.
             type: str
             version_added: 4.0.0
@@ -105,7 +121,7 @@ options:
           ipv4_subnet:
             description: IPv4 Subnet address, example 175.175.0.0.
             type: str
-          ipv4TotalHost:
+          ipv4_total_host:
             description: IPv4 total host is required when ipv4_prefix value is false.
             type: int
           ipv6_address_space:
@@ -113,15 +129,15 @@ options:
               If the value is false only ipv4 input are required, otherwise both
               ipv6 and ipv4 are required.
             type: bool
-          ipv6DhcpServers:
+          ipv6_dhcp_servers:
             description: IPv6 format dhcp server as input example 2001 db8 1234.
             elements: str
             type: list
-          ipv6DnsServers:
+          ipv6_dns_servers:
             description: IPv6 format dns server input example 2001 db8 1234.
             elements: str
             type: list
-          ipv6GateWay:
+          ipv6_gateway:
             description: Gateway ip address details, example 2001 db8 85a3 0 100 1.
             type: str
           ipv6_global_pool:
@@ -140,7 +156,7 @@ options:
           ipv6_subnet:
             description: IPv6 Subnet address, example 2001 db8 85a3 0 100.
             type: str
-          ipv6TotalHost:
+          ipv6_total_host:
             description: IPv6 total host is required when ipv6_prefix value is false.
             type: int
           name:
@@ -153,10 +169,24 @@ options:
             description: Site name path parameter. Site name to reserve the ip sub pool.
             type: str
           slaac_support:
-            description: Slaac Support.
+            description: >
+              Enables devices in IPv6 networks to automatically
+              configure their addresses without manual intervention.
             type: bool
           type:
             description: Type of the reserve ip sub pool.
+                Generic - Used for general purpose within the network such as device
+                          management or communication between the network devices.
+                LAN - Used for the devices and the resources within the Local Area Network
+                      such as device connectivity, internal communication, or services.
+                Management - Used for the management purposes such as device management interfaces,
+                             management access, or other administrative functions.
+                Service - Used for the network services and application such as DNS (Domain Name System),
+                          DHCP (Dynamic Host Configuration Protocol), NTP (Network Time Protocol).
+                WAN - Used for the devices and resources with the Wide Area Network such as remote
+                      sites interconnection with other network or services hosted within WAN.
+            default: Generic
+            choices: [Generic, LAN, Management, Service, WAN]
             type: str
       network_management_details:
         description: Set default network settings for the site
@@ -762,7 +792,7 @@ class NetworkSettings(DnacBase):
                     reserve_pool.update({"ipv6GateWay":
                                          pool_info.get("ipPools")[1].get("gateways")[0]})
                 else:
-                    reserve_pool.update({"ipv4GateWay": ""})
+                    reserve_pool.update({"ipv6GateWay": ""})
 
             elif not pool_info.get("ipPools")[1].get("ipv6"):
                 reserve_pool.update({
@@ -782,7 +812,7 @@ class NetworkSettings(DnacBase):
                     reserve_pool.update({"ipv6GateWay":
                                          pool_info.get("ipPools")[0].get("gateways")[0]})
                 else:
-                    reserve_pool.update({"ipv4GateWay": ""})
+                    reserve_pool.update({"ipv6GateWay": ""})
         reserve_pool.update({"slaacSupport": True})
         self.log("Formatted reserve pool details: {0}".format(reserve_pool), "DEBUG")
         return reserve_pool
@@ -1304,19 +1334,19 @@ class NetworkSettings(DnacBase):
             "ipv4GlobalPool": reserve_pool.get("ipv4_global_pool"),
             "ipv4Prefix": reserve_pool.get("ipv4_prefix"),
             "ipv4PrefixLength": reserve_pool.get("ipv4_prefix_length"),
-            "ipv4GateWay": reserve_pool.get("ipv4GateWay"),
-            "ipv4DhcpServers": reserve_pool.get("ipv4DhcpServers"),
+            "ipv4GateWay": reserve_pool.get("ipv4_gateway"),
+            "ipv4DhcpServers": reserve_pool.get("ipv4_dhcp_servers"),
             "ipv4DnsServers": reserve_pool.get("ipv4_dns_servers"),
             "ipv4Subnet": reserve_pool.get("ipv4_subnet"),
             "ipv6GlobalPool": reserve_pool.get("ipv6_global_pool"),
             "ipv6Prefix": reserve_pool.get("ipv6_prefix"),
             "ipv6PrefixLength": reserve_pool.get("ipv6_prefix_length"),
-            "ipv6GateWay": reserve_pool.get("ipv6GateWay"),
-            "ipv6DhcpServers": reserve_pool.get("ipv6DhcpServers"),
+            "ipv6GateWay": reserve_pool.get("ipv6_gateway"),
+            "ipv6DhcpServers": reserve_pool.get("ipv6_dhcp_servers"),
             "ipv6Subnet": reserve_pool.get("ipv6_subnet"),
-            "ipv6DnsServers": reserve_pool.get("ipv6DnsServers"),
-            "ipv4TotalHost": reserve_pool.get("ipv4TotalHost"),
-            "ipv6TotalHost": reserve_pool.get("ipv6TotalHost")
+            "ipv6DnsServers": reserve_pool.get("ipv6_dns_servers"),
+            "ipv4TotalHost": reserve_pool.get("ipv4_total_host"),
+            "ipv6TotalHost": reserve_pool.get("ipv6_total_host")
         }
 
         # Check for missing mandatory parameters in the playbook
