@@ -16,7 +16,7 @@ jobs:
 
     steps:
       - run:
-          name: Debug information
+          name: Debug information for pre
           command: |
             set -x 
             echo "CIRCLE_PROJECT_REPONAME: $CIRCLE_PROJECT_REPONAME"
