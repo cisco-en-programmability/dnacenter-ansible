@@ -31,7 +31,7 @@
             site_name: "{{item.site_name}}"
             device_role: "{{ item.device_role }}"
             device_image_family_name: "{{ item.device_image_family_name }}"
-            tagging: false
+            tagging: False
           image_distribution_details:
             image_name: "{{item.image_name}}"
             site_name: "{{item.site_name}}"
