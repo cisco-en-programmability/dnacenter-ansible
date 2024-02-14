@@ -1,12 +1,12 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-# Copyright (c) 2022, Cisco Systems
+# Copyright (c) 2024, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
-__author__ = ("Madhan Sankaranarayanan, Rishita Chowdhary, Abinash Mishra")
+__author__ = ("Abinash Mishra, Madhan Sankaranarayanan, Rishita Chowdhary")
 
 DOCUMENTATION = r"""
 ---
@@ -20,16 +20,16 @@ description:
 version_added: '6.6.0'
 extends_documentation_fragment:
   - cisco.dnac.intent_params
-author: Madhan Sankaranarayanan (@madhansansel)
+author: Abinash Mishra (@abimishr)
+        Madhan Sankaranarayanan (@madhansansel)
         Rishita Chowdhary (@rishitachowdhary)
-        Abinash Mishra (@abimishr)
 options:
   config_verify:
-    description: Set to True to verify the Cisco DNA Center config after applying the playbook config.
+    description: Set to True to verify the Cisco Catalyst Center config after applying the playbook config.
     type: bool
     default: False
   state:
-    description: The state of DNAC after module completion.
+    description: The state of Cisco Catalyst Center after module completion.
     type: str
     choices: [ merged, deleted ]
     default: merged
@@ -62,9 +62,15 @@ options:
         type: str
         default: Onboarding Configuration
       pnp_type:
-        description: Device type of the Pnp device (Default/catalyst_wlc/access_point/stack_switch)
+        description: Specifies the device type for the Plug and Play (PnP) device.
+            - Options include 'Default', 'CatalystWLC', 'AccessPoint', or 'StackSwitch'.
+            - 'Default' is applicable to switches and routers.
+            - 'CatalystWLC' should be selected for 9800 series wireless controllers.
+            - 'AccessPoint' is used when claiming an access point.
+            - 'StackSwitch' should be chosen for a group of switches that operate as a single switch, typically used in the access layer.
         type: str
-        default: Default
+        choices: [ 'Default', 'CatalystWLC', 'AccessPoint', 'StackSwitch' ]
+        default: 'Default'
       static_ip:
         description: Management IP address of the Wireless Controller
         type: str
@@ -78,27 +84,39 @@ options:
         description: Vlan Id allocated for claimimg of Wireless Controller
         type: str
       ip_interface_name:
-        description: Name of the Interface used for Pnp by the Wireless Controller
+        description: Specifies the interface name utilized for Plug and Play (PnP) by the Wireless Controller.
+            Ensure this interface is pre-configured on the Controller prior to device claiming.
         type: str
       rf_profile:
-        description: Radio frequecy profile of the AP being claimed (HIGH/LOW/TYPICAL)
+        description:
+            - Radio Frequecy (RF) profile of the AP being claimed.
+            - RF Profiles allow you to tune groups of APs that share a common coverage zone together.
+            - They selectively change how Radio Resource Management will operate the APs within that coverage zone.
+            - HIGH RF profile allows you to use more power and allows to join AP with the client in an easier fashion.
+            - TYPICAL RF profile is a blend of moderate power and moderate visibility to the client.
+            - LOW RF profile allows you to consume lesser power and has least visibility to the client.
         type: str
+        choices: [ 'HIGH', 'LOW', 'TYPICAL' ]
       device_info:
-        description: Pnp Device's device_info. This is mainly for adding the devices that are
-            not a part of the PnP database. For single addition the length of the list must be equal to one.
-            Followed by single addition a device can be claimed as well if site name is provided.
-            For Bulk Import of devices the size of the list must be greater than 1 and can be only used for adding.
-            For claiming the devices please use separate tasks or configs in the case of bulk import.
+        description:
+            - Provides the device-specific information required for adding devices to the PnP database that are not already present.
+            - For adding a single device, the list should contain exactly one set of device information. If a site name is also provided,
+              the device can be claimed immediately after being added.
+            - For bulk import, the list must contain information for more than one device. Bulk import is intended solely for adding devices;
+              claiming must be performed with separate tasks or configurations.
         type: list
         required: true
         elements: dict
         suboptions:
           hostname:
-            description: Pnp Device's hostname that we want to keep post claiming. Hostname can only
-                be changed during claiming not bulk adding/ single adding
+            description:
+            - Defines the desired hostname for the PnP device after it has been claimed.
+            - The hostname can only be assigned or changed during the claim process, not during bulk or single device additions.
             type: str
           state:
-            description: Pnp Device's onbording state (Unclaimed/Claimed/Provisioned).
+            description:
+                - Represents the onboarding state of the PnP device.
+                - Possible values are 'Unclaimed', 'Claimed', or 'Provisioned'.
             type: str
           pid:
             description: Pnp Device's pid.
@@ -178,7 +196,7 @@ EXAMPLES = r"""
 RETURN = r"""
 #Case_1: When the device is claimed successfully.
 response_1:
-  description: A dictionary with the response returned by the Cisco DNAC Python SDK
+  description: A dictionary with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >
@@ -193,7 +211,7 @@ response_1:
 
 #Case_2: Given site/image/template/project not found or Device is not found for deletion
 response_2:
-  description: A list with the response returned by the Cisco DNAC Python SDK
+  description: A list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: list
   sample: >
@@ -204,7 +222,7 @@ response_2:
 
 #Case_3: Error while deleting/claiming a device
 response_3:
-  description: A string with the response returned by the Cisco DNAC Python SDK
+  description: A string with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >
@@ -221,7 +239,7 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
 )
 
 
-class DnacPnp(DnacBase):
+class PnP(DnacBase):
     def __init__(self, module):
         super().__init__(module)
 
@@ -374,7 +392,7 @@ class DnacPnp(DnacBase):
 
     def get_pnp_params(self, params):
         """
-        Store pnp parameters from the playbook for pnp processing in DNAC.
+        Store pnp parameters from the playbook for pnp processing in Cisco Catalyst Center.
 
         Parameters:
           - self: The instance of the class containing the 'config'
@@ -478,16 +496,14 @@ class DnacPnp(DnacBase):
             'configInfo': configinfo,
         }
 
-        if claim_params["type"] == "catalyst_wlc":
-            claim_params["type"] = "CatalystWLC"
+        if claim_params["type"] == "CatalystWLC":
             claim_params["staticIP"] = self.validated_config[0]['static_ip']
             claim_params["subnetMask"] = self.validated_config[0]['subnet_mask']
             claim_params["gateway"] = self.validated_config[0]['gateway']
             claim_params["vlanId"] = str(self.validated_config[0]['vlan_id'])
             claim_params["ipInterfaceName"] = self.validated_config[0]['ip_interface_name']
 
-        if claim_params["type"] == "access_point":
-            claim_params["type"] = "AccessPoint"
+        if claim_params["type"] == "AccessPoint":
             claim_params["rfProfile"] = self.validated_config[0]["rf_profile"]
 
         self.log("Paramters used for claiming are {0}".format(str(claim_params)), "INFO")
@@ -534,7 +550,7 @@ class DnacPnp(DnacBase):
 
     def get_have(self):
         """
-        Get the current image, template and site details from the DNAC.
+        Get the current image, template and site details from the Cisco Catalyst Center.
 
         Parameters:
           - self: The instance of the class containing the 'config' attribute
@@ -615,7 +631,7 @@ class DnacPnp(DnacBase):
                 if site_exists:
                     have["site_id"] = site_id
                     self.log("Site Exists: {0}\nSite Name: {1}\nSite ID: {2}".format(site_exists, site_name, site_id), "INFO")
-                    if self.want.get("pnp_type") == "access_point":
+                    if self.want.get("pnp_type") == "AccessPoint":
                         if self.get_site_type() != "floor":
                             self.msg = "The site type must be specified as 'floor'\
                                 for claiming an AP"
@@ -661,7 +677,7 @@ class DnacPnp(DnacBase):
                         return self
 
         self.msg = "Successfully collected all project and template \
-                    parameters from dnac for comparison"
+                    parameters from Cisco Catalyst Center for comparison"
         self.log(self.msg, "INFO")
         self.status = "success"
         self.have = have
@@ -670,7 +686,7 @@ class DnacPnp(DnacBase):
     def get_want(self, config):
         """
         Get all the image, template and site and pnp related
-        information from playbook that is needed to be created in DNAC.
+        information from playbook that is needed to be created in Cisco Catalyst Center.
 
         Parameters:
           - self: The instance of the class containing the 'config'
@@ -705,14 +721,14 @@ class DnacPnp(DnacBase):
                 get("hostname")
             )
 
-        if self.want["pnp_type"] == "catalyst_wlc":
+        if self.want["pnp_type"] == "CatalystWLC":
             self.want["static_ip"] = config.get('static_ip')
             self.want["subnet_mask"] = config.get('subnet_mask')
             self.want["gateway"] = config.get('gateway')
             self.want["vlan_id"] = config.get('vlan_id')
             self.want["ip_interface_name"] = config.get('ip_interface_name')
 
-        elif self.want["pnp_type"] == "access_point":
+        elif self.want["pnp_type"] == "AccessPoint":
             self.want["rf_profile"] = config.get("rf_profile")
         self.msg = "Successfully collected all parameters from playbook " + \
             "for comparison"
@@ -726,7 +742,7 @@ class DnacPnp(DnacBase):
         If given device doesnot exist
         then add it to pnp database and get the device id
         Args:
-            self: An instance of a class used for interacting with Cisco DNA Center.
+            self: An instance of a class used for interacting with Cisco Catalyst Center.
         Returns:
             object: An instance of the class with updated results and status
             based on the processing of differences. Based on the length of devices passed
@@ -734,7 +750,7 @@ class DnacPnp(DnacBase):
         Description:
             The function processes the differences and, depending on the
             changes required, it may add, update,or resynchronize devices in
-            Cisco DNA Center. The updated results and status are stored in the
+            Cisco Catalyst Center. The updated results and status are stored in the
             class instance for further use.
         """
 
@@ -912,7 +928,7 @@ class DnacPnp(DnacBase):
             reset_paramters = self.get_reset_params()
             reset_response = self.dnac_apply['exec'](
                 family="device_onboarding_pnp",
-                function="update_device",
+                function="reset_device",
                 params={"payload": reset_paramters},
                 op_modifies=True,
             )
@@ -922,6 +938,8 @@ class DnacPnp(DnacBase):
             self.result['response'] = reset_response
             self.result['diff'] = self.validated_config
             self.result['changed'] = True
+
+            return self
 
         if not (
             prov_dev_response.get("response") == 0 and
@@ -960,14 +978,14 @@ class DnacPnp(DnacBase):
         and is in unclaimed or failed state delete the
         given device
         Args:
-            self: An instance of a class used for interacting with Cisco DNA Center.
+            self: An instance of a class used for interacting with Cisco Catalyst Center.
             Here we pass a list of device info to be deleted
         Returns:
             self: An instance of the class with updated results and status based on
             the deletion operation. It tells us the number of devices deleted if any of the devices
             get deleted
         Description:
-            This function is responsible for removing devices from the Cisco DNA Center PnP GUI and
+            This function is responsible for removing devices from the Cisco Catalyst Center PnP GUI and
             pass new changes if devices are already deleted.
         """
         devices_deleted = []
@@ -1013,14 +1031,14 @@ class DnacPnp(DnacBase):
 
     def verify_diff_merged(self, config):
         """
-        Verify the merged status(Creation/Updation) of PnP configuration in Cisco DNA Center.
+        Verify the merged status(Creation/Updation) of PnP configuration in Cisco Catalyst Center.
         Args:
-            - self (object): An instance of a class used for interacting with Cisco DNA Center.
+            - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             - config (dict): The configuration details to be verified.
         Return:
-            - self (object): An instance of a class used for interacting with Cisco DNA Center.
+            - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
         Description:
-            This method checks the merged status of a configuration in Cisco DNA Center by
+            This method checks the merged status of a configuration in Cisco Catalyst Center by
             retrieving the current state (have) and desired state (want) of the configuration,
             logs the states, and validates whether the specified device(s) exists in the DNA
             Center configuration's PnP Database.
@@ -1028,7 +1046,7 @@ class DnacPnp(DnacBase):
 
         self.log("Current State (have): {0}".format(str(self.have)), "INFO")
         self.log("Desired State (want): {0}".format(str(config)), "INFO")
-        # Code to validate dnac config for merged state
+        # Code to validate Cisco Catalyst Center config for merged state
         for device in self.want.get("pnp_params"):
             device_response = self.dnac_apply['exec'](
                 family="device_onboarding_pnp",
@@ -1038,14 +1056,14 @@ class DnacPnp(DnacBase):
             if (device_response and (len(device_response) == 1)):
                 msg = (
                     "Requested Device with Serial No. {0} is "
-                    "present in Cisco DNA Center and"
+                    "present in Cisco Catalyst Center and"
                     " addition verified.".format(device["deviceInfo"]["serialNumber"]))
                 self.log(msg, "INFO")
 
             else:
                 msg = (
                     "Requested Device with Serial No. {0} is "
-                    "not present in Cisco DNA "
+                    "not present in Cisco Catalyst Center"
                     "Center".format(device["deviceInfo"]["serialNumber"]))
                 self.log(msg, "WARNING")
 
@@ -1054,21 +1072,21 @@ class DnacPnp(DnacBase):
 
     def verify_diff_deleted(self, config):
         """
-        Verify the deletion status of PnP configuration in Cisco DNA Center.
+        Verify the deletion status of PnP configuration in Cisco Catalyst Center.
         Args:
-            - self (object): An instance of a class used for interacting with Cisco DNA Center.
+            - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             - config (dict): The configuration details to be verified.
         Return:
-            - self (object): An instance of a class used for interacting with Cisco DNA Center.
+            - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
         Description:
-            This method checks the deletion status of a configuration in Cisco DNA Center.
-            It validates whether the specified device(s) exists in the DNA Center configuration's
+            This method checks the deletion status of a configuration in Cisco Catalyst Center.
+            It validates whether the specified device(s) exists in the Cisco Catalyst Center configuration's
             PnP Database.
         """
 
         self.log("Current State (have): {0}".format(str(self.have)), "INFO")
         self.log("Desired State (want): {0}".format(str(config)), "INFO")
-        # Code to validate dnac config for deleted state
+        # Code to validate Cisco Catalyst Center config for deleted state
         for device in self.want.get("pnp_params"):
             device_response = self.dnac_apply['exec'](
                 family="device_onboarding_pnp",
@@ -1085,7 +1103,7 @@ class DnacPnp(DnacBase):
             else:
                 msg = (
                     "Requested Device with Serial No. {0} is "
-                    "present in Cisco DNA Center".format(device["deviceInfo"]["serialNumber"]))
+                    "present in Cisco Catalyst Center".format(device["deviceInfo"]["serialNumber"]))
                 self.log(msg, "WARNING")
 
         self.status = "success"
@@ -1116,26 +1134,26 @@ def main():
 
     module = AnsibleModule(argument_spec=element_spec,
                            supports_check_mode=False)
-    dnac_pnp = DnacPnp(module)
+    ccc_pnp = PnP(module)
 
-    state = dnac_pnp.params.get("state")
-    if state not in dnac_pnp.supported_states:
-        dnac_pnp.status = "invalid"
-        dnac_pnp.msg = "State {0} is invalid".format(state)
-        dnac_pnp.check_return_status()
+    state = ccc_pnp.params.get("state")
+    if state not in ccc_pnp.supported_states:
+        ccc_pnp.status = "invalid"
+        ccc_pnp.msg = "State {0} is invalid".format(state)
+        ccc_pnp.check_return_status()
 
-    dnac_pnp.validate_input().check_return_status()
-    config_verify = dnac_pnp.params.get("config_verify")
+    ccc_pnp.validate_input().check_return_status()
+    config_verify = ccc_pnp.params.get("config_verify")
 
-    for config in dnac_pnp.validated_config:
-        dnac_pnp.reset_values()
-        dnac_pnp.get_want(config).check_return_status()
-        dnac_pnp.get_have().check_return_status()
-        dnac_pnp.get_diff_state_apply[state]().check_return_status()
+    for config in ccc_pnp.validated_config:
+        ccc_pnp.reset_values()
+        ccc_pnp.get_want(config).check_return_status()
+        ccc_pnp.get_have().check_return_status()
+        ccc_pnp.get_diff_state_apply[state]().check_return_status()
         if config_verify:
-            dnac_pnp.verify_diff_state_apply[state](config).check_return_status()
+            ccc_pnp.verify_diff_state_apply[state](config).check_return_status()
 
-    module.exit_json(**dnac_pnp.result)
+    module.exit_json(**ccc_pnp.result)
 
 
 if __name__ == '__main__':
