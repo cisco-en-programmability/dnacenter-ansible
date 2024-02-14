@@ -50,26 +50,26 @@ options:
         type: dict
         suboptions:
           type:
-            description: The source of import, supports remote import or local import.
+            description: Specifies the import source, supporting local file import (local) or remote url import (remote).
             type: str
           local_image_details:
             description: Details of the local path of the image to be imported.
             type: dict
             suboptions:
               file_path:
-                description: Give the file absolute path required while importing image from local.
+                description: Provide the absolute file path needed to import an image from your local system (Eg "/path/to/your/file").
                 type: str
               is_third_party:
-                description: IsThirdParty query parameter. Third party Image check (Optional).
+                description: Query parameter to determine if the image is from a third party (optional).
                 type: bool
               third_party_application_type:
-                description: ThirdPartyApplicationType query parameter. Third Party Application Type (Optional).
+                description: Specify the ThirdPartyApplicationType query parameter to indicate the type of third-party application.(optional)
                 type: str
               third_party_image_family:
-                description: ThirdPartyImageFamily query parameter. Third Party image family (Optional).
+                description: Provide the ThirdPartyImageFamily query parameter to identify the family of the third-party image. (optional)
                 type: str
               third_party_vendor:
-                description: ThirdPartyVendor query parameter (Optional).
+                description: Include the ThirdPartyVendor query parameter to specify the vendor of the third party.
                 type: str
           url_details:
             description: URL details for SWIM import
@@ -81,20 +81,21 @@ options:
                 elements: dict
                 suboptions:
                   application_type:
-                    description: Optional parameter indicating the type of application with permitted values(WLC, LINUX, FILREWALL, WINDOWS,
-                      LOADBALANCER, THIRDPARTY etc) applicable only for third party image types.
+                    description: An optional parameter that specifies the type of application. Allowed values include WLC, LINUX, FIREWALL, WINDOWS,
+                        LOADBALANCER, THIRDPARTY, etc. This is only applicable for third-party image types.
                     type: str
                   image_family:
-                    description: The name of image family applicable only in case of third party images upload (Optional).
+                    description: Represents the name of the image family and is applicable only when uploading third-party images (Optional).
                     type: str
                   source_url:
-                    description: Required parameter for importing swim image via remote url.
+                    description: A mandatory parameter for importing a SWIM image via a remote URL. This parameter is required when using a URL
+                        to import an image.
                     type: str
                   is_third_party:
-                    description: Set the boolean value if image is uploaded from third party (Optional).
+                    description: Flag indicates whether the image is uploaded from a third party (optional).
                     type: bool
                   vendor:
-                    description: Name of vendor applicable only for third party image types (Optional).
+                    description: The name of the vendor, that applies only to third-party image types when importing via URL (Optional).
                     type: str
               schedule_at:
                 description: ScheduleAt query parameter. Epoch Time (The number of milli-seconds since
@@ -114,8 +115,8 @@ options:
             description: SWIM image name which will be tagged or untagged as golden.
             type: str
           device_role:
-            description: Device Role. Permissible Values ALL, UNKNOWN, ACCESS, BORDER ROUTER,
-              DISTRIBUTION and CORE.
+            description: Defines the device role, with permissible values including ALL, UNKNOWN, ACCESS, BORDER ROUTER,
+              DISTRIBUTION, and CORE.
               ALL - This role typically represents all devices within the network, regardless of their specific roles or functions.
               UNKNOWN - This role is assigned to devices whose roles or functions have not been identified or classified within Cisco Catalsyt Center.
                 This could happen if the platform is unable to determine the device's role based on available information.
@@ -166,7 +167,7 @@ options:
                 providing interconnection between different network segments.
             type: str
           device_family_name:
-            description: Name of the device family(Switches and Hubs etc.)
+            description: Specify the name of the device family such as Switches and Hubs, etc.
             type: str
           site_name:
             description: Used to get device details associated to this site.
@@ -193,11 +194,11 @@ options:
         type: dict
         suboptions:
           device_role:
-            description: Device Role and  permissible Values are ALL, UNKNOWN, ACCESS, BORDER ROUTER,
-              DISTRIBUTION and CORE.
+            description: Defines the device role, with permissible values including ALL, UNKNOWN, ACCESS, BORDER ROUTER,
+              DISTRIBUTION, and CORE.
             type: str
           device_family_name:
-            description: Name of the device family(Switches and Hubs etc.)
+            description: Specify the name of the device family such as Switches and Hubs, etc.
             type: str
           site_name:
             description: Used to get device details associated to this site.
@@ -211,15 +212,15 @@ options:
                 When this mode is selected, the existing image on the device is completely replaced with the new image during the upgrade process.
                 This ensures that the device runs only the new image version after the upgrade is completed.
               bundle - This mode instructs Cisco Catalyst Center bundles the new image with the existing image on the device before initiating
-                the upgrade process.This mode allows for a more efficient upgrade process by preserving the existing image on the device while
-                adding the new image as an additional bundle.After the upgrade, the device can run either the existing image or the new bundled
+                the upgrade process. This mode allows for a more efficient upgrade process by preserving the existing image on the device while
+                adding the new image as an additional bundle. After the upgrade, the device can run either the existing image or the new bundled
                 image, depending on the configuration.
               currentlyExists - This mode instructs Cisco Catalyst Center to checks if the target devices already have the desired image version
                 installed. If image already present on devices, no action is taken and upgrade process is skipped for those devices. This mode
                 is useful for avoiding unnecessary upgrades on devices that already have the correct image version installed, thereby saving time.
             type: str
           distribute_if_needed:
-            description: Set the distribute_if_needed flag while activating the swim image.
+            description: Enable the distribute_if_needed option when activating the SWIM image.
             type: bool
           image_name:
             description: SWIM image's name
