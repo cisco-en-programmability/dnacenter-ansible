@@ -44,28 +44,32 @@ options:
             protocol (either SSH or Telnet) used by the device.
         type: str
       compute_device:
-        description: Compute Device flag.
+        description: Indicates whether a device is a compute device.
         type: bool
+      password:
+        description: Password for accessing the device and for file encryption during device export. Required for
+            adding Network Device. Also needed for file encryption while exporting device in a csv file.
+        type: str
       enable_password:
-        description: Device's enable password.
+        description: Password required for enabling configurations on the device.
         type: str
       extended_discovery_info:
-        description: Device's extended discovery info.
+        description: Additional discovery information for the device.
         type: str
       http_password:
-        description: Device's http password. Required for Adding Compute, Meraki, Firepower Management Devices.
+        description: HTTP password required for adding compute, Meraki, and Firepower Management Devices.
         type: str
       http_port:
-        description: Device's http port number. Required for Adding Compute, Firepower Management Devices.
+        description: HTTP port number required for adding compute and Firepower Management Devices.
         type: str
       http_secure:
-        description: HttpSecure flag.
+        description: Flag indicating HTTP security.
         type: bool
       http_username:
-        description: Device's http username. Required for Adding Compute,Firepower Management Devices.
+        description: HTTP username required for adding compute and Firepower Management Devices.
         type: str
       ip_address:
-        description: Device's ipAddress. Required for Adding/Updating/Deleting/Resyncing Device except Meraki Devices.
+        description: IP address of the device. Required for Adding/Updating/Deleting/Resyncing Device except Meraki Devices.
         elements: str
         type: list
       hostname_list:
@@ -84,53 +88,58 @@ options:
         elements: str
         type: list
       netconf_port:
-        description: Device's netconf port.
+        description: Netconf port number.
         type: str
       username:
-        description: Network Device's username. Required for Adding Network Device.
-        type: str
-      password:
-        description: Device's password. Required for Adding Network Device.
-            Also needed for file encryption while exporting device in a csv file.
+        description: Username for accessing the device. Required for Adding Network Device.
         type: str
       serial_number:
-        description: Device's serial number.
+        description: Serial number of the device.
         type: str
       snmp_auth_passphrase:
-        description: Device's snmp auth passphrase. Required for Adding Network, Compute, Third Party Devices.
+        description: SNMP authentication passphrase required for adding network, compute, and third-party devices.
         type: str
       snmp_auth_protocol:
-        description: Device's snmp Auth Protocol.
+        description: SNMP authentication protocol.
+            SHA (Secure Hash Algorithm) - cryptographic hash function commonly used for data integrity verification and authentication purposes.
+            MD5 (Message Digest Algorithm 5) - cryptographic hash function commonly used for data integrity verification and authentication purposes.
         type: str
         default: "SHA"
       snmp_mode:
-        description: Device's snmp Mode.
+        description: Device's snmp Mode refer to different SNMP (Simple Network Management Protocol) versions and their corresponding security levels.
+            NOAUTHNOPRIV - This mode provides no authentication or encryption for SNMP messages. It means that devices communicating using SNMPv1 do
+                not require any authentication (username/password) or encryption (data confidentiality). This makes it the least secure option.
+            AUTHNOPRIV - This mode provides authentication but no encryption for SNMP messages. Authentication involves validating the source of the
+                SNMP messages using a community string (similar to a password). However, the data transmitted between devices is not encrypted,
+                so it's susceptible to eavesdropping.
+            AUTHPRIV - This mode provides both authentication and encryption for SNMP messages. It offers the highest level of security among the three
+                options. Authentication ensures that the source of the messages is genuine, and encryption ensures that the data exchanged between
+                devices is confidential and cannot be intercepted by unauthorized parties.
         type: str
       snmp_priv_passphrase:
-        description: Device's snmp Private Passphrase. Required for Adding Network, Compute, Third Party Devices.
+        description: SNMP private passphrase required for adding network, compute, and third-party devices.
         type: str
       snmp_priv_protocol:
-        description: Device's snmp Private Protocol. Required for Adding Network, Compute, Third Party Devices.
-            Must be given in playbook if you are updating the device credentails.
+        description: SNMP private protocol required for adding network, compute, and third-party devices.
         type: str
       snmp_ro_community:
-        description: Device's snmp ROCommunity. Required for Adding V2C Devices.
+        description: SNMP Read-Only community required for adding V2C devices.
         type: str
         default: public
       snmp_rw_community:
-        description: Device's snmp RWCommunity. Required for Adding V2C Devices.
+        description: SNMP Read-Write community required for adding V2C devices.
         type: str
         default: private
       snmp_retry:
-        description: Device's snmp Retry.
+        description: SNMP retry count.
         type: int
         default: 3
       snmp_timeout:
-        description: Device's snmp Timeout.
+        description: SNMP timeout duration.
         type: int
         default: 5
       snmp_username:
-        description: Device's snmp Username. Required for Adding Network, Compute, Third Party Devices.
+        description: SNMP username required for adding network, compute, and third-party devices.
         type: str
       snmp_version:
         description: Device's snmp Version.
@@ -138,10 +147,22 @@ options:
         default: "v3"
       type:
         description: Select Device's type from NETWORK_DEVICE, COMPUTE_DEVICE, MERAKI_DASHBOARD, THIRD_PARTY_DEVICE, FIREPOWER_MANAGEMENT_SYSTEM.
+            NETWORK_DEVICE - This refers to traditional networking equipment such as routers, switches, access points, and firewalls. These devices
+                are responsible for routing, switching, and providing connectivity within the network.
+            COMPUTE_DEVICE - These are computing resources such as servers, virtual machines, or containers that are part of the network infrastructure.
+                Cisco DNA Center can integrate with compute devices to provide visibility and management capabilities, ensuring that the network and
+                 compute resources work together seamlessly to support applications and services.
+            MERAKI_DASHBOARD - It is cloud-based platform used to manage Meraki networking devices, including wireless access points, switches, security
+                appliances, and cameras.
+            THIRD_PARTY_DEVICE - This category encompasses devices from vendors other than Cisco or Meraki. Cisco DNA Center is designed to support
+                integration with third-party devices through open standards and APIs. This allows organizations to manage heterogeneous network
+                environments efficiently using Cisco DNA Center's centralized management and automation capabilities.
+            FIREPOWER_MANAGEMENT_SYSTEM - It is a centralized management console used to manage Cisco's Firepower Next-Generation Firewall (NGFW) devices.
+                It provides features such as policy management, threat detection, and advanced security analytics.
         type: str
         default: "NETWORK_DEVICE"
       update_mgmt_ipaddresslist:
-        description: Network Device's update Mgmt IPaddress List.
+        description: List of updated management IP addresses for network devices.
         type: list
         elements: dict
         suboptions:
@@ -181,10 +202,23 @@ options:
         default: false
       role:
         description: Role of device which can be ACCESS, CORE, DISTRIBUTION, BORDER ROUTER, UNKNOWN.
+            ALL - This role typically represents all devices within the network, regardless of their specific roles or functions.
+            UNKNOWN - This role is assigned to devices whose roles or functions have not been identified or classified within Cisco Catalsyt Center.
+                This could happen if the platform is unable to determine the device's role based on available information.
+            ACCESS - This role typically represents switches or access points that serve as access points for end-user devices to connect to the network.
+                These devices are often located at the edge of the network and provide connectivity to end-user devices.
+            BORDER ROUTER - These are devices that connect different network domains or segments together. They often serve as
+                gateways between different networks, such as connecting an enterprise network to the internet or connecting
+                multiple branch offices.
+            DISTRIBUTION - This role represents function as distribution switches or routers in hierarchical network designs. They aggregate traffic
+                from access switches and route it toward the core of the network or toward other distribution switches.
+            CORE - This role typically represents high-capacity switches or routers that form the backbone of the network. They handle large volumes
+                of traffic and provide connectivity between different parts of network, such as connecting distribution switches or
+                providing interconnection between different network segments.
         type: str
         default: "ACCESS"
       role_source:
-        description: role source for the Device.
+        description: Role source for the device.
         type: str
         default: "AUTO"
       name:
@@ -216,6 +250,8 @@ options:
         type: str
       operation_enum:
         description: enum(CREDENTIALDETAILS, DEVICEDETAILS) 0 to export Device Credential Details Or 1 to export Device Details.
+            CREDENTIALDETAILS - Used for exporting device credentials details like snpm credntials, device crdentails etc.
+            DEVICEDETAILS - Used for exporting device specific details like device hostname, serial number, type, family etc.
         type: str
       parameters:
         description: List of device parameters that needs to be exported to file.
@@ -315,7 +351,7 @@ EXAMPLES = r"""
         snmp_username: string
         snmp_version: string
         type: string
-        device_added: true
+        device_added: True
         username: string
 
 - name: Add new Compute device in Inventory with full credentials.Inputs needed for Compute Device
@@ -344,9 +380,9 @@ EXAMPLES = r"""
         snmp_retry:  3
         snmp_timeout: 5
         snmp_username: string
-        compute_device: true
+        compute_device: True
         username: string
-        device_added: true
+        device_added: True
         type: "COMPUTE_DEVICE"
 
 - name: Add new Meraki device in Inventory with full credentials.Inputs needed for Meraki Device.
@@ -363,7 +399,7 @@ EXAMPLES = r"""
     state: merged
     config:
       - http_password: string
-        device_added: true
+        device_added: True
         type: "MERAKI_DASHBOARD"
 
 - name: Add new Firepower Management device in Inventory with full credentials.Input needed to add Device.
@@ -384,7 +420,7 @@ EXAMPLES = r"""
         http_username: string
         http_password: string
         http_port: string
-        device_added: true
+        device_added: True
         type: "FIREPOWER_MANAGEMENT_SYSTEM"
 
 - name: Add new Third Party device in Inventory with full credentials.Input needed to add Device.
@@ -410,7 +446,7 @@ EXAMPLES = r"""
         snmp_retry:  3
         snmp_timeout: 5
         snmp_username: string
-        device_added: true
+        device_added: True
         type: "THIRD_PARTY_DEVICE"
 
 - name: Update device details or credentails in Inventory
@@ -447,8 +483,8 @@ EXAMPLES = r"""
         snmp_username: string
         snmp_version: string
         type: string
-        device_updated: true
-        credential_update: true
+        device_updated: True
+        credential_update: True
         update_mgmt_ipaddresslist:
         - exist_mgmt_ipaddress: string
           new_mgmt_ipaddress: string
@@ -467,10 +503,10 @@ EXAMPLES = r"""
     dnac_log: False
     state: merged
     config:
-      - device_updated: true
+      - device_updated: True
         ip_address:
         - string
-        credential_update: true
+        credential_update: True
         update_mgmt_ipaddresslist:
         - exist_mgmt_ipaddress: string
           new_mgmt_ipaddress: string
@@ -535,7 +571,7 @@ EXAMPLES = r"""
     config:
       - ip_address:
         - string
-        device_updated: true
+        device_updated: True
         update_device_role:
           role: string
           role_source: string
@@ -555,7 +591,7 @@ EXAMPLES = r"""
     config:
       - ip_address:
         - string
-        device_updated: true
+        device_updated: True
         update_interface_details:
           description: str
           admin_status: str
@@ -619,7 +655,7 @@ EXAMPLES = r"""
     config:
       - ip_address:
         - string
-        device_resync: true
+        device_resync: True
         force_sync: false
 
 - name: Reboot AP Devices with IP Addresses
@@ -637,7 +673,7 @@ EXAMPLES = r"""
     config:
       - ip_address:
         - string
-        reboot_device: true
+        reboot_device: True
 
 - name: Delete Provision/Unprovision Devices by IP Address
   cisco.dnac.inventory_workflow_manager:
@@ -1755,9 +1791,9 @@ class Inventory(DnacBase):
                     site_type = item.get("attributes").get("type")
 
         except Exception as e:
-            self.msg = "Error while fetching the site '{0}'.".format(site_name)
+            self.msg = "Error while fetching the site '{0}' and the specified site was not found in Cisco Catalyst Center.".format(site_name)
             self.log(self.msg, "ERROR")
-            self.module.fail_json(msg="Site not found", response=[])
+            self.module.fail_json(msg=self.msg, response=[self.msg])
 
         return site_type
 
