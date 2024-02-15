@@ -41,7 +41,7 @@ options:
     required: True
     suboptions:
       type:
-        description: Specifies the type of site operation to perform (e.g. create, update, delete).
+        description: Type of site to create/update/delete (eg area, building, floor).
         type: str
       site:
         description: Contains details about the site being managed including areas, buildings and floors.
