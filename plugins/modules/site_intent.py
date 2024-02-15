@@ -35,50 +35,48 @@ options:
     choices: [ merged, deleted ]
     default: merged
   config:
-    description:
-    - List of details of site being managed.
+    description: It represents a list of details for creating/managing/deleting sites, including areas, buildings, and floors.
     type: list
     elements: dict
-    required: true
+    required: True
     suboptions:
       type:
-        description: Type of site to create/update/delete (eg area, building, floor).
+        description: Specifies the type of site operation to perform (e.g. create, update, delete).
         type: str
       site:
-        description: Site Details.
+        description: Contains details about the site being managed including areas, buildings and floors.
         type: dict
         suboptions:
           area:
-            description: Site Create's area.
+            description: Contains details for creating or managing an area within a site.
             type: dict
             suboptions:
               name:
                 description: Name of the area (eg Area1).
                 type: str
-              parentName:
-                description: Complete Parent name of the Area to be created/deleted(eg Global/).
+              parent_name:
+                description: Complete Parent name of the Area to be created/deleted(eg Global/USA).
                 type: str
           building:
-            description: Building Details.
+            description: Contains details for creating or managing a building within a site.
             type: dict
             suboptions:
               address:
                 description: Address of the building to be created.
                 type: str
               latitude:
-                description: Latitude coordinate of the building (eg 37.338).Values between -90 to +90.
-                type: int
+                description: Latitude coordinate of the building (eg 37.338). Values between -90 to +90.
               longitude:
-                description: Longitude coordinate of the building (eg -121.832).Values between -180 to +180.
+                description: Longitude coordinate of the building (eg -121.832). Values between -180 to +180.
                 type: int
               name:
                 description: Name of the building (eg building1).
                 type: str
               parent_name:
-                description: Complete Parent name of the Building to be created/deleted(eg Global/USA/San Francisco).
+                description: Complete parent name of the building to be created/deleted(eg Global/USA/San Francisco).
                 type: str
           floor:
-            description: Site Create's floor.
+            description: Contains details for creating or managing a floor within a site.
             type: dict
             suboptions:
               height:
@@ -90,18 +88,27 @@ options:
               name:
                 description: Name of the floor (eg floor-1).
                 type: str
-              parentName:
-                description: Complete Parent name of the floor to be created(eg Global/USA/San Francisco/BGL_18).
+              parent_name:
+                description: Complete parent name of the floor to be created(eg Global/USA/San Francisco/BGL_18).
                 type: str
               rf_model:
-                description: Type of floor. Allowed values are 'Cubes And Walled Offices',
-                  'Drywall Office Only', 'Indoor High Ceiling', 'Outdoor Open Space'.
+                description: Type of floor (allowed values are 'Cubes And Walled Offices', 'Drywall Office Only', 'Indoor High Ceiling',
+                    'Outdoor Open Space'). It refers to the Radio Frequency (RF) model of the floor. It is essential in wireless
+                    networking to simulate and optimize radio signal propagation and coverage within a physical space.
+                    Cubes And Walled Offices - This RF model typically represents indoor areas with cubicles or walled offices, where
+                        radio signals may experience attenuation due to walls and obstacles.
+                    Drywall Office Only - This RF model indicates an environment with drywall partitions, commonly found in office spaces,
+                        which may have moderate signal attenuation.
+                    Indoor High Ceiling - This RF model is suitable for indoor spaces with high ceilings, such as auditoriums or atriums,
+                        where signal propagation may differ due to the height of the ceiling.
+                    Outdoor Open Space - This RF model is used for outdoor areas with open spaces, where signal propagation is less obstructed
+                        and may follow different patterns compared to indoor environments.
                 type: str
               width:
                 description: Width of the floor units is ft. (eg 100).
                 type: int
               floor_number:
-                description: Floor number in the building/site (eg 5).once created, it can't be modified.
+                description: Floor number in the building/site (eg 5) can be given only while creating the floor site.
                 type: int
 
 requirements:
@@ -136,7 +143,7 @@ EXAMPLES = r"""
     - site:
         area:
           name: string
-          parentName: string
+          parent_name: string
       type: string
 
 - name: Create a new building site
@@ -158,7 +165,7 @@ EXAMPLES = r"""
           latitude: 0
           longitude: 0
           name: string
-          parentName: string
+          parent_name: string
       type: string
 
 - name: Create a Floor site under the building
@@ -207,7 +214,7 @@ EXAMPLES = r"""
           height: int
       type: string
 
-- name: Deleting any site you need site name and parentName
+- name: Deleting any site you need site name and parent name
   cisco.dnac.site_intent:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -597,9 +604,9 @@ class DnacSite(DnacBase):
             - updated_site (dict): The site details after the update.
             - requested_site (dict): The site details as requested for the update.
         Return:
-            bool: True if the area details (name and parentName) have been updated, False otherwise.
+            bool: True if the area details (name and parent name) have been updated, False otherwise.
         Description:
-            This method compares the area details (name and parentName) of the updated site
+            This method compares the area details (name and parent name) of the updated site
             with the requested site and returns True if they are equal, indicating that the area
             details have been updated. Returns False if there is a mismatch in the area site details.
         """
@@ -620,7 +627,7 @@ class DnacSite(DnacBase):
             bool: True if the building details have been updated, False otherwise.
         Description:
             This method compares the building details of the updated site with the requested site.
-            It checks if the name, parentName, latitude, longitude, and address (if provided) are
+            It checks if the name, parent_name, latitude, longitude, and address (if provided) are
             equal, indicating that the building details have been updated. Returns True if the
             details match, and False otherwise.
         """
