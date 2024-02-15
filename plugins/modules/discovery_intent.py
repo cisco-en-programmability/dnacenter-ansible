@@ -126,10 +126,10 @@ options:
                 type: dict
                 suboptions:
                     desc:
-                        descritption: Name/Description of the SNMP read credential to be used for creation of snmp_v2_read_credential.
+                        description: Name/Description of the SNMP read credential to be used for creation of snmp_v2_read_credential.
                         type: str
                     community:
-                        descritption: The read-only community string enables Cisco Catalyst Center to extract read-only data from device.
+                        description: The read-only community string enables Cisco Catalyst Center to extract read-only data from device.
                         type: str
             snmp_v2_write_credential:
                 description:
@@ -138,10 +138,10 @@ options:
                 type: dict
                 suboptions:
                     desc:
-                        descritption: Name/Description of the SNMP write credential to be used for creation of snmp_v2_write_credential.
+                        description: Name/Description of the SNMP write credential to be used for creation of snmp_v2_write_credential.
                         type: str
                     community:
-                        descritption: The read-write community string is used to extract data and alter device configurations.
+                        description: The read-write community string is used to extract data and alter device configurations.
                         type: str
             snmp_v3_credential:
                 description:
