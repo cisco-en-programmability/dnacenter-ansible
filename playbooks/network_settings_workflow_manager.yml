@@ -26,7 +26,7 @@
                 gateway: '' #use this for updating
                 ip_address_space: IPv6 #required when we are creating
                 cidr: 2001:db8::/64  #required when we are creating
-                type: Generic
+                pool_type: Generic
                 dhcp_server_ips: [] #use this for updating
                 dns_server_ips: [] #use this for updating
                 # prev_name: Global_Pool2
@@ -36,6 +36,7 @@
             ipv4_prefix: True
             ipv4_prefix_length: 9
             ipv4_subnet: 100.128.0.0
+            ipv4_gateway: 100.128.0.1
             # ipv4_dns_servers: [100.128.0.1]
             name: IP_Pool_3
             ipv6_prefix: True
@@ -45,7 +46,7 @@
             site_name: Global/Chennai/Trill
             slaac_support: True
             # prev_name: IP_Pool_4
-            type: LAN
+            pool_type: LAN
           network_management_details:
             settings:
               dhcp_server:
