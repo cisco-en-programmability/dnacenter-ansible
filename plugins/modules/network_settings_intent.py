@@ -50,14 +50,14 @@ options:
             type: dict
             suboptions:
               ip_pool:
-                description: ippool list contains the global pool details.
+                description: Contains a list of global IP pool configurations.
                 elements: dict
                 type: list
                 suboptions:
                   dhcp_server_ips:
                     description: >
-                      Responsible for automatically assigning IP addresses and
-                      network configuration parameters to devices on a local network.
+                      The DHCP server IPs responsible for automatically assigning IP addresses
+                      and network configuration parameters to devices on a local network.
                     elements: str
                     type: list
                   dns_server_ips:
@@ -68,25 +68,27 @@ options:
                     description: Serves as an entry or exit point for data traffic between networks.
                     type: str
                   ip_address_space:
-                    description: Ip address space either IPv4 or IPv6.
+                    description: IP address space either IPv4 or IPv6.
                     type: str
                   cidr:
-                    description: Allows efficient allocation of address space.
+                    description: >
+                      Defines the IP pool's Classless Inter-Domain Routing block,
+                      enabling systematic IP address distribution within a network.
                     type: str
                   prev_name:
                     description: >
-                      Previous name of the global pool.
-                      Use this only for changing the name of the global pool.
+                      The former identifier for the global pool. It should be used
+                      exclusively when you need to update the global pool's name.
                     type: str
                   name:
-                    description: Name of the Global Ip Pool.
+                    description: Specifies the name assigned to the Global IP Pool.
                     type: str
-                  type:
+                  pool_type:
                     description: >
                       Includes both the Generic Ip Pool and Tunnel Ip Pool.
                       Generic - Used for general purpose within the network such as device
                                 management or communication between the network devices.
-                      Tunnel - Designated for the tunnel interfaces to encapsulate packetes
+                      Tunnel - Designated for the tunnel interfaces to encapsulate packets
                                within the network protocol. It is used in VPN connections,
                                GRE tunnels, or other types of overlay networks.
                     default: Generic
@@ -94,19 +96,19 @@ options:
                     type: str
 
       reserve_pool_details:
-        description: Reserving IP subpool from the global pool
+        description: Reserved IP subpool details from the global pool.
         type: dict
         suboptions:
           ipv4_dhcp_servers:
-            description: IPv4 input for dhcp server ip example 1.1.1.1.
+            description: Specifies the IPv4 addresses for DHCP servers, for example, "1.1.1.1".
             elements: str
             type: list
           ipv4_dns_servers:
-            description: IPv4 input for dns server ip example 4.4.4.4.
+            description: Specifies the IPv4 addresses for DNS servers, for example, "4.4.4.4".
             elements: str
             type: list
           ipv4_gateway:
-            description: Gateway ip address details, example 175.175.0.1.
+            description: Provides the gateway's IPv4 address, for example, "175.175.0.1".
             type: str
             version_added: 4.0.0
           ipv4_global_pool:
@@ -119,26 +121,33 @@ options:
             description: The ipv4 prefix length is required when ipv4_prefix value is true.
             type: int
           ipv4_subnet:
-            description: IPv4 Subnet address, example 175.175.0.0.
+            description: Indicates the IPv4 subnet address, for example, "175.175.0.0".
             type: str
           ipv4_total_host:
-            description: IPv4 total host is required when ipv4_prefix value is false.
+            description: The total number of hosts for IPv4, required when the 'ipv4_prefix' is set to false.
             type: int
           ipv6_address_space:
             description: >
-              If the value is false only ipv4 input are required, otherwise both
-              ipv6 and ipv4 are required.
+              Determines whether both IPv6 and IPv4 inputs are required.
+              If set to false, only IPv4 inputs are required.
+              If set to true, both IPv6 and IPv4 inputs are required.
             type: bool
           ipv6_dhcp_servers:
-            description: IPv6 format dhcp server as input example 2001 db8 1234.
+            description: >
+              Specifies the IPv6 addresses for DHCP servers in the format.
+              For example, "2001:0db8:0123:4567:89ab:cdef:0001:0001".
             elements: str
             type: list
           ipv6_dns_servers:
-            description: IPv6 format dns server input example 2001 db8 1234.
+            description: >
+              Specifies the IPv6 addresses for DNS servers.
+              For example, "2001:0db8:0123:4567:89ab:cdef:0002:0002".
             elements: str
             type: list
           ipv6_gateway:
-            description: Gateway ip address details, example 2001 db8 85a3 0 100 1.
+            description: >
+              Provides the gateway's IPv6 address.
+              For example, "2001:0db8:0123:4567:89ab:cdef:0003:0003".
             type: str
           ipv6_global_pool:
             description: >
@@ -157,23 +166,25 @@ options:
             description: IPv6 Subnet address, example 2001 db8 85a3 0 100.
             type: str
           ipv6_total_host:
-            description: IPv6 total host is required when ipv6_prefix value is false.
+            description: The total number of hosts for IPv6 is required if the 'ipv6_prefix' is set to false.
             type: int
           name:
-            description: Name of the reserve ip sub pool.
+            description: Name of the reserve IP subpool.
             type: str
           prev_name:
-            description: Previous name of the reserve ip sub pool.
+            description: The former name associated with the reserved IP sub-pool.
             type: str
           site_name:
-            description: Site name path parameter. Site name to reserve the ip sub pool.
+            description: >
+              The name of the site provided as a path parameter, used
+              to specify where the IP sub-pool will be reserved.
             type: str
           slaac_support:
             description: >
-              Enables devices in IPv6 networks to automatically
-              configure their addresses without manual intervention.
+              Allows devices on IPv6 networks to self-configure their
+              IP addresses autonomously, eliminating the need for manual setup.
             type: bool
-          type:
+          pool_type:
             description: Type of the reserve ip sub pool.
                 Generic - Used for general purpose within the network such as device
                           management or communication between the network devices.
@@ -279,7 +290,7 @@ options:
                 description: Network V2's snmpServer.
                 suboptions:
                   configure_dnac_ip:
-                    description: Configuration Cisco DNA Center IP for SNMP Server (eg true).
+                    description: Configuration Cisco Catalyst Center IP for SNMP Server (eg true).
                     type: bool
                   ip_addresses:
                     description: IP Address for SNMP Server (eg 4.4.4.1).
@@ -290,7 +301,7 @@ options:
                 description: Network V2's syslogServer.
                 suboptions:
                   configure_dnac_ip:
-                    description: Configuration Cisco DNA Center IP for syslog server (eg true).
+                    description: Configuration Cisco Catalyst Center IP for syslog server (eg true).
                     type: bool
                   ip_addresses:
                     description: IP Address for syslog server (eg 4.4.4.4).
@@ -301,7 +312,9 @@ options:
                 description: Input for time zone (eg Africa/Abidjan).
                 type: str
           site_name:
-            description: Site name path parameter.
+            description: >
+              The name of the site provided as a path parameter, used
+              to specify where the IP sub-pool will be reserved.
             type: str
 requirements:
 - dnacentersdk == 2.4.5
@@ -349,7 +362,7 @@ EXAMPLES = r"""
             gateway: string
             ip_address_space: string
             cidr: string
-            type: Generic
+            pool_type: Generic
             dhcp_server_ips: list
             dns_server_ips: list
       reserve_pool_details:
@@ -365,7 +378,7 @@ EXAMPLES = r"""
         ipv6_subnet: string
         site_name: string
         slaac_support: True
-        type: LAN
+        pool_type: LAN
       network_management_details:
         settings:
           dhcp_server: list
@@ -493,6 +506,10 @@ class NetworkSettings(DnacBase):
                         "cidr": {"type": 'string'},
                         "name": {"type": 'string'},
                         "prevName": {"type": 'string'},
+                        "pool_type": {
+                            "type": 'string',
+                            "choices": ["Generic", "LAN", "Management", "Service", "WAN"]
+                        },
                     }
                 }
             },
@@ -519,6 +536,10 @@ class NetworkSettings(DnacBase):
                 "ipv6TotalHost": {"type": 'integer'},
                 "slaac_support": {"type": 'bool'},
                 "site_name": {"type": 'string'},
+                "pool_type": {
+                    "type": 'string',
+                    "choices": ["Generic", "LAN", "Management", "Service", "WAN"]
+                },
             },
             "network_management_details": {
                 "type": 'dict',
@@ -1273,7 +1294,7 @@ class NetworkSettings(DnacBase):
                     "ipPoolName": global_ippool.get("name"),
                     "ipPoolCidr": global_ippool.get("cidr"),
                     "gateway": global_ippool.get("gateway"),
-                    "type": global_ippool.get("type"),
+                    "type": global_ippool.get("pool_type"),
                 }]
             }
         }
@@ -1290,7 +1311,13 @@ class NetworkSettings(DnacBase):
             if want_ippool.get("gateway") is None:
                 want_ippool.update({"gateway": ""})
             if want_ippool.get("type") is None:
-                want_ippool.update({"type": "Generic"})
+                global_ippool_type = global_ippool.get("type")
+                if not global_ippool_type:
+                    want_ippool.update({"type": "Generic"})
+                else:
+                    want_ippool.update({"type": global_ippool_type})
+                    self.log("'type' is deprecated and use 'pool_type'", "WARNING")
+
         else:
             have_ippool = self.have.get("globalPool").get("details") \
                 .get("settings").get("ippool")[0]
@@ -1330,7 +1357,7 @@ class NetworkSettings(DnacBase):
 
         want_reserve = {
             "name": reserve_pool.get("name"),
-            "type": reserve_pool.get("type"),
+            "type": reserve_pool.get("pool_type"),
             "ipv6AddressSpace": reserve_pool.get("ipv6_address_space"),
             "ipv4GlobalPool": reserve_pool.get("ipv4_global_pool"),
             "ipv4Prefix": reserve_pool.get("ipv4_prefix"),
@@ -1387,7 +1414,12 @@ class NetworkSettings(DnacBase):
                 return self
 
             if want_reserve.get("type") is None:
-                want_reserve.update({"type": "Generic"})
+                reserve_pool_type = reserve_pool.get("type")
+                if not reserve_pool_type:
+                    want_reserve.update({"type": "Generic"})
+                else:
+                    want_reserve.update({"type": reserve_pool_type})
+                    self.log("'type' is deprecated and use 'pool_type'", "WARNING")
             if want_reserve.get("ipv4GateWay") is None:
                 want_reserve.update({"ipv4GateWay": ""})
             if want_reserve.get("ipv4DhcpServers") is None:
