@@ -213,7 +213,7 @@ options:
         type: str
         default: None
       protocol_order:
-        Description: Determines the order in which device connections will be attempted. Here are the options
+        description: Determines the order in which device connections will be attempted. Here are the options
             - "telnet" Only telnet connections will be tried.
             - "ssh, telnet" SSH (Secure Shell) will be attempted first, followed by telnet if SSH fails.
         type: str
