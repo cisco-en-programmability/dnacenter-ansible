@@ -213,8 +213,9 @@ options:
         type: str
         default: None
       protocol_order:
-        description: Order of protocol (ssh/telnet) in which device connection will be tried. For example, 'telnet' - only telnet - 'ssh,
-            telnet' - ssh with higher order than telnet
+        Description: Determines the order in which device connections will be attempted. Here are the options
+            - "telnet" Only telnet connections will be tried.
+            - "ssh, telnet" SSH (Secure Shell) will be attempted first, followed by telnet if SSH fails.
         type: str
         required: true
       retry:
