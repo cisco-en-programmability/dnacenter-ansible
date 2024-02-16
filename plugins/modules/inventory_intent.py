@@ -2789,10 +2789,11 @@ class DnacDevice(DnacBase):
                         mapped_key = device_key_mapping[key]
 
                         if playbook_params[mapped_key] is None:
-                            if playbook_params['snmpMode'] == "AUTHPRIV":
-                                playbook_params['snmpAuthPassphrase'] = csv_data_dict['snmp_auth_passphrase']
-                                playbook_params['snmpPrivPassphrase'] = csv_data_dict['snmp_priv_passphrase']
                             playbook_params[mapped_key] = csv_data_dict[key]
+
+                    if playbook_params['snmpMode'] == "AUTHPRIV":
+                        playbook_params['snmpAuthPassphrase'] = csv_data_dict['snmp_auth_passphrase']
+                        playbook_params['snmpPrivPassphrase'] = csv_data_dict['snmp_priv_passphrase']
 
                     if playbook_params['snmpMode'] == "NOAUTHNOPRIV":
                         playbook_params.pop('snmpAuthPassphrase', None)
