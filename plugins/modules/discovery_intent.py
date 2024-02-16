@@ -49,7 +49,14 @@ options:
         elements: str
         required: true
       discovery_type:
-        description: Type of discovery (SINGLE/RANGE/MULTI RANGE/CDP/LLDP/CIDR)
+        description:
+            - Determines the type of discovery (SINGLE/RANGE/MULTI RANGE/CDP/LLDP/CIDR)
+            - SINGLE type discovery discovers a single device with single IP address.
+            - RANGE type discovery discovers multiple devices falling in the single IP address range.
+            - MULTI RANGE type discovery discovers multiple devices falling in multiple IP address ranges.
+            - CDP uses Cisco Discovery Protocol to discover all the devices in the subsequent layers of the IP address passed.
+            - LLDP uses Link Layer Discovery Protocol to discover all the devices in the subsequent layers of the IP address passed.
+            - CIDR uses Classless Inter-Domain Routing to discover devices based on subnet filtering.
         type: str
         required: true
         choices: [ 'SINGLE', 'RANGE', 'MULTI RANGE', 'CDP', 'LLDP', 'CIDR']
@@ -70,54 +77,56 @@ options:
         type: int
         default: 100
       discovery_specific_credentials:
-        description: Credentials specifically created by the user while performing discovery.
+        description: Credentials specifically created by the user for performing device discovery.
         type: dict
         suboptions:
             cli_credentials_list:
-                description: List of CLI credentials to be used while performing discovery.
+                description: List of CLI credentials to be used during device discovery.
                 type: list
                 elements: dict
                 suboptions:
                     username:
-                        description: The username for CLI authentication, which is mandatory when using CLI credential.
+                        description: Username for CLI authentication, mandatory when using CLI credentials.
                         type: str
                     password:
-                        description: The password for CLI authentication, which is mandatory when using CLI credential.
+                        description: Password for CLI authentication, mandatory when using CLI credential.
                         type: str
                     enable_password:
-                        description: The enable password for CLI authentication, which is mandatory when using CLI credential.
+                        description: Enable password for CLI authentication, mandatory when using CLI credential.
                         type: str
             http_read_credential:
-                description: HTTP read credentials for hosting a device
+                description: HTTP read credential is used for authentication purposes and specifically utilized to
+                    grant read-only access to certain resources from the device.
                 type: dict
                 suboptions:
                     username:
-                        description: The username for HTTP(S) authentication, which is mandatory when using HTTP credentials.
+                        description: Username for HTTP(S) Read authentication, mandatory when using HTTP credentials.
                         type: str
                     password:
-                        description: The password for HTTP(S) authentication. Mandatory for utilizing HTTP credentials.
+                        description: Password for HTTP(S) Read authentication, mandatory when using HTTP credentials.
                         type: str
                     port:
-                        description: The HTTP(S) port number, which is mandatory for using HTTP credentials.
+                        description: Port for HTTP(S) Read authentication, mandatory for using HTTP credentials.
                         type: int
                     secure:
-                        description: This is a flag for HTTP(S). Its usage is not mandatory for HTTP credentials.
+                        description: Flag for HTTP(S) Read authentication, not mandatory when using HTTP credentials.
                         type: bool
             http_write_credential:
-                description: HTTP write credentials for hosting a device
+                description: HTTP write credential is used for authentication purposes and grants Cisco Catalyst Center the
+                    ability to alter configurations, update software, or perform other modifications on a network device.
                 type: dict
                 suboptions:
                     username:
-                        description: The username for HTTP(S) authentication, which is mandatory when using HTTP credentials.
+                        description: Username for HTTP(S) Write authentication, mandatory when using HTTP credentials.
                         type: str
                     password:
-                        description: The password for HTTP(S) authentication. Mandatory for utilizing HTTP credentials.
+                        description: Password for HTTP(S) Write authentication, mandatory when using HTTP credentials.
                         type: str
                     port:
-                        description: The HTTP(S) port number, which is mandatory for using HTTP credentials.
+                        description: Port for HTTP(S) Write authentication, mandatory when using HTTP credentials.
                         type: int
                     secure:
-                        description: This is a flag for HTTP(S). Its usage is not mandatory for HTTP credentials.
+                        description: Flag for HTTP(S) Write authentication, not mandatory when using HTTP credentials.
                         type: bool
             snmp_v2_read_credential:
                 description:
@@ -129,7 +138,7 @@ options:
                         description: Name/Description of the SNMP read credential to be used for creation of snmp_v2_read_credential.
                         type: str
                     community:
-                        description: The read-only community string enables Cisco Catalyst Center to extract read-only data from device.
+                        description: SNMP V2 Read community string enables Cisco Catalyst Center to extract read-only data from device.
                         type: str
             snmp_v2_write_credential:
                 description:
@@ -141,7 +150,7 @@ options:
                         description: Name/Description of the SNMP write credential to be used for creation of snmp_v2_write_credential.
                         type: str
                     community:
-                        description: The read-write community string is used to extract data and alter device configurations.
+                        description: SNMP V2 Write community string is used to extract data and alter device configurations.
                         type: str
             snmp_v3_credential:
                 description:
@@ -153,12 +162,16 @@ options:
                         description: Username of the SNMP v3 protocol to be used.
                         type: str
                     snmp_mode:
-                        description: Mode of SNMP which determines the encryption level of our community string.
+                        description:
+                            - Mode of SNMP which determines the encryption level of our community string.
+                            - AUTHPRIV mode uses both Authentication and Encryption.
+                            - AUTHNOPRIV mode uses Authentication but no Encryption.
+                            - NOAUTHNOPRIV mode doesn’t use either Authentication or Encryption.
                         type: str
                         choices: [ 'AUTHPRIV', 'AUTHNOPRIV', 'NOAUTHNOPRIV' ]
                     auth_password:
                         description:
-                            - Authentiaction Password of the SNMP v3 protocol to be used.
+                            - Authentication Password of the SNMP v3 protocol to be used.
                             - Must be of length greater than 7 characters.
                             - Not required for NOAUTHNOPRIV snmp_mode.
                         type: str
@@ -173,20 +186,20 @@ options:
                     privacy_type:
                         description:
                             - Privacy type/protocol of the SNMP v3 protocol to be used in AUTHPRIV SNMP mode
-                            - Not required for 'AUTHNOPRIV' and NOAUTHNOPRIV snmp_mode.
+                            - Not required for AUTHNOPRIV and NOAUTHNOPRIV snmp_mode.
                         type: str
                         choices: [ 'AES128', 'AES192', 'AES256' ]
                     privacy_password:
                         description:
                             - Privacy password of the SNMP v3 protocol to be used in AUTHPRIV SNMP mode
-                            - Not required for 'AUTHNOPRIV' and NOAUTHNOPRIV snmp_mode.
+                            - Not required for AUTHNOPRIV and NOAUTHNOPRIV snmp_mode.
                         type: str
             net_conf_port:
                 description:
                     - To be used when network contains IOS XE-based wireless controllers.
                     - This is used for discovery and the enabling of wireless services on the controllers.
                     - Requires valid SSH credentials to work.
-                    - Standard ports like 22, 80, 8080 must be avoided.
+                    - Avoid standard ports like 22, 80, and 8080.
                 type: str
       ip_filter_list:
         description: List of IP adddrsess that needs to get filtered out from the IP addresses passed.
@@ -1202,7 +1215,6 @@ class Discovery(DnacBase):
             )
             if count_discoveries == 0:
                 self.log("All discoveries are deleted", "INFO")
-
             else:
                 self.log("All discoveries are not deleted", "WARNING")
             self.status = "success"
