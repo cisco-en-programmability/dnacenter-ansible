@@ -40,7 +40,7 @@ options:
     elements: dict
     required: True
     suboptions:
-      type:
+      site_type:
         description: Type of site to create/update/delete (eg area, building, floor).
         type: str
       site:
@@ -48,54 +48,59 @@ options:
         type: dict
         suboptions:
           area:
-            description: Contains details for creating or managing an area within a site.
+            description: Configuration details for creating or managing an area within a site.
             type: dict
             suboptions:
               name:
-                description: Name of the area (eg Area1).
+                description: Name of the area to be created or managed (e.g., "Area1").
                 type: str
               parent_name:
-                description: Complete Parent name of the Area to be created/deleted(eg Global/USA).
+                description: The full name of the parent under which the area will be created/managed/deleted (e.g., "Global/USA").
                 type: str
           building:
-            description: Contains details for creating or managing a building within a site.
+            description: Configuration details required for creating or managing a building within a site.
             type: dict
             suboptions:
               address:
-                description: Address of the building to be created.
+                description: Physical address of the building that is to be created or managed.
                 type: str
               latitude:
-                description: Latitude coordinate of the building (eg 37.338). Values between -90 to +90.
-                type: int
+                description: Geographical latitude coordinate of the building. For example, use 37.338 for a location in San Jose, California.
+                    Valid values range from -90.0 to +90.0 degrees.
+                type: float
               longitude:
-                description: Longitude coordinate of the building (eg -121.832). Values between -180 to +180.
-                type: int
+                description: Geographical longitude coordinate of the building. For example, use -121.832 for a location in San Jose, California.
+                    Valid values range from -180.0 to +180.0 degrees.
+                type: float
               name:
-                description: Name of the building (eg building1).
+                description: Name of the building (e.g., "Building1").
                 type: str
               parent_name:
-                description: Complete parent name of the building to be created/deleted(eg Global/USA/San Francisco).
+                description: Hierarchical parent path of the building, indicating its location within the site (e.g., "Global/USA/San Francisco").
                 type: str
           floor:
-            description: Contains details for creating or managing a floor within a site.
+            description: Configuration details required for creating or managing a floor within a site.
             type: dict
             suboptions:
               height:
-                description: Height of the floor units is ft. (eg 15).
-                type: int
+                description: Height of the floor in feet (e.g., 15.23).
+                type: float
               length:
-                description: Length of the floor units is ft. (eg 100).
-                type: int
+                description: Length of the floor in feet (e.g., 100.11).
+                type: float
               name:
-                description: Name of the floor (eg floor-1).
+                description: Name of the floor (e.g., "Floor-1").
                 type: str
               parent_name:
-                description: Complete parent name of the floor to be created(eg Global/USA/San Francisco/BGL_18).
+                description: Hierarchical parent path of the floor, indicating its location within the site (e.g.,
+                    "Global/USA/San Francisco/BGL_18").
                 type: str
               rf_model:
-                description: Type of floor (allowed values are 'Cubes And Walled Offices', 'Drywall Office Only', 'Indoor High Ceiling',
-                    'Outdoor Open Space'). It refers to the Radio Frequency (RF) model of the floor. It is essential in wireless
-                    networking to simulate and optimize radio signal propagation and coverage within a physical space.
+                description: The RF (Radio Frequency) model type for the floor, which is essential for simulating and optimizing wireless
+                    network coverage. Select from the following allowed values, which describe different environmental signal propagation
+                    characteristics.
+                    Type of floor (allowed values are 'Cubes And Walled Offices', 'Drywall Office Only', 'Indoor High Ceiling',
+                    'Outdoor Open Space').
                     Cubes And Walled Offices - This RF model typically represents indoor areas with cubicles or walled offices, where
                         radio signals may experience attenuation due to walls and obstacles.
                     Drywall Office Only - This RF model indicates an environment with drywall partitions, commonly found in office spaces,
@@ -106,10 +111,11 @@ options:
                         and may follow different patterns compared to indoor environments.
                 type: str
               width:
-                description: Width of the floor units is ft. (eg 100).
-                type: int
+                description: Width of the floor in feet (e.g., 100.22).
+                type: float
               floor_number:
-                description: Floor number in the building/site (eg 5) can be given only while creating the floor site.
+                description: Floor number within the building site (e.g., 5). This value can only be specified during the creation of the
+                    floor and cannot be modified afterward.
                 type: int
 
 requirements:
@@ -145,7 +151,7 @@ EXAMPLES = r"""
         area:
           name: string
           parent_name: string
-      type: string
+      site_type: string
 
 - name: Create a new building site
   cisco.dnac.site_workflow_manager:
@@ -163,11 +169,11 @@ EXAMPLES = r"""
     - site:
         building:
           address: string
-          latitude: 0
-          longitude: 0
+          latitude: float
+          longitude: float
           name: string
           parent_name: string
-      type: string
+      site_type: string
 
 - name: Create a Floor site under the building
   cisco.dnac.site_workflow_manager:
@@ -186,12 +192,12 @@ EXAMPLES = r"""
         floor:
           name: string
           parent_name: string
-          length: int
-          width: int
-          height: int
+          length: float
+          width: float
+          height: float
           rf_model: string
           floor_number: int
-      type: string
+      site_type: string
 
 - name: Updating the Floor details under the building
   cisco.dnac.site_workflow_manager:
@@ -210,10 +216,10 @@ EXAMPLES = r"""
         floor:
           name: string
           parent_name: string
-          length: int
-          width: int
-          height: int
-      type: string
+          length: float
+          width: float
+          height: float
+      site_type: string
 
 - name: Deleting any site you need site name and parent name
   cisco.dnac.site_workflow_manager:
@@ -232,7 +238,7 @@ EXAMPLES = r"""
         floor:
           name: string
           parent_name: string
-      type: string
+      site_type: string
 """
 
 RETURN = r"""
@@ -366,6 +372,7 @@ class Site(DnacBase):
             type=dict(required=False, type='str'),
             site=dict(required=True, type='dict'),
         )
+        self.config = self.update_site_type_key(self.config)
 
         # Validate site params
         valid_temp, invalid_params = validate_list_of_dicts(
