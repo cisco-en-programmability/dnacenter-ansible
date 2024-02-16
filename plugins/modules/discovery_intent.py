@@ -166,7 +166,7 @@ options:
                             - Mode of SNMP which determines the encryption level of our community string.
                             - AUTHPRIV mode uses both Authentication and Encryption.
                             - AUTHNOPRIV mode uses Authentication but no Encryption.
-                            - NOAUTHNOPRIV mode doesn’t use either Authentication or Encryption.
+                            - NOAUTHNOPRIV mode does not use either Authentication or Encryption.
                         type: str
                         choices: [ 'AUTHPRIV', 'AUTHNOPRIV', 'NOAUTHNOPRIV' ]
                     auth_password:
