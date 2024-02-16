@@ -21,7 +21,7 @@ extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
 author: Abinash Mishra (@abimishr)
         Phan Nguyen (@phannguy)
-        Madhan Sankaranarayanan (@madsanka)
+        Madhan Sankaranarayanan (@madhansansel)
 options:
   config_verify:
     description: Set to True to verify the Cisco Catalyst Center config after applying the playbook config.
@@ -248,6 +248,7 @@ EXAMPLES = r"""
           timeout: integer
           username_list: list
           cli_cred_len: integer
+
 - name: Delete disovery by name
   cisco.dnac.discovery_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -878,6 +879,12 @@ class Discovery(DnacBase):
             self.log("Retrieved device details using the API 'get_discovered_network_devices_by_discovery_id': {0}".format(str(devices)), "DEBUG")
             if all(res.get('reachabilityStatus') == 'Success' for res in devices):
                 result = True
+                self.log("All devices in the range are reachable", "INFO")
+                break
+
+            elif any(res.get('reachabilityStatus') == 'Success' for res in devices):
+                result = True
+                self.log("Some devices in the range are reachable", "INFO")
                 break
 
             count += 1
