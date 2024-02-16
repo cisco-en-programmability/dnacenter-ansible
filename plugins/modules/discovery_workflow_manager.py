@@ -11,9 +11,9 @@ __author__ = ("Abinash Mishra, Phan Nguyen, Madhan Sankaranarayanan")
 DOCUMENTATION = r"""
 ---
 module: discovery_workflow_manager
-short_description: Resource module for discovery related functions
+short_description: A resource module for handling device discovery tasks.
 description:
-- Manage operations disicover devices using IP address/range, CDP, LLDP and delete discoveries
+- Manages device discovery using IP address, address range, CDP, and LLDP, including deletion of discovered devices.
 - API to discover a device or multiple devices
 - API to delete a discovery of a device or multiple devices
 version_added: '6.6.0'
@@ -49,14 +49,13 @@ options:
         elements: str
         required: true
       discovery_type:
-        description:
-            - Determines the type of discovery (SINGLE/RANGE/MULTI RANGE/CDP/LLDP/CIDR)
-            - SINGLE type discovery discovers a single device with single IP address.
-            - RANGE type discovery discovers multiple devices falling in the single IP address range.
-            - MULTI RANGE type discovery discovers multiple devices falling in multiple IP address ranges.
-            - CDP uses Cisco Discovery Protocol to discover all the devices in the subsequent layers of the IP address passed.
-            - LLDP uses Link Layer Discovery Protocol to discover all the devices in the subsequent layers of the IP address passed.
-            - CIDR uses Classless Inter-Domain Routing to discover devices based on subnet filtering.
+        description: Determines the method of device discovery. Here are the available options.
+            - SINGLE discovers a single device using a single IP address.
+            - RANGE discovers multiple devices within a single IP address range.
+            - MULTI RANGE discovers devices across multiple IP address ranges.
+            - CDP  uses Cisco Discovery Protocol to discover devices in subsequent layers of the given IP address.
+            - LLDP uses Link Layer Discovery Protocol to discover devices in subsequent layers of the specified IP address.
+            - CIDR discovers devices based on subnet filtering using Classless Inter-Domain Routing.
         type: str
         required: true
         choices: [ 'SINGLE', 'RANGE', 'MULTI RANGE', 'CDP', 'LLDP', 'CIDR']
@@ -206,7 +205,7 @@ options:
         type: list
         elements: str
       discovery_name:
-        description: Name of the discovery taski
+        description: Name of the discovery task
         type: str
         required: true
       preferred_mgmt_ip_method:
