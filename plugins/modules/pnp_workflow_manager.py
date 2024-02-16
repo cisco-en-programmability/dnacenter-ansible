@@ -6,7 +6,7 @@
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
-__author__ = ("Abinash Mishra, MadhanSankaranarayanan, Rishita Chowdhary")
+__author__ = ("Abinash Mishra, Madhan Sankaranarayanan, Rishita Chowdhary")
 
 DOCUMENTATION = r"""
 ---
@@ -62,9 +62,15 @@ options:
         type: str
         default: Onboarding Configuration
       pnp_type:
-        description: Device type of the Pnp device (Default/catalyst_wlc/access_point/stack_switch)
+        description: Specifies the device type for the Plug and Play (PnP) device.
+            - Options include 'Default', 'CatalystWLC', 'AccessPoint', or 'StackSwitch'.
+            - 'Default' is applicable to switches and routers.
+            - 'CatalystWLC' should be selected for 9800 series wireless controllers.
+            - 'AccessPoint' is used when claiming an access point.
+            - 'StackSwitch' should be chosen for a group of switches that operate as a single switch, typically used in the access layer.
         type: str
-        default: Default
+        choices: [ 'Default', 'CatalystWLC', 'AccessPoint', 'StackSwitch' ]
+        default: 'Default'
       static_ip:
         description: Management IP address of the Wireless Controller
         type: str
@@ -78,27 +84,39 @@ options:
         description: Vlan Id allocated for claimimg of Wireless Controller
         type: str
       ip_interface_name:
-        description: Name of the Interface used for Pnp by the Wireless Controller
+        description: Specifies the interface name utilized for Plug and Play (PnP) by the Wireless Controller.
+            Ensure this interface is pre-configured on the Controller prior to device claiming.
         type: str
       rf_profile:
-        description: Radio frequecy profile of the AP being claimed (HIGH/LOW/TYPICAL)
+        description:
+            - Radio Frequecy (RF) profile of the AP being claimed.
+            - RF Profiles allow you to tune groups of APs that share a common coverage zone together.
+            - They selectively change how Radio Resource Management will operate the APs within that coverage zone.
+            - HIGH RF profile allows you to use more power and allows to join AP with the client in an easier fashion.
+            - TYPICAL RF profile is a blend of moderate power and moderate visibility to the client.
+            - LOW RF profile allows you to consume lesser power and has least visibility to the client.
         type: str
+        choices: [ 'HIGH', 'LOW', 'TYPICAL' ]
       device_info:
-        description: Pnp Device's device_info. This is mainly for adding the devices that are
-            not a part of the PnP database. For single addition the length of the list must be equal to one.
-            Followed by single addition a device can be claimed as well if site name is provided.
-            For Bulk Import of devices the size of the list must be greater than 1 and can be only used for adding.
-            For claiming the devices please use separate tasks or configs in the case of bulk import.
+        description:
+            - Provides the device-specific information required for adding devices to the PnP database that are not already present.
+            - For adding a single device, the list should contain exactly one set of device information. If a site name is also provided,
+              the device can be claimed immediately after being added.
+            - For bulk import, the list must contain information for more than one device. Bulk import is intended solely for adding devices;
+              claiming must be performed with separate tasks or configurations.
         type: list
         required: true
         elements: dict
         suboptions:
           hostname:
-            description: Pnp Device's hostname that we want to keep post claiming. Hostname can only
-                be changed during claiming not bulk adding/ single adding
+            description:
+            - Defines the desired hostname for the PnP device after it has been claimed.
+            - The hostname can only be assigned or changed during the claim process, not during bulk or single device additions.
             type: str
           state:
-            description: Pnp Device's onbording state (Unclaimed/Claimed/Provisioned).
+            description:
+                - Represents the onboarding state of the PnP device.
+                - Possible values are 'Unclaimed', 'Claimed', or 'Provisioned'.
             type: str
           pid:
             description: Pnp Device's pid.
@@ -478,16 +496,14 @@ class PnP(DnacBase):
             'configInfo': configinfo,
         }
 
-        if claim_params["type"] == "catalyst_wlc":
-            claim_params["type"] = "CatalystWLC"
+        if claim_params["type"] == "CatalystWLC":
             claim_params["staticIP"] = self.validated_config[0]['static_ip']
             claim_params["subnetMask"] = self.validated_config[0]['subnet_mask']
             claim_params["gateway"] = self.validated_config[0]['gateway']
             claim_params["vlanId"] = str(self.validated_config[0]['vlan_id'])
             claim_params["ipInterfaceName"] = self.validated_config[0]['ip_interface_name']
 
-        if claim_params["type"] == "access_point":
-            claim_params["type"] = "AccessPoint"
+        if claim_params["type"] == "AccessPoint":
             claim_params["rfProfile"] = self.validated_config[0]["rf_profile"]
 
         self.log("Paramters used for claiming are {0}".format(str(claim_params)), "INFO")
@@ -615,7 +631,7 @@ class PnP(DnacBase):
                 if site_exists:
                     have["site_id"] = site_id
                     self.log("Site Exists: {0}\nSite Name: {1}\nSite ID: {2}".format(site_exists, site_name, site_id), "INFO")
-                    if self.want.get("pnp_type") == "access_point":
+                    if self.want.get("pnp_type") == "AccessPoint":
                         if self.get_site_type() != "floor":
                             self.msg = "The site type must be specified as 'floor'\
                                 for claiming an AP"
@@ -705,14 +721,14 @@ class PnP(DnacBase):
                 get("hostname")
             )
 
-        if self.want["pnp_type"] == "catalyst_wlc":
+        if self.want["pnp_type"] == "CatalystWLC":
             self.want["static_ip"] = config.get('static_ip')
             self.want["subnet_mask"] = config.get('subnet_mask')
             self.want["gateway"] = config.get('gateway')
             self.want["vlan_id"] = config.get('vlan_id')
             self.want["ip_interface_name"] = config.get('ip_interface_name')
 
-        elif self.want["pnp_type"] == "access_point":
+        elif self.want["pnp_type"] == "AccessPoint":
             self.want["rf_profile"] = config.get("rf_profile")
         self.msg = "Successfully collected all parameters from playbook " + \
             "for comparison"
@@ -912,7 +928,7 @@ class PnP(DnacBase):
             reset_paramters = self.get_reset_params()
             reset_response = self.dnac_apply['exec'](
                 family="device_onboarding_pnp",
-                function="update_device",
+                function="reset_device",
                 params={"payload": reset_paramters},
                 op_modifies=True,
             )
@@ -922,6 +938,8 @@ class PnP(DnacBase):
             self.result['response'] = reset_response
             self.result['diff'] = self.validated_config
             self.result['changed'] = True
+
+            return self
 
         if not (
             prov_dev_response.get("response") == 0 and
