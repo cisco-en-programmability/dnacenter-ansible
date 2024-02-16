@@ -22,12 +22,12 @@
               floor:
                 name: Test_Floor6
                 parent_name: 'Global/USA/San Francisco/BGL_18'
-                length: "103"
-                width: "75"
-                height: "50"
+                length: 103.23
+                width: 75.1
+                height: 50.22
                 rf_model: 'Cubes And Walled Offices'
                 floor_number: 3
-            type: floor
+            site_type: floor
           - site:
               area:
                 name: Abc
@@ -36,4 +36,4 @@
                 latitude: 22.2111
                 longitude: -42.1234434
                 country: "United States"
-            type: area
+            site_type: area
