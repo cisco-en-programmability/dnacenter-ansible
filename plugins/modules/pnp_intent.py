@@ -693,7 +693,7 @@ class PnP(DnacBase):
                     if template_name:
                         if not (template_list and isinstance(template_list, list)):
                             self.msg = "Either project not found"\
-                                " or it is Empty".
+                                " or it is Empty."
                             self.log(self.msg, "CRITICAL")
                             self.status = "failed"
                             return self
