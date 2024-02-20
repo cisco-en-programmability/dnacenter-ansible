@@ -2745,6 +2745,8 @@ class DnacDevice(DnacBase):
                         playbook_params['netconfPort'] = None
 
                     if playbook_params['netconfPort'] and playbook_params['cliTransport'] == "telnet":
+                        self.log("""Updating the device cli transport from ssh to telnet with netconf port '{0}' so make
+                                netconf port as None to perform the device update task""".format(playbook_params['netconfPort']), "DEBUG")
                         playbook_params['netconfPort'] = None
 
                     try:
@@ -2946,6 +2948,7 @@ class DnacDevice(DnacBase):
 
                 if not udf_exist:
                     # Create the Global UDF
+                    self.log("Global User Defined Field '{0}' does not present in Cisco Catalyst Center, we need to create it".format(field_name), "DEBUG")
                     self.create_user_defined_field(udf).check_return_status()
 
                 # Get device Id based on config priority
@@ -2954,7 +2957,8 @@ class DnacDevice(DnacBase):
 
                 if len(device_ids) == 0:
                     self.status = "failed"
-                    self.msg = "Can't Assign Global User Defined Field to device as device's are not present in Cisco Catalyst Center"
+                    self.msg = """Unable to assign Global User Defined Field: No devices found in Cisco Catalyst Center.
+                        Please add devices to proceed."""
                     self.log(self.msg, "INFO")
                     self.result['changed'] = False
                     return self

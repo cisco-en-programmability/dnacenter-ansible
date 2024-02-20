@@ -343,7 +343,7 @@ EXAMPLES = r"""
         snmp_auth_protocol: SHA
         snmp_mode: AUTHPRIV
         snmp_priv_passphrase: "Lablab@123"
-        snmp_priv_protocol: AES256g
+        snmp_priv_protocol: AES256
         snmp_retry: 3
         snmp_timeout: 5
         snmp_username: v3Public
@@ -2746,6 +2746,8 @@ class Inventory(DnacBase):
                         playbook_params['netconfPort'] = None
 
                     if playbook_params['netconfPort'] and playbook_params['cliTransport'] == "telnet":
+                        self.log("""Updating the device cli transport from ssh to telnet with netconf port '{0}' so make
+                                netconf port as None to perform the device update task""".format(playbook_params['netconfPort']), "DEBUG")
                         playbook_params['netconfPort'] = None
 
                     try:
@@ -2947,6 +2949,7 @@ class Inventory(DnacBase):
 
                 if not udf_exist:
                     # Create the Global UDF
+                    self.log("Global User Defined Field '{0}' does not present in Cisco Catalyst Center, we need to create it".format(field_name), "DEBUG")
                     self.create_user_defined_field(udf).check_return_status()
 
                 # Get device Id based on config priority
@@ -2955,7 +2958,8 @@ class Inventory(DnacBase):
 
                 if not device_ids:
                     self.status = "failed"
-                    self.msg = "Can't Assign Global User Defined Field to device as device's are not present in Cisco Catalyst Center"
+                    self.msg = """Unable to assign Global User Defined Field: No devices found in Cisco Catalyst Center.
+                        Please add devices to proceed."""
                     self.result['changed'] = False
                     self.result['response'] = self.msg
                     self.log(self.msg, "INFO")
