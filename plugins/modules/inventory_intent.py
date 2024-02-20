@@ -255,7 +255,8 @@ options:
         type: str
       parameters:
         description: List of device parameters that needs to be exported to file.
-        type: str
+        type: list
+        elements: str
       managed_ap_locations:
         description: Location of the sites allocated for the APs
         type: list
@@ -326,33 +327,30 @@ EXAMPLES = r"""
     dnac_log: False
     state: merged
     config:
-      - cli_transport: string
-        compute_device: false
-        enable_password: string
-        extended_discovery_info: string
-        http_password: string
-        http_port: string
-        http_secure: false
-        http_username: string
-        ip_address:
-        - string
-        netconf_port: string
-        password: string
-        serial_number: string
-        snmp_auth_passphrase: string
-        snmp_auth_protocol: string
-        snmp_mode: string
-        snmp_priv_passphrase: string
-        snmp_priv_protocol: string
-        snmp_ro_community: string
-        snmp_rw_community: string
+      - cli_transport: ssh
+        compute_device: False
+        password: Test@123
+        enable_password: Test@1234
+        extended_discovery_info: test
+        http_username: "testuser"
+        http_password: "test"
+        http_port: "443"
+        http_secure: False
+        ip_address: ["1.1.1.1", "2.2.2.2"]
+        netconf_port: 830
+        serial_number: FJC2327U0S2
+        snmp_auth_passphrase: "Lablab@12"
+        snmp_auth_protocol: SHA
+        snmp_mode: AUTHPRIV
+        snmp_priv_passphrase: "Lablab@123"
+        snmp_priv_protocol: AES256
         snmp_retry: 3
         snmp_timeout: 5
-        snmp_username: string
-        snmp_version: string
-        type: string
+        snmp_username: v3Public
+        snmp_version: v3
+        type: NETWORK_DEVICE
         device_added: True
-        username: string
+        username: cisco
 
 - name: Add new Compute device in Inventory with full credentials.Inputs needed for Compute Device
   cisco.dnac.inventory_intent:
@@ -367,21 +365,20 @@ EXAMPLES = r"""
     dnac_log: False
     state: merged
     config:
-      - ip_address:
-        - string
-        http_username: string
-        http_password: string
-        http_port: string
-        snmp_auth_passphrase: string
-        snmp_auth_protocol: string
-        snmp_mode: string
-        snmp_priv_passphrase: string
-        snmp_priv_protocol: string
+      - ip_address: ["1.1.1.1", "2.2.2.2"]
+        http_username: "testuser"
+        http_password: "test"
+        http_port: "443"
+        snmp_auth_passphrase: "Lablab@12"
+        snmp_auth_protocol: SHA
+        snmp_mode: AUTHPRIV
+        snmp_priv_passphrase: "Lablab@123"
+        snmp_priv_protocol: AES256
         snmp_retry:  3
         snmp_timeout: 5
-        snmp_username: string
+        snmp_username: v3Public
         compute_device: True
-        username: string
+        username: cisco
         device_added: True
         type: "COMPUTE_DEVICE"
 
@@ -398,7 +395,7 @@ EXAMPLES = r"""
     dnac_log: False
     state: merged
     config:
-      - http_password: string
+      - http_password: "test"
         device_added: True
         type: "MERAKI_DASHBOARD"
 
@@ -415,11 +412,10 @@ EXAMPLES = r"""
     dnac_log: False
     state: merged
     config:
-      - ip_address:
-        - string
-        http_username: string
-        http_password: string
-        http_port: string
+      - ip_address: ["1.1.1.1", "2.2.2.2"]
+        http_username: "testuser"
+        http_password: "test"
+        http_port: "443"
         device_added: True
         type: "FIREPOWER_MANAGEMENT_SYSTEM"
 
@@ -436,16 +432,15 @@ EXAMPLES = r"""
     dnac_log: False
     state: merged
     config:
-      - ip_address:
-        - string
-        snmp_auth_passphrase: string
-        snmp_auth_protocol: string
-        snmp_mode: string
-        snmp_priv_passphrase: string
-        snmp_priv_protocol: string
+      - ip_address: ["1.1.1.1", "2.2.2.2"]
+        snmp_auth_passphrase: "Lablab@12"
+        snmp_auth_protocol: SHA
+        snmp_mode: AUTHPRIV
+        snmp_priv_passphrase: "Lablab@123"
+        snmp_priv_protocol: AES256
         snmp_retry:  3
         snmp_timeout: 5
-        snmp_username: string
+        snmp_username: v3Public
         device_added: True
         type: "THIRD_PARTY_DEVICE"
 
@@ -462,33 +457,14 @@ EXAMPLES = r"""
     dnac_log: False
     state: merged
     config:
-      - cli_transport: string
-        compute_device: false
-        password: string
-        enable_password: string
-        extended_discovery_info: string
-        http_password: string
-        http_port: string
-        http_secure: false
-        http_username: string
-        ip_address:
-        - string
-        netconf_port: string
-        serial_number: string
-        snmp_auth_passphrase: string
-        snmp_auth_protocol: string
-        snmp_mode: string
-        snmp_priv_passphrase: string
-        snmp_priv_protocol: string
-        snmp_username: string
-        snmp_version: string
-        type: string
+      - cli_transport: telnet
+        compute_device: False
+        password: newtest123
+        enable_password: newtest1233
+        ip_address: ["1.1.1.1", "2.2.2.2"]
+        type: NETWORK_DEVICE
         device_updated: True
         credential_update: True
-        update_mgmt_ipaddresslist:
-        - exist_mgmt_ipaddress: string
-          new_mgmt_ipaddress: string
-        username: string
 
 - name: Update new management IP address of device in inventory
   cisco.dnac.inventory_intent:
@@ -504,12 +480,11 @@ EXAMPLES = r"""
     state: merged
     config:
       - device_updated: True
-        ip_address:
-        - string
+        ip_address: ["1.1.1.1"]
         credential_update: True
         update_mgmt_ipaddresslist:
-        - exist_mgmt_ipaddress: string
-          new_mgmt_ipaddress: string
+        - exist_mgmt_ipaddress: "1.1.1.1"
+          new_mgmt_ipaddress: "12.12.12.12"
 
 - name: Associate Wired Devices to site and Provisioned it in Inventory
   cisco.dnac.inventory_intent:
@@ -524,10 +499,9 @@ EXAMPLES = r"""
     dnac_log: False
     state: merged
     config:
-      - ip_address:
-        - string
+      - ip_address: ["1.1.1.1", "2.2.2.2"]
         provision_wired_device:
-          site_name: string
+          site_name: "Global/USA/San Francisco/BGL_18/floor_pnp"
 
 - name: Associate Wireless Devices to site and Provisioned it in Inventory
   cisco.dnac.inventory_intent:
@@ -542,19 +516,17 @@ EXAMPLES = r"""
     dnac_log: False
     state: merged
     config:
-      - ip_address:
-        - string
+      - ip_address: ["1.1.1.1", "2.2.2.2"]
         provision_wireless_device:
-        - site_name: string
-        managed_ap_locations:
-        - string
+          site_name: ["Global/USA/BGL_18/floor_pnp", "Global/USA/BGL_18/floor_test"]
+        managed_ap_locations: ["Global/USA/BGL_18/floor_pnp", "Global/USA/BGL_18/floor_test"]
         dynamic_interfaces:
-        - interface_ip_address: string
-          interface_netmask_in_cidr: int
-          interface_gateway: string
-          lag_or_port_number: int
-          vlan_id: int
-          interface_name: string
+        - interface_ip_address: 23.23.21.12
+          interface_netmask_in_cidr: 24
+          interface_gateway: "gateway"
+          lag_or_port_number: 12
+          vlan_id: 99
+          interface_name: "etherenet0/0"
 
 - name: Update Device Role with IP Address
   cisco.dnac.inventory_intent:
@@ -569,12 +541,11 @@ EXAMPLES = r"""
     dnac_log: False
     state: merged
     config:
-      - ip_address:
-        - string
+      - ip_address: ["1.1.1.1", "2.2.2.2"]
         device_updated: True
         update_device_role:
-          role: string
-          role_source: string
+          role: ACCESS
+          role_source: AUTO
 
 - name: Update Interface details with IP Address
   cisco.dnac.inventory_intent:
@@ -589,16 +560,15 @@ EXAMPLES = r"""
     dnac_log: False
     state: merged
     config:
-      - ip_address:
-        - string
+      - ip_address: ["1.1.1.1", "2.2.2.2"]
         device_updated: True
         update_interface_details:
-          description: str
-          admin_status: str
-          vlan_id: int
-          voice_vlan_id: int
-          deployment_mode: str
-          interface_name: str
+          description: "Testing for updating interface details"
+          admin_status: "UP"
+          vlan_id: 23
+          voice_vlan_id: 45
+          deployment_mode: "Deploy"
+          interface_name: GigabitEthernet1/0/11
 
 - name: Export Device Details in a CSV file Interface details with IP Address
   cisco.dnac.inventory_intent:
@@ -613,12 +583,11 @@ EXAMPLES = r"""
     dnac_log: False
     state: merged
     config:
-      - ip_address:
-        - string
+      - ip_address: ["1.1.1.1", "2.2.2.2"]
         export_device_list:
-          password: str
-          operation_enum: str
-          parameters: str
+          password: "File_password"
+          operation_enum: 0
+          parameters: ["componentName", "SerialNumber", "Last Sync Status"]
 
 - name: Create Global User Defined with IP Address
   cisco.dnac.inventory_intent:
@@ -633,12 +602,14 @@ EXAMPLES = r"""
     dnac_log: False
     state: merged
     config:
-      - ip_address:
-        - string
+      - ip_address: ["1.1.1.1", "2.2.2.2"]
         add_user_defined_field:
-          name: string
-          description: string
-          value: string
+        - name: Test123
+          description: "Added first udf for testing"
+          value: "value123"
+        - name: Test321
+          description: "Added second udf for testing"
+          value: "value321"
 
 - name: Resync Device with IP Addresses
   cisco.dnac.inventory_intent:
@@ -653,10 +624,9 @@ EXAMPLES = r"""
     dnac_log: False
     state: merged
     config:
-      - ip_address:
-        - string
+      - ip_address: ["1.1.1.1", "2.2.2.2"]
         device_resync: True
-        force_sync: false
+        force_sync: False
 
 - name: Reboot AP Devices with IP Addresses
   cisco.dnac.inventory_intent:
@@ -671,8 +641,7 @@ EXAMPLES = r"""
     dnac_log: False
     state: merged
     config:
-      - ip_address:
-        - string
+      - ip_address: ["1.1.1.1", "2.2.2.2"]
         reboot_device: True
 
 - name: Delete Provision/Unprovision Devices by IP Address
@@ -688,9 +657,8 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: deleted
     config:
-      - ip_address:
-        - string
-        clean_config: false
+      - ip_address: ["1.1.1.1", "2.2.2.2"]
+        clean_config: False
 
 - name: Delete Global User Defined Field with name
   cisco.dnac.inventory_intent:
@@ -705,10 +673,10 @@ EXAMPLES = r"""
     dnac_log: False
     state: deleted
     config:
-    - ip_address:
-        - string
+    - ip_address: ["1.1.1.1", "2.2.2.2"]
       add_user_defined_field:
-        name: string
+        - name: Test123
+        - name: Test321
 
 """
 
@@ -809,7 +777,7 @@ class DnacDevice(DnacBase):
             'force_sync': {'type': 'bool'},
             'clean_config': {'type': 'bool'},
             'add_user_defined_field': {
-                'type': 'dict',
+                'type': 'list',
                 'name': {'type': 'str'},
                 'description': {'type': 'str'},
                 'value': {'type': 'str'},
@@ -825,7 +793,7 @@ class DnacDevice(DnacBase):
                 'type': 'dict',
                 'password': {'type': 'str'},
                 'operation_enum': {'type': 'str'},
-                'parameters': {'type': 'str'},
+                'parameters': {'type': 'list', 'elements': 'str'},
             },
             'deployment_mode': {'default': 'Deploy', 'type': 'str'},
             'provision_wired_device': {'type': 'dict'},
@@ -968,11 +936,12 @@ class DnacDevice(DnacBase):
 
         return False
 
-    def create_user_defined_field(self):
+    def create_user_defined_field(self, udf):
         """
         Create a Global User Defined Field in Cisco Catalyst Center based on the provided configuration.
         Parameters:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            udf (dict): A dictionary having the payload for the creation of user defined field(UDF) in Cisco Catalyst Center.
         Returns:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
         Description:
@@ -980,15 +949,14 @@ class DnacDevice(DnacBase):
             sends the request to Cisco Catalyst Center to create the field, and logs the response.
         """
         try:
-            payload = self.config[0].get('add_user_defined_field')
             response = self.dnac._exec(
                 family="devices",
                 function='create_user_defined_field',
-                params=payload,
+                params=udf,
             )
             self.log("Received API response from 'create_user_defined_field': {0}".format(str(response)), "DEBUG")
             response = response.get("response")
-            field_name = self.config[0].get('add_user_defined_field').get('name')
+            field_name = udf.get('name')
             self.log("Global User Defined Field with name '{0}' created successfully".format(field_name), "INFO")
             self.status = "success"
 
@@ -998,12 +966,13 @@ class DnacDevice(DnacBase):
 
         return self
 
-    def add_field_to_devices(self, device_ids):
+    def add_field_to_devices(self, device_ids, udf):
         """
         Add a Global user-defined field with specified details to a list of devices in Cisco Catalyst Center.
         Parameters:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             device_ids (list): A list of device IDs to which the user-defined field will be added.
+            udf (dict): A dictionary having the user defined field details including name and value.
         Returns:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
         Description:
@@ -1011,9 +980,9 @@ class DnacDevice(DnacBase):
             including the field name and default value then iterates over list of device IDs, creating a payload for
             each device and sending the request to Cisco Catalyst Center to add the user-defined field.
         """
-        field_details = self.config[0].get('add_user_defined_field')
-        field_name = field_details.get('name')
-        field_value = field_details.get('value', '1')
+        # field_details = self.config[0].get('add_user_defined_field')
+        field_name = udf.get('name')
+        field_value = udf.get('value', '1')
         for device_id in device_ids:
             payload = {}
             payload['name'] = field_name
@@ -1916,6 +1885,7 @@ class DnacDevice(DnacBase):
         """
 
         try:
+            udf_id = None
             response = self.dnac._exec(
                 family="devices",
                 function='get_all_user_defined_fields',
@@ -1923,7 +1893,8 @@ class DnacDevice(DnacBase):
             )
             self.log("Received API response from 'get_all_user_defined_fields': {0}".format(str(response)), "DEBUG")
             udf = response.get("response")
-            udf_id = udf[0].get("id")
+            if udf:
+                udf_id = udf[0].get("id")
 
         except Exception as e:
             error_message = "Exception occurred while getting Global User Defined Fields(UDF) ID from Cisco Catalyst Center: {0}".format(str(e))
@@ -2668,40 +2639,6 @@ class DnacDevice(DnacBase):
         device_reboot = self.config[0].get("reboot_device", False)
         credential_update = self.config[0].get("credential_update", False)
 
-        if self.config[0].get('add_user_defined_field'):
-            field_name = self.config[0].get('add_user_defined_field').get('name')
-
-            if field_name is None:
-                self.status = "failed"
-                self.msg = "Error: The mandatory parameter 'name' for the User Defined Field is missing. Please provide the required information."
-                self.log(self.msg, "ERROR")
-                return self
-
-            # Check if the Global User defined field exist if not then create it with given field name
-            udf_exist = self.is_udf_exist(field_name)
-
-            if not udf_exist:
-                # Create the Global UDF
-                self.create_user_defined_field().check_return_status()
-
-            # Get device Id based on config priority
-            device_ips = self.get_device_ips_from_config_priority()
-            device_ids = self.get_device_ids(device_ips)
-
-            if len(device_ids) == 0:
-                self.status = "failed"
-                self.msg = "Can't Assign Global User Defined Field to device as device's are not present in Cisco Catalyst Center"
-                self.log(self.msg, "INFO")
-                self.result['changed'] = False
-                return self
-
-            # Now add code for adding Global UDF to device with Id
-            self.add_field_to_devices(device_ids).check_return_status()
-
-            self.result['changed'] = True
-            self.msg = "Global User Defined Field(UDF) named '{0}' has been successfully added to the device.".format(field_name)
-            self.log(self.msg, "INFO")
-
         config['type'] = device_type
         if device_type == "FIREPOWER_MANAGEMENT_SYSTEM":
             config['http_port'] = self.config[0].get("http_port", "443")
@@ -2805,6 +2742,9 @@ class DnacDevice(DnacBase):
                         playbook_params.pop('snmpPrivProtocol', None)
 
                     if playbook_params['netconfPort'] == " ":
+                        playbook_params['netconfPort'] = None
+
+                    if playbook_params['netconfPort'] and playbook_params['cliTransport'] == "telnet":
                         playbook_params['netconfPort'] = None
 
                     try:
@@ -2989,40 +2929,42 @@ class DnacDevice(DnacBase):
                 raise Exception(error_message)
 
         if self.config[0].get('add_user_defined_field'):
-            field_name = self.config[0].get('add_user_defined_field').get('name')
+            udf_field_list = self.config[0].get('add_user_defined_field')
 
-            if field_name is None:
-                self.status = "failed"
-                self.msg = "Mandatory paramter for User Define Field 'name' is missing"
-                self.log(self.msg, "ERROR")
-                self.result['response'] = self.msg
-                return self
+            for udf in udf_field_list:
+                field_name = udf.get('name')
 
-            # Check if the Global User defined field exist if not then create it with given field name
-            udf_exist = self.is_udf_exist(field_name)
+                if field_name is None:
+                    self.status = "failed"
+                    self.msg = "Error: The mandatory parameter 'name' for the User Defined Field is missing. Please provide the required information."
+                    self.log(self.msg, "ERROR")
+                    self.result['response'] = self.msg
+                    return self
 
-            if not udf_exist:
-                # Create the Global UDF
-                self.create_user_defined_field().check_return_status()
+                # Check if the Global User defined field exist if not then create it with given field name
+                udf_exist = self.is_udf_exist(field_name)
 
-            # Get device Id based on config priority
-            device_ips = self.get_device_ips_from_config_priority()
-            device_ids = self.get_device_ids(device_ips)
+                if not udf_exist:
+                    # Create the Global UDF
+                    self.create_user_defined_field(udf).check_return_status()
 
-            if not device_ids:
-                self.status = "failed"
-                self.msg = "Can't Assign Global User Defined Field to device as device's are not present in Cisco Catalyst Center"
-                self.result['changed'] = False
-                self.result['response'] = self.msg
+                # Get device Id based on config priority
+                device_ips = self.get_device_ips_from_config_priority()
+                device_ids = self.get_device_ids(device_ips)
+
+                if len(device_ids) == 0:
+                    self.status = "failed"
+                    self.msg = "Can't Assign Global User Defined Field to device as device's are not present in Cisco Catalyst Center"
+                    self.log(self.msg, "INFO")
+                    self.result['changed'] = False
+                    return self
+
+                # Now add code for adding Global UDF to device with Id
+                self.add_field_to_devices(device_ids, udf).check_return_status()
+
+                self.result['changed'] = True
+                self.msg = "Global User Defined Field(UDF) named '{0}' has been successfully added to the device.".format(field_name)
                 self.log(self.msg, "INFO")
-                return self
-
-            # Now add code for adding Global UDF to device with Id
-            self.add_field_to_devices(device_ids).check_return_status()
-
-            self.result['changed'] = True
-            self.msg = "Global User Defined Added with name {0} added to device Successfully !".format(field_name)
-            self.log(self.msg, "INFO")
 
         # Once Wired device get added we will assign device to site and Provisioned it
         if self.config[0].get('provision_wired_device'):
@@ -3062,51 +3004,54 @@ class DnacDevice(DnacBase):
         self.result['msg'] = []
 
         if self.config[0].get('add_user_defined_field'):
-            field_name = self.config[0].get('add_user_defined_field').get('name')
-            udf_id = self.get_udf_id(field_name)
+            udf_field_list = self.config[0].get('add_user_defined_field')
+            for udf in udf_field_list:
+                field_name = udf.get('name')
+                udf_id = self.get_udf_id(field_name)
 
-            if udf_id is None:
-                self.status = "success"
-                self.msg = "Global UDF '{0}' is not present in Cisco Catalyst Center".format(field_name)
-                self.log(self.msg, "INFO")
-                self.result['changed'] = False
-                self.result['msg'] = self.msg
-                return self
+                if udf_id is None:
+                    self.status = "success"
+                    self.msg = "Global UDF '{0}' is not present in Cisco Catalyst Center".format(field_name)
+                    self.log(self.msg, "INFO")
+                    self.result['changed'] = False
+                    self.result['msg'] = self.msg
+                    self.result['response'] = self.msg
+                    return self
 
-            try:
-                response = self.dnac._exec(
-                    family="devices",
-                    function='delete_user_defined_field',
-                    params={"id": udf_id},
-                )
-                if response and isinstance(response, dict):
-                    self.log("Received API response from 'delete_user_defined_field': {0}".format(str(response)), "DEBUG")
-                    task_id = response.get('response').get('taskId')
+                try:
+                    response = self.dnac._exec(
+                        family="devices",
+                        function='delete_user_defined_field',
+                        params={"id": udf_id},
+                    )
+                    if response and isinstance(response, dict):
+                        self.log("Received API response from 'delete_user_defined_field': {0}".format(str(response)), "DEBUG")
+                        task_id = response.get('response').get('taskId')
 
-                    while True:
-                        execution_details = self.get_task_details(task_id)
+                        while True:
+                            execution_details = self.get_task_details(task_id)
 
-                        if 'success' in execution_details.get("progress"):
-                            self.status = "success"
-                            self.msg = "Global UDF '{0}' deleted successfully from Cisco Catalyst Center".format(field_name)
-                            self.log(self.msg, "INFO")
-                            self.result['changed'] = True
-                            self.result['response'] = execution_details
-                            break
-                        elif execution_details.get("isError"):
-                            self.status = "failed"
-                            failure_reason = execution_details.get("failureReason")
-                            if failure_reason:
-                                self.msg = "Failed to delete Global User Defined Field(UDF) due to: {0}".format(failure_reason)
-                            else:
-                                self.msg = "Global UDF deletion get failed."
-                            self.log(self.msg, "ERROR")
-                            break
+                            if 'success' in execution_details.get("progress"):
+                                self.status = "success"
+                                self.msg = "Global UDF '{0}' deleted successfully from Cisco Catalyst Center".format(field_name)
+                                self.log(self.msg, "INFO")
+                                self.result['changed'] = True
+                                self.result['response'] = execution_details
+                                break
+                            elif execution_details.get("isError"):
+                                self.status = "failed"
+                                failure_reason = execution_details.get("failureReason")
+                                if failure_reason:
+                                    self.msg = "Failed to delete Global User Defined Field(UDF) due to: {0}".format(failure_reason)
+                                else:
+                                    self.msg = "Global UDF deletion get failed."
+                                self.log(self.msg, "ERROR")
+                                break
 
-            except Exception as e:
-                error_message = "Error while deleting Global UDF from Cisco Catalyst Center: {0}".format(str(e))
-                self.log(error_message, "ERROR")
-                raise Exception(error_message)
+                except Exception as e:
+                    error_message = "Error while deleting Global UDF from Cisco Catalyst Center: {0}".format(str(e))
+                    self.log(error_message, "ERROR")
+                    raise Exception(error_message)
 
             return self
 
@@ -3116,6 +3061,7 @@ class DnacDevice(DnacBase):
                 self.result['changed'] = False
                 self.msg = "Device '{0}' is not present in Cisco Catalyst Center so can't perform delete operation".format(device_ip)
                 self.result['msg'] = self.msg
+                self.result['response'] = self.msg
                 self.log(self.msg, "INFO")
                 continue
 
@@ -3261,16 +3207,18 @@ class DnacDevice(DnacBase):
                      .format(device_type), "WARNING")
 
         if self.config[0].get('add_user_defined_field'):
-            field_name = self.config[0].get('add_user_defined_field').get('name')
-            udf_exist = self.is_udf_exist(field_name)
+            udf_field_list = self.config[0].get('add_user_defined_field')
+            for udf in udf_field_list:
+                field_name = udf.get('name')
+                udf_exist = self.is_udf_exist(field_name)
 
-            if udf_exist:
-                self.status = "success"
-                msg = "Global UDF {0} created and verified successfully".format(field_name)
-                self.log(msg, "INFO")
-            else:
-                self.log("""Mismatch between playbook parameter and Cisco Catalyst Center detected, indicating that
-                         the task of creating Global UDF may not have executed successfully.""", "INFO")
+                if udf_exist:
+                    self.status = "success"
+                    msg = "Global UDF {0} created and verified successfully".format(field_name)
+                    self.log(msg, "INFO")
+                else:
+                    self.log("""Mismatch between playbook parameter and Cisco Catalyst Center detected, indicating that
+                            the task of creating Global UDF may not have executed successfully.""", "INFO")
 
         if device_updated and self.config[0].get('update_device_role'):
             device_role_flag = True
@@ -3326,14 +3274,18 @@ class DnacDevice(DnacBase):
         device_in_dnac = self.device_exists_in_dnac()
 
         if self.config[0].get('add_user_defined_field'):
-            field_name = self.config[0].get('add_user_defined_field').get('name')
-            udf_id = self.get_udf_id(field_name)
+            udf_field_list = self.config[0].get('add_user_defined_field')
+            for udf in udf_field_list:
+                field_name = udf.get('name')
+                udf_id = self.get_udf_id(field_name)
 
-            if udf_id is None:
-                self.status = "success"
-                msg = "Global UDF named '{0}' has been successfully deleted from Cisco Catalyst Center and the deletion has been verified.".format(field_name)
-                self.log(msg, "INFO")
-                return self
+                if udf_id is None:
+                    self.status = "success"
+                    msg = """Global UDF named '{0}' has been successfully deleted from Cisco Catalyst Center and the deletion
+                        has been verified.""".format(field_name)
+                    self.log(msg, "INFO")
+
+            return self
 
         device_delete_flag = True
         for device_ip in input_devices:
@@ -3364,7 +3316,7 @@ def main():
                     'dnac_verify': {'type': 'bool', 'default': 'True'},
                     'dnac_version': {'type': 'str', 'default': '2.2.3.3'},
                     'dnac_debug': {'type': 'bool', 'default': False},
-                    'dnac_log_level': {'type': 'str', 'default': 'WARNING'},
+                    'dnac_log_level': {'type': 'str', 'default': 'INFO'},
                     "dnac_log_file_path": {"type": 'str', "default": 'dnac.log'},
                     "dnac_log_append": {"type": 'bool', "default": True},
                     'dnac_log': {'type': 'bool', 'default': False},
