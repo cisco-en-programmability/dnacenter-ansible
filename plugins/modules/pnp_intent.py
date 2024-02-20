@@ -665,7 +665,7 @@ class PnP(DnacBase):
                     if self.want.get("pnp_type") == "AccessPoint":
                         if self.get_site_type() != "floor":
                             self.msg =  "Please ensure that the site type is specified as 'floor' when claiming an AP."\
-                                "The site type is given as '{0}'. Please change the 'site_type' into 'floor' to"\
+                                " The site type is given as '{0}'. Please change the 'site_type' into 'floor' to "\
                                 "proceed.".format(self.get_site_type())
                             self.log(str(self.msg), "ERROR")
                             self.status = "failed"
