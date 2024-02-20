@@ -149,9 +149,9 @@ EXAMPLES = r"""
     config:
     - site:
         area:
-          name: string
-          parent_name: string
-      site_type: string
+          name: Test
+          parent_name: Global/India
+      site_type: area
 
 - name: Create a new building site
   cisco.dnac.site_intent:
@@ -168,12 +168,12 @@ EXAMPLES = r"""
     config:
     - site:
         building:
-          address: string
-          latitude: float
-          longitude: float
-          name: string
-          parent_name: string
-      site_type: string
+          name: Building_1
+          parent_name: Global/India
+          address: Bengaluru, Karnataka, India
+          latitude: 24.12
+          longitude: 23.45
+      site_type: building
 
 - name: Create a Floor site under the building
   cisco.dnac.site_intent:
@@ -190,14 +190,14 @@ EXAMPLES = r"""
     config:
     - site:
         floor:
-          name: string
-          parent_name: string
-          length: float
-          width: float
-          height: float
-          rf_model: string
-          floor_number: int
-      site_type: string
+          name: Floor_1
+          parent_name: Global/India/Building_1
+          length: 75.76
+          width: 35.54
+          height: 30.12
+          rf_model: Cubes And Walled Offices
+          floor_number: 2
+      site_type: floor
 
 - name: Updating the Floor details under the building
   cisco.dnac.site_intent:
@@ -214,12 +214,12 @@ EXAMPLES = r"""
     config:
     - site:
         floor:
-          name: string
-          parent_name: string
-          length: float
-          width: float
-          height: float
-      site_type: string
+          name: Floor_1
+          parent_name: Global/India/Building_1
+          length: 75.76
+          width: 35.54
+          height: 30.12
+      site_type: floor
 
 - name: Deleting any site you need site name and parent name
   cisco.dnac.site_intent:
@@ -236,9 +236,9 @@ EXAMPLES = r"""
     config:
     - site:
         floor:
-          name: string
-          parent_name: string
-      site_type: string
+          name: Floor_1
+          parent_name: Global/India/Building_1
+      site_type: floor
 """
 
 RETURN = r"""
