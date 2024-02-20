@@ -286,32 +286,26 @@ EXAMPLES = r"""
     dnac_log: True
     config:
     - import_image_details:
-        type: string
+        type: remote
         url_details:
           payload:
-          - source_url: string
-            is_third_party: bool
-            image_family: string
-            vendor: string
-            application_type: string
-          schedule_at: string
-          schedule_desc: string
-          schedule_origin: string
+          - source_url: "http://10.10.10.10/stda/cat9k_iosxe.17.12.01.SPA.bin"
+            is_third_party: False
       tagging_details:
-        image_name: string
-        device_role: string
-        device_image_family_name: string
-        site_name: string
-        tagging: bool
+        image_name: cat9k_iosxe.17.12.01.SPA.bin
+        device_role: ACCESS
+        device_image_family_name: Cisco Catalyst 9300 Switch
+        site_name: Global/USA/San Francisco/BGL_18
+        tagging: True
       image_distribution_details:
-        image_name: string
-        device_serial_number: string
+        image_name: cat9k_iosxe.17.12.01.SPA.bin
+        device_serial_number: FJC2327U0S2
       image_activation_details:
-        schedule_validate: bool
-        activate_lower_image_version: bool
-        distribute_if_needed: bool
-        device_serial_number: string
-        image_name: string
+        image_name: cat9k_iosxe.17.12.01.SPA.bin
+        schedule_validate: False
+        activate_lower_image_version: False
+        distribute_if_needed: True
+        device_serial_number: FJC2327U0S2
 
 - name: Import an image from local, tag it as golden.
   cisco.dnac.swim_intent:
@@ -326,19 +320,16 @@ EXAMPLES = r"""
     dnac_log: True
     config:
     - import_image_details:
-        type: string
+        type: local
         local_image_details:
-            file_path: string
-            is_third_party: bool
-            third_party_vendor: string
-            third_party_image_family: string
-            third_party_application_type: string
+            file_path: /Users/Downloads/cat9k_iosxe.17.12.01.SPA.bin
+            is_third_party: False
       tagging_details:
-        image_name: string
-        device_role: string
-        device_image_family_name: string
-        site_name: string
-        tagging: bool
+        image_name: cat9k_iosxe.17.12.01.SPA.bin
+        device_role: ACCESS
+        device_image_family_name: Cisco Catalyst 9300 Switch
+        site_name: Global/USA/San Francisco/BGL_18
+        tagging: True
 
 - name: Tag the given image as golden and load it on device
   cisco.dnac.swim_intent:
@@ -353,10 +344,10 @@ EXAMPLES = r"""
     dnac_log: True
     config:
     - tagging_details:
-        image_name: string
-        device_role: string
-        device_image_family_name: string
-        site_name: string
+        image_name: cat9k_iosxe.17.12.01.SPA.bin
+        device_role: ACCESS
+        device_image_family_name: Cisco Catalyst 9300 Switch
+        site_name: Global/USA/San Francisco/BGL_18
         tagging: True
 
 - name: Un-tagged the given image as golden and load it on device
@@ -372,10 +363,10 @@ EXAMPLES = r"""
     dnac_log: True
     config:
     - tagging_details:
-        image_name: string
-        device_role: string
-        device_image_family_name: string
-        site_name: string
+        image_name: cat9k_iosxe.17.12.01.SPA.bin
+        device_role: ACCESS
+        device_image_family_name: Cisco Catalyst 9300 Switch
+        site_name: Global/USA/San Francisco/BGL_18
         tagging: False
 
 - name: Distribute the given image on devices associated to that site with specified role.
@@ -391,10 +382,10 @@ EXAMPLES = r"""
     dnac_log: True
     config:
     - image_distribution_details:
-        image_name: string
-        site_name: string
-        device_role: string
-        device_family_name: string
+        image_name: cat9k_iosxe.17.12.01.SPA.bin
+        site_name: Global/USA/San Francisco/BGL_18
+        device_role: ALL
+        device_family_name: Switches and Hubs
 
 - name: Activate the given image on devices associated to that site with specified role.
   cisco.dnac.swim_intent:
@@ -409,13 +400,13 @@ EXAMPLES = r"""
     dnac_log: True
     config:
     - image_activation_details:
-        image_name: string
-        site_name: string
-        device_role: string
-        device_family_name: string
-        scehdule_validate: bool
-        activate_lower_image_version: bool
-        distribute_if_needed: bool
+        image_name: cat9k_iosxe.17.12.01.SPA.bin
+        site_name: Global/USA/San Francisco/BGL_18
+        device_role: ALL
+        device_family_name: Switches and Hubs
+        scehdule_validate: False
+        activate_lower_image_version: True
+        distribute_if_needed: True
 
 """
 
