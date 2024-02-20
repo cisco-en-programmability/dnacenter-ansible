@@ -507,19 +507,23 @@ class PnP(DnacBase):
 
         if claim_params["type"] == "CatalystWLC":
             if not (self.validated_config[0].get('static_ip')):
-                msg = "The static IP for claiming a wireless controller must be passed"
+                msg = "A static IP address is required to claim a wireless controller. Please provide one."
                 self.pnp_cred_failure(msg=msg)
             if not (self.validated_config[0].get('subnet_mask')):
-                msg = "The subnet mask for claiming a wireless controller must be passed"
+                msg = "Please provide a subnet mask to claim a wireless controller. "\
+                    "This information is mandatory for the configuration."
                 self.pnp_cred_failure(msg=msg)
             if not (self.validated_config[0].get('gateway')):
-                msg = "The gateway IP for claiming a wireless controller must be of passed"
+                msg = "A gateway IP is required to claim a wireless controller. Please ensure to provide it."
                 self.pnp_cred_failure(msg=msg)
             if not (self.validated_config[0].get('ip_interface_name')):
-                msg = "The Interface Name for claiming a wireless controller must be passed"
+                msg = "Please provide the Interface Name to claim a wireless controller. This information is necessary"\
+                    " for making it a logical interface post claiming which can used to help manage the Wireless SSIDs "\
+                    "broadcasted by the access points, manage the controller, access point and user data, plus more"
                 self.pnp_cred_failure(msg=msg)
             if not (self.validated_config[0].get('vlan_id')):
-                msg = "The Vlan Id for claiming a wireless controller must be passed"
+                msg = "Please provide the Vlan ID to claim a wireless controller. This is a required field for the process"\
+                    " to create and set the specified port as trunk during PnP"
                 self.pnp_cred_failure(msg=msg)
             claim_params["staticIP"] = self.validated_config[0]['static_ip']
             claim_params["subnetMask"] = self.validated_config[0]['subnet_mask']
@@ -666,15 +670,16 @@ class PnP(DnacBase):
                             return self
 
                     if len(image_list) == 0:
-                        self.msg = "Either Image {0} is not present or is not tagged Golden"\
-                            " in Cisco Catalyst Center".format(self.validated_config[0].get("image_name"))
+                        self.msg = "The image '{0}' is either not present or not tagged as 'Golden' in the Cisco Catalyst Center."\
+                            " Please verify its existence and its tag status.".format(self.validated_config[0].get("image_name"))
                         self.log(self.msg, "CRITICAL")
                         self.status = "failed"
                         return self
 
                     if len(image_list) == 1:
                         if install_mode != "INSTALL":
-                            self.msg = "Installation mode must be in INSTALL mode to upgrade the image. Current mode is {0}".format(install_mode)
+                            self.msg = "The system must be in INSTALL mode to upgrade the image. The current mode is '{0}'."\
+                                " Please switch to INSTALL mode to proceed".format(install_mode)
                             self.log(str(self.msg), "CRITICAL")
                             self.status = "failed"
                             return self
@@ -685,8 +690,8 @@ class PnP(DnacBase):
                     template_name = self.want.get("template_name")
                     if template_name:
                         if not (template_list and isinstance(template_list, list)):
-                            self.msg = "Either project not found \
-                                or it is Empty"
+                            self.msg = "Either project not found" \
+                                "or it is Empty"
                             self.log(self.msg, "CRITICAL")
                             self.status = "failed"
                             return self
