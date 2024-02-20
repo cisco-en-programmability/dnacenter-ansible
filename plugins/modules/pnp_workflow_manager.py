@@ -447,6 +447,15 @@ class PnP(DnacBase):
         self.log("Image details are {0}".format(str(image_params)), "INFO")
         return image_params
 
+    def pnp_cred_failure(self, msg=None):
+        """
+        Method for failing discovery if there is any discrepancy in the PnP credentials
+        passed by the user
+        """
+
+        self.log(msg, "CRITICAL")
+        self.module.fail_json(msg=msg)
+
     def get_claim_params(self):
         """
         Get the paramters needed for claiming the device to site.
@@ -497,13 +506,31 @@ class PnP(DnacBase):
         }
 
         if claim_params["type"] == "CatalystWLC":
+            if not (self.validated_config[0].get('static_ip')):
+                msg = "The static IP for claiming a wireless controller must be passed"
+                self.pnp_cred_failure(msg=msg)
+            if not (self.validated_config[0].get('subnet_mask')):
+                msg = "The subnet mask for claiming a wireless controller must be passed"
+                self.pnp_cred_failure(msg=msg)
+            if not (self.validated_config[0].get('gateway')):
+                msg = "The gateway IP for claiming a wireless controller must be of passed"
+                self.pnp_cred_failure(msg=msg)
+            if not (self.validated_config[0].get('ip_interface_name')):
+                msg = "The Interface Name for claiming a wireless controller must be passed"
+                self.pnp_cred_failure(msg=msg)
+            if not (self.validated_config[0].get('vlan_id')):
+                msg = "The Vlan Id for claiming a wireless controller must be passed"
+                self.pnp_cred_failure(msg=msg)
             claim_params["staticIP"] = self.validated_config[0]['static_ip']
             claim_params["subnetMask"] = self.validated_config[0]['subnet_mask']
             claim_params["gateway"] = self.validated_config[0]['gateway']
-            claim_params["vlanId"] = str(self.validated_config[0]['vlan_id'])
+            claim_params["vlanId"] = str(self.validated_config[0].get('vlan_id'))
             claim_params["ipInterfaceName"] = self.validated_config[0]['ip_interface_name']
 
         if claim_params["type"] == "AccessPoint":
+            if not (self.validated_config[0].get("rf_profile")):
+                msg = "The RF Profile for claiming an AP must be passed"
+                self.pnp_cred_failure(msg=msg)
             claim_params["rfProfile"] = self.validated_config[0]["rf_profile"]
 
         self.log("Paramters used for claiming are {0}".format(str(claim_params)), "INFO")
@@ -633,17 +660,21 @@ class PnP(DnacBase):
                     self.log("Site Exists: {0}\nSite Name: {1}\nSite ID: {2}".format(site_exists, site_name, site_id), "INFO")
                     if self.want.get("pnp_type") == "AccessPoint":
                         if self.get_site_type() != "floor":
-                            self.msg = "The site type must be specified as 'floor'\
-                                for claiming an AP"
+                            self.msg = "The site type must be specified as 'floor' for claiming an AP"
                             self.log(str(self.msg), "ERROR")
                             self.status = "failed"
                             return self
 
+                    if len(image_list) == 0:
+                        self.msg = "Either Image {0} is not present or is not tagged Golden"\
+                            " in Cisco Catalyst Center".format(self.validated_config[0].get("image_name"))
+                        self.log(self.msg, "CRITICAL")
+                        self.status = "failed"
+                        return self
+
                     if len(image_list) == 1:
                         if install_mode != "INSTALL":
-                            self.msg = "Installation mode must be in \
-                            INSTALL mode to upgrade the image. Current mode is\
-                            {0}".format(install_mode)
+                            self.msg = "Installation mode must be in INSTALL mode to upgrade the image. Current mode is {0}".format(install_mode)
                             self.log(str(self.msg), "CRITICAL")
                             self.status = "failed"
                             return self
