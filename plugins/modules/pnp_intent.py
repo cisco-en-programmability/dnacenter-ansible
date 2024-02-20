@@ -519,11 +519,11 @@ class PnP(DnacBase):
             if not (self.validated_config[0].get('ip_interface_name')):
                 msg = "Please provide the Interface Name to claim a wireless controller. This information is necessary"\
                     " for making it a logical interface post claiming which can used to help manage the Wireless SSIDs "\
-                    "broadcasted by the access points, manage the controller, access point and user data, plus more"
+                    "broadcasted by the access points, manage the controller, access point and user data, plus more."
                 self.pnp_cred_failure(msg=msg)
             if not (self.validated_config[0].get('vlan_id')):
                 msg = "Please provide the Vlan ID to claim a wireless controller. This is a required field for the process"\
-                    " to create and set the specified port as trunk during PnP"
+                    " to create and set the specified port as trunk during PnP."
                 self.pnp_cred_failure(msg=msg)
             claim_params["staticIP"] = self.validated_config[0]['static_ip']
             claim_params["subnetMask"] = self.validated_config[0]['subnet_mask']
@@ -679,7 +679,7 @@ class PnP(DnacBase):
                     if len(image_list) == 1:
                         if install_mode != "INSTALL":
                             self.msg = "The system must be in INSTALL mode to upgrade the image. The current mode is '{0}'."\
-                                " Please switch to INSTALL mode to proceed".format(install_mode)
+                                " Please switch to INSTALL mode to proceed.".format(install_mode)
                             self.log(str(self.msg), "CRITICAL")
                             self.status = "failed"
                             return self
@@ -691,7 +691,7 @@ class PnP(DnacBase):
                     if template_name:
                         if not (template_list and isinstance(template_list, list)):
                             self.msg = "Either project not found" \
-                                "or it is Empty"
+                                "or it is Empty".
                             self.log(self.msg, "CRITICAL")
                             self.status = "failed"
                             return self
@@ -707,7 +707,7 @@ class PnP(DnacBase):
 
                 else:
                     if not self.want.get('pnp_params')[0].get('deviceInfo'):
-                        self.msg = "Either Site Name or Device details must be added"
+                        self.msg = "Either Site Name or Device details must be added."
                         self.log(self.msg, "ERROR")
                         self.status = "failed"
                         return self
