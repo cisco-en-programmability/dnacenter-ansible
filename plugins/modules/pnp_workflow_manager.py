@@ -664,7 +664,9 @@ class PnP(DnacBase):
                     self.log("Site Exists: {0}\nSite Name: {1}\nSite ID: {2}".format(site_exists, site_name, site_id), "INFO")
                     if self.want.get("pnp_type") == "AccessPoint":
                         if self.get_site_type() != "floor":
-                            self.msg = "The site type must be specified as 'floor' for claiming an AP"
+                            self.msg =  "Please ensure that the site type is specified as 'floor' when claiming an AP."\
+                                "The site type is given as '{0}'. Please change the 'site_type' into 'floor' to"\
+                                "proceed.".format(self.get_site_type())
                             self.log(str(self.msg), "ERROR")
                             self.status = "failed"
                             return self
@@ -690,8 +692,8 @@ class PnP(DnacBase):
                     template_name = self.want.get("template_name")
                     if template_name:
                         if not (template_list and isinstance(template_list, list)):
-                            self.msg = "Either project not found" \
-                                "or it is Empty".
+                            self.msg = "Either project not found"\
+                                " or it is Empty".
                             self.log(self.msg, "CRITICAL")
                             self.status = "failed"
                             return self
