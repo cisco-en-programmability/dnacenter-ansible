@@ -42,7 +42,7 @@ cisco.dnac.network_settings_intent module -- Resource module for IP Address pool
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.10.4).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -169,7 +169,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Global ip pool manages IPv4 and IPv6 IP pools.
+      Manages IPv4 and IPv6 IP pools in the global level.
 
 
       .. raw:: html
@@ -237,7 +237,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Global Pool's ippool.
+      Contains a list of global IP pool configurations.
 
 
       .. raw:: html
@@ -271,7 +271,8 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Ip pool cidr.
+      Defines the IP pool's Classless Inter-Domain Routing block, enabling systematic IP address distribution within a network.
+          
 
 
       .. raw:: html
@@ -305,7 +306,8 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Dhcp Server Ips.
+      The DHCP server IPs responsible for automatically assigning IP addresses and network configuration parameters to devices on a local network.
+          
 
 
       .. raw:: html
@@ -339,7 +341,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Dns Server Ips.
+      Responsible for translating domain names into corresponding IP addresses.
 
 
       .. raw:: html
@@ -373,7 +375,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Gateway.
+      Serves as an entry or exit point for data traffic between networks.
 
 
       .. raw:: html
@@ -407,7 +409,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Ip address space.
+      IP address space either IPv4 or IPv6.
 
 
       .. raw:: html
@@ -441,7 +443,54 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Ip Pool Name.
+      Specifies the name assigned to the Global IP Pool.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/global_pool_details/settings/ip_pool/pool_type"></div>
+
+      .. _ansible_collections.cisco.dnac.network_settings_intent_module__parameter-config/global_pool_details/settings/ip_pool/pool_type:
+
+      .. rst-class:: ansible-option-title
+
+      **pool_type**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/global_pool_details/settings/ip_pool/pool_type" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Includes both the Generic Ip Pool and Tunnel Ip Pool. Generic - Used for general purpose within the network such as device
+                    management or communication between the network devices.
+          Tunnel - Designated for the tunnel interfaces to encapsulate packets
+                   within the network protocol. It is used in VPN connections,
+                   GRE tunnels, or other types of overlay networks.
+          
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`"Generic"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"Tunnel"`
 
 
       .. raw:: html
@@ -475,7 +524,8 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      previous name.
+      The former identifier for the global pool. It should be used exclusively when you need to update the global pool's name.
+          
 
 
       .. raw:: html
@@ -1435,7 +1485,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Configuration Cisco DNA Center IP for SNMP Server (eg true).
+      Configuration Cisco Catalyst Center IP for SNMP Server (eg true).
 
 
       .. rst-class:: ansible-option-line
@@ -1546,7 +1596,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Configuration Cisco DNA Center IP for syslog server (eg true).
+      Configuration Cisco Catalyst Center IP for syslog server (eg true).
 
 
       .. rst-class:: ansible-option-line
@@ -1658,7 +1708,8 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Site name path parameter.
+      The name of the site provided as a path parameter, used to specify where the IP sub-pool will be reserved.
+          
 
 
       .. raw:: html
@@ -1693,13 +1744,47 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Reserving IP subpool from the global pool
+      Reserved IP subpool details from the global pool.
 
 
       .. raw:: html
 
         </div>
     
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/reserve_pool_details/ipv4_dhcp_servers"></div>
+
+      .. _ansible_collections.cisco.dnac.network_settings_intent_module__parameter-config/reserve_pool_details/ipv4_dhcp_servers:
+
+      .. rst-class:: ansible-option-title
+
+      **ipv4_dhcp_servers**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/reserve_pool_details/ipv4_dhcp_servers" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the IPv4 addresses for DHCP servers, for example, "1.1.1.1".
+
+
+      .. raw:: html
+
+        </div>
+
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -1727,7 +1812,44 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      IPv4 input for dns server ip example 4.4.4.4.
+      Specifies the IPv4 addresses for DNS servers, for example, "4.4.4.4".
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/reserve_pool_details/ipv4_gateway"></div>
+
+      .. _ansible_collections.cisco.dnac.network_settings_intent_module__parameter-config/reserve_pool_details/ipv4_gateway:
+
+      .. rst-class:: ansible-option-title
+
+      **ipv4_gateway**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/reserve_pool_details/ipv4_gateway" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      :ansible-option-versionadded:`added in cisco.dnac 4.0.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Provides the gateway's IPv4 address, for example, "175.175.0.1".
 
 
       .. raw:: html
@@ -1871,7 +1993,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      IPv4 Subnet address, example 175.175.0.0.
+      Indicates the IPv4 subnet address, for example, "175.175.0.0".
 
 
       .. raw:: html
@@ -1881,88 +2003,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/reserve_pool_details/ipv4DhcpServers"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/reserve_pool_details/ipv4_total_host"></div>
 
-      .. _ansible_collections.cisco.dnac.network_settings_intent_module__parameter-config/reserve_pool_details/ipv4dhcpservers:
-
-      .. rst-class:: ansible-option-title
-
-      **ipv4DhcpServers**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/reserve_pool_details/ipv4DhcpServers" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      IPv4 input for dhcp server ip example 1.1.1.1.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/reserve_pool_details/ipv4GateWay"></div>
-
-      .. _ansible_collections.cisco.dnac.network_settings_intent_module__parameter-config/reserve_pool_details/ipv4gateway:
+      .. _ansible_collections.cisco.dnac.network_settings_intent_module__parameter-config/reserve_pool_details/ipv4_total_host:
 
       .. rst-class:: ansible-option-title
 
-      **ipv4GateWay**
+      **ipv4_total_host**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/reserve_pool_details/ipv4GateWay" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      :ansible-option-versionadded:`added in cisco.dnac 4.0.0`
-
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Gateway ip address details, example 175.175.0.1.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/reserve_pool_details/ipv4TotalHost"></div>
-
-      .. _ansible_collections.cisco.dnac.network_settings_intent_module__parameter-config/reserve_pool_details/ipv4totalhost:
-
-      .. rst-class:: ansible-option-title
-
-      **ipv4TotalHost**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/reserve_pool_details/ipv4TotalHost" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/reserve_pool_details/ipv4_total_host" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -1976,7 +2027,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      IPv4 total host is required when ipv4\_prefix value is false.
+      The total number of hosts for IPv4, required when the 'ipv4\_prefix' is set to false.
 
 
       .. raw:: html
@@ -2010,7 +2061,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      If the value is false only ipv4 input are required, otherwise both ipv6 and ipv4 are required.
+      Determines whether both IPv6 and IPv4 inputs are required. If set to false, only IPv4 inputs are required. If set to true, both IPv6 and IPv4 inputs are required.
           
 
 
@@ -2020,6 +2071,111 @@ Parameters
 
       - :ansible-option-choices-entry:`false`
       - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/reserve_pool_details/ipv6_dhcp_servers"></div>
+
+      .. _ansible_collections.cisco.dnac.network_settings_intent_module__parameter-config/reserve_pool_details/ipv6_dhcp_servers:
+
+      .. rst-class:: ansible-option-title
+
+      **ipv6_dhcp_servers**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/reserve_pool_details/ipv6_dhcp_servers" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the IPv6 addresses for DHCP servers in the format. For example, "2001:0db8:0123:4567:89ab:cdef:0001:0001".
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/reserve_pool_details/ipv6_dns_servers"></div>
+
+      .. _ansible_collections.cisco.dnac.network_settings_intent_module__parameter-config/reserve_pool_details/ipv6_dns_servers:
+
+      .. rst-class:: ansible-option-title
+
+      **ipv6_dns_servers**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/reserve_pool_details/ipv6_dns_servers" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the IPv6 addresses for DNS servers. For example, "2001:0db8:0123:4567:89ab:cdef:0002:0002".
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/reserve_pool_details/ipv6_gateway"></div>
+
+      .. _ansible_collections.cisco.dnac.network_settings_intent_module__parameter-config/reserve_pool_details/ipv6_gateway:
+
+      .. rst-class:: ansible-option-title
+
+      **ipv6_gateway**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/reserve_pool_details/ipv6_gateway" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Provides the gateway's IPv6 address. For example, "2001:0db8:0123:4567:89ab:cdef:0003:0003".
+          
 
 
       .. raw:: html
@@ -2175,119 +2331,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/reserve_pool_details/ipv6DhcpServers"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/reserve_pool_details/ipv6_total_host"></div>
 
-      .. _ansible_collections.cisco.dnac.network_settings_intent_module__parameter-config/reserve_pool_details/ipv6dhcpservers:
-
-      .. rst-class:: ansible-option-title
-
-      **ipv6DhcpServers**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/reserve_pool_details/ipv6DhcpServers" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      IPv6 format dhcp server as input example 2001 db8 1234.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/reserve_pool_details/ipv6DnsServers"></div>
-
-      .. _ansible_collections.cisco.dnac.network_settings_intent_module__parameter-config/reserve_pool_details/ipv6dnsservers:
+      .. _ansible_collections.cisco.dnac.network_settings_intent_module__parameter-config/reserve_pool_details/ipv6_total_host:
 
       .. rst-class:: ansible-option-title
 
-      **ipv6DnsServers**
+      **ipv6_total_host**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/reserve_pool_details/ipv6DnsServers" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      IPv6 format dns server input example 2001 db8 1234.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/reserve_pool_details/ipv6GateWay"></div>
-
-      .. _ansible_collections.cisco.dnac.network_settings_intent_module__parameter-config/reserve_pool_details/ipv6gateway:
-
-      .. rst-class:: ansible-option-title
-
-      **ipv6GateWay**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/reserve_pool_details/ipv6GateWay" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Gateway ip address details, example 2001 db8 85a3 0 100 1.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/reserve_pool_details/ipv6TotalHost"></div>
-
-      .. _ansible_collections.cisco.dnac.network_settings_intent_module__parameter-config/reserve_pool_details/ipv6totalhost:
-
-      .. rst-class:: ansible-option-title
-
-      **ipv6TotalHost**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/reserve_pool_details/ipv6TotalHost" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/reserve_pool_details/ipv6_total_host" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -2301,7 +2355,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      IPv6 total host is required when ipv6\_prefix value is false.
+      The total number of hosts for IPv6 is required if the 'ipv6\_prefix' is set to false.
 
 
       .. raw:: html
@@ -2335,7 +2389,52 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Name of the reserve ip sub pool.
+      Name of the reserve IP subpool.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/reserve_pool_details/pool_type"></div>
+
+      .. _ansible_collections.cisco.dnac.network_settings_intent_module__parameter-config/reserve_pool_details/pool_type:
+
+      .. rst-class:: ansible-option-title
+
+      **pool_type**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/reserve_pool_details/pool_type" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Type of the reserve ip sub pool. Generic - Used for general purpose within the network such as device management or communication between the network devices. LAN - Used for the devices and the resources within the Local Area Network such as device connectivity, internal communication, or services. Management - Used for the management purposes such as device management interfaces, management access, or other administrative functions. Service - Used for the network services and application such as DNS (Domain Name System), DHCP (Dynamic Host Configuration Protocol), NTP (Network Time Protocol). WAN - Used for the devices and resources with the Wide Area Network such as remote sites interconnection with other network or services hosted within WAN.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`"Generic"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"LAN"`
+      - :ansible-option-choices-entry:`"Management"`
+      - :ansible-option-choices-entry:`"Service"`
+      - :ansible-option-choices-entry:`"WAN"`
 
 
       .. raw:: html
@@ -2369,7 +2468,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Previous name of the reserve ip sub pool.
+      The former name associated with the reserved IP sub-pool.
 
 
       .. raw:: html
@@ -2403,7 +2502,8 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Site name path parameter. Site name to reserve the ip sub pool.
+      The name of the site provided as a path parameter, used to specify where the IP sub-pool will be reserved.
+          
 
 
       .. raw:: html
@@ -2437,7 +2537,8 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Slaac Support.
+      Allows devices on IPv6 networks to self-configure their IP addresses autonomously, eliminating the need for manual setup.
+          
 
 
       .. rst-class:: ansible-option-line
@@ -2446,40 +2547,6 @@ Parameters
 
       - :ansible-option-choices-entry:`false`
       - :ansible-option-choices-entry:`true`
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/reserve_pool_details/type"></div>
-
-      .. _ansible_collections.cisco.dnac.network_settings_intent_module__parameter-config/reserve_pool_details/type:
-
-      .. rst-class:: ansible-option-title
-
-      **type**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/reserve_pool_details/type" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Type of the reserve ip sub pool.
 
 
       .. raw:: html
@@ -2515,7 +2582,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Set to True to verify the Cisco DNA Center after applying the playbook config.
+      Set to True to verify the Cisco Catalyst Center after applying the playbook config.
 
 
       .. rst-class:: ansible-option-line
@@ -3013,7 +3080,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      The state of Cisco DNA Center after module completion.
+      The state of Cisco Catalyst Center after module completion.
 
 
       .. rst-class:: ansible-option-line
@@ -3118,7 +3185,7 @@ Examples
                 gateway: string
                 ip_address_space: string
                 cidr: string
-                type: Generic
+                pool_type: Generic
                 dhcp_server_ips: list
                 dns_server_ips: list
           reserve_pool_details:
@@ -3134,7 +3201,7 @@ Examples
             ipv6_subnet: string
             site_name: string
             slaac_support: True
-            type: LAN
+            pool_type: LAN
           network_management_details:
             settings:
               dhcp_server: list

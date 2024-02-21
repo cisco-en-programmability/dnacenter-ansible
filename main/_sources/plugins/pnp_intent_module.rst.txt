@@ -42,7 +42,7 @@ cisco.dnac.pnp_intent module -- Resource module for Site and PnP related functio
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.10.4).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -169,7 +169,11 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Pnp Device's device\_info. This is mainly for adding the devices that are not a part of the PnP database. For single addition the length of the list must be equal to one. Followed by single addition a device can be claimed as well if site name is provided. For Bulk Import of devices the size of the list must be greater than 1 and can be only used for adding. For claiming the devices please use separate tasks or configs in the case of bulk import.
+      Provides the device-specific information required for adding devices to the PnP database that are not already present.
+
+      For adding a single device, the list should contain exactly one set of device information. If a site name is also provided, the device can be claimed immediately after being added.
+
+      For bulk import, the list must contain information for more than one device. Bulk import is intended solely for adding devices; claiming must be performed with separate tasks or configurations.
 
 
       .. raw:: html
@@ -203,7 +207,9 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Pnp Device's hostname that we want to keep post claiming. Hostname can only be changed during claiming not bulk adding/ single adding
+      Defines the desired hostname for the PnP device after it has been claimed.
+
+      The hostname can only be assigned or changed during the claim process, not during bulk or single device additions.
 
 
       .. raw:: html
@@ -347,7 +353,9 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Pnp Device's onbording state (Unclaimed/Claimed/Provisioned).
+      Represents the onboarding state of the PnP device.
+
+      Possible values are 'Unclaimed', 'Claimed', or 'Provisioned'.
 
 
       .. raw:: html
@@ -492,7 +500,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Name of the Interface used for Pnp by the Wireless Controller
+      Specifies the interface name utilized for Plug and Play (PnP) by the Wireless Controller. Ensure this interface is pre-configured on the Controller prior to device claiming.
 
 
       .. raw:: html
@@ -526,12 +534,18 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Device type of the Pnp device (Default/catalyst\_wlc/access\_point/stack\_switch)
+      Specifies the device type for the Plug and Play (PnP) device. - Options include 'Default', 'CatalystWLC', 'AccessPoint', or 'StackSwitch'. - 'Default' is applicable to switches and routers. - 'CatalystWLC' should be selected for 9800 series wireless controllers. - 'AccessPoint' is used when claiming an access point. - 'StackSwitch' should be chosen for a group of switches that operate as a single switch, typically used in the access layer.
 
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"Default"`
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`"Default"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"CatalystWLC"`
+      - :ansible-option-choices-entry:`"AccessPoint"`
+      - :ansible-option-choices-entry:`"StackSwitch"`
+
 
       .. raw:: html
 
@@ -602,7 +616,26 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Radio frequecy profile of the AP being claimed (HIGH/LOW/TYPICAL)
+      Radio Frequecy (RF) profile of the AP being claimed.
+
+      RF Profiles allow you to tune groups of APs that share a common coverage zone together.
+
+      They selectively change how Radio Resource Management will operate the APs within that coverage zone.
+
+      HIGH RF profile allows you to use more power and allows to join AP with the client in an easier fashion.
+
+      TYPICAL RF profile is a blend of moderate power and moderate visibility to the client.
+
+      LOW RF profile allows you to consume lesser power and has least visibility to the client.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"HIGH"`
+      - :ansible-option-choices-entry:`"LOW"`
+      - :ansible-option-choices-entry:`"TYPICAL"`
 
 
       .. raw:: html
@@ -841,7 +874,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Set to True to verify the Cisco DNA Center config after applying the playbook config.
+      Set to True to verify the Cisco Catalyst Center config after applying the playbook config.
 
 
       .. rst-class:: ansible-option-line
@@ -1339,7 +1372,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      The state of DNAC after module completion.
+      The state of Cisco Catalyst Center after module completion.
 
 
       .. rst-class:: ansible-option-line
@@ -1506,7 +1539,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
         <div class="ansible-option-cell">
 
-      A dictionary with the response returned by the Cisco DNAC Python SDK
+      A dictionary with the response returned by the Cisco Catalyst Center Python SDK
 
 
       .. rst-class:: ansible-option-line
@@ -1551,7 +1584,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
         <div class="ansible-option-cell">
 
-      A list with the response returned by the Cisco DNAC Python SDK
+      A list with the response returned by the Cisco Catalyst Center Python SDK
 
 
       .. rst-class:: ansible-option-line
@@ -1596,7 +1629,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
         <div class="ansible-option-cell">
 
-      A string with the response returned by the Cisco DNAC Python SDK
+      A string with the response returned by the Cisco Catalyst Center Python SDK
 
 
       .. rst-class:: ansible-option-line
@@ -1623,7 +1656,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Madhan Sankaranarayanan (@madhansansel) Rishita Chowdhary (@rishitachowdhary) Abinash Mishra (@abimishr)
+- Abinash Mishra (@abimishr) Madhan Sankaranarayanan (@madhansansel) Rishita Chowdhary (@rishitachowdhary)
 
 
 

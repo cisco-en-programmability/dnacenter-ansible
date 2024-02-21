@@ -42,7 +42,7 @@ cisco.dnac.site_intent module -- Resource module for Site operations
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.10.4).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -135,7 +135,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      List of details of site being managed.
+      It represents a list of details for creating/managing/deleting sites, including areas, buildings, and floors.
 
 
       .. raw:: html
@@ -169,7 +169,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Site Details.
+      Contains details about the site being managed including areas, buildings and floors.
 
 
       .. raw:: html
@@ -203,7 +203,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Site Create's area.
+      Configuration details for creating or managing an area within a site.
 
 
       .. raw:: html
@@ -237,7 +237,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Name of the area (eg Area1).
+      Name of the area to be created or managed (e.g., "Area1").
 
 
       .. raw:: html
@@ -247,17 +247,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/site/area/parentName"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/site/area/parent_name"></div>
 
-      .. _ansible_collections.cisco.dnac.site_intent_module__parameter-config/site/area/parentname:
+      .. _ansible_collections.cisco.dnac.site_intent_module__parameter-config/site/area/parent_name:
 
       .. rst-class:: ansible-option-title
 
-      **parentName**
+      **parent_name**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/site/area/parentName" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/site/area/parent_name" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -271,7 +271,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Complete Parent name of the Area to be created/deleted(eg Global/).
+      The full name of the parent under which the area will be created/managed/deleted (e.g., "Global/USA").
 
 
       .. raw:: html
@@ -306,7 +306,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Building Details.
+      Configuration details required for creating or managing a building within a site.
 
 
       .. raw:: html
@@ -340,7 +340,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Address of the building to be created.
+      Physical address of the building that is to be created or managed.
 
 
       .. raw:: html
@@ -364,7 +364,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`integer`
+      :ansible-option-type:`float`
 
       .. raw:: html
 
@@ -374,7 +374,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Latitude coordinate of the building (eg 37.338).Values between -90 to +90.
+      Geographical latitude coordinate of the building. For example, use 37.338 for a location in San Jose, California. Valid values range from -90.0 to +90.0 degrees.
 
 
       .. raw:: html
@@ -398,7 +398,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`integer`
+      :ansible-option-type:`float`
 
       .. raw:: html
 
@@ -408,7 +408,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Longitude coordinate of the building (eg -121.832).Values between -180 to +180.
+      Geographical longitude coordinate of the building. For example, use -121.832 for a location in San Jose, California. Valid values range from -180.0 to +180.0 degrees.
 
 
       .. raw:: html
@@ -442,7 +442,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Name of the building (eg building1).
+      Name of the building (e.g., "Building1").
 
 
       .. raw:: html
@@ -476,7 +476,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Complete Parent name of the Building to be created/deleted(eg Global/USA/San Francisco).
+      Hierarchical parent path of the building, indicating its location within the site (e.g., "Global/USA/San Francisco").
 
 
       .. raw:: html
@@ -511,7 +511,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Site Create's floor.
+      Configuration details required for creating or managing a floor within a site.
 
 
       .. raw:: html
@@ -545,7 +545,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Floor number in the building/site (eg 5).once created, it can't be modified.
+      Floor number within the building site (e.g., 5). This value can only be specified during the creation of the floor and cannot be modified afterward.
 
 
       .. raw:: html
@@ -569,7 +569,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`integer`
+      :ansible-option-type:`float`
 
       .. raw:: html
 
@@ -579,7 +579,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Height of the floor units is ft. (eg 15).
+      Height of the floor in feet (e.g., 15.23).
 
 
       .. raw:: html
@@ -603,7 +603,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`integer`
+      :ansible-option-type:`float`
 
       .. raw:: html
 
@@ -613,7 +613,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Length of the floor units is ft. (eg 100).
+      Length of the floor in feet (e.g., 100.11).
 
 
       .. raw:: html
@@ -647,7 +647,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Name of the floor (eg floor-1).
+      Name of the floor (e.g., "Floor-1").
 
 
       .. raw:: html
@@ -657,17 +657,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/site/floor/parentName"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/site/floor/parent_name"></div>
 
-      .. _ansible_collections.cisco.dnac.site_intent_module__parameter-config/site/floor/parentname:
+      .. _ansible_collections.cisco.dnac.site_intent_module__parameter-config/site/floor/parent_name:
 
       .. rst-class:: ansible-option-title
 
-      **parentName**
+      **parent_name**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/site/floor/parentName" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/site/floor/parent_name" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -681,7 +681,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Complete Parent name of the floor to be created(eg Global/USA/San Francisco/BGL\_18).
+      Hierarchical parent path of the floor, indicating its location within the site (e.g., "Global/USA/San Francisco/BGL\_18").
 
 
       .. raw:: html
@@ -715,7 +715,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Type of floor. Allowed values are 'Cubes And Walled Offices', 'Drywall Office Only', 'Indoor High Ceiling', 'Outdoor Open Space'.
+      The RF (Radio Frequency) model type for the floor, which is essential for simulating and optimizing wireless network coverage. Select from the following allowed values, which describe different environmental signal propagation characteristics. Type of floor (allowed values are 'Cubes And Walled Offices', 'Drywall Office Only', 'Indoor High Ceiling', 'Outdoor Open Space'). Cubes And Walled Offices - This RF model typically represents indoor areas with cubicles or walled offices, where radio signals may experience attenuation due to walls and obstacles. Drywall Office Only - This RF model indicates an environment with drywall partitions, commonly found in office spaces, which may have moderate signal attenuation. Indoor High Ceiling - This RF model is suitable for indoor spaces with high ceilings, such as auditoriums or atriums, where signal propagation may differ due to the height of the ceiling. Outdoor Open Space - This RF model is used for outdoor areas with open spaces, where signal propagation is less obstructed and may follow different patterns compared to indoor environments.
 
 
       .. raw:: html
@@ -739,7 +739,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`integer`
+      :ansible-option-type:`float`
 
       .. raw:: html
 
@@ -749,7 +749,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Width of the floor units is ft. (eg 100).
+      Width of the floor in feet (e.g., 100.22).
 
 
       .. raw:: html
@@ -761,17 +761,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/type"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/site_type"></div>
 
-      .. _ansible_collections.cisco.dnac.site_intent_module__parameter-config/type:
+      .. _ansible_collections.cisco.dnac.site_intent_module__parameter-config/site_type:
 
       .. rst-class:: ansible-option-title
 
-      **type**
+      **site_type**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/type" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/site_type" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -1417,9 +1417,9 @@ Examples
         config:
         - site:
             area:
-              name: string
-              parentName: string
-          type: string
+              name: Test
+              parent_name: Global/India
+          site_type: area
 
     - name: Create a new building site
       cisco.dnac.site_intent:
@@ -1436,12 +1436,12 @@ Examples
         config:
         - site:
             building:
-              address: string
-              latitude: 0
-              longitude: 0
-              name: string
-              parentName: string
-          type: string
+              name: Building_1
+              parent_name: Global/India
+              address: Bengaluru, Karnataka, India
+              latitude: 24.12
+              longitude: 23.45
+          site_type: building
 
     - name: Create a Floor site under the building
       cisco.dnac.site_intent:
@@ -1458,14 +1458,14 @@ Examples
         config:
         - site:
             floor:
-              name: string
-              parent_name: string
-              length: int
-              width: int
-              height: int
-              rf_model: string
-              floor_number: int
-          type: string
+              name: Floor_1
+              parent_name: Global/India/Building_1
+              length: 75.76
+              width: 35.54
+              height: 30.12
+              rf_model: Cubes And Walled Offices
+              floor_number: 2
+          site_type: floor
 
     - name: Updating the Floor details under the building
       cisco.dnac.site_intent:
@@ -1482,14 +1482,14 @@ Examples
         config:
         - site:
             floor:
-              name: string
-              parent_name: string
-              length: int
-              width: int
-              height: int
-          type: string
+              name: Floor_1
+              parent_name: Global/India/Building_1
+              length: 75.76
+              width: 35.54
+              height: 30.12
+          site_type: floor
 
-    - name: Deleting any site you need site name and parentName
+    - name: Deleting any site you need site name and parent name
       cisco.dnac.site_intent:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -1504,9 +1504,9 @@ Examples
         config:
         - site:
             floor:
-              name: string
-              parent_name: string
-          type: string
+              name: Floor_1
+              parent_name: Global/India/Building_1
+          site_type: floor
 
 
 

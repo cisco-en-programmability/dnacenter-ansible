@@ -42,7 +42,7 @@ cisco.dnac.inventory_intent module -- Resource module for Network Device
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.10.4).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -279,7 +279,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Compute Device flag.
+      Indicates whether a device is a compute device.
 
 
       .. rst-class:: ansible-option-line
@@ -800,7 +800,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Device's enable password.
+      Password required for enabling configurations on the device.
 
 
       .. raw:: html
@@ -834,7 +834,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Device's extended discovery info.
+      Additional discovery information for the device.
 
 
       .. raw:: html
@@ -944,7 +944,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Device's http password. Required for Adding Compute, Meraki, Firepower Management Devices.
+      HTTP password required for adding compute, Meraki, and Firepower Management Devices.
 
 
       .. raw:: html
@@ -978,7 +978,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Device's http port number. Required for Adding Compute, Firepower Management Devices.
+      HTTP port number required for adding compute and Firepower Management Devices.
 
 
       .. raw:: html
@@ -1012,7 +1012,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      HttpSecure flag.
+      Flag indicating HTTP security.
 
 
       .. rst-class:: ansible-option-line
@@ -1054,7 +1054,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Device's http username. Required for Adding Compute,Firepower Management Devices.
+      HTTP username required for adding compute and Firepower Management Devices.
 
 
       .. raw:: html
@@ -1078,7 +1078,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
 
       .. raw:: html
 
@@ -1088,7 +1088,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Specify the interface name to update the details of the device interface. (For example, GigabitEthernet1/0/11, FortyGigabitEthernet1/1/2)
+      Specify the list of interface names to update the details of the device interface. (For example, GigabitEthernet1/0/11, FortyGigabitEthernet1/1/2)
 
 
       .. raw:: html
@@ -1122,7 +1122,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Device's ipAddress. Required for Adding/Updating/Deleting/Resyncing Device except Meraki Devices.
+      IP address of the device. Required for Adding/Updating/Deleting/Resyncing Device except Meraki Devices.
 
 
       .. raw:: html
@@ -1258,7 +1258,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Device's netconf port.
+      Specifies the port number for connecting to devices using the Netconf protocol. Netconf (Network Configuration Protocol) is used for managing network devices. Ensure that the provided port number corresponds to the Netconf service port configured on your network devices.
 
 
       .. raw:: html
@@ -1292,7 +1292,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      enum(CREDENTIALDETAILS, DEVICEDETAILS) 0 to export Device Credential Details Or 1 to export Device Details.
+      enum(CREDENTIALDETAILS, DEVICEDETAILS) 0 to export Device Credential Details Or 1 to export Device Details. CREDENTIALDETAILS - Used for exporting device credentials details like snpm credntials, device crdentails etc. DEVICEDETAILS - Used for exporting device specific details like device hostname, serial number, type, family etc.
 
 
       .. raw:: html
@@ -1316,7 +1316,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
 
       .. raw:: html
 
@@ -1360,7 +1360,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Device's password. Required for Adding Network Device. Also needed for file encryption while exporting device in a csv file.
+      Password for accessing the device and for file encryption during device export. Required for adding Network Device. Also needed for file encryption while exporting device in a csv file.
 
 
       .. raw:: html
@@ -1436,7 +1436,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Role of device which can be ACCESS, CORE, DISTRIBUTION, BORDER ROUTER, UNKNOWN.
+      Role of device which can be ACCESS, CORE, DISTRIBUTION, BORDER ROUTER, UNKNOWN. ALL - This role typically represents all devices within the network, regardless of their specific roles or functions. UNKNOWN - This role is assigned to devices whose roles or functions have not been identified or classified within Cisco Catalsyt Center. This could happen if the platform is unable to determine the device's role based on available information. ACCESS - This role typically represents switches or access points that serve as access points for end-user devices to connect to the network. These devices are often located at the edge of the network and provide connectivity to end-user devices. BORDER ROUTER - These are devices that connect different network domains or segments together. They often serve as gateways between different networks, such as connecting an enterprise network to the internet or connecting multiple branch offices. DISTRIBUTION - This role represents function as distribution switches or routers in hierarchical network designs. They aggregate traffic from access switches and route it toward the core of the network or toward other distribution switches. CORE - This role typically represents high-capacity switches or routers that form the backbone of the network. They handle large volumes of traffic and provide connectivity between different parts of network, such as connecting distribution switches or providing interconnection between different network segments.
 
 
       .. rst-class:: ansible-option-line
@@ -1474,7 +1474,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      role source for the Device.
+      Role source for the device.
 
 
       .. rst-class:: ansible-option-line
@@ -1512,7 +1512,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Device's serial number.
+      Serial number of the device.
 
 
       .. raw:: html
@@ -1614,7 +1614,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Device's snmp auth passphrase. Required for Adding Network, Compute, Third Party Devices.
+      SNMP authentication passphrase required for adding network, compute, and third-party devices.
 
 
       .. raw:: html
@@ -1648,7 +1648,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Device's snmp Auth Protocol.
+      SNMP authentication protocol. SHA (Secure Hash Algorithm) - cryptographic hash function commonly used for data integrity verification and authentication purposes. MD5 (Message Digest Algorithm 5) - cryptographic hash function commonly used for data integrity verification and authentication purposes.
 
 
       .. rst-class:: ansible-option-line
@@ -1686,12 +1686,8 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Device's snmp Mode.
+      Device's snmp Mode refer to different SNMP (Simple Network Management Protocol) versions and their corresponding security levels. NOAUTHNOPRIV - This mode provides no authentication or encryption for SNMP messages. It means that devices communicating using SNMPv1 do not require any authentication (username/password) or encryption (data confidentiality). This makes it the least secure option. AUTHNOPRIV - This mode provides authentication but no encryption for SNMP messages. Authentication involves validating the source of the SNMP messages using a community string (similar to a password). However, the data transmitted between devices is not encrypted, so it's susceptible to eavesdropping. AUTHPRIV - This mode provides both authentication and encryption for SNMP messages. It offers the highest level of security among the three options. Authentication ensures that the source of the messages is genuine, and encryption ensures that the data exchanged between devices is confidential and cannot be intercepted by unauthorized parties.
 
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"AUTHPRIV"`
 
       .. raw:: html
 
@@ -1724,7 +1720,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Device's snmp Private Passphrase. Required for Adding Network, Compute, Third Party Devices.
+      SNMP private passphrase required for adding network, compute, and third-party devices.
 
 
       .. raw:: html
@@ -1758,7 +1754,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Device's snmp Private Protocol. Required for Adding Network, Compute, Third Party Devices. Must be given in playbook if you are updating the device credentails.
+      SNMP private protocol required for adding network, compute, and third-party devices.
 
 
       .. raw:: html
@@ -1792,7 +1788,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Device's snmp Retry.
+      SNMP retry count.
 
 
       .. rst-class:: ansible-option-line
@@ -1830,7 +1826,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Device's snmp ROCommunity. Required for Adding V2C Devices.
+      SNMP Read-Only community required for adding V2C devices.
 
 
       .. rst-class:: ansible-option-line
@@ -1868,7 +1864,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Device's snmp RWCommunity. Required for Adding V2C Devices.
+      SNMP Read-Write community required for adding V2C devices.
 
 
       .. rst-class:: ansible-option-line
@@ -1906,7 +1902,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Device's snmp Timeout.
+      SNMP timeout duration.
 
 
       .. rst-class:: ansible-option-line
@@ -1944,7 +1940,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Device's snmp Username. Required for Adding Network, Compute, Third Party Devices.
+      SNMP username required for adding network, compute, and third-party devices.
 
 
       .. raw:: html
@@ -2016,7 +2012,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Select Device's type from NETWORK\_DEVICE, COMPUTE\_DEVICE, MERAKI\_DASHBOARD, THIRD\_PARTY\_DEVICE, FIREPOWER\_MANAGEMENT\_SYSTEM.
+      Select Device's type from NETWORK\_DEVICE, COMPUTE\_DEVICE, MERAKI\_DASHBOARD, THIRD\_PARTY\_DEVICE, FIREPOWER\_MANAGEMENT\_SYSTEM. NETWORK\_DEVICE - This refers to traditional networking equipment such as routers, switches, access points, and firewalls. These devices are responsible for routing, switching, and providing connectivity within the network. COMPUTE\_DEVICE - These are computing resources such as servers, virtual machines, or containers that are part of the network infrastructure. Cisco DNA Center can integrate with compute devices to provide visibility and management capabilities, ensuring that the network and compute resources work together seamlessly to support applications and services. MERAKI\_DASHBOARD - It is cloud-based platform used to manage Meraki networking devices, including wireless access points, switches, security appliances, and cameras. THIRD\_PARTY\_DEVICE - This category encompasses devices from vendors other than Cisco or Meraki. Cisco DNA Center is designed to support integration with third-party devices through open standards and APIs. This allows organizations to manage heterogeneous network environments efficiently using Cisco DNA Center's centralized management and automation capabilities. FIREPOWER\_MANAGEMENT\_SYSTEM - It is a centralized management console used to manage Cisco's Firepower Next-Generation Firewall (NGFW) devices. It provides features such as policy management, threat detection, and advanced security analytics.
 
 
       .. rst-class:: ansible-option-line
@@ -2054,7 +2050,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Network Device's update Mgmt IPaddress List.
+      List of updated management IP addresses for network devices.
 
 
       .. raw:: html
@@ -2157,7 +2153,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Network Device's username. Required for Adding Network Device.
+      Username for accessing the device. Required for Adding Network Device.
 
 
       .. raw:: html
@@ -2225,7 +2221,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Unique Id number assigned to a VLAN within a network.
+      Unique Id number assigned to a VLAN within a network used only while updating interface details.
 
 
       .. raw:: html
@@ -2259,7 +2255,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Identifier used to distinguish a specific VLAN that is dedicated to voice traffic.
+      Identifier used to distinguish a specific VLAN that is dedicated to voice traffic used only while updating interface details.
 
 
       .. raw:: html
@@ -2901,33 +2897,30 @@ Examples
         dnac_log: False
         state: merged
         config:
-          - cli_transport: string
-            compute_device: false
-            enable_password: string
-            extended_discovery_info: string
-            http_password: string
-            http_port: string
-            http_secure: false
-            http_username: string
-            ip_address:
-            - string
-            netconf_port: string
-            password: string
-            serial_number: string
-            snmp_auth_passphrase: string
-            snmp_auth_protocol: string
-            snmp_mode: string
-            snmp_priv_passphrase: string
-            snmp_priv_protocol: string
-            snmp_ro_community: string
-            snmp_rw_community: string
+          - cli_transport: ssh
+            compute_device: False
+            password: Test@123
+            enable_password: Test@1234
+            extended_discovery_info: test
+            http_username: "testuser"
+            http_password: "test"
+            http_port: "443"
+            http_secure: False
+            ip_address: ["1.1.1.1", "2.2.2.2"]
+            netconf_port: 830
+            serial_number: FJC2327U0S2
+            snmp_auth_passphrase: "Lablab@12"
+            snmp_auth_protocol: SHA
+            snmp_mode: AUTHPRIV
+            snmp_priv_passphrase: "Lablab@123"
+            snmp_priv_protocol: AES256
             snmp_retry: 3
             snmp_timeout: 5
-            snmp_username: string
-            snmp_version: string
-            type: string
-            device_added: true
-            username: string
+            snmp_username: v3Public
+            snmp_version: v3
+            type: NETWORK_DEVICE
+            device_added: True
+            username: cisco
 
     - name: Add new Compute device in Inventory with full credentials.Inputs needed for Compute Device
       cisco.dnac.inventory_intent:
@@ -2942,22 +2935,21 @@ Examples
         dnac_log: False
         state: merged
         config:
-          - ip_address:
-            - string
-            http_username: string
-            http_password: string
-            http_port: string
-            snmp_auth_passphrase: string
-            snmp_auth_protocol: string
-            snmp_mode: string
-            snmp_priv_passphrase: string
-            snmp_priv_protocol: string
+          - ip_address: ["1.1.1.1", "2.2.2.2"]
+            http_username: "testuser"
+            http_password: "test"
+            http_port: "443"
+            snmp_auth_passphrase: "Lablab@12"
+            snmp_auth_protocol: SHA
+            snmp_mode: AUTHPRIV
+            snmp_priv_passphrase: "Lablab@123"
+            snmp_priv_protocol: AES256
             snmp_retry:  3
             snmp_timeout: 5
-            snmp_username: string
-            compute_device: true
-            username: string
-            device_added: true
+            snmp_username: v3Public
+            compute_device: True
+            username: cisco
+            device_added: True
             type: "COMPUTE_DEVICE"
 
     - name: Add new Meraki device in Inventory with full credentials.Inputs needed for Meraki Device.
@@ -2973,8 +2965,8 @@ Examples
         dnac_log: False
         state: merged
         config:
-          - http_password: string
-            device_added: true
+          - http_password: "test"
+            device_added: True
             type: "MERAKI_DASHBOARD"
 
     - name: Add new Firepower Management device in Inventory with full credentials.Input needed to add Device.
@@ -2990,12 +2982,11 @@ Examples
         dnac_log: False
         state: merged
         config:
-          - ip_address:
-            - string
-            http_username: string
-            http_password: string
-            http_port: string
-            device_added: true
+          - ip_address: ["1.1.1.1", "2.2.2.2"]
+            http_username: "testuser"
+            http_password: "test"
+            http_port: "443"
+            device_added: True
             type: "FIREPOWER_MANAGEMENT_SYSTEM"
 
     - name: Add new Third Party device in Inventory with full credentials.Input needed to add Device.
@@ -3011,17 +3002,16 @@ Examples
         dnac_log: False
         state: merged
         config:
-          - ip_address:
-            - string
-            snmp_auth_passphrase: string
-            snmp_auth_protocol: string
-            snmp_mode: string
-            snmp_priv_passphrase: string
-            snmp_priv_protocol: string
+          - ip_address: ["1.1.1.1", "2.2.2.2"]
+            snmp_auth_passphrase: "Lablab@12"
+            snmp_auth_protocol: SHA
+            snmp_mode: AUTHPRIV
+            snmp_priv_passphrase: "Lablab@123"
+            snmp_priv_protocol: AES256
             snmp_retry:  3
             snmp_timeout: 5
-            snmp_username: string
-            device_added: true
+            snmp_username: v3Public
+            device_added: True
             type: "THIRD_PARTY_DEVICE"
 
     - name: Update device details or credentails in Inventory
@@ -3037,33 +3027,14 @@ Examples
         dnac_log: False
         state: merged
         config:
-          - cli_transport: string
-            compute_device: false
-            password: string
-            enable_password: string
-            extended_discovery_info: string
-            http_password: string
-            http_port: string
-            http_secure: false
-            http_username: string
-            ip_address:
-            - string
-            netconf_port: string
-            serial_number: string
-            snmp_auth_passphrase: string
-            snmp_auth_protocol: string
-            snmp_mode: string
-            snmp_priv_passphrase: string
-            snmp_priv_protocol: string
-            snmp_username: string
-            snmp_version: string
-            type: string
-            device_updated: true
-            credential_update: true
-            update_mgmt_ipaddresslist:
-            - exist_mgmt_ipaddress: string
-              new_mgmt_ipaddress: string
-            username: string
+          - cli_transport: telnet
+            compute_device: False
+            password: newtest123
+            enable_password: newtest1233
+            ip_address: ["1.1.1.1", "2.2.2.2"]
+            type: NETWORK_DEVICE
+            device_updated: True
+            credential_update: True
 
     - name: Update new management IP address of device in inventory
       cisco.dnac.inventory_intent:
@@ -3078,13 +3049,12 @@ Examples
         dnac_log: False
         state: merged
         config:
-          - device_updated: true
-            ip_address:
-            - string
-            credential_update: true
+          - device_updated: True
+            ip_address: ["1.1.1.1"]
+            credential_update: True
             update_mgmt_ipaddresslist:
-            - exist_mgmt_ipaddress: string
-              new_mgmt_ipaddress: string
+            - exist_mgmt_ipaddress: "1.1.1.1"
+              new_mgmt_ipaddress: "12.12.12.12"
 
     - name: Associate Wired Devices to site and Provisioned it in Inventory
       cisco.dnac.inventory_intent:
@@ -3099,10 +3069,9 @@ Examples
         dnac_log: False
         state: merged
         config:
-          - ip_address:
-            - string
+          - ip_address: ["1.1.1.1", "2.2.2.2"]
             provision_wired_device:
-              site_name: string
+              site_name: "Global/USA/San Francisco/BGL_18/floor_pnp"
 
     - name: Associate Wireless Devices to site and Provisioned it in Inventory
       cisco.dnac.inventory_intent:
@@ -3117,19 +3086,17 @@ Examples
         dnac_log: False
         state: merged
         config:
-          - ip_address:
-            - string
+          - ip_address: ["1.1.1.1", "2.2.2.2"]
             provision_wireless_device:
-            - site_name: string
-            managed_ap_locations:
-            - string
+              site_name: ["Global/USA/BGL_18/floor_pnp", "Global/USA/BGL_18/floor_test"]
+            managed_ap_locations: ["Global/USA/BGL_18/floor_pnp", "Global/USA/BGL_18/floor_test"]
             dynamic_interfaces:
-            - interface_ip_address: string
-              interface_netmask_in_cidr: int
-              interface_gateway: string
-              lag_or_port_number: int
-              vlan_id: int
-              interface_name: string
+            - interface_ip_address: 23.23.21.12
+              interface_netmask_in_cidr: 24
+              interface_gateway: "gateway"
+              lag_or_port_number: 12
+              vlan_id: 99
+              interface_name: "etherenet0/0"
 
     - name: Update Device Role with IP Address
       cisco.dnac.inventory_intent:
@@ -3144,12 +3111,11 @@ Examples
         dnac_log: False
         state: merged
         config:
-          - ip_address:
-            - string
-            device_updated: true
+          - ip_address: ["1.1.1.1", "2.2.2.2"]
+            device_updated: True
             update_device_role:
-              role: string
-              role_source: string
+              role: ACCESS
+              role_source: AUTO
 
     - name: Update Interface details with IP Address
       cisco.dnac.inventory_intent:
@@ -3164,16 +3130,15 @@ Examples
         dnac_log: False
         state: merged
         config:
-          - ip_address:
-            - string
-            device_updated: true
+          - ip_address: ["1.1.1.1", "2.2.2.2"]
+            device_updated: True
             update_interface_details:
-              description: str
-              admin_status: str
-              vlan_id: int
-              voice_vlan_id: int
-              deployment_mode: str
-              interface_name: str
+              description: "Testing for updating interface details"
+              admin_status: "UP"
+              vlan_id: 23
+              voice_vlan_id: 45
+              deployment_mode: "Deploy"
+              interface_name: ["GigabitEthernet1/0/11", FortyGigabitEthernet1/1/1]
 
     - name: Export Device Details in a CSV file Interface details with IP Address
       cisco.dnac.inventory_intent:
@@ -3188,12 +3153,11 @@ Examples
         dnac_log: False
         state: merged
         config:
-          - ip_address:
-            - string
+          - ip_address: ["1.1.1.1", "2.2.2.2"]
             export_device_list:
-              password: str
-              operation_enum: str
-              parameters: str
+              password: "File_password"
+              operation_enum: 0
+              parameters: ["componentName", "SerialNumber", "Last Sync Status"]
 
     - name: Create Global User Defined with IP Address
       cisco.dnac.inventory_intent:
@@ -3208,12 +3172,14 @@ Examples
         dnac_log: False
         state: merged
         config:
-          - ip_address:
-            - string
+          - ip_address: ["1.1.1.1", "2.2.2.2"]
             add_user_defined_field:
-              name: string
-              description: string
-              value: string
+            - name: Test123
+              description: "Added first udf for testing"
+              value: "value123"
+            - name: Test321
+              description: "Added second udf for testing"
+              value: "value321"
 
     - name: Resync Device with IP Addresses
       cisco.dnac.inventory_intent:
@@ -3228,10 +3194,9 @@ Examples
         dnac_log: False
         state: merged
         config:
-          - ip_address:
-            - string
-            device_resync: true
-            force_sync: false
+          - ip_address: ["1.1.1.1", "2.2.2.2"]
+            device_resync: True
+            force_sync: False
 
     - name: Reboot AP Devices with IP Addresses
       cisco.dnac.inventory_intent:
@@ -3246,9 +3211,8 @@ Examples
         dnac_log: False
         state: merged
         config:
-          - ip_address:
-            - string
-            reboot_device: true
+          - ip_address: ["1.1.1.1", "2.2.2.2"]
+            reboot_device: True
 
     - name: Delete Provision/Unprovision Devices by IP Address
       cisco.dnac.inventory_intent:
@@ -3263,9 +3227,8 @@ Examples
         dnac_log_level: "{{dnac_log_level}}"
         state: deleted
         config:
-          - ip_address:
-            - string
-            clean_config: false
+          - ip_address: ["1.1.1.1", "2.2.2.2"]
+            clean_config: False
 
     - name: Delete Global User Defined Field with name
       cisco.dnac.inventory_intent:
@@ -3280,10 +3243,10 @@ Examples
         dnac_log: False
         state: deleted
         config:
-        - ip_address:
-            - string
+        - ip_address: ["1.1.1.1", "2.2.2.2"]
           add_user_defined_field:
-            name: string
+            - name: Test123
+            - name: Test321
 
 
 
