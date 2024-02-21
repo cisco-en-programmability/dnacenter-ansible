@@ -10,7 +10,7 @@ __author__ = ("Abinash Mishra, Madhan Sankaranarayanan, Rishita Chowdhary")
 
 DOCUMENTATION = r"""
 ---
-module: pnp_intent
+module: pnp_workflow_manager
 short_description: Resource module for Site and PnP related functions
 description:
 - Manage operations add device, claim device and unclaim device of Onboarding Configuration(PnP) resource
@@ -19,7 +19,7 @@ description:
 - API to reset the device from errored state.
 version_added: '6.6.0'
 extends_documentation_fragment:
-  - cisco.dnac.intent_params
+  - cisco.dnac.workflow_manager_params
 author: Abinash Mishra (@abimishr)
         Madhan Sankaranarayanan (@madhansansel)
         Rishita Chowdhary (@rishitachowdhary)
@@ -159,7 +159,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Add a new device and claim the device
-  cisco.dnac.pnp_intent:
+  cisco.dnac.pnp_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

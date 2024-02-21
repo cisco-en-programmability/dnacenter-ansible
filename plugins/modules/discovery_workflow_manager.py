@@ -10,7 +10,7 @@ __author__ = ("Abinash Mishra, Phan Nguyen, Madhan Sankaranarayanan")
 
 DOCUMENTATION = r"""
 ---
-module: discovery_intent
+module: discovery_workflow_manager
 short_description: A resource module for handling device discovery tasks.
 description:
 - Manages device discovery using IP address, address range, CDP, and LLDP, including deletion of discovered devices.
@@ -18,7 +18,7 @@ description:
 - API to delete a discovery of a device or multiple devices
 version_added: '6.6.0'
 extends_documentation_fragment:
-  - cisco.dnac.intent_params
+  - cisco.dnac.workflow_manager_params
 author: Abinash Mishra (@abimishr)
         Phan Nguyen (@phannguy)
         Madhan Sankaranarayanan (@madhansansel)
@@ -260,7 +260,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Execute discovery devices
-  cisco.dnac.discovery_intent:
+  cisco.dnac.discovery_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -317,7 +317,7 @@ EXAMPLES = r"""
                 privacy_password: string
 
 - name: Delete disovery by name
-  cisco.dnac.discovery_intent:
+  cisco.dnac.discovery_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

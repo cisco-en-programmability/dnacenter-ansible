@@ -4,12 +4,8 @@
   gather_facts: no
   connection: local
   tasks:
-#
-# Project Info  Section
-#
-
     - name: Create global pool, reserve subpool and network functions
-      cisco.dnac.network_settings_intent:
+      cisco.dnac.network_settings_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"
@@ -50,7 +46,7 @@
             site_name: Global/Chennai/Trill
             slaac_support: True
             # prev_name: IP_Pool_4
-            type: LAN
+            pool_type: LAN
           network_management_details:
             settings:
               dhcp_server:
@@ -91,7 +87,7 @@
             site_name: Global/Chennai
 
     - name: Delete Global Pool and Release Pool Reservation
-      cisco.dnac.network_settings_intent:
+      cisco.dnac.network_settings_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"
