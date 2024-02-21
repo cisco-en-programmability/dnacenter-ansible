@@ -7,7 +7,7 @@
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
-__author__ = ['Madhan Sankaranarayanan, Rishita Chowdhary']
+__author__ = ['Madhan Sankaranarayanan, Rishita Chowdhary, Akash Bhaskaran, Muthu Rakesh']
 
 DOCUMENTATION = r"""
 ---
@@ -1355,9 +1355,9 @@ class DnacTemplate(DnacBase):
                 'device_types': {
                     'type': 'list',
                     'elements': 'dict',
-                    'productFamily': {'type': 'str'},
-                    'productSeries': {'type': 'str'},
-                    'productType': {'type': 'str'},
+                    'product_family': {'type': 'str'},
+                    'product_series': {'type': 'str'},
+                    'product_type': {'type': 'str'},
                 },
                 'failure_policy': {'type': 'str'},
                 'id': {'type': 'str'},
