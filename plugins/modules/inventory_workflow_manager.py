@@ -88,7 +88,9 @@ options:
         type: list
         elements: str
       netconf_port:
-        description: Netconf port number(For example, 830).
+        description: Specifies the port number for connecting to devices using the Netconf protocol. Netconf (Network Configuration Protocol)
+            is used for managing network devices. Ensure that the provided port number corresponds to the Netconf service port configured
+            on your network devices.
         type: str
       username:
         description: Username for accessing the device. Required for Adding Network Device.
