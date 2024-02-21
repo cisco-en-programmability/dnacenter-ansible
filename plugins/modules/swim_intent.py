@@ -63,22 +63,22 @@ options:
                 description: Query parameter to determine if the image is from a third party (optional).
                 type: bool
               third_party_application_type:
-                description: Specify the ThirdPartyApplicationType query parameter to indicate the type of third-party application.Allowed
+                description: Specify the ThirdPartyApplicationType query parameter to indicate the type of third-party application. Allowed
                     values include WLC, LINUX, FIREWALL, WINDOWS, LOADBALANCER, THIRDPARTY, etc.(optional).
-                  WLC (Wireless LAN Controller) - It's network device that manages and controls multiple wireless access points (APs) in a
+                  WLC (Wireless LAN Controller) - It's a network device that manages and controls multiple wireless access points (APs) in a
                     centralized manner.
-                  LINUX - It's an open source which provide complete operating system with a wide range of software packages and utilities.
+                  LINUX - It's an open-source operating system that provides a complete set of software packages and utilities.
                   FIREWALL - It's a network security device that monitors and controls incoming and outgoing network traffic based on
                     predetermined security rules.It acts as a barrier between a trusted internal network and untrusted external networks
                     (such as the internet), preventing unauthorized access.
-                  WINDOWS - It's an OS which provides GUI support for various applications, and extensive compatibility with hardware
-                    and software.
+                  WINDOWS - It's an operating system known for its graphical user interface (GUI) support, extensive compatibility with hardware
+                    and software, and widespread use across various applications.
                   LOADBALANCER - It's a network device or software application that distributes incoming network traffic across multiple servers
                     or resources.
                   THIRDPARTY - It refers to third-party images or applications that are not part of the core system.
                   NAM (Network Access Manager) - It's a network management tool or software application that provides centralized control and
                     monitoring of network access policies, user authentication, and device compliance.
-                    WAN Optimization - It refers to techniques and technologies used to improve the performance and efficiency of WANs. It includes
+                  WAN Optimization - It refers to techniques and technologies used to improve the performance and efficiency of WANs. It includes
                     various optimization techniques such as data compression, caching, protocol optimization, and traffic prioritization to reduce
                     latency, increase throughput, and improve user experience over WAN connections.
                   Unknown - It refers to an unspecified or unrecognized application type.
