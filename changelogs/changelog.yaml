@@ -796,7 +796,7 @@ releases:
       release_date: "2024-02-17"
       changes:
         release_summary: Adding new workflow manager modules in Cisco Catalyst Center
-        major_changes:
+        minor_changes:
           - The 'site_workflow_manager' module orchestrates the creation of sites within the Cisco Catalyst Center, encompassing areas such as buildings and floors. It ensures necessary pre-checks are performed and allows for subsequent updates to these sites. Additionally, the module facilitates the deletion of specific sites using the site and parent names. A feature to delete all child sites by specifying only the parent site name is also available.
           - The 'swim_workflow_manager' module handles the importation of SWIM images into the Cisco Catalyst Center, utilizing either a remote URL or a local image file path. It provides functionality for tagging and untagging SWIM images based on device family, role, and site. The module ensures the successful importation of images for distribution and activation on devices within the Cisco Catalyst Center. It also allows for the retrieval of a list of devices tied to a specific site, device family, and device role, facilitating various SWIM operations such as importing, tagging, distribution, and activation.
           - The 'network_settings_workflow_manager' module manages global IP pool allocation, reserved sub pool assignment, and network function administration, including DHCP, Syslog, SNMP, NTP, Network AAA, client and endpoint AAA, and DNS servers, ensuring seamless operation at site and global levels in the Cisco Catalyst Center.
