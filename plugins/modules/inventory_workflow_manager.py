@@ -75,20 +75,20 @@ options:
       hostname_list:
         description: "A list of hostnames representing devices. Operations such as updating, deleting, resyncing, or rebooting
             can be performed as alternatives to using IP addresses."
-        elements: str
         type: list
+        elements: str
       serial_number_list:
         description: A list of serial numbers representing devices. Operations such as updating, deleting, resyncing, or rebooting
             can be performed as alternatives to using IP addresses.
-        elements: str
         type: list
+        elements: str
       mac_address_list:
         description:  "A list of MAC addresses representing devices. Operations such as updating, deleting, resyncing, or rebooting
             can be performed as alternatives to using IP addresses."
-        elements: str
         type: list
+        elements: str
       netconf_port:
-        description: Netconf port number.
+        description: Netconf port number(For example, 830).
         type: str
       username:
         description: Username for accessing the device. Required for Adding Network Device.
@@ -233,14 +233,17 @@ options:
       admin_status:
         description: Status of Interface of a device, it can be (UP/DOWN).
         type: str
+      interface_name:
+        description: Specify the list of interface names to update the details of the device interface.
+            (For example, GigabitEthernet1/0/11, FortyGigabitEthernet1/1/2)
+        type: list
+        elements: str
       vlan_id:
-        description: Unique Id number assigned to a VLAN within a network.
+        description: Unique Id number assigned to a VLAN within a network used only while updating interface details.
         type: int
       voice_vlan_id:
-        description: Identifier used to distinguish a specific VLAN that is dedicated to voice traffic.
+        description: Identifier used to distinguish a specific VLAN that is dedicated to voice traffic used only while updating interface details.
         type: int
-      interface_name:
-        description: Specify the interface name to update the details of the device interface. (For example, GigabitEthernet1/0/11, FortyGigabitEthernet1/1/2)
       deployment_mode:
         description: Preview/Deploy [Preview means the configuration is not pushed to the device. Deploy makes the configuration pushed to the device]
         type: str
@@ -568,7 +571,7 @@ EXAMPLES = r"""
           vlan_id: 23
           voice_vlan_id: 45
           deployment_mode: "Deploy"
-          interface_name: GigabitEthernet1/0/11
+          interface_name: ["GigabitEthernet1/0/11", FortyGigabitEthernet1/1/1]
 
 - name: Export Device Details in a CSV file Interface details with IP Address
   cisco.dnac.inventory_workflow_manager:
@@ -786,7 +789,7 @@ class Inventory(DnacBase):
                 'description': {'type': 'str'},
                 'vlan_id': {'type': 'int'},
                 'voice_vlan_id': {'type': 'int'},
-                'interface_name': {'type': 'str'},
+                'interface_name': {'type': 'list', 'elements': 'str'},
             },
             'export_device_list': {
                 'type': 'dict',
@@ -2445,68 +2448,69 @@ class Inventory(DnacBase):
         # Call the Get interface details by device IP API and fetch the interface Id
         for device_ip in device_to_update:
             interface_params = self.config[0].get('update_interface_details')
-            interface_name = interface_params.get('interface_name')
-            device_id = self.get_device_ids([device_ip])
-            interface_id = self.get_interface_from_id_and_name(device_id[0], interface_name)
-            self.check_return_status()
+            interface_names_list = interface_params.get('interface_name')
+            for interface_name in interface_names_list:
+                device_id = self.get_device_ids([device_ip])
+                interface_id = self.get_interface_from_id_and_name(device_id[0], interface_name)
+                self.check_return_status()
 
-            # Now we call update interface details api with required parameter
-            try:
-                interface_params = self.config[0].get('update_interface_details')
-                temp_params = {
-                    'description': interface_params.get('description', ''),
-                    'adminStatus': interface_params.get('admin_status'),
-                    'voiceVlanId': interface_params.get('voice_vlan_id'),
-                    'vlanId': interface_params.get('vlan_id')
-                }
-                payload_params = {}
-                for key, value in temp_params.items():
-                    if value is not None:
-                        payload_params[key] = value
+                # Now we call update interface details api with required parameter
+                try:
+                    interface_params = self.config[0].get('update_interface_details')
+                    temp_params = {
+                        'description': interface_params.get('description', ''),
+                        'adminStatus': interface_params.get('admin_status'),
+                        'voiceVlanId': interface_params.get('voice_vlan_id'),
+                        'vlanId': interface_params.get('vlan_id')
+                    }
+                    payload_params = {}
+                    for key, value in temp_params.items():
+                        if value is not None:
+                            payload_params[key] = value
 
-                update_interface_params = {
-                    'payload': payload_params,
-                    'interface_uuid': interface_id,
-                    'deployment_mode': interface_params.get('deployment_mode', 'Deploy')
-                }
-                response = self.dnac._exec(
-                    family="devices",
-                    function='update_interface_details',
-                    op_modifies=True,
-                    params=update_interface_params,
-                )
-                self.log("Received API response from 'update_interface_details': {0}".format(str(response)), "DEBUG")
+                    update_interface_params = {
+                        'payload': payload_params,
+                        'interface_uuid': interface_id,
+                        'deployment_mode': interface_params.get('deployment_mode', 'Deploy')
+                    }
+                    response = self.dnac._exec(
+                        family="devices",
+                        function='update_interface_details',
+                        op_modifies=True,
+                        params=update_interface_params,
+                    )
+                    self.log("Received API response from 'update_interface_details': {0}".format(str(response)), "DEBUG")
 
-                if response and isinstance(response, dict):
-                    task_id = response.get('response').get('taskId')
+                    if response and isinstance(response, dict):
+                        task_id = response.get('response').get('taskId')
 
-                    while True:
-                        execution_details = self.get_task_details(task_id)
+                        while True:
+                            execution_details = self.get_task_details(task_id)
 
-                        if 'SUCCESS' in execution_details.get("progress"):
-                            self.status = "success"
-                            self.result['changed'] = True
-                            self.result['response'] = execution_details
-                            self.msg = "Updated Interface Details for device '{0}' successfully".format(device_ip)
-                            self.log(self.msg, "INFO")
-                            break
-                        elif execution_details.get("isError"):
-                            self.status = "failed"
-                            failure_reason = execution_details.get("failureReason")
-                            if failure_reason:
-                                self.msg = "Interface Updation get failed because of {0}".format(failure_reason)
-                            else:
-                                self.msg = "Interface Updation get failed"
-                            self.log(self.msg, "ERROR")
-                            break
+                            if 'SUCCESS' in execution_details.get("progress"):
+                                self.status = "success"
+                                self.result['changed'] = True
+                                self.result['response'] = execution_details
+                                self.msg = "Updated Interface Details for device '{0}' successfully".format(device_ip)
+                                self.log(self.msg, "INFO")
+                                break
+                            elif execution_details.get("isError"):
+                                self.status = "failed"
+                                failure_reason = execution_details.get("failureReason")
+                                if failure_reason:
+                                    self.msg = "Interface Updation get failed because of {0}".format(failure_reason)
+                                else:
+                                    self.msg = "Interface Updation get failed"
+                                self.log(self.msg, "ERROR")
+                                break
 
-            except Exception as e:
-                error_message = "Error while updating interface details in Cisco Catalyst Center: {0}".format(str(e))
-                self.log(error_message, "INFO")
-                self.status = "success"
-                self.result['changed'] = False
-                self.msg = "Port actions are only supported on user facing/access ports as it's not allowed or No Updation required"
-                self.log(self.msg, "INFO")
+                except Exception as e:
+                    error_message = "Error while updating interface details in Cisco Catalyst Center: {0}".format(str(e))
+                    self.log(error_message, "INFO")
+                    self.status = "success"
+                    self.result['changed'] = False
+                    self.msg = "Port actions are only supported on user facing/access ports as it's not allowed or No Updation required"
+                    self.log(self.msg, "INFO")
 
         return self
 
@@ -3183,12 +3187,13 @@ class Inventory(DnacBase):
 
         if device_updated and self.config[0].get('update_interface_details'):
             interface_update_flag = True
-            interface_name = self.config[0].get('update_interface_details').get('interface_name')
+            interface_names_list = self.config[0].get('update_interface_details').get('interface_name')
 
             for device_ip in device_ips:
-                if not self.check_interface_details(device_ip, interface_name):
-                    interface_update_flag = False
-                    break
+                for interface_name in interface_names_list:
+                    if not self.check_interface_details(device_ip, interface_name):
+                        interface_update_flag = False
+                        break
 
             if interface_update_flag:
                 self.status = "success"
