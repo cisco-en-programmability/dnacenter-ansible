@@ -21,7 +21,7 @@
 
   tasks:
     - name: Execute discovery devices using MULTI RANGE with various discovery specific credentials
-      cisco.dnac.discovery_intent:
+      cisco.dnac.discovery_workflow_manager:
         <<: *dnac_login
         state: merged
         config_verify: True
@@ -60,7 +60,7 @@
             global_cli_len: 5
 
     - name: Execute discovery devices using CDP/LLDP/CIDR
-      cisco.dnac.discovery_intent:
+      cisco.dnac.discovery_workflow_manager:
         <<: *dnac_login
         state: merged
         config_verify: True
@@ -78,7 +78,7 @@
             protocol_order: ssh
 
     - name: Execute deletion of all the discoveries from the dashboard
-      cisco.dnac.discovery_intent:
+      cisco.dnac.discovery_workflow_manager:
         <<: *dnac_login
         state: deleted
         config_verify: True
