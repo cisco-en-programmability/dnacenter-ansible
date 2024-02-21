@@ -6,7 +6,7 @@
 Cisco.Dnac
 ==========
 
-Collection version 6.10.4
+Collection version 6.11.0
 
 .. contents::
    :local:
@@ -118,6 +118,7 @@ Modules
 * :ref:`device_credential_info module <ansible_collections.cisco.dnac.device_credential_info_module>` -- Information module for Device Credential
 * :ref:`device_credential_intent module <ansible_collections.cisco.dnac.device_credential_intent_module>` -- Resource module for Global Device Credentials and Assigning Credentials to sites.
 * :ref:`device_credential_update module <ansible_collections.cisco.dnac.device_credential_update_module>` -- Resource module for Device Credential Update
+* :ref:`device_credential_workflow_manager module <ansible_collections.cisco.dnac.device_credential_workflow_manager_module>` -- Resource module for Global Device Credentials and Assigning Credentials to sites.
 * :ref:`device_details_info module <ansible_collections.cisco.dnac.device_details_info_module>` -- Information module for Device Details
 * :ref:`device_enrichment_details_info module <ansible_collections.cisco.dnac.device_enrichment_details_info_module>` -- Information module for Device Enrichment Details
 * :ref:`device_family_identifiers_details_info module <ansible_collections.cisco.dnac.device_family_identifiers_details_info_module>` -- Information module for Device Family Identifiers Details
@@ -142,11 +143,12 @@ Modules
 * :ref:`discovery_device_info module <ansible_collections.cisco.dnac.discovery_device_info_module>` -- Information module for Discovery Device
 * :ref:`discovery_device_range_info module <ansible_collections.cisco.dnac.discovery_device_range_info_module>` -- Information module for Discovery Device Range
 * :ref:`discovery_info module <ansible_collections.cisco.dnac.discovery_info_module>` -- Information module for Discovery
-* :ref:`discovery_intent module <ansible_collections.cisco.dnac.discovery_intent_module>` -- Resource module for discovery related functions
+* :ref:`discovery_intent module <ansible_collections.cisco.dnac.discovery_intent_module>` -- A resource module for handling device discovery tasks.
 * :ref:`discovery_job_info module <ansible_collections.cisco.dnac.discovery_job_info_module>` -- Information module for Discovery Job
 * :ref:`discovery_range_delete module <ansible_collections.cisco.dnac.discovery_range_delete_module>` -- Resource module for Discovery Range Delete
 * :ref:`discovery_range_info module <ansible_collections.cisco.dnac.discovery_range_info_module>` -- Information module for Discovery Range
 * :ref:`discovery_summary_info module <ansible_collections.cisco.dnac.discovery_summary_info_module>` -- Information module for Discovery Summary
+* :ref:`discovery_workflow_manager module <ansible_collections.cisco.dnac.discovery_workflow_manager_module>` -- A resource module for handling device discovery tasks.
 * :ref:`dna_command_runner_keywords_info module <ansible_collections.cisco.dnac.dna_command_runner_keywords_info_module>` -- Information module for Dna Command Runner Keywords
 * :ref:`dnac_packages_info module <ansible_collections.cisco.dnac.dnac_packages_info_module>` -- Information module for Dnac Packages
 * :ref:`dnacaap_management_execution_status_info module <ansible_collections.cisco.dnac.dnacaap_management_execution_status_info_module>` -- Information module for Dnacaap Management Execution Status
@@ -212,6 +214,7 @@ Modules
 * :ref:`interface_operation_create module <ansible_collections.cisco.dnac.interface_operation_create_module>` -- Resource module for Interface Operation Create
 * :ref:`interface_update module <ansible_collections.cisco.dnac.interface_update_module>` -- Resource module for Interface Update
 * :ref:`inventory_intent module <ansible_collections.cisco.dnac.inventory_intent_module>` -- Resource module for Network Device
+* :ref:`inventory_workflow_manager module <ansible_collections.cisco.dnac.inventory_workflow_manager_module>` -- Resource module for Network Device
 * :ref:`issues_enrichment_details_info module <ansible_collections.cisco.dnac.issues_enrichment_details_info_module>` -- Information module for Issues Enrichment Details
 * :ref:`issues_info module <ansible_collections.cisco.dnac.issues_info_module>` -- Information module for Issues
 * :ref:`itsm_cmdb_sync_status_info module <ansible_collections.cisco.dnac.itsm_cmdb_sync_status_info_module>` -- Information module for Itsm Cmdb Sync Status
@@ -273,6 +276,7 @@ Modules
 * :ref:`network_device_with_snmp_v3_des_info module <ansible_collections.cisco.dnac.network_device_with_snmp_v3_des_info_module>` -- Information module for Network Device With Snmp V3 Des
 * :ref:`network_info module <ansible_collections.cisco.dnac.network_info_module>` -- Information module for Network
 * :ref:`network_settings_intent module <ansible_collections.cisco.dnac.network_settings_intent_module>` -- Resource module for IP Address pools and network functions
+* :ref:`network_settings_workflow_manager module <ansible_collections.cisco.dnac.network_settings_workflow_manager_module>` -- Resource module for IP Address pools and network functions
 * :ref:`network_update module <ansible_collections.cisco.dnac.network_update_module>` -- Resource module for Network Update
 * :ref:`network_v2 module <ansible_collections.cisco.dnac.network_v2_module>` -- Resource module for Network V2
 * :ref:`network_v2_info module <ansible_collections.cisco.dnac.network_v2_info_module>` -- Information module for Network V2
@@ -310,10 +314,12 @@ Modules
 * :ref:`pnp_workflow module <ansible_collections.cisco.dnac.pnp_workflow_module>` -- Resource module for Pnp Workflow
 * :ref:`pnp_workflow_count_info module <ansible_collections.cisco.dnac.pnp_workflow_count_info_module>` -- Information module for Pnp Workflow Count
 * :ref:`pnp_workflow_info module <ansible_collections.cisco.dnac.pnp_workflow_info_module>` -- Information module for Pnp Workflow
+* :ref:`pnp_workflow_manager module <ansible_collections.cisco.dnac.pnp_workflow_manager_module>` -- Resource module for Site and PnP related functions
 * :ref:`profiling_rules_count_info module <ansible_collections.cisco.dnac.profiling_rules_count_info_module>` -- Information module for Profiling Rules Count
 * :ref:`profiling_rules_in_bulk_create module <ansible_collections.cisco.dnac.profiling_rules_in_bulk_create_module>` -- Resource module for Profiling Rules In Bulk Create
 * :ref:`projects_details_info module <ansible_collections.cisco.dnac.projects_details_info_module>` -- Information module for Projects Details
 * :ref:`provision_intent module <ansible_collections.cisco.dnac.provision_intent_module>` -- Resource module for provision functions
+* :ref:`provision_workflow_manager module <ansible_collections.cisco.dnac.provision_workflow_manager_module>` -- Resource module for provision related functions
 * :ref:`qos_device_interface module <ansible_collections.cisco.dnac.qos_device_interface_module>` -- Resource module for Qos Device Interface
 * :ref:`qos_device_interface_info module <ansible_collections.cisco.dnac.qos_device_interface_info_module>` -- Information module for Qos Device Interface
 * :ref:`qos_device_interface_info_count_info module <ansible_collections.cisco.dnac.qos_device_interface_info_count_info_module>` -- Information module for Qos Device Interface Info Count
@@ -386,6 +392,7 @@ Modules
 * :ref:`site_intent module <ansible_collections.cisco.dnac.site_intent_module>` -- Resource module for Site operations
 * :ref:`site_membership_info module <ansible_collections.cisco.dnac.site_membership_info_module>` -- Information module for Site Membership
 * :ref:`site_update module <ansible_collections.cisco.dnac.site_update_module>` -- Resource module for Site Update
+* :ref:`site_workflow_manager module <ansible_collections.cisco.dnac.site_workflow_manager_module>` -- Resource module for Site operations
 * :ref:`snmp_properties module <ansible_collections.cisco.dnac.snmp_properties_module>` -- Resource module for Snmp Properties
 * :ref:`snmp_properties_info module <ansible_collections.cisco.dnac.snmp_properties_info_module>` -- Information module for Snmp Properties
 * :ref:`snmpv2_read_community_credential module <ansible_collections.cisco.dnac.snmpv2_read_community_credential_module>` -- Resource module for Snmpv2 Read Community Credential
@@ -398,6 +405,7 @@ Modules
 * :ref:`swim_intent module <ansible_collections.cisco.dnac.swim_intent_module>` -- Intent module for SWIM related functions
 * :ref:`swim_trigger_activation module <ansible_collections.cisco.dnac.swim_trigger_activation_module>` -- Resource module for Swim Trigger Activation
 * :ref:`swim_trigger_distribution module <ansible_collections.cisco.dnac.swim_trigger_distribution_module>` -- Resource module for Swim Trigger Distribution
+* :ref:`swim_workflow_manager module <ansible_collections.cisco.dnac.swim_workflow_manager_module>` -- workflow\_manager module for SWIM related functions
 * :ref:`syslog_config_create module <ansible_collections.cisco.dnac.syslog_config_create_module>` -- Resource module for Syslog Config Create
 * :ref:`syslog_config_update module <ansible_collections.cisco.dnac.syslog_config_update_module>` -- Resource module for Syslog Config Update
 * :ref:`system_health_count_info module <ansible_collections.cisco.dnac.system_health_count_info_module>` -- Information module for System Health Count
@@ -418,6 +426,7 @@ Modules
 * :ref:`task_tree_info module <ansible_collections.cisco.dnac.task_tree_info_module>` -- Information module for Task Tree
 * :ref:`template_intent module <ansible_collections.cisco.dnac.template_intent_module>` -- Resource module for Template functions
 * :ref:`template_preview module <ansible_collections.cisco.dnac.template_preview_module>` -- Resource module for Template Preview
+* :ref:`template_workflow_manager module <ansible_collections.cisco.dnac.template_workflow_manager_module>` -- Resource module for Template functions
 * :ref:`templates_details_info module <ansible_collections.cisco.dnac.templates_details_info_module>` -- Information module for Templates Details
 * :ref:`threat_detail module <ansible_collections.cisco.dnac.threat_detail_module>` -- Resource module for Threat Detail
 * :ref:`threat_detail_count module <ansible_collections.cisco.dnac.threat_detail_count_module>` -- Resource module for Threat Detail Count
@@ -515,6 +524,7 @@ Modules
     device_credential_info_module
     device_credential_intent_module
     device_credential_update_module
+    device_credential_workflow_manager_module
     device_details_info_module
     device_enrichment_details_info_module
     device_family_identifiers_details_info_module
@@ -544,6 +554,7 @@ Modules
     discovery_range_delete_module
     discovery_range_info_module
     discovery_summary_info_module
+    discovery_workflow_manager_module
     dna_command_runner_keywords_info_module
     dnac_packages_info_module
     dnacaap_management_execution_status_info_module
@@ -609,6 +620,7 @@ Modules
     interface_operation_create_module
     interface_update_module
     inventory_intent_module
+    inventory_workflow_manager_module
     issues_enrichment_details_info_module
     issues_info_module
     itsm_cmdb_sync_status_info_module
@@ -670,6 +682,7 @@ Modules
     network_device_with_snmp_v3_des_info_module
     network_info_module
     network_settings_intent_module
+    network_settings_workflow_manager_module
     network_update_module
     network_v2_module
     network_v2_info_module
@@ -707,10 +720,12 @@ Modules
     pnp_workflow_module
     pnp_workflow_count_info_module
     pnp_workflow_info_module
+    pnp_workflow_manager_module
     profiling_rules_count_info_module
     profiling_rules_in_bulk_create_module
     projects_details_info_module
     provision_intent_module
+    provision_workflow_manager_module
     qos_device_interface_module
     qos_device_interface_info_module
     qos_device_interface_info_count_info_module
@@ -783,6 +798,7 @@ Modules
     site_intent_module
     site_membership_info_module
     site_update_module
+    site_workflow_manager_module
     snmp_properties_module
     snmp_properties_info_module
     snmpv2_read_community_credential_module
@@ -795,6 +811,7 @@ Modules
     swim_intent_module
     swim_trigger_activation_module
     swim_trigger_distribution_module
+    swim_workflow_manager_module
     syslog_config_create_module
     syslog_config_update_module
     system_health_count_info_module
@@ -815,6 +832,7 @@ Modules
     task_tree_info_module
     template_intent_module
     template_preview_module
+    template_workflow_manager_module
     templates_details_info_module
     threat_detail_module
     threat_detail_count_module
