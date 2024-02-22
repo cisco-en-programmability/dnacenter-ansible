@@ -35,73 +35,87 @@ options:
     choices: [ merged, deleted ]
     default: merged
   config:
-    description:
-    - List of details of site being managed.
+    description: It represents a list of details for creating/managing/deleting sites, including areas, buildings, and floors.
     type: list
     elements: dict
-    required: true
+    required: True
     suboptions:
-      type:
+      site_type:
         description: Type of site to create/update/delete (eg area, building, floor).
         type: str
       site:
-        description: Site Details.
+        description: Contains details about the site being managed including areas, buildings and floors.
         type: dict
         suboptions:
           area:
-            description: Site Create's area.
+            description: Configuration details for creating or managing an area within a site.
             type: dict
             suboptions:
               name:
-                description: Name of the area (eg Area1).
+                description: Name of the area to be created or managed (e.g., "Area1").
                 type: str
-              parentName:
-                description: Complete Parent name of the Area to be created/deleted(eg Global/).
+              parent_name:
+                description: The full name of the parent under which the area will be created/managed/deleted (e.g., "Global/USA").
                 type: str
           building:
-            description: Building Details.
+            description: Configuration details required for creating or managing a building within a site.
             type: dict
             suboptions:
               address:
-                description: Address of the building to be created.
+                description: Physical address of the building that is to be created or managed.
                 type: str
               latitude:
-                description: Latitude coordinate of the building (eg 37.338).Values between -90 to +90.
-                type: int
+                description: Geographical latitude coordinate of the building. For example, use 37.338 for a location in San Jose, California.
+                    Valid values range from -90.0 to +90.0 degrees.
+                type: float
               longitude:
-                description: Longitude coordinate of the building (eg -121.832).Values between -180 to +180.
-                type: int
+                description: Geographical longitude coordinate of the building. For example, use -121.832 for a location in San Jose, California.
+                    Valid values range from -180.0 to +180.0 degrees.
+                type: float
               name:
-                description: Name of the building (eg building1).
+                description: Name of the building (e.g., "Building1").
                 type: str
               parent_name:
-                description: Complete Parent name of the Building to be created/deleted(eg Global/USA/San Francisco).
+                description: Hierarchical parent path of the building, indicating its location within the site (e.g., "Global/USA/San Francisco").
                 type: str
           floor:
-            description: Site Create's floor.
+            description: Configuration details required for creating or managing a floor within a site.
             type: dict
             suboptions:
               height:
-                description: Height of the floor units is ft. (eg 15).
-                type: int
+                description: Height of the floor in feet (e.g., 15.23).
+                type: float
               length:
-                description: Length of the floor units is ft. (eg 100).
-                type: int
+                description: Length of the floor in feet (e.g., 100.11).
+                type: float
               name:
-                description: Name of the floor (eg floor-1).
+                description: Name of the floor (e.g., "Floor-1").
                 type: str
-              parentName:
-                description: Complete Parent name of the floor to be created(eg Global/USA/San Francisco/BGL_18).
+              parent_name:
+                description: Hierarchical parent path of the floor, indicating its location within the site (e.g.,
+                    "Global/USA/San Francisco/BGL_18").
                 type: str
               rf_model:
-                description: Type of floor. Allowed values are 'Cubes And Walled Offices',
-                  'Drywall Office Only', 'Indoor High Ceiling', 'Outdoor Open Space'.
+                description: The RF (Radio Frequency) model type for the floor, which is essential for simulating and optimizing wireless
+                    network coverage. Select from the following allowed values, which describe different environmental signal propagation
+                    characteristics.
+                    Type of floor (allowed values are 'Cubes And Walled Offices', 'Drywall Office Only', 'Indoor High Ceiling',
+                    'Outdoor Open Space').
+                    Cubes And Walled Offices - This RF model typically represents indoor areas with cubicles or walled offices, where
+                        radio signals may experience attenuation due to walls and obstacles.
+                    Drywall Office Only - This RF model indicates an environment with drywall partitions, commonly found in office spaces,
+                        which may have moderate signal attenuation.
+                    Indoor High Ceiling - This RF model is suitable for indoor spaces with high ceilings, such as auditoriums or atriums,
+                        where signal propagation may differ due to the height of the ceiling.
+                    Outdoor Open Space - This RF model is used for outdoor areas with open spaces, where signal propagation is less obstructed
+                        and may follow different patterns compared to indoor environments.
                 type: str
               width:
-                description: Width of the floor units is ft. (eg 100).
-                type: int
+                description: Width of the floor in feet (e.g., 100.22).
+                type: float
               floor_number:
-                description: Floor number in the building/site (eg 5).once created, it can't be modified.
+                description: Floor number within the building site (e.g., 5). This value can only be specified during the creation of the
+                    floor and cannot be modified afterward.
                 type: int
 
 requirements:
@@ -135,9 +149,9 @@ EXAMPLES = r"""
     config:
     - site:
         area:
-          name: string
-          parentName: string
-      type: string
+          name: Test
+          parent_name: Global/India
+      site_type: area
 
 - name: Create a new building site
   cisco.dnac.site_workflow_manager:
@@ -154,12 +168,12 @@ EXAMPLES = r"""
     config:
     - site:
         building:
-          address: string
-          latitude: 0
-          longitude: 0
-          name: string
-          parentName: string
-      type: string
+          name: Building_1
+          parent_name: Global/India
+          address: Bengaluru, Karnataka, India
+          latitude: 24.12
+          longitude: 23.45
+      site_type: building
 
 - name: Create a Floor site under the building
   cisco.dnac.site_workflow_manager:
@@ -176,14 +190,14 @@ EXAMPLES = r"""
     config:
     - site:
         floor:
-          name: string
-          parent_name: string
-          length: int
-          width: int
-          height: int
-          rf_model: string
-          floor_number: int
-      type: string
+          name: Floor_1
+          parent_name: Global/India/Building_1
+          length: 75.76
+          width: 35.54
+          height: 30.12
+          rf_model: Cubes And Walled Offices
+          floor_number: 2
+      site_type: floor
 
 - name: Updating the Floor details under the building
   cisco.dnac.site_workflow_manager:
@@ -200,14 +214,14 @@ EXAMPLES = r"""
     config:
     - site:
         floor:
-          name: string
-          parent_name: string
-          length: int
-          width: int
-          height: int
-      type: string
+          name: Floor_1
+          parent_name: Global/India/Building_1
+          length: 75.76
+          width: 35.54
+          height: 30.12
+      site_type: floor
 
-- name: Deleting any site you need site name and parentName
+- name: Deleting any site you need site name and parent name
   cisco.dnac.site_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -222,9 +236,9 @@ EXAMPLES = r"""
     config:
     - site:
         floor:
-          name: string
-          parent_name: string
-      type: string
+          name: Floor_1
+          parent_name: Global/India/Building_1
+      site_type: floor
 """
 
 RETURN = r"""
@@ -358,6 +372,7 @@ class Site(DnacBase):
             type=dict(required=False, type='str'),
             site=dict(required=True, type='dict'),
         )
+        self.config = self.update_site_type_key(self.config)
 
         # Validate site params
         valid_temp, invalid_params = validate_list_of_dicts(
@@ -596,9 +611,9 @@ class Site(DnacBase):
             - updated_site (dict): The site details after the update.
             - requested_site (dict): The site details as requested for the update.
         Return:
-            bool: True if the area details (name and parentName) have been updated, False otherwise.
+            bool: True if the area details (name and parent name) have been updated, False otherwise.
         Description:
-            This method compares the area details (name and parentName) of the updated site
+            This method compares the area details (name and parent name) of the updated site
             with the requested site and returns True if they are equal, indicating that the area
             details have been updated. Returns False if there is a mismatch in the area site details.
         """
@@ -619,7 +634,7 @@ class Site(DnacBase):
             bool: True if the building details have been updated, False otherwise.
         Description:
             This method compares the building details of the updated site with the requested site.
-            It checks if the name, parentName, latitude, longitude, and address (if provided) are
+            It checks if the name, parent_name, latitude, longitude, and address (if provided) are
             equal, indicating that the building details have been updated. Returns True if the
             details match, and False otherwise.
         """

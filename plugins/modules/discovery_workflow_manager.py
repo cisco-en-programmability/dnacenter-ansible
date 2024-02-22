@@ -11,9 +11,9 @@ __author__ = ("Abinash Mishra, Phan Nguyen, Madhan Sankaranarayanan")
 DOCUMENTATION = r"""
 ---
 module: discovery_workflow_manager
-short_description: Resource module for discovery related functions
+short_description: A resource module for handling device discovery tasks.
 description:
-- Manage operations discover devices using IP address/range, CDP, LLDP and delete discoveries
+- Manages device discovery using IP address, address range, CDP, and LLDP, including deletion of discovered devices.
 - API to discover a device or multiple devices
 - API to delete a discovery of a device or multiple devices
 version_added: '6.6.0'
@@ -49,9 +49,16 @@ options:
         elements: str
         required: true
       discovery_type:
-        description: Type of discovery (SINGLE/RANGE/MULTI RANGE/CDP/LLDP)
+        description: Determines the method of device discovery. Here are the available options.
+            - SINGLE discovers a single device using a single IP address.
+            - RANGE discovers multiple devices within a single IP address range.
+            - MULTI RANGE discovers devices across multiple IP address ranges.
+            - CDP  uses Cisco Discovery Protocol to discover devices in subsequent layers of the given IP address.
+            - LLDP uses Link Layer Discovery Protocol to discover devices in subsequent layers of the specified IP address.
+            - CIDR discovers devices based on subnet filtering using Classless Inter-Domain Routing.
         type: str
         required: true
+        choices: [ 'SINGLE', 'RANGE', 'MULTI RANGE', 'CDP', 'LLDP', 'CIDR']
       cdp_level:
         description: Total number of levels that are there in cdp's method of discovery
         type: int
@@ -64,113 +71,160 @@ options:
         description: Start index for the header in fetching SNMP v2 credentials
         type: int
         default: 1
-      enable_password_list:
-        description: List of enable passwords for the CLI crfedentials
-        type: list
-        elements: str
       records_to_return:
         description: Number of records to return for the header in fetching global v2 credentials
         type: int
         default: 100
-      http_read_credential:
-        description: HTTP read credentials for hosting a device
+      discovery_specific_credentials:
+        description: Credentials specifically created by the user for performing device discovery.
         type: dict
         suboptions:
-            username:
-                description: The username for HTTP(S) authentication, which is mandatory when using HTTP credentials.
+            cli_credentials_list:
+                description: List of CLI credentials to be used during device discovery.
+                type: list
+                elements: dict
+                suboptions:
+                    username:
+                        description: Username for CLI authentication, mandatory when using CLI credentials.
+                        type: str
+                    password:
+                        description: Password for CLI authentication, mandatory when using CLI credential.
+                        type: str
+                    enable_password:
+                        description: Enable password for CLI authentication, mandatory when using CLI credential.
+                        type: str
+            http_read_credential:
+                description: HTTP read credential is used for authentication purposes and specifically utilized to
+                    grant read-only access to certain resources from the device.
+                type: dict
+                suboptions:
+                    username:
+                        description: Username for HTTP(S) Read authentication, mandatory when using HTTP credentials.
+                        type: str
+                    password:
+                        description: Password for HTTP(S) Read authentication, mandatory when using HTTP credentials.
+                        type: str
+                    port:
+                        description: Port for HTTP(S) Read authentication, mandatory for using HTTP credentials.
+                        type: int
+                    secure:
+                        description: Flag for HTTP(S) Read authentication, not mandatory when using HTTP credentials.
+                        type: bool
+            http_write_credential:
+                description: HTTP write credential is used for authentication purposes and grants Cisco Catalyst Center the
+                    ability to alter configurations, update software, or perform other modifications on a network device.
+                type: dict
+                suboptions:
+                    username:
+                        description: Username for HTTP(S) Write authentication, mandatory when using HTTP credentials.
+                        type: str
+                    password:
+                        description: Password for HTTP(S) Write authentication, mandatory when using HTTP credentials.
+                        type: str
+                    port:
+                        description: Port for HTTP(S) Write authentication, mandatory when using HTTP credentials.
+                        type: int
+                    secure:
+                        description: Flag for HTTP(S) Write authentication, not mandatory when using HTTP credentials.
+                        type: bool
+            snmp_v2_read_credential:
+                description:
+                    - The SNMP v2 credentials to be created and used for contacting a device via SNMP protocol in read mode.
+                    - SNMP v2 also delivers data encryptions, but it uses data types.
+                type: dict
+                suboptions:
+                    desc:
+                        description: Name/Description of the SNMP read credential to be used for creation of snmp_v2_read_credential.
+                        type: str
+                    community:
+                        description: SNMP V2 Read community string enables Cisco Catalyst Center to extract read-only data from device.
+                        type: str
+            snmp_v2_write_credential:
+                description:
+                    - The SNMP v2 credentials to be created and used for contacting a device via SNMP protocol in read and write mode.
+                    - SNMP v2 also delivers data encryptions, but it uses data types.
+                type: dict
+                suboptions:
+                    desc:
+                        description: Name/Description of the SNMP write credential to be used for creation of snmp_v2_write_credential.
+                        type: str
+                    community:
+                        description: SNMP V2 Write community string is used to extract data and alter device configurations.
+                        type: str
+            snmp_v3_credential:
+                description:
+                    - The SNMP v3 credentials to be created and used for contacting a device via SNMP protocol in read and write mode.
+                    - SNMPv3 is the most secure version of SNMP, allowing users to fully encrypt transmissions, keeping us safe from external attackers.
+                type: dict
+                suboptions:
+                    username:
+                        description: Username of the SNMP v3 protocol to be used.
+                        type: str
+                    snmp_mode:
+                        description:
+                            - Mode of SNMP which determines the encryption level of our community string.
+                            - AUTHPRIV mode uses both Authentication and Encryption.
+                            - AUTHNOPRIV mode uses Authentication but no Encryption.
+                            - NOAUTHNOPRIV mode does not use either Authentication or Encryption.
+                        type: str
+                        choices: [ 'AUTHPRIV', 'AUTHNOPRIV', 'NOAUTHNOPRIV' ]
+                    auth_password:
+                        description:
+                            - Authentication Password of the SNMP v3 protocol to be used.
+                            - Must be of length greater than 7 characters.
+                            - Not required for NOAUTHNOPRIV snmp_mode.
+                        type: str
+                    auth_type:
+                        description:
+                            - Authentication type of the SNMP v3 protocol to be used.
+                            - SHA uses Secure Hash Algorithm (SHA) as your authentication protocol.
+                            - MD5 uses Message Digest 5 (MD5) as your authentication protocol and is not recommended.
+                            - Not required for NOAUTHNOPRIV snmp_mode.
+                        type: str
+                        choices: [ 'SHA', 'MD5' ]
+                    privacy_type:
+                        description:
+                            - Privacy type/protocol of the SNMP v3 protocol to be used in AUTHPRIV SNMP mode
+                            - Not required for AUTHNOPRIV and NOAUTHNOPRIV snmp_mode.
+                        type: str
+                        choices: [ 'AES128', 'AES192', 'AES256' ]
+                    privacy_password:
+                        description:
+                            - Privacy password of the SNMP v3 protocol to be used in AUTHPRIV SNMP mode
+                            - Not required for AUTHNOPRIV and NOAUTHNOPRIV snmp_mode.
+                        type: str
+            net_conf_port:
+                description:
+                    - To be used when network contains IOS XE-based wireless controllers.
+                    - This is used for discovery and the enabling of wireless services on the controllers.
+                    - Requires valid SSH credentials to work.
+                    - Avoid standard ports like 22, 80, and 8080.
                 type: str
-            password:
-                description: The password for HTTP(S) authentication. Mandatory for utilizing HTTP credentials.
-                type: str
-            port:
-                description: The HTTP(S) port number, which is mandatory for using HTTP credentials.
-                type: int
-            secure:
-                description: This is a flag for HTTP(S). Its usage is not mandatory for HTTP credentials.
-                type: bool
-      http_write_credential:
-        description: HTTP write credentials for hosting a device
-        type: dict
-        suboptions:
-            username:
-                description: The username for HTTP(S) authentication, which is mandatory when using HTTP credentials.
-                type: str
-            password:
-                description: The password for HTTP(S) authentication. Mandatory for utilizing HTTP credentials.
-                type: str
-            port:
-                description: The HTTP(S) port number, which is mandatory for using HTTP credentials.
-                type: int
-            secure:
-                description: This is a flag for HTTP(S). Its usage is not mandatory for HTTP credentials.
-                type: bool
       ip_filter_list:
-        description: List of IP adddrsess that needs to get filtered out from the IP addresses added
+        description: List of IP adddrsess that needs to get filtered out from the IP addresses passed.
         type: list
         elements: str
       discovery_name:
         description: Name of the discovery task
         type: str
         required: true
-      netconf_port:
-        description: Port for the netconf credentials
-        type: str
-      password_list:
-        description: List of passwords for the CLI credentials
-        type: list
-        elements: str
-      username_list:
-        description: List of passwords for the CLI credentials
-        type: list
-        elements: str
       preferred_mgmt_ip_method:
         description: Preferred method for the management of the IP (None/UseLoopBack)
         type: str
         default: None
       protocol_order:
-        description: Order of protocol (ssh/telnet) in which device connection will be tried. For example, 'telnet' - only telnet - 'ssh,
-            telnet' - ssh with higher order than telnet
+        description: Determines the order in which device connections will be attempted. Here are the options
+            - "telnet" Only telnet connections will be tried.
+            - "ssh, telnet" SSH (Secure Shell) will be attempted first, followed by telnet if SSH fails.
         type: str
+        required: true
       retry:
         description: Number of times to try establishing connection to device
         type: int
-      snmp_auth_passphrase:
-        description: Auth Pass phrase for SNMP
-        type: str
-      snmp_auth_protocol:
-        description: SNMP auth protocol (SHA/MD5)
-        type: str
-      snmp_mode:
-        description: Mode of SNMP (AUTHPRIV/AUTHNOPRIV/NOAUTHNOPRIV)
-        type: str
-      snmp_priv_passphrase:
-        description: Pass phrase for SNMP privacy
-        type: str
-      snmp_priv_protocol:
-        description: SNMP privacy protocol (DES/AES128)
-        type: str
-      snmp_ro_community:
-        description: Snmp RO community of the devices to be discovered
-        type: str
-      snmp_ro_community_desc:
-        description: Description for Snmp RO community
-        type: str
-      snmp_rw_community:
-        description: Snmp RW community of the devices to be discovered
-        type: str
-      snmp_rw_community_desc:
-        description: Description for Snmp RW community
-        type: str
-      snmp_username:
-        description: SNMP username of the device
-        type: str
-      snmp_version:
-        description: Version of SNMP (v2/v3)
-        type: str
       timeout:
         description: Time to wait for device response in seconds
         type: int
-      cli_cred_len:
+      global_cli_len:
        description: Specifies the total number of CLI credentials to be used, ranging from 1 to 5.
        type: int
        default: 1
@@ -224,30 +278,43 @@ EXAMPLES = r"""
           cdp_level: string
           lldp_level: string
           start_index: integer
-          enable_password_list: list
           records_to_return: integer
-          http_read_credential: dictionary
-          http_write_credential: dictionary
           ip_filter_list: list
           discovery_name: string
           password_list: list
-          preffered_mgmt_ip_method: string
+          prefered_mgmt_ip_method: string
           protocol_order: string
           retry: integer
-          snmp_auth_passphrase: string
-          snmp_auth_protocol: string
-          snmp_mode: string
-          snmp_priv_passphrase: string
-          snmp_priv_protocol: string
-          snmp_ro_community: string
-          snmp_ro_community_desc: string
-          snmp_rw_community: string
-          snmp_rw_community_desc: string
-          snmp_username: string
-          snmp_version: string
           timeout: integer
-          username_list: list
-          cli_cred_len: integer
+          global_cli_len: integer
+          discovery_specific_credentials:
+            cli_credentials_list:
+                - username: string
+                  password: string
+                  enable_password: string
+            http_read_credential:
+                username: string
+                password: string
+                port: integer
+                secure: boolean
+            http_write_credential:
+                username: string
+                password: string
+                port: integer
+                secure: boolean
+            snmp_v2_read_credential:
+                desc: string
+                community: string
+            snmp_v2_write_credential:
+                desc: string
+                community: string
+            snmp_v3_credential:
+                username: string
+                snmp_mode: string
+                auth_password: string
+                auth_type: string
+                privacy_type: string
+                privacy_password: string
 
 - name: Delete disovery by name
   cisco.dnac.discovery_workflow_manager:
@@ -361,48 +428,30 @@ class Discovery(DnacBase):
         discovery_spec = {
             'cdp_level': {'type': 'int', 'required': False,
                           'default': 16},
-            'enable_password_list': {'type': 'list', 'required': False,
-                                     'elements': 'str'},
             'start_index': {'type': 'int', 'required': False,
                             'default': 1},
             'records_to_return': {'type': 'int', 'required': False,
                                   'default': 100},
-            'http_read_credential': {'type': 'dict', 'required': False},
-            'http_write_credential': {'type': 'dict', 'required': False},
+            'discovery_specific_credentials': {'type': 'dict', 'required': False},
             'ip_filter_list': {'type': 'list', 'required': False,
                                'elements': 'str'},
             'lldp_level': {'type': 'int', 'required': False,
                            'default': 16},
             'discovery_name': {'type': 'str', 'required': True},
             'netconf_port': {'type': 'str', 'required': False},
-            'password_list': {'type': 'list', 'required': False,
-                              'elements': 'str'},
             'preferred_mgmt_ip_method': {'type': 'str', 'required': False,
                                          'default': 'None'},
-            'protocol_order': {'type': 'str', 'required': False},
             'retry': {'type': 'int', 'required': False},
-            'snmp_auth_passphrase': {'type': 'str', 'required': False},
-            'snmp_auth_protocol': {'type': 'str', 'required': False},
-            'snmp_mode': {'type': 'str', 'required': False},
-            'snmp_priv_passphrase': {'type': 'str', 'required': False},
-            'snmp_priv_protocol': {'type': 'str', 'required': False},
-            'snmp_ro_community': {'type': 'str', 'required': False},
-            'snmp_ro_community_desc': {'type': 'str', 'required': False},
-            'snmp_rw_community': {'type': 'str', 'required': False},
-            'snmp_rw_community_desc': {'type': 'str', 'required': False},
-            'snmp_username': {'type': 'str', 'required': False},
-            'snmp_version': {'type': 'str', 'required': False},
             'timeout': {'type': 'str', 'required': False},
-            'username_list': {'type': 'list', 'required': False,
-                              'elements': 'str'},
-            'cli_cred_len': {'type': 'int', 'required': False,
-                             'default': 1}
+            'global_cli_len': {'type': 'int', 'required': False,
+                               'default': 1}
         }
 
         if state == "merged":
             discovery_spec["ip_address_list"] = {'type': 'list', 'required': True,
                                                  'elements': 'str'}
             discovery_spec["discovery_type"] = {'type': 'str', 'required': True}
+            discovery_spec["protocol_order"] = {'type': 'str', 'required': True}
 
         elif state == "deleted":
             if self.config[0].get("delete_all") is True:
@@ -463,7 +512,7 @@ class Discovery(DnacBase):
         response = response.get('response')
         self.log("The Global credentials response from 'get all global credentials v2' API is {0}".format(str(response)), "DEBUG")
 
-        cli_len_inp = self.validated_config[0].get("cli_cred_len")
+        cli_len_inp = self.validated_config[0].get("global_cli_len")
         if response.get("cliCredential") is None:
             msg = 'Not found any CLI credentials to perform discovery'
             self.log(msg, "CRITICAL")
@@ -580,13 +629,143 @@ class Discovery(DnacBase):
         self.log("IP Address list's length is longer than 1", "ERROR")
         self.module.fail_json(msg="IP Address list's length is longer than 1", response=[])
 
-    def http_cred_failure(self, msg=None):
+    def discovery_specific_cred_failure(self, msg=None):
         """
         Method for failing discovery if there is any discrepancy in the http credentials
         passed by the user
         """
+
         self.log(msg, "CRITICAL")
         self.module.fail_json(msg=msg)
+
+    def handle_discovery_specific_credentials(self, new_object_params=None):
+        """
+        Method to convert values for create_params API when discovery specific paramters
+        are passed as input.
+
+        Parameters:
+            - new_object_params: The dictionary storing various parameters for calling the
+                                 start discovery API
+
+        Returns:
+            - new_object_params: The dictionary storing various parameters for calling the
+                                 start discovery API in an updated fashion
+        """
+
+        discovery_specific_credentials = self.validated_config[0].get('discovery_specific_credentials')
+        cli_credentials_list = discovery_specific_credentials.get('cli_credentials_list')
+        http_read_credential = discovery_specific_credentials.get('http_read_credential')
+        http_write_credential = discovery_specific_credentials.get('http_write_credential')
+        snmp_v2_read_credential = discovery_specific_credentials.get('snmp_v2_read_credential')
+        snmp_v2_write_credential = discovery_specific_credentials.get('snmp_v2_write_credential')
+        snmp_v3_credential = discovery_specific_credentials.get('snmp_v3_credential')
+        net_conf_port = discovery_specific_credentials.get('net_conf_port')
+
+        if cli_credentials_list:
+            if not isinstance(cli_credentials_list, list):
+                msg = "Device Specific ClI credentials must be passed as a list"
+                self.discovery_specific_cred_failure(msg=msg)
+            if len(cli_credentials_list) > 0:
+                username_list = []
+                password_list = []
+                enable_password_list = []
+                for cli_cred in cli_credentials_list:
+                    if cli_cred.get('username') and cli_cred.get('password') and cli_cred.get('enable_password'):
+                        username_list.append(cli_cred.get('username'))
+                        password_list.append(cli_cred.get('password'))
+                        enable_password_list.append(cli_cred.get('enable_password'))
+                    else:
+                        msg = "username, password and enable_password must be passed toether for creating CLI credentials"
+                        self.discovery_specific_cred_failure(msg=msg)
+                new_object_params['userNameList'] = username_list
+                new_object_params['passwordList'] = password_list
+                new_object_params['enablePasswordList'] = enable_password_list
+
+        if http_read_credential:
+            if not (http_read_credential.get('password') and isinstance(http_read_credential.get('password'), str)):
+                msg = "The password for the HTTP read credential must be of string type."
+                self.discovery_specific_cred_failure(msg=msg)
+            if not (http_read_credential.get('username') and isinstance(http_read_credential.get('username'), str)):
+                msg = "The username for the HTTP read credential must be of string type."
+                self.discovery_specific_cred_failure(msg=msg)
+            if not (http_read_credential.get('port') and isinstance(http_read_credential.get('port'), int)):
+                msg = "The port for the HTTP read Credential must be of integer type."
+                self.discovery_specific_cred_failure(msg=msg)
+            if not isinstance(http_read_credential.get('secure'), bool):
+                msg = "Secure for HTTP read Credential must be of type boolean."
+                self.discovery_specific_cred_failure(msg=msg)
+            new_object_params['httpReadCredential'] = http_read_credential
+
+        if http_write_credential:
+            if not (http_write_credential.get('password') and isinstance(http_write_credential.get('password'), str)):
+                msg = "The password for the HTTP write credential must be of string type."
+                self.discovery_specific_cred_failure(msg=msg)
+            if not (http_write_credential.get('username') and isinstance(http_write_credential.get('username'), str)):
+                msg = "The username for the HTTP write credential must be of string type."
+                self.discovery_specific_cred_failure(msg=msg)
+            if not (http_write_credential.get('port') and isinstance(http_write_credential.get('port'), int)):
+                msg = "The port for the HTTP write Credential must be of integer type."
+                self.discovery_specific_cred_failure(msg=msg)
+            if not isinstance(http_write_credential.get('secure'), bool):
+                msg = "Secure for HTTP write Credential must be of type boolean."
+                self.discovery_specific_cred_failure(msg=msg)
+            new_object_params['httpWriteCredential'] = http_write_credential
+
+        if snmp_v2_read_credential:
+            if not (snmp_v2_read_credential.get('desc')) and isinstance(snmp_v2_read_credential.get('desc'), str):
+                msg = "Name/description for the SNMP v2 read credential must be of string type"
+                self.discovery_specific_cred_failure(msg=msg)
+            if not (snmp_v2_read_credential.get('community')) and isinstance(snmp_v2_read_credential.get('community'), str):
+                msg = "The community string must be of string type"
+                self.discovery_specific_cred_failure(msg=msg)
+            new_object_params['snmpROCommunityDesc'] = snmp_v2_read_credential.get('desc')
+            new_object_params['snmpROCommunity'] = snmp_v2_read_credential.get('community')
+            new_object_params['snmpVersion'] = "v2"
+
+        if snmp_v2_write_credential:
+            if not (snmp_v2_write_credential.get('desc')) and isinstance(snmp_v2_write_credential.get('desc'), str):
+                msg = "Name/description for the SNMP v2 write credential must be of string type"
+                self.discovery_specific_cred_failure(msg=msg)
+            if not (snmp_v2_write_credential.get('community')) and isinstance(snmp_v2_write_credential.get('community'), str):
+                msg = "The community string must be of string type"
+                self.discovery_specific_cred_failure(msg=msg)
+            new_object_params['snmpRWCommunityDesc'] = snmp_v2_write_credential.get('desc')
+            new_object_params['snmpRWCommunity'] = snmp_v2_write_credential.get('community')
+            new_object_params['snmpVersion'] = "v2"
+
+        if snmp_v3_credential:
+            if not (snmp_v3_credential.get('username')) and isinstance(snmp_v3_credential.get('username'), str):
+                msg = "Username of SNMP v3 protocol must be of string type"
+                self.discovery_specific_cred_failure(msg=msg)
+            if not (snmp_v3_credential.get('snmp_mode')) and isinstance(snmp_v3_credential.get('snmp_mode'), str):
+                msg = "Mode of SNMP is madantory to use SNMPv3 protocol and must be of string type"
+                self.discovery_specific_cred_failure(msg=msg)
+                if (snmp_v3_credential.get('snmp_mode')) == "AUTHPRIV" or snmp_v3_credential.get('snmp_mode') == "AUTHNOPRIV":
+                    if not (snmp_v3_credential.get('auth_password')) and isinstance(snmp_v3_credential.get('auth_password'), str):
+                        msg = "Authorization password must be of string type"
+                        self.discovery_specific_cred_failure(msg=msg)
+                    if not (snmp_v3_credential.get('auth_type')) and isinstance(snmp_v3_credential.get('auth_type'), str):
+                        msg = "Authorization type must be of string type"
+                        self.discovery_specific_cred_failure(msg=msg)
+                    if snmp_v3_credential.get('snmp_mode') == "AUTHPRIV":
+                        if not (snmp_v3_credential.get('privacy_type')) and isinstance(snmp_v3_credential.get('privacy_type'), str):
+                            msg = "Privacy type must be of string type"
+                            self.discovery_specific_cred_failure(msg=msg)
+                        if not (snmp_v3_credential.get('privacy_password')) and isinstance(snmp_v3_credential.get('privacy_password'), str):
+                            msg = "Privacy password must be of string type"
+                            self.discovery_specific_cred_failure(msg=msg)
+            new_object_params['snmpUserName'] = snmp_v3_credential.get('username')
+            new_object_params['snmpMode'] = snmp_v3_credential.get('snmp_mode')
+            new_object_params['snmpAuthPassphrase'] = snmp_v3_credential.get('auth_password')
+            new_object_params['snmpAuthProtocol'] = snmp_v3_credential.get('auth_type')
+            new_object_params['snmpPrivProtocol'] = snmp_v3_credential.get('privacy_type')
+            new_object_params['snmpPrivPassphrase'] = snmp_v3_credential.get('privacy_password')
+            new_object_params['snmpVersion'] = "v3"
+
+        if net_conf_port:
+            new_object_params['netconfPort'] = str(net_conf_port)
+
+        return new_object_params
 
     def create_params(self, credential_ids=None, ip_address_list=None):
         """
@@ -607,78 +786,22 @@ class Discovery(DnacBase):
         if credential_ids is None:
             credential_ids = []
 
-        http_read_credential = self.validated_config[0].get('http_read_credential')
-        http_write_credential = self.validated_config[0].get('http_write_credential')
-        if http_read_credential:
-            if not (http_read_credential.get('password') and isinstance(http_read_credential.get('password'), str)):
-                msg = "The password for the HTTP read credential must be of string type."
-                self.http_cred_failure(msg=msg)
-            if not (http_read_credential.get('username') and isinstance(http_read_credential.get('username'), str)):
-                msg = "The username for the HTTP read credential must be of string type."
-                self.http_cred_failure(msg=msg)
-            if not (http_read_credential.get('port') and isinstance(http_read_credential.get('port'), int)):
-                msg = "The port for the HTTP read Credential must be of integer type."
-                self.http_cred_failure(msg=msg)
-            if not isinstance(http_read_credential.get('secure'), bool):
-                msg = "Secure for HTTP read Credential must be of type boolean."
-                self.http_cred_failure(msg=msg)
-
-        if http_write_credential:
-            if not (http_write_credential.get('password') and isinstance(http_write_credential.get('password'), str)):
-                msg = "The password for the HTTP write credential must be of string type."
-                self.http_cred_failure(msg=msg)
-            if not (http_write_credential.get('username') and isinstance(http_write_credential.get('username'), str)):
-                msg = "The username for the HTTP write credential must be of string type."
-                self.http_cred_failure(msg=msg)
-            if not (http_write_credential.get('port') and isinstance(http_write_credential.get('port'), int)):
-                msg = "The port for the HTTP write Credential must be of integer type."
-                self.http_cred_failure(msg=msg)
-            if not isinstance(http_write_credential.get('secure'), bool):
-                msg = "Secure for HTTP write Credential must be of type boolean."
-                self.http_cred_failure(msg=msg)
-
         new_object_params = {}
         new_object_params['cdpLevel'] = self.validated_config[0].get('cdp_level')
         new_object_params['discoveryType'] = self.validated_config[0].get('discovery_type')
-        new_object_params['enablePasswordList'] = self.validated_config[0].get(
-            'enable_password_list')
         new_object_params['globalCredentialIdList'] = credential_ids
-        new_object_params['httpReadCredential'] = self.validated_config[0].get(
-            'http_read_credential')
-        new_object_params['httpWriteCredential'] = self.validated_config[0].get(
-            'http_write_credential')
         new_object_params['ipAddressList'] = ip_address_list
         new_object_params['ipFilterList'] = self.validated_config[0].get('ip_filter_list')
         new_object_params['lldpLevel'] = self.validated_config[0].get('lldp_level')
         new_object_params['name'] = self.validated_config[0].get('discovery_name')
-        new_object_params['netconfPort'] = self.validated_config[0].get('netconf_port')
-        new_object_params['passwordList'] = self.validated_config[0].get('password_list')
-        new_object_params['preferredMgmtIPMethod'] = self.validated_config[0].get(
-            'preferred_mgmt_ip_method')
+        new_object_params['preferredMgmtIPMethod'] = self.validated_config[0].get('preferred_mgmt_ip_method')
         new_object_params['protocolOrder'] = self.validated_config[0].get('protocol_order')
         new_object_params['retry'] = self.validated_config[0].get('retry')
-        new_object_params['snmpAuthPassphrase'] = self.validated_config[0].get(
-            'snmp_auth_Passphrase')
-        new_object_params['snmpAuthProtocol'] = self.validated_config[0].get(
-            'snmp_auth_protocol')
-        new_object_params['snmpMode'] = self.validated_config[0].get('snmp_mode')
-        new_object_params['snmpPrivPassphrase'] = self.validated_config[0].get(
-            'snmp_priv_passphrase')
-        new_object_params['snmpPrivProtocol'] = self.validated_config[0].get(
-            'snmp_priv_protocol')
-        new_object_params['snmpROCommunity'] = self.validated_config[0].get(
-            'snmp_ro_community')
-        new_object_params['snmpROCommunityDesc'] = self.validated_config[0].get(
-            'snmp_ro_community_desc')
-        new_object_params['snmpRWCommunity'] = self.validated_config[0].get(
-            'snmp_rw_community')
-        new_object_params['snmpRWCommunityDesc'] = self.validated_config[0].get(
-            'snmp_rw_community_desc')
-        new_object_params['snmpUserName'] = self.validated_config[0].get(
-            'snmp_username')
-        new_object_params['snmpVersion'] = self.validated_config[0].get('snmp_version')
         new_object_params['timeout'] = self.validated_config[0].get('timeout')
-        new_object_params['userNameList'] = self.validated_config[0].get('username_list')
+
+        if self.validated_config[0].get('discovery_specific_credentials'):
+            self.handle_discovery_specific_credentials(new_object_params=new_object_params)
+
         self.log("The payload/object created for calling the start discovery API is {0}".format(str(new_object_params)), "INFO")
 
         return new_object_params
@@ -1085,6 +1208,18 @@ class Discovery(DnacBase):
         self.log("Current State (have): {0}".format(str(self.have)), "INFO")
         self.log("Desired State (want): {0}".format(str(config)), "INFO")
         # Code to validate Cisco Catalyst Center config for deleted state
+        if config.get("delete_all") is True:
+            count_discoveries = self.dnac_apply['exec'](
+                family="discovery",
+                function="get_count_of_all_discovery_jobs",
+            )
+            if count_discoveries == 0:
+                self.log("All discoveries are deleted", "INFO")
+            else:
+                self.log("All discoveries are not deleted", "WARNING")
+            self.status = "success"
+            return self
+
         discovery_task_info = self.lookup_discovery_by_range_via_name()
         discovery_name = config.get('discovery_name')
         if discovery_task_info:
