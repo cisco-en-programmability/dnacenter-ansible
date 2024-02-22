@@ -1355,9 +1355,9 @@ class Template(DnacBase):
                 'device_types': {
                     'type': 'list',
                     'elements': 'dict',
-                    'productFamily': {'type': 'str'},
-                    'productSeries': {'type': 'str'},
-                    'productType': {'type': 'str'},
+                    'product_family': {'type': 'str'},
+                    'product_series': {'type': 'str'},
+                    'product_type': {'type': 'str'},
                 },
                 'failure_policy': {'type': 'str'},
                 'id': {'type': 'str'},

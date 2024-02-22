@@ -447,6 +447,15 @@ class PnP(DnacBase):
         self.log("Image details are {0}".format(str(image_params)), "INFO")
         return image_params
 
+    def pnp_cred_failure(self, msg=None):
+        """
+        Method for failing discovery if there is any discrepancy in the PnP credentials
+        passed by the user
+        """
+
+        self.log(msg, "CRITICAL")
+        self.module.fail_json(msg=msg)
+
     def get_claim_params(self):
         """
         Get the paramters needed for claiming the device to site.
@@ -497,13 +506,35 @@ class PnP(DnacBase):
         }
 
         if claim_params["type"] == "CatalystWLC":
+            if not (self.validated_config[0].get('static_ip')):
+                msg = "A static IP address is required to claim a wireless controller. Please provide one."
+                self.pnp_cred_failure(msg=msg)
+            if not (self.validated_config[0].get('subnet_mask')):
+                msg = "Please provide a subnet mask to claim a wireless controller. "\
+                    "This information is mandatory for the configuration."
+                self.pnp_cred_failure(msg=msg)
+            if not (self.validated_config[0].get('gateway')):
+                msg = "A gateway IP is required to claim a wireless controller. Please ensure to provide it."
+                self.pnp_cred_failure(msg=msg)
+            if not (self.validated_config[0].get('ip_interface_name')):
+                msg = "Please provide the Interface Name to claim a wireless controller. This information is necessary"\
+                    " for making it a logical interface post claiming which can used to help manage the Wireless SSIDs "\
+                    "broadcasted by the access points, manage the controller, access point and user data, plus more."
+                self.pnp_cred_failure(msg=msg)
+            if not (self.validated_config[0].get('vlan_id')):
+                msg = "Please provide the Vlan ID to claim a wireless controller. This is a required field for the process"\
+                    " to create and set the specified port as trunk during PnP."
+                self.pnp_cred_failure(msg=msg)
             claim_params["staticIP"] = self.validated_config[0]['static_ip']
             claim_params["subnetMask"] = self.validated_config[0]['subnet_mask']
             claim_params["gateway"] = self.validated_config[0]['gateway']
-            claim_params["vlanId"] = str(self.validated_config[0]['vlan_id'])
+            claim_params["vlanId"] = str(self.validated_config[0].get('vlan_id'))
             claim_params["ipInterfaceName"] = self.validated_config[0]['ip_interface_name']
 
         if claim_params["type"] == "AccessPoint":
+            if not (self.validated_config[0].get("rf_profile")):
+                msg = "The RF Profile for claiming an AP must be passed"
+                self.pnp_cred_failure(msg=msg)
             claim_params["rfProfile"] = self.validated_config[0]["rf_profile"]
 
         self.log("Paramters used for claiming are {0}".format(str(claim_params)), "INFO")
@@ -633,17 +664,24 @@ class PnP(DnacBase):
                     self.log("Site Exists: {0}\nSite Name: {1}\nSite ID: {2}".format(site_exists, site_name, site_id), "INFO")
                     if self.want.get("pnp_type") == "AccessPoint":
                         if self.get_site_type() != "floor":
-                            self.msg = "The site type must be specified as 'floor'\
-                                for claiming an AP"
+                            self.msg = "Please ensure that the site type is specified as 'floor' when claiming an AP."\
+                                " The site type is given as '{0}'. Please change the 'site_type' into 'floor' to "\
+                                "proceed.".format(self.get_site_type())
                             self.log(str(self.msg), "ERROR")
                             self.status = "failed"
                             return self
 
+                    if len(image_list) == 0:
+                        self.msg = "The image '{0}' is either not present or not tagged as 'Golden' in the Cisco Catalyst Center."\
+                            " Please verify its existence and its tag status.".format(self.validated_config[0].get("image_name"))
+                        self.log(self.msg, "CRITICAL")
+                        self.status = "failed"
+                        return self
+
                     if len(image_list) == 1:
                         if install_mode != "INSTALL":
-                            self.msg = "Installation mode must be in \
-                            INSTALL mode to upgrade the image. Current mode is\
-                            {0}".format(install_mode)
+                            self.msg = "The system must be in INSTALL mode to upgrade the image. The current mode is '{0}'."\
+                                " Please switch to INSTALL mode to proceed.".format(install_mode)
                             self.log(str(self.msg), "CRITICAL")
                             self.status = "failed"
                             return self
@@ -654,8 +692,8 @@ class PnP(DnacBase):
                     template_name = self.want.get("template_name")
                     if template_name:
                         if not (template_list and isinstance(template_list, list)):
-                            self.msg = "Either project not found \
-                                or it is Empty"
+                            self.msg = "Either project not found"\
+                                " or it is Empty."
                             self.log(self.msg, "CRITICAL")
                             self.status = "failed"
                             return self
@@ -671,7 +709,7 @@ class PnP(DnacBase):
 
                 else:
                     if not self.want.get('pnp_params')[0].get('deviceInfo'):
-                        self.msg = "Either Site Name or Device details must be added"
+                        self.msg = "Either Site Name or Device details must be added."
                         self.log(self.msg, "ERROR")
                         self.status = "failed"
                         return self
