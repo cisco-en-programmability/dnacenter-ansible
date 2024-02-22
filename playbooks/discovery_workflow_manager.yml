@@ -1,0 +1,86 @@
+---
+- name: Discover devices using multiple discovery specific credentials and delete all the discoveries
+  hosts: localhost
+  connection: local
+  gather_facts: no
+
+  vars_files:
+    - "{{ CLUSTERFILE }}"
+
+  vars:
+    dnac_login: &dnac_login
+      dnac_host: "{{ dnac_host }}"
+      dnac_username: "{{ dnac_username }}"
+      dnac_password: "{{ dnac_password }}"
+      dnac_verify: "{{ dnac_verify }}"
+      dnac_port: "{{ dnac_port }}"
+      dnac_version: "{{ dnac_version }}"
+      dnac_debug: "{{ dnac_debug }}"
+      dnac_log: True
+      dnac_log_level: DEBUG
+
+  tasks:
+    - name: Execute discovery devices using MULTI RANGE with various discovery specific credentials
+      cisco.dnac.discovery_workflow_manager:
+        <<: *dnac_login
+        state: merged
+        config_verify: True
+        config:
+          - ip_address_list:
+              - 204.1.2.1-204.1.2.100 #It will be taken as 204.1.2.1 - 204.1.2.1
+              - 205.2.1.1-205.2.1.10
+            ip_filter_list:
+              - 204.1.2.5 #Devie with IP 204.1.2.5 won't be discovered
+            discovery_specific_credentials:
+              cli_credentials_list:
+                - username: admin
+                  password: maglev123
+                  enable_password: maglev123
+              http_read_credential:
+                username: admin
+                password: maglev123
+                port: 443
+                secure: True
+              snmp_v2_read_credential:
+                desc: new
+                community: password
+              snmp_v3_credential:
+                username: administrator
+                snmp_mode: AUTHPRIV
+                auth_password: admin123
+                auth_type: SHA
+                privacy_type: AES192
+                privacy_password: cisco#123
+            discovery_type: "MULTI RANGE"
+            discovery_name: Multi_range
+            protocol_order: ssh
+            start_index: 1
+            records_to_return: 1000
+            snmp_version: v2
+            global_cli_len: 5
+
+    - name: Execute discovery devices using CDP/LLDP/CIDR
+      cisco.dnac.discovery_workflow_manager:
+        <<: *dnac_login
+        state: merged
+        config_verify: True
+        config:
+          - ip_address_list:   #List length should be one
+              - 204.1.2.1
+            discovery_type: "CDP" #Can be LLDP and CIDR
+            cdp_level: 16 #Instead use lldp for LLDP and prefix length for CIDR
+            discovery_name: CDP_Test_1
+            discovery_specific_credentials:
+              cli_credentials_list:
+                - username: admin
+                  password: maglev123
+                  enable_password: maglev123
+            protocol_order: ssh
+
+    - name: Execute deletion of all the discoveries from the dashboard
+      cisco.dnac.discovery_workflow_manager:
+        <<: *dnac_login
+        state: deleted
+        config_verify: True
+        config:
+          - delete_all: True
