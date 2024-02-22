@@ -69,7 +69,7 @@ options:
         description: HTTP username required for adding compute and Firepower Management Devices.
         type: str
       ip_address:
-        description: IP address of the device. Required for Adding/Updating/Deleting/Resyncing Device except Meraki Devices.
+        description: List of IP address of the devices. Required for Adding/Updating/Deleting/Resyncing Device except Meraki Devices.
         elements: str
         type: list
       hostname_list:
@@ -95,16 +95,12 @@ options:
       username:
         description: Username for accessing the device. Required for Adding Network Device.
         type: str
-      serial_number:
-        description: Serial number of the device.
-        type: str
       snmp_auth_passphrase:
         description: SNMP authentication passphrase required for adding network, compute, and third-party devices.
         type: str
       snmp_auth_protocol:
         description: SNMP authentication protocol.
             SHA (Secure Hash Algorithm) - cryptographic hash function commonly used for data integrity verification and authentication purposes.
-            MD5 (Message Digest Algorithm 5) - cryptographic hash function commonly used for data integrity verification and authentication purposes.
         type: str
         default: "SHA"
       snmp_mode:
@@ -177,34 +173,33 @@ options:
       force_sync:
         description: If forcesync is true then device sync would run in high priority thread if available, else the sync will fail.
         type: bool
-        default: false
+        default: False
       device_added:
         description: Make this as true needed for the addition of device in inventory.
         type: bool
-        default: false
+        default: False
       device_updated:
         description: Make this as true needed for the updation of device role, interface details, device credentails or details.
         type: bool
-        default: false
+        default: False
       device_resync:
         description: Make this as true needed for the resyncing of device.
         type: bool
-        default: false
+        default: False
       reboot_device:
         description: Make this as true needed for the Rebooting of Access Points.
         type: bool
-        default: false
+        default: False
       credential_update:
         description: Make this as true needed for the updation of device credentials and other device details.
         type: bool
-        default: false
+        default: False
       clean_config:
         description: Required if need to delete the Provisioned device by clearing current configuration.
         type: bool
-        default: false
+        default: False
       role:
         description: Role of device which can be ACCESS, CORE, DISTRIBUTION, BORDER ROUTER, UNKNOWN.
-            ALL - This role typically represents all devices within the network, regardless of their specific roles or functions.
             UNKNOWN - This role is assigned to devices whose roles or functions have not been identified or classified within Cisco Catalsyt Center.
                 This could happen if the platform is unable to determine the device's role based on available information.
             ACCESS - This role typically represents switches or access points that serve as access points for end-user devices to connect to the network.
@@ -219,10 +214,6 @@ options:
                 providing interconnection between different network segments.
         type: str
         default: "ACCESS"
-      role_source:
-        description: Role source for the device.
-        type: str
-        default: "AUTO"
       name:
         description: Name of Global User Defined Field. Required for creating/deleting UDF and then assigning it to device.
         type: str
@@ -250,6 +241,10 @@ options:
         description: Preview/Deploy [Preview means the configuration is not pushed to the device. Deploy makes the configuration pushed to the device]
         type: str
         default: "Deploy"
+      clear_mac_address_table:
+        description: Make this as true needed for clearing the mac address table of an interface of specific device.
+        type: bool
+        default: False
       site_name:
         description: Required for Provisioning of Wired and Wireless Devices.
         type: str
@@ -343,7 +338,6 @@ EXAMPLES = r"""
         http_secure: False
         ip_address: ["1.1.1.1", "2.2.2.2"]
         netconf_port: 830
-        serial_number: FJC2327U0S2
         snmp_auth_passphrase: "Lablab@12"
         snmp_auth_protocol: SHA
         snmp_mode: AUTHPRIV
@@ -550,7 +544,6 @@ EXAMPLES = r"""
         device_updated: True
         update_device_role:
           role: ACCESS
-          role_source: AUTO
 
 - name: Update Interface details with IP Address
   cisco.dnac.inventory_intent:
@@ -574,6 +567,7 @@ EXAMPLES = r"""
           voice_vlan_id: 45
           deployment_mode: "Deploy"
           interface_name: ["GigabitEthernet1/0/11", FortyGigabitEthernet1/1/1]
+          clear_mac_address_table: True
 
 - name: Export Device Details in a CSV file Interface details with IP Address
   cisco.dnac.inventory_intent:
@@ -759,7 +753,6 @@ class DnacDevice(DnacBase):
             'mac_address_list': {'type': 'list', 'elements': 'str'},
             'netconf_port': {'type': 'str'},
             'password': {'type': 'str'},
-            'serial_number': {'type': 'str'},
             'snmp_auth_passphrase': {'type': 'str'},
             'snmp_auth_protocol': {'default': "SHA", 'type': 'str'},
             'snmp_mode': {'type': 'str'},
@@ -793,6 +786,8 @@ class DnacDevice(DnacBase):
                 'vlan_id': {'type': 'int'},
                 'voice_vlan_id': {'type': 'int'},
                 'interface_name': {'type': 'list', 'elements': 'str'},
+                'deployment_mode': {'default': 'Deploy', 'type': 'str'},
+                'clear_mac_address_table': {'default': False, 'type': 'bool'},
             },
             'export_device_list': {
                 'type': 'dict',
@@ -800,7 +795,6 @@ class DnacDevice(DnacBase):
                 'operation_enum': {'type': 'str'},
                 'parameters': {'type': 'list', 'elements': 'str'},
             },
-            'deployment_mode': {'default': 'Deploy', 'type': 'str'},
             'provision_wired_device': {'type': 'dict'},
             'provision_wireless_device': {
                 'type': 'list',
@@ -2018,7 +2012,6 @@ class DnacDevice(DnacBase):
             "httpSecure": params.get("http_secure"),
             "httpUserName": params.get("http_username"),
             "netconfPort": params.get("netconf_port"),
-            "serialNumber": params.get("serial_number"),
             "snmpVersion": params.get("snmp_version"),
             "type": params.get("type"),
             "updateMgmtIPaddressList": params.get("update_mgmt_ipaddresslist"),
@@ -2296,10 +2289,9 @@ class DnacDevice(DnacBase):
 
         device_role_args = self.config[0].get('update_device_role')
         role = device_role_args.get('role')
-        role_source = device_role_args.get('role_source')
         response = self.get_device_response(device_ip)
 
-        return response.get('role') == role and response.get('roleSource') == role_source
+        return response.get('role') == role
 
     def check_interface_details(self, device_ip, interface_name):
         """
@@ -2433,6 +2425,71 @@ class DnacDevice(DnacBase):
 
         return True
 
+    def clear_mac_address(self, interface_id, deploy_mode, interface_name):
+        """
+        Clear the MAC address table on a specific interface of a device.
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            interface_id (str): The UUID of the interface where the MAC addresses will be cleared.
+            deploy_mode (str): The deployment mode of the device.
+            interface_name(str): The name of the interface for which the MAC addresses will be cleared.
+        Returns:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+        Description:
+            This function clears the MAC address table on a specific interface of a device.
+            The 'deploy_mode' parameter specifies the deployment mode of the device.
+            If the operation is successful, the function returns the response from the API call.
+            If an error occurs during the operation, the function logs the error details and updates the status accordingly.
+        """
+
+        try:
+            payload = {
+                "operation": "ClearMacAddress",
+                "payload": {}
+            }
+            clear_mac_address_payload = {
+                'payload': payload,
+                'interface_uuid': interface_id,
+                'deployment_mode': deploy_mode
+            }
+            response = self.dnac._exec(
+                family="devices",
+                function='clear_mac_address_table',
+                op_modifies=True,
+                params=clear_mac_address_payload,
+            )
+            self.log("Received API response from 'clear_mac_address_table': {0}".format(str(response)), "DEBUG")
+
+            if response and isinstance(response, dict):
+                task_id = response.get('response').get('taskId')
+
+                while True:
+                    execution_details = self.get_task_details(task_id)
+
+                    if execution_details.get("isError"):
+                        self.status = "failed"
+                        failure_reason = execution_details.get("failureReason")
+                        if failure_reason:
+                            self.msg = "Clearing the Mac address table for the interface '{0}' get failed because of {1}".format(interface_name, failure_reason)
+                        else:
+                            self.msg = "Clearing the Mac address table for the interface '{0}' get failed.".format(interface_name)
+                        self.log(self.msg, "ERROR")
+                        break
+                    elif 'clear mac address-table' in execution_details.get("data"):
+                        self.status = "success"
+                        self.result['changed'] = True
+                        self.result['response'] = execution_details
+                        self.msg = "Clearing Mac address table for interface '{0}' task executed successfully".format(interface_name)
+                        self.log(self.msg, "INFO")
+                        break
+
+        except Exception as e:
+            error_msg = "Exception occured while clearing the mac address table of the interface {0} due to - {1}".format(interface_name, str(e))
+            self.log(error_msg, "WARNING")
+            self.result['changed'] = False
+
+        return self
+
     def update_interface_detail_of_device(self, device_to_update):
         """
         Update interface details for a device in Cisco Catalyst Center.
@@ -2460,6 +2517,20 @@ class DnacDevice(DnacBase):
                 # Now we call update interface details api with required parameter
                 try:
                     interface_params = self.config[0].get('update_interface_details')
+                    clear_mac_address_table = interface_params.get("clear_mac_address_table", False)
+
+                    if clear_mac_address_table:
+                        response = self.get_device_response(device_ip)
+
+                        if response.get('role').upper() != "ACCESS":
+                            self.msg = "Clearing MAC Address action is only supported on device with ACCESS role"
+                            self.log(self.msg, "WARNING")
+                            self.result['response'] = self.msg
+                        else:
+                            deploy_mode = interface_params.get('deployment_mode', 'Deploy')
+                            self.clear_mac_address(interface_id, deploy_mode, interface_name)
+                            self.check_return_status()
+
                     temp_params = {
                         'description': interface_params.get('description', ''),
                         'adminStatus': interface_params.get('admin_status'),
@@ -2738,6 +2809,13 @@ class DnacDevice(DnacBase):
                         playbook_params['snmpAuthPassphrase'] = csv_data_dict['snmp_auth_passphrase']
                         playbook_params['snmpPrivPassphrase'] = csv_data_dict['snmp_priv_passphrase']
 
+                    if playbook_params['snmpPrivProtocol'] == "AES192":
+                        playbook_params['snmpPrivProtocol'] = "CISCOAES192"
+                    elif playbook_params['snmpPrivProtocol'] == "AES256":
+                        playbook_params['snmpPrivProtocol'] = "CISCOAES256"
+                    elif playbook_params['snmpPrivProtocol'] == "CISCOAES128":
+                        playbook_params['snmpPrivProtocol'] = "AES128"
+
                     if playbook_params['snmpMode'] == "NOAUTHNOPRIV":
                         playbook_params.pop('snmpAuthPassphrase', None)
                         playbook_params.pop('snmpPrivPassphrase', None)
@@ -2804,9 +2882,9 @@ class DnacDevice(DnacBase):
                     device_id = self.get_device_ids([device_ip])
                     device_role_args = self.config[0].get('update_device_role')
 
-                    if 'role' not in device_role_args or 'role_source' not in device_role_args:
+                    if 'role' not in device_role_args:
                         self.status = "failed"
-                        self.msg = "Mandatory paramter(role/sourceRole) to update Device Role are missing"
+                        self.msg = "Mandatory paramter(role) to update Device Role is missing"
                         self.log(self.msg, "WARNING")
                         return self
 
@@ -2827,7 +2905,7 @@ class DnacDevice(DnacBase):
 
                     device_role_params = {
                         'role': device_role_args.get('role'),
-                        'roleSource': device_role_args.get('role_source'),
+                        'roleSource': "MANUAL",
                         'id': device_id[0]
                     }
 
@@ -2880,6 +2958,11 @@ class DnacDevice(DnacBase):
 
             if not device_params['snmpPrivProtocol']:
                 device_params['snmpPrivProtocol'] = "AES128"
+
+            if device_params['snmpPrivProtocol'] == "AES192":
+                device_params['snmpPrivProtocol'] = "CISCOAES192"
+            elif device_params['snmpPrivProtocol'] == "AES256":
+                device_params['snmpPrivProtocol'] = "CISCOAES256"
 
             if device_params['snmpMode'] == "NOAUTHNOPRIV":
                 device_params.pop('snmpAuthPassphrase', None)
