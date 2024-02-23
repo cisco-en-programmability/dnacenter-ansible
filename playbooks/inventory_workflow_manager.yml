@@ -58,7 +58,6 @@
             site_name: "Global/USA/San Francisco/BGL_18/floor_test"
             resync_retry_count: 200
             resync_retry_interval: 2
-            site_name: "{{item.site_name}}"
           update_interface_details:
             description: "{{item.update_interface_details.description}}"
             interface_name: "{{item.interface_name}}"
