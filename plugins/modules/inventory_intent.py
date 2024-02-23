@@ -2462,34 +2462,43 @@ class DnacDevice(DnacBase):
             )
             self.log("Received API response from 'clear_mac_address_table': {0}".format(str(response)), "DEBUG")
 
-            if response and isinstance(response, dict):
-                task_id = response.get('response').get('taskId')
+            if not response and isinstance(response, dict):
+                self.status = "failed"
+                self.msg = """Receive the empty response from 'clear_mac_address_table' API which indicates failed to clear
+                    the Mac address table for the interface '{0}'""".format(interface_name)
+                self.log(self.msg, "ERROR")
+                self.result['response'] = self.msg
+                return self
 
-                while True:
-                    execution_details = self.get_task_details(task_id)
+            task_id = response.get('response').get('taskId')
 
-                    if execution_details.get("isError"):
-                        self.status = "failed"
-                        failure_reason = execution_details.get("failureReason")
-                        if failure_reason:
-                            self.msg = "Failed to clear the Mac address table for the interface '{0}' due to {1}".format(interface_name, failure_reason)
-                        else:
-                            self.msg = "Failed to clear the Mac address table for the interface '{0}'".format(interface_name)
-                        self.log(self.msg, "ERROR")
-                        break
-                    elif 'clear mac address-table' in execution_details.get("data"):
-                        self.status = "success"
-                        self.result['changed'] = True
-                        self.result['response'] = execution_details
-                        self.msg = "Successfully executed the task of clearing the Mac address table for interface '{0}'".format(interface_name)
-                        self.log(self.msg, "INFO")
-                        break
+            while True:
+                execution_details = self.get_task_details(task_id)
+
+                if execution_details.get("isError"):
+                    self.status = "failed"
+                    failure_reason = execution_details.get("failureReason")
+                    if failure_reason:
+                        self.msg = "Failed to clear the Mac address table for the interface '{0}' due to {1}".format(interface_name, failure_reason)
+                    else:
+                        self.msg = "Failed to clear the Mac address table for the interface '{0}'".format(interface_name)
+                    self.log(self.msg, "ERROR")
+                    self.result['response'] = self.msg
+                    break
+                elif 'clear mac address-table' in execution_details.get("data"):
+                    self.status = "success"
+                    self.result['changed'] = True
+                    self.result['response'] = execution_details
+                    self.msg = "Successfully executed the task of clearing the Mac address table for interface '{0}'".format(interface_name)
+                    self.log(self.msg, "INFO")
+                    break
 
         except Exception as e:
             error_msg = """An exception occurred during the process of clearing the MAC address table for interface {0}, due to -
                 {1}""".format(interface_name, str(e))
             self.log(error_msg, "WARNING")
             self.result['changed'] = False
+            self.result['response'] = error_msg
 
         return self
 
