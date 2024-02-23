@@ -2463,9 +2463,9 @@ class Inventory(DnacBase):
             )
             self.log("Received API response from 'clear_mac_address_table': {0}".format(str(response)), "DEBUG")
 
-            if not response and isinstance(response, dict):
+            if not (response and isinstance(response, dict)):
                 self.status = "failed"
-                self.msg = """Receive the empty response from 'clear_mac_address_table' API which indicates failed to clear
+                self.msg = """Received an empty response from the API 'clear_mac_address_table'. This indicates a failure to clear
                     the Mac address table for the interface '{0}'""".format(interface_name)
                 self.log(self.msg, "ERROR")
                 self.result['response'] = self.msg
