@@ -68,8 +68,9 @@ options:
       http_username:
         description: HTTP username required for adding compute and Firepower Management Devices.
         type: str
-      ip_address:
-        description: List of IP address of the devices. Required for Adding/Updating/Deleting/Resyncing Device except Meraki Devices.
+      ip_address_list:
+        description: A list of the IP addresses for the devices. It is required for tasks such as adding, updating, deleting,
+            or resyncing devices, with Meraki devices being the exception.
         elements: str
         type: list
       hostname_list:
@@ -243,7 +244,8 @@ options:
         type: str
         default: "Deploy"
       clear_mac_address_table:
-        description: Make this as true needed for clearing the mac address table of an interface of specific device.
+        description: Set this to true if you need to clear the MAC address table for a specific device's interface. It's a boolean type,
+            with a default value of False.
         type: bool
         default: False
       site_name:
@@ -337,7 +339,7 @@ EXAMPLES = r"""
         http_password: "test"
         http_port: "443"
         http_secure: False
-        ip_address: ["1.1.1.1", "2.2.2.2"]
+        ip_address_list: ["1.1.1.1", "2.2.2.2"]
         netconf_port: 830
         snmp_auth_passphrase: "Lablab@12"
         snmp_auth_protocol: SHA
@@ -365,7 +367,7 @@ EXAMPLES = r"""
     dnac_log: False
     state: merged
     config:
-      - ip_address: ["1.1.1.1", "2.2.2.2"]
+      - ip_address_list: ["1.1.1.1", "2.2.2.2"]
         http_username: "testuser"
         http_password: "test"
         http_port: "443"
@@ -412,7 +414,7 @@ EXAMPLES = r"""
     dnac_log: False
     state: merged
     config:
-      - ip_address: ["1.1.1.1", "2.2.2.2"]
+      - ip_address_list: ["1.1.1.1", "2.2.2.2"]
         http_username: "testuser"
         http_password: "test"
         http_port: "443"
@@ -432,7 +434,7 @@ EXAMPLES = r"""
     dnac_log: False
     state: merged
     config:
-      - ip_address: ["1.1.1.1", "2.2.2.2"]
+      - ip_address_list: ["1.1.1.1", "2.2.2.2"]
         snmp_auth_passphrase: "Lablab@12"
         snmp_auth_protocol: SHA
         snmp_mode: AUTHPRIV
@@ -461,7 +463,7 @@ EXAMPLES = r"""
         compute_device: False
         password: newtest123
         enable_password: newtest1233
-        ip_address: ["1.1.1.1", "2.2.2.2"]
+        ip_address_list: ["1.1.1.1", "2.2.2.2"]
         type: NETWORK_DEVICE
         device_updated: True
         credential_update: True
@@ -480,7 +482,7 @@ EXAMPLES = r"""
     state: merged
     config:
       - device_updated: True
-        ip_address: ["1.1.1.1"]
+        ip_address_list: ["1.1.1.1"]
         credential_update: True
         update_mgmt_ipaddresslist:
         - exist_mgmt_ipaddress: "1.1.1.1"
@@ -499,7 +501,7 @@ EXAMPLES = r"""
     dnac_log: False
     state: merged
     config:
-      - ip_address: ["1.1.1.1", "2.2.2.2"]
+      - ip_address_list: ["1.1.1.1", "2.2.2.2"]
         provision_wired_device:
           site_name: "Global/USA/San Francisco/BGL_18/floor_pnp"
 
@@ -516,7 +518,7 @@ EXAMPLES = r"""
     dnac_log: False
     state: merged
     config:
-      - ip_address: ["1.1.1.1", "2.2.2.2"]
+      - ip_address_list: ["1.1.1.1", "2.2.2.2"]
         provision_wireless_device:
           site_name: ["Global/USA/BGL_18/floor_pnp", "Global/USA/BGL_18/floor_test"]
         managed_ap_locations: ["Global/USA/BGL_18/floor_pnp", "Global/USA/BGL_18/floor_test"]
@@ -541,7 +543,7 @@ EXAMPLES = r"""
     dnac_log: False
     state: merged
     config:
-      - ip_address: ["1.1.1.1", "2.2.2.2"]
+      - ip_address_list: ["1.1.1.1", "2.2.2.2"]
         device_updated: True
         update_device_role:
           role: ACCESS
@@ -559,7 +561,7 @@ EXAMPLES = r"""
     dnac_log: False
     state: merged
     config:
-      - ip_address: ["1.1.1.1", "2.2.2.2"]
+      - ip_address_list: ["1.1.1.1", "2.2.2.2"]
         device_updated: True
         update_interface_details:
           description: "Testing for updating interface details"
@@ -583,7 +585,7 @@ EXAMPLES = r"""
     dnac_log: False
     state: merged
     config:
-      - ip_address: ["1.1.1.1", "2.2.2.2"]
+      - ip_address_list: ["1.1.1.1", "2.2.2.2"]
         export_device_list:
           password: "File_password"
           operation_enum: 0
@@ -602,7 +604,7 @@ EXAMPLES = r"""
     dnac_log: False
     state: merged
     config:
-      - ip_address: ["1.1.1.1", "2.2.2.2"]
+      - ip_address_list: ["1.1.1.1", "2.2.2.2"]
         add_user_defined_field:
         - name: Test123
           description: "Added first udf for testing"
@@ -624,7 +626,7 @@ EXAMPLES = r"""
     dnac_log: False
     state: merged
     config:
-      - ip_address: ["1.1.1.1", "2.2.2.2"]
+      - ip_address_list: ["1.1.1.1", "2.2.2.2"]
         device_resync: True
         force_sync: False
 
@@ -641,7 +643,7 @@ EXAMPLES = r"""
     dnac_log: False
     state: merged
     config:
-      - ip_address: ["1.1.1.1", "2.2.2.2"]
+      - ip_address_list: ["1.1.1.1", "2.2.2.2"]
         reboot_device: True
 
 - name: Delete Provision/Unprovision Devices by IP Address
@@ -657,7 +659,7 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: deleted
     config:
-      - ip_address: ["1.1.1.1", "2.2.2.2"]
+      - ip_address_list: ["1.1.1.1", "2.2.2.2"]
         clean_config: False
 
 - name: Delete Global User Defined Field with name
@@ -673,7 +675,7 @@ EXAMPLES = r"""
     dnac_log: False
     state: deleted
     config:
-    - ip_address: ["1.1.1.1", "2.2.2.2"]
+    - ip_address_list: ["1.1.1.1", "2.2.2.2"]
       add_user_defined_field:
         name: "Test123"
 
@@ -747,7 +749,7 @@ class Inventory(DnacBase):
             'http_port': {'type': 'str'},
             'http_secure': {'type': 'bool'},
             'http_username': {'type': 'str'},
-            'ip_address': {'type': 'list', 'elements': 'str'},
+            'ip_address_list': {'type': 'list', 'elements': 'str'},
             'hostname_list': {'type': 'list', 'elements': 'str'},
             'mac_address_list': {'type': 'list', 'elements': 'str'},
             'netconf_port': {'type': 'str'},
@@ -844,7 +846,7 @@ class Inventory(DnacBase):
             If none of the information is available, an empty list is returned.
         """
         # Retrieve device IPs from the configuration
-        device_ips = self.config[0].get("ip_address")
+        device_ips = self.config[0].get("ip_address_list")
 
         if device_ips:
             return device_ips
@@ -1255,7 +1257,7 @@ class Inventory(DnacBase):
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
         Description:
             The function expects the following parameters in the configuration:
-            - "ip_address": List of device IP addresses to be resynced.
+            - "ip_address_list": List of device IP addresses to be resynced.
             - "force_sync": (Optional) Whether to force sync the devices. Defaults to "False".
         """
 
@@ -1914,11 +1916,11 @@ class Inventory(DnacBase):
 
         device_type = self.config[0].get("type", "NETWORK_DEVICE")
         params_dict = {
-            "NETWORK_DEVICE": ["enable_password", "ip_address", "password", "snmp_username", "username"],
-            "COMPUTE_DEVICE": ["ip_address", "http_username", "http_password", "http_port", "snmp_username"],
+            "NETWORK_DEVICE": ["enable_password", "ip_address_list", "password", "snmp_username", "username"],
+            "COMPUTE_DEVICE": ["ip_address_list", "http_username", "http_password", "http_port", "snmp_username"],
             "MERAKI_DASHBOARD": ["http_password"],
-            "FIREPOWER_MANAGEMENT_SYSTEM": ["ip_address", "http_username", "http_password"],
-            "THIRD_PARTY_DEVICE": ["ip_address", "snmp_username", "snmp_auth_passphrase", "snmp_priv_passphrase"]
+            "FIREPOWER_MANAGEMENT_SYSTEM": ["ip_address_list", "http_username", "http_password"],
+            "THIRD_PARTY_DEVICE": ["ip_address_list", "snmp_username", "snmp_auth_passphrase", "snmp_priv_passphrase"]
         }
 
         params_list = params_dict.get(device_type, [])
@@ -1993,7 +1995,7 @@ class Inventory(DnacBase):
             "cliTransport": params.get("cli_transport"),
             "enablePassword": params.get("enable_password"),
             "password": params.get("password"),
-            "ipAddress": params.get("ip_address"),
+            "ipAddress": params.get("ip_address_list"),
             "snmpAuthPassphrase": params.get("snmp_auth_passphrase"),
             "snmpAuthProtocol": params.get("snmp_auth_protocol"),
             "snmpMode": params.get("snmp_mode"),
@@ -2471,21 +2473,22 @@ class Inventory(DnacBase):
                         self.status = "failed"
                         failure_reason = execution_details.get("failureReason")
                         if failure_reason:
-                            self.msg = "Clearing the Mac address table for the interface '{0}' get failed because of {1}".format(interface_name, failure_reason)
+                            self.msg = "Failed to clear the Mac address table for the interface '{0}' due to {1}".format(interface_name, failure_reason)
                         else:
-                            self.msg = "Clearing the Mac address table for the interface '{0}' get failed.".format(interface_name)
+                            self.msg = "Failed to clear the Mac address table for the interface '{0}'".format(interface_name)
                         self.log(self.msg, "ERROR")
                         break
                     elif 'clear mac address-table' in execution_details.get("data"):
                         self.status = "success"
                         self.result['changed'] = True
                         self.result['response'] = execution_details
-                        self.msg = "Clearing Mac address table for interface '{0}' task executed successfully".format(interface_name)
+                        self.msg = "Successfully executed the task of clearing the Mac address table for interface '{0}'".format(interface_name)
                         self.log(self.msg, "INFO")
                         break
 
         except Exception as e:
-            error_msg = "Exception occured while clearing the mac address table of the interface {0} due to - {1}".format(interface_name, str(e))
+            error_msg = """An exception occurred during the process of clearing the MAC address table for interface {0}, due to -
+                {1}""".format(interface_name, str(e))
             self.log(error_msg, "WARNING")
             self.result['changed'] = False
 
@@ -2524,7 +2527,7 @@ class Inventory(DnacBase):
                         response = self.get_device_response(device_ip)
 
                         if response.get('role').upper() != "ACCESS":
-                            self.msg = "Clearing mac address action is only supported on device with ACCESS role"
+                            self.msg = "The action to clear the MAC Address table is only supported for devices with the ACCESS role."
                             self.log(self.msg, "WARNING")
                             self.result['response'] = self.msg
                         else:
@@ -2816,8 +2819,6 @@ class Inventory(DnacBase):
                         playbook_params['snmpPrivProtocol'] = "CISCOAES192"
                     elif playbook_params['snmpPrivProtocol'] == "AES256":
                         playbook_params['snmpPrivProtocol'] = "CISCOAES256"
-                    elif playbook_params['snmpPrivProtocol'] == "CISCOAES128":
-                        playbook_params['snmpPrivProtocol'] = "AES128"
 
                     if playbook_params['snmpMode'] == "NOAUTHNOPRIV":
                         playbook_params.pop('snmpAuthPassphrase', None)
@@ -2887,7 +2888,7 @@ class Inventory(DnacBase):
 
                     if 'role' not in device_role_args:
                         self.status = "failed"
-                        self.msg = "Mandatory paramter(role) to update Device Role is missing"
+                        self.msg = "Mandatory parameter (role) to update Device Role is missing"
                         self.log(self.msg, "WARNING")
                         return self
 
@@ -2951,7 +2952,7 @@ class Inventory(DnacBase):
 
         # If we want to add device in inventory
         if device_added:
-            config['ip_address'] = devices_to_add
+            config['ip_address_list'] = devices_to_add
             device_params = self.want.get("device_params")
             if not device_params['snmpMode']:
                 device_params['snmpMode'] = "AUTHPRIV"
@@ -3002,7 +3003,7 @@ class Inventory(DnacBase):
                                 self.log(self.msg, "INFO")
                                 self.result['msg'] = self.msg
                                 break
-                            self.msg = "Device(s) '{0}' already present in Cisco Catalyst Center".format(str(self.config[0].get("ip_address")))
+                            self.msg = "Device(s) '{0}' already present in Cisco Catalyst Center".format(str(self.config[0].get("ip_address_list")))
                             self.log(self.msg, "INFO")
                             self.result['msg'] = self.msg
                             break
