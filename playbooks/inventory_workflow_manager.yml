@@ -38,17 +38,26 @@
           credential_update: "{{item.credential_update}}"
           clean_config: "{{item.clean_config}}"
           type: "{{item.type}}"
-          device_added: "{{item.device_added}}"
           device_resync: "{{item.device_resync}}"
           reboot_device: "{{item.reboot_device}}"
           update_device_role:
             role: "{{item.role}}"
           add_user_defined_field:
-            name: "{{item.name}}"
-            description: "{{item.description}}"
-            value: "{{item.value}}"
+          - name: Test123
+            description: "Added first udf for testing"
+            value: "value123"
+          - name: Test321
+            description: "Added second udf for testing"
+            value: "value321"
           provision_wired_device: 
-            site_name: "{{item.site_name}}"
+          - device_ip: "1.1.1.1"
+            site_name: "Global/USA/San Francisco/BGL_18/floor_pnp"
+            resync_retry_count: 200
+            resync_interval: 2
+          - device_ip: "2.2.2.2"
+            site_name: "Global/USA/San Francisco/BGL_18/floor_test"
+            resync_retry_count: 200
+            resync_retry_interval: 2
           update_interface_details:
             description: "{{item.update_interface_details.description}}"
             interface_name: "{{item.interface_name}}"
