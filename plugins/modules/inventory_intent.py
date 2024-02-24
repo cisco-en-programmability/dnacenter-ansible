@@ -149,13 +149,13 @@ options:
             NETWORK_DEVICE - This refers to traditional networking equipment such as routers, switches, access points, and firewalls. These devices
                 are responsible for routing, switching, and providing connectivity within the network.
             COMPUTE_DEVICE - These are computing resources such as servers, virtual machines, or containers that are part of the network infrastructure.
-                Cisco DNA Center can integrate with compute devices to provide visibility and management capabilities, ensuring that the network and
+                Cisco Catalyst Center can integrate with compute devices to provide visibility and management capabilities, ensuring that the network and
                  compute resources work together seamlessly to support applications and services.
             MERAKI_DASHBOARD - It is cloud-based platform used to manage Meraki networking devices, including wireless access points, switches, security
                 appliances, and cameras.
-            THIRD_PARTY_DEVICE - This category encompasses devices from vendors other than Cisco or Meraki. Cisco DNA Center is designed to support
+            THIRD_PARTY_DEVICE - This category encompasses devices from vendors other than Cisco or Meraki. Cisco Catalyst Center is designed to support
                 integration with third-party devices through open standards and APIs. This allows organizations to manage heterogeneous network
-                environments efficiently using Cisco DNA Center's centralized management and automation capabilities.
+                environments efficiently using Cisco Catalyst Center's centralized management and automation capabilities.
             FIREPOWER_MANAGEMENT_SYSTEM - It is a centralized management console used to manage Cisco's Firepower Next-Generation Firewall (NGFW) devices.
                 It provides features such as policy management, threat detection, and advanced security analytics.
         type: str
@@ -173,10 +173,6 @@ options:
             type: str
       force_sync:
         description: If forcesync is true then device sync would run in high priority thread if available, else the sync will fail.
-        type: bool
-        default: False
-      device_added:
-        description: Make this as true needed for the addition of device in inventory.
         type: bool
         default: False
       device_updated:
@@ -247,9 +243,6 @@ options:
             with a default value of False.
         type: bool
         default: False
-      site_name:
-        description: Required for Provisioning of Wired and Wireless Devices.
-        type: str
       operation_enum:
         description: enum(CREDENTIALDETAILS, DEVICEDETAILS) 0 to export Device Credential Details Or 1 to export Device Details.
             CREDENTIALDETAILS - Used for exporting device credentials details like snpm credntials, device crdentails etc.
@@ -263,6 +256,30 @@ options:
         description: Location of the sites allocated for the APs
         type: list
         elements: str
+      provision_wired_device:
+        description: This parameter takes a list of dictionaries. Each dictionary provides the IP address of a wired device and
+            the name of the site where the device will be provisioned.
+        type: list
+        elements: dict
+        suboptions:
+          device_ip:
+            description: Specifies the IP address of the wired device. This is a string value that should be in the format of
+                standard IPv4 or IPv6 addresses.
+            type: str
+          site_name:
+            description: Indicates the exact location where the wired device will be provisioned. This is a string value that should
+                represent the complete hierarchical path of the site (For example, "Global/USA/San Francisco/BGL_18/floor_pnp").
+            type: str
+          resync_retry_count:
+            description: Determines the total number of retry attempts for checking if the device has reached a managed state during
+                the provisioning process. If unspecified, the default value is set to 200 retries.
+            type: int
+            default: 200
+          resync_retry_interval:
+            description: Sets the interval, in seconds, at which the system will recheck the device status throughout the provisioning
+                process. If unspecified, the system will check the device status every 2 seconds by default.
+            type: int
+            default: 2
       dynamic_interfaces:
         description: Interface details of the wireless device
         type: list
@@ -350,7 +367,6 @@ EXAMPLES = r"""
         snmp_username: v3Public
         snmp_version: v3
         type: NETWORK_DEVICE
-        device_added: True
         username: cisco
 
 - name: Add new Compute device in Inventory with full credentials.Inputs needed for Compute Device
@@ -380,7 +396,6 @@ EXAMPLES = r"""
         snmp_username: v3Public
         compute_device: True
         username: cisco
-        device_added: True
         type: "COMPUTE_DEVICE"
 
 - name: Add new Meraki device in Inventory with full credentials.Inputs needed for Meraki Device.
@@ -397,7 +412,6 @@ EXAMPLES = r"""
     state: merged
     config:
       - http_password: "test"
-        device_added: True
         type: "MERAKI_DASHBOARD"
 
 - name: Add new Firepower Management device in Inventory with full credentials.Input needed to add Device.
@@ -417,7 +431,6 @@ EXAMPLES = r"""
         http_username: "testuser"
         http_password: "test"
         http_port: "443"
-        device_added: True
         type: "FIREPOWER_MANAGEMENT_SYSTEM"
 
 - name: Add new Third Party device in Inventory with full credentials.Input needed to add Device.
@@ -442,7 +455,6 @@ EXAMPLES = r"""
         snmp_retry:  3
         snmp_timeout: 5
         snmp_username: v3Public
-        device_added: True
         type: "THIRD_PARTY_DEVICE"
 
 - name: Update device details or credentails in Inventory
@@ -500,9 +512,15 @@ EXAMPLES = r"""
     dnac_log: False
     state: merged
     config:
-      - ip_address_list: ["1.1.1.1", "2.2.2.2"]
-        provision_wired_device:
+      - provision_wired_device:
+        - device_ip: "1.1.1.1"
           site_name: "Global/USA/San Francisco/BGL_18/floor_pnp"
+          resync_retry_count: 200
+          resync_interval: 2
+        - device_ip: "2.2.2.2"
+          site_name: "Global/USA/San Francisco/BGL_18/floor_test"
+          resync_retry_count: 200
+          resync_retry_interval: 2
 
 - name: Associate Wireless Devices to site and Provisioned it in Inventory
   cisco.dnac.inventory_intent:
@@ -705,6 +723,7 @@ except ImportError:
     pyzipper = None
 
 import csv
+import time
 from datetime import datetime
 from io import BytesIO, StringIO
 from ansible.module_utils.basic import AnsibleModule
@@ -769,7 +788,6 @@ class DnacDevice(DnacBase):
             'update_mgmt_ipaddresslist': {'type': 'list', 'elements': 'dict'},
             'username': {'type': 'str'},
             'update_device_role': {'type': 'dict'},
-            'device_added': {'type': 'bool'},
             'device_updated': {'type': 'bool'},
             'device_resync': {'type': 'bool'},
             'reboot_device': {'type': 'bool'},
@@ -797,7 +815,13 @@ class DnacDevice(DnacBase):
                 'operation_enum': {'type': 'str'},
                 'parameters': {'type': 'list', 'elements': 'str'},
             },
-            'provision_wired_device': {'type': 'dict'},
+            'provision_wired_device': {
+                'type': 'list',
+                'device_ip': {'type': 'str'},
+                'site_name': {'type': 'str'},
+                'resync_retry_count': {'default': 200, 'type': 'int'},
+                'resync_retry_interval': {'default': 2, 'type': 'int'},
+            },
             'provision_wireless_device': {
                 'type': 'list',
                 'site_name': {'type': 'str'},
@@ -1559,60 +1583,70 @@ class DnacDevice(DnacBase):
             self (object): An instance of the class with updated result, status, and log.
         Description:
             This function provisions wired devices in Cisco Catalyst Center based on the configuration provided.
-            It retrieves the site name and IP addresses of the devices from the configuration,
-            attempts to provision each device, and monitors the provisioning process.
+            It retrieves the site name and IP addresses of the devices from the list of configuration,
+            attempts to provision each device with site, and monitors the provisioning process.
         """
 
-        site_name = self.config[0]['provision_wired_device']['site_name']
-        device_in_dnac = self.device_exists_in_dnac()
-        device_ips = self.get_device_ips_from_config_priority()
-        input_device_ips = device_ips.copy()
-
-        for device_ip in input_device_ips:
-            if device_ip not in device_in_dnac:
-                input_device_ips.remove(device_ip)
-
-        device_type = "Wired"
+        provision_wired_list = self.config[0]['provision_wired_device']
+        total_devices_to_provisioned = len(provision_wired_list)
+        device_ip_list = []
         provision_count, already_provision_count = 0, 0
 
-        if not site_name and not input_device_ips:
-            self.status = "failed"
-            self.msg = "Site/Devices are required for Provisioning of Wired Devices."
-            self.log(self.msg, "ERROR")
-            self.result['response'] = self.msg
-            return self
+        for prov_dict in provision_wired_list:
+            managed_flag = False
+            device_ip = prov_dict['device_ip']
+            device_ip_list.append(device_ip)
+            site_name = prov_dict['site_name']
+            device_type = "Wired"
+            resync_retry_count = prov_dict.get("resync_retry_count", 200)
+            # This resync retry interval will be in seconds which will check device status at given interval
+            resync_retry_interval = prov_dict.get("resync_retry_interval", 2)
 
-        provision_wired_params = {
-            'siteNameHierarchy': site_name
-        }
+            if not site_name or not device_ip:
+                self.status = "failed"
+                self.msg = "Site/Devices are required for Provisioning of Wired Devices."
+                self.log(self.msg, "ERROR")
+                self.result['response'] = self.msg
+                return self
 
-        for device_ip in input_device_ips:
+            provision_wired_params = {
+                'deviceManagementIpAddress': device_ip,
+                'siteNameHierarchy': site_name
+            }
+
+            # Check till device comes into managed state
+            while resync_retry_count:
+                response = self.get_device_response(device_ip)
+                self.log("Device is in {0} state waiting for Managed State.".format(response['managementState']), "DEBUG")
+
+                if (
+                    response.get('managementState') == "Managed"
+                    and response.get('collectionStatus') == "Managed"
+                    and response.get("hostname")
+                ):
+                    msg = """Device '{0}' comes to managed state and ready for provisioning with the resync_retry_count
+                        '{1}' left having resync interval of {2} seconds""".format(device_ip, resync_retry_count, resync_retry_interval)
+                    self.log(msg, "INFO")
+                    managed_flag = True
+                    break
+
+                if response.get('collectionStatus') == "Partial Collection Failure" or response.get('collectionStatus') == "Could Not Synchronize":
+                    device_status = response.get('collectionStatus')
+                    msg = """Device '{0}' comes to '{1}' state and never goes for provisioning with the resync_retry_count
+                        '{2}' left having resync interval of {3} seconds""".format(device_ip, device_status, resync_retry_count, resync_retry_interval)
+                    self.log(msg, "INFO")
+                    managed_flag = False
+                    break
+
+                time.sleep(resync_retry_interval)
+                resync_retry_count = resync_retry_count - 1
+
+            if not managed_flag:
+                self.log("""Device {0} is not transitioning to the managed state, so provisioning operation cannot
+                            be performed.""".format(device_ip), "WARNING")
+                continue
+
             try:
-                provision_wired_params['deviceManagementIpAddress'] = device_ip
-                count = 1
-                managed_flag = True
-
-                # Check till device comes into managed state
-                while True:
-                    response = self.get_device_response(device_ip)
-                    self.log("Device is in {0} state waiting for Managed State.".format(response['managementState']), "DEBUG")
-
-                    if (
-                        response.get('managementState') == "Managed"
-                        and response.get('collectionStatus') == "Managed"
-                        and response.get("hostname")
-                    ):
-                        break
-                    count = count + 1
-                    if count > 400:
-                        managed_flag = False
-                        break
-
-                if not managed_flag:
-                    self.log("Device {0} is not transitioning to the managed state, so provisioning operation cannot be performed."
-                             .format(device_ip), "WARNING")
-                    continue
-
                 response = self.dnac._exec(
                     family="sda",
                     function='provision_wired_device',
@@ -1650,9 +1684,9 @@ class DnacDevice(DnacBase):
                     already_provision_count += 1
 
         # Check If all the devices are already provsioned, return from here only
-        if already_provision_count == len(device_ips):
-            self.handle_all_already_provisioned(device_ips, device_type)
-        elif provision_count == len(device_ips):
+        if already_provision_count == total_devices_to_provisioned:
+            self.handle_all_already_provisioned(device_ip_list, device_type)
+        elif provision_count == total_devices_to_provisioned:
             self.handle_all_provisioned(device_type)
         elif provision_count == 0:
             self.handle_all_failed_provision(device_type)
@@ -1963,16 +1997,28 @@ class DnacDevice(DnacBase):
 
         # Get the list of device that are present in Cisco Catalyst Center
         device_in_dnac = self.device_exists_in_dnac()
-        device_not_in_dnac = []
+        device_not_in_dnac, devices_in_playbook = [], []
 
         for ip in want_device:
+            devices_in_playbook.append(ip)
             if ip not in device_in_dnac:
                 device_not_in_dnac.append(ip)
+
+        if self.config[0].get('provision_wired_device'):
+            provision_wired_list = self.config[0].get('provision_wired_device')
+
+            for prov_dict in provision_wired_list:
+                device_ip_address = prov_dict['device_ip']
+                if device_ip_address not in want_device:
+                    devices_in_playbook.append(device_ip_address)
+                if device_ip_address not in device_in_dnac:
+                    device_not_in_dnac.append(device_ip_address)
 
         self.log("Device(s) {0} exists in Cisco Catalyst Center".format(str(device_in_dnac)), "INFO")
         have["want_device"] = want_device
         have["device_in_dnac"] = device_in_dnac
         have["device_not_in_dnac"] = device_not_in_dnac
+        have["devices_in_playbook"] = devices_in_playbook
 
         self.have = have
         self.log("Current State (have): {0}".format(str(self.have)), "INFO")
@@ -2723,7 +2769,6 @@ class DnacDevice(DnacBase):
         devices_to_add = self.have["device_not_in_dnac"]
         device_type = self.config[0].get("type", "NETWORK_DEVICE")
         device_resynced = self.config[0].get("device_resync", False)
-        device_added = self.config[0].get("device_added", False)
         device_updated = self.config[0].get("device_updated", False)
         device_reboot = self.config[0].get("reboot_device", False)
         credential_update = self.config[0].get("credential_update", False)
@@ -2731,6 +2776,88 @@ class DnacDevice(DnacBase):
         config['type'] = device_type
         if device_type == "FIREPOWER_MANAGEMENT_SYSTEM":
             config['http_port'] = self.config[0].get("http_port", "443")
+
+        config['ip_address_list'] = devices_to_add
+
+        if not config['ip_address_list']:
+            self.msg = "Devices '{0}' already present in Cisco Catalyst Center".format(self.have['devices_in_playbook'])
+            self.log(self.msg, "INFO")
+            self.result['changed'] = False
+            self.result['response'] = self.msg
+
+        # To add the devices in inventory
+        if config['ip_address_list']:
+            device_params = self.want.get("device_params")
+            device_params['ipAddress'] = config['ip_address_list']
+
+            if not device_params['snmpMode']:
+                device_params['snmpMode'] = "AUTHPRIV"
+
+            if not device_params['cliTransport']:
+                device_params['cliTransport'] = "ssh"
+
+            if not device_params['snmpPrivProtocol']:
+                device_params['snmpPrivProtocol'] = "AES128"
+
+            if device_params['snmpPrivProtocol'] == "AES192":
+                device_params['snmpPrivProtocol'] = "CISCOAES192"
+            elif device_params['snmpPrivProtocol'] == "AES256":
+                device_params['snmpPrivProtocol'] = "CISCOAES256"
+
+            if device_params['snmpMode'] == "NOAUTHNOPRIV":
+                device_params.pop('snmpAuthPassphrase', None)
+                device_params.pop('snmpPrivPassphrase', None)
+                device_params.pop('snmpPrivProtocol', None)
+                device_params.pop('snmpAuthProtocol', None)
+            elif device_params['snmpMode'] == "AUTHNOPRIV":
+                device_params.pop('snmpPrivPassphrase', None)
+                device_params.pop('snmpPrivProtocol', None)
+
+            self.mandatory_parameter().check_return_status()
+            try:
+                response = self.dnac._exec(
+                    family="devices",
+                    function='add_device',
+                    op_modifies=True,
+                    params=device_params,
+                )
+                self.log("Received API response from 'add_device': {0}".format(str(response)), "DEBUG")
+
+                if response and isinstance(response, dict):
+                    task_id = response.get('response').get('taskId')
+
+                    while True:
+                        execution_details = self.get_task_details(task_id)
+
+                        if '/task/' in execution_details.get("progress"):
+                            self.status = "success"
+                            self.result['response'] = execution_details
+
+                            if len(devices_to_add) > 0:
+                                self.result['changed'] = True
+                                self.msg = "Device(s) '{0}' added to Cisco Catalyst Center".format(str(devices_to_add))
+                                self.log(self.msg, "INFO")
+                                self.result['msg'] = self.msg
+                                break
+                            self.msg = "Device(s) '{0}' already present in Cisco Catalyst Center".format(str(self.config[0].get("ip_address_list")))
+                            self.log(self.msg, "INFO")
+                            self.result['msg'] = self.msg
+                            break
+                        elif execution_details.get("isError"):
+                            self.status = "failed"
+                            failure_reason = execution_details.get("failureReason")
+                            if failure_reason:
+                                self.msg = "Device addition get failed because of {0}".format(failure_reason)
+                            else:
+                                self.msg = "Device addition get failed"
+                            self.log(self.msg, "ERROR")
+                            self.result['msg'] = self.msg
+                            break
+
+            except Exception as e:
+                error_message = "Error while adding device in Cisco Catalyst Center: {0}".format(str(e))
+                self.log(error_message, "ERROR")
+                raise Exception(error_message)
 
         if device_updated:
             device_to_update = self.get_device_ips_from_config_priority()
@@ -2884,9 +3011,11 @@ class DnacDevice(DnacBase):
                         self.log(error_message, "ERROR")
                         raise Exception(error_message)
 
+            # Update list of interface details on specific or list of devices.
             if self.config[0].get('update_interface_details'):
                 self.update_interface_detail_of_device(device_to_update).check_return_status()
 
+            # Update the role of devices having the role source as Manual
             if self.config[0].get('update_device_role'):
                 for device_ip in device_to_update:
                     device_id = self.get_device_ids([device_ip])
@@ -2956,79 +3085,7 @@ class DnacDevice(DnacBase):
                         self.log(error_message, "ERROR")
                         raise Exception(error_message)
 
-        # If we want to add device in inventory
-        if device_added:
-            config['ip_address_list'] = devices_to_add
-            device_params = self.want.get("device_params")
-            if not device_params['snmpMode']:
-                device_params['snmpMode'] = "AUTHPRIV"
-
-            if not device_params['cliTransport']:
-                device_params['cliTransport'] = "ssh"
-
-            if not device_params['snmpPrivProtocol']:
-                device_params['snmpPrivProtocol'] = "AES128"
-
-            if device_params['snmpPrivProtocol'] == "AES192":
-                device_params['snmpPrivProtocol'] = "CISCOAES192"
-            elif device_params['snmpPrivProtocol'] == "AES256":
-                device_params['snmpPrivProtocol'] = "CISCOAES256"
-
-            if device_params['snmpMode'] == "NOAUTHNOPRIV":
-                device_params.pop('snmpAuthPassphrase', None)
-                device_params.pop('snmpPrivPassphrase', None)
-                device_params.pop('snmpPrivProtocol', None)
-                device_params.pop('snmpAuthProtocol', None)
-            elif device_params['snmpMode'] == "AUTHNOPRIV":
-                device_params.pop('snmpPrivPassphrase', None)
-                device_params.pop('snmpPrivProtocol', None)
-
-            self.mandatory_parameter().check_return_status()
-            try:
-                response = self.dnac._exec(
-                    family="devices",
-                    function='add_device',
-                    op_modifies=True,
-                    params=device_params,
-                )
-                self.log("Received API response from 'add_device': {0}".format(str(response)), "DEBUG")
-
-                if response and isinstance(response, dict):
-                    task_id = response.get('response').get('taskId')
-
-                    while True:
-                        execution_details = self.get_task_details(task_id)
-
-                        if '/task/' in execution_details.get("progress"):
-                            self.status = "success"
-                            self.result['response'] = execution_details
-
-                            if len(devices_to_add) > 0:
-                                self.result['changed'] = True
-                                self.msg = "Device(s) '{0}' added to Cisco Catalyst Center".format(str(devices_to_add))
-                                self.log(self.msg, "INFO")
-                                self.result['msg'] = self.msg
-                                break
-                            self.msg = "Device(s) '{0}' already present in Cisco Catalyst Center".format(str(self.config[0].get("ip_address_list")))
-                            self.log(self.msg, "INFO")
-                            self.result['msg'] = self.msg
-                            break
-                        elif execution_details.get("isError"):
-                            self.status = "failed"
-                            failure_reason = execution_details.get("failureReason")
-                            if failure_reason:
-                                self.msg = "Device addition get failed because of {0}".format(failure_reason)
-                            else:
-                                self.msg = "Device addition get failed"
-                            self.log(self.msg, "ERROR")
-                            self.result['msg'] = self.msg
-                            break
-
-            except Exception as e:
-                error_message = "Error while adding device in Cisco Catalyst Center: {0}".format(str(e))
-                self.log(error_message, "ERROR")
-                raise Exception(error_message)
-
+        # If User defined field(UDF) not present then create it and add multiple udf to specific or list of devices
         if self.config[0].get('add_user_defined_field'):
             udf_field_list = self.config[0].get('add_user_defined_field')
 
@@ -3263,21 +3320,19 @@ class DnacDevice(DnacBase):
         self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
 
         devices_to_add = self.have["device_not_in_dnac"]
-        device_added = self.config[0].get("device_added", False)
         device_updated = self.config[0].get("device_updated", False)
         credential_update = self.config[0].get("credential_update", False)
         device_type = self.config[0].get("type", "NETWORK_DEVICE")
         device_ips = self.get_device_ips_from_config_priority()
 
-        if device_added:
-            if not devices_to_add:
-                self.status = "success"
-                msg = """Requested device(s) '{0}' have been successfully added to the Cisco Catalyst Center and their
-                     addition has been verified.""".format(str(device_ips))
-                self.log(msg, "INFO")
-            else:
-                self.log("""Playbook's input does not match with Cisco Catalyst Center, indicating that the device addition
-                     task may not have executed successfully.""", "INFO")
+        if not devices_to_add:
+            self.status = "success"
+            msg = """Requested device(s) '{0}' have been successfully added to the Cisco Catalyst Center and their
+                    addition has been verified.""".format(str(self.have['devices_in_playbook']))
+            self.log(msg, "INFO")
+        else:
+            self.log("""Playbook's input does not match with Cisco Catalyst Center, indicating that the device addition
+                    task may not have executed successfully.""", "INFO")
 
         if device_updated and self.config[0].get('update_interface_details'):
             interface_update_flag = True
@@ -3341,16 +3396,20 @@ class DnacDevice(DnacBase):
                          device role update task may not have executed successfully.""", "INFO")
 
         if self.config[0].get('provision_wired_device'):
+            provision_wired_list = self.config[0].get('provision_wired_device')
             provision_wired_flag = True
+            provision_device_list = []
 
-            for device_ip in device_ips:
+            for prov_dict in provision_wired_list:
+                device_ip = prov_dict['device_ip']
+                provision_device_list.append(device_ip)
                 if not self.get_provision_wired_device(device_ip):
                     provision_wired_flag = False
                     break
 
             if provision_wired_flag:
                 self.status = "success"
-                msg = "Wired devices {0} get provisioned and verified successfully.".format(device_ips)
+                msg = "Wired devices {0} get provisioned and verified successfully.".format(provision_device_list)
                 self.log(msg, "INFO")
             else:
                 self.log("""Mismatch between playbook's input and Cisco Catalyst Center detected, indicating that
