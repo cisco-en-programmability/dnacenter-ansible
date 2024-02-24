@@ -1601,7 +1601,7 @@ class Inventory(DnacBase):
             # This resync retry interval will be in seconds which will check device status at given interval
             resync_retry_interval = prov_dict.get("resync_retry_interval", 2)
 
-            if not site_name and not device_ip:
+            if not site_name or not device_ip:
                 self.status = "failed"
                 self.msg = "Site/Devices are required for Provisioning of Wired Devices."
                 self.log(self.msg, "ERROR")
