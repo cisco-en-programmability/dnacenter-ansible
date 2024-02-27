@@ -92,6 +92,9 @@ options:
         description: Specifies the port number for connecting to devices using the Netconf protocol. Netconf (Network Configuration Protocol)
             is used for managing network devices. Ensure that the provided port number corresponds to the Netconf service port configured
             on your network devices.
+            NETCONF with user privilege 15 is mandatory for enabling Wireless Services on Wireless capable devices such as Catalyst 9000 series
+            Switches and C9800 Series Wireless Controllers. The NETCONF credentials are required to connect to C9800 Series Wireless Controllers
+            as the majority of data collection is done using NETCONF for these Devices.
         type: str
       username:
         description: Username for accessing the device. Required for Adding Network Device.
@@ -141,9 +144,14 @@ options:
         description: SNMP username required for adding network, compute, and third-party devices.
         type: str
       snmp_version:
-        description: Device's snmp Version.
+        description: It is a standard protocol used for managing and monitoring network devices.
+            v2 - In this communication between the SNMP manager (such as Cisco Catalyst) and the managed devices
+                (such as routers, switches, or access points) is based on community strings.Community strings serve
+                as form of authentication and they are transmitted in clear text, providing no encryption.
+            v3 - It is the most secure version of SNMP, providing authentication, integrity, and encryption features.
+                It allows for the use of usernames, authentication passwords, and encryption keys, providing stronger
+                security compared to v2.
         type: str
-        default: "v3"
       type:
         description: Select Device's type from NETWORK_DEVICE, COMPUTE_DEVICE, MERAKI_DASHBOARD, THIRD_PARTY_DEVICE, FIREPOWER_MANAGEMENT_SYSTEM.
             NETWORK_DEVICE - This refers to traditional networking equipment such as routers, switches, access points, and firewalls. These devices
@@ -252,10 +260,6 @@ options:
         description: List of device parameters that needs to be exported to file.
         type: list
         elements: str
-      managed_ap_locations:
-        description: Location of the sites allocated for the APs
-        type: list
-        elements: str
       provision_wired_device:
         description: This parameter takes a list of dictionaries. Each dictionary provides the IP address of a wired device and
             the name of the site where the device will be provisioned.
@@ -280,30 +284,73 @@ options:
                 process. If unspecified, the system will check the device status every 2 seconds by default.
             type: int
             default: 2
-      dynamic_interfaces:
-        description: Interface details of the wireless device
+      reprovision_wired_device:
+        description: This parameter takes a list of dictionaries. Each dictionary provides the IP address of a wired device and
+            the name of the site where the device will be re-provisioned.
         type: list
         elements: dict
         suboptions:
-          interface_ip_address:
-            description: Ip Address allocated to the interface
+          device_ip:
+            description: Specifies the IP address of the wired device. This is a string value that should be in the format of
+                standard IPv4 or IPv6 addresses.
             type: str
-          interface_netmask_in_cidr:
-            description: The netmask of the interface, given in CIDR notation. This is an integer that represents the
-                number of bits set in the netmask
-            type: int
-          interface_gateway:
-            description: The name identifier for the gateway associated with the interface.
+          site_name:
+            description: Indicates the exact location where the wired device will be provisioned. This is a string value that should
+                represent the complete hierarchical path of the site (For example, "Global/USA/San Francisco/BGL_18/floor_pnp").
             type: str
-          lag_or_port_number:
-            description: The Link Aggregation Group (LAG) number or port number assigned to the interface.
-            type: int
-          vlan_id:
-            description: The VLAN (Virtual Local Area Network) ID associated with the network interface.
-            type: int
-          interface_name:
-            description: Name of the interface.
+      provision_wireless_device:
+        description: This parameter takes a list of dictionaries. Each dictionary provides the IP address of a wireless device and
+            the name of the site where the device will be provisioned along with dynamic interface details.
+        type: list
+        elements: dict
+        suboptions:
+          device_ip:
+            description: Specifies the IP address of the wirelesss device. This is a string value that should be in the format of
+                standard IPv4 or IPv6 addresses.
             type: str
+          site_name:
+            description: Indicates the exact location where the wired device will be provisioned. This is a string value that should
+                represent the complete hierarchical path of the site (For example, "Global/USA/San Francisco/BGL_18/floor_pnp").
+            type: str
+          managed_ap_locations:
+            description: Location of the sites allocated for the APs (For example, ["Global/USA/San Francisco/BGL_18/floor_test",
+                "Global/USA/San Francisco/BGL_18/floor_check"])
+            type: list
+            elements: str
+          dynamic_interfaces:
+            description: Interface details of the wireless device
+            type: list
+            elements: dict
+            suboptions:
+              interface_ip_address:
+                description: Ip Address allocated to the interface
+                type: str
+              interface_netmask_in_cidr:
+                description: The netmask of the interface, given in CIDR notation. This is an integer that represents the
+                    number of bits set in the netmask
+                type: int
+              interface_gateway:
+                description: The name identifier for the gateway associated with the interface.
+                type: str
+              lag_or_port_number:
+                description: The Link Aggregation Group (LAG) number or port number assigned to the interface.
+                type: int
+              vlan_id:
+                description: The VLAN (Virtual Local Area Network) ID associated with the network interface.
+                type: int
+              interface_name:
+                description: Name of the interface.
+                type: str
+          resync_retry_count:
+            description: Determines the total number of retry attempts for checking if the device has reached a managed state during
+                the provisioning process. If unspecified, the default value is set to 200 retries.
+            type: int
+            default: 200
+          resync_retry_interval:
+            description: Sets the interval, in seconds, at which the system will recheck the device status throughout the provisioning
+                process. If unspecified, the system will check the device status every 2 seconds by default.
+            type: int
+            default: 2
 
 requirements:
 - dnacentersdk >= 2.5.5
@@ -522,6 +569,25 @@ EXAMPLES = r"""
           resync_retry_count: 200
           resync_retry_interval: 2
 
+- name: Re-Provisioned Wired Devices to site in Inventory
+  cisco.dnac.inventory_intent:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
+    dnac_log: False
+    state: merged
+    config:
+      - reprovision_wired_device:
+        - device_ip: "1.1.1.1"
+          site_name: "Global/USA/San Francisco/BGL_18/floor_pnp"
+        - device_ip: "2.2.2.2"
+          site_name: "Global/USA/San Francisco/BGL_18/floor_test"
+
 - name: Associate Wireless Devices to site and Provisioned it in Inventory
   cisco.dnac.inventory_intent:
     dnac_host: "{{dnac_host}}"
@@ -535,17 +601,31 @@ EXAMPLES = r"""
     dnac_log: False
     state: merged
     config:
-      - ip_address_list: ["1.1.1.1", "2.2.2.2"]
-        provision_wireless_device:
-          site_name: ["Global/USA/BGL_18/floor_pnp", "Global/USA/BGL_18/floor_test"]
-        managed_ap_locations: ["Global/USA/BGL_18/floor_pnp", "Global/USA/BGL_18/floor_test"]
-        dynamic_interfaces:
-        - interface_ip_address: 23.23.21.12
-          interface_netmask_in_cidr: 24
-          interface_gateway: "gateway"
-          lag_or_port_number: 12
-          vlan_id: 99
-          interface_name: "etherenet0/0"
+      - provision_wireless_device:
+        - device_ip: "1.1.1.1"
+          site_name: "Global/USA/BGL_18/floor_pnp"
+          managed_ap_locations: ["Global/USA/BGL_18/floor_pnp", "Global/USA/BGL_18/floor_test"]
+          dynamic_interfaces:
+          - interface_ip_address: 23.23.21.12
+            interface_netmask_in_cidr: 24
+            interface_gateway: "gateway"
+            lag_or_port_number: 12
+            vlan_id: 99
+            interface_name: "etherenet0/0"
+          resync_retry_count: 200
+          resync_retry_interval: 2
+        - device_ip: "2.2.2.2"
+          site_name: "Global/USA/BGL_18/floor_test"
+          managed_ap_locations: ["Global/USA/BGL_19/floor_pnp", "Global/USA/BGL_19/floor_test"]
+          dynamic_interfaces:
+          - interface_ip_address: 32.31.12.23
+            interface_netmask_in_cidr: 26
+            interface_gateway: "gateway_test"
+            lag_or_port_number: 33
+            vlan_id: 78
+            interface_name: "etherenet1/1"
+          resync_retry_count: 200
+          resync_retry_interval: 2
 
 - name: Update Device Role with IP Address
   cisco.dnac.inventory_intent:
@@ -784,7 +864,7 @@ class DnacDevice(DnacBase):
             'snmp_retry': {'default': 3, 'type': 'int'},
             'snmp_timeout': {'default': 5, 'type': 'int'},
             'snmp_username': {'type': 'str'},
-            'snmp_version': {'default': "v3", 'type': 'str'},
+            'snmp_version': {'type': 'str'},
             'update_mgmt_ipaddresslist': {'type': 'list', 'elements': 'dict'},
             'username': {'type': 'str'},
             'update_device_role': {'type': 'dict'},
@@ -822,8 +902,14 @@ class DnacDevice(DnacBase):
                 'resync_retry_count': {'default': 200, 'type': 'int'},
                 'resync_retry_interval': {'default': 2, 'type': 'int'},
             },
+            'reprovision_wired_device': {
+                'type': 'list',
+                'device_ip': {'type': 'str'},
+                'site_name': {'type': 'str'},
+            },
             'provision_wireless_device': {
                 'type': 'list',
+                'device_ip': {'type': 'str'},
                 'site_name': {'type': 'str'},
                 'managed_ap_locations': {'type': 'list', 'elements': 'str'},
                 'dynamic_interfaces': {
@@ -835,6 +921,8 @@ class DnacDevice(DnacBase):
                     'vlan_id': {'type': 'int'},
                     'interface_name': {'type': 'str'},
                 },
+                'resync_retry_count': {'default': 200, 'type': 'int'},
+                'resync_retry_interval': {'default': 2, 'type': 'int'},
             }
         }
 
@@ -1604,7 +1692,7 @@ class DnacDevice(DnacBase):
 
             if not site_name or not device_ip:
                 self.status = "failed"
-                self.msg = "Site/Devices are required for Provisioning of Wired Devices."
+                self.msg = "Site and Device IP are required for Provisioning of Wired Devices."
                 self.log(self.msg, "ERROR")
                 self.result['response'] = self.msg
                 return self
@@ -1665,7 +1753,6 @@ class DnacDevice(DnacBase):
                 while True:
                     execution_details = self.get_task_details(task_id)
                     progress = execution_details.get("progress")
-                    self.log(progress)
 
                     if 'TASK_PROVISION' in progress:
                         self.handle_successful_provisioning(device_ip, execution_details, device_type)
@@ -1695,12 +1782,102 @@ class DnacDevice(DnacBase):
 
         return self
 
-    def get_wireless_param(self, device_ip):
+    def reprovisioned_wired_device(self):
+        """
+        Re-Provision wired devices in Cisco Catalyst Center.
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+        Returns:
+            self (object): An instance of the class with updated result, status, and log.
+        Description:
+            This function re-provision wired devices in Cisco Catalyst Center based on the configuration provided.
+            It retrieves the site name and IP addresses of the devices from the list of configuration,
+            attempts to provision each device with site, and monitors the provisioning process.
+        """
+
+        reprovision_wired_list = self.config[0]['reprovision_wired_device']
+        total_devices_to_reprovisioned = len(reprovision_wired_list)
+        device_in_dnac = self.device_exists_in_dnac()
+        device_ip_list = []
+        provision_count, already_provision_count = 0, 0
+
+        for prov_dict in reprovision_wired_list:
+            device_ip = prov_dict['device_ip']
+            device_ip_list.append(device_ip)
+            site_name = prov_dict['site_name']
+            device_type = "Wired"
+
+            if device_ip not in device_in_dnac:
+                self.msg = "Device '{0}' not present in Cisco Catalyst Center so cannot re-provisioned it.".format(device_ip)
+                self.log(self.msg, "WARNING")
+                continue
+
+            if not site_name or not device_ip:
+                self.status = "failed"
+                self.msg = "Site/Devices are required for Re-Provisioning of Wired Devices."
+                self.log(self.msg, "ERROR")
+                self.result['response'] = self.msg
+                return self
+
+            reprovision_wired_params = {
+                'deviceManagementIpAddress': device_ip,
+                'siteNameHierarchy': site_name
+            }
+
+            try:
+                response = self.dnac._exec(
+                    family="sda",
+                    function='re_provision_wired_device',
+                    op_modifies=True,
+                    params=reprovision_wired_params,
+                )
+
+                if response.get("status") == "failed":
+                    description = response.get("description")
+                    error_msg = "Cannot do Re-Provisioning for device {0} beacuse of {1}".format(device_ip, description)
+                    self.log(error_msg)
+                    continue
+
+                task_id = response.get("taskId")
+
+                while True:
+                    execution_details = self.get_task_details(task_id)
+                    progress = execution_details.get("data")
+
+                    if 'processcfs_complete=true' in progress:
+                        self.handle_successful_provisioning(device_ip, execution_details, device_type)
+                        provision_count += 1
+                        break
+                    elif execution_details.get("isError"):
+                        self.handle_failed_provisioning(device_ip, execution_details, device_type)
+                        break
+
+            except Exception as e:
+                # Not returning from here as there might be possiblity that for some devices it comes into exception
+                # but for others it gets provision successfully or If some devices are already provsioned
+                self.handle_provisioning_exception(device_ip, e, device_type)
+                if "already provisioned" in str(e):
+                    self.log(str(e), "INFO")
+                    already_provision_count += 1
+
+        # Check If all the devices are already provsioned, return from here only
+        if already_provision_count == total_devices_to_reprovisioned:
+            self.handle_all_already_provisioned(device_ip_list, device_type)
+        elif provision_count == total_devices_to_reprovisioned:
+            self.handle_all_provisioned(device_type)
+        elif provision_count == 0:
+            self.handle_all_failed_provision(device_type)
+        else:
+            self.handle_partially_provisioned(provision_count, device_type)
+
+        return self
+
+    def get_wireless_param(self, prov_dict):
         """
         Get wireless provisioning parameters for a device.
         Parameters:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-            device_ip (str): The IP address of the device for which to retrieve wireless provisioning parameters.
+            prov_dict (dict): A dictionary containing configuration parameters for wireless provisioning.
         Returns:
             wireless_param (list of dict): A list containing a dictionary with wireless provisioning parameters.
         Description:
@@ -1712,50 +1889,59 @@ class DnacDevice(DnacBase):
             locations, dynamic interfaces, and device name.
         """
 
-        wireless_config = self.config[0]['provision_wireless_device'][0]
-        wireless_param = [
-            {
-                'site': wireless_config['site_name'],
-                'managedAPLocations': wireless_config['managed_ap_locations'],
-            }
-        ]
+        try:
+            device_ip_address = prov_dict['device_ip']
+            site_name = prov_dict['site_name']
 
-        for ap_loc in wireless_param[0]["managedAPLocations"]:
-            if self.get_site_type(site_name=ap_loc) != "floor":
+            wireless_param = [
+                {
+                    'site': site_name,
+                    'managedAPLocations': prov_dict['managed_ap_locations'],
+                }
+            ]
+
+            for ap_loc in wireless_param[0]["managedAPLocations"]:
+                if self.get_site_type(site_name=ap_loc) != "floor":
+                    self.status = "failed"
+                    self.msg = "Managed AP Location must be a floor"
+                    self.log(self.msg, "ERROR")
+                    return self
+
+            wireless_param[0]["dynamicInterfaces"] = []
+
+            for interface in prov_dict.get("dynamic_interfaces"):
+                interface_dict = {
+                    "interfaceIPAddress": interface.get("interface_ip_address"),
+                    "interfaceNetmaskInCIDR": interface.get("interface_netmask_in_cidr"),
+                    "interfaceGateway": interface.get("interface_gateway"),
+                    "lagOrPortNumber": interface.get("lag_or_port_number"),
+                    "vlanId": interface.get("vlan_id"),
+                    "interfaceName": interface.get("interface_name")
+                }
+                wireless_param[0]["dynamicInterfaces"].append(interface_dict)
+
+            response = self.dnac_apply['exec'](
+                family="devices",
+                function='get_network_device_by_ip',
+                params={"ip_address": device_ip_address}
+            )
+
+            if not response:
                 self.status = "failed"
-                self.msg = "Managed AP Location must be a floor"
-                self.log(self.msg, "ERROR")
+                self.msg = "Device Host name is not present in the Cisco Catalyst Center"
+                self.log(self.msg, "INFO")
                 return self
 
-        wireless_param[0]["dynamicInterfaces"] = []
+            response = response.get("response")
+            wireless_param[0]["deviceName"] = response.get("hostname")
+            self.wireless_param = wireless_param
+            self.status = "success"
+            self.log("Successfully collected all the parameters required for Wireless Provisioning", "DEBUG")
 
-        for interface in wireless_config.get("dynamic_interfaces"):
-            interface_dict = {
-                "interfaceIPAddress": interface.get("interface_ip_address"),
-                "interfaceNetmaskInCIDR": interface.get("interface_netmask_in_cidr"),
-                "interfaceGateway": interface.get("interface_gateway"),
-                "lagOrPortNumber": interface.get("lag_or_port_number"),
-                "vlanId": interface.get("vlan_id"),
-                "interfaceName": interface.get("interface_name")
-            }
-            wireless_param[0]["dynamicInterfaces"].append(interface_dict)
-
-        response = self.dnac_apply['exec'](
-            family="devices",
-            function='get_network_device_by_ip',
-            params={"ip_address": device_ip}
-        )
-        if not response:
-            self.status = "failed"
-            self.msg = "Device Host name is not present in the Cisco Catalyst Center"
-            self.log(self.msg, "INFO")
-            return self
-
-        response = response.get("response")
-        wireless_param[0]["deviceName"] = response.get("hostname")
-        self.wireless_param = wireless_param
-        self.status = "success"
-        self.log("Successfully collected all parameters required for Wireless Provisioing", "DEBUG")
+        except Exception as e:
+            self.msg = """An exception occured while fetching the details for wireless provisioning of
+                device '{0}' due to - {1}""".format(device_ip_address, str(e))
+            self.log(self.msg, "ERROR")
 
         return self
 
@@ -1800,12 +1986,11 @@ class DnacDevice(DnacBase):
 
         return site_type
 
-    def provisioned_wireless_devices(self, device_ips):
+    def provisioned_wireless_devices(self):
         """
         Provision Wireless devices in Cisco Catalyst Center.
         Parameters:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-            device_ips (list): List of IP addresses of the devices to be provisioned.
         Returns:
             self (object): An instance of the class with updated result, status, and log.
         Description:
@@ -1817,25 +2002,23 @@ class DnacDevice(DnacBase):
 
         provision_count, already_provision_count = 0, 0
         device_type = "Wireless"
+        device_ip_list = []
+        provision_wireless_list = self.config[0]['provision_wireless_device']
 
-        device_in_dnac = self.device_exists_in_dnac()
-        device_ips = self.get_device_ips_from_config_priority()
-        input_device_ips = device_ips.copy()
-
-        for device_ip in input_device_ips:
-            if device_ip not in device_in_dnac:
-                input_device_ips.remove(device_ip)
-
-        for device_ip in input_device_ips:
+        for prov_dict in provision_wireless_list:
             try:
                 # Collect the device parameters from the playbook to perform wireless provisioing
-                self.get_wireless_param(device_ip).check_return_status()
+                self.get_wireless_param(prov_dict).check_return_status()
+                device_ip = prov_dict['device_ip']
+                device_ip_list.append(device_ip)
                 provisioning_params = self.wireless_param
-                count = 1
+                resync_retry_count = prov_dict.get("resync_retry_count", 200)
+                # This resync retry interval will be in seconds which will check device status at given interval
+                resync_retry_interval = prov_dict.get("resync_retry_interval", 2)
                 managed_flag = True
 
                 # Check till device comes into managed state
-                while True:
+                while resync_retry_count:
                     response = self.get_device_response(device_ip)
                     self.log("Device is in {0} state waiting for Managed State.".format(response['managementState']), "DEBUG")
 
@@ -1844,16 +2027,26 @@ class DnacDevice(DnacBase):
                         and response.get('collectionStatus') == "Managed"
                         and response.get("hostname")
                     ):
+                        msg = """Device '{0}' comes to managed state and ready for provisioning with the resync_retry_count
+                            '{1}' left having resync interval of {2} seconds""".format(device_ip, resync_retry_count, resync_retry_interval)
+                        self.log(msg, "INFO")
+                        managed_flag = True
                         break
 
-                    count = count + 1
-                    if count > 200:
+                    if response.get('collectionStatus') == "Partial Collection Failure" or response.get('collectionStatus') == "Could Not Synchronize":
+                        device_status = response.get('collectionStatus')
+                        msg = """Device '{0}' comes to '{1}' state and never goes for provisioning with the resync_retry_count
+                            '{2}' left having resync interval of {3} seconds""".format(device_ip, device_status, resync_retry_count, resync_retry_interval)
+                        self.log(msg, "INFO")
                         managed_flag = False
                         break
 
+                    time.sleep(resync_retry_interval)
+                    resync_retry_count = resync_retry_count - 1
+
                 if not managed_flag:
-                    self.log("Device {0} is not transitioning to the managed state, so provisioning operation cannot be performed."
-                             .format(device_ip), 'WARNING')
+                    self.log("""Device {0} is not transitioning to the managed state, so provisioning operation cannot
+                                be performed.""".format(device_ip), "WARNING")
                     continue
 
                 # Now we have provisioning_param so we can do wireless provisioning
@@ -1875,7 +2068,6 @@ class DnacDevice(DnacBase):
                 while True:
                     execution_details = self.get_task_details(task_id)
                     progress = execution_details.get("progress")
-                    self.log(progress)
                     if 'TASK_PROVISION' in progress:
                         self.handle_successful_provisioning(device_ip, execution_details, device_type)
                         provision_count += 1
@@ -1894,9 +2086,9 @@ class DnacDevice(DnacBase):
                     already_provision_count += 1
 
         # Check If all the devices are already provsioned, return from here only
-        if already_provision_count == len(device_ips):
-            self.handle_all_already_provisioned(device_ips, device_type)
-        elif provision_count == len(device_ips):
+        if already_provision_count == len(device_ip_list):
+            self.handle_all_already_provisioned(device_ip_list, device_type)
+        elif provision_count == len(device_ip_list):
             self.handle_all_provisioned(device_type)
         elif provision_count == 0:
             self.handle_all_failed_provision(device_type)
@@ -1950,7 +2142,7 @@ class DnacDevice(DnacBase):
 
         device_type = self.config[0].get("type", "NETWORK_DEVICE")
         params_dict = {
-            "NETWORK_DEVICE": ["enable_password", "ip_address_list", "password", "snmp_username", "username"],
+            "NETWORK_DEVICE": ["enable_password", "ip_address_list", "password", "username"],
             "COMPUTE_DEVICE": ["ip_address_list", "http_username", "http_password", "http_port", "snmp_username"],
             "MERAKI_DASHBOARD": ["http_password"],
             "FIREPOWER_MANAGEMENT_SYSTEM": ["ip_address_list", "http_username", "http_password"],
@@ -2012,6 +2204,16 @@ class DnacDevice(DnacBase):
                 if device_ip_address not in want_device:
                     devices_in_playbook.append(device_ip_address)
                 if device_ip_address not in device_in_dnac:
+                    device_not_in_dnac.append(device_ip_address)
+
+        if self.config[0].get('provision_wireless_device'):
+            provision_wireless_list = self.config[0].get('provision_wireless_device')
+
+            for prov_dict in provision_wireless_list:
+                device_ip_address = prov_dict['device_ip']
+                if device_ip_address not in want_device and device_ip_address not in devices_in_playbook:
+                    devices_in_playbook.append(device_ip_address)
+                if device_ip_address not in device_in_dnac and device_ip_address not in device_not_in_dnac:
                     device_not_in_dnac.append(device_ip_address)
 
         self.log("Device(s) {0} exists in Cisco Catalyst Center".format(str(device_in_dnac)), "INFO")
@@ -2787,31 +2989,40 @@ class DnacDevice(DnacBase):
 
         # To add the devices in inventory
         if config['ip_address_list']:
-            device_params = self.want.get("device_params")
+            input_params = self.want.get("device_params")
+            device_params = input_params.copy()
+
+            if not device_params['snmpVersion']:
+                device_params['snmpVersion'] = "v3"
+
             device_params['ipAddress'] = config['ip_address_list']
+            if device_params['snmpVersion'] == "v2":
+                params_to_remove = ["snmpAuthPassphrase", "snmpAuthProtocol", "snmpMode", "snmpPrivPassphrase", "snmpPrivProtocol", "snmpUserName"]
+                for param in params_to_remove:
+                    device_params.pop(param, None)
+            else:
+                if not device_params['snmpMode']:
+                    device_params['snmpMode'] = "AUTHPRIV"
 
-            if not device_params['snmpMode']:
-                device_params['snmpMode'] = "AUTHPRIV"
+                if not device_params['cliTransport']:
+                    device_params['cliTransport'] = "ssh"
 
-            if not device_params['cliTransport']:
-                device_params['cliTransport'] = "ssh"
+                if not device_params['snmpPrivProtocol']:
+                    device_params['snmpPrivProtocol'] = "AES128"
 
-            if not device_params['snmpPrivProtocol']:
-                device_params['snmpPrivProtocol'] = "AES128"
+                if device_params['snmpPrivProtocol'] == "AES192":
+                    device_params['snmpPrivProtocol'] = "CISCOAES192"
+                elif device_params['snmpPrivProtocol'] == "AES256":
+                    device_params['snmpPrivProtocol'] = "CISCOAES256"
 
-            if device_params['snmpPrivProtocol'] == "AES192":
-                device_params['snmpPrivProtocol'] = "CISCOAES192"
-            elif device_params['snmpPrivProtocol'] == "AES256":
-                device_params['snmpPrivProtocol'] = "CISCOAES256"
-
-            if device_params['snmpMode'] == "NOAUTHNOPRIV":
-                device_params.pop('snmpAuthPassphrase', None)
-                device_params.pop('snmpPrivPassphrase', None)
-                device_params.pop('snmpPrivProtocol', None)
-                device_params.pop('snmpAuthProtocol', None)
-            elif device_params['snmpMode'] == "AUTHNOPRIV":
-                device_params.pop('snmpPrivPassphrase', None)
-                device_params.pop('snmpPrivProtocol', None)
+                if device_params['snmpMode'] == "NOAUTHNOPRIV":
+                    device_params.pop('snmpAuthPassphrase', None)
+                    device_params.pop('snmpPrivPassphrase', None)
+                    device_params.pop('snmpPrivProtocol', None)
+                    device_params.pop('snmpAuthProtocol', None)
+                elif device_params['snmpMode'] == "AUTHNOPRIV":
+                    device_params.pop('snmpPrivPassphrase', None)
+                    device_params.pop('snmpPrivProtocol', None)
 
             self.mandatory_parameter().check_return_status()
             try:
@@ -2969,6 +3180,14 @@ class DnacDevice(DnacBase):
                         self.log("""Updating the device cli transport from ssh to telnet with netconf port '{0}' so make
                                 netconf port as None to perform the device update task""".format(playbook_params['netconfPort']), "DEBUG")
                         playbook_params['netconfPort'] = None
+
+                    if not playbook_params['snmpVersion']:
+                        playbook_params['snmpVersion'] = device_data['snmp_version']
+
+                    if playbook_params['snmpVersion'] == '2c':
+                        params_to_remove = ["snmpAuthPassphrase", "snmpAuthProtocol", "snmpMode", "snmpPrivPassphrase", "snmpPrivProtocol", "snmpUserName"]
+                        for param in params_to_remove:
+                            playbook_params.pop(param, None)
 
                     try:
                         if playbook_params['updateMgmtIPaddressList']:
@@ -3130,10 +3349,13 @@ class DnacDevice(DnacBase):
         if self.config[0].get('provision_wired_device'):
             self.provisioned_wired_device().check_return_status()
 
+        # This will be used to re-provisioned the wired device in inventory
+        if self.config[0].get('reprovision_wired_device'):
+            self.reprovisioned_wired_device().check_return_status()
+
         # Once Wireless device get added we will assign device to site and Provisioned it
         if self.config[0].get('provision_wireless_device'):
-            device_ips = self.get_device_ips_from_config_priority()
-            self.provisioned_wireless_devices(device_ips).check_return_status()
+            self.provisioned_wireless_devices().check_return_status()
 
         if device_resynced:
             self.resync_devices().check_return_status()
@@ -3414,6 +3636,26 @@ class DnacDevice(DnacBase):
             else:
                 self.log("""Mismatch between playbook's input and Cisco Catalyst Center detected, indicating that
                          the provisioning task may not have executed successfully.""", "INFO")
+
+        if self.config[0].get('reprovision_wired_device'):
+            reprovision_wired_list = self.config[0].get('reprovision_wired_device')
+            re_provision_flag = True
+            reprovision_device_list = []
+
+            for prov_dict in reprovision_wired_list:
+                device_ip = prov_dict['device_ip']
+                reprovision_device_list.append(device_ip)
+                if not self.get_provision_wired_device(device_ip):
+                    re_provision_flag = False
+                    break
+
+            if re_provision_flag:
+                self.status = "success"
+                msg = "Wired devices {0} get re-provisioned and verified successfully.".format(reprovision_device_list)
+                self.log(msg, "INFO")
+            else:
+                self.log("""Mismatch between playbook's input and Cisco Catalyst Center detected, indicating that
+                         the re-provisioning task may not have executed successfully.""", "INFO")
 
         return self
 
