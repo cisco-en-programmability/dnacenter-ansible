@@ -127,11 +127,9 @@ options:
       snmp_ro_community:
         description: SNMP Read-Only community required for adding V2C devices.
         type: str
-        default: public
       snmp_rw_community:
         description: SNMP Read-Write community required for adding V2C devices.
         type: str
-        default: private
       snmp_retry:
         description: SNMP retry count.
         type: int
@@ -685,7 +683,7 @@ EXAMPLES = r"""
       - ip_address_list: ["1.1.1.1", "2.2.2.2"]
         export_device_list:
           password: "File_password"
-          operation_enum: 0
+          operation_enum: "0"
           parameters: ["componentName", "SerialNumber", "Last Sync Status"]
 
 - name: Create Global User Defined with IP Address
@@ -859,8 +857,8 @@ class DnacDevice(DnacBase):
             'snmp_mode': {'type': 'str'},
             'snmp_priv_passphrase': {'type': 'str'},
             'snmp_priv_protocol': {'type': 'str'},
-            'snmp_ro_community': {'default': "public", 'type': 'str'},
-            'snmp_rw_community': {'default': "private", 'type': 'str'},
+            'snmp_ro_community': {'type': 'str'},
+            'snmp_rw_community': {'type': 'str'},
             'snmp_retry': {'default': 3, 'type': 'int'},
             'snmp_timeout': {'default': 5, 'type': 'int'},
             'snmp_username': {'type': 'str'},
@@ -2142,11 +2140,11 @@ class DnacDevice(DnacBase):
 
         device_type = self.config[0].get("type", "NETWORK_DEVICE")
         params_dict = {
-            "NETWORK_DEVICE": ["enable_password", "ip_address_list", "password", "username"],
-            "COMPUTE_DEVICE": ["ip_address_list", "http_username", "http_password", "http_port", "snmp_username"],
+            "NETWORK_DEVICE": ["ip_address_list", "password", "username"],
+            "COMPUTE_DEVICE": ["ip_address_list", "http_username", "http_password", "http_port"],
             "MERAKI_DASHBOARD": ["http_password"],
             "FIREPOWER_MANAGEMENT_SYSTEM": ["ip_address_list", "http_username", "http_password"],
-            "THIRD_PARTY_DEVICE": ["ip_address_list", "snmp_username", "snmp_auth_passphrase", "snmp_priv_passphrase"]
+            "THIRD_PARTY_DEVICE": ["ip_address_list"]
         }
 
         params_list = params_dict.get(device_type, [])
@@ -3176,15 +3174,21 @@ class DnacDevice(DnacBase):
                     if playbook_params['netconfPort'] == " ":
                         playbook_params['netconfPort'] = None
 
+                    if playbook_params['enablePassword'] == " ":
+                        playbook_params['enablePassword'] = None
+
                     if playbook_params['netconfPort'] and playbook_params['cliTransport'] == "telnet":
                         self.log("""Updating the device cli transport from ssh to telnet with netconf port '{0}' so make
                                 netconf port as None to perform the device update task""".format(playbook_params['netconfPort']), "DEBUG")
                         playbook_params['netconfPort'] = None
 
                     if not playbook_params['snmpVersion']:
-                        playbook_params['snmpVersion'] = device_data['snmp_version']
+                        if device_data['snmp_version'] == 3:
+                            playbook_params['snmpVersion'] = "v3"
+                        else:
+                            playbook_params['snmpVersion'] = "v2"
 
-                    if playbook_params['snmpVersion'] == '2c':
+                    if playbook_params['snmpVersion'] == 'v2':
                         params_to_remove = ["snmpAuthPassphrase", "snmpAuthProtocol", "snmpMode", "snmpPrivPassphrase", "snmpPrivProtocol", "snmpUserName"]
                         for param in params_to_remove:
                             playbook_params.pop(param, None)
@@ -3281,8 +3285,9 @@ class DnacDevice(DnacBase):
 
                             while True:
                                 execution_details = self.get_task_details(task_id)
+                                progress = execution_details.get("progress")
 
-                                if 'successfully' in execution_details.get("progress"):
+                                if 'successfully' in progress or 'succesfully' in progress:
                                     self.status = "success"
                                     self.result['changed'] = True
                                     self.result['response'] = execution_details
@@ -3442,7 +3447,7 @@ class DnacDevice(DnacBase):
                 self.status = "success"
                 self.result['changed'] = False
                 self.msg = "Device '{0}' is not present in Cisco Catalyst Center so can't perform delete operation".format(device_ip)
-                self.result['msg'] = self.msg
+                self.result['msg'].append(self.msg)
                 self.result['response'] = self.msg
                 self.log(self.msg, "INFO")
                 continue
@@ -3471,11 +3476,12 @@ class DnacDevice(DnacBase):
                             self.result['changed'] = True
                             self.msg = execution_details.get("bapiName")
                             self.log(self.msg, "INFO")
-                            self.result['response'] = self.msg
+                            self.result['response'].append(self.msg)
                             break
                         elif execution_details.get("bapiError"):
                             self.msg = execution_details.get("bapiError")
                             self.log(self.msg, "ERROR")
+                            self.result['response'].append(self.msg)
                             break
             except Exception as e:
                 device_id = self.get_device_ids([device_ip])
@@ -3511,7 +3517,7 @@ class DnacDevice(DnacBase):
                                 self.msg = "Device '{0}' deletion get failed.".format(device_ip)
                             self.log(self.msg, "ERROR")
                             break
-                    self.result['msg'] = self.msg
+                    self.result['msg'].append(self.msg)
 
         return self
 
