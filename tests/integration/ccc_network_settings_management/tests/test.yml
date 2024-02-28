@@ -1,11 +1,11 @@
 ---
-- debug: msg="Starting device credential assign management test"
+- debug: msg="Starting device credential management test"
 - debug: msg="Role Path {{ role_path }}"
 
 - block:
   - name: Load vars and declare dnac vars
     include_vars:
-      file: "{{ role_path }}/vars/vars_assign_credentials.yml"
+      file: "{{ role_path }}/vars/main.yml"
       name: vars_map
     vars:
       dnac_login: &dnac_login
@@ -20,13 +20,15 @@
         dnac_log_level: DEBUG
 
   - debug:
-      msg: "{{ vars_map.credentials_details }}"
-  - debug:
       msg: "{{ vars_map.design_sites }}"
+  - debug:
+      msg: "{{ vars_map. }}"
+
 
 #############################################
 #            Pre Tests Clean Up             #
 #############################################
+
   - name: Clean up site before test
     cisco.dnac.site_workflow_manager:
       <<: *dnac_login
@@ -36,14 +38,15 @@
           - "{{ item }}"
     loop: "{{ vars_map.design_sites }}"
 
-  - name: Clean up device credentials before test
-    cisco.dnac.device_credential_workflow_manager:
+  - name: Clean up before tests
+    cisco.dnac.site_workflow_manager:
       <<: *dnac_login
+      config_verify: true
       state: deleted
-      config_verify: True
       config:
-      - "{{ item }}"
-    with_list: "{{ vars_map.credentials_details }}"
+          - "{{ item }}"
+    loop: "{{ vars_map. }}"
+
 
 #############################################
 #                CREATE SITE                #
@@ -76,68 +79,78 @@
     when: result_create_site is defined
 
 #############################################
-#            Create Credentials             #
+#          UPDATE NETWORK SETTINGS          #
 #############################################
-  - name: Create Credentials
+
+
+#############################################
+#            Create Global Pool             #
+#############################################
+
+  - name: Create Global Pool
     cisco.dnac.device_credential_workflow_manager:
       <<: *dnac_login
       state: merged
       config_verify: True
       config:
       - "{{ item }}"
-    with_list: "{{ vars_map.credentials_details }}"
+    with_list: "{{ vars_map. }}"
     tags: merged
-    register: result_create_credentials
-
-  # - name: Debug item
-  #   debug:
-  #     var: item
-  #   loop: "{{ result_create_credentials.results }}"
-  #   when: result_create_credentials is defined
-
-  - name: Assert Device Credential Creation
-    assert:
-      that:
-        - item.changed == true
-        - "'Created Successfully' in item.response[0].globalCredential.Creation.msg"
-        - item.response[0].globalCredential.Validation == "Success"
-    loop: "{{ result_create_credentials.results }}"
-    when: result_create_credentials is defined
-
-#############################################
-#        Assign Credentials to site         #
-#############################################
-  - name: Assign Credentials to design_sites  
-    cisco.dnac.device_credential_workflow_manager:
-      <<: *dnac_login
-      state: merged
-      config_verify: True
-      config:
-      - "{{ item }}"
-    with_list: "{{ vars_map.credentials_assign }}"
-    tags: assign
-    register: result_assign_credentials
+    register: result_create_global_pool
 
   - name: Debug item
     debug:
       var: item
-    loop: "{{ result_create_credentials.results }}"
-    when: result_assign_credentials is defined
+    loop: "{{ result_create_global_pool.results }}"
+    when: result_create_global_pool is defined
 
-  # - name: Assert Credentials to sites
+  # - name: Assert Global Pool Creation
   #   assert:
   #     that:
   #       - item.changed == true
-  #       - item.response.status == "success"
-  #       - "'assigned Successfully' in item.msg"
-  #   loop: "{{ result_assign_credentials.results }}"
-  #   when: result_assign_credentials is defined
+  #       - "'Created Successfully' in item.response[0].globalCredential.Creation.msg"
+  #       - item.response[0].globalCredential.Validation == "Success"
+  #   loop: "{{ result_create_global_pool.results }}"
+  #   when: result_create_global_pool is defined
+
+#############################################
+#            Update Global Pool             #
+#############################################
+
+  - name: Update Global Pool
+    cisco.dnac.device_credential_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config_verify: True
+      config:
+      - "{{ item }}"
+    with_list: "{{ vars_map. }}"
+    tags: update
+    register: result_update_global_pool
+
+  - name: Debug item
+    debug:
+      var: item
+    loop: "{{ result_update_credentials.results }}"
+    when: result_update_credentials is defined
+
+  # - name: Assert Global Credential Update
+  #   assert:
+  #     that:
+  #       - item.changed == true
+  #       - "'Updated Successfully' in item.response[0].globalCredential.Updation.msg"
+  #       - item.response[0].globalCredential.Validation == "Success"
+  #   loop: "{{ result_update_global_pool.results }}"
+  #   when: result_update_global_pool is defined
+
+#############################################
+#            Delete Global Pool             #
+#############################################
 
 
 #############################################
 #                DELETE SITE                #
 #############################################
-
 
   - name: Delete site from design_sites config
     cisco.dnac.site_workflow_manager:
@@ -163,33 +176,3 @@
         - "'deleted successfully' in item.response"
     loop: "{{ result_delete_site.results }}"
     when: result_delete_site is defined
-
-#############################################
-#            Delete Credentials             #
-#############################################
-  - name: Delete Credentials
-    cisco.dnac.device_credential_workflow_manager:
-      <<: *dnac_login
-      state: deleted
-      config_verify: True
-      config:
-      - "{{ item }}"
-    with_list: "{{ vars_map.credentials_details }}"
-    tags: deleted
-    register: result_delete_credentials
-
-  # - name: Debug item
-  #   debug:
-  #     var: item
-  #   loop: "{{ result_delete_credentials.results }}"
-  #   when: result_delete_credentials is defined
-
-  - name: Assert Global Credential Deletion
-    assert:
-      that:
-        - item.changed == true
-        - "'Deleted Successfully' in item.response[0].globalCredential.Deletion.msg"
-        - item.response[0].globalCredential.Validation == "Success"
-    loop: "{{ result_delete_credentials.results }}"
-    when: result_delete_credentials is defined
-
