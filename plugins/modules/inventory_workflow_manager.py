@@ -2977,9 +2977,8 @@ class Inventory(DnacBase):
             self.log(self.msg, "INFO")
             self.result['changed'] = False
             self.result['response'] = self.msg
-
-        # To add the devices in inventory
-        if config['ip_address_list']:
+        else:
+            # To add the devices in inventory
             input_params = self.want.get("device_params")
             device_params = input_params.copy()
 
@@ -2991,6 +2990,13 @@ class Inventory(DnacBase):
                 params_to_remove = ["snmpAuthPassphrase", "snmpAuthProtocol", "snmpMode", "snmpPrivPassphrase", "snmpPrivProtocol", "snmpUserName"]
                 for param in params_to_remove:
                     device_params.pop(param, None)
+
+                if not device_params['snmpROCommunity']:
+                    self.status = "failed"
+                    self.msg = "Required parameter 'snmpROCommunity' for adding device with snmmp version v2 is not present"
+                    self.result['msg'] = self.msg
+                    self.log(self.msg, "ERROR")
+                    return self
             else:
                 if not device_params['snmpMode']:
                     device_params['snmpMode'] = "AUTHPRIV"
