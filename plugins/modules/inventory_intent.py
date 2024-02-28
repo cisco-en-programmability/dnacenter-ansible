@@ -2984,9 +2984,8 @@ class DnacDevice(DnacBase):
             self.log(self.msg, "INFO")
             self.result['changed'] = False
             self.result['response'] = self.msg
-
-        # To add the devices in inventory
-        if config['ip_address_list']:
+        else:
+            # To add the devices in inventory
             input_params = self.want.get("device_params")
             device_params = input_params.copy()
 
@@ -3004,6 +3003,7 @@ class DnacDevice(DnacBase):
                     self.msg = "Required parameter 'snmpROCommunity' for adding device with snmmp version v2 is not present"
                     self.result['msg'] = self.msg
                     self.log(self.msg, "ERROR")
+                    return self
             else:
                 if not device_params['snmpMode']:
                     device_params['snmpMode'] = "AUTHPRIV"
@@ -3067,7 +3067,7 @@ class DnacDevice(DnacBase):
                                 self.msg = "Device addition get failed"
                             self.log(self.msg, "ERROR")
                             self.result['msg'] = self.msg
-                            break
+                            return self
 
             except Exception as e:
                 error_message = "Error while adding device in Cisco Catalyst Center: {0}".format(str(e))
