@@ -2991,6 +2991,12 @@ class Inventory(DnacBase):
                 params_to_remove = ["snmpAuthPassphrase", "snmpAuthProtocol", "snmpMode", "snmpPrivPassphrase", "snmpPrivProtocol", "snmpUserName"]
                 for param in params_to_remove:
                     device_params.pop(param, None)
+
+                if not device_params['snmpROCommunity']:
+                    self.status = "failed"
+                    self.msg = "Required parameter 'snmpROCommunity' for adding device with snmmp version v2 is not present"
+                    self.result['msg'] = self.msg
+                    self.log(self.msg, "ERROR")
             else:
                 if not device_params['snmpMode']:
                     device_params['snmpMode'] = "AUTHPRIV"
