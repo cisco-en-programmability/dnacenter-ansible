@@ -3189,7 +3189,7 @@ class DnacDevice(DnacBase):
                         playbook_params['netconfPort'] = None
 
                     if not playbook_params['snmpVersion']:
-                        if device_data['snmp_version'] == 3:
+                        if device_data['snmp_version'] == '3':
                             playbook_params['snmpVersion'] = "v3"
                         else:
                             playbook_params['snmpVersion'] = "v2"
