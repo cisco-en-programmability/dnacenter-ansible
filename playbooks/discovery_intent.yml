@@ -20,6 +20,76 @@
       dnac_log_level: DEBUG
 
   tasks:
+
+    - name: Execute discovery devices using MULTI RANGE with various global credentials
+      cisco.dnac.discovery_intent:
+        <<: *dnac_login
+        state: merged
+        config_verify: True
+        config:
+          - ip_address_list:
+            - 204.1.2.1-204.1.2.5
+            - 204.192.3.40
+            - 204.192.4.200
+            - 204.1.2.6
+            - 204.1.2.7
+            - 204.1.2.8
+            - 204.1.2.9
+            - 204.1.2.10
+            - 204.1.2.11
+            discovery_type: MULTI RANGE
+            protocol_order: ssh
+            state: merged
+            discovery_name: Multi_global
+            global_credentials:
+              cli_credentials_list:
+                - description: ISE
+                  username: cisco
+                - description: CLI1234 #Incorrect name passed
+                  username: cli
+              http_read_credential_list:
+                - description: HTTP Read
+                  username: HTTP_Read
+              snmp_v3_credential_list:
+                - description: snmpV3
+                  username: snmpV3
+
+    - name: Execute discovery of single device using various discovery specific credentials
+      cisco.dnac.discovery_intent:
+        <<: *dnac_login
+        state: merged
+        config_verify: True
+        config:
+          - discovery_name: Single IP Discovery
+            discovery_type: "SINGLE"
+            ip_address_list:
+              - 204.1.2.5
+            protocol_order: ssh
+            discovery_specific_credentials:
+              cli_credentials_list:
+              - username: cisco
+                password: Cisco#123
+                enable_password: Cisco#123
+              http_read_credential:
+                username: string
+                password: Lablab#123
+                port: 443
+                secure: True
+              snmp_v2_read_credential:
+                desc: string
+                community: string
+                snmp_v2_write_credential:
+                desc: string
+                community: string
+              snmp_v3_credential:
+                username: v3Public2
+                snmp_mode: AUTHPRIV
+                auth_type: SHA
+                auth_password: Lablab#1234
+                privacy_type: AES256
+                privacy_password: Lablab#1234
+                global_cli_len: 3
+
     - name: Execute discovery devices using MULTI RANGE with various discovery specific credentials
       cisco.dnac.discovery_intent:
         <<: *dnac_login
@@ -68,7 +138,7 @@
           - ip_address_list:   #List length should be one
               - 204.1.2.1
             discovery_type: "CDP" #Can be LLDP and CIDR
-            cdp_level: 16 #Instead use lldp for LLDP and prefix length for CIDR
+            cdp_level: 2 #Instead use lldp for LLDP and prefix length for CIDR
             discovery_name: CDP_Test_1
             discovery_specific_credentials:
               cli_credentials_list:
