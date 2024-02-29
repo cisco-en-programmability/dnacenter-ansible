@@ -78,7 +78,7 @@
               snmp_v2_read_credential:
                 desc: string
                 community: string
-                snmp_v2_write_credential:
+              snmp_v2_write_credential:
                 desc: string
                 community: string
               snmp_v3_credential:
