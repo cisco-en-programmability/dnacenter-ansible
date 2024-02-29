@@ -58,6 +58,7 @@ options:
             suboptions:
               file_path:
                 description: Provide the absolute file path needed to import an image from your local system (Eg "/path/to/your/file").
+                    Accepted files formats are - .gz,.bin,.img,.tar,.smu,.pie,.aes,.iso,.ova,.tar_gz,.qcow2,.nfvispkg,.zip,.spa,.rpm.
                 type: str
               is_third_party:
                 description: Query parameter to determine if the image is from a third party (optional).
@@ -130,7 +131,8 @@ options:
                     type: str
                   source_url:
                     description: A mandatory parameter for importing a SWIM image via a remote URL. This parameter is required when using a URL
-                        to import an image.
+                        to import an image.(For example, http://{host}/swim/cat9k_isoxe.16.12.10s.SPA.bin,
+                        ftp://user:password@{host}/swim/cat9k_isoxe.16.12.10s.SPA.iso)
                     type: str
                   is_third_party:
                     description: Flag indicates whether the image is uploaded from a third party (optional).
@@ -1183,11 +1185,11 @@ class DnacSwims(DnacBase):
             elif task_details.get("isError"):
                 failure_reason = task_details.get("failureReason", "")
                 if failure_reason and "An inheritted tag cannot be un-tagged" in failure_reason:
-                    self.status = "success"
+                    self.status = "failed"
                     self.result['changed'] = False
                     self.msg = failure_reason
                     self.result['msg'] = failure_reason
-                    self.log(self.msg, "WARNING")
+                    self.log(self.msg, "ERROR")
                 else:
                     error_message = task_details.get("failureReason", "Error: while tagging/un-tagging the golden swim image.")
                     self.status = "failed"
