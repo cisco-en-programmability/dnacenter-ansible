@@ -229,6 +229,7 @@ options:
                 description:
                     - List of global HTTP Read credentials that will be used in the process of discovering devices.
                     - It's recommended to create device credentials with both a unique username and a clear description for easy identification.
+                type: list
                 elements: dict
                 suboptions:
                     username:
