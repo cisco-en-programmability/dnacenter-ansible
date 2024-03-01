@@ -206,29 +206,29 @@ options:
                 type: str
       global_credentials:
         description:
-            - Credentials that are already created by the user under Device Credentials in Cisco Catalyst Center.
+            - Set of various credential types, including CLI, SNMP, HTTP, and NETCONF, that a user has pre-configured in
+                the Device Credentials section of the Cisco Catalyst Center.
             - If user doesn't pass any global credentials in the playbook, then by default, we will use all the global
                 credentials present in the Cisco Catalyst Center of each type for performing discovery. (Max 5 allowed)
         type: dict
         suboptions:
             cli_credentials_list:
                 description:
-                    - List of Global CLI credentials to be used during device discovery.
-                    - Generally it is advised to create device credentials with unique username or description.
+                   - Accepts a list of global CLI credentials for use in device discovery.
+                   - It's recommended to create device credentials with both a unique username and a clear description.
                 type: list
                 elements: dict
                 suboptions:
                     username:
-                        description: Username for CLI authentication, mandatory when using global CLI credentials.
+                        description: Username required for CLI authentication and is mandatory when using global CLI credentials.
                         type: str
                     description:
                         description: Name of the CLI credential, mandatory when using global CLI credentials.
                         type: str
             http_read_credential_list:
                 description:
-                    - List of Global HTTP Read credentials to be used during device discovery.
-                    - Generally it is advised to create device credentials with unique username or description.
-                type: list
+                    - List of global HTTP Read credentials that will be used in the process of discovering devices.
+                    - It's recommended to create device credentials with both a unique username and a clear description for easy identification.
                 elements: dict
                 suboptions:
                     username:
@@ -239,8 +239,8 @@ options:
                         type: str
             http_write_credential_list:
                 description:
-                    - List of Global HTTP Write credentials to be used during device discovery.
-                    - Generally it is advised to create device credentials with unique username or description.
+                    - List of global HTTP Write credentials that will be used in the process of discovering devices.
+                    - It's recommended to create device credentials with both a unique username and a clear description for easy identification.
                 type: list
                 elements: dict
                 suboptions:
@@ -253,7 +253,7 @@ options:
             snmp_v2_read_credential_list:
                 description:
                     - List of Global SNMP V2 Read credentials to be used during device discovery.
-                    - Generally it is advised to create device credentials with unique username or description.
+                    - It's recommended to create device credentials with both a unique username and a clear description for easy identification.
                 type: list
                 elements: dict
                 suboptions:
@@ -266,7 +266,7 @@ options:
             snmp_v2_write_credential_list:
                 description:
                     - List of Global SNMP V2 Write credentials to be used during device discovery.
-                    - Generally it is advised to create device credentials with unique username or description.
+                    - It's recommended to create device credentials with both a unique username and a clear description for easy identification.
                 type: list
                 elements: dict
                 suboptions:
@@ -279,7 +279,7 @@ options:
             snmp_v3_credential_list:
                 description:
                     - List of Global SNMP V3 credentials to be used during device discovery, giving read and write mode.
-                    - Generally it is advised to create device credentials with unique username or description.
+                    - It's recommended to create device credentials with both a unique username and a clear description for easy identification.
                 type: list
                 elements: dict
                 suboptions:
@@ -292,7 +292,7 @@ options:
             net_conf_port_list:
                 description:
                     - List of Global Net conf ports to be used during device discovery.
-                    - Generally it is advised to create device credentials with unique description.
+                    - It's recommended to create device credentials with unique description.
                 type: list
                 elements: dict
                 suboptions:
@@ -555,8 +555,7 @@ class Discovery(DnacBase):
             'retry': {'type': 'int', 'required': False},
             'timeout': {'type': 'str', 'required': False},
             'global_credentials': {'type': 'dict', 'required': False},
-            'protocol_order': {'type': 'str', 'required': False,
-                                'default': 'ssh'}
+            'protocol_order': {'type': 'str', 'required': False, 'default': 'ssh'}
         }
 
         if state == "merged":
@@ -615,17 +614,12 @@ class Discovery(DnacBase):
         """
 
         global_credentials = self.validated_config[0].get("global_credentials")
-        cli_credentials_list = global_credentials.get('cli_credentials_list')
-        http_read_credential_list = global_credentials.get('http_read_credential_list')
-        http_write_credential_list = global_credentials.get('http_write_credential_list')
-        snmp_v2_read_credential_list = global_credentials.get('snmp_v2_read_credential_list')
-        snmp_v2_write_credential_list = global_credentials.get('snmp_v2_write_credential_list')
-        snmp_v3_credential_list = global_credentials.get('snmp_v3_credential_list')
-        net_conf_port_list = global_credentials.get('net_conf_port_list')
         global_credentails_all = {}
+
+        cli_credentials_list = global_credentials.get('cli_credentials_list')
         if cli_credentials_list:
             if not isinstance(cli_credentials_list, list):
-                msg = "Global ClI credentials must be passed as a list"
+                msg = "Global CLI credentials must be passed as a list"
                 self.discovery_specific_cred_failure(msg=msg)
             if len(cli_credentials_list) > 0:
                 global_credentails_all["cliCredential"] = []
@@ -642,6 +636,7 @@ class Discovery(DnacBase):
                         msg = "Kindly ensure you include both the description and the username for the Global CLI credential to discover the devices"
                         self.discovery_specific_cred_failure(msg=msg)
 
+        http_read_credential_list = global_credentials.get('http_read_credential_list')
         if http_read_credential_list:
             if not isinstance(http_read_credential_list, list):
                 msg = "Global HTTP read credentials must be passed as a list"
@@ -661,6 +656,7 @@ class Discovery(DnacBase):
                         msg = "Kindly ensure you include both the description and the username for the Global HTTP Read credential to discover the devices"
                         self.discovery_specific_cred_failure(msg=msg)
 
+        http_write_credential_list = global_credentials.get('http_write_credential_list')
         if http_write_credential_list:
             if not isinstance(http_write_credential_list, list):
                 msg = "Global HTTP write credentials must be passed as a list"
@@ -680,6 +676,7 @@ class Discovery(DnacBase):
                         msg = "Kindly ensure you include both the description and the username for the Global HTTP Write credential to discover the devices"
                         self.discovery_specific_cred_failure(msg=msg)
 
+        snmp_v2_read_credential_list = global_credentials.get('snmp_v2_read_credential_list')
         if snmp_v2_read_credential_list:
             if not isinstance(snmp_v2_read_credential_list, list):
                 msg = "Global SNMPV2 read credentials must be passed as a list"
@@ -700,6 +697,27 @@ class Discovery(DnacBase):
                                 credential to discover the devices"
                         self.discovery_specific_cred_failure(msg=msg)
 
+        snmp_v2_write_credential_list = global_credentials.get('snmp_v2_write_credential_list')
+        if snmp_v2_write_credential_list:
+            if not isinstance(snmp_v2_write_credential_list, list):
+                msg = "Global SNMPV2 write credentials must be passed as a list"
+                self.discovery_specific_cred_failure(msg=msg)
+            if len(snmp_v2_write_credential_list) > 0:
+                global_credentails_all["snmpV2cWrite"] = []
+                cred_len = len(snmp_v2_write_credential_list)
+                if cred_len > 5:
+                    cred_len = 5
+                for snmp_cred in snmp_v2_write_credential_list:
+                    if snmp_cred.get('description'):
+                        for snmp in response.get("snmpV2cWrite"):
+                            if snmp.get("description") == snmp_cred.get('description'):
+                                global_credentails_all["snmpV2cWrite"].append(snmp.get("id"))
+                        global_credentails_all["snmpV2cWrite"] = global_credentails_all["snmpV2cWrite"][:cred_len]
+                    else:
+                        msg = "Kindly ensure you include both the description and the username for the Global SNMPV2 credential to discover the devices"
+                        self.discovery_specific_cred_failure(msg=msg)
+
+        snmp_v3_credential_list = global_credentials.get('snmp_v3_credential_list')
         if snmp_v3_credential_list:
             if not isinstance(snmp_v3_credential_list, list):
                 msg = "Global SNMPV3 write credentials must be passed as a list"
@@ -720,25 +738,7 @@ class Discovery(DnacBase):
                                 to discover the devices"
                         self.discovery_specific_cred_failure(msg=msg)
 
-        if snmp_v2_write_credential_list:
-            if not isinstance(snmp_v2_write_credential_list, list):
-                msg = "Global SNMPV2 write credentials must be passed as a list"
-                self.discovery_specific_cred_failure(msg=msg)
-            if len(snmp_v2_write_credential_list) > 0:
-                global_credentails_all["snmpV2cWrite"] = []
-                cred_len = len(snmp_v2_write_credential_list)
-                if cred_len > 5:
-                    cred_len = 5
-                for snmp_cred in snmp_v2_write_credential_list:
-                    if snmp_cred.get('description'):
-                        for snmp in response.get("snmpV2cWrite"):
-                            if snmp.get("description") == snmp_cred.get('description'):
-                                global_credentails_all["snmpV2cWrite"].append(snmp.get("id"))
-                        global_credentails_all["snmpV2cWrite"] = global_credentails_all["snmpV2cWrite"][:cred_len]
-                    else:
-                        msg = "Kindly ensure you include both the description and the username for the Global SNMPV2 credential to discover the devices"
-                        self.discovery_specific_cred_failure(msg=msg)
-
+        net_conf_port_list = global_credentials.get('net_conf_port_list')
         if net_conf_port_list:
             if not isinstance(net_conf_port_list, list):
                 msg = "Global net Conf Ports be passed as a list"
