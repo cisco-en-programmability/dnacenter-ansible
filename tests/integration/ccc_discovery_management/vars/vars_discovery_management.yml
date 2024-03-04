@@ -59,17 +59,7 @@ ip_range:
       - 204.1.2.3
     protocol_order: ssh
     discovery_specific_credentials:
-      cli_credentials_list:
-        - username: cisco
-          password: Cisco#123
-          enable_password: Cisco#123
-      snmp_v3_credential:
-        username: v3Phan
-        snmp_mode: AUTHPRIV
-        auth_type: SHA
-        auth_password: Cisco#123456789
-        privacy_type: AES128
-        privacy_password: Cisco#1234567890
+    global_cli_len: 3
 
 multi_range:
   - discovery_name: Multi Range Discovery
