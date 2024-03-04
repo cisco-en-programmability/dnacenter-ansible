@@ -474,7 +474,6 @@ class PnP(DnacBase):
         imageinfo = {
             'imageId': self.have.get('image_id')
         }
-        
         configinfo = {
             'configId': self.have.get('template_id'),
             'configParameters': [
