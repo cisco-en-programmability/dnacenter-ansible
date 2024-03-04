@@ -240,28 +240,24 @@ workflows:
   pre:
     jobs:
       - pre
-
       - build:
           requires:
             - pre
-
       - path-filtering/filter:
           requires:
-              - build
+            - build
           base-revision: main
           config-path: .circleci/config.yml
           mapping: |
-              plugins/module_utils/.* run-all true
-
-              plugins/modules/site_workflow_manager.py run-site true
-              plugins/modules/device_credential_workflow_manager.py run-devicecredential true
-              plugins/modules/discovery_workflow_manager.py run-discovery true
-              plugins/modules/inventory_workflow_manager.py run-inventory true
-
-              tests/integration/ccc_site_management/.* run-site true
-              tests/integration/ccc_device_credential_management/.* run-devicecredential true
-              tests/integration/ccc_discovery_management/.* run-discovery true
-              tests/integration/ccc_inventory_management/.* run-inventory true
+            plugins/module_utils/.* run-all true
+            plugins/modules/site_workflow_manager.py run-site true
+            plugins/modules/device_credential_workflow_manager.py run-devicecredential true
+            plugins/modules/discovery_workflow_manager.py run-discovery true
+            plugins/modules/inventory_workflow_manager.py run-inventory true
+            tests/integration/ccc_site_management/.* run-site true
+            tests/integration/ccc_device_credential_management/.* run-devicecredential true
+            tests/integration/ccc_discovery_management/.* run-discovery true
+            tests/integration/ccc_inventory_management/.* run-inventory true
 
   site:
     when:
@@ -271,8 +267,8 @@ workflows:
     jobs:
       - addrole:
           modulename: ccc_site_management
-          requires:
-            - build
+    requires:
+      - build
 
   devicecredential:
     when:
@@ -282,8 +278,8 @@ workflows:
     jobs:
       - addrole:
           modulename: ccc_device_credential_management
-          requires:
-            - build
+    requires:
+      - site
 
   discovery:
     when:
@@ -293,8 +289,8 @@ workflows:
     jobs:
       - addrole:
           modulename: ccc_discovery_management
-          requires:
-            - build
+    requires:
+      - devicecredential
 
   inventory:
     when:
@@ -304,21 +300,20 @@ workflows:
     jobs:
       - addrole:
           modulename: ccc_inventory_management
-          requires:
-            - build
+    requires:
+      - discovery
   
   sanity-tests:
     when:
       always: true
     jobs:
       - sanity-tests
-          requires:
-            - build
-            - site
-            - devicecredential
-            - discovery
-            - inventory
-
+    requires:
+      - build
+      - site
+      - devicecredential
+      - discovery
+      - inventory
 
   # daily-scheduled:
   #   triggers:
