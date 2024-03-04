@@ -806,3 +806,10 @@ releases:
           - The 'discovery_workflow_manager' module streamlines the discovery of devices using various methods including single IP, IP range, multi-range, CDP, CIDR, and LLDP. It also offers the ability to clear out discoveries by deleting them from the discovery database, with an option to delete all discoveries simultaneously.
           - The 'provision_workflow_manager' module provisions and re-provisions devices added in the inventory to site, by taking management IP address as input. It allows provisioning of both wired and wireless devices. It also allows un-provisioning of devices.
           - The 'template_workflow_manager' module is responsible for overseeing templates, export projects/templates, and import projects/templates. It handles configuration templates by enabling the creation, updating, and deletion of templates and projects. Additionally, the module supports export functionality to retrieve project and template details from Cisco Catalyst Center, and Import functionality to create templates and projects within the Cisco Catalyst Center.
+    6.11.1:
+      release_date: "2024-03-02"
+      changes:
+        release_summary: Enhancements in discovery and inventory workflow manager modules.
+        minor_changes:
+          - Changes in discovery workflow manager module to support SNMP credentials v2 and handling error messages.
+          - Changes in inventory workflow manager module to support snmp v2.

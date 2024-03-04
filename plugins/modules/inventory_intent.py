@@ -3160,8 +3160,10 @@ class DnacDevice(DnacBase):
                             playbook_params[mapped_key] = csv_data_dict[key]
 
                     if playbook_params['snmpMode'] == "AUTHPRIV":
-                        playbook_params['snmpAuthPassphrase'] = csv_data_dict['snmp_auth_passphrase']
-                        playbook_params['snmpPrivPassphrase'] = csv_data_dict['snmp_priv_passphrase']
+                        if not playbook_params['snmpAuthPassphrase']:
+                            playbook_params['snmpAuthPassphrase'] = csv_data_dict['snmp_auth_passphrase']
+                        if not playbook_params['snmpPrivPassphrase']:
+                            playbook_params['snmpPrivPassphrase'] = csv_data_dict['snmp_priv_passphrase']
 
                     if playbook_params['snmpPrivProtocol'] == "AES192":
                         playbook_params['snmpPrivProtocol'] = "CISCOAES192"
@@ -3189,7 +3191,7 @@ class DnacDevice(DnacBase):
                         playbook_params['netconfPort'] = None
 
                     if not playbook_params['snmpVersion']:
-                        if device_data['snmp_version'] == 3:
+                        if device_data['snmp_version'] == '3':
                             playbook_params['snmpVersion'] = "v3"
                         else:
                             playbook_params['snmpVersion'] = "v2"
