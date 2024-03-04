@@ -111,9 +111,6 @@ jobs:
             rm -rf ${HOME}/repo/$CIRCLE_PROJECT_REPONAME
 
   addrole:
-    parameters:
-      modulename:
-        type: string
 
     working_directory: ~/repo
     machine: true
@@ -121,7 +118,7 @@ jobs:
 
     steps:
       - run:
-          name: Adding role- << parameters.modulename >>
+          name: Adding role
           command: |
             if [[ ${{ pipeline.parameters.run-all }} == true || ${{ pipeline.parameters.run-site }} == true ]]; then
               export MODULENAME="ccc_site_management"
