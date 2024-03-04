@@ -16,15 +16,11 @@
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        dnac_log: true
+        dnac_log: True
         dnac_log_level: DEBUG
-        config_verify: true
+        config_verify: True
         config:
         - import_image_details:
-            # type: "local"
-            # local_image_details:
-            #   file_path: "/Users/abmahesh/Downloads/cat9k_iosxe.17.12.01.SPA.bin"
-            #   is_third_party: false
             type: "{{ item.type }}"
             url_details:
               payload:
@@ -34,20 +30,22 @@
             image_name: "{{item.image_name}}"
             site_name: "{{item.site_name}}"
             device_role: "{{ item.device_role }}"
-            device_family_name: "{{ item.device_family_name }}"
-            device_type: "{{item.device_type}}"
-            tagging: false
+            device_image_family_name: "{{ item.device_image_family_name }}"
+            tagging: False
           image_distribution_details:
             image_name: "{{item.image_name}}"
             site_name: "{{item.site_name}}"
             device_role: "{{ item.device_role }}"
             device_family_name: "{{ item.device_family_name }}"
+            device_series_name: "Catalyst 9300 Series"
           image_activation_details:
+            image_name: "{{item.image_name}}"
             site_name: "{{item.site_name}}"
             device_role: "{{ item.device_role }}"
             device_family_name: "{{ item.device_family_name }}"
-            scehdule_validate: false
-            distribute_if_needed: true
+            device_series_name: "Catalyst 9300 Series"
+            scehdule_validate: False
+            distribute_if_needed: True
 
       with_items: "{{ image_details }}"
       tags:

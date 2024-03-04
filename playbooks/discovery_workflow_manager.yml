@@ -22,7 +22,7 @@
   tasks:
 
     - name: Execute discovery devices using MULTI RANGE with various global credentials
-      cisco.dnac.discovery_intent:
+      cisco.dnac.discovery_workflow_manager:
         <<: *dnac_login
         state: merged
         config_verify: True
@@ -54,7 +54,7 @@
             protocol_order: ssh
 
     - name: Execute discovery of single device using various discovery specific credentials
-      cisco.dnac.discovery_intent:
+      cisco.dnac.discovery_workflow_manager:
         <<: *dnac_login
         state: merged
         config_verify: True
@@ -90,7 +90,7 @@
             protocol_order: ssh
 
     - name: Execute discovery devices using MULTI RANGE with various discovery specific credentials
-      cisco.dnac.discovery_intent:
+      cisco.dnac.discovery_workflow_manager:
         <<: *dnac_login
         state: merged
         config_verify: True
@@ -128,7 +128,7 @@
             snmp_version: v2
 
     - name: Execute discovery devices using CDP/LLDP/CIDR
-      cisco.dnac.discovery_intent:
+      cisco.dnac.discovery_workflow_manager:
         <<: *dnac_login
         state: merged
         config_verify: True
@@ -146,7 +146,7 @@
             protocol_order: ssh
 
     - name: Execute deletion of single discovery from the dashboard
-      cisco.dnac.discovery_intent:
+      cisco.dnac.discovery_workflow_manager:
         <<: *dnac_login
         state: deleted
         config_verify: True
@@ -154,7 +154,7 @@
           - discovery_name: CDP_Test_1
 
     - name: Execute deletion of all the discoveries from the dashboard
-      cisco.dnac.discovery_intent:
+      cisco.dnac.discovery_workflow_manager:
         <<: *dnac_login
         state: deleted
         config_verify: True

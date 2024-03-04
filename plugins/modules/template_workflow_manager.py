@@ -24,7 +24,7 @@ description:
 - API to manage operation create of the resource Configuration Template Import Template.
 version_added: '6.6.0'
 extends_documentation_fragment:
-  - cisco.dnac.intent_params
+  - cisco.dnac.workflow_manager_params
 author: Madhan Sankaranarayanan (@madhansansel)
         Rishita Chowdhary (@rishitachowdhary)
         Akash Bhaskaran (@akabhask)
@@ -1306,7 +1306,7 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
 
 
 class Template(DnacBase):
-    """Class containing member attributes for template intent module"""
+    """Class containing member attributes for template_workflow_manager module"""
 
     def __init__(self, module):
         super().__init__(module)
@@ -1355,9 +1355,9 @@ class Template(DnacBase):
                 'device_types': {
                     'type': 'list',
                     'elements': 'dict',
-                    'productFamily': {'type': 'str'},
-                    'productSeries': {'type': 'str'},
-                    'productType': {'type': 'str'},
+                    'product_family': {'type': 'str'},
+                    'product_series': {'type': 'str'},
+                    'product_type': {'type': 'str'},
                 },
                 'failure_policy': {'type': 'str'},
                 'id': {'type': 'str'},
