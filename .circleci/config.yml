@@ -120,7 +120,6 @@ jobs:
     resource_class: rukapse/dnacenter-ansible
 
     steps:
-      - checkout
 
       - run:
           name: Adding role- << parameters.modulename >>
@@ -272,6 +271,8 @@ workflows:
     jobs:
       - addrole:
           modulename: ccc_site_management
+    requires:
+      - build
 
   devicecredential:
     when:
@@ -281,6 +282,8 @@ workflows:
     jobs:
       - addrole:
           modulename: ccc_device_credential_management
+    requires:
+      - build
 
   discovery:
     when:
@@ -290,6 +293,8 @@ workflows:
     jobs:
       - addrole:
           modulename: ccc_discovery_management
+    requires:
+      - build
 
   inventory:
     when:
@@ -299,10 +304,18 @@ workflows:
     jobs:
       - addrole:
           modulename: ccc_inventory_management
+    requires:
+      - build
   
   sanity-tests:
     jobs:
       - sanity-tests
+    requires:
+      - build
+      - site
+      - devicecredential
+      - discovery
+      - inventory
 
 
   # daily-scheduled:
