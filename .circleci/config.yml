@@ -3,22 +3,6 @@ version: 2.1
 orbs:
   path-filtering: circleci/path-filtering@0.1.6
 
-parameters:
-  run-all:
-    type: boolean
-    default: false
-  run-site:
-    type: boolean
-    default: true
-  run-devicecredential:
-    type: boolean
-    default: false
-  run-discovery:
-    type: boolean
-    default: false
-  run-inventory:
-    type: boolean
-    default: false
 
 jobs:
 
@@ -114,6 +98,21 @@ jobs:
     parameters:
       modulename:
         type: string
+      run-all:
+        type: boolean
+        default: false
+      run-site:
+        type: boolean
+        default: true
+      run-devicecredential:
+        type: boolean
+        default: false
+      run-discovery:
+        type: boolean
+        default: false
+      run-inventory:
+        type: boolean
+        default: false
 
     working_directory: ~/repo
     machine: true
@@ -124,9 +123,19 @@ jobs:
       - run:
           name: Adding role- << parameters.modulename >>
           command: |
-            export MODULENAME="<< parameters.modulename >>"
-            echo "    - $MODULENAME" >> ccc_roles.yaml
-            cat ccc_roles.yml
+            if [[ ${{ parameters.run-all }} == true || ${{ parameters.run-site }} == true ]]; then
+              export MODULENAME="ccc_site_management"
+              echo "    - $MODULENAME" >> ccc_roles.yaml
+            if [[ ${{ parameters.run-all }} == true || ${{ parameters.run-devicecredential }} == true ]]; then
+              export MODULENAME="ccc_device_credential_management"
+              echo "    - $MODULENAME" >> ccc_roles.yaml
+            if [[ ${{ parameters.run-all }} == true || ${{ parameters.run-discovery }} == true ]]; then
+              export MODULENAME="ccc_discovery_management"
+              echo "    - $MODULENAME" >> ccc_roles.yaml
+            if [[ ${{ parameters.run-all }} == true || ${{ parameters.run-inventory }} == true ]]; then
+              export MODULENAME="ccc_inventory_management"
+              echo "    - $MODULENAME" >> ccc_roles.yaml
+
 
   sanity-tests:
     parameters: 
@@ -237,7 +246,7 @@ jobs:
 
 
 workflows:
-  pre:
+  testing:
     jobs:
       - pre
 
@@ -247,7 +256,7 @@ workflows:
 
       - path-filtering/filter:
           requires:
-              - build
+            - build
           base-revision: main
           config-path: .circleci/config.yml
           mapping: |
@@ -263,59 +272,13 @@ workflows:
               tests/integration/ccc_discovery_management/.* run-discovery true
               tests/integration/ccc_inventory_management/.* run-inventory true
 
-  site:
-    when:
-      or:
-        - << pipeline.parameters.run-all >>
-        - << pipeline.parameters.run-site >>
-    jobs:
       - addrole:
-          modulename: ccc_site_management
           requires:
             - build
 
-  devicecredential:
-    when:
-      or:
-        - << pipeline.parameters.run-all >>
-        - << pipeline.parameters.run-devicecredential >>
-    jobs:
-      - addrole:
-          modulename: ccc_device_credential_management
-          requires:
-            - build
-
-  discovery:
-    when:
-      or:
-        - << pipeline.parameters.run-all >>
-        - << pipeline.parameters.run-discovery >>
-    jobs:
-      - addrole:
-          modulename: ccc_discovery_management
-          requires:
-            - build
-
-  inventory:
-    when:
-      or:
-        - << pipeline.parameters.run-all >>
-        - << pipeline.parameters.run-inventory >>
-    jobs:
-      - addrole:
-          modulename: ccc_inventory_management
-          requires:
-            - build
-  
-  sanity-tests:
-    when:
-      always: true
-    jobs:
       - sanity-tests:
           requires:
-            - build
             - addrole
-
 
   # daily-scheduled:
   #   triggers:
