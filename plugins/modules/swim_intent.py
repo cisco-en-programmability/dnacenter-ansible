@@ -50,26 +50,48 @@ options:
         type: dict
         suboptions:
           type:
-            description: The source of import, supports url import or local import.
+            description: Specifies the import source, supporting local file import (local) or remote url import (remote).
             type: str
           local_image_details:
             description: Details of the local path of the image to be imported.
             type: dict
             suboptions:
               file_path:
-                description: File absolute path.
+                description: Provide the absolute file path needed to import an image from your local system (Eg "/path/to/your/file").
+                    Accepted files formats are - .gz,.bin,.img,.tar,.smu,.pie,.aes,.iso,.ova,.tar_gz,.qcow2,.nfvispkg,.zip,.spa,.rpm.
                 type: str
               is_third_party:
-                description: IsThirdParty query parameter. Third party Image check.
+                description: Query parameter to determine if the image is from a third party (optional).
                 type: bool
               third_party_application_type:
-                description: ThirdPartyApplicationType query parameter. Third Party Application Type.
+                description: Specify the ThirdPartyApplicationType query parameter to indicate the type of third-party application. Allowed
+                    values include WLC, LINUX, FIREWALL, WINDOWS, LOADBALANCER, THIRDPARTY, etc.(optional).
+                  WLC (Wireless LAN Controller) - It's a network device that manages and controls multiple wireless access points (APs) in a
+                    centralized manner.
+                  LINUX - It's an open-source operating system that provides a complete set of software packages and utilities.
+                  FIREWALL - It's a network security device that monitors and controls incoming and outgoing network traffic based on
+                    predetermined security rules.It acts as a barrier between a trusted internal network and untrusted external networks
+                    (such as the internet), preventing unauthorized access.
+                  WINDOWS - It's an operating system known for its graphical user interface (GUI) support, extensive compatibility with hardware
+                    and software, and widespread use across various applications.
+                  LOADBALANCER - It's a network device or software application that distributes incoming network traffic across multiple servers
+                    or resources.
+                  THIRDPARTY - It refers to third-party images or applications that are not part of the core system.
+                  NAM (Network Access Manager) - It's a network management tool or software application that provides centralized control and
+                    monitoring of network access policies, user authentication, and device compliance.
+                  WAN Optimization - It refers to techniques and technologies used to improve the performance and efficiency of WANs. It includes
+                    various optimization techniques such as data compression, caching, protocol optimization, and traffic prioritization to reduce
+                    latency, increase throughput, and improve user experience over WAN connections.
+                  Unknown - It refers to an unspecified or unrecognized application type.
+                  Router - It's a network device that forwards data packets between computer networks. They are essential for connecting multiple
+                    networks together and directing traffic between them.
                 type: str
               third_party_image_family:
-                description: ThirdPartyImageFamily query parameter. Third Party image family.
+                description: Provide the ThirdPartyImageFamily query parameter to identify the family of the third-party image. Image Family name
+                    like PALOALTO, RIVERBED, FORTINET, CHECKPOINT, SILVERPEAK etc. (optional).
                 type: str
               third_party_vendor:
-                description: ThirdPartyVendor query parameter. Third Party Vendor.
+                description: Include the ThirdPartyVendor query parameter to specify the vendor of the third party.
                 type: str
           url_details:
             description: URL details for SWIM import
@@ -81,29 +103,52 @@ options:
                 elements: dict
                 suboptions:
                   application_type:
-                    description: Swim Import Via Url's applicationType.
+                    description: An optional parameter that specifies the type of application. Allowed values include WLC, LINUX, FIREWALL, WINDOWS,
+                        LOADBALANCER, THIRDPARTY, etc. This is only applicable for third-party image types(optional).
+                      WLC (Wireless LAN Controller) - It's network device that manages and controls multiple wireless access points (APs) in a
+                        centralized manner.
+                      LINUX - It's an open source which provide complete operating system with a wide range of software packages and utilities.
+                      FIREWALL - It's a network security device that monitors and controls incoming and outgoing network traffic based on
+                        predetermined security rules.It acts as a barrier between a trusted internal network and untrusted external networks
+                        (such as the internet), preventing unauthorized access.
+                      WINDOWS - It's an OS which provides GUI support for various applications, and extensive compatibility with hardware
+                        and software.
+                      LOADBALANCER - It's a network device or software application that distributes incoming network traffic across multiple servers
+                        or resources.
+                      THIRDPARTY - It refers to third-party images or applications that are not part of the core system.
+                      NAM (Network Access Manager) - It's a network management tool or software application that provides centralized control and
+                        monitoring of network access policies, user authentication, and device compliance.
+                      WAN Optimization - It refers to techniques and technologies used to improve the performance and efficiency of WANs. It includes
+                        various optimization techniques such as data compression, caching, protocol optimization, and traffic prioritization to reduce
+                        latency, increase throughput, and improve user experience over WAN connections.
+                      Unknown - It refers to an unspecified or unrecognized application type.
+                      Router - It's a network device that forwards data packets between computer networks. They are essential for connecting multiple
+                        networks together and directing traffic between them.
                     type: str
                   image_family:
-                    description: Swim Import Via Url's imageFamily.
+                    description: Represents the name of the image family and is applicable only when uploading third-party images. Image Family name
+                        like PALOALTO, RIVERBED, FORTINET, CHECKPOINT, SILVERPEAK etc. (optional).
                     type: str
                   source_url:
-                    description: Swim Import Image Via Url.
+                    description: A mandatory parameter for importing a SWIM image via a remote URL. This parameter is required when using a URL
+                        to import an image.(For example, http://{host}/swim/cat9k_isoxe.16.12.10s.SPA.bin,
+                        ftp://user:password@{host}/swim/cat9k_isoxe.16.12.10s.SPA.iso)
                     type: str
                   is_third_party:
-                    description: ThirdParty flag.
+                    description: Flag indicates whether the image is uploaded from a third party (optional).
                     type: bool
                   vendor:
-                    description: Swim Import Via Url's vendor.
+                    description: The name of the vendor, that applies only to third-party image types when importing via URL (optional).
                     type: str
               schedule_at:
                 description: ScheduleAt query parameter. Epoch Time (The number of milli-seconds since
-                  January 1 1970 UTC) at which the distribution should be scheduled (Optional).
+                  January 1 1970 UTC) at which the distribution should be scheduled (optional).
                 type: str
               schedule_desc:
-                description: ScheduleDesc query parameter. Custom Description (Optional).
+                description: ScheduleDesc query parameter. Custom Description (optional).
                 type: str
               schedule_origin:
-                description: ScheduleOrigin query parameter. Originator of this call (Optional).
+                description: ScheduleOrigin query parameter. Originator of this call (optional).
                 type: str
       tagging_details:
         description: Details for tagging or untagging an image as golden
@@ -113,18 +158,32 @@ options:
             description: SWIM image name which will be tagged or untagged as golden.
             type: str
           device_role:
-            description: Device Role. Permissible Values ALL, UNKNOWN, ACCESS, BORDER ROUTER,
-              DISTRIBUTION and CORE.
+            description: Defines the device role, with permissible values including ALL, UNKNOWN, ACCESS, BORDER ROUTER,
+              DISTRIBUTION, and CORE.
+              ALL - This role typically represents all devices within the network, regardless of their specific roles or functions.
+              UNKNOWN - This role is assigned to devices whose roles or functions have not been identified or classified within Cisco Catalsyt Center.
+                This could happen if the platform is unable to determine the device's role based on available information.
+              ACCESS - This role typically represents switches or access points that serve as access points for end-user devices to connect to the network.
+                These devices are often located at the edge of the network and provide connectivity to end-user devices.
+              BORDER ROUTER - These are devices that connect different network domains or segments together. They often serve as
+                gateways between different networks, such as connecting an enterprise network to the internet or connecting
+                multiple branch offices.
+              DISTRIBUTION - This role represents function as distribution switches or routers in hierarchical network designs. They aggregate traffic
+                from access switches and route it toward the core of the network or toward other distribution switches.
+              CORE - This role typically represents high-capacity switches or routers that form the backbone of the network. They handle large volumes
+                of traffic and provide connectivity between different parts of network, such as connecting distribution switches or
+                providing interconnection between different network segments.
             type: str
-          device_family_name:
-            description: Device family name(Eg Switches and Hubs)
-            type: str
-          device_type:
-            description: Type of the device (Eg Cisco Catalyst 9300 Switch)
+          device_image_family_name:
+            description: Device Image family name(Eg Cisco Catalyst 9300 Switch)
             type: str
           site_name:
             description: Site name for which SWIM image will be tagged/untagged as golden.
               If not provided, SWIM image will be mapped to global site.
+            type: str
+          device_series_name:
+            description: This parameter specifies the name of the device series. It is used to identify a specific series of devices,
+                such as Cisco Catalyst 9300 Series Switches, within the Cisco Catalyst Center.
             type: str
           tagging:
             description: Booelan value to tag/untag SWIM image as golden
@@ -138,14 +197,31 @@ options:
         type: dict
         suboptions:
           device_role:
-            description: Device Role. Permissible Values ALL, UNKNOWN, ACCESS, BORDER ROUTER,
-              DISTRIBUTION and CORE.
+            description: Defines the device role, with permissible values including ALL, UNKNOWN, ACCESS, BORDER ROUTER,
+              DISTRIBUTION, and CORE.
+              ALL - This role typically represents all devices within the network, regardless of their specific roles or functions.
+              UNKNOWN - This role is assigned to devices whose roles or functions have not been identified or classified within Cisco Catalsyt Center.
+                This could happen if the platform is unable to determine the device's role based on available information.
+              ACCESS - This role typically represents switches or access points that serve as access points for end-user devices to connect to the network.
+                These devices are often located at the edge of the network and provide connectivity to end-user devices.
+              BORDER ROUTER - These are devices that connect different network domains or segments together. They often serve as
+                gateways between different networks, such as connecting an enterprise network to the internet or connecting
+                multiple branch offices.
+              DISTRIBUTION - This role represents function as distribution switches or routers in hierarchical network designs. They aggregate traffic
+                from access switches and route it toward the core of the network or toward other distribution switches.
+              CORE - This role typically represents high-capacity switches or routers that form the backbone of the network. They handle large volumes
+                of traffic and provide connectivity between different parts of network, such as connecting distribution switches or
+                providing interconnection between different network segments.
             type: str
           device_family_name:
-            description: Device family name
+            description: Specify the name of the device family such as Switches and Hubs, etc.
             type: str
           site_name:
             description: Used to get device details associated to this site.
+            type: str
+          device_series_name:
+            description: This parameter specifies the name of the device series. It is used to identify a specific series of devices,
+                such as Cisco Catalyst 9300 Series Switches, within the Cisco Catalyst Center.
             type: str
           image_name:
             description: SWIM image's name
@@ -169,11 +245,24 @@ options:
         type: dict
         suboptions:
           device_role:
-            description: Device Role. Permissible Values ALL, UNKNOWN, ACCESS, BORDER ROUTER,
-              DISTRIBUTION and CORE.
+            description: Defines the device role, with permissible values including ALL, UNKNOWN, ACCESS, BORDER ROUTER,
+              DISTRIBUTION, and CORE.
+              ALL - This role typically represents all devices within the network, regardless of their specific roles or functions.
+              UNKNOWN - This role is assigned to devices whose roles or functions have not been identified or classified within Cisco Catalsyt Center.
+                This could happen if the platform is unable to determine the device's role based on available information.
+              ACCESS - This role typically represents switches or access points that serve as access points for end-user devices to connect to the network.
+                These devices are often located at the edge of the network and provide connectivity to end-user devices.
+              BORDER ROUTER - These are devices that connect different network domains or segments together. They often serve as
+                gateways between different networks, such as connecting an enterprise network to the internet or connecting
+                multiple branch offices.
+              DISTRIBUTION - This role represents function as distribution switches or routers in hierarchical network designs. They aggregate traffic
+                from access switches and route it toward the core of the network or toward other distribution switches.
+              CORE - This role typically represents high-capacity switches or routers that form the backbone of the network. They handle large volumes
+                of traffic and provide connectivity between different parts of network, such as connecting distribution switches or
+                providing interconnection between different network segments.
             type: str
           device_family_name:
-            description: Device family name
+            description: Specify the name of the device family such as Switches and Hubs, etc.
             type: str
           site_name:
             description: Used to get device details associated to this site.
@@ -182,10 +271,20 @@ options:
             description: ActivateLowerImageVersion flag.
             type: bool
           device_upgrade_mode:
-            description: Swim Trigger Activation's deviceUpgradeMode.
+            description: It specifies the mode of upgrade to be applied to the devices having the following values - 'install', 'bundle', and 'currentlyExists'.
+              install - This mode instructs Cisco Catalyst Center to perform a clean installation of the new image on the target devices.
+                When this mode is selected, the existing image on the device is completely replaced with the new image during the upgrade process.
+                This ensures that the device runs only the new image version after the upgrade is completed.
+              bundle - This mode instructs Cisco Catalyst Center bundles the new image with the existing image on the device before initiating
+                the upgrade process. This mode allows for a more efficient upgrade process by preserving the existing image on the device while
+                adding the new image as an additional bundle. After the upgrade, the device can run either the existing image or the new bundled
+                image, depending on the configuration.
+              currentlyExists - This mode instructs Cisco Catalyst Center to checks if the target devices already have the desired image version
+                installed. If image already present on devices, no action is taken and upgrade process is skipped for those devices. This mode
+                is useful for avoiding unnecessary upgrades on devices that already have the correct image version installed, thereby saving time.
             type: str
-          distributeIfNeeded:
-            description: DistributeIfNeeded flag.
+          distribute_if_needed:
+            description: Enable the distribute_if_needed option when activating the SWIM image.
             type: bool
           image_name:
             description: SWIM image's name
@@ -204,7 +303,7 @@ options:
             type: str
           schedule_validate:
             description: ScheduleValidate query parameter. ScheduleValidate, validates data
-              before schedule (Optional).
+              before schedule (optional).
             type: bool
 requirements:
 - dnacentersdk == 2.4.5
@@ -238,32 +337,26 @@ EXAMPLES = r"""
     dnac_log: True
     config:
     - import_image_details:
-        type: string
+        type: remote
         url_details:
           payload:
-          - source_url: string
-            is_third_party: bool
-            image_family: string
-            vendor: string
-            application_type: string
-          schedule_at: string
-          schedule_desc: string
-          schedule_origin: string
+          - source_url: "http://10.10.10.10/stda/cat9k_iosxe.17.12.01.SPA.bin"
+            is_third_party: False
       tagging_details:
-        image_name: string
-        device_role: string
-        device_family_name: string
-        site_name: string
-        tagging: bool
+        image_name: cat9k_iosxe.17.12.01.SPA.bin
+        device_role: ACCESS
+        device_image_family_name: Cisco Catalyst 9300 Switch
+        site_name: Global/USA/San Francisco/BGL_18
+        tagging: True
       image_distribution_details:
-        image_name: string
-        device_serial_number: string
+        image_name: cat9k_iosxe.17.12.01.SPA.bin
+        device_serial_number: FJC2327U0S2
       image_activation_details:
-        schedule_validate: bool
-        activate_lower_image_version: bool
-        distribute_if_needed: bool
-        device_serial_number: string
-        image_name: string
+        image_name: cat9k_iosxe.17.12.01.SPA.bin
+        schedule_validate: False
+        activate_lower_image_version: False
+        distribute_if_needed: True
+        device_serial_number: FJC2327U0S2
 
 - name: Import an image from local, tag it as golden.
   cisco.dnac.swim_intent:
@@ -278,20 +371,16 @@ EXAMPLES = r"""
     dnac_log: True
     config:
     - import_image_details:
-        type: string
+        type: local
         local_image_details:
-            file_path: string
-            is_third_party: bool
-            third_party_vendor: string
-            third_party_image_family: string
-            third_party_application_type: string
+            file_path: /Users/Downloads/cat9k_iosxe.17.12.01.SPA.bin
+            is_third_party: False
       tagging_details:
-        image_name: string
-        device_role: string
-        device_family_name: string
-        device_type: string
-        site_name: string
-        tagging: bool
+        image_name: cat9k_iosxe.17.12.01.SPA.bin
+        device_role: ACCESS
+        device_image_family_name: Cisco Catalyst 9300 Switch
+        site_name: Global/USA/San Francisco/BGL_18
+        tagging: True
 
 - name: Tag the given image as golden and load it on device
   cisco.dnac.swim_intent:
@@ -306,11 +395,11 @@ EXAMPLES = r"""
     dnac_log: True
     config:
     - tagging_details:
-        image_name: string
-        device_role: string
-        device_type: string
-        site_name: string
-        tagging: true
+        image_name: cat9k_iosxe.17.12.01.SPA.bin
+        device_role: ACCESS
+        device_image_family_name: Cisco Catalyst 9300 Switch
+        site_name: Global/USA/San Francisco/BGL_18
+        tagging: True
 
 - name: Un-tagged the given image as golden and load it on device
   cisco.dnac.swim_intent:
@@ -325,11 +414,11 @@ EXAMPLES = r"""
     dnac_log: True
     config:
     - tagging_details:
-        image_name: string
-        device_role: string
-        device_type: string
-        site_name: string
-        tagging: false
+        image_name: cat9k_iosxe.17.12.01.SPA.bin
+        device_role: ACCESS
+        device_image_family_name: Cisco Catalyst 9300 Switch
+        site_name: Global/USA/San Francisco/BGL_18
+        tagging: False
 
 - name: Distribute the given image on devices associated to that site with specified role.
   cisco.dnac.swim_intent:
@@ -344,10 +433,11 @@ EXAMPLES = r"""
     dnac_log: True
     config:
     - image_distribution_details:
-        image_name: string
-        site_name: string
-        device_role: string
-        device_family_name: string
+        image_name: cat9k_iosxe.17.12.01.SPA.bin
+        site_name: Global/USA/San Francisco/BGL_18
+        device_role: ALL
+        device_family_name: Switches and Hubs
+        device_series_name: Cisco Catalyst 9300 Series Switches
 
 - name: Activate the given image on devices associated to that site with specified role.
   cisco.dnac.swim_intent:
@@ -362,13 +452,14 @@ EXAMPLES = r"""
     dnac_log: True
     config:
     - image_activation_details:
-        image_name: string
-        site_name: string
-        device_role: string
-        device_family_name: string
-        scehdule_validate: bool
-        activate_lower_image_version: bool
-        distribute_if_needed: bool
+        image_name: cat9k_iosxe.17.12.01.SPA.bin
+        site_name: Global/USA/San Francisco/BGL_18
+        device_role: ALL
+        device_family_name: Switches and Hubs
+        device_series_name: Cisco Catalyst 9300 Series Switches
+        scehdule_validate: False
+        activate_lower_image_version: True
+        distribute_if_needed: True
 
 """
 
@@ -490,8 +581,9 @@ class DnacSwims(DnacBase):
                 params={"name": site_name},
             )
         except Exception as e:
-            self.log("An exception occurred: Site '{0}' does not exist in the Cisco Catalyst Center".format(site_name), "ERROR")
-            self.module.fail_json(msg="Site not found")
+            self.msg = "An exception occurred: Site '{0}' does not exist in the Cisco Catalyst Center".format(site_name)
+            self.log(self.msg, "ERROR")
+            self.module.fail_json(msg=self.msg)
 
         if response:
             self.log("Received API response from 'get_site': {0}".format(str(response)), "DEBUG")
@@ -625,11 +717,12 @@ class DnacSwims(DnacBase):
             device_id = device_list[0].get("id")
             self.log("Device Id: {0}".format(str(device_id)), "INFO")
         else:
-            self.log("Device not found", "WARNING")
+            self.msg = "Device with params: '{0}' not found in Cisco Catalyst Center so can't fetch the device id".format(str(params))
+            self.log(self.msg, "WARNING")
 
         return device_id
 
-    def get_device_uuids(self, site_name, device_family, device_role):
+    def get_device_uuids(self, site_name, device_family, device_role, device_series_name=None):
         """
         Retrieve a list of device UUIDs based on the specified criteria.
         Parameters:
@@ -637,6 +730,7 @@ class DnacSwims(DnacBase):
             site_name (str): The name of the site for which device UUIDs are requested.
             device_family (str): The family/type of devices to filter on.
             device_role (str): The role of devices to filter on. If None, 'ALL' roles are considered.
+            device_series_name(str): Specifies the name of the device series.
         Returns:
             list: A list of device UUIDs that match the specified criteria.
         Description:
@@ -647,15 +741,25 @@ class DnacSwims(DnacBase):
 
         device_uuid_list = []
         if not site_name:
+            self.log("Failed to retrieve devices associated with the site due to missing site name", "INFO")
             return device_uuid_list
 
         (site_exists, site_id) = self.site_exists(site_name)
         if not site_exists:
+            self.log("""Site '{0}' is not found in the Cisco Catalyst Center, hence unable to fetch associated
+                        devices.""".format(site_name), "INFO")
             return device_uuid_list
+
+        if device_series_name:
+            if device_series_name.startswith(".*") and device_series_name.endswith(".*"):
+                self.log("Device series name '{0}' is already in the regex format".format(device_series_name), "INFO")
+            else:
+                device_series_name = ".*" + device_series_name + ".*"
 
         site_params = {
             "site_id": site_id,
-            "device_family": device_family
+            "device_family": device_family,
+            "device_series_name": device_series_name
         }
         response = self.dnac._exec(
             family="sites",
@@ -669,8 +773,12 @@ class DnacSwims(DnacBase):
         if len(response) > 0:
             for item in response:
                 if item["reachabilityStatus"] != "Reachable":
+                    self.log("""Reachability status of device '{0}' is '{1}', so cannot add it for distribution/activation
+                              task of swim image""".format(item["managementIpAddress"], item["reachabilityStatus"]), "INFO")
                     continue
                 if "role" in item and (device_role is None or item["role"] == device_role.upper() or device_role.upper() == "ALL"):
+                    self.log("""Successfully fetched the device '{0}' associated with the given site '{1}' for SWIM distribution/activation
+                              task.""".format(item["managementIpAddress"], site_name))
                     device_uuid_list.append(item["instanceUuid"])
 
         return device_uuid_list
@@ -707,8 +815,9 @@ class DnacSwims(DnacBase):
                 have["device_family_identifier"] = device_family_identifier
                 self.log("Family device indentifier: {0}".format(str(device_family_identifier)), "INFO")
             else:
-                self.log("Device Family: {0} not found".format(str(family_name)), "ERROR")
-                self.module.fail_json(msg="Family Device Name not found", response=[])
+                self.msg = "Device Family: {0} not found".format(str(family_name))
+                self.log(self.msg, "ERROR")
+                self.module.fail_json(msg=self.msg, response=[self.msg])
             self.have.update(have)
 
     def get_have(self):
@@ -755,7 +864,7 @@ class DnacSwims(DnacBase):
 
             self.have.update(have)
             # check if given device family name exists, store indentifier value
-            family_name = tagging_details.get("device_type")
+            family_name = tagging_details.get("device_image_family_name")
             self.get_device_family_identifier(family_name)
 
         if self.want.get("distribution_details"):
@@ -790,8 +899,10 @@ class DnacSwims(DnacBase):
                 macAddress=distribution_details.get("device_mac_address"),
             )
             device_id = self.get_device_id(device_params)
+
             if device_id is not None:
                 have["distribution_device_id"] = device_id
+
             self.have.update(have)
 
         if self.want.get("activation_details"):
@@ -852,13 +963,13 @@ class DnacSwims(DnacBase):
         if config.get("import_image_details"):
             want["import_image"] = True
             want["import_type"] = config.get("import_image_details").get("type").lower()
-            if want["import_type"] == "url":
+            if want["import_type"] == "remote":
                 want["url_import_details"] = config.get("import_image_details").get("url_details")
             elif want["import_type"] == "local":
                 want["local_import_details"] = config.get("import_image_details").get("local_image_details")
             else:
-                self.log("The import type '{0}' provided is incorrect. Only 'local' or 'url' are supported.".format(want["import_type"]), "CRITICAL")
-                self.module.fail_json(msg="Incorrect import type. Supported Values: local or url")
+                self.log("The import type '{0}' provided is incorrect. Only 'local' or 'remote' are supported.".format(want["import_type"]), "CRITICAL")
+                self.module.fail_json(msg="Incorrect import type. Supported Values: local or remote")
 
         want["tagging_details"] = config.get("tagging_details")
         want["distribution_details"] = config.get("image_distribution_details")
@@ -895,7 +1006,7 @@ class DnacSwims(DnacBase):
                 self.result['changed'] = False
                 return self
 
-            if import_type == "url":
+            if import_type == "remote":
                 image_name = self.want.get("url_import_details").get("payload")[0].get("source_url")
             else:
                 image_name = self.want.get("local_import_details").get("file_path")
@@ -921,7 +1032,7 @@ class DnacSwims(DnacBase):
                 self.result['changed'] = False
                 return self
 
-            if self.want.get("import_type") == "url":
+            if self.want.get("import_type") == "remote":
                 import_payload_dict = {}
                 temp_payload = self.want.get("url_import_details").get("payload")[0]
                 keys_to_change = list(import_key_mapping.keys())
@@ -1101,11 +1212,11 @@ class DnacSwims(DnacBase):
             elif task_details.get("isError"):
                 failure_reason = task_details.get("failureReason", "")
                 if failure_reason and "An inheritted tag cannot be un-tagged" in failure_reason:
-                    self.status = "success"
+                    self.status = "failed"
                     self.result['changed'] = False
                     self.msg = failure_reason
                     self.result['msg'] = failure_reason
-                    self.log(self.msg, "WARNING")
+                    self.log(self.msg, "ERROR")
                 else:
                     error_message = task_details.get("failureReason", "Error: while tagging/un-tagging the golden swim image.")
                     self.status = "failed"
@@ -1166,7 +1277,8 @@ class DnacSwims(DnacBase):
         site_name = distribution_details.get("site_name")
         device_family = distribution_details.get("device_family_name")
         device_role = distribution_details.get("device_role", "ALL")
-        device_uuid_list = self.get_device_uuids(site_name, device_family, device_role)
+        device_series_name = distribution_details.get("device_series_name")
+        device_uuid_list = self.get_device_uuids(site_name, device_family, device_role, device_series_name)
         image_id = self.have.get("distribution_image_id")
 
         if self.have.get("distribution_device_id"):
@@ -1205,7 +1317,7 @@ class DnacSwims(DnacBase):
                     if task_details.get("isError"):
                         self.status = "failed"
                         self.msg = "Image with Id {0} Distribution Failed".format(image_id)
-                        self.log(self.msg, "WARNING")
+                        self.log(self.msg, "ERROR")
                         self.result['response'] = task_details
                         break
 
@@ -1217,7 +1329,7 @@ class DnacSwims(DnacBase):
             self.status = "failed"
             self.msg = "Image Distribution cannot proceed due to the absence of device(s)"
             self.result['msg'] = self.msg
-            self.log(self.msg, "WARNING")
+            self.log(self.msg, "ERROR")
             return self
 
         self.log("Device UUIDs involved in Image Distribution: {0}".format(str(device_uuid_list)), "INFO")
@@ -1260,8 +1372,8 @@ class DnacSwims(DnacBase):
                         break
 
                     if task_details.get("isError"):
-                        error_msg = "Image with Id '{0}' Distribution failed".format(image_id)
-                        self.log(error_msg, "WARNING")
+                        self.msg = "Image with Id '{0}' Distribution failed".format(image_id)
+                        self.log(self.msg, "ERROR")
                         self.result['response'] = task_details
                         device_ips_list.append(device_management_ip)
                         break
@@ -1303,7 +1415,8 @@ class DnacSwims(DnacBase):
         site_name = activation_details.get("site_name")
         device_family = activation_details.get("device_family_name")
         device_role = activation_details.get("device_role", "ALL")
-        device_uuid_list = self.get_device_uuids(site_name, device_family, device_role)
+        device_series_name = activation_details.get("device_series_name")
+        device_uuid_list = self.get_device_uuids(site_name, device_family, device_role, device_series_name)
         image_id = self.have.get("activation_image_id")
 
         if self.have.get("activation_device_id"):
@@ -1345,11 +1458,10 @@ class DnacSwims(DnacBase):
                     break
 
                 if task_details.get("isError"):
-                    error_msg = "Activation for Image with Id '{0}' gets failed".format(image_id)
+                    self.msg = "Activation for Image with Id '{0}' gets failed".format(image_id)
                     self.status = "failed"
                     self.result['response'] = task_details
-                    self.msg = error_msg
-                    self.log(error_msg, "WARNING")
+                    self.log(self.msg, "ERROR")
                     return self
 
             self.result['response'] = task_details if task_details else response
@@ -1360,7 +1472,7 @@ class DnacSwims(DnacBase):
             self.status = "failed"
             self.msg = "No devices found for Image Activation"
             self.result['msg'] = self.msg
-            self.log(self.msg, "WARNING")
+            self.log(self.msg, "ERROR")
             return self
 
         self.log("Device UUIDs involved in Image Activation: {0}".format(str(device_uuid_list)), "INFO")
@@ -1409,8 +1521,8 @@ class DnacSwims(DnacBase):
                         break
 
                     if task_details.get("isError"):
-                        error_msg = "Image with Id '{0}' activation failed".format(image_id)
-                        self.log(error_msg, "WARNING")
+                        self.msg = "Image with Id '{0}' activation failed".format(image_id)
+                        self.log(self.msg, "ERROR")
                         self.result['response'] = task_details
                         device_ips_list.append(device_management_ip)
                         break
@@ -1466,7 +1578,7 @@ class DnacSwims(DnacBase):
         Verify the successful import of a software image into Cisco Catalyst Center.
         Args:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-            import_type (str): The type of import, either 'url' or 'local'.
+            import_type (str): The type of import, either 'remote' or 'local'.
         Returns:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
         Description:
@@ -1476,7 +1588,7 @@ class DnacSwims(DnacBase):
             If the image does not exist, a warning message is logged indicating a potential import failure.
         """
 
-        if import_type == "url":
+        if import_type == "remote":
             image_name = self.want.get("url_import_details").get("payload")[0].get("source_url")
         else:
             image_name = self.want.get("local_import_details").get("file_path")

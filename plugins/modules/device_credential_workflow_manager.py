@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# Copyright (c) 2023, Cisco Systems
+# Copyright (c) 2024, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 """Ansible module to perform operations on device credentials in Cisco Catalyst Center."""
@@ -21,7 +21,7 @@ description:
 - API to assign the device credential to the site.
 version_added: '6.7.0'
 extends_documentation_fragment:
-  - cisco.dnac.intent_params
+  - cisco.dnac.workflow_manager_params
 author: Muthu Rakesh (@MUTHU-RAKESH-27)
         Madhan Sankaranarayanan (@madhansansel)
 options:
@@ -711,7 +711,7 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
 
 
 class DeviceCredential(DnacBase):
-    """Class containing member attributes for device credential intent module"""
+    """Class containing member attributes for device_credential_workflow_manager module"""
 
     def __init__(self, module):
         super().__init__(module)

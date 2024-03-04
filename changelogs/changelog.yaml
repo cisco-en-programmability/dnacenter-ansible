@@ -792,3 +792,24 @@ releases:
           - Introducing log levels and log file path
           - Updated Documentation in template intent module
           - Enhancements in device_credential, inventory, discovery and template intent modules.
+    6.11.0:
+      release_date: "2024-02-17"
+      changes:
+        release_summary: Adding new workflow manager modules in Cisco Catalyst Center
+        minor_changes:
+          - The 'site_workflow_manager' module orchestrates the creation of sites within the Cisco Catalyst Center, encompassing areas such as buildings and floors. It ensures necessary pre-checks are performed and allows for subsequent updates to these sites. Additionally, the module facilitates the deletion of specific sites using the site and parent names. A feature to delete all child sites by specifying only the parent site name is also available.
+          - The 'swim_workflow_manager' module handles the importation of SWIM images into the Cisco Catalyst Center, utilizing either a remote URL or a local image file path. It provides functionality for tagging and untagging SWIM images based on device family, role, and site. The module ensures the successful importation of images for distribution and activation on devices within the Cisco Catalyst Center. It also allows for the retrieval of a list of devices tied to a specific site, device family, and device role, facilitating various SWIM operations such as importing, tagging, distribution, and activation.
+          - The 'network_settings_workflow_manager' module manages global IP pool allocation, reserved sub pool assignment, and network function administration, including DHCP, Syslog, SNMP, NTP, Network AAA, client and endpoint AAA, and DNS servers, ensuring seamless operation at site and global levels in the Cisco Catalyst Center.
+          - The 'device_credential_workflow_manager' module oversees the management of global device credentials, including CLI, SNMPv2C read, SNMPv2C write, SNMPv3, HTTP(s) read, and HTTP(s) write. It facilitates the assignment of these credentials to specific sites, ensuring secure and efficient access to network devices across the infrastructure in the Cisco Catalyst Center.
+          - The 'inventory_workflow_manager' module is responsible for the actions that can be performed over devices which includes adding, deleting, resyncing, updating device details, device credentials, common info etc. for all types of devices - network device, compute device, meraki device, firepower management system device and third party devices. Exporting devices details and device credentials details into the CSV file, doing wired/wireless device provisioning, reboot AP devices, resyncing of device etc. Also we can update device just by giving the parameter that need to be changes on single or bulk devices and rest required parameters will be fetched from Cisco Catalyst Center and prepopulate it before triggering the update API.
+          - The 'pnp_workflow_manager' module helps in adding a device or adding devices in bulk to PnP database of the Cisco Catalyst Center. Post addition, device can be claimed to a site along with template provision and image upgrade. Along with that devices can be deleted from the PnP database.
+          - The 'discovery_workflow_manager' module streamlines the discovery of devices using various methods including single IP, IP range, multi-range, CDP, CIDR, and LLDP. It also offers the ability to clear out discoveries by deleting them from the discovery database, with an option to delete all discoveries simultaneously.
+          - The 'provision_workflow_manager' module provisions and re-provisions devices added in the inventory to site, by taking management IP address as input. It allows provisioning of both wired and wireless devices. It also allows un-provisioning of devices.
+          - The 'template_workflow_manager' module is responsible for overseeing templates, export projects/templates, and import projects/templates. It handles configuration templates by enabling the creation, updating, and deletion of templates and projects. Additionally, the module supports export functionality to retrieve project and template details from Cisco Catalyst Center, and Import functionality to create templates and projects within the Cisco Catalyst Center.
+    6.11.1:
+      release_date: "2024-03-02"
+      changes:
+        release_summary: Enhancements in discovery and inventory workflow manager modules.
+        minor_changes:
+          - Changes in discovery workflow manager module to support SNMP credentials v2 and handling error messages.
+          - Changes in inventory workflow manager module to support snmp v2.
