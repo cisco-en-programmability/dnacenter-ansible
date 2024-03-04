@@ -474,6 +474,7 @@ class PnP(DnacBase):
         imageinfo = {
             'imageId': self.have.get('image_id')
         }
+        template_params = self.validated_config[0].get("template_params")
         configinfo = {
             'configId': self.have.get('template_id'),
             'configParameters': [
@@ -484,11 +485,11 @@ class PnP(DnacBase):
             ]
         }
 
-        if configinfo.get("configId") and self.validated_config[0].get("template_params"):
-            if isinstance(self.validated_config[0]["template_params"], dict):
-                if len(self.validated_config[0]["template_params"]) > 0:
+        if configinfo.get("configId") and template_params:
+            if isinstance(template_params, dict):
+                if len(template_params) > 0:
                     configinfo["configParameters"] = []
-                    for key, value in self.validated_config[0]["template_params"].items():
+                    for key, value in template_params.items():
                         config_dict = {
                             'key': key,
                             'value': value
