@@ -303,8 +303,6 @@ workflows:
   sanity-tests:
     jobs:
       - sanity-tests:
-          requires:
-            - build
 
 
   # daily-scheduled:
