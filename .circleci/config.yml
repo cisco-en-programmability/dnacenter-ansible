@@ -110,35 +110,6 @@ jobs:
             set -x 
             rm -rf ${HOME}/repo/$CIRCLE_PROJECT_REPONAME
 
-  addrole:
-
-    working_directory: ~/repo
-    machine: true
-    resource_class: rukapse/dnacenter-ansible
-
-    steps:
-      - run:
-          name: Adding role
-          command: |
-            if [[ ${{ pipeline.parameters.run-all }} == true || ${{ pipeline.parameters.run-site }} == true ]]; then
-              export MODULENAME="ccc_site_management"
-              echo "    - $MODULENAME" >> ccc_roles.yaml
-            fi
-            if [[ ${{ pipeline.parameters.run-all }} == true || ${{ pipeline.parameters.run-devicecredential }} == true ]]; then
-              export MODULENAME="ccc_device_credential_management"
-              echo "    - $MODULENAME" >> ccc_roles.yaml
-            fi
-            if [[ ${{ pipeline.parameters.run-all }} == true || ${{ pipeline.parameters.run-discovery }} == true ]]; then
-              export MODULENAME="ccc_discovery_management"
-              echo "    - $MODULENAME" >> ccc_roles.yaml
-            fi
-            if [[ ${{ pipeline.parameters.run-all }} == true || ${{ spipeline.parameters.run-inventory }} == true ]]; then
-              export MODULENAME="ccc_inventory_management"
-              echo "    - $MODULENAME" >> ccc_roles.yaml
-            fi
-
-            cat ccc_roles.yml
-
 
   sanity-tests:
     parameters: 
@@ -208,10 +179,28 @@ jobs:
             echo "    debug: false" >> ccc_roles.yml
             echo "  " >> ccc_roles.yml
             echo "  roles:" >> ccc_roles.yml
-            echo "    - ccc_site_management" >> ccc_roles.yml
-            echo "    - ccc_device_credential_management" >> ccc_roles.yml
-            echo "    - ccc_discovery_management" >> ccc_roles.yml
-            echo "    - ccc_inventory_management" >> ccc_roles.yml
+
+            cat ccc_roles.yml
+
+      - run:
+          name: Adding role
+          command: |
+            if [[ ${{ pipeline.parameters.run-all }} == true || ${{ pipeline.parameters.run-site }} == true ]]; then
+              export MODULENAME="ccc_site_management"
+              echo "    - $MODULENAME" >> ccc_roles.yaml
+            fi
+            if [[ ${{ pipeline.parameters.run-all }} == true || ${{ pipeline.parameters.run-devicecredential }} == true ]]; then
+              export MODULENAME="ccc_device_credential_management"
+              echo "    - $MODULENAME" >> ccc_roles.yaml
+            fi
+            if [[ ${{ pipeline.parameters.run-all }} == true || ${{ pipeline.parameters.run-discovery }} == true ]]; then
+              export MODULENAME="ccc_discovery_management"
+              echo "    - $MODULENAME" >> ccc_roles.yaml
+            fi
+            if [[ ${{ pipeline.parameters.run-all }} == true || ${{ spipeline.parameters.run-inventory }} == true ]]; then
+              export MODULENAME="ccc_inventory_management"
+              echo "    - $MODULENAME" >> ccc_roles.yaml
+            fi
 
             cat ccc_roles.yml
 
@@ -249,7 +238,7 @@ jobs:
 
 
 workflows:
-  testing:
+  integration-testing:
     jobs:
       - pre
 
@@ -275,13 +264,9 @@ workflows:
               tests/integration/ccc_discovery_management/.* run-discovery true
               tests/integration/ccc_inventory_management/.* run-inventory true
 
-      - addrole:
-          requires:
-            - build
-
       - sanity-tests:
           requires:
-            - addrole
+            - path-filtering/filter
 
   # daily-scheduled:
   #   triggers:
