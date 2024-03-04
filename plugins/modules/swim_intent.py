@@ -181,6 +181,10 @@ options:
             description: Site name for which SWIM image will be tagged/untagged as golden.
               If not provided, SWIM image will be mapped to global site.
             type: str
+          device_series_name:
+            description: This parameter specifies the name of the device series. It is used to identify a specific series of devices,
+                such as Cisco Catalyst 9300 Series Switches, within the Cisco Catalyst Center.
+            type: str
           tagging:
             description: Booelan value to tag/untag SWIM image as golden
               If True then the given image will be tagged as golden.
@@ -214,6 +218,10 @@ options:
             type: str
           site_name:
             description: Used to get device details associated to this site.
+            type: str
+          device_series_name:
+            description: This parameter specifies the name of the device series. It is used to identify a specific series of devices,
+                such as Cisco Catalyst 9300 Series Switches, within the Cisco Catalyst Center.
             type: str
           image_name:
             description: SWIM image's name
@@ -429,6 +437,7 @@ EXAMPLES = r"""
         site_name: Global/USA/San Francisco/BGL_18
         device_role: ALL
         device_family_name: Switches and Hubs
+        device_series_name: Cisco Catalyst 9300 Series Switches
 
 - name: Activate the given image on devices associated to that site with specified role.
   cisco.dnac.swim_intent:
@@ -447,6 +456,7 @@ EXAMPLES = r"""
         site_name: Global/USA/San Francisco/BGL_18
         device_role: ALL
         device_family_name: Switches and Hubs
+        device_series_name: Cisco Catalyst 9300 Series Switches
         scehdule_validate: False
         activate_lower_image_version: True
         distribute_if_needed: True
@@ -712,7 +722,7 @@ class DnacSwims(DnacBase):
 
         return device_id
 
-    def get_device_uuids(self, site_name, device_family, device_role):
+    def get_device_uuids(self, site_name, device_family, device_role, device_series_name=None):
         """
         Retrieve a list of device UUIDs based on the specified criteria.
         Parameters:
@@ -720,6 +730,7 @@ class DnacSwims(DnacBase):
             site_name (str): The name of the site for which device UUIDs are requested.
             device_family (str): The family/type of devices to filter on.
             device_role (str): The role of devices to filter on. If None, 'ALL' roles are considered.
+            device_series_name(str): Specifies the name of the device series.
         Returns:
             list: A list of device UUIDs that match the specified criteria.
         Description:
@@ -730,15 +741,25 @@ class DnacSwims(DnacBase):
 
         device_uuid_list = []
         if not site_name:
+            self.log("Failed to retrieve devices associated with the site due to missing site name", "INFO")
             return device_uuid_list
 
         (site_exists, site_id) = self.site_exists(site_name)
         if not site_exists:
+            self.log("""Site '{0}' is not found in the Cisco Catalyst Center, hence unable to fetch associated
+                        devices.""".format(site_name), "INFO")
             return device_uuid_list
+
+        if device_series_name:
+            if device_series_name.startswith(".*") and device_series_name.endswith(".*"):
+                self.log("Device series name '{0}' is already in the regex format".format(device_series_name), "INFO")
+            else:
+                device_series_name = ".*" + device_series_name + ".*"
 
         site_params = {
             "site_id": site_id,
-            "device_family": device_family
+            "device_family": device_family,
+            "device_series_name": device_series_name
         }
         response = self.dnac._exec(
             family="sites",
@@ -752,8 +773,12 @@ class DnacSwims(DnacBase):
         if len(response) > 0:
             for item in response:
                 if item["reachabilityStatus"] != "Reachable":
+                    self.log("""Reachability status of device '{0}' is '{1}', so cannot add it for distribution/activation
+                              task of swim image""".format(item["managementIpAddress"], item["reachabilityStatus"]), "INFO")
                     continue
                 if "role" in item and (device_role is None or item["role"] == device_role.upper() or device_role.upper() == "ALL"):
+                    self.log("""Successfully fetched the device '{0}' associated with the given site '{1}' for SWIM distribution/activation
+                              task.""".format(item["managementIpAddress"], site_name))
                     device_uuid_list.append(item["instanceUuid"])
 
         return device_uuid_list
@@ -874,8 +899,10 @@ class DnacSwims(DnacBase):
                 macAddress=distribution_details.get("device_mac_address"),
             )
             device_id = self.get_device_id(device_params)
+
             if device_id is not None:
                 have["distribution_device_id"] = device_id
+
             self.have.update(have)
 
         if self.want.get("activation_details"):
@@ -1250,7 +1277,8 @@ class DnacSwims(DnacBase):
         site_name = distribution_details.get("site_name")
         device_family = distribution_details.get("device_family_name")
         device_role = distribution_details.get("device_role", "ALL")
-        device_uuid_list = self.get_device_uuids(site_name, device_family, device_role)
+        device_series_name = distribution_details.get("device_series_name")
+        device_uuid_list = self.get_device_uuids(site_name, device_family, device_role, device_series_name)
         image_id = self.have.get("distribution_image_id")
 
         if self.have.get("distribution_device_id"):
@@ -1289,7 +1317,7 @@ class DnacSwims(DnacBase):
                     if task_details.get("isError"):
                         self.status = "failed"
                         self.msg = "Image with Id {0} Distribution Failed".format(image_id)
-                        self.log(self.msg, "WARNING")
+                        self.log(self.msg, "ERROR")
                         self.result['response'] = task_details
                         break
 
@@ -1301,7 +1329,7 @@ class DnacSwims(DnacBase):
             self.status = "failed"
             self.msg = "Image Distribution cannot proceed due to the absence of device(s)"
             self.result['msg'] = self.msg
-            self.log(self.msg, "WARNING")
+            self.log(self.msg, "ERROR")
             return self
 
         self.log("Device UUIDs involved in Image Distribution: {0}".format(str(device_uuid_list)), "INFO")
@@ -1344,8 +1372,8 @@ class DnacSwims(DnacBase):
                         break
 
                     if task_details.get("isError"):
-                        error_msg = "Image with Id '{0}' Distribution failed".format(image_id)
-                        self.log(error_msg, "WARNING")
+                        self.msg = "Image with Id '{0}' Distribution failed".format(image_id)
+                        self.log(self.msg, "ERROR")
                         self.result['response'] = task_details
                         device_ips_list.append(device_management_ip)
                         break
@@ -1387,7 +1415,8 @@ class DnacSwims(DnacBase):
         site_name = activation_details.get("site_name")
         device_family = activation_details.get("device_family_name")
         device_role = activation_details.get("device_role", "ALL")
-        device_uuid_list = self.get_device_uuids(site_name, device_family, device_role)
+        device_series_name = activation_details.get("device_series_name")
+        device_uuid_list = self.get_device_uuids(site_name, device_family, device_role, device_series_name)
         image_id = self.have.get("activation_image_id")
 
         if self.have.get("activation_device_id"):
@@ -1429,11 +1458,10 @@ class DnacSwims(DnacBase):
                     break
 
                 if task_details.get("isError"):
-                    error_msg = "Activation for Image with Id '{0}' gets failed".format(image_id)
+                    self.msg = "Activation for Image with Id '{0}' gets failed".format(image_id)
                     self.status = "failed"
                     self.result['response'] = task_details
-                    self.msg = error_msg
-                    self.log(error_msg, "WARNING")
+                    self.log(self.msg, "ERROR")
                     return self
 
             self.result['response'] = task_details if task_details else response
@@ -1444,7 +1472,7 @@ class DnacSwims(DnacBase):
             self.status = "failed"
             self.msg = "No devices found for Image Activation"
             self.result['msg'] = self.msg
-            self.log(self.msg, "WARNING")
+            self.log(self.msg, "ERROR")
             return self
 
         self.log("Device UUIDs involved in Image Activation: {0}".format(str(device_uuid_list)), "INFO")
@@ -1493,8 +1521,8 @@ class DnacSwims(DnacBase):
                         break
 
                     if task_details.get("isError"):
-                        error_msg = "Image with Id '{0}' activation failed".format(image_id)
-                        self.log(error_msg, "WARNING")
+                        self.msg = "Image with Id '{0}' activation failed".format(image_id)
+                        self.log(self.msg, "ERROR")
                         self.result['response'] = task_details
                         device_ips_list.append(device_management_ip)
                         break
