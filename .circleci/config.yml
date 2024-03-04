@@ -3,6 +3,23 @@ version: 2.1
 orbs:
   path-filtering: circleci/path-filtering@0.1.6
 
+parameters:
+  run-all:
+    type: boolean
+    default: false
+  run-site:
+    type: boolean
+    default: true
+  run-devicecredential:
+    type: boolean
+    default: false
+  run-discovery:
+    type: boolean
+    default: false
+  run-inventory:
+    type: boolean
+    default: false
+
 jobs:
 
   pre:
@@ -228,7 +245,7 @@ workflows:
       - build:
           requires:
             - pre
-            
+
       - path-filtering/filter:
           requires:
               - build
