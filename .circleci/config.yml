@@ -311,7 +311,7 @@ workflows:
     when:
       always: true
     jobs:
-      - sanity-tests
+      - sanity-tests:
           requires:
             - build
             - addrole
