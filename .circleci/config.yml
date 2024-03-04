@@ -3,6 +3,24 @@ version: 2.1
 orbs:
   path-filtering: circleci/path-filtering@0.1.6
 
+parameters:
+  modulename:
+    type: string
+  run-all:
+    type: boolean
+    default: false
+  run-site:
+    type: boolean
+    default: true
+  run-devicecredential:
+    type: boolean
+    default: false
+  run-discovery:
+    type: boolean
+    default: false
+  run-inventory:
+    type: boolean
+    default: false
 
 jobs:
 
@@ -95,31 +113,11 @@ jobs:
             rm -rf ${HOME}/repo/$CIRCLE_PROJECT_REPONAME
 
   addrole:
-    parameters:
-      modulename:
-        type: string
-      run-all:
-        type: boolean
-        default: false
-      run-site:
-        type: boolean
-        default: true
-      run-devicecredential:
-        type: boolean
-        default: false
-      run-discovery:
-        type: boolean
-        default: false
-      run-inventory:
-        type: boolean
-        default: false
-
     working_directory: ~/repo
     machine: true
     resource_class: rukapse/dnacenter-ansible
 
     steps:
-
       - run:
           name: Adding role- << parameters.modulename >>
           command: |
