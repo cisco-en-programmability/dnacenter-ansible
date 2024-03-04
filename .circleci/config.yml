@@ -271,8 +271,7 @@ workflows:
         - << pipeline.parameters.run-site >>
     jobs:
       - addrole:
-          modulename:
-            - ccc_site_management
+          modulename: ccc_site_management
 
   devicecredential:
     when:
@@ -281,8 +280,7 @@ workflows:
         - << pipeline.parameters.run-devicecredential >>
     jobs:
       - addrole:
-          modulename:
-            - ccc_device_credential_management
+          modulename: ccc_device_credential_management
 
   discovery:
     when:
@@ -291,8 +289,7 @@ workflows:
         - << pipeline.parameters.run-discovery >>
     jobs:
       - addrole:
-          modulename:
-            - ccc_discovery_management
+          modulename: ccc_discovery_management
 
   inventory:
     when:
@@ -301,8 +298,7 @@ workflows:
         - << pipeline.parameters.run-inventory >>
     jobs:
       - addrole:
-          modulename:
-            - ccc_inventory_management
+          modulename: ccc_inventory_management
   
   sanity-tests:
     jobs:
