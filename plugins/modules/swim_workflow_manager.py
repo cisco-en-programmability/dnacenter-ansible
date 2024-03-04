@@ -727,18 +727,18 @@ class Swim(DnacBase):
 
         device_uuid_list = []
         if not site_name:
-            self.log("Site name is not given so cannot fetch the devices associated to site", "INFO")
+            self.log("Failed to retrieve devices associated with the site due to missing site name", "INFO")
             return device_uuid_list
 
         (site_exists, site_id) = self.site_exists(site_name)
         if not site_exists:
-            self.log("""Given site '{0}' is not present in Cisco Catalyst Center so cannot fetch the devices associated
-                      to site""".format(site_name), "INFO")
+            self.log("""Site '{0}' is not found in the Cisco Catalyst Center, hence unable to fetch associated
+                        devices.""".format(site_name), "INFO")
             return device_uuid_list
 
         if device_series_name:
             if device_series_name.startswith(".*") and device_series_name.endswith(".*"):
-                self.log("Device series name '{0}' already present in the regex format".format(device_series_name), "INFO")
+                self.log("Device series name '{0}' is already in the regex format".format(device_series_name), "INFO")
             else:
                 device_series_name = ".*" + device_series_name + ".*"
 
@@ -759,12 +759,12 @@ class Swim(DnacBase):
         if len(response) > 0:
             for item in response:
                 if item["reachabilityStatus"] != "Reachable":
-                    self.log("""Reachability status of device '{0}' is '{1}' so cannot add it for distribution/activation
-                                task of swim image""".format(item["managementIpAddress"], item["reachabilityStatus"]), "INFO")
+                    self.log("""Reachability status of device '{0}' is '{1}', so cannot add it for distribution/activation
+                              task of swim image""".format(item["managementIpAddress"], item["reachabilityStatus"]), "INFO")
                     continue
                 if "role" in item and (device_role is None or item["role"] == device_role.upper() or device_role.upper() == "ALL"):
-                    self.log("""Successfully fetch the device '{0}' associated to the given site '{1}' for swim distribution/activation
-                              task""".format(item["managementIpAddress"], site_name))
+                    self.log("""Successfully fetched the device '{0}' associated with the given site '{1}' for SWIM distribution/activation
+                              task.""".format(item["managementIpAddress"], site_name))
                     device_uuid_list.append(item["instanceUuid"])
 
         return device_uuid_list
