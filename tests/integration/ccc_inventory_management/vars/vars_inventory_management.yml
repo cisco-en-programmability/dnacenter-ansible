@@ -22,37 +22,37 @@ device_details:
     cli_transport: "ssh"
     netconf_port: 830
 
-  - type: "NETWORK_DEVICE"
-    ip_address_list: ["204.192.6.200"]
-    device_added: True
-    # CLI Credentials
-    username: "cisco"
-    password: "Cisco#123"
-    enable_password: "Cisco#123"
-    # HTTP Credentials
-    http_username: "wlcaccess"
-    http_password: "Lablab#123"
-    http_port: "443"
-    http_secure: False
-    # SNMP Credentials
-    snmp_version: v3
-    snmp_username: "v3Public2"
-    snmp_mode: "AUTHPRIV"
-    snmp_auth_protocol: "SHA"
-    snmp_auth_passphrase: "Lablab#1234"
-    snmp_priv_protocol: "CISCOAES256"
-    snmp_priv_passphrase: "Lablab#1234"
-    #SNMP Retry and Timeout
-    snmp_retry: 3
-    snmp_timeout: 5
-    #CLI Transport (ssh, Telnet)
-    cli_transport: "ssh"
-    netconf_port: 830    
+  # - type: "NETWORK_DEVICE"
+  #   ip_address_list: ["204.192.6.200"]
+  #   device_added: True
+  #   # CLI Credentials
+  #   username: "cisco"
+  #   password: "Cisco#123"
+  #   enable_password: "Cisco#123"
+  #   # HTTP Credentials
+  #   http_username: "wlcaccess"
+  #   http_password: "Lablab#123"
+  #   http_port: "443"
+  #   http_secure: False
+  #   # SNMP Credentials
+  #   snmp_version: v3
+  #   snmp_username: "v3Public2"
+  #   snmp_mode: "AUTHPRIV"
+  #   snmp_auth_protocol: "SHA"
+  #   snmp_auth_passphrase: "Lablab#1234"
+  #   snmp_priv_protocol: "AES256"
+  #   snmp_priv_passphrase: "Lablab#1234"
+  #   #SNMP Retry and Timeout
+  #   snmp_retry: 3
+  #   snmp_timeout: 5
+  #   #CLI Transport (ssh, Telnet)
+  #   cli_transport: "ssh"s
+  #   netconf_port: 830    
 
 device_credential_updates:
   # Update CLI password
   - type: "NETWORK_DEVICE"
-    ip_address_list: ["204.1.2.5", "204.192.6.200"]
+    ip_address_list: ["204.1.2.5"]
     device_updated: True
     credential_update: True
     # CLI Credentials
@@ -61,7 +61,7 @@ device_credential_updates:
 
   # Update SNMP privacy type  
   - type: "NETWORK_DEVICE"
-    ip_address_list: ["204.1.2.5", "204.192.6.200"]
+    ip_address_list: ["204.1.2.5"]
     device_updated: True
     credential_update: True
     # SNMP Credentials
@@ -70,7 +70,7 @@ device_credential_updates:
 
   # Update SNMP username
   - type: "NETWORK_DEVICE"
-    ip_address_list: ["204.1.2.5", "204.192.6.200"]
+    ip_address_list: ["204.1.2.5"]
     device_updated: True
     credential_update: True
     # SNMP Credentials
@@ -79,7 +79,7 @@ device_credential_updates:
 
   # Update SNMP mode
   - type: "NETWORK_DEVICE"
-    ip_address_list: ["204.1.2.5", "204.192.6.200"]
+    ip_address_list: ["204.1.2.5"]
     device_updated: True
     credential_update: True
     # SNMP Credentials
@@ -88,7 +88,7 @@ device_credential_updates:
 
   # Update cli_transport
   - type: "NETWORK_DEVICE"
-    ip_address_list: ["204.1.2.5", "204.192.6.200"]
+    ip_address_list: ["204.1.2.5"]
     device_updated: True
     credential_update: True
     #change cli_transport from ssh to telnet
@@ -96,7 +96,7 @@ device_credential_updates:
 
   # SNMPv2 credentials
   - type: "NETWORK_DEVICE"
-    ip_address_list: ["204.1.2.5", "204.192.6.200"]
+    ip_address_list: ["204.1.2.5"]
     device_updated: True
     credential_update: True
     snmp_version: v2
@@ -105,7 +105,7 @@ device_credential_updates:
 
   # Reverse changes
   - type: "NETWORK_DEVICE"
-    ip_address_list: ["204.1.2.5", "204.192.6.200"]
+    ip_address_list: ["204.1.2.5"]
     device_updated: True
     credential_update: True
     # CLI Credentials
@@ -141,9 +141,8 @@ device_role_updates:
   #Update role from access to core
   - ip_address_list: ["204.1.2.5"]
     device_updated: True
-    # Role details
     update_device_role:
-      role: CORE
+      role: ACCESS
 
 device_int_update_post_rolechange:
   # Update Interface description
@@ -228,16 +227,7 @@ design_sites:
         height: 10.00
         floor_number: 1
     type: floor
-  - site:
-      floor:
-        name: ITest_Floor2
-        parent_name: Global/ITest_Area/ITest_Building
-        rf_model: Cubes And Walled Offices
-        width: 100.00
-        length: 100.00
-        height: 10.00
-        floor_number: 2
-    type: floor
+
 
 associate_wired_device:
   - provision_wired_device:
@@ -247,16 +237,17 @@ associate_wired_device:
       resync_interval: 2
 
 associate_wireless_device:
-  - provision_wired_device:
+  - provision_wireless_device:
     - device_ip: "204.192.6.200"
-      site_name: "Global/ITest_Area/ITest_Building/ITest_Floor2"
+      site_name: "Global/ITest_Inventory_P_Area/ITest_Inventory_Building/ITest_Inventory_Floor1"
+      managed_ap_locations: ["Global/ITest_Inventory_P_Area/ITest_Inventory_Building/ITest_Inventory_Floor1", "Global/ITest_Inventory_S_Area/ITest_Inventory_Building/ITest_Inventory_Floor1"]
       dynamic_interfaces:
-      - interface_ip_address: 32.31.12.23
-        interface_netmask_in_cidr: 26
-        interface_gateway: "gateway_test"
-        lag_or_port_number: 33
-        vlan_id: 78
-        interface_name: "etherenet1/1"
+      - interface_ip_address: 23.23.21.12
+        interface_netmask_in_cidr: 24
+        interface_gateway: "gateway"
+        lag_or_port_number: 12
+        vlan_id: 99
+        interface_name: "management"
       resync_retry_count: 200
       resync_retry_interval: 2
 
@@ -269,4 +260,5 @@ delete_sites:
 
 delete_devices:
   - ip_address_list: ["204.1.2.5"]
+    #ip_address_list: ["204.1.2.5", "204.192.6.200"]
     clean_config: False
