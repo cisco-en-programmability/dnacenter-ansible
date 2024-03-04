@@ -302,7 +302,7 @@ workflows:
   
   sanity-tests:
     jobs:
-      - sanity-tests:
+      - sanity-tests
 
 
   # daily-scheduled:
