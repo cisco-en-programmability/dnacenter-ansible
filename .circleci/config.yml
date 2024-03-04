@@ -271,8 +271,8 @@ workflows:
     jobs:
       - addrole:
           modulename: ccc_site_management
-          requires:
-            - build
+        requires:
+          - pre
 
   devicecredential:
     when:
@@ -282,8 +282,8 @@ workflows:
     jobs:
       - addrole:
           modulename: ccc_device_credential_management
-          requires:
-            - build
+        requires:
+          - pre
 
   discovery:
     when:
@@ -293,8 +293,8 @@ workflows:
     jobs:
       - addrole:
           modulename: ccc_discovery_management
-          requires:
-            - build
+        requires:
+          - pre
 
   inventory:
     when:
@@ -304,19 +304,19 @@ workflows:
     jobs:
       - addrole:
           modulename: ccc_inventory_management
-          requires:
-            - build
+        requires:
+          - pre
   
   sanity-tests:
     when:
       always: true
     jobs:
-      - sanity-tests:
-          requires:
-            - site
-            - devicecredential
-            - discovery
-            - inventory
+      - sanity-tests
+        requires:
+          - site
+          - devicecredential
+          - discovery
+          - inventory
 
 
   # daily-scheduled:
