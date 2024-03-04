@@ -37,10 +37,13 @@
             site_name: "{{item.site_name}}"
             device_role: "{{ item.device_role }}"
             device_family_name: "{{ item.device_family_name }}"
+            device_series_name: "Catalyst 9300 Series"
           image_activation_details:
+            image_name: "{{item.image_name}}"
             site_name: "{{item.site_name}}"
             device_role: "{{ item.device_role }}"
             device_family_name: "{{ item.device_family_name }}"
+            device_series_name: "Catalyst 9300 Series"
             scehdule_validate: False
             distribute_if_needed: True
 
