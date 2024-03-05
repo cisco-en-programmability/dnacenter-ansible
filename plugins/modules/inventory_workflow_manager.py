@@ -350,6 +350,135 @@ options:
                 process. If unspecified, the system will check the device status every 2 seconds by default.
             type: int
             default: 2
+      create_tag:
+        description: This parameter used to collect all the details needed to create the tag.
+        type: dict
+        suboptions:
+          system_tag:
+            description: It's a unique identifier associated with each tag in Cisco Catalyst Center, used internally by the system
+                for management and reference purposes. Specifies whether the tag is a system tag or not.
+            type: bool
+          description:
+            description: Provides a description for the tag, explaining its purpose or usage.
+            type: str
+          dynamic_rules:
+            description: Defines dynamic rules associated with the tag, which specify conditions for membership.
+            type: list
+            elements: dict
+            suboptions:
+              member_type:
+                description: Specifies the type of member (networkdevice, interface) targeted by the dynamic rule.
+                    - 'networkdevice' - Indicates that the dynamic rule applies to network devices.
+                    - 'interface' - Indicates that the dynamic rule applies to interfaces.
+                type: str
+              rules:
+                description: Contains the conditions/rules for membership.
+                type: dict
+                suboptions:
+                  items:
+                    description: Represents the items for membership.
+                    type: list
+                    elements: dict
+                    suboptions:
+                      operation:
+                        description: Specifies the operation used to evaluate the condition (equals, not equals, etc.).
+                        type: str
+                      name:
+                        description: Specifies the name of the attribute to evaluate for membership.
+                        type: str
+                      value:
+                        description: Specifies the value to compare with the attribute for membership.
+                        type: str
+          tag_name:
+            description: Specifies the name of the tag. It's required while creating the tag.
+            type: str
+      update_tag:
+        description: This parameter used to collect all the details needed to update the tag.
+        type: dict
+        suboptions:
+          system_tag:
+            description: It's a unique identifier associated with each tag in Cisco Catalyst Center, used internally by the system
+                for management and reference purposes. Specifies whether the tag is a system tag or not.
+            type: bool
+          description:
+            description: Provides a description for the tag, explaining its purpose or usage.
+            type: str
+          dynamic_rules:
+            description: Defines dynamic rules associated with the tag, which specify conditions for membership.
+            type: list
+            elements: dict
+            suboptions:
+              member_type:
+                description: Specifies the type of member (networkdevice, interface) targeted by the dynamic rule.
+                    - 'networkdevice' - Indicates that the dynamic rule applies to network devices.
+                    - 'interface' - Indicates that the dynamic rule applies to interfaces.
+                type: str
+              rules:
+                description: Contains the conditions/rules for membership.
+                type: dict
+                suboptions:
+                  items:
+                    description: Represents the items for membership.
+                    type: list
+                    elements: dict
+                    suboptions:
+                      operation:
+                        description: Specifies the operation used to evaluate the condition (equals, not equals, etc.).
+                        type: str
+                      name:
+                        description: Specifies the name of the attribute to evaluate for membership.
+                        type: str
+                      value:
+                        description: Specifies the value to compare with the attribute for membership.
+                        type: str
+          name:
+            description: Specifies the name of the tag. It's required while creating the tag.
+            type: str
+      assign_device_member_to_tag:
+        description: Assigning the device members to the tag.
+        type: dict
+        suboptions:
+          tag_name:
+            description: Name of the tag which is assigned to the device members.
+            type: str
+      assign_interface_member_to_tag:
+        description: Assigning the interface members to the tag.
+        type: dict
+        suboptions:
+          tag_name:
+            description: Name of the tag which is assigned to the device members
+            type: str
+          interface_names_list:
+            description: Specify the list of interface names to to which the given tag will be removed.
+                (For example, GigabitEthernet1/0/11, FortyGigabitEthernet1/1/2) .
+            type: list
+            elements: str
+      remove_device_tag_member:
+        description: Removing the device members from the tag.
+        type: dict
+        suboptions:
+          tag_name:
+            description: Name of the tag which is to be removed from the device member.
+            type: str
+      remove_interface_tag_member:
+        description: Removing the interface members from the tag.
+        type: dict
+        suboptions:
+          tag_name:
+            description:  Name of the tag which is to be removed from the interface member.
+            type: str
+          interface_names_list:
+            description: Specify the list of interface names to to which the given tag will be removed.
+                (For example, GigabitEthernet1/0/11, FortyGigabitEthernet1/1/2) .
+            type: list
+            elements: str
+      delete_tag:
+        description: Deleting the tag from the inventory.
+        type: dict
+        suboptions:
+          tag_name:
+            description: Name of the tag which is to be deleted.
+            type: str
 
 requirements:
 - dnacentersdk >= 2.5.5
@@ -668,6 +797,107 @@ EXAMPLES = r"""
           interface_name: ["GigabitEthernet1/0/11", FortyGigabitEthernet1/1/1]
           clear_mac_address_table: True
 
+- name: Create tag in Inventory for device/interface without dynamic rules.
+  cisco.dnac.inventory_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
+    dnac_log: False
+    state: merged
+    config:
+      - create_tag:
+          tag_name: Test_tag
+          description: "Give the description of the tag"
+          system_tag: false
+
+- name: Create tag in Inventory for device/interface with dynamic rules.
+  cisco.dnac.inventory_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
+    dnac_log: False
+    state: merged
+    config:
+      - create_tag:
+          tag_name: Test_tag123
+          system_tag: false
+          dynamic_rules:
+          - member_type: "networkdevice"
+            rules:
+              operation: "AND"
+              items:
+              - operation: "OR"
+                items:
+                - operation: "ILIKE"
+                  name: "hostname"
+                  value: "%switch%"
+                - operation: "ILIKE"
+                  name: "hostname"
+                  value: "%Router%"
+
+- name: Update the tag in Inventory for device/interface without dynamic rules.
+  cisco.dnac.inventory_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
+    dnac_log: False
+    state: merged
+    config:
+      - update_tag:
+          tag_name: Test_tag
+          description: "Give the description of the tag"
+          system_tag: False
+
+- name: Assigning device memebers to the Tag in Inventory.
+  cisco.dnac.inventory_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
+    dnac_log: False
+    state: merged
+    config:
+      - ip_address_list: ["204.1.2.1", "204.1.2.2"]
+        assign_device_member_to_tag:
+          tag_name: Test_tag
+
+- name: Assigning interface memebers to the Tag in Inventory.
+  cisco.dnac.inventory_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
+    dnac_log: False
+    state: merged
+    config:
+      - ip_address_list: ["204.1.2.1", "204.1.2.2"]
+        assign_interface_member_to_tag:
+          interface_name_list: ['GigabitEthernet1/0/1','GigabitEthernet1/0/3']
+          tag_name: Test_tag
+
 - name: Export Device Details in a CSV file Interface details with IP Address
   cisco.dnac.inventory_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -774,6 +1004,57 @@ EXAMPLES = r"""
     - ip_address_list: ["1.1.1.1", "2.2.2.2"]
       add_user_defined_field:
         name: "Test123"
+
+- name: Removing tag from the device memebers in Inventory.
+  cisco.dnac.inventory_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
+    dnac_log: False
+    state: merged
+    config:
+      - ip_address_list: ["204.1.2.1", "204.1.2.2"]
+        remove_device_tag_member:
+          tag_name: Test_tag
+
+- name: Removing tag from the interface memebers in Inventory.
+  cisco.dnac.inventory_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
+    dnac_log: False
+    state: merged
+    config:
+      - ip_address_list: ["204.1.2.1", "204.1.2.2"]
+        remove_interface_tag_member:
+          interface_name_list: ['GigabitEthernet1/0/1','GigabitEthernet1/0/3']
+          tag_name: Test_tag
+
+- name: Deleting tag from the Inventory.
+  cisco.dnac.inventory_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
+    dnac_log: False
+    state: merged
+    config:
+      - delete_tag:
+          tag_name: Test_tag
 
 """
 
@@ -921,6 +1202,66 @@ class Inventory(DnacBase):
                 },
                 'resync_retry_count': {'default': 200, 'type': 'int'},
                 'resync_retry_interval': {'default': 2, 'type': 'int'},
+            },
+            'create_tag': {
+                'type': 'dict',
+                'tag_name': {'type': 'str'},
+                'system_tag': {'type': 'str'},
+                'description': {'type': 'str'},
+                'dynamic_rules': {
+                    'type': 'list',
+                    'member_type': {'type': 'str'},
+                    'rules': {
+                        'type': 'dict',
+                        'items': {
+                            'type': 'list',
+                            'operation': {'type': 'str'},
+                            'name': {'type': 'str'},
+                            'value': {'type': 'str'},
+                        },
+                    },
+                },
+            },
+            'update_tag': {
+                'type': 'dict',
+                'tag_name': {'type': 'str'},
+                'system_tag': {'type': 'str'},
+                'description': {'type': 'str'},
+                'dynamic_rules': {
+                    'type': 'list',
+                    'member_type': {'type': 'str'},
+                    'rules': {
+                        'type': 'dict',
+                        'items': {
+                            'type': 'list',
+                            'operation': {'type': 'str'},
+                            'name': {'type': 'str'},
+                            'value': {'type': 'str'},
+                        },
+                    },
+                },
+            },
+            'assign_device_member_to_tag': {
+                'type': 'dict',
+                'tag_name': {'type': 'str'},
+            },
+            'assign_interface_member_to_tag': {
+                'type': 'dict',
+                'tag_name': {'type': 'str'},
+                'interface_names_list': {'type': 'str'},
+            },
+            'remove_device_tag_member': {
+                'type': 'dict',
+                'tag_name': {'type': 'str'},
+            },
+            'remove_interface_tag_member': {
+                'type': 'dict',
+                'tag_name': {'type': 'str'},
+                'interface_names_list': {'type': 'list', 'elements': 'str'},
+            },
+            'delete_tag': {
+                'type': 'dict',
+                'tag_name': {'type': 'str'},
             }
         }
 
@@ -945,7 +1286,7 @@ class Inventory(DnacBase):
     def get_device_ips_from_config_priority(self):
         """
         Retrieve device IPs based on the configuration.
-        Args:
+        Parameters:
             -  self (object): An instance of a class used for interacting with Cisco Cisco Catalyst Center.
         Returns:
             list: A list containing device IPs.
@@ -2745,7 +3086,7 @@ class Inventory(DnacBase):
     def update_interface_detail_of_device(self, device_to_update):
         """
         Update interface details for a device in Cisco Catalyst Center.
-        Args:
+        Parameters:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             device_to_update (list): A list of IP addresses of devices to be updated.
         Returns:
@@ -2918,6 +3259,693 @@ class Inventory(DnacBase):
                 self.msg = "Device '{0}' present in Cisco Catalyst Center and have been updated successfully".format(device_ip)
                 self.log(self.msg, "INFO")
                 break
+
+        return self
+
+    def check_and_get_tag_id(self, name):
+        """
+        Check for a tag by name and retrieve its ID.
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            name (str): The name of the tag to check and retrieve its ID.
+        Returns:
+            str or None: The ID of the tag if found, or None if the tag does not exist or an error occurs.
+        Description:
+            This function checks for the existence of a tag in Cisco Catalyst Center by its name and retrieves its ID.
+            It queries the Cisco Catalyst Center API using the 'get_tag' function to fetch tag details based on the provided name.
+            If the tag is found, its ID is extracted from the API response.
+            If the tag is not found or an error occurs during the process, None is returned.
+        """
+
+        try:
+            tag_id = None
+            response = self.dnac._exec(
+                family="tag",
+                function='get_tag',
+                params={"name": name},
+            )
+            self.log("Received API response from 'get_tag': {0}".format(str(response)), "DEBUG")
+            response = response.get('response')
+
+            if not response:
+                self.log("Did not receive any response for the tag '{0}' so cannot get the id.".format(name), "INFO")
+                return tag_id
+
+            tag_id = response[0].get('id')
+
+        except Exception as e:
+            error_msg = "An exception occurred while getting the tag '{0}' details, due to - {1}".format(name, str(e))
+            self.log(error_msg, "ERROR")
+            self.result['changed'] = False
+            self.result['response'] = error_msg
+
+        return tag_id
+
+    def create_tag(self, tag_params):
+        """
+        Create a tag in Cisco Catalyst Center based on the provided parameters.
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            tag_params (dict): A dictionary containing parameters for creating the tag.It should have the following keys:
+                - 'tag_name' (str): The name of the tag to be created.
+                - 'system_tag' (bool): A boolean indicating whether the tag is a system tag (optional, default is False).
+                - 'dynamic_rules' (list): A list of dictionaries representing dynamic rules for the tag (optional).
+                Each dictionary in the 'dynamic_rules' list should contain the following keys:
+                    - 'member_type' (str): The type of member for the dynamic rule (optional, default is 'networkdevice').
+                    - 'rules' (dict): A dictionary containing rules for the dynamic rule.
+        Returns:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+        Description:
+            This function creates a tag in Cisco Catalyst Center based on the provided parameters.
+            It constructs the payload for the tag creation API call using the provided parameters.
+            If dynamic rules are provided, they are formatted and included in the payload.
+            The function then checks if a tag with the same name already exists.
+            If a tag with the same name exists, the function returns without creating the tag.
+            Otherwise, it calls the create tag API and monitors the task execution status.
+        """
+
+        tag_payload = {}
+        dynamicRules = []
+        dynamic_rules = tag_params.get('dynamic_rules')
+
+        if not dynamic_rules:
+            self.log("There is no dynamic roles while creating tag for the device or interface", "INFO")
+        else:
+            for rule in dynamic_rules:
+                dynamic_rule_dict = {}
+                dynamic_rule_dict['memberType'] = rule.get('member_type', "networkdevice")
+                dynamic_rule_dict['rules'] = rule.get('rules')
+                dynamicRules.append(dynamic_rule_dict)
+
+        system_tag = tag_params.get('system_tag', False)
+        name = tag_params.get('tag_name')
+
+        tag_payload['name'] = name
+        tag_payload['systemTag'] = system_tag
+        if dynamicRules:
+            tag_payload['dynamicRules'] = dynamicRules
+
+        # Check if tag with given name is already created then we have to return from here only
+        tag_id = self.check_and_get_tag_id(name)
+
+        if tag_id:
+            self.status = "success"
+            self.msg = "Cannot create the tag, a group already exists with the same name '{0}'".format(name)
+            self.log(self.msg, "INFO")
+            self.result['response'] = self.msg
+            self.result['changed'] = False
+            return self
+
+        try:
+            # Now need to call the create tag API
+            response = self.dnac._exec(
+                family="tag",
+                function='create_tag',
+                op_modifies=True,
+                params=tag_payload,
+            )
+            self.log("Received API response from 'create_tag': {0}".format(str(response)), "DEBUG")
+
+            if not (response and isinstance(response, dict)):
+                self.status = "failed"
+                self.msg = "Received an empty response from the create tag API which indicates create tag API not executed successfully."
+                self.result['response'] = self.msg
+                return self
+
+            task_id = response.get('response').get('taskId')
+
+            while True:
+                execution_details = self.get_task_details(task_id)
+
+                if execution_details.get("isError"):
+                    self.status = "failed"
+                    failure_reason = execution_details.get("failureReason")
+                    if failure_reason:
+                        self.msg = "Failed to create the tag '{0}' for the device/interface due to {1}".format(name, failure_reason)
+                    else:
+                        self.msg = "Failed to clear the create the tag '{0}' for the device/interface".format(name)
+                    self.log(self.msg, "ERROR")
+                    self.result['response'] = self.msg
+                    break
+                elif 'created successfully' in execution_details.get("progress"):
+                    self.status = "success"
+                    self.result['changed'] = True
+                    self.result['response'] = execution_details
+                    self.msg = "Successfully created the tag '{0}' for the device/interface.".format(name)
+                    self.log(self.msg, "INFO")
+                    break
+
+        except Exception as e:
+            self.status = "failed"
+            self.msg = "An exception occurred while creating the tag '{0}' for the device/interface due to - {1}".format(name, str(e))
+            self.log(self.msg, "ERROR")
+            self.result['response'] = self.msg
+
+        return self
+
+    def update_tag(self, tag_params):
+        """
+        Update a tag in Cisco Catalyst Center based on the provided parameters.
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            tag_params (dict): A dictionary containing parameters for updating the tag.
+                It should have the following keys:
+                - 'tag_name' (str): The name of the tag to be updated.
+                - 'system_tag' (bool): A boolean indicating whether the tag is a system tag (optional).
+                - 'description' (str): A description for the tag (optional).
+                - 'dynamic_rules' (list): A list of dictionaries representing dynamic rules for the tag (optional).
+                Each dictionary in the 'dynamic_rules' list should contain the following keys:
+                    - 'member_type' (str): The type of member for the dynamic rule (optional, default is 'networkdevice').
+                    - 'rules' (dict): A dictionary containing rules for the dynamic rule.
+        Returns:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+        Description:
+            This function updates a tag in Cisco Catalyst Center based on the provided parameters.
+            It first checks if the tag exists by calling the 'check_and_get_tag_id' method.
+            If the tag does not exist, the function sets the status to 'failed' and returns.
+            If the tag exists, the function constructs the payload for the tag update API call using the provided parameters.
+            If dynamic rules are provided, they are formatted and included in the payload.
+            The function then calls the update tag API and monitors the task execution status.
+        """
+
+        # Get the tag details from Cisco Catalyst Center
+        name = tag_params.get('tag_name')
+        tag_id = self.check_and_get_tag_id(name)
+
+        if not tag_id:
+            self.status = "failed"
+            self.msg = "Cannot update the tag '{0}' as group is not present in Cisco Catalyst Center.".format(name)
+            self.log(self.msg, "INFO")
+            self.result['response'] = self.msg
+            return self
+
+        response = self.dnac._exec(
+            family="tag",
+            function='get_tag',
+            op_modifies=True,
+            params={"name": name}
+        )
+        self.log("Received API response from 'get_tag': {0}".format(str(response)), "DEBUG")
+        response = response.get('response')[0]
+
+        tag_payload = {}
+        dynamicRules = []
+        dynamic_rules = tag_params.get('dynamic_rules')
+
+        if not dynamic_rules:
+            dynamic_rules = response.get(dynamic_rules)
+            if not dynamic_rules:
+                self.log("There is no dynamic roles while updating tag for the device or interface", "INFO")
+            else:
+                dynamicRules.append(dynamic_rules)
+        else:
+            for rule in dynamic_rules:
+                dynamic_rule_dict = {}
+                dynamic_rule_dict['memberType'] = rule.get('member_type', "networkdevice")
+                dynamic_rule_dict['rules'] = rule.get('rules')
+                dynamicRules.append(dynamic_rule_dict)
+
+        system_tag = tag_params.get('system_tag')
+        description = tag_params.get('description')
+
+        if not system_tag:
+            system_tag = response.get('system_tag')
+        if not description:
+            description = response.get('description', "")
+
+        tag_payload['name'] = name
+        tag_payload['systemTag'] = system_tag
+        tag_payload['id'] = tag_id
+        tag_payload['description'] = description
+
+        if dynamicRules:
+            tag_payload['dynamicRules'] = dynamicRules
+
+        try:
+            # Now need to call the update tag API
+            response = self.dnac._exec(
+                family="tag",
+                function='update_tag',
+                op_modifies=True,
+                params=tag_payload,
+            )
+            self.log("Received API response from 'update_tag': {0}".format(str(response)), "DEBUG")
+
+            if not (response and isinstance(response, dict)):
+                self.status = "failed"
+                self.msg = """Received an empty response from the updating the tag '{0}' which indicates tag updation
+                    not executed successfully.""".format(name)
+                self.result['response'] = self.msg
+                return self
+
+            response = response.get('response')
+            task_id = response.get('taskId')
+
+            while True:
+                execution_details = self.get_task_details(task_id)
+
+                if execution_details.get("isError"):
+                    self.status = "failed"
+                    failure_reason = execution_details.get("failureReason")
+                    if failure_reason:
+                        self.msg = "Failed to update the tag '{0}' for the device/interface due to {1}".format(name, failure_reason)
+                    else:
+                        self.msg = "Failed to clear the update the tag '{0}' for the device/interface".format(name)
+                    self.log(self.msg, "ERROR")
+                    self.result['response'] = self.msg
+                    break
+                elif 'updated successfully' in execution_details.get("progress"):
+                    self.status = "success"
+                    self.result['changed'] = True
+                    self.result['response'] = execution_details
+                    self.msg = "Successfully updated the tag '{0}' for the device/interface.".format(name)
+                    self.log(self.msg, "INFO")
+                    break
+
+        except Exception as e:
+            self.status = "failed"
+            self.msg = "An exception occurred while updating the tag '{0}' for the device/interface due to - {1}".format(name, str(e))
+            self.log(self.msg, "WARNING")
+            self.result['changed'] = False
+            self.result['response'] = self.msg
+
+        return self
+
+    def add_member_to_tag(self, member_payload, tag_name):
+
+        try:
+            # Now need to call the create tag API
+            response = self.dnac._exec(
+                family="tag",
+                function='add_members_to_the_tag',
+                op_modifies=True,
+                params=member_payload,
+            )
+            self.log("Received API response from 'add_members_to_the_tag': {0}".format(str(response)), "DEBUG")
+
+            if not (response and isinstance(response, dict)):
+                self.status = "failed"
+                self.msg = """Received an empty response from the Add member to tag API for the tag '{0}' which
+                    indicates API not executed successfully""".format(tag_name)
+                self.result['response'] = self.msg
+                return self
+
+            task_id = response.get('response').get('taskId')
+
+            while True:
+                execution_details = self.get_task_details(task_id)
+
+                if execution_details.get("isError"):
+                    self.status = "failed"
+                    failure_reason = execution_details.get("failureReason")
+                    if failure_reason:
+                        self.msg = "Failed to assign the tag '{0}' to the member due to {1}".format(tag_name, failure_reason)
+                    else:
+                        self.msg = "Failed to assign the tag '{0}' to the member".format(tag_name)
+                    self.log(self.msg, "ERROR")
+                    self.result['response'] = self.msg
+                    break
+                elif 'Successfully added' in execution_details.get("progress"):
+                    self.status = "success"
+                    self.result['changed'] = True
+                    self.result['response'] = execution_details
+                    self.msg = "Successfully executed the task of assigning the tag '{0}' to the member(s) ".format(tag_name)
+                    self.log(self.msg, "INFO")
+                    break
+
+        except Exception as e:
+            self.status = "failed"
+            self.msg = "An exception occurred while assigning the tag '{0}' to the member(s) due to - {1}".format(tag_name, str(e))
+            self.log(self.msg, "ERROR")
+            self.result['changed'] = False
+            self.result['response'] = self.msg
+
+        return self
+
+    def assign_device_member_to_tag(self):
+        """
+        Add member(s) to a tag in Cisco Catalyst Center based on the provided payload.
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            member_payload (dict): A dictionary containing the payload for adding member(s) to the tag.
+            tag_name (str): The name of the tag to which member(s) will be added.
+        Returns:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+        Description:
+            This function adds member(s) to a tag in Cisco Catalyst Center based on the provided payload.
+            It constructs the payload for the API call using the provided member payload and tag name.
+            The function then calls the add members to tag API and monitors the task execution status.
+        """
+
+        device_member_params = self.config[0].get('assign_device_member_to_tag')
+        device_ips = self.get_device_ips_from_config_priority()
+        device_ids = self.get_device_ids(device_ips)
+        tag_name = device_member_params.get('tag_name')
+
+        if not tag_name:
+            self.status = "failed"
+            self.msg = "Required parameter 'tag_name' is missing for adding device member to the tag."
+            self.log(self.msg, "ERROR")
+            self.result['response'] = self.msg
+            return self
+
+        tag_id = self.check_and_get_tag_id(tag_name)
+
+        if not tag_id:
+            # create the device tag in Cisco Catalyst Center with the given tag name
+            self.log("The given device tag '{0}' is not created in Cisco Catalyst Center".format(tag_name), "INFO")
+            tag_params = {
+                'name': tag_name
+            }
+            self.create_device_tag(tag_params)
+
+            # Since the tag is created so we will fetch the tag_id in order to assign member to tag
+            tag_id = self.check_and_get_tag_id(tag_name)
+
+        mem_payload = {
+            'networkdevice': device_ids
+        }
+
+        device_member_payload = {
+            'id': tag_id,
+            'payload': mem_payload
+        }
+
+        self.add_member_to_tag(device_member_payload, tag_name).check_return_status()
+
+        return self
+
+    def assign_interface_member_to_tag(self):
+        """
+        Assign interface member(s) to a tag in Cisco Catalyst Center based on configuration parameters.
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+        Returns:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+        Description:
+            This function assigns interface member(s) to a tag in Cisco Catalyst Center based on configuration parameters.
+            It retrieves the configuration parameters including tag name, device IPs, and interface names list.
+            If the tag name or interface names list is missing, the function sets the status to 'failed' and returns.
+            It then checks if the tag exists in Cisco Catalyst Center, and if not, creates the tag.
+            Next, it retrieves device IDs corresponding to the provided device IPs.
+            For each device, it retrieves the interface ID(s) corresponding to the provided interface names.
+            If interface IDs are found, it constructs the payload for adding interface member(s) to the tag.
+            The function calls the add member to tag API and monitors the task execution status.
+        """
+
+        interface_member_params = self.config[0].get('assign_interface_member_to_tag')
+        device_ips = self.get_device_ips_from_config_priority()
+        device_ids = self.get_device_ids(device_ips)
+        tag_name = interface_member_params.get('tag_name')
+        interface_names_list = interface_member_params.get('interface_names_list')
+
+        if not tag_name or not interface_names_list:
+            self.status = "failed"
+            self.msg = "Required parameter 'tag_name/interface_name' is missing for adding device member to the tag."
+            self.log(self.msg, "ERROR")
+            self.result['response'] = self.msg
+            return self
+
+        tag_id = self.check_and_get_tag_id(tag_name)
+        if not tag_id:
+            # create the tag in Cisco Catalyst Center with the given tag name
+            self.log("The given  tag '{0}' is not created in Cisco Catalyst Center".format(tag_name), "INFO")
+            tag_params = {
+                'name': tag_name
+            }
+            self.create_device_tag(tag_params)
+
+            # Since the tag is created so we will fetch the tag_id in order to assign member to tag
+            tag_id = self.check_and_get_tag_id(tag_name)
+
+        interface_ids = []
+        for device_id in device_ids:
+            for interface_name in interface_names_list:
+                interface_id = self.get_interface_from_id_and_name(device_id, interface_name)
+                if interface_id:
+                    interface_ids.append(interface_id)
+
+        if not interface_ids:
+            self.status = "failed"
+            self.msg = "Doesnot receive any interface ids so cannot perfrom assigning member to tag operation"
+            self.log(self.msg, "ERROR")
+            self.result['response'] = self.msg
+            return self
+
+        mem_payload = {
+            'interface': interface_ids
+        }
+
+        interface_member_payload = {
+            'id': tag_id,
+            'payload': mem_payload
+        }
+        self.add_member_to_tag(interface_member_payload, tag_name).check_return_status()
+
+        return self
+
+    def remove_tag_member(self, remove_tag_member_payload, tag_name):
+        """
+        Remove tag from member(s) in Cisco Catalyst Center based on the provided payload.
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            remove_tag_member_payload (dict): A dictionary containing the payload for removing tag from member(s).
+            tag_name (str): The name of the tag to be removed from the member(s).
+        Returns:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+        Description:
+            This function removes tag from member(s) in Cisco Catalyst Center based on the provided payload.
+            It constructs the payload for the API call using the provided remove tag member payload and tag name.
+            The function then calls the remove tag member API and monitors the task execution status.
+        """
+
+        try:
+            response = self.dnac._exec(
+                family="tag",
+                function='remove_tag_member',
+                params=remove_tag_member_payload,
+            )
+
+            self.log("Received API response from 'remove_tag_member': {0}".format(str(response)), "DEBUG")
+
+            response = response.get('response')
+            if not response:
+                self.status = "failed"
+                self.log("Did not receive any response for the tag '{0}' so cannot remove tag from member.".format(tag_name), "INFO")
+                return self
+
+            task_id = response.get('taskId')
+
+            while True:
+                execution_details = self.get_task_details(task_id)
+
+                if execution_details.get("isError"):
+                    self.status = "failed"
+                    failure_reason = execution_details.get("failureReason")
+                    if failure_reason:
+                        self.msg = "Failed to remove the tag '{0}' from the member due to {1}".format(tag_name, failure_reason)
+                    else:
+                        self.msg = "Failed to remove the tag '{0}' from the member".format(tag_name)
+                    self.log(self.msg, "ERROR")
+                    self.result['response'] = self.msg
+                    break
+                elif 'deleted successfully' in execution_details.get("progress"):
+                    self.status = "success"
+                    self.result['changed'] = True
+                    self.result['response'] = execution_details
+                    self.msg = "Successfully executed the task of removing the tag '{0}' to the member(s) ".format(tag_name)
+                    self.log(self.msg, "INFO")
+                    break
+
+        except Exception as e:
+            self.status = "failed"
+            self.msg = "An exception occurred while removing the tag '{0}' from the member, due to - {1}".format(tag_name, str(e))
+            self.log(self.msg, "ERROR")
+            self.result['changed'] = False
+            self.result['response'] = self.msg
+
+        return self
+
+    def remove_device_tag_member(self, tag_name):
+        """
+        Remove device member(s) from a tag in Cisco Catalyst Center based on the provided tag name.
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            tag_name (str): The name of the tag from which device member(s) will be removed.
+        Returns:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+        Description:
+            This function removes device member(s) from a tag in Cisco Catalyst Center based on the provided tag name.
+            It retrieves the tag ID corresponding to the given tag name, if not found, the function sets the status to
+            'failed' and returns. Then retrieves the device IPs from the configuration.For each device IP, it retrieves
+            the device ID and constructs the payload for removing device member(s) from the tag.
+            The function calls the remove tag member API and monitors the task execution status.
+        """
+
+        try:
+            # Get the tag id with the given tag name
+            tag_id = self.check_and_get_tag_id(tag_name)
+
+            if not tag_id:
+                self.msg = """Given tag '{0}' not present in Cisco Catalyst Center so cannot perform the remove tag from
+                    the member operation""".format(tag_name)
+                self.log(self.msg, "INFO")
+                self.result['response'] = self.msg
+                return self
+
+            member_ips = self.get_device_ips_from_config_priority()
+
+            for member_ip in member_ips:
+                member_id = self.get_device_ids([member_ip])
+                remove_tag_member_payload = {
+                    'member_id': member_id[0],
+                    'id': tag_id
+                }
+                self.remove_tag_member(remove_tag_member_payload, tag_name).check_return_status()
+                self.log("Tag '{0}' successfully removed from the member {1} in Cisco Catalyst Center".format(tag_name, member_ip), "INFO")
+
+        except Exception as e:
+            self.status = "failed"
+            self.msg = "An exception occurred while removing the member from the tag '{0}' details, due to - {1}".format(tag_name, str(e))
+            self.log(self.msg, "ERROR")
+            self.result['changed'] = False
+            self.result['response'] = self.msg
+
+        return self
+
+    def remove_interface_tag_member(self, tag_name, interface_name_list):
+        """
+        Remove interface member(s) from a tag in Cisco Catalyst Center based on the provided tag name and interface names.
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            tag_name (str): The name of the tag from which interface member(s) will be removed.
+            interface_name_list (list of str): A list containing the names of interfaces to be removed from the tag.
+        Returns:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+        Description:
+            This function removes interface member(s) from a tag in Cisco Catalyst Center based on the provided tag name and interface names.
+            It retrieves the tag ID corresponding to the given tag name and if not found, the function sets the status to 'failed' and
+            returns. Then retrieves the device IPs from the configuration and gets their corresponding device IDs.
+            For each device ID and interface name combination, it retrieves the interface ID and constructs the payload for removing
+            interface member(s) from the tag. The function calls the remove tag member API and monitors the task execution status.
+        """
+
+        try:
+            # Get the tag id with the given tag name
+            tag_id = self.check_and_get_tag_id(tag_name)
+
+            if not tag_id:
+                self.msg = """Given tag '{0}' not present in Cisco Catalyst Center so cannot perform the remove tag from
+                    the member operation""".format(tag_name)
+                self.log(self.msg, "INFO")
+                self.result['response'] = self.msg
+                return self
+
+            device_ips = self.get_device_ips_from_config_priority()
+            device_ids = self.get_device_ids(device_ips)
+            interface_ids = []
+            for device_id in device_ids:
+                for interface_name in interface_name_list:
+                    interface_id = self.get_interface_from_id_and_name(device_id, interface_name)
+                    if interface_id:
+                        interface_ids.append(interface_id)
+
+            if not interface_ids:
+                self.status = "failed"
+                self.msg = "Doesnot receive any interface ids so cannot perfrom remove tag from interface member task."
+                self.log(self.msg, "ERROR")
+                self.result['response'] = self.msg
+                return self
+
+            for interface_id in interface_ids:
+                remove_tag_member_payload = {
+                    'member_id': interface_id,
+                    'id': tag_id
+                }
+                self.remove_tag_member(remove_tag_member_payload, tag_name).check_return_status()
+                self.log("Tag '{0}' successfully removed from the member in Cisco Catalyst Center".format(tag_name), "INFO")
+
+        except Exception as e:
+            self.status = "failed"
+            self.msg = "An exception occurred while removing the member from the tag '{0}' details, due to - {1}".format(tag_name, str(e))
+            self.log(self.msg, "ERROR")
+            self.result['changed'] = False
+            self.result['response'] = self.msg
+
+        return self
+
+    def delete_tag(self, tag_name):
+        """
+        Delete a tag from Cisco Catalyst Center based on the provided tag name.
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            tag_name (str): The name of the tag to be deleted.
+        Returns:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+        Description:
+            This function deletes a tag from Cisco Catalyst Center based on the provided tag name.
+            It retrieves the tag ID corresponding to the given tag name and if not found, the function
+            sets the status to 'success' and logs an informational message indicating that the tag is already deleted.
+            It then constructs the payload for deleting the tag and calls the delete tag API.
+            The function monitors the task execution status and logs appropriate messages based on the outcome.
+        """
+        try:
+            # Get the tag id with the given tag name
+            tag_id = self.check_and_get_tag_id(tag_name)
+            if not tag_id:
+                self.status = "success"
+                self.msg = "Tag '{0}' already deleted from Cisco Catalyst Center".format(tag_name)
+                self.log(self.msg, "INFO")
+                self.result['changed'] = False
+                self.result['response'] = self.msg
+                return self
+
+            delete_tag_params = {
+                "id": tag_id
+            }
+
+            response = self.dnac._exec(
+                family="tag",
+                function='delete_tag',
+                params=delete_tag_params,
+            )
+
+            self.log("Received API response from 'delete_tag': {0}".format(str(response)), "DEBUG")
+            response = response.get('response')
+            if not response:
+                self.status = "failed"
+                self.log("Did not receive any response for the tag '{0}' so cannot delete tag from Cisco Catalyst Center.".format(tag_name), "INFO")
+                return self
+
+            task_id = response.get('taskId')
+
+            while True:
+                execution_details = self.get_task_details(task_id)
+
+                if execution_details.get("isError"):
+                    self.status = "failed"
+                    failure_reason = execution_details.get("failureReason")
+                    if failure_reason:
+                        self.msg = "Failed to delete the tag '{0}' from Cisco Catalyst Center due to {1}".format(tag_name, failure_reason)
+                    else:
+                        self.msg = "Failed to delete the tag '{0}' from Cisco Catalyst Center".format(tag_name)
+                    self.log(self.msg, "ERROR")
+                    self.result['response'] = self.msg
+                    break
+                elif 'deleted successfully' in execution_details.get("progress"):
+                    self.status = "success"
+                    self.result['changed'] = True
+                    self.result['response'] = execution_details
+                    self.msg = "Successfully executed the task of deleting the tag '{0}' Cisco Catalyst Center.".format(tag_name)
+                    self.log(self.msg, "INFO")
+                    break
+
+        except Exception as e:
+            self.status = "failed"
+            self.msg = "An exception occurred while deleting the tag '{0}' from Cisco Catalyst Center, due to - {1}".format(tag_name, str(e))
+            self.log(self.msg, "ERROR")
+            self.result['changed'] = False
+            self.result['response'] = self.msg
 
         return self
 
@@ -3364,6 +4392,24 @@ class Inventory(DnacBase):
         if self.config[0].get('provision_wireless_device'):
             self.provisioned_wireless_devices().check_return_status()
 
+        # Create the tag for the device or interface
+        if self.config[0].get('create_tag'):
+            tag_params = self.config[0].get('create_tag')
+            self.create_tag(tag_params).check_return_status()
+
+        # Update the tag for the device or interface
+        if self.config[0].get('update_tag'):
+            tag_params = self.config[0].get('update_tag')
+            self.update_tag(tag_params).check_return_status()
+
+        # Assigning the device members to the tag
+        if self.config[0].get('assign_device_member_to_tag'):
+            self.assign_device_member_to_tag().check_return_status()
+
+        # Assigning the interface members of the devices to the tag
+        if self.config[0].get('assign_interface_member_to_tag'):
+            self.assign_interface_member_to_tag().check_return_status()
+
         if device_resynced:
             self.resync_devices().check_return_status()
 
@@ -3391,6 +4437,52 @@ class Inventory(DnacBase):
 
         device_to_delete = self.get_device_ips_from_config_priority()
         self.result['msg'] = []
+
+        if self.config[0].get('remove_device_tag_member'):
+            tag_params = self.config[0].get('remove_device_tag_member')
+            tag_name = tag_params.get('tag_name')
+
+            if not tag_name:
+                self.status = "failed"
+                self.msg = """Cannot perform the remove task of tag from device member, 'tag_name'
+                    is required to perform this task """
+                self.log(self.msg, "ERROR")
+                self.result['response'] = self.msg
+                return self
+
+            self.remove_device_tag_member(tag_name).check_return_status()
+            return self
+
+        if self.config[0].get('remove_interface_tag_member'):
+            tag_params = self.config[0].get('remove_interface_tag_member')
+            tag_name = tag_params.get('tag_name')
+            interface_name_list = tag_params.get('interface_names_list')
+
+            if not tag_name or not interface_name_list:
+                self.status = "failed"
+                self.msg = """Cannot perform the remove task of tag from interface member, 'tag_name/interface_name'
+                    is required to perform this task """
+                self.log(self.msg, "ERROR")
+                self.result['response'] = self.msg
+                return self
+
+            self.remove_interface_tag_member(tag_name, interface_name_list).check_return_status()
+            return self
+
+        if self.config[0].get('delete_tag'):
+            tag_params = self.config[0].get('delete_tag')
+            tag_name = tag_params.get('tag_name')
+
+            if not tag_name:
+                self.status = "failed"
+                self.msg = """Cannot perform the remove task of tag from device member, 'tag_name'
+                    is required to perform this task """
+                self.log(self.msg, "ERROR")
+                self.result['response'] = self.msg
+                return self
+
+            self.delete_tag(tag_name).check_return_status()
+            return self
 
         if self.config[0].get('add_user_defined_field'):
             udf_field_list = self.config[0].get('add_user_defined_field')
@@ -3557,6 +4649,8 @@ class Inventory(DnacBase):
 
         if not devices_to_add:
             self.status = "success"
+            if not self.have['devices_in_playbook']:
+                msg = "Device addition task not needed as devices are already present in Cisco Caalyst Center."
             msg = """Requested device(s) '{0}' have been successfully added to the Cisco Catalyst Center and their
                     addition has been verified.""".format(str(self.have['devices_in_playbook']))
             self.log(msg, "INFO")
