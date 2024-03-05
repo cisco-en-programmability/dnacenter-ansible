@@ -164,7 +164,7 @@ jobs:
             )
 
             for param in "${!roles_map[@]}"; do
-              if [[ ${{ pipeline.parameters.run-all }} == true || ${{ pipeline.parameters[$param] }} == true ]]; then
+              if [[ << pipeline.parameters.run-all >> == true || << pipeline.parameters[$param] >> == true ]]; then
                 echo "    - ${roles_map[$param]}" >> ccc_roles.yml
               fi
             done
