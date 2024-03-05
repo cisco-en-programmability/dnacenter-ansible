@@ -108,6 +108,10 @@
 #      Update Device Interface Detials      #
 #############################################
 
+  # - name: Pause for 60 seconds before updating interfaces
+  #   pause:
+  #     seconds: 60
+
   # - name: Update device interface details
   #   cisco.dnac.inventory_workflow_manager:
   #     <<: *dnac_login
@@ -161,6 +165,10 @@
 #    Update Device Interface Description    #
 #############################################
 
+  # - name: Pause for 60 seconds before updating interfaces
+  #   pause:
+  #     seconds: 60
+
   # - name: Update device interface description post changing role to non-access
   #   cisco.dnac.inventory_workflow_manager:
   #     <<: *dnac_login
@@ -171,7 +179,7 @@
   #   register: result_update_device_interface
 
   # - name: Debug item
-  #   desbug:
+  #   debug:
   #     var: item
   #   loop: "{{ result_update_device_interface.results }}"
   #   when: result_update_device_interface is defined
@@ -478,4 +486,3 @@
         - "'deleted successfully' in item.response"
     loop: "{{ result_delete_site.results }}"
     when: result_delete_site is defined
-

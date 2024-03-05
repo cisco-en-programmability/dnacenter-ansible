@@ -129,7 +129,7 @@ device_credential_updates:
 
 device_interface_updates:  
   # Update Interface Details
-  - ip_address_list: ["204.1.2.5", "204.192.6.200"]
+  - ip_address_list: ["204.1.2.5"]
     device_updated: True
     # Interface details
     update_interface_details:
@@ -165,7 +165,7 @@ device_resync:
 
 
 create_assign_udf:
-  - ip_address_list: ["204.1.2.5", "204.192.6.200"]
+  - ip_address_list: ["204.1.2.5"]
     add_user_defined_field:
     # User defined fields
     - name: Test123
@@ -177,7 +177,7 @@ create_assign_udf:
 
 
 update_udf:
-  - ip_address_list: ["204.1.2.5", "204.192.6.200"]
+  - ip_address_list: ["204.1.2.5"]
     add_user_defined_field:
     # User defined fields
     - name: Test123
@@ -190,23 +190,23 @@ update_udf:
 
 delete_udf:
   # User defined fields
-  - ip_address_list: ["204.1.2.5", "204.192.6.200"]
+  - ip_address_list: ["204.1.2.5"]
     add_user_defined_field:
     -  name: "Test123"
-  - ip_address_list: ["204.1.2.5", "204.192.6.200"]
+  - ip_address_list: ["204.1.2.5"]
     add_user_defined_field:
     -  name: "Test321"
 
 
 export_device_details:
-  - ip_address_list: ["204.1.2.5", "204.192.6.200"]
+  - ip_address_list: ["204.1.2.5"]
     export_device_list:
       operation_enum: 1
       password: "Password123!"
 
 
 export_credential_details:
-  - ip_address_list: ["204.1.2.5", "204.192.6.200"]
+  - ip_address_list: ["204.1.2.5"]
     export_device_list:
       operation_enum: "0"
       password: "Password123$"
