@@ -53,7 +53,7 @@
                   username: snmpV3
             protocol_order: ssh
 
-    - name: Execute discovery of single device using various discovery specific credentials
+    - name: Execute discovery of single device using various discovery specific credentials and all the global credentials
       cisco.dnac.discovery_intent:
         <<: *dnac_login
         state: merged
@@ -87,6 +87,43 @@
                 privacy_type: AES256
                 privacy_password: Lablab#1234
                 global_cli_len: 3
+            protocol_order: ssh
+
+    - name: Execute discovery of single device using various discovery specific credentials only
+      cisco.dnac.discovery_intent:
+        <<: *dnac_login
+        state: merged
+        config_verify: True
+        config:
+          - discovery_name: Single without Global Credentials
+            discovery_type: "SINGLE"
+            ip_address_list:
+              - 204.1.2.5
+            discovery_specific_credentials:
+              cli_credentials_list:
+              - username: cisco
+                password: Cisco#123
+                enable_password: Cisco#123
+              http_read_credential:
+                username: string
+                password: Lablab#123
+                port: 443
+                secure: True
+              snmp_v2_read_credential:
+                desc: string
+                community: string
+              snmp_v2_write_credential:
+                desc: string
+                community: string
+              snmp_v3_credential:
+                username: v3Public2
+                snmp_mode: AUTHPRIV
+                auth_type: SHA
+                auth_password: Lablab#1234
+                privacy_type: AES256
+                privacy_password: Lablab#1234
+                global_cli_len: 3
+            use_global_cred: False
             protocol_order: ssh
 
     - name: Execute discovery devices using MULTI RANGE with various discovery specific credentials
