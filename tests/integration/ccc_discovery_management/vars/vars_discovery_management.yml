@@ -5,13 +5,13 @@ single_ip:
     ip_address_list:
       - 204.1.2.5
     protocol_order: ssh
-    # global_credentials:
-    #   cli_credentials_list:
-    #     - description: CLI
-    #       username: cli
-    #   snmp_v3_credential_list:
-    #     - description: snmpV3
-    #       username: v3Public2
+    global_credentials:
+      cli_credentials_list:
+        - description: CLI
+          username: cli
+      snmp_v3_credential_list:
+        - description: snmpV3
+          username: v3Public2
 
 
 ip_range:
