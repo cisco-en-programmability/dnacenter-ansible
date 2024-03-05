@@ -1784,12 +1784,12 @@ class DnacTemplate(DnacBase):
             containingTemplates[i].update({"name": name})
 
             language = item.get("language")
-            language_list = ["JINJA", "VELOCITY"]
             if language is None:
                 self.msg = "language is mandatory under containing templates"
                 self.status = "failed"
                 return self.check_return_status()
 
+            language_list = ["JINJA", "VELOCITY"]
             if language not in language_list:
                 self.msg = "language under containing templates should be in " + str(language_list)
                 self.status = "failed"
