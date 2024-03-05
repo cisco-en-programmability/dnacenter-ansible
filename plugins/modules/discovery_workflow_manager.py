@@ -621,8 +621,7 @@ class Discovery(DnacBase):
             'timeout': {'type': 'str', 'required': False},
             'global_credentials': {'type': 'dict', 'required': False},
             'protocol_order': {'type': 'str', 'required': False, 'default': 'ssh'},
-            'use_global_credentials': {'type': 'bool', 'required': False,
-                                'default': True}
+            'use_global_credentials': {'type': 'bool', 'required': False, 'default': True}
         }
 
         if state == "merged":
