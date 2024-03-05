@@ -14,7 +14,7 @@ parameters:
     default: false
   run-all:
     type: boolean
-    default: false
+    default: true
   run-site:
     type: boolean
     default: false
@@ -267,19 +267,19 @@ workflows:
           base-revision: main
           config-path: .circleci/config.yml
           mapping: |
-            .* run-setup false
+            # .* run-setup false
 
-            plugins/module_utils/.* run-all true
+            # plugins/module_utils/.* run-all true
 
-            plugins/modules/site_workflow_manager.py run-site true
-            plugins/modules/device_credential_workflow_manager.py run-devicecredential true
-            plugins/modules/discovery_workflow_manager.py run-discovery true
-            plugins/modules/inventory_workflow_manager.py run-inventory true
+            # plugins/modules/site_workflow_manager.py run-site true
+            # plugins/modules/device_credential_workflow_manager.py run-devicecredential true
+            # plugins/modules/discovery_workflow_manager.py run-discovery true
+            # plugins/modules/inventory_workflow_manager.py run-inventory true
 
-            tests/integration/ccc_site_management/.* run-site true
-            tests/integration/ccc_device_credential_management/.* run-devicecredential true
-            tests/integration/ccc_discovery_management/.* run-discovery true
-            tests/integration/ccc_inventory_management/.* run-inventory true
+            # tests/integration/ccc_site_management/.* run-site true
+            # tests/integration/ccc_device_credential_management/.* run-devicecredential true
+            # tests/integration/ccc_discovery_management/.* run-discovery true
+            # tests/integration/ccc_inventory_management/.* run-inventory true
 
   site:
     when:
