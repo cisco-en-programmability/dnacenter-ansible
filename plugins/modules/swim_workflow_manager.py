@@ -484,7 +484,6 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
 )
 from ansible.module_utils.basic import AnsibleModule
 import os
-import json
 
 
 class Swim(DnacBase):
@@ -785,8 +784,6 @@ class Swim(DnacBase):
         site_memberships_ids, device_response_ids = [], []
 
         for item in site_response_list:
-            # import epdb;
-            # epdb.serve(port=8888)
             if item["reachabilityStatus"] != "Reachable":
                 self.log("""Reachability status of device '{0}' is '{1}' with site membership api, so cannot add it for distribution/activation
                             task of swim image""".format(item["managementIpAddress"], item["reachabilityStatus"]), "INFO")
