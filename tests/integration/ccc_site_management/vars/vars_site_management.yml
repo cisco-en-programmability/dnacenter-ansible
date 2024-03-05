@@ -433,7 +433,6 @@ update_sites:
         floor_number: 1
     type: floor
 
-
 delete_sites:
   - site:
       area:
