@@ -9,6 +9,9 @@ parameters:
   run-setup:
     type: boolean
     default: true
+  run-any:
+    type: boolean
+    default: false
   run-all:
     type: boolean
     default: false
