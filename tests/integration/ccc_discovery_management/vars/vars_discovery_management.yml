@@ -14,7 +14,6 @@ single_ip:
     #       username: v3Public2
 
 
-
 ip_range:
   - discovery_name: Single Range Discovery 1
     discovery_type: "RANGE"

@@ -50,7 +50,6 @@ device_details:
   #   netconf_port: 830    
 
 
-
 device_credential_updates:
   # Update CLI password
   - type: "NETWORK_DEVICE"
@@ -125,6 +124,7 @@ device_credential_updates:
     #CLI Transport (ssh, Telnet)
     cli_transport: "ssh"
     netconf_port: 830
+
 
 
 device_interface_updates:  
