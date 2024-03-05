@@ -241,16 +241,16 @@ jobs:
 
 workflows:
   integration-testing:
-    # jobs:
-    #   - pre
+    jobs:
+      - pre
 
-    #   - build:
-    #       requires:
-    #         - pre
+      - build:
+          requires:
+            - pre
 
       - path-filtering/filter:
-          # requires:
-          #   - build
+          requires:
+            - build
           base-revision: main
           config-path: .circleci/config.yml
           mapping: |
@@ -266,9 +266,9 @@ workflows:
               tests/integration/ccc_discovery_management/.* run-discovery true
               tests/integration/ccc_inventory_management/.* run-inventory true
 
-      # - sanity-tests:
-      #     requires:
-      #       - path-filtering/filter
+      - sanity-tests:
+          requires:
+            - path-filtering/filter
 
   # daily-scheduled:
   #   triggers:
