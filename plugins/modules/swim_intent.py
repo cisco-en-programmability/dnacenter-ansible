@@ -741,8 +741,8 @@ class DnacSwims(DnacBase):
 
         device_uuid_list = []
         if not site_name:
-            self.log("Failed to retrieve devices associated with the site due to missing site name", "INFO")
-            return device_uuid_list
+            site_name = "Global"
+            self.log("Since site name is not given so it will be fetch all the devices under Global and mark site name as 'Global'", "INFO")
 
         (site_exists, site_id) = self.site_exists(site_name)
         if not site_exists:
@@ -758,8 +758,7 @@ class DnacSwims(DnacBase):
 
         site_params = {
             "site_id": site_id,
-            "device_family": device_family,
-            "device_series_name": device_series_name
+            "device_family": device_family
         }
         response = self.dnac._exec(
             family="sites",
@@ -768,18 +767,56 @@ class DnacSwims(DnacBase):
             params=site_params,
         )
         self.log("Received API response from 'get_membership': {0}".format(str(response)), "DEBUG")
-        response = response['device'][0]['response']
+        response = response['device']
 
-        if len(response) > 0:
-            for item in response:
-                if item["reachabilityStatus"] != "Reachable":
-                    self.log("""Reachability status of device '{0}' is '{1}', so cannot add it for distribution/activation
-                              task of swim image""".format(item["managementIpAddress"], item["reachabilityStatus"]), "INFO")
-                    continue
-                if "role" in item and (device_role is None or item["role"] == device_role.upper() or device_role.upper() == "ALL"):
-                    self.log("""Successfully fetched the device '{0}' associated with the given site '{1}' for SWIM distribution/activation
-                              task.""".format(item["managementIpAddress"], site_name))
-                    device_uuid_list.append(item["instanceUuid"])
+        site_response_list = []
+        for item in response:
+            if item['response']:
+                for item_dict in item['response']:
+                    site_response_list.append(item_dict)
+
+        if device_role.upper() == 'ALL':
+            device_role = None
+
+        device_params = {
+            'series': device_series_name,
+            'family': device_family,
+            'role': device_role
+        }
+        device_list_response = self.dnac._exec(
+            family="devices",
+            function='get_device_list',
+            op_modifies=True,
+            params=device_params,
+        )
+
+        device_response = device_list_response.get('response')
+        if not response or not device_response:
+            self.log("Failed to retrieve devices associated with the site '{0}' due to empty API response.".format(site_name), "INFO")
+            return device_uuid_list
+
+        site_memberships_ids, device_response_ids = [], []
+
+        for item in site_response_list:
+            if item["reachabilityStatus"] != "Reachable":
+                self.log("""Device '{0}' is currently '{1}' and cannot be included in the SWIM distribution/activation
+                            process.""".format(item["managementIpAddress"], item["reachabilityStatus"]), "INFO")
+                continue
+            self.log("""Device '{0}' from site '{1}' is ready for the SWIM distribution/activation
+                        process.""".format(item["managementIpAddress"], site_name), "INFO")
+            site_memberships_ids.append(item["instanceUuid"])
+
+        for item in device_response:
+            if item["reachabilityStatus"] != "Reachable":
+                self.log("""Unable to proceed with the device '{0}' for SWIM distribution/activation as its status is
+                            '{1}'.""".format(item["managementIpAddress"], item["reachabilityStatus"]), "INFO")
+                continue
+            self.log("""Device '{0}' matches to the specified filter requirements and is set for SWIM
+                      distribution/activation.""".format(item["managementIpAddress"]), "INFO")
+            device_response_ids.append(item["instanceUuid"])
+
+        # Find the intersection of device IDs with the response get from get_membership api and get_device_list api with provided filters
+        device_uuid_list = set(site_memberships_ids).intersection(set(device_response_ids))
 
         return device_uuid_list
 
