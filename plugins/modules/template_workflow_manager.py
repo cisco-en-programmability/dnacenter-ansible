@@ -1775,24 +1775,24 @@ class Template(DnacBase):
             if id is not None:
                 containingTemplates[i].update({"id": id})
 
-            language = item.get("language")
-            if language is not None:
-                containingTemplates[i].update({"language": language})
-            else:
-                self.msg = "language is mandatory under containing templates"
-                self.status = "failed"
-                return self.check_return_status()
-
             name = item.get("name")
-            name_list = ["JINJA", "VELOCITY"]
             if name is not None:
                 containingTemplates[i].update({"name": name})
             else:
                 self.msg = "name is mandatory under containing templates"
                 self.status = "failed"
                 return self.check_return_status()
-            if name not in name_list:
-                self.msg = "name under containing templates should be in " + str(name_list)
+
+            language = item.get("language")
+            language_list = ["JINJA", "VELOCITY"]
+            if language is not None:
+                containingTemplates[i].update({"language": language})
+            else:
+                self.msg = "language is mandatory under containing templates"
+                self.status = "failed"
+                return self.check_return_status()
+            if language not in language_list:
+                self.msg = "language under containing templates should be in " + str(language_list)
                 self.status = "failed"
                 return self.check_return_status()
 
