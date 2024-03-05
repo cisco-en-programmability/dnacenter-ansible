@@ -268,8 +268,7 @@ workflows:
           config-path: .circleci/config.yml
           mapping: |
             .* run-setup false
-            plugins/.* run-any true
-            tests/integration/.* run-any true
+
             plugins/module_utils/.* run-all true
 
             plugins/modules/site_workflow_manager.py run-site true
@@ -333,7 +332,7 @@ workflows:
 
 
   sanity:
-    when: << pipeline.parameters.run-any >>
+    #when: << pipeline.parameters.run-any >>
     jobs:
       - sanity-tests:
           matrix:
