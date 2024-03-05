@@ -134,6 +134,11 @@ jobs:
           command: |
             set -x 
             echo "REPO_URL: $REPO_URL"
+            echo "run-all: << pipeline.parameters.run-all >>"
+            echo "run-site: << pipeline.parameters.run-site >>"
+            echo "run-devicecredential: << pipeline.parameters.run-devicecredential >>"
+            echo "run-discovery: << pipeline.parameters.run-discovery >>"
+            echo "run-inventory: << pipeline.parameters.run-inventory >>"
             env
 
       - run:
@@ -188,20 +193,16 @@ jobs:
           name: Adding role
           command: |
             if [[ << pipeline.parameters.run-all >> == true || << pipeline.parameters.run-site >> == true ]]; then
-              export MODULENAME="ccc_site_management"
-              echo "    - $MODULENAME" >> ccc_roles.yml
+              echo "    - ccc_site_management" >> ccc_roles.yml
             fi
             if [[ << pipeline.parameters.run-all >> == true || << pipeline.parameters.run-devicecredential >> == true ]]; then
-              export MODULENAME="ccc_device_credential_management"
-              echo "    - $MODULENAME" >> ccc_roles.yml
+              echo "    - ccc_device_credential_management" >> ccc_roles.yml
             fi
             if [[ << pipeline.parameters.run-all >> == true || << pipeline.parameters.run-discovery >> == true ]]; then
-              export MODULENAME="ccc_discovery_management"
-              echo "    - $MODULENAME" >> ccc_roles.yml
+              echo "    - ccc_discovery_management" >> ccc_roles.yml
             fi
             if [[ << pipeline.parameters.run-all >> == true || << pipeline.parameters.run-inventory >> == true ]]; then
-              export MODULENAME="ccc_inventory_management"
-              echo "    - $MODULENAME" >> ccc_roles.yml
+              echo "    - ccc_inventory_management" >> ccc_roles.yml
             fi
 
             cat ccc_roles.yml
@@ -265,14 +266,8 @@ workflows:
               tests/integration/ccc_device_credential_management/.* run-devicecredential true
               tests/integration/ccc_discovery_management/.* run-discovery true
               tests/integration/ccc_inventory_management/.* run-inventory true
-              
+
       - sanity-tests:
-          parameters:
-            run-all: << pipeline.parameters.run-all >>
-            run-site: << pipeline.parameters.run-site >>
-            run-devicecredential: << pipeline.parameters.run-devicecredential >>
-            run-discovery: << pipeline.parameters.run-discovery >>
-            run-inventory: << pipeline.parameters.run-inventory >>
           requires:
             - path-filtering/filter
 
