@@ -79,6 +79,13 @@ options:
         description: Preferred method for the management of the IP (None/UseLoopBack)
         type: str
         default: None
+      use_global_credentials:
+        description:
+            - Determines if device discovery should utilize pre-configured global credentials.
+            - Setting to True employs the predefined global credentials for discovery tasks. This is the default setting.
+            - Setting to False requires manually provided, device-specific credentials for discovery, as global credentials will be bypassed.
+        type: bool
+        default: True
       discovery_specific_credentials:
         description: Credentials specifically created by the user for performing device discovery.
         type: dict
@@ -204,13 +211,6 @@ options:
                     - Requires valid SSH credentials to work.
                     - Avoid standard ports like 22, 80, and 8080.
                 type: str
-      use_global_cred:
-        description:
-            - Boolean value to determine whether the user wants to use the global credentials by default while performing discovery.
-            - If set to False, global credentials will not be used to discover the devices, and at least one discovery-specific
-                SNMP and CLI credential is required.
-        type: bool
-        default: True
       global_credentials:
         description:
             - Set of various credential types, including CLI, SNMP, HTTP, and NETCONF, that a user has pre-configured in
@@ -359,7 +359,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Execute discovery devices with both global credentials and discovery specific credentials
-  cisco.dnac.discovery_workflow_manager:
+  cisco.dnac.discovery_intent:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -485,7 +485,7 @@ EXAMPLES = r"""
                 privacy_type: string
                 privacy_password: string
             net_conf_port: string
-          use_global_cred: False
+          use_global_credentials: False
           start_index: integer
           records_to_return: integer
           protocol_order: string
@@ -621,7 +621,7 @@ class Discovery(DnacBase):
             'timeout': {'type': 'str', 'required': False},
             'global_credentials': {'type': 'dict', 'required': False},
             'protocol_order': {'type': 'str', 'required': False, 'default': 'ssh'},
-            'use_global_cred': {'type': 'bool', 'required': False,
+            'use_global_credentials': {'type': 'bool', 'required': False,
                                 'default': True}
         }
 
@@ -1125,7 +1125,7 @@ class Discovery(DnacBase):
         if self.validated_config[0].get('discovery_specific_credentials'):
             self.handle_discovery_specific_credentials(new_object_params=new_object_params)
 
-        global_cred_flag = self.validated_config[0].get('use_global_cred')
+        global_cred_flag = self.validated_config[0].get('use_global_credentials')
         global_credentials_all = {}
 
         if global_cred_flag is True:
