@@ -6,12 +6,15 @@ orbs:
   path-filtering: circleci/path-filtering@0.1.6
 
 parameters:
+  run-setup:
+    type: boolean
+    default: true
   run-all:
     type: boolean
     default: false
   run-site:
     type: boolean
-    default: true
+    default: false
   run-devicecredential:
     type: boolean
     default: false
@@ -42,6 +45,7 @@ jobs:
           name: Debug information for pre
           command: |
             set -x 
+            echo "REPO_URL: $REPO_URL"
             echo "CIRCLE_PROJECT_REPONAME: $CIRCLE_PROJECT_REPONAME"
             echo "CIRCLE_PROJECT_BRANCHNAME: $CIRCLE_PROJECT_BRANCHNAME"
             env
@@ -73,11 +77,37 @@ jobs:
           command: |
             set -x 
             echo "REPO_URL: $REPO_URL"
+            echo "CIRCLE_PROJECT_REPONAME: $CIRCLE_PROJECT_REPONAME"
+            echo "CIRCLE_PROJECT_BRANCHNAME: $CIRCLE_PROJECT_BRANCHNAME"
             env
 
       - run:
           name: Custom Git Clone
           command: git clone --depth=1 -b $CIRCLE_PROJECT_BRANCHNAME $REPO_URL
+
+      - run:
+          name: Create Roles File header
+          command: |
+            echo "---" > ccc_roles.yml
+            echo "- hosts: dnac_servers" >> ccc_roles.yml
+            echo "  gather_facts: no" >> ccc_roles.yml
+            echo "  connection: local" >> ccc_roles.yml
+            echo "  " >> ccc_roles.yml
+            echo "  tasks:" >> ccc_roles.yml
+            echo "  " >> ccc_roles.yml
+            echo "  vars:" >> ccc_roles.yml
+            echo "    debug: false" >> ccc_roles.yml
+            echo "  " >> ccc_roles.yml
+            echo "  roles:" >> ccc_roles.yml
+
+            cat ccc_roles.yml
+
+      - run:
+          name: Copy static files
+          command: |
+            mkdir -p group_vars
+            cp ${HOME}/static/group_vars/dnac_servers.yml group_vars/dnac_servers.yml
+            cp ${HOME}/static/hosts hosts
 
       - run:
           name: Activate Virtual Environment, Install ansible and Build collection tarball
@@ -112,6 +142,22 @@ jobs:
             set -x 
             rm -rf ${HOME}/repo/$CIRCLE_PROJECT_REPONAME
 
+  addrole:
+    parameters:
+      modulename:
+        type: string
+
+    machine: true
+    resource_class: rukapse/dnacenter-ansible
+    working_directory: ~/repo 
+
+    steps:
+      - run:
+          name: Adding role - << parameters.modulename >>
+          command: |
+            export MODULENAME="<< parameters.modulename >>"
+            echo "    - $MODULENAME" >> ccc_roles.yaml
+            cat ccc_roles.yml
 
   sanity-tests:
     parameters: 
@@ -134,11 +180,8 @@ jobs:
           command: |
             set -x 
             echo "REPO_URL: $REPO_URL"
-            echo "run-all: << pipeline.parameters.run-all >>"
-            echo "run-site: << pipeline.parameters.run-site >>"
-            echo "run-devicecredential: << pipeline.parameters.run-devicecredential >>"
-            echo "run-discovery: << pipeline.parameters.run-discovery >>"
-            echo "run-inventory: << pipeline.parameters.run-inventory >>"
+            echo "CIRCLE_PROJECT_REPONAME: $CIRCLE_PROJECT_REPONAME"
+            echo "CIRCLE_PROJECT_BRANCHNAME: $CIRCLE_PROJECT_BRANCHNAME"
             env
 
       - run:
@@ -173,48 +216,6 @@ jobs:
             PYTHONPATH: $HOME/.ansible/collections/:$PYTHONPATH
 
       - run:
-          name: Create Roles File header
-          command: |
-            echo "---" > ccc_roles.yml
-            echo "- hosts: dnac_servers" >> ccc_roles.yml
-            echo "  gather_facts: no" >> ccc_roles.yml
-            echo "  connection: local" >> ccc_roles.yml
-            echo "  " >> ccc_roles.yml
-            echo "  tasks:" >> ccc_roles.yml
-            echo "  " >> ccc_roles.yml
-            echo "  vars:" >> ccc_roles.yml
-            echo "    debug: false" >> ccc_roles.yml
-            echo "  " >> ccc_roles.yml
-            echo "  roles:" >> ccc_roles.yml
-
-            cat ccc_roles.yml
-
-      - run:
-          name: Adding role
-          command: |
-            if [[ << pipeline.parameters.run-all >> == true || << pipeline.parameters.run-site >> == true ]]; then
-              echo "    - ccc_site_management" >> ccc_roles.yml
-            fi
-            if [[ << pipeline.parameters.run-all >> == true || << pipeline.parameters.run-devicecredential >> == true ]]; then
-              echo "    - ccc_device_credential_management" >> ccc_roles.yml
-            fi
-            if [[ << pipeline.parameters.run-all >> == true || << pipeline.parameters.run-discovery >> == true ]]; then
-              echo "    - ccc_discovery_management" >> ccc_roles.yml
-            fi
-            if [[ << pipeline.parameters.run-all >> == true || << pipeline.parameters.run-inventory >> == true ]]; then
-              echo "    - ccc_inventory_management" >> ccc_roles.yml
-            fi
-
-            cat ccc_roles.yml
-
-      - run:
-          name: Copy static files
-          command: |
-            mkdir -p group_vars
-            cp ${HOME}/static/group_vars/dnac_servers.yml group_vars/dnac_servers.yml
-            cp ${HOME}/static/hosts hosts
-
-      - run:
           name: Install the collection tarball
           command: |
             set -x 
@@ -241,35 +242,102 @@ jobs:
 
 
 workflows:
-  integration-testing:
+  pre-testing:
+    when: << pipeline.parameters.run-setup >>
     jobs:
       - pre
 
       - build:
+          matrix:
+            parameters:
+              ansible_cisco_dnac_version:
+                - "6.9.0"
           requires:
             - pre
 
       - path-filtering/filter:
+          # filters:
+          #   branches:
+          #     ignore: develop
           requires:
             - build
           base-revision: main
           config-path: .circleci/config.yml
           mapping: |
-              plugins/module_utils/.* run-all true
+            .* run-setup false
+            plugins/.* run-any true
+            tests/integration/.* run-any true
+            plugins/module_utils/.* run-all true
 
-              plugins/modules/site_workflow_manager.py run-site true
-              plugins/modules/device_credential_workflow_manager.py run-devicecredential true
-              plugins/modules/discovery_workflow_manager.py run-discovery true
-              plugins/modules/inventory_workflow_manager.py run-inventory true
+            plugins/modules/site_workflow_manager.py run-site true
+            plugins/modules/device_credential_workflow_manager.py run-devicecredential true
+            plugins/modules/discovery_workflow_manager.py run-discovery true
+            plugins/modules/inventory_workflow_manager.py run-inventory true
 
-              tests/integration/ccc_site_management/.* run-site true
-              tests/integration/ccc_device_credential_management/.* run-devicecredential true
-              tests/integration/ccc_discovery_management/.* run-discovery true
-              tests/integration/ccc_inventory_management/.* run-inventory true
+            tests/integration/ccc_site_management/.* run-site true
+            tests/integration/ccc_device_credential_management/.* run-devicecredential true
+            tests/integration/ccc_discovery_management/.* run-discovery true
+            tests/integration/ccc_inventory_management/.* run-inventory true
 
+  site:
+    when:
+      or:
+        - << pipeline.parameters.run-all >>
+        - << pipeline.parameters.run-site >>
+    jobs:
+      - addrole:
+          matrix:
+            parameters:
+              modulename:
+                - ccc_site_management
+
+
+  devicecredential:
+    when:
+      or:
+        - << pipeline.parameters.run-all >>
+        - << pipeline.parameters.run-devicecredential >>
+    jobs:
+      - addrole:
+          matrix:
+            parameters:
+              modulename:
+                - ccc_device_credential_management
+
+  discovery:
+    when:
+      or:
+        - << pipeline.parameters.run-all >>
+        - << pipeline.parameters.run-discovery >>
+    jobs:
+      - addrole:
+          matrix:
+            parameters:
+              modulename:
+                - ccc_discovery_management
+
+  inventory:
+    when:
+      or:
+        - << pipeline.parameters.run-all >>
+        - << pipeline.parameters.run-inventory >>
+    jobs:
+      - addrole:
+          matrix:
+            parameters:
+              modulename:
+                - ccc_inventory_management
+
+
+  sanity:
+    when: << pipeline.parameters.run-any >>
+    jobs:
       - sanity-tests:
-          requires:
-            - path-filtering/filter
+          matrix:
+            parameters:
+              ansible_cisco_dnac_version:
+                - "6.9.0"
+
 
 
   # daily-scheduled:
