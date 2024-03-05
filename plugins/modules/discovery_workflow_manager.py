@@ -207,7 +207,8 @@ options:
       use_global_cred:
         description:
             - Boolean value to determine whether the user wants to use the global credentials by default while performing discovery.
-            - If set False, global credentials will not be used to discover the devices.
+            - If set to False, global credentials will not be used to discover the devices, and at least one discovery-specific
+                SNMP and CLI credential is required.
         type: bool
         default: True
       global_credentials:
