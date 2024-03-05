@@ -359,7 +359,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Execute discovery devices with both global credentials and discovery specific credentials
-  cisco.dnac.discovery_intent:
+  cisco.dnac.discovery_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
