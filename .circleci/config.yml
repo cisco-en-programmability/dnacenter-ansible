@@ -276,7 +276,7 @@ workflows:
           base-revision: main
           config-path: .circleci/config.yml
           mapping: |
-  
+            .* run-setup false
 
       - addrole:
           requires:
