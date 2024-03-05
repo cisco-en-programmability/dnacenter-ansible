@@ -266,15 +266,15 @@ workflows:
               tests/integration/ccc_discovery_management/.* run-discovery true
               tests/integration/ccc_inventory_management/.* run-inventory true
               
-        - sanity-tests:
-            parameters:
-              run-all: << pipeline.parameters.run-all >>
-              run-site: << pipeline.parameters.run-site >>
-              run-devicecredential: << pipeline.parameters.run-devicecredential >>
-              run-discovery: << pipeline.parameters.run-discovery >>
-              run-inventory: << pipeline.parameters.run-inventory >>
-            requires:
-              - path-filtering/filter
+      - sanity-tests:
+          parameters:
+            run-all: << pipeline.parameters.run-all >>
+            run-site: << pipeline.parameters.run-site >>
+            run-devicecredential: << pipeline.parameters.run-devicecredential >>
+            run-discovery: << pipeline.parameters.run-discovery >>
+            run-inventory: << pipeline.parameters.run-inventory >>
+          requires:
+            - path-filtering/filter
 
 
   # daily-scheduled:
