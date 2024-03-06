@@ -149,10 +149,6 @@ jobs:
             rm -rf ${HOME}/repo/$CIRCLE_PROJECT_REPONAME
 
   addrole:
-    parameters:
-      modulename:
-        type: string
-
     machine: true
     resource_class: rukapse/dnacenter-ansible
     working_directory: ~/repo 
