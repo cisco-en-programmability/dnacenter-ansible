@@ -158,40 +158,35 @@ jobs:
     working_directory: ~/repo 
 
     steps:
-      - when:
-          condition: << pipeline.parameters.run-site >>
+      - when: << pipeline.parameters.run-site >>
           steps:
             - run: 
                 command: |
                   echo "    - $ccc_site_management" >> ccc_roles.yml
                   cat ccc_roles.yml
 
-      - when:
-          condition: << pipeline.parameters.run-devicecredential >>
+      - when: << pipeline.parameters.run-devicecredential >>
           steps:
             - run: 
                 command: |
                   echo "    - $ccc_device_credential_management" >> ccc_roles.yml
                   cat ccc_roles.yml
 
-      - when:
-          condition: << pipeline.parameters.run-discovery >>
+      - when: << pipeline.parameters.run-discovery >>
           steps:
             - run: 
                 command: |
                   echo "    - $ccc_discovery_management" >> ccc_roles.yml
                   cat ccc_roles.yml
 
-      - when:
-          condition: << pipeline.parameters.run-inventory >>
+      - when: << pipeline.parameters.run-inventory >>
           steps:
             - run: 
                 command: |
                   echo "    - $ccc_inventory_management" >> ccc_roles.yml
                   cat ccc_roles.yml
 
-      - when:
-        condition: << pipeline.parameters.run-all >>
+      - when: << pipeline.parameters.run-all >>
         steps:
             - run:
                 command: |
