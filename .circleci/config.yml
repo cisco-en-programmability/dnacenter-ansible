@@ -343,34 +343,35 @@ workflows:
               ansible_cisco_dnac_version:
                 - "6.9.0"
 
-  scheduled-testing:
-    triggers:
-      - schedule:
-          cron: "0 0 * * *"  
-          filters:
-            branches:
-              only:
-                - circleci-setup  
-    jobs:
-      - pre
 
-      - build:
-          matrix:
-            parameters:
-              ansible_cisco_dnac_version:
-                - "6.9.0"
-          requires:
-            - pre
+  # scheduled-testing:
+  #   triggers:
+  #     - schedule:
+  #         cron: "0 0 * * *"  
+  #         filters:
+  #           branches:
+  #             only:
+  #               - circleci-setup  
+  #   jobs:
+  #     - pre
 
-      - add-all-roles:
-          requires:
-            - build
+  #     - build:
+  #         matrix:
+  #           parameters:
+  #             ansible_cisco_dnac_version:
+  #               - "6.9.0"
+  #         requires:
+  #           - pre
 
-      - sanity-tests:
-          requires:
-            - add-all-roles
-          matrix:
-            parameters:
-              ansible_cisco_dnac_version:
-                - "6.9.0"
+  #     - add-all-roles:
+  #         requires:
+  #           - build
+
+  #     - sanity-tests:
+  #         requires:
+  #           - add-all-roles
+  #         matrix:
+  #           parameters:
+  #             ansible_cisco_dnac_version:
+  #               - "6.9.0"
 
