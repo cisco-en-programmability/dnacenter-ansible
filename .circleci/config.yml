@@ -244,7 +244,7 @@ jobs:
             export ANSIBLE_PERSISTENT_COMMAND_TIMEOUT=1000
             export ANSIBLE_ROLES_PATH=/home/circleci/repo/dnacenter-ansible/tests/integration
 
-            ansible-playbook -q -i hosts ccc_roles.yml 
+            ansible-playbook -i hosts ccc_roles.yml 
 
       - run:
           name: Remove Existing Directory
@@ -283,7 +283,7 @@ workflows:
             plugins/modules/discovery_workflow_manager.py run-discovery true
             plugins/modules/inventory_workflow_manager.py run-inventory true
 
-            tests/integration/ccc_site_management/.* run-site true
+            tests/integration/ccc_site_management/.* << pipeline.parameters.run-site >>  true
             tests/integration/ccc_device_credential_management/.* run-devicecredential true
             tests/integration/ccc_discovery_management/.* run-discovery true
             tests/integration/ccc_inventory_management/.* run-inventory true
