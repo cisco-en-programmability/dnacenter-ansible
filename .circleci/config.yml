@@ -27,6 +27,9 @@ parameters:
   run-inventory:
     type: boolean
     default: false
+  run-tests:
+    type: boolean
+    default: false
 
 jobs:
 
@@ -145,56 +148,58 @@ jobs:
             set -x 
             rm -rf ${HOME}/repo/$CIRCLE_PROJECT_REPONAME
 
-
   addrole:
-    parameters: 
-      run-setup:
-        type: boolean
-        default: true
-      run-any:
-        type: boolean
-        default: false
-      run-all:
-        type: boolean
-        default: false
-      run-site:
-        type: boolean
-        default: false
-      run-devicecredential:
-        type: boolean
-        default: false
-      run-discovery:
-        type: boolean
-        default: false
-      run-inventory:
-        type: boolean
-        default: false
+    parameters:
+      modulename:
+        type: string
 
     machine: true
     resource_class: rukapse/dnacenter-ansible
     working_directory: ~/repo 
 
     steps:
-      - run:
-          name: Adding roles based on parameters
-          command: |
-            if [[ << parameters.run-all >> == true || << parameters.run-site >> == true ]]; then
-              echo "    - ccc_site_management" >> ccc_roles.yml
-            fi
-            
-            if [[ << parameters.run-all >> == true || << parameters.run-devicecredential >> == true ]]; then
-              echo "    - ccc_device_credential_management" >> ccc_roles.yml
-            fi
-            
-            if [[ << parameters.run-all >> == true || << parameters.run-discovery >> == true ]]; then
-              echo "    - ccc_discovery_management" >> ccc_roles.yml
-            fi
-            
-            if [[ << parameters.run-all >> == true || << parameters.run-inventory >> == true ]]; then
-              echo "    - ccc_inventory_management" >> ccc_roles.yml
-            fi
+      - when:
+          condition: << pipeline.parameters.run-site >>
+          steps:
+            - run: 
+                command: |
+                  echo "    - $ccc_site_management" >> ccc_roles.yml
+                  cat ccc_roles.yml
 
-            cat ccc_roles.yml
+      - when:
+          condition: << pipeline.parameters.run-devicecredential >>
+          steps:
+            - run: 
+                command: |
+                  echo "    - $ccc_device_credential_management" >> ccc_roles.yml
+                  cat ccc_roles.yml
+
+      - when:
+          condition: << pipeline.parameters.run-discovery >>
+          steps:
+            - run: 
+                command: |
+                  echo "    - $ccc_discovery_management" >> ccc_roles.yml
+                  cat ccc_roles.yml
+
+      - when:
+          condition: << pipeline.parameters.run-inventory >>
+          steps:
+            - run: 
+                command: |
+                  echo "    - $ccc_inventory_management" >> ccc_roles.yml
+                  cat ccc_roles.yml
+
+      - when:
+        condition: << pipeline.parameters.run-all >>
+        steps:
+            - run:
+                command: |
+                  echo "    - $ccc_site_management" >> ccc_roles.yml
+                  echo "    - $ccc_device_credential_management" >> ccc_roles.yml
+                  echo "    - $ccc_discovery_management" >> ccc_roles.yml
+                  echo "    - $ccc_inventory_management" >> ccc_roles.yml
+                  cat ccc_roles.yml
 
   sanity-tests:
     parameters: 
@@ -300,9 +305,6 @@ workflows:
           mapping: |
             .* run-setup false
 
-            .circleci/.* run-any false
-            .circleci/.* run-all false
-
             plugins/.* run-any true
             tests/integration/.* run-any true
 
@@ -318,30 +320,15 @@ workflows:
             tests/integration/ccc_discovery_management/.* run-discovery true
             tests/integration/ccc_inventory_management/.* run-inventory true
 
-      - addrole:
-          matrix:
-            parameters:
-              run-all:
-                - << pipeline.parameters.run-all >>
-              run-any:
-                - << pipeline.parameters.run-any >>
-              run-site:
-                - << pipeline.parameters.run-site >>
-              run-devicecredential:
-                - << pipeline.parameters.run-devicecredential >>
-              run-discovery:
-                - << pipeline.parameters.run-discovery >>
-              run-inventory:
-                - << pipeline.parameters.run-inventory >>
-
-          requires:
-            - path-filtering/filter
-
-
-  integration-tests:
-    when: << pipeline.parameters.run-any >>
+  integration-testing:
+    when: 
+        - equal: [ true, << pipeline.parameters.run-any >> ]
     jobs:          
+      - addrole
+
       - sanity-tests:
+          requires:
+            - addrole
           matrix:
             parameters:
               ansible_cisco_dnac_version:
