@@ -368,7 +368,7 @@ workflows:
 
       - sanity-tests:
           requires:
-            - addrole
+            - add-all-roles
           matrix:
             parameters:
               ansible_cisco_dnac_version:
