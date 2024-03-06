@@ -160,7 +160,6 @@ jobs:
             - run: 
                 command: |
                   echo "    - ccc_site_management" >> ccc_roles.yml
-                  cat ccc_roles.yml
 
       - when:
           condition: << pipeline.parameters.run-devicecredential >>
@@ -168,7 +167,6 @@ jobs:
             - run: 
                 command: |
                   echo "    - ccc_device_credential_management" >> ccc_roles.yml
-                  cat ccc_roles.yml
 
       - when:
           condition: << pipeline.parameters.run-discovery >>
@@ -176,7 +174,6 @@ jobs:
             - run: 
                 command: |
                   echo "    - ccc_discovery_management" >> ccc_roles.yml
-                  cat ccc_roles.yml
 
       - when:
           condition: << pipeline.parameters.run-inventory >>
@@ -184,7 +181,6 @@ jobs:
             - run: 
                 command: |
                   echo "    - ccc_inventory_management" >> ccc_roles.yml
-                  cat ccc_roles.yml
 
       - when:
           condition: << pipeline.parameters.run-all >>
@@ -195,7 +191,9 @@ jobs:
                   echo "    - $ccc_device_credential_management" >> ccc_roles.yml
                   echo "    - $ccc_discovery_management" >> ccc_roles.yml
                   echo "    - $ccc_inventory_management" >> ccc_roles.yml
-                  cat ccc_roles.yml
+
+      - run:
+          command: cat ccc_roles.yml
 
   sanity-tests:
     parameters: 
@@ -300,11 +298,6 @@ workflows:
           config-path: .circleci/config.yml
           mapping: |
             .* run-setup false
-
-            plugins/.* run-any true
-            tests/integration/.* run-any true
-
-            plugins/module_utils/.* run-all true
 
   integration-testing:
     when: << pipeline.parameters.run-any >> 
