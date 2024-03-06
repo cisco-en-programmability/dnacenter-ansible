@@ -157,19 +157,19 @@ jobs:
           name: Adding roles based on parameters
           command: |
             if [[ << pipeline.parameters.run-all >> == true || << pipeline.parameters.run-site >> == true ]]; then
-              echo "    - ccc_site_management" >> ccc_roles.yaml
+              echo "    - ccc_site_management" >> ccc_roles.yml
             fi
             
             if [[ << pipeline.parameters.run-all >> == true || << pipeline.parameters.run-devicecredential >> == true ]]; then
-              echo "    - ccc_device_credential_management" >> ccc_roles.yaml
+              echo "    - ccc_device_credential_management" >> ccc_roles.yml
             fi
             
             if [[ << pipeline.parameters.run-all >> == true || << pipeline.parameters.run-discovery >> == true ]]; then
-              echo "    - ccc_discovery_management" >> ccc_roles.yaml
+              echo "    - ccc_discovery_management" >> ccc_roles.yml
             fi
             
             if [[ << pipeline.parameters.run-all >> == true || << pipeline.parameters.run-inventory >> == true ]]; then
-              echo "    - ccc_inventory_management" >> ccc_roles.yaml
+              echo "    - ccc_inventory_management" >> ccc_roles.yml
             fi
 
             cat ccc_roles.yml
