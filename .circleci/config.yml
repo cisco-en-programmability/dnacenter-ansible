@@ -156,19 +156,19 @@ jobs:
       - run:
           name: Adding roles based on parameters
           command: |
-            if [[ ${{ parameters.run-all }} == true || ${{ parameters.run-site }} == true ]]; then
+            if [[ << parameters.run-all >> == true || << parameters.run-site >> == true ]]; then
               echo "    - ccc_site_management" >> ccc_roles.yaml
             fi
             
-            if [[ ${{ parameters.run-all }} == true || ${{ parameters.run-devicecredential }} == true ]]; then
+            if [[ << parameters.run-all >> == true || << parameters.run-devicecredential >> == true ]]; then
               echo "    - ccc_device_credential_management" >> ccc_roles.yaml
             fi
             
-            if [[ ${{ parameters.run-all }} == true || ${{ parameters.run-discovery }} == true ]]; then
+            if [[ << parameters.run-all >> == true || << parameters.run-discovery >> == true ]]; then
               echo "    - ccc_discovery_management" >> ccc_roles.yaml
             fi
             
-            if [[ ${{ parameters.run-all }} == true || ${{ parameters.run-inventory }} == true ]]; then
+            if [[ << parameters.run-all >> == true || << parameters.run-inventory >> == true ]]; then
               echo "    - ccc_inventory_management" >> ccc_roles.yaml
             fi
 
