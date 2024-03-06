@@ -434,7 +434,6 @@ update_sites:
     type: floor
 
 
-
 delete_sites:
   - site:
       area:
