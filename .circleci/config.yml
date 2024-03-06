@@ -260,7 +260,7 @@ workflows:
   pre-testing:
     when: << pipeline.parameters.run-setup >>
     jobs:
-      - pre:
+      - pre
 
       - build:
           matrix:
