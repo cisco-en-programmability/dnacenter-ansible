@@ -187,13 +187,29 @@ jobs:
           steps:
             - run:
                 command: |
-                  echo "    - $ccc_site_management" >> ccc_roles.yml
-                  echo "    - $ccc_device_credential_management" >> ccc_roles.yml
-                  echo "    - $ccc_discovery_management" >> ccc_roles.yml
-                  echo "    - $ccc_inventory_management" >> ccc_roles.yml
+                  echo "    - ccc_site_management" >> ccc_roles.yml
+                  echo "    - ccc_device_credential_management" >> ccc_roles.yml
+                  echo "    - ccc_discovery_management" >> ccc_roles.yml
+                  echo "    - ccc_inventory_management" >> ccc_roles.yml
 
       - run:
           command: cat ccc_roles.yml
+
+  add-all-roles:
+    machine: true
+    resource_class: rukapse/dnacenter-ansible
+    working_directory: ~/repo 
+
+    steps:
+      - run:
+          name: Debug information
+          command: |
+            echo "    - ccc_site_management" >> ccc_roles.yml
+            echo "    - ccc_device_credential_management" >> ccc_roles.yml
+            echo "    - ccc_discovery_management" >> ccc_roles.yml
+            echo "    - ccc_inventory_management" >> ccc_roles.yml
+            cat ccc_roles.yml
+
 
   sanity-tests:
     parameters: 
@@ -277,7 +293,7 @@ jobs:
             rm -rf ${HOME}/repo/$CIRCLE_PROJECT_REPONAME
 
 
-workflows:
+workflows:  
   pre-testing:
     when: << pipeline.parameters.run-setup >>
     jobs:
@@ -327,12 +343,34 @@ workflows:
               ansible_cisco_dnac_version:
                 - "6.9.0"
 
+  scheduled-testing:
+    triggers:
+      - schedule:
+          cron: "0 0 * * *"  
+          filters:
+            branches:
+              only:
+                - circleci-setup  
+    jobs:
+      - pre
 
-  # daily-scheduled:
-  #   triggers:
-  #     - schedule:
-  #         cron: "0 0 * * *"
-  #         filters:
-  #           branches:
-  #             only:
-  #               - main
+      - build:
+          matrix:
+            parameters:
+              ansible_cisco_dnac_version:
+                - "6.9.0"
+          requires:
+            - pre
+
+      - add-all-roles:
+          requires:
+            - build
+
+      - sanity-tests:
+          requires:
+            - addrole
+          matrix:
+            parameters:
+              ansible_cisco_dnac_version:
+                - "6.9.0"
+
