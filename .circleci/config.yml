@@ -283,7 +283,7 @@ workflows:
             plugins/modules/discovery_workflow_manager.py run-discovery true
             plugins/modules/inventory_workflow_manager.py run-inventory true
 
-            tests/integration/ccc_site_management/.* << pipeline.parameters.run-site >>  true
+            tests/integration/ccc_site_management/vars/vars_site_management.yml run-site  true
             tests/integration/ccc_device_credential_management/.* run-devicecredential true
             tests/integration/ccc_discovery_management/.* run-discovery true
             tests/integration/ccc_inventory_management/.* run-inventory true
