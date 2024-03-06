@@ -9,12 +9,9 @@ parameters:
   run-setup:
     type: boolean
     default: true
-  run-any:
-    type: boolean
-    default: false
   run-all:
     type: boolean
-    default: true
+    default: false
   run-site:
     type: boolean
     default: false
@@ -247,7 +244,7 @@ jobs:
             export ANSIBLE_PERSISTENT_COMMAND_TIMEOUT=1000
             export ANSIBLE_ROLES_PATH=/home/circleci/repo/dnacenter-ansible/tests/integration
 
-            ansible-playbook -i hosts ccc_roles.yml 
+            ansible-playbook -q -i hosts ccc_roles.yml 
 
       - run:
           name: Remove Existing Directory
@@ -257,7 +254,7 @@ jobs:
 
 
 workflows:
-  pre-testing:
+  integration-testing:
     when: << pipeline.parameters.run-setup >>
     jobs:
       - pre
@@ -279,7 +276,17 @@ workflows:
           base-revision: main
           config-path: .circleci/config.yml
           mapping: |
-            .* run-setup false
+            plugins/module_utils/.* run-all true
+
+            plugins/modules/site_workflow_manager.py run-site true
+            plugins/modules/device_credential_workflow_manager.py run-devicecredential true
+            plugins/modules/discovery_workflow_manager.py run-discovery true
+            plugins/modules/inventory_workflow_manager.py run-inventory
+
+            tests/integration/ccc_site_management/.* run-site true
+            tests/integration/ccc_device_credential_management/.* run-devicecredential true
+            tests/integration/ccc_discovery_management/.* run-discovery true
+            tests/integration/ccc_inventory_management/.* run-inventory true
 
       - addrole:
           requires:
