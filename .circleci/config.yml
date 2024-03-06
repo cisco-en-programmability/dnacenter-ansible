@@ -9,6 +9,9 @@ parameters:
   run-setup:
     type: boolean
     default: true
+  run-any:
+    type: boolean
+    default: false
   run-all:
     type: boolean
     default: false
@@ -255,11 +258,12 @@ jobs:
 
 workflows:
   integration-testing:
-    when: << pipeline.parameters.run-setup >>
     jobs:
-      - pre
+      - pre:
+          when: << pipeline.parameters.run_setup >>
 
       - build:
+          when: << pipeline.parameters.run_setup >>
           matrix:
             parameters:
               ansible_cisco_dnac_version:
@@ -268,6 +272,7 @@ workflows:
             - pre
 
       - path-filtering/filter:
+          when: << pipeline.parameters.run_setup >>
           # filters:
           #   branches:
           #     ignore: develop
@@ -276,6 +281,11 @@ workflows:
           base-revision: main
           config-path: .circleci/config.yml
           mapping: |
+            .* run-setup false
+
+            plugins/.* run-any true
+            tests/integration/.* run-any true
+
             plugins/module_utils/.* run-all true
 
             plugins/modules/site_workflow_manager.py run-site true
@@ -283,7 +293,7 @@ workflows:
             plugins/modules/discovery_workflow_manager.py run-discovery true
             plugins/modules/inventory_workflow_manager.py run-inventory true
 
-            tests/integration/ccc_site_management/vars/vars_site_management.yml run-site  true
+            tests/integration/ccc_site_management/.* run-site  true
             tests/integration/ccc_device_credential_management/.* run-devicecredential true
             tests/integration/ccc_discovery_management/.* run-discovery true
             tests/integration/ccc_inventory_management/.* run-inventory true
@@ -293,6 +303,7 @@ workflows:
             - path-filtering/filter
             
       - sanity-tests:
+          when: << pipeline.parameters.run_any >>
           requires:
             - addrole
           matrix:
