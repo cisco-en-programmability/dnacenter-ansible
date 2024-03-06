@@ -247,7 +247,7 @@ jobs:
             export ANSIBLE_PERSISTENT_COMMAND_TIMEOUT=1000
             export ANSIBLE_ROLES_PATH=/home/circleci/repo/dnacenter-ansible/tests/integration
 
-            ansible-playbook -i hosts ccc_roles.yml -vvvv
+            ansible-playbook -i hosts ccc_roles.yml 
 
       - run:
           name: Remove Existing Directory
