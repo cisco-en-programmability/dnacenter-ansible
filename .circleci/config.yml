@@ -321,8 +321,7 @@ workflows:
             tests/integration/ccc_inventory_management/.* run-inventory true
 
   integration-testing:
-    when: 
-        - equal: [ true, << pipeline.parameters.run-any >> ]
+    when: << pipeline.parameters.run-any >> 
     jobs:          
       - addrole
 
