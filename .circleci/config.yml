@@ -298,6 +298,8 @@ workflows:
           config-path: .circleci/config.yml
           mapping: |
             .* run-setup false
+            
+            plugins/.* run-any true
 
   integration-testing:
     when: << pipeline.parameters.run-any >> 
