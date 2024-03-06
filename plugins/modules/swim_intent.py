@@ -58,27 +58,28 @@ options:
             suboptions:
               file_path:
                 description: Provide the absolute file path needed to import an image from your local system (Eg "/path/to/your/file").
+                    Accepted files formats are - .gz,.bin,.img,.tar,.smu,.pie,.aes,.iso,.ova,.tar_gz,.qcow2,.nfvispkg,.zip,.spa,.rpm.
                 type: str
               is_third_party:
                 description: Query parameter to determine if the image is from a third party (optional).
                 type: bool
               third_party_application_type:
-                description: Specify the ThirdPartyApplicationType query parameter to indicate the type of third-party application.Allowed
+                description: Specify the ThirdPartyApplicationType query parameter to indicate the type of third-party application. Allowed
                     values include WLC, LINUX, FIREWALL, WINDOWS, LOADBALANCER, THIRDPARTY, etc.(optional).
-                  WLC (Wireless LAN Controller) - It's network device that manages and controls multiple wireless access points (APs) in a
+                  WLC (Wireless LAN Controller) - It's a network device that manages and controls multiple wireless access points (APs) in a
                     centralized manner.
-                  LINUX - It's an open source which provide complete operating system with a wide range of software packages and utilities.
+                  LINUX - It's an open-source operating system that provides a complete set of software packages and utilities.
                   FIREWALL - It's a network security device that monitors and controls incoming and outgoing network traffic based on
                     predetermined security rules.It acts as a barrier between a trusted internal network and untrusted external networks
                     (such as the internet), preventing unauthorized access.
-                  WINDOWS - It's an OS which provides GUI support for various applications, and extensive compatibility with hardware
-                    and software.
+                  WINDOWS - It's an operating system known for its graphical user interface (GUI) support, extensive compatibility with hardware
+                    and software, and widespread use across various applications.
                   LOADBALANCER - It's a network device or software application that distributes incoming network traffic across multiple servers
                     or resources.
                   THIRDPARTY - It refers to third-party images or applications that are not part of the core system.
                   NAM (Network Access Manager) - It's a network management tool or software application that provides centralized control and
                     monitoring of network access policies, user authentication, and device compliance.
-                    WAN Optimization - It refers to techniques and technologies used to improve the performance and efficiency of WANs. It includes
+                  WAN Optimization - It refers to techniques and technologies used to improve the performance and efficiency of WANs. It includes
                     various optimization techniques such as data compression, caching, protocol optimization, and traffic prioritization to reduce
                     latency, increase throughput, and improve user experience over WAN connections.
                   Unknown - It refers to an unspecified or unrecognized application type.
@@ -130,7 +131,8 @@ options:
                     type: str
                   source_url:
                     description: A mandatory parameter for importing a SWIM image via a remote URL. This parameter is required when using a URL
-                        to import an image.
+                        to import an image.(For example, http://{host}/swim/cat9k_isoxe.16.12.10s.SPA.bin,
+                        ftp://user:password@{host}/swim/cat9k_isoxe.16.12.10s.SPA.iso)
                     type: str
                   is_third_party:
                     description: Flag indicates whether the image is uploaded from a third party (optional).
@@ -179,6 +181,11 @@ options:
             description: Site name for which SWIM image will be tagged/untagged as golden.
               If not provided, SWIM image will be mapped to global site.
             type: str
+          device_series_name:
+            description: This parameter specifies the name of the device series. It is used to identify a specific series of devices,
+                such as Cisco Catalyst 9300 Series Switches, within the Cisco Catalyst Center.
+            type: str
+            version_added: 6.12.0
           tagging:
             description: Booelan value to tag/untag SWIM image as golden
               If True then the given image will be tagged as golden.
@@ -213,6 +220,11 @@ options:
           site_name:
             description: Used to get device details associated to this site.
             type: str
+          device_series_name:
+            description: This parameter specifies the name of the device series. It is used to identify a specific series of devices,
+                such as Cisco Catalyst 9300 Series Switches, within the Cisco Catalyst Center.
+            type: str
+            version_added: 6.12.0
           image_name:
             description: SWIM image's name
             type: str
@@ -427,6 +439,7 @@ EXAMPLES = r"""
         site_name: Global/USA/San Francisco/BGL_18
         device_role: ALL
         device_family_name: Switches and Hubs
+        device_series_name: Cisco Catalyst 9300 Series Switches
 
 - name: Activate the given image on devices associated to that site with specified role.
   cisco.dnac.swim_intent:
@@ -445,6 +458,7 @@ EXAMPLES = r"""
         site_name: Global/USA/San Francisco/BGL_18
         device_role: ALL
         device_family_name: Switches and Hubs
+        device_series_name: Cisco Catalyst 9300 Series Switches
         scehdule_validate: False
         activate_lower_image_version: True
         distribute_if_needed: True
@@ -710,7 +724,7 @@ class DnacSwims(DnacBase):
 
         return device_id
 
-    def get_device_uuids(self, site_name, device_family, device_role):
+    def get_device_uuids(self, site_name, device_family, device_role, device_series_name=None):
         """
         Retrieve a list of device UUIDs based on the specified criteria.
         Parameters:
@@ -718,6 +732,7 @@ class DnacSwims(DnacBase):
             site_name (str): The name of the site for which device UUIDs are requested.
             device_family (str): The family/type of devices to filter on.
             device_role (str): The role of devices to filter on. If None, 'ALL' roles are considered.
+            device_series_name(str): Specifies the name of the device series.
         Returns:
             list: A list of device UUIDs that match the specified criteria.
         Description:
@@ -728,11 +743,20 @@ class DnacSwims(DnacBase):
 
         device_uuid_list = []
         if not site_name:
-            return device_uuid_list
+            site_name = "Global"
+            self.log("Since site name is not given so it will be fetch all the devices under Global and mark site name as 'Global'", "INFO")
 
         (site_exists, site_id) = self.site_exists(site_name)
         if not site_exists:
+            self.log("""Site '{0}' is not found in the Cisco Catalyst Center, hence unable to fetch associated
+                        devices.""".format(site_name), "INFO")
             return device_uuid_list
+
+        if device_series_name:
+            if device_series_name.startswith(".*") and device_series_name.endswith(".*"):
+                self.log("Device series name '{0}' is already in the regex format".format(device_series_name), "INFO")
+            else:
+                device_series_name = ".*" + device_series_name + ".*"
 
         site_params = {
             "site_id": site_id,
@@ -745,14 +769,56 @@ class DnacSwims(DnacBase):
             params=site_params,
         )
         self.log("Received API response from 'get_membership': {0}".format(str(response)), "DEBUG")
-        response = response['device'][0]['response']
+        response = response['device']
 
-        if len(response) > 0:
-            for item in response:
-                if item["reachabilityStatus"] != "Reachable":
-                    continue
-                if "role" in item and (device_role is None or item["role"] == device_role.upper() or device_role.upper() == "ALL"):
-                    device_uuid_list.append(item["instanceUuid"])
+        site_response_list = []
+        for item in response:
+            if item['response']:
+                for item_dict in item['response']:
+                    site_response_list.append(item_dict)
+
+        if device_role.upper() == 'ALL':
+            device_role = None
+
+        device_params = {
+            'series': device_series_name,
+            'family': device_family,
+            'role': device_role
+        }
+        device_list_response = self.dnac._exec(
+            family="devices",
+            function='get_device_list',
+            op_modifies=True,
+            params=device_params,
+        )
+
+        device_response = device_list_response.get('response')
+        if not response or not device_response:
+            self.log("Failed to retrieve devices associated with the site '{0}' due to empty API response.".format(site_name), "INFO")
+            return device_uuid_list
+
+        site_memberships_ids, device_response_ids = [], []
+
+        for item in site_response_list:
+            if item["reachabilityStatus"] != "Reachable":
+                self.log("""Device '{0}' is currently '{1}' and cannot be included in the SWIM distribution/activation
+                            process.""".format(item["managementIpAddress"], item["reachabilityStatus"]), "INFO")
+                continue
+            self.log("""Device '{0}' from site '{1}' is ready for the SWIM distribution/activation
+                        process.""".format(item["managementIpAddress"], site_name), "INFO")
+            site_memberships_ids.append(item["instanceUuid"])
+
+        for item in device_response:
+            if item["reachabilityStatus"] != "Reachable":
+                self.log("""Unable to proceed with the device '{0}' for SWIM distribution/activation as its status is
+                            '{1}'.""".format(item["managementIpAddress"], item["reachabilityStatus"]), "INFO")
+                continue
+            self.log("""Device '{0}' matches to the specified filter requirements and is set for SWIM
+                      distribution/activation.""".format(item["managementIpAddress"]), "INFO")
+            device_response_ids.append(item["instanceUuid"])
+
+        # Find the intersection of device IDs with the response get from get_membership api and get_device_list api with provided filters
+        device_uuid_list = set(site_memberships_ids).intersection(set(device_response_ids))
 
         return device_uuid_list
 
@@ -872,8 +938,10 @@ class DnacSwims(DnacBase):
                 macAddress=distribution_details.get("device_mac_address"),
             )
             device_id = self.get_device_id(device_params)
+
             if device_id is not None:
                 have["distribution_device_id"] = device_id
+
             self.have.update(have)
 
         if self.want.get("activation_details"):
@@ -1183,11 +1251,11 @@ class DnacSwims(DnacBase):
             elif task_details.get("isError"):
                 failure_reason = task_details.get("failureReason", "")
                 if failure_reason and "An inheritted tag cannot be un-tagged" in failure_reason:
-                    self.status = "success"
+                    self.status = "failed"
                     self.result['changed'] = False
                     self.msg = failure_reason
                     self.result['msg'] = failure_reason
-                    self.log(self.msg, "WARNING")
+                    self.log(self.msg, "ERROR")
                 else:
                     error_message = task_details.get("failureReason", "Error: while tagging/un-tagging the golden swim image.")
                     self.status = "failed"
@@ -1248,7 +1316,8 @@ class DnacSwims(DnacBase):
         site_name = distribution_details.get("site_name")
         device_family = distribution_details.get("device_family_name")
         device_role = distribution_details.get("device_role", "ALL")
-        device_uuid_list = self.get_device_uuids(site_name, device_family, device_role)
+        device_series_name = distribution_details.get("device_series_name")
+        device_uuid_list = self.get_device_uuids(site_name, device_family, device_role, device_series_name)
         image_id = self.have.get("distribution_image_id")
 
         if self.have.get("distribution_device_id"):
@@ -1287,7 +1356,7 @@ class DnacSwims(DnacBase):
                     if task_details.get("isError"):
                         self.status = "failed"
                         self.msg = "Image with Id {0} Distribution Failed".format(image_id)
-                        self.log(self.msg, "WARNING")
+                        self.log(self.msg, "ERROR")
                         self.result['response'] = task_details
                         break
 
@@ -1299,7 +1368,7 @@ class DnacSwims(DnacBase):
             self.status = "failed"
             self.msg = "Image Distribution cannot proceed due to the absence of device(s)"
             self.result['msg'] = self.msg
-            self.log(self.msg, "WARNING")
+            self.log(self.msg, "ERROR")
             return self
 
         self.log("Device UUIDs involved in Image Distribution: {0}".format(str(device_uuid_list)), "INFO")
@@ -1342,8 +1411,8 @@ class DnacSwims(DnacBase):
                         break
 
                     if task_details.get("isError"):
-                        error_msg = "Image with Id '{0}' Distribution failed".format(image_id)
-                        self.log(error_msg, "WARNING")
+                        self.msg = "Image with Id '{0}' Distribution failed".format(image_id)
+                        self.log(self.msg, "ERROR")
                         self.result['response'] = task_details
                         device_ips_list.append(device_management_ip)
                         break
@@ -1385,7 +1454,8 @@ class DnacSwims(DnacBase):
         site_name = activation_details.get("site_name")
         device_family = activation_details.get("device_family_name")
         device_role = activation_details.get("device_role", "ALL")
-        device_uuid_list = self.get_device_uuids(site_name, device_family, device_role)
+        device_series_name = activation_details.get("device_series_name")
+        device_uuid_list = self.get_device_uuids(site_name, device_family, device_role, device_series_name)
         image_id = self.have.get("activation_image_id")
 
         if self.have.get("activation_device_id"):
@@ -1427,11 +1497,10 @@ class DnacSwims(DnacBase):
                     break
 
                 if task_details.get("isError"):
-                    error_msg = "Activation for Image with Id '{0}' gets failed".format(image_id)
+                    self.msg = "Activation for Image with Id '{0}' gets failed".format(image_id)
                     self.status = "failed"
                     self.result['response'] = task_details
-                    self.msg = error_msg
-                    self.log(error_msg, "WARNING")
+                    self.log(self.msg, "ERROR")
                     return self
 
             self.result['response'] = task_details if task_details else response
@@ -1442,7 +1511,7 @@ class DnacSwims(DnacBase):
             self.status = "failed"
             self.msg = "No devices found for Image Activation"
             self.result['msg'] = self.msg
-            self.log(self.msg, "WARNING")
+            self.log(self.msg, "ERROR")
             return self
 
         self.log("Device UUIDs involved in Image Activation: {0}".format(str(device_uuid_list)), "INFO")
@@ -1491,8 +1560,8 @@ class DnacSwims(DnacBase):
                         break
 
                     if task_details.get("isError"):
-                        error_msg = "Image with Id '{0}' activation failed".format(image_id)
-                        self.log(error_msg, "WARNING")
+                        self.msg = "Image with Id '{0}' activation failed".format(image_id)
+                        self.log(self.msg, "ERROR")
                         self.result['response'] = task_details
                         device_ips_list.append(device_management_ip)
                         break
