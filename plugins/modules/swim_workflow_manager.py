@@ -219,6 +219,7 @@ options:
             description: This parameter specifies the name of the device series. It is used to identify a specific series of devices,
                 such as Cisco Catalyst 9300 Series Switches, within the Cisco Catalyst Center.
             type: str
+            version_added: 6.12.0
           image_name:
             description: SWIM image's name
             type: str
@@ -254,6 +255,7 @@ options:
             description: This parameter specifies the name of the device series. It is used to identify a specific series of devices,
                 such as Cisco Catalyst 9300 Series Switches, within the Cisco Catalyst Center.
             type: str
+            version_added: 6.12.0
           activate_lower_image_version:
             description: ActivateLowerImageVersion flag.
             type: bool

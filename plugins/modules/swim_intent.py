@@ -185,6 +185,7 @@ options:
             description: This parameter specifies the name of the device series. It is used to identify a specific series of devices,
                 such as Cisco Catalyst 9300 Series Switches, within the Cisco Catalyst Center.
             type: str
+            version_added: 6.12.0
           tagging:
             description: Booelan value to tag/untag SWIM image as golden
               If True then the given image will be tagged as golden.
@@ -223,6 +224,7 @@ options:
             description: This parameter specifies the name of the device series. It is used to identify a specific series of devices,
                 such as Cisco Catalyst 9300 Series Switches, within the Cisco Catalyst Center.
             type: str
+            version_added: 6.12.0
           image_name:
             description: SWIM image's name
             type: str
