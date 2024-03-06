@@ -147,6 +147,28 @@ jobs:
 
 
   addrole:
+    parameters: 
+      run-setup:
+        type: boolean
+        default: true
+      run-any:
+        type: boolean
+        default: false
+      run-all:
+        type: boolean
+        default: false
+      run-site:
+        type: boolean
+        default: false
+      run-devicecredential:
+        type: boolean
+        default: false
+      run-discovery:
+        type: boolean
+        default: false
+      run-inventory:
+        type: boolean
+        default: false
 
     machine: true
     resource_class: rukapse/dnacenter-ansible
@@ -156,19 +178,19 @@ jobs:
       - run:
           name: Adding roles based on parameters
           command: |
-            if [[ << pipeline.parameters.run-all >> == true || << pipeline.parameters.run-site >> == true ]]; then
+            if [[ << parameters.run-all >> == true || << parameters.run-site >> == true ]]; then
               echo "    - ccc_site_management" >> ccc_roles.yml
             fi
             
-            if [[ << pipeline.parameters.run-all >> == true || << pipeline.parameters.run-devicecredential >> == true ]]; then
+            if [[ << parameters.run-all >> == true || << parameters.run-devicecredential >> == true ]]; then
               echo "    - ccc_device_credential_management" >> ccc_roles.yml
             fi
             
-            if [[ << pipeline.parameters.run-all >> == true || << pipeline.parameters.run-discovery >> == true ]]; then
+            if [[ << parameters.run-all >> == true || << parameters.run-discovery >> == true ]]; then
               echo "    - ccc_discovery_management" >> ccc_roles.yml
             fi
             
-            if [[ << pipeline.parameters.run-all >> == true || << pipeline.parameters.run-inventory >> == true ]]; then
+            if [[ << parameters.run-all >> == true || << parameters.run-inventory >> == true ]]; then
               echo "    - ccc_inventory_management" >> ccc_roles.yml
             fi
 
@@ -278,6 +300,9 @@ workflows:
           mapping: |
             .* run-setup false
 
+            .circleci/.* run-any false
+            .circleci/.* run-all false
+
             plugins/.* run-any true
             tests/integration/.* run-any true
 
@@ -294,6 +319,21 @@ workflows:
             tests/integration/ccc_inventory_management/.* run-inventory true
 
       - addrole:
+          matrix:
+            parameters:
+              run-all:
+                - << pipeline.parameters.run-all >>
+              run-any:
+                - << pipeline.parameters.run-any >>
+              run-site:
+                - << pipeline.parameters.run-site >>
+              run-devicecredential:
+                - << pipeline.parameters.run-devicecredential >>
+              run-discovery:
+                - << pipeline.parameters.run-discovery >>
+              run-inventory:
+                - << pipeline.parameters.run-inventory >>
+
           requires:
             - path-filtering/filter
 
