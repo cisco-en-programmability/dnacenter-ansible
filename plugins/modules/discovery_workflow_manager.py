@@ -39,14 +39,9 @@ options:
     elements: dict
     required: true
     suboptions:
-      ip_address_list:
-        description: List of IP addresses to be discovered. For CDP/LLDP/SINGLE based discovery, we should
-            pass a list with single element like - 10.197.156.22. For CIDR based discovery, we should pass a list with
-            single element like - 10.197.156.22/22. For RANGE based discovery, we should pass a list with single element
-            and range like - 10.197.156.1-10.197.156.100. For MULTI RANGE based discovery, we should pass a list with multiple
-            elementd like - 10.197.156.1-10.197.156.100 and in next line - 10.197.157.1-10.197.157.100.
-        type: list
-        elements: str
+      discovery_name:
+        description: Name of the discovery task
+        type: str
         required: true
       discovery_type:
         description: Determines the method of device discovery. Here are the available options.
@@ -59,6 +54,19 @@ options:
         type: str
         required: true
         choices: [ 'SINGLE', 'RANGE', 'MULTI RANGE', 'CDP', 'LLDP', 'CIDR']
+      ip_address_list:
+        description: List of IP addresses to be discovered. For CDP/LLDP/SINGLE based discovery, we should
+            pass a list with single element like - 10.197.156.22. For CIDR based discovery, we should pass a list with
+            single element like - 10.197.156.22/22. For RANGE based discovery, we should pass a list with single element
+            and range like - 10.197.156.1-10.197.156.100. For MULTI RANGE based discovery, we should pass a list with multiple
+            elementd like - 10.197.156.1-10.197.156.100 and in next line - 10.197.157.1-10.197.157.100.
+        type: list
+        elements: str
+        required: true
+      ip_filter_list:
+        description: List of IP adddrsess that needs to get filtered out from the IP addresses passed.
+        type: list
+        elements: str
       cdp_level:
         description: Total number of levels that are there in cdp's method of discovery
         type: int
@@ -67,14 +75,17 @@ options:
         description: Total number of levels that are there in lldp's method of discovery
         type: int
         default: 16
-      start_index:
-        description: Start index for the header in fetching SNMP v2 credentials
-        type: int
-        default: 1
-      records_to_return:
-        description: Number of records to return for the header in fetching global v2 credentials
-        type: int
-        default: 100
+      preferred_mgmt_ip_method:
+        description: Preferred method for the management of the IP (None/UseLoopBack)
+        type: str
+        default: None
+      use_global_credentials:
+        description:
+            - Determines if device discovery should utilize pre-configured global credentials.
+            - Setting to True employs the predefined global credentials for discovery tasks. This is the default setting.
+            - Setting to False requires manually provided, device-specific credentials for discovery, as global credentials will be bypassed.
+        type: bool
+        default: True
       discovery_specific_credentials:
         description: Credentials specifically created by the user for performing device discovery.
         type: dict
@@ -200,34 +211,123 @@ options:
                     - Requires valid SSH credentials to work.
                     - Avoid standard ports like 22, 80, and 8080.
                 type: str
-      ip_filter_list:
-        description: List of IP adddrsess that needs to get filtered out from the IP addresses passed.
-        type: list
-        elements: str
-      discovery_name:
-        description: Name of the discovery task
-        type: str
-        required: true
-      preferred_mgmt_ip_method:
-        description: Preferred method for the management of the IP (None/UseLoopBack)
-        type: str
-        default: None
+      global_credentials:
+        description:
+            - Set of various credential types, including CLI, SNMP, HTTP, and NETCONF, that a user has pre-configured in
+                the Device Credentials section of the Cisco Catalyst Center.
+            - If user doesn't pass any global credentials in the playbook, then by default, we will use all the global
+                credentials present in the Cisco Catalyst Center of each type for performing discovery. (Max 5 allowed)
+        type: dict
+        version_added: 6.12.0
+        suboptions:
+            cli_credentials_list:
+                description:
+                   - Accepts a list of global CLI credentials for use in device discovery.
+                   - It's recommended to create device credentials with both a unique username and a clear description.
+                type: list
+                elements: dict
+                suboptions:
+                    username:
+                        description: Username required for CLI authentication and is mandatory when using global CLI credentials.
+                        type: str
+                    description:
+                        description: Name of the CLI credential, mandatory when using global CLI credentials.
+                        type: str
+            http_read_credential_list:
+                description:
+                    - List of global HTTP Read credentials that will be used in the process of discovering devices.
+                    - It's recommended to create device credentials with both a unique username and a clear description for easy identification.
+                type: list
+                elements: dict
+                suboptions:
+                    username:
+                        description: Username for HTTP Read authentication, mandatory when using global HTTP credentials.
+                        type: str
+                    description:
+                        description: Name of the HTTP Read credential, mandatory when using  global HTTP credentials.
+                        type: str
+            http_write_credential_list:
+                description:
+                    - List of global HTTP Write credentials that will be used in the process of discovering devices.
+                    - It's recommended to create device credentials with both a unique username and a clear description for easy identification.
+                type: list
+                elements: dict
+                suboptions:
+                    username:
+                        description: Username for HTTP Write authentication, mandatory when using global HTTP credentials.
+                        type: str
+                    description:
+                        description: Name of the HTTP Write credential, mandatory when using  global HTTP credentials.
+                        type: str
+            snmp_v2_read_credential_list:
+                description:
+                    - List of Global SNMP V2 Read credentials to be used during device discovery.
+                    - It's recommended to create device credentials with both a unique username and a clear description for easy identification.
+                type: list
+                elements: dict
+                suboptions:
+                    username:
+                        description: Username for SNMP Read authentication, mandatory when using global SNMP credentials.
+                        type: str
+                    description:
+                        description: Name of the SNMP Read credential, mandatory when using  global SNMP credentials.
+                        type: str
+            snmp_v2_write_credential_list:
+                description:
+                    - List of Global SNMP V2 Write credentials to be used during device discovery.
+                    - It's recommended to create device credentials with both a unique username and a clear description for easy identification.
+                type: list
+                elements: dict
+                suboptions:
+                    username:
+                        description: Username for SNMP Write authentication, mandatory when using global SNMP credentials.
+                        type: str
+                    description:
+                        description: Name of the SNMP Write credential, mandatory when using global SNMP credentials.
+                        type: str
+            snmp_v3_credential_list:
+                description:
+                    - List of Global SNMP V3 credentials to be used during device discovery, giving read and write mode.
+                    - It's recommended to create device credentials with both a unique username and a clear description for easy identification.
+                type: list
+                elements: dict
+                suboptions:
+                    username:
+                        description: Username for SNMP V3 authentication, mandatory when using global SNMP credentials.
+                        type: str
+                    description:
+                        description: Name of the SNMP V3 credential, mandatory when using global SNMP credentials.
+                        type: str
+            net_conf_port_list:
+                description:
+                    - List of Global Net conf ports to be used during device discovery.
+                    - It's recommended to create device credentials with unique description.
+                type: list
+                elements: dict
+                suboptions:
+                    description:
+                        description: Name of the Net Conf Port credential, mandatory when using global Net conf port.
+                        type: str
+      start_index:
+        description: Start index for the header in fetching SNMP v2 credentials
+        type: int
+        default: 1
+      records_to_return:
+        description: Number of records to return for the header in fetching global v2 credentials
+        type: int
+        default: 100
       protocol_order:
         description: Determines the order in which device connections will be attempted. Here are the options
             - "telnet" Only telnet connections will be tried.
             - "ssh, telnet" SSH (Secure Shell) will be attempted first, followed by telnet if SSH fails.
         type: str
-        required: true
+        default: ssh
       retry:
         description: Number of times to try establishing connection to device
         type: int
       timeout:
         description: Time to wait for device response in seconds
         type: int
-      global_cli_len:
-       description: Specifies the total number of CLI credentials to be used, ranging from 1 to 5.
-       type: int
-       default: 1
       delete_all:
         description: Parameter to delete all the discoveries at one go
         type: bool
@@ -256,10 +356,12 @@ notes:
     delete /dna/intent/api/v1/delete
     get /dna/intent/api/v1/discovery/count
 
+  - Removed 'global_cli_len' option in v6.12.0.
+
 """
 
 EXAMPLES = r"""
-- name: Execute discovery devices
+- name: Execute discovery devices with both global credentials and discovery specific credentials
   cisco.dnac.discovery_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -273,20 +375,13 @@ EXAMPLES = r"""
     state: merged
     config_verify: True
     config:
-        - ip_address_list: list
+        - discovery_name: string
           discovery_type: string
+          ip_address_list: list
+          ip_filter_list: list
           cdp_level: string
           lldp_level: string
-          start_index: integer
-          records_to_return: integer
-          ip_filter_list: list
-          discovery_name: string
-          password_list: list
           prefered_mgmt_ip_method: string
-          protocol_order: string
-          retry: integer
-          timeout: integer
-          global_cli_len: integer
           discovery_specific_credentials:
             cli_credentials_list:
                 - username: string
@@ -315,6 +410,90 @@ EXAMPLES = r"""
                 auth_type: string
                 privacy_type: string
                 privacy_password: string
+            net_conf_port: string
+          global_credentials:
+            cli_credentials_list:
+                - description: string
+                  username: string
+            http_read_credential_list:
+                - description: string
+                  username: string
+            http_write_credential_list:
+                - description: string
+                  username: string
+            snmp_v3_credential_list:
+                - description: string
+                  username: string
+            snmp_v2_read_credential_list:
+                - description: string
+                  username: string
+            snmp_v2_write_credential_list:
+                - description: string
+                  username: string
+            net_conf_port_list:
+                - description: string
+          start_index: integer
+          records_to_return: integer
+          protocol_order: string
+          retry: integer
+          timeout: integer
+
+- name: Execute discovery devices with discovery specific credentials only
+  cisco.dnac.discovery_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: True
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config_verify: True
+    config:
+        - discovery_name: string
+          discovery_type: string
+          ip_address_list: list
+          ip_filter_list: list
+          cdp_level: string
+          lldp_level: string
+          prefered_mgmt_ip_method: string
+          discovery_specific_credentials:
+            cli_credentials_list:
+                - username: string
+                  password: string
+                  enable_password: string
+            http_read_credential:
+                username: string
+                password: string
+                port: integer
+                secure: boolean
+            http_write_credential:
+                username: string
+                password: string
+                port: integer
+                secure: boolean
+            snmp_v2_read_credential:
+                desc: string
+                community: string
+            snmp_v2_write_credential:
+                desc: string
+                community: string
+            snmp_v3_credential:
+                username: string
+                snmp_mode: string
+                auth_password: string
+                auth_type: string
+                privacy_type: string
+                privacy_password: string
+            net_conf_port: string
+          use_global_credentials: False
+          start_index: integer
+          records_to_return: integer
+          protocol_order: string
+          retry: integer
+          timeout: integer
 
 - name: Delete disovery by name
   cisco.dnac.discovery_workflow_manager:
@@ -443,15 +622,15 @@ class Discovery(DnacBase):
                                          'default': 'None'},
             'retry': {'type': 'int', 'required': False},
             'timeout': {'type': 'str', 'required': False},
-            'global_cli_len': {'type': 'int', 'required': False,
-                               'default': 1}
+            'global_credentials': {'type': 'dict', 'required': False},
+            'protocol_order': {'type': 'str', 'required': False, 'default': 'ssh'},
+            'use_global_credentials': {'type': 'bool', 'required': False, 'default': True}
         }
 
         if state == "merged":
             discovery_spec["ip_address_list"] = {'type': 'list', 'required': True,
                                                  'elements': 'str'}
             discovery_spec["discovery_type"] = {'type': 'str', 'required': True}
-            discovery_spec["protocol_order"] = {'type': 'str', 'required': True}
 
         elif state == "deleted":
             if self.config[0].get("delete_all") is True:
@@ -490,6 +669,167 @@ class Discovery(DnacBase):
         self.log("Credential Ids list passed is {0}".format(str(self.creds_ids_list)), "INFO")
         return self.creds_ids_list
 
+    def handle_global_credentials(self, response=None):
+        """
+        Method to convert values for create_params API when global paramters
+        are passed as input.
+
+        Parameters:
+            - response: The response collected from the get_all_global_credentials_v2 API
+
+        Returns:
+            - global_credentials_all  : The dictionary containing list of IDs of various types of
+                                    Global credentials.
+        """
+
+        global_credentials = self.validated_config[0].get("global_credentials")
+        global_credentials_all = {}
+
+        cli_credentials_list = global_credentials.get('cli_credentials_list')
+        if cli_credentials_list:
+            if not isinstance(cli_credentials_list, list):
+                msg = "Global CLI credentials must be passed as a list"
+                self.discovery_specific_cred_failure(msg=msg)
+            if len(cli_credentials_list) > 0:
+                global_credentials_all["cliCredential"] = []
+                cred_len = len(cli_credentials_list)
+                if cred_len > 5:
+                    cred_len = 5
+                for cli_cred in cli_credentials_list:
+                    if cli_cred.get('description') and cli_cred.get('username'):
+                        for cli in response.get("cliCredential"):
+                            if cli.get("description") == cli_cred.get('description') and cli.get("username") == cli_cred.get('username'):
+                                global_credentials_all["cliCredential"].append(cli.get("id"))
+                        global_credentials_all["cliCredential"] = global_credentials_all["cliCredential"][:cred_len]
+                    else:
+                        msg = "Kindly ensure you include both the description and the username for the Global CLI credential to discover the devices"
+                        self.discovery_specific_cred_failure(msg=msg)
+
+        http_read_credential_list = global_credentials.get('http_read_credential_list')
+        if http_read_credential_list:
+            if not isinstance(http_read_credential_list, list):
+                msg = "Global HTTP read credentials must be passed as a list"
+                self.discovery_specific_cred_failure(msg=msg)
+            if len(http_read_credential_list) > 0:
+                global_credentials_all["httpsRead"] = []
+                cred_len = len(http_read_credential_list)
+                if cred_len > 5:
+                    cred_len = 5
+                for http_cred in http_read_credential_list:
+                    if http_cred.get('description') and http_cred.get('username'):
+                        for http in response.get("httpsRead"):
+                            if http.get("description") == http.get('description') and http.get("username") == http.get('username'):
+                                global_credentials_all["httpsRead"].append(http.get("id"))
+                        global_credentials_all["httpsRead"] = global_credentials_all["httpsRead"][:cred_len]
+                    else:
+                        msg = "Kindly ensure you include both the description and the username for the Global HTTP Read credential to discover the devices"
+                        self.discovery_specific_cred_failure(msg=msg)
+
+        http_write_credential_list = global_credentials.get('http_write_credential_list')
+        if http_write_credential_list:
+            if not isinstance(http_write_credential_list, list):
+                msg = "Global HTTP write credentials must be passed as a list"
+                self.discovery_specific_cred_failure(msg=msg)
+            if len(http_write_credential_list) > 0:
+                global_credentials_all["httpsWrite"] = []
+                cred_len = len(http_write_credential_list)
+                if cred_len > 5:
+                    cred_len = 5
+                for http_cred in http_write_credential_list:
+                    if http_cred.get('description') and http_cred.get('username'):
+                        for http in response.get("httpsWrite"):
+                            if http.get("description") == http.get('description') and http.get("username") == http.get('username'):
+                                global_credentials_all["httpsWrite"].append(http.get("id"))
+                        global_credentials_all["httpsWrite"] = global_credentials_all["httpsWrite"][:cred_len]
+                    else:
+                        msg = "Kindly ensure you include both the description and the username for the Global HTTP Write credential to discover the devices"
+                        self.discovery_specific_cred_failure(msg=msg)
+
+        snmp_v2_read_credential_list = global_credentials.get('snmp_v2_read_credential_list')
+        if snmp_v2_read_credential_list:
+            if not isinstance(snmp_v2_read_credential_list, list):
+                msg = "Global SNMPV2 read credentials must be passed as a list"
+                self.discovery_specific_cred_failure(msg=msg)
+            if len(snmp_v2_read_credential_list) > 0:
+                global_credentials_all["snmpV2cRead"] = []
+                cred_len = len(snmp_v2_read_credential_list)
+                if cred_len > 5:
+                    cred_len = 5
+                for snmp_cred in snmp_v2_read_credential_list:
+                    if snmp_cred.get('description'):
+                        for snmp in response.get("snmpV2cRead"):
+                            if snmp.get("description") == snmp_cred.get('description'):
+                                global_credentials_all["snmpV2cRead"].append(snmp.get("id"))
+                        global_credentials_all["snmpV2cRead"] = global_credentials_all["snmpV2cRead"][:cred_len]
+                    else:
+                        msg = "Kindly ensure you include both the description and the username for the Global SNMPV2 Read \
+                                credential to discover the devices"
+                        self.discovery_specific_cred_failure(msg=msg)
+
+        snmp_v2_write_credential_list = global_credentials.get('snmp_v2_write_credential_list')
+        if snmp_v2_write_credential_list:
+            if not isinstance(snmp_v2_write_credential_list, list):
+                msg = "Global SNMPV2 write credentials must be passed as a list"
+                self.discovery_specific_cred_failure(msg=msg)
+            if len(snmp_v2_write_credential_list) > 0:
+                global_credentials_all["snmpV2cWrite"] = []
+                cred_len = len(snmp_v2_write_credential_list)
+                if cred_len > 5:
+                    cred_len = 5
+                for snmp_cred in snmp_v2_write_credential_list:
+                    if snmp_cred.get('description'):
+                        for snmp in response.get("snmpV2cWrite"):
+                            if snmp.get("description") == snmp_cred.get('description'):
+                                global_credentials_all["snmpV2cWrite"].append(snmp.get("id"))
+                        global_credentials_all["snmpV2cWrite"] = global_credentials_all["snmpV2cWrite"][:cred_len]
+                    else:
+                        msg = "Kindly ensure you include both the description and the username for the Global SNMPV2 credential to discover the devices"
+                        self.discovery_specific_cred_failure(msg=msg)
+
+        snmp_v3_credential_list = global_credentials.get('snmp_v3_credential_list')
+        if snmp_v3_credential_list:
+            if not isinstance(snmp_v3_credential_list, list):
+                msg = "Global SNMPV3 write credentials must be passed as a list"
+                self.discovery_specific_cred_failure(msg=msg)
+            if len(snmp_v3_credential_list) > 0:
+                global_credentials_all["snmpV3"] = []
+                cred_len = len(snmp_v3_credential_list)
+                if cred_len > 5:
+                    cred_len = 5
+                for snmp_cred in snmp_v3_credential_list:
+                    if snmp_cred.get('description') and snmp_cred.get('username'):
+                        for snmp in response.get("snmpV3"):
+                            if snmp.get("description") == snmp_cred.get('description') and snmp.get("username") == snmp_cred.get('username'):
+                                global_credentials_all["snmpV3"].append(snmp.get("id"))
+                        global_credentials_all["snmpV3"] = global_credentials_all["snmpV3"][:cred_len]
+                    else:
+                        msg = "Kindly ensure you include both the description and the username for the Global SNMPV3 \
+                                to discover the devices"
+                        self.discovery_specific_cred_failure(msg=msg)
+
+        net_conf_port_list = global_credentials.get('net_conf_port_list')
+        if net_conf_port_list:
+            if not isinstance(net_conf_port_list, list):
+                msg = "Global net Conf Ports be passed as a list"
+                self.discovery_specific_cred_failure(msg=msg)
+            if len(net_conf_port_list) > 0:
+                global_credentials_all["netconfCredential"] = []
+                cred_len = len(net_conf_port_list)
+                if cred_len > 5:
+                    cred_len = 5
+                for port in net_conf_port_list:
+                    if port.get("description"):
+                        for netconf in response.get("netconfCredential"):
+                            if port.get('description') == netconf.get('description'):
+                                global_credentials_all["netconfCredential"].append(netconf.get("id"))
+                        global_credentials_all["netconfCredential"] = global_credentials_all["netconfCredential"][:cred_len]
+                    else:
+                        msg = "Please provide description of the Global Netconf port to be used"
+                        self.discovery_specific_cred_failure(msg=msg)
+
+        self.log("Fetched Global credentials IDs are {0}".format(global_credentials_all), "INFO")
+        return global_credentials_all
+
     def get_ccc_global_credentials_v2_info(self):
         """
         Retrieve the global credentials information (version 2).
@@ -511,44 +851,31 @@ class Discovery(DnacBase):
         )
         response = response.get('response')
         self.log("The Global credentials response from 'get all global credentials v2' API is {0}".format(str(response)), "DEBUG")
+        global_credentials_all = {}
+        global_credentials = self.validated_config[0].get("global_credentials")
+        if global_credentials:
+            global_credentials_all = self.handle_global_credentials(response=response)
 
-        cli_len_inp = self.validated_config[0].get("global_cli_len")
-        if response.get("cliCredential") is None:
-            msg = 'Not found any CLI credentials to perform discovery'
-            self.log(msg, "CRITICAL")
-            self.module.fail_json(msg=msg)
+        global_cred_set = set(global_credentials_all.keys())
+        response_cred_set = set(response.keys())
+        diff_keys = response_cred_set.difference(global_cred_set)
 
-        if response.get("snmpV2cRead") is None and response.get("snmpV2cWrite") is None and response.get("snmpV3"):
-            msg = 'Not found any SNMP credentials to perform discovery'
-            self.log(msg, "CRITICAL")
-            self.module.fail_json(msg=msg)
-
-        total_cli = len(response.get("cliCredential"))
-        if total_cli > 5:
-            if cli_len_inp > 5:
-                cli_len_inp = 5
-
-        elif total_cli < 6 and cli_len_inp > total_cli:
-            cli_len_inp = total_cli
-
-        cli_len = 0
-
-        for key in response.keys():
+        for key in diff_keys:
+            global_credentials_all[key] = []
             if response[key] is None:
                 response[key] = []
-            if key == "cliCredential":
-                for element in response.get(key):
-                    while cli_len < cli_len_inp:
-                        self.creds_ids_list.append(element.get('id'))
-                        cli_len += 1
-            else:
-                self.creds_ids_list.extend(element.get('id') for element in response.get(key))
-        if not self.creds_ids_list:
-            msg = 'Not found any credentials to perform discovery'
-            self.log(msg, "CRITICAL")
-            self.module.fail_json(msg=msg)
+            total_len = len(response[key])
+            if total_len > 5:
+                total_len = 5
+            for element in response.get(key):
+                global_credentials_all[key].append(element.get('id'))
+            global_credentials_all[key] = global_credentials_all[key][:total_len]
 
-        self.result.update(dict(credential_ids=self.creds_ids_list))
+        if global_credentials_all == {}:
+            msg = 'Not found any global credentials to perform discovery'
+            self.log(msg, "WARNING")
+
+        return global_credentials_all
 
     def get_devices_list_info(self):
         """
@@ -631,7 +958,7 @@ class Discovery(DnacBase):
 
     def discovery_specific_cred_failure(self, msg=None):
         """
-        Method for failing discovery if there is any discrepancy in the http credentials
+        Method for failing discovery if there is any discrepancy in the credentials
         passed by the user
         """
 
@@ -767,7 +1094,7 @@ class Discovery(DnacBase):
 
         return new_object_params
 
-    def create_params(self, credential_ids=None, ip_address_list=None):
+    def create_params(self, ip_address_list=None):
         """
         Create a new parameter object based on the validated configuration,
         credential IDs, and IP address list.
@@ -783,13 +1110,11 @@ class Discovery(DnacBase):
                                parameters.
         """
 
-        if credential_ids is None:
-            credential_ids = []
+        credential_ids = []
 
         new_object_params = {}
         new_object_params['cdpLevel'] = self.validated_config[0].get('cdp_level')
         new_object_params['discoveryType'] = self.validated_config[0].get('discovery_type')
-        new_object_params['globalCredentialIdList'] = credential_ids
         new_object_params['ipAddressList'] = ip_address_list
         new_object_params['ipFilterList'] = self.validated_config[0].get('ip_filter_list')
         new_object_params['lldpLevel'] = self.validated_config[0].get('lldp_level')
@@ -802,11 +1127,31 @@ class Discovery(DnacBase):
         if self.validated_config[0].get('discovery_specific_credentials'):
             self.handle_discovery_specific_credentials(new_object_params=new_object_params)
 
+        global_cred_flag = self.validated_config[0].get('use_global_credentials')
+        global_credentials_all = {}
+
+        if global_cred_flag is True:
+            global_credentials_all = self.get_ccc_global_credentials_v2_info()
+            for global_cred_list in global_credentials_all.values():
+                credential_ids.extend(global_cred_list)
+            new_object_params['globalCredentialIdList'] = credential_ids
+
+        self.log("All the global credentials used for the discovery task are {0}".format(str(global_credentials_all)), "DEBUG")
+
+        if not (new_object_params.get('snmpUserName') or new_object_params.get('snmpROCommunityDesc') or new_object_params.get('snmpRWCommunityDesc')
+                or global_credentials_all.get('snmpV2cRead') or global_credentials_all.get('snmpV2cWrite') or global_credentials_all.get('snmpV3')):
+            msg = "Please provide atleast one valid SNMP credential to perform Discovery"
+            self.discovery_specific_cred_failure(msg=msg)
+
+        if not (new_object_params.get('userNameList') or global_credentials_all.get('cliCredential')):
+            msg = "Please provide atleast one valid CLI credential to perform Discovery"
+            self.discovery_specific_cred_failure(msg=msg)
+
         self.log("The payload/object created for calling the start discovery API is {0}".format(str(new_object_params)), "INFO")
 
         return new_object_params
 
-    def create_discovery(self, credential_ids=None, ip_address_list=None):
+    def create_discovery(self, ip_address_list=None):
         """
         Start a new discovery process in the Cisco Catalyst Center. It creates the
         parameters required for the discovery and then calls the
@@ -823,14 +1168,10 @@ class Discovery(DnacBase):
           - task_id: The ID of the task created for the discovery process.
         """
 
-        if credential_ids is None:
-            credential_ids = []
-
         result = self.dnac_apply['exec'](
             family="discovery",
             function="start_discovery",
-            params=self.create_params(
-                credential_ids=credential_ids, ip_address_list=ip_address_list),
+            params=self.create_params(ip_address_list=ip_address_list),
             op_modifies=True,
         )
 
@@ -873,7 +1214,7 @@ class Discovery(DnacBase):
                 self.module.fail_json(msg=msg)
                 return False
 
-            if response.get('progress') != 'In Progress':
+            if response.get('progress') != 'In Progress' or response.get('progress') != 'Inventory service initiating discovery':
                 result = True
                 self.log("The Process is completed", "INFO")
                 break
@@ -1010,6 +1351,11 @@ class Discovery(DnacBase):
                 self.log("Some devices in the range are reachable", "INFO")
                 break
 
+            elif all(res.get('reachabilityStatus') != 'Success' and res.get('inventoryReachabilityStatus') == 'Reachable' for res in devices):
+                result = True
+                self.log("Devices are not reachable, but discovery is completed", "WARNING")
+                break
+
             count += 1
             if count == 3:
                 break
@@ -1079,7 +1425,6 @@ class Discovery(DnacBase):
           - self: The instance of the class with updated attributes.
         """
 
-        self.get_ccc_global_credentials_v2_info()
         devices_list_info = self.get_devices_list_info()
         ip_address_list = self.preprocess_device_discovery(devices_list_info)
         exist_discovery = self.get_exist_discovery()
@@ -1089,7 +1434,6 @@ class Discovery(DnacBase):
             complete_discovery = self.get_task_status(task_id=discovery_task_id)
 
         discovery_task_id = self.create_discovery(
-            credential_ids=self.get_creds_ids_list(),
             ip_address_list=ip_address_list)
         complete_discovery = self.get_task_status(task_id=discovery_task_id)
         discovery_task_info = self.get_discoveries_by_range_until_success()
