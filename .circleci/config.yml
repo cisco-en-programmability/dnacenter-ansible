@@ -260,10 +260,10 @@ workflows:
   integration-testing:
     jobs:
       - pre:
-          when: << pipeline.parameters.run_setup >>
+          when: << pipeline.parameters.run-setup >>
 
       - build:
-          when: << pipeline.parameters.run_setup >>
+          when: << pipeline.parameters.run-setup >>
           matrix:
             parameters:
               ansible_cisco_dnac_version:
@@ -272,7 +272,7 @@ workflows:
             - pre
 
       - path-filtering/filter:
-          when: << pipeline.parameters.run_setup >>
+          when: << pipeline.parameters.run-setup >>
           # filters:
           #   branches:
           #     ignore: develop
@@ -303,7 +303,7 @@ workflows:
             - path-filtering/filter
             
       - sanity-tests:
-          when: << pipeline.parameters.run_any >>
+          when: << pipeline.parameters.run-any >>
           requires:
             - addrole
           matrix:
