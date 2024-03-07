@@ -42,7 +42,7 @@ cisco.dnac.inventory_workflow_manager module -- Resource module for Network Devi
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.11.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.12.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -204,6 +204,51 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Required if need to delete the Provisioned device by clearing current configuration.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/clear_mac_address_table"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/clear_mac_address_table:
+
+      .. rst-class:: ansible-option-title
+
+      **clear_mac_address_table**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/clear_mac_address_table" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      :ansible-option-versionadded:`added in cisco.dnac 6.12.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Set this to true if you need to clear the MAC address table for a specific device's interface. It's a boolean type, with a default value of False.
 
 
       .. rst-class:: ansible-option-line
@@ -411,48 +456,6 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/device_added"></div>
-
-      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/device_added:
-
-      .. rst-class:: ansible-option-title
-
-      **device_added**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/device_added" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`boolean`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Make this as true needed for the addition of device in inventory.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
-      - :ansible-option-choices-entry:`true`
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/device_resync"></div>
 
       .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/device_resync:
@@ -533,245 +536,6 @@ Parameters
       .. raw:: html
 
         </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/dynamic_interfaces"></div>
-
-      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/dynamic_interfaces:
-
-      .. rst-class:: ansible-option-title
-
-      **dynamic_interfaces**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/dynamic_interfaces" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Interface details of the wireless device
-
-
-      .. raw:: html
-
-        </div>
-    
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/dynamic_interfaces/interface_gateway"></div>
-
-      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/dynamic_interfaces/interface_gateway:
-
-      .. rst-class:: ansible-option-title
-
-      **interface_gateway**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/dynamic_interfaces/interface_gateway" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      The name identifier for the gateway associated with the interface.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/dynamic_interfaces/interface_ip_address"></div>
-
-      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/dynamic_interfaces/interface_ip_address:
-
-      .. rst-class:: ansible-option-title
-
-      **interface_ip_address**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/dynamic_interfaces/interface_ip_address" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Ip Address allocated to the interface
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/dynamic_interfaces/interface_name"></div>
-
-      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/dynamic_interfaces/interface_name:
-
-      .. rst-class:: ansible-option-title
-
-      **interface_name**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/dynamic_interfaces/interface_name" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Name of the interface.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/dynamic_interfaces/interface_netmask_in_cidr"></div>
-
-      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/dynamic_interfaces/interface_netmask_in_cidr:
-
-      .. rst-class:: ansible-option-title
-
-      **interface_netmask_in_cidr**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/dynamic_interfaces/interface_netmask_in_cidr" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      The netmask of the interface, given in CIDR notation. This is an integer that represents the number of bits set in the netmask
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/dynamic_interfaces/lag_or_port_number"></div>
-
-      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/dynamic_interfaces/lag_or_port_number:
-
-      .. rst-class:: ansible-option-title
-
-      **lag_or_port_number**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/dynamic_interfaces/lag_or_port_number" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      The Link Aggregation Group (LAG) number or port number assigned to the interface.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/dynamic_interfaces/vlan_id"></div>
-
-      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/dynamic_interfaces/vlan_id:
-
-      .. rst-class:: ansible-option-title
-
-      **vlan_id**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/dynamic_interfaces/vlan_id" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      The VLAN (Virtual Local Area Network) ID associated with the network interface.
-
-
-      .. raw:: html
-
-        </div>
-
 
   * - .. raw:: html
 
@@ -1098,17 +862,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/ip_address"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/ip_address_list"></div>
 
-      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/ip_address:
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/ip_address_list:
 
       .. rst-class:: ansible-option-title
 
-      **ip_address**
+      **ip_address_list**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/ip_address" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/ip_address_list" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -1122,7 +886,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      IP address of the device. Required for Adding/Updating/Deleting/Resyncing Device except Meraki Devices.
+      A list of the IP addresses for the devices. It is required for tasks such as adding, updating, deleting, or resyncing devices, with Meraki devices being the exception.
 
 
       .. raw:: html
@@ -1157,40 +921,6 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       A list of MAC addresses representing devices. Operations such as updating, deleting, resyncing, or rebooting can be performed as alternatives to using IP addresses.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/managed_ap_locations"></div>
-
-      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/managed_ap_locations:
-
-      .. rst-class:: ansible-option-title
-
-      **managed_ap_locations**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/managed_ap_locations" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Location of the sites allocated for the APs
 
 
       .. raw:: html
@@ -1258,7 +988,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Specifies the port number for connecting to devices using the Netconf protocol. Netconf (Network Configuration Protocol) is used for managing network devices. Ensure that the provided port number corresponds to the Netconf service port configured on your network devices.
+      Specifies the port number for connecting to devices using the Netconf protocol. Netconf (Network Configuration Protocol) is used for managing network devices. Ensure that the provided port number corresponds to the Netconf service port configured on your network devices. NETCONF with user privilege 15 is mandatory for enabling Wireless Services on Wireless capable devices such as Catalyst 9000 series Switches and C9800 Series Wireless Controllers. The NETCONF credentials are required to connect to C9800 Series Wireless Controllers as the majority of data collection is done using NETCONF for these Devices.
 
 
       .. raw:: html
@@ -1370,6 +1100,649 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/provision_wired_device"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/provision_wired_device:
+
+      .. rst-class:: ansible-option-title
+
+      **provision_wired_device**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/provision_wired_device" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      This parameter takes a list of dictionaries. Each dictionary provides the IP address of a wired device and the name of the site where the device will be provisioned.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/provision_wired_device/device_ip"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/provision_wired_device/device_ip:
+
+      .. rst-class:: ansible-option-title
+
+      **device_ip**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/provision_wired_device/device_ip" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      :ansible-option-versionadded:`added in cisco.dnac 6.12.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the IP address of the wired device. This is a string value that should be in the format of standard IPv4 or IPv6 addresses.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/provision_wired_device/resync_retry_count"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/provision_wired_device/resync_retry_count:
+
+      .. rst-class:: ansible-option-title
+
+      **resync_retry_count**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/provision_wired_device/resync_retry_count" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      :ansible-option-versionadded:`added in cisco.dnac 6.12.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Determines the total number of retry attempts for checking if the device has reached a managed state during the provisioning process. If unspecified, the default value is set to 200 retries.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`200`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/provision_wired_device/resync_retry_interval"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/provision_wired_device/resync_retry_interval:
+
+      .. rst-class:: ansible-option-title
+
+      **resync_retry_interval**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/provision_wired_device/resync_retry_interval" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      :ansible-option-versionadded:`added in cisco.dnac 6.12.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Sets the interval, in seconds, at which the system will recheck the device status throughout the provisioning process. If unspecified, the system will check the device status every 2 seconds by default.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`2`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/provision_wired_device/site_name"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/provision_wired_device/site_name:
+
+      .. rst-class:: ansible-option-title
+
+      **site_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/provision_wired_device/site_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Indicates the exact location where the wired device will be provisioned. This is a string value that should represent the complete hierarchical path of the site (For example, "Global/USA/San Francisco/BGL\_18/floor\_pnp").
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/provision_wireless_device"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/provision_wireless_device:
+
+      .. rst-class:: ansible-option-title
+
+      **provision_wireless_device**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/provision_wireless_device" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      :ansible-option-versionadded:`added in cisco.dnac 6.12.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      This parameter takes a list of dictionaries. Each dictionary provides the IP address of a wireless device and the name of the site where the device will be provisioned along with dynamic interface details.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/provision_wireless_device/device_ip"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/provision_wireless_device/device_ip:
+
+      .. rst-class:: ansible-option-title
+
+      **device_ip**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/provision_wireless_device/device_ip" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the IP address of the wirelesss device. This is a string value that should be in the format of standard IPv4 or IPv6 addresses.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/provision_wireless_device/dynamic_interfaces"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/provision_wireless_device/dynamic_interfaces:
+
+      .. rst-class:: ansible-option-title
+
+      **dynamic_interfaces**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/provision_wireless_device/dynamic_interfaces" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Interface details of the wireless device
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/provision_wireless_device/dynamic_interfaces/interface_gateway"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/provision_wireless_device/dynamic_interfaces/interface_gateway:
+
+      .. rst-class:: ansible-option-title
+
+      **interface_gateway**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/provision_wireless_device/dynamic_interfaces/interface_gateway" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The name identifier for the gateway associated with the interface.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/provision_wireless_device/dynamic_interfaces/interface_ip_address"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/provision_wireless_device/dynamic_interfaces/interface_ip_address:
+
+      .. rst-class:: ansible-option-title
+
+      **interface_ip_address**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/provision_wireless_device/dynamic_interfaces/interface_ip_address" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Ip Address allocated to the interface
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/provision_wireless_device/dynamic_interfaces/interface_name"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/provision_wireless_device/dynamic_interfaces/interface_name:
+
+      .. rst-class:: ansible-option-title
+
+      **interface_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/provision_wireless_device/dynamic_interfaces/interface_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of the interface.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/provision_wireless_device/dynamic_interfaces/interface_netmask_in_cidr"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/provision_wireless_device/dynamic_interfaces/interface_netmask_in_cidr:
+
+      .. rst-class:: ansible-option-title
+
+      **interface_netmask_in_cidr**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/provision_wireless_device/dynamic_interfaces/interface_netmask_in_cidr" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The netmask of the interface, given in CIDR notation. This is an integer that represents the number of bits set in the netmask
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/provision_wireless_device/dynamic_interfaces/lag_or_port_number"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/provision_wireless_device/dynamic_interfaces/lag_or_port_number:
+
+      .. rst-class:: ansible-option-title
+
+      **lag_or_port_number**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/provision_wireless_device/dynamic_interfaces/lag_or_port_number" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The Link Aggregation Group (LAG) number or port number assigned to the interface.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/provision_wireless_device/dynamic_interfaces/vlan_id"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/provision_wireless_device/dynamic_interfaces/vlan_id:
+
+      .. rst-class:: ansible-option-title
+
+      **vlan_id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/provision_wireless_device/dynamic_interfaces/vlan_id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The VLAN (Virtual Local Area Network) ID associated with the network interface.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/provision_wireless_device/managed_ap_locations"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/provision_wireless_device/managed_ap_locations:
+
+      .. rst-class:: ansible-option-title
+
+      **managed_ap_locations**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/provision_wireless_device/managed_ap_locations" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Location of the sites allocated for the APs (For example, ["Global/USA/San Francisco/BGL\_18/floor\_test", "Global/USA/San Francisco/BGL\_18/floor\_check"])
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/provision_wireless_device/resync_retry_count"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/provision_wireless_device/resync_retry_count:
+
+      .. rst-class:: ansible-option-title
+
+      **resync_retry_count**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/provision_wireless_device/resync_retry_count" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Determines the total number of retry attempts for checking if the device has reached a managed state during the provisioning process. If unspecified, the default value is set to 200 retries.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`200`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/provision_wireless_device/resync_retry_interval"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/provision_wireless_device/resync_retry_interval:
+
+      .. rst-class:: ansible-option-title
+
+      **resync_retry_interval**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/provision_wireless_device/resync_retry_interval" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Sets the interval, in seconds, at which the system will recheck the device status throughout the provisioning process. If unspecified, the system will check the device status every 2 seconds by default.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`2`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/provision_wireless_device/site_name"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/provision_wireless_device/site_name:
+
+      .. rst-class:: ansible-option-title
+
+      **site_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/provision_wireless_device/site_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Indicates the exact location where the wired device will be provisioned. This is a string value that should represent the complete hierarchical path of the site (For example, "Global/USA/San Francisco/BGL\_18/floor\_pnp").
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/reboot_device"></div>
 
       .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/reboot_device:
@@ -1412,6 +1785,112 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/reprovision_wired_device"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/reprovision_wired_device:
+
+      .. rst-class:: ansible-option-title
+
+      **reprovision_wired_device**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/reprovision_wired_device" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      :ansible-option-versionadded:`added in cisco.dnac 6.12.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      This parameter takes a list of dictionaries. Each dictionary provides the IP address of a wired device and the name of the site where the device will be re-provisioned.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/reprovision_wired_device/device_ip"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/reprovision_wired_device/device_ip:
+
+      .. rst-class:: ansible-option-title
+
+      **device_ip**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/reprovision_wired_device/device_ip" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the IP address of the wired device. This is a string value that should be in the format of standard IPv4 or IPv6 addresses.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/reprovision_wired_device/site_name"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/reprovision_wired_device/site_name:
+
+      .. rst-class:: ansible-option-title
+
+      **site_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/reprovision_wired_device/site_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Indicates the exact location where the wired device will be provisioned. This is a string value that should represent the complete hierarchical path of the site (For example, "Global/USA/San Francisco/BGL\_18/floor\_pnp").
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/role"></div>
 
       .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/role:
@@ -1450,78 +1929,6 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/role_source"></div>
-
-      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/role_source:
-
-      .. rst-class:: ansible-option-title
-
-      **role_source**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/role_source" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Role source for the device.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"AUTO"`
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/serial_number"></div>
-
-      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/serial_number:
-
-      .. rst-class:: ansible-option-title
-
-      **serial_number**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/serial_number" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Serial number of the device.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/serial_number_list"></div>
 
       .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/serial_number_list:
@@ -1547,40 +1954,6 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       A list of serial numbers representing devices. Operations such as updating, deleting, resyncing, or rebooting can be performed as alternatives to using IP addresses.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/site_name"></div>
-
-      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/site_name:
-
-      .. rst-class:: ansible-option-title
-
-      **site_name**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/site_name" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Required for Provisioning of Wired and Wireless Devices.
 
 
       .. raw:: html
@@ -1648,7 +2021,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      SNMP authentication protocol. SHA (Secure Hash Algorithm) - cryptographic hash function commonly used for data integrity verification and authentication purposes. MD5 (Message Digest Algorithm 5) - cryptographic hash function commonly used for data integrity verification and authentication purposes.
+      SNMP authentication protocol. SHA (Secure Hash Algorithm) - cryptographic hash function commonly used for data integrity verification and authentication purposes.
 
 
       .. rst-class:: ansible-option-line
@@ -1829,10 +2202,6 @@ Parameters
       SNMP Read-Only community required for adding V2C devices.
 
 
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"public"`
-
       .. raw:: html
 
         </div>
@@ -1866,10 +2235,6 @@ Parameters
 
       SNMP Read-Write community required for adding V2C devices.
 
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"private"`
 
       .. raw:: html
 
@@ -1974,12 +2339,8 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Device's snmp Version.
+      It is a standard protocol used for managing and monitoring network devices. v2 - In this communication between the SNMP manager (such as Cisco Catalyst) and the managed devices (such as routers, switches, or access points) is based on community strings.Community strings serve as form of authentication and they are transmitted in clear text, providing no encryption. v3 - It is the most secure version of SNMP, providing authentication, integrity, and encryption features. It allows for the use of usernames, authentication passwords, and encryption keys, providing stronger security compared to v2.
 
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"v3"`
 
       .. raw:: html
 
@@ -2012,7 +2373,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Select Device's type from NETWORK\_DEVICE, COMPUTE\_DEVICE, MERAKI\_DASHBOARD, THIRD\_PARTY\_DEVICE, FIREPOWER\_MANAGEMENT\_SYSTEM. NETWORK\_DEVICE - This refers to traditional networking equipment such as routers, switches, access points, and firewalls. These devices are responsible for routing, switching, and providing connectivity within the network. COMPUTE\_DEVICE - These are computing resources such as servers, virtual machines, or containers that are part of the network infrastructure. Cisco DNA Center can integrate with compute devices to provide visibility and management capabilities, ensuring that the network and compute resources work together seamlessly to support applications and services. MERAKI\_DASHBOARD - It is cloud-based platform used to manage Meraki networking devices, including wireless access points, switches, security appliances, and cameras. THIRD\_PARTY\_DEVICE - This category encompasses devices from vendors other than Cisco or Meraki. Cisco DNA Center is designed to support integration with third-party devices through open standards and APIs. This allows organizations to manage heterogeneous network environments efficiently using Cisco DNA Center's centralized management and automation capabilities. FIREPOWER\_MANAGEMENT\_SYSTEM - It is a centralized management console used to manage Cisco's Firepower Next-Generation Firewall (NGFW) devices. It provides features such as policy management, threat detection, and advanced security analytics.
+      Select Device's type from NETWORK\_DEVICE, COMPUTE\_DEVICE, MERAKI\_DASHBOARD, THIRD\_PARTY\_DEVICE, FIREPOWER\_MANAGEMENT\_SYSTEM. NETWORK\_DEVICE - This refers to traditional networking equipment such as routers, switches, access points, and firewalls. These devices are responsible for routing, switching, and providing connectivity within the network. COMPUTE\_DEVICE - These are computing resources such as servers, virtual machines, or containers that are part of the network infrastructure. Cisco Catalyst Center can integrate with compute devices to provide visibility and management capabilities, ensuring that the network and compute resources work together seamlessly to support applications and services. MERAKI\_DASHBOARD - It is cloud-based platform used to manage Meraki networking devices, including wireless access points, switches, security appliances, and cameras. THIRD\_PARTY\_DEVICE - This category encompasses devices from vendors other than Cisco or Meraki. Cisco Catalyst Center is designed to support integration with third-party devices through open standards and APIs. This allows organizations to manage heterogeneous network environments efficiently using Cisco Catalyst Center's centralized management and automation capabilities. FIREPOWER\_MANAGEMENT\_SYSTEM - It is a centralized management console used to manage Cisco's Firepower Next-Generation Firewall (NGFW) devices. It provides features such as policy management, threat detection, and advanced security analytics.
 
 
       .. rst-class:: ansible-option-line
@@ -2858,6 +3219,8 @@ Notes
    - SDK Method used are devices.Devices.add\_device, devices.Devices.delete\_device\_by\_id, devices.Devices.sync\_devices,
    - Paths used are post /dna/intent/api/v1/network-device, delete /dna/intent/api/v1/network-device/{id}, put /dna/intent/api/v1/network-device,
    - Removed 'managementIpAddress' options in v4.3.0.
+   - Renamed argument 'ip\_address' to 'ip\_address\_list' option in v6.12.0.
+   - Removed 'serial\_number', 'device\_added', 'role\_source', options in v6.12.0.
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK
    - The parameters starting with dnac\_ are used by the Cisco Catalyst Center Python SDK to establish the connection
@@ -2906,9 +3269,8 @@ Examples
             http_password: "test"
             http_port: "443"
             http_secure: False
-            ip_address: ["1.1.1.1", "2.2.2.2"]
+            ip_address_list: ["1.1.1.1", "2.2.2.2"]
             netconf_port: 830
-            serial_number: FJC2327U0S2
             snmp_auth_passphrase: "Lablab@12"
             snmp_auth_protocol: SHA
             snmp_mode: AUTHPRIV
@@ -2919,7 +3281,6 @@ Examples
             snmp_username: v3Public
             snmp_version: v3
             type: NETWORK_DEVICE
-            device_added: True
             username: cisco
 
     - name: Add new Compute device in Inventory with full credentials.Inputs needed for Compute Device
@@ -2935,7 +3296,7 @@ Examples
         dnac_log: False
         state: merged
         config:
-          - ip_address: ["1.1.1.1", "2.2.2.2"]
+          - ip_address_list: ["1.1.1.1", "2.2.2.2"]
             http_username: "testuser"
             http_password: "test"
             http_port: "443"
@@ -2949,7 +3310,6 @@ Examples
             snmp_username: v3Public
             compute_device: True
             username: cisco
-            device_added: True
             type: "COMPUTE_DEVICE"
 
     - name: Add new Meraki device in Inventory with full credentials.Inputs needed for Meraki Device.
@@ -2966,7 +3326,6 @@ Examples
         state: merged
         config:
           - http_password: "test"
-            device_added: True
             type: "MERAKI_DASHBOARD"
 
     - name: Add new Firepower Management device in Inventory with full credentials.Input needed to add Device.
@@ -2982,11 +3341,10 @@ Examples
         dnac_log: False
         state: merged
         config:
-          - ip_address: ["1.1.1.1", "2.2.2.2"]
+          - ip_address_list: ["1.1.1.1", "2.2.2.2"]
             http_username: "testuser"
             http_password: "test"
             http_port: "443"
-            device_added: True
             type: "FIREPOWER_MANAGEMENT_SYSTEM"
 
     - name: Add new Third Party device in Inventory with full credentials.Input needed to add Device.
@@ -3002,7 +3360,7 @@ Examples
         dnac_log: False
         state: merged
         config:
-          - ip_address: ["1.1.1.1", "2.2.2.2"]
+          - ip_address_list: ["1.1.1.1", "2.2.2.2"]
             snmp_auth_passphrase: "Lablab@12"
             snmp_auth_protocol: SHA
             snmp_mode: AUTHPRIV
@@ -3011,7 +3369,6 @@ Examples
             snmp_retry:  3
             snmp_timeout: 5
             snmp_username: v3Public
-            device_added: True
             type: "THIRD_PARTY_DEVICE"
 
     - name: Update device details or credentails in Inventory
@@ -3031,7 +3388,7 @@ Examples
             compute_device: False
             password: newtest123
             enable_password: newtest1233
-            ip_address: ["1.1.1.1", "2.2.2.2"]
+            ip_address_list: ["1.1.1.1", "2.2.2.2"]
             type: NETWORK_DEVICE
             device_updated: True
             credential_update: True
@@ -3050,7 +3407,7 @@ Examples
         state: merged
         config:
           - device_updated: True
-            ip_address: ["1.1.1.1"]
+            ip_address_list: ["1.1.1.1"]
             credential_update: True
             update_mgmt_ipaddresslist:
             - exist_mgmt_ipaddress: "1.1.1.1"
@@ -3069,9 +3426,34 @@ Examples
         dnac_log: False
         state: merged
         config:
-          - ip_address: ["1.1.1.1", "2.2.2.2"]
-            provision_wired_device:
+          - provision_wired_device:
+            - device_ip: "1.1.1.1"
               site_name: "Global/USA/San Francisco/BGL_18/floor_pnp"
+              resync_retry_count: 200
+              resync_interval: 2
+            - device_ip: "2.2.2.2"
+              site_name: "Global/USA/San Francisco/BGL_18/floor_test"
+              resync_retry_count: 200
+              resync_retry_interval: 2
+
+    - name: Re-Provisioned Wired Devices to site in Inventory
+      cisco.dnac.inventory_intent:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log_level: "{{dnac_log_level}}"
+        dnac_log: False
+        state: merged
+        config:
+          - reprovision_wired_device:
+            - device_ip: "1.1.1.1"
+              site_name: "Global/USA/San Francisco/BGL_18/floor_pnp"
+            - device_ip: "2.2.2.2"
+              site_name: "Global/USA/San Francisco/BGL_18/floor_test"
 
     - name: Associate Wireless Devices to site and Provisioned it in Inventory
       cisco.dnac.inventory_workflow_manager:
@@ -3086,17 +3468,31 @@ Examples
         dnac_log: False
         state: merged
         config:
-          - ip_address: ["1.1.1.1", "2.2.2.2"]
             provision_wireless_device:
-              site_name: ["Global/USA/BGL_18/floor_pnp", "Global/USA/BGL_18/floor_test"]
-            managed_ap_locations: ["Global/USA/BGL_18/floor_pnp", "Global/USA/BGL_18/floor_test"]
-            dynamic_interfaces:
-            - interface_ip_address: 23.23.21.12
-              interface_netmask_in_cidr: 24
-              interface_gateway: "gateway"
-              lag_or_port_number: 12
-              vlan_id: 99
-              interface_name: "etherenet0/0"
+            - device_ip: "1.1.1.1"
+              site_name: "Global/USA/BGL_18/floor_pnp"
+              managed_ap_locations: ["Global/USA/BGL_18/floor_pnp", "Global/USA/BGL_18/floor_test"]
+              dynamic_interfaces:
+              - interface_ip_address: 23.23.21.12
+                interface_netmask_in_cidr: 24
+                interface_gateway: "gateway"
+                lag_or_port_number: 12
+                vlan_id: 99
+                interface_name: "etherenet0/0"
+              resync_retry_count: 200
+              resync_retry_interval: 2
+            - device_ip: "2.2.2.2"
+              site_name: "Global/USA/BGL_18/floor_test"
+              managed_ap_locations: ["Global/USA/BGL_19/floor_pnp", "Global/USA/BGL_19/floor_test"]
+              dynamic_interfaces:
+              - interface_ip_address: 32.31.12.23
+                interface_netmask_in_cidr: 26
+                interface_gateway: "gateway_test"
+                lag_or_port_number: 33
+                vlan_id: 78
+                interface_name: "etherenet1/1"
+              resync_retry_count: 200
+              resync_retry_interval: 2
 
     - name: Update Device Role with IP Address
       cisco.dnac.inventory_workflow_manager:
@@ -3111,11 +3507,10 @@ Examples
         dnac_log: False
         state: merged
         config:
-          - ip_address: ["1.1.1.1", "2.2.2.2"]
+          - ip_address_list: ["1.1.1.1", "2.2.2.2"]
             device_updated: True
             update_device_role:
               role: ACCESS
-              role_source: AUTO
 
     - name: Update Interface details with IP Address
       cisco.dnac.inventory_workflow_manager:
@@ -3130,7 +3525,7 @@ Examples
         dnac_log: False
         state: merged
         config:
-          - ip_address: ["1.1.1.1", "2.2.2.2"]
+          - ip_address_list: ["1.1.1.1", "2.2.2.2"]
             device_updated: True
             update_interface_details:
               description: "Testing for updating interface details"
@@ -3139,6 +3534,7 @@ Examples
               voice_vlan_id: 45
               deployment_mode: "Deploy"
               interface_name: ["GigabitEthernet1/0/11", FortyGigabitEthernet1/1/1]
+              clear_mac_address_table: True
 
     - name: Export Device Details in a CSV file Interface details with IP Address
       cisco.dnac.inventory_workflow_manager:
@@ -3153,10 +3549,10 @@ Examples
         dnac_log: False
         state: merged
         config:
-          - ip_address: ["1.1.1.1", "2.2.2.2"]
+          - ip_address_list: ["1.1.1.1", "2.2.2.2"]
             export_device_list:
               password: "File_password"
-              operation_enum: 0
+              operation_enum: "0"
               parameters: ["componentName", "SerialNumber", "Last Sync Status"]
 
     - name: Create Global User Defined with IP Address
@@ -3172,7 +3568,7 @@ Examples
         dnac_log: False
         state: merged
         config:
-          - ip_address: ["1.1.1.1", "2.2.2.2"]
+          - ip_address_list: ["1.1.1.1", "2.2.2.2"]
             add_user_defined_field:
             - name: Test123
               description: "Added first udf for testing"
@@ -3194,7 +3590,7 @@ Examples
         dnac_log: False
         state: merged
         config:
-          - ip_address: ["1.1.1.1", "2.2.2.2"]
+          - ip_address_list: ["1.1.1.1", "2.2.2.2"]
             device_resync: True
             force_sync: False
 
@@ -3211,7 +3607,7 @@ Examples
         dnac_log: False
         state: merged
         config:
-          - ip_address: ["1.1.1.1", "2.2.2.2"]
+          - ip_address_list: ["1.1.1.1", "2.2.2.2"]
             reboot_device: True
 
     - name: Delete Provision/Unprovision Devices by IP Address
@@ -3227,7 +3623,7 @@ Examples
         dnac_log_level: "{{dnac_log_level}}"
         state: deleted
         config:
-          - ip_address: ["1.1.1.1", "2.2.2.2"]
+          - ip_address_list: ["1.1.1.1", "2.2.2.2"]
             clean_config: False
 
     - name: Delete Global User Defined Field with name
@@ -3243,7 +3639,7 @@ Examples
         dnac_log: False
         state: deleted
         config:
-        - ip_address: ["1.1.1.1", "2.2.2.2"]
+        - ip_address_list: ["1.1.1.1", "2.2.2.2"]
           add_user_defined_field:
             name: "Test123"
 
