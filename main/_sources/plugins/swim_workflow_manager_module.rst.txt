@@ -42,7 +42,7 @@ cisco.dnac.swim_workflow_manager module -- workflow\_manager module for SWIM rel
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.11.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.12.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -418,6 +418,43 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Device serial number where the image needs to be activated
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/image_activation_details/device_series_name"></div>
+
+      .. _ansible_collections.cisco.dnac.swim_workflow_manager_module__parameter-config/image_activation_details/device_series_name:
+
+      .. rst-class:: ansible-option-title
+
+      **device_series_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/image_activation_details/device_series_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      :ansible-option-versionadded:`added in cisco.dnac 6.12.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      This parameter specifies the name of the device series. It is used to identify a specific series of devices, such as Cisco Catalyst 9300 Series Switches, within the Cisco Catalyst Center.
 
 
       .. raw:: html
@@ -852,6 +889,43 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/image_distribution_details/device_series_name"></div>
+
+      .. _ansible_collections.cisco.dnac.swim_workflow_manager_module__parameter-config/image_distribution_details/device_series_name:
+
+      .. rst-class:: ansible-option-title
+
+      **device_series_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/image_distribution_details/device_series_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      :ansible-option-versionadded:`added in cisco.dnac 6.12.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      This parameter specifies the name of the device series. It is used to identify a specific series of devices, such as Cisco Catalyst 9300 Series Switches, within the Cisco Catalyst Center.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/image_distribution_details/image_name"></div>
 
       .. _ansible_collections.cisco.dnac.swim_workflow_manager_module__parameter-config/image_distribution_details/image_name:
@@ -1013,7 +1087,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Provide the absolute file path needed to import an image from your local system (Eg "/path/to/your/file").
+      Provide the absolute file path needed to import an image from your local system (Eg "/path/to/your/file"). Accepted files formats are - .gz,.bin,.img,.tar,.smu,.pie,.aes,.iso,.ova,.tar\_gz,.qcow2,.nfvispkg,.zip,.spa,.rpm.
 
 
       .. raw:: html
@@ -1089,7 +1163,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Specify the ThirdPartyApplicationType query parameter to indicate the type of third-party application.Allowed values include WLC, LINUX, FIREWALL, WINDOWS, LOADBALANCER, THIRDPARTY, etc.(optional). WLC (Wireless LAN Controller) - It's network device that manages and controls multiple wireless access points (APs) in a centralized manner. LINUX - It's an open source which provide complete operating system with a wide range of software packages and utilities. FIREWALL - It's a network security device that monitors and controls incoming and outgoing network traffic based on predetermined security rules.It acts as a barrier between a trusted internal network and untrusted external networks (such as the internet), preventing unauthorized access. WINDOWS - It's an OS which provides GUI support for various applications, and extensive compatibility with hardware and software. LOADBALANCER - It's a network device or software application that distributes incoming network traffic across multiple servers or resources. THIRDPARTY - It refers to third-party images or applications that are not part of the core system. NAM (Network Access Manager) - It's a network management tool or software application that provides centralized control and monitoring of network access policies, user authentication, and device compliance. WAN Optimization - It refers to techniques and technologies used to improve the performance and efficiency of WANs. It includes various optimization techniques such as data compression, caching, protocol optimization, and traffic prioritization to reduce latency, increase throughput, and improve user experience over WAN connections. Unknown - It refers to an unspecified or unrecognized application type. Router - It's a network device that forwards data packets between computer networks. They are essential for connecting multiple networks together and directing traffic between them.
+      Specify the ThirdPartyApplicationType query parameter to indicate the type of third-party application. Allowed values include WLC, LINUX, FIREWALL, WINDOWS, LOADBALANCER, THIRDPARTY, etc.(optional). WLC (Wireless LAN Controller) - It's a network device that manages and controls multiple wireless access points (APs) in a centralized manner. LINUX - It's an open-source operating system that provides a complete set of software packages and utilities. FIREWALL - It's a network security device that monitors and controls incoming and outgoing network traffic based on predetermined security rules.It acts as a barrier between a trusted internal network and untrusted external networks (such as the internet), preventing unauthorized access. WINDOWS - It's an operating system known for its graphical user interface (GUI) support, extensive compatibility with hardware and software, and widespread use across various applications. LOADBALANCER - It's a network device or software application that distributes incoming network traffic across multiple servers or resources. THIRDPARTY - It refers to third-party images or applications that are not part of the core system. NAM (Network Access Manager) - It's a network management tool or software application that provides centralized control and monitoring of network access policies, user authentication, and device compliance. WAN Optimization - It refers to techniques and technologies used to improve the performance and efficiency of WANs. It includes various optimization techniques such as data compression, caching, protocol optimization, and traffic prioritization to reduce latency, increase throughput, and improve user experience over WAN connections. Unknown - It refers to an unspecified or unrecognized application type. Router - It's a network device that forwards data packets between computer networks. They are essential for connecting multiple networks together and directing traffic between them.
 
 
       .. raw:: html
@@ -1404,7 +1478,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      A mandatory parameter for importing a SWIM image via a remote URL. This parameter is required when using a URL to import an image.
+      A mandatory parameter for importing a SWIM image via a remote URL. This parameter is required when using a URL to import an image..(For example, http://{host}/swim/cat9k\_isoxe.16.12.10s.SPA.bin, ftp://user:password@{host}/swim/cat9k\_isoxe.16.12.10s.SPA.iso)
 
 
       .. raw:: html
@@ -2485,6 +2559,7 @@ Examples
             site_name: Global/USA/San Francisco/BGL_18
             device_role: ALL
             device_family_name: Switches and Hubs
+            device_series_name: Cisco Catalyst 9300 Series Switches
 
     - name: Activate the given image on devices associated to that site with specified role.
       cisco.dnac.swim_workflow_manager:
@@ -2503,6 +2578,7 @@ Examples
             site_name: Global/USA/San Francisco/BGL_18
             device_role: ALL
             device_family_name: Switches and Hubs
+            device_series_name: Cisco Catalyst 9300 Series Switches
             scehdule_validate: False
             activate_lower_image_version: True
             distribute_if_needed: True

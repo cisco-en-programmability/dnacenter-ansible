@@ -490,7 +490,7 @@
 <h1>cisco.dnac.swim_intent module -- Intent module for SWIM related functions<a class="headerlink" href="#cisco-dnac-swim-intent-module-intent-module-for-swim-related-functions" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.11.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.12.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-swim-intent-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -698,41 +698,49 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-swim-int
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/image_distribution_details/device_series_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-image-distribution-details-device-series-name"><strong>device_series_name</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/image_distribution_details/device_series_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<p><span class="ansible-option-versionadded">added in cisco.dnac 6.12.0</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>This parameter specifies the name of the device series. It is used to identify a specific series of devices, such as Cisco Catalyst 9300 Series Switches, within the Cisco Catalyst Center.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/image_distribution_details/image_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-image-distribution-details-image-name"><strong>image_name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/image_distribution_details/image_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>SWIM image's name</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/image_distribution_details/site_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-image-distribution-details-site-name"><strong>site_name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/image_distribution_details/site_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Used to get device details associated to this site.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/import_image_details"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-import-image-details"><strong>import_image_details</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/import_image_details" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Details of image being imported</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/import_image_details/local_image_details"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-import-image-details-local-image-details"><strong>local_image_details</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/import_image_details/local_image_details" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Details of the local path of the image to be imported.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/import_image_details/local_image_details/file_path"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-import-image-details-local-image-details-file-path"><strong>file_path</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/import_image_details/local_image_details/file_path" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Provide the absolute file path needed to import an image from your local system (Eg &quot;/path/to/your/file&quot;).</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Provide the absolute file path needed to import an image from your local system (Eg &quot;/path/to/your/file&quot;). Accepted files formats are - .gz,.bin,.img,.tar,.smu,.pie,.aes,.iso,.ova,.tar_gz,.qcow2,.nfvispkg,.zip,.spa,.rpm.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/import_image_details/local_image_details/is_third_party"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-import-image-details-local-image-details-is-third-party"><strong>is_third_party</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/import_image_details/local_image_details/is_third_party" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -744,63 +752,63 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-swim-int
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/import_image_details/local_image_details/third_party_application_type"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-import-image-details-local-image-details-third-party-application-type"><strong>third_party_application_type</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/import_image_details/local_image_details/third_party_application_type" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Specify the ThirdPartyApplicationType query parameter to indicate the type of third-party application.Allowed values include WLC, LINUX, FIREWALL, WINDOWS, LOADBALANCER, THIRDPARTY, etc.(optional). WLC (Wireless LAN Controller) - It's network device that manages and controls multiple wireless access points (APs) in a centralized manner. LINUX - It's an open source which provide complete operating system with a wide range of software packages and utilities. FIREWALL - It's a network security device that monitors and controls incoming and outgoing network traffic based on predetermined security rules.It acts as a barrier between a trusted internal network and untrusted external networks (such as the internet), preventing unauthorized access. WINDOWS - It's an OS which provides GUI support for various applications, and extensive compatibility with hardware and software. LOADBALANCER - It's a network device or software application that distributes incoming network traffic across multiple servers or resources. THIRDPARTY - It refers to third-party images or applications that are not part of the core system. NAM (Network Access Manager) - It's a network management tool or software application that provides centralized control and monitoring of network access policies, user authentication, and device compliance. WAN Optimization - It refers to techniques and technologies used to improve the performance and efficiency of WANs. It includes various optimization techniques such as data compression, caching, protocol optimization, and traffic prioritization to reduce latency, increase throughput, and improve user experience over WAN connections. Unknown - It refers to an unspecified or unrecognized application type. Router - It's a network device that forwards data packets between computer networks. They are essential for connecting multiple networks together and directing traffic between them.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Specify the ThirdPartyApplicationType query parameter to indicate the type of third-party application. Allowed values include WLC, LINUX, FIREWALL, WINDOWS, LOADBALANCER, THIRDPARTY, etc.(optional). WLC (Wireless LAN Controller) - It's a network device that manages and controls multiple wireless access points (APs) in a centralized manner. LINUX - It's an open-source operating system that provides a complete set of software packages and utilities. FIREWALL - It's a network security device that monitors and controls incoming and outgoing network traffic based on predetermined security rules.It acts as a barrier between a trusted internal network and untrusted external networks (such as the internet), preventing unauthorized access. WINDOWS - It's an operating system known for its graphical user interface (GUI) support, extensive compatibility with hardware and software, and widespread use across various applications. LOADBALANCER - It's a network device or software application that distributes incoming network traffic across multiple servers or resources. THIRDPARTY - It refers to third-party images or applications that are not part of the core system. NAM (Network Access Manager) - It's a network management tool or software application that provides centralized control and monitoring of network access policies, user authentication, and device compliance. WAN Optimization - It refers to techniques and technologies used to improve the performance and efficiency of WANs. It includes various optimization techniques such as data compression, caching, protocol optimization, and traffic prioritization to reduce latency, increase throughput, and improve user experience over WAN connections. Unknown - It refers to an unspecified or unrecognized application type. Router - It's a network device that forwards data packets between computer networks. They are essential for connecting multiple networks together and directing traffic between them.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/import_image_details/local_image_details/third_party_image_family"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-import-image-details-local-image-details-third-party-image-family"><strong>third_party_image_family</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/import_image_details/local_image_details/third_party_image_family" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Provide the ThirdPartyImageFamily query parameter to identify the family of the third-party image. Image Family name like PALOALTO, RIVERBED, FORTINET, CHECKPOINT, SILVERPEAK etc. (optional).</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/import_image_details/local_image_details/third_party_vendor"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-import-image-details-local-image-details-third-party-vendor"><strong>third_party_vendor</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/import_image_details/local_image_details/third_party_vendor" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Include the ThirdPartyVendor query parameter to specify the vendor of the third party.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/import_image_details/type"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-import-image-details-type"><strong>type</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/import_image_details/type" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Specifies the import source, supporting local file import (local) or remote url import (remote).</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/import_image_details/url_details"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-import-image-details-url-details"><strong>url_details</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/import_image_details/url_details" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>URL details for SWIM import</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/import_image_details/url_details/payload"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-import-image-details-url-details-payload"><strong>payload</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/import_image_details/url_details/payload" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Swim Import Via Url's payload.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/import_image_details/url_details/payload/application_type"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-import-image-details-url-details-payload-application-type"><strong>application_type</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/import_image_details/url_details/payload/application_type" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>An optional parameter that specifies the type of application. Allowed values include WLC, LINUX, FIREWALL, WINDOWS, LOADBALANCER, THIRDPARTY, etc. This is only applicable for third-party image types(optional). WLC (Wireless LAN Controller) - It's network device that manages and controls multiple wireless access points (APs) in a centralized manner. LINUX - It's an open source which provide complete operating system with a wide range of software packages and utilities. FIREWALL - It's a network security device that monitors and controls incoming and outgoing network traffic based on predetermined security rules.It acts as a barrier between a trusted internal network and untrusted external networks (such as the internet), preventing unauthorized access. WINDOWS - It's an OS which provides GUI support for various applications, and extensive compatibility with hardware and software. LOADBALANCER - It's a network device or software application that distributes incoming network traffic across multiple servers or resources. THIRDPARTY - It refers to third-party images or applications that are not part of the core system. NAM (Network Access Manager) - It's a network management tool or software application that provides centralized control and monitoring of network access policies, user authentication, and device compliance. WAN Optimization - It refers to techniques and technologies used to improve the performance and efficiency of WANs. It includes various optimization techniques such as data compression, caching, protocol optimization, and traffic prioritization to reduce latency, increase throughput, and improve user experience over WAN connections. Unknown - It refers to an unspecified or unrecognized application type. Router - It's a network device that forwards data packets between computer networks. They are essential for connecting multiple networks together and directing traffic between them.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/import_image_details/url_details/payload/image_family"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-import-image-details-url-details-payload-image-family"><strong>image_family</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/import_image_details/url_details/payload/image_family" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Represents the name of the image family and is applicable only when uploading third-party images. Image Family name like PALOALTO, RIVERBED, FORTINET, CHECKPOINT, SILVERPEAK etc. (optional).</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/import_image_details/url_details/payload/is_third_party"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-import-image-details-url-details-payload-is-third-party"><strong>is_third_party</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/import_image_details/url_details/payload/is_third_party" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -812,60 +820,68 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-swim-int
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/import_image_details/url_details/payload/source_url"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-import-image-details-url-details-payload-source-url"><strong>source_url</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/import_image_details/url_details/payload/source_url" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>A mandatory parameter for importing a SWIM image via a remote URL. This parameter is required when using a URL to import an image.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>A mandatory parameter for importing a SWIM image via a remote URL. This parameter is required when using a URL to import an image.(For example, <a class="reference external" href="http:/">http:/</a>/{host}/swim/cat9k_isoxe.16.12.10s.SPA.bin, <a class="reference external" href="ftp://user">ftp://user</a>:<a class="reference external" href="mailto:password&#37;&#52;&#48;{host}/swim/cat9k_isoxe&#46;16&#46;12&#46;10s&#46;SPA&#46;iso">password<span>&#64;</span>{host}/swim/cat9k_isoxe<span>&#46;</span>16<span>&#46;</span>12<span>&#46;</span>10s<span>&#46;</span>SPA<span>&#46;</span>iso</a>)</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/import_image_details/url_details/payload/vendor"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-import-image-details-url-details-payload-vendor"><strong>vendor</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/import_image_details/url_details/payload/vendor" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The name of the vendor, that applies only to third-party image types when importing via URL (optional).</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/import_image_details/url_details/schedule_at"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-import-image-details-url-details-schedule-at"><strong>schedule_at</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/import_image_details/url_details/schedule_at" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>ScheduleAt query parameter. Epoch Time (The number of milli-seconds since January 1 1970 UTC) at which the distribution should be scheduled (optional).</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/import_image_details/url_details/schedule_desc"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-import-image-details-url-details-schedule-desc"><strong>schedule_desc</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/import_image_details/url_details/schedule_desc" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>ScheduleDesc query parameter. Custom Description (optional).</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/import_image_details/url_details/schedule_origin"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-import-image-details-url-details-schedule-origin"><strong>schedule_origin</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/import_image_details/url_details/schedule_origin" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>ScheduleOrigin query parameter. Originator of this call (optional).</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/tagging_details"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-tagging-details"><strong>tagging_details</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/tagging_details" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Details for tagging or untagging an image as golden</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/tagging_details/device_image_family_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-tagging-details-device-image-family-name"><strong>device_image_family_name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/tagging_details/device_image_family_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Device Image family name(Eg Cisco Catalyst 9300 Switch)</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/tagging_details/device_role"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-tagging-details-device-role"><strong>device_role</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/tagging_details/device_role" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Defines the device role, with permissible values including ALL, UNKNOWN, ACCESS, BORDER ROUTER, DISTRIBUTION, and CORE. ALL - This role typically represents all devices within the network, regardless of their specific roles or functions. UNKNOWN - This role is assigned to devices whose roles or functions have not been identified or classified within Cisco Catalsyt Center. This could happen if the platform is unable to determine the device's role based on available information. ACCESS - This role typically represents switches or access points that serve as access points for end-user devices to connect to the network. These devices are often located at the edge of the network and provide connectivity to end-user devices. BORDER ROUTER - These are devices that connect different network domains or segments together. They often serve as gateways between different networks, such as connecting an enterprise network to the internet or connecting multiple branch offices. DISTRIBUTION - This role represents function as distribution switches or routers in hierarchical network designs. They aggregate traffic from access switches and route it toward the core of the network or toward other distribution switches. CORE - This role typically represents high-capacity switches or routers that form the backbone of the network. They handle large volumes of traffic and provide connectivity between different parts of network, such as connecting distribution switches or providing interconnection between different network segments.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/tagging_details/device_series_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-tagging-details-device-series-name"><strong>device_series_name</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/tagging_details/device_series_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<p><span class="ansible-option-versionadded">added in cisco.dnac 6.12.0</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>This parameter specifies the name of the device series. It is used to identify a specific series of devices, such as Cisco Catalyst 9300 Series Switches, within the Cisco Catalyst Center.</p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -1176,6 +1192,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-swim-int
 <span class="w">        </span><span class="nt">site_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/USA/San Francisco/BGL_18</span>
 <span class="w">        </span><span class="nt">device_role</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ALL</span>
 <span class="w">        </span><span class="nt">device_family_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Switches and Hubs</span>
+<span class="w">        </span><span class="nt">device_series_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Cisco Catalyst 9300 Series Switches</span>
 
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Activate the given image on devices associated to that site with specified role.</span>
 <span class="w">  </span><span class="nt">cisco.dnac.swim_intent</span><span class="p">:</span>
@@ -1194,6 +1211,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-swim-int
 <span class="w">        </span><span class="nt">site_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/USA/San Francisco/BGL_18</span>
 <span class="w">        </span><span class="nt">device_role</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ALL</span>
 <span class="w">        </span><span class="nt">device_family_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Switches and Hubs</span>
+<span class="w">        </span><span class="nt">device_series_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Cisco Catalyst 9300 Series Switches</span>
 <span class="w">        </span><span class="nt">scehdule_validate</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
 <span class="w">        </span><span class="nt">activate_lower_image_version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
 <span class="w">        </span><span class="nt">distribute_if_needed</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>

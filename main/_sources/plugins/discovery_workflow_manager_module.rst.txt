@@ -42,7 +42,7 @@ cisco.dnac.discovery_workflow_manager module -- A resource module for handling d
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.11.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.12.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1371,21 +1371,24 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/global_cli_len"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/global_credentials"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_workflow_manager_module__parameter-config/global_cli_len:
+      .. _ansible_collections.cisco.dnac.discovery_workflow_manager_module__parameter-config/global_credentials:
 
       .. rst-class:: ansible-option-title
 
-      **global_cli_len**
+      **global_credentials**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/global_cli_len" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/global_credentials" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`integer`
+      :ansible-option-type:`dictionary`
+
+      :ansible-option-versionadded:`added in cisco.dnac 6.12.0`
+
 
       .. raw:: html
 
@@ -1395,16 +1398,716 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Specifies the total number of CLI credentials to be used, ranging from 1 to 5.
+      Set of various credential types, including CLI, SNMP, HTTP, and NETCONF, that a user has pre-configured in the Device Credentials section of the Cisco Catalyst Center.
 
+      If user doesn't pass any global credentials in the playbook, then by default, we will use all the global credentials present in the Cisco Catalyst Center of each type for performing discovery. (Max 5 allowed)
 
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`1`
 
       .. raw:: html
 
         </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/global_credentials/cli_credentials_list"></div>
+
+      .. _ansible_collections.cisco.dnac.discovery_workflow_manager_module__parameter-config/global_credentials/cli_credentials_list:
+
+      .. rst-class:: ansible-option-title
+
+      **cli_credentials_list**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/global_credentials/cli_credentials_list" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Accepts a list of global CLI credentials for use in device discovery.
+
+      It's recommended to create device credentials with both a unique username and a clear description.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/global_credentials/cli_credentials_list/description"></div>
+
+      .. _ansible_collections.cisco.dnac.discovery_workflow_manager_module__parameter-config/global_credentials/cli_credentials_list/description:
+
+      .. rst-class:: ansible-option-title
+
+      **description**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/global_credentials/cli_credentials_list/description" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of the CLI credential, mandatory when using global CLI credentials.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/global_credentials/cli_credentials_list/username"></div>
+
+      .. _ansible_collections.cisco.dnac.discovery_workflow_manager_module__parameter-config/global_credentials/cli_credentials_list/username:
+
+      .. rst-class:: ansible-option-title
+
+      **username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/global_credentials/cli_credentials_list/username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Username required for CLI authentication and is mandatory when using global CLI credentials.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/global_credentials/http_read_credential_list"></div>
+
+      .. _ansible_collections.cisco.dnac.discovery_workflow_manager_module__parameter-config/global_credentials/http_read_credential_list:
+
+      .. rst-class:: ansible-option-title
+
+      **http_read_credential_list**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/global_credentials/http_read_credential_list" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of global HTTP Read credentials that will be used in the process of discovering devices.
+
+      It's recommended to create device credentials with both a unique username and a clear description for easy identification.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/global_credentials/http_read_credential_list/description"></div>
+
+      .. _ansible_collections.cisco.dnac.discovery_workflow_manager_module__parameter-config/global_credentials/http_read_credential_list/description:
+
+      .. rst-class:: ansible-option-title
+
+      **description**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/global_credentials/http_read_credential_list/description" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of the HTTP Read credential, mandatory when using  global HTTP credentials.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/global_credentials/http_read_credential_list/username"></div>
+
+      .. _ansible_collections.cisco.dnac.discovery_workflow_manager_module__parameter-config/global_credentials/http_read_credential_list/username:
+
+      .. rst-class:: ansible-option-title
+
+      **username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/global_credentials/http_read_credential_list/username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Username for HTTP Read authentication, mandatory when using global HTTP credentials.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/global_credentials/http_write_credential_list"></div>
+
+      .. _ansible_collections.cisco.dnac.discovery_workflow_manager_module__parameter-config/global_credentials/http_write_credential_list:
+
+      .. rst-class:: ansible-option-title
+
+      **http_write_credential_list**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/global_credentials/http_write_credential_list" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of global HTTP Write credentials that will be used in the process of discovering devices.
+
+      It's recommended to create device credentials with both a unique username and a clear description for easy identification.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/global_credentials/http_write_credential_list/description"></div>
+
+      .. _ansible_collections.cisco.dnac.discovery_workflow_manager_module__parameter-config/global_credentials/http_write_credential_list/description:
+
+      .. rst-class:: ansible-option-title
+
+      **description**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/global_credentials/http_write_credential_list/description" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of the HTTP Write credential, mandatory when using  global HTTP credentials.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/global_credentials/http_write_credential_list/username"></div>
+
+      .. _ansible_collections.cisco.dnac.discovery_workflow_manager_module__parameter-config/global_credentials/http_write_credential_list/username:
+
+      .. rst-class:: ansible-option-title
+
+      **username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/global_credentials/http_write_credential_list/username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Username for HTTP Write authentication, mandatory when using global HTTP credentials.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/global_credentials/net_conf_port_list"></div>
+
+      .. _ansible_collections.cisco.dnac.discovery_workflow_manager_module__parameter-config/global_credentials/net_conf_port_list:
+
+      .. rst-class:: ansible-option-title
+
+      **net_conf_port_list**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/global_credentials/net_conf_port_list" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of Global Net conf ports to be used during device discovery.
+
+      It's recommended to create device credentials with unique description.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/global_credentials/net_conf_port_list/description"></div>
+
+      .. _ansible_collections.cisco.dnac.discovery_workflow_manager_module__parameter-config/global_credentials/net_conf_port_list/description:
+
+      .. rst-class:: ansible-option-title
+
+      **description**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/global_credentials/net_conf_port_list/description" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of the Net Conf Port credential, mandatory when using global Net conf port.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/global_credentials/snmp_v2_read_credential_list"></div>
+
+      .. _ansible_collections.cisco.dnac.discovery_workflow_manager_module__parameter-config/global_credentials/snmp_v2_read_credential_list:
+
+      .. rst-class:: ansible-option-title
+
+      **snmp_v2_read_credential_list**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/global_credentials/snmp_v2_read_credential_list" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of Global SNMP V2 Read credentials to be used during device discovery.
+
+      It's recommended to create device credentials with both a unique username and a clear description for easy identification.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/global_credentials/snmp_v2_read_credential_list/description"></div>
+
+      .. _ansible_collections.cisco.dnac.discovery_workflow_manager_module__parameter-config/global_credentials/snmp_v2_read_credential_list/description:
+
+      .. rst-class:: ansible-option-title
+
+      **description**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/global_credentials/snmp_v2_read_credential_list/description" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of the SNMP Read credential, mandatory when using  global SNMP credentials.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/global_credentials/snmp_v2_read_credential_list/username"></div>
+
+      .. _ansible_collections.cisco.dnac.discovery_workflow_manager_module__parameter-config/global_credentials/snmp_v2_read_credential_list/username:
+
+      .. rst-class:: ansible-option-title
+
+      **username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/global_credentials/snmp_v2_read_credential_list/username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Username for SNMP Read authentication, mandatory when using global SNMP credentials.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/global_credentials/snmp_v2_write_credential_list"></div>
+
+      .. _ansible_collections.cisco.dnac.discovery_workflow_manager_module__parameter-config/global_credentials/snmp_v2_write_credential_list:
+
+      .. rst-class:: ansible-option-title
+
+      **snmp_v2_write_credential_list**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/global_credentials/snmp_v2_write_credential_list" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of Global SNMP V2 Write credentials to be used during device discovery.
+
+      It's recommended to create device credentials with both a unique username and a clear description for easy identification.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/global_credentials/snmp_v2_write_credential_list/description"></div>
+
+      .. _ansible_collections.cisco.dnac.discovery_workflow_manager_module__parameter-config/global_credentials/snmp_v2_write_credential_list/description:
+
+      .. rst-class:: ansible-option-title
+
+      **description**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/global_credentials/snmp_v2_write_credential_list/description" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of the SNMP Write credential, mandatory when using global SNMP credentials.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/global_credentials/snmp_v2_write_credential_list/username"></div>
+
+      .. _ansible_collections.cisco.dnac.discovery_workflow_manager_module__parameter-config/global_credentials/snmp_v2_write_credential_list/username:
+
+      .. rst-class:: ansible-option-title
+
+      **username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/global_credentials/snmp_v2_write_credential_list/username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Username for SNMP Write authentication, mandatory when using global SNMP credentials.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/global_credentials/snmp_v3_credential_list"></div>
+
+      .. _ansible_collections.cisco.dnac.discovery_workflow_manager_module__parameter-config/global_credentials/snmp_v3_credential_list:
+
+      .. rst-class:: ansible-option-title
+
+      **snmp_v3_credential_list**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/global_credentials/snmp_v3_credential_list" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of Global SNMP V3 credentials to be used during device discovery, giving read and write mode.
+
+      It's recommended to create device credentials with both a unique username and a clear description for easy identification.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/global_credentials/snmp_v3_credential_list/description"></div>
+
+      .. _ansible_collections.cisco.dnac.discovery_workflow_manager_module__parameter-config/global_credentials/snmp_v3_credential_list/description:
+
+      .. rst-class:: ansible-option-title
+
+      **description**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/global_credentials/snmp_v3_credential_list/description" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of the SNMP V3 credential, mandatory when using global SNMP credentials.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/global_credentials/snmp_v3_credential_list/username"></div>
+
+      .. _ansible_collections.cisco.dnac.discovery_workflow_manager_module__parameter-config/global_credentials/snmp_v3_credential_list/username:
+
+      .. rst-class:: ansible-option-title
+
+      **username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/global_credentials/snmp_v3_credential_list/username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Username for SNMP V3 authentication, mandatory when using global SNMP credentials.
+
+
+      .. raw:: html
+
+        </div>
+
+
 
   * - .. raw:: html
 
@@ -1567,7 +2270,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string` / :ansible-option-required:`required`
+      :ansible-option-type:`string`
 
       .. raw:: html
 
@@ -1579,6 +2282,10 @@ Parameters
 
       Determines the order in which device connections will be attempted. Here are the options - "telnet" Only telnet connections will be tried. - "ssh, telnet" SSH (Secure Shell) will be attempted first, followed by telnet if SSH fails.
 
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"ssh"`
 
       .. raw:: html
 
@@ -1722,6 +2429,52 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Time to wait for device response in seconds
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/use_global_credentials"></div>
+
+      .. _ansible_collections.cisco.dnac.discovery_workflow_manager_module__parameter-config/use_global_credentials:
+
+      .. rst-class:: ansible-option-title
+
+      **use_global_credentials**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/use_global_credentials" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Determines if device discovery should utilize pre-configured global credentials.
+
+      Setting to True employs the predefined global credentials for discovery tasks. This is the default setting.
+
+      Setting to False requires manually provided, device-specific credentials for discovery, as global credentials will be bypassed.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
 
 
       .. raw:: html
@@ -2323,6 +3076,7 @@ Notes
 .. note::
    - SDK Method used are discovery.Discovery.get\_all\_global\_credentials\_v2, discovery.Discovery.start\_discovery, task.Task.get\_task\_by\_id, discovery.Discovery.get\_discoveries\_by\_range, discovery.Discovery.get\_discovered\_network\_devices\_by\_discovery\_id', discovery.Discovery.delete\_discovery\_by\_id discovery.Discovery.delete\_all\_discovery discovery.Discovery.get\_count\_of\_all\_discovery\_jobs
    - Paths used are get /dna/intent/api/v2/global-credential post /dna/intent/api/v1/discovery get /dna/intent/api/v1/task/{taskId} get /dna/intent/api/v1/discovery/{startIndex}/{recordsToReturn} get /dna/intent/api/v1/discovery/{id}/network-device delete /dna/intent/api/v1/discovery/{id} delete /dna/intent/api/v1/delete get /dna/intent/api/v1/discovery/count
+   - Removed 'global\_cli\_len' option in v6.12.0.
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK
    - The parameters starting with dnac\_ are used by the Cisco Catalyst Center Python SDK to establish the connection
@@ -2338,7 +3092,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Execute discovery devices
+    - name: Execute discovery devices with both global credentials and discovery specific credentials
       cisco.dnac.discovery_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -2352,20 +3106,13 @@ Examples
         state: merged
         config_verify: True
         config:
-            - ip_address_list: list
+            - discovery_name: string
               discovery_type: string
+              ip_address_list: list
+              ip_filter_list: list
               cdp_level: string
               lldp_level: string
-              start_index: integer
-              records_to_return: integer
-              ip_filter_list: list
-              discovery_name: string
-              password_list: list
               prefered_mgmt_ip_method: string
-              protocol_order: string
-              retry: integer
-              timeout: integer
-              global_cli_len: integer
               discovery_specific_credentials:
                 cli_credentials_list:
                     - username: string
@@ -2394,6 +3141,90 @@ Examples
                     auth_type: string
                     privacy_type: string
                     privacy_password: string
+                net_conf_port: string
+              global_credentials:
+                cli_credentials_list:
+                    - description: string
+                      username: string
+                http_read_credential_list:
+                    - description: string
+                      username: string
+                http_write_credential_list:
+                    - description: string
+                      username: string
+                snmp_v3_credential_list:
+                    - description: string
+                      username: string
+                snmp_v2_read_credential_list:
+                    - description: string
+                      username: string
+                snmp_v2_write_credential_list:
+                    - description: string
+                      username: string
+                net_conf_port_list:
+                    - description: string
+              start_index: integer
+              records_to_return: integer
+              protocol_order: string
+              retry: integer
+              timeout: integer
+
+    - name: Execute discovery devices with discovery specific credentials only
+      cisco.dnac.discovery_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: True
+        dnac_log_level: "{{dnac_log_level}}"
+        state: merged
+        config_verify: True
+        config:
+            - discovery_name: string
+              discovery_type: string
+              ip_address_list: list
+              ip_filter_list: list
+              cdp_level: string
+              lldp_level: string
+              prefered_mgmt_ip_method: string
+              discovery_specific_credentials:
+                cli_credentials_list:
+                    - username: string
+                      password: string
+                      enable_password: string
+                http_read_credential:
+                    username: string
+                    password: string
+                    port: integer
+                    secure: boolean
+                http_write_credential:
+                    username: string
+                    password: string
+                    port: integer
+                    secure: boolean
+                snmp_v2_read_credential:
+                    desc: string
+                    community: string
+                snmp_v2_write_credential:
+                    desc: string
+                    community: string
+                snmp_v3_credential:
+                    username: string
+                    snmp_mode: string
+                    auth_password: string
+                    auth_type: string
+                    privacy_type: string
+                    privacy_password: string
+                net_conf_port: string
+              use_global_credentials: False
+              start_index: integer
+              records_to_return: integer
+              protocol_order: string
+              retry: integer
+              timeout: integer
 
     - name: Delete disovery by name
       cisco.dnac.discovery_workflow_manager:
