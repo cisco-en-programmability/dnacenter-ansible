@@ -943,6 +943,9 @@ class PnP(DnacBase):
         )
         self.log("Response from 'get_device_by_id' API for device details: {0}".format(str(dev_details_response)), "DEBUG")
 
+        is_stack = False
+        if dev_details_response.get("deviceInfo").get("stack"):
+            is_stack = dev_details_response.get("deviceInfo").get("stack")
         pnp_state = dev_details_response.get("deviceInfo").get("state")
         self.log("PnP state of the device: {0}".format(pnp_state), "INFO")
 
@@ -953,6 +956,9 @@ class PnP(DnacBase):
             return self
 
         update_payload = {"deviceInfo": self.want.get('pnp_params')[0].get("deviceInfo")}
+        update_payload["deviceInfo"]["stack"] = is_stack
+
+        self.log("The request sent for 'update_device' API for device's config update: {0}".format(update_payload), "DEBUG")
         update_response = self.dnac_apply['exec'](
             family="device_onboarding_pnp",
             function="update_device",
