@@ -474,7 +474,7 @@ class PnP(DnacBase):
         imageinfo = {
             'imageId': self.have.get('image_id')
         }
-
+        template_params = self.validated_config[0].get("template_params")
         configinfo = {
             'configId': self.have.get('template_id'),
             'configParameters': [
@@ -485,11 +485,11 @@ class PnP(DnacBase):
             ]
         }
 
-        if configinfo["configId"] and self.validated_config[0]["template_params"]:
-            if isinstance(self.validated_config[0]["template_params"], dict):
-                if len(self.validated_config[0]["template_params"]) > 0:
+        if configinfo.get("configId") and template_params:
+            if isinstance(template_params, dict):
+                if len(template_params) > 0:
                     configinfo["configParameters"] = []
-                    for key, value in self.validated_config[0]["template_params"].items():
+                    for key, value in template_params.items():
                         config_dict = {
                             'key': key,
                             'value': value
@@ -609,7 +609,7 @@ class PnP(DnacBase):
                 number '{0}': {1}".format(self.want.get("serial_number"), str(device_response)), "DEBUG")
 
             if not (device_response and (len(device_response) == 1)):
-                self.log("Device with with serial number {0} is not found in the inventory".format(self.want.get("serial_number")), "WARNING")
+                self.log("Device with serial number {0} is not found in the inventory".format(self.want.get("serial_number")), "WARNING")
                 self.msg = "Adding the device to database"
                 self.status = "success"
                 self.have = have
@@ -893,6 +893,7 @@ class PnP(DnacBase):
                     params=self.want.get("pnp_params")[0],
                     op_modifies=True,
                 )
+                self.get_have().check_return_status()
                 self.have["deviceInfo"] = dev_add_response.get("deviceInfo")
                 self.log("Response from API 'add device' for single device addition: {0}".format(str(dev_add_response)), "DEBUG")
                 claim_params = self.get_claim_params()
@@ -905,8 +906,7 @@ class PnP(DnacBase):
                 )
 
                 self.log("Response from API 'claim a device to a site' for a single claiming: {0}".format(str(dev_add_response)), "DEBUG")
-                if claim_response.get("response") == "Device Claimed" \
-                        and self.have["deviceInfo"]:
+                if claim_response.get("response") == "Device Claimed" and self.have["deviceInfo"]:
                     self.result['msg'] = "Device Added and Claimed Successfully"
                     self.log(self.result['msg'], "INFO")
                     self.result['response'] = claim_response
@@ -943,6 +943,9 @@ class PnP(DnacBase):
         )
         self.log("Response from 'get_device_by_id' API for device details: {0}".format(str(dev_details_response)), "DEBUG")
 
+        is_stack = False
+        if dev_details_response.get("deviceInfo").get("stack"):
+            is_stack = dev_details_response.get("deviceInfo").get("stack")
         pnp_state = dev_details_response.get("deviceInfo").get("state")
         self.log("PnP state of the device: {0}".format(pnp_state), "INFO")
 
@@ -953,6 +956,9 @@ class PnP(DnacBase):
             return self
 
         update_payload = {"deviceInfo": self.want.get('pnp_params')[0].get("deviceInfo")}
+        update_payload["deviceInfo"]["stack"] = is_stack
+
+        self.log("The request sent for 'update_device' API for device's config update: {0}".format(update_payload), "DEBUG")
         update_response = self.dnac_apply['exec'](
             family="device_onboarding_pnp",
             function="update_device",
