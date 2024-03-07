@@ -956,8 +956,7 @@ class PnP(DnacBase):
             return self
 
         update_payload = {"deviceInfo": self.want.get('pnp_params')[0].get("deviceInfo")}
-        if is_stack is True:
-            update_payload["deviceInfo"]["stack"] = True
+        update_payload["deviceInfo"]["stack"] = is_stack
 
         self.log("The request sent for 'update_device' API for device's config update: {0}".format(update_payload), "DEBUG")
         update_response = self.dnac_apply['exec'](
