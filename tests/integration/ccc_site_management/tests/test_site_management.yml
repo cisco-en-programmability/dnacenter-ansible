@@ -18,6 +18,7 @@
         dnac_debug: "{{ dnac_debug }}"
         dnac_log: true
         dnac_log_level: DEBUG
+        config_verify: true
 
   # - debug:
   #     msg: "{{ vars_map.design_sites }}"
@@ -33,7 +34,6 @@
 #   - name: Clean up before test
 #     cisco.dnac.site_workflow_manager:
 #       <<: *dnac_login
-#       config_verify: true
 #       state: deleted
 #       config:
 #           - "{{ item }}"
@@ -46,7 +46,6 @@
 #   - name: Create sites 
 #     cisco.dnac.site_workflow_manager:
 #       <<: *dnac_login
-#       config_verify: true
 #       state: merged
 #       config:
 #           - "{{ item }}"
@@ -74,7 +73,6 @@
 #   - name: Update sites 
 #     cisco.dnac.site_workflow_manager:
 #       <<: *dnac_login
-#       config_verify: true
 #       state: merged
 #       config:
 #           - "{{ item }}"
@@ -102,7 +100,6 @@
 #   - name: Delete sites 
 #     cisco.dnac.site_workflow_manager:
 #       <<: *dnac_login
-#       config_verify: true
 #       state: deleted
 #       config:
 #           - "{{ item }}"
