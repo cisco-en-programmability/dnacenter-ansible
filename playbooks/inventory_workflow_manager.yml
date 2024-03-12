@@ -69,13 +69,13 @@
           assign_device_member_to_tag:
             tag_name: Pre_test_check1
           assign_interface_member_to_tag:
-            interface_names_list: ['GigabitEthernet1/0/1', 'GigabitEthernet1/0/3']
+            interface_names_list: ['GigabitEthernet1/0/1','GigabitEthernet1/0/3']
             tag_name: Pre_test_check1
 
           remove_device_tag_member:
             tag_name: March_4th
           remove_interface_tag_member:
-            interface_names_list: ['GigabitEthernet1/0/1', 'GigabitEthernet1/0/3']
+            interface_names_list: ['GigabitEthernet1/0/1','GigabitEthernet1/0/3']
             tag_name: March_4th
           delete_tag:
             tag_name: string_device_tag
