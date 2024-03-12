@@ -754,7 +754,7 @@ class Discovery(DnacBase):
                 msg = "Global CLI credentials must be passed as a list"
                 self.discovery_specific_cred_failure(msg=msg)
             if response.get("cliCredential") is None:
-                msg = "No Global CLI credentials are present in the Cisco Catalyst Center"
+                msg = "Global CLI credentials are not present in the Cisco Catalyst Center"
                 self.discovery_specific_cred_failure(msg=msg)
             if len(cli_credentials_list) > 0:
                 global_credentials_all["cliCredential"] = []
@@ -777,7 +777,7 @@ class Discovery(DnacBase):
                 msg = "Global HTTP read credentials must be passed as a list"
                 self.discovery_specific_cred_failure(msg=msg)
             if response.get("httpsRead") is None:
-                msg = "No Global HTTP read credentials are present in the Cisco Catalyst Center"
+                msg = "Global HTTP read credentials are not present in the Cisco Catalyst Center"
                 self.discovery_specific_cred_failure(msg=msg)
             if len(http_read_credential_list) > 0:
                 global_credentials_all["httpsRead"] = []
@@ -800,7 +800,7 @@ class Discovery(DnacBase):
                 msg = "Global HTTP write credentials must be passed as a list"
                 self.discovery_specific_cred_failure(msg=msg)
             if response.get("httpsWrite") is None:
-                msg = "No Global HTTP write credentials are present in the Cisco Catalyst Center"
+                msg = "Global HTTP write credentials are not present in the Cisco Catalyst Center"
                 self.discovery_specific_cred_failure(msg=msg)
             if len(http_write_credential_list) > 0:
                 global_credentials_all["httpsWrite"] = []
@@ -820,10 +820,10 @@ class Discovery(DnacBase):
         snmp_v2_read_credential_list = global_credentials.get('snmp_v2_read_credential_list')
         if snmp_v2_read_credential_list:
             if not isinstance(snmp_v2_read_credential_list, list):
-                msg = "Global SNMPV2 read credentials must be passed as a list"
+                msg = "Global SNMPv2 read credentials must be passed as a list"
                 self.discovery_specific_cred_failure(msg=msg)
             if response.get("snmpV2cRead") is None:
-                msg = "No Global SNMPV2 read credentials are present in the Cisco Catalyst Center"
+                msg = "Global SNMPv2 read credentials are not resent in the Cisco Catalyst Center"
                 self.discovery_specific_cred_failure(msg=msg)
             if len(snmp_v2_read_credential_list) > 0:
                 global_credentials_all["snmpV2cRead"] = []
@@ -837,17 +837,17 @@ class Discovery(DnacBase):
                                 global_credentials_all["snmpV2cRead"].append(snmp.get("id"))
                         global_credentials_all["snmpV2cRead"] = global_credentials_all["snmpV2cRead"][:cred_len]
                     else:
-                        msg = "Kindly ensure you include the description for the Global SNMPV2 Read \
+                        msg = "Kindly ensure you include the description for the Global SNMPv2 Read \
                                 credential to discover the devices"
                         self.discovery_specific_cred_failure(msg=msg)
 
         snmp_v2_write_credential_list = global_credentials.get('snmp_v2_write_credential_list')
         if snmp_v2_write_credential_list:
             if not isinstance(snmp_v2_write_credential_list, list):
-                msg = "Global SNMPV2 write credentials must be passed as a list"
+                msg = "Global SNMPv2 write credentials must be passed as a list"
                 self.discovery_specific_cred_failure(msg=msg)
             if response.get("snmpV2cWrite") is None:
-                msg = "No Global SNMPV2 write credentials are present in the Cisco Catalyst Center"
+                msg = "Global SNMPv2 write credentials are not present in the Cisco Catalyst Center"
                 self.discovery_specific_cred_failure(msg=msg)
             if len(snmp_v2_write_credential_list) > 0:
                 global_credentials_all["snmpV2cWrite"] = []
@@ -867,10 +867,10 @@ class Discovery(DnacBase):
         snmp_v3_credential_list = global_credentials.get('snmp_v3_credential_list')
         if snmp_v3_credential_list:
             if not isinstance(snmp_v3_credential_list, list):
-                msg = "Global SNMPV3 write credentials must be passed as a list"
+                msg = "Global SNMPv3 write credentials must be passed as a list"
                 self.discovery_specific_cred_failure(msg=msg)
             if response.get("snmpV3") is None:
-                msg = "No Global SNMPV3 credentials are present in the Cisco Catalyst Center"
+                msg = "Global SNMPv3 credentials are not present in the Cisco Catalyst Center"
                 self.discovery_specific_cred_failure(msg=msg)
             if len(snmp_v3_credential_list) > 0:
                 global_credentials_all["snmpV3"] = []
@@ -884,7 +884,7 @@ class Discovery(DnacBase):
                                 global_credentials_all["snmpV3"].append(snmp.get("id"))
                         global_credentials_all["snmpV3"] = global_credentials_all["snmpV3"][:cred_len]
                     else:
-                        msg = "Kindly ensure you include both the description and the username for the Global SNMPV3 \
+                        msg = "Kindly ensure you include both the description and the username for the Global SNMPv3 \
                                 to discover the devices"
                         self.discovery_specific_cred_failure(msg=msg)
 
@@ -894,7 +894,7 @@ class Discovery(DnacBase):
                 msg = "Global net Conf Ports be passed as a list"
                 self.discovery_specific_cred_failure(msg=msg)
             if response.get("netconfCredential") is None:
-                msg = "No Global Net Conf Ports are present in the Cisco Catalyst Center"
+                msg = "Global netconf ports are not present in the Cisco Catalyst Center"
                 self.discovery_specific_cred_failure(msg=msg)
             if len(net_conf_port_list) > 0:
                 global_credentials_all["netconfCredential"] = []
