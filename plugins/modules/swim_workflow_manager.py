@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-# Copyright (c) 2022, Cisco Systems
+# Copyright (c) 2024, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
@@ -11,8 +11,8 @@ __author__ = ("Madhan Sankaranarayanan, Rishita Chowdhary, Abhishek Maheshwari")
 
 DOCUMENTATION = r"""
 ---
-module: swim_intent
-short_description: Intent module for SWIM related functions
+module: swim_workflow_manager
+short_description: workflow_manager module for SWIM related functions
 description:
 - Manage operation related to image importation, distribution, activation and tagging image as golden
 - API to fetch a software image from remote file system using URL for HTTP/FTP and upload it to Catalyst Center.
@@ -25,7 +25,7 @@ description:
 - API to activate a software image on a given device. Software image must be present in the device flash.
 version_added: '6.6.0'
 extends_documentation_fragment:
-  - cisco.dnac.intent_params
+  - cisco.dnac.workflow_manager_params
 author: Madhan Sankaranarayanan (@madhansansel)
         Rishita Chowdhary (@rishitachowdhary)
         Abhishek Maheshwari (@abmahesh)
@@ -131,7 +131,7 @@ options:
                     type: str
                   source_url:
                     description: A mandatory parameter for importing a SWIM image via a remote URL. This parameter is required when using a URL
-                        to import an image.(For example, http://{host}/swim/cat9k_isoxe.16.12.10s.SPA.bin,
+                        to import an image..(For example, http://{host}/swim/cat9k_isoxe.16.12.10s.SPA.bin,
                         ftp://user:password@{host}/swim/cat9k_isoxe.16.12.10s.SPA.iso)
                     type: str
                   is_third_party:
@@ -181,11 +181,6 @@ options:
             description: Site name for which SWIM image will be tagged/untagged as golden.
               If not provided, SWIM image will be mapped to global site.
             type: str
-          device_series_name:
-            description: This parameter specifies the name of the device series. It is used to identify a specific series of devices,
-                such as Cisco Catalyst 9300 Series Switches, within the Cisco Catalyst Center.
-            type: str
-            version_added: 6.12.0
           tagging:
             description: Booelan value to tag/untag SWIM image as golden
               If True then the given image will be tagged as golden.
@@ -198,8 +193,8 @@ options:
         type: dict
         suboptions:
           device_role:
-            description: Defines the device role, with permissible values including ALL, UNKNOWN, ACCESS, BORDER ROUTER,
-              DISTRIBUTION, and CORE.
+            description: Device Role and  permissible Values are ALL, UNKNOWN, ACCESS, BORDER ROUTER,
+              DISTRIBUTION and CORE.
               ALL - This role typically represents all devices within the network, regardless of their specific roles or functions.
               UNKNOWN - This role is assigned to devices whose roles or functions have not been identified or classified within Cisco Catalsyt Center.
                 This could happen if the platform is unable to determine the device's role based on available information.
@@ -249,19 +244,6 @@ options:
           device_role:
             description: Defines the device role, with permissible values including ALL, UNKNOWN, ACCESS, BORDER ROUTER,
               DISTRIBUTION, and CORE.
-              ALL - This role typically represents all devices within the network, regardless of their specific roles or functions.
-              UNKNOWN - This role is assigned to devices whose roles or functions have not been identified or classified within Cisco Catalsyt Center.
-                This could happen if the platform is unable to determine the device's role based on available information.
-              ACCESS - This role typically represents switches or access points that serve as access points for end-user devices to connect to the network.
-                These devices are often located at the edge of the network and provide connectivity to end-user devices.
-              BORDER ROUTER - These are devices that connect different network domains or segments together. They often serve as
-                gateways between different networks, such as connecting an enterprise network to the internet or connecting
-                multiple branch offices.
-              DISTRIBUTION - This role represents function as distribution switches or routers in hierarchical network designs. They aggregate traffic
-                from access switches and route it toward the core of the network or toward other distribution switches.
-              CORE - This role typically represents high-capacity switches or routers that form the backbone of the network. They handle large volumes
-                of traffic and provide connectivity between different parts of network, such as connecting distribution switches or
-                providing interconnection between different network segments.
             type: str
           device_family_name:
             description: Specify the name of the device family such as Switches and Hubs, etc.
@@ -269,6 +251,11 @@ options:
           site_name:
             description: Used to get device details associated to this site.
             type: str
+          device_series_name:
+            description: This parameter specifies the name of the device series. It is used to identify a specific series of devices,
+                such as Cisco Catalyst 9300 Series Switches, within the Cisco Catalyst Center.
+            type: str
+            version_added: 6.12.0
           activate_lower_image_version:
             description: ActivateLowerImageVersion flag.
             type: bool
@@ -327,7 +314,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Import an image from a URL, tag it as golden and load it on device
-  cisco.dnac.swim_intent:
+  cisco.dnac.swim_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -361,7 +348,7 @@ EXAMPLES = r"""
         device_serial_number: FJC2327U0S2
 
 - name: Import an image from local, tag it as golden.
-  cisco.dnac.swim_intent:
+  cisco.dnac.swim_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -385,7 +372,7 @@ EXAMPLES = r"""
         tagging: True
 
 - name: Tag the given image as golden and load it on device
-  cisco.dnac.swim_intent:
+  cisco.dnac.swim_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -404,7 +391,7 @@ EXAMPLES = r"""
         tagging: True
 
 - name: Un-tagged the given image as golden and load it on device
-  cisco.dnac.swim_intent:
+  cisco.dnac.swim_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -423,7 +410,7 @@ EXAMPLES = r"""
         tagging: False
 
 - name: Distribute the given image on devices associated to that site with specified role.
-  cisco.dnac.swim_intent:
+  cisco.dnac.swim_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -442,7 +429,7 @@ EXAMPLES = r"""
         device_series_name: Cisco Catalyst 9300 Series Switches
 
 - name: Activate the given image on devices associated to that site with specified role.
-  cisco.dnac.swim_intent:
+  cisco.dnac.swim_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -501,8 +488,8 @@ from ansible.module_utils.basic import AnsibleModule
 import os
 
 
-class DnacSwims(DnacBase):
-    """Class containing member attributes for Swim intent module"""
+class Swim(DnacBase):
+    """Class containing member attributes for Swim workflow_manager module"""
 
     def __init__(self, module):
         super().__init__(module)
@@ -539,7 +526,6 @@ class DnacSwims(DnacBase):
             image_distribution_details=dict(type='dict'),
             image_activation_details=dict(type='dict'),
         )
-        self.config = self.camel_to_snake_case(self.config)
 
         # Validate swim params
         valid_temp, invalid_params = validate_list_of_dicts(
@@ -744,7 +730,7 @@ class DnacSwims(DnacBase):
         device_uuid_list = []
         if not site_name:
             site_name = "Global"
-            self.log("Since site name is not given so it will be fetch all the devices under Global and mark site name as 'Global'", "INFO")
+            self.log("Site name not specified; defaulting to 'Global' to fetch all devices under this category", "INFO")
 
         (site_exists, site_id) = self.site_exists(site_name)
         if not site_exists:
@@ -856,7 +842,7 @@ class DnacSwims(DnacBase):
             else:
                 self.msg = "Device Family: {0} not found".format(str(family_name))
                 self.log(self.msg, "ERROR")
-                self.module.fail_json(msg=self.msg, response=[self.msg])
+                self.module.fail_json(msg=self.msg, response=self.msg)
             self.have.update(have)
 
     def get_have(self):
@@ -1411,8 +1397,8 @@ class DnacSwims(DnacBase):
                         break
 
                     if task_details.get("isError"):
-                        self.msg = "Image with Id '{0}' Distribution failed".format(image_id)
-                        self.log(self.msg, "ERROR")
+                        error_msg = "Image with Id '{0}' Distribution failed".format(image_id)
+                        self.log(error_msg, "ERROR")
                         self.result['response'] = task_details
                         device_ips_list.append(device_management_ip)
                         break
@@ -1705,7 +1691,6 @@ class DnacSwims(DnacBase):
         Verify the distribution status of a software image in Cisco Catalyst Center.
         Args:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-            import_type (str): The type of import, either 'url' or 'local'.
         Returns:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
         Description:
@@ -1842,27 +1827,27 @@ def main():
     module = AnsibleModule(argument_spec=element_spec,
                            supports_check_mode=False)
 
-    dnac_swims = DnacSwims(module)
-    state = dnac_swims.params.get("state")
+    ccc_swims = Swim(module)
+    state = ccc_swims.params.get("state")
 
-    if state not in dnac_swims.supported_states:
-        dnac_swims.status = "invalid"
-        dnac_swims.msg = "State {0} is invalid".format(state)
-        dnac_swims.check_return_status()
+    if state not in ccc_swims.supported_states:
+        ccc_swims.status = "invalid"
+        ccc_swims.msg = "State {0} is invalid".format(state)
+        ccc_swims.check_return_status()
 
-    dnac_swims.validate_input().check_return_status()
-    config_verify = dnac_swims.params.get("config_verify")
+    ccc_swims.validate_input().check_return_status()
+    config_verify = ccc_swims.params.get("config_verify")
 
-    for config in dnac_swims.validated_config:
-        dnac_swims.reset_values()
-        dnac_swims.get_want(config).check_return_status()
-        dnac_swims.get_diff_import().check_return_status()
-        dnac_swims.get_have().check_return_status()
-        dnac_swims.get_diff_state_apply[state](config).check_return_status()
+    for config in ccc_swims.validated_config:
+        ccc_swims.reset_values()
+        ccc_swims.get_want(config).check_return_status()
+        ccc_swims.get_diff_import().check_return_status()
+        ccc_swims.get_have().check_return_status()
+        ccc_swims.get_diff_state_apply[state](config).check_return_status()
         if config_verify:
-            dnac_swims.verify_diff_state_apply[state](config).check_return_status()
+            ccc_swims.verify_diff_state_apply[state](config).check_return_status()
 
-    module.exit_json(**dnac_swims.result)
+    module.exit_json(**ccc_swims.result)
 
 
 if __name__ == '__main__':

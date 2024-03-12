@@ -218,6 +218,7 @@ options:
             - If user doesn't pass any global credentials in the playbook, then by default, we will use all the global
                 credentials present in the Cisco Catalyst Center of each type for performing discovery. (Max 5 allowed)
         type: dict
+        version_added: 6.12.0
         suboptions:
             cli_credentials_list:
                 description:
@@ -348,6 +349,8 @@ notes:
     delete /dna/intent/api/v1/discovery/{id}
     delete /dna/intent/api/v1/delete
     get /dna/intent/api/v1/discovery/count
+
+  - Removed 'global_cli_len' option in v6.12.0.
 
 """
 
