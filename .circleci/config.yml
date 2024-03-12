@@ -183,11 +183,10 @@ jobs:
                   echo "    - ccc_inventory_management" >> ccc_roles.yml
 
       - when:
-          condition: 
-            or:
-              - << pipeline.parameters.run-all >> 
-              - equal: [ scheduled_pipeline, << pipeline.trigger_source >> ]
-
+          condition: << pipeline.parameters.run-all >> 
+            # or: 
+            #   - << pipeline.parameters.run-all >> 
+            #   - equal: [ scheduled_pipeline, << pipeline.trigger_source >> ]
           steps:
             - run:
                 command: |
@@ -199,20 +198,20 @@ jobs:
       - run:
           command: cat ccc_roles.yml
 
-  # add-all-roles:
-  #   machine: true
-  #   resource_class: rukapse/dnacenter-ansible
-  #   working_directory: ~/repo 
+  add-all-roles:
+    machine: true
+    resource_class: rukapse/dnacenter-ansible
+    working_directory: ~/repo 
 
-  #   steps:
-  #     - run:
-  #         name: Debug information
-  #         command: |
-  #           echo "    - ccc_site_management" >> ccc_roles.yml
-  #           echo "    - ccc_device_credential_management" >> ccc_roles.yml
-  #           echo "    - ccc_discovery_management" >> ccc_roles.yml
-  #           echo "    - ccc_inventory_management" >> ccc_roles.yml
-  #           cat ccc_roles.yml
+    steps:
+      - run:
+          name: Debug information
+          command: |
+            echo "    - ccc_site_management" >> ccc_roles.yml
+            echo "    - ccc_device_credential_management" >> ccc_roles.yml
+            echo "    - ccc_discovery_management" >> ccc_roles.yml
+            echo "    - ccc_inventory_management" >> ccc_roles.yml
+            cat ccc_roles.yml
 
 
   sanity-tests:
@@ -299,13 +298,6 @@ jobs:
 
 workflows:  
   pre-testing:
-    triggers:
-      - schedule:
-          cron: "0 0 * * *"  
-          filters:
-            branches:
-              only:
-                - circleci-setup  
     when: << pipeline.parameters.run-setup >>
     jobs:
       - pre
@@ -354,28 +346,34 @@ workflows:
               ansible_cisco_dnac_version:
                 - "6.9.0"
 
+  scheduled_testing:
+    triggers:
+      - schedule:
+          cron: "0 0 * * *"  
+          filters:
+            branches:
+              only:
+                - circleci-setup  
+    jobs:
+      - pre
 
-  
-  #   jobs:
-  #     - pre
+      - build:
+          matrix:
+            parameters:
+              ansible_cisco_dnac_version:
+                - "6.9.0"
+          requires:
+            - pre
 
-  #     - build:
-  #         matrix:
-  #           parameters:
-  #             ansible_cisco_dnac_version:
-  #               - "6.9.0"
-  #         requires:
-  #           - pre
+      - add-all-roles:
+          requires:
+            - build
 
-  #     - add-all-roles:
-  #         requires:
-  #           - build
-
-  #     - sanity-tests:
-  #         requires:
-  #           - add-all-roles
-  #         matrix:
-  #           parameters:
-  #             ansible_cisco_dnac_version:
-  #               - "6.9.0"
+      - sanity-tests:
+          requires:
+            - add-all-roles
+          matrix:
+            parameters:
+              ansible_cisco_dnac_version:
+                - "6.9.0"
 
