@@ -340,7 +340,7 @@ workflows:
   integration-testing:
     when: << pipeline.parameters.run-any >> 
     jobs: 
-      - <<# if scheduled-build >>add-all-roles<< else >>addrole<< /if >>         
+      - <<\<<# if scheduled-build >>add-all-roles<< else >>addrole<< /if >>       
       # - addrole
 
       - sanity-tests:
