@@ -826,7 +826,7 @@ class Discovery(DnacBase):
                 msg = "Global SNMPv2 read credentials must be passed as a list"
                 self.discovery_specific_cred_failure(msg=msg)
             if response.get("snmpV2cRead") is None:
-                msg = "Global SNMPv2 read credentials are not resent in the Cisco Catalyst Center"
+                msg = "Global SNMPv2 read credentials are not present in the Cisco Catalyst Center"
                 self.discovery_specific_cred_failure(msg=msg)
             if len(snmp_v2_read_credential_list) > 0:
                 global_credentials_all["snmpV2cRead"] = []
