@@ -317,7 +317,7 @@ workflows:
           config-path: .circleci/config.yml
           mapping: |
             .* run-setup false
-            
+
             plugins/module_utils/.* run-all true
 
             plugins/modules/site_workflow_manager.py run-site true
@@ -341,19 +341,6 @@ workflows:
             parameters:
               ansible_cisco_dnac_version:
                 - "6.9.0"
-
-  # integration-testing:
-  #   when: << pipeline.parameters.run-any >> 
-  #   jobs: 
-  #     - addrole
-
-  #     - sanity-tests:
-  #         requires:
-  #           - addrole
-  #         matrix:
-  #           parameters:
-  #             ansible_cisco_dnac_version:
-  #               - "6.9.0"
 
   scheduled_testing:
     triggers:
