@@ -9,9 +9,9 @@ parameters:
   run-setup:
     type: boolean
     default: true
-  # run-any:
-  #   type: boolean
-  #   default: false
+  run-any:
+    type: boolean
+    default: false
   run-all:
     type: boolean
     default: false
@@ -183,10 +183,7 @@ jobs:
                   echo "    - ccc_inventory_management" >> ccc_roles.yml
 
       - when:
-          condition: << pipeline.parameters.run-all >> 
-            # or: 
-            #   - << pipeline.parameters.run-all >> 
-            #   - equal: [ scheduled_pipeline, << pipeline.trigger_source >> ]
+          condition: << pipeline.parameters.run-all >>
           steps:
             - run:
                 command: |
@@ -318,6 +315,9 @@ workflows:
           mapping: |
             .* run-setup false
 
+            plugins/.* run-any true
+            tests/integration/.* run-any true
+
             plugins/module_utils/.* run-all true
 
             plugins/modules/site_workflow_manager.py run-site true
@@ -330,9 +330,10 @@ workflows:
             tests/integration/ccc_discovery_management/.* run-discovery true
             tests/integration/ccc_inventory_management/.* run-inventory true
 
-      - addrole:
-          requires:
-            - path-filtering/filter
+  integration-testing:
+    when: << pipeline.parameters.run-any >> 
+    jobs:          
+      - addrole
 
       - sanity-tests:
           requires:
@@ -342,4 +343,35 @@ workflows:
               ansible_cisco_dnac_version:
                 - "6.9.0"
 
+
+  # scheduled-testing:
+  #   triggers:
+  #     - schedule:
+  #         cron: "0 0 * * *"  
+  #         filters:
+  #           branches:
+  #             only:
+  #               - circleci-setup  
+  #   jobs:
+  #     - pre
+
+  #     - build:
+  #         matrix:
+  #           parameters:
+  #             ansible_cisco_dnac_version:
+  #               - "6.9.0"
+  #         requires:
+  #           - pre
+
+  #     - add-all-roles:
+  #         requires:
+  #           - build
+
+  #     - sanity-tests:
+  #         requires:
+  #           - add-all-roles
+  #         matrix:
+  #           parameters:
+  #             ansible_cisco_dnac_version:
+  #               - "6.9.0"
 
