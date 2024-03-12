@@ -295,6 +295,13 @@ jobs:
 
 workflows:  
   pre-testing:
+    triggers:
+      - schedule:
+          cron: "0 0 * * *"  
+          filters:
+            branches:
+              only:
+                - circleci-setup  
     when: << pipeline.parameters.run-setup >>
     jobs:
       - pre
@@ -332,8 +339,9 @@ workflows:
 
   integration-testing:
     when: << pipeline.parameters.run-any >> 
-    jobs:          
-      - addrole
+    jobs: 
+      - <<# if scheduled-build >>add-all-roles<< else >>addrole<< /if >>         
+      # - addrole
 
       - sanity-tests:
           requires:
@@ -344,14 +352,7 @@ workflows:
                 - "6.9.0"
 
 
-  # scheduled-testing:
-  #   triggers:
-  #     - schedule:
-  #         cron: "0 0 * * *"  
-  #         filters:
-  #           branches:
-  #             only:
-  #               - circleci-setup  
+  
   #   jobs:
   #     - pre
 
