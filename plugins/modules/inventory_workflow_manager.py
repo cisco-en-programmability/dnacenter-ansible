@@ -250,6 +250,7 @@ options:
             with a default value of False.
         type: bool
         default: False
+        version_added: 6.12.0
       operation_enum:
         description: enum(CREDENTIALDETAILS, DEVICEDETAILS) 0 to export Device Credential Details Or 1 to export Device Details.
             CREDENTIALDETAILS - Used for exporting device credentials details like snpm credntials, device crdentails etc.
@@ -269,6 +270,7 @@ options:
             description: Specifies the IP address of the wired device. This is a string value that should be in the format of
                 standard IPv4 or IPv6 addresses.
             type: str
+            version_added: 6.12.0
           site_name:
             description: Indicates the exact location where the wired device will be provisioned. This is a string value that should
                 represent the complete hierarchical path of the site (For example, "Global/USA/San Francisco/BGL_18/floor_pnp").
@@ -278,16 +280,19 @@ options:
                 the provisioning process. If unspecified, the default value is set to 200 retries.
             type: int
             default: 200
+            version_added: 6.12.0
           resync_retry_interval:
             description: Sets the interval, in seconds, at which the system will recheck the device status throughout the provisioning
                 process. If unspecified, the system will check the device status every 2 seconds by default.
             type: int
             default: 2
+            version_added: 6.12.0
       reprovision_wired_device:
         description: This parameter takes a list of dictionaries. Each dictionary provides the IP address of a wired device and
             the name of the site where the device will be re-provisioned.
         type: list
         elements: dict
+        version_added: 6.12.0
         suboptions:
           device_ip:
             description: Specifies the IP address of the wired device. This is a string value that should be in the format of
@@ -302,6 +307,7 @@ options:
             the name of the site where the device will be provisioned along with dynamic interface details.
         type: list
         elements: dict
+        version_added: 6.12.0
         suboptions:
           device_ip:
             description: Specifies the IP address of the wirelesss device. This is a string value that should be in the format of
@@ -505,6 +511,11 @@ notes:
     put /dna/intent/api/v1/network-device,
 
   - Removed 'managementIpAddress' options in v4.3.0.
+
+  - Renamed argument 'ip_address' to 'ip_address_list' option in v6.12.0.
+
+  - Removed 'serial_number', 'device_added', 'role_source', options in v6.12.0.
+
 """
 
 EXAMPLES = r"""
