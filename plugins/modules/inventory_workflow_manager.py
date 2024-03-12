@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-# Copyright (c) 2022, Cisco Systems
+# Copyright (c) 2024, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
@@ -11,7 +11,7 @@ __author__ = ("Madhan Sankaranarayanan, Abhishek Maheshwari")
 
 DOCUMENTATION = r"""
 ---
-module: inventory_intent
+module: inventory_workflow_manager
 short_description: Resource module for Network Device
 description:
 - Manage operations create, update and delete of the resource Network Device.
@@ -20,7 +20,7 @@ description:
 - Sync the devices provided as input.
 version_added: '6.8.0'
 extends_documentation_fragment:
-  - cisco.dnac.intent_params
+  - cisco.dnac.workflow_manager_params
 author: Abhishek Maheshwari (@abmahesh)
         Madhan Sankaranarayanan (@madhansansel)
 options:
@@ -203,6 +203,7 @@ options:
         default: False
       role:
         description: Role of device which can be ACCESS, CORE, DISTRIBUTION, BORDER ROUTER, UNKNOWN.
+            ALL - This role typically represents all devices within the network, regardless of their specific roles or functions.
             UNKNOWN - This role is assigned to devices whose roles or functions have not been identified or classified within Cisco Catalsyt Center.
                 This could happen if the platform is unable to determine the device's role based on available information.
             ACCESS - This role typically represents switches or access points that serve as access points for end-user devices to connect to the network.
@@ -390,7 +391,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Add new device in Inventory with full credentials
-  cisco.dnac.inventory_intent:
+  cisco.dnac.inventory_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -426,7 +427,7 @@ EXAMPLES = r"""
         username: cisco
 
 - name: Add new Compute device in Inventory with full credentials.Inputs needed for Compute Device
-  cisco.dnac.inventory_intent:
+  cisco.dnac.inventory_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -455,7 +456,7 @@ EXAMPLES = r"""
         type: "COMPUTE_DEVICE"
 
 - name: Add new Meraki device in Inventory with full credentials.Inputs needed for Meraki Device.
-  cisco.dnac.inventory_intent:
+  cisco.dnac.inventory_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -471,7 +472,7 @@ EXAMPLES = r"""
         type: "MERAKI_DASHBOARD"
 
 - name: Add new Firepower Management device in Inventory with full credentials.Input needed to add Device.
-  cisco.dnac.inventory_intent:
+  cisco.dnac.inventory_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -490,7 +491,7 @@ EXAMPLES = r"""
         type: "FIREPOWER_MANAGEMENT_SYSTEM"
 
 - name: Add new Third Party device in Inventory with full credentials.Input needed to add Device.
-  cisco.dnac.inventory_intent:
+  cisco.dnac.inventory_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -514,7 +515,7 @@ EXAMPLES = r"""
         type: "THIRD_PARTY_DEVICE"
 
 - name: Update device details or credentails in Inventory
-  cisco.dnac.inventory_intent:
+  cisco.dnac.inventory_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -536,7 +537,7 @@ EXAMPLES = r"""
         credential_update: True
 
 - name: Update new management IP address of device in inventory
-  cisco.dnac.inventory_intent:
+  cisco.dnac.inventory_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -556,7 +557,7 @@ EXAMPLES = r"""
           new_mgmt_ipaddress: "12.12.12.12"
 
 - name: Associate Wired Devices to site and Provisioned it in Inventory
-  cisco.dnac.inventory_intent:
+  cisco.dnac.inventory_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -598,7 +599,7 @@ EXAMPLES = r"""
           site_name: "Global/USA/San Francisco/BGL_18/floor_test"
 
 - name: Associate Wireless Devices to site and Provisioned it in Inventory
-  cisco.dnac.inventory_intent:
+  cisco.dnac.inventory_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -610,7 +611,7 @@ EXAMPLES = r"""
     dnac_log: False
     state: merged
     config:
-      - provision_wireless_device:
+        provision_wireless_device:
         - device_ip: "1.1.1.1"
           site_name: "Global/USA/BGL_18/floor_pnp"
           managed_ap_locations: ["Global/USA/BGL_18/floor_pnp", "Global/USA/BGL_18/floor_test"]
@@ -637,7 +638,7 @@ EXAMPLES = r"""
           resync_retry_interval: 2
 
 - name: Update Device Role with IP Address
-  cisco.dnac.inventory_intent:
+  cisco.dnac.inventory_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -655,7 +656,7 @@ EXAMPLES = r"""
           role: ACCESS
 
 - name: Update Interface details with IP Address
-  cisco.dnac.inventory_intent:
+  cisco.dnac.inventory_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -679,7 +680,7 @@ EXAMPLES = r"""
           clear_mac_address_table: True
 
 - name: Export Device Details in a CSV file Interface details with IP Address
-  cisco.dnac.inventory_intent:
+  cisco.dnac.inventory_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -698,7 +699,7 @@ EXAMPLES = r"""
           parameters: ["componentName", "SerialNumber", "Last Sync Status"]
 
 - name: Create Global User Defined with IP Address
-  cisco.dnac.inventory_intent:
+  cisco.dnac.inventory_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -720,7 +721,7 @@ EXAMPLES = r"""
           value: "value321"
 
 - name: Resync Device with IP Addresses
-  cisco.dnac.inventory_intent:
+  cisco.dnac.inventory_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -737,7 +738,7 @@ EXAMPLES = r"""
         force_sync: False
 
 - name: Reboot AP Devices with IP Addresses
-  cisco.dnac.inventory_intent:
+  cisco.dnac.inventory_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -753,7 +754,7 @@ EXAMPLES = r"""
         reboot_device: True
 
 - name: Delete Provision/Unprovision Devices by IP Address
-  cisco.dnac.inventory_intent:
+  cisco.dnac.inventory_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -769,7 +770,7 @@ EXAMPLES = r"""
         clean_config: False
 
 - name: Delete Global User Defined Field with name
-  cisco.dnac.inventory_intent:
+  cisco.dnac.inventory_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -783,8 +784,7 @@ EXAMPLES = r"""
     config:
     - ip_address_list: ["1.1.1.1", "2.2.2.2"]
       add_user_defined_field:
-        - name: Test123
-        - name: Test321
+        name: "Test123"
 
 """
 
@@ -822,8 +822,8 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
 )
 
 
-class DnacDevice(DnacBase):
-    """Class containing member attributes for Inventory intent module"""
+class Inventory(DnacBase):
+    """Class containing member attributes for inventory workflow manager module"""
 
     def __init__(self, module):
         super().__init__(module)
@@ -859,10 +859,10 @@ class DnacDevice(DnacBase):
             'http_username': {'type': 'str'},
             'ip_address_list': {'type': 'list', 'elements': 'str'},
             'hostname_list': {'type': 'list', 'elements': 'str'},
-            'serial_number_list': {'type': 'list', 'elements': 'str'},
             'mac_address_list': {'type': 'list', 'elements': 'str'},
             'netconf_port': {'type': 'str'},
             'password': {'type': 'str'},
+            'serial_number': {'type': 'str'},
             'snmp_auth_passphrase': {'type': 'str'},
             'snmp_auth_protocol': {'default': "SHA", 'type': 'str'},
             'snmp_mode': {'type': 'str'},
@@ -990,9 +990,9 @@ class DnacDevice(DnacBase):
         # If no information is available, return an empty list
         return []
 
-    def device_exists_in_dnac(self):
+    def device_exists_in_ccc(self):
         """
-        Check which devices already exists in Cisco Catalyst Center and return both device_exist and device_not_exist in dnac.
+        Check which devices already exists in Cisco Catalyst Center and return both device_exist and device_not_exist in Cisco Catalyst Center.
         Parameters:
             self (object): An instance of a class used for interacting with Cisco Cisco Catalyst Center.
         Returns:
@@ -1001,11 +1001,11 @@ class DnacDevice(DnacBase):
             Queries Cisco Catalyst Center to check which devices are already present in Cisco Catalyst Center and store
             its management IP address in the list of devices that exist.
         Example:
-            To use this method, create an instance of the class and call 'device_exists_in_dnac' on it,
+            To use this method, create an instance of the class and call 'device_exists_in_ccc' on it,
             The method returns a list of management IP addressesfor devices that exist in Cisco Catalyst Center.
         """
 
-        device_in_dnac = []
+        device_in_ccc = []
 
         try:
             response = self.dnac._exec(
@@ -1023,9 +1023,9 @@ class DnacDevice(DnacBase):
             response = response.get("response")
             for ip in response:
                 device_ip = ip["managementIpAddress"]
-                device_in_dnac.append(device_ip)
+                device_in_ccc.append(device_ip)
 
-        return device_in_dnac
+        return device_in_ccc
 
     def is_udf_exist(self, field_name):
         """
@@ -1102,7 +1102,6 @@ class DnacDevice(DnacBase):
             including the field name and default value then iterates over list of device IDs, creating a payload for
             each device and sending the request to Cisco Catalyst Center to add the user-defined field.
         """
-        # field_details = self.config[0].get('add_user_defined_field')
         field_name = udf.get('name')
         field_value = udf.get('value', '1')
         for device_id in device_ids:
@@ -1386,10 +1385,10 @@ class DnacDevice(DnacBase):
         # Code for triggers the resync operation using the retrieved device IDs and force sync parameter.
         device_ips = self.get_device_ips_from_config_priority()
         input_device_ips = device_ips.copy()
-        device_in_dnac = self.device_exists_in_dnac()
+        device_in_ccc = self.device_exists_in_ccc()
 
         for device_ip in input_device_ips:
-            if device_ip not in device_in_dnac:
+            if device_ip not in device_in_ccc:
                 input_device_ips.remove(device_ip)
 
         ap_devices = self.get_ap_devices(input_device_ips)
@@ -1726,7 +1725,6 @@ class DnacDevice(DnacBase):
                     self.log(msg, "INFO")
                     managed_flag = True
                     break
-
                 if response.get('collectionStatus') == "Partial Collection Failure" or response.get('collectionStatus') == "Could Not Synchronize":
                     device_status = response.get('collectionStatus')
                     msg = """Device '{0}' comes to '{1}' state and never goes for provisioning with the resync_retry_count
@@ -1806,7 +1804,7 @@ class DnacDevice(DnacBase):
 
         reprovision_wired_list = self.config[0]['reprovision_wired_device']
         total_devices_to_reprovisioned = len(reprovision_wired_list)
-        device_in_dnac = self.device_exists_in_dnac()
+        device_in_ccc = self.device_exists_in_ccc()
         device_ip_list = []
         provision_count, already_provision_count = 0, 0
 
@@ -1816,7 +1814,7 @@ class DnacDevice(DnacBase):
             site_name = prov_dict['site_name']
             device_type = "Wired"
 
-            if device_ip not in device_in_dnac:
+            if device_ip not in device_in_ccc:
                 self.msg = "Device '{0}' not present in Cisco Catalyst Center so cannot re-provisioned it.".format(device_ip)
                 self.log(self.msg, "WARNING")
                 continue
@@ -1915,7 +1913,6 @@ class DnacDevice(DnacBase):
                     self.msg = "Managed AP Location must be a floor"
                     self.log(self.msg, "ERROR")
                     return self
-
             wireless_param[0]["dynamicInterfaces"] = []
 
             for interface in prov_dict.get("dynamic_interfaces"):
@@ -1934,12 +1931,6 @@ class DnacDevice(DnacBase):
                 function='get_network_device_by_ip',
                 params={"ip_address": device_ip_address}
             )
-
-            if not response:
-                self.status = "failed"
-                self.msg = "Device Host name is not present in the Cisco Catalyst Center"
-                self.log(self.msg, "INFO")
-                return self
 
             response = response.get("response")
             wireless_param[0]["deviceName"] = response.get("hostname")
@@ -1991,6 +1982,7 @@ class DnacDevice(DnacBase):
 
         except Exception as e:
             self.msg = "Error while fetching the site '{0}' and the specified site was not found in Cisco Catalyst Center.".format(site_name)
+            self.log(self.msg, "ERROR")
             self.module.fail_json(msg=self.msg, response=[self.msg])
 
         return site_type
@@ -2077,6 +2069,7 @@ class DnacDevice(DnacBase):
                 while True:
                     execution_details = self.get_task_details(task_id)
                     progress = execution_details.get("progress")
+
                     if 'TASK_PROVISION' in progress:
                         self.handle_successful_provisioning(device_ip, execution_details, device_type)
                         provision_count += 1
@@ -2189,21 +2182,21 @@ class DnacDevice(DnacBase):
         Description:
             This function checks the specified devices in the playbook against the devices existing in Cisco Catalyst Center with following keys:
             - "want_device": A list of devices specified in the playbook.
-            - "device_in_dnac": A list of devices that already exist in Cisco Catalyst Center.
-            - "device_not_in_dnac": A list of devices that are not present in Cisco Catalyst Center.
+            - "device_in_ccc": A list of devices that already exist in Cisco Catalyst Center.
+            - "device_not_in_ccc": A list of devices that are not present in Cisco Catalyst Center.
         """
 
         have = {}
         want_device = self.get_device_ips_from_config_priority()
 
         # Get the list of device that are present in Cisco Catalyst Center
-        device_in_dnac = self.device_exists_in_dnac()
-        device_not_in_dnac, devices_in_playbook = [], []
+        device_in_ccc = self.device_exists_in_ccc()
+        device_not_in_ccc, devices_in_playbook = [], []
 
         for ip in want_device:
             devices_in_playbook.append(ip)
-            if ip not in device_in_dnac:
-                device_not_in_dnac.append(ip)
+            if ip not in device_in_ccc:
+                device_not_in_ccc.append(ip)
 
         if self.config[0].get('provision_wired_device'):
             provision_wired_list = self.config[0].get('provision_wired_device')
@@ -2212,8 +2205,8 @@ class DnacDevice(DnacBase):
                 device_ip_address = prov_dict['device_ip']
                 if device_ip_address not in want_device:
                     devices_in_playbook.append(device_ip_address)
-                if device_ip_address not in device_in_dnac:
-                    device_not_in_dnac.append(device_ip_address)
+                if device_ip_address not in device_in_ccc:
+                    device_not_in_ccc.append(device_ip_address)
 
         if self.config[0].get('provision_wireless_device'):
             provision_wireless_list = self.config[0].get('provision_wireless_device')
@@ -2222,13 +2215,13 @@ class DnacDevice(DnacBase):
                 device_ip_address = prov_dict['device_ip']
                 if device_ip_address not in want_device and device_ip_address not in devices_in_playbook:
                     devices_in_playbook.append(device_ip_address)
-                if device_ip_address not in device_in_dnac and device_ip_address not in device_not_in_dnac:
-                    device_not_in_dnac.append(device_ip_address)
+                if device_ip_address not in device_in_ccc and device_ip_address not in device_not_in_ccc:
+                    device_not_in_ccc.append(device_ip_address)
 
-        self.log("Device(s) {0} exists in Cisco Catalyst Center".format(str(device_in_dnac)), "INFO")
+        self.log("Device(s) {0} exists in Cisco Catalyst Center".format(str(device_in_ccc)), "INFO")
         have["want_device"] = want_device
-        have["device_in_dnac"] = device_in_dnac
-        have["device_not_in_dnac"] = device_not_in_dnac
+        have["device_in_ccc"] = device_in_ccc
+        have["device_not_in_ccc"] = device_not_in_ccc
         have["devices_in_playbook"] = devices_in_playbook
 
         self.have = have
@@ -2271,6 +2264,7 @@ class DnacDevice(DnacBase):
             "httpSecure": params.get("http_secure"),
             "httpUserName": params.get("http_username"),
             "netconfPort": params.get("netconf_port"),
+            "serialNumber": params.get("serial_number"),
             "snmpVersion": params.get("snmp_version"),
             "type": params.get("type"),
             "updateMgmtIPaddressList": params.get("update_mgmt_ipaddresslist"),
@@ -2976,8 +2970,7 @@ class DnacDevice(DnacBase):
             or resynchronize devices in Cisco Catalyst Center.
             The updated results and status are stored in the class instance for further use.
         """
-
-        devices_to_add = self.have["device_not_in_dnac"]
+        devices_to_add = self.have["device_not_in_ccc"]
         device_type = self.config[0].get("type", "NETWORK_DEVICE")
         device_resynced = self.config[0].get("device_resync", False)
         device_updated = self.config[0].get("device_updated", False)
@@ -3002,8 +2995,8 @@ class DnacDevice(DnacBase):
 
             if not device_params['snmpVersion']:
                 device_params['snmpVersion'] = "v3"
-
             device_params['ipAddress'] = config['ip_address_list']
+
             if device_params['snmpVersion'] == "v2":
                 params_to_remove = ["snmpAuthPassphrase", "snmpAuthProtocol", "snmpMode", "snmpPrivPassphrase", "snmpPrivProtocol", "snmpUserName"]
                 for param in params_to_remove:
@@ -3078,7 +3071,7 @@ class DnacDevice(DnacBase):
                                 self.msg = "Device addition get failed"
                             self.log(self.msg, "ERROR")
                             self.result['msg'] = self.msg
-                            return self
+                            break
 
             except Exception as e:
                 error_message = "Error while adding device in Cisco Catalyst Center: {0}".format(str(e))
@@ -3090,7 +3083,7 @@ class DnacDevice(DnacBase):
             # First check if device present in Cisco Catalyst Center or not
             device_present = False
             for device in device_to_update:
-                if device in self.have.get("device_in_dnac"):
+                if device in self.have.get("device_in_ccc"):
                     device_present = True
                     break
 
@@ -3215,7 +3208,7 @@ class DnacDevice(DnacBase):
                     try:
                         if playbook_params['updateMgmtIPaddressList']:
                             new_mgmt_ipaddress = playbook_params['updateMgmtIPaddressList'][0]['newMgmtIpAddress']
-                            if new_mgmt_ipaddress in self.have['device_in_dnac']:
+                            if new_mgmt_ipaddress in self.have['device_in_ccc']:
                                 self.status = "failed"
                                 self.msg = "Device with IP address '{0}' already exists in inventory".format(new_mgmt_ipaddress)
                                 self.log(self.msg, "ERROR")
@@ -3269,7 +3262,7 @@ class DnacDevice(DnacBase):
                         self.log(self.msg, "WARNING")
                         return self
 
-                    # Check if the same role of device is present in dnac then no need to change the state
+                    # Check if the same role of device is present in ccc then no need to change the state
                     response = self.dnac._exec(
                         family="devices",
                         function='get_device_list',
@@ -3354,12 +3347,13 @@ class DnacDevice(DnacBase):
                 device_ips = self.get_device_ips_from_config_priority()
                 device_ids = self.get_device_ids(device_ips)
 
-                if len(device_ids) == 0:
+                if not device_ids:
                     self.status = "failed"
                     self.msg = """Unable to assign Global User Defined Field: No devices found in Cisco Catalyst Center.
                         Please add devices to proceed."""
-                    self.log(self.msg, "INFO")
                     self.result['changed'] = False
+                    self.result['response'] = self.msg
+                    self.log(self.msg, "INFO")
                     return self
 
                 # Now add code for adding Global UDF to device with Id
@@ -3421,7 +3415,6 @@ class DnacDevice(DnacBase):
                     self.log(self.msg, "INFO")
                     self.result['changed'] = False
                     self.result['msg'] = self.msg
-                    self.result['response'] = self.msg
                     return self
 
                 try:
@@ -3462,7 +3455,7 @@ class DnacDevice(DnacBase):
             return self
 
         for device_ip in device_to_delete:
-            if device_ip not in self.have.get("device_in_dnac"):
+            if device_ip not in self.have.get("device_in_ccc"):
                 self.status = "success"
                 self.result['changed'] = False
                 self.msg = "Device '{0}' is not present in Cisco Catalyst Center so can't perform delete operation".format(device_ip)
@@ -3495,12 +3488,13 @@ class DnacDevice(DnacBase):
                             self.result['changed'] = True
                             self.msg = execution_details.get("bapiName")
                             self.log(self.msg, "INFO")
-                            self.result['response'].append(self.msg)
+                            self.result['response'] = self.msg
+                            self.result['msg'].append(self.msg)
                             break
                         elif execution_details.get("bapiError"):
                             self.msg = execution_details.get("bapiError")
+                            self.result['msg'].append(self.msg)
                             self.log(self.msg, "ERROR")
-                            self.result['response'].append(self.msg)
                             break
             except Exception as e:
                 device_id = self.get_device_ids([device_ip])
@@ -3566,7 +3560,7 @@ class DnacDevice(DnacBase):
         self.log("Current State (have): {0}".format(str(self.have)), "INFO")
         self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
 
-        devices_to_add = self.have["device_not_in_dnac"]
+        devices_to_add = self.have["device_not_in_ccc"]
         device_updated = self.config[0].get("device_updated", False)
         credential_update = self.config[0].get("credential_update", False)
         device_type = self.config[0].get("type", "NETWORK_DEVICE")
@@ -3701,7 +3695,7 @@ class DnacDevice(DnacBase):
         self.log("Current State (have): {0}".format(str(self.have)), "INFO")
         self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
         input_devices = self.have["want_device"]
-        device_in_dnac = self.device_exists_in_dnac()
+        device_in_ccc = self.device_exists_in_ccc()
 
         if self.config[0].get('add_user_defined_field'):
             udf_field_list = self.config[0].get('add_user_defined_field')
@@ -3719,7 +3713,7 @@ class DnacDevice(DnacBase):
 
         device_delete_flag = True
         for device_ip in input_devices:
-            if device_ip in device_in_dnac:
+            if device_ip in device_in_ccc:
                 device_after_deletion = device_ip
                 device_delete_flag = False
                 break
@@ -3759,26 +3753,26 @@ def main():
     module = AnsibleModule(argument_spec=element_spec,
                            supports_check_mode=False)
 
-    dnac_device = DnacDevice(module)
-    state = dnac_device.params.get("state")
+    ccc_device = Inventory(module)
+    state = ccc_device.params.get("state")
 
-    if state not in dnac_device.supported_states:
-        dnac_device.status = "invalid"
-        dnac_device.msg = "State {0} is invalid".format(state)
-        dnac_device.check_return_status()
+    if state not in ccc_device.supported_states:
+        ccc_device.status = "invalid"
+        ccc_device.msg = "State {0} is invalid".format(state)
+        ccc_device.check_return_status()
 
-    dnac_device.validate_input().check_return_status()
-    config_verify = dnac_device.params.get("config_verify")
+    ccc_device.validate_input().check_return_status()
+    config_verify = ccc_device.params.get("config_verify")
 
-    for config in dnac_device.validated_config:
-        dnac_device.reset_values()
-        dnac_device.get_want(config).check_return_status()
-        dnac_device.get_have(config).check_return_status()
-        dnac_device.get_diff_state_apply[state](config).check_return_status()
+    for config in ccc_device.validated_config:
+        ccc_device.reset_values()
+        ccc_device.get_want(config).check_return_status()
+        ccc_device.get_have(config).check_return_status()
+        ccc_device.get_diff_state_apply[state](config).check_return_status()
         if config_verify:
-            dnac_device.verify_diff_state_apply[state](config).check_return_status()
+            ccc_device.verify_diff_state_apply[state](config).check_return_status()
 
-    module.exit_json(**dnac_device.result)
+    module.exit_json(**ccc_device.result)
 
 
 if __name__ == '__main__':
