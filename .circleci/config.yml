@@ -183,7 +183,11 @@ jobs:
                   echo "    - ccc_inventory_management" >> ccc_roles.yml
 
       - when:
-          condition: << pipeline.parameters.run-all >>
+          condition: 
+            or:
+              - << pipeline.parameters.run-all >> 
+              - equal: [ scheduled_pipeline, << pipeline.trigger_source >> ]
+
           steps:
             - run:
                 command: |
@@ -195,20 +199,20 @@ jobs:
       - run:
           command: cat ccc_roles.yml
 
-  add-all-roles:
-    machine: true
-    resource_class: rukapse/dnacenter-ansible
-    working_directory: ~/repo 
+  # add-all-roles:
+  #   machine: true
+  #   resource_class: rukapse/dnacenter-ansible
+  #   working_directory: ~/repo 
 
-    steps:
-      - run:
-          name: Debug information
-          command: |
-            echo "    - ccc_site_management" >> ccc_roles.yml
-            echo "    - ccc_device_credential_management" >> ccc_roles.yml
-            echo "    - ccc_discovery_management" >> ccc_roles.yml
-            echo "    - ccc_inventory_management" >> ccc_roles.yml
-            cat ccc_roles.yml
+  #   steps:
+  #     - run:
+  #         name: Debug information
+  #         command: |
+  #           echo "    - ccc_site_management" >> ccc_roles.yml
+  #           echo "    - ccc_device_credential_management" >> ccc_roles.yml
+  #           echo "    - ccc_discovery_management" >> ccc_roles.yml
+  #           echo "    - ccc_inventory_management" >> ccc_roles.yml
+  #           cat ccc_roles.yml
 
 
   sanity-tests:
@@ -340,8 +344,7 @@ workflows:
   integration-testing:
     when: << pipeline.parameters.run-any >> 
     jobs: 
-      - <<\<<# if scheduled-build >>add-all-roles<< else >>addrole<< /if >>       
-      # - addrole
+      - addrole
 
       - sanity-tests:
           requires:
