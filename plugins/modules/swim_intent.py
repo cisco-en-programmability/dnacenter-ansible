@@ -1319,9 +1319,12 @@ class DnacSwims(DnacBase):
         device_series_name = distribution_details.get("device_series_name")
         device_uuid_list = self.get_device_uuids(site_name, device_family, device_role, device_series_name)
         image_id = self.have.get("distribution_image_id")
+        self.complete_successful_distribution = False
+        self.partial_successful_distribution = False
+        self.single_device_distribution = False
 
         if self.have.get("distribution_device_id"):
-            self.single_device_distribution = False
+
             distribution_params = dict(
                 payload=[dict(
                     deviceUuid=self.have.get("distribution_device_id"),
@@ -1375,8 +1378,6 @@ class DnacSwims(DnacBase):
 
         device_distribution_count = 0
         device_ips_list = []
-        self.complete_successful_distribution = False
-        self.partial_successful_distribution = False
 
         for device_uuid in device_uuid_list:
             device_management_ip = self.get_device_ip_from_id(device_uuid)
@@ -1457,9 +1458,11 @@ class DnacSwims(DnacBase):
         device_series_name = activation_details.get("device_series_name")
         device_uuid_list = self.get_device_uuids(site_name, device_family, device_role, device_series_name)
         image_id = self.have.get("activation_image_id")
+        self.complete_successful_activation = False
+        self.partial_successful_activation = False
+        self.single_device_activation = False
 
         if self.have.get("activation_device_id"):
-            self.single_device_activation = False
             payload = [dict(
                 activateLowerImageVersion=activation_details.get("activate_lower_image_version"),
                 deviceUpgradeMode=activation_details.get("device_upgrade_mode"),
@@ -1517,8 +1520,6 @@ class DnacSwims(DnacBase):
         self.log("Device UUIDs involved in Image Activation: {0}".format(str(device_uuid_list)), "INFO")
         device_activation_count = 0
         device_ips_list = []
-        self.complete_successful_activation = False
-        self.partial_successful_activation = False
 
         for device_uuid in device_uuid_list:
             device_management_ip = self.get_device_ip_from_id(device_uuid)
