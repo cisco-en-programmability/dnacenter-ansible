@@ -303,7 +303,7 @@ workflows:
       - path-filtering/filter:
           requires:
             - build
-          base-revision: circleci-setup
+          base-revision: main
           config-path: .circleci/config.yml
           mapping: |
             .* run-setup false
