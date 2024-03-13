@@ -829,3 +829,9 @@ releases:
                                          Renamed argument from 'ip_address' to 'ip_address_list'.
           - pnp_workflow_manager - Adding fix for Stackswitch getting changed to normal switch post editing the device's info.
           - pnp_intent - Adding fix for Stackswitch getting changed to normal switch post editing the device's info.
+  6.13.0:
+      release_date: "2024-03-12"
+      changes:
+        release_summary: Changes the minimum supported version of Ansible to v2.14.0
+        minor_changes:
+          - Changes the minimum supported version from Ansible v2.9.10 to v2.14.0
