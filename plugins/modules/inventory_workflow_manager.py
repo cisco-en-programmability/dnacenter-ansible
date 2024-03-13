@@ -3191,6 +3191,8 @@ class Inventory(DnacBase):
                         if device_data['snmpv3_privacy_password']:
                             csv_data_dict['snmp_auth_passphrase'] = device_data['snmpv3_auth_password']
                             csv_data_dict['snmp_priv_passphrase'] = device_data['snmpv3_privacy_password']
+                    else:
+                        csv_data_dict['snmp_username'] = None
 
                     device_key_mapping = {
                         'username': 'userName',
@@ -3248,6 +3250,9 @@ class Inventory(DnacBase):
                         params_to_remove = ["snmpAuthPassphrase", "snmpAuthProtocol", "snmpMode", "snmpPrivPassphrase", "snmpPrivProtocol", "snmpUserName"]
                         for param in params_to_remove:
                             playbook_params.pop(param, None)
+
+                        if not playbook_params['snmpROCommunity']:
+                            playbook_params['snmpROCommunity'] = device_data.get('snmp_community', None)
 
                     try:
                         if playbook_params['updateMgmtIPaddressList']:
