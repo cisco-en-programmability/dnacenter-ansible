@@ -3,7 +3,7 @@
 - debug: msg="Role Path {{ role_path }}"
 
 - block:
-  - name: Load design_sites from ccc_site_management role and declare dnac vars
+  - name:  Load vars and declare dnac vars
     include_vars:
       file: "{{ role_path }}/vars/vars_inventory_management.yml"
       name: vars_map
@@ -18,6 +18,7 @@
         dnac_debug: "{{ dnac_debug }}"
         dnac_log: true
         dnac_log_level: DEBUG
+        config_verify: true
 
   # - debug:
   #     msg: "{{ vars_map.device_details }}"
@@ -44,7 +45,6 @@
 #   - name: Delete site
 #     cisco.dnac.site_workflow_manager:
 #       <<: *dnac_login
-#       config_verify: true
 #       state: deleted
 #       config:
 #           - "{{ item }}"
@@ -58,7 +58,6 @@
 #   - name: Add new device
 #     cisco.dnac.inventory_workflow_manager:
 #       <<: *dnac_login
-#       config_verify: true
 #       state: merged
 #       config:
 #         - "{{ item }}"
@@ -359,7 +358,6 @@
 #   - name: Create sites from design_sites config
 #     cisco.dnac.site_workflow_manager:
 #       <<: *dnac_login
-#       config_verify: true
 #       state: merged
 #       config:
 #           - "{{ item }}"
@@ -400,7 +398,7 @@
 #   #   loop: "{{ result_associate_device.results }}"
 #   #   when: result_associate_device is defined
 
-#   - name: Assert device credential details export
+#   - name: Assert Assign wired device to site and then provision
 #     assert:
 #       that:
 #         - item.changed == true
@@ -427,7 +425,7 @@
 #   #   loop: "{{ result_associate_device.results }}"
 #   #   when: result_associate_device is defined
 
-#   # - name: Assert device credential details export
+#   # - name: Assert Assign wireless device to site and then provision
 #   #   assert:
 #   #     that:
 #   #       - item.changed == true
@@ -466,7 +464,6 @@
 #   - name: Delete sites from design_sites config
 #     cisco.dnac.site_workflow_manager:
 #       <<: *dnac_login
-#       config_verify: true
 #       state: deleted
 #       config:
 #           - "{{ item }}"

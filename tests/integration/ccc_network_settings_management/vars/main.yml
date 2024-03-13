@@ -1,7 +1,0 @@
----
-design_sites:
-  - site:
-      area:
-        name: TEST_NETWORK_SETTINGS
-        parent_name: 'Global'
-    type: area
