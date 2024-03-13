@@ -1225,15 +1225,27 @@ class Swim(DnacBase):
             )
             self.log("Received API response from 'remove_golden_tag_for_image': {0}".format(str(response)), "DEBUG")
 
-        if response:
-            task_details = {}
-            task_id = response.get("response").get("taskId")
+        if not response:
+            self.status = "failed"
+            self.msg = "Did not get the response of API so cannot check the Golden tagging status of image - {0}".format(image_name)
+            self.log(self.msg, "ERROR")
+            self.result['response'] = self.msg
+            return self
+
+        task_details = {}
+        task_id = response.get("response").get("taskId")
+
+        while True:
             task_details = self.get_task_details(task_id)
-            if not task_details.get("isError"):
-                self.result['changed'] = True
-                self.result['msg'] = task_details.get("progress")
+
+            if not task_details.get("isError") and 'successful' in task_details.get("progress"):
                 self.status = "success"
-                self.result['response'] = task_details if task_details else response
+                self.result['changed'] = True
+                self.msg = task_details.get("progress")
+                self.result['msg'] = self.msg
+                self.result['response'] = self.msg
+                self.log(self.msg, "INFO")
+                break
             elif task_details.get("isError"):
                 failure_reason = task_details.get("failureReason", "")
                 if failure_reason and "An inheritted tag cannot be un-tagged" in failure_reason:
@@ -1242,13 +1254,16 @@ class Swim(DnacBase):
                     self.msg = failure_reason
                     self.result['msg'] = failure_reason
                     self.log(self.msg, "ERROR")
+                    self.result['response'] = self.msg
+                    break
                 else:
                     error_message = task_details.get("failureReason", "Error: while tagging/un-tagging the golden swim image.")
                     self.status = "failed"
                     self.msg = error_message
                     self.result['msg'] = error_message
                     self.log(self.msg, "ERROR")
-                self.result['response'] = self.msg
+                    self.result['response'] = self.msg
+                    break
 
         return self
 
@@ -1305,9 +1320,11 @@ class Swim(DnacBase):
         device_series_name = distribution_details.get("device_series_name")
         device_uuid_list = self.get_device_uuids(site_name, device_family, device_role, device_series_name)
         image_id = self.have.get("distribution_image_id")
+        self.complete_successful_distribution = False
+        self.partial_successful_distribution = False
+        self.single_device_distribution = False
 
         if self.have.get("distribution_device_id"):
-            self.single_device_distribution = False
             distribution_params = dict(
                 payload=[dict(
                     deviceUuid=self.have.get("distribution_device_id"),
@@ -1351,18 +1368,16 @@ class Swim(DnacBase):
             return self
 
         if len(device_uuid_list) == 0:
-            self.status = "failed"
-            self.msg = "Image Distribution cannot proceed due to the absence of device(s)"
+            self.status = "success"
+            self.msg = "The SWIM image distribution task could not proceed because no eligible devices were found"
             self.result['msg'] = self.msg
-            self.log(self.msg, "ERROR")
+            self.log(self.msg, "WARNING")
             return self
 
         self.log("Device UUIDs involved in Image Distribution: {0}".format(str(device_uuid_list)), "INFO")
 
         device_distribution_count = 0
         device_ips_list = []
-        self.complete_successful_distribution = False
-        self.partial_successful_distribution = False
 
         for device_uuid in device_uuid_list:
             device_management_ip = self.get_device_ip_from_id(device_uuid)
@@ -1443,9 +1458,11 @@ class Swim(DnacBase):
         device_series_name = activation_details.get("device_series_name")
         device_uuid_list = self.get_device_uuids(site_name, device_family, device_role, device_series_name)
         image_id = self.have.get("activation_image_id")
+        self.complete_successful_activation = False
+        self.partial_successful_activation = False
+        self.single_device_activation = False
 
         if self.have.get("activation_device_id"):
-            self.single_device_activation = False
             payload = [dict(
                 activateLowerImageVersion=activation_details.get("activate_lower_image_version"),
                 deviceUpgradeMode=activation_details.get("device_upgrade_mode"),
@@ -1494,17 +1511,15 @@ class Swim(DnacBase):
             return self
 
         if len(device_uuid_list) == 0:
-            self.status = "failed"
-            self.msg = "No devices found for Image Activation"
+            self.status = "success"
+            self.msg = "The SWIM image activation task could not proceed because no eligible devices were found."
             self.result['msg'] = self.msg
-            self.log(self.msg, "ERROR")
+            self.log(self.msg, "WARNING")
             return self
 
         self.log("Device UUIDs involved in Image Activation: {0}".format(str(device_uuid_list)), "INFO")
         device_activation_count = 0
         device_ips_list = []
-        self.complete_successful_activation = False
-        self.partial_successful_activation = False
 
         for device_uuid in device_uuid_list:
             device_management_ip = self.get_device_ip_from_id(device_uuid)
