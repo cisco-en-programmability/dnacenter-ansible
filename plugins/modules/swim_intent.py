@@ -1249,7 +1249,7 @@ class DnacSwims(DnacBase):
         task_details = {}
         task_id = response.get("response").get("taskId")
 
-        while(True):
+        while True:
             task_details = self.get_task_details(task_id)
 
             if not task_details.get("isError") and 'successful' in task_details.get("progress"):
