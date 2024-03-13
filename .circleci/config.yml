@@ -1,0 +1,339 @@
+version: 2.1
+
+setup: << pipeline.parameters.run-setup >>
+
+orbs:
+  path-filtering: circleci/path-filtering@0.1.6
+
+parameters:
+  run-setup:
+    type: boolean
+    default: true
+  run-any:
+    type: boolean
+    default: false
+  run-all:
+    type: boolean
+    default: false
+  run-site:
+    type: boolean
+    default: false
+  run-devicecredential:
+    type: boolean
+    default: false
+  run-discovery:
+    type: boolean
+    default: false
+  run-inventory:
+    type: boolean
+    default: false
+  run-swim:
+    type: boolean
+    default: false
+
+jobs:
+
+  pre:
+    parameters: 
+      ansible_cisco_dnac_version:
+        type: string
+        default: "6.9.0"
+
+    machine: true
+    resource_class: rukapse/dnacenter-ansible
+
+    environment:
+      CIRCLE_PROJECT_REPONAME: << pipeline.trigger_parameters.github_app.repo_name >>
+      CIRCLE_PROJECT_BRANCHNAME: << pipeline.trigger_parameters.github_app.branch >>
+
+    steps:
+      - run:
+          name: Debug information for pre
+          command: |
+            set -x 
+            echo "REPO_URL: $REPO_URL"
+            echo "CIRCLE_PROJECT_REPONAME: $CIRCLE_PROJECT_REPONAME"
+            echo "CIRCLE_PROJECT_BRANCHNAME: $CIRCLE_PROJECT_BRANCHNAME"
+            env
+      - run:
+          name: Remove existing directory and collection tarball
+          command: |
+            set -x 
+            rm -rf ${HOME}/repo/$CIRCLE_PROJECT_REPONAME
+            rm -rf ${HOME}/.cache/v<< parameters.ansible_cisco_dnac_version >>/
+
+  build: 
+    parameters: 
+      ansible_cisco_dnac_version:
+        type: string
+        default: "6.9.0"
+
+    machine: true
+    resource_class: rukapse/dnacenter-ansible
+    working_directory: ~/repo 
+
+    environment:
+      REPO_URL: << pipeline.trigger_parameters.github_app.repo_url >>
+      CIRCLE_PROJECT_REPONAME: << pipeline.trigger_parameters.github_app.repo_name >>
+      CIRCLE_PROJECT_BRANCHNAME: << pipeline.trigger_parameters.github_app.branch >>
+
+    steps:
+      - run:
+          name: Debug information
+          command: |
+            set -x 
+            echo "REPO_URL: $REPO_URL"
+            echo "CIRCLE_PROJECT_REPONAME: $CIRCLE_PROJECT_REPONAME"
+            echo "CIRCLE_PROJECT_BRANCHNAME: $CIRCLE_PROJECT_BRANCHNAME"
+            env
+
+      - run:
+          name: Custom Git Clone
+          command: git clone --depth=1 -b $CIRCLE_PROJECT_BRANCHNAME $REPO_URL
+
+      - run:
+          name: Create Roles File header
+          command: |
+            echo "---" > ccc_roles.yml
+            echo "- hosts: dnac_servers" >> ccc_roles.yml
+            echo "  gather_facts: no" >> ccc_roles.yml
+            echo "  connection: local" >> ccc_roles.yml
+            echo "  " >> ccc_roles.yml
+            echo "  tasks:" >> ccc_roles.yml
+            echo "  " >> ccc_roles.yml
+            echo "  vars:" >> ccc_roles.yml
+            echo "    debug: false" >> ccc_roles.yml
+            echo "  " >> ccc_roles.yml
+            echo "  roles:" >> ccc_roles.yml
+
+            cat ccc_roles.yml
+
+      - run:
+          name: Copy static files
+          command: |
+            mkdir -p group_vars
+            cp ${HOME}/static/group_vars/dnac_servers.yml group_vars/dnac_servers.yml
+            cp ${HOME}/static/hosts hosts
+
+      - run:
+          name: Activate Virtual Environment, Install ansible and Build collection tarball
+          command: |
+            set -x 
+            # Activate Virtual Environment
+            pyenv local ansible
+            export PYENV_ROOT="$HOME/.pyenv"
+            export PATH="$PYENV_ROOT/bin:$PATH"
+            export PATH="$PYENV_ROOT/shims/python3:$PATH"
+            export PATH="$PYENV_ROOT/shims/python:$PATH"
+            export PYTHONPATH="$PYENV_ROOT/shims/python3:$PYTHONPATH"
+            export PYTHONPATH="$PYENV_ROOT/shims/python:$PYTHONPATH"
+
+            # Install ansible, dnacentersdk
+            pip install --upgrade pip
+            pip install jinja2 PyYAML cryptography paramiko
+            pip install pyzipper
+            pip install ansible 
+            pip install dnacentersdk
+            ansible --version
+
+            # Change directory to dnacenter-ansible
+            cd $HOME/repo/dnacenter-ansible
+            
+            # Build collection and store resulting tarball in directory $HOME/.cache/v<< parameters.ansible_cisco_dnac_version >>/collection-tarballs
+            ansible-galaxy collection build --force --output-path "${HOME}/.cache/v<< parameters.ansible_cisco_dnac_version >>/collection-tarballs"
+
+      - run:
+          name: Remove Existing Directory
+          command: |
+            set -x 
+            rm -rf ${HOME}/repo/$CIRCLE_PROJECT_REPONAME
+
+  addrole:
+    machine: true
+    resource_class: rukapse/dnacenter-ansible
+    working_directory: ~/repo 
+
+    steps:
+      - when:
+          condition: << pipeline.parameters.run-site >>
+          steps:
+            - run: 
+                command: |
+                  echo "    - ccc_site_management" >> ccc_roles.yml
+
+      - when:
+          condition: << pipeline.parameters.run-devicecredential >>
+          steps:
+            - run: 
+                command: |
+                  echo "    - ccc_device_credential_management" >> ccc_roles.yml
+
+      - when:
+          condition: << pipeline.parameters.run-discovery >>
+          steps:
+            - run: 
+                command: |
+                  echo "    - ccc_discovery_management" >> ccc_roles.yml
+
+      - when:
+          condition: << pipeline.parameters.run-inventory >>
+          steps:
+            - run: 
+                command: |
+                  echo "    - ccc_inventory_management" >> ccc_roles.yml
+
+      - when:
+          condition: << pipeline.parameters.run-swim >>
+          steps:
+            - run: 
+                command: |
+                  echo "    - ccc_swim_management" >> ccc_roles.yml
+
+      - when:
+          condition: << pipeline.parameters.run-all >>
+          steps:
+            - run:
+                command: |
+                  echo "    - ccc_site_management" >> ccc_roles.yml
+                  echo "    - ccc_device_credential_management" >> ccc_roles.yml
+                  echo "    - ccc_discovery_management" >> ccc_roles.yml
+                  echo "    - ccc_inventory_management" >> ccc_roles.yml
+                  echo "    - ccc_swim_management" >> ccc_roles.yml
+
+      - run:
+          command: cat ccc_roles.yml
+
+  sanity-tests:
+    parameters: 
+      ansible_cisco_dnac_version:
+        type: string
+        default: "6.9.0"
+
+    machine: true
+    resource_class: rukapse/dnacenter-ansible
+    working_directory: ~/repo 
+
+    environment:
+      REPO_URL: << pipeline.trigger_parameters.github_app.repo_url >>
+      CIRCLE_PROJECT_REPONAME: << pipeline.trigger_parameters.github_app.repo_name >>
+      CIRCLE_PROJECT_BRANCHNAME: << pipeline.trigger_parameters.github_app.branch >>
+
+    steps:
+      - run:
+          name: Debug information
+          command: |
+            set -x 
+            echo "REPO_URL: $REPO_URL"
+            echo "CIRCLE_PROJECT_REPONAME: $CIRCLE_PROJECT_REPONAME"
+            echo "CIRCLE_PROJECT_BRANCHNAME: $CIRCLE_PROJECT_BRANCHNAME"
+            env
+
+      - run:
+          name: Custom Git Clone
+          command: git clone --depth=1 -b $CIRCLE_PROJECT_BRANCHNAME $REPO_URL
+
+      - run:
+          name: Activate Virtual Environment, Install ansible and Build collection tarball
+          command: |
+            set -x 
+            # Activate Virtual Environment
+            pyenv local ansible
+            export PYENV_ROOT="$HOME/.pyenv"
+            export PATH="$PYENV_ROOT/bin:$PATH"
+            export PATH="$PYENV_ROOT/shims/python3:$PATH"
+            export PATH="$PYENV_ROOT/shims/python:$PATH"
+            export PYTHONPATH="$PYENV_ROOT/shims/python3:$PYTHONPATH"
+            export PYTHONPATH="$PYENV_ROOT/shims/python:$PYTHONPATH"
+
+            export PATH="$HOME/.ansible/collections/:$PATH"
+            export PYTHONPATH="$HOME/.ansible/collections/:$PYTHONPATH"
+
+            # Install ansible, dnacentersdk
+            pip install --upgrade pip
+            pip install jinja2 PyYAML cryptography paramiko 
+            pip install pyzipper
+            pip install ansible 
+            pip install dnacentersdk
+            ansible --version
+
+          environment:
+            PYTHONPATH: $HOME/.ansible/collections/:$PYTHONPATH
+
+      - run:
+          name: Install the collection tarball
+          command: |
+            set -x 
+            pyenv versions
+            python --version
+            ansible --version  
+
+            ansible-galaxy collection install --force ${HOME}/.cache/v<< parameters.ansible_cisco_dnac_version >>/collection-tarballs/*.tar.gz
+            
+      - run:
+          name: Run sanity tests
+          command: |
+            export ANSIBLE_PERSISTENT_CONNECT_TIMEOUT=1000
+            export ANSIBLE_PERSISTENT_COMMAND_TIMEOUT=1000
+            export ANSIBLE_ROLES_PATH=/home/circleci/repo/dnacenter-ansible/tests/integration
+
+            ansible-playbook -i hosts ccc_roles.yml 
+
+      - run:
+          name: Remove Existing Directory
+          command: |
+            set -x 
+            rm -rf ${HOME}/repo/$CIRCLE_PROJECT_REPONAME
+
+
+workflows:  
+  
+  pre-testing:
+    when: << pipeline.parameters.run-setup >>
+    jobs:
+      - pre
+
+      - build:
+          matrix:
+            parameters:
+              ansible_cisco_dnac_version:
+                - "6.9.0"
+          requires:
+            - pre
+
+      - path-filtering/filter:
+          requires:
+            - build
+          base-revision: main
+          config-path: .circleci/config.yml
+          mapping: |
+            .* run-setup false
+
+            plugins/.* run-any true
+            tests/integration/.* run-any true
+
+            plugins/module_utils/.* run-all true
+
+            plugins/modules/site_workflow_manager.py run-site true
+            plugins/modules/device_credential_workflow_manager.py run-devicecredential true
+            plugins/modules/discovery_workflow_manager.py run-discovery true
+            plugins/modules/inventory_workflow_manager.py run-inventory true
+            plugins/modules/swim_workflow_manager.py run-swim true
+            
+            tests/integration/ccc_site_management/.* run-site true    
+            tests/integration/ccc_device_credential_management/.* run-devicecredential true
+            tests/integration/ccc_discovery_management/.* run-discovery true
+            tests/integration/ccc_inventory_management/.* run-inventory true
+            tests/integration/ccc_swim_management/.* run-swim true
+
+  integration-testing:
+    when: << pipeline.parameters.run-any >> 
+    jobs:          
+      - addrole
+
+      - sanity-tests:
+          requires:
+            - addrole
+          matrix:
+            parameters:
+              ansible_cisco_dnac_version:
+                - "6.9.0"
