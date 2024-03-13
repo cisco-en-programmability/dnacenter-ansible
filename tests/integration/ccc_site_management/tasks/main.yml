@@ -1,3 +1,4 @@
+---
 - name: collect ccc test cases
   find:
     paths: "{{ role_path }}/tests"
