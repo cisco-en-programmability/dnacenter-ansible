@@ -27,7 +27,7 @@ parameters:
   run-inventory:
     type: boolean
     default: false
-  run-tests:
+  run-swim:
     type: boolean
     default: false
 
@@ -183,6 +183,13 @@ jobs:
                   echo "    - ccc_inventory_management" >> ccc_roles.yml
 
       - when:
+          condition: << pipeline.parameters.run-swim >>
+          steps:
+            - run: 
+                command: |
+                  echo "    - ccc_swim_management" >> ccc_roles.yml
+
+      - when:
           condition: << pipeline.parameters.run-all >>
           steps:
             - run:
@@ -191,25 +198,10 @@ jobs:
                   echo "    - ccc_device_credential_management" >> ccc_roles.yml
                   echo "    - ccc_discovery_management" >> ccc_roles.yml
                   echo "    - ccc_inventory_management" >> ccc_roles.yml
+                  echo "    - ccc_swim_management" >> ccc_roles.yml
 
       - run:
           command: cat ccc_roles.yml
-
-  add-all-roles:
-    machine: true
-    resource_class: rukapse/dnacenter-ansible
-    working_directory: ~/repo 
-
-    steps:
-      - run:
-          name: Debug information
-          command: |
-            echo "    - ccc_site_management" >> ccc_roles.yml
-            echo "    - ccc_device_credential_management" >> ccc_roles.yml
-            echo "    - ccc_discovery_management" >> ccc_roles.yml
-            echo "    - ccc_inventory_management" >> ccc_roles.yml
-            cat ccc_roles.yml
-
 
   sanity-tests:
     parameters: 
@@ -294,39 +286,7 @@ jobs:
 
 
 workflows:  
-
-  scheduled-testing:
-    triggers:
-      - schedule:
-          cron: "0 0 * * *"  
-          filters:
-            branches:
-              only:
-                - circleci-setup  
-    jobs:
-      - pre
-
-      - build:
-          matrix:
-            parameters:
-              ansible_cisco_dnac_version:
-                - "6.9.0"
-          requires:
-            - pre
-
-      - add-all-roles:
-          requires:
-            - build
-
-      - sanity-tests:
-          requires:
-            - add-all-roles
-          matrix:
-            parameters:
-              ansible_cisco_dnac_version:
-                - "6.9.0"
-
-
+  
   pre-testing:
     when: << pipeline.parameters.run-setup >>
     jobs:
@@ -357,11 +317,13 @@ workflows:
             plugins/modules/device_credential_workflow_manager.py run-devicecredential true
             plugins/modules/discovery_workflow_manager.py run-discovery true
             plugins/modules/inventory_workflow_manager.py run-inventory true
+            plugins/modules/swim_workflow_manager.py run-swim true
             
             tests/integration/ccc_site_management/.* run-site true    
             tests/integration/ccc_device_credential_management/.* run-devicecredential true
             tests/integration/ccc_discovery_management/.* run-discovery true
             tests/integration/ccc_inventory_management/.* run-inventory true
+            tests/integration/ccc_swim_management/.* run-swim true
 
   integration-testing:
     when: << pipeline.parameters.run-any >> 
@@ -375,5 +337,3 @@ workflows:
             parameters:
               ansible_cisco_dnac_version:
                 - "6.9.0"
-
-
