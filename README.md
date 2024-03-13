@@ -19,7 +19,7 @@ The following table shows the supported versions.
 | 2.2.2.3                  | 3.3.1                        | 2.3.3                         |
 | 2.2.3.3                  | 6.4.0                        | 2.4.11                        |
 | 2.3.3.0                  | 6.6.4                        | 2.5.5                         |
-| 2.3.5.3                  | 6.11.0                       | 2.6.0                         |
+| 2.3.5.3                  | 6.13.0                       | 2.6.0                         |
 
 If your Ansible collection is older please consider updating it first.
 
