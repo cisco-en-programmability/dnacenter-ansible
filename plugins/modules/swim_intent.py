@@ -1365,10 +1365,10 @@ class DnacSwims(DnacBase):
             return self
 
         if len(device_uuid_list) == 0:
-            self.status = "failed"
-            self.msg = "Image Distribution cannot proceed due to the absence of device(s)"
+            self.status = "success"
+            self.msg = "No matched device(s) for swim image distribution task."
             self.result['msg'] = self.msg
-            self.log(self.msg, "ERROR")
+            self.log(self.msg, "WARNING")
             return self
 
         self.log("Device UUIDs involved in Image Distribution: {0}".format(str(device_uuid_list)), "INFO")
@@ -1508,10 +1508,10 @@ class DnacSwims(DnacBase):
             return self
 
         if len(device_uuid_list) == 0:
-            self.status = "failed"
-            self.msg = "No devices found for Image Activation"
+            self.status = "success"
+            self.msg = "No matched device(s) for swim image activation task."
             self.result['msg'] = self.msg
-            self.log(self.msg, "ERROR")
+            self.log(self.msg, "WARNING")
             return self
 
         self.log("Device UUIDs involved in Image Activation: {0}".format(str(device_uuid_list)), "INFO")

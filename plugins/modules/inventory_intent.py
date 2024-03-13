@@ -956,7 +956,7 @@ class DnacDevice(DnacBase):
     def get_device_ips_from_config_priority(self):
         """
         Retrieve device IPs based on the configuration.
-        Args:
+        Parameters:
             -  self (object): An instance of a class used for interacting with Cisco Cisco Catalyst Center.
         Returns:
             list: A list containing device IPs.
@@ -1329,6 +1329,7 @@ class DnacDevice(DnacBase):
             self.log(self.msg, "INFO")
             self.status = "success"
             self.result['changed'] = True
+            self.result['response'] = self.msg
 
         except Exception as e:
             self.msg = "Error while exporting device details into CSV file for device(s): '{0}'".format(str(device_ips))
@@ -2762,7 +2763,7 @@ class DnacDevice(DnacBase):
     def update_interface_detail_of_device(self, device_to_update):
         """
         Update interface details for a device in Cisco Catalyst Center.
-        Args:
+        Parameters:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             device_to_update (list): A list of IP addresses of devices to be updated.
         Returns:
@@ -2938,6 +2939,39 @@ class DnacDevice(DnacBase):
 
         return self
 
+    def is_device_exist_in_ccc(self, device_ip):
+        """
+        Check if a device with the given IP exists in Cisco Catalyst Center.
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            device_ip (str): The IP address of the device to check.
+        Returns:
+            bool: True if the device exists, False otherwise.
+        Description:
+            This method queries Cisco Catalyst Center to check if a device with the specified
+            management IP address exists. If the device exists, it returns True; otherwise,
+            it returns False. If an error occurs during the process, it logs an error message
+            and raises an exception.
+        """
+
+        try:
+            response = self.dnac._exec(
+                family="devices",
+                function='get_device_list',
+                params={"managementIpAddress": device_ip}
+            )
+            response = response.get('response')
+            if not response:
+                self.log("Device with given IP '{0}' is not present in Cisco Catalyst Center", "INFO")
+                return False
+
+            return True
+
+        except Exception as e:
+            error_message = "Error while getting the response of device from Cisco Catalyst Center: {0}".format(str(e))
+            self.log(error_message, "ERROR")
+            raise Exception(error_message)
+
     def get_want(self, config):
         """
         Get all the device related information from playbook that is needed to be
@@ -2989,6 +3023,16 @@ class DnacDevice(DnacBase):
             config['http_port'] = self.config[0].get("http_port", "443")
 
         config['ip_address_list'] = devices_to_add
+
+        if self.config[0].get('update_mgmt_ipaddresslist'):
+            device_ip = self.config[0].get('update_mgmt_ipaddresslist')[0].get('existMgmtIpAddress')
+            is_device_exists = self.is_device_exist_in_ccc(device_ip)
+
+            if not is_device_exists:
+                self.status = "failed"
+                self.msg = "Device '{0}' not present in Cisco Catalyst Center so we cannot update the Management IP address".format(device_ip)
+                self.log(self.msg, "ERROR")
+                return self
 
         if not config['ip_address_list']:
             self.msg = "Devices '{0}' already present in Cisco Catalyst Center".format(self.have['devices_in_playbook'])
@@ -3267,6 +3311,7 @@ class DnacDevice(DnacBase):
                         self.status = "failed"
                         self.msg = "Mandatory parameter (role) to update Device Role is missing"
                         self.log(self.msg, "WARNING")
+                        self.result['response'] = self.msg
                         return self
 
                     # Check if the same role of device is present in dnac then no need to change the state
@@ -3309,8 +3354,8 @@ class DnacDevice(DnacBase):
                                 if 'successfully' in progress or 'succesfully' in progress:
                                     self.status = "success"
                                     self.result['changed'] = True
-                                    self.result['response'] = execution_details
-                                    self.msg = "Device(s) '{0}' role updated successfully".format(str(device_to_update))
+                                    self.msg = "Device(s) '{0}' role updated successfully to '{1}'".format(str(device_to_update), device_role_args.get('role'))
+                                    self.result['response'] = self.msg
                                     self.log(self.msg, "INFO")
                                     break
                                 elif execution_details.get("isError"):
@@ -3321,6 +3366,7 @@ class DnacDevice(DnacBase):
                                     else:
                                         self.msg = "Device role updation get failed"
                                     self.log(self.msg, "ERROR")
+                                    self.result['response'] = self.msg
                                     break
 
                     except Exception as e:
