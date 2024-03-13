@@ -1225,15 +1225,27 @@ class Swim(DnacBase):
             )
             self.log("Received API response from 'remove_golden_tag_for_image': {0}".format(str(response)), "DEBUG")
 
-        if response:
-            task_details = {}
-            task_id = response.get("response").get("taskId")
+        if not response:
+            self.status = "failed"
+            self.msg = "Did not get the response of API so cannot check the Golden tagging status of image - {0}".format(image_name)
+            self.log(self.msg, "ERROR")
+            self.result['response'] = self.msg
+            return self
+
+        task_details = {}
+        task_id = response.get("response").get("taskId")
+
+        while(True):
             task_details = self.get_task_details(task_id)
-            if not task_details.get("isError"):
-                self.result['changed'] = True
-                self.result['msg'] = task_details.get("progress")
+
+            if not task_details.get("isError") and 'successful' in task_details.get("progress"):
                 self.status = "success"
-                self.result['response'] = task_details if task_details else response
+                self.result['changed'] = True
+                self.msg = task_details.get("progress")
+                self.result['msg'] = self.msg
+                self.result['response'] = self.msg
+                self.log(self.msg, "INFO")
+                break
             elif task_details.get("isError"):
                 failure_reason = task_details.get("failureReason", "")
                 if failure_reason and "An inheritted tag cannot be un-tagged" in failure_reason:
@@ -1242,13 +1254,16 @@ class Swim(DnacBase):
                     self.msg = failure_reason
                     self.result['msg'] = failure_reason
                     self.log(self.msg, "ERROR")
+                    self.result['response'] = self.msg
+                    break
                 else:
                     error_message = task_details.get("failureReason", "Error: while tagging/un-tagging the golden swim image.")
                     self.status = "failed"
                     self.msg = error_message
                     self.result['msg'] = error_message
                     self.log(self.msg, "ERROR")
-                self.result['response'] = self.msg
+                    self.result['response'] = self.msg
+                    break
 
         return self
 
@@ -1354,7 +1369,7 @@ class Swim(DnacBase):
 
         if len(device_uuid_list) == 0:
             self.status = "success"
-            self.msg = "No matched device(s) for swim image distribution task."
+            self.msg = "The SWIM image distribution task could not proceed because no eligible devices were found"
             self.result['msg'] = self.msg
             self.log(self.msg, "WARNING")
             return self
@@ -1497,7 +1512,7 @@ class Swim(DnacBase):
 
         if len(device_uuid_list) == 0:
             self.status = "success"
-            self.msg = "No matched device(s) for swim image activation task."
+            self.msg = "The SWIM image activation task could not proceed because no eligible devices were found."
             self.result['msg'] = self.msg
             self.log(self.msg, "WARNING")
             return self

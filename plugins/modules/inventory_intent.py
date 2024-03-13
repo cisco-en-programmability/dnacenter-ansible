@@ -2962,13 +2962,13 @@ class DnacDevice(DnacBase):
             )
             response = response.get('response')
             if not response:
-                self.log("Device with given IP '{0}' is not present in Cisco Catalyst Center", "INFO")
+                self.log("Device with given IP '{0}' is not present in Cisco Catalyst Center".format(device_ip), "INFO")
                 return False
 
             return True
 
         except Exception as e:
-            error_message = "Error while getting the response of device from Cisco Catalyst Center: {0}".format(str(e))
+            error_message = "Error while getting the response of device '{0}' from Cisco Catalyst Center: {1}".format(device_ip, str(e))
             self.log(error_message, "ERROR")
             raise Exception(error_message)
 
@@ -3030,7 +3030,8 @@ class DnacDevice(DnacBase):
 
             if not is_device_exists:
                 self.status = "failed"
-                self.msg = "Device '{0}' not present in Cisco Catalyst Center so we cannot update the Management IP address".format(device_ip)
+                self.msg = """Unable to update the Management IP address because the device with IP '{0}' is not
+                            found in Cisco Catalyst Center.""".format(device_ip)
                 self.log(self.msg, "ERROR")
                 return self
 
