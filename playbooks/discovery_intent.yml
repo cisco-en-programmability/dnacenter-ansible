@@ -99,6 +99,7 @@
             discovery_type: "SINGLE"
             ip_address_list:
               - 204.1.2.5
+            use_global_credentials: False
             discovery_specific_credentials:
               cli_credentials_list:
               - username: cisco
@@ -123,10 +124,9 @@
                 privacy_type: AES256
                 privacy_password: Lablab#1234
                 global_cli_len: 3
-            use_global_cred: False
             protocol_order: ssh
 
-    - name: Execute discovery devices using MULTI RANGE with various discovery specific credentials
+    - name: Execute discovery devices using MULTI RANGE with various discovery specific credentials and all global credentials (max 5 allowed)
       cisco.dnac.discovery_intent:
         <<: *dnac_login
         state: merged
@@ -164,7 +164,7 @@
             records_to_return: 1000
             snmp_version: v2
 
-    - name: Execute discovery devices using CDP/LLDP/CIDR
+    - name: Execute discovery devices using CDP/LLDP/CIDR leveraging discovery specific credentials and all the global credentials 
       cisco.dnac.discovery_intent:
         <<: *dnac_login
         state: merged
