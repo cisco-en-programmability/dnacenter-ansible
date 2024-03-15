@@ -239,9 +239,9 @@ EXAMPLES = r"""
     config:
         - device_info:
             - serial_number: FJC271924EQ
-            hostname: Switch
-            state: Unclaimed
-            pid: C9300-48UXM
+              hostname: Switch
+              state: Unclaimed
+              pid: C9300-48UXM
           site_name: Global/USA/San Francisco/BGL_18
           template_name: "Ansible_PNP_Switch"
           image_name: cat9k_iosxe_npe.17.03.07.SPA.bin
@@ -268,7 +268,7 @@ EXAMPLES = r"""
         - device_info:
             - serial_number: QD2425L8M7
             - serial_number: FTC2320E0HA
-            - serial_number: FKC2310E0HB  
+            - serial_number: FKC2310E0HB
 """
 
 RETURN = r"""
