@@ -58,36 +58,6 @@
             site_name: "Global/USA/San Francisco/BGL_18/floor_test"
             resync_retry_count: 200
             resync_retry_interval: 2
-          provision_wireless_device:
-          - device_ip: "1.1.1.1"
-            site_name: "Global/USA/BGL_18/floor_pnp"
-            managed_ap_locations: ["Global/USA/BGL_18/floor_pnp", "Global/USA/BGL_18/floor_test"]
-            dynamic_interfaces:
-            - interface_ip_address: 23.23.21.12
-              interface_netmask_in_cidr: 24
-              interface_gateway: "gateway"
-              lag_or_port_number: 12
-              vlan_id: 99
-              interface_name: "etherenet0/0"
-            resync_retry_count: 200
-            resync_retry_interval: 2
-          - device_ip: "2.2.2.2"
-            site_name: "Global/USA/BGL_18/floor_test"
-            managed_ap_locations: ["Global/USA/BGL_19/floor_pnp", "Global/USA/BGL_19/floor_test"]
-            dynamic_interfaces:
-            - interface_ip_address: 32.31.12.23
-              interface_netmask_in_cidr: 26
-              interface_gateway: "gateway_test"
-              lag_or_port_number: 33
-              vlan_id: 78
-              interface_name: "etherenet1/1"
-            resync_retry_count: 200
-            resync_retry_interval: 2
-          reprovision_wired_device:
-          - device_ip: "1.1.1.1"
-            site_name: "Global/USA/San Francisco/BGL_18/floor_pnp"
-          - device_ip: "2.2.2.2"
-            site_name: "Global/USA/San Francisco/BGL_18/floor_test"
           update_interface_details:
             description: "{{item.update_interface_details.description}}"
             interface_name: "{{item.interface_name}}"
