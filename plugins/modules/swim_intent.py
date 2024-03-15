@@ -499,6 +499,7 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
 )
 from ansible.module_utils.basic import AnsibleModule
 import os
+import time
 
 
 class DnacSwims(DnacBase):
@@ -1314,6 +1315,50 @@ class DnacSwims(DnacBase):
             self.log(error_message, "ERROR")
             raise Exception(error_message)
 
+    def check_swim_task_status(self, swim_task_dict, swim_task_name):
+        """
+        Check the status of the SWIM (Software Image Management) task for each device.
+        Args:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            swim_task_dict (dict): A dictionary containing the mapping of device IP address to the respective task ID.
+            swim_task_name (str): The name of the SWIM task being checked which is either Distribution or Activation.
+        Returns:
+            tuple: A tuple containing two elements:
+                - device_ips_list (list): A list of device IP addresses for which the SWIM task failed.
+                - device_count (int): The count of devices for which the SWIM task was successful.
+        Description:
+            This function iterates through the distribution_task_dict, which contains the mapping of
+            device IP address to their respective task ID. It checks the status of the SWIM task for each device by
+            repeatedly querying for task details until the task is either completed successfully or fails. If the task
+            is successful, the device count is incremented. If the task fails, an error message is logged, and the device
+            IP is appended to the device_ips_list and return a tuple containing the device_ips_list and device_count.
+        """
+
+        device_ips_list = []
+        device_count = 0
+
+        for device_ip, task_id in swim_task_dict.items():
+            while (True):
+                task_details = self.get_task_details(task_id)
+
+                if not task_details.get("isError") and \
+                        ("completed successfully" in task_details.get("progress")):
+                    self.result['changed'] = True
+                    self.status = "success"
+                    self.log("Image {0} successfully for the device '{1}".format(swim_task_name, device_ip), "INFO")
+                    device_count += 1
+                    break
+
+                if task_details.get("isError"):
+                    error_msg = "Image {0} gets failed for the device '{1}'".format(swim_task_name, device_ip)
+                    self.log(error_msg, "ERROR")
+                    self.result['response'] = task_details
+                    device_ips_list.append(device_ip)
+                    break
+                time.sleep(2)
+
+        return device_ips_list, device_count
+
     def get_diff_distribution(self):
         """
         Get image distribution parameters from the playbook and trigger image distribution.
@@ -1390,9 +1435,7 @@ class DnacSwims(DnacBase):
             return self
 
         self.log("Device UUIDs involved in Image Distribution: {0}".format(str(device_uuid_list)), "INFO")
-
-        device_distribution_count = 0
-        device_ips_list = []
+        distribution_task_dict = {}
 
         for device_uuid in device_uuid_list:
             device_management_ip = self.get_device_ip_from_id(device_uuid)
@@ -1414,24 +1457,9 @@ class DnacSwims(DnacBase):
             if response:
                 task_details = {}
                 task_id = response.get("response").get("taskId")
+                distribution_task_dict[device_management_ip] = task_id
 
-                while (True):
-                    task_details = self.get_task_details(task_id)
-
-                    if not task_details.get("isError") and \
-                            ("completed successfully" in task_details.get("progress")):
-                        self.result['changed'] = True
-                        self.status = "success"
-                        self.result['msg'] = "Image with Id '{0}' Distributed successfully".format(image_id)
-                        device_distribution_count += 1
-                        break
-
-                    if task_details.get("isError"):
-                        self.msg = "Image with Id '{0}' Distribution failed".format(image_id)
-                        self.log(self.msg, "ERROR")
-                        self.result['response'] = task_details
-                        device_ips_list.append(device_management_ip)
-                        break
+        device_ips_list, device_distribution_count = self.check_swim_task_status(distribution_task_dict, 'Distribution')
 
         if device_distribution_count == 0:
             self.status = "failed"
@@ -1533,8 +1561,7 @@ class DnacSwims(DnacBase):
             return self
 
         self.log("Device UUIDs involved in Image Activation: {0}".format(str(device_uuid_list)), "INFO")
-        device_activation_count = 0
-        device_ips_list = []
+        activation_task_dict = {}
 
         for device_uuid in device_uuid_list:
             device_management_ip = self.get_device_ip_from_id(device_uuid)
@@ -1563,42 +1590,27 @@ class DnacSwims(DnacBase):
             if response:
                 task_details = {}
                 task_id = response.get("response").get("taskId")
+                activation_task_dict[device_management_ip] = task_id
 
-                while (True):
-                    task_details = self.get_task_details(task_id)
-
-                    if not task_details.get("isError") and \
-                            ("completed successfully" in task_details.get("progress")):
-                        self.result['changed'] = True
-                        self.status = "success"
-                        self.result['msg'] = "Image with Id '{0}' activated successfully".format(image_id)
-                        device_activation_count += 1
-                        break
-
-                    if task_details.get("isError"):
-                        self.msg = "Image with Id '{0}' activation failed".format(image_id)
-                        self.log(self.msg, "ERROR")
-                        self.result['response'] = task_details
-                        device_ips_list.append(device_management_ip)
-                        break
+        device_ips_list, device_activation_count = self.check_swim_task_status(activation_task_dict, 'Activation')
 
         if device_activation_count == 0:
             self.status = "failed"
-            msg = "Image with Id '{0}' activation failed for all devices".format(image_id)
+            self.msg = "Image with Id '{0}' activation failed for all devices".format(image_id)
         elif device_activation_count == len(device_uuid_list):
             self.result['changed'] = True
             self.status = "success"
             self.complete_successful_activation = True
-            msg = "Image with Id '{0}' activated successfully for all devices".format(image_id)
+            self.msg = "Image with Id '{0}' activated successfully for all devices".format(image_id)
         else:
             self.result['changed'] = True
             self.status = "success"
             self.partial_successful_activation = True
-            msg = "Image with Id '{0}' activated and partially successfull".format(image_id)
+            self.msg = "Image with Id '{0}' activated and partially successfull".format(image_id)
             self.log("For Device(s) {0} Image activation gets Failed".format(str(device_ips_list)), "CRITICAL")
 
-        self.result['msg'] = msg
-        self.log(msg, "INFO")
+        self.result['msg'] = self.msg
+        self.log(self.msg, "INFO")
 
         return self
 
