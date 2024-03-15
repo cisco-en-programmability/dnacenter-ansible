@@ -1338,7 +1338,17 @@ class DnacSwims(DnacBase):
         device_count = 0
 
         for device_ip, task_id in swim_task_dict.items():
+            start_time = time.time()
+            max_timeout = 1200
+
             while (True):
+                end_time = time.time()
+                if (end_time - start_time) >= max_timeout:
+                    self.log("""Max timeout of 20 min has reached for the task id '{0}' for the device '{1}' and unexpected
+                                 task status so moving out to next task id""".format(task_id, device_ip), "WARNING")
+                    device_ips_list.append(device_ip)
+                    break
+
                 task_details = self.get_task_details(task_id)
 
                 if not task_details.get("isError") and \
