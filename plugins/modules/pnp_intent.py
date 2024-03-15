@@ -40,20 +40,36 @@ options:
     elements: dict
     required: true
     suboptions:
-      template_name:
-        description: Name of template to be configured on the device.
-        type: str
-      template_params:
-        description: Parameter values for the parameterised templates.
-            Each varibale has a value that needs to be passed as key-value pair
-            in the dictionary. We can pass values as variable_name:variable_value.
-        type: dict
-      image_name:
-        description: Name of image to be configured on the device
-        type: str
-      golden_image:
-        description: Is the image to be condifgured tagged as golden image
-        type: bool
+      device_info:
+        description:
+            - Provides the device-specific information required for adding devices to the PnP database that are not already present.
+            - For adding a single device, the list should contain exactly one set of device information. If a site name is also provided,
+              the device can be claimed immediately after being added.
+            - For bulk import, the list must contain information for more than one device. Bulk import is intended solely for adding devices;
+              claiming must be performed with separate tasks or configurations.
+        type: list
+        required: true
+        elements: dict
+        suboptions:
+          hostname:
+            description:
+            - Defines the desired hostname for the PnP device after it has been claimed.
+            - The hostname can only be assigned or changed during the claim process, not during bulk or single device additions.
+            type: str
+          state:
+            description:
+                - Represents the onboarding state of the PnP device.
+                - Possible values are 'Unclaimed', 'Claimed', or 'Provisioned'.
+            type: str
+          pid:
+            description: Pnp Device's pid.
+            type: str
+          serial_number:
+            description: Pnp Device's serial_number.
+            type: str
+          is_sudi_required:
+            description: Sudi Authentication requiremnet's flag.
+            type: bool
       site_name:
         description: Name of the site for which device will be claimed.
         type: str
@@ -61,6 +77,24 @@ options:
         description: Name of the project under which the template is present
         type: str
         default: Onboarding Configuration
+      template_name:
+        description:
+            - Name of template to be configured on the device.
+            - Supported for EWLC from Cisco Catalyst Center release version 2.3.7.x onwards.
+        type: str
+      template_params:
+        description:
+            - Parameter values for the parameterised templates.
+            - Each varibale has a value that needs to be passed as key-value pair
+              in the dictionary. We can pass values as variable_name:variable_value.
+            - Supported for EWLC from Cisco Catalyst Center release version 2.3.7.x onwards.
+        type: dict
+      image_name:
+        description: Name of image to be configured on the device
+        type: str
+      golden_image:
+        description: Is the image to be condifgured tagged as golden image
+        type: bool
       pnp_type:
         description: Specifies the device type for the Plug and Play (PnP) device.
             - Options include 'Default', 'CatalystWLC', 'AccessPoint', or 'StackSwitch'.
@@ -97,36 +131,6 @@ options:
             - LOW RF profile allows you to consume lesser power and has least visibility to the client.
         type: str
         choices: [ 'HIGH', 'LOW', 'TYPICAL' ]
-      device_info:
-        description:
-            - Provides the device-specific information required for adding devices to the PnP database that are not already present.
-            - For adding a single device, the list should contain exactly one set of device information. If a site name is also provided,
-              the device can be claimed immediately after being added.
-            - For bulk import, the list must contain information for more than one device. Bulk import is intended solely for adding devices;
-              claiming must be performed with separate tasks or configurations.
-        type: list
-        required: true
-        elements: dict
-        suboptions:
-          hostname:
-            description:
-            - Defines the desired hostname for the PnP device after it has been claimed.
-            - The hostname can only be assigned or changed during the claim process, not during bulk or single device additions.
-            type: str
-          state:
-            description:
-                - Represents the onboarding state of the PnP device.
-                - Possible values are 'Unclaimed', 'Claimed', or 'Provisioned'.
-            type: str
-          pid:
-            description: Pnp Device's pid.
-            type: str
-          serial_number:
-            description: Pnp Device's serial_number.
-            type: str
-          is_sudi_required:
-            description: Sudi Authentication requiremnet's flag.
-            type: bool
 
 requirements:
 - dnacentersdk == 2.6.10
@@ -158,7 +162,7 @@ notes:
 """
 
 EXAMPLES = r"""
-- name: Add a new device and claim the device
+- name: Import multiple switches in bulk only
   cisco.dnac.pnp_intent:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -172,25 +176,99 @@ EXAMPLES = r"""
     state: merged
     config_verify: True
     config:
-        - template_name: string
-          image_name: string
-          golden_image: bool
-          site_name: string
-          project_name: string
-          pnp_type: string
-          static_ip: string
-          subnet_mask: string
-          gateway: string
-          vlan_id: string
-          ip_interface_name: string
-          rf_profile: string
-          device_info:
-            - hostname: string
-              state: string
-              pid: string
-              serial_number: string
-              add_device_method: string
-              is_sudi_required: string
+        - device_info:
+            - serial_number: QD2425L8M7
+              state: Unclaimed
+              pid: c9300-24P
+              is_sudi_required: False
+            - serial_number: QTC2320E0H9
+              state: Unclaimed
+              pid: c9300-24P
+              hostname: Test-123
+            - serial_number: ETC2320E0HB
+              state: Unclaimed
+              pid: c9300-24P
+
+- name: Add a new EWLC and claim it
+  cisco.dnac.pnp_intent:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
+    dnac_log: True
+    state: merged
+    config_verify: True
+    config:
+        - device_info:
+            - serial_number: FOX2639PAY7
+              hostname: New_WLC
+              state: Unclaimed
+              pid: C9800-CL-K9
+          site_name: Global/USA/San Francisco/BGL_18
+          template_name: Ansible_PNP_WLC
+          template_params:
+            hostname: IAC-EWLC-Claimed
+          project_name: Onboarding Configuration
+          image_name: C9800-40-universalk9_wlc.17.12.01.SPA.bin
+          golden_image: true
+          pnp_type: CatalystWLC
+          static_ip: 204.192.101.10
+          subnet_mask: 255.255.255.0
+          gateway: 204.192.101.1
+          vlan_id: 1101
+          ip_interface_name: TenGigabitEthernet0/0/0
+
+- name: Claim a pre-added switch, apply a template, and perform an image upgrade for a specific site
+  cisco.dnac.pnp_intent:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
+    dnac_log: True
+    state: merged
+    config_verify: True
+    state: merged
+    config:
+        - device_info:
+            - serial_number: FJC271924EQ
+            hostname: Switch
+            state: Unclaimed
+            pid: C9300-48UXM
+          site_name: Global/USA/San Francisco/BGL_18
+          template_name: "Ansible_PNP_Switch"
+          image_name: cat9k_iosxe_npe.17.03.07.SPA.bin
+          project_name: Onboarding Configuration
+          template_params:
+            hostname: SJC-Switch-1
+            interface: TwoGigabitEthernet1/0/2
+
+- name: Remove multiple devices from the PnP dashboard safely (ignores non-existent devices)
+  cisco.dnac.pnp_intent:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
+    dnac_log: True
+    state: deleted
+    config_verify: True
+    state: merged
+    config:
+        - device_info:
+            - serial_number: QD2425L8M7
+            - serial_number: FTC2320E0HA
+            - serial_number: FKC2310E0HB  
 """
 
 RETURN = r"""
