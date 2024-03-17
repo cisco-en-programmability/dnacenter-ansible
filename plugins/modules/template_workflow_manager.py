@@ -1127,7 +1127,7 @@ notes:
 """
 
 EXAMPLES = r"""
-- name: Create a new template, export and import the project and export the template.
+- name: Create a new template.
   cisco.dnac.template_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -1177,15 +1177,67 @@ EXAMPLES = r"""
             template_id: string
             template_version: string
         version: string
+
+- name: Export the projects.
+  cisco.dnac.template_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: True
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config_verify: True
+    config:
       export:
         project:
           - string
+          - string
+
+- name: Export the templates.
+  cisco.dnac.template_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: True
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config_verify: True
+    config:
+      export:
         template:
           - project_name : string
             template_name: string
+          - project_name: string
+            template_name: string
+
+- name: Import the Projects.
+  cisco.dnac.template_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: True
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config_verify: True
+    config:
       import:
         project:
-          do_version: true
+          do_version: false
+          payload:
+          - name: string
+          - name: string
 
 """
 
@@ -1484,7 +1536,7 @@ class Template(DnacBase):
         """
 
         if device_types is None:
-            self.msg = "Mandatory parameter device_types is required."
+            self.msg = "Mandatory parameter 'device_types' is required."
             self.status = "failed"
             return self.check_return_status()
 
@@ -1805,7 +1857,7 @@ class Template(DnacBase):
         """
 
         self.log("Template params playbook details: {0}".format(params), "DEBUG")
-        self.log(str(params.get("containing_templates")))
+        self.log(str(params))
         temp_params = {
             "tags": self.get_tags(params.get("template_tag")),
             "author": params.get("author"),
@@ -1819,17 +1871,13 @@ class Template(DnacBase):
                 self.get_device_types(params.get("device_types")),
             "failurePolicy": params.get("failure_policy"),
             "id": params.get("id"),
-            # "language": params.get("language").upper(),
             "lastUpdateTime": params.get("last_update_time"),
             "latestVersionTime": params.get("latest_version_time"),
-            # "name": params.get("template_name"),
             "parentTemplateId": params.get("parent_template_id"),
             "projectId": params.get("project_id"),
-            # "projectName": params.get("project_name"),
             "rollbackTemplateContent": params.get("rollback_template_content"),
             "rollbackTemplateParams":
                 self.get_template_info(params.get("rollback_template_params")),
-            # "softwareType": params.get("software_type"),
             "softwareVariant": params.get("software_variant"),
             "softwareVersion": params.get("software_version"),
             "templateContent": params.get("template_content"),
@@ -1843,7 +1891,7 @@ class Template(DnacBase):
         language = params.get("language")
         if not language:
             self.msg = "Mandatory parameter 'language' is required."
-            self.failed = "failed"
+            self.status = "failed"
             return self.check_return_status()
 
         language = language.upper()
@@ -1855,10 +1903,10 @@ class Template(DnacBase):
 
         temp_params.update({"language": language})
 
-        name = params.get("name")
+        name = params.get("template_name")
         if not name:
-            self.msg = "Mandatory parameter 'name' is required."
-            self.failed = "failed"
+            self.msg = "Mandatory parameter 'template_name' is required."
+            self.status = "failed"
             return self.check_return_status()
 
         temp_params.update({"name": name})
@@ -1866,7 +1914,7 @@ class Template(DnacBase):
         projectName = params.get("project_name")
         if not projectName:
             self.msg = "Mandatory parameter 'project_name' is required."
-            self.failed = "failed"
+            self.status = "failed"
             return self.check_return_status()
 
         temp_params.update({"project_name": projectName})
@@ -1874,7 +1922,7 @@ class Template(DnacBase):
         softwareType = params.get("software_type")
         if not softwareType:
             self.msg = "Mandatory parameter 'software_type' is required."
-            self.failed = "failed"
+            self.status = "failed"
             return self.check_return_status()
 
         temp_params.update({"softwareType": softwareType})
@@ -1884,7 +1932,7 @@ class Template(DnacBase):
         for item in copy_temp_params:
             if temp_params[item] is None:
                 del temp_params[item]
-
+        self.log(str(temp_params))
         return temp_params
 
     def get_template(self, config):
@@ -2242,6 +2290,8 @@ class Template(DnacBase):
 
         # Mandate fields required for creating a new template.
         # Store it with other template parameters.
+        self.log(str(template_params))
+        self.log(str(self.have_project))
         template_params["projectId"] = self.have_project.get("id")
         template_params["project_id"] = self.have_project.get("id")
         # Update language,deviceTypes and softwareType if not provided for existing template.
@@ -2352,12 +2402,12 @@ class Template(DnacBase):
         if not is_project_found:
             project_id, project_created = \
                 self.create_project_or_template(is_create_project=True)
-            if project_created:
-                self.log("project created with projectId: {0}".format(project_id), "DEBUG")
-            else:
+            if not project_created:
                 self.status = "failed"
                 self.msg = "Project creation failed"
                 return self
+
+            self.log("project created with projectId: {0}".format(project_id), "DEBUG")
 
         is_template_found = self.have_template.get("template_found")
         template_params = self.want.get("template_params")
@@ -2367,21 +2417,7 @@ class Template(DnacBase):
         template_updated = False
         self.validate_input_merge(is_template_found).check_return_status()
         if is_template_found:
-            if self.requires_update():
-                template_id = self.have_template.get("id")
-                template_params.update({"id": template_id})
-                self.log("Current State (have): {0}".format(self.have_template), "INFO")
-                self.log("Desired State (want): {0}".format(self.want), "INFO")
-                response = self.dnac_apply['exec'](
-                    family="configuration_templates",
-                    function="update_template",
-                    params=template_params,
-                    op_modifies=True,
-                )
-                template_updated = True
-                self.log("Updating existing template '{0}'."
-                         .format(self.have_template.get("template").get("name")), "INFO")
-            else:
+            if not self.requires_update():
                 # Template does not need update
                 self.result.update({
                     'response': self.have_template.get("template"),
@@ -2389,13 +2425,27 @@ class Template(DnacBase):
                 })
                 self.status = "exited"
                 return self
+
+            template_id = self.have_template.get("id")
+            template_params.update({"id": template_id})
+            self.log("Current State (have): {0}".format(self.have_template), "INFO")
+            self.log("Desired State (want): {0}".format(self.want), "INFO")
+            response = self.dnac_apply['exec'](
+                family="configuration_templates",
+                function="update_template",
+                params=template_params,
+                op_modifies=True,
+            )
+            template_updated = True
+            self.log("Updating existing template '{0}'."
+                     .format(self.have_template.get("template").get("name")), "INFO")
+
         else:
-            if template_params.get("name"):
-                template_id, template_updated = self.create_project_or_template()
-            else:
+            if not template_params.get("name"):
                 self.msg = "missing required arguments: template_name"
                 self.status = "failed"
                 return self
+            template_id, template_updated = self.create_project_or_template()
 
         if template_updated:
             # Template needs to be versioned
@@ -2501,7 +2551,7 @@ class Template(DnacBase):
                 return self
             final_payload = []
             for item in payload:
-                response = self.get_project_details(item)
+                response = self.get_project_details(item.get("name"))
                 if response == []:
                     final_payload.append(item)
             if final_payload != []:
