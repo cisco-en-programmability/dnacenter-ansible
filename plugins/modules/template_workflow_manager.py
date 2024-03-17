@@ -1279,7 +1279,6 @@ class Template(DnacBase):
         self.supported_states = ["merged", "deleted"]
         self.accepted_languages = ["JINJA", "VELOCITY"]
         self.export_template = []
-        self.temp_params = None
         self.result['response'].append({})
 
     def validate_input(self):
