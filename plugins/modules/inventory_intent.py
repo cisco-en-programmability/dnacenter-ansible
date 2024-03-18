@@ -335,16 +335,11 @@ notes:
     put /dna/intent/api/v1/network-device,
 
   - Removed 'managementIpAddress' options in v4.3.0.
-
   - Renamed argument 'ip_address' to 'ip_address_list' option in v6.12.0.
-
   - Removed 'serial_number', 'device_added', 'role_source', options in v6.12.0.
-
-  - Added 'add_user_defined_field', 'update_interface_details', 'export_device_list' options in v6.13.2.
-
-  - Removed 'provision_wireless_device', 'reprovision_wired_device' options in v6.13.2.
-
-  - Added the parameter 'admin_status' options in v6.13.2.
+  - Added 'add_user_defined_field', 'update_interface_details', 'export_device_list' options in v6.13.1.
+  - Removed 'provision_wireless_device', 'reprovision_wired_device' options in v6.13.1.
+  - Added the parameter 'admin_status' options in v6.13.1.
 
 """
 
