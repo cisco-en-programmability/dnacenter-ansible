@@ -201,29 +201,24 @@ options:
         description: Required if need to delete the Provisioned device by clearing current configuration.
         type: bool
         default: False
-      update_device_role:
-        description: This operation will takes dictionary as a parameter and in this we give role of device and for role source
-            we are giving as MANUAL only.
-        type: dict
-        suboptions:
-          role:
-            description: Role of device which can be ACCESS, CORE, DISTRIBUTION, BORDER ROUTER, UNKNOWN.
-                ALL - This role typically represents all devices within the network, regardless of their specific roles or functions.
-                UNKNOWN - This role is assigned to devices whose roles or functions have not been identified or classified within Cisco Catalsyt Center.
-                    This could happen if the platform is unable to determine the device's role based on available information.
-                ACCESS - This role typically represents switches or access points that serve as access points for end-user devices to connect to the network.
-                    These devices are often located at the edge of the network and provide connectivity to end-user devices.
-                BORDER ROUTER - These are devices that connect different network domains or segments together. They often serve as
-                    gateways between different networks, such as connecting an enterprise network to the internet or connecting
-                    multiple branch offices.
-                DISTRIBUTION - This role represents function as distribution switches or routers in hierarchical network designs. They aggregate traffic
-                    from access switches and route it toward the core of the network or toward other distribution switches.
-                CORE - This role typically represents high-capacity switches or routers that form the backbone of the network. They handle large volumes
-                    of traffic and provide connectivity between different parts of network, such as connecting distribution switches or
-                    providing interconnection between different network segments.
-            type: str
+      role:
+        description: Role of device which can be ACCESS, CORE, DISTRIBUTION, BORDER ROUTER, UNKNOWN.
+            ALL - This role typically represents all devices within the network, regardless of their specific roles or functions.
+            UNKNOWN - This role is assigned to devices whose roles or functions have not been identified or classified within Cisco Catalsyt Center.
+                This could happen if the platform is unable to determine the device's role based on available information.
+            ACCESS - This role typically represents switches or access points that serve as access points for end-user devices to connect to the network.
+                These devices are often located at the edge of the network and provide connectivity to end-user devices.
+            BORDER ROUTER - These are devices that connect different network domains or segments together. They often serve as
+                gateways between different networks, such as connecting an enterprise network to the internet or connecting
+                multiple branch offices.
+            DISTRIBUTION - This role represents function as distribution switches or routers in hierarchical network designs. They aggregate traffic
+                from access switches and route it toward the core of the network or toward other distribution switches.
+            CORE - This role typically represents high-capacity switches or routers that form the backbone of the network. They handle large volumes
+                of traffic and provide connectivity between different parts of network, such as connecting distribution switches or
+                providing interconnection between different network segments.
+        type: str
       add_user_defined_field:
-        description: This operation will takes dictionary as a parameter and in this we give details to
+        description: This operation will take dictionary as a parameter and in this we give details to
             create/update/delete/assign multiple UDF to a device.
         type: dict
         suboptions:
@@ -237,7 +232,7 @@ options:
             description: Value to assign to tag with or without the same user defined field name.
             type: str
       update_interface_details:
-        description: This operation will takes dictionary as a parameter and in this we give details to update interface details of device.
+        description: This operation will take dictionary as a parameter and in this we give details to update interface details of device.
         type: dict
         suboptions:
           description:
@@ -267,7 +262,7 @@ options:
             description: Status of Interface of a device, it can be (UP/DOWN).
             type: str
       export_device_list:
-        description: This operation takes dictionary as parameter and export the device details as well as device credentials
+        description: This operation take dictionary as parameter and export the device details as well as device credentials
             details in a csv file.
         type: dict
         suboptions:
@@ -344,6 +339,12 @@ notes:
   - Renamed argument 'ip_address' to 'ip_address_list' option in v6.12.0.
 
   - Removed 'serial_number', 'device_added', 'role_source', options in v6.12.0.
+
+  - Added 'add_user_defined_field', 'update_interface_details', 'export_device_list' options in v6.13.2.
+
+  - Removed 'provision_wireless_device', 'reprovision_wired_device' options in v6.13.2.
+
+  - Added the parameter 'admin_status' options in v6.13.2.
 
 """
 
@@ -551,9 +552,7 @@ EXAMPLES = r"""
     state: merged
     config:
       - ip_address_list: ["1.1.1.1", "2.2.2.2"]
-        device_updated: True
-        update_device_role:
-          role: ACCESS
+        role: ACCESS
 
 - name: Update Interface details with IP Address
   cisco.dnac.inventory_intent:
@@ -721,6 +720,8 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
     validate_list_of_dicts,
 )
+# Defer this feature as API issue is there once it's fixed we will addresses it in upcoming release iac2.0
+support_for_provisioning_wireless = False
 
 
 class DnacDevice(DnacBase):
@@ -777,10 +778,7 @@ class DnacDevice(DnacBase):
             'snmp_version': {'type': 'str'},
             'update_mgmt_ipaddresslist': {'type': 'list', 'elements': 'dict'},
             'username': {'type': 'str'},
-            'update_device_role': {
-                'type': 'dict',
-                'role': {'type': 'str'},
-            },
+            'role': {'type': 'str'},
             'device_updated': {'type': 'bool'},
             'device_resync': {'type': 'bool'},
             'reboot_device': {'type': 'bool'},
@@ -2009,15 +2007,16 @@ class DnacDevice(DnacBase):
                 if device_ip_address not in device_in_dnac:
                     device_not_in_dnac.append(device_ip_address)
 
-        # if self.config[0].get('provision_wireless_device'):
-        #     provision_wireless_list = self.config[0].get('provision_wireless_device')
+        if support_for_provisioning_wireless:
+            if self.config[0].get('provision_wireless_device'):
+                provision_wireless_list = self.config[0].get('provision_wireless_device')
 
-        #     for prov_dict in provision_wireless_list:
-        #         device_ip_address = prov_dict['device_ip']
-        #         if device_ip_address not in want_device and device_ip_address not in devices_in_playbook:
-        #             devices_in_playbook.append(device_ip_address)
-        #         if device_ip_address not in device_in_dnac and device_ip_address not in device_not_in_dnac:
-        #             device_not_in_dnac.append(device_ip_address)
+                for prov_dict in provision_wireless_list:
+                    device_ip_address = prov_dict['device_ip']
+                    if device_ip_address not in want_device and device_ip_address not in devices_in_playbook:
+                        devices_in_playbook.append(device_ip_address)
+                    if device_ip_address not in device_in_dnac and device_ip_address not in device_not_in_dnac:
+                        device_not_in_dnac.append(device_ip_address)
 
         self.log("Device(s) {0} exists in Cisco Catalyst Center".format(str(device_in_dnac)), "INFO")
         have["want_device"] = want_device
@@ -2340,8 +2339,7 @@ class DnacDevice(DnacBase):
             for updating device roles.
         """
 
-        device_role_args = self.config[0].get('update_device_role')
-        role = device_role_args.get('role')
+        role = self.config[0].get('role')
         response = self.get_device_response(device_ip)
 
         return response.get('role') == role
@@ -2923,6 +2921,82 @@ class DnacDevice(DnacBase):
                 self.log(error_message, "ERROR")
                 raise Exception(error_message)
 
+        # Update the role of devices having the role source as Manual
+        if self.config[0].get('role'):
+            devices_to_update_role = self.get_device_ips_from_config_priority()
+            device_role = self.config[0].get('role')
+            role_update_count = 0
+            for device_ip in devices_to_update_role:
+                device_id = self.get_device_ids([device_ip])
+
+                # Check if the same role of device is present in dnac then no need to change the state
+                response = self.dnac._exec(
+                    family="devices",
+                    function='get_device_list',
+                    params={"managementIpAddress": device_ip}
+                )
+                response = response.get('response')[0]
+
+                if response.get('role') == device_role:
+                    self.status = "success"
+                    self.result['changed'] = False
+                    role_update_count += 1
+                    log_msg = "The device role '{0}' is already set in Cisco Catalyst Center, no update is needed.".format(device_role)
+                    self.log(log_msg, "INFO")
+                    continue
+
+                device_role_params = {
+                    'role': device_role,
+                    'roleSource': "MANUAL",
+                    'id': device_id[0]
+                }
+
+                try:
+                    response = self.dnac._exec(
+                        family="devices",
+                        function='update_device_role',
+                        op_modifies=True,
+                        params=device_role_params,
+                    )
+                    self.log("Received API response from 'update_device_role': {0}".format(str(response)), "DEBUG")
+
+                    if response and isinstance(response, dict):
+                        task_id = response.get('response').get('taskId')
+
+                        while True:
+                            execution_details = self.get_task_details(task_id)
+                            progress = execution_details.get("progress")
+
+                            if 'successfully' in progress or 'succesfully' in progress:
+                                self.status = "success"
+                                self.result['changed'] = True
+                                self.msg = "Device(s) '{0}' role updated successfully to '{1}'".format(str(devices_to_update_role), device_role)
+                                self.result['response'] = self.msg
+                                self.log(self.msg, "INFO")
+                                break
+                            elif execution_details.get("isError"):
+                                self.status = "failed"
+                                failure_reason = execution_details.get("failureReason")
+                                if failure_reason:
+                                    self.msg = "Device role updation get failed because of {0}".format(failure_reason)
+                                else:
+                                    self.msg = "Device role updation get failed"
+                                self.log(self.msg, "ERROR")
+                                self.result['response'] = self.msg
+                                break
+
+                except Exception as e:
+                    error_message = "Error while updating device role '{0}' in Cisco Catalyst Center: {1}".format(device_role, str(e))
+                    self.log(error_message, "ERROR")
+
+            if role_update_count == len(devices_to_update_role):
+                self.status = "success"
+                self.result['changed'] = False
+                self.msg = """The device role '{0}' is already set in Cisco Catalyst Center, no device role update is needed for the
+                  devices {1}.""".format(device_role, str(devices_to_update_role))
+                self.log(self.msg, "INFO")
+                self.result['response'] = self.msg
+
         if device_updated:
             device_to_update = self.get_device_ips_from_config_priority()
             # First check if device present in Cisco Catalyst Center or not
@@ -3100,79 +3174,6 @@ class DnacDevice(DnacBase):
             if self.config[0].get('update_interface_details'):
                 self.update_interface_detail_of_device(device_to_update).check_return_status()
 
-            # Update the role of devices having the role source as Manual
-            if self.config[0].get('update_device_role'):
-                for device_ip in device_to_update:
-                    device_id = self.get_device_ids([device_ip])
-                    device_role_args = self.config[0].get('update_device_role')
-
-                    if 'role' not in device_role_args:
-                        self.status = "failed"
-                        self.msg = "Mandatory parameter (role) to update Device Role is missing"
-                        self.log(self.msg, "WARNING")
-                        self.result['response'] = self.msg
-                        return self
-
-                    # Check if the same role of device is present in dnac then no need to change the state
-                    response = self.dnac._exec(
-                        family="devices",
-                        function='get_device_list',
-                        params={"managementIpAddress": device_ip}
-                    )
-                    response = response.get('response')[0]
-
-                    if response.get('role') == device_role_args.get('role'):
-                        self.status = "success"
-                        self.result['changed'] = False
-                        log_msg = "The device role '{0}' is already set in Cisco Catalyst Center, no update is needed.".format(device_role_args.get('role'))
-                        self.log(log_msg, "INFO")
-                        continue
-
-                    device_role_params = {
-                        'role': device_role_args.get('role'),
-                        'roleSource': "MANUAL",
-                        'id': device_id[0]
-                    }
-
-                    try:
-                        response = self.dnac._exec(
-                            family="devices",
-                            function='update_device_role',
-                            op_modifies=True,
-                            params=device_role_params,
-                        )
-                        self.log("Received API response from 'update_device_role': {0}".format(str(response)), "DEBUG")
-
-                        if response and isinstance(response, dict):
-                            task_id = response.get('response').get('taskId')
-
-                            while True:
-                                execution_details = self.get_task_details(task_id)
-                                progress = execution_details.get("progress")
-
-                                if 'successfully' in progress or 'succesfully' in progress:
-                                    self.status = "success"
-                                    self.result['changed'] = True
-                                    self.msg = "Device(s) '{0}' role updated successfully to '{1}'".format(str(device_to_update), device_role_args.get('role'))
-                                    self.result['response'] = self.msg
-                                    self.log(self.msg, "INFO")
-                                    break
-                                elif execution_details.get("isError"):
-                                    self.status = "failed"
-                                    failure_reason = execution_details.get("failureReason")
-                                    if failure_reason:
-                                        self.msg = "Device role updation get failed because of {0}".format(failure_reason)
-                                    else:
-                                        self.msg = "Device role updation get failed"
-                                    self.log(self.msg, "ERROR")
-                                    self.result['response'] = self.msg
-                                    break
-
-                    except Exception as e:
-                        error_message = "Error while updating device role in Cisco Catalyst Center: {0}".format(str(e))
-                        self.log(error_message, "ERROR")
-                        raise Exception(error_message)
-
         # If User defined field(UDF) not present then create it and add multiple udf to specific or list of devices
         if self.config[0].get('add_user_defined_field'):
             udf_field_list = self.config[0].get('add_user_defined_field')
@@ -3220,8 +3221,9 @@ class DnacDevice(DnacBase):
 
         # Once Wireless device get added we will assign device to site and Provisioned it
         # Defer this feature as API issue is there once it's fixed we will addresses it in upcoming release iac2.0
-        # if self.config[0].get('provision_wireless_device'):
-        #     self.provisioned_wireless_devices().check_return_status()
+        if support_for_provisioning_wireless:
+            if self.config[0].get('provision_wireless_device'):
+                self.provisioned_wireless_devices().check_return_status()
 
         if device_resynced:
             self.resync_devices().check_return_status()
@@ -3468,7 +3470,7 @@ class DnacDevice(DnacBase):
                     self.log("""Mismatch between playbook parameter and Cisco Catalyst Center detected, indicating that
                             the task of creating Global UDF may not have executed successfully.""", "INFO")
 
-        if device_updated and self.config[0].get('update_device_role'):
+        if self.config[0].get('role'):
             device_role_flag = True
 
             for device_ip in device_ips:
