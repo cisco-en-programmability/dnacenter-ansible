@@ -34,13 +34,12 @@ options:
     description: Set to True to verify the Cisco Catalyst Center config after applying the playbook config.
     type: bool
     default: False
-  max_timeout:
-    description: Sets the maximum duration in seconds for attempting to retrieve task details from the API. If the
-        task details are not obtained within this timeframe, the loop will be terminated, and a log message will be
-        generated indicating the timeout.
+  danc_api_task_timeout:
+    description: Defines the timeout in seconds for API calls to retrieve task details. If the task details
+        are not received within this period, the process will end, and a timeout notification will be logged.
     type: int
     default: 1200
-  interval_seconds:
+  dnac_task_poll_interval:
     description: Specifies the interval in seconds between successive calls to the API to retrieve task details.
     type: int
     default: 2
@@ -333,7 +332,7 @@ notes:
     post /dna/intent/api/v1/image/distribution,
     post /dna/intent/api/v1/image/activation/device,
 
-  - Added the parameter 'max_timeout', 'interval_seconds' options in v6.13.2.
+  - Added the parameter 'danc_api_task_timeout', 'dnac_task_poll_interval' options in v6.13.2.
 
 """
 
@@ -1351,7 +1350,7 @@ class DnacSwims(DnacBase):
 
         for device_ip, task_id in swim_task_dict.items():
             start_time = time.time()
-            max_timeout = self.params.get('max_timeout')
+            max_timeout = self.params.get('danc_api_task_timeout')
 
             while (True):
                 end_time = time.time()
@@ -1377,7 +1376,7 @@ class DnacSwims(DnacBase):
                     self.result['response'] = task_details
                     device_ips_list.append(device_ip)
                     break
-                time.sleep(self.params.get('interval_seconds'))
+                time.sleep(self.params.get('dnac_task_poll_interval'))
 
         return device_ips_list, device_count
 
@@ -1885,8 +1884,8 @@ def main():
                     'dnac_log': {'type': 'bool', 'default': False},
                     'validate_response_schema': {'type': 'bool', 'default': True},
                     'config_verify': {'type': 'bool', "default": False},
-                    'max_timeout': {'type': 'int', "default": 1200},
-                    'interval_seconds': {'type': 'int', "default": 2},
+                    'danc_api_task_timeout': {'type': 'int', "default": 1200},
+                    'dnac_task_poll_interval': {'type': 'int', "default": 2},
                     'config': {'required': True, 'type': 'list', 'elements': 'dict'},
                     'state': {'default': 'merged', 'choices': ['merged']}
                     }
