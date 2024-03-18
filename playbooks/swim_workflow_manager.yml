@@ -19,27 +19,29 @@
         dnac_log: True
         dnac_log_level: DEBUG
         config_verify: True
+        danc_api_task_timeout: 1000
+        dnac_task_poll_interval: 1
         config:
         - import_image_details:
             type: "{{ item.type }}"
             url_details:
               payload:
-              - source_url: http://10.197.156.28/stda/abimishr/cat9k_iosxe.17.12.01.SPA.bin
+              - source_url: http://172.21.236.183/swim/V1712_2_CCO/cat9k_iosxe.17.12.02.SPA.bin
                 third_party: False
           tagging_details:
-            image_name: "{{item.image_name}}"
+            image_name: cat9k_iosxe.17.12.02.SPA.bin
+            device_role: ALL
+            device_image_family_name: Cisco Catalyst 9300 Switch
             site_name: "{{item.site_name}}"
-            device_role: "{{ item.device_role }}"
-            device_image_family_name: "{{ item.device_image_family_name }}"
-            tagging: False
-          image_distribution_details:
-            image_name: "{{item.image_name}}"
-            site_name: "{{item.site_name}}"
-            device_role: "{{ item.device_role }}"
-            device_family_name: "{{ item.device_family_name }}"
-            device_series_name: "Catalyst 9300 Series"
+            tagging: True
+          # image_distribution_details:
+          #   image_name: cat9k_iosxe.17.12.02.SPA.bin
+          #   site_name: "{{item.site_name}}"
+          #   device_role: "{{ item.device_role }}"
+          #   device_family_name: "{{ item.device_family_name }}"
+          #   device_series_name: "Catalyst 9300 Series"
           image_activation_details:
-            image_name: "{{item.image_name}}"
+            image_name: cat9k_iosxe.17.12.02.SPA.bin
             site_name: "{{item.site_name}}"
             device_role: "{{ item.device_role }}"
             device_family_name: "{{ item.device_family_name }}"
