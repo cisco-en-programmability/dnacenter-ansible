@@ -19,8 +19,8 @@
         dnac_log: True
         dnac_log_level: DEBUG
         config_verify: True
-        max_timeout: 1000
-        interval_seconds: 1
+        danc_api_task_timeout: 1000
+        dnac_task_poll_interval: 1
         config:
         - import_image_details:
             type: "{{ item.type }}"
