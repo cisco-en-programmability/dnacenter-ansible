@@ -34,6 +34,16 @@ options:
     description: Set to True to verify the Cisco Catalyst Center config after applying the playbook config.
     type: bool
     default: False
+  max_timeout:
+    description: Sets the maximum duration in seconds for attempting to retrieve task details from the API. If the
+        task details are not obtained within this timeframe, the loop will be terminated, and a log message will be
+        generated indicating the timeout.
+    type: int
+    default: 1200
+  interval_seconds:
+    description: Specifies the interval in seconds between successive calls to the API to retrieve task details.
+    type: int
+    default: 2
   state:
     description: The state of Catalyst Center after module completion.
     type: str
@@ -309,6 +319,8 @@ notes:
     post /dna/intent/api/v1/image/importation/golden,
     post /dna/intent/api/v1/image/distribution,
     post /dna/intent/api/v1/image/activation/device,
+
+  - Added the parameter 'max_timeout', 'interval_seconds' options in v6.13.2.
 
 """
 
@@ -1328,11 +1340,11 @@ class Swim(DnacBase):
 
             while (True):
                 end_time = time.time()
-                max_timeout = 1200
+                max_timeout = self.params.get('max_timeout')
 
                 if (end_time - start_time) >= max_timeout:
-                    self.log("""Max timeout of 20 min has reached for the task id '{0}' for the device '{1}' and unexpected
-                                 task status so moving out to next task id""".format(task_id, device_ip), "WARNING")
+                    self.log("""Max timeout of {0} has reached for the task id '{1}' for the device '{2}' and unexpected
+                                 task status so moving out to next task id""".format(max_timeout, task_id, device_ip), "WARNING")
                     device_ips_list.append(device_ip)
                     break
 
@@ -1352,7 +1364,7 @@ class Swim(DnacBase):
                     self.result['response'] = task_details
                     device_ips_list.append(device_ip)
                     break
-                time.sleep(2)
+                time.sleep(self.params.get('interval_seconds'))
 
         return device_ips_list, device_count
 
@@ -1858,6 +1870,8 @@ def main():
                     'dnac_log': {'type': 'bool', 'default': False},
                     'validate_response_schema': {'type': 'bool', 'default': True},
                     'config_verify': {'type': 'bool', "default": False},
+                    'max_timeout': {'type': 'int', "default": 1200},
+                    'interval_seconds': {'type': 'int', "default": 2},
                     'config': {'required': True, 'type': 'list', 'elements': 'dict'},
                     'state': {'default': 'merged', 'choices': ['merged']}
                     }

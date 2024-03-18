@@ -40,8 +40,7 @@
           type: "{{item.type}}"
           device_resync: "{{item.device_resync}}"
           reboot_device: "{{item.reboot_device}}"
-          update_device_role:
-            role: "{{item.role}}"
+          role: "{{item.role}}"
           add_user_defined_field:
           - name: Test123
             description: "Added first udf for testing"
