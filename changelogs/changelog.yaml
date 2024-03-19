@@ -846,6 +846,6 @@ releases:
           - Fixed management IP updates for devices on SNMP version v2.
           - Addressed image un-tagging issues in inherited site settings.
           - Provided documentation for EWLC templates in Cisco Catalyst Center version 2.3.7.x.
-          - Added attributes 'danc_api_task_timeout' and 'dnac_task_poll_interval' in intent and workflow_manager modules.
+          - Added attributes 'dnac_api_task_timeout' and 'dnac_task_poll_interval' in intent and workflow_manager modules.
           - inventory_workflow_manager - Added attributes 'add_user_defined_field', 'update_interface_details', 'export_device_list' and 'admin_status'
           - inventory_workflow_manager - Removed attributes 'provision_wireless_device', 'reprovision_wired_device'
