@@ -3046,7 +3046,6 @@ class DnacDevice(DnacBase):
                 self.log(self.msg, "INFO")
                 self.result['response'] = self.msg
 
-        
         if credential_update:
             device_to_update = self.get_device_ips_from_config_priority()
             # Update Device details and credentails
