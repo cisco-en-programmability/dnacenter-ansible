@@ -835,3 +835,17 @@ releases:
         release_summary: Changes the minimum supported version of Ansible to v2.14.0
         minor_changes:
           - Changes the minimum supported version from Ansible v2.9.10 to v2.14.0
+  6.13.1:
+      release_date: "2024-03-15"
+      changes:
+        release_summary: Enhancements in discovery, site, swim and inventory workflow manager modules.
+        minor_changes:
+          - Introduced sample playbooks for the discovery module.
+          - Resolved a 'NoneType' error in discovery module credentials.
+          - Corrected site creation issues in the site module when optional parameters are missing.
+          - Fixed management IP updates for devices on SNMP version v2.
+          - Addressed image un-tagging issues in inherited site settings.
+          - Provided documentation for EWLC templates in Cisco Catalyst Center version 2.3.7.x.
+          - Added attributes 'dnac_api_task_timeout' and 'dnac_task_poll_interval' in intent and workflow_manager modules.
+          - inventory_workflow_manager - Added attributes 'add_user_defined_field', 'update_interface_details', 'export_device_list' and 'admin_status'
+          - inventory_workflow_manager - Removed attributes 'provision_wireless_device', 'reprovision_wired_device'
