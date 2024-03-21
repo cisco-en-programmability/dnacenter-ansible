@@ -42,7 +42,7 @@ cisco.dnac.discovery_intent module -- A resource module for handling device disc
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.13.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.13.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1822,7 +1822,7 @@ Parameters
 
       List of Global SNMP V2 Read credentials to be used during device discovery.
 
-      It's recommended to create device credentials with both a unique username and a clear description for easy identification.
+      It's recommended to create device credentials with a clear description for easy identification.
 
 
       .. raw:: html
@@ -1863,40 +1863,6 @@ Parameters
 
         </div>
 
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/global_credentials/snmp_v2_read_credential_list/username"></div>
-
-      .. _ansible_collections.cisco.dnac.discovery_intent_module__parameter-config/global_credentials/snmp_v2_read_credential_list/username:
-
-      .. rst-class:: ansible-option-title
-
-      **username**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/global_credentials/snmp_v2_read_credential_list/username" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Username for SNMP Read authentication, mandatory when using global SNMP credentials.
-
-
-      .. raw:: html
-
-        </div>
-
 
   * - .. raw:: html
 
@@ -1927,7 +1893,7 @@ Parameters
 
       List of Global SNMP V2 Write credentials to be used during device discovery.
 
-      It's recommended to create device credentials with both a unique username and a clear description for easy identification.
+      It's recommended to create device credentials with a clear description for easy identification.
 
 
       .. raw:: html
@@ -1962,40 +1928,6 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Name of the SNMP Write credential, mandatory when using global SNMP credentials.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/global_credentials/snmp_v2_write_credential_list/username"></div>
-
-      .. _ansible_collections.cisco.dnac.discovery_intent_module__parameter-config/global_credentials/snmp_v2_write_credential_list/username:
-
-      .. rst-class:: ansible-option-title
-
-      **username**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/global_credentials/snmp_v2_write_credential_list/username" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Username for SNMP Write authentication, mandatory when using global SNMP credentials.
 
 
       .. raw:: html
@@ -2527,6 +2459,44 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_api_task_timeout"></div>
+
+      .. _ansible_collections.cisco.dnac.discovery_intent_module__parameter-dnac_api_task_timeout:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_api_task_timeout**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_api_task_timeout" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Defines the timeout in seconds for API calls to retrieve task details. If the task details are not received within this period, the process will end, and a timeout notification will be logged.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`1200`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div>
 
       .. _ansible_collections.cisco.dnac.discovery_intent_module__parameter-dnac_debug:
@@ -2859,6 +2829,44 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_task_poll_interval"></div>
+
+      .. _ansible_collections.cisco.dnac.discovery_intent_module__parameter-dnac_task_poll_interval:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_task_poll_interval**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_task_poll_interval" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the interval in seconds between successive calls to the API to retrieve task details.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`2`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
         <div class="ansibleOptionAnchor" id="parameter-user"></div>
 
@@ -3092,7 +3100,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Execute discovery devices with both global credentials and discovery specific credentials
+    - name: Execute discovery of devices with both global credentials and discovery specific credentials
       cisco.dnac.discovery_intent:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -3106,70 +3114,70 @@ Examples
         state: merged
         config_verify: True
         config:
-            - discovery_name: string
-              discovery_type: string
-              ip_address_list: list
-              ip_filter_list: list
-              cdp_level: string
-              lldp_level: string
-              prefered_mgmt_ip_method: string
+            - discovery_name: Discovery with both global and job specific credentials
+              discovery_type: RANGE
+              ip_address_list:
+                - 201.1.1.1-201.1.1.100
+              ip_filter_list:
+                - 201.1.1.2
+                - 201.1.1.10
               discovery_specific_credentials:
                 cli_credentials_list:
-                    - username: string
-                      password: string
-                      enable_password: string
+                    - username: cisco
+                      password: Cisco123
+                      enable_password: Cisco123
                 http_read_credential:
-                    username: string
-                    password: string
-                    port: integer
-                    secure: boolean
+                    username: cisco
+                    password: Cisco123
+                    port: 443
+                    secure: true
                 http_write_credential:
-                    username: string
-                    password: string
-                    port: integer
-                    secure: boolean
+                    username: cisco
+                    password: Cisco123
+                    port: 443
+                    secure: True
                 snmp_v2_read_credential:
-                    desc: string
-                    community: string
+                    desc: snmp_v2-new
+                    community: Cisco123
                 snmp_v2_write_credential:
-                    desc: string
-                    community: string
+                    desc: snmp_v2-new
+                    community: Cisco123
                 snmp_v3_credential:
-                    username: string
-                    snmp_mode: string
-                    auth_password: string
-                    auth_type: string
-                    privacy_type: string
-                    privacy_password: string
-                net_conf_port: string
+                    username: v3Public2
+                    snmp_mode: AUTHPRIV
+                    auth_type: SHA
+                    auth_password: Lablab123
+                    privacy_type: AES256
+                    privacy_password: Lablab123
+                net_conf_port: 750
               global_credentials:
                 cli_credentials_list:
-                    - description: string
-                      username: string
+                    - description: ISE
+                      username: cisco
+                    - description: CLI1234
+                      username: cli
                 http_read_credential_list:
-                    - description: string
-                      username: string
+                    - description: HTTP Read
+                      username: HTTP_Read
                 http_write_credential_list:
-                    - description: string
-                      username: string
+                    - description: HTTP Write
+                      username: HTTP_Write
                 snmp_v3_credential_list:
-                    - description: string
-                      username: string
+                    - description: snmpV3
+                      username: snmpV3
                 snmp_v2_read_credential_list:
-                    - description: string
-                      username: string
+                    - description: snmpV2_read
                 snmp_v2_write_credential_list:
-                    - description: string
-                      username: string
+                    - description: snmpV2_write
                 net_conf_port_list:
-                    - description: string
-              start_index: integer
-              records_to_return: integer
-              protocol_order: string
-              retry: integer
-              timeout: integer
+                    - description: Old_one
+              start_index: 1
+              records_to_return: 100
+              protocol_order: ssh
+              retry: 5
+              timeout: 3
 
-    - name: Execute discovery devices with discovery specific credentials only
+    - name: Execute discovery of devices with discovery specific credentials only
       cisco.dnac.discovery_intent:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -3183,48 +3191,119 @@ Examples
         state: merged
         config_verify: True
         config:
-            - discovery_name: string
-              discovery_type: string
-              ip_address_list: list
-              ip_filter_list: list
-              cdp_level: string
-              lldp_level: string
-              prefered_mgmt_ip_method: string
+            - discovery_name: Single with discovery specific credentials only
+              discovery_type: SINGLE
+              ip_address_list:
+                - 204.1.1.10
               discovery_specific_credentials:
                 cli_credentials_list:
-                    - username: string
-                      password: string
-                      enable_password: string
+                    - username: cisco
+                      password: Cisco123
+                      enable_password: Cisco123
                 http_read_credential:
-                    username: string
-                    password: string
-                    port: integer
-                    secure: boolean
+                    username: cisco
+                    password: Cisco123
+                    port: 443
+                    secure: true
                 http_write_credential:
-                    username: string
-                    password: string
-                    port: integer
-                    secure: boolean
+                    username: cisco
+                    password: Cisco123
+                    port: 443
+                    secure: True
                 snmp_v2_read_credential:
-                    desc: string
-                    community: string
+                    desc: snmp_v2-new
+                    community: Cisco123
                 snmp_v2_write_credential:
-                    desc: string
-                    community: string
+                    desc: snmp_v2-new
+                    community: Cisco123
                 snmp_v3_credential:
-                    username: string
-                    snmp_mode: string
-                    auth_password: string
-                    auth_type: string
-                    privacy_type: string
-                    privacy_password: string
-                net_conf_port: string
+                    username: v3Public2
+                    snmp_mode: AUTHPRIV
+                    auth_type: SHA
+                    auth_password: Lablab123
+                    privacy_type: AES256
+                    privacy_password: Lablab123
+                net_conf_port: 750
               use_global_credentials: False
-              start_index: integer
-              records_to_return: integer
-              protocol_order: string
-              retry: integer
-              timeout: integer
+              start_index: 1
+              records_to_return: 100
+              protocol_order: ssh
+              retry: 5
+              timeout: 3
+
+    - name: Execute discovery of devices with global credentials only
+      cisco.dnac.discovery_intent:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: True
+        dnac_log_level: "{{dnac_log_level}}"
+        state: merged
+        config_verify: True
+        config:
+            - discovery_name: CDP with global credentials only
+              discovery_type: CDP
+              ip_address_list:
+                - 204.1.1.1
+              cdp_level: 16
+              global_credentials:
+                cli_credentials_list:
+                    - description: ISE
+                      username: cisco
+                    - description: CLI1234
+                      username: cli
+                http_read_credential_list:
+                    - description: HTTP Read
+                      username: HTTP_Read
+                http_write_credential_list:
+                    - description: HTTP Write
+                      username: HTTP_Write
+                snmp_v3_credential_list:
+                    - description: snmpV3
+                      username: snmpV3
+                snmp_v2_read_credential_list:
+                    - description: snmpV2_read
+                snmp_v2_write_credential_list:
+                    - description: snmpV2_write
+                net_conf_port_list:
+                    - description: Old_one
+              start_index: 1
+              records_to_return: 100
+              protocol_order: ssh
+              retry: 5
+              timeout: 3
+
+    - name: Execute discovery of devices with all the global credentials (max 5 allowed)
+      cisco.dnac.discovery_intent:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: True
+        dnac_log_level: "{{dnac_log_level}}"
+        state: merged
+        config_verify: True
+        config:
+            - discovery_name: CIDR with all global credentials
+              discovery_type: CIDR
+              ip_address_list:
+                - 204.1.2.0/24
+              ip_filter_list:
+                - 204.1.2.10
+              preferred_mgmt_ip_method: None
+              start_index: 1
+              records_to_return: 100
+              protocol_order: telnet
+              retry: 10
+              timeout: 3
+              use_global_credentials: True
 
     - name: Delete disovery by name
       cisco.dnac.discovery_intent:
@@ -3240,7 +3319,7 @@ Examples
         state: deleted
         config_verify: True
         config:
-              - discovery_name: string
+              - discovery_name: Single discovery
 
 
 

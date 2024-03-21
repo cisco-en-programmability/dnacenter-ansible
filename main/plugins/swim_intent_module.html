@@ -490,7 +490,7 @@
 <h1>cisco.dnac.swim_intent module -- Intent module for SWIM related functions<a class="headerlink" href="#cisco-dnac-swim-intent-module-intent-module-for-swim-related-functions" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.13.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.13.1).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-swim-intent-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -499,16 +499,16 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-swim-int
 <p class="ansible-version-added">New in cisco.dnac 6.6.0</p>
 <nav class="contents local" id="contents">
 <ul class="simple">
-<li><p><a class="reference internal" href="#synopsis" id="id63">Synopsis</a></p></li>
-<li><p><a class="reference internal" href="#requirements" id="id64">Requirements</a></p></li>
-<li><p><a class="reference internal" href="#parameters" id="id65">Parameters</a></p></li>
-<li><p><a class="reference internal" href="#notes" id="id66">Notes</a></p></li>
-<li><p><a class="reference internal" href="#examples" id="id67">Examples</a></p></li>
-<li><p><a class="reference internal" href="#return-values" id="id68">Return Values</a></p></li>
+<li><p><a class="reference internal" href="#synopsis" id="id67">Synopsis</a></p></li>
+<li><p><a class="reference internal" href="#requirements" id="id68">Requirements</a></p></li>
+<li><p><a class="reference internal" href="#parameters" id="id69">Parameters</a></p></li>
+<li><p><a class="reference internal" href="#notes" id="id70">Notes</a></p></li>
+<li><p><a class="reference internal" href="#examples" id="id71">Examples</a></p></li>
+<li><p><a class="reference internal" href="#return-values" id="id72">Return Values</a></p></li>
 </ul>
 </nav>
 <section id="synopsis">
-<h2><a class="toc-backref" href="#id63" role="doc-backlink">Synopsis</a><a class="headerlink" href="#synopsis" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id67" role="doc-backlink">Synopsis</a><a class="headerlink" href="#synopsis" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p>Manage operation related to image importation, distribution, activation and tagging image as golden</p></li>
 <li><p>API to fetch a software image from remote file system using URL for HTTP/FTP and upload it to Catalyst Center. Supported image files extensions are bin, img, tar, smu, pie, aes, iso, ova, tar_gz and qcow2.</p></li>
@@ -519,7 +519,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-swim-int
 </ul>
 </section>
 <section id="requirements">
-<span id="ansible-collections-cisco-dnac-swim-intent-module-requirements"></span><h2><a class="toc-backref" href="#id64" role="doc-backlink">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
+<span id="ansible-collections-cisco-dnac-swim-intent-module-requirements"></span><h2><a class="toc-backref" href="#id68" role="doc-backlink">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
 <p>The below requirements are needed on the host that executes this module.</p>
 <ul class="simple">
 <li><p>dnacentersdk == 2.4.5</p></li>
@@ -527,7 +527,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-swim-int
 </ul>
 </section>
 <section id="parameters">
-<h2><a class="toc-backref" href="#id65" role="doc-backlink">Parameters</a><a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id69" role="doc-backlink">Parameters</a><a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h2>
 <table class="ansible-option-table docutils align-default" style="width: 100%">
 <thead>
 <tr class="row-odd"><th class="head"><p>Parameter</p></th>
@@ -923,25 +923,33 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-swim-int
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-dnac_api_task_timeout"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-dnac-api-task-timeout"><strong>dnac_api_task_timeout</strong></p>
+<a class="ansibleOptionLink" href="#parameter-dnac_api_task_timeout" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Defines the timeout in seconds for API calls to retrieve task details. If the task details are not received within this period, the process will end, and a timeout notification will be logged.</p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id29"><span class="problematic" id="id30">:ansible-option-default:`1200`</span></a></p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-dnac-debug"><strong>dnac_debug</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Flag for Cisco DNA Center SDK to enable debugging.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id29"><span class="problematic" id="id30">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><a href="#id31"><span class="problematic" id="id32">:ansible-option-choices-entry:`true`</span></a></p></li>
+<li><p><a href="#id31"><span class="problematic" id="id32">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id33"><span class="problematic" id="id34">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-dnac-host"><strong>dnac_host</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>The Cisco DNA Center hostname.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_log"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-dnac-log"><strong>dnac_log</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_log" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -953,34 +961,34 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-swim-int
 <p>If the log file exists, - It is overwritten or appended based on the &quot;dnac_log_append&quot; flag.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id33"><span class="problematic" id="id34">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><a href="#id35"><span class="problematic" id="id36">:ansible-option-choices-entry:`true`</span></a></p></li>
+<li><p><a href="#id35"><span class="problematic" id="id36">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id37"><span class="problematic" id="id38">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_log_append"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-dnac-log-append"><strong>dnac_log_append</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_log_append" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Determines the mode of the file. Set to True for 'append' mode. Set to False for 'write' mode.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id37"><span class="problematic" id="id38">:ansible-option-choices-entry:`false`</span></a></p></li>
-<li><p><a href="#id39"><span class="problematic" id="id40">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id39"><span class="problematic" id="id40">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id41"><span class="problematic" id="id42">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_log_file_path"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-dnac-log-file-path"><strong>dnac_log_file_path</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_log_file_path" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Governs logging. Logs are recorded if dnac_log is True.</p>
 <p>If path is not specified, - When 'dnac_log_append' is True, 'dnac.log' is generated in the current Ansible directory; logs are appended. - When 'dnac_log_append' is False, 'dnac.log' is generated; logs are overwritten.</p>
 <p>If path is specified, - When 'dnac_log_append' is True, the file opens in append mode. - When 'dnac_log_append' is False, the file opens in write (w) mode. - In shared file scenarios, without append mode, content is overwritten after each module execution. - For a shared log file, set append to False for the 1st module (to overwrite); for subsequent modules, set append to True.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id41"><span class="problematic" id="id42">:ansible-option-default:`&quot;dnac.log&quot;`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id43"><span class="problematic" id="id44">:ansible-option-default:`&quot;dnac.log&quot;`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_log_level"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-dnac-log-level"><strong>dnac_log_level</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_log_level" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -990,22 +998,30 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-swim-int
 <p>WARNING indicates potential future issues. Displays WARNING, ERROR, CRITICAL messages.</p>
 <p>INFO tracks normal operation. Displays INFO, WARNING, ERROR, CRITICAL messages.</p>
 <p>DEBUG provides detailed diagnostic info. Displays all log messages.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id43"><span class="problematic" id="id44">:ansible-option-default:`&quot;WARNING&quot;`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id45"><span class="problematic" id="id46">:ansible-option-default:`&quot;WARNING&quot;`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-dnac-password"><strong>dnac_password</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>The Cisco DNA Center password to authenticate.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-dnac-port"><strong>dnac_port</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>The Cisco DNA Center port.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id45"><span class="problematic" id="id46">:ansible-option-default:`&quot;443&quot;`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id47"><span class="problematic" id="id48">:ansible-option-default:`&quot;443&quot;`</span></a></p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-dnac_task_poll_interval"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-dnac-task-poll-interval"><strong>dnac_task_poll_interval</strong></p>
+<a class="ansibleOptionLink" href="#parameter-dnac_task_poll_interval" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Specifies the interval in seconds between successive calls to the API to retrieve task details.</p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id49"><span class="problematic" id="id50">:ansible-option-default:`2`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
@@ -1015,7 +1031,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-swim-int
 <p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>The Cisco DNA Center username to authenticate.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id47"><span class="problematic" id="id48">:ansible-option-default:`&quot;admin&quot;`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id51"><span class="problematic" id="id52">:ansible-option-default:`&quot;admin&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
@@ -1025,8 +1041,8 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-swim-int
 <td><div class="ansible-option-cell"><p>Flag to enable or disable SSL certificate verification.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id49"><span class="problematic" id="id50">:ansible-option-choices-entry:`false`</span></a></p></li>
-<li><p><a href="#id51"><span class="problematic" id="id52">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id53"><span class="problematic" id="id54">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id55"><span class="problematic" id="id56">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
 </ul>
 </div></td>
 </tr>
@@ -1035,7 +1051,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-swim-int
 <a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Informs the SDK which version of Cisco DNA Center to use.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id53"><span class="problematic" id="id54">:ansible-option-default:`&quot;2.2.3.3&quot;`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id57"><span class="problematic" id="id58">:ansible-option-default:`&quot;2.2.3.3&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
@@ -1045,7 +1061,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-swim-int
 <td><div class="ansible-option-cell"><p>The state of Catalyst Center after module completion.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id55"><span class="problematic" id="id56">:ansible-option-choices-entry-default:`&quot;merged&quot;`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id59"><span class="problematic" id="id60">:ansible-option-choices-entry-default:`&quot;merged&quot;`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
 </ul>
 </div></td>
 </tr>
@@ -1056,8 +1072,8 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-swim-int
 <td><div class="ansible-option-cell"><p>Flag for Cisco DNA Center SDK to enable the validation of request bodies against a JSON schema.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id57"><span class="problematic" id="id58">:ansible-option-choices-entry:`false`</span></a></p></li>
-<li><p><a href="#id59"><span class="problematic" id="id60">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id61"><span class="problematic" id="id62">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id63"><span class="problematic" id="id64">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
 </ul>
 </div></td>
 </tr>
@@ -1065,12 +1081,13 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-swim-int
 </table>
 </section>
 <section id="notes">
-<h2><a class="toc-backref" href="#id66" role="doc-backlink">Notes</a><a class="headerlink" href="#notes" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id70" role="doc-backlink">Notes</a><a class="headerlink" href="#notes" title="Permalink to this heading"></a></h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <ul class="simple">
 <li><p>SDK Method used are software_image_management_swim.SoftwareImageManagementSwim.import_software_image_via_url, software_image_management_swim.SoftwareImageManagementSwim.tag_as_golden_image, software_image_management_swim.SoftwareImageManagementSwim.trigger_software_image_distribution, software_image_management_swim.SoftwareImageManagementSwim.trigger_software_image_activation,</p></li>
 <li><p>Paths used are post /dna/intent/api/v1/image/importation/source/url, post /dna/intent/api/v1/image/importation/golden, post /dna/intent/api/v1/image/distribution, post /dna/intent/api/v1/image/activation/device,</p></li>
+<li><p>Added the parameter 'dnac_api_task_timeout', 'dnac_task_poll_interval' options in v6.13.2.</p></li>
 <li><p>Does not support <code class="docutils literal notranslate"><span class="pre">check_mode</span></code></p></li>
 <li><p>The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK</p></li>
 <li><p>The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection</p></li>
@@ -1078,7 +1095,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-swim-int
 </div>
 </section>
 <section id="examples">
-<h2><a class="toc-backref" href="#id67" role="doc-backlink">Examples</a><a class="headerlink" href="#examples" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id71" role="doc-backlink">Examples</a><a class="headerlink" href="#examples" title="Permalink to this heading"></a></h2>
 <div class="highlight-yaml+jinja notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Import an image from a URL, tag it as golden and load it on device</span>
 <span class="w">  </span><span class="nt">cisco.dnac.swim_intent</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -1219,7 +1236,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-swim-int
 </div>
 </section>
 <section id="return-values">
-<h2><a class="toc-backref" href="#id68" role="doc-backlink">Return Values</a><a class="headerlink" href="#return-values" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id72" role="doc-backlink">Return Values</a><a class="headerlink" href="#return-values" title="Permalink to this heading"></a></h2>
 <p>Common return values are documented <a class="reference external" href="https://docs.ansible.com/ansible/latest/reference_appendices/common_return_values.html#common-return-values" title="(in Ansible v9)"><span class="xref std std-ref">here</span></a>, the following are the fields unique to this module:</p>
 <table class="ansible-option-table docutils align-default" style="width: 100%">
 <thead>
@@ -1234,7 +1251,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-swim-int
 </div></td>
 <td><div class="ansible-option-cell"><p>A dictionary with activation details as returned by the Catalyst Center Python SDK</p>
 <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> always</p>
-<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id61"><span class="problematic" id="id62">:ansible-rv-sample-value:`&quot;{\\n  \\&quot;response\\&quot;: {\\n                    \\&quot;additionalStatusURL\\&quot;: String,\\n                    \\&quot;data\\&quot;: String,\\n                    \\&quot;endTime\\&quot;: 0,\\n                    \\&quot;id\\&quot;: String,\\n                    \\&quot;instanceTenantId\\&quot;: String,\\n                    \\&quot;isError\\&quot;: bool,\\n                    \\&quot;lastUpdate\\&quot;: 0,\\n                    \\&quot;progress\\&quot;: String,\\n                    \\&quot;rootId\\&quot;: String,\\n                    \\&quot;serviceType\\&quot;: String,\\n                    \\&quot;startTime\\&quot;: 0,\\n                    \\&quot;version\\&quot;: 0\\n              },\\n  \\&quot;msg\\&quot;: String\\n}\\n&quot;`</span></a></p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id65"><span class="problematic" id="id66">:ansible-rv-sample-value:`&quot;{\\n  \\&quot;response\\&quot;: {\\n                    \\&quot;additionalStatusURL\\&quot;: String,\\n                    \\&quot;data\\&quot;: String,\\n                    \\&quot;endTime\\&quot;: 0,\\n                    \\&quot;id\\&quot;: String,\\n                    \\&quot;instanceTenantId\\&quot;: String,\\n                    \\&quot;isError\\&quot;: bool,\\n                    \\&quot;lastUpdate\\&quot;: 0,\\n                    \\&quot;progress\\&quot;: String,\\n                    \\&quot;rootId\\&quot;: String,\\n                    \\&quot;serviceType\\&quot;: String,\\n                    \\&quot;startTime\\&quot;: 0,\\n                    \\&quot;version\\&quot;: 0\\n              },\\n  \\&quot;msg\\&quot;: String\\n}\\n&quot;`</span></a></p>
 </div></td>
 </tr>
 </tbody>

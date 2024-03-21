@@ -42,7 +42,7 @@ cisco.dnac.template_workflow_manager module -- Resource module for Template func
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.13.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.13.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -11387,6 +11387,44 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_api_task_timeout"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-dnac_api_task_timeout:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_api_task_timeout**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_api_task_timeout" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Defines the timeout in seconds for API calls to retrieve task details. If the task details are not received within this period, the process will end, and a timeout notification will be logged.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`1200`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div>
 
       .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-dnac_debug:
@@ -11719,6 +11757,44 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_task_poll_interval"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-dnac_task_poll_interval:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_task_poll_interval**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_task_poll_interval" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the interval in seconds between successive calls to the API to retrieve task details.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`2`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
         <div class="ansibleOptionAnchor" id="parameter-user"></div>
 
@@ -11951,7 +12027,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Create a new template, export and import the project and template.
+    - name: Create a new template.
       cisco.dnac.template_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -12001,51 +12077,67 @@ Examples
                 template_id: string
                 template_version: string
             version: string
+
+    - name: Export the projects.
+      cisco.dnac.template_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: True
+        dnac_log_level: "{{dnac_log_level}}"
+        state: merged
+        config_verify: True
+        config:
           export:
             project:
               - string
+              - string
+
+    - name: Export the templates.
+      cisco.dnac.template_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: True
+        dnac_log_level: "{{dnac_log_level}}"
+        state: merged
+        config_verify: True
+        config:
+          export:
             template:
               - project_name : string
                 template_name: string
+              - project_name: string
+                template_name: string
+
+    - name: Import the Projects.
+      cisco.dnac.template_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: True
+        dnac_log_level: "{{dnac_log_level}}"
+        state: merged
+        config_verify: True
+        config:
           import:
             project:
-              do_version: true
-            export:
-              do_version: true
+              do_version: false
               payload:
-              - author: string
-                composite: true
-                containing_templates:
-                - composite: true
-                  description: string
-                  device_types:
-                  - product_family: string
-                    product_series: string
-                    product_type: string
-                  id: string
-                  language: string
-                  name: string
-                  project_name: string
-                  rollback_template_params:
-                  - binding: string
-                    custom_order: 0
-                    data_type: string
-                    default_value: string
-                    description: string
-                    display_name: string
-                    group: string
-                    id: string
-                    instruction_text: string
-                    key: string
-                    not_param: true
-                    order: 0
-                    param_array: true
-                    parameter_name: string
-                    provider: string
-                    range:
-                    - id: string
-                project_name: string
-
+              - name: string
+              - name: string
 
 
 
