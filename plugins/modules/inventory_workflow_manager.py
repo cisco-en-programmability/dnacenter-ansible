@@ -2836,8 +2836,8 @@ class Inventory(DnacBase):
             device_exist = self.is_device_exist_for_update(device_to_update)
 
             if not device_exist:
-                self.msg = """Cannot perform updating the interface details operation as device(s): {0} not present in Cisco
-                            Catalyst Center""".format(str(device_to_update))
+                self.msg = """Unable to update interface details because the device(s) listed: {0} are not present in the
+                            Cisco Catalyst Center.""".format(str(device_to_update))
                 self.status = "failed"
                 self.result['response'] = self.msg
                 self.log(self.msg, "ERROR")
@@ -2848,8 +2848,8 @@ class Inventory(DnacBase):
             device_exist = self.is_device_exist_for_update(devices_to_update_role)
 
             if not device_exist:
-                self.msg = """Cannot perform Update Device Role operation as device(s): {0} not present in Cisco Catalyst
-                            Center""".format(str(devices_to_update_role))
+                self.msg = """Unable to update device role because the device(s) listed: {0} are not present in the Cisco
+                            Catalyst Center.""".format(str(devices_to_update_role))
                 self.status = "failed"
                 self.result['response'] = self.msg
                 self.log(self.msg, "ERROR")
@@ -2860,8 +2860,8 @@ class Inventory(DnacBase):
             device_exist = self.is_device_exist_for_update(device_to_update)
 
             if not device_exist:
-                self.msg = """Cannot perform editing device credentials/details operation as device(s): {0} not present in Cisco
-                            Catalyst Center""".format(str(device_to_update))
+                self.msg = """Unable to edit device credentials/details because the device(s) listed: {0} are not present in the
+                            Cisco Catalyst Center.""".format(str(device_to_update))
                 self.status = "failed"
                 self.result['response'] = self.msg
                 self.log(self.msg, "ERROR")
