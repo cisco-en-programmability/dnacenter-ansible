@@ -262,26 +262,20 @@ options:
             snmp_v2_read_credential_list:
                 description:
                     - List of Global SNMP V2 Read credentials to be used during device discovery.
-                    - It's recommended to create device credentials with both a unique username and a clear description for easy identification.
+                    - It's recommended to create device credentials with a clear description for easy identification.
                 type: list
                 elements: dict
                 suboptions:
-                    username:
-                        description: Username for SNMP Read authentication, mandatory when using global SNMP credentials.
-                        type: str
                     description:
                         description: Name of the SNMP Read credential, mandatory when using  global SNMP credentials.
                         type: str
             snmp_v2_write_credential_list:
                 description:
                     - List of Global SNMP V2 Write credentials to be used during device discovery.
-                    - It's recommended to create device credentials with both a unique username and a clear description for easy identification.
+                    - It's recommended to create device credentials with a clear description for easy identification.
                 type: list
                 elements: dict
                 suboptions:
-                    username:
-                        description: Username for SNMP Write authentication, mandatory when using global SNMP credentials.
-                        type: str
                     description:
                         description: Name of the SNMP Write credential, mandatory when using global SNMP credentials.
                         type: str
@@ -361,7 +355,7 @@ notes:
 """
 
 EXAMPLES = r"""
-- name: Execute discovery devices with both global credentials and discovery specific credentials
+- name: Execute discovery of devices with both global credentials and discovery specific credentials
   cisco.dnac.discovery_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -375,70 +369,70 @@ EXAMPLES = r"""
     state: merged
     config_verify: True
     config:
-        - discovery_name: string
-          discovery_type: string
-          ip_address_list: list
-          ip_filter_list: list
-          cdp_level: string
-          lldp_level: string
-          prefered_mgmt_ip_method: string
+        - discovery_name: Discovery with both global and job specific credentials
+          discovery_type: RANGE
+          ip_address_list:
+            - 201.1.1.1-201.1.1.100
+          ip_filter_list:
+            - 201.1.1.2
+            - 201.1.1.10
           discovery_specific_credentials:
             cli_credentials_list:
-                - username: string
-                  password: string
-                  enable_password: string
+                - username: cisco
+                  password: Cisco123
+                  enable_password: Cisco123
             http_read_credential:
-                username: string
-                password: string
-                port: integer
-                secure: boolean
+                username: cisco
+                password: Cisco123
+                port: 443
+                secure: true
             http_write_credential:
-                username: string
-                password: string
-                port: integer
-                secure: boolean
+                username: cisco
+                password: Cisco123
+                port: 443
+                secure: True
             snmp_v2_read_credential:
-                desc: string
-                community: string
+                desc: snmp_v2-new
+                community: Cisco123
             snmp_v2_write_credential:
-                desc: string
-                community: string
+                desc: snmp_v2-new
+                community: Cisco123
             snmp_v3_credential:
-                username: string
-                snmp_mode: string
-                auth_password: string
-                auth_type: string
-                privacy_type: string
-                privacy_password: string
-            net_conf_port: string
+                username: v3Public2
+                snmp_mode: AUTHPRIV
+                auth_type: SHA
+                auth_password: Lablab123
+                privacy_type: AES256
+                privacy_password: Lablab123
+            net_conf_port: 750
           global_credentials:
             cli_credentials_list:
-                - description: string
-                  username: string
+                - description: ISE
+                  username: cisco
+                - description: CLI1234
+                  username: cli
             http_read_credential_list:
-                - description: string
-                  username: string
+                - description: HTTP Read
+                  username: HTTP_Read
             http_write_credential_list:
-                - description: string
-                  username: string
+                - description: HTTP Write
+                  username: HTTP_Write
             snmp_v3_credential_list:
-                - description: string
-                  username: string
+                - description: snmpV3
+                  username: snmpV3
             snmp_v2_read_credential_list:
-                - description: string
-                  username: string
+                - description: snmpV2_read
             snmp_v2_write_credential_list:
-                - description: string
-                  username: string
+                - description: snmpV2_write
             net_conf_port_list:
-                - description: string
-          start_index: integer
-          records_to_return: integer
-          protocol_order: string
-          retry: integer
-          timeout: integer
+                - description: Old_one
+          start_index: 1
+          records_to_return: 100
+          protocol_order: ssh
+          retry: 5
+          timeout: 3
 
-- name: Execute discovery devices with discovery specific credentials only
+- name: Execute discovery of devices with discovery specific credentials only
   cisco.dnac.discovery_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -452,48 +446,119 @@ EXAMPLES = r"""
     state: merged
     config_verify: True
     config:
-        - discovery_name: string
-          discovery_type: string
-          ip_address_list: list
-          ip_filter_list: list
-          cdp_level: string
-          lldp_level: string
-          prefered_mgmt_ip_method: string
+        - discovery_name: Single with discovery specific credentials only
+          discovery_type: SINGLE
+          ip_address_list:
+            - 204.1.1.10
           discovery_specific_credentials:
             cli_credentials_list:
-                - username: string
-                  password: string
-                  enable_password: string
+                - username: cisco
+                  password: Cisco123
+                  enable_password: Cisco123
             http_read_credential:
-                username: string
-                password: string
-                port: integer
-                secure: boolean
+                username: cisco
+                password: Cisco123
+                port: 443
+                secure: true
             http_write_credential:
-                username: string
-                password: string
-                port: integer
-                secure: boolean
+                username: cisco
+                password: Cisco123
+                port: 443
+                secure: True
             snmp_v2_read_credential:
-                desc: string
-                community: string
+                desc: snmp_v2-new
+                community: Cisco123
             snmp_v2_write_credential:
-                desc: string
-                community: string
+                desc: snmp_v2-new
+                community: Cisco123
             snmp_v3_credential:
-                username: string
-                snmp_mode: string
-                auth_password: string
-                auth_type: string
-                privacy_type: string
-                privacy_password: string
-            net_conf_port: string
+                username: v3Public2
+                snmp_mode: AUTHPRIV
+                auth_type: SHA
+                auth_password: Lablab123
+                privacy_type: AES256
+                privacy_password: Lablab123
+            net_conf_port: 750
           use_global_credentials: False
-          start_index: integer
-          records_to_return: integer
-          protocol_order: string
-          retry: integer
-          timeout: integer
+          start_index: 1
+          records_to_return: 100
+          protocol_order: ssh
+          retry: 5
+          timeout: 3
+
+- name: Execute discovery of devices with global credentials only
+  cisco.dnac.discovery_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: True
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config_verify: True
+    config:
+        - discovery_name: CDP with global credentials only
+          discovery_type: CDP
+          ip_address_list:
+            - 204.1.1.1
+          cdp_level: 16
+          global_credentials:
+            cli_credentials_list:
+                - description: ISE
+                  username: cisco
+                - description: CLI1234
+                  username: cli
+            http_read_credential_list:
+                - description: HTTP Read
+                  username: HTTP_Read
+            http_write_credential_list:
+                - description: HTTP Write
+                  username: HTTP_Write
+            snmp_v3_credential_list:
+                - description: snmpV3
+                  username: snmpV3
+            snmp_v2_read_credential_list:
+                - description: snmpV2_read
+            snmp_v2_write_credential_list:
+                - description: snmpV2_write
+            net_conf_port_list:
+                - description: Old_one
+          start_index: 1
+          records_to_return: 100
+          protocol_order: ssh
+          retry: 5
+          timeout: 3
+
+- name: Execute discovery of devices with all the global credentials (max 5 allowed)
+  cisco.dnac.discovery_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: True
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config_verify: True
+    config:
+        - discovery_name: CIDR with all global credentials
+          discovery_type: CIDR
+          ip_address_list:
+            - 204.1.2.0/24
+          ip_filter_list:
+            - 204.1.2.10
+          preferred_mgmt_ip_method: None
+          start_index: 1
+          records_to_return: 100
+          protocol_order: telnet
+          retry: 10
+          timeout: 3
+          use_global_credentials: True
 
 - name: Delete disovery by name
   cisco.dnac.discovery_workflow_manager:
@@ -509,7 +574,7 @@ EXAMPLES = r"""
     state: deleted
     config_verify: True
     config:
-          - discovery_name: string
+          - discovery_name: Single discovery
 """
 
 RETURN = r"""
@@ -690,6 +755,9 @@ class Discovery(DnacBase):
             if not isinstance(cli_credentials_list, list):
                 msg = "Global CLI credentials must be passed as a list"
                 self.discovery_specific_cred_failure(msg=msg)
+            if response.get("cliCredential") is None:
+                msg = "Global CLI credentials are not present in the Cisco Catalyst Center"
+                self.discovery_specific_cred_failure(msg=msg)
             if len(cli_credentials_list) > 0:
                 global_credentials_all["cliCredential"] = []
                 cred_len = len(cli_credentials_list)
@@ -709,6 +777,9 @@ class Discovery(DnacBase):
         if http_read_credential_list:
             if not isinstance(http_read_credential_list, list):
                 msg = "Global HTTP read credentials must be passed as a list"
+                self.discovery_specific_cred_failure(msg=msg)
+            if response.get("httpsRead") is None:
+                msg = "Global HTTP read credentials are not present in the Cisco Catalyst Center"
                 self.discovery_specific_cred_failure(msg=msg)
             if len(http_read_credential_list) > 0:
                 global_credentials_all["httpsRead"] = []
@@ -730,6 +801,9 @@ class Discovery(DnacBase):
             if not isinstance(http_write_credential_list, list):
                 msg = "Global HTTP write credentials must be passed as a list"
                 self.discovery_specific_cred_failure(msg=msg)
+            if response.get("httpsWrite") is None:
+                msg = "Global HTTP write credentials are not present in the Cisco Catalyst Center"
+                self.discovery_specific_cred_failure(msg=msg)
             if len(http_write_credential_list) > 0:
                 global_credentials_all["httpsWrite"] = []
                 cred_len = len(http_write_credential_list)
@@ -748,7 +822,10 @@ class Discovery(DnacBase):
         snmp_v2_read_credential_list = global_credentials.get('snmp_v2_read_credential_list')
         if snmp_v2_read_credential_list:
             if not isinstance(snmp_v2_read_credential_list, list):
-                msg = "Global SNMPV2 read credentials must be passed as a list"
+                msg = "Global SNMPv2 read credentials must be passed as a list"
+                self.discovery_specific_cred_failure(msg=msg)
+            if response.get("snmpV2cRead") is None:
+                msg = "Global SNMPv2 read credentials are not present in the Cisco Catalyst Center"
                 self.discovery_specific_cred_failure(msg=msg)
             if len(snmp_v2_read_credential_list) > 0:
                 global_credentials_all["snmpV2cRead"] = []
@@ -762,14 +839,17 @@ class Discovery(DnacBase):
                                 global_credentials_all["snmpV2cRead"].append(snmp.get("id"))
                         global_credentials_all["snmpV2cRead"] = global_credentials_all["snmpV2cRead"][:cred_len]
                     else:
-                        msg = "Kindly ensure you include both the description and the username for the Global SNMPV2 Read \
+                        msg = "Kindly ensure you include the description for the Global SNMPv2 Read \
                                 credential to discover the devices"
                         self.discovery_specific_cred_failure(msg=msg)
 
         snmp_v2_write_credential_list = global_credentials.get('snmp_v2_write_credential_list')
         if snmp_v2_write_credential_list:
             if not isinstance(snmp_v2_write_credential_list, list):
-                msg = "Global SNMPV2 write credentials must be passed as a list"
+                msg = "Global SNMPv2 write credentials must be passed as a list"
+                self.discovery_specific_cred_failure(msg=msg)
+            if response.get("snmpV2cWrite") is None:
+                msg = "Global SNMPv2 write credentials are not present in the Cisco Catalyst Center"
                 self.discovery_specific_cred_failure(msg=msg)
             if len(snmp_v2_write_credential_list) > 0:
                 global_credentials_all["snmpV2cWrite"] = []
@@ -783,13 +863,16 @@ class Discovery(DnacBase):
                                 global_credentials_all["snmpV2cWrite"].append(snmp.get("id"))
                         global_credentials_all["snmpV2cWrite"] = global_credentials_all["snmpV2cWrite"][:cred_len]
                     else:
-                        msg = "Kindly ensure you include both the description and the username for the Global SNMPV2 credential to discover the devices"
+                        msg = "Kindly ensure you include the description for the Global SNMPV2 write credential to discover the devices"
                         self.discovery_specific_cred_failure(msg=msg)
 
         snmp_v3_credential_list = global_credentials.get('snmp_v3_credential_list')
         if snmp_v3_credential_list:
             if not isinstance(snmp_v3_credential_list, list):
-                msg = "Global SNMPV3 write credentials must be passed as a list"
+                msg = "Global SNMPv3 write credentials must be passed as a list"
+                self.discovery_specific_cred_failure(msg=msg)
+            if response.get("snmpV3") is None:
+                msg = "Global SNMPv3 credentials are not present in the Cisco Catalyst Center"
                 self.discovery_specific_cred_failure(msg=msg)
             if len(snmp_v3_credential_list) > 0:
                 global_credentials_all["snmpV3"] = []
@@ -803,7 +886,7 @@ class Discovery(DnacBase):
                                 global_credentials_all["snmpV3"].append(snmp.get("id"))
                         global_credentials_all["snmpV3"] = global_credentials_all["snmpV3"][:cred_len]
                     else:
-                        msg = "Kindly ensure you include both the description and the username for the Global SNMPV3 \
+                        msg = "Kindly ensure you include both the description and the username for the Global SNMPv3 \
                                 to discover the devices"
                         self.discovery_specific_cred_failure(msg=msg)
 
@@ -811,6 +894,9 @@ class Discovery(DnacBase):
         if net_conf_port_list:
             if not isinstance(net_conf_port_list, list):
                 msg = "Global net Conf Ports be passed as a list"
+                self.discovery_specific_cred_failure(msg=msg)
+            if response.get("netconfCredential") is None:
+                msg = "Global netconf ports are not present in the Cisco Catalyst Center"
                 self.discovery_specific_cred_failure(msg=msg)
             if len(net_conf_port_list) > 0:
                 global_credentials_all["netconfCredential"] = []
@@ -824,7 +910,7 @@ class Discovery(DnacBase):
                                 global_credentials_all["netconfCredential"].append(netconf.get("id"))
                         global_credentials_all["netconfCredential"] = global_credentials_all["netconfCredential"][:cred_len]
                     else:
-                        msg = "Please provide description of the Global Netconf port to be used"
+                        msg = "Please provide valid description of the Global Netconf port to be used"
                         self.discovery_specific_cred_failure(msg=msg)
 
         self.log("Fetched Global credentials IDs are {0}".format(global_credentials_all), "INFO")
@@ -1213,13 +1299,15 @@ class Discovery(DnacBase):
                 self.log(msg, "CRITICAL")
                 self.module.fail_json(msg=msg)
                 return False
-
-            if response.get('progress') != 'In Progress' or response.get('progress') != 'Inventory service initiating discovery':
+            self.log("Task status for the task id (before checking status) {0} is {1}".format(str(task_id), str(response)), "INFO")
+            progress = response.get('progress')
+            if progress in ('In Progress', 'Inventory service initiating discovery'):
+                time.sleep(3)
+                continue
+            else:
                 result = True
                 self.log("The Process is completed", "INFO")
                 break
-            time.sleep(3)
-
         self.result.update(dict(discovery_task=response))
         return result
 
@@ -1351,9 +1439,9 @@ class Discovery(DnacBase):
                 self.log("Some devices in the range are reachable", "INFO")
                 break
 
-            elif all(res.get('reachabilityStatus') != 'Success' and res.get('inventoryReachabilityStatus') == 'Reachable' for res in devices):
+            elif all(res.get('reachabilityStatus') != 'Success' for res in devices):
                 result = True
-                self.log("Devices are not reachable, but discovery is completed", "WARNING")
+                self.log("All devices are not reachable, but discovery is completed", "WARNING")
                 break
 
             count += 1
@@ -1593,6 +1681,8 @@ def main():
                     "dnac_log_append": {"type": 'bool', "default": True},
                     'validate_response_schema': {'type': 'bool', 'default': True},
                     'config_verify': {"type": 'bool', "default": False},
+                    'dnac_api_task_timeout': {'type': 'int', "default": 1200},
+                    'dnac_task_poll_interval': {'type': 'int', "default": 2},
                     'config': {'required': True, 'type': 'list', 'elements': 'dict'},
                     'state': {'default': 'merged', 'choices': ['merged', 'deleted']}
                     }
