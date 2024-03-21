@@ -42,7 +42,7 @@ cisco.dnac.pnp_workflow_manager module -- Resource module for Site and PnP relat
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.13.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.13.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -773,6 +773,8 @@ Parameters
 
       Name of template to be configured on the device.
 
+      Supported for EWLC from Cisco Catalyst Center release version 2.3.7.x onwards.
+
 
       .. raw:: html
 
@@ -805,7 +807,11 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Parameter values for the parameterised templates. Each varibale has a value that needs to be passed as key-value pair in the dictionary. We can pass values as variable\_name:variable\_value.
+      Parameter values for the parameterised templates.
+
+      Each varibale has a value that needs to be passed as key-value pair in the dictionary. We can pass values as variable\_name:variable\_value.
+
+      Supported for EWLC from Cisco Catalyst Center release version 2.3.7.x onwards.
 
 
       .. raw:: html
@@ -884,6 +890,44 @@ Parameters
       - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
       - :ansible-option-choices-entry:`true`
 
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_api_task_timeout"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_workflow_manager_module__parameter-dnac_api_task_timeout:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_api_task_timeout**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_api_task_timeout" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Defines the timeout in seconds for API calls to retrieve task details. If the task details are not received within this period, the process will end, and a timeout notification will be logged.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`1200`
 
       .. raw:: html
 
@@ -1224,6 +1268,44 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_task_poll_interval"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_workflow_manager_module__parameter-dnac_task_poll_interval:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_task_poll_interval**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_task_poll_interval" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the interval in seconds between successive calls to the API to retrieve task details.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`2`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
         <div class="ansibleOptionAnchor" id="parameter-user"></div>
 
@@ -1456,7 +1538,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Add a new device and claim the device
+    - name: Import multiple switches in bulk only
       cisco.dnac.pnp_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -1470,25 +1552,97 @@ Examples
         state: merged
         config_verify: True
         config:
-            - template_name: string
-              image_name: string
-              golden_image: bool
-              site_name: string
-              project_name: string
-              pnp_type: string
-              static_ip: string
-              subnet_mask: string
-              gateway: string
-              vlan_id: string
-              ip_interface_name: string
-              rf_profile: string
-              device_info:
-                - hostname: string
-                  state: string
-                  pid: string
-                  serial_number: string
-                  add_device_method: string
-                  is_sudi_required: string
+            - device_info:
+                - serial_number: QD2425L8M7
+                  state: Unclaimed
+                  pid: c9300-24P
+                  is_sudi_required: False
+                - serial_number: QTC2320E0H9
+                  state: Unclaimed
+                  pid: c9300-24P
+                  hostname: Test-123
+                - serial_number: ETC2320E0HB
+                  state: Unclaimed
+                  pid: c9300-24P
+
+    - name: Add a new EWLC and claim it
+      cisco.dnac.pnp_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log_level: "{{dnac_log_level}}"
+        dnac_log: True
+        state: merged
+        config_verify: True
+        config:
+            - device_info:
+                - serial_number: FOX2639PAY7
+                  hostname: New_WLC
+                  state: Unclaimed
+                  pid: C9800-CL-K9
+              site_name: Global/USA/San Francisco/BGL_18
+              template_name: Ansible_PNP_WLC
+              template_params:
+                hostname: IAC-EWLC-Claimed
+              project_name: Onboarding Configuration
+              image_name: C9800-40-universalk9_wlc.17.12.01.SPA.bin
+              golden_image: true
+              pnp_type: CatalystWLC
+              static_ip: 204.192.101.10
+              subnet_mask: 255.255.255.0
+              gateway: 204.192.101.1
+              vlan_id: 1101
+              ip_interface_name: TenGigabitEthernet0/0/0
+
+    - name: Claim a pre-added switch, apply a template, and perform an image upgrade for a specific site
+      cisco.dnac.pnp_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log_level: "{{dnac_log_level}}"
+        dnac_log: True
+        state: merged
+        config_verify: True
+        config:
+            - device_info:
+                - serial_number: FJC271924EQ
+                  hostname: Switch
+                  state: Unclaimed
+                  pid: C9300-48UXM
+              site_name: Global/USA/San Francisco/BGL_18
+              template_name: "Ansible_PNP_Switch"
+              image_name: cat9k_iosxe_npe.17.03.07.SPA.bin
+              project_name: Onboarding Configuration
+              template_params:
+                hostname: SJC-Switch-1
+                interface: TwoGigabitEthernet1/0/2
+
+    - name: Remove multiple devices from the PnP dashboard safely (ignores non-existent devices)
+      cisco.dnac.pnp_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log_level: "{{dnac_log_level}}"
+        dnac_log: True
+        state: deleted
+        config_verify: True
+        config:
+            - device_info:
+                - serial_number: QD2425L8M7
+                - serial_number: FTC2320E0HA
+                - serial_number: FKC2310E0HB
 
 
 
