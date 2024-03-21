@@ -644,7 +644,7 @@ class Site(DnacBase):
             updated_site['parentName'] == requested_site['parentName'] and
             self.compare_float_values(updated_site['latitude'], requested_site['latitude']) and
             self.compare_float_values(updated_site['longitude'], requested_site['longitude']) and
-            (requested_site['address'] is None or updated_site['address'] == requested_site['address'])
+            ('address' in requested_site and (requested_site['address'] is None or updated_site.get('address') == requested_site['address']))
         )
 
     def is_floor_updated(self, updated_site, requested_site):
@@ -806,11 +806,18 @@ class Site(DnacBase):
         else:
             # Creating New Site
             site_params = self.want.get("site_params")
+            if site_params['site']['building']:
+                building_details = {}
+                for key, value in site_params['site']['building'].items():
+                    if value is not None:
+                        building_details[key] = value
+                site_params['site']['building'] = building_details
+
             response = self.dnac._exec(
                 family="sites",
                 function='create_site',
                 op_modifies=True,
-                params=self.want.get("site_params"),
+                params=site_params,
             )
             self.log("Received API response from 'create_site': {0}".format(str(response)), "DEBUG")
             site_created = True
@@ -831,9 +838,9 @@ class Site(DnacBase):
                         break
 
                 if site_updated:
-                    log_msg = "Site - {0} Updated Successfully".format(self.want.get("site_name"))
-                    self.log(log_msg, "INFO")
-                    self.result['msg'] = log_msg
+                    self.msg = "Site - {0} Updated Successfully".format(self.want.get("site_name"))
+                    self.log(self.msg, "INFO")
+                    self.result['msg'] = self.msg
                     self.result['response'].update({"siteId": self.have.get("site_id")})
 
                 else:
@@ -841,10 +848,10 @@ class Site(DnacBase):
                     (site_exists, current_site) = self.site_exists()
 
                     if site_exists:
-                        log_msg = "Site '{0}' created successfully".format(self.want.get("site_name"))
-                        self.log(log_msg, "INFO")
+                        self.msg = "Site '{0}' created successfully".format(self.want.get("site_name"))
+                        self.log(self.msg, "INFO")
                         self.log("Current site (have): {0}".format(str(current_site)), "DEBUG")
-                        self.result['msg'] = log_msg
+                        self.result['msg'] = self.msg
                         self.result['response'].update({"siteId": current_site.get('site_id')})
 
         return self
@@ -1045,6 +1052,8 @@ def main():
                     'dnac_log': {'type': 'bool', 'default': False},
                     'validate_response_schema': {'type': 'bool', 'default': True},
                     'config_verify': {'type': 'bool', "default": False},
+                    'dnac_api_task_timeout': {'type': 'int', "default": 1200},
+                    'dnac_task_poll_interval': {'type': 'int', "default": 2},
                     'config': {'required': True, 'type': 'list', 'elements': 'dict'},
                     'state': {'default': 'merged', 'choices': ['merged', 'deleted']}
                     }
