@@ -30,6 +30,9 @@ parameters:
   run-swim:
     type: boolean
     default: false
+  run-pnp:
+    type: boolean
+    default: false
 
 jobs:
 
@@ -190,6 +193,14 @@ jobs:
                   echo "    - ccc_swim_management" >> ccc_roles.yml
 
       - when:
+          condition: << pipeline.parameters.run-pnp >>
+          steps:
+            - run: 
+                command: |
+                  echo "    - ccc_pnp_management" >> ccc_roles.yml
+
+
+      - when:
           condition: << pipeline.parameters.run-all >>
           steps:
             - run:
@@ -199,6 +210,7 @@ jobs:
                   echo "    - ccc_discovery_management" >> ccc_roles.yml
                   echo "    - ccc_inventory_management" >> ccc_roles.yml
                   echo "    - ccc_swim_management" >> ccc_roles.yml
+                  echo "    - ccc_pnp_management" >> ccc_roles.yml
 
       - run:
           command: cat ccc_roles.yml
@@ -318,12 +330,14 @@ workflows:
             plugins/modules/discovery_workflow_manager.py run-discovery true
             plugins/modules/inventory_workflow_manager.py run-inventory true
             plugins/modules/swim_workflow_manager.py run-swim true
+            plugins/modules/pnp_workflow_manager.py run-swim true
             
             tests/integration/ccc_site_management/.* run-site true    
             tests/integration/ccc_device_credential_management/.* run-devicecredential true
             tests/integration/ccc_discovery_management/.* run-discovery true
             tests/integration/ccc_inventory_management/.* run-inventory true
             tests/integration/ccc_swim_management/.* run-swim true
+            tests/integration/ccc_pnp_management/.* run-swim true
 
   integration-testing:
     when: << pipeline.parameters.run-any >> 
