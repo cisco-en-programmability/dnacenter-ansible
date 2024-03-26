@@ -37,7 +37,7 @@
               - Ansible_project
               - Sample Velocity Templates
             template:
-              - project_name : Onboarding Configuration
+              - project_name: Onboarding Configuration
                 template_name: AP_Onboarding
           import:
             project: "{{ item.import_project }}"
