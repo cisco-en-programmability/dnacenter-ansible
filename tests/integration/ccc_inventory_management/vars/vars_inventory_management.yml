@@ -218,7 +218,7 @@ design_sites:
       area:
         name: ITest_Area
         parent_name: Global
-    type: area
+    site_type: area
   - site:
       building:
         name: ITest_Building
@@ -227,7 +227,7 @@ design_sites:
         latitude: 12.969910
         longitude: 77.597960
         country: India
-    type: building
+    site_type: building
   - site:
       floor:
         name: ITest_Floor1
@@ -237,7 +237,7 @@ design_sites:
         length: 100.00
         height: 10.00
         floor_number: 1
-    type: floor
+    site_type: floor
 
 
 associate_wired_device:
@@ -269,7 +269,7 @@ delete_sites:
       area:
         name: ITest_Area
         parent_name: Global
-    type: area
+    site_type: area
 
 
 delete_devices:
