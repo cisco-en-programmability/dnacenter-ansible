@@ -121,8 +121,6 @@ delete_devices:
     #ip_address_list: ["204.1.2.5", "204.192.6.200"]
     clean_config: False
 
-
-
 #http://172.21.236.183/swim/V1712_2_CCO/cat9k_iosxe.17.12.02.SPA.bin
 #device_family_name: "Switches and Hubs"
 #IMAGE FAMILY NAME  "Cisco Catalyst 9300 Switch"
