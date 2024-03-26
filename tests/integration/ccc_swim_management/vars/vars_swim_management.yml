@@ -55,7 +55,7 @@ design_sites:
       area:
         name: ITest_Swim_Area
         parent_name: Global
-    type: area
+    site_type: area
   - site:
       building:
         name: ITest_Swim_Building
@@ -64,7 +64,7 @@ design_sites:
         latitude: 12.969910
         longitude: 77.597960
         country: India
-    type: building
+    site_type: building
   - site:
       floor:
         name: ITest_Swim_Floor1
@@ -74,7 +74,7 @@ design_sites:
         length: 100.00
         height: 10.00
         floor_number: 1
-    type: floor
+    site_type: floor
 
 
 device_details:
@@ -114,7 +114,7 @@ delete_sites:
       area:
         name: ITest_Swim_Area
         parent_name: Global
-    type: area
+    site_type: area
 
 
 delete_devices:

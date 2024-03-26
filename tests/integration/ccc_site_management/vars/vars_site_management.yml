@@ -5,37 +5,37 @@ design_sites:
       area:
         name: USA-Test
         parent_name: Global
-    type: area
+    site_type: area
   - site:
       area:
         name: SAN JOSE
         parent_name: Global/USA-Test
-    type: area
+    site_type: area
   - site:
       area:
         name: RTP
         parent_name: Global/USA-Test
-    type: area
+    site_type: area
   - site:
       area:
         name: BayAreaGuest
         parent_name: Global/USA-Test
-    type: area
+    site_type: area
   - site:
       area:
         name: New York
         parent_name: Global/USA-Test
-    type: area
+    site_type: area
   - site:
       area:
         name: SAN-FRANCISCO
         parent_name: Global/USA-Test
-    type: area
+    site_type: area
   - site:
       area:
         name: BERKELEY
         parent_name: Global/USA-Test
-    type: area
+    site_type: area
   - site:
       building:
         name: BLD10
@@ -44,7 +44,7 @@ design_sites:
         latitude: 35.85992111421487
         longitude: -78.8829258991226
         country: United States
-    type: building
+    site_type: building
   - site:
       building:
         name: BLD11
@@ -53,7 +53,7 @@ design_sites:
         latitude: 35.86059627310624
         longitude: -78.88105620286412
         country: United States
-    type: building
+    site_type: building
   - site:
       building:
         name: BLD12
@@ -62,7 +62,7 @@ design_sites:
         latitude: 35.8611847591779
         longitude: -78.88217248318003
         country: United States
-    type: building
+    site_type: building
   - site:
       building:
         name: BLD23
@@ -71,7 +71,7 @@ design_sites:
         latitude: 37.398188
         longitude: -121.912974
         country: United States
-    type: building
+    site_type: building
   - site:
       building:
         name: BLD20
@@ -80,7 +80,7 @@ design_sites:
         latitude: 37.415947
         longitude: -121.916327
         country: United States
-    type: building
+    site_type: building
   - site:
       building:
         name: BLD_GB
@@ -89,7 +89,7 @@ design_sites:
         latitude: 37.415947
         longitude: -121.916327
         country: United States
-    type: building
+    site_type: building
   - site:
       building:
         name: BLDNYC
@@ -98,7 +98,7 @@ design_sites:
         latitude: 37.398188
         longitude: -121.912974
         country: United States
-    type: building
+    site_type: building
   - site:
       building:
         name: BLD_SF
@@ -107,7 +107,7 @@ design_sites:
         latitude: 37.398188
         longitude: -121.912974
         country: United States
-    type: building
+    site_type: building
   - site:
       building:
         name: BLD_SF1
@@ -116,7 +116,7 @@ design_sites:
         latitude: 37.398188
         longitude: -121.912974
         country: United States
-    type: building
+    site_type: building
   - site:
       building:
         name: BLDBERK
@@ -125,7 +125,7 @@ design_sites:
         latitude: 37.415947
         longitude: -121.916327
         country: United States
-    type: building
+    site_type: building
   - site:
       floor:
         name: BLD10_FLOOR1
@@ -135,7 +135,7 @@ design_sites:
         length: 100.00
         height: 10.00
         floor_number: 1
-    type: floor
+    site_type: floor
   - site:
       floor:
         name: BLD10_FLOOR2
@@ -145,7 +145,7 @@ design_sites:
         length: 100.00
         height: 10.00
         floor_number: 2
-    type: floor
+    site_type: floor
   - site:
       floor:
         name: BLD10_FLOOR3
@@ -155,7 +155,7 @@ design_sites:
         length: 100.00
         height: 10.00
         floor_number: 3
-    type: floor
+    site_type: floor
   - site:
       floor:
         name: BLD11_FLOOR1
@@ -165,7 +165,7 @@ design_sites:
         length: 100.00
         height: 10.00
         floor_number: 1
-    type: floor
+    site_type: floor
   - site:
       floor:
         name: BLD11_FLOOR2
@@ -175,7 +175,7 @@ design_sites:
         length: 100.00
         height: 10.00
         floor_number: 2
-    type: floor
+    site_type: floor
   - site:
       floor:
         name: BLD11_FLOOR3
@@ -185,7 +185,7 @@ design_sites:
         length: 100.00
         height: 10.00
         floor_number: 3
-    type: floor
+    site_type: floor
   - site:
       floor:
         name: BLD12_FLOOR1
@@ -195,7 +195,7 @@ design_sites:
         length: 100.00
         height: 10.00
         floor_number: 1
-    type: floor
+    site_type: floor
   - site:
       floor:
         name: BLD12_FLOOR2
@@ -205,7 +205,7 @@ design_sites:
         length: 100.00
         height: 10.00
         floor_number: 2
-    type: floor
+    site_type: floor
   - site:
       floor:
         name: BLD12_FLOOR3
@@ -215,7 +215,7 @@ design_sites:
         length: 100.00
         height: 10.00
         floor_number: 3
-    type: floor
+    site_type: floor
   - site:
       floor:
         name: FLOOR1_LEVEL1
@@ -225,7 +225,7 @@ design_sites:
         length: 100.00
         height: 10.00
         floor_number: 1
-    type: floor
+    site_type: floor
   - site:
       floor:
         name: FLOOR1_LEVEL2
@@ -235,7 +235,7 @@ design_sites:
         length: 100.00
         height: 10.00
         floor_number: 1
-    type: floor
+    site_type: floor
   - site:
       floor:
         name: FLOOR1_LEVEL3
@@ -245,7 +245,7 @@ design_sites:
         length: 100.00
         height: 10.00
         floor_number: 1
-    type: floor
+    site_type: floor
   - site:
       floor:
         name: FLOOR1_LEVEL4
@@ -255,7 +255,7 @@ design_sites:
         length: 100.00
         height: 10.00
         floor_number: 1
-    type: floor
+    site_type: floor
   - site:
       floor:
         name: BLD20_FLOOR1
@@ -265,7 +265,7 @@ design_sites:
         length: 100.00
         height: 10.00
         floor_number: 1
-    type: floor
+    site_type: floor
   - site:
       floor:
         name: BLD20_FLOOR2
@@ -275,7 +275,7 @@ design_sites:
         length: 100.00
         height: 10.00
         floor_number: 2
-    type: floor
+    site_type: floor
   - site:
       floor:
         name: FLOOR1
@@ -285,7 +285,7 @@ design_sites:
         length: 100.00
         height: 10.00
         floor_number: 1
-    type: floor
+    site_type: floor
   - site:
       floor:
         name: FLOOR2
@@ -295,7 +295,7 @@ design_sites:
         length: 100.00
         height: 10.00
         floor_number: 2
-    type: floor
+    site_type: floor
   - site:
       floor:
         name: FLOOR1
@@ -305,7 +305,7 @@ design_sites:
         length: 100.00
         height: 10.00
         floor_number: 1
-    type: floor
+    site_type: floor
   - site:
       floor:
         name: FLOOR2
@@ -315,7 +315,7 @@ design_sites:
         length: 100.00
         height: 10.00
         floor_number: 2
-    type: floor
+    site_type: floor
   - site:
       floor:
         name: FLOOR1
@@ -325,7 +325,7 @@ design_sites:
         length: 100.00
         height: 10.00
         floor_number: 1
-    type: floor
+    site_type: floor
   - site:
       floor:
         name: FLOOR2
@@ -335,7 +335,7 @@ design_sites:
         length: 100.00
         height: 10.00
         floor_number: 2
-    type: floor
+    site_type: floor
   - site:
       floor:
         name: FLOOR1_LEVEL1
@@ -345,19 +345,19 @@ design_sites:
         length: 100.00
         height: 10.00
         floor_number: 1
-    type: floor
+    site_type: floor
 
   #India-Test Site Hierarchy 
   - site:
       area:
         name: India-Test
         parent_name: Global
-    type: area
+    site_type: area
   - site:
       area:
         name: Bangalore
         parent_name: Global/India-Test
-    type: area
+    site_type: area
   - site:
       building:
         name: Mantri Square
@@ -366,7 +366,7 @@ design_sites:
         latitude: 12.969910
         longitude: 77.597960
         country: India
-    type: building
+    site_type: building
   - site:
       floor:
         name: Floor1
@@ -376,21 +376,21 @@ design_sites:
         length: 100.00
         height: 10.00
         floor_number: 1
-    type: floor
+    site_type: floor
   
   #Mexico Site Hierarchy
   - site:
       area:
         name: Mexico-Test
         parent_name: Global
-    type: area
+    site_type: area
 
   #Canada Site Hierarchy
   - site:
       area:
         name: Canada-Test
         parent_name: Global
-    type: area
+    site_type: area
 
 
 update_sites:
@@ -402,7 +402,7 @@ update_sites:
         latitude: 38.8611847591779
         longitude: 72.88217248318003
         country: United States
-    type: building 
+    site_type: building 
   - site:
       floor:
         name: FLOOR1
@@ -412,7 +412,7 @@ update_sites:
         length: 200.00
         height: 20.00
         floor_number: 1
-    type: floor
+    site_type: floor
   - site:
       building:
         name: Mantri Square
@@ -421,7 +421,7 @@ update_sites:
         latitude: 18.969910
         longitude: 20.597960
         country: India
-    type: building
+    site_type: building
   - site:
       floor:
         name: Floor1
@@ -431,7 +431,7 @@ update_sites:
         length: 200.00
         height: 20.00
         floor_number: 1
-    type: floor
+    site_type: floor
 
 
 delete_sites:
@@ -439,19 +439,19 @@ delete_sites:
       area:
         name: USA-Test
         parent_name: Global
-    type: area
+    site_type: area
   - site:
       area:
         name: India-Test
         parent_name: Global
-    type: area
+    site_type: area
   - site:
       area:
         name: Mexico-Test
         parent_name: Global
-    type: area
+    site_type: area
   - site:
       area:
         name: Canada-Test
         parent_name: Global
-    type: area
+    site_type: area
