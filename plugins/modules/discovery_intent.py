@@ -622,7 +622,6 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
 )
 import time
 import re
-import ipaddress
 
 
 class Discovery(DnacBase):
@@ -742,10 +741,13 @@ class Discovery(DnacBase):
                         msg = "IP address {0} is not valid".format(ip2)
                         self.log(msg, "CRITICAL")
                         self.module.fail_json(msg=msg)
-                    if ipaddress.IPv4Address(ip1) > ipaddress.IPv4Address(ip2):
-                        msg = "Incorrect range passed. Please pass correct IP address range"
-                        self.log(msg, "CRITICAL")
-                        self.module.fail_json(msg=msg)
+                    ip1_parts = list(map(int, ip1.split('.')))
+                    ip2_parts = list(map(int, ip2.split('.')))
+                    for part in range(4):
+                        if ip1_parts[part] > ip2_parts[part]:
+                            msg = "Incorrect range passed. Please pass correct IP address range"
+                            self.log(msg, "CRITICAL")
+                            self.module.fail_json(msg=msg)
                 else:
                     msg = "IP address range should have only upper and lower limit values"
                     self.log(msg, "CRITICAL")
