@@ -2865,7 +2865,7 @@ def main():
         'dnac_task_poll_interval': {'type': 'int', "default": 2},
         'config': {'required': True, 'type': 'list', 'elements': 'dict'},
         'state': {'default': 'merged', 'choices': ['merged', 'deleted']}
-                    }
+    }
     module = AnsibleModule(argument_spec=element_spec,
                            supports_check_mode=False)
     ccc_template = Template(module)
