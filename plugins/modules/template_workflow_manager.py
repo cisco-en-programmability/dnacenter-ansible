@@ -1331,7 +1331,11 @@ class Template(DnacBase):
         self.supported_states = ["merged", "deleted"]
         self.accepted_languages = ["JINJA", "VELOCITY"]
         self.export_template = []
-        self.result['response'].append({})
+        self.result['response'] = [
+            {"configurationTemplate": {"response": {}, "msg": {}}},
+            {"export": {"response": {}}},
+            {"import": {"response": {}}}
+        ]
 
     def validate_input(self):
         """
@@ -1917,7 +1921,7 @@ class Template(DnacBase):
             self.status = "failed"
             return self.check_return_status()
 
-        temp_params.update({"project_name": projectName})
+        temp_params.update({"projectName": projectName})
 
         softwareType = params.get("software_type")
         if not softwareType:
@@ -1956,7 +1960,7 @@ class Template(DnacBase):
             result = items
 
         self.log("Received API response from 'get_template_details': {0}".format(items), "DEBUG")
-        self.result['response'] = items
+        self.result['response'][0].get("configurationTemplate").update({"items": items})
         return result
 
     def get_have_project(self, config):
@@ -2419,7 +2423,7 @@ class Template(DnacBase):
         if is_template_found:
             if not self.requires_update():
                 # Template does not need update
-                self.result.update({
+                self.result['response'][0].get("configurationTemplate").update({
                     'response': self.have_template.get("template"),
                     'msg': "Template does not need update"
                 })
@@ -2466,12 +2470,12 @@ class Template(DnacBase):
                 return self
             task_details = self.get_task_details(task_id)
             self.result['changed'] = True
-            self.result['msg'] = task_details.get('progress')
-            self.result['diff'] = configuration_templates
+            self.result['response'][0].get("configurationTemplate")['msg'] = task_details.get('progress')
+            self.result['response'][0].get("configurationTemplate")['diff'] = configuration_templates
             self.log("Task details for 'version_template': {0}".format(task_details), "DEBUG")
-            self.result['response'] = task_details if task_details else response
+            self.result['response'][0].get("configurationTemplate")['response'] = task_details if task_details else response
 
-            if not self.result.get('msg'):
+            if not self.result['response'][0].get("configurationTemplate").get('msg'):
                 self.msg = "Error while versioning the template"
                 self.status = "failed"
                 return self
@@ -2494,16 +2498,16 @@ class Template(DnacBase):
             response = self.dnac._exec(
                 family="configuration_templates",
                 function='export_projects',
+                op_modifies=True,
                 params={
                     "payload": export_project,
-                    "active_validation": False,
                 },
             )
             validation_string = "successfully exported project"
             self.check_task_response_status(response,
                                             validation_string,
                                             True).check_return_status()
-            self.result['response'][0].update({"exportProject": self.msg})
+            self.result['response'][1].get("export").get("response").update({"exportProject": self.msg})
 
         export_values = export.get("template")
         if export_values:
@@ -2513,16 +2517,16 @@ class Template(DnacBase):
             response = self.dnac._exec(
                 family="configuration_templates",
                 function='export_templates',
+                op_modifies=True,
                 params={
                     "payload": self.export_template,
-                    "active_validation": False,
                 },
             )
             validation_string = "successfully exported template"
             self.check_task_response_status(response,
                                             validation_string,
                                             True).check_return_status()
-            self.result['response'][0].update({"exportTemplate": self.msg})
+            self.result['response'][1].get("export").get("response").update({"exportTemplate": self.msg})
 
         return self
 
@@ -2566,14 +2570,15 @@ class Template(DnacBase):
                     response = self.dnac._exec(
                         family="configuration_templates",
                         function='imports_the_projects_provided',
+                        op_modifies=True,
                         params=_import_project,
                     )
                     validation_string = "successfully imported project"
                     self.check_task_response_status(response, validation_string).check_return_status()
-                    self.result['response'][0].update({"importProject": validation_string})
+                    self.result['response'][2].get("import").get("response").update({"importProject": validation_string})
             else:
                 self.msg = "Projects '{0}' already available.".format(payload)
-                self.result['response'][0].update({
+                self.result['response'][2].get("import").get("response").update({
                     "importProject": "Projects '{0}' already available.".format(payload)
                 })
 
@@ -2610,11 +2615,12 @@ class Template(DnacBase):
                 response = self.dnac._exec(
                     family="configuration_templates",
                     function='imports_the_templates_provided',
+                    op_modifies=True,
                     params=import_template
                 )
                 validation_string = "successfully imported template"
                 self.check_task_response_status(response, validation_string).check_return_status()
-                self.result['response'][0].update({"importTemplate": validation_string})
+                self.result['response'][2].get("import").get("response").update({"importTemplate": validation_string})
 
         return self
 
@@ -2685,13 +2691,13 @@ class Template(DnacBase):
         if task_id:
             task_details = self.get_task_details(task_id)
             self.result['changed'] = True
-            self.result['msg'] = task_details.get('progress')
-            self.result['diff'] = config.get("configuration_templates")
+            self.result['response'][0].get("configurationTemplate")['msg'] = task_details.get('progress')
+            self.result['response'][0].get("configurationTemplate")['diff'] = config.get("configuration_templates")
 
             self.log("Task details for '{0}': {1}".format(deletion_value, task_details), "DEBUG")
-            self.result['response'] = task_details if task_details else response
-            if not self.result['msg']:
-                self.result['msg'] = "Error while deleting {name} : "
+            self.result['response'][0].get("configurationTemplate")['response'] = task_details if task_details else response
+            if not self.result['response'][0].get("configurationTemplate")['msg']:
+                self.result['response'][0].get("configurationTemplate")['msg'] = "Error while deleting {name} : "
                 self.status = "failed"
                 return self
 
@@ -2774,11 +2780,11 @@ class Template(DnacBase):
                                "softwareVariant", "templateContent"]
             for item in template_params:
                 if self.have_template.get("template").get(item) != self.want.get("template_params").get(item):
-                    self.msg = " Configuration Template config is not applied to the Cisco Catalyst Center."
+                    self.msg = "Configuration Template config is not applied to the Cisco Catalyst Center."
                     self.status = "failed"
                     return self
             self.log("Successfully validated the Template in the Catalyst Center.", "INFO")
-            self.result.get("response").update({"Validation": "Success"})
+            self.result['response'][0].get("configurationTemplate").get("response").update({"Validation": "Success"})
 
         self.msg = "Successfully validated the Configuration Templates."
         self.status = "success"
@@ -2816,7 +2822,7 @@ class Template(DnacBase):
                     return self
 
             self.log("Successfully validated absence of template in the Catalyst Center.", "INFO")
-            self.result.get("response").update({"Validation": "Success"})
+            self.result['response'][0].get("configurationTemplate").get("response").update({"Validation": "Success"})
 
         self.msg = "Successfully validated the absence of Template in the Cisco Catalyst Center."
         self.status = "success"
@@ -2841,24 +2847,25 @@ class Template(DnacBase):
 def main():
     """ main entry point for module execution"""
 
-    element_spec = {'dnac_host': {'required': True, 'type': 'str'},
-                    'dnac_port': {'type': 'str', 'default': '443'},
-                    'dnac_username': {'type': 'str', 'default': 'admin', 'aliases': ['user']},
-                    'dnac_password': {'type': 'str', 'no_log': True},
-                    'dnac_verify': {'type': 'bool', 'default': 'True'},
-                    'dnac_version': {'type': 'str', 'default': '2.2.3.3'},
-                    'dnac_debug': {'type': 'bool', 'default': False},
-                    'dnac_log': {'type': 'bool', 'default': False},
-                    "dnac_log_level": {"type": 'str', "default": 'WARNING'},
-                    "dnac_log_file_path": {"type": 'str', "default": 'dnac.log'},
-                    "dnac_log_append": {"type": 'bool', "default": True},
-                    'validate_response_schema': {'type': 'bool', 'default': True},
-                    "config_verify": {"type": 'bool', "default": False},
-                    'dnac_api_task_timeout': {'type': 'int', "default": 1200},
-                    'dnac_task_poll_interval': {'type': 'int', "default": 2},
-                    'config': {'required': True, 'type': 'list', 'elements': 'dict'},
-                    'state': {'default': 'merged', 'choices': ['merged', 'deleted']}
-                    }
+    element_spec = {
+        'dnac_host': {'required': True, 'type': 'str'},
+        'dnac_port': {'type': 'str', 'default': '443'},
+        'dnac_username': {'type': 'str', 'default': 'admin', 'aliases': ['user']},
+        'dnac_password': {'type': 'str', 'no_log': True},
+        'dnac_verify': {'type': 'bool', 'default': 'True'},
+        'dnac_version': {'type': 'str', 'default': '2.2.3.3'},
+        'dnac_debug': {'type': 'bool', 'default': False},
+        'dnac_log': {'type': 'bool', 'default': False},
+        "dnac_log_level": {"type": 'str', "default": 'WARNING'},
+        "dnac_log_file_path": {"type": 'str', "default": 'dnac.log'},
+        "dnac_log_append": {"type": 'bool', "default": True},
+        'validate_response_schema': {'type': 'bool', 'default': True},
+        "config_verify": {"type": 'bool', "default": False},
+        'dnac_api_task_timeout': {'type': 'int', "default": 1200},
+        'dnac_task_poll_interval': {'type': 'int', "default": 2},
+        'config': {'required': True, 'type': 'list', 'elements': 'dict'},
+        'state': {'default': 'merged', 'choices': ['merged', 'deleted']}
+    }
     module = AnsibleModule(argument_spec=element_spec,
                            supports_check_mode=False)
     ccc_template = Template(module)
