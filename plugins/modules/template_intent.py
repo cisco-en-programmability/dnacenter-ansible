@@ -1775,26 +1775,27 @@ class DnacTemplate(DnacBase):
             if id is not None:
                 containingTemplates[i].update({"id": id})
 
+            name = item.get("name")
+            if name is None:
+                self.msg = "name is mandatory under containing templates"
+                self.status = "failed"
+                return self.check_return_status()
+
+            containingTemplates[i].update({"name": name})
+
             language = item.get("language")
-            if language is not None:
-                containingTemplates[i].update({"language": language})
-            else:
+            if language is None:
                 self.msg = "language is mandatory under containing templates"
                 self.status = "failed"
                 return self.check_return_status()
 
-            name = item.get("name")
-            name_list = ["JINJA", "VELOCITY"]
-            if name is not None:
-                containingTemplates[i].update({"name": name})
-            else:
-                self.msg = "name is mandatory under containing templates"
+            language_list = ["JINJA", "VELOCITY"]
+            if language not in language_list:
+                self.msg = "language under containing templates should be in " + str(language_list)
                 self.status = "failed"
                 return self.check_return_status()
-            if name not in name_list:
-                self.msg = "name under containing templates should be in " + str(name_list)
-                self.status = "failed"
-                return self.check_return_status()
+
+            containingTemplates[i].update({"language": language})
 
             project_name = item.get("project_name")
             if project_name is not None:
@@ -2766,6 +2767,8 @@ def main():
                     "dnac_log_append": {"type": 'bool', "default": True},
                     'validate_response_schema': {'type': 'bool', 'default': True},
                     "config_verify": {"type": 'bool', "default": False},
+                    'dnac_api_task_timeout': {'type': 'int', "default": 1200},
+                    'dnac_task_poll_interval': {'type': 'int', "default": 2},
                     'config': {'required': True, 'type': 'list', 'elements': 'dict'},
                     'state': {'default': 'merged', 'choices': ['merged', 'deleted']}
                     }
