@@ -369,66 +369,68 @@ EXAMPLES = r"""
     state: merged
     config_verify: True
     config:
-        - discovery_name: string
-          discovery_type: string
-          ip_address_list: list
-          ip_filter_list: list
-          cdp_level: string
-          lldp_level: string
-          prefered_mgmt_ip_method: string
+        - discovery_name: Discovery with both global and job specific credentials
+          discovery_type: RANGE
+          ip_address_list:
+            - 201.1.1.1-201.1.1.100
+          ip_filter_list:
+            - 201.1.1.2
+            - 201.1.1.10
           discovery_specific_credentials:
             cli_credentials_list:
-                - username: string
-                  password: string
-                  enable_password: string
+                - username: cisco
+                  password: Cisco123
+                  enable_password: Cisco123
             http_read_credential:
-                username: string
-                password: string
-                port: integer
-                secure: boolean
+                username: cisco
+                password: Cisco123
+                port: 443
+                secure: true
             http_write_credential:
-                username: string
-                password: string
-                port: integer
-                secure: boolean
+                username: cisco
+                password: Cisco123
+                port: 443
+                secure: True
             snmp_v2_read_credential:
-                desc: string
-                community: string
+                desc: snmp_v2-new
+                community: Cisco123
             snmp_v2_write_credential:
-                desc: string
-                community: string
+                desc: snmp_v2-new
+                community: Cisco123
             snmp_v3_credential:
-                username: string
-                snmp_mode: string
-                auth_password: string
-                auth_type: string
-                privacy_type: string
-                privacy_password: string
-            net_conf_port: string
+                username: v3Public2
+                snmp_mode: AUTHPRIV
+                auth_type: SHA
+                auth_password: Lablab123
+                privacy_type: AES256
+                privacy_password: Lablab123
+            net_conf_port: 750
           global_credentials:
             cli_credentials_list:
-                - description: string
-                  username: string
+                - description: ISE
+                  username: cisco
+                - description: CLI1234
+                  username: cli
             http_read_credential_list:
-                - description: string
-                  username: string
+                - description: HTTP Read
+                  username: HTTP_Read
             http_write_credential_list:
-                - description: string
-                  username: string
+                - description: HTTP Write
+                  username: HTTP_Write
             snmp_v3_credential_list:
-                - description: string
-                  username: string
+                - description: snmpV3
+                  username: snmpV3
             snmp_v2_read_credential_list:
-                - description: string
+                - description: snmpV2_read
             snmp_v2_write_credential_list:
-                - description: string
+                - description: snmpV2_write
             net_conf_port_list:
-                - description: string
-          start_index: integer
-          records_to_return: integer
-          protocol_order: string
-          retry: integer
-          timeout: integer
+                - description: Old_one
+          start_index: 1
+          records_to_return: 100
+          protocol_order: ssh
+          retry: 5
+          timeout: 3
 
 - name: Execute discovery of devices with discovery specific credentials only
   cisco.dnac.discovery_workflow_manager:
@@ -444,48 +446,45 @@ EXAMPLES = r"""
     state: merged
     config_verify: True
     config:
-        - discovery_name: string
-          discovery_type: string
-          ip_address_list: list
-          ip_filter_list: list
-          cdp_level: string
-          lldp_level: string
-          prefered_mgmt_ip_method: string
+        - discovery_name: Single with discovery specific credentials only
+          discovery_type: SINGLE
+          ip_address_list:
+            - 204.1.1.10
           discovery_specific_credentials:
             cli_credentials_list:
-                - username: string
-                  password: string
-                  enable_password: string
+                - username: cisco
+                  password: Cisco123
+                  enable_password: Cisco123
             http_read_credential:
-                username: string
-                password: string
-                port: integer
-                secure: boolean
+                username: cisco
+                password: Cisco123
+                port: 443
+                secure: true
             http_write_credential:
-                username: string
-                password: string
-                port: integer
-                secure: boolean
+                username: cisco
+                password: Cisco123
+                port: 443
+                secure: True
             snmp_v2_read_credential:
-                desc: string
-                community: string
+                desc: snmp_v2-new
+                community: Cisco123
             snmp_v2_write_credential:
-                desc: string
-                community: string
+                desc: snmp_v2-new
+                community: Cisco123
             snmp_v3_credential:
-                username: string
-                snmp_mode: string
-                auth_password: string
-                auth_type: string
-                privacy_type: string
-                privacy_password: string
-            net_conf_port: string
+                username: v3Public2
+                snmp_mode: AUTHPRIV
+                auth_type: SHA
+                auth_password: Lablab123
+                privacy_type: AES256
+                privacy_password: Lablab123
+            net_conf_port: 750
           use_global_credentials: False
-          start_index: integer
-          records_to_return: integer
-          protocol_order: string
-          retry: integer
-          timeout: integer
+          start_index: 1
+          records_to_return: 100
+          protocol_order: ssh
+          retry: 5
+          timeout: 3
 
 - name: Execute discovery of devices with global credentials only
   cisco.dnac.discovery_workflow_manager:
@@ -501,37 +500,37 @@ EXAMPLES = r"""
     state: merged
     config_verify: True
     config:
-        - discovery_name: string
-          discovery_type: string
-          ip_address_list: list
-          ip_filter_list: list
-          cdp_level: string
-          lldp_level: string
-          prefered_mgmt_ip_method: string
+        - discovery_name: CDP with global credentials only
+          discovery_type: CDP
+          ip_address_list:
+            - 204.1.1.1
+          cdp_level: 16
           global_credentials:
             cli_credentials_list:
-                - description: string
-                  username: string
+                - description: ISE
+                  username: cisco
+                - description: CLI1234
+                  username: cli
             http_read_credential_list:
-                - description: string
-                  username: string
+                - description: HTTP Read
+                  username: HTTP_Read
             http_write_credential_list:
-                - description: string
-                  username: string
+                - description: HTTP Write
+                  username: HTTP_Write
             snmp_v3_credential_list:
-                - description: string
-                  username: string
+                - description: snmpV3
+                  username: snmpV3
             snmp_v2_read_credential_list:
-                - description: string
+                - description: snmpV2_read
             snmp_v2_write_credential_list:
-                - description: string
+                - description: snmpV2_write
             net_conf_port_list:
-                - description: string
-          start_index: integer
-          records_to_return: integer
-          protocol_order: string
-          retry: integer
-          timeout: integer
+                - description: Old_one
+          start_index: 1
+          records_to_return: 100
+          protocol_order: ssh
+          retry: 5
+          timeout: 3
 
 - name: Execute discovery of devices with all the global credentials (max 5 allowed)
   cisco.dnac.discovery_workflow_manager:
@@ -547,18 +546,18 @@ EXAMPLES = r"""
     state: merged
     config_verify: True
     config:
-        - discovery_name: string
-          discovery_type: string
-          ip_address_list: list
-          ip_filter_list: list
-          cdp_level: string
-          lldp_level: string
-          prefered_mgmt_ip_method: string
-          start_index: integer
-          records_to_return: integer
-          protocol_order: string
-          retry: integer
-          timeout: integer
+        - discovery_name: CIDR with all global credentials
+          discovery_type: CIDR
+          ip_address_list:
+            - 204.1.2.0/24
+          ip_filter_list:
+            - 204.1.2.10
+          preferred_mgmt_ip_method: None
+          start_index: 1
+          records_to_return: 100
+          protocol_order: telnet
+          retry: 10
+          timeout: 3
           use_global_credentials: True
 
 - name: Delete disovery by name
@@ -575,7 +574,7 @@ EXAMPLES = r"""
     state: deleted
     config_verify: True
     config:
-          - discovery_name: string
+          - discovery_name: Single discovery
 """
 
 RETURN = r"""
@@ -1300,13 +1299,15 @@ class Discovery(DnacBase):
                 self.log(msg, "CRITICAL")
                 self.module.fail_json(msg=msg)
                 return False
-
-            if response.get('progress') != 'In Progress' or response.get('progress') != 'Inventory service initiating discovery':
+            self.log("Task status for the task id (before checking status) {0} is {1}".format(str(task_id), str(response)), "INFO")
+            progress = response.get('progress')
+            if progress in ('In Progress', 'Inventory service initiating discovery'):
+                time.sleep(3)
+                continue
+            else:
                 result = True
                 self.log("The Process is completed", "INFO")
                 break
-            time.sleep(3)
-
         self.result.update(dict(discovery_task=response))
         return result
 
@@ -1438,9 +1439,9 @@ class Discovery(DnacBase):
                 self.log("Some devices in the range are reachable", "INFO")
                 break
 
-            elif all(res.get('reachabilityStatus') != 'Success' and res.get('inventoryReachabilityStatus') == 'Reachable' for res in devices):
+            elif all(res.get('reachabilityStatus') != 'Success' for res in devices):
                 result = True
-                self.log("Devices are not reachable, but discovery is completed", "WARNING")
+                self.log("All devices are not reachable, but discovery is completed", "WARNING")
                 break
 
             count += 1
@@ -1680,6 +1681,8 @@ def main():
                     "dnac_log_append": {"type": 'bool', "default": True},
                     'validate_response_schema': {'type': 'bool', 'default': True},
                     'config_verify': {"type": 'bool', "default": False},
+                    'dnac_api_task_timeout': {'type': 'int', "default": 1200},
+                    'dnac_task_poll_interval': {'type': 'int', "default": 2},
                     'config': {'required': True, 'type': 'list', 'elements': 'dict'},
                     'state': {'default': 'merged', 'choices': ['merged', 'deleted']}
                     }

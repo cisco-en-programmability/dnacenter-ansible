@@ -86,7 +86,6 @@
                 auth_password: Lablab#1234
                 privacy_type: AES256
                 privacy_password: Lablab#1234
-                global_cli_len: 3
             protocol_order: ssh
 
     - name: Execute discovery of single device using various discovery specific credentials only
@@ -123,7 +122,6 @@
                 auth_password: Lablab#1234
                 privacy_type: AES256
                 privacy_password: Lablab#1234
-                global_cli_len: 3
             protocol_order: ssh
 
     - name: Execute discovery devices using MULTI RANGE with various discovery specific credentials and all global credentials (max 5 allowed)
@@ -164,7 +162,7 @@
             records_to_return: 1000
             snmp_version: v2
 
-    - name: Execute discovery devices using CDP/LLDP/CIDR leveraging discovery specific credentials and all the global credentials 
+    - name: Execute discovery devices using CDP/LLDP/CIDR leveraging discovery specific credentials and all the global credentials
       cisco.dnac.discovery_intent:
         <<: *dnac_login
         state: merged
