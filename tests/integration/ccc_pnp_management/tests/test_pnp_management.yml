@@ -172,36 +172,36 @@
 #         Add and Claim PNP Device          #
 #############################################
 
-  - name: Add and Claim PnP devices
-    cisco.dnac.pnp_workflow_manager:
-      <<: *dnac_login
-      state: merged
-      config:
-        - "{{ item }}"
-    loop: "{{ vars_map.pnp_claim.cat9k }}"
-    register: result_claim_device
+#   - name: Add and Claim PnP devices
+#     cisco.dnac.pnp_workflow_manager:
+#       <<: *dnac_login
+#       state: merged
+#       config:
+#         - "{{ item }}"
+#     loop: "{{ vars_map.pnp_claim.cat9k }}"
+#     register: result_claim_device
 
-  - name: Debug Add and Claim device
-    debug:
-      var: item
-    loop: "{{ result_claim_device.results }}"
-    when: result_claim_device is defined
+#   - name: Debug Add and Claim device
+#     debug:
+#       var: item
+#     loop: "{{ result_claim_device.results }}"
+#     when: result_claim_device is defined
 
-  - name: Assert Add and Claim device
-    assert:
-      that:
-        - item.changed == true
-        - "'Claimed Successfully' in item.msg"
-    loop: "{{ result_claim_device.results }}"
-    when: result_claim_device is defined
+#   - name: Assert Add and Claim device
+#     assert:
+#       that:
+#         - item.changed == true
+#         - "'Claimed Successfully' in item.msg"
+#     loop: "{{ result_claim_device.results }}"
+#     when: result_claim_device is defined
   
-#############################################
-#      Pause to Complete Provisioning       #
-#############################################
+# #############################################
+# #      Pause to Complete Provisioning       #
+# #############################################
 
-  - name: Pause for 5 minutes
-    pause:
-      seconds: 300
+#   - name: Pause for 5 minutes
+#     pause:
+#       seconds: 300
 
 #############################################
 #               Delete Devices              #
