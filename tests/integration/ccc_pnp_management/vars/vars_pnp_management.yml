@@ -16,17 +16,18 @@ pnp_delete:
 
 pnp_claim:
   cat9k:
-    - site_name: Global/ITest_PnP_Area/ITest_PnP_Building
-      project_name: Onboarding Configuration
-      template_name: "Ansible_PNP_Switch"
-      template_details:
-        interface: TwoGigabitEthernet1/0/2
-      image_name: cat9k_iosxe.17.12.02.SPA.bin
-      device_info:
+    - device_info:
         - serial_number: FJC2721271T
           hostname: Switch
           state: Unclaimed
           pid: C9300-48T
+      site_name: Global/ITest_PnP_Area/ITest_PnP_Building
+      template_name: "Ansible_PNP_Switch"
+      project_name: Onboarding Configuration
+      template_params:
+        hostname: SJ-EN-9300
+        interface: GigabitEthernet1/1/4
+
 
 bulk:
   add:

@@ -22,8 +22,13 @@
 
 
   # - debug:
-  #     msg: "{{ vars_map.device_details }}"
-
+  #     msg: "{{ vars_map.pnp_delete }}"
+  # - debug:
+  #     msg: "{{ vars_map.pnp_claim }}"
+  # - debug:
+  #     msg: "{{ vars_map.bulk }}"
+  # - debug:
+  #     msg: "{{ vars_map.delete_devices }}"
 
 #############################################
 #                Clean Up                   #
@@ -160,6 +165,7 @@
   #       - item.changed == true
   #       - "'Deleted Successfully' in item.msg"
   #   loop: "{{ result_delete_device.results }}"
+  #   when: result_delete_device is defined
   
 
 #############################################
@@ -180,6 +186,22 @@
       var: item
     loop: "{{ result_claim_device.results }}"
     when: result_claim_device is defined
+
+  - name: Assert Add and Claim device
+    assert:
+      that:
+        - item.changed == true
+        - "'Claimed Successfully' in item.msg"
+    loop: "{{ result_claim_device.results }}"
+    when: result_claim_device is defined
+  
+#############################################
+#      Pause to Complete Provisioning       #
+#############################################
+
+  - name: Pause for 5 minutes
+    pause:
+      seconds: 300
 
 #############################################
 #               Delete Devices              #

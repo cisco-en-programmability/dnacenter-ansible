@@ -27,459 +27,483 @@
   # - debug:
   #     msg: "{{ vars_map.device_interface_updates }}"
   # - debug:
+  #     msg: "{{ vars_map.device_role_updates }}"
+  # - debug:
+  #     msg: "{{ vars_map.device_int_update_post_rolechange }}"
+  # - debug:
+  #     msg: "{{ vars_map.device_resync }}"
+  # - debug:
+  #     msg: "{{ vars_map.create_assign_udf }}"
+  # - debug:
+  #     msg: "{{ vars_map.update_udf }}"
+  # - debug:
+  #     msg: "{{ vars_map.delete_udf }}"
+  # - debug:
+  #     msg: "{{ vars_map.export_device_details }}"
+  # - debug:
+  #     msg: "{{ vars_map.export_credential_details }}"
+  # - debug:
+  #     msg: "{{ vars_map.design_sites }}"
+  # - debug:
+  #     msg: "{{ vars_map.associate_wired_device }}"
+  # - debug:
+  #     msg: "{{ vars_map.associate_wireless_device }}"
+  # - debug:
+  #     msg: "{{ vars_map.delete_sites }}"
+  # - debug:
   #     msg: "{{ vars_map.delete_devices }}"
 
-# #############################################
-# #                Clean Up                   #
-# #############################################
-
-#   - name: Delete device
-#     cisco.dnac.inventory_workflow_manager:
-#       <<: *dnac_login
-#       state: deleted
-#       config:
-#         - "{{ item }}"
-#     loop: "{{ vars_map.delete_devices }}"
-#     register: result_device_deleted
-
-#   - name: Delete site
-#     cisco.dnac.site_workflow_manager:
-#       <<: *dnac_login
-#       state: deleted
-#       config:
-#           - "{{ item }}"
-#     loop: "{{ vars_map.delete_sites }}"
-#     register: result_delete_site
-
-# #############################################
-# #                Add Devices                #
-# #############################################
-
-#   - name: Add new device
-#     cisco.dnac.inventory_workflow_manager:
-#       <<: *dnac_login
-#       state: merged
-#       config:
-#         - "{{ item }}"
-#     loop: "{{ vars_map.device_details }}"
-#     register: result_add_device
-
-#   # - name: Debug item
-#   #   debug:
-#   #     var: item
-#   #   loop: "{{ result_add_device.results }}"
-
-#   - name: Assert device addition success
-#     assert:
-#       that:
-#         - item.changed == true
-#         - "'added to Cisco Catalyst Center' in item.msg"
-#     loop: "{{ result_add_device.results }}"
-#     when: result_add_device is defined
-
-# #############################################
-# #      Update Device Credential Details     #
-# #############################################
-
-#   - name: Update device details
-#     cisco.dnac.inventory_workflow_manager:
-#       <<: *dnac_login
-#       state: merged
-#       config:
-#         - "{{ item }}"
-#     loop: "{{ vars_map.device_credential_updates }}"
-#     register: result_update_device_credentials
-
-#   # - name: Debug item
-#   #   debug:
-#   #     var: item
-#   #   loop: "{{ result_update_device_credentials.results }}"
-#   #   when: result_update_device_credentials is defined
-
-#   - name: Assert update
-#     assert:
-#       that:
-#         - item.changed == true
-#     loop: "{{ result_update_device_credentials.results }}"
-#     when: result_update_device_credentials is defined
-
-# ############################################
-# #      Update Device Interface Detials      #
-# #############################################
-
-#   # - name: Pause for 60 seconds before updating interfaces
-#   #   pause:
-#   #     seconds: 60
-
-#   # - name: Update device interface details
-#   #   cisco.dnac.inventory_workflow_manager:
-#   #     <<: *dnac_login
-#   #     state: merged
-#   #     config:
-#   #       - "{{ item }}"
-#   #   loop: "{{ vars_map.device_interface_updates }}"
-#   #   register: result_update_device_interface
-
-#   # - name: Debug item
-#   #   debug:
-#   #     var: item
-#   #   loop: "{{ result_update_device_interface.results }}"
-#   #   when: result_update_device_interface is defined
-
-#   # - name: Assert update
-#   #   assert:
-#   #     that:
-#   #       - item.changed == true
-#   #   loop: "{{ result_update_device_interface.results }}"
-#   #   when: result_update_device_interface is defined
-
-# #############################################
-# #      Update Device Role Detials      #
-# #############################################
-
-#   - name: Update device role details
-#     cisco.dnac.inventory_workflow_manager:
-#       <<: *dnac_login
-#       state: merged
-#       config:
-#         - "{{ item }}"
-#     loop: "{{ vars_map.device_role_updates }}"
-#     register: result_update_device_role
-
-#   - name: Debug item
-#     debug:
-#       var: item
-#     loop: "{{ result_update_device_role.results }}"
-#     when: result_update_device_role is defined
-
-#   - name: Assert device role update
-#     assert:
-#       that:
-#         - result_update_device_role.changed == true
-#         - "'Device role was successfully updated' in item.response.progress"
-#     loop: "{{ result_update_device_role.results }}"
-#     when: result_update_device_role is defined
-
-# #############################################
-# #    Update Device Interface Description    #
-# #############################################
-
-#   # - name: Pause for 60 seconds before updating interfaces
-#   #   pause:
-#   #     seconds: 60
-
-#   # - name: Update device interface description post changing role to non-access
-#   #   cisco.dnac.inventory_workflow_manager:
-#   #     <<: *dnac_login
-#   #     state: merged
-#   #     config:
-#   #       - "{{ item }}"
-#   #   loop: "{{ vars_map.device_int_update_post_rolechange }}"
-#   #   register: result_update_device_interface
-
-#   # - name: Debug item
-#   #   debug:
-#   #     var: item
-#   #   loop: "{{ result_update_device_interface.results }}"
-#   #   when: result_update_device_interface is defined
-
-#   # - name: Assert update
-#   #   assert:
-#   #     that:
-#   #       - item.changed == true
-#   #   loop: "{{ result_update_device_interface.results }}"
-#   #   when: result_update_device_interface is defined
-
-# #############################################
-# #                Resync Device              #
-# #############################################
-
-#   - name: Resync Device
-#     cisco.dnac.inventory_workflow_manager:
-#       <<: *dnac_login
-#       state: merged
-#       config:
-#         - "{{ item }}"
-#     loop: "{{ vars_map.device_resync }}"
-#     register: result_resync_device
-
-#   # - name: Debug item
-#   #   debug:
-#   #     var: item
-#   #   loop: "{{ result_resync_device.results }}"
-#   #   when: result_resync_device is defined
-
-#   - name: Assert device resync
-#     assert:
-#       that:
-#         - result_resync_device.changed == true
-#         - "'Synced devices' in item.response.progress"
-#     loop: "{{ result_resync_device.results }}"
-#     when: result_resync_device is defined
-
-# #############################################
-# #     Create & Assign User Defined Field    #
-# #############################################
-
-#   - name: Create & Assign user defined field 
-#     cisco.dnac.inventory_workflow_manager:
-#       <<: *dnac_login
-#       state: merged
-#       config:
-#         - "{{ item }}"
-#     loop: "{{ vars_map.create_assign_udf }}"
-#     register: result_create_assign_udf
-
-#   # - name: Debug item
-#   #   debug:
-#   #     var: item
-#   #   loop: "{{ result_create_assign_udf.results }}"
-#   #   when: result_create_assign_udf is defined
-
-#   - name: Assert user defined field creation and assignment
-#     assert:
-#       that:
-#         - item.changed == true
-#     loop: "{{ result_create_assign_udf.results }}"
-#     when: result_create_assign_udf is defined
-
-# #############################################
-# #         Update User Defined Field         #
-# #############################################
-
-#   - name: Update user defined field 
-#     cisco.dnac.inventory_workflow_manager:
-#       <<: *dnac_login
-#       state: merged
-#       config:
-#         - "{{ item }}"
-#     loop: "{{ vars_map.update_udf }}"
-#     register: result_update_udf
-
-#   # - name: Debug item
-#   #   debug:
-#   #     var: item
-#   #   loop: "{{ result_create_assign_udf.results }}"
-#   #   when: result_update_udf is defined
-
-#   - name: Assert user defined field updated
-#     assert:
-#       that:
-#         - item.changed == true
-#     loop: "{{ result_update_udf.results }}"
-#     when: result_update_udf is defined
-
-
-# #############################################
-# #         Delete User Defined Field         #
-# #############################################
-
-#   - name: Delete user defined field 
-#     cisco.dnac.inventory_workflow_manager:
-#       <<: *dnac_login
-#       state: deleted
-#       config:
-#         - "{{ item }}"
-#     loop: "{{ vars_map.delete_udf }}"
-#     register: result_delete_udf
-
-#   # - name: Debug item
-#   #   debug:
-#   #     var: item
-#   #   loop: "{{ result_delete_udf.results }}"
-#   #   when: result_delete_udf is defined
-
-#   - name: Assert user defined field deletion
-#     assert:
-#       that:
-#         - result_delete_udf.changed == true
-#         - "'deleted successfully' in item.response.progress"
-#     loop: "{{ result_delete_udf.results }}"
-#     when: result_delete_udf is defined
-
-
-# #############################################
-# #           Export Device Details           #
-# #############################################
-
-#   - name: Export Device Details in a CSV file
-#     cisco.dnac.inventory_workflow_manager:
-#       <<: *dnac_login
-#       state: merged
-#       config:
-#         - "{{ item }}"
-#     loop: "{{ vars_map.export_device_details }}"
-#     register: result_export_details
-
-#   # - name: Debug item
-#   #   debug:
-#   #     var: item
-#   #   loop: "{{ result_export_details.results }}"
-#   #   when: result_export_details is defined
-
-#   - name: Assert device details export
-#     assert:
-#       that:
-#         - item.changed == true
-#     loop: "{{ result_export_details.results }}"
-#     when: result_export_details is defined
-
-# #############################################
-# #      Export Device Credential Details     #
-# #############################################
-
-#   - name: Export Credential Device Details in a CSV file
-#     cisco.dnac.inventory_workflow_manager:
-#       <<: *dnac_login
-#       state: merged
-#       config:
-#         - "{{ item }}"
-#     loop: "{{ vars_map.export_credential_details }}"
-#     register: result_export_credential_details
-
-#   # - name: Debug item
-#   #   debug:
-#   #     var: item
-#   #   loop: "{{ result_export_credential_details.results }}"
-#   #   when: result_export_credential_details is defined
-
-#   - name: Assert device credential details export
-#     assert:
-#       that:
-#         - item.changed == true
-#     loop: "{{ result_export_credential_details.results }}"
-#     when: result_export_credential_details is defined
-
-
-# #############################################
-# #                CREATE SITE                #
-# #############################################
-
-#   - name: Create sites from design_sites config
-#     cisco.dnac.site_workflow_manager:
-#       <<: *dnac_login
-#       state: merged
-#       config:
-#           - "{{ item }}"
-#     loop: "{{ vars_map.design_sites }}"
-#     register: result_create_site
-
-#   # - name: Debug item
-#   #   debug:
-#   #     var: item
-#   #   loop: "{{ result_create_site.results }}"
-#   #   when: result_create_site is defined
-
-#   - name: Assert area creation success for each site
-#     assert:
-#       that:
-#         - item.changed == true
-#         - item.response.status == "SUCCESS"
-#         - "'created successfully' in item.msg"
-#     loop: "{{ result_create_site.results }}"
-#     when: result_create_site is defined
-
-# #############################################
-# #      ASSOCIATE WIRED DEVICE TO SITE       #
-# #############################################
-
-#   - name: Assign wired device to site and then provision
-#     cisco.dnac.inventory_workflow_manager:
-#       <<: *dnac_login
-#       state: merged
-#       config:
-#         - "{{ item }}"
-#     loop: "{{ vars_map.associate_wired_device }}"
-#     register: result_associate_device
-
-#   # - name: Debug item
-#   #   debug:
-#   #     var: item
-#   #   loop: "{{ result_associate_device.results }}"
-#   #   when: result_associate_device is defined
-
-#   - name: Assert Assign wired device to site and then provision
-#     assert:
-#       that:
-#         - item.changed == true
-#     loop: "{{ result_associate_device.results }}"
-#     when: result_associate_device is defined
-
-
-# #############################################
-# #     ASSOCIATE WIRELESS DEVICE TO SITE     #
-# #############################################
-
-#   # - name: Assign wireless device to site and then provision
-#   #   cisco.dnac.inventory_workflow_manager:
-#   #     <<: *dnac_login
-#   #     state: merged
-#   #     config:
-#   #       - "{{ item }}"
-#   #   loop: "{{ vars_map.associate_wireless_device }}"
-#   #   register: result_associate_device
-
-#   # - name: Debug item
-#   #   debug:
-#   #     var: item
-#   #   loop: "{{ result_associate_device.results }}"
-#   #   when: result_associate_device is defined
-
-#   # - name: Assert Assign wireless device to site and then provision
-#   #   assert:
-#   #     that:
-#   #       - item.changed == true
-#   #   loop: "{{ result_associate_device.results }}"
-#   #   when: result_associate_device is defined
-
-# #############################################
-# #               Delete Devices              #
-# #############################################
-
-#   - name: Delete device
-#     cisco.dnac.inventory_workflow_manager:
-#       <<: *dnac_login
-#       state: deleted
-#       config:
-#         - "{{ item }}"
-#     loop: "{{ vars_map.delete_devices }}"
-#     register: result_device_deleted
-
-#   # - name: Debug item
-#   #   debug:
-#   #     var: item
-#   #   loop: "{{ result_device_deleted.results }}"
-#   #   when: result_device_deleted is defined
-
-#   - name: Assert device deletion success
-#     assert:
-#       that:
-#         - result_device_deleted.changed == true
-#     when: result_device_deleted is defined
-
-# #############################################
-# #                DELETE SITE                #
-# #############################################
-
-#   - name: Delete sites from design_sites config
-#     cisco.dnac.site_workflow_manager:
-#       <<: *dnac_login
-#       state: deleted
-#       config:
-#           - "{{ item }}"
-#     loop: "{{ vars_map.delete_sites }}"
-#     register: result_delete_site
-
-#   # - name: Debug item
-#   #   debug:
-#   #     var: item
-#   #   loop: "{{ result_delete_site.results }}"
-#   #   when: result_delete_site is defined
-
-#   - name: Assert deletion of area success for each site
-#     assert:
-#       that:
-#         - item.changed == true
-#         - "'deleted successfully' in item.response"
-#     loop: "{{ result_delete_site.results }}"
-#     when: result_delete_site is defined
+#############################################
+#                Clean Up                   #
+#############################################
+
+  - name: Delete device
+    cisco.dnac.inventory_workflow_manager:
+      <<: *dnac_login
+      state: deleted
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.delete_devices }}"
+    register: result_device_deleted
+
+  - name: Delete site
+    cisco.dnac.site_workflow_manager:
+      <<: *dnac_login
+      state: deleted
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.delete_sites }}"
+    register: result_delete_site
+
+#############################################
+#                Add Devices                #
+#############################################
+
+  - name: Add new device
+    cisco.dnac.inventory_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.device_details }}"
+    register: result_add_device
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_add_device.results }}"
+
+  - name: Assert device addition success
+    assert:
+      that:
+        - item.changed == true
+        - "'added to Cisco Catalyst Center' in item.msg"
+    loop: "{{ result_add_device.results }}"
+    when: result_add_device is defined
+
+#############################################
+#      Update Device Credential Details     #
+#############################################
+
+  - name: Update device details
+    cisco.dnac.inventory_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.device_credential_updates }}"
+    register: result_update_device_credentials
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_update_device_credentials.results }}"
+  #   when: result_update_device_credentials is defined
+
+  - name: Assert update
+    assert:
+      that:
+        - item.changed == true
+    loop: "{{ result_update_device_credentials.results }}"
+    when: result_update_device_credentials is defined
+
+############################################
+#      Update Device Interface Detials      #
+#############################################
+
+  # - name: Pause for 60 seconds before updating interfaces
+  #   pause:
+  #     seconds: 60
+
+  # - name: Update device interface details
+  #   cisco.dnac.inventory_workflow_manager:
+  #     <<: *dnac_login
+  #     state: merged
+  #     config:
+  #       - "{{ item }}"
+  #   loop: "{{ vars_map.device_interface_updates }}"
+  #   register: result_update_device_interface
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_update_device_interface.results }}"
+  #   when: result_update_device_interface is defined
+
+  # - name: Assert update
+  #   assert:
+  #     that:
+  #       - item.changed == true
+  #   loop: "{{ result_update_device_interface.results }}"
+  #   when: result_update_device_interface is defined
+
+#############################################
+#      Update Device Role Detials      #
+#############################################
+
+  # - name: Update device role details
+  #   cisco.dnac.inventory_workflow_manager:
+  #     <<: *dnac_login
+  #     state: merged
+  #     config:
+  #       - "{{ item }}"
+  #   loop: "{{ vars_map.device_role_updates }}"
+  #   register: result_update_device_role
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_update_device_role.results }}"
+  #   when: result_update_device_role is defined
+
+  # - name: Assert device role update
+  #   assert:
+  #     that:
+  #       - result_update_device_role.changed == true
+  #       - "'Device role was successfully updated' in item.response.progress"
+  #   loop: "{{ result_update_device_role.results }}"
+  #   when: result_update_device_role is defined
+
+#############################################
+#    Update Device Interface Description    #
+#############################################
+
+  # - name: Pause for 60 seconds before updating interfaces
+  #   pause:
+  #     seconds: 60
+
+  # - name: Update device interface description post changing role to non-access
+  #   cisco.dnac.inventory_workflow_manager:
+  #     <<: *dnac_login
+  #     state: merged
+  #     config:
+  #       - "{{ item }}"
+  #   loop: "{{ vars_map.device_int_update_post_rolechange }}"
+  #   register: result_update_device_interface
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_update_device_interface.results }}"
+  #   when: result_update_device_interface is defined
+
+  # - name: Assert update
+  #   assert:
+  #     that:
+  #       - item.changed == true
+  #   loop: "{{ result_update_device_interface.results }}"
+  #   when: result_update_device_interface is defined
+
+#############################################
+#                Resync Device              #
+#############################################
+
+  - name: Resync Device
+    cisco.dnac.inventory_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.device_resync }}"
+    register: result_resync_device
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_resync_device.results }}"
+  #   when: result_resync_device is defined
+
+  - name: Assert device resync
+    assert:
+      that:
+        - result_resync_device.changed == true
+        - "'Synced devices' in item.response.progress"
+    loop: "{{ result_resync_device.results }}"
+    when: result_resync_device is defined
+
+#############################################
+#     Create & Assign User Defined Field    #
+#############################################
+
+  - name: Create & Assign user defined field 
+    cisco.dnac.inventory_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.create_assign_udf }}"
+    register: result_create_assign_udf
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_create_assign_udf.results }}"
+  #   when: result_create_assign_udf is defined
+
+  - name: Assert user defined field creation and assignment
+    assert:
+      that:
+        - item.changed == true
+    loop: "{{ result_create_assign_udf.results }}"
+    when: result_create_assign_udf is defined
+
+#############################################
+#         Update User Defined Field         #
+#############################################
+
+  - name: Update user defined field 
+    cisco.dnac.inventory_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.update_udf }}"
+    register: result_update_udf
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_create_assign_udf.results }}"
+  #   when: result_update_udf is defined
+
+  - name: Assert user defined field updated
+    assert:
+      that:
+        - item.changed == true
+    loop: "{{ result_update_udf.results }}"
+    when: result_update_udf is defined
+
+
+#############################################
+#         Delete User Defined Field         #
+#############################################
+
+  - name: Delete user defined field 
+    cisco.dnac.inventory_workflow_manager:
+      <<: *dnac_login
+      state: deleted
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.delete_udf }}"
+    register: result_delete_udf
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_delete_udf.results }}"
+  #   when: result_delete_udf is defined
+
+  - name: Assert user defined field deletion
+    assert:
+      that:
+        - result_delete_udf.changed == true
+        - "'deleted successfully' in item.response.progress"
+    loop: "{{ result_delete_udf.results }}"
+    when: result_delete_udf is defined
+
+
+#############################################
+#           Export Device Details           #
+#############################################
+
+  - name: Export Device Details in a CSV file
+    cisco.dnac.inventory_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.export_device_details }}"
+    register: result_export_details
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_export_details.results }}"
+  #   when: result_export_details is defined
+
+  - name: Assert device details export
+    assert:
+      that:
+        - item.changed == true
+    loop: "{{ result_export_details.results }}"
+    when: result_export_details is defined
+
+#############################################
+#      Export Device Credential Details     #
+#############################################
+
+  - name: Export Credential Device Details in a CSV file
+    cisco.dnac.inventory_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.export_credential_details }}"
+    register: result_export_credential_details
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_export_credential_details.results }}"
+  #   when: result_export_credential_details is defined
+
+  - name: Assert device credential details export
+    assert:
+      that:
+        - item.changed == true
+    loop: "{{ result_export_credential_details.results }}"
+    when: result_export_credential_details is defined
+
+
+#############################################
+#                CREATE SITE                #
+#############################################
+
+  - name: Create sites from design_sites config
+    cisco.dnac.site_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.design_sites }}"
+    register: result_create_site
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_create_site.results }}"
+  #   when: result_create_site is defined
+
+  - name: Assert area creation success for each site
+    assert:
+      that:
+        - item.changed == true
+        - item.response.status == "SUCCESS"
+        - "'created successfully' in item.msg"
+    loop: "{{ result_create_site.results }}"
+    when: result_create_site is defined
+
+#############################################
+#      ASSOCIATE WIRED DEVICE TO SITE       #
+#############################################
+
+  - name: Assign wired device to site and then provision
+    cisco.dnac.inventory_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.associate_wired_device }}"
+    register: result_associate_device
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_associate_device.results }}"
+  #   when: result_associate_device is defined
+
+  - name: Assert Assign wired device to site and then provision
+    assert:
+      that:
+        - item.changed == true
+    loop: "{{ result_associate_device.results }}"
+    when: result_associate_device is defined
+
+
+#############################################
+#     ASSOCIATE WIRELESS DEVICE TO SITE     #
+#############################################
+
+  # - name: Assign wireless device to site and then provision
+  #   cisco.dnac.inventory_workflow_manager:
+  #     <<: *dnac_login
+  #     state: merged
+  #     config:
+  #       - "{{ item }}"
+  #   loop: "{{ vars_map.associate_wireless_device }}"
+  #   register: result_associate_device
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_associate_device.results }}"
+  #   when: result_associate_device is defined
+
+  # - name: Assert Assign wireless device to site and then provision
+  #   assert:
+  #     that:
+  #       - item.changed == true
+  #   loop: "{{ result_associate_device.results }}"
+  #   when: result_associate_device is defined
+
+#############################################
+#               Delete Devices              #
+#############################################
+
+  - name: Delete device
+    cisco.dnac.inventory_workflow_manager:
+      <<: *dnac_login
+      state: deleted
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.delete_devices }}"
+    register: result_device_deleted
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_device_deleted.results }}"
+  #   when: result_device_deleted is defined
+
+  - name: Assert device deletion success
+    assert:
+      that:
+        - result_device_deleted.changed == true
+    when: result_device_deleted is defined
+
+#############################################
+#                DELETE SITE                #
+#############################################
+
+  - name: Delete sites from design_sites config
+    cisco.dnac.site_workflow_manager:
+      <<: *dnac_login
+      state: deleted
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.delete_sites }}"
+    register: result_delete_site
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_delete_site.results }}"
+  #   when: result_delete_site is defined
+
+  - name: Assert deletion of area success for each site
+    assert:
+      that:
+        - item.changed == true
+        - "'deleted successfully' in item.response"
+    loop: "{{ result_delete_site.results }}"
+    when: result_delete_site is defined
