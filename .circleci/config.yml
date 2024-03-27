@@ -212,6 +212,8 @@ jobs:
       CIRCLE_PROJECT_REPONAME: << pipeline.trigger_parameters.github_app.repo_name >>
       CIRCLE_PROJECT_BRANCHNAME: << pipeline.trigger_parameters.github_app.branch >>
 
+    timeout: 90m
+
     steps:
       - run:
           name: Debug information
