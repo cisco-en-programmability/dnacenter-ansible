@@ -1060,7 +1060,7 @@ class NetworkSettings(DnacBase):
             family="network_settings",
             function="get_reserve_ip_subpool",
             op_modifies=True,
-            params={"site_id": site_id}
+            params={"siteId": site_id}
         )
         if not isinstance(response, dict):
             reserve_pool.update({"success": False})
@@ -2185,6 +2185,8 @@ def main():
         "dnac_log_file_path": {"type": 'str', "default": 'dnac.log'},
         "dnac_log_append": {"type": 'bool', "default": True},
         "config_verify": {"type": 'bool', "default": False},
+        "dnac_api_task_timeout": {"type": 'int', "default": 1200},
+        "dnac_task_poll_interval": {"type": 'int', "default": 2},
         "config": {"type": 'list', "required": True, "elements": 'dict'},
         "state": {"default": 'merged', "choices": ['merged', 'deleted']},
         "validate_response_schema": {"type": 'bool', "default": True},
