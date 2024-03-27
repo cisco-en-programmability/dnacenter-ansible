@@ -881,6 +881,7 @@ class DnacCredential(DnacBase):
             response = self.dnac._exec(
                 family="sites",
                 function='get_site',
+                op_modifies=True,
                 params={"name": site_name},
             )
             self.log("Received API response from 'get_site': {0}".format(response), "DEBUG")
@@ -2209,6 +2210,7 @@ class DnacCredential(DnacBase):
         response = self.dnac._exec(
             family="discovery",
             function='create_global_credentials_v2',
+            op_modifies=True,
             params=credential_params,
         )
         self.log("Received API response from 'create_global_credentials_v2': {0}"
@@ -2273,6 +2275,7 @@ class DnacCredential(DnacBase):
                 response = self.dnac._exec(
                     family="discovery",
                     function='update_global_credentials_v2',
+                    op_modifies=True,
                     params=credential_params,
                 )
                 self.log("Received API response for 'update_global_credentials_v2': {0}"
@@ -2328,6 +2331,7 @@ class DnacCredential(DnacBase):
             response = self.dnac._exec(
                 family="network_settings",
                 function='assign_device_credential_to_site_v2',
+                op_modifies=True,
                 params=credential_params,
             )
             self.log("Received API response for 'assign_device_credential_to_site_v2': {0}"
@@ -2414,6 +2418,7 @@ class DnacCredential(DnacBase):
                 response = self.dnac._exec(
                     family="discovery",
                     function="delete_global_credential_v2",
+                    op_modifies=True,
                     params={"id": _id},
                 )
                 self.log("Received API response for 'delete_global_credential_v2': {0}"
@@ -2583,7 +2588,7 @@ def main():
         "dnac_log_file_path": {"type": 'str', "default": 'dnac.log'},
         "dnac_log_append": {"type": 'bool', "default": True},
         "config_verify": {"type": 'bool', "default": False},
-        'danc_api_task_timeout': {'type': 'int', "default": 1200},
+        'dnac_api_task_timeout': {'type': 'int', "default": 1200},
         'dnac_task_poll_interval': {'type': 'int', "default": 2},
         "config": {"type": 'list', "required": True, "elements": 'dict'},
         "state": {"default": 'merged', "choices": ['merged', 'deleted']},
