@@ -806,12 +806,15 @@ class Site(DnacBase):
         else:
             # Creating New Site
             site_params = self.want.get("site_params")
-            if site_params['site']['building']:
-                building_details = {}
-                for key, value in site_params['site']['building'].items():
-                    if value is not None:
-                        building_details[key] = value
-                site_params['site']['building'] = building_details
+            try:
+                if site_params['site']['building']:
+                    building_details = {}
+                    for key, value in site_params['site']['building'].items():
+                        if value is not None:
+                            building_details[key] = value
+                    site_params['site']['building'] = building_details
+            except Exception as e:
+                self.log("Given site is not of type building so no need to remove None keys from the site_params dictionary", "INFO")
 
             response = self.dnac._exec(
                 family="sites",
