@@ -34,15 +34,6 @@ options:
     description: Set to True to verify the Cisco Catalyst Center config after applying the playbook config.
     type: bool
     default: False
-  danc_api_task_timeout:
-    description: Defines the timeout in seconds for API calls to retrieve task details. If the task details
-        are not received within this period, the process will end, and a timeout notification will be logged.
-    type: int
-    default: 1200
-  dnac_task_poll_interval:
-    description: Specifies the interval in seconds between successive calls to the API to retrieve task details.
-    type: int
-    default: 2
   state:
     description: The state of Catalyst Center after module completion.
     type: str
@@ -319,7 +310,7 @@ notes:
     post /dna/intent/api/v1/image/distribution,
     post /dna/intent/api/v1/image/activation/device,
 
-  - Added the parameter 'danc_api_task_timeout', 'dnac_task_poll_interval' options in v6.13.2.
+  - Added the parameter 'dnac_api_task_timeout', 'dnac_task_poll_interval' options in v6.13.2.
 
 """
 
@@ -1339,7 +1330,7 @@ class Swim(DnacBase):
 
             while (True):
                 end_time = time.time()
-                max_timeout = self.params.get('danc_api_task_timeout')
+                max_timeout = self.params.get('dnac_api_task_timeout')
 
                 if (end_time - start_time) >= max_timeout:
                     self.log("""Max timeout of {0} has reached for the task id '{1}' for the device '{2}' and unexpected
@@ -1869,7 +1860,7 @@ def main():
                     'dnac_log': {'type': 'bool', 'default': False},
                     'validate_response_schema': {'type': 'bool', 'default': True},
                     'config_verify': {'type': 'bool', "default": False},
-                    'danc_api_task_timeout': {'type': 'int', "default": 1200},
+                    'dnac_api_task_timeout': {'type': 'int', "default": 1200},
                     'dnac_task_poll_interval': {'type': 'int', "default": 2},
                     'config': {'required': True, 'type': 'list', 'elements': 'dict'},
                     'state': {'default': 'merged', 'choices': ['merged']}

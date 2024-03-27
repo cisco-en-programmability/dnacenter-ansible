@@ -95,7 +95,7 @@ options:
         description: Determines the mode of the file. Set to True for 'append' mode. Set to False for 'write' mode.
         type: bool
         default: True
-    danc_api_task_timeout:
+    dnac_api_task_timeout:
       description:  Defines the timeout in seconds for API calls to retrieve task details. If the task details
           are not received within this period, the process will end, and a timeout notification will be logged.
       type: int

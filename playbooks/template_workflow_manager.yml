@@ -14,6 +14,10 @@
         dnac_verify: "{{ dnac_verify }}"
         dnac_debug: "{{ dnac_debug }}"
         dnac_log: true
+        dnac_log_level: "{{ dnac_debug }}"
+        dnac_log_append: true
+        dnac_log_file_path: "{{ dnac_log_file_path }}"
+        validate_response_schema: false
         state: "merged"
         config_verify: true
         #ignore_errors: true        #Enable this to continue execution even the task fails
@@ -28,6 +32,16 @@
             software_variant: "{{ item.variant }}"
             device_types:
             - product_family: "{{ item.family }}"
+          export:
+            project:
+              - Ansible_project
+              - Sample Velocity Templates
+            template:
+              - project_name: Onboarding Configuration
+                template_name: AP_Onboarding
+          import:
+            project: "{{ item.import_project }}"
+            # template: "{{ item.import_template }}"
       register: template_result
       with_items: '{{ template_details }}'
       tags:
