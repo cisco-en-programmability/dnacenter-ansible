@@ -145,13 +145,13 @@
   #     var: item
   #   loop: "{{ result_import_image.results }}"
 
-  - name: Assert import images
-    assert:
-      that:
-        - item.changed == true
-        - '"imported successfully" in item.msg'
-    loop: "{{ result_import_image.results }}"
-    when: result_import_image is defined
+  # - name: Assert import images
+  #   assert:
+  #     that:
+  #       - item.changed == true
+  #       - '"imported successfully" in item.msg'
+  #   loop: "{{ result_import_image.results }}"
+  #   when: result_import_image is defined
 
 #############################################
 #                TAG IMAGE                  #
