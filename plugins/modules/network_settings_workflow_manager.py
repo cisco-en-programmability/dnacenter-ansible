@@ -701,6 +701,7 @@ class NetworkSettings(DnacBase):
             response = self.dnac._exec(
                 family="sites",
                 function='get_site',
+                op_modifies=True,
                 params={"name": site_name},
             )
             self.log("Received API response from 'get_site': {0}".format(response), "DEBUG")
@@ -852,6 +853,7 @@ class NetworkSettings(DnacBase):
         response = self.dnac._exec(
             family="network_settings",
             function='get_network_v2',
+            op_modifies=True,
             params={"site_id": site_id}
         )
         self.log("Received API response from 'get_network_v2': {0}".format(response), "DEBUG")
@@ -1057,6 +1059,7 @@ class NetworkSettings(DnacBase):
         response = self.dnac._exec(
             family="network_settings",
             function="get_reserve_ip_subpool",
+            op_modifies=True,
             params={"siteId": site_id}
         )
         if not isinstance(response, dict):
@@ -1733,6 +1736,7 @@ class NetworkSettings(DnacBase):
             response = self.dnac._exec(
                 family="network_settings",
                 function="create_global_pool",
+                op_modifies=True,
                 params=pool_params,
             )
             self.check_execution_response_status(response).check_return_status()
@@ -1778,6 +1782,7 @@ class NetworkSettings(DnacBase):
         response = self.dnac._exec(
             family="network_settings",
             function="update_global_pool",
+            op_modifies=True,
             params=pool_params,
         )
 
@@ -1821,6 +1826,7 @@ class NetworkSettings(DnacBase):
             response = self.dnac._exec(
                 family="network_settings",
                 function="reserve_ip_subpool",
+                op_modifies=True,
                 params=reserve_params,
             )
             self.check_execution_response_status(response).check_return_status()
@@ -1853,6 +1859,7 @@ class NetworkSettings(DnacBase):
         response = self.dnac._exec(
             family="network_settings",
             function="update_reserve_ip_subpool",
+            op_modifies=True,
             params=reserve_params,
         )
         self.check_execution_response_status(response).check_return_status()
@@ -1900,6 +1907,7 @@ class NetworkSettings(DnacBase):
         response = self.dnac._exec(
             family="network_settings",
             function='update_network_v2',
+            op_modifies=True,
             params=net_params,
         )
         self.log("Received API response of 'update_network_v2': {0}".format(response), "DEBUG")
@@ -1963,6 +1971,7 @@ class NetworkSettings(DnacBase):
         response = self.dnac._exec(
             family="network_settings",
             function="release_reserve_ip_subpool",
+            op_modifies=True,
             params={"id": _id},
         )
         self.check_execution_response_status(response).check_return_status()
@@ -1999,6 +2008,7 @@ class NetworkSettings(DnacBase):
         response = self.dnac._exec(
             family="network_settings",
             function="delete_global_ip_pool",
+            op_modifies=True,
             params={"id": self.have.get("globalPool").get("id")},
         )
 
