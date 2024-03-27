@@ -486,7 +486,7 @@ class DnacBase():
 
         return new_config
 
-    def is_valid_ip(self, ip_address):
+    def is_valid_ipv4(self, ip_address):
         """
         Validates an IPv4 address.
 
