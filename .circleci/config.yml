@@ -274,6 +274,8 @@ jobs:
 
             ansible-playbook -i hosts ccc_roles.yml 
 
+          no_output_timeout: 60m
+
       - run:
           name: Remove Existing Directory
           command: |
