@@ -296,6 +296,19 @@ jobs:
             set -x 
             rm -rf ${HOME}/repo/$CIRCLE_PROJECT_REPONAME
 
+  post_pnp_testing:
+    machine: true
+    resource_class: rukapse/dnacenter-ansible
+    working_directory: ~/repo 
+
+    steps:
+      - when:
+          condition: << pipeline.parameters.run-pnp >>
+          steps:
+            - run: 
+                command: |
+                  python ${HOME}/static/pnp_script.py
+
 
 workflows:  
   
@@ -330,14 +343,14 @@ workflows:
             plugins/modules/discovery_workflow_manager.py run-discovery true
             plugins/modules/inventory_workflow_manager.py run-inventory true
             plugins/modules/swim_workflow_manager.py run-swim true
-            plugins/modules/pnp_workflow_manager.py run-swim true
+            plugins/modules/pnp_workflow_manager.py run-pnp true
             
             tests/integration/ccc_site_management/.* run-site true    
             tests/integration/ccc_device_credential_management/.* run-devicecredential true
             tests/integration/ccc_discovery_management/.* run-discovery true
             tests/integration/ccc_inventory_management/.* run-inventory true
             tests/integration/ccc_swim_management/.* run-swim true
-            tests/integration/ccc_pnp_management/.* run-swim true
+            tests/integration/ccc_pnp_management/.* run-pnp true
 
   integration-testing:
     when: << pipeline.parameters.run-any >> 
@@ -351,3 +364,7 @@ workflows:
             parameters:
               ansible_cisco_dnac_version:
                 - "6.9.0"
+
+      - post_pnp_testing:
+          requires:
+            - sanity-tests

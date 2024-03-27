@@ -20,19 +20,11 @@ pnp_claim:
       project_name: Onboarding Configuration
       template_name: "Ansible_PNP_Switch"
       template_details:
-        hostname: SJ-EN-9300
         interface: TwoGigabitEthernet1/0/2
       image_name: cat9k_iosxe.17.12.02.SPA.bin
       device_info:
         - serial_number: FJC2721271T
-          hostname: SJ-EN-9300
-          state: Unclaimed
-          pid: C9300-48T
-
-  delete-cat9k:
-    - device_info:
-        - serial_number: FJC2721271T
-          hostname: SJ-EN-9300
+          hostname: Switch
           state: Unclaimed
           pid: C9300-48T
 
