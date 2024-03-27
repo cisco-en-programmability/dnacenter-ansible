@@ -815,7 +815,10 @@ class DnacSite(DnacBase):
                             building_details[key] = value
                     site_params['site']['building'] = building_details
             except Exception as e:
-                self.log("Given site is not of type building so no need to remove None keys from the site_params dictionary", "INFO")
+                site_type = site_params['type']
+                site_name = site_params['site'][site_type]['name']
+                self.log("""The site '{0}' is not categorized as a building; hence, there is no need to filter out 'None'
+                            values from the 'site_params' dictionary.""".format(site_name), "INFO")
 
             response = self.dnac._exec(
                 family="sites",
