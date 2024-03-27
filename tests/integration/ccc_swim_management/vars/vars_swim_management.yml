@@ -48,13 +48,14 @@ image_golden_untagging_details:
       device_image_family_name: "Cisco Catalyst 9300 Switch"
       tagging: False  
 
+
 design_sites:
   # Create site to associate device to
   - site:
       area:
         name: ITest_Swim_Area
         parent_name: Global
-    type: area
+    site_type: area
   - site:
       building:
         name: ITest_Swim_Building
@@ -63,7 +64,7 @@ design_sites:
         latitude: 12.969910
         longitude: 77.597960
         country: India
-    type: building
+    site_type: building
   - site:
       floor:
         name: ITest_Swim_Floor1
@@ -73,7 +74,7 @@ design_sites:
         length: 100.00
         height: 10.00
         floor_number: 1
-    type: floor
+    site_type: floor
 
 
 device_details:
@@ -113,58 +114,10 @@ delete_sites:
       area:
         name: ITest_Swim_Area
         parent_name: Global
-    type: area
+    site_type: area
 
 
 delete_devices:
   - ip_address_list: ["204.1.2.3"]
     #ip_address_list: ["204.1.2.5", "204.192.6.200"]
     clean_config: False
-
-#http://172.21.236.183/swim/V1712_2_CCO/cat9k_iosxe.17.12.02.SPA.bin
-#device_family_name: "Switches and Hubs"
-#IMAGE FAMILY NAME  "Cisco Catalyst 9300 Switch"
-#device_series_name = 
-#
-
-
-# ---
-#   image_details:
-#   - type: "remote"
-#     url_details:
-#       payload:
-#         - source_url: "http://172.21.236.183/swim/V1712_2_CCO/cat9k_iosxe.17.12.02.SPA.bin"
-#           is_third_party: false
-#     device_role: "ACCESS"
-#     image_name: cat9k_iosxe.17.12.02.SPA.bin
-#     # device_family_name: "Wireless Controller"
-#     device_family_name: "Switches and Hubs"
-    
-#     # device_type: "Cisco Catalyst 9800-40 Wireless Controller"
-#     device_image_family_name: "Cisco Catalyst 9300 Switch"
-#     site_name: "Global/USA/San Francisco/BGL_18"
-#     # site_name: ""
-#     # device_serial_number: "FJC2327U0S2" 
-#     # Device with IP - 204.192.3.40
-#     # device_serial_number: "FJC2721271T" 
-#     # Device with IP - 204.192.3.40
-    
-
-#   # - type: "local"
-#   #   local_image_details:
-#   #     file_path: "/Users/abmahesh/Downloads/cat9k_iosxe.17.12.01.SPA.bin"
-#   #     is_third_party: false
-#   #   device_role: "ACCESS"
-#   #   device_family_name: "Cisco Catalyst 9300 Switch"
-#   #   device_serial_number: "FJC271924K0"
-#   #   site_name: "Global/USA/San Francisco/BGL_18"
-
-
-#   # - type: "url"
-#   #   urlDetails:
-#   #     payload:
-#   #       - sourceURL: "http://10.104.118.10/swim/17.12/C9800-SW-iosxe-wlc.BLD_POLARIS_DEV_LATEST_20230402_072041_V17_12_0_8.SSA.bin"
-#   #         isThirdParty: false
-#   #   device_role: "ALL"
-#   #   device_family_name: "Cisco Catalyst 9800-40 Wireless Controller"
-#   #   device_serial_number: "FOX2639PAY7"

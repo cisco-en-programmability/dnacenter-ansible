@@ -27,95 +27,95 @@
   # - debug:
   #     msg: "{{ vars_map.delete_sites }}"
 
-# #############################################
-# #                Clean Up                   #
-# #############################################
+#############################################
+#                Clean Up                   #
+#############################################
 
-#   - name: Clean up before test
-#     cisco.dnac.site_workflow_manager:
-#       <<: *dnac_login
-#       state: deleted
-#       config:
-#           - "{{ item }}"
-#     loop: "{{ vars_map.delete_sites }}"
+  - name: Clean up before test
+    cisco.dnac.site_workflow_manager:
+      <<: *dnac_login
+      state: deleted
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.delete_sites }}"
 
-# #############################################
-# #                CREATE SITES               #
-# #############################################
+#############################################
+#                CREATE SITES               #
+#############################################
 
-#   - name: Create sites 
-#     cisco.dnac.site_workflow_manager:
-#       <<: *dnac_login
-#       state: merged
-#       config:
-#           - "{{ item }}"
-#     loop: "{{ vars_map.design_sites }}"
-#     register: result_create_site
+  - name: Create sites 
+    cisco.dnac.site_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.design_sites }}"
+    register: result_create_site
 
-#   # - name: Debug item
-#   #   debug:
-#   #     var: item
-#   #   loop: "{{ result_create_site.results }}"
-#   #   when: result_create_site is defined
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_create_site.results }}"
+  #   when: result_create_site is defined
 
-#   - name: Assert area creation success for each site
-#     assert:
-#       that:
-#         - item.changed == true
-#         - "'created successfully' in item.msg"
-#     loop: "{{ result_create_site.results }}"
-#     when: result_create_site is defined
+  - name: Assert area creation success for each site
+    assert:
+      that:
+        - item.changed == true
+        - "'created successfully' in item.msg"
+    loop: "{{ result_create_site.results }}"
+    when: result_create_site is defined
 
-# #############################################
-# #                UPDATE SITES               #
-# #############################################
+#############################################
+#                UPDATE SITES               #
+#############################################
 
-#   - name: Update sites 
-#     cisco.dnac.site_workflow_manager:
-#       <<: *dnac_login
-#       state: merged
-#       config:
-#           - "{{ item }}"
-#     loop: "{{ vars_map.update_sites }}"
-#     register: result_update_site
+  - name: Update sites 
+    cisco.dnac.site_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.update_sites }}"
+    register: result_update_site
 
-#   # - name: Debug item
-#   #   debug:
-#   #     var: item
-#   #   loop: "{{ result_update_site.results }}"
-#   #   when: result_update_site is defined
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_update_site.results }}"
+  #   when: result_update_site is defined
 
-#   - name: Assert area update success for each site
-#     assert:
-#       that:
-#         - item.changed == true
-#         - "'Updated Successfully' in item.msg"
-#     loop: "{{ result_update_site.results }}"
-#     when: result_update_site is defined
+  - name: Assert area update success for each site
+    assert:
+      that:
+        - item.changed == true
+        - "'Updated Successfully' in item.msg"
+    loop: "{{ result_update_site.results }}"
+    when: result_update_site is defined
 
-# #############################################
-# #                DELETE SITES               #
-# #############################################
+#############################################
+#                DELETE SITES               #
+#############################################
 
-#   - name: Delete sites 
-#     cisco.dnac.site_workflow_manager:
-#       <<: *dnac_login
-#       state: deleted
-#       config:
-#           - "{{ item }}"
-#     loop: "{{ vars_map.delete_sites }}"
-#     register: result_delete_site
+  - name: Delete sites 
+    cisco.dnac.site_workflow_manager:
+      <<: *dnac_login
+      state: deleted
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.delete_sites }}"
+    register: result_delete_site
 
-#   # - name: Debug item
-#   #   debug:
-#   #     var: item
-#   #   loop: "{{ result_delete_site.results }}"
-#   #   when: result_delete_site is defined
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_delete_site.results }}"
+  #   when: result_delete_site is defined
 
-#   - name: Assert deletion success for each site
-#     assert:
-#       that:
-#         - item.changed == true
-#         - "'deleted successfully' in item.response"
-#     loop: "{{ result_delete_site.results }}"
-#     when: result_delete_site is defined
+  - name: Assert deletion success for each site
+    assert:
+      that:
+        - item.changed == true
+        - "'deleted successfully' in item.response"
+    loop: "{{ result_delete_site.results }}"
+    when: result_delete_site is defined
