@@ -145,7 +145,7 @@ device_role_updates:
   - ip_address_list: ["204.1.2.5"]
     device_updated: True
     update_device_role:
-      role: ACCESS
+      role: CORE
 
 
 device_int_update_post_rolechange:
