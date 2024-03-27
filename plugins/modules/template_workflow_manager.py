@@ -1954,6 +1954,7 @@ class Template(DnacBase):
         items = self.dnac_apply['exec'](
             family="configuration_templates",
             function="get_template_details",
+            op_modifies=True,
             params={"template_id": config.get("templateId")}
         )
         if items:
@@ -2038,6 +2039,7 @@ class Template(DnacBase):
         template_list = self.dnac_apply['exec'](
             family="configuration_templates",
             function="gets_the_templates_available",
+            op_modifies=True,
             params={"projectNames": config.get("projectName")},
         )
         have_template["isCommitPending"] = True
@@ -2437,8 +2439,8 @@ class Template(DnacBase):
             response = self.dnac_apply['exec'](
                 family="configuration_templates",
                 function="update_template",
-                params=template_params,
                 op_modifies=True,
+                params=template_params,
             )
             template_updated = True
             self.log("Updating existing template '{0}'."
@@ -2685,6 +2687,7 @@ class Template(DnacBase):
         response = self.dnac_apply['exec'](
             family="configuration_templates",
             function=deletion_value,
+            op_modifies=True,
             params=params_key,
         )
         task_id = response.get("response").get("taskId")
@@ -2809,6 +2812,7 @@ class Template(DnacBase):
             template_list = self.dnac_apply['exec'](
                 family="configuration_templates",
                 function="gets_the_templates_available",
+                op_modifies=True,
                 params={"projectNames": config.get("projectName")},
             )
             if template_list and isinstance(template_list, list):
