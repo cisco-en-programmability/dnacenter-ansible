@@ -431,7 +431,7 @@
   #   when: result_associate_device is defined
 
 #############################################
-#               Delete Devices              #
+#               Delete Device               #
 #############################################
 
   - name: Delete device
