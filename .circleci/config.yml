@@ -270,7 +270,7 @@ jobs:
             export ANSIBLE_PERSISTENT_COMMAND_TIMEOUT=1000
             export ANSIBLE_ROLES_PATH=/home/circleci/repo/dnacenter-ansible/tests/integration
 
-            ansible-playbook -i hosts ccc_roles.yml 
+            ansible-playbook -i hosts ccc_roles.yml -vvvv
 
           no_output_timeout: 60m
 

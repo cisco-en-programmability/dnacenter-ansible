@@ -179,7 +179,7 @@
     when: result_tag_image is defined
 
 #############################################
-#                DISTRIBUTE                  #
+#                DISTRIBUTE                 #
 #############################################
 
   - name: SWIM task - distribute stack
