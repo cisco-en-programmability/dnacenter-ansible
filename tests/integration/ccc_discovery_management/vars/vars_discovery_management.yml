@@ -47,7 +47,6 @@ ip_range:
         auth_password: Lablab#1234
         privacy_type: AES256
         privacy_password: Lablab#1234
-    protocol_order: ssh
     start_index: 1
     records_to_return: 1000
     snmp_version: v2
@@ -165,4 +164,3 @@ cidr:
         privacy_password: Lablab#1234
     retry: 1
     timeout: 2
-
