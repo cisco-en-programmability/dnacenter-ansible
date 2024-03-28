@@ -158,58 +158,51 @@ jobs:
 
     steps:
       - when:
-          condition: << pipeline.parameters.run-site >>
+          condition: 
+            or: [ << pipeline.parameters.run-site >>, << pipeline.parameters.run-all >> ]
           steps:
             - run: 
                 command: |
                   echo "    - ccc_site_management" >> ccc_roles.yml
 
       - when:
-          condition: << pipeline.parameters.run-devicecredential >>
+          condition:
+            or: [ << pipeline.parameters.run-devicecredential >>, << pipeline.parameters.run-all >> ]
           steps:
             - run: 
                 command: |
                   echo "    - ccc_device_credential_management" >> ccc_roles.yml
 
       - when:
-          condition: << pipeline.parameters.run-discovery >>
+          condition:
+            or: [ << pipeline.parameters.run-discovery >>, << pipeline.parameters.run-all >> ]
           steps:
             - run: 
                 command: |
                   echo "    - ccc_discovery_management" >> ccc_roles.yml
 
       - when:
-          condition: << pipeline.parameters.run-inventory >>
+          condition:
+            or: [ << pipeline.parameters.run-inventory >>, << pipeline.parameters.run-all >> ]
           steps:
             - run: 
                 command: |
                   echo "    - ccc_inventory_management" >> ccc_roles.yml
 
       - when:
-          condition: << pipeline.parameters.run-swim >>
+          condition:
+            or: [ << pipeline.parameters.run-swim >>, << pipeline.parameters.run-all >> ]
           steps:
             - run: 
                 command: |
                   echo "    - ccc_swim_management" >> ccc_roles.yml
 
       - when:
-          condition: << pipeline.parameters.run-pnp >>
+          condition:
+            or: [ << pipeline.parameters.run-pnp >>, << pipeline.parameters.run-all >> ]
           steps:
             - run: 
                 command: |
-                  echo "    - ccc_pnp_management" >> ccc_roles.yml
-
-
-      - when:
-          condition: << pipeline.parameters.run-all >>
-          steps:
-            - run:
-                command: |
-                  echo "    - ccc_site_management" >> ccc_roles.yml
-                  echo "    - ccc_device_credential_management" >> ccc_roles.yml
-                  echo "    - ccc_discovery_management" >> ccc_roles.yml
-                  echo "    - ccc_inventory_management" >> ccc_roles.yml
-                  echo "    - ccc_swim_management" >> ccc_roles.yml
                   echo "    - ccc_pnp_management" >> ccc_roles.yml
 
       - run:
@@ -288,7 +281,9 @@ jobs:
             export ANSIBLE_PERSISTENT_COMMAND_TIMEOUT=1000
             export ANSIBLE_ROLES_PATH=/home/circleci/repo/dnacenter-ansible/tests/integration
 
-            ansible-playbook -i hosts ccc_roles.yml 
+            ansible-playbook -i hosts ccc_roles.yml
+
+          no_output_timeout: 120m
 
       - run:
           name: Remove Existing Directory
@@ -308,7 +303,6 @@ jobs:
             - run: 
                 command: |
                   python ${HOME}/static/pnp_script.py
-
 
 workflows:  
   
@@ -364,7 +358,3 @@ workflows:
             parameters:
               ansible_cisco_dnac_version:
                 - "6.9.0"
-
-      # - post_pnp_testing:
-      #     requires:
-      #       - sanity-tests

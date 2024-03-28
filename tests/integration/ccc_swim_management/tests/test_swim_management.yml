@@ -20,25 +20,11 @@
         dnac_log_level: DEBUG
 
   # - debug:
-  #     msg: "{{ vars_map.image_details }}"
+  #     msg: "{{ vars_map. }}"
   # - debug:
-  #     msg: "{{ vars_map.image_golden_tagging_details }}"
+  #     msg: "{{ vars_map. }}"
   # - debug:
-  #     msg: "{{ vars_map.image_distributation_details }}"
-  # - debug:
-  #     msg: "{{ vars_map.image_activation_details }}"
-  # - debug:
-  #     msg: "{{ vars_map.image_golden_untagging_details }}"
-  # - debug:
-  #     msg: "{{ vars_map.design_sites }}"
-  # - debug:
-  #     msg: "{{ vars_map.device_details }}"
-  # - debug:
-  #     msg: "{{ vars_map.associate_wired_device }}"
-  # - debug:
-  #     msg: "{{ vars_map.delete_sites }}"
-  # - debug:
-  #     msg: "{{ vars_map.delete_devices }}"
+  #     msg: "{{ vars_map. }}"
 
 #############################################
 #                Clean Up                   #
@@ -154,10 +140,10 @@
     loop: "{{ vars_map.image_details }}"
     register: result_import_image
 
-  - name: Debug item
-    debug:
-      var: item
-    loop: "{{ result_import_image.results }}"
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_import_image.results }}"
 
   # - name: Assert import images
   #   assert:
@@ -179,10 +165,10 @@
     loop: "{{ vars_map.image_golden_tagging_details}}"
     register: result_tag_image
 
-  - name: Debug item
-    debug:
-      var: item
-    loop: "{{ result_tag_image.results }}"
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_tag_image.results }}"
 
   - name: Assert tag images
     assert:
@@ -193,7 +179,7 @@
     when: result_tag_image is defined
 
 #############################################
-#                DISTRIBUTE                  #
+#                DISTRIBUTE                 #
 #############################################
 
   - name: SWIM task - distribute stack
@@ -204,17 +190,17 @@
     loop: "{{ vars_map.image_distributation_details }}"
     register: result_distribute_stack
 
-  - name: Debug item
-    debug:
-      var: item
-    loop: "{{ result_distribute_stack.results }}"
-
-  # - name: Assert distribution
-  #   assert:
-  #     that:
-  #       - item.changed == true
+  # - name: Debug item
+  #   debug:
+  #     var: item
   #   loop: "{{ result_distribute_stack.results }}"
-  #   when: result_distribute_stack is defined
+
+  - name: Assert distribution
+    assert:
+      that:
+        - item.changed == true
+    loop: "{{ result_distribute_stack.results }}"
+    when: result_distribute_stack is defined
 
 #############################################
 #              ACTIVATE IMAGE               #
@@ -228,17 +214,17 @@
     loop: "{{ vars_map.image_activation_details }}"
     register: result_activate_image
 
-  - name: Debug item
-    debug:
-      var: item
-    loop: "{{ result_activate_image.results }}"
-
-  # - name: Assert image activation
-  #   assert:
-  #     that:
-  #       - item.changed == true
+  # - name: Debug item
+  #   debug:
+  #     var: item
   #   loop: "{{ result_activate_image.results }}"
-  #   when: result_activate_image is defined
+
+  - name: Assert image activation
+    assert:
+      that:
+        - item.changed == true
+    loop: "{{ result_activate_image.results }}"
+    when: result_activate_image is defined
 
 #############################################
 #               UNTAG IMAGE                 #
@@ -252,10 +238,10 @@
     loop: "{{ vars_map.image_golden_untagging_details }}"
     register: result_untag_image
 
-  - name: Debug item
-    debug:
-      var: item
-    loop: "{{ result_untag_image.results }}"
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_untag_image.results }}"
 
   - name: Assert untag images
     assert:
@@ -267,7 +253,7 @@
     when: result_untag_image is defined
 
 #############################################
-#               Delete Devices              #
+#               Delete Device               #
 #############################################
 
   - name: Delete device
@@ -290,6 +276,14 @@
       that:
         - result_device_deleted.changed == true
     when: result_device_deleted is defined
+
+#############################################
+#                  PAUSE                    #
+#############################################
+
+  - name: Pause for 120 seconds
+    pause:
+      seconds: 120
 
 #############################################
 #                DELETE SITE                #
