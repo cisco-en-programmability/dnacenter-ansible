@@ -13,7 +13,7 @@ single_ip:
         - description: snmpV3
           username: v3Public2
     retry: 1
-    timeout: 2
+    timeout: 1
 
 
 ip_range:
@@ -62,7 +62,7 @@ ip_range:
     protocol_order: ssh
     global_cli_len: 3
     retry: 1
-    timeout: 2
+    timeout: 1
 
 
 multi_range:
@@ -94,7 +94,7 @@ multi_range:
         privacy_type: AES256
         privacy_password: Lablab#1234 
     retry: 1
-    timeout: 2
+    timeout: 1
 
 
 cdp:
@@ -117,7 +117,7 @@ cdp:
         privacy_type: AES256
         privacy_password: Lablab#1234
     retry: 1
-    timeout: 2
+    timeout: 1
 
 
 lldp:
@@ -140,7 +140,7 @@ lldp:
         privacy_type: AES256
         privacy_password: Lablab#1234 
     retry: 1
-    timeout: 2 
+    timeout: 1
 
 
 cidr:
@@ -163,4 +163,4 @@ cidr:
         privacy_type: AES256
         privacy_password: Lablab#1234
     retry: 1
-    timeout: 2
+    timeout: 1
