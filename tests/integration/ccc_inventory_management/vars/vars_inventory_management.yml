@@ -135,7 +135,7 @@ device_interface_updates:
 device_role_updates:
   #Update role from access to core
   - ip_address_list: ["204.1.2.5"]
-    role: ACCESS
+    role: CORE
 
 
 device_int_update_post_rolechange:
