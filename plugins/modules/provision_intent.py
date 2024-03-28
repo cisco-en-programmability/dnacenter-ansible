@@ -246,7 +246,8 @@ class Dnacprovision(DnacBase):
         dev_response = self.dnac_apply['exec'](
             family="devices",
             function='get_network_device_by_ip',
-            params={"ip_address": self.validated_config[0]["management_ip_address"]}
+            params={"ip_address": self.validated_config[0]["management_ip_address"]},
+            op_modifies=True
         )
 
         dev_dict = dev_response.get("response")
@@ -282,6 +283,7 @@ class Dnacprovision(DnacBase):
                 family="task",
                 function='get_task_by_id',
                 params=params,
+                op_modifies=True
             )
             response = response.response
             if response.get('isError') or re.search(
@@ -321,6 +323,7 @@ class Dnacprovision(DnacBase):
                 family="sites",
                 function='get_site',
                 params={"name": site_name},
+                op_modifies=True
             )
         except Exception:
             self.module.fail_json(msg="Site not found", response=[])
@@ -403,7 +406,8 @@ class Dnacprovision(DnacBase):
         response = self.dnac_apply['exec'](
             family="devices",
             function='get_network_device_by_ip',
-            params={"management_ip_address": self.validated_config[0]["management_ip_address"]}
+            params={"management_ip_address": self.validated_config[0]["management_ip_address"]},
+            op_modifies=True
         )
 
         wireless_params[0]["deviceName"] = response.get("response")[0].get("hostname")
