@@ -253,7 +253,7 @@
     when: result_untag_image is defined
 
 #############################################
-#               Delete Devices              #
+#               Delete Device               #
 #############################################
 
   - name: Delete device
