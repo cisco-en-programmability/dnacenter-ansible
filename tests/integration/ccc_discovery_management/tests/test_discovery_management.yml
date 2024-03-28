@@ -38,8 +38,6 @@
   #     msg: "{{ vars_map.lldp }}"
   # - debug:
   #     msg: "{{ vars_map.cidr }}"
-  # - debug:
-  #     msg: "{{ vars_map_delete.delete_discoveries }}"
 
 #############################################
 #            Pre Tests Clean Up             #
