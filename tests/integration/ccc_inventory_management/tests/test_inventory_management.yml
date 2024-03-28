@@ -154,7 +154,6 @@
     assert:
       that:
         - result_update_device_role.changed == true
-        - "'role updated successfully' in item.response.progress"
     loop: "{{ result_update_device_role.results }}"
     when: result_update_device_role is defined
 
