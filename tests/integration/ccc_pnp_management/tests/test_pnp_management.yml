@@ -50,13 +50,13 @@
         - "{{ item }}"
     loop: "{{ vars_map.bulk.add }}"
 
-  - name: Delete device from Inventory
-    cisco.dnac.inventory_workflow_manager:
-      <<: *dnac_login
-      state: deleted
-      config:
-        - "{{ item }}"
-    loop: "{{ vars_map.delete_devices }}"
+  # - name: Delete device from Inventory
+  #   cisco.dnac.inventory_workflow_manager:
+  #     <<: *dnac_login
+  #     state: deleted
+  #     config:
+  #       - "{{ item }}"
+  #   loop: "{{ vars_map.delete_devices }}"
 
 #############################################
 #    Add device but not Claim PNP Device    #
@@ -170,14 +170,14 @@
 #         Add and Claim PNP Device          #
 #############################################
 
-  - name: Add and Claim PnP devices
-    cisco.dnac.pnp_workflow_manager:
-      <<: *dnac_login
-      state: merged
-      config:
-        - "{{ item }}"
-    loop: "{{ vars_map.pnp_claim.cat9k }}"
-    register: result_claim_device
+  # - name: Add and Claim PnP devices
+  #   cisco.dnac.pnp_workflow_manager:
+  #     <<: *dnac_login
+  #     state: merged
+  #     config:
+  #       - "{{ item }}"
+  #   loop: "{{ vars_map.pnp_claim.cat9k }}"
+  #   register: result_claim_device
 
   # - name: Debug Add and Claim device
   #   debug:
@@ -185,34 +185,34 @@
   #   loop: "{{ result_claim_device.results }}"
   #   when: result_claim_device is defined
 
-  - name: Assert Add and Claim device
-    assert:
-      that:
-        - item.changed == true
-        - "'Claimed Successfully' in item.msg"
-    loop: "{{ result_claim_device.results }}"
-    when: result_claim_device is defined
+  # - name: Assert Add and Claim device
+  #   assert:
+  #     that:
+  #       - item.changed == true
+  #       - "'Claimed Successfully' in item.msg"
+  #   loop: "{{ result_claim_device.results }}"
+  #   when: result_claim_device is defined
   
 #############################################
 #      Pause to Complete Provisioning       #
 #############################################
 
-  - name: Pause for 6 minutes
-    pause:
-      seconds: 360
+  # - name: Pause for 10 minutes
+  #   pause:
+  #     seconds: 600
 
 #############################################
 #               Delete Devices              #
 #############################################
 
-  - name: Delete device
-    cisco.dnac.inventory_workflow_manager:
-      <<: *dnac_login
-      state: deleted
-      config:
-        - "{{ item }}"
-    loop: "{{ vars_map.delete_devices }}"
-    register: result_device_deleted
+  # - name: Delete device
+  #   cisco.dnac.inventory_workflow_manager:
+  #     <<: *dnac_login
+  #     state: deleted
+  #     config:
+  #       - "{{ item }}"
+  #   loop: "{{ vars_map.delete_devices }}"
+  #   register: result_device_deleted
 
   # - name: Debug item
   #   debug:
@@ -220,8 +220,8 @@
   #   loop: "{{ result_device_deleted.results }}"
   #   when: result_device_deleted is defined
 
-  - name: Assert device deletion success
-    assert:
-      that:
-        - result_device_deleted.changed == true
-    when: result_device_deleted is defined
+  # - name: Assert device deletion success
+  #   assert:
+  #     that:
+  #       - result_device_deleted.changed == true
+  #   when: result_device_deleted is defined
