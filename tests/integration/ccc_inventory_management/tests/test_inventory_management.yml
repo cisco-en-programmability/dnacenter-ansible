@@ -135,14 +135,14 @@
 #      Update Device Role Detials      #
 #############################################
 
-  # - name: Update device role details
-  #   cisco.dnac.inventory_workflow_manager:
-  #     <<: *dnac_login
-  #     state: merged
-  #     config:
-  #       - "{{ item }}"
-  #   loop: "{{ vars_map.device_role_updates }}"
-  #   register: result_update_device_role
+  - name: Update device role details
+    cisco.dnac.inventory_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.device_role_updates }}"
+    register: result_update_device_role
 
   # - name: Debug item
   #   debug:
@@ -150,13 +150,13 @@
   #   loop: "{{ result_update_device_role.results }}"
   #   when: result_update_device_role is defined
 
-  # - name: Assert device role update
-  #   assert:
-  #     that:
-  #       - result_update_device_role.changed == true
-  #       - "'Device role was successfully updated' in item.response.progress"
-  #   loop: "{{ result_update_device_role.results }}"
-  #   when: result_update_device_role is defined
+  - name: Assert device role update
+    assert:
+      that:
+        - result_update_device_role.changed == true
+        - "'role updated successfully' in item.response.progress"
+    loop: "{{ result_update_device_role.results }}"
+    when: result_update_device_role is defined
 
 #############################################
 #    Update Device Interface Description    #
