@@ -54,8 +54,8 @@ ip_range:
     retry: 1
     timeout: 2
   
-  # Single IP Discovery an already existing discovery 
-  # Test case - deleted and recreated when discovery with same name
+  # Single IP Discovery an already existing discovery. 
+  # Test case - deleted and recreated when discovery with same name.
   - discovery_name: Single IP Discovery
     discovery_type: "RANGE"
     ip_address_list:
