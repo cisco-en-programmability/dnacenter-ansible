@@ -20,7 +20,6 @@
         dnac_log_level: DEBUG
         config_verify: true
 
-
   # - debug:
   #     msg: "{{ vars_map.pnp_delete }}"
   # - debug:
