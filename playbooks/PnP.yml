@@ -66,7 +66,7 @@
             template_name: "Ansible_PNP_Switch"
             image_name: cat9k_iosxe_npe.17.03.07.SPA.bin
             project_name: Onboarding Configuration
-            template_details:
+            template_params:
               hostname: SJC-Switch-1
               interface: TwoGigabitEthernet1/0/2
             device_info:
@@ -109,3 +109,6 @@
               - serial_number: QD2425L8M7  #Will get deleted
               - serial_number: FTC2320E0HA  #Doesn't exist in the inventory
               - serial_number: FKC2310E0HB  #Doesn't exist in the inventory
+
+
+
