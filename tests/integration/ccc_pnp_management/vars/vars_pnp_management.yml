@@ -14,6 +14,7 @@ pnp_delete:
           state: Unclaimed
           pid: C9300-48T
 
+
 pnp_claim:
   cat9k:
     - device_info:
