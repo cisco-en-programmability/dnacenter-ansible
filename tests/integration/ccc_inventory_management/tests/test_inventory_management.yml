@@ -27,30 +27,6 @@
   # - debug:
   #     msg: "{{ vars_map.device_interface_updates }}"
   # - debug:
-  #     msg: "{{ vars_map.device_role_updates }}"
-  # - debug:
-  #     msg: "{{ vars_map.device_int_update_post_rolechange }}"
-  # - debug:
-  #     msg: "{{ vars_map.device_resync }}"
-  # - debug:
-  #     msg: "{{ vars_map.create_assign_udf }}"
-  # - debug:
-  #     msg: "{{ vars_map.update_udf }}"
-  # - debug:
-  #     msg: "{{ vars_map.delete_udf }}"
-  # - debug:
-  #     msg: "{{ vars_map.export_device_details }}"
-  # - debug:
-  #     msg: "{{ vars_map.export_credential_details }}"
-  # - debug:
-  #     msg: "{{ vars_map.design_sites }}"
-  # - debug:
-  #     msg: "{{ vars_map.associate_wired_device }}"
-  # - debug:
-  #     msg: "{{ vars_map.associate_wireless_device }}"
-  # - debug:
-  #     msg: "{{ vars_map.delete_sites }}"
-  # - debug:
   #     msg: "{{ vars_map.delete_devices }}"
 
 #############################################
@@ -64,7 +40,6 @@
       config:
         - "{{ item }}"
     loop: "{{ vars_map.delete_devices }}"
-    register: result_device_deleted
 
   - name: Delete site
     cisco.dnac.site_workflow_manager:
@@ -73,7 +48,6 @@
       config:
           - "{{ item }}"
     loop: "{{ vars_map.delete_sites }}"
-    register: result_delete_site
 
 #############################################
 #                Add Devices                #
@@ -161,14 +135,14 @@
 #      Update Device Role Detials      #
 #############################################
 
-  # - name: Update device role details
-  #   cisco.dnac.inventory_workflow_manager:
-  #     <<: *dnac_login
-  #     state: merged
-  #     config:
-  #       - "{{ item }}"
-  #   loop: "{{ vars_map.device_role_updates }}"
-  #   register: result_update_device_role
+  - name: Update device role details
+    cisco.dnac.inventory_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.device_role_updates }}"
+    register: result_update_device_role
 
   # - name: Debug item
   #   debug:
@@ -179,8 +153,8 @@
   # - name: Assert device role update
   #   assert:
   #     that:
-  #       - result_update_device_role.changed == true
-  #       - "'Device role was successfully updated' in item.response.progress"
+  #       - item.changed == true
+  #       - "'role updated successfully' in item.response"
   #   loop: "{{ result_update_device_role.results }}"
   #   when: result_update_device_role is defined
 
@@ -457,7 +431,7 @@
   #   when: result_associate_device is defined
 
 #############################################
-#               Delete Devices              #
+#               Delete Device               #
 #############################################
 
   - name: Delete device
@@ -478,8 +452,17 @@
   - name: Assert device deletion success
     assert:
       that:
-        - result_device_deleted.changed == true
+        - item.changed == true
+    loop: "{{ result_device_deleted.results }}"
     when: result_device_deleted is defined
+
+#############################################
+#                  PAUSE                    #
+#############################################
+
+  - name: Pause for 120 seconds
+    pause:
+      seconds: 120
 
 #############################################
 #                DELETE SITE                #
