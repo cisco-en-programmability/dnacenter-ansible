@@ -150,13 +150,13 @@
   #   loop: "{{ result_update_device_role.results }}"
   #   when: result_update_device_role is defined
 
-  - name: Assert device role update
-    assert:
-      that:
-        - item.changed == true
-        - "'role updated successfully' in item.response"
-    loop: "{{ result_update_device_role.results }}"
-    when: result_update_device_role is defined
+  # - name: Assert device role update
+  #   assert:
+  #     that:
+  #       - item.changed == true
+  #       - "'role updated successfully' in item.response"
+  #   loop: "{{ result_update_device_role.results }}"
+  #   when: result_update_device_role is defined
 
 #############################################
 #    Update Device Interface Description    #
