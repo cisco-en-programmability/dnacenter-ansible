@@ -197,6 +197,7 @@ jobs:
                 command: |
                   echo "    - ccc_swim_management" >> ccc_roles.yml
 
+
       - when:
           condition:
             or: [ << pipeline.parameters.run-pnp >>, << pipeline.parameters.run-all >> ]
@@ -204,6 +205,7 @@ jobs:
             - run: 
                 command: |
                   echo "    - ccc_pnp_management" >> ccc_roles.yml
+
 
       - run:
           command: cat ccc_roles.yml
