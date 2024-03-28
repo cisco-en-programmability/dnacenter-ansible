@@ -40,7 +40,6 @@
       config:
         - "{{ item }}"
     loop: "{{ vars_map.delete_devices }}"
-    register: result_device_deleted
 
   - name: Delete site
     cisco.dnac.site_workflow_manager:
@@ -49,7 +48,6 @@
       config:
           - "{{ item }}"
     loop: "{{ vars_map.delete_sites }}"
-    register: result_delete_site
 
 #############################################
 #                Add Devices                #
@@ -454,7 +452,8 @@
   - name: Assert device deletion success
     assert:
       that:
-        - result_device_deleted.changed == true
+        - item.changed == true
+    loop: "{{ result_device_deleted.results }}"
     when: result_device_deleted is defined
 
 #############################################

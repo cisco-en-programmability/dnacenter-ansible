@@ -12,6 +12,8 @@ single_ip:
       snmp_v3_credential_list:
         - description: snmpV3
           username: v3Public2
+    retry: 1
+    timeout: 2
 
 
 ip_range:
@@ -49,6 +51,8 @@ ip_range:
     start_index: 1
     records_to_return: 1000
     snmp_version: v2
+    retry: 1
+    timeout: 2
   
   # Single IP Discovery an already existing discovery 
   # Test case - deleted and recreated when discovery with same name
@@ -58,6 +62,8 @@ ip_range:
       - 204.1.2.3
     protocol_order: ssh
     global_cli_len: 3
+    retry: 1
+    timeout: 2
 
 
 multi_range:
@@ -88,6 +94,8 @@ multi_range:
         auth_password: Lablab#1234
         privacy_type: AES256
         privacy_password: Lablab#1234 
+    retry: 1
+    timeout: 2
 
 
 cdp:
@@ -109,6 +117,8 @@ cdp:
         auth_password: Lablab#1234
         privacy_type: AES256
         privacy_password: Lablab#1234
+    retry: 1
+    timeout: 2
 
 
 lldp:
@@ -118,7 +128,6 @@ lldp:
       - 204.1.2.1
     lldp_level: 16
     protocol_order: ssh
-
     discovery_specific_credentials:
       cli_credentials_list:
         - username: cisco
@@ -130,7 +139,9 @@ lldp:
         auth_type: SHA
         auth_password: Lablab#1234
         privacy_type: AES256
-        privacy_password: Lablab#1234  
+        privacy_password: Lablab#1234 
+    retry: 1
+    timeout: 2 
 
 
 cidr:
@@ -140,7 +151,6 @@ cidr:
       - 204.1.2.0/24
     prefix_length: 30
     protocol_order: ssh
-
     discovery_specific_credentials:
       cli_credentials_list:
         - username: cisco
@@ -153,3 +163,6 @@ cidr:
         auth_password: Lablab#1234
         privacy_type: AES256
         privacy_password: Lablab#1234
+    retry: 1
+    timeout: 2
+
