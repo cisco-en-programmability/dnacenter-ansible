@@ -358,3 +358,6 @@ workflows:
             parameters:
               ansible_cisco_dnac_version:
                 - "6.9.0"
+      - post_pnp_testing:
+        requires:
+          - sanity-tests
