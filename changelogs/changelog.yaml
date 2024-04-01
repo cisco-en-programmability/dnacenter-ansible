@@ -849,3 +849,6 @@ releases:
           - Added attributes 'dnac_api_task_timeout' and 'dnac_task_poll_interval' in intent and workflow_manager modules.
           - inventory_workflow_manager - Added attributes 'add_user_defined_field', 'update_interface_details', 'export_device_list' and 'admin_status'
           - inventory_workflow_manager - Removed attributes 'provision_wireless_device', 'reprovision_wired_device'
+          - Added the op_modifies=True when calling SDK APIs in the workflow manager modules.
+          - Added a method to validate IP addresses.
+          - Fixed a minor issue in the site workflow manager module.

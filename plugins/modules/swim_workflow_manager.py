@@ -569,6 +569,7 @@ class Swim(DnacBase):
             response = self.dnac._exec(
                 family="sites",
                 function='get_site',
+                op_modifies=True,
                 params={"name": site_name},
             )
         except Exception as e:
@@ -603,6 +604,7 @@ class Swim(DnacBase):
         image_response = self.dnac._exec(
             family="software_image_management_swim",
             function='get_software_image_details',
+            op_modifies=True,
             params={"image_name": name},
         )
         self.log("Received API response from 'get_software_image_details': {0}".format(str(image_response)), "DEBUG")
@@ -637,6 +639,7 @@ class Swim(DnacBase):
         image_response = self.dnac._exec(
             family="software_image_management_swim",
             function='get_software_image_details',
+            op_modifies=True,
             params={"image_uuid": image_id},
         )
         self.log("Received API response from 'get_software_image_details': {0}".format(str(image_response)), "DEBUG")
@@ -672,6 +675,7 @@ class Swim(DnacBase):
         image_response = self.dnac._exec(
             family="software_image_management_swim",
             function='get_software_image_details',
+            op_modifies=True,
             params={"image_name": name},
         )
         self.log("Received API response from 'get_software_image_details': {0}".format(str(image_response)), "DEBUG")
@@ -699,6 +703,7 @@ class Swim(DnacBase):
         response = self.dnac._exec(
             family="devices",
             function='get_device_list',
+            op_modifies=True,
             params=params,
         )
         self.log("Received API response from 'get_device_list': {0}".format(str(response)), "DEBUG")
@@ -1291,6 +1296,7 @@ class Swim(DnacBase):
             response = self.dnac._exec(
                 family="devices",
                 function='get_device_list',
+                op_modifies=True,
                 params={"id": device_id}
             )
             self.log("Received API response from 'get_device_list': {0}".format(str(response)), "DEBUG")
