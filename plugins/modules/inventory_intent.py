@@ -913,6 +913,7 @@ class DnacDevice(DnacBase):
         response = self.dnac._exec(
             family="devices",
             function='get_all_user_defined_fields',
+            op_modifies=True,
             params={"name": field_name},
         )
 
@@ -943,6 +944,7 @@ class DnacDevice(DnacBase):
             response = self.dnac._exec(
                 family="devices",
                 function='create_user_defined_field',
+                op_modifies=True,
                 params=udf,
             )
             self.log("Received API response from 'create_user_defined_field': {0}".format(str(response)), "DEBUG")
@@ -986,6 +988,7 @@ class DnacDevice(DnacBase):
                 response = self.dnac._exec(
                     family="devices",
                     function='add_user_defined_field_to_device',
+                    op_modifies=True,
                     params=udf_param_dict,
                 )
                 self.log("Received API response from 'add_user_defined_field_to_device': {0}".format(str(response)), "DEBUG")
@@ -1226,6 +1229,7 @@ class DnacDevice(DnacBase):
                 response = self.dnac._exec(
                     family="devices",
                     function='get_device_list',
+                    op_modifies=True,
                     params={"managementIpAddress": device_ip}
                 )
                 response = response.get('response', [])
@@ -1360,6 +1364,7 @@ class DnacDevice(DnacBase):
             response = self.dnac._exec(
                 family="devices",
                 function='get_device_list',
+                op_modifies=True,
                 params={"managementIpAddress": device_ip}
             )
             response = response.get('response')
@@ -1905,6 +1910,7 @@ class DnacDevice(DnacBase):
             response = self.dnac._exec(
                 family="devices",
                 function='get_all_user_defined_fields',
+                op_modifies=True,
                 params={"name": field_name},
             )
             self.log("Received API response from 'get_all_user_defined_fields': {0}".format(str(response)), "DEBUG")
@@ -2091,6 +2097,7 @@ class DnacDevice(DnacBase):
                 response = self.dnac._exec(
                     family="devices",
                     function='get_device_list',
+                    op_modifies=True,
                     params={"managementIpAddress": device_ip}
                 )
 
@@ -2127,6 +2134,7 @@ class DnacDevice(DnacBase):
                 response = self.dnac._exec(
                     family="devices",
                     function='get_device_list',
+                    op_modifies=True,
                     params={"hostname": hostname}
                 )
                 if response:
@@ -2161,6 +2169,7 @@ class DnacDevice(DnacBase):
                 response = self.dnac._exec(
                     family="devices",
                     function='get_device_list',
+                    op_modifies=True,
                     params={"serialNumber": serial_number}
                 )
                 if response:
@@ -2195,6 +2204,7 @@ class DnacDevice(DnacBase):
                 response = self.dnac._exec(
                     family="devices",
                     function='get_device_list',
+                    op_modifies=True,
                     params={"macAddress": mac_address}
                 )
                 if response:
@@ -2233,6 +2243,7 @@ class DnacDevice(DnacBase):
             response = self.dnac._exec(
                 family="devices",
                 function='get_interface_details',
+                op_modifies=True,
                 params=interface_detail_params
             )
             self.log("Received API response from 'get_interface_details': {0}".format(str(response)), "DEBUG")
@@ -2270,6 +2281,7 @@ class DnacDevice(DnacBase):
                 response = self.dnac._exec(
                     family="devices",
                     function='get_interface_by_ip',
+                    op_modifies=True,
                     params={"ip_address": device_ip}
                 )
                 self.log("Received API response from 'get_interface_by_ip': {0}".format(str(response)), "DEBUG")
@@ -2302,6 +2314,7 @@ class DnacDevice(DnacBase):
             response = self.dnac._exec(
                 family="devices",
                 function='get_device_list',
+                op_modifies=True,
                 params={"managementIpAddress": device_ip}
             )
             response = response.get('response')[0]
@@ -2360,6 +2373,7 @@ class DnacDevice(DnacBase):
         response = self.dnac._exec(
             family="devices",
             function='get_interface_details',
+            op_modifies=True,
             params=interface_detail_params
         )
         self.log("Received API response from 'get_interface_details': {0}".format(str(response)), "DEBUG")
@@ -2737,6 +2751,7 @@ class DnacDevice(DnacBase):
             response = self.dnac._exec(
                 family="devices",
                 function='get_device_list',
+                op_modifies=True,
                 params={"managementIpAddress": device_ip}
             )
             response = response.get('response')
@@ -2982,6 +2997,7 @@ class DnacDevice(DnacBase):
                 response = self.dnac._exec(
                     family="devices",
                     function='get_device_list',
+                    op_modifies=True,
                     params={"managementIpAddress": device_ip}
                 )
                 response = response.get('response')[0]
@@ -3306,6 +3322,7 @@ class DnacDevice(DnacBase):
                     response = self.dnac._exec(
                         family="devices",
                         function='delete_user_defined_field',
+                        op_modifies=True,
                         params={"id": udf_id},
                     )
                     if response and isinstance(response, dict):
@@ -3356,6 +3373,7 @@ class DnacDevice(DnacBase):
                 prov_respone = self.dnac._exec(
                     family="sda",
                     function='get_provisioned_wired_device',
+                    op_modifies=True,
                     params=provision_params,
                 )
 
@@ -3363,6 +3381,7 @@ class DnacDevice(DnacBase):
                     response = self.dnac._exec(
                         family="sda",
                         function='delete_provisioned_wired_device',
+                        op_modifies=True,
                         params=provision_params,
                     )
                     executionid = response.get("executionId")
@@ -3389,6 +3408,7 @@ class DnacDevice(DnacBase):
                 response = self.dnac._exec(
                     family="devices",
                     function='delete_device_by_id',
+                    op_modifies=True,
                     params=delete_params,
                 )
 
