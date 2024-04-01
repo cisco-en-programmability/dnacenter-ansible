@@ -101,6 +101,15 @@ options:
           - Flag for Cisco Catalyst Center SDK to enable the validation of request bodies against a JSON schema.
         type: bool
         default: true
+    dnac_api_task_timeout:
+      description:  Defines the timeout in seconds for API calls to retrieve task details. If the task details
+          are not received within this period, the process will end, and a timeout notification will be logged.
+      type: int
+      default: 1200
+    dnac_task_poll_interval:
+      description: Specifies the interval in seconds between successive calls to the API to retrieve task details.
+      type: int
+      default: 2
 notes:
     - "Does not support C(check_mode)"
     - "The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK"
