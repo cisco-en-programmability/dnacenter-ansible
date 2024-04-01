@@ -489,6 +489,7 @@ class DnacSite(DnacBase):
             response = self.dnac._exec(
                 family="sites",
                 function='get_site',
+                op_modifies=True,
                 params={"name": self.want.get("site_name")},
             )
 
@@ -883,6 +884,7 @@ class DnacSite(DnacBase):
             response = self.dnac._exec(
                 family="sites",
                 function="delete_site",
+                op_modifies=True,
                 params={"site_id": site_id},
             )
 
@@ -947,6 +949,7 @@ class DnacSite(DnacBase):
         mem_response = self.dnac._exec(
             family="sites",
             function="get_membership",
+            op_modifies=True,
             params={"site_id": site_id},
         )
         site_response = mem_response.get("site").get("response")
