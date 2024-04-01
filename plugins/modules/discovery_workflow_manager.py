@@ -971,6 +971,7 @@ class Discovery(DnacBase):
             family="discovery",
             function='get_all_global_credentials_v2',
             params=self.validated_config[0].get('headers'),
+            op_modifies=True
         )
         response = response.get('response')
         self.log("The Global credentials response from 'get all global credentials v2' API is {0}".format(str(response)), "DEBUG")
@@ -1325,6 +1326,7 @@ class Discovery(DnacBase):
                 family="task",
                 function='get_task_by_id',
                 params=params,
+                op_modifies=True,
             )
             response = response.response
             self.log("Task status for the task id {0} is {1}".format(str(task_id), str(response)), "INFO")
@@ -1373,7 +1375,8 @@ class Discovery(DnacBase):
                 response_part = self.dnac_apply['exec'](
                     family="discovery",
                     function='get_discoveries_by_range',
-                    params=params
+                    params=params,
+                    op_modifies=True,
                 )
                 response["response"].extend(response_part["response"])
         else:
@@ -1386,7 +1389,8 @@ class Discovery(DnacBase):
             response = self.dnac_apply['exec'](
                 family="discovery",
                 function='get_discoveries_by_range',
-                params=params
+                params=params,
+                op_modifies=True,
             )
         self.log("Response of the get discoveries via range API is {0}".format(str(response)), "DEBUG")
 
@@ -1462,6 +1466,7 @@ class Discovery(DnacBase):
                 family="discovery",
                 function='get_discovered_network_devices_by_discovery_id',
                 params=params,
+                op_modifies=True,
             )
             devices = response.response
 
@@ -1532,6 +1537,7 @@ class Discovery(DnacBase):
             family="discovery",
             function="delete_discovery_by_id",
             params=params,
+            op_modifies=True,
         )
 
         self.log("Response collected from API 'delete_discovery_by_id': {0}".format(str(response)), "DEBUG")
@@ -1649,7 +1655,8 @@ class Discovery(DnacBase):
         response = self.dnac_apply['exec'](
             family="discovery",
             function='get_discovery_by_id',
-            params=params
+            params=params,
+            op_modifies=True,
         )
         discovery_name = config.get('discovery_name')
         if response:
