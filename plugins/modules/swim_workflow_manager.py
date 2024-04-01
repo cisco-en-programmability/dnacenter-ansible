@@ -219,6 +219,7 @@ options:
             description: This parameter specifies the name of the device series. It is used to identify a specific series of devices,
                 such as Cisco Catalyst 9300 Series Switches, within the Cisco Catalyst Center.
             type: str
+            version_added: 6.12.0
           image_name:
             description: SWIM image's name
             type: str
@@ -254,6 +255,7 @@ options:
             description: This parameter specifies the name of the device series. It is used to identify a specific series of devices,
                 such as Cisco Catalyst 9300 Series Switches, within the Cisco Catalyst Center.
             type: str
+            version_added: 6.12.0
           activate_lower_image_version:
             description: ActivateLowerImageVersion flag.
             type: bool
@@ -307,6 +309,8 @@ notes:
     post /dna/intent/api/v1/image/importation/golden,
     post /dna/intent/api/v1/image/distribution,
     post /dna/intent/api/v1/image/activation/device,
+
+  - Added the parameter 'dnac_api_task_timeout', 'dnac_task_poll_interval' options in v6.13.2.
 
 """
 
@@ -484,6 +488,7 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
 )
 from ansible.module_utils.basic import AnsibleModule
 import os
+import time
 
 
 class Swim(DnacBase):
@@ -727,8 +732,8 @@ class Swim(DnacBase):
 
         device_uuid_list = []
         if not site_name:
-            self.log("Failed to retrieve devices associated with the site due to missing site name", "INFO")
-            return device_uuid_list
+            site_name = "Global"
+            self.log("Site name not specified; defaulting to 'Global' to fetch all devices under this category", "INFO")
 
         (site_exists, site_id) = self.site_exists(site_name)
         if not site_exists:
@@ -744,8 +749,7 @@ class Swim(DnacBase):
 
         site_params = {
             "site_id": site_id,
-            "device_family": device_family,
-            "device_series_name": device_series_name
+            "device_family": device_family
         }
         response = self.dnac._exec(
             family="sites",
@@ -754,18 +758,56 @@ class Swim(DnacBase):
             params=site_params,
         )
         self.log("Received API response from 'get_membership': {0}".format(str(response)), "DEBUG")
-        response = response['device'][0]['response']
+        response = response['device']
 
-        if len(response) > 0:
-            for item in response:
-                if item["reachabilityStatus"] != "Reachable":
-                    self.log("""Reachability status of device '{0}' is '{1}', so cannot add it for distribution/activation
-                              task of swim image""".format(item["managementIpAddress"], item["reachabilityStatus"]), "INFO")
-                    continue
-                if "role" in item and (device_role is None or item["role"] == device_role.upper() or device_role.upper() == "ALL"):
-                    self.log("""Successfully fetched the device '{0}' associated with the given site '{1}' for SWIM distribution/activation
-                              task.""".format(item["managementIpAddress"], site_name))
-                    device_uuid_list.append(item["instanceUuid"])
+        site_response_list = []
+        for item in response:
+            if item['response']:
+                for item_dict in item['response']:
+                    site_response_list.append(item_dict)
+
+        if device_role.upper() == 'ALL':
+            device_role = None
+
+        device_params = {
+            'series': device_series_name,
+            'family': device_family,
+            'role': device_role
+        }
+        device_list_response = self.dnac._exec(
+            family="devices",
+            function='get_device_list',
+            op_modifies=True,
+            params=device_params,
+        )
+
+        device_response = device_list_response.get('response')
+        if not response or not device_response:
+            self.log("Failed to retrieve devices associated with the site '{0}' due to empty API response.".format(site_name), "INFO")
+            return device_uuid_list
+
+        site_memberships_ids, device_response_ids = [], []
+
+        for item in site_response_list:
+            if item["reachabilityStatus"] != "Reachable":
+                self.log("""Device '{0}' is currently '{1}' and cannot be included in the SWIM distribution/activation
+                            process.""".format(item["managementIpAddress"], item["reachabilityStatus"]), "INFO")
+                continue
+            self.log("""Device '{0}' from site '{1}' is ready for the SWIM distribution/activation
+                        process.""".format(item["managementIpAddress"], site_name), "INFO")
+            site_memberships_ids.append(item["instanceUuid"])
+
+        for item in device_response:
+            if item["reachabilityStatus"] != "Reachable":
+                self.log("""Unable to proceed with the device '{0}' for SWIM distribution/activation as its status is
+                            '{1}'.""".format(item["managementIpAddress"], item["reachabilityStatus"]), "INFO")
+                continue
+            self.log("""Device '{0}' matches to the specified filter requirements and is set for SWIM
+                      distribution/activation.""".format(item["managementIpAddress"]), "INFO")
+            device_response_ids.append(item["instanceUuid"])
+
+        # Find the intersection of device IDs with the response get from get_membership api and get_device_list api with provided filters
+        device_uuid_list = set(site_memberships_ids).intersection(set(device_response_ids))
 
         return device_uuid_list
 
@@ -1186,15 +1228,27 @@ class Swim(DnacBase):
             )
             self.log("Received API response from 'remove_golden_tag_for_image': {0}".format(str(response)), "DEBUG")
 
-        if response:
-            task_details = {}
-            task_id = response.get("response").get("taskId")
+        if not response:
+            self.status = "failed"
+            self.msg = "Did not get the response of API so cannot check the Golden tagging status of image - {0}".format(image_name)
+            self.log(self.msg, "ERROR")
+            self.result['response'] = self.msg
+            return self
+
+        task_details = {}
+        task_id = response.get("response").get("taskId")
+
+        while True:
             task_details = self.get_task_details(task_id)
-            if not task_details.get("isError"):
-                self.result['changed'] = True
-                self.result['msg'] = task_details.get("progress")
+
+            if not task_details.get("isError") and 'successful' in task_details.get("progress"):
                 self.status = "success"
-                self.result['response'] = task_details if task_details else response
+                self.result['changed'] = True
+                self.msg = task_details.get("progress")
+                self.result['msg'] = self.msg
+                self.result['response'] = self.msg
+                self.log(self.msg, "INFO")
+                break
             elif task_details.get("isError"):
                 failure_reason = task_details.get("failureReason", "")
                 if failure_reason and "An inheritted tag cannot be un-tagged" in failure_reason:
@@ -1203,13 +1257,16 @@ class Swim(DnacBase):
                     self.msg = failure_reason
                     self.result['msg'] = failure_reason
                     self.log(self.msg, "ERROR")
+                    self.result['response'] = self.msg
+                    break
                 else:
                     error_message = task_details.get("failureReason", "Error: while tagging/un-tagging the golden swim image.")
                     self.status = "failed"
                     self.msg = error_message
                     self.result['msg'] = error_message
                     self.log(self.msg, "ERROR")
-                self.result['response'] = self.msg
+                    self.result['response'] = self.msg
+                    break
 
         return self
 
@@ -1246,6 +1303,61 @@ class Swim(DnacBase):
             self.log(error_message, "ERROR")
             raise Exception(error_message)
 
+    def check_swim_task_status(self, swim_task_dict, swim_task_name):
+        """
+        Check the status of the SWIM (Software Image Management) task for each device.
+        Args:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            swim_task_dict (dict): A dictionary containing the mapping of device IP address to the respective task ID.
+            swim_task_name (str): The name of the SWIM task being checked which is either Distribution or Activation.
+        Returns:
+            tuple: A tuple containing two elements:
+                - device_ips_list (list): A list of device IP addresses for which the SWIM task failed.
+                - device_count (int): The count of devices for which the SWIM task was successful.
+        Description:
+            This function iterates through the distribution_task_dict, which contains the mapping of
+            device IP address to their respective task ID. It checks the status of the SWIM task for each device by
+            repeatedly querying for task details until the task is either completed successfully or fails. If the task
+            is successful, the device count is incremented. If the task fails, an error message is logged, and the device
+            IP is appended to the device_ips_list and return a tuple containing the device_ips_list and device_count.
+        """
+
+        device_ips_list = []
+        device_count = 0
+
+        for device_ip, task_id in swim_task_dict.items():
+            start_time = time.time()
+
+            while (True):
+                end_time = time.time()
+                max_timeout = self.params.get('dnac_api_task_timeout')
+
+                if (end_time - start_time) >= max_timeout:
+                    self.log("""Max timeout of {0} has reached for the task id '{1}' for the device '{2}' and unexpected
+                                 task status so moving out to next task id""".format(max_timeout, task_id, device_ip), "WARNING")
+                    device_ips_list.append(device_ip)
+                    break
+
+                task_details = self.get_task_details(task_id)
+
+                if not task_details.get("isError") and \
+                        ("completed successfully" in task_details.get("progress")):
+                    self.result['changed'] = True
+                    self.status = "success"
+                    self.log("Image {0} successfully for the device '{1}".format(swim_task_name, device_ip), "INFO")
+                    device_count += 1
+                    break
+
+                if task_details.get("isError"):
+                    error_msg = "Image {0} gets failed for the device '{1}'".format(swim_task_name, device_ip)
+                    self.log(error_msg, "ERROR")
+                    self.result['response'] = task_details
+                    device_ips_list.append(device_ip)
+                    break
+                time.sleep(self.params.get('dnac_task_poll_interval'))
+
+        return device_ips_list, device_count
+
     def get_diff_distribution(self):
         """
         Get image distribution parameters from the playbook and trigger image distribution.
@@ -1266,9 +1378,11 @@ class Swim(DnacBase):
         device_series_name = distribution_details.get("device_series_name")
         device_uuid_list = self.get_device_uuids(site_name, device_family, device_role, device_series_name)
         image_id = self.have.get("distribution_image_id")
+        self.complete_successful_distribution = False
+        self.partial_successful_distribution = False
+        self.single_device_distribution = False
 
         if self.have.get("distribution_device_id"):
-            self.single_device_distribution = False
             distribution_params = dict(
                 payload=[dict(
                     deviceUuid=self.have.get("distribution_device_id"),
@@ -1312,18 +1426,14 @@ class Swim(DnacBase):
             return self
 
         if len(device_uuid_list) == 0:
-            self.status = "failed"
-            self.msg = "Image Distribution cannot proceed due to the absence of device(s)"
+            self.status = "success"
+            self.msg = "The SWIM image distribution task could not proceed because no eligible devices were found"
             self.result['msg'] = self.msg
-            self.log(self.msg, "ERROR")
+            self.log(self.msg, "WARNING")
             return self
 
         self.log("Device UUIDs involved in Image Distribution: {0}".format(str(device_uuid_list)), "INFO")
-
-        device_distribution_count = 0
-        device_ips_list = []
-        self.complete_successful_distribution = False
-        self.partial_successful_distribution = False
+        distribution_task_dict = {}
 
         for device_uuid in device_uuid_list:
             device_management_ip = self.get_device_ip_from_id(device_uuid)
@@ -1345,24 +1455,9 @@ class Swim(DnacBase):
             if response:
                 task_details = {}
                 task_id = response.get("response").get("taskId")
+                distribution_task_dict[device_management_ip] = task_id
 
-                while (True):
-                    task_details = self.get_task_details(task_id)
-
-                    if not task_details.get("isError") and \
-                            ("completed successfully" in task_details.get("progress")):
-                        self.result['changed'] = True
-                        self.status = "success"
-                        self.result['msg'] = "Image with Id '{0}' Distributed successfully".format(image_id)
-                        device_distribution_count += 1
-                        break
-
-                    if task_details.get("isError"):
-                        error_msg = "Image with Id '{0}' Distribution failed".format(image_id)
-                        self.log(error_msg, "ERROR")
-                        self.result['response'] = task_details
-                        device_ips_list.append(device_management_ip)
-                        break
+        device_ips_list, device_distribution_count = self.check_swim_task_status(distribution_task_dict, 'Distribution')
 
         if device_distribution_count == 0:
             self.status = "failed"
@@ -1404,9 +1499,11 @@ class Swim(DnacBase):
         device_series_name = activation_details.get("device_series_name")
         device_uuid_list = self.get_device_uuids(site_name, device_family, device_role, device_series_name)
         image_id = self.have.get("activation_image_id")
+        self.complete_successful_activation = False
+        self.partial_successful_activation = False
+        self.single_device_activation = False
 
         if self.have.get("activation_device_id"):
-            self.single_device_activation = False
             payload = [dict(
                 activateLowerImageVersion=activation_details.get("activate_lower_image_version"),
                 deviceUpgradeMode=activation_details.get("device_upgrade_mode"),
@@ -1455,17 +1552,14 @@ class Swim(DnacBase):
             return self
 
         if len(device_uuid_list) == 0:
-            self.status = "failed"
-            self.msg = "No devices found for Image Activation"
+            self.status = "success"
+            self.msg = "The SWIM image activation task could not proceed because no eligible devices were found."
             self.result['msg'] = self.msg
-            self.log(self.msg, "ERROR")
+            self.log(self.msg, "WARNING")
             return self
 
         self.log("Device UUIDs involved in Image Activation: {0}".format(str(device_uuid_list)), "INFO")
-        device_activation_count = 0
-        device_ips_list = []
-        self.complete_successful_activation = False
-        self.partial_successful_activation = False
+        activation_task_dict = {}
 
         for device_uuid in device_uuid_list:
             device_management_ip = self.get_device_ip_from_id(device_uuid)
@@ -1494,42 +1588,27 @@ class Swim(DnacBase):
             if response:
                 task_details = {}
                 task_id = response.get("response").get("taskId")
+                activation_task_dict[device_management_ip] = task_id
 
-                while (True):
-                    task_details = self.get_task_details(task_id)
-
-                    if not task_details.get("isError") and \
-                            ("completed successfully" in task_details.get("progress")):
-                        self.result['changed'] = True
-                        self.status = "success"
-                        self.result['msg'] = "Image with Id '{0}' activated successfully".format(image_id)
-                        device_activation_count += 1
-                        break
-
-                    if task_details.get("isError"):
-                        self.msg = "Image with Id '{0}' activation failed".format(image_id)
-                        self.log(self.msg, "ERROR")
-                        self.result['response'] = task_details
-                        device_ips_list.append(device_management_ip)
-                        break
+        device_ips_list, device_activation_count = self.check_swim_task_status(activation_task_dict, 'Activation')
 
         if device_activation_count == 0:
             self.status = "failed"
-            msg = "Image with Id '{0}' activation failed for all devices".format(image_id)
+            self.msg = "Image with Id '{0}' activation failed for all devices".format(image_id)
         elif device_activation_count == len(device_uuid_list):
             self.result['changed'] = True
             self.status = "success"
             self.complete_successful_activation = True
-            msg = "Image with Id '{0}' activated successfully for all devices".format(image_id)
+            self.msg = "Image with Id '{0}' activated successfully for all devices".format(image_id)
         else:
             self.result['changed'] = True
             self.status = "success"
             self.partial_successful_activation = True
-            msg = "Image with Id '{0}' activated and partially successfull".format(image_id)
+            self.msg = "Image with Id '{0}' activated and partially successful.".format(image_id)
             self.log("For Device(s) {0} Image activation gets Failed".format(str(device_ips_list)), "CRITICAL")
 
-        self.result['msg'] = msg
-        self.log(msg, "INFO")
+        self.result['msg'] = self.msg
+        self.log(self.msg, "INFO")
 
         return self
 
@@ -1781,6 +1860,8 @@ def main():
                     'dnac_log': {'type': 'bool', 'default': False},
                     'validate_response_schema': {'type': 'bool', 'default': True},
                     'config_verify': {'type': 'bool', "default": False},
+                    'dnac_api_task_timeout': {'type': 'int', "default": 1200},
+                    'dnac_task_poll_interval': {'type': 'int', "default": 2},
                     'config': {'required': True, 'type': 'list', 'elements': 'dict'},
                     'state': {'default': 'merged', 'choices': ['merged']}
                     }
