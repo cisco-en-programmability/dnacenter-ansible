@@ -251,7 +251,8 @@ class Provision(DnacBase):
         dev_response = self.dnac_apply['exec'](
             family="devices",
             function='get_network_device_by_ip',
-            params={"ip_address": self.validated_config[0]["management_ip_address"]}
+            params={"ip_address": self.validated_config[0]["management_ip_address"]},
+            op_modifies=True
         )
 
         self.log("The device response from 'get_network_device_by_ip' API is {0}".format(str(dev_response)), "DEBUG")
@@ -289,6 +290,7 @@ class Provision(DnacBase):
                 family="task",
                 function='get_task_by_id',
                 params=params,
+                op_modifies=True
             )
             self.log("Response collected from 'get_task_by_id' API is {0}".format(str(response)), "DEBUG")
             response = response.response
@@ -330,6 +332,7 @@ class Provision(DnacBase):
                 family="sites",
                 function='get_site',
                 params={"name": site_name_hierarchy},
+                op_modifies=True
             )
         except Exception:
             self.log("Exception occurred as \
@@ -418,7 +421,8 @@ class Provision(DnacBase):
         response = self.dnac_apply['exec'](
             family="devices",
             function='get_network_device_by_ip',
-            params={"management_ip_address": self.validated_config[0]["management_ip_address"]}
+            params={"management_ip_address": self.validated_config[0]["management_ip_address"]},
+            op_modifies=True
         )
 
         self.log("Response collected from 'get_network_device_by_ip' is:{0}".format(str(response)), "DEBUG")
@@ -475,17 +479,14 @@ class Provision(DnacBase):
 
         device_type = self.want.get("device_type")
         if device_type == "wired":
-            try:
-                status_response = self.dnac_apply['exec'](
-                    family="sda",
-                    function="get_provisioned_wired_device",
-                    op_modifies=True,
-                    params={
-                        "device_management_ip_address": self.validated_config[0]["management_ip_address"]
-                    },
-                )
-            except Exception:
-                status_response = {}
+            status_response = self.dnac_apply['exec'](
+                family="sda",
+                function="get_provisioned_wired_device",
+                op_modifies=True,
+                params={
+                    "device_management_ip_address": self.validated_config[0]["management_ip_address"]
+                },
+            )
             self.log("Wired device's status Response collected from 'get_provisioned_wired_device' API is:{0}".format(str(status_response)), "DEBUG")
             status = status_response.get("status")
             self.log("The provisioned status of the wired device is {0}".format(status), "INFO")
