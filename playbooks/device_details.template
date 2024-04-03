@@ -19,7 +19,8 @@ template_details:
     import_template:
       do_version: false
       project_name: 'Onboarding Configuration'
-      template_file: 'json_file_path'
+      template_file: 'json_template_file'
+
 device_details:
   - site_name: 'Global/Chennai/Trill'
     image_name: 'cat9k_iosxe.17.04.01.SPA.bin'
