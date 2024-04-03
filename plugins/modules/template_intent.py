@@ -1896,6 +1896,7 @@ class DnacTemplate(DnacBase):
         items = self.dnac_apply['exec'](
             family="configuration_templates",
             function="get_template_details",
+            op_modifies=True,
             params={"template_id": config.get("templateId")}
         )
         if items:
@@ -1980,6 +1981,7 @@ class DnacTemplate(DnacBase):
         template_list = self.dnac_apply['exec'](
             family="configuration_templates",
             function="gets_the_templates_available",
+            op_modifies=True,
             params={"projectNames": config.get("projectName")},
         )
         have_template["isCommitPending"] = True
@@ -2371,8 +2373,8 @@ class DnacTemplate(DnacBase):
                     response = self.dnac_apply['exec'](
                         family="configuration_templates",
                         function="update_template",
-                        params=template_params,
                         op_modifies=True,
+                        params=template_params,
                     )
                     template_updated = True
                     self.log("Updating existing template '{0}'."
@@ -2442,6 +2444,7 @@ class DnacTemplate(DnacBase):
                 response = self.dnac._exec(
                     family="configuration_templates",
                     function='export_projects',
+                    op_modifies=True,
                     params={"payload": export_project},
                 )
                 validation_string = "successfully exported project"
@@ -2458,6 +2461,7 @@ class DnacTemplate(DnacBase):
                 response = self.dnac._exec(
                     family="configuration_templates",
                     function='export_templates',
+                    op_modifies=True,
                     params={"payload": self.export_template},
                 )
                 validation_string = "successfully exported template"
@@ -2501,6 +2505,7 @@ class DnacTemplate(DnacBase):
                 response = self.dnac._exec(
                     family="configuration_templates",
                     function='imports_the_projects_provided',
+                    op_modifies=True,
                     params=_import_project,
                 )
                 validation_string = "successfully imported project"
@@ -2529,6 +2534,7 @@ class DnacTemplate(DnacBase):
                 response = self.dnac._exec(
                     family="configuration_templates",
                     function='imports_the_templates_provided',
+                    op_modifies=True,
                     params=import_template,
                 )
                 validation_string = "successfully imported template"
@@ -2592,6 +2598,7 @@ class DnacTemplate(DnacBase):
         response = self.dnac_apply['exec'](
             family="configuration_templates",
             function=deletion_value,
+            op_modifies=True,
             params=params_key,
         )
         task_id = response.get("response").get("taskId")
@@ -2716,6 +2723,7 @@ class DnacTemplate(DnacBase):
             template_list = self.dnac_apply['exec'](
                 family="configuration_templates",
                 function="gets_the_templates_available",
+                op_modifies=True,
                 params={"projectNames": config.get("projectName")},
             )
             if template_list and isinstance(template_list, list):
