@@ -19,7 +19,7 @@ template_details:
     import_template:
       do_version: false
       project_name: 'Onboarding Configuration'
-      template_file: 'json_template_file'
+      template_file: 'JSON template file'
 
 device_details:
   - site_name: 'Global/Chennai/Trill'
