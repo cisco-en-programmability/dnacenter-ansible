@@ -24,8 +24,10 @@ else:
 import os.path
 import copy
 import json
+# import datetime
 import inspect
 import re
+import socket
 
 
 class DnacBase():
@@ -330,6 +332,7 @@ class DnacBase():
         while True:
             task_details = self.get_task_details(task_id)
             self.log('Getting task details from task ID {0}: {1}'.format(task_id, task_details), "DEBUG")
+
             if task_details.get("isError") is True:
                 if task_details.get("failureReason"):
                     self.msg = str(task_details.get("failureReason"))
@@ -483,6 +486,30 @@ class DnacBase():
 
         return new_config
 
+    def is_valid_ipv4(self, ip_address):
+        """
+        Validates an IPv4 address.
+
+        Parameters:
+            ip_address - String denoting the IPv4 address passed.
+
+        Returns:
+            bool - Returns true if the passed IP address value is correct or it returns
+            false if it is incorrect
+        """
+
+        try:
+            socket.inet_aton(ip_address)
+            octets = ip_address.split('.')
+            if len(octets) != 4:
+                return False
+            for octet in octets:
+                if not 0 <= int(octet) <= 255:
+                    return False
+            return True
+        except socket.error:
+            return False
+
     def is_path_exists(self, file_path):
         """
         Check if the file path 'file_path' exists or not.
@@ -516,6 +543,7 @@ class DnacBase():
                 return True
 
         except (ValueError, FileNotFoundError):
+            self.log("The provided file '{0}' is not in JSON format".format(file_path), "CRITICAL")
             return False
 
 
