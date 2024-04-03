@@ -617,7 +617,7 @@ options:
                     description: Is it composite template.
                     type: bool
                   containing_templates:
-                    description: Import the configuration Template's containingTemplates.
+                    description: Import the configuration Template's containing templates.
                     elements: dict
                     suboptions:
                       composite:
@@ -627,7 +627,7 @@ options:
                         description: Description of template.
                         type: str
                       device_types:
-                        description: Import the configuration template's deviceTypes.
+                        description: Import the configuration template's device types.
                         elements: dict
                         suboptions:
                           product_family:
@@ -653,7 +653,7 @@ options:
                         description: Project name.
                         type: str
                       rollback_template_params:
-                        description: Import the configuration template's rollbackTemplateParams.
+                        description: Import the configuration template's rollback template params.
                         elements: dict
                         suboptions:
                           binding:
@@ -751,7 +751,7 @@ options:
                         description: Template content.
                         type: str
                       template_params:
-                        description: Import the configuration template's templateParams.
+                        description: Import the configuration template's template params.
                         elements: dict
                         suboptions:
                           binding:
@@ -848,7 +848,7 @@ options:
                     description: Description of template.
                     type: str
                   device_types:
-                    description: Import the configuration template's deviceTypes.
+                    description: Import the configuration template's device types.
                     elements: dict
                     suboptions:
                       product_family:
@@ -892,7 +892,7 @@ options:
                     description: Rollback template content.
                     type: str
                   rollback_template_params:
-                    description: Import the configuration template's rollbackTemplateParams.
+                    description: Import the configuration template's rollback template params.
                     elements: dict
                     suboptions:
                       binding:
@@ -999,7 +999,7 @@ options:
                     description: Template content.
                     type: str
                   template_params:
-                    description: Import the configuration template's templateParams.
+                    description: Import the configuration template's template params.
                     elements: dict
                     suboptions:
                       binding:
