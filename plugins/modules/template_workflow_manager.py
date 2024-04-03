@@ -602,10 +602,12 @@ options:
                   fails with 'Template already exists' error.
                 type: bool
               template_file:
-                description: JSON file path for the import template.
+                description:
+                - JSON file path for the import template.
+                - The 'template_file' will have more priority compared to the 'payload'.
                 type: str
               payload:
-                description: Configuration Template Import Template's payload.
+                description: Import the configuration template's payload.
                 elements: dict
                 suboptions:
                   author:
@@ -615,7 +617,7 @@ options:
                     description: Is it composite template.
                     type: bool
                   containing_templates:
-                    description: Configuration Template Import Template's containingTemplates.
+                    description: Import the configuration Template's containingTemplates.
                     elements: dict
                     suboptions:
                       composite:
@@ -625,7 +627,7 @@ options:
                         description: Description of template.
                         type: str
                       device_types:
-                        description: Configuration Template Import Template's deviceTypes.
+                        description: Import the configuration template's deviceTypes.
                         elements: dict
                         suboptions:
                           product_family:
@@ -651,7 +653,7 @@ options:
                         description: Project name.
                         type: str
                       rollback_template_params:
-                        description: Configuration Template Import Template's rollbackTemplateParams.
+                        description: Import the configuration template's rollbackTemplateParams.
                         elements: dict
                         suboptions:
                           binding:
@@ -700,7 +702,7 @@ options:
                             description: Provider.
                             type: str
                           range:
-                            description: Configuration Template Import Template's range.
+                            description: Import the configuration template's range.
                             elements: dict
                             suboptions:
                               id:
@@ -717,7 +719,7 @@ options:
                             description: Is param required.
                             type: bool
                           selection:
-                            description: Configuration Template Import Template's selection.
+                            description: Import the configuration template's selection.
                             suboptions:
                               default_selected_values:
                                 description: Default selection values.
@@ -735,7 +737,7 @@ options:
                             type: dict
                         type: list
                       tags:
-                        description: Configuration Template Import Template's tags.
+                        description: Import the configuration template's tags.
                         elements: dict
                         suboptions:
                           id:
@@ -749,7 +751,7 @@ options:
                         description: Template content.
                         type: str
                       template_params:
-                        description: Configuration Template Import Template's templateParams.
+                        description: Import the configuration template's templateParams.
                         elements: dict
                         suboptions:
                           binding:
@@ -798,7 +800,7 @@ options:
                             description: Provider.
                             type: str
                           range:
-                            description: Configuration Template Import Template's range.
+                            description: Import the configuration template's range.
                             elements: dict
                             suboptions:
                               id:
@@ -815,7 +817,7 @@ options:
                             description: Is param required.
                             type: bool
                           selection:
-                            description: Configuration Template Import Template's selection.
+                            description: Import the configuration template's selection.
                             suboptions:
                               default_selected_values:
                                 description: Default selection values.
@@ -846,7 +848,7 @@ options:
                     description: Description of template.
                     type: str
                   device_types:
-                    description: Configuration Template Import Template's deviceTypes.
+                    description: Import the configuration template's deviceTypes.
                     elements: dict
                     suboptions:
                       product_family:
@@ -890,7 +892,7 @@ options:
                     description: Rollback template content.
                     type: str
                   rollback_template_params:
-                    description: Configuration Template Import Template's rollbackTemplateParams.
+                    description: Import the configuration template's rollbackTemplateParams.
                     elements: dict
                     suboptions:
                       binding:
@@ -939,7 +941,7 @@ options:
                         description: Provider.
                         type: str
                       range:
-                        description: Configuration Template Import Template's range.
+                        description: Import the configuration template's range.
                         elements: dict
                         suboptions:
                           id:
@@ -956,7 +958,7 @@ options:
                         description: Is param required.
                         type: bool
                       selection:
-                        description: Configuration Template Import Template's selection.
+                        description: Import the configuration template's selection.
                         suboptions:
                           default_selected_values:
                             description: Default selection values.
@@ -983,7 +985,7 @@ options:
                     description: Applicable device software version.
                     type: str
                   tags:
-                    description: Configuration Template Import Template's tags.
+                    description: Import the configuration template's tags.
                     elements: dict
                     suboptions:
                       id:
@@ -997,7 +999,7 @@ options:
                     description: Template content.
                     type: str
                   template_params:
-                    description: Configuration Template Import Template's templateParams.
+                    description: Import the configuration template's templateParams.
                     elements: dict
                     suboptions:
                       binding:
@@ -1046,7 +1048,7 @@ options:
                         description: Provider.
                         type: str
                       range:
-                        description: Configuration Template Import Template's range.
+                        description: Import the configuration template's range.
                         elements: dict
                         suboptions:
                           id:
@@ -1063,7 +1065,7 @@ options:
                         description: Is param required.
                         type: bool
                       selection:
-                        description: Configuration Template Import Template's selection.
+                        description: Import the configuration template's selection.
                         suboptions:
                           default_selected_values:
                             description: Default selection values.
