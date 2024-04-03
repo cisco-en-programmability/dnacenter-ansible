@@ -2647,7 +2647,7 @@ class Template(DnacBase):
                     json_template = json.loads(json_data)
                     final_payload = json_template
                 except Exception as msg:
-                    self.msg = "Error message: {0}".format(msg)
+                    self.msg = "An unexpected error occurred while processing the file '{0}': {1}".format(template_file, msg)
                     self.status = "failed"
                     return self
 
