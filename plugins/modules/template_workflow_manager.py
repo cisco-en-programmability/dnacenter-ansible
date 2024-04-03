@@ -601,6 +601,9 @@ options:
                   exists. " If false and if template already exists, then operation
                   fails with 'Template already exists' error.
                 type: bool
+              template_file:
+                description: JSON file path for the import template.
+                type: str
               payload:
                 description: Configuration Template Import Template's payload.
                 elements: dict
@@ -1239,6 +1242,26 @@ EXAMPLES = r"""
           - name: string
           - name: string
 
+- name: Import the Templates.
+  cisco.dnac.template_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: True
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config_verify: True
+    config:
+      import:
+        template:
+          do_version: false
+          project_name: string
+          template_file: string
+
 """
 
 RETURN = r"""
@@ -1312,6 +1335,7 @@ response_5:
 """
 
 import copy
+import json
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
@@ -1861,7 +1885,6 @@ class Template(DnacBase):
         """
 
         self.log("Template params playbook details: {0}".format(params), "DEBUG")
-        self.log(str(params))
         temp_params = {
             "tags": self.get_tags(params.get("template_tag")),
             "author": params.get("author"),
@@ -1936,7 +1959,6 @@ class Template(DnacBase):
         for item in copy_temp_params:
             if temp_params[item] is None:
                 del temp_params[item]
-        self.log(str(temp_params))
         return temp_params
 
     def get_template(self, config):
@@ -2296,8 +2318,6 @@ class Template(DnacBase):
 
         # Mandate fields required for creating a new template.
         # Store it with other template parameters.
-        self.log(str(template_params))
-        self.log(str(self.have_project))
         template_params["projectId"] = self.have_project.get("id")
         template_params["project_id"] = self.have_project.get("id")
         # Update language,deviceTypes and softwareType if not provided for existing template.
@@ -2564,7 +2584,6 @@ class Template(DnacBase):
                 _import_project = {
                     "do_version": do_version,
                     "payload": final_payload,
-                    "active_validation": False,
                 }
                 self.log("Importing project details from the playbook: {0}"
                          .format(_import_project), "DEBUG")
@@ -2589,30 +2608,60 @@ class Template(DnacBase):
             do_version = _import_template.get("do_version")
             if not do_version:
                 do_version = False
+
+            project_name = _import_template.get("project_name")
             if not _import_template.get("project_name"):
                 self.msg = "Mandatory parameter project_name is not found under import template"
                 self.status = "failed"
                 return self
 
-            if not _import_template.get("payload"):
-                self.msg = "Mandatory parameter payload is not found under import template"
+            is_project_exists = self.get_project_details(project_name)
+            if not is_project_exists:
+                self.msg = "Project '{0}' is not found.".format(project_name)
                 self.status = "failed"
                 return self
 
             payload = _import_template.get("payload")
-            final_payload = []
-            for item in payload:
-                self.log(str(item))
-                final_payload.append(self.get_template_params(item))
-            self.log(str(final_payload))
+            template_file = _import_template.get("template_file")
+            if not (payload or template_file):
+                self.msg = "Mandatory parameter 'payload' or 'template_file' is not found under import template"
+                self.status = "failed"
+                return self
+
+            final_payload = None
+            if template_file:
+                is_path_exists = self.is_path_exists(template_file)
+                if not is_path_exists:
+                    self.msg = "Import template file path '{0}' does not exist.".format(template_file)
+                    self.status = "failed"
+                    return self
+
+                is_json = self.is_json(template_file)
+                if not is_json:
+                    self.msg = "Import template file '{0}' is not in JSON format".format(template_file)
+                    self.status = "failed"
+                    return self
+                try:
+                    with open(template_file, 'r') as file:
+                        json_data = file.read()
+                    json_template = json.loads(json_data)
+                    final_payload = json_template
+                except Exception as msg:
+                    self.msg = "Error message: {0}".format(msg)
+                    self.status = "failed"
+                    return self
+
+            elif payload:
+                final_payload = []
+                for item in payload:
+                    final_payload.append(self.get_template_params(item))
             import_template = {
-                "do_version": _import_template.get("do_version"),
-                "project_name": _import_template.get("project_name"),
+                "do_version": do_version,
+                "project_name": project_name,
                 "payload": final_payload,
-                "active_validation": False,
             }
             self.log("Import template details from the playbook: {0}"
-                     .format(_import_template), "DEBUG")
+                     .format(import_template), "DEBUG")
             if _import_template:
                 response = self.dnac._exec(
                     family="configuration_templates",
@@ -2622,7 +2671,8 @@ class Template(DnacBase):
                 )
                 validation_string = "successfully imported template"
                 self.check_task_response_status(response, validation_string).check_return_status()
-                self.result['response'][2].get("import").get("response").update({"importTemplate": validation_string})
+                self.result['response'][2].get("import").get("response") \
+                    .update({"importTemplate": "Successfully imported the templates"})
 
         return self
 

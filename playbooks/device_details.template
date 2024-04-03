@@ -16,29 +16,11 @@ template_details:
       do_version: false
       payload:
       - name: 'Onboarding Configuration2'
+      - name: 'Onboarding Configuration3'
     import_template:
-      do_version: false
-      project_name: 'Onboarding Configuration'
-      payload:
-      - name: 'Platinum-Onboarding-Template-J21'
-        device_types:
-        - product_family: 'Switches and Hubs'
-          productSeries: 'Cisco Catalyst 9300 Series Switches'
-        software_type: 'IOS'
-        language: 'JINJA'
-      - name: 'Platinum-Onboarding-Template-J22'
-        device_types:
-        - product_family: 'Switches and Hubs'
-          productSeries: 'Cisco Catalyst 9300 Series Switches'
-        software_type: 'IOS'
-        language: 'JINJA'
-      - name: 'Platinum-Onboarding-Template-J23'
-        device_types:
-        - product_family: 'Switches and Hubs'
-          productSeries: 'Cisco Catalyst 9300 Series Switches'
-        software_type: 'IOS'
-        language: 'JINJA'
-
+      do_version: true
+      project_name: Onboarding Configuration
+      template_file: /Users/mutbabu/ansible/dnac/work/collections/ansible_collections/cisco/dnac/playbooks/172.23.241.186_1.7.941_Mon Apr 01 2024_templates.json
 device_details:
   - site_name: 'Global/Chennai/Trill'
     image_name: 'cat9k_iosxe.17.04.01.SPA.bin'
@@ -67,3 +49,4 @@ device_details:
     device_name: 'Cat9k-3'
     device_state: 'Unclaimed'
     device_id: 'C9300-48UXM'
+
