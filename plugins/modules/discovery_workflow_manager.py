@@ -721,6 +721,43 @@ class Discovery(DnacBase):
         self.status = "success"
         return self
 
+    def validate_ip4_address_list(self):
+        """
+        Validates each ip adress paased in the IP_address_list passed by the user before preprocessing it
+        """
+
+        ip_address_list = self.validated_config[0].get('ip_address_list')
+        for ip in ip_address_list:
+            if '/' in ip:
+                ip = ip.split("/")[0]
+            if '-' in ip:
+                if len(ip.split('-')) == 2:
+                    ip1, ip2 = ip.split('-')
+                    if self.is_valid_ipv4(ip1) is False:
+                        msg = "IP address {0} is not valid".format(ip1)
+                        self.log(msg, "CRITICAL")
+                        self.module.fail_json(msg=msg)
+                    if self.is_valid_ipv4(ip2) is False:
+                        msg = "IP address {0} is not valid".format(ip2)
+                        self.log(msg, "CRITICAL")
+                        self.module.fail_json(msg=msg)
+                    ip1_parts = list(map(int, ip1.split('.')))
+                    ip2_parts = list(map(int, ip2.split('.')))
+                    for part in range(4):
+                        if ip1_parts[part] > ip2_parts[part]:
+                            msg = "Incorrect range passed: {0}. Please pass correct IP address range".format(ip)
+                            self.log(msg, "CRITICAL")
+                            self.module.fail_json(msg=msg)
+                else:
+                    msg = "Provided range '{0}' is incorrect. IP address range should have only upper and lower limit values".format(ip)
+                    self.log(msg, "CRITICAL")
+                    self.module.fail_json(msg=msg)
+            if self.is_valid_ipv4(ip) is False and '-' not in ip:
+                msg = "IP address {0} is not valid".format(ip)
+                self.log(msg, "CRITICAL")
+                self.module.fail_json(msg=msg)
+        self.log("All the IP addresses passed are correct", "INFO")
+
     def get_creds_ids_list(self):
         """
         Retrieve the list of credentials IDs associated with class instance.
@@ -934,6 +971,7 @@ class Discovery(DnacBase):
             family="discovery",
             function='get_all_global_credentials_v2',
             params=self.validated_config[0].get('headers'),
+            op_modifies=True
         )
         response = response.get('response')
         self.log("The Global credentials response from 'get all global credentials v2' API is {0}".format(str(response)), "DEBUG")
@@ -1288,6 +1326,7 @@ class Discovery(DnacBase):
                 family="task",
                 function='get_task_by_id',
                 params=params,
+                op_modifies=True,
             )
             response = response.response
             self.log("Task status for the task id {0} is {1}".format(str(task_id), str(response)), "INFO")
@@ -1336,7 +1375,8 @@ class Discovery(DnacBase):
                 response_part = self.dnac_apply['exec'](
                     family="discovery",
                     function='get_discoveries_by_range',
-                    params=params
+                    params=params,
+                    op_modifies=True,
                 )
                 response["response"].extend(response_part["response"])
         else:
@@ -1349,7 +1389,8 @@ class Discovery(DnacBase):
             response = self.dnac_apply['exec'](
                 family="discovery",
                 function='get_discoveries_by_range',
-                params=params
+                params=params,
+                op_modifies=True,
             )
         self.log("Response of the get discoveries via range API is {0}".format(str(response)), "DEBUG")
 
@@ -1425,6 +1466,7 @@ class Discovery(DnacBase):
                 family="discovery",
                 function='get_discovered_network_devices_by_discovery_id',
                 params=params,
+                op_modifies=True,
             )
             devices = response.response
 
@@ -1495,6 +1537,7 @@ class Discovery(DnacBase):
             family="discovery",
             function="delete_discovery_by_id",
             params=params,
+            op_modifies=True,
         )
 
         self.log("Response collected from API 'delete_discovery_by_id': {0}".format(str(response)), "DEBUG")
@@ -1513,6 +1556,7 @@ class Discovery(DnacBase):
           - self: The instance of the class with updated attributes.
         """
 
+        self.validate_ip4_address_list()
         devices_list_info = self.get_devices_list_info()
         ip_address_list = self.preprocess_device_discovery(devices_list_info)
         exist_discovery = self.get_exist_discovery()
@@ -1611,7 +1655,8 @@ class Discovery(DnacBase):
         response = self.dnac_apply['exec'](
             family="discovery",
             function='get_discovery_by_id',
-            params=params
+            params=params,
+            op_modifies=True,
         )
         discovery_name = config.get('discovery_name')
         if response:

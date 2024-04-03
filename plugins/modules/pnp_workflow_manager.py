@@ -429,6 +429,7 @@ class PnP(DnacBase):
                 family="sites",
                 function='get_site',
                 params={"name": self.want.get("site_name")},
+                op_modifies=True,
             )
         except Exception:
             self.log("Exception occurred as site \
@@ -467,6 +468,7 @@ class PnP(DnacBase):
                 family="sites",
                 function='get_site',
                 params={"name": self.want.get("site_name")},
+                op_modifies=True,
             )
         except Exception:
             self.log("Exception occurred as \
@@ -632,7 +634,7 @@ class PnP(DnacBase):
                 self.pnp_cred_failure(msg=msg)
             claim_params["rfProfile"] = self.validated_config[0]["rf_profile"]
 
-        self.log("Paramters used for claiming are {0}".format(str(claim_params)), "INFO")
+        self.log("Parameters used for claiming are {0}".format(str(claim_params)), "INFO")
         return claim_params
 
     def get_reset_params(self):
@@ -698,7 +700,8 @@ class PnP(DnacBase):
             device_response = self.dnac_apply['exec'](
                 family="device_onboarding_pnp",
                 function='get_device_list',
-                params={"serial_number": self.want.get("serial_number")}
+                params={"serial_number": self.want.get("serial_number")},
+                op_modifies=True,
             )
             self.log("Device details for the device with serial \
                 number '{0}': {1}".format(self.want.get("serial_number"), str(device_response)), "DEBUG")
@@ -721,6 +724,7 @@ class PnP(DnacBase):
                     family="software_image_management_swim",
                     function='get_software_image_details',
                     params=self.want.get("image_params"),
+                    op_modifies=True,
                 )
                 image_list = image_response.get("response")
                 self.log("Image details obtained from the API 'get_software_image_details': {0}".format(str(image_response)), "DEBUG")
@@ -730,13 +734,15 @@ class PnP(DnacBase):
                     family="configuration_templates",
                     function='gets_the_templates_available',
                     params={"project_names": self.want.get("project_name")},
+                    op_modifies=True,
                 )
                 self.log("List of templates under the project '{0}': {1}".format(self.want.get("project_name"), str(template_list)), "DEBUG")
 
                 dev_details_response = self.dnac_apply['exec'](
                     family="device_onboarding_pnp",
                     function="get_device_by_id",
-                    params={"id": device_response[0].get("id")}
+                    params={"id": device_response[0].get("id")},
+                    op_modifies=True,
                 )
                 self.log("Device details retrieved after calling the 'get_device_by_id' API: {0}".format(str(dev_details_response)), "DEBUG")
                 install_mode = dev_details_response.get("deviceInfo").get("mode")
@@ -899,7 +905,8 @@ class PnP(DnacBase):
                 multi_device_response = self.dnac_apply['exec'](
                     family="device_onboarding_pnp",
                     function='get_device_list',
-                    params={"serial_number": device["deviceInfo"]["serialNumber"]}
+                    params={"serial_number": device["deviceInfo"]["serialNumber"]},
+                    op_modifies=True,
                 )
                 self.log("Device details for serial number {0} \
                         obtained from the API 'get_device_list': {1}".format(device["deviceInfo"]["serialNumber"], str(multi_device_response)), "DEBUG")
@@ -1034,7 +1041,8 @@ class PnP(DnacBase):
         dev_details_response = self.dnac_apply['exec'](
             family="device_onboarding_pnp",
             function="get_device_by_id",
-            params={"id": self.have["device_id"]}
+            params={"id": self.have["device_id"]},
+            op_modifies=True,
         )
         self.log("Response from 'get_device_by_id' API for device details: {0}".format(str(dev_details_response)), "DEBUG")
 
@@ -1133,7 +1141,8 @@ class PnP(DnacBase):
             multi_device_response = self.dnac_apply['exec'](
                 family="device_onboarding_pnp",
                 function='get_device_list',
-                params={"serial_number": device["deviceInfo"]["serialNumber"]}
+                params={"serial_number": device["deviceInfo"]["serialNumber"]},
+                op_modifies=True,
             )
             self.log("Response from 'get_device_list' API for claiming: {0}".format(str(multi_device_response)), "DEBUG")
             if multi_device_response and len(multi_device_response) == 1:
@@ -1190,7 +1199,8 @@ class PnP(DnacBase):
             device_response = self.dnac_apply['exec'](
                 family="device_onboarding_pnp",
                 function='get_device_list',
-                params={"serial_number": device["deviceInfo"]["serialNumber"]}
+                params={"serial_number": device["deviceInfo"]["serialNumber"]},
+                op_modifies=True,
             )
             if (device_response and (len(device_response) == 1)):
                 msg = (
@@ -1230,7 +1240,8 @@ class PnP(DnacBase):
             device_response = self.dnac_apply['exec'](
                 family="device_onboarding_pnp",
                 function='get_device_list',
-                params={"serial_number": device["deviceInfo"]["serialNumber"]}
+                params={"serial_number": device["deviceInfo"]["serialNumber"]},
+                op_modifies=True,
             )
             if not (device_response and (len(device_response) == 1)):
                 msg = (
