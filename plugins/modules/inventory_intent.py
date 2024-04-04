@@ -2725,8 +2725,8 @@ class DnacDevice(DnacBase):
             elif execution_details.get("endTime"):
                 self.status = "success"
                 self.result['changed'] = True
-                self.result['response'] = execution_details
                 self.msg = "Device '{0}' present in Cisco Catalyst Center and have been updated successfully".format(device_ip)
+                self.result['response'] = self.msg
                 self.log(self.msg, "INFO")
                 break
 
@@ -3177,6 +3177,15 @@ class DnacDevice(DnacBase):
 
                     if not playbook_params['snmpROCommunity']:
                         playbook_params['snmpROCommunity'] = device_data.get('snmp_community', None)
+                    if not playbook_params['snmpRWCommunity']:
+                        playbook_params['snmpRWCommunity'] = device_data.get('snmp_write_community', None)
+
+                if not playbook_params['httpUserName']:
+                    playbook_params['httpUserName'] = device_data.get('http_config_username', None)
+                if not playbook_params['httpPassword']:
+                    playbook_params['httpPassword'] = device_data.get('http_config_password', None)
+                if not playbook_params['httpPort']:
+                    playbook_params['httpPort'] = device_data.get('http_port', None)
 
                 try:
                     if playbook_params['updateMgmtIPaddressList']:
