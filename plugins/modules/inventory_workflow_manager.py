@@ -522,7 +522,7 @@ EXAMPLES = r"""
         - device_ip: "1.1.1.1"
           site_name: "Global/USA/San Francisco/BGL_18/floor_pnp"
           resync_retry_count: 200
-          resync_interval: 2
+          resync_retry_interval: 2
         - device_ip: "2.2.2.2"
           site_name: "Global/USA/San Francisco/BGL_18/floor_test"
           resync_retry_count: 200
@@ -752,7 +752,7 @@ class Inventory(DnacBase):
             'mac_address_list': {'type': 'list', 'elements': 'str'},
             'netconf_port': {'type': 'str'},
             'password': {'type': 'str'},
-            'serial_number': {'type': 'str'},
+            'serial_number_list': {'type': 'list', 'elements': 'str'},
             'snmp_auth_passphrase': {'type': 'str'},
             'snmp_auth_protocol': {'default': "SHA", 'type': 'str'},
             'snmp_mode': {'type': 'str'},
@@ -2247,48 +2247,47 @@ class Inventory(DnacBase):
                 interface_id = response["id"]
                 self.log("""Successfully fetched interface ID ({0}) by using device id {1} and interface name {2}."""
                          .format(interface_id, device_id, interface_name), "INFO")
+                return response
+
+        except Exception as e:
+            self.status = "failed"
+            self.msg = "Failed to retrieve interface ID for interface({0}) from Cisco Catalyst Center: {1}".format(interface_name, str(e))
+            self.log(self.msg, "ERROR")
+            return self
+
+    def get_interface_from_ip(self, device_ip):
+        """
+        Get the interface ID for a device in Cisco Catalyst Center based on its IP address.
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            device_ip (str): The IP address of the device.
+        Returns:
+            str: The interface ID for the specified device.
+        Description:
+            The function sends a request to Cisco Catalyst Center to retrieve the interface information
+            for the device with the provided IP address and extracts the interface ID from the
+            response, and returns the interface ID.
+        """
+
+        try:
+            response = self.dnac._exec(
+                family="devices",
+                function='get_interface_by_ip',
+                op_modifies=True,
+                params={"ip_address": device_ip}
+            )
+            self.log("Received API response from 'get_interface_by_ip': {0}".format(str(response)), "DEBUG")
+            response = response.get("response")
+
+            if response:
+                interface_id = response[0]["id"]
+                self.log("Successfully retrieved Interface Id '{0}' for device '{1}'.".format(interface_id, device_ip), "DEBUG")
                 return interface_id
 
         except Exception as e:
-            error_message = "Error while fetching interface id for interface({0}) from Cisco Catalyst Center: {1}".format(interface_name, str(e))
+            error_message = "Error while fetching Interface Id for device '{0}' from Cisco Catalyst Center: {1}".format(device_ip, str(e))
             self.log(error_message, "ERROR")
-            self.msg = error_message
-            self.status = "failed"
-            return self
-
-        def get_interface_from_ip(self, device_ip):
-            """
-            Get the interface ID for a device in Cisco Catalyst Center based on its IP address.
-            Parameters:
-                self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-                device_ip (str): The IP address of the device.
-            Returns:
-                str: The interface ID for the specified device.
-            Description:
-                The function sends a request to Cisco Catalyst Center to retrieve the interface information
-                for the device with the provided IP address and extracts the interface ID from the
-                response, and returns the interface ID.
-            """
-
-            try:
-                response = self.dnac._exec(
-                    family="devices",
-                    function='get_interface_by_ip',
-                    op_modifies=True,
-                    params={"ip_address": device_ip}
-                )
-                self.log("Received API response from 'get_interface_by_ip': {0}".format(str(response)), "DEBUG")
-                response = response.get("response")
-
-                if response:
-                    interface_id = response[0]["id"]
-                    self.log("Fetch Interface Id for device '{0}' successfully !!".format(device_ip))
-                    return interface_id
-
-            except Exception as e:
-                error_message = "Error while fetching Interface Id for device '{0}' from Cisco Catalyst Center: {1}".format(device_ip, str(e))
-                self.log(error_message, "ERROR")
-                raise Exception(error_message)
+            raise Exception(error_message)
 
     def get_device_response(self, device_ip):
         """
@@ -2562,12 +2561,22 @@ class Inventory(DnacBase):
         """
 
         # Call the Get interface details by device IP API and fetch the interface Id
+        is_update_occurred = False
         for device_ip in device_to_update:
             interface_params = self.config[0].get('update_interface_details')
             interface_names_list = interface_params.get('interface_name')
             for interface_name in interface_names_list:
                 device_id = self.get_device_ids([device_ip])
-                interface_id = self.get_interface_from_id_and_name(device_id[0], interface_name)
+                interface_details = self.get_interface_from_id_and_name(device_id[0], interface_name)
+                # Check if interface_details is None or does not contain the 'id' key.
+                if interface_details is None or not interface_details.get('id'):
+                    self.status = "failed"
+                    self.msg = """Failed to retrieve interface details or the 'id' is missing for the device with identifier
+                                '{0}' and interface '{1}'""".format(device_id[0], interface_name)
+                    self.log(self.msg, "WARNING")
+                    return self
+
+                interface_id = interface_details['id']
                 self.check_return_status()
 
                 # Now we call update interface details api with required parameter
@@ -2582,10 +2591,10 @@ class Inventory(DnacBase):
                             self.msg = "The action to clear the MAC Address table is only supported for devices with the ACCESS role."
                             self.log(self.msg, "WARNING")
                             self.result['response'] = self.msg
+                            self.result['changed'] = False
                         else:
                             deploy_mode = interface_params.get('deployment_mode', 'Deploy')
-                            self.clear_mac_address(interface_id, deploy_mode, interface_name)
-                            self.check_return_status()
+                            self.clear_mac_address(interface_id, deploy_mode, interface_name).check_return_status()
 
                     temp_params = {
                         'description': interface_params.get('description', ''),
@@ -2597,6 +2606,19 @@ class Inventory(DnacBase):
                     for key, value in temp_params.items():
                         if value is not None:
                             payload_params[key] = value
+
+                    # Check if interface need update or not here
+                    interface_needs_update = any(key == "voiceVlanId" and str(value) != interface_details['voiceVlan']
+                                                 or str(value) != str(interface_details.get(key)) for key, value in payload_params.items())
+
+                    if not interface_needs_update:
+                        self.status = "success"
+                        self.result['changed'] = False
+                        self.msg = """Interface details for the given interface '{0}' are already updated in the Cisco Catalyst Center for the
+                                     device '{1}'.""".format(interface_name, device_ip)
+                        self.log(self.msg, "INFO")
+                        self.result['response'] = self.msg
+                        continue
 
                     update_interface_params = {
                         'payload': payload_params,
@@ -2612,16 +2634,23 @@ class Inventory(DnacBase):
                     self.log("Received API response from 'update_interface_details': {0}".format(str(response)), "DEBUG")
 
                     if response and isinstance(response, dict):
-                        task_id = response.get('response').get('taskId')
+                        response = response.get('response')
+                        if not response:
+                            self.status = "failed"
+                            self.msg = "Failed to update the interface because the 'update_interface_details' API returned an empty response."
+                            self.log(self.msg, "ERROR")
+                            continue
+
+                        task_id = response.get('taskId')
 
                         while True:
                             execution_details = self.get_task_details(task_id)
 
                             if 'SUCCESS' in execution_details.get("progress"):
                                 self.status = "success"
-                                self.result['changed'] = True
-                                self.result['response'] = execution_details
-                                self.msg = "Updated Interface Details for device '{0}' successfully".format(device_ip)
+                                is_update_occurred = True
+                                self.msg = "Successfully updated the Interface Details for device '{0}'.".format(device_ip)
+                                self.result['response'] = self.msg
                                 self.log(self.msg, "INFO")
                                 break
                             elif execution_details.get("isError"):
@@ -2641,6 +2670,8 @@ class Inventory(DnacBase):
                     self.result['changed'] = False
                     self.msg = "Port actions are only supported on user facing/access ports as it's not allowed or No Updation required"
                     self.log(self.msg, "INFO")
+
+        self.result['changed'] = is_update_occurred
 
         return self
 
