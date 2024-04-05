@@ -5,6 +5,7 @@ on:
   pull_request:
   schedule:
     - cron: '0 6 * * *'
+  workflow_dispatch:
 env:
   NAMESPACE: cisco
   COLLECTION_NAME: dnac 
@@ -14,13 +15,12 @@ jobs:
     strategy:
       matrix:
         ansible:
-          - stable-2.14
           - stable-2.15
-          - devel
-    runs-on: ubuntu-20.04
+          - stable-2.16
+    runs-on: ubuntu-22.04
     steps:
       - name: Check out code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           path: cisco-en-programmability/dnacenter-ansible
       - name: Create directory
@@ -28,9 +28,9 @@ jobs:
       - name: Move repository
         run: mv ./cisco-en-programmability/dnacenter-ansible ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
       - name: Set up Python
-        uses: actions/setup-python@v3
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
+          python-version: '3.11'
       - name: Install ansible-base (${{ matrix.ansible }})
         run: pip install https://github.com/ansible/ansible/archive/${{ matrix.ansible }}.tar.gz --disable-pip-version-check
       - name: Run sanity tests
