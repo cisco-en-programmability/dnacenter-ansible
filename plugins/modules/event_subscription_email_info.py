@@ -62,8 +62,8 @@ options:
     - Name query parameter. List of email subscriptions related to the respective name.
     type: str
 requirements:
-- dnacentersdk >= 2.5.5
-- python >= 3.5
+- dnacentersdk >= 2.6.0
+- python >= 3.9
 seealso:
 - name: Cisco DNA Center documentation for Event Management GetEmailEventSubscriptions
   description: Complete reference of the GetEmailEventSubscriptions API.

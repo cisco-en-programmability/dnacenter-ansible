@@ -307,8 +307,8 @@ options:
             version_added: 6.12.0
 
 requirements:
-- dnacentersdk >= 2.5.5
-- python >= 3.5
+- dnacentersdk >= 2.6.0
+- python >= 3.9
 seealso:
 - name: Cisco Catalyst Center documentation for Devices AddDevice2
   description: Complete reference of the AddDevice2 API.
