@@ -522,7 +522,7 @@ EXAMPLES = r"""
         - device_ip: "1.1.1.1"
           site_name: "Global/USA/San Francisco/BGL_18/floor_pnp"
           resync_retry_count: 200
-          resync_interval: 2
+          resync_retry_interval: 2
         - device_ip: "2.2.2.2"
           site_name: "Global/USA/San Francisco/BGL_18/floor_test"
           resync_retry_count: 200
@@ -2258,7 +2258,7 @@ class DnacDevice(DnacBase):
 
         except Exception as e:
             self.status = "failed"
-            self.msg = "Error while fetching interface id for interface({0}) from Cisco Catalyst Center: {1}".format(interface_name, str(e))
+            self.msg = "Failed to retrieve interface ID for interface({0}) from Cisco Catalyst Center: {1}".format(interface_name, str(e))
             self.log(self.msg, "ERROR")
             return self
 
@@ -2288,7 +2288,7 @@ class DnacDevice(DnacBase):
 
             if response:
                 interface_id = response[0]["id"]
-                self.log("Fetch Interface Id for device '{0}' successfully !!".format(device_ip), "DEBUG")
+                self.log("Successfully retrieved Interface Id '{0}' for device '{1}'.".format(interface_id, device_ip), "DEBUG")
                 return interface_id
 
         except Exception as e:
@@ -2575,6 +2575,14 @@ class DnacDevice(DnacBase):
             for interface_name in interface_names_list:
                 device_id = self.get_device_ids([device_ip])
                 interface_details = self.get_interface_from_id_and_name(device_id[0], interface_name)
+                # Check if interface_details is None or does not contain the 'id' key.
+                if interface_details is None or not interface_details.get('id'):
+                    self.status = "failed"
+                    self.msg = """Unable to obtain interface details or 'id' not present for device '{0}' with
+                                interface '{1}'.""".format(device_id[0], interface_name)
+                    self.log(self.msg, "WARNING")
+                    return self
+
                 interface_id = interface_details['id']
                 self.check_return_status()
 
@@ -2613,7 +2621,7 @@ class DnacDevice(DnacBase):
                     if not interface_needs_update:
                         self.status = "success"
                         self.result['changed'] = False
-                        self.msg = """Interface details for the given interface '{0}' is already updated in the Cisco Catalyst Center for the
+                        self.msg = """Interface details for the given interface '{0}' are already updated in the Cisco Catalyst Center for the
                                      device '{1}'.""".format(interface_name, device_ip)
                         self.log(self.msg, "INFO")
                         self.result['response'] = self.msg
@@ -2636,7 +2644,7 @@ class DnacDevice(DnacBase):
                         response = response.get('response')
                         if not response:
                             self.status = "failed"
-                            self.msg = "Interface Updation get failed due to empty response from the update_interface_details API"
+                            self.msg = "Failed to update the interface because the 'update_interface_details' API returned an empty response."
                             self.log(self.msg, "ERROR")
                             continue
 
@@ -2648,7 +2656,7 @@ class DnacDevice(DnacBase):
                             if 'SUCCESS' in execution_details.get("progress"):
                                 self.status = "success"
                                 is_update_occurred = True
-                                self.msg = "Updated Interface Details for device '{0}' successfully".format(device_ip)
+                                self.msg = "Successfully updated the Interface Details for device '{0}'.".format(device_ip)
                                 self.result['response'] = self.msg
                                 self.log(self.msg, "INFO")
                                 break
