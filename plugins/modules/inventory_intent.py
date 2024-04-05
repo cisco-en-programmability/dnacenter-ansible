@@ -2578,8 +2578,8 @@ class DnacDevice(DnacBase):
                 # Check if interface_details is None or does not contain the 'id' key.
                 if interface_details is None or not interface_details.get('id'):
                     self.status = "failed"
-                    self.msg = """Unable to obtain interface details or 'id' not present for device '{0}' with
-                                interface '{1}'.""".format(device_id[0], interface_name)
+                    self.msg = """Failed to retrieve interface details or the 'id' is missing for the device with identifier
+                                '{0}' and interface '{1}'""".format(device_id[0], interface_name)
                     self.log(self.msg, "WARNING")
                     return self
 
