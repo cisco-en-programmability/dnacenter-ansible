@@ -35,8 +35,8 @@ options:
     elements: str
     type: list
 requirements:
-- dnacentersdk >= 2.5.5
-- python >= 3.5
+- dnacentersdk >= 2.6.0
+- python >= 3.9
 notes:
   - SDK Method used are
     devices.Devices.threat_summary,
