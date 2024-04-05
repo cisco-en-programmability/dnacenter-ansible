@@ -1,10 +1,5 @@
-name: CI
+name: CI Devel
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-  schedule:
-    - cron: '0 6 * * *'
   workflow_dispatch:
 env:
   NAMESPACE: cisco
@@ -15,8 +10,7 @@ jobs:
     strategy:
       matrix:
         ansible:
-          - stable-2.15
-          - stable-2.16
+          - devel
     runs-on: ubuntu-22.04
     steps:
       - name: Check out code
