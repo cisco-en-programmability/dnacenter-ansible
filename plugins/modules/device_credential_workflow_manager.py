@@ -891,9 +891,9 @@ class DeviceCredential(DnacBase):
 
             _id = response.get("response")[0].get("id")
             self.log("Site ID for the site name {0}: {1}".format(site_name, _id), "INFO")
-        except Exception as exception:
+        except Exception as e:
             self.log("Exception occurred while getting site_id from the site_name: {0}"
-                     .format(exception), "CRITICAL")
+                     .format(e), "CRITICAL")
             return None
 
         return _id
@@ -917,9 +917,9 @@ class DeviceCredential(DnacBase):
             global_credentials = global_credentials.get("response")
             self.log("All global device credentials details: {0}"
                      .format(global_credentials), "DEBUG")
-        except Exception as exec:
+        except Exception as e:
             self.log("Exception occurred while getting global device credentials: {0}"
-                     .format(exec), "CRITICAL")
+                     .format(e), "CRITICAL")
             return None
 
         return global_credentials
