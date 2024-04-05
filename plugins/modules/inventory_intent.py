@@ -2288,7 +2288,7 @@ class DnacDevice(DnacBase):
 
             if response:
                 interface_id = response[0]["id"]
-                self.log("Fetch Interface Id for device '{0}' successfully !!".format(device_ip))
+                self.log("Fetch Interface Id for device '{0}' successfully !!".format(device_ip), "DEBUG")
                 return interface_id
 
         except Exception as e:
