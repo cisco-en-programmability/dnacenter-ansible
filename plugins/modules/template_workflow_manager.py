@@ -57,7 +57,10 @@ options:
             description: Specifies if the template is composite.
             type: bool
           containing_templates:
-            description: Contains the templates that are created by Configuration Template.
+            description:
+            - Refer to a set of templates within the main template to define more complex or modular configurations.
+            - This is particularly useful in systems that support hierarchical or nested templates.
+            - Here parent templates may contain child templates to form a complete configuration.
             suboptions:
               composite:
                 description: Specifies if the template is composite.
@@ -549,7 +552,7 @@ options:
                 description: A unique identifier for the template, represented as a UUID.
                 type: str
               template_version:
-                description: The current version of template.
+                description: The current version of validation process in the template.
                 type: str
             type: dict
           version:
@@ -603,11 +606,14 @@ options:
                 type: bool
               template_file:
                 description:
-                - JSON file path for the import template.
-                - The 'template_file' will have more priority compared to the 'payload'.
+                - Specifies the path to a JSON file that contains an import template.
+                - If both 'template_file' and 'payload' are provided, the 'template_file' will be given priority.
                 type: str
               payload:
-                description: Import the configuration template's payload.
+                description:
+                - The payload parameter is used to directly import configuration data into the system.
+                - The payload provides an alternative way to import configurations without the need to reference an external file.
+                - If both 'template_file' and 'payload' are provided, the 'template_file' will be given priority.
                 type: list
                 elements: dict
                 suboptions:
@@ -618,7 +624,10 @@ options:
                     description: Specifies if the template is composite.
                     type: bool
                   containing_templates:
-                    description: Contains the templates that are created by Configuration Template.
+                    description:
+                    - Refer to a set of templates within the main template to define more complex or modular configurations.
+                    - This is particularly useful in systems that support hierarchical or nested templates.
+                    - Here parent templates may contain child templates to form a complete configuration.
                     suboptions:
                       composite:
                         description: Specifies if the template is composite.
@@ -1107,7 +1116,7 @@ options:
                         description: A unique identifier for the template, represented as a UUID.
                         type: str
                       template_version:
-                        description: The current version of template.
+                        description: The current version of validation process in the template.
                         type: str
                     type: dict
                   version:
