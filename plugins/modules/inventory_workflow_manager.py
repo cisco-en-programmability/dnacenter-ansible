@@ -752,7 +752,7 @@ class Inventory(DnacBase):
             'mac_address_list': {'type': 'list', 'elements': 'str'},
             'netconf_port': {'type': 'str'},
             'password': {'type': 'str'},
-            'serial_number': {'type': 'str'},
+            'serial_number_list': {'type': 'list', 'elements': 'str'},
             'snmp_auth_passphrase': {'type': 'str'},
             'snmp_auth_protocol': {'default': "SHA", 'type': 'str'},
             'snmp_mode': {'type': 'str'},
