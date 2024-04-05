@@ -892,9 +892,9 @@ class DnacCredential(DnacBase):
 
             _id = response.get("response")[0].get("id")
             self.log("Site ID for the site name {0}: {1}".format(site_name, _id), "INFO")
-        except Exception as exec:
+        except Exception as exception:
             self.log("Exception occurred while getting site_id from the site_name: {0}"
-                     .format(exec), "CRITICAL")
+                     .format(exception), "CRITICAL")
             return None
 
         return _id
