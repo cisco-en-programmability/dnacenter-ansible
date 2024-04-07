@@ -2607,9 +2607,14 @@ class Inventory(DnacBase):
                         if value is not None:
                             payload_params[key] = value
 
-                    # Check if interface need update or not here
-                    interface_needs_update = any(key == "voiceVlanId" and str(value) != interface_details['voiceVlan']
-                                                 or str(value) != str(interface_details.get(key)) for key, value in payload_params.items())
+                    interface_needs_update = False
+                    for key, value in payload_params.items():
+                        if key == "voiceVlanId":
+                            if str(value) != interface_details['voiceVlan']:
+                                interface_needs_update = True
+                        else:
+                            if str(value) != str(interface_details.get(key)):
+                                interface_needs_update = True
 
                     if not interface_needs_update:
                         self.status = "success"
@@ -2670,6 +2675,7 @@ class Inventory(DnacBase):
                     self.result['changed'] = False
                     self.msg = "Port actions are only supported on user facing/access ports as it's not allowed or No Updation required"
                     self.log(self.msg, "INFO")
+                    self.result['response'] = self.msg
 
         self.result['changed'] = is_update_occurred
 
