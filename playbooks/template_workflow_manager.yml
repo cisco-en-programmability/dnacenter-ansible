@@ -13,11 +13,11 @@
         dnac_password: "{{ dnac_password }}"
         dnac_verify: "{{ dnac_verify }}"
         dnac_debug: "{{ dnac_debug }}"
-        dnac_log: true
-        dnac_log_level: "{{ dnac_debug }}"
-        dnac_log_append: true
+        dnac_log: True
+        dnac_log_level: DEBUG
+        dnac_log_append: True
         dnac_log_file_path: "{{ dnac_log_file_path }}"
-        validate_response_schema: false
+        validate_response_schema: False
         state: "merged"
         config_verify: true
         #ignore_errors: true        #Enable this to continue execution even the task fails
@@ -41,7 +41,7 @@
                 template_name: AP_Onboarding
           import:
             project: "{{ item.import_project }}"
-            # template: "{{ item.import_template }}"
+            template: "{{ item.import_template }}"
       register: template_result
       with_items: '{{ template_details }}'
       tags:
