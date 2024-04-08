@@ -1062,7 +1062,7 @@ class Discovery(DnacBase):
                 self.preprocess_device_discovery_handle_error()
         else:
             if len(ip_address_list) > 8:
-                msg = "Maximum of 8 IP ranges are allowed."
+                msg = "MaAttempt to use more than 8 IP ranges detected. The system allows a maximum of 8."
                 self.log(msg, "CRITICAL")
                 self.module.fail_json(msg=msg)
             new_ip_collected = []
