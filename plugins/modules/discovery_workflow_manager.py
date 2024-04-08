@@ -1062,7 +1062,7 @@ class Discovery(DnacBase):
                 self.preprocess_device_discovery_handle_error()
         else:
             if len(ip_address_list) > 8:
-                msg = "Attempt to use more than 8 IP ranges detected. The system allows a maximum of 8."
+                msg = "Maximum of 8 IP ranges are allowed."
                 self.log(msg, "CRITICAL")
                 self.module.fail_json(msg=msg)
             new_ip_collected = []
@@ -1349,7 +1349,7 @@ class Discovery(DnacBase):
             try:
                 progress_value = int(progress)
                 result = True
-                self.log("The Process is completed", "INFO")
+                self.log("The discovery process is completed", "INFO")
                 self.result.update(dict(discovery_task=response))
                 return result
             except Exception:
@@ -1393,7 +1393,7 @@ class Discovery(DnacBase):
             progress = response.get('progress')
             if re.search('Discovery deleted successfully.', response.get('progress')):
                 result = True
-                self.log("The Process is completed", "INFO")
+                self.log("The discovery process is completed", "INFO")
                 self.result.update(dict(discovery_task=response))
                 return result
 
@@ -1464,6 +1464,7 @@ class Discovery(DnacBase):
         """
 
         result = False
+        aborted = False
         discovery = self.lookup_discovery_by_range_via_name()
 
         if not discovery:
@@ -1474,17 +1475,25 @@ class Discovery(DnacBase):
 
         while True:
             discovery = self.lookup_discovery_by_range_via_name()
-            if discovery.get('discoveryCondition') == 'Complete':
+            discovery_condition = discovery.get('discoveryCondition')
+            if discovery_condition == 'Complete':
                 result = True
                 break
-
+            elif discovery_condition == 'Aborted':
+                aborted = True
+                break
             time.sleep(3)
 
         if not result:
-            msg = 'Cannot find any discovery task with name {0} -- Discovery result: {1}'.format(
-                str(self.validated_config[0].get("discovery_name")), str(discovery))
-            self.log(msg, "CRITICAL")
-            self.module.fail_json(msg=msg)
+            if aborted is True:
+                msg = 'Discovery with name {0} is aborted by the user on the GUI'.format(str(self.validated_config[0].get("discovery_name")))
+                self.log(msg, "CRITICAL")
+                self.module.fail_json(msg=msg)
+            else:
+                msg = 'Cannot find any discovery task with name {0} -- Discovery result: {1}'.format(
+                    str(self.validated_config[0].get("discovery_name")), str(discovery))
+                self.log(msg, "CRITICAL")
+                self.module.fail_json(msg=msg)
 
         self.result.update(dict(discovery_range=discovery))
         return discovery
