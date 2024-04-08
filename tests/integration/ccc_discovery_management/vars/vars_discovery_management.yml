@@ -76,8 +76,6 @@ multi_range:
       - 204.1.2.7
       - 204.1.2.8
       - 204.1.2.9
-      - 204.1.2.10
-      - 204.1.2.11
     ip_filter_list:
       - 204.1.2.3
     protocol_order: ssh
