@@ -857,3 +857,4 @@ releases:
           - Added the op_modifies=True when calling SDK APIs in the workflow manager modules.
           - Added a method to validate IP addresses.
           - Fixed a minor issue in the site workflow manager module.
+          - Updating galaxy.yml ansible.utils dependencies.
