@@ -1393,7 +1393,7 @@ class Discovery(DnacBase):
             progress = response.get('progress')
             if re.search('Discovery deleted successfully.', response.get('progress')):
                 result = True
-                self.log("The Process is completed", "INFO")
+                self.log("The discovery process is completed", "INFO")
                 self.result.update(dict(discovery_task=response))
                 return result
 
