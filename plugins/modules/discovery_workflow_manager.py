@@ -59,7 +59,8 @@ options:
             pass a list with single element like - 10.197.156.22. For CIDR based discovery, we should pass a list with
             single element like - 10.197.156.22/22. For RANGE based discovery, we should pass a list with single element
             and range like - 10.197.156.1-10.197.156.100. For MULTI RANGE based discovery, we should pass a list with multiple
-            elementd like - 10.197.156.1-10.197.156.100 and in next line - 10.197.157.1-10.197.157.100.
+            elementd like - 10.197.156.1-10.197.156.100 and in next line - 10.197.157.1-10.197.157.100. Maximum of 8 IP address ranges
+            are allowed.
         type: list
         elements: str
         required: true
@@ -1060,6 +1061,10 @@ class Discovery(DnacBase):
             else:
                 self.preprocess_device_discovery_handle_error()
         else:
+            if len(ip_address_list) > 8:
+                msg = "Maximum of 8 IP ranges are allowed."
+                self.log(msg, "CRITICAL")
+                self.module.fail_json(msg=msg)
             new_ip_collected = []
             for ip in ip_address_list:
                 if len(str(ip).split("-")) != 2:
@@ -1305,11 +1310,11 @@ class Discovery(DnacBase):
         self.log("Task Id of the API task created is {0}".format(result.response.get('taskId')), "INFO")
         return result.response.get('taskId')
 
-    def get_task_status(self, task_id=None):
+    def get_merged_task_status(self, task_id=None):
         """
-        Monitor the status of a task in the Cisco Catalyst Center. It checks the task
-        status periodically until the task is no longer 'In Progress'.
-        If the task encounters an error or fails, it immediately fails the
+        Monitor the status of a task of creation of dicovery in the Cisco Catalyst Center.
+        It checks the task status periodically until the task is no longer 'In Progress'
+        or other states. If the task encounters an error or fails, it immediately fails the
         module and returns False.
 
         Parameters:
@@ -1329,7 +1334,7 @@ class Discovery(DnacBase):
                 op_modifies=True,
             )
             response = response.response
-            self.log("Task status for the task id {0} is {1}".format(str(task_id), str(response)), "INFO")
+            self.log("Task status for the task id {0} is {1}, is_error: {2}".format(str(task_id), str(response), str(response.get('isError'))), "INFO")
             if response.get('isError') or re.search(
                 'failed', response.get('progress'), flags=re.IGNORECASE
             ):
@@ -1338,17 +1343,62 @@ class Discovery(DnacBase):
                 self.log(msg, "CRITICAL")
                 self.module.fail_json(msg=msg)
                 return False
+
             self.log("Task status for the task id (before checking status) {0} is {1}".format(str(task_id), str(response)), "INFO")
             progress = response.get('progress')
-            if progress in ('In Progress', 'Inventory service initiating discovery'):
-                time.sleep(3)
-                continue
-            else:
+            try:
+                progress_value = int(progress)
                 result = True
                 self.log("The Process is completed", "INFO")
-                break
-        self.result.update(dict(discovery_task=response))
-        return result
+                self.result.update(dict(discovery_task=response))
+                return result
+            except Exception:
+                self.log("The progress status is {0}, continue to check the status after 3 seconds. Putting into sleep for 3 seconds".format(progress))
+                time.sleep(3)
+
+    def get_deleted_task_status(self, task_id=None):
+        """
+        Monitor the status of a task of deletion of dicovery in the Cisco Catalyst Center.
+        It checks the itask status periodically until the task is 'Discovery deleted successfully'.
+        If the task encounters an error or fails, it immediately fails the module and returns False.
+
+        Parameters:
+          - task_id: The ID of the task to monitor.
+
+        Returns:
+          - result: True if the task completed successfully, False otherwise.
+        """
+
+        result = False
+        params = dict(task_id=task_id)
+        while True:
+            response = self.dnac_apply['exec'](
+                family="task",
+                function='get_task_by_id',
+                params=params,
+                op_modifies=True,
+            )
+            response = response.response
+            self.log("Task status for the task id {0} is {1}, is_error: {2}".format(str(task_id), str(response), str(response.get('isError'))), "INFO")
+            if response.get('isError') or re.search(
+                'failed', response.get('progress'), flags=re.IGNORECASE
+            ):
+                msg = 'Discovery task with id {0} has not completed - Reason: {1}'.format(
+                    task_id, response.get("failureReason"))
+                self.log(msg, "CRITICAL")
+                self.module.fail_json(msg=msg)
+                return False
+
+            self.log("Task status for the task id (before checking status) {0} is {1}".format(str(task_id), str(response)), "INFO")
+            progress = response.get('progress')
+            if re.search('Discovery deleted successfully.', response.get('progress')):
+                result = True
+                self.log("The Process is completed", "INFO")
+                self.result.update(dict(discovery_task=response))
+                return result
+
+            self.log("The progress status is {0}, continue to check the status after 3 seconds. Putting into sleep for 3 seconds".format(progress))
+            time.sleep(3)
 
     def lookup_discovery_by_range_via_name(self):
         """
@@ -1563,11 +1613,11 @@ class Discovery(DnacBase):
         if exist_discovery:
             params = dict(id=exist_discovery.get('id'))
             discovery_task_id = self.delete_exist_discovery(params=params)
-            complete_discovery = self.get_task_status(task_id=discovery_task_id)
+            complete_discovery = self.get_deleted_task_status(task_id=discovery_task_id)
 
         discovery_task_id = self.create_discovery(
             ip_address_list=ip_address_list)
-        complete_discovery = self.get_task_status(task_id=discovery_task_id)
+        complete_discovery = self.get_merged_task_status(task_id=discovery_task_id)
         discovery_task_info = self.get_discoveries_by_range_until_success()
         result = self.get_discovery_device_info(discovery_id=discovery_task_info.get('id'))
         self.result["changed"] = True
@@ -1620,7 +1670,7 @@ class Discovery(DnacBase):
 
             params = dict(id=exist_discovery.get('id'))
             discovery_task_id = self.delete_exist_discovery(params=params)
-            complete_discovery = self.get_task_status(task_id=discovery_task_id)
+            complete_discovery = self.get_deleted_task_status(task_id=discovery_task_id)
             self.result["changed"] = True
             self.result['msg'] = "Successfully deleted discovery"
             self.result['diff'] = self.validated_config
