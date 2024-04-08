@@ -2050,7 +2050,6 @@ class Inventory(DnacBase):
             "httpSecure": params.get("http_secure"),
             "httpUserName": params.get("http_username"),
             "netconfPort": params.get("netconf_port"),
-            "serialNumber": params.get("serial_number"),
             "snmpVersion": params.get("snmp_version"),
             "type": params.get("type"),
             "updateMgmtIPaddressList": params.get("update_mgmt_ipaddresslist"),
@@ -2607,6 +2606,7 @@ class Inventory(DnacBase):
                         if value is not None:
                             payload_params[key] = value
 
+                    # Check if interface need update or not here
                     interface_needs_update = False
                     for key, value in payload_params.items():
                         if key == "voiceVlanId":
