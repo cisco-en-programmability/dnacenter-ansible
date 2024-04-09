@@ -1951,7 +1951,7 @@ class Inventory(DnacBase):
             self.log(self.msg, "ERROR")
         else:
             self.status = "success"
-            self.msg = "Required parameter for Adding the devices '{0}' in Inventory are present.".format(str(device_to_add_in_ccc))
+            self.msg = "Required parameters for adding the devices '{0}' to inventory are present.".format(str(device_to_add_in_ccc))
             self.log(self.msg, "INFO")
 
         return self
