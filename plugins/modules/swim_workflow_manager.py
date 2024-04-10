@@ -296,7 +296,7 @@ options:
             type: bool
 requirements:
 - dnacentersdk == 2.4.5
-- python >= 3.5
+- python >= 3.9
 notes:
   - SDK Method used are
     software_image_management_swim.SoftwareImageManagementSwim.import_software_image_via_url,
@@ -756,12 +756,18 @@ class Swim(DnacBase):
             "site_id": site_id,
             "device_family": device_family
         }
-        response = self.dnac._exec(
-            family="sites",
-            function='get_membership',
-            op_modifies=True,
-            params=site_params,
-        )
+
+        try:
+            response = self.dnac._exec(
+                family="sites",
+                function='get_membership',
+                op_modifies=True,
+                params=site_params,
+            )
+        except Exception as e:
+            self.log("Unable to fetch the device(s) associated to the site '{0}' due to '{1}'".format(site_name, str(e)), "WARNING")
+            return device_uuid_list
+
         self.log("Received API response from 'get_membership': {0}".format(str(response)), "DEBUG")
         response = response['device']
 

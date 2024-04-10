@@ -24,8 +24,8 @@ options:
     - Name query parameter. Queuing profile name.
     type: str
 requirements:
-- dnacentersdk >= 2.5.5
-- python >= 3.5
+- dnacentersdk >= 2.6.0
+- python >= 3.9
 seealso:
 - name: Cisco DNA Center documentation for Application Policy GetApplicationPolicyQueuingProfile
   description: Complete reference of the GetApplicationPolicyQueuingProfile API.

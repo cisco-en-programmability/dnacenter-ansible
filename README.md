@@ -15,11 +15,11 @@ The following table shows the supported versions.
 
 | Cisco DNA Center version | Ansible "cisco.dnac" version | Python "dnacentersdk" version |
 |--------------------------|------------------------------|-------------------------------|
-| 2.1.1                    | 3.0.0                        | 2.2.5                         |
-| 2.2.2.3                  | 3.3.1                        | 2.3.3                         |
-| 2.2.3.3                  | 6.4.0                        | 2.4.11                        |
-| 2.3.3.0                  | 6.6.4                        | 2.5.5                         |
-| 2.3.5.3                  | 6.13.0                       | 2.6.0                         |
+| 2.1.1                    | 3.0.0                        |  2.2.5                        |
+| 2.2.2.3                  | 3.3.1                        |  2.3.3                        |
+| 2.2.3.3                  | 6.4.0                        |  2.4.11                       |
+| 2.3.3.0                  | 6.6.4                        |  2.5.5                        |
+| 2.3.5.3                  | ^6.13.0                      | ^2.6.0                        |
 
 If your Ansible collection is older please consider updating it first.
 
@@ -44,9 +44,9 @@ ansible-galaxy collection install cisco.dnac:3.3.1
 ```
 
 ## Requirements
-- Ansible >= 2.9
-- [Python DNA Center SDK](https://github.com/cisco-en-programmability/dnacentersdk) v2.4.7 or newer
-- Python >= 3.6, as the DNA Center SDK doesn't support Python version 2.x
+- Ansible >= 2.15
+- [Python DNA Center SDK](https://github.com/cisco-en-programmability/dnacentersdk) v2.6.0 or newer
+- Python >= 3.9, as the DNA Center SDK doesn't support Python version 2.x
 
 ## Install
 Ansible must be installed ([Install guide](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html))

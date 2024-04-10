@@ -510,6 +510,42 @@ class DnacBase():
         except socket.error:
             return False
 
+    def is_path_exists(self, file_path):
+        """
+        Check if the file path 'file_path' exists or not.
+
+        Parameters:
+            file_path (string) - Path of the provided file.
+
+        Returns:
+            True/False (bool) - True if the file path exists, else False.
+        """
+
+        if not os.path.exists(file_path):
+            return False
+
+        return True
+
+    def is_json(self, file_path):
+        """
+        Check if the file in the file path is JSON or not.
+
+        Parameters:
+            file_path (string) - Path of the provided file.
+
+        Returns:
+            True/False (bool) - True if the file is in JSON format, else False.
+        """
+
+        try:
+            with open(file_path, 'r') as file:
+                json.load(file)
+                return True
+
+        except (ValueError, FileNotFoundError):
+            self.log("The provided file '{0}' is not in JSON format".format(file_path), "CRITICAL")
+            return False
+
 
 def is_list_complex(x):
     return isinstance(x[0], dict) or isinstance(x[0], list)

@@ -83,8 +83,8 @@ options:
     description: Template Name.
     type: str
 requirements:
-- dnacentersdk >= 2.5.5
-- python >= 3.5
+- dnacentersdk >= 2.6.0
+- python >= 3.9
 seealso:
 - name: Cisco DNA Center documentation for Sensors EditSensorTestTemplate
   description: Complete reference of the EditSensorTestTemplate API.

@@ -61,8 +61,8 @@ options:
     description: To Email.
     type: str
 requirements:
-- dnacentersdk >= 2.5.5
-- python >= 3.5
+- dnacentersdk >= 2.6.0
+- python >= 3.9
 seealso:
 - name: Cisco DNA Center documentation for Event Management CreateEmailDestination
   description: Complete reference of the CreateEmailDestination API.

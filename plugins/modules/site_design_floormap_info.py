@@ -26,8 +26,8 @@ options:
     - FloorId path parameter. Group Id of the specified floormap.
     type: str
 requirements:
-- dnacentersdk >= 2.5.5
-- python >= 3.5
+- dnacentersdk >= 2.6.0
+- python >= 3.9
 notes:
   - SDK Method used are
     site_design.SiteDesign.get_floormap,
