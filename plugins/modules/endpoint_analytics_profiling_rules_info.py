@@ -60,8 +60,8 @@ options:
     - RuleId path parameter. Unique rule identifier.
     type: str
 requirements:
-- dnacentersdk >= 2.5.5
-- python >= 3.5
+- dnacentersdk >= 2.6.0
+- python >= 3.9
 notes:
   - SDK Method used are
     policy.Policy.get_details_of_a_single_profiling_rule,

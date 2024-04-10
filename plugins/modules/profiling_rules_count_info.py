@@ -29,8 +29,8 @@ options:
     - IncludeDeleted query parameter. Flag to indicate whether deleted rules should be part of the records fetched.
     type: bool
 requirements:
-- dnacentersdk >= 2.5.5
-- python >= 3.5
+- dnacentersdk >= 2.6.0
+- python >= 3.9
 notes:
   - SDK Method used are
     policy.Policy.get_count_of_profiling_rules,

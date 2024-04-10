@@ -24,8 +24,8 @@ options:
     - Smart_account_id path parameter. Id of smart account.
     type: str
 requirements:
-- dnacentersdk >= 2.5.5
-- python >= 3.5
+- dnacentersdk >= 2.6.0
+- python >= 3.9
 seealso:
 - name: Cisco DNA Center documentation for Licenses VirtualAccountDetails2
   description: Complete reference of the VirtualAccountDetails2 API.
