@@ -24,8 +24,8 @@ options:
     - InvokeSource query parameter. The source that invokes this API.
     type: str
 requirements:
-- dnacentersdk >= 2.5.5
-- python >= 3.5
+- dnacentersdk >= 2.6.0
+- python >= 3.9
 seealso:
 - name: Cisco DNA Center documentation for User and Roles GetUsersAPI
   description: Complete reference of the GetUsersAPI API.

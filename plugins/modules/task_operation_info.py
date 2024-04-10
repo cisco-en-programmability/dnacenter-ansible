@@ -34,8 +34,8 @@ options:
       value is 1.
     type: int
 requirements:
-- dnacentersdk >= 2.5.5
-- python >= 3.5
+- dnacentersdk >= 2.6.0
+- python >= 3.9
 seealso:
 - name: Cisco DNA Center documentation for Task GetTaskByOperationId
   description: Complete reference of the GetTaskByOperationId API.
