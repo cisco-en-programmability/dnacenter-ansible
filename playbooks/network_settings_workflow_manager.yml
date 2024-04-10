@@ -17,7 +17,7 @@
         dnac_log_append: True
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: merged
-        config_verify: True
+        # config_verify: True
         config:
         - global_pool_details:
             settings:
@@ -30,18 +30,28 @@
                 dhcp_server_ips: [] #use this for updating
                 dns_server_ips: [] #use this for updating
                 # prev_name: Global_Pool2
+              - name: Global_Pool3
+                gateway: '' #use this for updating
+                ip_address_space: IPv4 #required when we are creating
+                cidr: 10.0.0.0/8  #required when we are creating
+                pool_type: Generic
+                dhcp_server_ips: [] #use this for updating
+                dns_server_ips: [] #use this for updating
+                # prev_name: Global_Pool2
           reserve_pool_details:
-            ipv6_address_space: True
-            ipv4_global_pool: 100.0.0.0/8
+          - ipv6_address_space: True
+            # ipv4_global_pool: 100.0.0.0/8
+            ipv4_global_pool_name: Global_Pool1
             ipv4_prefix: True
             ipv4_prefix_length: 9
             ipv4_subnet: 100.128.0.0
             ipv4_gateway: 100.128.0.1
-            # ipv4_dns_servers: [100.128.0.1]
+            ipv4_dns_servers: []
             name: IP_Pool_3
             ipv6_prefix: True
             ipv6_prefix_length: 64
             ipv6_global_pool: 2001:db8::/64
+            # ipv6_global_pool_name: Global_Pool2
             ipv6_subnet: '2001:db8::'
             site_name: Global/Chennai/Trill
             slaac_support: True
@@ -104,5 +114,5 @@
               ip_pool:
               - name: Global_Pool2
           reserve_pool_details:
-            name: IP_Pool_3
+          - name: IP_Pool_3
             site_name: Global/Chennai/Trill
