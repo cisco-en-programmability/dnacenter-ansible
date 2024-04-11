@@ -7,11 +7,11 @@ single_ip:
     protocol_order: ssh
     global_credentials:
       cli_credentials_list:
-        - description: CLI
-          username: cli
+        - description: CLIa
+          username: cli-a
       snmp_v3_credential_list:
-        - description: snmpV3
-          username: v3Public2
+        - description: SNMPv3 Test a
+          username: admin
     retry: 1
     timeout: 1
 

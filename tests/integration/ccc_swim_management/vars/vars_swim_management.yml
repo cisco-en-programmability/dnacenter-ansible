@@ -13,7 +13,6 @@ image_details:
         - source_url: http://10.197.156.28/stda/abimishr/cat9k_iosxe.17.12.01.SPA.bin
           third_party: False
 
-
 image_golden_tagging_details:
   - tagging_details:
       image_name:  "cat9k_iosxe.17.12.01.SPA.bin"

@@ -1,0 +1,45 @@
+---
+- debug: msg="Starting site management test"
+- debug: msg="Role Path {{ role_path }}"
+
+- block:
+  - name: Load vars and declare dnac vars
+    include_vars:
+      file: "{{ role_path }}/vars/vars_network_compliance_management.yml"
+      name: vars_map
+    vars:
+      dnac_login: &dnac_login
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        config_verify: true
+
+  # - debug:
+  #     msg: "{{ vars_map. }}"
+
+
+#############################################
+#                                           #
+#############################################
+
+  - name: Run Compliance 
+    cisco.dnac.network_compliance_workflow_manager:
+      <<: *dnac_login
+      dnac_log_append: False
+      config:
+        - ip_address_list: ['204.1.2.2', '204.1.2.5', '204.1.2.4']
+          site_name: "Global/India/Bangalore/Mantri Square/Floor1"
+          run_compliance:
+            trigger_full: True
+            categories: ['INTENT','RUNNING_CONFIG']
+          sync_device_config: False
+
+
+
+ 
