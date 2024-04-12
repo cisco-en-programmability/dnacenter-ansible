@@ -1095,26 +1095,34 @@ class NetworkSettings(DnacBase):
             "details": None,
             "id": None
         }
-        response = self.dnac._exec(
-            family="network_settings",
-            function="get_global_pool",
-        )
-        if not isinstance(response, dict):
-            self.log("Failed to retrieve the global pool details - "
-                     "Response is not a dictionary", "CRITICAL")
-            return global_pool
+        is_pool_found = False
+        value = 1
+        while(not is_pool_found):
+            response = self.dnac._exec(
+                family="network_settings",
+                function="get_global_pool",
+                params={"offset": value}
+            )
+            value += 25
+            if not isinstance(response, dict):
+                self.log("Failed to retrieve the global pool details - "
+                         "Response is not a dictionary", "CRITICAL")
+                return global_pool
 
-        all_global_pool_details = response.get("response")
-        global_pool_details = get_dict_result(all_global_pool_details, "ipPoolName", name)
-        self.log("Global ip pool name: {0}".format(name), "DEBUG")
-        self.log("Global pool details: {0}".format(global_pool_details), "DEBUG")
-        if not global_pool_details:
-            self.log("Global pool '{0}' does not exist".format(name), "INFO")
-            return global_pool
-        global_pool.update({"exists": True})
-        global_pool.update({"id": global_pool_details.get("id")})
-        global_pool["details"] = self.get_global_pool_params(global_pool_details)
-        # global_pool.get("details").update({"id": global_pool_details.get("id")})
+            all_global_pool_details = response.get("response")
+            if not all_global_pool_details:
+                self.log("Global pool '{0}' does not exist".format(name), "INFO")
+                return global_pool
+
+            global_pool_details = get_dict_result(all_global_pool_details, "ipPoolName", name)
+            if global_pool_details:
+                self.log("Global ip pool name: {0}".format(name), "DEBUG")
+                self.log("Global pool details: {0}".format(global_pool_details), "DEBUG")
+                global_pool.update({"exists": True})
+                global_pool.update({"id": global_pool_details.get("id")})
+                global_pool["details"] = self.get_global_pool_params(global_pool_details)
+                # global_pool.get("details").update({"id": global_pool_details.get("id")})
+                is_pool_found = True
 
         self.log("Formatted global pool details: {0}".format(global_pool), "DEBUG")
         return global_pool
@@ -1392,19 +1400,36 @@ class NetworkSettings(DnacBase):
             self.status = "failed"
             return self.check_return_status()
 
-        response = self.dnac._exec(
-            family="network_settings",
-            function="get_global_pool",
-        )
-        response = response.get("response")
-        global_pool_details = get_dict_result(response, "ipPoolName", global_pool_name)
-        if not global_pool_details:
-            self.msg = "The global_pool_name '{0}' is not valid under reserve_pool_details".format(global_pool_name)
-            self.status = "failed"
-            return self.check_return_status()
+        is_pool_found = False
+        value = 1
+        while(not is_pool_found):
+            response = self.dnac._exec(
+                family="network_settings",
+                function="get_global_pool",
+                params={"offset": value}
+            )
+            value += 25
+            if not isinstance(response, dict):
+                self.log("Failed to retrieve the global pool details - "
+                         "Response is not a dictionary", "CRITICAL")
+                self.msg = "Failed to retrieve the global pool details - Response is not a dictionary"
+                self.status = "failed"
+                return self.check_return_status()
 
-        self.log("Global Pool '{0}' details: {1}".format(global_pool_name, global_pool_details), "INFO")
-        global_pool_cidr = global_pool_details.get("ipPoolCidr")
+            all_global_pool_details = response.get("response")
+            if not all_global_pool_details:
+                self.msg = "The global_pool_name '{0}' is not valid under reserve_pool_details".format(global_pool_name)
+                self.status = "failed"
+                return self.check_return_status()
+
+            global_pool_details = get_dict_result(all_global_pool_details, "ipPoolName", global_pool_name)
+            if global_pool_details:
+                self.log("Global ip pool name: {0}".format(global_pool_name), "DEBUG")
+                self.log("Global pool details: {0}".format(global_pool_details), "DEBUG")
+                global_pool_cidr = global_pool_details.get("ipPoolCidr")
+                is_pool_found = True
+
+        self.log("Global Pool '{0}' cidr: {1}".format(global_pool_name, global_pool_cidr), "INFO")
         return global_pool_cidr
 
     def get_want_global_pool(self, global_ippool):
@@ -1928,7 +1953,7 @@ class NetworkSettings(DnacBase):
                             final_update_global_pool.append(item)
 
             if final_update_global_pool:
-                self.log("Global pool requires update", "DEBUG")
+                self.log("Global pool requires update", "INFO")
 
                 # Pool(s) needs update
                 pool_params = {
