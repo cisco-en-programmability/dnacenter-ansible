@@ -3227,6 +3227,10 @@ class Inventory(DnacBase):
                 if not playbook_params['httpPort']:
                     playbook_params['httpPort'] = device_data.get('http_port', None)
 
+                for key, value in playbook_params.items():
+                    if value == " ":
+                        playbook_params[key] = None
+
                 try:
                     if playbook_params['updateMgmtIPaddressList']:
                         new_mgmt_ipaddress = playbook_params['updateMgmtIPaddressList'][0]['newMgmtIpAddress']
@@ -3251,6 +3255,8 @@ class Inventory(DnacBase):
 
                     else:
                         self.log("Playbook parameter for updating devices: {0}".format(str(playbook_params)), "DEBUG")
+                        # import epdb;
+                        # epdb.serve(port=8888)
                         response = self.dnac._exec(
                             family="devices",
                             function='sync_devices',
