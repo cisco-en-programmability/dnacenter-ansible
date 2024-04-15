@@ -373,8 +373,8 @@ class NetworkCompliance(DnacBase):
     def sync_device_config(self, sync_device_config_params):
         result = self.dnac_apply['exec'](
             family="compliance",
-            function="sync_device_config_params",
-            params=commit_device_configuration,
+            function="commit_device_configuration",
+            params=sync_device_config_params,
             op_modifies=True,
         )
 
