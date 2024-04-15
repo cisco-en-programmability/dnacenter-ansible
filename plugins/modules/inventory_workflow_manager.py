@@ -3023,6 +3023,7 @@ class Inventory(DnacBase):
             devices_to_update_role = self.get_device_ips_from_config_priority()
             device_role = self.config[0].get('role')
             role_update_count = 0
+            role_updated_list = []
             for device_ip in devices_to_update_role:
                 device_id = self.get_device_ids([device_ip])
 
@@ -3067,10 +3068,8 @@ class Inventory(DnacBase):
 
                             if 'successfully' in progress or 'succesfully' in progress:
                                 self.status = "success"
-                                self.result['changed'] = True
-                                self.msg = "Device(s) '{0}' role updated successfully to '{1}'".format(str(devices_to_update_role), device_role)
-                                self.result['response'] = self.msg
-                                self.log(self.msg, "INFO")
+                                self.log("Device '{0}' role updated successfully to '{1}'".format(device_ip, device_role), "INFO")
+                                role_updated_list.append(device_ip)
                                 break
                             elif execution_details.get("isError"):
                                 self.status = "failed"
@@ -3091,9 +3090,16 @@ class Inventory(DnacBase):
                 self.status = "success"
                 self.result['changed'] = False
                 self.msg = """The device role '{0}' is already set in Cisco Catalyst Center, no device role update is needed for the
-                  devices {1}.""".format(device_role, str(devices_to_update_role))
+                  device(s) {1}.""".format(device_role, str(devices_to_update_role))
                 self.log(self.msg, "INFO")
                 self.result['response'] = self.msg
+
+            if role_updated_list:
+                self.status = "success"
+                self.result['changed'] = True
+                self.msg = "Device(s) '{0}' role updated successfully to '{1}'".format(str(role_updated_list), device_role)
+                self.result['response'] = self.msg
+                self.log(self.msg, "INFO")
 
         if credential_update:
             device_to_update = self.get_device_ips_from_config_priority()
