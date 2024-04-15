@@ -1406,7 +1406,7 @@ class NetworkSettings(DnacBase):
             all_global_pool_details = response.get("response")
             if not all_global_pool_details:
                 self.log("Invalid global_pool_name '{0}' under reserve_pool_details".format(global_pool_name), "ERROR")
-                self.msg = "No global pool details is available with the global_pool_name: {0}".format(global_pool_name)
+                self.msg = "No information found for the global pool named '{0}'".format(global_pool_name)
                 self.status = "failed"
                 return self.check_return_status()
 
@@ -1966,7 +1966,7 @@ class NetworkSettings(DnacBase):
                     result_global_pool.get("response").update({"globalPool Details": pool_params})
                     result_global_pool.get("msg").update({name: "Global Pool Updated Successfully"})
 
-        self.log("The Global Pool config operations are successful", "INFO")
+        self.log("Global pool configuration operations completed successfully.", "INFO")
         return
 
     def update_reserve_pool(self, reserve_pool):
@@ -2048,7 +2048,7 @@ class NetworkSettings(DnacBase):
             result_reserve_pool.get("msg") \
                 .update({name: "Reserved Ip Subpool updated successfully."})
 
-        self.log("Reserved Ip Subpool Updated Successfully", "INFO")
+        self.log("Updated reserved IP subpool successfully", "INFO")
         return
 
     def update_network(self, config):
