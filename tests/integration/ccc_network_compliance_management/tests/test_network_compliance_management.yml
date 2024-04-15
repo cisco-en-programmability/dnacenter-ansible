@@ -1,5 +1,5 @@
 ---
-- debug: msg="Starting site management test"
+- debug: msg="Starting network compliance management test"
 - debug: msg="Role Path {{ role_path }}"
 
 - block:
@@ -34,11 +34,10 @@
       dnac_log_append: False
       config:
         - ip_address_list: ['204.1.2.2', '204.1.2.5', '204.1.2.4']
-          site_name: "Global/India/Bangalore/Mantri Square/Floor1"
+          sync_device_config: False
           run_compliance:
             trigger_full: True
-            categories: ['INTENT','RUNNING_CONFIG']
-          sync_device_config: False
+            categories: ['INTENT']
 
 
 
