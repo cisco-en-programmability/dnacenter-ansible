@@ -1098,7 +1098,7 @@ class NetworkSettings(DnacBase):
         }
         is_pool_found = False
         value = 1
-        while(not is_pool_found):
+        while (not is_pool_found):
             response = self.dnac._exec(
                 family="network_settings",
                 function="get_global_pool",
@@ -1403,7 +1403,7 @@ class NetworkSettings(DnacBase):
 
         is_pool_found = False
         value = 1
-        while(not is_pool_found):
+        while (not is_pool_found):
             response = self.dnac._exec(
                 family="network_settings",
                 function="get_global_pool",
