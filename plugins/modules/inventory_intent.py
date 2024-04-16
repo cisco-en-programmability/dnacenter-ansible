@@ -3235,6 +3235,10 @@ class DnacDevice(DnacBase):
                 if not playbook_params['httpPort']:
                     playbook_params['httpPort'] = device_data.get('http_port', None)
 
+                for key, value in playbook_params.items():
+                    if value == " ":
+                        playbook_params[key] = None
+
                 try:
                     if playbook_params['updateMgmtIPaddressList']:
                         new_mgmt_ipaddress = playbook_params['updateMgmtIPaddressList'][0]['newMgmtIpAddress']
