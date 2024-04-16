@@ -488,7 +488,7 @@ class Provision(DnacBase):
                         "device_management_ip_address": self.validated_config[0]["management_ip_address"]
                     },
                 )
-            except:
+            except Exception:
                 status_response = {}
             self.log("Wired device's status Response collected from 'get_provisioned_wired_device' API is:{0}".format(str(status_response)), "DEBUG")
             status = status_response.get("status")
