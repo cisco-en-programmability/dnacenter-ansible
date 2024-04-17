@@ -583,6 +583,7 @@ class DnacSwims(DnacBase):
             response = self.dnac._exec(
                 family="sites",
                 function='get_site',
+                op_modifies=True,
                 params={"name": site_name},
             )
         except Exception as e:
@@ -617,6 +618,7 @@ class DnacSwims(DnacBase):
         image_response = self.dnac._exec(
             family="software_image_management_swim",
             function='get_software_image_details',
+            op_modifies=True,
             params={"image_name": name},
         )
         self.log("Received API response from 'get_software_image_details': {0}".format(str(image_response)), "DEBUG")
@@ -651,6 +653,7 @@ class DnacSwims(DnacBase):
         image_response = self.dnac._exec(
             family="software_image_management_swim",
             function='get_software_image_details',
+            op_modifies=True,
             params={"image_uuid": image_id},
         )
         self.log("Received API response from 'get_software_image_details': {0}".format(str(image_response)), "DEBUG")
@@ -686,6 +689,7 @@ class DnacSwims(DnacBase):
         image_response = self.dnac._exec(
             family="software_image_management_swim",
             function='get_software_image_details',
+            op_modifies=True,
             params={"image_name": name},
         )
         self.log("Received API response from 'get_software_image_details': {0}".format(str(image_response)), "DEBUG")
@@ -713,6 +717,7 @@ class DnacSwims(DnacBase):
         response = self.dnac._exec(
             family="devices",
             function='get_device_list',
+            op_modifies=True,
             params=params,
         )
         self.log("Received API response from 'get_device_list': {0}".format(str(response)), "DEBUG")
@@ -765,12 +770,18 @@ class DnacSwims(DnacBase):
             "site_id": site_id,
             "device_family": device_family
         }
-        response = self.dnac._exec(
-            family="sites",
-            function='get_membership',
-            op_modifies=True,
-            params=site_params,
-        )
+
+        try:
+            response = self.dnac._exec(
+                family="sites",
+                function='get_membership',
+                op_modifies=True,
+                params=site_params,
+            )
+        except Exception as e:
+            self.log("Unable to fetch the device(s) associated to the site '{0}' due to '{1}'".format(site_name, str(e)), "WARNING")
+            return device_uuid_list
+
         self.log("Received API response from 'get_membership': {0}".format(str(response)), "DEBUG")
         response = response['device']
 
@@ -1305,6 +1316,7 @@ class DnacSwims(DnacBase):
             response = self.dnac._exec(
                 family="devices",
                 function='get_device_list',
+                op_modifies=True,
                 params={"id": device_id}
             )
             self.log("Received API response from 'get_device_list': {0}".format(str(response)), "DEBUG")

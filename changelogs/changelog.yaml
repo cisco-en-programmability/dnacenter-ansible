@@ -849,3 +849,20 @@ releases:
           - Added attributes 'dnac_api_task_timeout' and 'dnac_task_poll_interval' in intent and workflow_manager modules.
           - inventory_workflow_manager - Added attributes 'add_user_defined_field', 'update_interface_details', 'export_device_list' and 'admin_status'
           - inventory_workflow_manager - Removed attributes 'provision_wireless_device', 'reprovision_wired_device'
+  6.13.2:
+      release_date: "2024-04-03"
+      changes:
+        release_summary: Enhancements in discovery, site, swim and inventory workflow manager modules.
+        minor_changes:
+          - Added the op_modifies=True when calling SDK APIs in the workflow manager modules.
+          - Added a method to validate IP addresses.
+          - Fixed a minor issue in the site workflow manager module.
+          - Updating galaxy.yml ansible.utils dependencies.
+  6.13.3:
+      release_date: "2024-04-08"
+      changes:
+        release_summary: Enhancements in discovery, template, swim and inventory workflow manager modules.
+        minor_changes:
+          - Adding support to importing a template using JSON file
+          - Changes in discovery workflow manager modules  relating to different states of the discovery job
+          - Changes in inventory and swim workflow manager modules.
