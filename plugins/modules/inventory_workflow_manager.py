@@ -1593,6 +1593,7 @@ class Inventory(DnacBase):
                 already_provision_count += 1
                 self.result['changed'] = False
                 self.msg = "Device '{0}' is already provisioned in the Cisco Catalyst Center".format(device_ip)
+                self.log(self.msg, "INFO")
                 continue
             if device_prov_status == 3:
                 self.status = "failed"

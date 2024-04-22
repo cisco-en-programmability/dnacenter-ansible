@@ -1595,6 +1595,7 @@ class DnacDevice(DnacBase):
                 already_provision_count += 1
                 self.result['changed'] = False
                 self.msg = "Device '{0}' is already provisioned in the Cisco Catalyst Center".format(device_ip)
+                self.log(self.msg, "INFO")
                 continue
             if device_prov_status == 3:
                 self.status = "failed"
@@ -2487,7 +2488,7 @@ class DnacDevice(DnacBase):
                 params={"device_management_ip_address": device_ip}
             )
 
-            if response.get("status") == "success" and "retrieved successfully" in response.get("description"):
+            if response.get("status") == "success" and "Wired Provisioned device detail retrieved successfully." in response.get("description"):
                 flag = 2
                 self.log("Wired device '{0}' already provisioned in the Cisco Catalyst Center.".format(device_ip), "INFO")
 
