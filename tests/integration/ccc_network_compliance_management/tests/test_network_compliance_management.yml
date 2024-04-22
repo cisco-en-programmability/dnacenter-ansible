@@ -25,20 +25,87 @@
 
 
 #############################################
-#                                           #
+#      Run Full Compliance on IP List       #
 #############################################
 
-  - name: Run Compliance 
+  - name: Run full complaince check 
     cisco.dnac.network_compliance_workflow_manager:
       <<: *dnac_login
       dnac_log_append: False
       config:
         - ip_address_list: ['204.1.2.2', '204.1.2.5', '204.1.2.4']
-          sync_device_config: False
+          #site_name: "Global"
           run_compliance:
-            trigger_full: True
-            categories: ['INTENT']
+             trigger_full: True
+              #trigger_full: True
+              #categories: ['INTENT', 'RUNNING_CONFIG', 'IMAGE', 'PSIRT', 'EOX', 'NETWORK_SETTINGS']
+          sync_device_config: True
 
+#############################################
+#        Run Full Compliance on Site        #
+#############################################
+  
+#   - name: Run full complaince check on Site
+#     cisco.dnac.network_compliance_workflow_manager:
+#       <<: *dnac_login
+#       dnac_log_append: False
+#       config:
+#         - site: "Global"
+#           run_compliance:
+#              trigger_full: True
+       
+# #############################################
+# # Run Compliance with Categories on IP List #
+# #############################################
 
+#   - name: Run complaince check with specific categories on IP list
+#     cisco.dnac.network_compliance_workflow_manager:
+#       <<: *dnac_login
+#       dnac_log_append: False
+#       config:
+#         - #ip_address_list: ['204.1.2.5']
+#           ip_address_list: ['204.1.2.2', '204.1.2.5', '204.1.2.4']
+#           run_compliance:
+#              trigger_full: False
+#              categories: ['INTENT', 'RUNNING_CONFIG' , 'IMAGE' , 'PSIRT']
 
- 
+# #############################################
+# #   Run Compliance with Categories on Site  #
+# #############################################
+
+#   - name: Run full complaince check 
+#     cisco.dnac.network_compliance_workflow_manager:
+#       <<: *dnac_login
+#       dnac_log_append: False
+#       config:
+#         - site_name: "Global"
+#           run_compliance:
+#              trigger_full: False
+#              categories: ['INTENT', 'RUNNING_CONFIG' , 'IMAGE' , 'PSIRT']
+
+# #############################################
+# #       Sync Device Config on IP List       #
+# #############################################
+
+#   - name: Run full complaince check 
+#     cisco.dnac.network_compliance_workflow_manager:
+#       <<: *dnac_login
+#       dnac_log_append: False
+#       config:
+#         - #ip_address_list: ['204.1.2.5']
+#           ip_address_list: ['204.1.2.2', '204.1.2.5', '204.1.2.4']
+#           sync_device_config: True
+
+# #############################################
+# #         Sync Device Config on Site        #
+# #############################################
+
+#   - name: Run full complaince check 
+#     cisco.dnac.network_compliance_workflow_manager:
+#       <<: *dnac_login
+#       dnac_log_append: False
+#       config:
+#         - site_name: "Global"
+#           sync_device_config: True
+
+#  
