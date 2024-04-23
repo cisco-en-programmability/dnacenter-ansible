@@ -1,0 +1,65 @@
+---
+- name: Configure channels and create events in Cisco Catalyst Center
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  vars_files:
+    - "input_events_and_notification.yml"
+    - "credentials.yml"
+  tasks:
+    - name: Add/update channels with destination and create/update events in Cisco Catalyst Center.
+      cisco.dnac.events_and_notifications_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log_level: DEBUG
+        dnac_log: true
+        config_verify: true
+        state: merged
+        config:
+        - syslog_destination:
+            name: "{{item.syslog_destination.name}}"
+            description: "{{item.syslog_destination.description}}"
+            host: "{{item.syslog_destination.host}}"
+            protocol: "{{item.syslog_destination.protocol}}"
+            port: "{{item.syslog_destination.port}}"
+          rest_webhook_destination:
+            name: "{{item.rest_webhook_destination.name}}"
+            description: "{{item.rest_webhook_destination.description}}"
+            url: "{{item.rest_webhook_destination.url}}"
+            method: "{{item.rest_webhook_destination.method}}"
+            trust_cert: "{{item.rest_webhook_destination.trust_cert}}"
+          email_destination:
+            from_email: "{{item.email_destination.from_email}}"
+            to_email: "{{item.email_destination.to_email}}"
+            subject: "{{item.email_destination.subject}}"
+            primary_smtp_config:
+              hostname: "{{item.email_destination.primary_smtp_config.hostname}}"
+              port: "{{item.email_destination.primary_smtp_config.port}}"
+          snmp_destination:
+            name: "{{item.snmp_destination.name}}"
+            description: "{{item.snmp_destination.description}}"
+            ip_address: "{{item.snmp_destination.ip_address}}"
+            port: "{{item.snmp_destination.port}}"
+            snmp_version: "{{item.snmp_destination.snmp_version}}"
+            username: "{{item.snmp_destination.username}}"
+            snmp_mode: "{{item.snmp_destination.snmp_mode}}"
+            snmp_auth_type: "{{item.snmp_destination.snmp_auth_type}}"
+            auth_password: "{{item.snmp_destination.auth_password}}"
+            snmp_privacy_type: "{{item.snmp_destination.snmp_privacy_type}}"
+            privacy_password: "{{item.snmp_destination.privacy_password}}"
+          itsm_setting:
+            name: "{{item.itsm_setting.name}}"
+            description: "{{item.itsm_setting.description}}"
+            connection_settings:
+              url: "{{item.itsm_setting.connection_settings.url}}"
+              auth_username: "{{item.itsm_setting.connection_settings.username}}"
+              auth_password: "{{item.itsm_setting.connection_settings.password}}"
+
+      with_items: "{{ events_notification }}"
+      tags:
+        - events_testing
