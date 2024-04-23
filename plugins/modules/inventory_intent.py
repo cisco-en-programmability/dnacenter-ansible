@@ -775,6 +775,7 @@ class DnacDevice(DnacBase):
             'clean_config': {'type': 'bool'},
             'add_user_defined_field': {
                 'type': 'list',
+                'elements': 'dict',
                 'name': {'type': 'str'},
                 'description': {'type': 'str'},
                 'value': {'type': 'str'},
@@ -797,6 +798,7 @@ class DnacDevice(DnacBase):
             },
             'provision_wired_device': {
                 'type': 'list',
+                'elements': 'dict',
                 'device_ip': {'type': 'str'},
                 'site_name': {'type': 'str'},
                 'resync_retry_count': {'default': 200, 'type': 'int'},
@@ -1586,6 +1588,21 @@ class DnacDevice(DnacBase):
                 'siteNameHierarchy': site_name
             }
 
+            # Check the provisioning status of device
+            device_prov_status = self.get_provision_wired_device(device_ip)
+            if device_prov_status == 2:
+                self.status = "success"
+                already_provision_count += 1
+                self.result['changed'] = False
+                self.msg = "Device '{0}' is already provisioned in the Cisco Catalyst Center".format(device_ip)
+                self.log(self.msg, "INFO")
+                continue
+            if device_prov_status == 3:
+                self.status = "failed"
+                error_msg = "Cannot do Provisioning for device {0}.".format(device_ip)
+                self.log(error_msg, "ERROR")
+                continue
+
             # Check till device comes into managed state
             while resync_retry_count:
                 response = self.get_device_response(device_ip)
@@ -1629,7 +1646,7 @@ class DnacDevice(DnacBase):
                 if response.get("status") == "failed":
                     description = response.get("description")
                     error_msg = "Cannot do Provisioning for device {0} beacuse of {1}".format(device_ip, description)
-                    self.log(error_msg)
+                    self.log(error_msg, "ERROR")
                     continue
 
                 task_id = response.get("taskId")
@@ -1650,9 +1667,6 @@ class DnacDevice(DnacBase):
                 # Not returning from here as there might be possiblity that for some devices it comes into exception
                 # but for others it gets provision successfully or If some devices are already provsioned
                 self.handle_provisioning_exception(device_ip, e, device_type)
-                if "already provisioned" in str(e):
-                    self.log(str(e), "INFO")
-                    already_provision_count += 1
 
         # Check If all the devices are already provsioned, return from here only
         if already_provision_count == total_devices_to_provisioned:
@@ -2465,18 +2479,24 @@ class DnacDevice(DnacBase):
             logs the response.
         """
 
-        response = self.dnac._exec(
-            family="sda",
-            function='get_provisioned_wired_device',
-            op_modifies=True,
-            params={"device_management_ip_address": device_ip}
-        )
+        try:
+            flag = 3
+            response = self.dnac._exec(
+                family="sda",
+                function='get_provisioned_wired_device',
+                op_modifies=True,
+                params={"device_management_ip_address": device_ip}
+            )
 
-        if response.get("status") == "failed":
-            self.log("Cannot do provisioning for wired device {0} because of {1}.".format(device_ip, response.get('description')), "ERROR")
-            return False
+            if response.get("status") == "success" and "Wired Provisioned device detail retrieved successfully." in response.get("description"):
+                flag = 2
+                self.log("Wired device '{0}' already provisioned in the Cisco Catalyst Center.".format(device_ip), "INFO")
 
-        return True
+        except Exception as e:
+            if "not provisioned to any site" in str(e):
+                flag = 1
+
+        return flag
 
     def clear_mac_address(self, interface_id, deploy_mode, interface_name):
         """
@@ -3608,7 +3628,8 @@ class DnacDevice(DnacBase):
             for prov_dict in provision_wired_list:
                 device_ip = prov_dict['device_ip']
                 provision_device_list.append(device_ip)
-                if not self.get_provision_wired_device(device_ip):
+                device_prov_status = self.get_provision_wired_device(device_ip)
+                if device_prov_status == 1 or device_prov_status == 3:
                     provision_wired_flag = False
                     break
 
