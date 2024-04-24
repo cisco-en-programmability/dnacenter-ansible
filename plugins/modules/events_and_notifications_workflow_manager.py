@@ -2169,7 +2169,7 @@ class Events(DnacBase):
                 self.add_snmp_destination(snmp_params).check_return_status()
             else:
                 # Check destination needs update and if yes then update SNMP Destination
-                snmp_need_update = self.email_dest_needs_update(snmp_params, snmp_dest_detail_in_ccc)
+                snmp_need_update = self.snmp_dest_needs_update(snmp_params, snmp_dest_detail_in_ccc)
                 if not snmp_need_update:
                     self.msg = "SNMP Destination with name '{0}' needs no update in Cisco Catalyst Center".format(destination_name)
                     self.log(self.msg, "INFO")
