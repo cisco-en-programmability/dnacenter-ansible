@@ -1128,8 +1128,8 @@ class DeviceCredential(DnacBase):
                         if item.get("description") == cliOldDescription \
                                 and item.get("username") == cliOldUsername:
                             if cliDetail:
-                                self.msg = "More than one CLI credential with same " + \
-                                           "old_description and old_username. Pass ID."
+                                self.msg = "More than one CLI credential with same old_description and old_username. " + \
+                                           "Please provide global device credentials ID."
                                 self.status = "failed"
                                 return self
                             cliDetail = item
@@ -1145,8 +1145,8 @@ class DeviceCredential(DnacBase):
                         if item.get("description") == cliDescription \
                                 and item.get("username") == cliUsername:
                             if cliDetail:
-                                self.msg = "More than one CLI Credential with same " + \
-                                           "description and username. Pass ID."
+                                self.msg = "More than one CLI Credential with same description and username. " + \
+                                           "Please provide global device credentials ID."
                                 self.status = "failed"
                                 return self
                             cliDetail = item
@@ -1297,8 +1297,8 @@ class DeviceCredential(DnacBase):
                         if item.get("description") == httpsReadOldDescription \
                                 and item.get("username") == httpsReadOldUsername:
                             if httpsReadDetail:
-                                self.msg = "More than one httpsRead credential with same " + \
-                                           "old_description and old_username. Pass ID."
+                                self.msg = "More than one httpsRead credential with same old_description and old_username. " + \
+                                           "Please provide global device credentials ID."
                                 self.status = "failed"
                                 return self
                             httpsReadDetail = item
@@ -1314,8 +1314,8 @@ class DeviceCredential(DnacBase):
                         if item.get("description") == httpsReadDescription \
                                 and item.get("username") == httpsReadUsername:
                             if httpsReadDetail:
-                                self.msg = "More than one httpsRead credential with same " + \
-                                           "description and username. Pass ID."
+                                self.msg = "More than one httpsRead credential with same description and username. " + \
+                                           "Please provide global device credentials ID."
                                 self.status = "failed"
                                 return self
                             httpsReadDetail = item
@@ -1360,8 +1360,8 @@ class DeviceCredential(DnacBase):
                         if item.get("description") == httpsWriteOldDescription \
                                 and item.get("username") == httpsWriteOldUsername:
                             if httpsWriteDetail:
-                                self.msg = "More than one httpsWrite credential with same " + \
-                                           "old_description and old_username. Pass ID"
+                                self.msg = "More than one httpsWrite credential with same old_description and old_username.  " + \
+                                           "Please provide global device credentials ID."
                                 self.status = "failed"
                                 return self
                             httpsWriteDetail = item
