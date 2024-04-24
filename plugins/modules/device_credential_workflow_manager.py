@@ -1128,8 +1128,8 @@ class DeviceCredential(DnacBase):
                         if item.get("description") == cliOldDescription \
                                 and item.get("username") == cliOldUsername:
                             if cliDetail:
-                                self.msg = "More than one CLI credential with same \
-                                            old_description and old_username. Pass ID."
+                                self.msg = "More than one CLI credential with same " + \
+                                           "old_description and old_username. Pass ID."
                                 self.status = "failed"
                                 return self
                             cliDetail = item
@@ -1145,8 +1145,8 @@ class DeviceCredential(DnacBase):
                         if item.get("description") == cliDescription \
                                 and item.get("username") == cliUsername:
                             if cliDetail:
-                                self.msg = "More than one CLI Credential with same \
-                                            description and username. Pass ID."
+                                self.msg = "More than one CLI Credential with same " + \
+                                           "description and username. Pass ID."
                                 self.status = "failed"
                                 return self
                             cliDetail = item
@@ -1297,8 +1297,8 @@ class DeviceCredential(DnacBase):
                         if item.get("description") == httpsReadOldDescription \
                                 and item.get("username") == httpsReadOldUsername:
                             if httpsReadDetail:
-                                self.msg = "More than one httpsRead credential with same \
-                                            old_description and old_username. Pass ID."
+                                self.msg = "More than one httpsRead credential with same " + \
+                                           "old_description and old_username. Pass ID."
                                 self.status = "failed"
                                 return self
                             httpsReadDetail = item
@@ -1314,8 +1314,8 @@ class DeviceCredential(DnacBase):
                         if item.get("description") == httpsReadDescription \
                                 and item.get("username") == httpsReadUsername:
                             if httpsReadDetail:
-                                self.msg = "More than one httpsRead credential with same \
-                                            description and username. Pass ID."
+                                self.msg = "More than one httpsRead credential with same " + \
+                                           "description and username. Pass ID."
                                 self.status = "failed"
                                 return self
                             httpsReadDetail = item
@@ -1360,14 +1360,14 @@ class DeviceCredential(DnacBase):
                         if item.get("description") == httpsWriteOldDescription \
                                 and item.get("username") == httpsWriteOldUsername:
                             if httpsWriteDetail:
-                                self.msg = "More than one httpsWrite credential with same \
-                                            old_description and old_username. Pass ID"
+                                self.msg = "More than one httpsWrite credential with same " + \
+                                           "old_description and old_username. Pass ID"
                                 self.status = "failed"
                                 return self
                             httpsWriteDetail = item
                     if not httpsWriteDetail:
-                        self.msg = "httpsWrite credential old_description or \
-                                    old_username is invalid"
+                        self.msg = "httpsWrite credential old_description or " + \
+                                   "old_username is invalid"
                         self.status = "failed"
                         return self
 
@@ -1533,8 +1533,7 @@ class DeviceCredential(DnacBase):
                             create_credential[create_cli_ptr] \
                                 .update({values[i]: item.get(values[i])})
                         else:
-                            self.msg = values[i] + " is mandatory for creating \
-                                       cliCredential " + str(have_cli_ptr)
+                            self.msg = values[i] + " is mandatory for creating cliCredential " + str(have_cli_ptr)
                             self.status = "failed"
                             return self
 
@@ -1551,8 +1550,7 @@ class DeviceCredential(DnacBase):
                         update_credential[update_cli_ptr] \
                             .update({"password": item.get("password")})
                     else:
-                        self.msg = "password is mandatory for udpating \
-                                   cliCredential " + str(have_cli_ptr)
+                        self.msg = "password is mandatory for udpating cliCredential " + str(have_cli_ptr)
                         self.status = "failed"
                         return self
 
@@ -1592,8 +1590,7 @@ class DeviceCredential(DnacBase):
                             create_credential[create_snmpv2cread_ptr] \
                                 .update({keys[i]: item.get(values[i])})
                         else:
-                            self.msg = values[i] + " is mandatory for creating \
-                                       snmpV2cRead " + str(have_snmpv2cread_ptr)
+                            self.msg = values[i] + " is mandatory for creating snmpV2cRead " + str(have_snmpv2cread_ptr)
                             self.status = "failed"
                             return self
                     create_snmpv2cread_ptr = create_snmpv2cread_ptr + 1
@@ -1606,8 +1603,7 @@ class DeviceCredential(DnacBase):
                         update_credential[update_snmpv2cread_ptr] \
                             .update({"readCommunity": item.get("read_community")})
                     else:
-                        self.msg = "read_community is mandatory for updating \
-                                   snmpV2cRead " + str(have_snmpv2cread_ptr)
+                        self.msg = "read_community is mandatory for updating snmpV2cRead " + str(have_snmpv2cread_ptr)
                         self.status = "failed"
                         return self
                     for i in range(1, 3):
@@ -1641,8 +1637,7 @@ class DeviceCredential(DnacBase):
                             create_credential[create_snmpv2cwrite_ptr] \
                                 .update({keys[i]: item.get(values[i])})
                         else:
-                            self.msg = values[i] + " is mandatory for creating \
-                                       snmpV2cWrite " + str(have_snmpv2cwrite_ptr)
+                            self.msg = values[i] + " is mandatory for creating snmpV2cWrite " + str(have_snmpv2cwrite_ptr)
                             self.status = "failed"
                             return self
                     create_snmpv2cwrite_ptr = create_snmpv2cwrite_ptr + 1
@@ -1655,8 +1650,7 @@ class DeviceCredential(DnacBase):
                         update_credential[update_snmpv2cwrite_ptr] \
                             .update({"writeCommunity": item.get("write_community")})
                     else:
-                        self.msg = "write_community is mandatory for updating \
-                                   snmpV2cWrite " + str(have_snmpv2cwrite_ptr)
+                        self.msg = "write_community is mandatory for updating snmpV2cWrite " + str(have_snmpv2cwrite_ptr)
                         self.status = "failed"
                         return self
                     for i in range(1, 3):
@@ -1691,8 +1685,7 @@ class DeviceCredential(DnacBase):
                             create_credential[create_httpsread_ptr] \
                                 .update({values[i]: item.get(values[i])})
                         else:
-                            self.msg = values[i] + " is mandatory for creating \
-                                       httpsRead " + str(have_httpsread_ptr)
+                            self.msg = values[i] + " is mandatory for creating httpsRead " + str(have_httpsread_ptr)
                             self.status = "failed"
                             return self
                     if item.get("port"):
@@ -1711,8 +1704,7 @@ class DeviceCredential(DnacBase):
                         update_credential[update_httpsread_ptr] \
                             .update({"password": item.get("password")})
                     else:
-                        self.msg = "password is mandatory for updating \
-                                   httpsRead " + str(have_httpsread_ptr)
+                        self.msg = "password is mandatory for updating httpsRead " + str(have_httpsread_ptr)
                         self.status = "failed"
                         return self
                     for i in range(1, 5):
@@ -1745,8 +1737,7 @@ class DeviceCredential(DnacBase):
                             create_credential[create_httpswrite_ptr] \
                                 .update({values[i]: item.get(values[i])})
                         else:
-                            self.msg = values[i] + " is mandatory for creating \
-                                       httpsWrite " + str(have_httpswrite_ptr)
+                            self.msg = values[i] + " is mandatory for creating httpsWrite " + str(have_httpswrite_ptr)
                             self.status = "failed"
                             return self
                     if item.get("port"):
@@ -1765,8 +1756,7 @@ class DeviceCredential(DnacBase):
                         update_credential[update_httpswrite_ptr] \
                             .update({"password": item.get("password")})
                     else:
-                        self.msg = "password is mandatory for updating \
-                                   httpsRead " + str(have_httpswrite_ptr)
+                        self.msg = "password is mandatory for updating httpsRead " + str(have_httpswrite_ptr)
                         self.status = "failed"
                         return self
                     for i in range(1, 5):
@@ -1799,8 +1789,7 @@ class DeviceCredential(DnacBase):
                             create_credential[create_snmpv3_ptr] \
                                 .update({values[i]: item.get(values[i])})
                         else:
-                            self.msg = values[i] + " is mandatory for creating \
-                                       snmpV3 " + str(have_snmpv3_ptr)
+                            self.msg = values[i] + " is mandatory for creating snmpV3 " + str(have_snmpv3_ptr)
                             self.status = "failed"
                             return self
                     if item.get("snmp_mode"):
@@ -1821,8 +1810,7 @@ class DeviceCredential(DnacBase):
                                 create_credential[create_snmpv3_ptr] \
                                     .update({keys[auth]: item.get(auth)})
                             else:
-                                self.msg = auth + " is mandatory for creating \
-                                           snmpV3 " + str(have_snmpv3_ptr)
+                                self.msg = auth + " is mandatory for creating snmpV3 " + str(have_snmpv3_ptr)
                                 self.status = "failed"
                                 return self
                         if len(item.get("auth_password")) < 8:
@@ -1842,8 +1830,7 @@ class DeviceCredential(DnacBase):
                                 create_credential[create_snmpv3_ptr] \
                                     .update({key[priv]: item.get(priv)})
                             else:
-                                self.msg = priv + " is mandatory for creating \
-                                           snmpV3 " + str(have_snmpv3_ptr)
+                                self.msg = priv + " is mandatory for creating snmpV3 " + str(have_snmpv3_ptr)
                                 self.status = "failed"
                                 return self
                         if len(item.get("privacy_password")) < 8:
@@ -1851,8 +1838,7 @@ class DeviceCredential(DnacBase):
                             self.status = "failed"
                             return self
                     elif create_credential[create_snmpv3_ptr].get("snmpMode") != "NOAUTHNOPRIV":
-                        self.msg = "snmp_mode in snmpV3 is not \
-                                    ['AUTHPRIV', 'AUTHNOPRIV', 'NOAUTHNOPRIV']"
+                        self.msg = "snmp_mode in snmpV3 is not ['AUTHPRIV', 'AUTHNOPRIV', 'NOAUTHNOPRIV']"
                         self.status = "failed"
                         return self
                     create_snmpv3_ptr = create_snmpv3_ptr + 1
@@ -2513,8 +2499,7 @@ class DeviceCredential(DnacBase):
             self.log("Successfully validated the assign device credential to site", "INFO")
             self.result.get("response")[0].get("assignCredential").update({"Validation": "Success"})
 
-        self.msg = "Successfully validated the Global Device Credential and \
-                    Assign Device Credential to Site."
+        self.msg = "Successfully validated the Global Device Credential and Assign Device Credential to Site."
         self.status = "success"
         return self
 
@@ -2544,8 +2529,8 @@ class DeviceCredential(DnacBase):
                 if have_global_credential_type is not None:
                     for item in have_global_credential_type:
                         if item is not None:
-                            self.msg = "Delete Global Device Credentials config \
-                                        is not applied to the config"
+                            self.msg = "The configuration for deleting global device credentials " + \
+                                       "is not being applied to the current configuration"
                             self.status = "failed"
                             return self
 
