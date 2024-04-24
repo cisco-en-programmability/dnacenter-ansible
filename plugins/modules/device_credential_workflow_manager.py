@@ -2540,12 +2540,14 @@ class DeviceCredential(DnacBase):
             credential_types = ["cliCredential", "snmpV2cRead", "snmpV2cWrite",
                                 "httpsRead", "httpsWrite", "snmpV3"]
             for credential_type in credential_types:
-                for item in have_global_credential.get(credential_type):
-                    if item is not None:
-                        self.msg = "Delete Global Device Credentials config \
-                                    is not applied to the config"
-                        self.status = "failed"
-                        return self
+                have_global_credential_type = have_global_credential.get(credential_type)
+                if have_global_credential_type is not None:
+                    for item in have_global_credential_type:
+                        if item is not None:
+                            self.msg = "Delete Global Device Credentials config \
+                                        is not applied to the config"
+                            self.status = "failed"
+                            return self
 
             self.log("Successfully validated absence of global device credential.", "INFO")
             self.result.get("response")[0].get("globalCredential").update({"Validation": "Success"})
