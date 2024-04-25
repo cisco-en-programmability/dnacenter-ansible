@@ -734,9 +734,10 @@ class Events(DnacBase):
             return response
 
         except Exception as e:
-            error_message = "Error while getting the details of Syslog destination present in Cisco Catalyst Center: {0}".format(str(e))
-            self.log(error_message, "ERROR")
-            raise Exception(error_message)
+            self.status = "failed"
+            self.msg = "Error while getting the details of Syslog destination present in Cisco Catalyst Center: {0}".format(str(e))
+            self.log(self.msg, "ERROR")
+            self.check_return_status()
 
     def get_syslog_destination_with_name(self, name):
         """
@@ -770,9 +771,10 @@ class Events(DnacBase):
             return syslog_details
 
         except Exception as e:
-            error_message = "Error while getting the details of Syslog destination with the name '{0}' from Cisco Catalyst Center: {1}".format(name, str(e))
-            self.log(error_message, "ERROR")
-            raise Exception(error_message)
+            self.status = "failed"
+            self.msg = "Error while getting the details of Syslog destination with the name '{0}' from Cisco Catalyst Center: {1}".format(name, str(e))
+            self.log(self.msg, "ERROR")
+            self.check_return_status()
 
     def syslog_dest_needs_update(self, syslog_details, syslog_details_in_ccc):
         """
@@ -968,9 +970,10 @@ class Events(DnacBase):
             return response
 
         except Exception as e:
-            error_message = "Error while getting the details of SNMP destination present in Cisco Catalyst Center: {0}".format(str(e))
-            self.log(error_message, "ERROR")
-            raise Exception(error_message)
+            self.status = "failed"
+            self.msg = "Error while getting the details of SNMP destination present in Cisco Catalyst Center: {0}".format(str(e))
+            self.log(self.msg, "ERROR")
+            self.check_return_status()
 
     def collect_snmp_playbook_params(self, snmp_details):
         """
@@ -1106,10 +1109,11 @@ class Events(DnacBase):
             return self
 
         except Exception as e:
-            error_message = """Error while Adding the SNMP destination with the name '{0}' in Cisco Catalyst Center:
+            self.status = "failed"
+            self.msg = """Error while Adding the SNMP destination with the name '{0}' in Cisco Catalyst Center:
                     {1}""".format(snmp_params.get('name'), str(e))
-            self.log(error_message, "ERROR")
-            raise Exception(error_message)
+            self.log(self.msg, "ERROR")
+            self.check_return_status()
 
     def snmp_dest_needs_update(self, snmp_params, snmp_dest_detail_in_ccc):
         """
@@ -1258,9 +1262,10 @@ class Events(DnacBase):
             return response
 
         except Exception as e:
-            error_message = "Error while getting the details of Webhook destination(s) present in Cisco Catalyst Center: {0}".format(str(e))
-            self.log(error_message, "ERROR")
-            raise Exception(error_message)
+            self.status = "failed"
+            self.msg = "Error while getting the details of Webhook destination(s) present in Cisco Catalyst Center: {0}".format(str(e))
+            self.log(self.msg, "ERROR")
+            self.check_return_status()
 
     def collect_webhook_playbook_params(self, webhook_details):
         """
@@ -1508,9 +1513,10 @@ class Events(DnacBase):
             return response[0]
 
         except Exception as e:
-            error_message = "Error while getting the details of Email destination present in Cisco Catalyst Center: {0}".format(str(e))
-            self.log(error_message, "ERROR")
-            raise Exception(error_message)
+            self.status = "failed"
+            self.msg = "Error while getting the details of Email destination present in Cisco Catalyst Center: {0}".format(str(e))
+            self.log(self.msg, "ERROR")
+            self.check_return_status()
 
     def collect_email_playbook_params(self, email_details):
         """
@@ -1740,9 +1746,10 @@ class Events(DnacBase):
             return response
 
         except Exception as e:
-            error_message = "Error while getting the details of ITSM Integration Settings present in Cisco Catalyst Center: {0}".format(str(e))
-            self.log(error_message, "ERROR")
-            raise Exception(error_message)
+            self.status = "failed"
+            self.msg = "Error while getting the details of ITSM Integration Settings present in Cisco Catalyst Center: {0}".format(str(e))
+            self.log(self.msg, "ERROR")
+            self.check_return_status()
 
     def get_itsm_settings_by_id(self, itsm_id):
         """
@@ -1774,9 +1781,10 @@ class Events(DnacBase):
             return response
 
         except Exception as e:
-            error_message = "Error while getting the details of ITSM Integration Setting by id present in Cisco Catalyst Center: {0}".format(str(e))
-            self.log(error_message, "ERROR")
-            raise Exception(error_message)
+            self.status = "failed"
+            self.msg = "Error while getting the details of ITSM Integration Setting by id present in Cisco Catalyst Center: {0}".format(str(e))
+            self.log(self.msg, "ERROR")
+            self.check_return_status()
 
     def collect_itsm_playbook_params(self, itsm_details):
         """
