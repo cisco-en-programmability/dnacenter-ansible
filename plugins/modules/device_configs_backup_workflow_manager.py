@@ -136,6 +136,11 @@ except ImportError:
     HAS_PYZIPPER = False
     pyzipper = None
 
+try:
+    import pathlib
+except ImportError:
+    pathlib = None
+
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
@@ -145,8 +150,6 @@ from io import BytesIO
 import random
 import string
 import re
-import time
-import pathlib
 import time
 
 
