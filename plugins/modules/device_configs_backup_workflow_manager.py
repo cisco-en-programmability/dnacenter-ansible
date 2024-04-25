@@ -21,6 +21,10 @@ extends_documentation_fragment:
 author: Abinash Mishra (@abimishr)
         Madhan Sankaranarayanan (@madhansansel)
 options:
+  config_verify:
+    description: Set to True to verify the Cisco Catalyst Center config after applying the playbook config.
+    type: bool
+    default: False
   state:
     description: The state of Cisco Catalyst Center after module completion.
     type: str
@@ -421,7 +425,7 @@ class Device_configs_backup(DnacBase):
             - result: True if the file downloaded and uzipped, else False
         """
 
-        self.log(f"Downloading: {additionalStatusURL}")
+        self.log("Downloading: {0}".format(additionalStatusURL), "INFO")
         file_id = additionalStatusURL.split("/")[-1]
 
         try:
@@ -433,7 +437,7 @@ class Device_configs_backup(DnacBase):
             )
             self.log("Received API response from 'download_a_file_by_fileid': {0}".format(str(response)), "DEBUG")
         except Exception as e:
-            self.log(f"File couldn't be downloaded: {e}", "INFO")
+            self.log("File couldn't be downloaded: {0}".format(e), "INFO")
             return False
 
         if isinstance(response, dict) and response.get("errorCode"):
@@ -451,7 +455,7 @@ class Device_configs_backup(DnacBase):
                 f.pwd = bytes(self.want.get("password"), encoding="utf-8")
                 f.extractall(path=str(self.have.get("file_path")))
         except Exception as e:
-            self.log(f"Error in unzipping: {e}", "CRITICAL")
+            self.log("Error in unzipping: {0}".format(e), "CRITICAL")
             return False
 
         self.log("Unzipping complete", "INFO")
