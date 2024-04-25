@@ -31,15 +31,7 @@ argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
     state=dict(type="str", default="present", choices=["present", "absent"]),
-    _id=dict(type="str"),
     deviceInfo=dict(type="dict"),
-    runSummaryList=dict(type="list"),
-    systemResetWorkflow=dict(type="dict"),
-    systemWorkflow=dict(type="dict"),
-    tenantId=dict(type="str"),
-    version=dict(type="int"),
-    workflow=dict(type="dict"),
-    workflowParameters=dict(type="dict"),
     id=dict(type="str"),
 ))
 
@@ -56,15 +48,7 @@ class PnpDevice(object):
     def __init__(self, params, dnac):
         self.dnac = dnac
         self.new_object = dict(
-            _id=params.get("_id"),
             deviceInfo=params.get("deviceInfo"),
-            runSummaryList=params.get("runSummaryList"),
-            systemResetWorkflow=params.get("systemResetWorkflow"),
-            systemWorkflow=params.get("systemWorkflow"),
-            tenantId=params.get("tenantId"),
-            version=params.get("version"),
-            workflow=params.get("workflow"),
-            workflowParameters=params.get("workflowParameters"),
             id=params.get("id"),
         )
 
@@ -81,17 +65,11 @@ class PnpDevice(object):
             self.new_object.get('state')
         new_object_params['onb_state'] = self.new_object.get('onbState') or \
             self.new_object.get('onb_state')
-        new_object_params['cm_state'] = self.new_object.get('cmState') or \
-            self.new_object.get('cm_state')
         new_object_params['name'] = name or self.new_object.get('name')
         new_object_params['pid'] = self.new_object.get('pid')
         new_object_params['source'] = self.new_object.get('source')
-        new_object_params['project_id'] = self.new_object.get('projectId') or \
-            self.new_object.get('project_id')
         new_object_params['workflow_id'] = self.new_object.get('workflowId') or \
             self.new_object.get('workflow_id')
-        new_object_params['project_name'] = self.new_object.get('projectName') or \
-            self.new_object.get('project_name')
         new_object_params['workflow_name'] = self.new_object.get('workflowName') or \
             self.new_object.get('workflow_name')
         new_object_params['smart_account_id'] = self.new_object.get('smartAccountId') or \
@@ -109,15 +87,7 @@ class PnpDevice(object):
 
     def create_params(self):
         new_object_params = {}
-        new_object_params['_id'] = self.new_object.get('_id')
         new_object_params['deviceInfo'] = self.new_object.get('deviceInfo')
-        new_object_params['runSummaryList'] = self.new_object.get('runSummaryList')
-        new_object_params['systemResetWorkflow'] = self.new_object.get('systemResetWorkflow')
-        new_object_params['systemWorkflow'] = self.new_object.get('systemWorkflow')
-        new_object_params['tenantId'] = self.new_object.get('tenantId')
-        new_object_params['version'] = self.new_object.get('version')
-        new_object_params['workflow'] = self.new_object.get('workflow')
-        new_object_params['workflowParameters'] = self.new_object.get('workflowParameters')
         return new_object_params
 
     def delete_by_id_params(self):
@@ -127,15 +97,8 @@ class PnpDevice(object):
 
     def update_by_id_params(self):
         new_object_params = {}
-        new_object_params['_id'] = self.new_object.get('_id')
+        new_object_params['id'] = self.new_object.get('id')
         new_object_params['deviceInfo'] = self.new_object.get('deviceInfo')
-        new_object_params['runSummaryList'] = self.new_object.get('runSummaryList')
-        new_object_params['systemResetWorkflow'] = self.new_object.get('systemResetWorkflow')
-        new_object_params['systemWorkflow'] = self.new_object.get('systemWorkflow')
-        new_object_params['tenantId'] = self.new_object.get('tenantId')
-        new_object_params['version'] = self.new_object.get('version')
-        new_object_params['workflow'] = self.new_object.get('workflow')
-        new_object_params['workflowParameters'] = self.new_object.get('workflowParameters')
         new_object_params['id'] = self.new_object.get('id')
         return new_object_params
 
@@ -206,15 +169,7 @@ class PnpDevice(object):
         requested_obj = self.new_object
 
         obj_params = [
-            ("_id", "_id"),
             ("deviceInfo", "deviceInfo"),
-            ("runSummaryList", "runSummaryList"),
-            ("systemResetWorkflow", "systemResetWorkflow"),
-            ("systemWorkflow", "systemWorkflow"),
-            ("tenantId", "tenantId"),
-            ("version", "version"),
-            ("workflow", "workflow"),
-            ("workflowParameters", "workflowParameters"),
             ("id", "id"),
         ]
         # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params

@@ -98,16 +98,16 @@ options:
     - >
       StartTime query parameter. Start Time in milliseconds since Epoch Eg. 1597950637211 (when provided endTime
       is mandatory).
-    type: int
+    type: float
   endTime:
     description:
     - >
       EndTime query parameter. End Time in milliseconds since Epoch Eg. 1597961437211 (when provided startTime is
       mandatory).
-    type: int
+    type: float
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Event Management GetAuditLogSummary
   description: Complete reference of the GetAuditLogSummary API.
@@ -154,7 +154,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

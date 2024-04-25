@@ -76,7 +76,7 @@ class ActionModule(ActionBase):
         dnac = DNACSDK(params=self._task.args)
 
         response = dnac.exec(
-            family="cisco_dna_center_system",
+            family="device_onboarding_pnp",
             function='authorize_device',
             op_modifies=True,
             params=self.get_object(self._task.args),

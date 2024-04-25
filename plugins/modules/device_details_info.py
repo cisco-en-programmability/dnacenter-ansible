@@ -21,19 +21,19 @@ options:
     type: dict
   timestamp:
     description:
-    - Timestamp query parameter. Epoch time(in milliseconds) when the device data is required.
+    - Timestamp query parameter. UTC timestamp of device data in milliseconds.
+    type: float
+  identifier:
+    description:
+    - Identifier query parameter. One of "macAddress", "nwDeviceName", "uuid" (case insensitive).
     type: str
   searchBy:
     description:
-    - SearchBy query parameter. MAC Address or Device Name value or UUID of the network device.
-    type: str
-  identifier:
-    description:
-    - Identifier query parameter. One of keywords macAddress or uuid or nwDeviceName.
+    - SearchBy query parameter. MAC Address, device name, or UUID of the network device.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Devices GetDeviceDetail
   description: Complete reference of the GetDeviceDetail API.
@@ -58,13 +58,12 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
-    timestamp: string
-    searchBy: string
+    timestamp: 0
     identifier: string
+    searchBy: string
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
@@ -72,49 +71,91 @@ dnac_response:
   type: dict
   sample: >
     {
-      "HALastResetReason": "string",
-      "managementIpAddr": "string",
-      "HAPrimaryPowerStatus": "string",
-      "redundancyMode": "string",
-      "communicationState": "string",
-      "nwDeviceName": "string",
-      "redundancyUnit": "string",
-      "platformId": "string",
-      "redundancyPeerState": "string",
-      "nwDeviceId": "string",
-      "redundancyState": "string",
+      "noiseScore": 0,
+      "policyTagName": "string",
+      "interferenceScore": 0,
+      "opState": "string",
+      "powerSaveMode": "string",
+      "mode": "string",
+      "resetReason": "string",
       "nwDeviceRole": "string",
+      "protocol": "string",
+      "powerMode": "string",
+      "connectedTime": "string",
+      "ringStatus": true,
+      "ledFlashSeconds": "string",
+      "ip_addr_managementIpAddr": "string",
+      "stackType": "string",
+      "subMode": "string",
+      "serialNumber": "string",
+      "nwDeviceName": "string",
+      "deviceGroupHierarchyId": "string",
+      "cpu": "string",
+      "utilization": "string",
+      "nwDeviceId": "string",
+      "siteHierarchyGraphId": "string",
       "nwDeviceFamily": "string",
       "macAddress": "string",
-      "collectionStatus": "string",
+      "homeApEnabled": "string",
       "deviceSeries": "string",
-      "osType": "string",
-      "clientCount": "string",
-      "HASecondaryPowerStatus": "string",
-      "softwareVersion": "string",
-      "nwDeviceType": "string",
-      "overallHealth": 0,
-      "memoryScore": 0,
-      "cpuScore": 0,
-      "noiseScore": 0,
+      "collectionStatus": "string",
       "utilizationScore": 0,
-      "airQualityScore": 0,
-      "interferenceScore": 0,
-      "wqeScore": 0,
-      "freeMbufScore": 0,
-      "packetPoolScore": 0,
-      "freeTimerScore": 0,
-      "memory": "string",
-      "cpu": "string",
-      "noise": "string",
-      "utilization": "string",
-      "airQuality": "string",
+      "maintenanceMode": true,
       "interference": "string",
-      "wqe": "string",
-      "freeMbuf": "string",
-      "packetPool": "string",
-      "freeTimer": "string",
+      "softwareVersion": "string",
+      "tagIdList": [
+        {}
+      ],
+      "powerType": "string",
+      "overallHealth": 0,
+      "managementIpAddr": "string",
+      "memory": "string",
+      "communicationState": "string",
+      "apType": "string",
+      "adminState": "string",
+      "noise": "string",
+      "icapCapability": "string",
+      "regulatoryDomain": "string",
+      "ethernetMac": "string",
+      "nwDeviceType": "string",
+      "airQuality": "string",
+      "rfTagName": "string",
+      "siteTagName": "string",
+      "platformId": "string",
+      "upTime": "string",
+      "memoryScore": 0,
+      "powerSaveModeCapable": "string",
+      "powerProfile": "string",
+      "airQualityScore": 0,
       "location": "string",
-      "timestamp": "string"
+      "flexGroup": "string",
+      "lastBootTime": 0,
+      "powerCalendarProfile": "string",
+      "connectivityStatus": 0,
+      "ledFlashEnabled": "string",
+      "cpuScore": 0,
+      "avgTemperature": 0,
+      "maxTemperature": 0,
+      "haStatus": "string",
+      "osType": "string",
+      "timestamp": 0,
+      "apGroup": "string",
+      "redundancyMode": "string",
+      "featureFlagList": [
+        "string"
+      ],
+      "freeMbufScore": 0,
+      "HALastResetReason": "string",
+      "wqeScore": 0,
+      "redundancyPeerStateDerived": "string",
+      "freeTimerScore": 0,
+      "redundancyPeerState": "string",
+      "redundancyStateDerived": "string",
+      "redundancyState": "string",
+      "packetPoolScore": 0,
+      "freeTimer": 0,
+      "packetPool": 0,
+      "wqe": 0,
+      "freeMbuf": 0
     }
 """

@@ -23,35 +23,35 @@ options:
     type: dict
   deviceRole:
     description:
-    - DeviceRole query parameter. The device role (One of CORE, ACCESS, DISTRIBUTION, ROUTER, WLC, AP).
+    - DeviceRole query parameter. CORE, ACCESS, DISTRIBUTION, ROUTER, WLC, or AP (case insensitive).
     type: str
   siteId:
     description:
-    - SiteId query parameter. Assurance site UUID value.
+    - SiteId query parameter. DNAC site UUID.
     type: str
   health:
     description:
-    - Health query parameter. The device overall health (One of POOR, FAIR, GOOD).
+    - Health query parameter. DNAC health catagory POOR, FAIR, or GOOD (case insensitive).
     type: str
   startTime:
     description:
     - StartTime query parameter. UTC epoch time in milliseconds.
-    type: int
+    type: float
   endTime:
     description:
-    - EndTime query parameter. UTC epoch time in miliseconds.
-    type: int
+    - EndTime query parameter. UTC epoch time in milliseconds.
+    type: float
   limit:
     description:
-    - Limit query parameter. Max number of device entries in the response (default to 50. Max at 1000).
-    type: int
+    - Limit query parameter. Max number of device entries in the response (default to 50. Max at 500).
+    type: float
   offset:
     description:
-    - Offset query parameter. The offset of the first device in the returned data.
-    type: int
+    - Offset query parameter. The offset of the first device in the returned data (Mutiple of 'limit' + 1).
+    type: float
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Devices Devices
   description: Complete reference of the Devices API.
@@ -86,7 +86,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
@@ -98,51 +97,84 @@ dnac_response:
       "totalCount": 0,
       "response": [
         {
-          "name": "string",
-          "model": "string",
-          "osVersion": "string",
-          "ipAddress": "string",
-          "overallHealth": 0,
-          "issueCount": 0,
-          "location": "string",
-          "deviceFamily": "string",
           "deviceType": "string",
-          "macAddress": "string",
-          "interfaceLinkErrHealth": 0,
-          "cpuUlitilization": 0,
-          "cpuHealth": 0,
-          "memoryUtilizationHealth": 0,
-          "memoryUtilization": 0,
-          "interDeviceLinkAvailHealth": 0,
-          "reachabilityHealth": "string",
-          "clientCount": {
+          "cpuUtilization": 0,
+          "overallHealth": 0,
+          "utilizationHealth": {
             "radio0": 0,
             "radio1": 0,
+            "radio2": 0,
+            "radio3": 0,
             "Ghz24": 0,
-            "Ghz50": 0
-          },
-          "interferenceHealth": {
-            "radio0": 0,
-            "radio1": 0,
-            "Ghz24": 0,
-            "Ghz50": 0
-          },
-          "noiseHealth": {
-            "radio1": 0,
             "Ghz50": 0
           },
           "airQualityHealth": {
             "radio0": 0,
             "radio1": 0,
+            "radio2": 0,
+            "radio3": 0,
             "Ghz24": 0,
             "Ghz50": 0
           },
-          "utilizationHealth": {
+          "ipAddress": "string",
+          "cpuHealth": 0,
+          "deviceFamily": "string",
+          "issueCount": 0,
+          "macAddress": "string",
+          "noiseHealth": {
             "radio0": 0,
             "radio1": 0,
+            "radio2": 0,
+            "radio3": 0,
             "Ghz24": 0,
             "Ghz50": 0
-          }
+          },
+          "osVersion": "string",
+          "name": "string",
+          "interfaceLinkErrHealth": 0,
+          "memoryUtilization": 0,
+          "interDeviceLinkAvailHealth": 0,
+          "interferenceHealth": {
+            "radio0": 0,
+            "radio1": 0,
+            "radio2": 0,
+            "radio3": 0,
+            "Ghz24": 0,
+            "Ghz50": 0
+          },
+          "model": "string",
+          "location": "string",
+          "reachabilityHealth": "string",
+          "band": {
+            "radio0": "string",
+            "radio1": "string",
+            "radio2": "string",
+            "radio3": 0
+          },
+          "memoryUtilizationHealth": 0,
+          "clientCount": {
+            "radio0": 0,
+            "radio1": 0,
+            "radio2": 0,
+            "radio3": 0,
+            "Ghz24": 0,
+            "Ghz50": 0
+          },
+          "avgTemperature": 0,
+          "maxTemperature": 0,
+          "interDeviceLinkAvailFabric": 0,
+          "apCount": 0,
+          "freeTimerScore": 0,
+          "freeTimer": 0,
+          "packetPoolHealth": 0,
+          "packetPool": 0,
+          "freeMemoryBufferHealth": 0,
+          "freeMemoryBuffer": 0,
+          "wqePoolsHealth": 0,
+          "wqePools": 0,
+          "wanLinkUtilization": 0,
+          "cpuUlitilization": 0,
+          "uuid": "string"
         }
       ]
     }

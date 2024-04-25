@@ -26,6 +26,7 @@ argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
     invokeSource=dict(type="str"),
+    authSource=dict(type="str"),
     headers=dict(type="dict"),
 ))
 
@@ -65,6 +66,7 @@ class ActionModule(ActionBase):
     def get_object(self, params):
         new_object = dict(
             invoke_source=params.get("invokeSource"),
+            auth_source=params.get("authSource"),
             headers=params.get("headers"),
         )
         return new_object
@@ -80,7 +82,7 @@ class ActionModule(ActionBase):
         dnac = DNACSDK(params=self._task.args)
 
         response = dnac.exec(
-            family="user_and_roles",
+            family="userand_roles",
             function='get_users_api',
             params=self.get_object(self._task.args),
         )

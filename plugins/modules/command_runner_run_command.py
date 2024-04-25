@@ -17,25 +17,26 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   commands:
-    description: Command Runner Run Command's commands.
+    description: Commands to be executed.
     elements: str
     type: list
   description:
-    description: Command Runner Run Command's description.
+    description: Describe the details about the command request.
     type: str
   deviceUuids:
-    description: Command Runner Run Command's deviceUuids.
+    description: Device Id of the device.
     elements: str
     type: list
   name:
-    description: Command Runner Run Command's name.
+    description: Name of the the request like getshowrun , deviceinterfacestatusCli.
     type: str
   timeout:
-    description: Command Runner Run Command's timeout.
+    description: The timeout value in unit of second. If no timeout provided wait till
+      300sec.
     type: int
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Command Runner RunReadOnlyCommandsOnDevicesToGetTheirRealTimeConfiguration
   description: Complete reference of the RunReadOnlyCommandsOnDevicesToGetTheirRealTimeConfiguration API.
@@ -68,7 +69,6 @@ EXAMPLES = r"""
     timeout: 0
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

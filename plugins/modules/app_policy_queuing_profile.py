@@ -75,7 +75,7 @@ options:
                 type: str
             type: list
           type:
-            description: Type.
+            description: The allowed clause types are BANDWIDTH, DSCP_CUSTOMIZATION.
             type: str
         type: list
       description:
@@ -89,8 +89,8 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Application Policy CreateApplicationPolicyQueuingProfile
   description: Complete reference of the CreateApplicationPolicyQueuingProfile API.
@@ -183,7 +183,6 @@ EXAMPLES = r"""
     id: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

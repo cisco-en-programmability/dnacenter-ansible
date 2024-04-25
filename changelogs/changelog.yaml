@@ -866,3 +866,36 @@ releases:
           - Adding support to importing a template using JSON file
           - Changes in discovery workflow manager modules  relating to different states of the discovery job
           - Changes in inventory and swim workflow manager modules.
+  6.14.0
+      release_date: "2024-04-25"
+      changes:
+          release_summary: New Dna Center API version 2.3.7.5.
+          minor_changes:
+          - application_policy_application_set_count_info - new module
+          - application_policy_application_set_info - new module
+          - application_policy_application_set - new module
+          - applications_count_v2_info - new module
+          - applications_v2_info - new module
+          - applications_v2 - new module
+          - auth_token_create - new module
+          - authentication_policy_servers - new module
+          - device_reboot_apreboot - new module
+          - dna_event_snmp_config_info - new module
+          - event_snmp_config - new module
+          - event_webhook_read_info - new module
+          - flexible_report_content_info - new module
+          - flexible_report_execute - new module
+          - flexible_report_executions_info - new module
+          - flexible_report_schedule_info - new module
+          - flexible_report_schedule  - new module
+          - integration_settings_itsm_instances_info - new module
+          - integration_settings_status_info - new module
+          - ise_integration_status_info - new module
+          - lan_automation_sessions_info - new module
+          - lan_automation_update_device - new module
+          - lan_automation_update_v2 - new module
+          - lan_automation_update - new module
+          - lan_automation_v2 - new module
+          - network_device_user_defined_field_delete - new module
+          - users_external_authentication - new module
+          - users_external_servers_aaa_attribute - new module

@@ -22,30 +22,31 @@ options:
   complianceType:
     description:
     - >
-      ComplianceType query parameter. ComplianceType can have any value among 'NETWORK_PROFILE', 'IMAGE',
-      'APPLICATION_VISIBILITY', 'FABRIC', 'PSIRT', 'RUNNING_CONFIG', 'WORKFLOW'.
+      ComplianceType query parameter. Specify "Compliance type(s)" in commas. The Compliance type can be
+      'NETWORK_PROFILE', 'IMAGE', 'FABRIC', 'APPLICATION_VISIBILITY', 'FABRIC', RUNNING_CONFIG',
+      'NETWORK_SETTINGS', 'WORKFLOW' , 'EOX'.
     type: str
   complianceStatus:
     description:
     - >
-      ComplianceStatus query parameter. Compliance status can have value among 'COMPLIANT', 'NON_COMPLIANT',
-      'IN_PROGRESS', 'NOT_AVAILABLE', 'NOT_APPLICABLE', 'ERROR'.
+      ComplianceStatus query parameter. Specify "Compliance status(es)" in commas. The Compliance status can be
+      'COMPLIANT', 'NON_COMPLIANT', 'IN_PROGRESS', 'NOT_AVAILABLE', 'NOT_APPLICABLE', 'ERROR'.
     type: str
   deviceUuid:
     description:
-    - DeviceUuid query parameter. Comma separated deviceUuids.
+    - DeviceUuid query parameter. Comma separated "Device Id(s)".
     type: str
   offset:
     description:
     - Offset query parameter. Offset/starting row.
-    type: int
+    type: float
   limit:
     description:
     - Limit query parameter. Number of records to be retrieved.
-    type: int
+    type: float
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Compliance GetComplianceDetail
   description: Complete reference of the GetComplianceDetail API.
@@ -78,7 +79,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

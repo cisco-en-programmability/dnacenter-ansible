@@ -22,18 +22,18 @@ options:
   offset:
     description:
     - Offset query parameter.
-    type: int
+    type: float
   limit:
     description:
     - Limit query parameter.
-    type: int
+    type: float
   name:
     description:
     - Name query parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Application Policy GetApplicationSets
   description: Complete reference of the GetApplicationSets API.
@@ -64,7 +64,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

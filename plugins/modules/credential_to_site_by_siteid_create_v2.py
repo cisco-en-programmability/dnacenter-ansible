@@ -11,7 +11,7 @@ short_description: Resource module for Credential To Site By Siteid Create V2
 description:
 - Manage operation create of the resource Credential To Site By Siteid Create V2.
 - API to assign Device Credential to a site.
-version_added: '6.7.0'
+version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
@@ -38,8 +38,8 @@ options:
     description: SNMPv3 Credential Id.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Network Settings AssignDeviceCredentialToSiteV2
   description: Complete reference of the AssignDeviceCredentialToSiteV2 API.
@@ -72,7 +72,6 @@ EXAMPLES = r"""
     snmpV3Id: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

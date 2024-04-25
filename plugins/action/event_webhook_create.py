@@ -32,6 +32,7 @@ argument_spec.update(dict(
     method=dict(type="str"),
     trustCert=dict(type="bool"),
     headers=dict(type="list"),
+    isProxyRoute=dict(type="bool"),
 ))
 
 required_if = []
@@ -76,6 +77,7 @@ class ActionModule(ActionBase):
             method=params.get("method"),
             trustCert=params.get("trustCert"),
             headers=params.get("headers"),
+            isProxyRoute=params.get("isProxyRoute"),
         )
         return new_object
 

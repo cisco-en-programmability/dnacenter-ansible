@@ -36,7 +36,7 @@ argument_spec.update(dict(
     description=dict(type="str"),
     host=dict(type="str"),
     protocol=dict(type="str"),
-    port=dict(type="str"),
+    port=dict(type="int"),
 ))
 
 required_if = [

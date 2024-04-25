@@ -25,11 +25,6 @@ from ansible_collections.cisco.dnac.plugins.plugin_utils.dnac import (
 argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
-    configId=dict(type="str"),
-    offset=dict(type="int"),
-    limit=dict(type="int"),
-    sortBy=dict(type="str"),
-    order=dict(type="str"),
     headers=dict(type="dict"),
 ))
 
@@ -68,11 +63,6 @@ class ActionModule(ActionBase):
 
     def get_object(self, params):
         new_object = dict(
-            config_id=params.get("configId"),
-            offset=params.get("offset"),
-            limit=params.get("limit"),
-            sort_by=params.get("sortBy"),
-            order=params.get("order"),
             headers=params.get("headers"),
         )
         return new_object
@@ -87,11 +77,9 @@ class ActionModule(ActionBase):
 
         dnac = DNACSDK(params=self._task.args)
 
-        response = dnac.exec(
-            family="event_management",
-            function='get_snmp_destination',
-            params=self.get_object(self._task.args),
-        )
+        # NOTE: Does not have a get all method or it is in another action
+        response = None
+        dnac.object_modify_result(changed=False, result="Module does not have get all, check arguments of module")
         self._result.update(dict(dnac_response=response))
         self._result.update(dnac.exit_json())
         return self._result

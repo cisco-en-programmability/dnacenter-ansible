@@ -11,7 +11,7 @@ short_description: Resource module for Network Device Custom Prompt
 description:
 - Manage operation create of the resource Network Device Custom Prompt.
 - >
-   Save custom prompt added by user in Cisco DNA Center. API will always override the existing prompts. User should
+   Save custom prompt added by user in Catalyst Center. API will always override the existing prompts. User should
    provide all the custom prompt in case of any update.
 version_added: '6.0.0'
 extends_documentation_fragment:
@@ -19,21 +19,21 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   passwordPrompt:
-    description: Password Prompt.
+    description: Password for Custom Prompt.
     type: str
   usernamePrompt:
-    description: Username Prompt.
+    description: Username for Custom Prompt.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for System Settings CustomPromptPOSTAPI
   description: Complete reference of the CustomPromptPOSTAPI API.
   link: https://developer.cisco.com/docs/dna-center/#!custom-prompt-postapi
 notes:
   - SDK Method used are
-    system_settings.SystemSettings.custom_prompt_post_api,
+    system_settings.SystemSettings.custom_prompt_p_o_s_t_api,
 
   - Paths used are
     post /dna/intent/api/v1/network-device/custom-prompt,
@@ -54,7 +54,6 @@ EXAMPLES = r"""
     usernamePrompt: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

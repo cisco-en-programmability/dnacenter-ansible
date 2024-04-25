@@ -18,44 +18,44 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   authPassword:
-    description: Snmpv3 Credential's authPassword.
+    description: Auth Password for SNMP.
     type: str
   authType:
-    description: Snmpv3 Credential's authType.
+    description: SNMP auth protocol. 'SHA' or 'MD5'.
     type: str
   comments:
-    description: Snmpv3 Credential's comments.
+    description: Comments to identify the SNMPv3 credential.
     type: str
   credentialType:
-    description: Snmpv3 Credential's credentialType.
+    description: Credential type to identify the application that uses the SNMPv3 credential.
     type: str
   description:
-    description: Snmpv3 Credential's description.
+    description: Description for Snmp V3 Credential.
     type: str
   id:
-    description: Snmpv3 Credential's id.
+    description: Id of the SNMP V3 Credential in UUID format.
     type: str
   instanceTenantId:
-    description: Snmpv3 Credential's instanceTenantId.
+    description: Deprecated.
     type: str
   instanceUuid:
-    description: Snmpv3 Credential's instanceUuid.
+    description: Deprecated.
     type: str
   privacyPassword:
-    description: Snmpv3 Credential's privacyPassword.
+    description: Privacy Password for SNMP privacy.
     type: str
   privacyType:
-    description: Snmpv3 Credential's privacyType.
+    description: SNMP privacy protocol.
     type: str
   snmpMode:
-    description: Snmpv3 Credential's snmpMode.
+    description: Mode of SNMP. 'AUTHPRIV' or 'AUTHNOPRIV' or 'NOAUTHNOPRIV'.
     type: str
   username:
-    description: Snmpv3 Credential's username.
+    description: SNMP V3 Username.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Discovery CreateSNMPv3Credentials
   description: Complete reference of the CreateSNMPv3Credentials API.
@@ -122,7 +122,6 @@ EXAMPLES = r"""
     username: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

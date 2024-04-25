@@ -78,7 +78,7 @@ options:
             type: str
           port:
             description: Port for NetFlow Collector (eg; 443).
-            type: int
+            type: float
         type: dict
       network_aaa:
         description: Network Create's network_aaa.
@@ -134,8 +134,8 @@ options:
       the network settings.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Network Settings CreateNetwork
   description: Complete reference of the CreateNetwork API.
@@ -199,7 +199,6 @@ EXAMPLES = r"""
     siteId: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

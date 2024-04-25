@@ -14,7 +14,8 @@ description:
 - Delete the Wireless Profile from Cisco DNA Center whose name is provided.
 - >
    Updates the wireless Network Profile with updated details provided. All sites to be present in the network profile
-   should be provided.
+   should be provided. This API has been deprecated. Please use the new endpoint URL
+   /dna/intent/api/v2/wireless/profile.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -51,13 +52,11 @@ options:
             description: Interface Name.
             type: str
           name:
-            description: Ssid Name.
+            description: Ssid Name is required if ssidDetails is passed in PayLoad for
+              mapping to the Network Profile.
             type: str
           policyProfileName:
             description: Policy Profile Name.
-            type: str
-          type:
-            description: Ssid Type(enum Enterprise/Guest).
             type: str
           wlanProfileName:
             description: WLAN Profile Name.
@@ -68,8 +67,8 @@ options:
     description: WirelessProfileName path parameter. Wireless Profile Name.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Wireless CreateWirelessProfile
   description: Complete reference of the CreateWirelessProfile API.
@@ -128,7 +127,6 @@ EXAMPLES = r"""
         interfaceName: string
         name: string
         policyProfileName: string
-        type: string
         wlanProfileName: string
 
 - name: Create
@@ -153,11 +151,9 @@ EXAMPLES = r"""
         interfaceName: string
         name: string
         policyProfileName: string
-        type: string
         wlanProfileName: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

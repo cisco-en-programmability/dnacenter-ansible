@@ -27,7 +27,8 @@ options:
     type: str
   memberTemplateDeploymentInfo:
     description: MemberTemplateDeploymentInfo.
-    type: str
+    elements: dict
+    type: list
   targetInfo:
     description: Configuration Template Deploy's targetInfo.
     elements: dict
@@ -42,8 +43,10 @@ options:
         description: Template params/values to be provisioned.
         type: dict
       resourceParams:
-        description: Resource params to be provisioned.
-        type: dict
+        description: Resource params to be provisioned. Refer to features page for usage
+          details.
+        elements: dict
+        type: list
       type:
         description: Target type of device.
         type: str
@@ -55,8 +58,8 @@ options:
     description: UUID of template to be provisioned.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Configuration Templates DeployTemplate
   description: Complete reference of the DeployTemplate API.
@@ -83,18 +86,19 @@ EXAMPLES = r"""
     forcePushTemplate: true
     isComposite: true
     mainTemplateId: string
-    memberTemplateDeploymentInfo: string
+    memberTemplateDeploymentInfo:
+    - {}
     targetInfo:
     - hostName: string
       id: string
       params: {}
-      resourceParams: {}
+      resourceParams:
+      - {}
       type: string
       versionedTemplateId: string
     templateId: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
