@@ -1089,7 +1089,7 @@ class Events(DnacBase):
             if status == 'SUCCESS':
                 self.status = "success"
                 self.result['changed'] = True
-                self.msg = "Syslog Destination with name '{0}' added successfully in Cisco Catalyst Center".format(snmp_params.get('name'))
+                self.msg = "SNMP Destination with name '{0}' added successfully in Cisco Catalyst Center".format(snmp_params.get('name'))
                 self.log(self.msg, "INFO")
                 self.result['response'] = self.msg
                 return self
@@ -1106,7 +1106,7 @@ class Events(DnacBase):
             return self
 
         except Exception as e:
-            error_message = """Error while Adding the Syslog destination with the name '{0}' in Cisco Catalyst Center:
+            error_message = """Error while Adding the SNMP destination with the name '{0}' in Cisco Catalyst Center:
                     {1}""".format(snmp_params.get('name'), str(e))
             self.log(error_message, "ERROR")
             raise Exception(error_message)
@@ -1176,7 +1176,7 @@ class Events(DnacBase):
                 except Exception as e:
                     self.status = "failed"
                     self.msg = """Invalid datatype for the Notification trap port '{0}' given in playbook. Select port with correct datatype from the
-                                number range(1, 65536.""".format(port)
+                                number range(1, 65536).""".format(port)
                     self.log(self.msg, "ERROR")
                     return self
 
