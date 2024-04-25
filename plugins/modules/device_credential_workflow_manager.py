@@ -1565,7 +1565,7 @@ class DeviceCredential(DnacBase):
                         update_credential[update_cli_ptr] \
                             .update({"password": item.get("password")})
                     else:
-                        self.msg = "password is mandatory for udpating cli_credential " + str(have_cli_ptr)
+                        self.msg = "password is mandatory for updating cli_credential " + str(have_cli_ptr)
                         self.status = "failed"
                         return self
 
@@ -1719,7 +1719,7 @@ class DeviceCredential(DnacBase):
                         update_credential[update_httpsread_ptr] \
                             .update({"password": item.get("password")})
                     else:
-                        self.msg = "password is mandatory for updating https_read " + str(have_httpsread_ptr)
+                        self.msg = "The password is mandatory for updating https_read " + str(have_httpsread_ptr)
                         self.status = "failed"
                         return self
                     for i in range(1, 5):
@@ -1771,7 +1771,7 @@ class DeviceCredential(DnacBase):
                         update_credential[update_httpswrite_ptr] \
                             .update({"password": item.get("password")})
                     else:
-                        self.msg = "password is mandatory for updating https_write " + str(have_httpswrite_ptr)
+                        self.msg = "The password is mandatory for updating https_write " + str(have_httpswrite_ptr)
                         self.status = "failed"
                         return self
                     for i in range(1, 5):
@@ -2514,7 +2514,7 @@ class DeviceCredential(DnacBase):
             self.log("Successfully validated the assign device credential to site", "INFO")
             self.result.get("response")[0].get("assignCredential").update({"Validation": "Success"})
 
-        self.msg = "Successfully validated the Global Device Credential and Assign Device Credential to Site."
+        self.msg = "Successfully validated the global device credential and assigned device credential to site."
         self.status = "success"
         return self
 
@@ -2544,7 +2544,7 @@ class DeviceCredential(DnacBase):
                 if have_global_credential_type is not None:
                     for item in have_global_credential_type:
                         if item is not None:
-                            self.msg = "The configuration for deleting global device credentials " + \
+                            self.msg = "The configuration for deleting the global device credentials " + \
                                        "is not being applied to the current configuration"
                             self.status = "failed"
                             return self
