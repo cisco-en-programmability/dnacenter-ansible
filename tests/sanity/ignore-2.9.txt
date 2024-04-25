@@ -740,3 +740,7 @@ plugins/modules/template_workflow_manager.py compile-2.7!skip # Python 2.7 is no
 plugins/modules/template_workflow_manager.py compile-2.6!skip # Python 2.6 is not supported by the DNA Center SDK
 plugins/modules/template_workflow_manager.py import-2.7!skip # Python 2.7 is not supported by the DNA Center SDK
 plugins/modules/template_workflow_manager.py import-2.6!skip # Python 2.6 is not supported by the DNA Center SDK
+plugins/modules/ise_radius_integration_workflow_manager.py compile-2.7!skip # Python 2.7 is not supported by the DNA Center SDK
+plugins/modules/ise_radius_integration_workflow_manager.py compile-2.6!skip # Python 2.6 is not supported by the DNA Center SDK
+plugins/modules/ise_radius_integration_workflow_manager.py import-2.7!skip # Python 2.7 is not supported by the DNA Center SDK
+plugins/modules/ise_radius_integration_workflow_manager.py import-2.6!skip # Python 2.6 is not supported by the DNA Center SDK
