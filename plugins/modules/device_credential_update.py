@@ -10,7 +10,9 @@ module: device_credential_update
 short_description: Resource module for Device Credential Update
 description:
 - Manage operation update of the resource Device Credential Update.
-- API to update device credentials.
+- >
+   API to update device credentials. This API has been deprecated and will not be available in a Cisco DNA Center
+   release after August 1st 2024 23 59 59 GMT. Please refer new Intent API Update Global Credentials V2.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -132,8 +134,8 @@ options:
         type: dict
     type: dict
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Network Settings UpdateDeviceCredentials
   description: Complete reference of the UpdateDeviceCredentials API.
@@ -195,7 +197,6 @@ EXAMPLES = r"""
         username: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

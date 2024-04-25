@@ -11,7 +11,9 @@ short_description: Information module for Network Device Config
 description:
 - Get all Network Device Config.
 - Get Network Device Config by id.
-- Returns the config for all devices.
+- >
+   Returns the config for all devices. This API has been deprecated and will not be available in a Cisco Catalyst
+   Center release after Nov 1st 2024 23 59 59 GMT.
 - Returns the device config by specified device ID.
 version_added: '3.1.0'
 extends_documentation_fragment:
@@ -26,8 +28,8 @@ options:
     - NetworkDeviceId path parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Devices GetDeviceConfigById
   description: Complete reference of the GetDeviceConfigById API.
@@ -73,7 +75,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

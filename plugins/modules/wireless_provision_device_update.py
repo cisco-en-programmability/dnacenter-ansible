@@ -24,39 +24,39 @@ options:
     elements: dict
     suboptions:
       deviceName:
-        description: Device Name.
+        description: Controller Name.
         type: str
       dynamicInterfaces:
         description: Wireless Provision Device Update's dynamicInterfaces.
         elements: dict
         suboptions:
           interfaceGateway:
-            description: Interface Gateway.
+            description: Interface Gateway. Required for AireOS.
             type: str
           interfaceIPAddress:
-            description: Interface IPAddress.
+            description: Interface IP Address. Required for AireOS.
             type: str
           interfaceName:
-            description: Interface Name.
+            description: Interface Name. Required for AireOS and EWLC.
             type: str
           interfaceNetmaskInCIDR:
-            description: Interface Netmask In CIDR.
+            description: Interface Netmask In CIDR. Required for AireOS.
             type: int
           lagOrPortNumber:
-            description: Lag Or Port Number.
+            description: Lag Or Port Number. Required for AireOS.
             type: int
           vlanId:
-            description: Vlan Id.
+            description: VLAN ID. Required for AireOS and EWLC.
             type: int
         type: list
       managedAPLocations:
-        description: Managed APLocations.
+        description: List of managed AP locations (Site Hierarchies).
         elements: str
         type: list
     type: list
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Wireless ProvisionUpdate
   description: Complete reference of the ProvisionUpdate API.
@@ -94,7 +94,6 @@ EXAMPLES = r"""
       - string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
@@ -103,14 +102,7 @@ dnac_response:
   sample: >
     {
       "executionId": "string",
-      "executionUrl": "string",
-      "provisioningTasks": {
-        "success": [
-          "string"
-        ],
-        "failed": [
-          "string"
-        ]
-      }
+      "executionStatusUrl": "string",
+      "message": "string"
     }
 """

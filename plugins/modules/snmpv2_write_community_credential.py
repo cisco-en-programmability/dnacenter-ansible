@@ -27,14 +27,14 @@ options:
     description: Name/Description of the credential.
     type: str
   instanceUuid:
-    description: Snmpv2 Write Community Credential's instanceUuid.
+    description: Credential UUID.
     type: str
   writeCommunity:
     description: SNMP write community. NO!$DATA!$ for no value change.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Discovery CreateSNMPWriteCommunity
   description: Complete reference of the CreateSNMPWriteCommunity API.
@@ -86,7 +86,6 @@ EXAMPLES = r"""
     writeCommunity: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

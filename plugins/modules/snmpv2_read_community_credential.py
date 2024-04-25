@@ -27,14 +27,14 @@ options:
     description: Name/Description of the credential.
     type: str
   instanceUuid:
-    description: Snmpv2 Read Community Credential's instanceUuid.
+    description: Credential UUID.
     type: str
   readCommunity:
     description: SNMP read community. NO!$DATA!$ for no value change.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Discovery CreateSNMPReadCommunity
   description: Complete reference of the CreateSNMPReadCommunity API.
@@ -86,7 +86,6 @@ EXAMPLES = r"""
     readCommunity: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

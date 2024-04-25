@@ -13,8 +13,8 @@ description:
 - Get Pnp Device by id.
 - Returns device details specified by device id.
 - >
-   Returns list of devices based on filter crieteria. If a limit is not specified, it will default to return 50
-   devices. Pagination and sorting are also supported by this endpoint.
+   Returns list of devices from Plug & Play based on filter criteria. Returns 50 devices by default. This endpoint
+   supports Pagination and Sorting.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -33,7 +33,7 @@ options:
     type: int
   sort:
     description:
-    - Sort query parameter. Comma seperated list of fields to sort on.
+    - Sort query parameter. Comma seperated list of fields to sort on. 
     elements: str
     type: list
   sortOrder:
@@ -42,67 +42,52 @@ options:
     type: str
   serialNumber:
     description:
-    - SerialNumber query parameter. Device Serial Number.
+    - SerialNumber query parameter. Device Serial Number. 
     elements: str
     type: list
   state_:
     description:
-    - State query parameter. Device State.
+    - State query parameter. Device State. 
     elements: str
     type: list
   onbState:
     description:
-    - OnbState query parameter. Device Onboarding State.
-    elements: str
-    type: list
-  cmState:
-    description:
-    - CmState query parameter. Device Connection Manager State.
+    - OnbState query parameter. Device Onboarding State. 
     elements: str
     type: list
   name:
     description:
-    - Name query parameter. Device Name.
+    - Name query parameter. Device Name. 
     elements: str
     type: list
   pid:
     description:
-    - Pid query parameter. Device ProductId.
+    - Pid query parameter. Device ProductId. 
     elements: str
     type: list
   source:
     description:
-    - Source query parameter. Device Source.
-    elements: str
-    type: list
-  projectId:
-    description:
-    - ProjectId query parameter. Device Project Id.
+    - Source query parameter. Device Source. 
     elements: str
     type: list
   workflowId:
     description:
-    - WorkflowId query parameter. Device Workflow Id.
-    elements: str
-    type: list
-  projectName:
-    description:
-    - ProjectName query parameter. Device Project Name.
+    - WorkflowId query parameter. Device Workflow Id. 
     elements: str
     type: list
   workflowName:
     description:
-    - WorkflowName query parameter. Device Workflow Name.
+    - WorkflowName query parameter. Device Workflow Name. 
     elements: str
     type: list
   smartAccountId:
     description:
-    - SmartAccountId query parameter. Device Smart Account.
+    - SmartAccountId query parameter. Device Smart Account. 
     elements: str
     type: list
   virtualAccountId:
     description:
-    - VirtualAccountId query parameter. Device Virtual Account.
+    - VirtualAccountId query parameter. Device Virtual Account. 
     elements: str
     type: list
   lastContact:
@@ -126,8 +111,8 @@ options:
     - Id path parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Device Onboarding (PnP) GetDeviceById
   description: Complete reference of the GetDeviceById API.
@@ -164,13 +149,10 @@ EXAMPLES = r"""
     serialNumber: []
     state_: []
     onbState: []
-    cmState: []
     name: []
     pid: []
     source: []
-    projectId: []
     workflowId: []
-    projectName: []
     workflowName: []
     smartAccountId: []
     virtualAccountId: []
@@ -194,7 +176,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

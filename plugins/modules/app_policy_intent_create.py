@@ -28,7 +28,8 @@ options:
             elements: dict
             suboptions:
               groupId:
-                description: Group id.
+                description: The site(s) ID where the Application QoS Policy will be
+                  deployed.
                 elements: str
                 type: list
               ssid:
@@ -124,7 +125,8 @@ options:
             elements: dict
             suboptions:
               groupId:
-                description: Group id.
+                description: The site(s) ID where the Application QoS Policy will be
+                  deployed.
                 elements: str
                 type: list
               id:
@@ -226,8 +228,8 @@ options:
         type: dict
     type: list
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Application Policy ApplicationPolicyIntent
   description: Complete reference of the ApplicationPolicyIntent API.
@@ -314,7 +316,6 @@ EXAMPLES = r"""
         - idRef: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

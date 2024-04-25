@@ -20,6 +20,7 @@ from ansible_collections.cisco.dnac.plugins.plugin_utils.dnac import (
     DNACSDK,
     dnac_argument_spec,
     dnac_compare_equality,
+    get_dict_result,
 )
 from ansible_collections.cisco.dnac.plugins.plugin_utils.exceptions import (
     InconsistentParameters,
@@ -35,7 +36,7 @@ argument_spec.update(dict(
 ))
 
 required_if = [
-    ("state", "present", ["profileDetails"], True),
+    ("state", "present", ["wirelessProfileName"], True),
     ("state", "absent", ["wirelessProfileName"], True),
 ]
 required_one_of = []
@@ -53,7 +54,7 @@ class WirelessProfile(object):
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params['profile_name'] = name or self.new_object.get('wireless_profile_name')
+        new_object_params['profile_name'] = self.new_object.get('wireless_profile_name')
         return new_object_params
 
     def create_params(self):
@@ -103,9 +104,6 @@ class WirelessProfile(object):
         o_id = self.new_object.get("id")
         name = self.new_object.get("name")
         name = name or self.new_object.get("wireless_profile_name")
-        profile_details = self.new_object.get("profileDetails")
-        if profile_details and profile_details.get("name"):
-            name = name or profile_details.get("name")
         if o_id:
             prev_obj = self.get_object_by_id(o_id)
             id_exists = prev_obj is not None and isinstance(prev_obj, dict)

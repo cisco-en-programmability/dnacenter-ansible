@@ -26,60 +26,68 @@ options:
         description: Site Update's area.
         suboptions:
           name:
-            description: Name.
+            description: Area name.
             type: str
           parentName:
-            description: Parent Name.
+            description: Parent hierarchical name (Example Global/USA/CA).
             type: str
         type: dict
       building:
         description: Site Update's building.
         suboptions:
           address:
-            description: Address.
+            description: Building address (Example 4900 Marie P. Debartolo Way, Santa
+              Clara, California 95054, United States).
+            type: str
+          country:
+            description: Country name. This field is mandatory for air-gapped networks
+              (Example United States).
             type: str
           latitude:
-            description: Latitude.
-            type: int
+            description: Building latitude (Example 37.403712).
+            type: float
           longitude:
-            description: Longitude.
-            type: int
+            description: Building longitude (Example -121.971063).
+            type: float
           name:
-            description: Name.
+            description: Building name.
             type: str
           parentName:
-            description: Parent Name.
+            description: Parent hierarchical name (Example Global/USA/CA/SantaClara).
             type: str
         type: dict
       floor:
         description: Site Update's floor.
         suboptions:
+          floorNumber:
+            description: Floor Number (Example 3).
+            type: float
           height:
-            description: Height.
-            type: int
+            description: Floor height in feet (Example 10).
+            type: float
           length:
-            description: Length.
-            type: int
+            description: Floor length in feet (Example 100).
+            type: float
           name:
-            description: Name.
+            description: Floor name.
             type: str
           rfModel:
-            description: Rf Model.
+            description: RF model (Example Cubes And Walled Offices).
             type: str
           width:
-            description: Width.
-            type: int
+            description: Floor width in feet (Example 200).
+            type: float
         type: dict
     type: dict
   siteId:
     description: SiteId path parameter. Site id to which site details to be updated.
     type: str
   type:
-    description: Type.
+    description: Site type.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Sites UpdateSite
   description: Complete reference of the UpdateSite API.
@@ -110,11 +118,13 @@ EXAMPLES = r"""
         parentName: string
       building:
         address: string
+        country: string
         latitude: 0
         longitude: 0
         name: string
         parentName: string
       floor:
+        floorNumber: 0
         height: 0
         length: 0
         name: string
@@ -124,7 +134,6 @@ EXAMPLES = r"""
     type: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

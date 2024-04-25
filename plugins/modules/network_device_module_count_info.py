@@ -25,7 +25,7 @@ options:
     type: str
   nameList:
     description:
-    - NameList query parameter.
+    - NameList query parameter. 
     elements: str
     type: list
   vendorEquipmentTypeList:
@@ -40,12 +40,12 @@ options:
     type: list
   operationalStateCodeList:
     description:
-    - OperationalStateCodeList query parameter.
+    - OperationalStateCodeList query parameter. 
     elements: str
     type: list
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Devices GetModuleCount
   description: Complete reference of the GetModuleCount API.
@@ -78,7 +78,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

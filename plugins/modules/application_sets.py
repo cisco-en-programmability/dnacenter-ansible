@@ -29,19 +29,19 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Application Policy CreateApplicationSet
   description: Complete reference of the CreateApplicationSet API.
   link: https://developer.cisco.com/docs/dna-center/#!create-application-set
-- name: Cisco DNA Center documentation for Application Policy DeleteApplicationSet
-  description: Complete reference of the DeleteApplicationSet API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-application-set
+- name: Cisco DNA Center documentation for Application Policy DeleteApplicationSet2
+  description: Complete reference of the DeleteApplicationSet2 API.
+  link: https://developer.cisco.com/docs/dna-center/#!delete-application-set-2
 notes:
   - SDK Method used are
     application_policy.ApplicationPolicy.create_application_set,
-    application_policy.ApplicationPolicy.delete_application_set,
+    application_policy.ApplicationPolicy.delete_application_set2,
 
   - Paths used are
     post /dna/intent/api/v1/application-policy-application-set,
@@ -76,7 +76,6 @@ EXAMPLES = r"""
     - name: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

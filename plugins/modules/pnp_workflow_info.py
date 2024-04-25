@@ -33,7 +33,7 @@ options:
     type: int
   sort:
     description:
-    - Sort query parameter. Comma seperated lost of fields to sort on.
+    - Sort query parameter. Comma seperated lost of fields to sort on. 
     elements: str
     type: list
   sortOrder:
@@ -42,12 +42,12 @@ options:
     type: str
   type:
     description:
-    - Type query parameter. Workflow Type.
+    - Type query parameter. Workflow Type. 
     elements: str
     type: list
   name:
     description:
-    - Name query parameter. Workflow Name.
+    - Name query parameter. Workflow Name. 
     elements: str
     type: list
   id:
@@ -55,8 +55,8 @@ options:
     - Id path parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Device Onboarding (PnP) GetWorkflowById
   description: Complete reference of the GetWorkflowById API.
@@ -108,7 +108,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
