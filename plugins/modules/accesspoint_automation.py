@@ -3,6 +3,8 @@ from dnacentersdk import api
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import DnacBase
 from ansible.module_utils.basic import AnsibleModule
 
+# below packages for pandas for data customization
+# Others are Pydentic module for customized yml input validation purpose
 import pandas as pd
 from pydantic import ValidationError 
 from uuid import UUID, uuid4
@@ -119,6 +121,8 @@ class DnacAutomation(DnacBase):
         except Exception as e:
             self.log("Unable to Login DNAC "+ str(e) , "ERROR")
 
+    # Below function used pydentic validation over the ansible validation
+    # We can customize validation, if it not required we can remove this function.
     def validate_input(self, inputdata):
         """
         Validate the fields provided in the yml files.
@@ -148,6 +152,7 @@ class DnacAutomation(DnacBase):
             self.log("Invalid Param provided in input Yml File." + str(e), "ERROR")
             exit()
 
+    # below function not required for the current scenario but required for upcomming. 
     def get_network_info(self):
         """
         This function used to get all device details as json response from DNAC site.
@@ -278,6 +283,7 @@ class DnacAutomation(DnacBase):
         for device in self.payload["accesspoints"]:
             self.log('Getting Access Point Configuration Information' + device['macAddress'], "INFO")
             try:
+                # Below code might change once we receive the dev dnac credentials
                 jsondata = self.dnac.wireless.get_access_point_configuration(macAddress = device['macAddress'])
                 ap_config_data.append(jsondata.response)
             except Exception as e:
@@ -350,6 +356,7 @@ class DnacAutomation(DnacBase):
         for device in device_data:
             try:
                 self.log("Updating Access Point Configuration Information of " + device["managementIpAddress"], "INFO")
+                # Below code might changed once we receive the dev dnac credentials
                 response = self.dnac.wireless.configure_access_points(**device)
                 if response.get("Status") == 200:
                     device["update_status"] == "success"
@@ -390,6 +397,7 @@ class DnacAutomation(DnacBase):
         if len(all_macaddress) > 0:
             try:
                 self.log('Rebooting below Access Point(s)' + str(all_macaddress.join(", ")), "INFO")
+                # Below code might change once we receive the dev dnac credentials
                 response = self.dnac.wireless.reboot_access_points(apMacAddresses = all_macaddress)
             except Exception as e:
                 self.log(str(response['error']) + e, "ERROR")
