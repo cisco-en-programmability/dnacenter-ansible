@@ -33,10 +33,11 @@
       <<: *dnac_login
       dnac_log_append: False
       config:
-        - ip_address_list: ['204.1.2.2', '204.1.2.5', '204.1.2.4']
+        - #ip_address_list: ['204.1.2.4', '204.1.2.5']
+          ip_address_list: ['204.1.2.2', '204.1.2.5', '204.1.2.4']
           #site_name: "Global"
-          run_compliance:
-             trigger_full: True
+          # run_compliance:
+          #   trigger_full: True
               #trigger_full: True
               #categories: ['INTENT', 'RUNNING_CONFIG', 'IMAGE', 'PSIRT', 'EOX', 'NETWORK_SETTINGS']
           sync_device_config: True
