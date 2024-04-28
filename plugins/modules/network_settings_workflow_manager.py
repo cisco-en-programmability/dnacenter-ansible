@@ -1075,6 +1075,14 @@ class NetworkSettings(DnacBase):
                     }
                 })
 
+        network_settings_snmp = network_settings.get("snmpServer")
+        if not network_settings_snmp.get("ipAddresses"):
+            network_settings_snmp.update({"ipAddresses": []})
+
+        network_settings_syslog = network_settings.get("syslogServer")
+        if not network_settings_syslog.get("ipAddresses"):
+            network_settings_syslog.update({"ipAddresses": []})
+
         self.log("Formatted playbook network details: {0}".format(network_details), "DEBUG")
         return network_details
 
