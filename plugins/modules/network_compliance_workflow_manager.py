@@ -84,7 +84,7 @@ options:
         default: False
 
 requirements:
-- dnacentersdk == 2.6.10
+- dnacentersdk >= 2.7.0
 - python >= 3.5
 notes:
   - SDK Method used are
@@ -296,7 +296,7 @@ dnac_response:
       "version": "string"
     }
 
-#Case_2: When compliance check is run, the response of the compliance status
+#Case_2: 
 dnac_response:
   description: A dictionary with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
@@ -310,7 +310,7 @@ dnac_response:
         "taskId": "string",
         "url": "string"
       },
-      "data": [list of dictionaries],
+      "data": dict,
       "version": "string"
     }
 
@@ -329,10 +329,8 @@ class NetworkCompliance(DnacBase):
     def __init__(self, module):
         """
         Initialize an instance of the class. 
-
         Parameters:
           - module: The module associated with the class instance.
-
         Returns:
           The method does not return a value.
         """
@@ -341,17 +339,22 @@ class NetworkCompliance(DnacBase):
 
     def validate_input(self, state=None):
         """
-        Validate the fields provided in the playbook.  Checks the
-        configuration provided in the playbook against a predefined
-        specification to ensure it adheres to the expected structure
-        and data types.
-
+        Validate the fields provided in the playbook against a predefined specification
+        to ensure they adhere to the expected structure and data types.
+        Parameters:
+            state (optional): A state parameter that can be used to customize validation
+                              based on different conditions.
         Returns:
-          The method returns an instance of the class with updated attributes:
-          - self.msg: A message describing the validation result.
-          - self.status: The status of the validation (either 'success' or 'failed').
-          - self.validated_config: If successful, a validated version of the
-                                   'config' parameter.
+            object: An instance of the class with updated attributes:
+              - self.msg: A message describing the validation result.
+              - self.status: The status of the validation (either 'success' or 'failed').
+              - self.validated_config: If successful, a validated version of the 'config' parameter.
+        Description:
+            This method validates the fields provided in the playbook against a predefined specification.
+            It checks if the required fields are present and if their data types match the expected types.
+            If any parameter is found to be invalid, it logs an error message and sets the validation status to 'failed'.
+            If the validation is successful, it logs a success message and returns an instance of the class
+            with the validated configuration.
         """
 
         if not self.config:
@@ -388,8 +391,15 @@ class NetworkCompliance(DnacBase):
 
     def validate_ip4_address_list(self, ip_address_list):
         """
-        Validates the IP address list provided in the playbook. 
+        Validates the list of IPv4 addresses provided in the playbook.
+        Parameters:
+            ip_address_list (list): A list of IPv4 addresses to be validated.
+        Description:
+            This method iterates through each IP address in the list and checks if it is a valid IPv4 address.
+            If any address is found to be invalid, it logs an error message and fails.
+            After validating all IP addresses, it logs a success message.
         """
+
         for ip in ip_address_list:
             if not self.is_valid_ipv4(ip):
                 msg = "IP address {0} is not valid".format(ip)
@@ -399,40 +409,65 @@ class NetworkCompliance(DnacBase):
         self.log("Successfully validated the IP address/es: {0}".format(ip_address_list), "DEBUG")
 
     def validate_run_compliance(self, run_compliance):
+        """
+        Validates the parameters for running compliance checks.
+        Parameters:
+            run_compliance (dict): A dictionary containing the parameters for running compliance checks.
+        Returns:
+            None
+        Description:
+            This method validates the parameters provided for running compliance checks on devices.
+            It checks if 'trigger_full' and 'categories' parameters are provided and valid.
+            If any parameter is missing or invalid, an error message is logged, and the module fails.
+            If all parameters are valid, a success message is logged.
+        """
+
         trigger_full = run_compliance.get('trigger_full')
         categories = run_compliance.get('categories')
         msg = ""
+
+        # Validate 'trigger_full' parameter
         if trigger_full not in [True, False]:
             msg = "trigger_full is a required parameter in order to run compliance check on device(s)"
+
+        # Validate 'categories' parameter when 'trigger_full' is set to False
         if trigger_full == False and not categories:
             msg = "Categories is a required paramtere when trigger_full is set to False."
+        
+        # Validate 'categories' parameter values
+        if categories:
+            valid_categories = ['INTENT', 'RUNNING_CONFIG', 'IMAGE', 'PSIRT', 'EOX', 'NETWORK_SETTINGS']
+            if not all(category.upper() in valid_categories for category in categories):
+                msg = "Invalid category provided. Valid categories are {0}.".format(valid_categories)
 
-        if categories and not all(category.upper() in ['INTENT','RUNNING_CONFIG' , 'IMAGE' , 'PSIRT' , 'EOX' , 'NETWORK_SETTINGS'] for category in categories):
-            msg = "Invalid category provided. Valid categories are ['INTENT', 'RUNNING_CONFIG', 'IMAGE', 'PSIRT', 'EOX', 'NETWORK_SETTINGS']."
-
+        # Log error message and fail if validation fails
         if msg:
             self.log(msg, 'ERROR')
             self.module.fail_json(msg)
-        self.log("Successfully validated run_compliance parameters.", "DEBUG")
-
+        else:
+            self.log("Successfully validated run_compliance parameters.", "DEBUG")
 
     def site_exists(self, site_name):
         """
+        Checks the existence of a site in Cisco Catalyst Center.
         Parameters:
-            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            site_name (str): The name of the site to be checked.
         Returns:
             tuple: A tuple containing two values:
-            - site_exists (bool): A boolean indicating whether the site exists (True) or not (False).
-            - site_id (str or None): The ID of the site if it exists, or None if the site is not found.
+                - site_exists (bool): Indicates whether the site exists (True) or not (False).
+                - site_id (str or None): The ID of the site if it exists, or None if the site is not found.
         Description:
-            This method checks the existence of a site in the Catalyst Center. If the site is found,it sets 'site_exists' to True,
-            retrieves the site's ID, and returns both values in a tuple. If the site does not exist, 'site_exists' is set
-            to False, and 'site_id' is None. If an exception occurs during the site lookup, an exception is raised.
+            This method queries Cisco Catalyst Center to determine if a site with the provided name exists.
+            If the site is found, it sets 'site_exists' to True and retrieves the site's ID.
+            If the site does not exist, 'site_exists' is set to False, and 'site_id' is None.
+            If an exception occurs during the site lookup, an error message is logged, and the module fails.
         """
 
         site_exists = False
         site_id = None
         response = None
+
+        # Attempt to retrieve site information from Catalyst Center
         try:
             response = self.dnac._exec(
                 family="sites",
@@ -440,23 +475,42 @@ class NetworkCompliance(DnacBase):
                 op_modifies=True,
                 params={"name": site_name},
             )
+
+            # Process the response if available
+            if response:
+                self.log("Received API response from 'get_site': {0}".format(str(response)), "DEBUG")
+                site = response.get("response")
+                site_id = site[0].get("id")
+                site_exists = True
+
         except Exception as e:
+            # Log an error message and fail if an exception occurs
             self.msg = "An exception occurred: Site '{0}' does not exist in the Cisco Catalyst Center".format(site_name)
             self.log(self.msg, "ERROR")
             self.module.fail_json(msg=self.msg)
 
-        if response:
-            self.log("Received API response from 'get_site': {0}".format(str(response)), "DEBUG")
-            site = response.get("response")
-            site_id = site[0].get("id")
-            site_exists = True
-
         return (site_exists, site_id)
 
     def get_device_ids_from_ip(self, ip_address_list):
+        """
+        Retrieves the device IDs based on the provided list of IP addresses from Cisco Catalyst Center.
+        Parameters:
+            ip_address_list (list): A list of IP addresses of devices for which you want to retrieve the device IDs.
+        Returns:
+            dict: A dictionary mapping management IP addresses to their instance UUIDs.
+        Description:
+            This method queries Cisco Catalyst Center for device information using the provided IP addresses.
+            For each IP address in the list, it attempts to fetch the device information using the 'get_device_list' API.
+            If the device is found and reachable, it extracts the device ID and maps it to the corresponding IP address.
+            If any error occurs during the process, it logs an error message and continues to the next IP address.
+        """
+
         mgmt_ip_instance_id_map = {}
+
+        # Iterate through the provided list of IP addresses
         for device_ip in ip_address_list:
             try:
+                # Query Cisco Catalyst Center for device information using the IP address
                 response = self.dnac._exec(
                     family="devices",
                     function='get_device_list',
@@ -464,6 +518,7 @@ class NetworkCompliance(DnacBase):
                     params={"managementIpAddress": device_ip}
                 )
 
+                # Check if a valid response is received
                 if response.get("response"):
                     self.log("Received API response from 'get_device_list' for device:{0} response: {1}".format(device_ip, str(response)), "DEBUG")
                     response = response.get("response")
@@ -474,24 +529,43 @@ class NetworkCompliance(DnacBase):
                             device_id = response[0]["id"]
                             mgmt_ip_instance_id_map[device_ip] = device_id
                 else:
+                    # If unable to retrieve device information, log an error message
                     self.msg = "Unable to retrieve device information for {0}. Please ensure that the device exists and is reachable.".format(device_ip)
                     self.log(self.msg, "ERROR")
                     self.module.fail_json(msg=self.msg)
 
             except Exception as e:
+                # Log an error message if any exception occurs during the process
                 error_message = "Error while fetching device ID for device: '{0}' from Cisco Catalyst Center: {1}".format(device_ip, str(e))
                 self.log(error_message, "ERROR")
 
         return mgmt_ip_instance_id_map
 
     def get_device_ids_from_site(self, site_name, site_id):
+        """
+        Retrieves the management IP addresses and their corresponding instance UUIDs of devices associated with a specific site in Cisco Catalyst Center.
+
+        Parameters:
+            site_name (str): The name of the site whose devices' information is to be retrieved.
+            site_id (str): The unique identifier of the site.
+
+        Returns:
+            dict: A dictionary mapping management IP addresses to their instance UUIDs.
+
+        Description:
+            This method queries Cisco Catalyst Center to fetch the list of devices associated with the provided site.
+            It then extracts the management IP addresses and their instance UUIDs from the response.
+            Devices that are not reachable are logged as critical errors, and the function fails.
+            If no reachable devices are found for the specified site, it logs an error message and fails.
+
+        """
         mgmt_ip_instance_id_map = {}
 
         site_params = {
             "site_id": site_id,
         }
 
-        #Get 
+        # Attempt to retrieve device information associated with the site 
         try:
             response = self.dnac._exec(
                 family="sites",
@@ -501,31 +575,23 @@ class NetworkCompliance(DnacBase):
             )
             if response:
                 self.log("Received API response from 'get_membership': {0}".format(str(response)), "DEBUG")
-                site_response_list = []
-                for item in response['device']:
+                response = response['device']
+                # Iterate over the devices in the site membership
+                for item in response:
                     if item['response']:
                         for item_dict in item['response']:
-                            site_response_list.append(item_dict)
+                            # Check if the device is reachable
+                            if item_dict["reachabilityStatus"] == "Reachable":
+                                mgmt_ip_instance_id_map[item_dict["managementIpAddress"]] = item_dict["instanceUuid"]
+                            else:
+                                msg = 'Unable to get deviceId  for device {0} in site {1} as its status is {2}'.format(
+                                item["managementIpAddress"], site_name, item["reachabilityStatus"])
+                                self.log(msg, "CRITICAL")
+                                self.module.fail_json(msg=msg)
 
+        # Handle exceptions if unable to fetch device information associated with the site
         except Exception as e:
-            self.log("Unable to fetch the device(s) associated to the site '{0}' due to '{1}'".format(site_name, str(e)), "WARNING")
-            return device_id_list
-
-        self.log("Received API response from 'get_membership': {0}".format(str(response)), "DEBUG")
-        response = response['device']
-        
-        # Iterate over the devices in the site membership
-        for item in response:
-            if item['response']:
-                for item_dict in item['response']:
-                    # Check if the device is reachable
-                    if item_dict["reachabilityStatus"] == "Reachable":
-                        mgmt_ip_instance_id_map[item_dict["managementIpAddress"]] = item_dict["instanceUuid"]
-                    else:
-                        msg = 'Unable to get deviceId  for device {0} in site {1} as its status is {2}'.format(
-                        item["managementIpAddress"], site_name, item["reachabilityStatus"])
-                        self.log(msg, "CRITICAL")
-                        self.module.fail_json(msg=msg)
+            self.log("Unable to fetch the device(s) associated to the site '{0}' due to '{1}'".format(site_name, str(e)), "ERROR")
 
         if not mgmt_ip_instance_id_map:
             msg = 'Site: {0} provided in the playbook does not have any reachable devices'.format(site_name)
@@ -536,16 +602,27 @@ class NetworkCompliance(DnacBase):
 
     def get_device_id_list(self, ip_address_list, site_name):
         """
-        Get the list of unique device IDs for list of specified management IP addresses of devices in Cisco Catalyst Center.
+        Get the list of unique device IDs for a specified list of management IP addresses or devices associated with a site
+        in Cisco Catalyst Center.
         Parameters:
-            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-            device_ips (list): The management IP addresses of devices for which you want to retrieve the device IDs.
+            ip_address_list (list): The management IP addresses of devices for which you want to retrieve the device IDs.
+            site_name (str): The name of the site for which you want to retrieve the device IDs.
         Returns:
-            list: The list of unique device IDs for the specified devices.
+            dict: A dictionary mapping management IP addresses to device IDs for the specified devices.
         Description:
-            Queries Cisco Catalyst Center to retrieve the unique device ID associated with a device having the specified
-            IP address. If the device is not found in Cisco Catalyst Center, then print the log message with error severity.
+            This method queries Cisco Catalyst Center to retrieve the unique device IDs associated with devices having the
+            specified IP addresses or belonging to the specified site. If both IP addresses and site name are provided,
+            it first checks if the site exists, retrieves the device IDs associated with devices in that site, and then
+            filters them based on the provided IP addresses. If only a site name is provided, it retrieves the device IDs
+            associated with devices in that site. If only IP addresses are provided, it directly retrieves the device IDs
+            associated with those IP addresses.
+        Note: If a device is not found in Cisco Catalyst Center, it logs a message with error severity.
         """
+
+        # Initialize a dictionary to store management IP addresses and their corresponding device IDs
+        mgmt_ip_instance_id_map = {}
+
+        # Check if both site name and IP address list are provided
         if site_name and ip_address_list:
             (site_exists, site_id) = self.site_exists(site_name)
             if site_exists:
@@ -556,23 +633,70 @@ class NetworkCompliance(DnacBase):
                 for ip, instance_id in iplist_mgmt_ip_instance_id_map.items() 
                 if ip in site_mgmt_ip_instance_id_map
             }
+        # If only site name is provided
         elif site_name and not ip_address_list:
             (site_exists, site_id) = self.site_exists(site_name)
             if site_exists:
+                # Retrieve device IDs associated with devices in the site
                 mgmt_ip_instance_id_map  = self.get_device_ids_from_site(site_name, site_id)
+
+        # If only IP addresses are provided
         elif ip_address_list and not site_name:
+            # Retrieve device IDs associated with devices having specified IP addresses
             mgmt_ip_instance_id_map = self.get_device_ids_from_ip(ip_address_list)
             
-
         return mgmt_ip_instance_id_map
+
+    def is_sync_required(self, response):
+        task_name = 'Sync Device Configuration'
+
+        #Validate if sync is required
+        #response = self.get_compliance_detail(compliance_detail_params_sync)
+        self.log('Modified {0} Response for device(s) {1} : {2}'.format(task_name, list(mgmt_ip_instance_id_map.keys()), modified_response), 'INFO')
+
+        #Categorize the devices based on status - 'COMPLIANT', 'NON_COMPLIANT', 'OTHER'(status other than COMPLIANT and NON_COMPLIANT)
+        categorized_devices = {'COMPLIANT': {}, 'NON_COMPLIANT': {}, 'OTHER': {}}
+        for ip_address, compliance_type in modified_response.items():
+          status = compliance_type[0]['status']
+          if status == 'NON_COMPLIANT':
+            categorized_devices['NON_COMPLIANT'][ip_address] = compliance_type
+          elif status == 'COMPLIANT':
+              categorized_devices['COMPLIANT'][ip_address] = compliance_type
+          else:
+              categorized_devices['OTHER'][ip_address] = compliance_type
+
+        #Validate if all devices are 'COMPLIANT' - then sync not required
+        if len(categorized_devices['COMPLIANT']) == len(mgmt_ip_instance_id_map):
+          self.msg = "Device(s) {0} are already compliant with the RUNNING_CONFIG compliance type. Therefore, {1} is not required.".format( 
+                list(mgmt_ip_instance_id_map.keys()), task_name)
+          self.update_result('success', False, self.msg, 'INFO',categorized_devices)
+          return self
+
+        elif len(categorized_devices['NON_COMPLIANT']) != len(mgmt_ip_instance_id_map):
+            self.msg = "The operation {0} cannot be performed on device(s) {1} because the status of the RUNNING_CONFIG compliance type is not as expected; it should be NON_COMPLIANT.".format(
+                        task_name, list(mgmt_ip_instance_id_map.keys()))
+            self.update_result('failed', False, self.msg, 'INFO',categorized_devices)
+        
+        return self
 
     def get_want(self, config):
         """
+        Determines the desired state based on the provided configuration.
+        Parameters:
+            config (dict): The configuration specifying the desired state.
+        Returns:
+            dict: A dictionary containing the desired state parameters.
+        Description:
+            This method processes the provided configuration to determine the desired state. It validates the presence of
+            either 'ip_address_list' or 'site_name' and constructs parameters for running compliance checks and syncing
+            device configurations based on the provided configuration. It also logs the desired state for reference.
         """
+
+        # Initialize parameters
         run_compliance_params = {}
         sync_device_config_params = {}
         compliance_detail_params = {}
-
+        compliance_detail_params_sync = {}
 
         #Validate either ip_address_list OR site_name is present
         ip_address_list = config.get('ip_address_list')
@@ -587,12 +711,26 @@ class NetworkCompliance(DnacBase):
         if ip_address_list:
             self.validate_ip4_address_list(ip_address_list)
         
+        # Retrieve device ID list
         mgmt_ip_instance_id_map = self.get_device_id_list(ip_address_list, site_name)
-        self.log('Retrieved device_id_list : {0}'.format(mgmt_ip_instance_id_map), 'DEBUG')
+        if not mgmt_ip_instance_id_map:
+            # Log an error message if mgmt_ip_instance_id_map is empty
+            msg = "Failed to retrieve device IDs for the provided IP addresses: {0} or site name: {1}.".format(ip_address_list, site_name)
+            self.log(msg, 'ERROR')
+            self.module.fail_json(msg)
+        else:
+            # Log the retrieved device ID list if it's not empty
+            self.log('Retrieved mgmt_ip_instance_id_map : {0}'.format(mgmt_ip_instance_id_map), 'DEBUG')
 
         #Validate run_compliance parameters
         run_compliance = config.get('run_compliance')
         sync_device_config = config.get('sync_device_config')
+
+        if not run_compliance and not sync_device_config:
+            self.msg = "No actions were requested. This network compliance module can perform the following tasks: Run Compliance Check or Sync Device Config."
+            self.update_result('failed', False, self.msg, 'ERROR')
+            return self
+
         if run_compliance:
             run_compliance_params = {
                 'triggerFull': config.get('run_compliance').get('trigger_full'),
@@ -624,8 +762,9 @@ class NetworkCompliance(DnacBase):
                 'deviceUuid': ','.join(list(mgmt_ip_instance_id_map.values())),
                 'complianceType': 'RUNNING_CONFIG'
             }
+            self.is_sync_required(compliance_detail_params_sync, mgmt_ip_instance_id_map)
 
-
+        # Construct the 'want' dictionary containing the desired state parameters
         want = {}
         want = dict(
             ip_address_list = ip_address_list,
@@ -641,6 +780,36 @@ class NetworkCompliance(DnacBase):
 
         return self
 
+    def get_have(self, config):
+        """
+        Retrieve and store compliance details if sync_device_config is enabled.
+
+        Parameters:
+            config (dict): A dictionary containing configuration details.
+
+        Returns:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+        Description:
+            In this method if sync_device_config is enabled, it proceeds to retrieve compliance details using the
+            specified parameters. The retrieved details are then modified and stored in the 'have' attribute for later reference.
+            Additionally, a log message is generated to indicate that the compliance details have been successfully retrieved
+            and stored.
+        """
+        sync_device_config = config.get('sync_device_config')
+        have = {}
+
+        if sync_device_config:
+            # Retrieve compliance details
+            response = self.get_compliance_detail(self.want.get('compliance_detail_params_sync'))
+            modified_response = self.modify_compliance_response(response, self.want.get('mgmt_ip_instance_id_map'))
+
+            # Store modified compliance details
+            have['compliance_details'] = modified_response
+            self.log("Compliance details have been retrieved and stored: {0}.".format(modified_response), "INFO")
+            self.is_sync_required(modified_response)
+        self.have = have
+        return self
+
     def get_compliance_detail(self, compliance_detail_params):
         response = self.dnac_apply['exec'](
                 family="compliance",
@@ -654,11 +823,27 @@ class NetworkCompliance(DnacBase):
         return response
 
     def modify_compliance_response(self, response, mgmt_ip_instance_id_map):
+        """
+        Modifies the compliance response by mapping device UUIDs to management IP addresses.
+        Parameters:
+            response (list of dict): The original compliance response.
+            mgmt_ip_instance_id_map (dict): Mapping of management IP addresses to instance IDs.
+        Returns:
+            dict: Modified compliance response with management IP addresses as keys.
+        Description:
+            This method takes the original compliance response and maps device UUIDs to their corresponding management
+            IP addresses using the provided mapping. It then constructs a modified response where each IP address is a key
+            associated with a list of compliance items related to that device.
+        """
         modified_response = {}
 
         for item in response:
             device_uuid = item.get('deviceUuid')
+
+            # Find the corresponding management IP address for the device UUID
             ip_address = next((ip for ip, uuid in mgmt_ip_instance_id_map.items() if uuid == device_uuid), None)
+            
+             # If the IP address is found, add the item to the modified response
             #if ip_address and item.get('status')!= 'NOT_APPLICABLE':
             if ip_address:
                 if ip_address not in modified_response:
@@ -667,154 +852,283 @@ class NetworkCompliance(DnacBase):
 
         return modified_response
 
-
     def run_compliance(self, run_compliance_params):
+        """
+        Executes a compliance check operation in Cisco DNA Center.
+        Parameters:
+            run_compliance_params (dict): Parameters for running the compliance check.
+        Returns:
+            str or None: Task ID of the API task created, or None if unsuccessful.
+        Description:
+            This method initiates a compliance check operation in Cisco DNA Center by calling the 'run_compliance' function
+            from the 'compliance' family of APIs. It passes the provided parameters and updates the result accordingly.
+        """
 
-        result = self.dnac_apply['exec'](
-            family="compliance",
-            function="run_compliance",
-            params=run_compliance_params,
-            op_modifies=True,
-        )
-
-        self.log("The response received post run_compliancee API call is {0}".format(str(result)), "DEBUG")
-
-        self.result.update(dict(response=result['response']))
-        self.log("Task Id of the API task created is {0}".format(result.response.get('taskId')), "INFO")
-        return result.response.get('taskId')
-
-    def sync_device_config(self, sync_device_config_params):
-        result = self.dnac_apply['exec'](
-            family="compliance",
-            function="commit_device_configuration",
-            params=sync_device_config_params,
-            op_modifies=True,
-        )
-
-        self.log("The response received post commit_device_configuration API call is {0}".format(str(result)), "DEBUG")
-
-        self.result.update(dict(response=result['response']))
-        self.log("Task Id of the API task created is {0}".format(result.response.get('taskId')), "INFO")
-        return result.response.get('taskId')
-
-    def get_task_status(self, task_id, task_name):
-        response = self.dnac_apply['exec'](
-                family="task",
-                function='get_task_by_id',
-                params=dict(task_id=task_id),
+        # Execute the compliance check operation
+        try:
+            result = self.dnac_apply['exec'](
+                family="compliance",
+                function="run_compliance",
+                params=run_compliance_params,
                 op_modifies=True,
             )
-        response = response.response
-        self.log("Task status for the task id {0} is {1}, is_error: {2}".format(str(task_id), str(response), str(response.get('isError'))), "INFO")
-        return response
+            self.log("The response received post run_compliancee API call is {0}".format(str(result)), "DEBUG")
+            self.result.update(dict(response=result['response']))
+            self.log("Task Id of the API task created is {0}".format(result.response.get('taskId')), "INFO")
+            # Return the task ID of the API task created
+            return result.response.get('taskId')
+
+        # Log and handle any exceptions that occur during the execution
+        except Exception as e:
+            self.log("An error occurred while executing the run_compliance operation: {0}".format(str(e)), "ERROR")
+            return None
+
+    def sync_device_config(self, sync_device_config_params):
+        """
+        Synchronize the device configuration using the specified parameters.
+        Parameters:
+            - sync_device_config_params (dict): Parameters for synchronizing the device configuration.
+        Returns:
+            task_id (str): The ID of the task created for the synchronization operation.
+        Note:
+            This method initiates the synchronization of device configurations by making an API call to the Cisco DNA Center.
+            It logs the response received from the API call and extracts the task ID from the response for further monitoring.
+            If an error occurs during the API call, it will be caught and logged.
+        """
+        # Make an API call to synchronize device configuration
+        try:
+            result = self.dnac_apply['exec'](
+                family="compliance",
+                function="commit_device_configuration",
+                params=sync_device_config_params,
+                op_modifies=True,
+            )
+            self.log("The response received post commit_device_configuration API call is {0}".format(str(result)), "DEBUG")
+            self.result.update(dict(response=result['response']))
+            self.log("Task Id of the API task created is {0}".format(result.response.get('taskId')), "INFO")
+            # Return the task ID
+            return result.response.get('taskId')
+
+        # Log the error if an exception occurs during the API call
+        except Exception as e:
+            self.log("Error occurred while synchronizing device configuration: {0}".format(str(e)), "ERROR")
+            return None
+
+    def get_task_status(self, task_id, task_name):
+        """
+        Retrieve the status of a task by its ID.
+        Parameters:
+            - task_id (str): The ID of the task whose status is to be retrieved.
+            - task_name (str): The name of the task.
+        Returns:
+            response (dict): The response containing the status of the task.
+        Note:
+            This method makes an API call to retrieve the task status and logs the status information.
+            If an error occurs during the API call, it will be caught and logged.
+        """
+
+        # Make an API call to retrieve the task status
+        try:
+            response = self.dnac_apply['exec'](
+                    family="task",
+                    function='get_task_by_id',
+                    params=dict(task_id=task_id),
+                    op_modifies=True,
+                )
+            response = response.response
+            self.log("Task status for the task id {0} is {1}, is_error: {2}".format(str(task_id), str(response), str(response.get('isError'))), "INFO")
+            return response
+
+        # Log the error if an exception occurs during the API call
+        except Exception as e:
+            self.log("Error occurred while retrieving task status for task id {0}: {1}".format(task_id, str(e)), "ERROR")
+            return None
 
     def update_result(self, status, changed, msg, log_level, data=None):
+        """
+        Update the result of the operation with the provided status, message, and log level.
+        Parameters:
+            - status (str): The status of the operation ('success' or 'failed').
+            - changed (bool): Indicates whether the operation caused changes.
+            - msg (str): The message describing the result of the operation.
+            - log_level (str): The log level at which the message should be logged ('INFO', 'ERROR', 'CRITICAL', etc.).
+            - data (dict, optional): Additional data related to the operation result.
+        Returns:
+            self (object): An instance of the class.
+        Note:
+            - If the status is 'failed', the 'failed' key in the result dictionary will be set to True.
+            - If data is provided, it will be included in the result dictionary.
+        """
+
+        # Update the result attributes with the provided values
         self.status = status
         self.result['status'] = status
         self.result['msg'] = msg
         self.result['changed'] = changed 
+
+        # Log the message at the specified log level
         self.log(msg, log_level)
+
+        # If the status is 'failed', set the 'failed' key to True
         if status == 'failed':
             self.result['failed'] = True  
+
+        # If additional data is provided, include it in the result dictionary
         if data:
             self.result['data'] = data
+
         return self
 
     def exit_while_loop(self, start_time, task_id, task_name, response):
-        if time.time() - start_time > 10:
+        """
+        Check if the elapsed time exceeds the specified timeout period and exit the while loop if it does.
+        Parameters:
+            - start_time (float): The time when the while loop started.
+            - task_id (str): ID of the task being monitored.
+            - task_name (str): Name of the task being monitored.
+            - response (dict): Response received from the task status check.
+        Returns:
+            bool: True if the elapsed time exceeds the timeout period, False otherwise.
+        """
+
+        # If the elapsed time exceeds the timeout period
+        if time.time() - start_time > 360:
             if response.get('data'):
+                # If there is data in the response, include it in the error message
                 self.msg = "Task {0} with task id {1} has not completed within the timeout period. Task Status: {2} ".format(
                 task_name, task_id, response.get('data'))
             else:
+                 # If there is no data in the response, generate a generic error message
                 self.msg = "Task {0} with task id {1} has not completed within the timeout period.".format(
                     task_name, task_id)
+
+            # Update the result with failure status and log the error message
             self.update_result('failed', False, self.msg, 'ERROR')
             return True
         return False 
 
     def handle_error(self, task_name, mgmt_ip_instance_id_map, failure_reason=None):
+        """
+        Handle error encountered during task execution.
+        Parameters:
+            - task_name (str): Name of the task being performed.
+            - mgmt_ip_instance_id_map (dict): Mapping of management IP addresses to instance IDs.
+            - failure_reason (str, optional): Reason for the failure, if available.
+        Returns:
+            self (object): An instance of the class used for interacting with Cisco Catalyst Center.
+        """
+
+        # If failure reason is provided, include it in the error message
         if failure_reason:
             self.msg = "An error occurred while performing {0} on device(s): {1}. The operation failed due to the following reason: {2}".format(
                 task_name, list(mgmt_ip_instance_id_map.keys()), failure_reason)
+        # If no failure reason is provided, generate a generic error message
         else:
             self.msg = "An error occurred while performing {0} on device(s): {1}".format(
                 task_name, list(mgmt_ip_instance_id_map.keys()))
+
+        # Update the result with failure status and log the error message
         self.update_result('failed', False, self.msg, 'ERROR')
         return self
 
-
     def get_compliance_task_status(self, task_id, mgmt_ip_instance_id_map):
+        """
+        This function retrieves the status of compliance check tasks in Cisco Catalyst Center.
+        Parameters:
+            - task_id: The ID of the compliance check task.
+            - mgmt_ip_instance_id_map: A mapping of management IP addresses to instance IDs.
+        Returns:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+        Description:
+            This function continuously checks the status of a compliance check task until completion.
+            It handles various scenarios such as task completion, task failure, or errors during execution.
+            Upon successful completion, it logs the modified compliance response and updates the result accordingly.
+        """
+
         task_name = 'Run Compliance Check'
         start_time = time.time()
+
         while True:
             response = self.get_task_status(task_id, task_name)
+
+            # Check if response returned
+            if not response:
+                self.msg = 'Error retrieving Task status for the task_name {0} task_id {1}'.format()
+                self.update_result('failed', False, self.msg, 'ERROR')
+                break
 
             # Check if the elapsed time exceeds the timeout
             if self.exit_while_loop(start_time, task_id, task_name, response):
                 break
             
+            # Handle error if task execution encounters an error
             if response.get('isError'):
                 failure_reason = response.get("failureReason")
                 self.handle_error(task_name, mgmt_ip_instance_id_map, failure_reason)
                 break
 
+            # Check if task completed successfully
             elif not response.get('isError') and 'success' in response.get('progress').lower():
+                # Task completed successfully
                 self.msg = "{0} has completed successfully on device(s): {1}".format(task_name, list(mgmt_ip_instance_id_map.keys()))
+                
+                # Retrieve and modify compliance check details
                 response = self.get_compliance_detail(self.want.get('compliance_detail_params'))
                 modified_response = self.modify_compliance_response(response, mgmt_ip_instance_id_map)
                 self.log('Modified {0} Response for device(s) {1} : {2}'.format(task_name, list(mgmt_ip_instance_id_map.keys()), modified_response), 'INFO')
+                
+                # Update result with modified response
                 self.update_result('success', True, self.msg, 'INFO', modified_response)
                 break
 
+            #Check if task failed
             elif 'failed' in response.get('progress').lower():
                 self.msg = "Failed to {0} on the following device(s): {1}".format(task_name, list(mgmt_ip_instance_id_map.keys()))
                 self.update_result('failed', False, self.msg, 'CRITICAL')
                 break
+
         return self
 
     def sync_config_task_status(self, task_id, mgmt_ip_instance_id_map):
+        """
+        This function manages the status of device configuration synchronization tasks in Cisco Catalyst Center. 
+        Parameters: 
+            - task_id: ID of the synchronization task
+            - mgmt_ip_instance_id_map: Mapping of management IP addresses to instance IDs
+        Returns:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+        Description: 
+            It validates if synchronization is required, categorizes devices based on compliance status, and checks task completion status. 
+            If all devices are already compliant, it logs a success message. If some devices have unexpected statuses, it logs an error. 
+            It continuously checks the task status until completion, updating the result accordingly.
+        """
+
         task_name = 'Sync Device Configuration'
 
-        #Validate if sync is required
-        response = self.get_compliance_detail(self.want.get('compliance_detail_params_sync'))
-        modified_response = self.modify_compliance_response(response, mgmt_ip_instance_id_map)
-        self.log('Modified {0} Response for device(s) {1} : {2}'.format(task_name, list(mgmt_ip_instance_id_map.keys()), modified_response), 'INFO')
-        
-        categorized_devices = {'COMPLIANT': {}, 'NON_COMPLIANT': {}, 'OTHER': {}}
-        for ip_address, compliance_type in modified_response.items():
-          if compliance_type[0]['status'] == 'NON_COMPLIANT':
-            categorized_devices['NON_COMPLIANT'][ip_address] = compliance_type
-          elif compliance_type[0]['status'] == 'COMPLIANT':
-            categorized_devices['COMPLIANT'][ip_address] = compliance_type
-          else:
-            categorized_devices['OTHER'][ip_address] = compliance_type
-
-        if len(categorized_devices['COMPLIANT']) == len(mgmt_ip_instance_id_map):
-          self.msg = "Device(s) {0} are already compliant with the RUNNING_CONFIG compliance type. Therefore, {1} is not required.".format( 
-                list(mgmt_ip_instance_id_map.keys()), task_name)
-          self.update_result('success', False, self.msg, 'INFO',categorized_devices['COMPLIANT'])
-          return self
-
-        if categorized_devices['OTHER']:
-          self.msg = "The operation {0} cannot be performed on device(s) {1} because the status of the RUNNING_CONFIG compliance type is not as expected; it should be NON_COMPLIANT.".format(
-            task_name, list(mgmt_ip_instance_id_map.keys()))
-          self.update_result('success', False, self.msg, 'INFO',categorized_devices )
-          return self
 
 
+        #Start Sync Operation
         start_time = time.time()
         while True:
 
             response = self.get_task_status(task_id, task_name)
 
-            # Check if the elapsed time exceeds the timeout
-            if self.exit_while_loop(start_time, task_id, task_name, response):
+            # Check if response returned
+            if not response:
+                self.msg = 'Error retrieving Task status for the task_name {0} task_id {1}'.format()
+                self.update_result('failed', False, self.msg, 'ERROR')
                 break
 
+            # Check if the elapsed time exceeds the timeout
+            # if self.exit_while_loop(start_time, task_id, task_name, response):
+            #     break
+
+            # Handle error if task execution encounters an error
             if response.get('isError'):
                 failure_reason = response.get("failureReason")
                 self.handle_error(task_name, mgmt_ip_instance_id_map, failure_reason)
                 break
+
 
             elif len(mgmt_ip_instance_id_map) == 1:
                 ip_address = next(iter(mgmt_ip_instance_id_map))
@@ -868,41 +1182,101 @@ class NetworkCompliance(DnacBase):
         return self
 
     def get_diff_merged(self):
-        if self.want.get('run_compliance_params'):
-            result_task_id = self.run_compliance(self.want.get('run_compliance_params'))
-            self.get_compliance_task_status(result_task_id, self.want.get('mgmt_ip_instance_id_map')).check_return_status()
+        """
+        This method is designed to Perform Network Compliance Actions in Cisco Catalyst Center.
+        Parameters: None
+        Returns:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+        Description: 
+            This method orchestrates  compliance check operation and device configuration synchronization tasks specified in a playbook. 
+            It ensures all required tasks are present, executes them, and checks their status, facilitating smooth playbook execution.
+        """
 
-        if self.want.get('sync_device_config_params'):
-            result_task_id = self.sync_device_config(self.want.get('sync_device_config_params'))
-            self.sync_config_task_status(result_task_id, self.want.get('mgmt_ip_instance_id_map')).check_return_status()
+        # Action map for different network compliance operations
+        action_map = {
+            'run_compliance_params': (self.run_compliance, self.get_compliance_task_status),
+            'sync_device_config_params': (self.sync_device_config, self.sync_config_task_status)
+        }
+
+        # Iterate through the action map and execute specified actions
+        for action_param, (action_func, status_func) in action_map.items():
+
+            # Execute the action and check its status
+            if self.want.get(action_param):
+                result_task_id = action_func(self.want.get(action_param))
+                self.log("Performing {0}".format(action_func), 'DEBUG')
+                if not result_task_id:
+                    self.msg = "An error occurred while retrieving the task_id for the {0} operation.".format(action_func)
+                    self.update_result('failed', False, self.msg, 'CRITICAL')
+                else:
+                    status_func(result_task_id, self.want.get('mgmt_ip_instance_id_map')).check_return_status()
 
         return self
-
-    # def get_diff_merged(self):
-    #     action_map = {
-    #         'run_compliance_params': (self.run_compliance, self.get_compliance_task_status),
-    #         'sync_device_config_params': (self.sync_device_config, self.sync_config_task_status)
-    #     }
-
-    #     if not any(self.want.get(action_param) for action_param in action_map):
-    #       msg = "Network compliance operations are missing from the playbook. You can perform compliance checks or sync device configuration tasks using this module."
-    #       self.log(msg, "ERROR")
-    #       self.module.fail_json(msg)
-
-    #     for action_param, (action_func, status_func) in action_map.items():
-    #         if self.want.get(action_param):
-    #             result_task_id = action_func(self.want.get(action_param))
-    #             status_func(result_task_id, self.want.get('mgmt_ip_instance_id_map')).check_return_status()
-
-    #     return self
         
     def verify_diff_merged(self, config):
-      pass
+        """
+        Verify the success of the 'Sync Device Configuration' operation.
+        Parameters:
+            config (dict): A dictionary containing the configuration details.
+        Returns:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+        Description:
+            This method verifies the success of the 'Sync Device Configuration' operation in the context of network compliance management.
+            It checks if the configuration includes the option to synchronize device configurations (`sync_device_config`).
+            If this option is present, the function proceeds to compare compliance details before and after executing the synchronization operation.
+            It logs relevant information at each step and concludes by determining whether the synchronization was successful.
+        """
+        if config.get('sync_device_config'):
+            # Get compliance details before running sync_device_config
+            compliance_details_before = self.have.get('compliance_details')
+            self.log("Compliance details before running sync_device_config: {0}".format(compliance_details_before), "INFO")
 
+
+            # Get compliance details after running sync_device_config
+            response = self.get_compliance_detail(self.want.get('compliance_detail_params_sync'))
+            compliance_details_after = self.modify_compliance_response(response, self.want.get('mgmt_ip_instance_id_map'))
+            self.log("Compliance details after running sync_device_config: {}.".format(compliance_details_after), "INFO")
+
+
+            all_statuses_before = []
+            all_statuses_after = []
+            for ip_address, compliance_type in compliance_details_before.items():
+              status = compliance_type[0]['status']
+              all_statuses_before.append(status)
+
+            if len(set(all_statuses_before)) == 1 and all_statuses_before[0] == 'NON_COMPLIANT':
+                for ip_address, compliance_type in compliance_details_after.items():
+                    status = compliance_type[0]['status']
+                    all_statuses_after.append(status)
+                if len(set(all_statuses_after)) == 1 and all_statuses_after[0] == 'COMPLIANT':
+                    self.log('Verified the success of the Sync Device Configuration operation.')
+                else:
+                    self.log("Sync Device Configuration operation may have been unsuccessful since not all devices have 'COMPLIANT' status after the operation.", "WARNING")
+            else:
+                self.log("Sync_device_config may not have been performed since devices have status other than 'NON_COMPLIANT'.", "WARNING")
+
+
+
+            
+            # # Check if 'RUNNING_CONFIG' status of all devices was 'NON_COMPLIANT' before sync_device_config
+            # all_statuses_before = [device['status'] for devices in compliance_details_before.values() for device in devices]
+            # if len(set(all_statuses_before)) == 1 and all_statuses_before[0] == 'NON_COMPLIANT':
+            #     # Check if all devices are compliant after sync_device_config
+            #     all_statuses_after = [device['status'] for devices in compliance_details_after.values() for device in devices]
+            #     if len(set(all_statuses_after)) == 1 and all_statuses_after[0] == 'COMPLIANT':
+            #         self.log('Verified the success of the Sync Device Configuration operation.')
+            #     else:
+            #         self.log("Sync Device Configuration operation may have been unsuccessful since not all devices have 'COMPLIANT' status after the operation.", "WARNING")
+            # else:
+            #     self.log("Sync_device_config may not have been performed since devices have status other than 'NON_COMPLIANT'.", "WARNING")
+
+        return self
+            
 def main():
     """ main entry point for module execution
     """
 
+    # Define the specification for the module's arguments
     element_spec = {'dnac_host': {'required': True, 'type': 'str'},
                     'dnac_port': {'type': 'str', 'default': '443'},
                     'dnac_username': {'type': 'str', 'default': 'admin', 'aliases': ['user']},
@@ -922,26 +1296,37 @@ def main():
                     'state': {'default': 'merged', 'choices': ['merged']}
                     }
 
+    # Initialize the Ansible module with the provided argument specifications
     module = AnsibleModule(argument_spec=element_spec,
                            supports_check_mode=False)
 
+    # Initialize the NetworkCompliance object with the module
     ccc_network_compliance = NetworkCompliance(module)
+
+    # Get the state parameter from the provided parameters
     state = ccc_network_compliance.params.get("state")
 
+    # Check if the state is valid
     if state not in ccc_network_compliance.supported_states:
         ccc_network_compliance.status = "invalid"
         ccc_network_compliance.msg = "State {0} is invalid".format(state)
         ccc_network_compliance.check_return_status()
 
+    # Validate the input parameters and check the return status
     ccc_network_compliance.validate_input().check_return_status()
+
+    # Get the config_verify parameter from the provided parameters
     config_verify = ccc_network_compliance.params.get("config_verify")
 
+    # Iterate over the validated configuration parameters
     for config in ccc_network_compliance.validated_config:
-        ccc_network_compliance.get_want(config)
+        ccc_network_compliance.get_want(config).check_return_status()
+        ccc_network_compliance.get_have(config).check_return_status()
         ccc_network_compliance.get_diff_state_apply[state]().check_return_status()
-        # if config_verify:
-        #   ccc_network_compliance.verify_diff_state_apply[state](config).check_return_status()
+        if config_verify:
+          ccc_network_compliance.verify_diff_state_apply[state](config).check_return_status()
 
+    # Exit with the result obtained from the NetworkCompliance object
     module.exit_json(**ccc_network_compliance.result)
 
 
