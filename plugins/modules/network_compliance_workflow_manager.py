@@ -65,14 +65,14 @@ options:
                          If it is False then compliance will be triggered for categories mentioned in 'categories' section.
             type: bool
             default: False
-          categories: 
+          categories:
             description: Specifying compliance categories allows you to trigger compliance checks only for the mentioned categories.
                          Compliance's categories are required when 'trigger_full' is set to False.
                          Category can have any value among ['INTENT', 'RUNNING_CONFIG' , 'IMAGE' , 'PSIRT' , 'EOX' , 'NETWORK_SETTINGS'].
-                         Category 'INTENT' is mapped to compliance types: NETWORK_SETTINGS, NETWORK_PROFILE, WORKFLOW, FABRIC,APPLICATION_VISIBILITY.
+                         Category 'INTENT' is mapped to compliance types 'NETWORK_SETTINGS', 'NETWORK_PROFILE', 'WORKFLOW', 'FABRIC', 'APPLICATION_VISIBILITY'.
             type: bool
             default: False
-      sync_device_config: 
+      sync_device_config:
         description: Determines whether to synchronize the device configuration on the devices specified in the 'ip_address_list'.
                      Sync device configuration, primarily addresses the status of the `RUNNING_CONFIG`.
                      If set to True, and if `RUNNING_CONFIG` status is non-compliant this operation would commit device running configuration 
@@ -279,7 +279,7 @@ EXAMPLES = r"""
 
 RETURN = r"""
 #Case_2: When Run Compliance Operation is performed successfully on device/s, Compliance report is returned via data.
-dnac_response:
+sample_response_1:
   description: A dictionary with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
@@ -297,7 +297,7 @@ dnac_response:
     }
 
 #Case_1: When Sync Device Config operations is performed successfully on device/s.
-dnac_response:
+sample_response_2:
   description: A dictionary with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
@@ -314,7 +314,7 @@ dnac_response:
     }
 
 #Case_3: When Error Occurs in performing Run Compliance or Sync Device Configuration operation on device/s.
-dnac_response:
+sample_response_3:
   description: A dictionary with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
@@ -702,9 +702,9 @@ class NetworkCompliance(DnacBase):
         elif len(categorized_devices['NON_COMPLIANT']) != len(mgmt_ip_instance_id_map):
             required = False
             msg = ("The operation {0} cannot be performed on one or more of the devices "
-                    "{1} because the status of the RUNNING_CONFIG compliance type is not "
-                    "as expected; it should be NON_COMPLIANT."
-                    ).format(task_name, list(mgmt_ip_instance_id_map.keys()))
+                "{1} because the status of the RUNNING_CONFIG compliance type is not "
+                "as expected; it should be NON_COMPLIANT."
+                ).format(task_name, list(mgmt_ip_instance_id_map.keys()))
         return required, msg
 
     def get_want(self, config):
@@ -732,14 +732,15 @@ class NetworkCompliance(DnacBase):
         site_name = config.get('site_name')
 
         if not ip_address_list and not site_name:
-            msg = 'ip_address_list is {0} and site_name is {1}. Either the ip_address_list or the site_name must be provided.'.format(ip_address_list, site_name)
+            msg = 'ip_address_list is {0} and site_name is {1}. Either the ip_address_list or the site_name must be provided.'.format(
+                ip_address_list, site_name)
             self.log(msg, "ERROR")
             self.module.fail_json(msg=msg)
 
         # Validate valid ip_addresses
         if ip_address_list:
             self.validate_ip4_address_list(ip_address_list)
-            #Remove Duplicates from list
+            # Remove Duplicates from list
             ip_address_list = list(set(ip_address_list))
 
         # Retrieve device ID list
@@ -822,11 +823,11 @@ class NetworkCompliance(DnacBase):
 
     def get_compliance_detail(self, compliance_detail_params):
         response = self.dnac_apply['exec'](
-                family="compliance",
-                function='get_compliance_detail',
-                params=compliance_detail_params,
-                op_modifies=True,
-            )
+            family="compliance",
+            function='get_compliance_detail',
+            params=compliance_detail_params,
+            op_modifies=True
+        )
         response = response.response
 
         self.log("The response received post get_compliance_detail API call is {0}".format(str(response)), "DEBUG")
@@ -881,7 +882,7 @@ class NetworkCompliance(DnacBase):
                 function="run_compliance",
                 params=run_compliance_params,
                 op_modifies=True,
-                )
+            )
             self.log("The response received post run_compliancee API call is {0}".format(str(result)), "DEBUG")
             self.result.update(dict(response=result['response']))
             self.log("Task Id of the API task created is {0}".format(result.response.get('taskId')), "INFO")
@@ -911,7 +912,7 @@ class NetworkCompliance(DnacBase):
                 function="commit_device_configuration",
                 params=sync_device_config_params,
                 op_modifies=True,
-                )
+            )
             self.log("The response received post commit_device_configuration API call is {0}".format(str(result)), "DEBUG")
             self.result.update(dict(response=result['response']))
             self.log("Task Id of the API task created is {0}".format(result.response.get('taskId')), "INFO")
@@ -943,7 +944,7 @@ class NetworkCompliance(DnacBase):
                 function='get_task_by_id',
                 params=dict(task_id=task_id),
                 op_modifies=True,
-                )   
+            )
             response = response.response
             self.log("Task status for the Task {0} with Task id {1} is {2}".format(task_name, str(task_id), str(response)), "INFO")
             return response
@@ -973,7 +974,7 @@ class NetworkCompliance(DnacBase):
                 function='get_task_tree',
                 params=dict(task_id=task_id),
                 op_modifies=True,
-                )
+            )
             response = response.response
             self.log("Task tree for the Task {0} with Task id {1} is {2}".format(task_name, str(task_id), str(response)), "INFO")
             return response
@@ -1035,9 +1036,9 @@ class NetworkCompliance(DnacBase):
             if response.get('data'):
                 # If there is data in the response, include it in the error message
                 msg = "Task {0} with task id {1} has not completed within the timeout period. Task Status: {2} ".format(
-                task_name, task_id, response.get('data'))
+                    task_name, task_id, response.get('data'))
             else:
-                 # If there is no data in the response, generate a generic error message
+                # If there is no data in the response, generate a generic error message
                 msg = "Task {0} with task id {1} has not completed within the timeout period.".format(
                     task_name, task_id)
 
@@ -1120,7 +1121,7 @@ class NetworkCompliance(DnacBase):
                 self.update_result('success', True, self.msg, 'INFO', modified_response)
                 break
 
-            #Check if task failed
+            # Check if task failed
             elif 'failed' in response.get('progress').lower():
                 self.msg = "Failed to {0} on the following device(s): {1}".format(task_name, list(mgmt_ip_instance_id_map.keys()))
                 self.update_result('failed', False, self.msg, 'CRITICAL')
@@ -1246,12 +1247,10 @@ class NetworkCompliance(DnacBase):
             compliance_details_before = self.want.get('compliance_details')
             self.log("Compliance details before running sync_device_config: {0}".format(compliance_details_before), "INFO")
 
-
             # Get compliance details after running sync_device_config
             response = self.get_compliance_detail(self.want.get('compliance_detail_params_sync'))
             compliance_details_after = self.modify_compliance_response(response, self.want.get('mgmt_ip_instance_id_map'))
             self.log("Compliance details after running sync_device_config: {0}.".format(compliance_details_after), "INFO")
-
 
             all_statuses_before = []
             all_statuses_after = []
@@ -1267,14 +1266,16 @@ class NetworkCompliance(DnacBase):
                     self.log('Verified the success of the Sync Device Configuration operation.')
                 else:
                     self.log("Sync Device Configuration operation may have been unsuccessful since "
-                        "not all devices have 'COMPLIANT' status after the operation.",
-                        "WARNING")
+                            "not all devices have 'COMPLIANT' status after the operation.",
+                            "WARNING")
             else:
                 self.log("Sync_device_config may not have been performed since devices have status other than 'NON_COMPLIANT'.", "WARNING")
         return self
 
+
 def main():
-    """ main entry point for module execution
+    """ 
+    main entry point for module execution
     """
 
     # Define the specification for the module's arguments
