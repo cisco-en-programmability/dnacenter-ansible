@@ -1212,18 +1212,18 @@ class NetworkCompliance(DnacBase):
 
             # Check conditions and print messages accordingly
             if len(set(success_devices)) == len(mgmt_ip_instance_id_map):
-                self.msg = "{0} has completed successfully on device(s): {2}".format(task_id, success_devices)
+                self.msg = "{0} has completed successfully on device(s): {1}".format(task_name, success_devices)
                 self.update_result('success', True, self.msg, 'INFO')
                 break
             elif (failed_devices and
                   len(success_devices) < len(mgmt_ip_instance_id_map) and
                   len(failed_devices) + len(success_devices) == len(mgmt_ip_instance_id_map)):
-                self.msg = "{0} has failed on device(s): {2} and succeeded on device(s): {3}".format(
-                    task_id, failed_devices, success_devices)
+                self.msg = "{0} task has failed on device(s): {1} and succeeded on device(s): {2}".format(
+                    task_name, failed_devices, success_devices)
                 self.update_result('failed', True, self.msg, 'CRITICAL')
                 break
             elif len(failed_devices) == len(mgmt_ip_instance_id_map):
-                self.msg = "{0} has failed on device(s): {2}".format(task_id, failed_devices)
+                self.msg = "{0} task has failed on device(s): {1}".format(task_name, failed_devices)
                 self.update_result('failed', False, self.msg, 'CRITICAL')
                 break
 
