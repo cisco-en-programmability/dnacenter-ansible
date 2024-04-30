@@ -1265,8 +1265,11 @@ class NetworkCompliance(DnacBase):
                 if len(set(all_statuses_after)) == 1 and all_statuses_after[0] == 'COMPLIANT':
                     self.log('Verified the success of the Sync Device Configuration operation.')
                 else:
-                    self.log("Sync Device Configuration operation may have been unsuccessful since not all devices have 'COMPLIANT' status after the operation.",
-                                "WARNING")
+                    self.log(
+                        "Sync Device Configuration operation may have been unsuccessful "
+                        "since not all devices have 'COMPLIANT' status after the operation.",
+                        "WARNING"
+                    )
             else:
                 self.log("Sync_device_config may not have been performed since devices have status other than 'NON_COMPLIANT'.", "WARNING")
         return self
