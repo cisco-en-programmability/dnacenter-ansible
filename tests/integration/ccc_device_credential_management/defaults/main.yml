@@ -1,5 +1,0 @@
----
-testcase: "*"
-
-debug:
-  msg: "{{ testcase }}"
