@@ -5,7 +5,6 @@
 
 """Ansible module to perform Network Compliance Operations on devices in Cisco Catalyst Center."""
 from __future__ import absolute_import, division, print_function
-import time
 
 __metaclass__ = type
 __author__ = ("Rugvedi Kapse, Madhan Sankaranarayanan")
@@ -75,7 +74,7 @@ options:
       sync_device_config:
         description: Determines whether to synchronize the device configuration on the devices specified in the 'ip_address_list'.
                      Sync device configuration, primarily addresses the status of the `RUNNING_CONFIG`.
-                     If set to True, and if `RUNNING_CONFIG` status is non-compliant this operation would commit device running configuration 
+                     If set to True, and if `RUNNING_CONFIG` status is non-compliant this operation would commit device running configuration
                      to startup by issuing "write memory" to device.
         type: bool
         default: False
@@ -325,6 +324,7 @@ sample_response_3:
     }
 """
 
+import time
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
@@ -702,9 +702,9 @@ class NetworkCompliance(DnacBase):
         elif len(categorized_devices['NON_COMPLIANT']) != len(mgmt_ip_instance_id_map):
             required = False
             msg = ("The operation {0} cannot be performed on one or more of the devices "
-                "{1} because the status of the RUNNING_CONFIG compliance type is not "
-                "as expected; it should be NON_COMPLIANT."
-                ).format(task_name, list(mgmt_ip_instance_id_map.keys()))
+                    "{1} because the status of the RUNNING_CONFIG compliance type is not "
+                    "as expected; it should be NON_COMPLIANT."
+                    ).format(task_name, list(mgmt_ip_instance_id_map.keys()))
         return required, msg
 
     def get_want(self, config):
@@ -1215,7 +1215,7 @@ class NetworkCompliance(DnacBase):
             'sync_device_config_params': (self.sync_device_config, self.get_sync_config_task_status)
         }
 
-        #Iterate through the action map and execute specified actions
+        # Iterate through the action map and execute specified actions
         for action_param, (action_func, status_func) in action_map.items():
 
             # Execute the action and check its status
@@ -1266,15 +1266,15 @@ class NetworkCompliance(DnacBase):
                     self.log('Verified the success of the Sync Device Configuration operation.')
                 else:
                     self.log("Sync Device Configuration operation may have been unsuccessful since "
-                            "not all devices have 'COMPLIANT' status after the operation.",
-                            "WARNING")
+                                "not all devices have 'COMPLIANT' status after the operation.",
+                                "WARNING")
             else:
                 self.log("Sync_device_config may not have been performed since devices have status other than 'NON_COMPLIANT'.", "WARNING")
         return self
 
 
 def main():
-    """ 
+    """
     main entry point for module execution
     """
 
