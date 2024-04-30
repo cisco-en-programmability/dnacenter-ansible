@@ -42,9 +42,9 @@ options:
         description: List of IP addresses of devices to run a compliance check on or synchronize device configurations.
                      Either 'ip_address_list' or 'site_name' is required for module to execute.
                      If both 'ip_address_list' and 'site_name' are provided, 'ip_address_list' takes precedence.
-                     Operations are executed only on devices that are in the 'ip_address_list', but only those from the specified site
-        elements: str
+                     Operations are executed only on devices that are in the 'ip_address_list', but only those from the specified site.
         type: list
+        elements: str
       site_name:
         description: When 'site_name' is specified, the module executes the operation on all the devices located within the specified site.
                      This is a string value that should represent the complete hierarchical path of the site.
@@ -63,14 +63,14 @@ options:
                          if it is True then compliance will be triggered for all categories.
                          If it is False then compliance will be triggered for categories mentioned in 'categories' section.
             type: bool
-            default: False
+            default: True
           categories:
             description: Specifying compliance categories allows you to trigger compliance checks only for the mentioned categories.
                          Compliance's categories are required when 'trigger_full' is set to False.
                          Category can have any value among ['INTENT', 'RUNNING_CONFIG' , 'IMAGE' , 'PSIRT' , 'EOX' , 'NETWORK_SETTINGS'].
                          Category 'INTENT' is mapped to compliance types 'NETWORK_SETTINGS', 'NETWORK_PROFILE', 'WORKFLOW', 'FABRIC', 'APPLICATION_VISIBILITY'.
-            type: bool
-            default: False
+            type: list
+            elements: str
       sync_device_config:
         description: Determines whether to synchronize the device configuration on the devices specified in the 'ip_address_list'.
                      Sync device configuration, primarily addresses the status of the `RUNNING_CONFIG`.
@@ -375,7 +375,10 @@ class NetworkCompliance(DnacBase):
         temp_spec = {
             'ip_address_list': {'type': 'list', 'elements': 'str', 'required': False},
             'site_name': {'type': 'str', 'required': False},
-            'run_compliance': {'type': 'dict', 'required': False},
+            'run_compliance': {
+                'type': 'dict', 
+                'required': False,
+            },
             'sync_device_config': {'type': 'bool', 'required': False, 'default': False},
         }
 
