@@ -17,7 +17,7 @@ description:
 - Perform compliance checks or sync configurations on reachable devices using IP Address(s) or Site.
 - API to perform full compliance checks or specific category checks on reachable device(s).
 - API to sync device configuration on device(s).
-version_added: '6.6.0'
+version_added: '6.8.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
 author: Rugvedi Kapse (@rukapse)
@@ -753,9 +753,6 @@ class NetworkCompliance(DnacBase):
             msg = "Failed to retrieve device IDs for the provided IP addresses: {0} or site name: {1}.".format(ip_address_list, site_name)
             self.log(msg, 'ERROR')
             self.module.fail_json(msg)
-        else:
-            # Log the retrieved device ID list if it's not empty
-            self.log('Retrieved mgmt_ip_instance_id_map : {0}'.format(mgmt_ip_instance_id_map), 'DEBUG')
 
         # Validate run_compliance parameters
         run_compliance = config.get('run_compliance')
@@ -825,16 +822,31 @@ class NetworkCompliance(DnacBase):
         return self
 
     def get_compliance_detail(self, compliance_detail_params):
-        response = self.dnac_apply['exec'](
-            family="compliance",
-            function='get_compliance_detail',
-            params=compliance_detail_params,
-            op_modifies=True
-        )
-        response = response.response
+        """
+        Execute the GET compliance detail operation.
+        Args:
+            compliance_detail_params (dict): A dictionary containing parameters for the compliance detail operation.
+        Returns:
+            dict: A dictionary containing details of the compliance detail response.
+            Returns None if there is an error.
+        """
+        # Execute the GET compliance detial operation
+        try:
+            response = self.dnac_apply['exec'](
+                family="compliance",
+                function='get_compliance_detail',
+                params=compliance_detail_params,
+                op_modifies=True
+            )
+            response = response.response
 
-        self.log("The response received post get_compliance_detail API call is {0}".format(str(response)), "DEBUG")
-        return response
+            self.log("The response received post get_compliance_detail API call is {0}".format(str(response)), "DEBUG")
+            return response
+
+        # Log and handle any exceptions that occur during the execution
+        except Exception as e:
+            self.log("An error occurred while retrieving Compliance Details using get_compliance_detail API call: {0}".format(str(e)), "ERROR")
+            return None
 
     def modify_compliance_response(self, response, mgmt_ip_instance_id_map):
         """
@@ -1048,6 +1060,7 @@ class NetworkCompliance(DnacBase):
             # Update the result with failure status and log the error message
             self.update_result('failed', False, msg, 'ERROR')
             return True
+
         return False
 
     def handle_error(self, task_name, mgmt_ip_instance_id_map, failure_reason=None):
@@ -1072,6 +1085,7 @@ class NetworkCompliance(DnacBase):
 
         # Update the result with failure status and log the error message
         self.update_result('failed', False, self.msg, 'ERROR')
+
         return self
 
     def get_compliance_task_status(self, task_id, mgmt_ip_instance_id_map):
@@ -1230,6 +1244,7 @@ class NetworkCompliance(DnacBase):
                     self.update_result('failed', False, self.msg, 'CRITICAL')
                 else:
                     status_func(result_task_id, self.want.get('mgmt_ip_instance_id_map')).check_return_status()
+
         return self
 
     def verify_diff_merged(self, config):
@@ -1275,6 +1290,8 @@ class NetworkCompliance(DnacBase):
                     )
             else:
                 self.log("Sync_device_config may not have been performed since devices have status other than 'NON_COMPLIANT'.", "WARNING")
+        else:
+          self.log("Verification of configuration is not required.", "INFO")
         return self
 
 
