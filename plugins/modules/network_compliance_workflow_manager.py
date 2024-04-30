@@ -702,9 +702,9 @@ class NetworkCompliance(DnacBase):
         elif len(categorized_devices['NON_COMPLIANT']) != len(mgmt_ip_instance_id_map):
             required = False
             msg = ("The operation {0} cannot be performed on one or more of the devices "
-                    "{1} because the status of the RUNNING_CONFIG compliance type is not "
-                    "as expected; it should be NON_COMPLIANT."
-                    ).format(task_name, list(mgmt_ip_instance_id_map.keys()))
+                   "{1} because the status of the RUNNING_CONFIG compliance type is not "
+                   "as expected; it should be NON_COMPLIANT."
+                   ).format(task_name, list(mgmt_ip_instance_id_map.keys()))
         return required, msg
 
     def get_want(self, config):
@@ -1265,8 +1265,7 @@ class NetworkCompliance(DnacBase):
                 if len(set(all_statuses_after)) == 1 and all_statuses_after[0] == 'COMPLIANT':
                     self.log('Verified the success of the Sync Device Configuration operation.')
                 else:
-                    self.log("Sync Device Configuration operation may have been unsuccessful since "
-                                "not all devices have 'COMPLIANT' status after the operation.",
+                    self.log("Sync Device Configuration operation may have been unsuccessful since not all devices have 'COMPLIANT' status after the operation.",
                                 "WARNING")
             else:
                 self.log("Sync_device_config may not have been performed since devices have status other than 'NON_COMPLIANT'.", "WARNING")
