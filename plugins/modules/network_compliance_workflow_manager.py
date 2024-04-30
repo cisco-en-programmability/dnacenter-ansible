@@ -40,43 +40,41 @@ options:
     required: True
     suboptions:
       ip_address_list: 
-        description: List of IP addresses of devices to Run Compliance check on or Sync Device Configuration.
-                     Either ip_address_list or site_name is required for module to execute.
-                     If both ip_address_list and site_name are provided, ip_address_list takes precedence, and the operations are executed 
-                     on devices that are in the ip_address_list, but only those from the specified site
+        description: List of IP addresses of devices to run a compliance check on or synchronize device configurations.
+                     Either 'ip_address_list' or 'site_name' is required for module to execute.
+                     If both 'ip_address_list' and 'site_name' are provided, 'ip_address_list' takes precedence.
+                     Operations are executed only on devices that are in the 'ip_address_list', but only those from the specified site
         elements: str
         type: list
       site_name:
-        description: When site_name is specified, the module executes the operation on all the devices located within the specified site.
+        description: When 'site_name' is specified, the module executes the operation on all the devices located within the specified site.
                      This is a string value that should represent the complete hierarchical path of the site.
                      For example: "Global/USA/San Francisco/Building_2/floor_1"
-                     Either site_name or ip_address_list is required for module to execute.
-                     If both site_name and ip_address_list are provided, ip_address_list takes precedence, and the operations are executed 
-                     on devices that are in the ip_address_list, but only those from the specified site
+                     Either 'site_name' or 'ip_address_list' is required for module to execute.
+                     If both 'site_name' and 'ip_address_list' are provided, 'ip_address_list' takes precedence.
+                     Operations are executed only on devices that are in the 'ip_address_list', but only those from the specified site
         type: str
       run_compliance:
-        description: Configuration for running a compliance check on the devices specified in the ip_address_list.
+        description: Configuration for running a compliance check on the devices specified in the 'ip_address_list'.
         type: dict
         suboptions:
           trigger_full: 
             description: Determines if a full compliance check should be triggered.
                          This parameter is required when running a compliance check.
                          if it is True then compliance will be triggered for all categories. 
-                         If it is False then compliance will be triggered for categories mentioned in categories section.
-            required: This paramter is required in order to run compliance check on device(s).
+                         If it is False then compliance will be triggered for categories mentioned in 'categories' section.
             type: bool
             default: False
           categories: 
             description: Specifying compliance categories allows you to trigger compliance checks only for the mentioned categories.
-                         Compliance's categories are required when trigger_full is set to False.
+                         Compliance's categories are required when 'trigger_full' is set to False.
                          Category can have any value among ['INTENT', 'RUNNING_CONFIG' , 'IMAGE' , 'PSIRT' , 'EOX' , 'NETWORK_SETTINGS'].
                          Category 'INTENT' is mapped to compliance types: NETWORK_SETTINGS, NETWORK_PROFILE, WORKFLOW, FABRIC,APPLICATION_VISIBILITY.
-            required: This parameter is required when trigger_full is set to False.
             type: bool
             default: False
       sync_device_config: 
-        description: Determines whether to synchronize the device configuration on the devices specified in the ip_address_list.
-                     This operation, known as "Sync device configuration," primarily addresses the status of the `RUNNING_CONFIG`.
+        description: Determines whether to synchronize the device configuration on the devices specified in the 'ip_address_list'.
+                     Sync device configuration, primarily addresses the status of the `RUNNING_CONFIG`.
                      If set to True, and if `RUNNING_CONFIG` status is non-compliant this operation would commit device running configuration 
                      to startup by issuing "write memory" to device.
         type: bool
