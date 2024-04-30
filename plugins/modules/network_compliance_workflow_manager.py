@@ -376,7 +376,7 @@ class NetworkCompliance(DnacBase):
             'ip_address_list': {'type': 'list', 'elements': 'str', 'required': False},
             'site_name': {'type': 'str', 'required': False},
             'run_compliance': {
-                'type': 'dict', 
+                'type': 'dict',
                 'required': False,
             },
             'sync_device_config': {'type': 'bool', 'required': False, 'default': False},
