@@ -54,7 +54,7 @@ options:
                      Operations are executed only on devices that are in the 'ip_address_list', but only those from the specified site
         type: str
       run_compliance:
-        description: Configuration for running a compliance check on the devices specified in the 'ip_address_list'.
+        description: Configuration for running a compliance check on the devices specified in the 'ip_address_list' and/or 'site_name'.
         type: dict
         suboptions:
           trigger_full:
@@ -1291,7 +1291,7 @@ class NetworkCompliance(DnacBase):
             else:
                 self.log("Sync_device_config may not have been performed since devices have status other than 'NON_COMPLIANT'.", "WARNING")
         else:
-          self.log("Verification of configuration is not required.", "INFO")
+            self.log("Verification of configuration is not required.", "INFO")
         return self
 
 
