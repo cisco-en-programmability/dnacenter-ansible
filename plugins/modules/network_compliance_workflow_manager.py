@@ -623,38 +623,24 @@ class NetworkCompliance(DnacBase):
             dict: A dictionary mapping management IP addresses to device IDs for the specified devices.
         Description:
             This method queries Cisco Catalyst Center to retrieve the unique device IDs associated with devices having the
-            specified IP addresses or belonging to the specified site. If both IP addresses and site name are provided,
-            it first checks if the site exists, retrieves the device IDs associated with devices in that site, and then
-            filters them based on the provided IP addresses. If only a site name is provided, it retrieves the device IDs
-            associated with devices in that site. If only IP addresses are provided, it directly retrieves the device IDs
-            associated with those IP addresses.
-        Note: If a device is not found in Cisco Catalyst Center, it logs a message with error severity.
+            specified IP addresses or belonging to the specified site. 
         """
 
         # Initialize a dictionary to store management IP addresses and their corresponding device IDs
         mgmt_ip_instance_id_map = {}
 
         # Check if both site name and IP address list are provided
-        if site_name and ip_address_list:
-            (site_exists, site_id) = self.site_exists(site_name)
-            # Retrieve device IDs associated with devices from the IP address list and the site
-            if site_exists:
-                site_mgmt_ip_instance_id_map = self.get_device_ids_from_site(site_name, site_id)
-                mgmt_ip_instance_id_map = site_mgmt_ip_instance_id_map.copy()
-            iplist_mgmt_ip_instance_id_map = self.get_device_ids_from_ip(ip_address_list)
-            mgmt_ip_instance_id_map.update(iplist_mgmt_ip_instance_id_map)
-
-        # If only site name is provided
-        elif site_name and not ip_address_list:
+        if site_name:
             (site_exists, site_id) = self.site_exists(site_name)
             if site_exists:
                 # Retrieve device IDs associated with devices in the site
-                mgmt_ip_instance_id_map = self.get_device_ids_from_site(site_name, site_id)
+                site_mgmt_ip_instance_id_map = self.get_device_ids_from_site(site_name, site_id)
+                mgmt_ip_instance_id_map.update(site_mgmt_ip_instance_id_map)
 
-        # If only IP addresses are provided
-        elif ip_address_list and not site_name:
+        if ip_address_list:
             # Retrieve device IDs associated with devices having specified IP addresses
-            mgmt_ip_instance_id_map = self.get_device_ids_from_ip(ip_address_list)
+            iplist_mgmt_ip_instance_id_map = self.get_device_ids_from_ip(ip_address_list)
+            mgmt_ip_instance_id_map.update(iplist_mgmt_ip_instance_id_map)
 
         return mgmt_ip_instance_id_map
 
