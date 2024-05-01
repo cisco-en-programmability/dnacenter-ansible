@@ -41,8 +41,8 @@ options:
       ip_address_list:
         description: List of IP addresses of devices to run a compliance check on or synchronize device configurations.
                      Either 'ip_address_list' or 'site_name' is required for module to execute.
-                     If both 'ip_address_list' and 'site_name' are provided, 'ip_address_list' takes precedence.
-                     Operations are executed only on devices that are in the 'ip_address_list', but only those from the specified site.
+                     If both 'site_name' and 'ip_address_list' are provided, operations are performed on devices that are present in both the
+                     'ip_address_list' and the specified site, with consideration given to devices that appear in both sources.
         type: list
         elements: str
       site_name:
@@ -50,8 +50,8 @@ options:
                      This is a string value that should represent the complete hierarchical path of the site.
                      (e.g. "Global/USA/San Francisco/Building_2/floor_1")
                      Either 'site_name' or 'ip_address_list' is required for module to execute.
-                     If both 'site_name' and 'ip_address_list' are provided, 'ip_address_list' takes precedence.
-                     Operations are executed only on devices that are in the 'ip_address_list', but only those from the specified site
+                     If both 'site_name' and 'ip_address_list' are provided, operations are performed on devices that are present in both the
+                     'ip_address_list' and the specified site, with consideration given to devices that appear in both sources.
         type: str
       run_compliance:
         description: Configuration for running a compliance check on the devices specified in the 'ip_address_list' and/or 'site_name'.
@@ -640,11 +640,9 @@ class NetworkCompliance(DnacBase):
             if site_exists:
                 site_mgmt_ip_instance_id_map = self.get_device_ids_from_site(site_name, site_id)
             iplist_mgmt_ip_instance_id_map = self.get_device_ids_from_ip(ip_address_list)
-            mgmt_ip_instance_id_map = {
-                ip: instance_id
-                for ip, instance_id in iplist_mgmt_ip_instance_id_map.items()
-                if ip in site_mgmt_ip_instance_id_map
-            }
+            # Retrieve device IDs associated with devices from the IP address list and the site
+            mgmt_ip_instance_id_map = {**site_mgmt_ip_instance_id_map, **iplist_mgmt_ip_instance_id_map}
+
         # If only site name is provided
         elif site_name and not ip_address_list:
             (site_exists, site_id) = self.site_exists(site_name)
