@@ -637,11 +637,12 @@ class NetworkCompliance(DnacBase):
         # Check if both site name and IP address list are provided
         if site_name and ip_address_list:
             (site_exists, site_id) = self.site_exists(site_name)
+            # Retrieve device IDs associated with devices from the IP address list and the site
             if site_exists:
                 site_mgmt_ip_instance_id_map = self.get_device_ids_from_site(site_name, site_id)
+                mgmt_ip_instance_id_map = site_mgmt_ip_instance_id_map.copy()
             iplist_mgmt_ip_instance_id_map = self.get_device_ids_from_ip(ip_address_list)
-            # Retrieve device IDs associated with devices from the IP address list and the site
-            mgmt_ip_instance_id_map = {**site_mgmt_ip_instance_id_map, **iplist_mgmt_ip_instance_id_map}
+            mgmt_ip_instance_id_map.update(iplist_mgmt_ip_instance_id_map)
 
         # If only site name is provided
         elif site_name and not ip_address_list:
