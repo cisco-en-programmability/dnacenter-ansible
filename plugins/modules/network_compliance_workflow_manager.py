@@ -623,7 +623,7 @@ class NetworkCompliance(DnacBase):
             dict: A dictionary mapping management IP addresses to device IDs for the specified devices.
         Description:
             This method queries Cisco Catalyst Center to retrieve the unique device IDs associated with devices having the
-            specified IP addresses or belonging to the specified site. 
+            specified IP addresses or belonging to the specified site.
         """
 
         # Initialize a dictionary to store management IP addresses and their corresponding device IDs
