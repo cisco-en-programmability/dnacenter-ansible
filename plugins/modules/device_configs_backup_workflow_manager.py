@@ -14,7 +14,7 @@ DOCUMENTATION = r"""
 module: device_configs_backup_workflow_manager
 short_description: Resource module for device_configs_backup functions
 description:
-- Manage operation related to image importation, distribution, activation and tagging image as golden
+- Manage operation related to taking the backup of running config, static config and vlan.dat.bat
 version_added: '6.13.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
@@ -32,7 +32,8 @@ options:
     default: merged
   config:
     description:
-      - List of details of device being managed.
+      - List of details regarding the device configuration backups being taken
+      - Alteast one of the paramters mentioned in the suboptions must be passed in config
     type: list
     elements: dict
     required: true
@@ -63,6 +64,13 @@ options:
         type: str
       file_path:
         description: Location of the path or folder where the configs need to be exported in local system.
+        type: str
+        default: tmp
+      file_password:
+        description:
+            - Optional file password for zipping and unzipping the config file.
+            - Minimum password length is 8 and it should contain atleast one lower case letter, one uppercase
+              letter, one digit and one special characters from -=\\\\\\\\;,./~!@$%^&*()_+{}[]|:?"
         type: str
 requirements:
   - dnacentersdk == 2.6.10
@@ -199,7 +207,8 @@ class Device_configs_backup(DnacBase):
             'type': {'type': 'str', 'required': False},
             'series': {'type': 'str', 'required': False},
             'collection_status': {'type': 'str', 'required': False},
-            'file_path': {'type': 'str', 'required': False, 'default': 'tmp'}
+            'file_path': {'type': 'str', 'required': False, 'default': 'tmp'},
+            'file_password': {'type': 'str', 'required': False}
         }
         # Validate device_configs_backup params
         valid_device_configs_backup, invalid_params = validate_list_of_dicts(
@@ -268,6 +277,7 @@ class Device_configs_backup(DnacBase):
                 msg = "Please provide atleast one device parameter as mentioned in the documentation to fetch device configs"
                 self.log(msg, "CRITICAL")
                 self.module.fail_json(msg=msg)
+
         response = self.dnac_apply['exec'](
             family="devices",
             function='get_device_list',
@@ -279,7 +289,7 @@ class Device_configs_backup(DnacBase):
 
         self.log("Length of the device list fetched from the API 'get_device_list' is {0}".format(str(device_list)), "INFO")
         if len(device_list) == 0:
-            msg = "No devices with the given paramters couldn't be found in the inventory"
+            msg = "Couldn't find any devices in the inventory that match the given parameters."
             self.log(msg, "CRITICAL")
             self.module.fail_json(msg=msg)
 
@@ -316,6 +326,20 @@ class Device_configs_backup(DnacBase):
         self.log("File password is generated using the password generator API", "INFO")
         return password
 
+    def validate_password(self, password=None):
+        """
+        Validates the user-defined password for Cisco catalyst Center's requirements
+        Min password length is 8 and it should contain atleast one lower case letter,
+        one uppercase letter, one digit and one special characters from -=\\\\;,./~!@#$%^&*()_+{}[]|:?
+        """
+
+        pattern = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[-=\\;,./~!@#$%^&*()_+{}[\]|:?\"]).{8,}$"
+        self.log("User defined password is {0}".format(password), "DEBUG")
+        if re.match(pattern, password):
+            return True
+        else:
+            return False
+
     def get_want(self):
         """
         Get all device_configs_backup related informantion from the playbook and preprare it to call
@@ -336,7 +360,20 @@ class Device_configs_backup(DnacBase):
         self.want = {}
 
         self.want["deviceId"] = self.get_device_ids_list()
-        self.want["password"] = self.password_generator()
+        if self.validated_config[0].get("file_password"):
+            password = self.validated_config[0].get("file_password")
+            if self.validate_password(password=password) is True:
+                self.want["password"] = password
+
+            else:
+                msg = "Invalid input as Invalid password. Min password length is 8 and it should contain" + \
+                    "atleast one lower case letter, one uppercase letter, one digit and one special characters" + \
+                    "from -=\\\\\\\\;,./~!@#$%^&*()_+{}[]|:?"
+                self.log(msg, "CRITICAL")
+                self.module.fail_json(msg=msg)
+
+        else:
+            self.want["password"] = self.password_generator()
 
         self.msg = "Successfully collected all parameters from playbook " + \
             "for comparison"
@@ -405,11 +442,12 @@ class Device_configs_backup(DnacBase):
 
             self.log("Task status for the task id (before checking status) {0} is {1}".format(str(task_id), str(response)), "INFO")
             progress = response.get('progress')
+            self.log("Progress of the task is {0}".format(str(progress)), "DEBUG")
 
             if progress == "Device configuration Successfully exported as password protected ZIP.":
                 result = True
                 additionalStatusURL = response.get("additionalStatusURL")
-                self.log("The backup process process is completed", "INFO")
+                self.log("The backup process is completed", "INFO")
                 self.result.update(dict(backup_task=response))
                 return (result, additionalStatusURL)
 
@@ -481,8 +519,10 @@ class Device_configs_backup(DnacBase):
 
         if self.have.get('management_ip_address'):
             self.validate_ipv4_address()
+
         task_id = self.get_device_config()
         result, additionalStatusURL = self.get_task_status(task_id=task_id)
+
         if result is True:
             download_status = self.download_file(additionalStatusURL=additionalStatusURL)
             if download_status is True:
@@ -555,7 +595,6 @@ def main():
     module = AnsibleModule(argument_spec=element_spec,
                            supports_check_mode=False)
     ccc_device_configs_backup = Device_configs_backup(module)
-    config_verify = ccc_device_configs_backup.params.get("config_verify")
 
     state = ccc_device_configs_backup.params.get("state")
     if state not in ccc_device_configs_backup.supported_states:
@@ -563,6 +602,7 @@ def main():
         ccc_device_configs_backup.msg = "State {0} is invalid".format(state)
         ccc_device_configs_backup.check_return_status()
 
+    config_verify = ccc_device_configs_backup.params.get("config_verify")
     ccc_device_configs_backup.validate_input().check_return_status()
 
     for config in ccc_device_configs_backup.validated_config:
