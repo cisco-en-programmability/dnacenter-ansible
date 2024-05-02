@@ -65,8 +65,8 @@ options:
       file_path:
         description:
             - Location of the path or folder where the configs need to be exported in local system.
-            - If file_path is not given, it will store the backup file(s) in a folder named tmp in the
-              same directory of the playbook.
+            - If the file_path is not provided, the backup file(s) will be stored in a directory named
+              "tmp" in the same directory as the playbook.
         type: str
         default: tmp
       file_password:
