@@ -61,10 +61,9 @@ options:
                      If it is False then compliance will be not be triggered for all categories.
         type: bool
         default: True
-        Choices: [True, False]
       run_compliance_categories:
         description: Specifying compliance categories allows you to trigger compliance checks only for the mentioned categories.
-                     Category can have one or more values from among the following options "INTENT", "RUNNING_CONFIG", "IMAGE", "PSIRT", "EOX" and "NETWORK_SETTINGS".
+                     Category can have one or more values from among the following options "INTENT", "RUNNING_CONFIG", "IMAGE", "PSIRT", "EOX", "NETWORK_SETTINGS".
                      Category "INTENT" is mapped to compliance types "NETWORK_SETTINGS", "NETWORK_PROFILE", "WORKFLOW", "FABRIC", "APPLICATION_VISIBILITY".
                      (e.g. ["INTENT", "RUNNING_CONFIG", "IMAGE", "PSIRT", "EOX", "NETWORK_SETTINGS"])
         type: list
@@ -76,7 +75,6 @@ options:
                      to startup by issuing "write memory" to device.
         type: bool
         default: False
-        Choices: [True, False]
 
 requirements:
 - dnacentersdk >= 2.7.0
@@ -399,7 +397,7 @@ class NetworkCompliance(DnacBase):
         Notes:
             - This method prepares parameters for running compliance checks based on the provided inputs.
             - If invalid categories are provided in `run_compliance_categories`, a `ValueError` is raised.
-            - If `run_compliance_categories` is provided and neither `run_compliance` nor `run_compliance_categories` is set, an error 
+            - If `run_compliance_categories` is provided and neither `run_compliance` nor `run_compliance_categories` is set, an error
               is logged and the method fails.
             - If `run_compliance` is set and `run_compliance_categories` is not, full compliance checks are triggered.
             - If both `run_compliance` and `run_compliance_categories` are set, compliance checks are triggered for specific categories.
@@ -415,13 +413,13 @@ class NetworkCompliance(DnacBase):
                 self.module.fail_json(msg)
 
             if run_compliance is None or run_compliance:
-                #run_compliance_params
+                # run_compliance_params
                 run_compliance_params["deviceUuids"] = list(mgmt_ip_instance_id_map.values())
                 run_compliance_params["triggerFull"] = False
                 categories_copy = run_compliance_categories.copy()
                 run_compliance_params["categories"] = categories_copy
 
-                #compliance_detail_params
+                # compliance_detail_params
                 compliance_detail_params["deviceUuids"] = ",".join(list(mgmt_ip_instance_id_map.values()))
                 compliance_types = run_compliance_categories
                 if "INTENT" in compliance_types:
@@ -437,11 +435,11 @@ class NetworkCompliance(DnacBase):
                 return self
 
         if run_compliance and not run_compliance_categories:
-            #run_compliance_params
+            # run_compliance_params
             run_compliance_params["deviceUuids"] = list(mgmt_ip_instance_id_map.values())
             run_compliance_params["triggerFull"] = True
 
-            #compliance_detail_params
+            # compliance_detail_params
             compliance_detail_params["deviceUuids"] = ",".join(list(mgmt_ip_instance_id_map.values()))
 
         return run_compliance_params, compliance_detail_params
@@ -482,7 +480,7 @@ class NetworkCompliance(DnacBase):
                 site_id = site[0].get("id")
                 site_exists = True
             else:
-                self.log( "No response received from the 'get_site' API call.", "ERROR")
+                self.log("No response received from the 'get_site' API call.", "ERROR")
 
         except Exception as e:
             # Log an error message and fail if an exception occurs
@@ -521,7 +519,7 @@ class NetworkCompliance(DnacBase):
                     op_modifies=True,
                     params={"managementIpAddress": device_ip}
                 )
-                self.log("Response received post 'get_device_list' API call: {} ".format(str(response)), "DEBUG")
+                self.log("Response received post 'get_device_list' API call: {0} ".format(str(response)), "DEBUG")
 
                 # Check if a valid response is received
                 if response.get("response"):
@@ -580,7 +578,7 @@ class NetworkCompliance(DnacBase):
                 op_modifies=True,
                 params=site_params,
             )
-            self.log("Response received post 'get_membership' API Call: {} ".format(str(response)), "DEBUG")
+            self.log("Response received post 'get_membership' API Call: {0} ".format(str(response)), "DEBUG")
 
             # Process the response if available
             if response:
@@ -716,7 +714,7 @@ class NetworkCompliance(DnacBase):
         compliance_detail_params_sync = {}
         compliance_details = {}
 
-        #Store input parameters
+        # Store input parameters
         ip_address_list = config.get("ip_address_list")
         site_name = config.get("site_name")
         run_compliance = config.get("run_compliance")
@@ -932,7 +930,7 @@ class NetworkCompliance(DnacBase):
 
         # Log the error if an exception occurs during the API call
         except Exception as e:
-            self.msg = "Error occurred while synchronizing device configuration for {0}: {0}".format(sync_device_config_params, str(e))
+            self.msg = "Error occurred while synchronizing device configuration for {0}: {1}".format(sync_device_config_params, str(e))
             self.update_result("failed", False, self.msg, "ERROR")
             self.check_return_status()
 
