@@ -57,7 +57,7 @@ options:
       run_compliance:
         description: Determines if a full compliance check should be triggered on the devices specified in the "ip_address_list" and/or "site_name".
                      if it is True then compliance will be triggered for all categories.
-                     If it is False then compliance will be not be triggered for all categories.
+                     If it is False then compliance will be not be triggered even if run_compliance categories are provided.
         type: bool
         default: True
       run_compliance_categories:
