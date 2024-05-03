@@ -16,77 +16,78 @@
       dnac_version: "{{ dnac_version }}"
       dnac_debug: "{{ dnac_debug }}"
       dnac_log: true
-      dnac_log_level: DEBUG
+      dnac_log_level: INFO
       dnac_log_append: False
       config_verify: true
 
   tasks:
-    - name: Run full complaince check using IP address list
+    - name: Run Compliance check using IP address list
       cisco.dnac.network_compliance_workflow_manager:
         <<: *dnac_login
         config:
         - ip_address_list: ['204.1.2.2', '204.1.2.5', '204.1.2.4']
-          run_compliance:
-               trigger_full: True
+          run_compliance: True
 
-    - name: Run full complaince check using Site
+
+    - name: Run Compliance check using Site
       cisco.dnac.network_compliance_workflow_manager:
         <<: *dnac_login
         config:
           - site: "Global"
-            run_compliance:
-               trigger_full: True
+            run_compliance: True
 
-    - name: Run full compliance check using both IP address list and Site
+
+    - name: Run Compliance check using both IP address list and Site
       cisco.dnac.network_compliance_workflow_manager:
         <<: *dnac_login
         config:
           - ip_address_list: ['204.1.2.2', '204.1.2.5', '204.1.2.4']
             site_name: "Global/USA/San Francisco/Building_1/floor_1"
-            run_compliance:
-               trigger_full: True
+            run_compliance: True
 
-    - name: Run complaince check with specific categories using IP address list
+
+    - name: Run Compliance check with specific categories using IP address list
       cisco.dnac.network_compliance_workflow_manager:
         <<: *dnac_login
         config:
           - ip_address_list: ['204.1.2.2', '204.1.2.5', '204.1.2.4']
-            run_compliance:
-               trigger_full: False
-               categories: ['INTENT', 'RUNNING_CONFIG', 'IMAGE', 'PSIRT']
+            run_compliance_categories: ['INTENT', 'RUNNING_CONFIG', 'IMAGE', 'PSIRT']
 
-    - name: Run complaince check with specific categories using Site 
+
+    - name: Run Compliance check with specific categories using Site 
       cisco.dnac.network_compliance_workflow_manager:
         <<: *dnac_login
         config:
           - site_name: "Global"
-            run_compliance:
-               trigger_full: False
-               categories: ['INTENT', 'RUNNING_CONFIG', 'IMAGE', 'PSIRT']
+            run_compliance_categories: ['INTENT', 'RUNNING_CONFIG', 'IMAGE', 'PSIRT']
 
-    - name: Run compliance check with specific categories using both  IP address list and Site
+
+    - name: Run Compliance check with specific categories using both  IP address list and Site
       cisco.dnac.network_compliance_workflow_manager:
         <<: *dnac_login
         config:
           - ip_address_list: ['204.1.2.2', '204.1.2.5', '204.1.2.4']
             site_name: "Global/USA/San Francisco/Building_1/floor_1"
-            run_compliance:
-               trigger_full: False
-               categories: ['INTENT', 'RUNNING_CONFIG', 'IMAGE', 'PSIRT']
+            run_compliance_categories: ['INTENT', 'RUNNING_CONFIG', 'IMAGE', 'PSIRT']
+
 
     - name: Sync Device Configuration using IP address list
       cisco.dnac.network_compliance_workflow_manager:
         <<: *dnac_login
         config:
           - ip_address_list: ['204.1.2.2', '204.1.2.5', '204.1.2.4']
+            run_compliance: False
             sync_device_config: True
+
 
     - name: Sync Device Configuration using Site 
       cisco.dnac.network_compliance_workflow_manager:
         <<: *dnac_login
         config:
           - site_name: "Global/USA/San Francisco/Building_1/floor_1"
+            run_compliance: False
             sync_device_config: True
+
 
     - name: Sync Device Configuration using both IP address list and Site
       cisco.dnac.network_compliance_workflow_manager:
@@ -94,52 +95,51 @@
         config:
           - ip_address_list: ['204.1.2.2', '204.1.2.5', '204.1.2.4']
             site_name: "Global/USA/San Francisco/Building_1/floor_1"
+            run_compliance: False
             sync_device_config: True
 
-    - name: Run full Compliance and sync configuration with IP address list
+
+    - name: Run Compliance and Sync Device Configuration with IP address list
       cisco.dnac.network_compliance_workflow_manager:
         <<: *dnac_login
         config:
           - ip_address_list: ['204.1.2.2', '204.1.2.5', '204.1.2.4']
-            run_compliance:
-               trigger_full: True
+            run_compliance: True
             sync_device_config: True
 
-    - name: Run full Compliance and sync configuration with Site
+
+    - name: Run Compliance and Sync Device Configuration with Site
       cisco.dnac.network_compliance_workflow_manager:
         <<: *dnac_login
         config:
           - site_name: "Global/USA/San Francisco/Building_1/floor_1"
-            run_compliance:
-               trigger_full: True
+            run_compliance: True
             sync_device_config: True
 
-    - name: Run Compliance with specific categories and sync configuration with IP address list
+
+    - name: Run Compliance with specific categories and Sync Device Configuration with IP address list
       cisco.dnac.network_compliance_workflow_manager:
         <<: *dnac_login
         config:
           - ip_address_list: ['204.1.2.2', '204.1.2.5', '204.1.2.4']
-            run_compliance:
-               trigger_full: False
-               categories: ['INTENT', 'RUNNING_CONFIG', 'IMAGE', 'PSIRT']
+            run_compliance_categories: ['INTENT', 'RUNNING_CONFIG', 'IMAGE', 'PSIRT']
             sync_device_config: True
-            
-    - name: Run Compliance with specific categories and sync configuration with Site
+
+
+    - name: Run Compliance with specific categories and Sync Device Configuration with Site
       cisco.dnac.network_compliance_workflow_manager:
         <<: *dnac_login
         config:
           - site_name: "Global/USA/San Francisco/Building_1/floor_1"
-            run_compliance:
-               trigger_full: False
-               categories: ['INTENT', 'RUNNING_CONFIG', 'IMAGE', 'PSIRT']
+            run_compliance_categories: ['INTENT', 'RUNNING_CONFIG', 'IMAGE', 'PSIRT']
             sync_device_config: True
 
-    - name: Run Compliance and sync configuration using both IP address list and Site
+
+    - name: Run Compliance and Sync Device Configuration using both IP address list and Site
       cisco.dnac.network_compliance_workflow_manager:
         <<: *dnac_login
         config:
           - ip_address_list: ['204.1.2.2', '204.1.2.5', '204.1.2.4']
             site_name: "Global/USA/San Francisco/Building_1/floor_1"
-            run_compliance:
-               trigger_full: True
+            run_compliance: True
             sync_device_config: True
