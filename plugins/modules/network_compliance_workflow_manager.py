@@ -426,7 +426,7 @@ class NetworkCompliance(DnacBase):
                 self.log(msg, "ERROR")
                 self.module.fail_json(msg)
 
-            if  run_compliance:
+            if run_compliance:
                 # run_compliance_params
                 run_compliance_params["deviceUuids"] = list(mgmt_ip_instance_id_map.values())
                 run_compliance_params["triggerFull"] = False
