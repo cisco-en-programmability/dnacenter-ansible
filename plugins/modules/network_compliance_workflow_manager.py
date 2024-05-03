@@ -77,7 +77,7 @@ options:
 
 requirements:
 - dnacentersdk >= 2.7.0
-- python >= 3.5
+- python >= 3.9
 notes:
   - SDK Methods used are
     compliance.Compliance.run_compliance
@@ -449,7 +449,7 @@ class NetworkCompliance(DnacBase):
                 msg += "Run Compliance Check will not be executed."
                 self.log(msg, "WARNING")
 
-        if run_compliance and not run_compliance_categories:
+        elif run_compliance:
             # run_compliance_params
             run_compliance_params["deviceUuids"] = list(mgmt_ip_instance_id_map.values())
             run_compliance_params["triggerFull"] = True
