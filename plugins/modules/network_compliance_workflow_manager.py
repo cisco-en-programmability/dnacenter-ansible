@@ -420,12 +420,13 @@ class NetworkCompliance(DnacBase):
         valid_categories = ["INTENT", "RUNNING_CONFIG", "IMAGE", "PSIRT", "EOX", "NETWORK_SETTINGS"]
 
         if run_compliance_categories:
+            # Validate the categories provided
             if not all(category.upper() in valid_categories for category in run_compliance_categories):
                 msg = "Invalid category provided. Valid categories are {0}.".format(valid_categories)
                 self.log(msg, "ERROR")
                 self.module.fail_json(msg)
 
-            if run_compliance is None or run_compliance:
+            if  run_compliance:
                 # run_compliance_params
                 run_compliance_params["deviceUuids"] = list(mgmt_ip_instance_id_map.values())
                 run_compliance_params["triggerFull"] = False
@@ -441,11 +442,12 @@ class NetworkCompliance(DnacBase):
                 compliance_types = list(set(compliance_types))
                 compliance_detail_params["complianceType"] = "', '".join(compliance_types)
                 compliance_detail_params["complianceType"] = "'" + compliance_detail_params['complianceType'] + "'"
+            # Case when run_compliance_categories provided but run_compliance = False
             else:
-                msg = "No actions were requested. This network compliance module can perform the following tasks: Run Compliance Check or Sync Device Config."
-                self.log(msg, "ERROR")
-                self.module.fail_json(msg)
-                return self
+                msg = "Since run_compliance is set to {0}, even though run_compliance_categories are provided {1}, ".format(
+                    run_compliance, run_compliance_categories)
+                msg += "Run Compliance Check will not be executed."
+                self.log(msg, "WARNING")
 
         if run_compliance and not run_compliance_categories:
             # run_compliance_params
