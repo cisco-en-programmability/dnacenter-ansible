@@ -76,7 +76,7 @@ options:
         default: False
 
 requirements:
-- dnacentersdk >= 2.7.0
+- dnacentersdk == 2.7.0
 - python >= 3.9
 notes:
   - SDK Methods used are
