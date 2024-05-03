@@ -64,6 +64,7 @@ options:
         description: Specifying compliance categories allows you to trigger compliance checks only for the mentioned categories.
                      Category can have one or more values from among the options "INTENT", "RUNNING_CONFIG", "IMAGE", "PSIRT", "EOX", "NETWORK_SETTINGS".
                      Category "INTENT" is mapped to compliance types "NETWORK_SETTINGS", "NETWORK_PROFILE", "WORKFLOW", "FABRIC", "APPLICATION_VISIBILITY".
+                     If "run_compliance" is False then compliance will be not be triggered even if "run_compliance_categories" are provided.
                      (e.g. ["INTENT", "RUNNING_CONFIG", "IMAGE", "PSIRT", "EOX", "NETWORK_SETTINGS"])
         type: list
         elements: str
