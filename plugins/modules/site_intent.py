@@ -1032,6 +1032,63 @@ class DnacSite(DnacBase):
 
         return self
 
+    def update_site_messages(self):
+        """
+        Update site messages based on the status of created, updated, and deleted sites.
+        Args:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+        Returns:
+            self (object): An instance of a class representing the status of the operation, including whether it was
+                successful or failed, any error messages encountered during operation.
+        Description:
+            This method updates the messages related to site creation, updating, and deletion in the Cisco Catalyst Center.
+            It evaluates the status of created sites, updated sites, and sites that are no longer needed for update to
+            determine the appropriate message to be set. The messages are then stored in the 'msg' attribute of the object.
+        """
+
+        if self.created_site_list and self.updated_site_list:
+            self.result['changed'] = True
+            if self.update_not_neeeded_sites:
+                msg = """Site(s) '{0}' created successfully as well as Site(s) '{1}' updated successully and the some site(s)
+                        '{2}' needs no update in Cisco Catalyst Center"""
+                self.msg = msg.format(str(self.created_site_list), str(self.updated_site_list), str(self.update_not_neeeded_sites))
+            else:
+                self.msg = """Site(s) '{0}' created successfully in Cisco Catalyst Center as well as Site(s) '{1}' updated successully in
+                        Cisco Catalyst Center""".format(str(self.created_site_list), str(self.updated_site_list))
+        elif self.created_site_list:
+            self.result['changed'] = True
+            if self.update_not_neeeded_sites:
+                self.msg = """Site(s) '{0}' created successfully and some site(s) '{1}' not needs any update in Cisco Catalyst
+                                Center.""".format(str(self.created_site_list), str(self.update_not_neeeded_sites))
+            else:
+                self.msg = "Site(s) '{0}' created successfully in Cisco Catalyst Center.".format(str(self.created_site_list))
+        elif self.updated_site_list:
+            self.result['changed'] = True
+            if self.update_not_neeeded_sites:
+                self.msg = """Site(s) '{0}' updated successfully and some site(s) '{1}' not needs any update in Cisco Catalyst
+                                Center.""".format(str(self.updated_site_list), str(self.update_not_neeeded_sites))
+            else:
+                self.msg = "Site(s) '{0}' updated successfully in Cisco Catalyst Center.".format(str(self.updated_site_list))
+        elif self.update_not_neeeded_sites:
+            self.result['changed'] = False
+            self.msg = "Site(s) '{0}' not needs any update in Cisco Catalyst Center.".format(str(self.update_not_neeeded_sites))
+        elif self.deleted_site_list and self.site_absent_list:
+            self.result['changed'] = True
+            self.msg = """Given site(s) '{0}' deleted successfully from Cisco Catalyst Center and unable to deleted some site(s) '{1}' as they
+                    are not found in Cisco Catalyst Center.""".format(str(self.deleted_site_list), str(self.site_absent_list))
+        elif self.deleted_site_list:
+            self.result['changed'] = True
+            self.msg = "Given site(s) '{0}' deleted successfully from Cisco Catalyst Center".format(str(self.deleted_site_list))
+        else:
+            self.result['changed'] = False
+            self.msg = "Unable to delete site(s) '{0}' as it's not found in Cisco Catalyst Center.".format(str(self.site_absent_list))
+
+        self.status = "success"
+        self.result['response'] = self.msg
+        self.result['msg'] = self.msg
+
+        return self
+
 
 def main():
     """ main entry point for module execution
@@ -1078,46 +1135,8 @@ def main():
         if config_verify:
             dnac_site.verify_diff_state_apply[state](config).check_return_status()
 
-    if dnac_site.created_site_list and dnac_site.updated_site_list:
-        dnac_site.result['changed'] = True
-        if dnac_site.update_not_neeeded_sites:
-            msg = """Site(s) '{0}' created successfully as well as Site(s) '{1}' updated successully and the some site(s)
-                    '{2}' needs no update in Cisco Catalyst Center"""
-            dnac_site.msg = msg.format(str(dnac_site.created_site_list), str(dnac_site.updated_site_list), str(dnac_site.update_not_neeeded_sites))
-        else:
-            dnac_site.msg = """Site(s) '{0}' created successfully in Cisco Catalyst Center as well as Site(s) '{1}' updated successully in
-                    Cisco Catalyst Center""".format(str(dnac_site.created_site_list), str(dnac_site.updated_site_list))
-    elif dnac_site.created_site_list:
-        dnac_site.result['changed'] = True
-        if dnac_site.update_not_neeeded_sites:
-            dnac_site.msg = """Site(s) '{0}' created successfully and some site(s) '{1}' not needs any update in Cisco Catalyst
-                            Center.""".format(str(dnac_site.created_site_list), str(dnac_site.update_not_neeeded_sites))
-        else:
-            dnac_site.msg = "Site(s) '{0}' created successfully in Cisco Catalyst Center.".format(str(dnac_site.created_site_list))
-    elif dnac_site.updated_site_list:
-        dnac_site.result['changed'] = True
-        if dnac_site.update_not_neeeded_sites:
-            dnac_site.msg = """Site(s) '{0}' updated successfully and some site(s) '{1}' not needs any update in Cisco Catalyst
-                            Center.""".format(str(dnac_site.updated_site_list), str(dnac_site.update_not_neeeded_sites))
-        else:
-            dnac_site.msg = "Site(s) '{0}' updated successfully in Cisco Catalyst Center.".format(str(dnac_site.updated_site_list))
-    elif dnac_site.update_not_neeeded_sites:
-        dnac_site.result['changed'] = False
-        dnac_site.msg = "Site(s) '{0}' not needs any update in Cisco Catalyst Center.".format(str(dnac_site.update_not_neeeded_sites))
-    elif dnac_site.deleted_site_list and dnac_site.site_absent_list:
-        dnac_site.result['changed'] = True
-        dnac_site.msg = """Given site(s) '{0}' deleted successfully from Cisco Catalyst Center and unable to deleted some site(s) '{1}' as they
-                are not found in Cisco Catalyst Center.""".format(str(dnac_site.deleted_site_list), str(dnac_site.site_absent_list))
-    elif dnac_site.deleted_site_list:
-        dnac_site.result['changed'] = True
-        dnac_site.msg = "Given site(s) '{0}' deleted successfully from Cisco Catalyst Center".format(str(dnac_site.deleted_site_list))
-    else:
-        dnac_site.result['changed'] = False
-        dnac_site.msg = "Unable to delete site(s) '{0}' as it's not found in Cisco Catalyst Center.".format(str(dnac_site.site_absent_list))
-
-    dnac_site.status = "success"
-    dnac_site.result['response'] = dnac_site.msg
-    dnac_site.result['msg'] = dnac_site.msg
+    # Invoke the API to check the status and log the output of each site on the console
+    dnac_site.update_site_messages().check_return_status()
 
     module.exit_json(**dnac_site.result)
 
