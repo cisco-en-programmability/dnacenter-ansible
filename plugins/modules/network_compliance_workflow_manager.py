@@ -56,14 +56,13 @@ options:
         type: str
       run_compliance:
         description: Determines if a full compliance check should be triggered on the devices specified in the "ip_address_list" and/or "site_name".
-                     This parameter is required when running a compliance check.
                      if it is True then compliance will be triggered for all categories.
                      If it is False then compliance will be not be triggered for all categories.
         type: bool
         default: True
       run_compliance_categories:
         description: Specifying compliance categories allows you to trigger compliance checks only for the mentioned categories.
-                     Category can have one or more values from among the following options "INTENT", "RUNNING_CONFIG", "IMAGE", "PSIRT", "EOX", "NETWORK_SETTINGS".
+                     Category can have one or more values from among the options "INTENT", "RUNNING_CONFIG", "IMAGE", "PSIRT", "EOX", "NETWORK_SETTINGS".
                      Category "INTENT" is mapped to compliance types "NETWORK_SETTINGS", "NETWORK_PROFILE", "WORKFLOW", "FABRIC", "APPLICATION_VISIBILITY".
                      (e.g. ["INTENT", "RUNNING_CONFIG", "IMAGE", "PSIRT", "EOX", "NETWORK_SETTINGS"])
         type: list
@@ -96,6 +95,20 @@ notes:
 """
 
 EXAMPLES = r"""
+- name: Run Compliance check on device(s) using IP address list (run_compliance by default is True)
+  cisco.dnac.network_compliance_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
+    dnac_log: False
+    config:
+      - ip_address_list: ["204.1.2.2", "204.1.2.5", "204.1.2.4"]
+
 - name: Run Compliance check on device(s) using IP address list
   cisco.dnac.network_compliance_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -341,7 +354,7 @@ class NetworkCompliance(DnacBase):
             "ip_address_list": {"type": "list", "elements": "str", "required": False},
             "site_name": {"type": "str", "required": False},
             "run_compliance": {"type": "bool", "required": False, "default": True},
-            "run_compliance_categories": {"type": "list", "elements": "str","required": False},
+            "run_compliance_categories": {"type": "list", "elements": "str", "required": False},
             "sync_device_config": {"type": "bool", "required": False, "default": False},
         }
 
