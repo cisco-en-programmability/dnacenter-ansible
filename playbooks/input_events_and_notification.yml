@@ -3,10 +3,10 @@ events_notification:
   - syslog_destination:
       name: Syslog Demo test
       description: "Adding syslog destination for testing"
-      host: "10.30.0.90"
+      server_address: "10.30.0.90"
       protocol: "TCP"
       port: 652
-    rest_webhook_destination:
+    webhook_destination:
       name: "webhook demo 19"
       description: "webhhok description for testing"
       url: "https://10.195.227.14/dna"
@@ -17,22 +17,22 @@ events_notification:
       to_email: "abmahesh@cisco.com"
       subject: "Ansible testing"
       primary_smtp_config:
-        hostname: "outbound.cisco.com"
+        server_address: "outbound.cisco.com"
         port: '25'
     snmp_destination:
       name: Snmp test
       description: "Adding snmp destination for testing for update"
-      ip_address: "10.30.0.91"
+      server_address: "10.30.0.91"
       port: '265'
       snmp_version: "V3"
       username: cisco123
-      snmp_mode: AUTH_PRIVACY
-      snmp_auth_type: SHA
+      mode: AUTH_PRIVACY
+      auth_type: SHA
       auth_password: authpass123
-      snmp_privacy_type: AES128
+      privacy_type: AES128
       privacy_password: privacy123
     itsm_setting:
-      name: "Playbook itsm demo"
+      instance_name: "Playbook itsm demo"
       description: "ITSM description for testing"
       connection_settings:
         url: "https://catalystcente1.com"
