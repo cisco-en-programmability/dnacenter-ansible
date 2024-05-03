@@ -21,6 +21,12 @@
       config_verify: true
 
   tasks:
+    - name: Run Compliance check using IP address list (run_compliance by default is True)
+      cisco.dnac.network_compliance_workflow_manager:
+        <<: *dnac_login
+        config:
+        - ip_address_list: ['204.1.2.2', '204.1.2.5', '204.1.2.4']
+
     - name: Run Compliance check using IP address list
       cisco.dnac.network_compliance_workflow_manager:
         <<: *dnac_login
