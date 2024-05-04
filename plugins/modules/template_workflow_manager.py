@@ -1129,7 +1129,7 @@ options:
 
 requirements:
 - dnacentersdk == 2.4.5
-- python >= 3.5
+- python >= 3.9
 notes:
   - SDK Method used are
     configuration_templates.ConfigurationTemplates.create_template,

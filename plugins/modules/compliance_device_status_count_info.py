@@ -26,8 +26,8 @@ options:
       'IN_PROGRESS', 'NOT_AVAILABLE', 'NOT_APPLICABLE', 'ERROR'.
     type: str
 requirements:
-- dnacentersdk >= 2.5.5
-- python >= 3.5
+- dnacentersdk >= 2.6.0
+- python >= 3.9
 seealso:
 - name: Cisco DNA Center documentation for Compliance GetComplianceStatusCount
   description: Complete reference of the GetComplianceStatusCount API.

@@ -296,7 +296,7 @@ options:
             type: bool
 requirements:
 - dnacentersdk == 2.4.5
-- python >= 3.5
+- python >= 3.9
 notes:
   - SDK Method used are
     software_image_management_swim.SoftwareImageManagementSwim.import_software_image_via_url,
