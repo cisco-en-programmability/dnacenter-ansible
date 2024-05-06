@@ -1739,8 +1739,7 @@ class Template(DnacBase):
 
             containingTemplates[i].update({"name": name})
 
-            template_details = self.get_templates_details(name)
-            template_details = template_details.get("response")
+            template_details = self.get_templates_details(name).get("response")
             if not template_details:
                 self.msg = "No template with the template name '{0}' or it is not versioned".format(name)
                 self.status = "failed"
