@@ -1813,7 +1813,7 @@ class NetworkSettings(DnacBase):
                     clientAndEndpoint_aaa.get("network")
                 })
             else:
-                self.msg = "missing parameter network in clientAndEndpoint_aaa"
+                self.msg = "missing parameter network in client_and_endpoint_aaa"
                 self.status = "failed"
                 return self
 
@@ -1823,7 +1823,7 @@ class NetworkSettings(DnacBase):
                     clientAndEndpoint_aaa.get("protocol")
                 })
             else:
-                self.msg = "missing parameter protocol in clientAndEndpoint_aaa"
+                self.msg = "missing parameter protocol in client_and_endpoint_aaa"
                 self.status = "failed"
                 return self
 
@@ -1833,7 +1833,7 @@ class NetworkSettings(DnacBase):
                     clientAndEndpoint_aaa.get("servers")
                 })
             else:
-                self.msg = "missing parameter servers in clientAndEndpoint_aaa"
+                self.msg = "missing parameter servers in client_and_endpoint_aaa"
                 self.status = "failed"
                 return self
 
