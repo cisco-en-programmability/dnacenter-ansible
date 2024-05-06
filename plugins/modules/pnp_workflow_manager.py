@@ -158,7 +158,7 @@ options:
           - TYPICAL
 requirements:
   - dnacentersdk == 2.6.10
-  - python >= 3.5
+  - python >= 3.9
 notes:
   - SDK Method used are device_onboarding_pnp.DeviceOnboardingPnp.add_device,
     device_onboarding_pnp.DeviceOnboardingPnp.get_device_list,

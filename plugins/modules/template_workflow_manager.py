@@ -287,9 +287,6 @@ options:
                 type: str
             type: list
             elements: dict
-          create_time:
-            description: The creation time of the template refers to the initial development.
-            type: int
           custom_params_order:
             description: Specifies the sequence in which custom parameters or variables should be arranged within the template.
             type: bool
@@ -322,20 +319,8 @@ options:
               - JINJA
               - VELOCITY
             type: str
-          last_update_time:
-            description: Indicates the most recent timestamp when the template was modified or revised.
-            type: int
-          latest_version_time:
-            description: Indicates when the most recent version of a template was released or updated.
-            type: int
           template_name:
             description: Name of template. This field is mandatory to create a new template.
-            type: str
-          parent_template_id:
-            description: Refers to the unique identifier of a template from which another template derives.
-            type: str
-          project_id:
-            description: A unique identifier for the project, formatted as a UUID.
             type: str
           project_name:
             description: Title of the project within which the template is categorized and managed.
@@ -537,24 +522,6 @@ options:
                 type: dict
             type: list
             elements: dict
-          validation_errors:
-            description: Refer to issues or discrepancies identified during the validation process.
-            suboptions:
-              rollback_template_errors:
-                description: Validation or design conflicts errors of rollback template.
-                elements: dict
-                type: list
-              template_errors:
-                description: Refer to issues or discrepancies encountered during the processing of a template within a software application.
-                elements: dict
-                type: list
-              template_id:
-                description: A unique identifier for the template, represented as a UUID.
-                type: str
-              template_version:
-                description: The current version of validation process in the template.
-                type: str
-            type: dict
           version:
             description: The current version of template.
             type: str
@@ -851,9 +818,6 @@ options:
                         type: str
                     type: list
                     elements: dict
-                  create_time:
-                    description: The creation time of the template refers to the initial development.
-                    type: int
                   custom_params_order:
                     description: Specifies the sequence in which custom parameters or variables should be arranged within the template.
                     type: bool
@@ -886,20 +850,8 @@ options:
                       - JINJA
                       - VELOCITY
                     type: str
-                  last_update_time:
-                    description: Indicates the most recent timestamp when the template was modified or revised.
-                    type: int
-                  latest_version_time:
-                    description: Indicates when the most recent version of a template was released or updated.
-                    type: int
                   template_name:
                     description: Name of template. This field is mandatory to create a new template.
-                    type: str
-                  parent_template_id:
-                    description: Refers to the unique identifier of a template from which another template derives.
-                    type: str
-                  project_id:
-                    description: A unique identifier for the project, formatted as a UUID.
                     type: str
                   project_name:
                     description: Title of the project within which the template is categorized and managed.
@@ -1101,24 +1053,6 @@ options:
                         type: dict
                     type: list
                     elements: dict
-                  validation_errors:
-                    description: Refer to issues or discrepancies identified during the validation process.
-                    suboptions:
-                      rollback_template_errors:
-                        description: Refer to errors or issues encountered during the process of reverting a template to a previous version or state.
-                        elements: dict
-                        type: list
-                      template_errors:
-                        description: Refer to issues or discrepancies encountered during the processing of a template within a software application.
-                        elements: dict
-                        type: list
-                      template_id:
-                        description: A unique identifier for the template, represented as a UUID.
-                        type: str
-                      template_version:
-                        description: The current version of validation process in the template.
-                        type: str
-                    type: dict
                   version:
                     description: The current version of template.
                     type: str
@@ -1129,7 +1063,7 @@ options:
 
 requirements:
 - dnacentersdk == 2.4.5
-- python >= 3.5
+- python >= 3.9
 notes:
   - SDK Method used are
     configuration_templates.ConfigurationTemplates.create_template,
@@ -1169,7 +1103,6 @@ EXAMPLES = r"""
     - configuration_templates:
         author: string
         composite: true
-        create_time: 0
         custom_params_order: true
         description: string
         device_types:
@@ -1179,11 +1112,7 @@ EXAMPLES = r"""
         failure_policy: string
         id: string
         language: string
-        last_update_time: 0
-        latest_version_time: 0
         name: string
-        parent_template_id: string
-        project_id: string
         project_name: string
         project_description: string
         rollback_template_content: string
@@ -1194,13 +1123,6 @@ EXAMPLES = r"""
         - id: string
           name: string
         template_content: string
-        validation_errors:
-            rollback_template_errors:
-            - {}
-            template_errors:
-            - {}
-            template_id: string
-            template_version: string
         version: string
 
 - name: Export the projects.
@@ -1415,7 +1337,6 @@ class Template(DnacBase):
                 'author': {'type': 'str'},
                 'composite': {'type': 'bool'},
                 'containing_templates': {'type': 'list'},
-                'create_time': {'type': 'int'},
                 'custom_params_order': {'type': 'bool'},
                 'template_description': {'type': 'str'},
                 'device_types': {
@@ -1428,11 +1349,7 @@ class Template(DnacBase):
                 'failure_policy': {'type': 'str'},
                 'id': {'type': 'str'},
                 'language': {'type': 'str'},
-                'last_update_time': {'type': 'int'},
-                'latest_version_time': {'type': 'int'},
                 'name': {'type': 'str'},
-                'parent_template_id': {'type': 'str'},
-                'project_id': {'type': 'str'},
                 'project_name': {'type': 'str'},
                 'project_description': {'type': 'str'},
                 'rollback_template_content': {'type': 'str'},
@@ -1443,7 +1360,6 @@ class Template(DnacBase):
                 'template_content': {'type': 'str'},
                 'template_params': {'type': 'list'},
                 'template_name': {'type': 'str'},
-                'validation_errors': {'type': 'dict'},
                 'version': {'type': 'str'}
             },
             'export': {
@@ -1472,7 +1388,6 @@ class Template(DnacBase):
                         'author': {'type': 'str'},
                         'composite': {'type': 'bool'},
                         'containing_templates': {'type': 'list'},
-                        'create_time': {'type': 'int'},
                         'custom_params_order': {'type': 'bool'},
                         'template_description': {'type': 'str'},
                         'device_types': {
@@ -1485,11 +1400,7 @@ class Template(DnacBase):
                         'failure_policy': {'type': 'str'},
                         'id': {'type': 'str'},
                         'language': {'type': 'str'},
-                        'last_update_time': {'type': 'int'},
-                        'latest_version_time': {'type': 'int'},
                         'name': {'type': 'str'},
-                        'parent_template_id': {'type': 'str'},
-                        'project_id': {'type': 'str'},
                         'project_name': {'type': 'str'},
                         'project_description': {'type': 'str'},
                         'rollback_template_content': {'type': 'str'},
@@ -1500,7 +1411,6 @@ class Template(DnacBase):
                         'template_content': {'type': 'str'},
                         'template_params': {'type': 'list'},
                         'template_name': {'type': 'str'},
-                        'validation_errors': {'type': 'dict'},
                         'version': {'type': 'str'}
                     }
                 }
@@ -1610,47 +1520,6 @@ class Template(DnacBase):
             i = i + 1
 
         return deviceTypes
-
-    def get_validation_errors(self, validation_errors):
-        """
-        Store template parameters from the playbook for template processing in Cisco Catalyst Center.
-
-        Parameters:
-            validation_errors (dict) - Playbook details containing validation errors information.
-
-        Returns:
-            validationErrors (dict) - Organized validation errors parameters.
-        """
-
-        if validation_errors is None:
-            return None
-
-        validationErrors = {}
-        rollback_template_errors = validation_errors.get("rollback_template_errors")
-        if rollback_template_errors is not None:
-            validationErrors.update({
-                "rollbackTemplateErrors": rollback_template_errors
-            })
-
-        template_errors = validation_errors.get("template_errors")
-        if template_errors is not None:
-            validationErrors.update({
-                "templateErrors": template_errors
-            })
-
-        template_id = validation_errors.get("template_id")
-        if template_id is not None:
-            validationErrors.update({
-                "templateId": template_id
-            })
-
-        template_version = validation_errors.get("template_version")
-        if template_version is not None:
-            validationErrors.update({
-                "templateVersion": template_version
-            })
-
-        return validationErrors
 
     def get_template_info(self, template_params):
         """
@@ -1771,7 +1640,7 @@ class Template(DnacBase):
                         return self.check_return_status()
                     min_value = value.get("min_value")
                     if min_value is not None:
-                        _range[j].update({"maxValue": min_value})
+                        _range[j].update({"minValue": min_value})
                     else:
                         self.msg = "min_value is mandatory for range under template_params"
                         self.status = "failed"
@@ -1800,13 +1669,37 @@ class Template(DnacBase):
 
         return templateParams
 
+    def get_templates_details(self, name):
+        """
+        Get the template details from the template name provided in the playbook.
+
+        Parameters:
+            name (str) - Name of the template provided in the playbook.
+
+        Returns:
+            result (dict) - Template details for the given template name.
+        """
+
+        result = None
+        items = self.dnac_apply['exec'](
+            family="configuration_templates",
+            function="get_templates_details",
+            op_modifies=True,
+            params={"name": name}
+        )
+        if items:
+            result = items
+
+        self.log("Received API response from 'get_templates_details': {0}".format(items), "DEBUG")
+        return result
+
     def get_containing_templates(self, containing_templates):
         """
         Store tags from the playbook for template processing in Cisco Catalyst Center.
         Check using check_return_status()
 
         Parameters:
-            containing_templates (dict) - Containing tempaltes details
+            containing_templates (dict) - Containing templates details
             containing Template information.
 
         Returns:
@@ -1838,10 +1731,6 @@ class Template(DnacBase):
                     "deviceTypes": self.get_device_types(device_types)
                 })
 
-            id = item.get("id")
-            if id is not None:
-                containingTemplates[i].update({"id": id})
-
             name = item.get("name")
             if name is None:
                 self.msg = "name is mandatory under containing templates"
@@ -1849,6 +1738,16 @@ class Template(DnacBase):
                 return self.check_return_status()
 
             containingTemplates[i].update({"name": name})
+
+            template_details = self.get_templates_details(name).get("response")
+            if not template_details:
+                self.msg = "No template with the template name '{0}' or it is not versioned".format(name)
+                self.status = "failed"
+                return self.check_return_status()
+
+            id = template_details[0].get("id")
+            if id is not None:
+                containingTemplates[i].update({"id": id})
 
             language = item.get("language")
             if language is None:
@@ -1912,17 +1811,12 @@ class Template(DnacBase):
             "composite": params.get("composite"),
             "containingTemplates":
                 self.get_containing_templates(params.get("containing_templates")),
-            "createTime": params.get("create_time"),
             "customParamsOrder": params.get("custom_params_order"),
             "description": params.get("template_description"),
             "deviceTypes":
                 self.get_device_types(params.get("device_types")),
             "failurePolicy": params.get("failure_policy"),
             "id": params.get("id"),
-            "lastUpdateTime": params.get("last_update_time"),
-            "latestVersionTime": params.get("latest_version_time"),
-            "parentTemplateId": params.get("parent_template_id"),
-            "projectId": params.get("project_id"),
             "rollbackTemplateContent": params.get("rollback_template_content"),
             "rollbackTemplateParams":
                 self.get_template_info(params.get("rollback_template_params")),
@@ -1931,10 +1825,7 @@ class Template(DnacBase):
             "templateContent": params.get("template_content"),
             "templateParams":
                 self.get_template_info(params.get("template_params")),
-            "validationErrors":
-                self.get_validation_errors(params.get("validation_errors")),
             "version": params.get("version"),
-            "project_id": params.get("project_id")
         }
         language = params.get("language")
         if not language:
@@ -2243,7 +2134,7 @@ class Template(DnacBase):
             if task_details.get("isError"):
                 self.log("Error occurred for '{0}' with taskid: {1}"
                          .format(creation_value, task_id), "ERROR")
-                return creation_id, created
+                return task_id, created
 
             if validation_string not in task_details.get("progress"):
                 self.log("'{0}' progress set to {1} for taskid: {2}"
@@ -2298,18 +2189,13 @@ class Template(DnacBase):
             ("author", "author", ""),
             ("composite", "composite", False),
             ("containingTemplates", "containingTemplates", []),
-            ("createTime", "createTime", ""),
             ("customParamsOrder", "customParamsOrder", False),
             ("description", "description", ""),
             ("deviceTypes", "deviceTypes", []),
             ("failurePolicy", "failurePolicy", ""),
             ("id", "id", ""),
             ("language", "language", "VELOCITY"),
-            ("lastUpdateTime", "lastUpdateTime", ""),
-            ("latestVersionTime", "latestVersionTime", ""),
             ("name", "name", ""),
-            ("parentTemplateId", "parentTemplateId", ""),
-            ("projectId", "projectId", ""),
             ("projectName", "projectName", ""),
             ("rollbackTemplateContent", "rollbackTemplateContent", ""),
             ("rollbackTemplateParams", "rollbackTemplateParams", []),
@@ -2318,7 +2204,6 @@ class Template(DnacBase):
             ("softwareVersion", "softwareVersion", ""),
             ("templateContent", "templateContent", ""),
             ("templateParams", "templateParams", []),
-            ("validationErrors", "validationErrors", {}),
             ("version", "version", ""),
         ]
 
@@ -2522,6 +2407,15 @@ class Template(DnacBase):
                 self.msg = "Error while versioning the template"
                 self.status = "failed"
                 return self
+        else:
+            task_details = self.get_task_details(template_id)
+            self.log('Getting task details from task ID {0}: {1}'.format(template_id, task_details), "DEBUG")
+            if task_details.get("failureReason"):
+                self.msg = str(task_details.get("failureReason"))
+            else:
+                self.msg = str(task_details.get("progress"))
+            self.status = "failed"
+            return self
 
     def handle_export(self, export):
         """
@@ -2683,6 +2577,17 @@ class Template(DnacBase):
             }
             self.log("Import template details from the playbook: {0}"
                      .format(import_template), "DEBUG")
+            global_project_name = import_template.get("project_name")
+            for item in import_template.get("payload"):
+                template_project_name = item.get("projectName")
+                if template_project_name is not None and \
+                        global_project_name != template_project_name:
+                    self.msg = "Template '{0}' under the the 'Import Template' should have project_name as {1}" \
+                               .format(item.get("name"), global_project_name)
+                    self.log(str(self.msg), "ERROR")
+                    self.status = "failed"
+                    return self
+
             if _import_template:
                 response = self.dnac._exec(
                     family="configuration_templates",
@@ -2807,8 +2712,11 @@ class Template(DnacBase):
                 if is_template_found:
                     self.delete_project_or_template(config)
                 else:
+                    self.result['response'][0].get("configurationTemplate").update({
+                        "msg": "Template with template_name '{0}' already deleted".format(templateName)
+                    })
                     self.msg = "Invalid template {0} under project".format(templateName)
-                    self.status = "failed"
+                    self.status = "success"
                     return self
             else:
                 self.log("Template name is empty, deleting the project '{0}' and "
@@ -2850,6 +2758,11 @@ class Template(DnacBase):
             self.get_have_template(config, is_template_available)
             self.log("Current State (have): {0}".format(self.want.get("template_params")), "INFO")
             self.log("Desired State (want): {0}".format(self.have_template.get("template")), "INFO")
+            if not self.have_template.get("template"):
+                self.msg = "No template created with the name '{0}'".format(self.want.get("template_params").get("name"))
+                self.status = "failed"
+                return self
+
             template_params = ["language", "name", "projectName", "softwareType",
                                "softwareVariant", "templateContent"]
             for item in template_params:

@@ -49,8 +49,8 @@ options:
     description: ScheduleOrigin query parameter. Originator of this call (Optional).
     type: str
 requirements:
-- dnacentersdk >= 2.5.5
-- python >= 3.5
+- dnacentersdk >= 2.6.0
+- python >= 3.9
 seealso:
 - name: Cisco DNA Center documentation for Software Image Management (SWIM) ImportSoftwareImageViaURL
   description: Complete reference of the ImportSoftwareImageViaURL API.

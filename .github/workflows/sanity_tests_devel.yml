@@ -1,0 +1,32 @@
+name: CI Devel
+on:
+  workflow_dispatch:
+env:
+  NAMESPACE: cisco
+  COLLECTION_NAME: dnac 
+jobs:
+  sanity:
+    name: Sanity (Ⓐ${{ matrix.ansible }})
+    strategy:
+      matrix:
+        ansible:
+          - devel
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+        with:
+          path: cisco-en-programmability/dnacenter-ansible
+      - name: Create directory
+        run: mkdir -p ./ansible_collections/${{env.NAMESPACE}}
+      - name: Move repository
+        run: mv ./cisco-en-programmability/dnacenter-ansible ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install ansible-base (${{ matrix.ansible }})
+        run: pip install https://github.com/ansible/ansible/archive/${{ matrix.ansible }}.tar.gz --disable-pip-version-check
+      - name: Run sanity tests
+        run: ansible-test sanity --docker -v --color
+        working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
