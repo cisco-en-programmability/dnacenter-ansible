@@ -27,8 +27,8 @@ options:
     description: Virtual_account_name path parameter. Name of target virtual account.
     type: str
 requirements:
-- dnacentersdk >= 2.5.5
-- python >= 3.5
+- dnacentersdk >= 2.6.0
+- python >= 3.9
 seealso:
 - name: Cisco DNA Center documentation for Licenses ChangeVirtualAccount2
   description: Complete reference of the ChangeVirtualAccount2 API.

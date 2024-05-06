@@ -298,8 +298,8 @@ options:
                 description: snmp_v3 Credential Id. Use Description or Id.
                 type: str
 requirements:
-- dnacentersdk >= 2.5.5
-- python >= 3.5
+- dnacentersdk >= 2.6.0
+- python >= 3.9
 seealso:
 - name: Cisco DNA Center documentation for Discovery CreateGlobalCredentialsV2
   description: Complete reference of the CreateGlobalCredentialsV2 API.
@@ -892,9 +892,9 @@ class DnacCredential(DnacBase):
 
             _id = response.get("response")[0].get("id")
             self.log("Site ID for the site name {0}: {1}".format(site_name, _id), "INFO")
-        except Exception as exec:
+        except Exception as e:
             self.log("Exception occurred while getting site_id from the site_name: {0}"
-                     .format(exec), "CRITICAL")
+                     .format(e), "CRITICAL")
             return None
 
         return _id
@@ -918,9 +918,9 @@ class DnacCredential(DnacBase):
             global_credentials = global_credentials.get("response")
             self.log("All global device credentials details: {0}"
                      .format(global_credentials), "DEBUG")
-        except Exception as exec:
+        except Exception as e:
             self.log("Exception occurred while getting global device credentials: {0}"
-                     .format(exec), "CRITICAL")
+                     .format(e), "CRITICAL")
             return None
 
         return global_credentials

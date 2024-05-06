@@ -307,8 +307,8 @@ options:
             version_added: 6.12.0
 
 requirements:
-- dnacentersdk >= 2.5.5
-- python >= 3.5
+- dnacentersdk >= 2.6.0
+- python >= 3.9
 seealso:
 - name: Cisco Catalyst Center documentation for Devices AddDevice2
   description: Complete reference of the AddDevice2 API.
@@ -2890,10 +2890,26 @@ class Inventory(DnacBase):
         credential_update = self.config[0].get("credential_update", False)
 
         config['type'] = device_type
+        config['ip_address_list'] = devices_to_add
         if device_type == "FIREPOWER_MANAGEMENT_SYSTEM":
             config['http_port'] = self.config[0].get("http_port", "443")
 
-        config['ip_address_list'] = devices_to_add
+        if self.config[0].get('provision_wired_device'):
+            provision_wired_list = self.config[0]['provision_wired_device']
+            device_not_available = []
+            device_in_ccc = self.device_exists_in_ccc()
+
+            for prov_dict in provision_wired_list:
+                device_ip = prov_dict['device_ip']
+                if device_ip not in device_in_ccc:
+                    device_not_available.append(device_ip)
+            if device_not_available:
+                self.status = "failed"
+                self.msg = """Unable to Provision Wired Device(s) because the device(s) listed: {0} are not present in the
+                            Cisco Catalyst Center.""".format(str(device_not_available))
+                self.result['response'] = self.msg
+                self.log(self.msg, "ERROR")
+                return self
 
         if self.config[0].get('update_mgmt_ipaddresslist'):
             device_ip = self.config[0].get('update_mgmt_ipaddresslist')[0].get('existMgmtIpAddress')

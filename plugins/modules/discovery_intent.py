@@ -329,7 +329,7 @@ options:
         default: False
 requirements:
 - dnacentersdk == 2.6.10
-- python >= 3.5
+- python >= 3.9
 notes:
   - SDK Method used are
     discovery.Discovery.get_all_global_credentials_v2,
