@@ -1813,7 +1813,7 @@ class NetworkSettings(DnacBase):
                     clientAndEndpoint_aaa.get("network")
                 })
             else:
-                self.msg = "missing parameter network in client_and_endpoint_aaa"
+                self.msg = "Failed to process client_and_endpoint_aaa due to missing parameter 'network' in the playbook."
                 self.status = "failed"
                 return self
 
@@ -1823,7 +1823,7 @@ class NetworkSettings(DnacBase):
                     clientAndEndpoint_aaa.get("protocol")
                 })
             else:
-                self.msg = "missing parameter protocol in client_and_endpoint_aaa"
+                self.msg = "Failed to process client_and_endpoint_aaa due to missing parameter 'protocol' in the playbook."
                 self.status = "failed"
                 return self
 
@@ -1833,7 +1833,7 @@ class NetworkSettings(DnacBase):
                     clientAndEndpoint_aaa.get("servers")
                 })
             else:
-                self.msg = "missing parameter servers in client_and_endpoint_aaa"
+                self.msg = "Failed to process client_and_endpoint_aaa due to missing parameter 'servers' in the playbook."
                 self.status = "failed"
                 return self
 
