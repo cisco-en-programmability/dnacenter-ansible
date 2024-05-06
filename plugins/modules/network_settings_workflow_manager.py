@@ -333,7 +333,7 @@ options:
                 type: dict
 requirements:
 - dnacentersdk == 2.4.5
-- python >= 3.9
+- python >= 3.5
 notes:
   - SDK Method used are
     network_settings.NetworkSettings.create_global_pool,
@@ -1329,9 +1329,8 @@ class NetworkSettings(DnacBase):
         network = {}
         site_name = network_details.get("site_name")
         if site_name is None:
-            self.msg = "Mandatory Parameter 'site_name' missing"
-            self.status = "failed"
-            return self
+            site_name = "Global"
+            network_details.update({"site_name": site_name})
 
         site_id = self.get_site_id(site_name)
         if site_id is None:
@@ -1543,16 +1542,18 @@ class NetworkSettings(DnacBase):
             if pool_values.get("ipv4Prefix") is True:
                 if pool_values.get("ipv4Subnet") is None and \
                         pool_values.get("ipv4TotalHost") is None:
-                    self.msg = "missing parameter 'ipv4_subnet' or 'ipv4TotalHost' \
-                        while adding the ipv4 in reserve_pool_details '{0}' element".format(reserve_pool_index + 1)
+                    self.msg = "missing parameter 'ipv4_subnet' or 'ipv4TotalHost' " + \
+                               "while adding the ipv4 in reserve_pool_details '{0}' element" \
+                               .format(reserve_pool_index + 1)
                     self.status = "failed"
                     return self
 
             if pool_values.get("ipv6Prefix") is True:
                 if pool_values.get("ipv6Subnet") is None and \
                         pool_values.get("ipv6TotalHost") is None:
-                    self.msg = "missing parameter 'ipv6_subnet' or 'ipv6TotalHost' \
-                        while adding the ipv6 in reserve_pool_details '{0}' element".format(reserve_pool_index + 1)
+                    self.msg = "missing parameter 'ipv6_subnet' or 'ipv6TotalHost' " + \
+                               "while adding the ipv6 in reserve_pool_details '{0}' element" \
+                               .format(reserve_pool_index + 1)
                     self.status = "failed"
                     return self
 
@@ -1804,8 +1805,7 @@ class NetworkSettings(DnacBase):
                 })
             else:
                 if clientAndEndpoint_aaa.get("servers") == "ISE":
-                    self.msg = "missing parameter ip_address in clientAndEndpoint_aaa, \
-                        server ISE is set"
+                    self.msg = "missing parameter ip_address in clientAndEndpoint_aaa, server ISE is set"
                     self.status = "failed"
                     return self
 
@@ -2310,8 +2310,7 @@ class NetworkSettings(DnacBase):
                      .format(config.get("network_management_details").get("site_name")), "INFO")
             self.result.get("response")[2].get("network").update({"Validation": "Success"})
 
-        self.msg = "Successfully validated the Global Pool, Reserve Pool \
-                    and the Network Functions."
+        self.msg = "Successfully validated the Global Pool, Reserve Pool and the Network Functions."
         self.status = "success"
         return self
 
