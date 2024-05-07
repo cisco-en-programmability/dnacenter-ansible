@@ -7,7 +7,7 @@
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
-__author__ = ['Muthu Rakesh, Madhan Sankaranarayanan']
+__author__ = ["Muthu Rakesh, Madhan Sankaranarayanan"]
 
 DOCUMENTATION = r"""
 ---
@@ -31,7 +31,7 @@ options:
   state:
     description: The state of Cisco Catalyst Center after module completion.
     type: str
-    choices: [ merged, deleted ]
+    choices: [ "merged", "deleted" ]
     default: merged
   config:
     description:
@@ -50,16 +50,16 @@ options:
             - ISE for Cisco ISE servers.
             - AAA for Non-Cisco ISE servers.
             type: str
-            choices: [ AAA, ISE ]
+            choices: [ "AAA", "ISE" ]
             default: AAA
           server_ip_address:
-            description: Ip Address of the Authentication and Policy Server.
+            description: IP Address of the Authentication and Policy Server.
             type: str
             required: True
           shared_secret:
             description:
             - Shared secret between devices and authentication and policy server.
-            - Shared secret key length should be from 4 to 10.
+            - Shared secret must have 4 to 100 characters with no spaces or the following characters - ["<", "?"].
             - Shared secret is a Read-Only parameter.
             type: str
           protocol:
@@ -68,11 +68,12 @@ options:
             - RADIUS provides centralized services (AAA) for users in remote access scenarios.
             - TACACS focuses on access control and administrative authentication for network devices.
             type: str
-            choices: [ TACACS, RADIUS, RADIUS_TACACS]
-            default: TACACS
+            choices: [ "TACACS", "RADIUS", "RADIUS_TACACS" ]
+            default: RADIUS
           encryption_scheme:
             description:
             - Type of encryption scheme for additional security.
+            - If encryption scheme is given, then message authenticator code and encryption keys need to be required.
             - Updation of encryption scheme is not possible.
             - >
               KEYWRAP is used for securely wrapping and unwrapping encryption keys,
@@ -82,16 +83,7 @@ options:
               between RADIUS clients and servers over TLS/SSL. Enhances enhancing the
               confidentiality and integrity of authentication and accounting data exchange.
             type: str
-            choices: [KEYWRAP, RADSEC]
-          message_key:
-            description:
-            - Message key used to encrypt shared secret.
-            - Updation of message key is not possible.
-            - Required when encryption_scheme is provided.
-            - >
-              When ASCII format is selected, Message Authentication Code Key may contain
-              alphanumeric and special characters. Key must be 20 char long.
-            type: str
+            choices: [ "KEYWRAP", "RADSEC" ]
           encryption_key:
             description:
             - Encryption key used to encrypt shared secret.
@@ -100,6 +92,15 @@ options:
             - >
               When ASCII format is selected, Encryption Key may contain
               alphanumeric and special characters. Key must be 16 char long.
+            type: str
+          message_authenticator_code_key:
+            description:
+            - Message key used to encrypt shared secret.
+            - Updation of message key is not possible.
+            - Required when encryption_scheme is provided.
+            - >
+              Message Authentication Code Key may contain alphanumeric and special characters.
+              Key must be 20 char long.
             type: str
           authentication_port:
             description:
@@ -168,6 +169,7 @@ options:
               password:
                 description:
                 - Password of the Cisco ISE server.
+                - Password must have 4 to 127 characters with no spaces or the following characters - "<".
                 - Required for passing the cisco_ise_dtos.
                 type: str
               fqdn:
@@ -192,17 +194,17 @@ options:
                 description: SSH key of the Cisco ISE server.
                 type: str
           external_cisco_ise_ip_addr_dtos:
-            description: External Cisco ISE Ip address data transfer objects for future use.
+            description: External Cisco ISE IP address data transfer objects for future use.
             type: list
             elements: dict
             suboptions:
               external_cisco_ise_ip_addresses:
-                description: External Cisco ISE Ip addresses.
+                description: External Cisco ISE IP addresses.
                 type: list
                 elements: dict
                 suboptions:
                   external_ip_address:
-                    description: External Cisco ISE Ip address.
+                    description: External Cisco ISE IP address.
                     type: str
               ise_type:
                 description: Type of the Authentication and Policy Server.
@@ -213,8 +215,8 @@ options:
             - Serves as a validation of its authenticity and reliability in secure connections.
             type: bool
 requirements:
-- dnacentersdk == 2.7.0
-- python >= 3.5
+- dnacentersdk >= 2.7.0
+- python >= 3.9
 notes:
   - SDK Method used are
     system_settings.SystemSettings.add_authentication_and_policy_server_access_configuration,
@@ -246,19 +248,19 @@ EXAMPLES = r"""
     config_verify: True
     config:
     - authentication_policy_server:
-        server_type: string
-        server_ip_address: string
-        shared_secret: string
-        protocol: string
-        encryption_scheme: string
-        message_key: string
-        encryption_key: string
-        authentication_port: string
-        accounting_port: string
-        port: string
-        retries: string
-        timeout: string
-        role: string
+        server_type: AAA
+        server_ip_address: 10.0.0.1
+        shared_secret: 12345
+        protocol: RADIUS_TACACS
+        encryption_scheme: KEYWRAP
+        encryption_key: 1234567890123456
+        message_authenticator_code_key: asdfghjklasdfghjklas
+        authentication_port: 1812
+        accounting_port: 1813
+        port: 49
+        retries: 3
+        timeout: 4
+        role: secondary
 
 - name: Create an Cisco ISE server.
   cisco.dnac.ise_radius_integration_workflow_manager:
@@ -275,28 +277,28 @@ EXAMPLES = r"""
     config_verify: True
     config:
     - authentication_policy_server:
-        server_type: string
-        server_ip_address: string
-        shared_secret: string
-        protocol: string
-        encryption_scheme: string
-        message_key: string
-        encryption_key: string
-        authentication_port: string
-        accounting_port: string
-        port: string
-        retries: string
-        timeout: string
-        role: string
+        server_type: ISE
+        server_ip_address: 10.0.0.2
+        shared_secret: 12345
+        protocol: RADIUS_TACACS
+        encryption_scheme: KEYWRAP
+        encryption_key: 1234567890123456
+        message_authenticator_code_key: asdfghjklasdfghjklas
+        authentication_port: 1812
+        accounting_port: 1813
+        port: 49
+        retries: 3
+        timeout: 4
+        role: primary
         use_dnac_cert_for_pxgrid: False
         pxgrid_enabled: True
         cisco_ise_dtos:
-        - user_name: string
-          password: string
-          fqdn: string
-          ip_address: string
-          subscriber_name: string
-          description: string
+        - user_name: Cisco ISE
+          password: 12345
+          fqdn: abs.cisco.com
+          ip_address: 10.0.0.2
+          subscriber_name: px-1234
+          description: Cisco ISE
 
 - name: Update an AAA server.
   cisco.dnac.ise_radius_integration_workflow_manager:
@@ -313,15 +315,15 @@ EXAMPLES = r"""
     config_verify: True
     config:
     - authentication_policy_server:
-        server_type: string
-        server_ip_address: string
-        protocol: string
-        authentication_port: string
-        accounting_port: string
-        port: string
-        retries: string
-        timeout: string
-        role: string
+        server_type: AAA
+        server_ip_address: 10.0.0.1
+        protocol: RADIUS_TACACS
+        authentication_port: 1812
+        accounting_port: 1813
+        port: 49
+        retries: 3
+        timeout: 5
+        role: secondary
 
 - name: Update an Cisco ISE server.
   cisco.dnac.ise_radius_integration_workflow_manager:
@@ -338,24 +340,24 @@ EXAMPLES = r"""
     config_verify: True
     config:
     - authentication_policy_server:
-        server_type: string
-        server_ip_address: string
-        protocol: string
-        authentication_port: string
-        accounting_port: string
-        port: string
-        retries: string
-        timeout: string
-        role: string
+        server_type: ISE
+        server_ip_address: 10.0.0.2
+        protocol: RADIUS_TACACS
+        authentication_port: 1812
+        accounting_port: 1813
+        port: 49
+        retries: 3
+        timeout: 5
+        role: primary
         use_dnac_cert_for_pxgrid: False
         pxgrid_enabled: True
         cisco_ise_dtos:
-        - user_name: string
-          password: string
-          fqdn: string
-          ip_address: string
-          subscriber_name: string
-          description: string
+        - user_name: Cisco ISE
+          password: 12345
+          fqdn: abs.cisco.com
+          ip_address: 10.0.0.2
+          subscriber_name: px-1234
+          description: Cisco ISE
 
 - name: Delete an Authentication and Policy server.
   cisco.dnac.ise_radius_integration_workflow_manager:
@@ -372,7 +374,7 @@ EXAMPLES = r"""
     config_verify: True
     config:
     - authentication_policy_server:
-        server_ip_address: string
+        server_ip_address: 10.0.0.1
 """
 
 RETURN = r"""
@@ -468,7 +470,7 @@ class IseRadiusIntegration(DnacBase):
                 "shared_secret": {"type": 'string'},
                 "protocol": {"type": 'string', "choices": ["TACACS", "RADIUS", "RADIUS_TACACS"]},
                 "encryption_scheme": {"type": 'string'},
-                "message_key": {"type": 'string'},
+                "message_authenticator_code_key": {"type": 'string'},
                 "encryption_key": {"type": 'string'},
                 "authentication_port": {"type": 'string'},
                 "accounting_port": {"type": 'string'},
@@ -666,6 +668,7 @@ class IseRadiusIntegration(DnacBase):
         if not auth_server_details:
             self.log("Global pool {0} does not exist".format(ipAddress), "INFO")
             return AuthServer
+
         AuthServer.update({"exists": True})
         AuthServer.update({"id": auth_server_details.get("instanceUuid")})
         AuthServer["details"] = self.get_auth_server_params(auth_server_details)
@@ -699,13 +702,13 @@ class IseRadiusIntegration(DnacBase):
             self.status = "failed"
             return self
 
-        ipAddress = authentication_policy_server.get("server_ip_address")
-        if ipAddress is None:
+        ip_address = authentication_policy_server.get("server_ip_address")
+        if ip_address is None:
             self.msg = "Mandatory Parameter server_ip_address required"
             self.status = "failed"
             return self
 
-        AuthServer = self.auth_server_exists(ipAddress)
+        AuthServer = self.auth_server_exists(ip_address)
         self.log("Authentication and Policy Server exists: {0}"
                  .format(AuthServer.get("exists")), "DEBUG")
         self.log("Authentication and Policy Server details: {0}"
@@ -756,7 +759,6 @@ class IseRadiusIntegration(DnacBase):
 
         auth_server = {}
         trusted_server = False
-        auth_server_exists = self.have.get("authenticationPolicyServer").get("exists")
         server_type = auth_policy_server.get("server_type")
         if server_type not in ["ISE", "AAA", None]:
             self.msg = "server_type should either be ISE or AAA but not {0}.".format(server_type)
@@ -770,14 +772,20 @@ class IseRadiusIntegration(DnacBase):
 
         auth_server.update({"ipAddress": auth_policy_server.get("server_ip_address")})
 
+        auth_server_exists = self.have.get("authenticationPolicyServer").get("exists")
         shared_secret = auth_policy_server.get("shared_secret")
         if not (shared_secret or auth_server_exists):
             self.msg = "shared_secret is mandatory parameter"
             self.status = "failed"
             return self
 
-        if not (4 <= len(shared_secret) <= 10) or shared_secret.isspace():
-            self.msg = "shared_secret should character should be between 4 to 100."
+        if not (4 <= len(shared_secret) <= 100) or shared_secret.isspace():
+            self.msg = "The 'shared_secret' should contain between 4 and 100 characters."
+            self.status = "failed"
+            return self
+
+        if "?" in shared_secret or "<" in shared_secret:
+            self.msg = "The 'shared_secret' should not contain '?' or '<' characters."
             self.status = "failed"
             return self
 
@@ -806,14 +814,14 @@ class IseRadiusIntegration(DnacBase):
             auth_server.update({"encryptionScheme": encryption_scheme})
 
         if encryption_scheme == "KEYWRAP":
-            message_key = str(auth_policy_server.get("message_key"))
+            message_key = str(auth_policy_server.get("message_authenticator_code_key"))
             if not message_key:
-                self.msg = "message_key should not be empty if encryption_scheme is 'KEYWRAP'."
+                self.msg = "The 'message_authenticator_code_key' should not be empty if the encryption_scheme is 'KEYWRAP'."
                 self.status = "failed"
                 return self
 
             if len(message_key) != 20:
-                self.msg = "message_key should be exactly 20 character."
+                self.msg = "The 'message_authenticator_code_key' should be exactly 20 characters."
                 self.status = "failed"
                 return self
 
@@ -826,7 +834,7 @@ class IseRadiusIntegration(DnacBase):
                 return self
 
             if len(encryption_key) != 16:
-                self.msg = "encryption_key should be exactly 16 characters."
+                self.msg = "The 'encryption_key' must be 16 characters long. It may contain alphanumeric and special characters."
                 self.status = "failed"
                 return self
 
@@ -899,18 +907,6 @@ class IseRadiusIntegration(DnacBase):
                 auth_server.update({"role": "secondary"})
 
             if auth_server.get("isIseEnabled"):
-                pxgrid_enabled = auth_policy_server.get("pxgrid_enabled")
-                if pxgrid_enabled:
-                    auth_server.update({"pxgridEnabled": pxgrid_enabled})
-                else:
-                    auth_server.update({"pxgridEnabled": True})
-
-                use_dnac_cert_for_pxgrid = auth_policy_server.get("use_dnac_cert_for_pxgrid")
-                if use_dnac_cert_for_pxgrid:
-                    auth_server.update({"useDnacCertForPxgrid": use_dnac_cert_for_pxgrid})
-                else:
-                    auth_server.update({"useDnacCertForPxgrid": False})
-
                 cisco_ise_dtos = auth_policy_server.get("cisco_ise_dtos")
                 if not cisco_ise_dtos:
                     self.msg = "Mandatory parameter cisco_ise_dtos " + \
@@ -988,6 +984,18 @@ class IseRadiusIntegration(DnacBase):
                         })
 
                     position_ise_creds += 1
+
+                pxgrid_enabled = auth_policy_server.get("pxgrid_enabled")
+                if pxgrid_enabled:
+                    auth_server.update({"pxgridEnabled": pxgrid_enabled})
+                else:
+                    auth_server.update({"pxgridEnabled": True})
+
+                use_dnac_cert_for_pxgrid = auth_policy_server.get("use_dnac_cert_for_pxgrid")
+                if use_dnac_cert_for_pxgrid:
+                    auth_server.update({"useDnacCertForPxgrid": use_dnac_cert_for_pxgrid})
+                else:
+                    auth_server.update({"useDnacCertForPxgrid": False})
 
                 external_cisco_ise_ip_addr_dtos = auth_policy_server \
                     .get("external_cisco_ise_ip_addr_dtos")
