@@ -1062,7 +1062,7 @@ options:
                 type: str
 
 requirements:
-- dnacentersdk == 2.4.5
+- dnacentersdk >= 2.4.5
 - python >= 3.9
 notes:
   - SDK Method used are
