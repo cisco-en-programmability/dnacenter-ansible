@@ -332,7 +332,7 @@ options:
                     type: list
                 type: dict
 requirements:
-- dnacentersdk == 2.4.5
+- dnacentersdk >= 2.4.5
 - python >= 3.9
 notes:
   - SDK Method used are
@@ -1521,8 +1521,6 @@ class NetworkSettings(DnacBase):
                 "ipv4DhcpServers": item.get("ipv4_dhcp_servers"),
                 "ipv4DnsServers": item.get("ipv4_dns_servers"),
                 "ipv4Subnet": item.get("ipv4_subnet"),
-                "ipv6GlobalPool": self.get_global_pool_cidr(item.get("ipv6_global_pool"),
-                                                            item.get("ipv6_global_pool_name")),
                 "ipv6Prefix": item.get("ipv6_prefix"),
                 "ipv6PrefixLength": item.get("ipv6_prefix_length"),
                 "ipv6GateWay": item.get("ipv6_gateway"),
@@ -1533,6 +1531,11 @@ class NetworkSettings(DnacBase):
                 "ipv6TotalHost": item.get("ipv6_total_host")
             }
             # Check for missing mandatory parameters in the playbook
+            if pool_values.get("ipv6AddressSpace") is True:
+                pool_values.update({
+                    "ipv6GlobalPool": self.get_global_pool_cidr(item.get("ipv6_global_pool"),
+                                                                item.get("ipv6_global_pool_name"))})
+
             if not pool_values.get("name"):
                 self.msg = "Missing mandatory parameter 'name' in reserve_pool_details '{0}' element" \
                            .format(reserve_pool_index + 1)
@@ -1591,8 +1594,7 @@ class NetworkSettings(DnacBase):
                     del pool_values['ipv6Prefix']
 
                 if not pool_values.get("ipv6AddressSpace"):
-                    keys_to_check = ['ipv6GlobalPool', 'ipv6PrefixLength',
-                                     'ipv6GateWay', 'ipv6DhcpServers',
+                    keys_to_check = ['ipv6PrefixLength', 'ipv6GateWay', 'ipv6DhcpServers',
                                      'ipv6DnsServers', 'ipv6TotalHost']
                     for key in keys_to_check:
                         if pool_values.get(key) is None:
