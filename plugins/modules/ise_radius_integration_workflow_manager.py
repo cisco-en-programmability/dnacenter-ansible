@@ -99,8 +99,8 @@ options:
             - Updation of message key is not possible.
             - Required when encryption_scheme is provided.
             - >
-              When ASCII format is selected, Message Authentication Code Key may contain
-              alphanumeric and special characters. Key must be 20 char long.
+              Message Authentication Code Key may contain alphanumeric and special characters.
+              Key must be 20 char long.
             type: str
           authentication_port:
             description:
@@ -780,12 +780,12 @@ class IseRadiusIntegration(DnacBase):
             return self
 
         if not (4 <= len(shared_secret) <= 100) or shared_secret.isspace():
-            self.msg = "shared_secret should character should be between 4 to 100."
+            self.msg = "The 'shared_secret' should contain between 4 and 100 characters."
             self.status = "failed"
             return self
 
         if "?" in shared_secret or "<" in shared_secret:
-            self.msg = "shared_secret should character should not contain '?' or '<'."
+            self.msg = "The 'shared_secret' should not contain '?' or '<' characters."
             self.status = "failed"
             return self
 
@@ -816,12 +816,12 @@ class IseRadiusIntegration(DnacBase):
         if encryption_scheme == "KEYWRAP":
             message_key = str(auth_policy_server.get("message_authenticator_code_key"))
             if not message_key:
-                self.msg = "message_authenticator_code_key should not be empty if encryption_scheme is 'KEYWRAP'."
+                self.msg = "The 'message_authenticator_code_key' should not be empty if the encryption_scheme is 'KEYWRAP'."
                 self.status = "failed"
                 return self
 
             if len(message_key) != 20:
-                self.msg = "message_authenticator_code_key should be exactly 20 character."
+                self.msg = "The 'message_authenticator_code_key' should be exactly 20 characters."
                 self.status = "failed"
                 return self
 
@@ -834,7 +834,7 @@ class IseRadiusIntegration(DnacBase):
                 return self
 
             if len(encryption_key) != 16:
-                self.msg = "encryption_key must be 16 char long. encryption_key may contain alphanumeric and special characters."
+                self.msg = "The 'encryption_key' must be 16 characters long. It may contain alphanumeric and special characters."
                 self.status = "failed"
                 return self
 
