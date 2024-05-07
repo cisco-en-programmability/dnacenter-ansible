@@ -307,9 +307,6 @@ options:
               product_type:
                 description: Describes the exact type of the device.
                 type: str
-          failure_policy:
-            description: Define failure policy if template provisioning fails.
-            type: str
           id:
             description: A unique identifier, represented as a UUID.
             type: str
@@ -838,9 +835,6 @@ options:
                       product_type:
                         description: Describes the exact type of the device.
                         type: str
-                  failure_policy:
-                    description: Define failure policy if template provisioning fails.
-                    type: str
                   id:
                     description: A unique identifier, represented as a UUID.
                     type: str
@@ -1109,7 +1103,6 @@ EXAMPLES = r"""
         - product_family: string
           product_series: string
           product_type: string
-        failure_policy: string
         id: string
         language: string
         name: string
@@ -1346,7 +1339,6 @@ class Template(DnacBase):
                     'product_series': {'type': 'str'},
                     'product_type': {'type': 'str'},
                 },
-                'failure_policy': {'type': 'str'},
                 'id': {'type': 'str'},
                 'language': {'type': 'str'},
                 'name': {'type': 'str'},
@@ -1397,7 +1389,6 @@ class Template(DnacBase):
                             'product_series': {'type': 'str'},
                             'product_type': {'type': 'str'},
                         },
-                        'failure_policy': {'type': 'str'},
                         'id': {'type': 'str'},
                         'language': {'type': 'str'},
                         'name': {'type': 'str'},
@@ -1815,7 +1806,6 @@ class Template(DnacBase):
             "description": params.get("template_description"),
             "deviceTypes":
                 self.get_device_types(params.get("device_types")),
-            "failurePolicy": params.get("failure_policy"),
             "id": params.get("id"),
             "rollbackTemplateContent": params.get("rollback_template_content"),
             "rollbackTemplateParams":
@@ -2192,7 +2182,6 @@ class Template(DnacBase):
             ("customParamsOrder", "customParamsOrder", False),
             ("description", "description", ""),
             ("deviceTypes", "deviceTypes", []),
-            ("failurePolicy", "failurePolicy", ""),
             ("id", "id", ""),
             ("language", "language", "VELOCITY"),
             ("name", "name", ""),
