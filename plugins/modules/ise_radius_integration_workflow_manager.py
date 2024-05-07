@@ -215,7 +215,7 @@ options:
             - Serves as a validation of its authenticity and reliability in secure connections.
             type: bool
 requirements:
-- dnacentersdk == 2.6.0
+- dnacentersdk >= 2.7.0
 - python >= 3.9
 notes:
   - SDK Method used are
