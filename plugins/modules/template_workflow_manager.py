@@ -2745,8 +2745,8 @@ class Template(DnacBase):
                 return self
 
             self.get_have_template(config, is_template_available)
-            self.log("Current State (have): {0}".format(self.want.get("template_params")), "INFO")
-            self.log("Desired State (want): {0}".format(self.have_template.get("template")), "INFO")
+            self.log("Desired State (have): {0}".format(self.want.get("template_params")), "INFO")
+            self.log("Current State (want): {0}".format(self.have_template.get("template")), "INFO")
             if not self.have_template.get("template"):
                 self.msg = "No template created with the name '{0}'".format(self.want.get("template_params").get("name"))
                 self.status = "failed"
@@ -2754,11 +2754,29 @@ class Template(DnacBase):
 
             template_params = ["language", "name", "projectName", "softwareType",
                                "softwareVariant", "templateContent"]
+            error_msg = "Configuration Template config is not applied to the Cisco Catalyst Center."
+            have_template = self.have_template.get("template")
+            want_template = self.want.get("template_params")
             for item in template_params:
-                if self.have_template.get("template").get(item) != self.want.get("template_params").get(item):
-                    self.msg = "Configuration Template config is not applied to the Cisco Catalyst Center."
+                if have_template.get(item) != want_template.get(item):
+                    self.msg = error_msg
                     self.status = "failed"
                     return self
+
+            want_template_containing_template = want_template.get("containingTemplates")
+            for item in want_template_containing_template:
+                name = item.get("name")
+                response = get_dict_result(have_template.get("containingTemplates"), "name", name)
+                if response is None:
+                    self.msg = error_msg
+                    self.status = "failed"
+                    return self
+                for value in item:
+                    if item.get(value) != response.get(value):
+                        self.msg = error_msg
+                        self.failed = "failed"
+                        return self
+
             self.log("Successfully validated the Template in the Catalyst Center.", "INFO")
             self.result['response'][0].get("configurationTemplate").get("response").update({"Validation": "Success"})
 
