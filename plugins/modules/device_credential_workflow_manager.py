@@ -1954,7 +1954,7 @@ class DeviceCredential(DnacBase):
         }
         site_name = AssignCredentials.get("site_name")
         if not site_name:
-            self.msg = "The 'site_name' is required for 'assign_credentials_to_site'"
+            self.msg = "The 'site_name' is required parameter for 'assign_credentials_to_site'"
             self.status = "failed"
             return self
 
@@ -1962,7 +1962,7 @@ class DeviceCredential(DnacBase):
         for site_name in site_name:
             siteId = self.get_site_id(site_name)
             if not site_id:
-                self.msg = "site_name '{0}' is invalid in 'assign_credentials_to_site'".format(site_name)
+                self.msg = "The site_name '{0}' is invalid in 'assign_credentials_to_site'".format(site_name)
                 self.status = "failed"
                 return self
             site_id.append(siteId)
