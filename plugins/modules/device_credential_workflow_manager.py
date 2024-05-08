@@ -1954,17 +1954,19 @@ class DeviceCredential(DnacBase):
         }
         site_name = AssignCredentials.get("site_name")
         if not site_name:
-            self.msg = "site_name is required for AssignCredentials"
+            self.msg = "The 'site_name' is required for 'assign_credentials_to_site'"
             self.status = "failed"
             return self
+
         site_id = []
         for site_name in site_name:
             siteId = self.get_site_id(site_name)
-            if not site_name:
-                self.msg = "site_name is invalid in AssignCredentials"
+            if not site_id:
+                self.msg = "site_name '{0}' is invalid in 'assign_credentials_to_site'".format(site_name)
                 self.status = "failed"
                 return self
             site_id.append(siteId)
+
         want.update({"site_id": site_id})
         global_credentials = self.get_global_credentials_params()
         cli_credential = AssignCredentials.get("cli_credential")
@@ -2471,7 +2473,6 @@ class DeviceCredential(DnacBase):
             self
         """
 
-        self.log(str("Entered the verify function."), "DEBUG")
         self.get_have(config)
         self.get_want(config)
         self.log("Current State (have): {0}".format(self.have), "INFO")
