@@ -15,7 +15,7 @@ module: device_configs_backup_workflow_manager
 short_description: Resource module for device_configs_backup functions
 description:
 - Manage operation related to taking the backup of running config, static config and vlan.dat.bat
-version_added: '6.13.0'
+version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
 author: Abinash Mishra (@abimishr)
