@@ -1782,6 +1782,8 @@ class Template(DnacBase):
             if version is not None:
                 containingTemplates[i].update({"version": version})
 
+            i += 1
+
         return containingTemplates
 
     def get_template_params(self, params):
