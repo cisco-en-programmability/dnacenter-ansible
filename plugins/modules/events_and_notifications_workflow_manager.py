@@ -22,7 +22,7 @@ description:
 - Configuring/Updating the ITSM Integration Settings in Cisco Catalyst Center.
 - Deletes the ITSM Integration Settings from Cisco Catalyst Center.
 - Create/Update Notification using the above destination in Cisco Catalyst Center.
-
+version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
 author: Abhishek Maheshwari (@abmahesh)
