@@ -2758,8 +2758,8 @@ class Template(DnacBase):
             want_template = self.want.get("template_params")
             for item in template_params:
                 if have_template.get(item) != want_template.get(item):
-                    self.msg = "Configuration Template config '{0}' is not applied to the Cisco Catalyst Center." \
-                               .format(item)
+                    self.msg = "Configuration Template config with template_name {0}'s '{1}' is not applied to the Cisco Catalyst Center." \
+                               .format(want_template.get("name"), item)
                     self.status = "failed"
                     return self
 
