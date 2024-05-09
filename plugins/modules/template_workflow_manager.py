@@ -1755,12 +1755,12 @@ class Template(DnacBase):
             containingTemplates[i].update({"language": language})
 
             project_name = item.get("project_name")
-            if project_name is not None:
-                containingTemplates[i].update({"projectName": project_name})
-            else:
+            if project_name is None:
                 self.msg = "project_name is mandatory under containing templates"
                 self.status = "failed"
                 return self.check_return_status()
+
+            containingTemplates[i].update({"projectName": project_name})
 
             rollback_template_params = item.get("rollback_template_params")
             if rollback_template_params is not None:
@@ -1781,6 +1781,8 @@ class Template(DnacBase):
             version = item.get("version")
             if version is not None:
                 containingTemplates[i].update({"version": version})
+
+            i += 1
 
         return containingTemplates
 
