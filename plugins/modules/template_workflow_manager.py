@@ -2754,12 +2754,12 @@ class Template(DnacBase):
 
             template_params = ["language", "name", "projectName", "softwareType",
                                "softwareVariant", "templateContent"]
-            error_msg = "Configuration Template config is not applied to the Cisco Catalyst Center."
             have_template = self.have_template.get("template")
             want_template = self.want.get("template_params")
             for item in template_params:
                 if have_template.get(item) != want_template.get(item):
-                    self.msg = error_msg
+                    self.msg = "Configuration Template config '{0}' is not applied to the Cisco Catalyst Center." \
+                               .format(item)
                     self.status = "failed"
                     return self
 
@@ -2768,13 +2768,15 @@ class Template(DnacBase):
                 name = item.get("name")
                 response = get_dict_result(have_template.get("containingTemplates"), "name", name)
                 if response is None:
-                    self.msg = error_msg
+                    self.msg = "Configuration Template config with template_name '{0}' under ".format(name) + \
+                               "'containing_templates' is not available in the Cisco Catalyst Center."
                     self.status = "failed"
                     return self
                 for value in item:
                     if item.get(value) != response.get(value):
-                        self.msg = error_msg
-                        self.failed = "failed"
+                        self.msg = "Configuration Template config with template_name " + \
+                                   "{0}'s '{1}' is not applied to the Cisco Catalyst Center.".format(name, value)
+                        self.status = "failed"
                         return self
 
             self.log("Successfully validated the Template in the Catalyst Center.", "INFO")
