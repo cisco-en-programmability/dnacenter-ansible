@@ -880,3 +880,4 @@ releases:
           - site_workflow_manager - Updated changes in Site updation.
           - network_settings_workflow_manager - Added attributes 'ipv4_global_pool_name'.
           - template_workflow_manager - Removed attributes 'create_time', 'failure_policy', 'last_update_time', 'latest_version_time', 'parent_template_id', 'project_id', 'validation_errors'.
+          - template_workflow_manager - Removed attributes 'rollback_template_params', 'rollback_template_content'.
