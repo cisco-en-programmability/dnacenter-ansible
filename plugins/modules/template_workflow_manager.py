@@ -100,90 +100,6 @@ options:
               project_description:
                 description: Narrative that elaborates on the purpose and scope of the project.
                 type: str
-              rollback_template_params:
-                description: A list of dictionaries defining parameters necessary for the rollback functionality of a template.
-                type: list
-                elements: dict
-                suboptions:
-                  binding:
-                    description: Associates the parameter with its source.
-                    type: str
-                  custom_order:
-                    description: Specifies a user-defined ordering for the parameter.
-                    type: int
-                  data_type:
-                    description: Identifies the data type of the parameter (e.g., string, integer, boolean).
-                    type: str
-                  default_value:
-                    description: Establishes a default value for the parameter, used if no other value is provided.
-                    type: str
-                  description:
-                    description: Provides a descriptive explanation of the parameter's purpose.
-                    type: str
-                  display_name:
-                    description: The name of the parameter as displayed to users.
-                    type: str
-                  group:
-                    description: Categorizes the parameter into a named group for organizational purposes.
-                    type: str
-                  id:
-                    description: A unique identifier for the parameter, formatted as a UUID.
-                    type: str
-                  instruction_text:
-                    description: Gives guidance or instructions regarding the parameter's use.
-                    type: str
-                  key:
-                    description: A unique key that identifies the parameter within the template.
-                    type: str
-                  not_param:
-                    description: Indicates whether the entry is not to be treated as a parameter.
-                    type: bool
-                  order:
-                    description: Determines the sequence in which the parameter appears relative to others.
-                    type: int
-                  param_array:
-                    description: Specifies if the parameter should be treated as an array.
-                    type: bool
-                  parameter_name:
-                    description: The name of the parameter.
-                    type: str
-                  provider:
-                    description: Denotes the provider associated with the parameter.
-                    type: str
-                  range:
-                    description: Defines the permissible range for the parameter's value.
-                    type: list
-                    elements: dict
-                    suboptions:
-                      id:
-                        description: Unique identifier for the range, represented as a UUID.
-                        type: str
-                      max_value:
-                        description: Specifies the maximum allowable value for the parameter.
-                        type: int
-                      min_value:
-                        description: Specifies the minimum allowable value for the parameter.
-                        type: int
-                  required:
-                    description: Dictates whether the parameter is mandatory for template operations.
-                    type: bool
-                  selection:
-                    description: Contains options for parameter selection when a choice is available.
-                    suboptions:
-                      default_selected_values:
-                        description: Lists the default values that are preselected.
-                        elements: str
-                        type: list
-                      id:
-                        description: A unique identifier for the selection entity, represented as a UUID.
-                        type: str
-                      selection_type:
-                        description: Specifies the type of selection, such as 'SINGLE_SELECT' or 'MULTI_SELECT'.
-                        type: str
-                      selection_values:
-                        description: A dictionary of available values for selection.
-                        type: dict
-                    type: dict
               tags:
                 description: A list of dictionaries representing tags associated with the Configuration Template during creation.
                 suboptions:
@@ -325,93 +241,6 @@ options:
           project_description:
             description: Narrative that elaborates on the purpose and scope of the project.
             type: str
-          rollback_template_content:
-            description: Refers to the process of reverting the content of a template back to a previous version or state.
-            type: str
-          rollback_template_params:
-            description: A list of dictionaries defining parameters necessary for the rollback functionality of a template.
-            suboptions:
-              binding:
-                description: Associates the parameter with its source.
-                type: str
-              custom_order:
-                description: Specifies a user-defined ordering for the parameter.
-                type: int
-              data_type:
-                description: Identifies the data type of the parameter (e.g., string, integer, boolean).
-                type: str
-              default_value:
-                description: Establishes a default value for the parameter, used if no other value is provided.
-                type: str
-              description:
-                description: Provides a descriptive explanation of the parameter's purpose.
-                type: str
-              display_name:
-                description: The name of the parameter as displayed to users.
-                type: str
-              group:
-                description: Categorizes the parameter into a named group for organizational purposes.
-                type: str
-              id:
-                description: A unique identifier for the parameter, formatted as a UUID.
-                type: str
-              instruction_text:
-                description: Gives guidance or instructions regarding the parameter's use.
-                type: str
-              key:
-                description: A unique key that identifies the parameter within the template.
-                type: str
-              not_param:
-                description: Indicates whether the entry is not to be treated as a parameter.
-                type: bool
-              order:
-                description: Determines the sequence in which the parameter appears relative to others.
-                type: int
-              param_array:
-                description: Specifies if the parameter should be treated as an array.
-                type: bool
-              parameter_name:
-                description: The name of the parameter.
-                type: str
-              provider:
-                description: Denotes the provider associated with the parameter.
-                type: str
-              range:
-                description: Defines the permissible range for the parameter's value.
-                suboptions:
-                  id:
-                    description: Unique identifier for the range, represented as a UUID.
-                    type: str
-                  max_value:
-                    description: Specifies the maximum allowable value for the parameter.
-                    type: int
-                  min_value:
-                    description: Specifies the minimum allowable value for the parameter.
-                    type: int
-                type: list
-                elements: dict
-              required:
-                description: Dictates whether the parameter is mandatory for template operations.
-                type: bool
-              selection:
-                description: Contains options for parameter selection when a choice is available.
-                suboptions:
-                  default_selected_values:
-                    description: Lists the default values that are preselected.
-                    elements: str
-                    type: list
-                  id:
-                    description: A unique identifier for the selection entity, represented as a UUID.
-                    type: str
-                  selection_type:
-                    description: Specifies the type of selection, such as 'SINGLE_SELECT' or 'MULTI_SELECT'.
-                    type: str
-                  selection_values:
-                    description: A dictionary of available values for selection.
-                    type: dict
-                type: dict
-            type: list
-            elements: dict
           software_type:
             description: Applicable device software type. This field is mandatory to create a new template.
             type: str
@@ -628,90 +457,6 @@ options:
                       project_name:
                         description: Title of the project within which the template is categorized and managed.
                         type: str
-                      rollback_template_params:
-                        description: A list of dictionaries defining parameters necessary for the rollback functionality of a template.
-                        type: list
-                        elements: dict
-                        suboptions:
-                          binding:
-                            description: Associates the parameter with its source.
-                            type: str
-                          custom_order:
-                            description: Specifies a user-defined ordering for the parameter.
-                            type: int
-                          data_type:
-                            description: Identifies the data type of the parameter (e.g., string, integer, boolean).
-                            type: str
-                          default_value:
-                            description: Establishes a default value for the parameter, used if no other value is provided.
-                            type: str
-                          description:
-                            description: Provides a descriptive explanation of the parameter's purpose.
-                            type: str
-                          display_name:
-                            description: The name of the parameter as displayed to users.
-                            type: str
-                          group:
-                            description: Categorizes the parameter into a named group for organizational purposes.
-                            type: str
-                          id:
-                            description: A unique identifier for the parameter, formatted as a UUID.
-                            type: str
-                          instruction_text:
-                            description: Gives guidance or instructions regarding the parameter's use.
-                            type: str
-                          key:
-                            description: A unique key that identifies the parameter within the template.
-                            type: str
-                          not_param:
-                            description: Indicates whether the entry is not to be treated as a parameter.
-                            type: bool
-                          order:
-                            description: Determines the sequence in which the parameter appears relative to others.
-                            type: int
-                          param_array:
-                            description: Specifies if the parameter should be treated as an array.
-                            type: bool
-                          parameter_name:
-                            description: The name of the parameter.
-                            type: str
-                          provider:
-                            description: Denotes the provider associated with the parameter.
-                            type: str
-                          range:
-                            description: Defines the permissible range for the parameter's value.
-                            type: list
-                            elements: dict
-                            suboptions:
-                              id:
-                                description: Unique identifier for the range, represented as a UUID.
-                                type: str
-                              max_value:
-                                description: Specifies the maximum allowable value for the parameter.
-                                type: int
-                              min_value:
-                                description: Specifies the minimum allowable value for the parameter.
-                                type: int
-                          required:
-                            description: Dictates whether the parameter is mandatory for template operations.
-                            type: bool
-                          selection:
-                            description: Contains options for parameter selection when a choice is available.
-                            suboptions:
-                              default_selected_values:
-                                description: Lists the default values that are preselected.
-                                elements: str
-                                type: list
-                              id:
-                                description: A unique identifier for the selection entity, represented as a UUID.
-                                type: str
-                              selection_type:
-                                description: Specifies the type of selection, such as 'SINGLE_SELECT' or 'MULTI_SELECT'.
-                                type: str
-                              selection_values:
-                                description: A dictionary of available values for selection.
-                                type: dict
-                            type: dict
                       tags:
                         description: A list of dictionaries representing tags associated with the Configuration Template during creation.
                         suboptions:
@@ -853,93 +598,6 @@ options:
                   project_description:
                     description: Narrative that elaborates on the purpose and scope of the project.
                     type: str
-                  rollback_template_content:
-                    description: Refers to the process of reverting the content of a template back to a previous version or state.
-                    type: str
-                  rollback_template_params:
-                    description: A list of dictionaries defining parameters necessary for the rollback functionality of a template.
-                    suboptions:
-                      binding:
-                        description: Associates the parameter with its source.
-                        type: str
-                      custom_order:
-                        description: Specifies a user-defined ordering for the parameter.
-                        type: int
-                      data_type:
-                        description: Identifies the data type of the parameter (e.g., string, integer, boolean).
-                        type: str
-                      default_value:
-                        description: Establishes a default value for the parameter, used if no other value is provided.
-                        type: str
-                      description:
-                        description: Provides a descriptive explanation of the parameter's purpose.
-                        type: str
-                      display_name:
-                        description: The name of the parameter as displayed to users.
-                        type: str
-                      group:
-                        description: Categorizes the parameter into a named group for organizational purposes.
-                        type: str
-                      id:
-                        description: A unique identifier for the parameter, formatted as a UUID.
-                        type: str
-                      instruction_text:
-                        description: Gives guidance or instructions regarding the parameter's use.
-                        type: str
-                      key:
-                        description: A unique key that identifies the parameter within the template.
-                        type: str
-                      not_param:
-                        description: Indicates whether the entry is not to be treated as a parameter.
-                        type: bool
-                      order:
-                        description: Determines the sequence in which the parameter appears relative to others.
-                        type: int
-                      param_array:
-                        description: Specifies if the parameter should be treated as an array.
-                        type: bool
-                      parameter_name:
-                        description: The name of the parameter.
-                        type: str
-                      provider:
-                        description: Denotes the provider associated with the parameter.
-                        type: str
-                      range:
-                        description: Defines the permissible range for the parameter's value.
-                        suboptions:
-                          id:
-                            description: Unique identifier for the range, represented as a UUID.
-                            type: str
-                          max_value:
-                            description: Specifies the maximum allowable value for the parameter.
-                            type: int
-                          min_value:
-                            description: Specifies the minimum allowable value for the parameter.
-                            type: int
-                        type: list
-                        elements: dict
-                      required:
-                        description: Dictates whether the parameter is mandatory for template operations.
-                        type: bool
-                      selection:
-                        description: Contains options for parameter selection when a choice is available.
-                        suboptions:
-                          default_selected_values:
-                            description: Lists the default values that are preselected.
-                            elements: str
-                            type: list
-                          id:
-                            description: A unique identifier for the selection entity, represented as a UUID.
-                            type: str
-                          selection_type:
-                            description: Specifies the type of selection, such as 'SINGLE_SELECT' or 'MULTI_SELECT'.
-                            type: str
-                          selection_values:
-                            description: A dictionary of available values for selection.
-                            type: dict
-                        type: dict
-                    type: list
-                    elements: dict
                   software_type:
                     description: Applicable device software type. This field is mandatory to create a new template.
                     type: str
@@ -1108,7 +766,6 @@ EXAMPLES = r"""
         name: string
         project_name: string
         project_description: string
-        rollback_template_content: string
         software_type: string
         software_variant: string
         software_version: string
@@ -1344,8 +1001,6 @@ class Template(DnacBase):
                 'name': {'type': 'str'},
                 'project_name': {'type': 'str'},
                 'project_description': {'type': 'str'},
-                'rollback_template_content': {'type': 'str'},
-                'rollback_template_params': {'type': 'list'},
                 'software_type': {'type': 'str'},
                 'software_variant': {'type': 'str'},
                 'software_version': {'type': 'str'},
@@ -1394,8 +1049,6 @@ class Template(DnacBase):
                         'name': {'type': 'str'},
                         'project_name': {'type': 'str'},
                         'project_description': {'type': 'str'},
-                        'rollback_template_content': {'type': 'str'},
-                        'rollback_template_params': {'type': 'list'},
                         'software_type': {'type': 'str'},
                         'software_variant': {'type': 'str'},
                         'software_version': {'type': 'str'},
@@ -1761,13 +1414,6 @@ class Template(DnacBase):
                 return self.check_return_status()
 
             containingTemplates[i].update({"projectName": project_name})
-
-            rollback_template_params = item.get("rollback_template_params")
-            if rollback_template_params is not None:
-                containingTemplates[i].update({
-                    "rollbackTemplateParams": self.get_template_info(rollback_template_params)
-                })
-
             template_content = item.get("template_content")
             if template_content is not None:
                 containingTemplates[i].update({"templateContent": template_content})
@@ -1809,9 +1455,6 @@ class Template(DnacBase):
             "deviceTypes":
                 self.get_device_types(params.get("device_types")),
             "id": params.get("id"),
-            "rollbackTemplateContent": params.get("rollback_template_content"),
-            "rollbackTemplateParams":
-                self.get_template_info(params.get("rollback_template_params")),
             "softwareVariant": params.get("software_variant"),
             "softwareVersion": params.get("software_version"),
             "templateContent": params.get("template_content"),
@@ -2188,8 +1831,6 @@ class Template(DnacBase):
             ("language", "language", "VELOCITY"),
             ("name", "name", ""),
             ("projectName", "projectName", ""),
-            ("rollbackTemplateContent", "rollbackTemplateContent", ""),
-            ("rollbackTemplateParams", "rollbackTemplateParams", []),
             ("softwareType", "softwareType", ""),
             ("softwareVariant", "softwareVariant", ""),
             ("softwareVersion", "softwareVersion", ""),
