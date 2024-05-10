@@ -184,7 +184,7 @@ options:
             type: str
             required: True
           server_address:
-            description: Port number that the syslog server listens on, which must fall within the range of 1 to 65535.
+            description: Hostname or IP address of the Syslog server.
             type: str
             required: True
           protocol:
@@ -301,6 +301,8 @@ requirements:
 - python >= 3.5
 
 notes:
+  - Configuring webhook destination with headers start supporting from dnacentersdk 2.9.1 onwards as we are aligned with CatC Release 2.3.7.5.
+  - Configuring Syslog destination start supporting from dnacentersdk 2.9.x onwards as we are aligned with CatC Release 2.3.7.5.
   - SDK Method used are
     events.Events.get_syslog_destination,
     events.Events.create_syslog_destination,
@@ -602,8 +604,7 @@ class Events(DnacBase):
                 'method': {'type': 'str', 'default': 'POST'},
                 'trust_cert': {'type': 'bool', 'default': False},
                 'headers': {
-                    'type': 'list',
-                    'elements': 'dict',
+                    'type': 'dict',
                     'name': {'type': 'str'},
                     'value': {'type': 'str'},
                     'default_value': {'type': 'str'},
@@ -896,6 +897,12 @@ class Events(DnacBase):
             server_address = syslog_details.get('server_address')
             protocol = syslog_details.get('protocol')
 
+            if not self.is_valid_ipv4(server_address):
+                self.status = "failed"
+                self.msg = "Invalid server adderess '{0}' given in the playbook for configuring syslog destination".format(server_address)
+                self.log(self.msg, "ERROR")
+                return self
+
             if not protocol:
                 self.status = "failed"
                 self.msg = "Protocol is needed while configuring the syslog destionation with name '{0}' in Cisco Catalyst Center".format(name)
@@ -987,6 +994,13 @@ class Events(DnacBase):
                 self.log(self.msg, "ERROR")
                 return self
 
+            server_address = update_syslog_params.get('host')
+            if not self.is_valid_ipv4(server_address):
+                self.status = "failed"
+                self.msg = "Invalid server adderess '{0}' given in the playbook for updating syslog destination".format(server_address)
+                self.log(self.msg, "ERROR")
+                return self
+
             response = self.dnac._exec(
                 family="event_management",
                 function='update_syslog_destination',
@@ -1073,6 +1087,13 @@ class Events(DnacBase):
             'port': snmp_details.get('port'),
             'snmpVersion': snmp_details.get('snmp_version')
         }
+        server_address = snmp_details.get('server_address')
+
+        if server_address and not self.is_valid_ipv4(server_address):
+            self.status = "failed"
+            self.msg = "Invalid server adderess '{0}' given in the playbook for configuring SNMP destination".format(server_address)
+            self.log(self.msg, "ERROR")
+            return self
 
         if playbook_params.get('snmpVersion') == "V2C":
             playbook_params['community'] = snmp_details.get('community')
@@ -1369,16 +1390,8 @@ class Events(DnacBase):
         }
 
         if webhook_details.get('headers'):
-            headers_list = webhook_details['headers']
-            playbook_params['headers'] = []
-            for headers in headers_list:
-                temp_dict = {
-                    'name': headers.get('name'),
-                    'value': headers.get('value'),
-                    'defaultValue': headers.get('default_value'),
-                    'encrypt': headers.get('encrypt')
-                }
-                playbook_params['headers'].append(temp_dict)
+            custom_header = webhook_details['headers']
+            playbook_params['customHeaders'] = custom_header
 
         return playbook_params
 
@@ -1400,6 +1413,7 @@ class Events(DnacBase):
         """
 
         try:
+            self.log("Requested payload for creating webhook destination - {0}".format(str(webhook_params)), "INFO")
             response = self.dnac._exec(
                 family="event_management",
                 function='create_webhook_destination',
@@ -1460,35 +1474,6 @@ class Events(DnacBase):
 
         return update_needed
 
-    def remove_duplicates(self, headers_in_ccc):
-        """
-        Remove duplicate headers from a list of header dictionaries.
-        Args:
-            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-            headers_in_ccc (list): A list of dictionaries representing headers.
-        Returns:
-            list: A list of dictionaries with duplicate headers removed.
-        Description:
-            This function takes a list of header dictionaries (`headers_in_ccc`) as input and removes duplicate headers from it.
-            It iterates through each dictionary in the list and converts it to a tuple of its items. This tuple representation
-            is used to check if a similar tuple has been seen before. If not, the dictionary is added to the list of unique_dicts.
-            Finally, it returns the list of dictionaries with duplicate headers removed.
-        """
-
-        seen_set = set()
-        unique_dicts = []
-
-        for header_dict in headers_in_ccc:
-            # Convert the dictionary to a tuple of its items
-            dict_tuple = tuple(sorted(header_dict.items()))
-
-            # Check if the tuple representation of the dictionary has been seen before
-            if dict_tuple not in seen_set:
-                seen_set.add(dict_tuple)
-                unique_dicts.append(header_dict)
-
-        return unique_dicts
-
     def update_webhook_destination(self, webhook_params, webhook_dest_detail_in_ccc):
         """
         Update a webhook destination in Cisco Catalyst Center with the provided details.
@@ -1515,22 +1500,13 @@ class Events(DnacBase):
             update_webhook_params['method'] = webhook_params.get('method') or webhook_dest_detail_in_ccc.get('method')
             update_webhook_params['trustCert'] = webhook_params.get('trustCert') or webhook_dest_detail_in_ccc.get('trustCert')
             update_webhook_params['isProxyRoute'] = webhook_params.get('isProxyRoute') or webhook_dest_detail_in_ccc.get('isProxyRoute')
-            playbook_headers = webhook_params.get('headers')
-            headers_in_ccc = webhook_dest_detail_in_ccc.get('headers')
+            update_webhook_params['headers'] = webhook_params.get('headers')
 
-            final_headers_list = []
-            if playbook_headers:
-                if headers_in_ccc:
-                    headers_in_ccc.extend(playbook_headers)
-                    final_headers_list = self.remove_duplicates(headers_in_ccc)
-                else:
-                    final_headers_list.extend(playbook_headers)
+            if not update_webhook_params['headers'] and webhook_dest_detail_in_ccc.get('headers'):
+                update_webhook_params['headers'] = webhook_dest_detail_in_ccc.get('headers')[0]
 
-            if not final_headers_list:
-                final_headers_list = None
-
-            update_webhook_params['headers'] = final_headers_list
             update_webhook_params['webhookId'] = webhook_dest_detail_in_ccc.get('webhookId')
+            name = update_webhook_params.get('name')
 
             response = self.dnac._exec(
                 family="event_management",
@@ -1539,7 +1515,6 @@ class Events(DnacBase):
                 params=update_webhook_params
             )
             self.log("Received API response from 'update_webhook_destination': {0}".format(str(response)), "DEBUG")
-            name = update_webhook_params.get('name')
             status = response.get('apiStatus')
 
             if status == 'SUCCESS':
@@ -2304,7 +2279,14 @@ class Events(DnacBase):
                 self.log(self.msg, "ERROR")
                 return self
 
-            if not port.isdigit() or (isinstance(port, int) and port not in range(1, 65536)):
+            if isinstance(port, str):
+                if not port.isdigit() or (int(port) not in range(1, 65536)):
+                    self.status = "failed"
+                    self.msg = "Invalid Syslog destination port '{0}' given in playbook. Select port from the number range(1, 65535)".format(port)
+                    self.log(self.msg, "ERROR")
+                    return self
+
+            if isinstance(port, int) and (int(port) not in range(1, 65536)):
                 self.status = "failed"
                 self.msg = "Invalid Syslog destination port '{0}' given in playbook. Select port from the number range(1, 65535)".format(port)
                 self.log(self.msg, "ERROR")
