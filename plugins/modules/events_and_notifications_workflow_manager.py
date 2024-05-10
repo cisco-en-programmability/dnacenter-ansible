@@ -301,8 +301,10 @@ requirements:
 - python >= 3.5
 
 notes:
-  - Configuring webhook destination with headers start supporting from dnacentersdk 2.9.1 onwards as we are aligned with CatC Release 2.3.7.5.
-  - Configuring Syslog destination start supporting from dnacentersdk 2.9.x onwards as we are aligned with CatC Release 2.3.7.5.
+  - Configuring the webhook destination with headers now supports starting from dnacentersdk version 2.9.1 onwards. This enhancement is in
+    alignment with Catalyst Center Release 2.3.7.5.
+  - Configuring the SNMP destination now supports starting from dnacentersdk version 2.9.1 onwards. This enhancement is in
+    alignment with Catalyst Center Release 2.3.7.5.
   - SDK Method used are
     events.Events.get_syslog_destination,
     events.Events.create_syslog_destination,
@@ -2282,13 +2284,14 @@ class Events(DnacBase):
             if isinstance(port, str):
                 if not port.isdigit() or (int(port) not in range(1, 65536)):
                     self.status = "failed"
-                    self.msg = "Invalid Syslog destination port '{0}' given in playbook. Select port from the number range(1, 65535)".format(port)
+                    self.msg = """Invalid Syslog destination port '{0}' given in playbook. Please choose a port within the range of
+                            numbers (1, 65535)""".format(port)
                     self.log(self.msg, "ERROR")
                     return self
 
             if isinstance(port, int) and (int(port) not in range(1, 65536)):
                 self.status = "failed"
-                self.msg = "Invalid Syslog destination port '{0}' given in playbook. Select port from the number range(1, 65535)".format(port)
+                self.msg = "Invalid Syslog destination port '{0}' given in playbook. Please choose a port within the range of numbers (1, 65535)".format(port)
                 self.log(self.msg, "ERROR")
                 return self
 
