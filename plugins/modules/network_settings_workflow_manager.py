@@ -908,8 +908,9 @@ class NetworkSettings(DnacBase):
                 reserve_pool.update({"ipv4GateWay": ""})
 
             if pool_info_ippools[ipv6_index].get("gateways") != []:
-                reserve_pool.update({"ipv6GateWay":
-                                        pool_info_ippools[ipv6_index].get("gateways")[0]})
+                reserve_pool.update({
+                    "ipv6GateWay": pool_info_ippools[ipv6_index].get("gateways")[0]
+                })
             else:
                 reserve_pool.update({"ipv6GateWay": ""})
 
