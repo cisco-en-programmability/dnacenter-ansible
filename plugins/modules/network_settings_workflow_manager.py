@@ -873,60 +873,53 @@ class NetworkSettings(DnacBase):
             "name": pool_info.get("groupName"),
             "site_id": pool_info.get("siteId"),
         }
-        if len(pool_info.get("ipPools")) == 1:
+        pool_info_ippools = pool_info.get("ipPools")
+        if len(pool_info_ippools) == 1:
             reserve_pool.update({
-                "ipv4DhcpServers": pool_info.get("ipPools")[0].get("dhcpServerIps"),
-                "ipv4DnsServers": pool_info.get("ipPools")[0].get("dnsServerIps"),
+                "ipv4DhcpServers": pool_info_ippools[0].get("dhcpServerIps"),
+                "ipv4DnsServers": pool_info_ippools[0].get("dnsServerIps"),
                 "ipv6AddressSpace": "False"
             })
-            if pool_info.get("ipPools")[0].get("gateways") != []:
-                reserve_pool.update({"ipv4GateWay": pool_info.get("ipPools")[0].get("gateways")[0]})
+            if pool_info_ippools[0].get("gateways") != []:
+                reserve_pool.update({"ipv4GateWay": pool_info_ippools[0].get("gateways")[0]})
             else:
                 reserve_pool.update({"ipv4GateWay": ""})
             reserve_pool.update({"ipv6AddressSpace": "False"})
-        elif len(pool_info.get("ipPools")) == 2:
-            if not pool_info.get("ipPools")[0].get("ipv6"):
-                reserve_pool.update({
-                    "ipv4DhcpServers": pool_info.get("ipPools")[0].get("dhcpServerIps"),
-                    "ipv4DnsServers": pool_info.get("ipPools")[0].get("dnsServerIps"),
-                    "ipv6AddressSpace": "True",
-                    "ipv6DhcpServers": pool_info.get("ipPools")[1].get("dhcpServerIps"),
-                    "ipv6DnsServers": pool_info.get("ipPools")[1].get("dnsServerIps"),
+        elif len(pool_info_ippools) == 2:
+            ipv4_index = 0
+            ipv6_index = 0
+            if not pool_info_ippools[0].get("ipv6"):
+                ipv6_index += 1
+            elif not pool_info_ippools[1].get("ipv6"):
+                ipv4_index += 1
 
-                })
+            reserve_pool.update({
+                "ipv4DhcpServers": pool_info_ippools[ipv4_index].get("dhcpServerIps"),
+                "ipv4DnsServers": pool_info_ippools[ipv4_index].get("dnsServerIps"),
+                "ipv6AddressSpace": "True",
+                "ipv6Prefix": "True",
+                "ipv6DnsServers": pool_info_ippools[ipv6_index].get("dnsServerIps"),
+                "ipv6DhcpServers": pool_info_ippools[ipv6_index].get("dhcpServerIps")
+            })
+            if pool_info_ippools[ipv4_index].get("gateways") != []:
+                reserve_pool.update({"ipv4GateWay":
+                                    pool_info_ippools[ipv4_index].get("gateways")[0]})
+            else:
+                reserve_pool.update({"ipv4GateWay": ""})
 
-                if pool_info.get("ipPools")[0].get("gateways") != []:
-                    reserve_pool.update({"ipv4GateWay":
-                                        pool_info.get("ipPools")[0].get("gateways")[0]})
-                else:
-                    reserve_pool.update({"ipv4GateWay": ""})
+            if pool_info_ippools[ipv6_index].get("gateways") != []:
+                reserve_pool.update({"ipv6GateWay":
+                                        pool_info_ippools[ipv6_index].get("gateways")[0]})
+            else:
+                reserve_pool.update({"ipv6GateWay": ""})
 
-                if pool_info.get("ipPools")[1].get("gateways") != []:
-                    reserve_pool.update({"ipv6GateWay":
-                                         pool_info.get("ipPools")[1].get("gateways")[0]})
-                else:
-                    reserve_pool.update({"ipv6GateWay": ""})
+            ippools_info = pool_info_ippools[ipv6_index].get("context")
+            slaac_support_info = get_dict_result(ippools_info, "contextKey", "slaacSupport")
+            if slaac_support_info is None or slaac_support_info.get("contextValue") == "false":
+                reserve_pool.update({"slaacSupport": False})
+            else:
+                reserve_pool.update({"slaacSupport": True})
 
-            elif not pool_info.get("ipPools")[1].get("ipv6"):
-                reserve_pool.update({
-                    "ipv4DhcpServers": pool_info.get("ipPools")[1].get("dhcpServerIps"),
-                    "ipv4DnsServers": pool_info.get("ipPools")[1].get("dnsServerIps"),
-                    "ipv6AddressSpace": "True",
-                    "ipv6DnsServers": pool_info.get("ipPools")[0].get("dnsServerIps"),
-                    "ipv6DhcpServers": pool_info.get("ipPools")[0].get("dhcpServerIps")
-                })
-                if pool_info.get("ipPools")[1].get("gateways") != []:
-                    reserve_pool.update({"ipv4GateWay":
-                                        pool_info.get("ipPools")[1].get("gateways")[0]})
-                else:
-                    reserve_pool.update({"ipv4GateWay": ""})
-
-                if pool_info.get("ipPools")[0].get("gateways") != []:
-                    reserve_pool.update({"ipv6GateWay":
-                                         pool_info.get("ipPools")[0].get("gateways")[0]})
-                else:
-                    reserve_pool.update({"ipv6GateWay": ""})
-        reserve_pool.update({"slaacSupport": True})
         self.log("Formatted reserve pool details: {0}".format(reserve_pool), "DEBUG")
         return reserve_pool
 
@@ -1528,7 +1521,8 @@ class NetworkSettings(DnacBase):
                 "ipv6Subnet": item.get("ipv6_subnet"),
                 "ipv6DnsServers": item.get("ipv6_dns_servers"),
                 "ipv4TotalHost": item.get("ipv4_total_host"),
-                "ipv6TotalHost": item.get("ipv6_total_host")
+                "ipv6TotalHost": item.get("ipv6_total_host"),
+                "slaacSupport": item.get("slaac_support")
             }
             # Check for missing mandatory parameters in the playbook
             if pool_values.get("ipv6AddressSpace") is True:
@@ -1600,12 +1594,16 @@ class NetworkSettings(DnacBase):
                         if pool_values.get(key) is None:
                             del pool_values[key]
             else:
-                keys_to_delete = ['type', 'ipv4GlobalPool',
-                                  'ipv4Prefix', 'ipv4PrefixLength',
-                                  'ipv4TotalHost', 'ipv4Subnet']
+                keys_to_delete = ['type', 'ipv4GlobalPool', 'ipv4Prefix', 'ipv4PrefixLength',
+                                  'ipv4TotalHost', 'ipv4Subnet', 'slaacSupport']
                 for key in keys_to_delete:
                     if key in pool_values:
                         del pool_values[key]
+
+                copy_pool_values = copy.deepcopy(pool_values)
+                for item in copy_pool_values:
+                    if pool_values.get(item) is None:
+                        del pool_values[item]
 
             want_reserve.append(pool_values)
             reserve_pool_index += 1
@@ -2050,7 +2048,7 @@ class NetworkSettings(DnacBase):
             self.check_execution_response_status(response).check_return_status()
             self.log("Reserved ip subpool '{0}' updated successfully.".format(name), "INFO")
             result_reserve_pool.get("response") \
-                .update({name: self.have.get("reservePool")[reserve_pool_index].get("details")})
+                .update({name: reserve_params})
             result_reserve_pool.get("response").get(name) \
                 .update({"Id": self.have.get("reservePool")[reserve_pool_index].get("id")})
             result_reserve_pool.get("msg") \
