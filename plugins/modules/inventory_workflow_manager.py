@@ -57,7 +57,7 @@ options:
         default: "NETWORK_DEVICE"
       cli_transport:
         description: The essential prerequisite for adding Network devices is the specification of the transport
-            protocol (either SSH or Telnet) used by the device.
+            protocol (either ssh or telnet) used by the device.
         type: str
       compute_device:
         description: Indicates whether a device is a compute device.

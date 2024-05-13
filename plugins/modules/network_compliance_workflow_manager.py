@@ -17,7 +17,7 @@ description:
 - Perform compliance checks or sync configurations on reachable devices using IP Address(s) or Site.
 - API to perform full compliance checks or specific category checks on reachable device(s).
 - API to sync device configuration on device(s).
-version_added: "6.13.0"
+version_added: "6.14.0"
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
 author: Rugvedi Kapse (@rukapse)
