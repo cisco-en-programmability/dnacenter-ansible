@@ -25,8 +25,8 @@
             shared_secret: cisco
             protocol: RADIUS_TACACS # [TACACS, RADIUS, RADIUS_TACACS]
             encryption_scheme: KEYWRAP # KEYWRAP or RADSEC
-            message_key: dnacisesolutions1234 # For KEYWRAP, must be 20 char long
             encryption_key: dnacsolutions123 # For KEYWRAP, must be 16 char long
+            message_authenticator_code_key: dnacisesolutions1234 # For KEYWRAP, must be 20 char long
             authentication_port: 1800
             accounting_port: 1700
             port: 40 # For TACACS
@@ -73,8 +73,8 @@
             shared_secret: cisco
             protocol: RADIUS_TACACS # [TACACS, RADIUS, RADIUS_TACACS]
             encryption_scheme: KEYWRAP # KEYWRAP or RADSEC
-            message_key: dnacisesolutions1234 # For KEYWRAP, must be 20 char long
             encryption_key: dnacsolutions123 # For KEYWRAP, must be 16 char long
+            message_authenticator_code_key: dnacisesolutions1234 # For KEYWRAP, must be 20 char long
             authentication_port: 1800
             accounting_port: 1700
             port: 40 # For TACACS
@@ -85,16 +85,11 @@
             use_dnac_cert_for_pxgrid: False
             cisco_ise_dtos: # use this for creating the Cisco ISE Server
             - user_name: admin
-              password: abcdefgh
+              password: abcd
               fqdn: abc.cisco.com
               ip_address: 10.195.243.59
-              subscriber_name: abc
+              subscriber_name: abcde
               description: CISCO ISE
-            #   ssh_key:
-            # external_cisco_ise_ip_addr_dtos:
-            # - external_cisco_ise_ip_addresses:
-            #   - external_ip_address:
-            #   ise_type:
             trusted_server: True
 
     - name: Delete an ISE Server.
