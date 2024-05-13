@@ -521,7 +521,11 @@ class DnacBase():
             True/False (bool) - True if the file path exists, else False.
         """
 
-        if not os.path.exists(file_path):
+        current_working_directory = os.getcwd()
+        final_file_path = os.path.join(current_working_directory, file_path)
+        self.log(str(final_file_path))
+        if not os.path.exists(final_file_path):
+            self.log("The specified path '{0}' is not valid. Please provide a valid path.".format(final_file_path), "ERROR")
             return False
 
         return True
