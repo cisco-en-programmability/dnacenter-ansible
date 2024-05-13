@@ -569,6 +569,7 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     validate_list_of_dicts,
 )
 import re
+import time
 
 
 class Events(DnacBase):
@@ -1715,18 +1716,18 @@ class Events(DnacBase):
         update_needed = False
 
         for key, value in email_params.items():
-
             if not email_dest_detail_in_ccc.get(key):
                 update_needed = True
-                return update_needed
+                break
 
             if isinstance(value, dict):
-                self.email_dest_needs_update(value, email_dest_detail_in_ccc[key])
-            elif email_dest_detail_in_ccc.get(key) == value or value == "":
-                continue
-            else:
+                # Recursive call should impact the update_needed flag
+                update_needed = self.email_dest_needs_update(value, email_dest_detail_in_ccc[key])
+                if update_needed:
+                    break
+            elif email_dest_detail_in_ccc.get(key) != value and value != "":
                 update_needed = True
-                return update_needed
+                break
 
         return update_needed
 
@@ -1765,6 +1766,7 @@ class Events(DnacBase):
                 params=update_email_params
             )
             self.log("Received API response from 'update_email_destination': {0}".format(str(response)), "DEBUG")
+            time.sleep(2)
             status = response.get('statusUri')
             status_execution_id = status.split("/")[-1]
 
@@ -2076,7 +2078,7 @@ class Events(DnacBase):
 
             if not re.match(regex_pattern, url):
                 self.status = "failed"
-                self.msg = "Given url '{0}' is invalid url for ITSM Intergartion setting. It must starts with 'https://'".format(url)
+                self.msg = "Given url '{0}' is invalid url for ITSM Intergartion setting. It must start with 'https://'".format(url)
                 self.log(self.msg, "ERROR")
                 return self
 
