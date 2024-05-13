@@ -619,16 +619,16 @@ class Events(DnacBase):
                 'primary_smtp_config': {
                     'type': 'dict',
                     'server_address': {'type': 'str'},
-                    'port': {'type': 'str', 'default': '25'},
                     'smtp_type': {'type': 'str', 'default': 'DEFAULT'},
+                    'port': {'type': 'str', 'default': '25'},
                     'username': {'type': 'str'},
                     'password': {'type': 'str'},
                 },
                 'secondary_smtp_config': {
                     'type': 'dict',
                     'server_address': {'type': 'str'},
-                    'port': {'type': 'str'},
                     'smtp_type': {'type': 'str'},
+                    'port': {'type': 'str'},
                     'username': {'type': 'str'},
                     'password': {'type': 'str'},
                 },
@@ -951,8 +951,9 @@ class Events(DnacBase):
             except Exception as e:
                 failure_msg = "Unable to Add syslog destination with name '{0}' in Cisco Catalyst Center".format(name)
 
-            self.log(failure_msg, "ERROR")
-            self.result['response'] = failure_msg
+            self.msg = failure_msg
+            self.log(self.msg, "ERROR")
+            self.result['response'] = self.msg
 
         except Exception as e:
             self.status = "failed"
@@ -1026,8 +1027,9 @@ class Events(DnacBase):
             except Exception as e:
                 failure_msg = "Unable to update syslog destination with name '{0}' in Cisco Catalyst Center".format(name)
 
-            self.log(failure_msg, "ERROR")
-            self.result['response'] = failure_msg
+            self.msg = failure_msg
+            self.log(self.msg, "ERROR")
+            self.result['response'] = self.msg
 
         except Exception as e:
             self.status = "failed"
@@ -1095,7 +1097,7 @@ class Events(DnacBase):
             self.status = "failed"
             self.msg = "Invalid server adderess '{0}' given in the playbook for configuring SNMP destination".format(server_address)
             self.log(self.msg, "ERROR")
-            return self
+            self.check_return_status()
 
         if playbook_params.get('snmpVersion') == "V2C":
             playbook_params['community'] = snmp_details.get('community')
@@ -1205,8 +1207,9 @@ class Events(DnacBase):
             else:
                 failure_msg = "Unable to Add SNMP destination with name '{0}' in Cisco Catalyst Center".format(snmp_params.get('name'))
 
-            self.log(failure_msg, "ERROR")
-            self.result['response'] = failure_msg
+            self.msg = failure_msg
+            self.log(self.msg, "ERROR")
+            self.result['response'] = self.msg
 
             return self
 
@@ -1326,8 +1329,9 @@ class Events(DnacBase):
             else:
                 failure_msg = "Unable to update SNMP destination with name '{0}' in Cisco Catalyst Center".format(update_snmp_params.get('name'))
 
-            self.log(failure_msg, "ERROR")
-            self.result['response'] = failure_msg
+            self.msg = failure_msg
+            self.log(self.msg, "ERROR")
+            self.result['response'] = self.msg
 
         except Exception as e:
             self.status = "failed"
@@ -1440,8 +1444,9 @@ class Events(DnacBase):
             else:
                 failure_msg = "Unable to Add Webhook destination with name '{0}' in Cisco Catalyst Center".format(webhook_params.get('name'))
 
-            self.log(failure_msg, "ERROR")
-            self.result['response'] = failure_msg
+            self.msg = failure_msg
+            self.log(self.msg, "ERROR")
+            self.result['response'] = self.msg
 
         except Exception as e:
             self.status = "failed"
@@ -1535,8 +1540,9 @@ class Events(DnacBase):
             else:
                 failure_msg = "Unable to update rest webhook destination with name '{0}' in Cisco Catalyst Center".format(name)
 
-            self.log(failure_msg, "ERROR")
-            self.result['response'] = failure_msg
+            self.msg = failure_msg
+            self.log(self.msg, "ERROR")
+            self.result['response'] = self.msg
 
         except Exception as e:
             self.status = "failed"
@@ -1611,7 +1617,7 @@ class Events(DnacBase):
             playbook_params['primarySMTPConfig']['userName'] = primary_smtp_details.get('username', '')
             playbook_params['primarySMTPConfig']['password'] = primary_smtp_details.get('password', '')
 
-        if email_details.get('seconday_smtp_config'):
+        if email_details.get('secondary_smtp_config'):
             secondary_smtp_details = email_details.get('secondary_smtp_config')
             playbook_params['secondarySMTPConfig'] = {}
             playbook_params['secondarySMTPConfig']['hostName'] = secondary_smtp_details.get('server_address')
@@ -1679,8 +1685,9 @@ class Events(DnacBase):
             else:
                 failure_msg = "Unable to Add Email destination in Cisco Catalyst Center."
 
-            self.log(failure_msg, "ERROR")
-            self.result['response'] = failure_msg
+            self.msg = failure_msg
+            self.log(self.msg, "ERROR")
+            self.result['response'] = self.msg
 
         except Exception as e:
             self.status = "failed"
@@ -1708,12 +1715,18 @@ class Events(DnacBase):
         update_needed = False
 
         for key, value in email_params.items():
+
+            if not email_dest_detail_in_ccc.get(key):
+                update_needed = True
+                return update_needed
+
             if isinstance(value, dict):
                 self.email_dest_needs_update(value, email_dest_detail_in_ccc[key])
-            elif email_dest_detail_in_ccc[key] == value or value == "":
+            elif email_dest_detail_in_ccc.get(key) == value or value == "":
                 continue
             else:
                 update_needed = True
+                return update_needed
 
         return update_needed
 
@@ -1773,15 +1786,16 @@ class Events(DnacBase):
                 return self
 
             self.status = "failed"
-            error_messages = response.get('errorMessage')
+            error_messages = status_response.get('errorMessage')
 
             if error_messages:
                 failure_msg = error_messages.get('errors')
             else:
                 failure_msg = "Unable to update Email destination in Cisco Catalyst Center."
 
-            self.log(failure_msg, "ERROR")
-            self.result['response'] = failure_msg
+            self.msg = failure_msg
+            self.log(self.msg, "ERROR")
+            self.result['response'] = self.msg
 
         except Exception as e:
             self.status = "failed"
@@ -1958,8 +1972,9 @@ class Events(DnacBase):
             if not failure_msg:
                 failure_msg = "Unable to create ITSM Integration Settings with name '{0}' in Cisco Catalyst Center".format(instance_name)
 
-            self.log(failure_msg, "ERROR")
-            self.result['response'] = failure_msg
+            self.msg = failure_msg
+            self.log(self.msg, "ERROR")
+            self.result['response'] = self.msg
 
         except Exception as e:
             self.status = "failed"
@@ -2095,8 +2110,9 @@ class Events(DnacBase):
             if not failure_msg:
                 failure_msg = "Unable to update ITSM Integration Settings with name '{0}' in Cisco Catalyst Center".format(update_itsm_params.get('name'))
 
-            self.log(failure_msg, "ERROR")
-            self.result['response'] = failure_msg
+            self.msg = failure_msg
+            self.log(self.msg, "ERROR")
+            self.result['response'] = self.msg
 
         except Exception as e:
             self.status = "failed"
@@ -2316,20 +2332,21 @@ class Events(DnacBase):
         if config.get('snmp_destination'):
             snmp_details = self.want.get('snmp_details')
             destination_name = snmp_details.get('name')
+
             if not destination_name:
                 self.status = "failed"
                 self.msg = "Name is required parameter for adding/updating SNMP destination for creating/updating the event."
                 self.log(self.msg, "ERROR")
                 return self
-
             is_destination_exist = False
+
             for snmp_dict in self.have.get('snmp_destinations'):
                 if snmp_dict['name'] == destination_name:
                     snmp_dest_detail_in_ccc = snmp_dict
                     is_destination_exist = True
                     break
-
             snmp_params = self.collect_snmp_playbook_params(snmp_details)
+
             if snmp_params.get('port'):
                 try:
                     port = int(snmp_params.get('port'))
@@ -2390,16 +2407,21 @@ class Events(DnacBase):
                 # Need to Add snmp destination in Cisco Catalyst Center with given playbook params
                 invalid_itsm_params = []
                 invalid_itsm_params = self.check_required_itsm_param(itsm_params, invalid_itsm_params)
+                connection_setting = itsm_params.get('data').get('ConnectionSettings')
 
-                # Check whether the url is valid or not
-                url = itsm_params.get('data').get('ConnectionSettings').get('Url')
-                regex_pattern = r'https://\S+'
-
-                if not re.match(regex_pattern, url):
+                if not connection_setting:
+                    invalid_itsm_params.extends(["url", "username", "password"])
                     self.status = "failed"
-                    self.msg = "Given url '{0}' is invalid url for ITSM Intergartion setting. It must starts with 'https://'".format(url)
+                    self.msg = """Required parameter '{0}' for configuring ITSM Intergartion setting in Cisco Catalyst
+                            Center is missing.""".format(str(invalid_itsm_params))
                     self.log(self.msg, "ERROR")
+                    self.result['response'] = self.msg
                     return self
+
+                # Check whether the url exist or not and if exists is it valid
+                url = connection_setting.get('Url')
+                if not url and "Url" not in invalid_itsm_params:
+                    invalid_itsm_params.append("URL")
 
                 if invalid_itsm_params:
                     self.status = "failed"
@@ -2407,6 +2429,13 @@ class Events(DnacBase):
                             Center is missing.""".format(str(invalid_itsm_params))
                     self.log(self.msg, "ERROR")
                     self.result['response'] = self.msg
+                    return self
+
+                regex_pattern = r'https://\S+'
+                if not re.match(regex_pattern, url):
+                    self.status = "failed"
+                    self.msg = "Given url '{0}' is invalid url for ITSM Intergartion setting. It must starts with 'https://'".format(url)
+                    self.log(self.msg, "ERROR")
                     return self
 
                 self.log("Required parameter validated successfully for configuring ITSM Intergartion setting in Cisco Catalyst Center.", "INFO")
