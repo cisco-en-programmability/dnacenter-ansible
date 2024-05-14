@@ -198,8 +198,8 @@ options:
           ipv6_prefix:
             description: >
               Determines whether to enable the 'ipv6_prefix_length' or 'ipv6_total_host' input field.
-              If IPv6 prefix value is true, the IPv6 prefix length input field is mandatory,
-              If it is false ipv6 total Host input is mandatory.
+              If IPv6 prefix value is true, the IPv6 prefix length input field is required,
+              If it is false ipv6 total Host input is required.
             type: bool
           ipv6_prefix_length:
             description: Specifies the IPv6 prefix length. Required when 'ipv6_prefix' is set to true.
@@ -207,7 +207,7 @@ options:
           ipv6_total_host:
             description:
             - Specifies the total number of IPv6 hosts. Required when 'ipv6_prefix' is set to false.
-            - Must specify a number of IPv6 IP addresses that is less than or equal to 256.
+            - Must specify a number of IPv6 IP addresses that is less than 256.
             type: int
           prev_name:
             description: The former name associated with the reserved IP sub-pool.
