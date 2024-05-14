@@ -204,7 +204,9 @@ options:
             description: IPv6 prefix length is required when the ipv6_prefix value is true.
             type: int
           ipv6_total_host:
-            description: The total number of hosts for IPv6 is required if the 'ipv6_prefix' is set to false.
+            description:
+            - The total number of hosts for IPv6 is required if the 'ipv6_prefix' is set to false.
+            - The number of IP addresses for IPv6 should be less than 256.
             type: int
           prev_name:
             description: The former name associated with the reserved IP sub-pool.
@@ -874,7 +876,8 @@ class NetworkSettings(DnacBase):
             "site_id": pool_info.get("siteId"),
         }
         pool_info_ippools = pool_info.get("ipPools")
-        if len(pool_info_ippools) == 1:
+        pool_info_length = len(pool_info_ippools)
+        if pool_info_length == 1:
             reserve_pool.update({
                 "ipv4DhcpServers": pool_info_ippools[0].get("dhcpServerIps"),
                 "ipv4DnsServers": pool_info_ippools[0].get("dnsServerIps"),
@@ -885,13 +888,13 @@ class NetworkSettings(DnacBase):
             else:
                 reserve_pool.update({"ipv4GateWay": ""})
             reserve_pool.update({"ipv6AddressSpace": "False"})
-        elif len(pool_info_ippools) == 2:
-            ipv4_index = 0
-            ipv6_index = 0
+        else:
             if not pool_info_ippools[0].get("ipv6"):
-                ipv6_index += 1
-            elif not pool_info_ippools[1].get("ipv6"):
-                ipv4_index += 1
+                ipv4_index = 0
+                ipv6_index = 1
+            else:
+                ipv4_index = 1
+                ipv6_index = 0
 
             reserve_pool.update({
                 "ipv4DhcpServers": pool_info_ippools[ipv4_index].get("dhcpServerIps"),
