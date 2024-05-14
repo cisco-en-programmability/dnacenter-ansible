@@ -197,16 +197,17 @@ options:
             type: str
           ipv6_prefix:
             description: >
-              Ipv6 prefix value is true, the ip6 prefix length input field is enabled,
-              if it is false ipv6 total Host input is enable.
+              Determines whether to enable the 'ipv6_prefix_length' or 'ipv6_total_host' input field.
+              If IPv6 prefix value is true, the IPv6 prefix length input field is mandatory,
+              If it is false ipv6 total Host input is mandatory.
             type: bool
           ipv6_prefix_length:
-            description: IPv6 prefix length is required when the ipv6_prefix value is true.
+            description: Specifies the IPv6 prefix length. Required when 'ipv6_prefix' is set to true.
             type: int
           ipv6_total_host:
             description:
-            - The total number of hosts for IPv6 is required if the 'ipv6_prefix' is set to false.
-            - The number of IP addresses for IPv6 should be less than 256.
+            - Specifies the total number of IPv6 hosts. Required when 'ipv6_prefix' is set to false.
+            - Must specify a number of IPv6 IP addresses that is less than or equal to 256.
             type: int
           prev_name:
             description: The former name associated with the reserved IP sub-pool.
@@ -877,6 +878,9 @@ class NetworkSettings(DnacBase):
         }
         pool_info_ippools = pool_info.get("ipPools")
         pool_info_length = len(pool_info_ippools)
+
+        # If the reserved pool has only IPv4, pool_info_length will be 1.
+        # If the reserved pool has both IPv4 and IPv6, pool_info_length will be 2.
         if pool_info_length == 1:
             reserve_pool.update({
                 "ipv4DhcpServers": pool_info_ippools[0].get("dhcpServerIps"),
@@ -889,6 +893,9 @@ class NetworkSettings(DnacBase):
                 reserve_pool.update({"ipv4GateWay": ""})
             reserve_pool.update({"ipv6AddressSpace": "False"})
         else:
+
+            # If the ipv6 flag is set in the second element, ipv4_index will be 0 and ipv6_index will be 1.
+            # If the ipv6 flag is set in the first element, ipv4_index will be 1 and ipv6_index will be 0.
             if not pool_info_ippools[0].get("ipv6"):
                 ipv4_index = 0
                 ipv6_index = 1
