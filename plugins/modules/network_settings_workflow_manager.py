@@ -991,10 +991,6 @@ class NetworkSettings(DnacBase):
                     "configureDnacIP": syslog_details.get("value")[0].get("configureDnacIP"),
                     "ipAddresses": syslog_details.get("value")[0].get("ipAddresses"),
                 },
-                "netflowcollector": {
-                    "ipAddress": netflow_details.get("value")[0].get("ipAddress"),
-                    "port": netflow_details.get("value")[0].get("port")
-                },
                 "timezone": timezone_details.get("value")[0],
             }
         }
@@ -1017,6 +1013,18 @@ class NetworkSettings(DnacBase):
             network_settings.update({"ntpServer": ntpserver_details.get("value")})
         else:
             network_settings.update({"ntpServer": [""]})
+
+        netflowcollector_values = netflow_details.get("value")[0]
+        ipAddress = netflowcollector_values.get("ipAddress")
+        port = netflowcollector_values.get("port")
+        if port is None:
+            port = "null"
+        network_settings.update({
+            "netflowcollector": {
+                "ipAddress": ipAddress,
+                "port": port,
+            }
+        })
 
         if messageoftheday_details is not None:
             network_settings.update({
