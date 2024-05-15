@@ -1050,9 +1050,9 @@ class NetworkSettings(DnacBase):
             else:
                 network_settings.update({
                     "network_aaa": {
-                        "network": aaa_value.get("ipAddress"),
+                        "network": aaa_pan_value,
                         "protocol": aaa_value.get("protocol"),
-                        "ipAddress": aaa_pan_value,
+                        "ipAddress": aaa_value.get("ipAddress"),
                         "servers": "ISE"
                     }
                 })
@@ -1072,9 +1072,9 @@ class NetworkSettings(DnacBase):
             else:
                 network_settings.update({
                     "clientAndEndpoint_aaa": {
-                        "network": aaa_value.get("ipAddress"),
+                        "network": aaa_pan_value,
                         "protocol": aaa_value.get("protocol"),
-                        "ipAddress": aaa_pan_value,
+                        "ipAddress": aaa_value.get("ipAddress"),
                         "servers": "ISE"
                     }
                 })
@@ -1669,13 +1669,14 @@ class NetworkSettings(DnacBase):
         else:
             del want_network_settings["ntpServer"]
 
+        have_timezone = self.have.get("network").get("net_details").get("settings").get("timezone")
         if network_management_details.get("timezone") is not None:
             want_network_settings["timezone"] = \
                 network_management_details.get("timezone")
+        elif have_timezone is not None:
+            want_network_settings["timezone"] = have_timezone
         else:
-            self.msg = "missing parameter timezone in network"
-            self.status = "failed"
-            return self
+            want_network_settings["timezone"] = "GMT"
 
         dnsServer = network_management_details.get("dns_server")
         if dnsServer is not None:
