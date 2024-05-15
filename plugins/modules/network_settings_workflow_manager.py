@@ -182,7 +182,7 @@ options:
             type: str
           ipv6_global_pool:
             description:
-            - The ipv6_global_pool is a mandatory when the ipv6_address_space is set to true.
+            - The ipv6_global_pool is a required when the ipv6_address_space is set to true.
             - It specifies the global IPv6 address pool using CIDR notation, such as "2001:db8:85a3::/64".
             - In cases where both ipv6_global_pool and ipv6_global_pool_name are specified, ipv6_global_pool will take precedence.
             type: str
@@ -224,59 +224,86 @@ options:
           site_name:
             description: >
               The name of the site provided as a path parameter, used
-              to specify where the IP sub-pool will be reserved.
+              to specify where the IP sub-pool will be reserved. (eg Global/Chennai/Trill)
             type: str
           settings:
             description: Network management details settings.
             type: dict
             suboptions:
               network_aaa:
-                description: Network V2's network_aaa.
+                description: Manages AAA (Authentication Authorization Accounting) for network devices.
                 suboptions:
+                  servers:
+                    description: Server type for managing AAA for network devices.
+                    choices: [AAA, ISE]
+                    default: ISE
+                    type: str
                   ip_address:
-                    description: IP address for AAA and ISE server (eg 1.1.1.1).
+                    description:
+                    - Primary IP address for the ISE server.
+                    - Secondary IP address for the AAA server.
+                    - For example, 1.1.1.11.
                     type: str
                   network:
-                    description: IP Address for AAA or ISE server (eg 2.2.2.2).
+                    description:
+                    - PAN IP address for the ISE server.
+                    - Primary IP address for the AAA server.
+                    - For example, 1.1.1.10.
                     type: str
                   protocol:
-                    description: Protocol for AAA or ISE serve (eg RADIUS).
-                    type: str
-                  servers:
-                    description: Server type for AAA Network (eg AAA).
+                    description: Protocol for AAA or ISE server.
+                    choices: [RADIUS, TACACS]
+                    default: RADIUS
                     type: str
                   shared_secret:
-                    description: Shared secret for ISE Server.
+                    description:
+                    - Shared secret for ISE Server.
+                    - Required when the servers is set to ISE.
+                    - Length of the shared secret should be atleast 4 characters.
                     type: str
                 type: dict
               client_and_endpoint_aaa:
-                description: Network V2's clientAndEndpoint_aaa.
+                description: Manages AAA (Authentication Authorization Accounting) for clients and endpoints.
                 suboptions:
+                  servers:
+                    description:
+                    - Server type for managing AAA for client and endpoints.
+                    choices: [AAA, ISE]
+                    default: ISE
+                    type: str
                   ip_address:
-                    description: IP address for ISE serve (eg 1.1.1.4).
+                    description:
+                    - Primary IP address for the ISE server.
+                    - Secondary IP address for the AAA server.
+                    - For example, 1.1.1.1.
                     type: str
                   network:
-                    description: IP address for AAA or ISE server (eg 2.2.2.1).
+                    description:
+                    - PAN IP address for the ISE server.
+                    - Primary IP address for the AAA server.
+                    - For example, 1.1.1.2.
                     type: str
                   protocol:
-                    description: Protocol for AAA or ISE serve (eg RADIUS).
-                    type: str
-                  servers:
-                    description: Server type AAA or ISE server (eg AAA).
+                    description: Protocol for AAA or ISE server.
+                    choices: [RADIUS, TACACS]
+                    default: RADIUS
                     type: str
                   shared_secret:
-                    description: Shared secret for ISE server.
+                    description:
+                    - Shared secret for ISE Server.
+                    - Required when the servers is set to ISE.
+                    - Length of the shared secret should be atleast 4 characters.
                     type: str
                 type: dict
               dhcp_server:
-                description: DHCP Server IP (eg 1.1.1.1).
+                description: DHCP Server IP address (eg 1.1.1.4).
                 elements: str
                 type: list
               dns_server:
-                description: Network V2's dnsServer.
+                description: DNS server details of the network under a specific site.
                 suboptions:
                   domain_name:
-                    description: Domain Name of DHCP (eg; cisco).
+                    description: Domain Name of DHCP (eg; cisco.com, cisco.net).
                     type: str
                   primary_ip_address:
                     description: Primary IP Address for DHCP (eg 2.2.2.2).
@@ -286,24 +313,24 @@ options:
                     type: str
                 type: dict
               ntp_server:
-                description: IP address for NTP server (eg 1.1.1.2).
+                description: IP address for NTP server under a specific site (eg 1.1.1.2).
                 elements: str
                 type: list
               timezone:
-                description: Input for time zone (eg Africa/Abidjan).
+                description: Time zone of a specific site. (eg Africa/Abidjan/GMT).
                 type: str
               message_of_the_day:
-                description: Network V2's messageOfTheday.
+                description: Banner details under a specific site.
                 suboptions:
                   banner_message:
-                    description: Massage for Banner message (eg; Good day).
+                    description: Message for the banner (eg; Good day).
                     type: str
                   retain_existing_banner:
-                    description: Retain existing Banner Message (eg "true" or "false").
-                    type: str
+                    description: Retain existing banner message.
+                    type: bool
                 type: dict
               netflow_collector:
-                description: Network V2's netflowcollector.
+                description: Netflow collector details under a specific site.
                 suboptions:
                   ip_address:
                     description: IP Address for NetFlow collector (eg 3.3.3.1).
@@ -313,7 +340,7 @@ options:
                     type: int
                 type: dict
               snmp_server:
-                description: Network V2's snmpServer.
+                description: Snmp Server details under a specific site.
                 suboptions:
                   configure_dnac_ip:
                     description: Configuration Cisco Catalyst Center IP for SNMP Server (eg true).
@@ -324,7 +351,7 @@ options:
                     type: list
                 type: dict
               syslog_server:
-                description: Network V2's syslogServer.
+                description: syslog Server details under a specific site.
                 suboptions:
                   configure_dnac_ip:
                     description: Configuration Cisco Catalyst Center IP for syslog server (eg true).
@@ -478,13 +505,13 @@ EXAMPLES = r"""
         site_name: string
         settings:
           network_aaa:
+            servers: string
             network: string
             protocol: string
-            servers: string
           client_and_endpoint_aaa:
+            servers: string
             network: string
             protocol: string
-            servers: string
           dhcp_server: list
           dns_server:
             domain_name: string
@@ -494,7 +521,7 @@ EXAMPLES = r"""
           timezone: string
           message_of_the_day:
             banner_message: string
-            retain_existing_banner: string
+            retain_existing_banner: bool
           netflow_collector:
             ip_address: string
             port: 443
@@ -1235,7 +1262,7 @@ class NetworkSettings(DnacBase):
         for pool_details in global_pool_ippool:
             name = pool_details.get("name")
             if name is None:
-                self.msg = "Mandatory Parameter name '{0}' required for global pool".format(name)
+                self.msg = "Missing required parameter 'name' in global_pool_details"
                 self.status = "failed"
                 return self
 
@@ -1277,7 +1304,7 @@ class NetworkSettings(DnacBase):
         for item in reserve_pool_details:
             name = item.get("name")
             if name is None:
-                self.msg = "Mandatory Parameter name required in reserve_pool_details."
+                self.msg = "Missing required parameter 'name' in reserve_pool_details."
                 self.status = "failed"
                 return self
             site_name = item.get("site_name")
@@ -1405,7 +1432,7 @@ class NetworkSettings(DnacBase):
             return global_pool_cidr
 
         if not global_pool_name:
-            self.msg = "Missing parameter 'Global Pool CIDR' or 'Global Pool name' is mandatory under reserve_pool_details."
+            self.msg = "Missing parameter 'Global Pool CIDR' or 'Global Pool name' is required under reserve_pool_details."
             self.status = "failed"
             return self.check_return_status()
 
@@ -1544,14 +1571,14 @@ class NetworkSettings(DnacBase):
                 "ipv6TotalHost": item.get("ipv6_total_host"),
                 "slaacSupport": item.get("slaac_support")
             }
-            # Check for missing mandatory parameters in the playbook
+            # Check for missing required parameters in the playbook
             if pool_values.get("ipv6AddressSpace") is True:
                 pool_values.update({
                     "ipv6GlobalPool": self.get_global_pool_cidr(item.get("ipv6_global_pool"),
                                                                 item.get("ipv6_global_pool_name"))})
 
             if not pool_values.get("name"):
-                self.msg = "Missing mandatory parameter 'name' in reserve_pool_details '{0}' element" \
+                self.msg = "Missing required parameter 'name' in reserve_pool_details '{0}' element" \
                            .format(reserve_pool_index + 1)
                 self.status = "failed"
                 return self
@@ -1757,14 +1784,21 @@ class NetworkSettings(DnacBase):
                     "bannerMessage":
                     messageOfTheday.get("banner_message")
                 })
-            if messageOfTheday.get("retain_existing_banner") is not None:
-                want_network_settings.get("messageOfTheday").update({
-                    "retainExistingBanner":
-                    messageOfTheday.get("retain_existing_banner")
-                })
+            retain_existing_banner = messageOfTheday.get("retain_existing_banner")
+            if retain_existing_banner is not None:
+                if retain_existing_banner is True:
+                    want_network_settings.get("messageOfTheday").update({
+                        "retainExistingBanner": "true"
+                    })
+                else:
+                    want_network_settings.get("messageOfTheday").update({
+                        "retainExistingBanner": "false"
+                    })
         else:
             del want_network_settings["messageOfTheday"]
 
+        server_types = ["AAA", "ISE"]
+        protocol_types = ["RADIUS", "TACACS"]
         network_aaa = network_management_details.get("network_aaa")
         if network_aaa:
             if network_aaa.get("ip_address"):
@@ -1787,23 +1821,33 @@ class NetworkSettings(DnacBase):
                 self.status = "failed"
                 return self
 
-            if network_aaa.get("protocol"):
+            protocol = network_aaa.get("protocol")
+            if protocol:
                 want_network_settings.get("network_aaa").update({
-                    "protocol":
-                    network_aaa.get("protocol")
+                    "protocol": protocol
                 })
             else:
-                self.msg = "missing parameter protocol in network_aaa"
+                want_network_settings.get("network_aaa").update({
+                    "protocol": "RADIUS"
+                })
+
+            if protocol not in protocol_types:
+                self.msg = "The 'protocol' in the network_aaa should be in {0}".format(protocol_types)
                 self.status = "failed"
                 return self
 
-            if network_aaa.get("servers"):
+            servers = network_aaa.get("servers")
+            if servers:
                 want_network_settings.get("network_aaa").update({
-                    "servers":
-                    network_aaa.get("servers")
+                    "servers": servers
                 })
             else:
-                self.msg = "missing parameter servers in network_aaa"
+                want_network_settings.get("network_aaa").update({
+                    "servers": "ISE"
+                })
+
+            if servers not in server_types:
+                self.msg = "The 'servers' in the network_aaa should be in {0}".format(server_types)
                 self.status = "failed"
                 return self
 
@@ -1817,13 +1861,28 @@ class NetworkSettings(DnacBase):
 
         clientAndEndpoint_aaa = network_management_details.get("client_and_endpoint_aaa")
         if clientAndEndpoint_aaa:
+            servers = clientAndEndpoint_aaa.get("servers")
+            if servers:
+                want_network_settings.get("clientAndEndpoint_aaa").update({
+                    "servers": servers
+                })
+            else:
+                want_network_settings.get("clientAndEndpoint_aaa").update({
+                    "servers": "ISE"
+                })
+
+            if servers not in server_types:
+                self.msg = "The 'servers' in the client_and_endpoint_aaa should be in {0}".format(server_types)
+                self.status = "failed"
+                return self
+
             if clientAndEndpoint_aaa.get("ip_address"):
                 want_network_settings.get("clientAndEndpoint_aaa").update({
                     "ipAddress":
                     clientAndEndpoint_aaa.get("ip_address")
                 })
             else:
-                if clientAndEndpoint_aaa.get("servers") == "ISE":
+                if servers == "ISE":
                     self.msg = "Failed to process client_and_endpoint_aaa due to missing 'ip_address' parameter. ISE server is configured."
                     self.status = "failed"
                     return self
@@ -1838,23 +1897,18 @@ class NetworkSettings(DnacBase):
                 self.status = "failed"
                 return self
 
-            if clientAndEndpoint_aaa.get("protocol"):
+            protocol = clientAndEndpoint_aaa.get("protocol")
+            if protocol:
                 want_network_settings.get("clientAndEndpoint_aaa").update({
-                    "protocol":
-                    clientAndEndpoint_aaa.get("protocol")
+                    "protocol": protocol
                 })
             else:
-                self.msg = "Failed to process client_and_endpoint_aaa due to missing parameter 'protocol' in the playbook."
-                self.status = "failed"
-                return self
+                want_network_settings.get("clientAndEndpoint_aaa").update({
+                    "protocol": "RADIUS"
+                })
 
-            if clientAndEndpoint_aaa.get("servers"):
-                want_network_settings.get("clientAndEndpoint_aaa").update({
-                    "servers":
-                    clientAndEndpoint_aaa.get("servers")
-                })
-            else:
-                self.msg = "Failed to process client_and_endpoint_aaa due to missing parameter 'servers' in the playbook."
+            if protocol not in protocol_types:
+                self.msg = "The 'protocol' in the client_and_endpoint_aaa should be in {0}".format(protocol_types)
                 self.status = "failed"
                 return self
 
