@@ -1014,14 +1014,15 @@ class NetworkSettings(DnacBase):
         else:
             network_settings.update({"ntpServer": [""]})
 
-        netflowcollector_values = netflow_details.get("value")[0]
-        ipAddress = netflowcollector_values.get("ipAddress")
-        port = netflowcollector_values.get("port")
+        netflow_collector_values = netflow_details.get("value")[0]
+        ip_address = netflow_collector_values.get("ipAddress")
+        port = netflow_collector_values.get("port")
         if port is None:
             port = "null"
+
         network_settings.update({
             "netflowcollector": {
-                "ipAddress": ipAddress,
+                "ipAddress": ip_address,
                 "port": port,
             }
         })
