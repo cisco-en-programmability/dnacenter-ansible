@@ -62,13 +62,13 @@
             settings:
               network_aaa: #works only if we system settigns is set
                 ip_address: 10.0.0.21 #Mandatory for ISE, sec ip for AAA
-                network: 10.0.0.20
+                network_address: 10.0.0.20
                 protocol: TACACS
                 servers: AAA
                 # shared_secret: string #ISE
               client_and_endpoint_aaa: #works only if we system settigns is set
                 ip_address: 10.197.156.42 #Mandatory for ISE, sec ip for AAA
-                network: 10.0.0.20
+                network_address: 10.0.0.20
                 protocol: RADIUS                                     
                 servers: AAA
                 # shared_secret: string #ISE

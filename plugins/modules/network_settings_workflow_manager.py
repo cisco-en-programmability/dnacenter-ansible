@@ -241,13 +241,13 @@ options:
                   ip_address:
                     description:
                     - Primary IP address for the ISE server.
-                    - Secondary IP address for the AAA server.
+                    - Primary IP address for the AAA server.
                     - For example, 1.1.1.11.
                     type: str
-                  network:
+                  network_address:
                     description:
                     - PAN IP address for the ISE server.
-                    - Primary IP address for the AAA server.
+                    - Secondary IP address for the AAA server.
                     - For example, 1.1.1.10.
                     type: str
                   protocol:
@@ -274,13 +274,13 @@ options:
                   ip_address:
                     description:
                     - Primary IP address for the ISE server.
-                    - Secondary IP address for the AAA server.
+                    - Primary IP address for the AAA server.
                     - For example, 1.1.1.1.
                     type: str
-                  network:
+                  network_address:
                     description:
                     - PAN IP address for the ISE server.
-                    - Primary IP address for the AAA server.
+                    - Secondary IP address for the AAA server.
                     - For example, 1.1.1.2.
                     type: str
                   protocol:
@@ -506,11 +506,13 @@ EXAMPLES = r"""
         settings:
           network_aaa:
             servers: string
-            network: string
+            ip_address: string
+            network_address: string
             protocol: string
           client_and_endpoint_aaa:
             servers: string
-            network: string
+            ip_address: string
+            network_address: string
             protocol: string
           dhcp_server: list
           dns_server:
@@ -700,7 +702,7 @@ class NetworkSettings(DnacBase):
                         "type": 'dict',
                         "servers": {"type": 'string', "choices": ["ISE", "AAA"]},
                         "ip_address": {"type": 'string'},
-                        "network": {"type": 'string'},
+                        "network_address": {"type": 'string'},
                         "protocol": {"type": 'string', "choices": ["RADIUS", "TACACS"]},
                         "shared_secret": {"type": 'string'}
 
@@ -709,7 +711,7 @@ class NetworkSettings(DnacBase):
                         "type": 'dict',
                         "servers": {"type": 'string', "choices": ["ISE", "AAA"]},
                         "ip_address": {"type": 'string'},
-                        "network": {"type": 'string'},
+                        "network_address": {"type": 'string'},
                         "protocol": {"type": 'string', "choices": ["RADIUS", "TACACS"]},
                         "shared_secret": {"type": 'string'}
                     }
@@ -1801,25 +1803,41 @@ class NetworkSettings(DnacBase):
         protocol_types = ["RADIUS", "TACACS"]
         network_aaa = network_management_details.get("network_aaa")
         if network_aaa:
-            if network_aaa.get("ip_address"):
+            servers = network_aaa.get("servers")
+            if servers:
                 want_network_settings.get("network_aaa").update({
-                    "ipAddress":
-                    network_aaa.get("ip_address")
+                    "servers": servers
                 })
             else:
-                if network_aaa.get("servers") == "ISE":
-                    self.msg = "missing parameter ip_address in network_aaa, server ISE is set"
-                    self.status = "failed"
-                    return self
+                want_network_settings.get("network_aaa").update({
+                    "servers": "ISE"
+                })
 
-            if network_aaa.get("network"):
-                want_network_settings.get("network_aaa").update({
-                    "network": network_aaa.get("network")
-                })
-            else:
-                self.msg = "missing parameter network in network_aaa"
+            if servers not in server_types:
+                self.msg = "The 'servers' in the network_aaa should be in {0}".format(server_types)
                 self.status = "failed"
                 return self
+
+            ip_address = network_aaa.get("ip_address")
+            if ip_address:
+                want_network_settings.get("network_aaa").update({
+                    "ipAddress": ip_address
+                })
+            else:
+                self.msg = "Missing required parameter 'ip_address' which is the 'primary address' in network_aaa."
+                self.status = "failed"
+                return self
+            network_address = network_aaa.get("network_address")
+            if network_address:
+                want_network_settings.get("network_aaa").update({
+                    "network": network_address
+                })
+            else:
+                if servers == "ISE":
+                    self.msg = "Missing required parameter 'network_address' for ISE " + \
+                               "which is 'PAN address' in network_aaa."
+                    self.status = "failed"
+                    return self
 
             protocol = network_aaa.get("protocol")
             if protocol:
@@ -1836,25 +1854,10 @@ class NetworkSettings(DnacBase):
                 self.status = "failed"
                 return self
 
-            servers = network_aaa.get("servers")
-            if servers:
+            shared_secret = network_aaa.get("shared_secret")
+            if shared_secret:
                 want_network_settings.get("network_aaa").update({
-                    "servers": servers
-                })
-            else:
-                want_network_settings.get("network_aaa").update({
-                    "servers": "ISE"
-                })
-
-            if servers not in server_types:
-                self.msg = "The 'servers' in the network_aaa should be in {0}".format(server_types)
-                self.status = "failed"
-                return self
-
-            if network_aaa.get("shared_secret"):
-                want_network_settings.get("network_aaa").update({
-                    "sharedSecret":
-                    network_aaa.get("shared_secret")
+                    "sharedSecret": shared_secret
                 })
         else:
             del want_network_settings["network_aaa"]
@@ -1876,26 +1879,27 @@ class NetworkSettings(DnacBase):
                 self.status = "failed"
                 return self
 
-            if clientAndEndpoint_aaa.get("ip_address"):
+            ip_address = clientAndEndpoint_aaa.get("ip_address")
+            if ip_address:
                 want_network_settings.get("clientAndEndpoint_aaa").update({
-                    "ipAddress":
-                    clientAndEndpoint_aaa.get("ip_address")
+                    "ipAddress": ip_address
+                })
+            else:
+                self.msg = "Missing required parameter 'ip_address' which is the 'primary address' in client_and_endpoint_aaa."
+                self.status = "failed"
+                return self
+
+            network_address = clientAndEndpoint_aaa.get("network_address")
+            if network_address:
+                want_network_settings.get("clientAndEndpoint_aaa").update({
+                    "network": network_address
                 })
             else:
                 if servers == "ISE":
-                    self.msg = "Failed to process client_and_endpoint_aaa due to missing 'ip_address' parameter. ISE server is configured."
+                    self.msg = "Missing required parameter 'network_address' for ISE " + \
+                               "which is 'PAN address' in client_and_endpoint_aaa."
                     self.status = "failed"
                     return self
-
-            if clientAndEndpoint_aaa.get("network"):
-                want_network_settings.get("clientAndEndpoint_aaa").update({
-                    "network":
-                    clientAndEndpoint_aaa.get("network")
-                })
-            else:
-                self.msg = "Failed to process client_and_endpoint_aaa due to missing parameter 'network' in the playbook."
-                self.status = "failed"
-                return self
 
             protocol = clientAndEndpoint_aaa.get("protocol")
             if protocol:
@@ -1912,10 +1916,10 @@ class NetworkSettings(DnacBase):
                 self.status = "failed"
                 return self
 
-            if clientAndEndpoint_aaa.get("shared_secret"):
+            shared_secret = clientAndEndpoint_aaa.get("shared_secret")
+            if shared_secret:
                 want_network_settings.get("clientAndEndpoint_aaa").update({
-                    "sharedSecret":
-                    clientAndEndpoint_aaa.get("shared_secret")
+                    "sharedSecret": shared_secret
                 })
         else:
             del want_network_settings["clientAndEndpoint_aaa"]
