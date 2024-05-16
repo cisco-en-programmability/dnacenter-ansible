@@ -44,9 +44,9 @@ options:
             required: true
         provisioning:
             description:
-                - Describes whesther the user wants to perform only site assignment or provisioning of a wired device.
-                - False, for site assignment only
-                - True, for provisioning to a site
+                - Specifies whether the user intends to perform site assignment only or full provisioning for a wired device.
+                - Set to 'False' to carry out site assignment only.
+                - Set to 'True' to proceed with provisioning to a site.
             type: bool
             required: false
             default: true
@@ -103,7 +103,7 @@ notes:
     post /dna/intent/api/v1/business/sda/provision-device
     post /dna/intent/api/v1/wireless/provision
 
-  - Added 'provisioning' option in v6.13.2
+  - Added 'provisioning' option in v6.14.1
 
 """
 
@@ -159,7 +159,7 @@ EXAMPLES = r"""
     config:
         - site_name_hierarchy: Global/USA/San Francisco/BGL_18
           management_ip_address: 204.192.3.40
-          provisioning: false
+          provisioning: False
 
 """
 
@@ -320,20 +320,33 @@ class Provision(DnacBase):
           The method returns an instance of the class with updated attributes:
           - serial_number: A string indicating the serial number of the device
         Example:
-          Post creation of the validated input, we this method gets the
+          After creating the validated input, this method retrieves the
           serial number of the device.
         """
 
-        response = self.dnac_apply['exec'](
-            family="devices",
-            function='get_network_device_by_ip',
-            params={"ip_address": self.validated_config[0]["management_ip_address"]},
-            op_modifies=True
-        )
+        try:
+            response = self.dnac_apply['exec'](
+                family="devices",
+                function='get_network_device_by_ip',
+                params={"ip_address": self.validated_config[0]["management_ip_address"]},
+                op_modifies=True
+            )
+
+        except Exception as e:
+            self.log("An error occurred while fetching the serial number: {0}".format(str(e)), "ERROR")
+            return None
+
+        if not (response or response.get("response")):
+            self.log("No response received from 'get_network_device_by_ip' API or it's invalid.", "ERROR")
+            return None
 
         self.log("The device response from 'get_network_device_by_ip' API is {0}".format(str(response)), "DEBUG")
         dev_dict = response.get("response")
         serial_number = dev_dict.get("serialNumber")
+
+        if not serial_number:
+            self.log("Serial number not found in the response.", "ERROR")
+            return None
 
         self.log("Serial Number of the device is {0}".format(str(serial_number)), "INFO")
 
@@ -408,9 +421,7 @@ class Provision(DnacBase):
             )
             self.log("Response collected from 'get_business_api_execution_details' API is {0}".format(str(response)), "DEBUG")
             self.log("Execution status for the execution id {0} is {1}".format(str(execution_id), str(response.get("status"))), "INFO")
-            if response.get('bapiError') or re.search(
-                'failed', response.get('bapiError'), flags=re.IGNORECASE
-            ):
+            if response.get('bapiError') or response.get("status") == "FAILURE":
                 msg = 'Assigning to site execution with id {0} has not completed - Reason: {1}'.format(
                     execution_id, response.get("bapiError"))
                 self.module.fail_json(msg=msg)
