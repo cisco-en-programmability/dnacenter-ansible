@@ -813,43 +813,6 @@ class Events(DnacBase):
             self.log(self.msg, "ERROR")
             self.check_return_status()
 
-    def get_syslog_destination_with_name(self, name):
-        """
-        Retrieve the details of a syslog destination with a specific name from Cisco Catalyst Center.
-        Args:
-            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-            name (str): The name of the syslog destination to retrieve details for.
-        Returns:
-            dict: A dictionary containing the details of the syslog destination with the specified name.
-        Description:
-            This function queries Cisco Catalyst Center to retrieve the details of a syslog destination with a specific name.
-            The response contains the status message indicating the syslog destination details.
-            If no syslog destination is found with the specified name, it returns None.
-            In case of any errors during the API call, an exception is raised with an error message.
-        """
-        try:
-            response = self.dnac._exec(
-                family="event_management",
-                function='get_syslog_destination',
-                op_modifies=True,
-                params={"name": name}
-            )
-            self.log("Received API response from 'get_syslog_destination': {0}".format(str(response)), "DEBUG")
-            response = response.get('statusMessage')
-
-            if not response:
-                self.log("There is no Syslog destination added with the name '{0}' in Cisco Catalyst Center".format(name), "INFO")
-                return response
-            syslog_details = response[0]
-
-            return syslog_details
-
-        except Exception as e:
-            self.status = "failed"
-            self.msg = "Error while getting the details of Syslog destination with the name '{0}' from Cisco Catalyst Center: {1}".format(name, str(e))
-            self.log(self.msg, "ERROR")
-            self.check_return_status()
-
     def syslog_dest_needs_update(self, syslog_details, syslog_details_in_ccc):
         """
         Check if the syslog destination needs an update based on a comparison between desired and current details.
@@ -869,10 +832,15 @@ class Events(DnacBase):
 
         update_needed = False
         for key, value in syslog_details.items():
-            if str(syslog_details_in_ccc[key]) == value or value == "":
+            if key == "server_address":
+                if syslog_details_in_ccc["host"] != value:
+                    update_needed = True
+                    break
+            elif str(syslog_details_in_ccc[key]) == value or value == "":
                 continue
             else:
                 update_needed = True
+                break
 
         return update_needed
 
@@ -1398,7 +1366,9 @@ class Events(DnacBase):
 
         if webhook_details.get('headers'):
             custom_header = webhook_details['headers']
-            playbook_params['customHeaders'] = custom_header
+            playbook_params['headers'] = []
+            for header in custom_header:
+                playbook_params['headers'].append(header)
 
         return playbook_params
 
@@ -1474,11 +1444,17 @@ class Events(DnacBase):
         """
 
         update_needed = False
+
         for key, value in webhook_params.items():
-            if webhook_dest_detail_in_ccc[key] == value or value is None:
+            if isinstance(value, list):
+                update_needed = self.webhook_dest_needs_update(value[0], webhook_dest_detail_in_ccc[key][0])
+                if update_needed:
+                    break
+            elif webhook_dest_detail_in_ccc[key] == value or value is None:
                 continue
             else:
                 update_needed = True
+                break
 
         return update_needed
 
@@ -1658,6 +1634,7 @@ class Events(DnacBase):
                 params=email_params
             )
             self.log("Received API response from 'create_email_destination': {0}".format(str(response)), "DEBUG")
+            time.sleep(2)
             status = response.get('statusUri')
             status_execution_id = status.split("/")[-1]
 
@@ -2253,6 +2230,18 @@ class Events(DnacBase):
         if config.get('email_destination'):
             email_details = self.want.get('email_details')
             email_params = self.collect_email_playbook_params(email_details)
+            primary_config = email_params.get("primarySMTPConfig")
+
+            if primary_config and primary_config.get("hostName"):
+                server_address = primary_config.get("hostName")
+                special_chars = r'[!@#$%^&*()_+\-=\[\]{};\'\\:"|,.<>\/?]'
+
+                if re.search(special_chars, server_address):
+                    self.status = "failed"
+                    self.msg = """Invalid Primary SMTP server hostname '{0}' as special character present in the input server address so
+                        unable to add/update the email destination in Cisco Catalyst Center.""".format(server_address)
+                    self.log(self.msg, "ERROR")
+                    return self
 
             if not self.have.get('email_destination'):
                 # Need to Add snmp destination in Cisco Catalyst Center with given playbook params
@@ -2313,9 +2302,17 @@ class Events(DnacBase):
                 self.log(self.msg, "ERROR")
                 return self
 
-            syslog_details_in_ccc = self.get_syslog_destination_with_name(name)
+            destinations_in_ccc = self.have.get('syslog_destinations')
+            is_destination_exist_in_ccc = False
 
-            if not syslog_details_in_ccc:
+            if destinations_in_ccc:
+                for destination in destinations_in_ccc:
+                    if destination["name"] == name:
+                        is_destination_exist_in_ccc = True
+                        syslog_details_in_ccc = destination
+                        break
+
+            if not is_destination_exist_in_ccc:
                 # We need to Add the Syslog Destination in the Catalyst Center
                 self.add_syslog_destination(syslog_details).check_return_status()
             else:
@@ -2362,6 +2359,14 @@ class Events(DnacBase):
                     self.msg = "Invalid Notification trap port '{0}' given in playbook. Select port from the number range(1, 65535)".format(port)
                     self.log(self.msg, "ERROR")
                     return self
+            privacy_type = snmp_params.get("snmpPrivacyType")
+
+            if privacy_type and privacy_type not in ["AES128", "DES"]:
+                self.status = "failed"
+                self.msg = """Invalid SNMP Privacy type '{0}' given in playbook. Select either AES128/DES as privacy type to add/update the snmp
+                        destination '{1}' in the Cisco Catalyst Center.""".format(privacy_type, destination_name)
+                self.log(self.msg, "ERROR")
+                return self
 
             if not is_destination_exist:
                 # Need to Add snmp destination in Cisco Catalyst Center with given playbook params
@@ -2552,9 +2557,16 @@ class Events(DnacBase):
         if config.get('syslog_destination'):
             syslog_details = self.want.get('syslog_details')
             syslog_name = syslog_details.get('name')
-            syslog_details_in_ccc = self.get_syslog_destination_with_name(syslog_name)
+            destinations_in_ccc = self.have.get('syslog_destinations')
+            is_destination_exist_in_ccc = False
 
-            if syslog_details_in_ccc:
+            if destinations_in_ccc:
+                for destination in destinations_in_ccc:
+                    if destination["name"] == syslog_name:
+                        is_destination_exist_in_ccc = True
+                        break
+
+            if is_destination_exist_in_ccc:
                 self.status = "success"
                 msg = """Requested Syslog Destination '{0}' have been successfully added/updated to the Cisco Catalyst Center and their
                     addition/updation has been verified.""".format(syslog_name)
