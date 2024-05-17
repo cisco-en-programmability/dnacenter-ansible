@@ -233,7 +233,7 @@ options:
               network_aaa:
                 description: Manages AAA (Authentication Authorization Accounting) for network devices.
                 suboptions:
-                  servers:
+                  server_type:
                     description: Server type for managing AAA for network devices.
                     choices: [AAA, ISE]
                     default: ISE
@@ -248,30 +248,30 @@ options:
                     - PAN IP address for the ISE server.
                     - For example, 1.1.1.1.
                     type: str
-                    version_added: 6.15.0
+                    version_added: 6.14.0
                   primary_server_address:
                     description:
                     - Primary IP address for the ISE/AAA server.
                     - For example, 1.1.1.2.
                     type: str
-                    version_added: 6.15.0
+                    version_added: 6.14.0
                   secondary_server_address:
                     description:
                     - Secondary IP address for the AAA server.
                     - For example, 1.1.1.3.
                     type: str
-                    version_added: 6.15.0
+                    version_added: 6.14.0
                   shared_secret:
                     description:
                     - Shared secret for ISE Server.
-                    - Required when the servers is set to ISE.
+                    - Required when the server_type is set to ISE.
                     - Length of the shared secret should be atleast 4 characters.
                     type: str
                 type: dict
               client_and_endpoint_aaa:
                 description: Manages AAA (Authentication Authorization Accounting) for clients and endpoints.
                 suboptions:
-                  servers:
+                  server_type:
                     description:
                     - Server type for managing AAA for client and endpoints.
                     choices: [AAA, ISE]
@@ -287,23 +287,23 @@ options:
                     - PAN IP address for the ISE server.
                     - For example, 1.1.1.1.
                     type: str
-                    version_added: 6.15.0
+                    version_added: 6.14.0
                   primary_server_address:
                     description:
                     - Primary IP address for the ISE/AAA server.
                     - For example, 1.1.1.2.
                     type: str
-                    version_added: 6.15.0
+                    version_added: 6.14.0
                   secondary_server_address:
                     description:
                     - Secondary IP address for the AAA server.
                     - For example, 1.1.1.3.
                     type: str
-                    version_added: 6.15.0
+                    version_added: 6.14.0
                   shared_secret:
                     description:
                     - Shared secret for ISE Server.
-                    - Required when the servers is set to ISE.
+                    - Required when the server_type is set to ISE.
                     - Length of the shared secret should be atleast 4 characters.
                     type: str
                 type: dict
@@ -516,16 +516,6 @@ EXAMPLES = r"""
     - network_management_details:
         site_name: string
         settings:
-          network_aaa:
-            servers: string
-            ip_address: string
-            network_address: string
-            protocol: string
-          client_and_endpoint_aaa:
-            servers: string
-            ip_address: string
-            network_address: string
-            protocol: string
           dhcp_server: list
           dns_server:
             domain_name: string
@@ -564,12 +554,12 @@ EXAMPLES = r"""
         site_name: string
         settings:
           network_aaa:
-            servers: AAA
+            server_type: AAA
             primary_server_address: string
             secondary_server_address: string
             protocol: string
           client_and_endpoint_aaa:
-            servers: AAA
+            server_type: AAA
             primary_server_address: string
             secondary_server_address: string
             protocol: string
@@ -592,12 +582,12 @@ EXAMPLES = r"""
         site_name: string
         settings:
           network_aaa:
-            servers: ISE
+            server_type: ISE
             pan_address: string
             primary_server_address: string
             protocol: string
           client_and_endpoint_aaa:
-            servers: ISE
+            server_type: ISE
             pan_address: string
             primary_server_address: string
             protocol: string
@@ -768,7 +758,7 @@ class NetworkSettings(DnacBase):
                     },
                     "network_aaa": {
                         "type": 'dict',
-                        "servers": {"type": 'string', "choices": ["ISE", "AAA"]},
+                        "server_type": {"type": 'string', "choices": ["ISE", "AAA"]},
                         "pan_address": {"type": 'string'},
                         "primary_server_address": {"type": 'string'},
                         "secondary_server_address": {"type": 'string'},
@@ -778,7 +768,7 @@ class NetworkSettings(DnacBase):
                     },
                     "client_and_endpoint_aaa": {
                         "type": 'dict',
-                        "servers": {"type": 'string', "choices": ["ISE", "AAA"]},
+                        "server_type": {"type": 'string', "choices": ["ISE", "AAA"]},
                         "pan_address": {"type": 'string'},
                         "primary_server_address": {"type": 'string'},
                         "secondary_server_address": {"type": 'string'},
@@ -1873,18 +1863,18 @@ class NetworkSettings(DnacBase):
         protocol_types = ["RADIUS", "TACACS"]
         network_aaa = network_management_details.get("network_aaa")
         if network_aaa:
-            servers = network_aaa.get("servers")
-            if servers:
+            server_type = network_aaa.get("server_type")
+            if server_type:
                 want_network_settings.get("network_aaa").update({
-                    "servers": servers
+                    "servers": server_type
                 })
             else:
                 want_network_settings.get("network_aaa").update({
                     "servers": "ISE"
                 })
 
-            if servers not in server_types:
-                self.msg = "The 'servers' in the network_aaa should be in {0}".format(server_types)
+            if server_type not in server_types:
+                self.msg = "The 'server_type' in the network_aaa should be in {0}".format(server_types)
                 self.status = "failed"
                 return self
 
@@ -1898,7 +1888,7 @@ class NetworkSettings(DnacBase):
                 self.status = "failed"
                 return self
 
-            if servers == "ISE":
+            if server_type == "ISE":
                 pan_address = network_aaa.get("pan_address")
                 if pan_address:
                     want_network_settings.get("network_aaa").update({
@@ -1940,18 +1930,18 @@ class NetworkSettings(DnacBase):
 
         clientAndEndpoint_aaa = network_management_details.get("client_and_endpoint_aaa")
         if clientAndEndpoint_aaa:
-            servers = clientAndEndpoint_aaa.get("servers")
-            if servers:
+            server_type = clientAndEndpoint_aaa.get("server_type")
+            if server_type:
                 want_network_settings.get("clientAndEndpoint_aaa").update({
-                    "servers": servers
+                    "servers": server_type
                 })
             else:
                 want_network_settings.get("clientAndEndpoint_aaa").update({
                     "servers": "ISE"
                 })
 
-            if servers not in server_types:
-                self.msg = "The 'servers' in the client_and_endpoint_aaa should be in {0}".format(server_types)
+            if server_type not in server_types:
+                self.msg = "The 'server_type' in the client_and_endpoint_aaa should be in {0}".format(server_types)
                 self.status = "failed"
                 return self
 
@@ -1965,7 +1955,7 @@ class NetworkSettings(DnacBase):
                 self.status = "failed"
                 return self
 
-            if servers == "ISE":
+            if server_type == "ISE":
                 pan_address = clientAndEndpoint_aaa.get("pan_address")
                 if pan_address:
                     want_network_settings.get("clientAndEndpoint_aaa").update({
