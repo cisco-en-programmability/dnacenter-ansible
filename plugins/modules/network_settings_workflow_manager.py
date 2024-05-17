@@ -238,23 +238,29 @@ options:
                     choices: [AAA, ISE]
                     default: ISE
                     type: str
-                  ip_address:
-                    description:
-                    - Primary IP address for the ISE server.
-                    - Primary IP address for the AAA server.
-                    - For example, 1.1.1.11.
-                    type: str
-                  network_address:
-                    description:
-                    - PAN IP address for the ISE server.
-                    - Secondary IP address for the AAA server.
-                    - For example, 1.1.1.10.
-                    type: str
                   protocol:
                     description: Protocol for AAA or ISE server.
                     choices: [RADIUS, TACACS]
                     default: RADIUS
                     type: str
+                  pan_address:
+                    description:
+                    - PAN IP address for the ISE server.
+                    - For example, 1.1.1.1.
+                    type: str
+                    version_added: 6.15.0
+                  primary_server_address:
+                    description:
+                    - Primary IP address for the ISE/AAA server.
+                    - For example, 1.1.1.2.
+                    type: str
+                    version_added: 6.15.0
+                  secondary_server_address:
+                    description:
+                    - Secondary IP address for the AAA server.
+                    - For example, 1.1.1.3.
+                    type: str
+                    version_added: 6.15.0
                   shared_secret:
                     description:
                     - Shared secret for ISE Server.
@@ -271,23 +277,29 @@ options:
                     choices: [AAA, ISE]
                     default: ISE
                     type: str
-                  ip_address:
-                    description:
-                    - Primary IP address for the ISE server.
-                    - Primary IP address for the AAA server.
-                    - For example, 1.1.1.1.
-                    type: str
-                  network_address:
-                    description:
-                    - PAN IP address for the ISE server.
-                    - Secondary IP address for the AAA server.
-                    - For example, 1.1.1.2.
-                    type: str
                   protocol:
                     description: Protocol for AAA or ISE server.
                     choices: [RADIUS, TACACS]
                     default: RADIUS
                     type: str
+                  pan_address:
+                    description:
+                    - PAN IP address for the ISE server.
+                    - For example, 1.1.1.1.
+                    type: str
+                    version_added: 6.15.0
+                  primary_server_address:
+                    description:
+                    - Primary IP address for the ISE/AAA server.
+                    - For example, 1.1.1.2.
+                    type: str
+                    version_added: 6.15.0
+                  secondary_server_address:
+                    description:
+                    - Secondary IP address for the AAA server.
+                    - For example, 1.1.1.3.
+                    type: str
+                    version_added: 6.15.0
                   shared_secret:
                     description:
                     - Shared secret for ISE Server.
@@ -533,6 +545,62 @@ EXAMPLES = r"""
           syslog_server:
             configure_dnac_ip: True
             ip_addresses: list
+
+- name: Adding the network_aaa and client_and_endpoint_aaa AAA server
+  cisco.dnac.network_settings_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: True
+    dnac_log_level: "{{ dnac_log_level }}"
+    state: merged
+    config_verify: True
+    config:
+    - network_management_details:
+        site_name: string
+        settings:
+          network_aaa:
+            servers: AAA
+            primary_server_address: string
+            secondary_server_address: string
+            protocol: string
+          client_and_endpoint_aaa:
+            servers: AAA
+            primary_server_address: string
+            secondary_server_address: string
+            protocol: string
+
+- name: Adding the network_aaa and client_and_endpoint_aaa ISE server
+  cisco.dnac.network_settings_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: True
+    dnac_log_level: "{{ dnac_log_level }}"
+    state: merged
+    config_verify: True
+    config:
+    - network_management_details:
+        site_name: string
+        settings:
+          network_aaa:
+            servers: ISE
+            pan_address: string
+            primary_server_address: string
+            protocol: string
+          client_and_endpoint_aaa:
+            servers: ISE
+            pan_address: string
+            primary_server_address: string
+            protocol: string
 """
 
 RETURN = r"""
@@ -701,8 +769,9 @@ class NetworkSettings(DnacBase):
                     "network_aaa": {
                         "type": 'dict',
                         "servers": {"type": 'string', "choices": ["ISE", "AAA"]},
-                        "ip_address": {"type": 'string'},
-                        "network_address": {"type": 'string'},
+                        "pan_address": {"type": 'string'},
+                        "primary_server_address": {"type": 'string'},
+                        "secondary_server_address": {"type": 'string'},
                         "protocol": {"type": 'string', "choices": ["RADIUS", "TACACS"]},
                         "shared_secret": {"type": 'string'}
 
@@ -710,8 +779,9 @@ class NetworkSettings(DnacBase):
                     "client_and_endpoint_aaa": {
                         "type": 'dict',
                         "servers": {"type": 'string', "choices": ["ISE", "AAA"]},
-                        "ip_address": {"type": 'string'},
-                        "network_address": {"type": 'string'},
+                        "pan_address": {"type": 'string'},
+                        "primary_server_address": {"type": 'string'},
+                        "secondary_server_address": {"type": 'string'},
                         "protocol": {"type": 'string', "choices": ["RADIUS", "TACACS"]},
                         "shared_secret": {"type": 'string'}
                     }
@@ -1818,26 +1888,32 @@ class NetworkSettings(DnacBase):
                 self.status = "failed"
                 return self
 
-            ip_address = network_aaa.get("ip_address")
-            if ip_address:
+            primary_server_address = network_aaa.get("primary_server_address")
+            if primary_server_address:
                 want_network_settings.get("network_aaa").update({
-                    "ipAddress": ip_address
+                    "network": primary_server_address
                 })
             else:
-                self.msg = "Missing required parameter 'ip_address' which is the 'primary address' in network_aaa."
+                self.msg = "Missing required parameter 'primary_server_address' in network_aaa."
                 self.status = "failed"
                 return self
-            network_address = network_aaa.get("network_address")
-            if network_address:
-                want_network_settings.get("network_aaa").update({
-                    "network": network_address
-                })
-            else:
-                if servers == "ISE":
-                    self.msg = "Missing required parameter 'network_address' for ISE " + \
-                               "which is 'PAN address' in network_aaa."
+
+            if servers == "ISE":
+                pan_address = network_aaa.get("pan_address")
+                if pan_address:
+                    want_network_settings.get("network_aaa").update({
+                        "ipAddress": pan_address
+                    })
+                else:
+                    self.msg = "Missing required parameter 'pan_address' for ISE server in network_aaa."
                     self.status = "failed"
                     return self
+            else:
+                secondary_server_address = network_aaa.get("secondary_server_address")
+                if secondary_server_address:
+                    want_network_settings.get("network_aaa").update({
+                        "ipAddress": secondary_server_address
+                    })
 
             protocol = network_aaa.get("protocol")
             if protocol:
@@ -1879,27 +1955,32 @@ class NetworkSettings(DnacBase):
                 self.status = "failed"
                 return self
 
-            ip_address = clientAndEndpoint_aaa.get("ip_address")
-            if ip_address:
+            primary_server_address = clientAndEndpoint_aaa.get("primary_server_address")
+            if primary_server_address:
                 want_network_settings.get("clientAndEndpoint_aaa").update({
-                    "ipAddress": ip_address
+                    "network": primary_server_address
                 })
             else:
-                self.msg = "Missing required parameter 'ip_address' which is the 'primary address' in client_and_endpoint_aaa."
+                self.msg = "Missing required parameter 'primary_server_address' in client_and_endpoint_aaa."
                 self.status = "failed"
                 return self
 
-            network_address = clientAndEndpoint_aaa.get("network_address")
-            if network_address:
-                want_network_settings.get("clientAndEndpoint_aaa").update({
-                    "network": network_address
-                })
-            else:
-                if servers == "ISE":
-                    self.msg = "Missing required parameter 'network_address' for ISE " + \
-                               "which is 'PAN address' in client_and_endpoint_aaa."
+            if servers == "ISE":
+                pan_address = clientAndEndpoint_aaa.get("pan_address")
+                if pan_address:
+                    want_network_settings.get("clientAndEndpoint_aaa").update({
+                        "ipAddress": pan_address
+                    })
+                else:
+                    self.msg = "Missing required parameter 'pan_address' for ISE server in client_and_endpoint_aaa."
                     self.status = "failed"
                     return self
+            else:
+                secondary_server_address = clientAndEndpoint_aaa.get("secondary_server_address")
+                if secondary_server_address:
+                    want_network_settings.get("clientAndEndpoint_aaa").update({
+                        "ipAddress": secondary_server_address
+                    })
 
             protocol = clientAndEndpoint_aaa.get("protocol")
             if protocol:

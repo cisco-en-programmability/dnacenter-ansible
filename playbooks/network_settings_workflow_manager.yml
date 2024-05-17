@@ -61,14 +61,14 @@
             site_name: Global/Chennai
             settings:
               network_aaa: #works only if we system settigns is set
-                ip_address: 10.0.0.21 #Mandatory for ISE, sec ip for AAA
-                network_address: 10.0.0.20
+                primary_server_address: 10.0.0.20 #Mandatory for ISE, sec ip for AAA
+                secondary_server_address: 10.0.0.21
                 protocol: TACACS
                 servers: AAA
                 # shared_secret: string #ISE
               client_and_endpoint_aaa: #works only if we system settigns is set
-                ip_address: 10.197.156.42 #Mandatory for ISE, sec ip for AAA
-                network_address: 10.0.0.20
+                primary_server_address: 10.197.156.42 #Mandatory for ISE, sec ip for AAA
+                secondary_server_address: 10.0.0.21
                 protocol: RADIUS                                     
                 servers: AAA
                 # shared_secret: string #ISE
@@ -83,7 +83,7 @@
               timezone: GMT
               message_of_the_day:
                 banner_message: hello
-                retain_existing_banner: 'true'
+                retain_existing_banner: True
               netflow_collector:
                 ip_address: 10.0.0.4
                 port: 443
