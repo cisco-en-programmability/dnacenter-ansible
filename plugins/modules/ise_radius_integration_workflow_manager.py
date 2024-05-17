@@ -18,7 +18,7 @@ description:
 - API to create Authentication and Policy Server Access Configuration.
 - API to update Authentication and Policy Server Access Configuration.
 - API to delete Authentication and Policy Server Access Configuration.
-version_added: '6.13.0'
+version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
 author: Muthu Rakesh (@MUTHU-RAKESH-27)
