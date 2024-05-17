@@ -1366,7 +1366,9 @@ class Events(DnacBase):
 
         if webhook_details.get('headers'):
             custom_header = webhook_details['headers']
-            playbook_params['customHeaders'] = custom_header
+            playbook_params['headers'] = []
+            for header in custom_header:
+                playbook_params['headers'].append(header)
 
         return playbook_params
 
@@ -1442,11 +1444,17 @@ class Events(DnacBase):
         """
 
         update_needed = False
+
         for key, value in webhook_params.items():
-            if webhook_dest_detail_in_ccc[key] == value or value is None:
+            if isinstance(value, list):
+                update_needed = self.webhook_dest_needs_update(value[0], webhook_dest_detail_in_ccc[key][0])
+                if update_needed:
+                    break
+            elif webhook_dest_detail_in_ccc[key] == value or value is None:
                 continue
             else:
                 update_needed = True
+                break
 
         return update_needed
 
