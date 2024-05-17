@@ -317,8 +317,7 @@ class Provision(DnacBase):
           - self: The instance of the class containing the 'config' attribute
                   to be validated.
         Returns:
-          The method returns an instance of the class with updated attributes:
-          - serial_number: A string indicating the serial number of the device
+          The method returns the serial number of the device as a string. If it fails, it returns None.
         Example:
           After creating the validated input, this method retrieves the
           serial number of the device.
@@ -359,9 +358,10 @@ class Provision(DnacBase):
         Parameters:
           - self: The instance of the class containing the 'config' attribute
                   to be validated.
+          - task_id: Task_id of the provisioning task.
         Returns:
-          The method returns an instance of the class with updated attributes:
-          - result: A dict indiacting wheter the task was succesful or not
+          The method returns the status of the task_id used to track provisioning.
+          Returns True if task is not failed otheriwse returns False.
         Example:
           Post creation of the provision task, this method fetheches the task
           status.
@@ -402,9 +402,10 @@ class Provision(DnacBase):
         Parameters:
           - self: The instance of the class containing the 'config' attribute
                   to be validated.
+          - execution_id: execution_id of the BAPI API.
         Returns:
-          The method returns an instance of the class with updated attributes:
-          - result: A dict indiacting wheter the task was succesful or not
+          The method returns the status of the BAPI used to track site assignment.
+          Returns True if the status is not failed, otheriwse returns False.
         Example:
           Post creation of the provision task, this method fetheches the task
           status.
@@ -442,12 +443,11 @@ class Provision(DnacBase):
         Parameters:
           - self: The instance of the class containing the 'config' attribute
                   to be validated.
+          - site_name_hierarchy: Name of the site collected from the input.
         Returns:
-          The method returns an instance of the class with updated attributes:
-          - site_type: A string indicating the type of the
-                       site (area/building/floor).
+          - site_type: A string indicating the type of the site (area/building/floor).
         Example:
-          Post creation of the validated input, we this method gets the
+          Post creation of the validated input, this method gets the
           type of the site.
         """
 
@@ -482,12 +482,12 @@ class Provision(DnacBase):
         Parameters:
           - self: The instance of the class containing the 'config' attribute
                   to be validated.
+          - site_name_hierarchy: Name of the site collected from the input.
         Returns:
-          The method returns an instance of the class with updated attributes:
           - site_id: A string indicating the id of the site.
           - site_exits: A boolean value indicating the existance of the site.
         Example:
-          Post creation of the validated input, we this method gets the
+          Post creation of the validated input, this method gets the
           id of the site.
         """
 
@@ -525,11 +525,10 @@ class Provision(DnacBase):
           - self: The instance of the class containing the 'config' attribute
                   to be validated.
         Returns:
-          The method returns an instance of the class with updated attributes:
           - boolean: True if any device is associated with the site, False if no device is associated with site
 
         Example:
-          Post creation of the validated input, this method telss whether devices are associated with a site.
+          Post creation of the validated input, this method tells whether devices are associated with a site.
         """
 
         site_name_hierarchy = self.validated_config[0].get("site_name_hierarchy")
