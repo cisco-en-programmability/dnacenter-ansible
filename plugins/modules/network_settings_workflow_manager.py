@@ -850,9 +850,6 @@ class NetworkSettings(DnacBase):
                     ("name", "name"),
                     ("type", "type"),
                     ("ipv6AddressSpace", "ipv6AddressSpace"),
-                    ("ipv4GlobalPool", "ipv4GlobalPool"),
-                    ("ipv4Prefix", "ipv4Prefix"),
-                    ("ipv4PrefixLength", "ipv4PrefixLength"),
                     ("ipv4GateWay", "ipv4GateWay"),
                     ("ipv4DhcpServers", "ipv4DhcpServers"),
                     ("ipv4DnsServers", "ipv4DnsServers"),
@@ -1004,7 +1001,7 @@ class NetworkSettings(DnacBase):
                 reserve_pool.update({"ipv4GateWay":
                                     pool_info_ippools[ipv4_index].get("gateways")[0]})
             else:
-                reserve_pool.update({"ipv4GateWay": ""})
+                reserve_pool.update({"ipv4GateWay": None})
 
             if pool_info_ippools[ipv6_index].get("gateways") != []:
                 reserve_pool.update({
@@ -1679,8 +1676,6 @@ class NetworkSettings(DnacBase):
 
                 if pool_values.get("type") is None:
                     pool_values.update({"type": "Generic"})
-                if pool_values.get("ipv4GateWay") is None:
-                    pool_values.update({"ipv4GateWay": ""})
                 if pool_values.get("ipv4DhcpServers") is None:
                     pool_values.update({"ipv4DhcpServers": []})
                 if pool_values.get("ipv4DnsServers") is None:
@@ -2418,8 +2413,13 @@ class NetworkSettings(DnacBase):
             self.log("Current State of global pool (have): {0}"
                      .format(self.have.get("globalPool")), "DEBUG")
             for item in self.want.get("wantGlobal").get("settings").get("ippool"):
-                if self.requires_update(self.have.get("globalPool")[global_pool_index].get("details"),
-                                        item, self.global_pool_obj_params):
+                global_pool_details = self.have.get("globalPool")[global_pool_index].get("details")
+                if not global_pool_details:
+                    self.msg = "The global pool is not created with the config: {0}".format(item)
+                    self.status = "failed"
+                    return self
+
+                if self.requires_update(global_pool_details, item, self.global_pool_obj_params):
                     self.msg = "Global Pool Config is not applied to the Cisco Catalyst Center"
                     self.status = "failed"
                     return self
@@ -2436,8 +2436,13 @@ class NetworkSettings(DnacBase):
             self.log("Current State for reserve pool (have): {0}"
                      .format(self.have.get("reservePool")), "DEBUG")
             for item in self.want.get("wantReserve"):
-                if self.requires_update(self.have.get("reservePool")[reserve_pool_index].get("details"),
-                                        item, self.reserve_pool_obj_params):
+                reserve_pool_details = self.have.get("reservePool")[reserve_pool_index].get("details")
+                if not reserve_pool_details:
+                    self.msg = "The reserve pool is not created with the config: {0}".format(item)
+                    self.status = "failed"
+                    return self
+
+                if self.requires_update(reserve_pool_details, item, self.reserve_pool_obj_params):
                     self.msg = "Reserved Pool Config is not applied to the Cisco Catalyst Center"
                     self.status = "failed"
                     return self
