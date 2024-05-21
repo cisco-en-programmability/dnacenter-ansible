@@ -55,7 +55,11 @@ options:
                 type: list
                 suboptions:
                   name:
-                    description: Specifies the name assigned to the Global IP Pool.
+                    description:
+                    - Specifies the name assigned to the Global IP Pool.
+                    - Required for the operations in the Global IP Pool.
+                    - Length should be less than or equal to 100.
+                    - Only letters, numbers and -_./ characters are allowed.
                     type: str
                   pool_type:
                     description: >
@@ -105,7 +109,11 @@ options:
               to specify where the IP sub-pool will be reserved.
             type: str
           name:
-            description: Name of the reserve IP subpool.
+            description:
+            - Name of the reserve IP subpool.
+            - Required for the operations in the Reserve IP Pool.
+            - Length should be less than or equal to 100.
+            - Only letters, numbers and -_./ characters are allowed.
             type: str
           pool_type:
             description: Type of the reserve ip sub pool.
@@ -632,6 +640,7 @@ response_3:
 """
 
 import copy
+import re
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
@@ -1325,6 +1334,23 @@ class NetworkSettings(DnacBase):
                 self.status = "failed"
                 return self
 
+            name_length = len(name)
+            if name_length > 100:
+                self.msg = "The length of the'name' in global_pool_details should be less or equal to 100."
+                self.status = "failed"
+                return self
+
+            if " " in name:
+                self.msg = "The 'name' in global_pool_details should not contain any spaces."
+                self.status = "failed"
+                return self
+
+            pattern = r'^[\w\-./]+$'
+            if not re.match(pattern, name):
+                self.msg = "The 'name' in global_pool_details should contain only letters, numbers and -_./ characters."
+                self.status = "failed"
+                return self
+
             # If the Global Pool doesn't exist and a previous name is provided
             # Else try using the previous name
             global_pool.append(self.global_pool_exists(name))
@@ -1366,6 +1392,24 @@ class NetworkSettings(DnacBase):
                 self.msg = "Missing required parameter 'name' in reserve_pool_details."
                 self.status = "failed"
                 return self
+
+            name_length = len(name)
+            if name_length > 100:
+                self.msg = "The length of the 'name' in reserve_pool_details should be less or equal to 100."
+                self.status = "failed"
+                return self
+
+            if " " in name:
+                self.msg = "The 'name' in reserve_pool_details should not contain any spaces."
+                self.status = "failed"
+                return self
+
+            pattern = r'^[\w\-./]+$'
+            if not re.match(pattern, name):
+                self.msg = "The 'name' in reserve_pool_details should contain only letters, numbers and -_./ characters."
+                self.status = "failed"
+                return self
+
             site_name = item.get("site_name")
             self.log("Site Name: {0}".format(site_name), "DEBUG")
             if site_name is None:
@@ -1549,7 +1593,6 @@ class NetworkSettings(DnacBase):
         global_pool_index = 0
         for pool_details in global_ippool:
             pool_values = {
-                "IpAddressSpace": pool_details.get("ip_address_space"),
                 "dhcpServerIps": pool_details.get("dhcp_server_ips"),
                 "dnsServerIps": pool_details.get("dns_server_ips"),
                 "ipPoolName": pool_details.get("name"),
@@ -1557,6 +1600,21 @@ class NetworkSettings(DnacBase):
                 "gateway": pool_details.get("gateway"),
                 "type": pool_details.get("pool_type"),
             }
+            ip_address_space = pool_details.get("ip_address_space")
+            if not ip_address_space:
+                self.msg = "Missing required parameter 'ip_address_space' under global_pool_details."
+                self.status = "failed"
+                return self
+
+            ip_address_space_list = ["IPv4", "IPv6"]
+            if ip_address_space not in ip_address_space_list:
+                self.msg = "The 'ip_address_space' under global_pool_details should be in the list: {0}" \
+                           .format(ip_address_space_list)
+                self.status = "failed"
+                return self
+
+            pool_values.update({"IpAddressSpace": ip_address_space})
+
             # Converting to the required format based on the existing Global Pool
             if not self.have.get("globalPool")[global_pool_index].get("exists"):
                 if pool_values.get("dhcpServerIps") is None:
