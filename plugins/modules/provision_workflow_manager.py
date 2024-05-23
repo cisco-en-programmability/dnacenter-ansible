@@ -378,7 +378,7 @@ class Provision(DnacBase):
             )
             self.log("Response collected from 'get_task_by_id' API is {0}".format(str(response)), "DEBUG")
             response = response.response
-            self.log("Task status for the task id {0} is {1}".format(str(task_id), str(response)), "INFO")
+            self.log("Task status for the task id {0} is {1}".format(str(task_id), str(response.get("progress"))), "INFO")
             if response.get('isError') or re.search(
                 'failed', response.get('progress'), flags=re.IGNORECASE
             ):
@@ -387,7 +387,7 @@ class Provision(DnacBase):
                 self.module.fail_json(msg=msg)
                 return False
 
-            if response.get('progress') == 'TASK_PROVISION' and response.get("isError") is False:
+            if response.get('progress') in ["TASK_PROVISION", "TASK_MODIFY_PUT"] and response.get("isError") is False:
                 result = True
                 break
 
