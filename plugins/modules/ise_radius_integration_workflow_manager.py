@@ -370,7 +370,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     dnac_log: True
     dnac_log_level: "{{ dnac_log_level }}"
-    state: merged
+    state: deleted
     config_verify: True
     config:
     - authentication_policy_server:
