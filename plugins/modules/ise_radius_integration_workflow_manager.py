@@ -1018,7 +1018,7 @@ class IseRadiusIntegration(DnacBase):
                 position_ise_creds += 1
 
             pxgrid_enabled = auth_policy_server.get("pxgrid_enabled")
-            if pxgrid_enabled:
+            if pxgrid_enabled is not None:
                 auth_server.update({"pxgridEnabled": pxgrid_enabled})
             else:
                 auth_server.update({"pxgridEnabled": True})
