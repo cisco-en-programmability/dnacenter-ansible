@@ -299,6 +299,7 @@ EXAMPLES = r"""
           ip_address: 10.0.0.2
           subscriber_name: px-1234
           description: Cisco ISE
+        trusted_server: True
 
 - name: Update an AAA server.
   cisco.dnac.ise_radius_integration_workflow_manager:
@@ -1217,6 +1218,27 @@ class IseRadiusIntegration(DnacBase):
             if is_ise_server:
                 trusted_server = self.want.get("trusted_server")
                 self.accept_cisco_ise_server_certificate(ipAddress, trusted_server)
+                response = self.dnac._exec(
+                    family="system_settings",
+                    function='get_authentication_and_policy_servers',
+                    params={"is_ise_enabled": True}
+                )
+                response = response.get("response")
+                if response is None:
+                    self.msg = "Failed to retrieve the information from the API 'get_authentication_and_policy_servers' of {0}." \
+                               .format(ipAddress)
+                    self.status = "failed"
+                    return
+
+                ise_server_details = get_dict_result(response, "ipAddress", ipAddress)
+                ise_state_list = ["FAILED", "INPROGRESS"]
+                state = ise_server_details.get("state")
+                if state in ise_state_list:
+                    self.msg = "The Cisco ISE server '{0}' integration is not successful. The state is '{1}'" \
+                               .format(ipAddress, state)
+                    self.log(str(self.msg), "ERROR")
+                    self.status = "failed"
+                    return
 
             self.log("Successfully created Authentication and Policy Server '{0}'."
                      .format(ipAddress), "INFO")
