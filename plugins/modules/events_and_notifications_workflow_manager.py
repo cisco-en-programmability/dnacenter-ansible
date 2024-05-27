@@ -868,12 +868,6 @@ class Events(DnacBase):
             server_address = syslog_details.get('server_address')
             protocol = syslog_details.get('protocol')
 
-            if not self.is_valid_ipv4(server_address):
-                self.status = "failed"
-                self.msg = "Invalid server adderess '{0}' given in the playbook for configuring syslog destination".format(server_address)
-                self.log(self.msg, "ERROR")
-                return self
-
             if not protocol:
                 self.status = "failed"
                 self.msg = "Protocol is needed while configuring the syslog destionation with name '{0}' in Cisco Catalyst Center".format(name)
@@ -966,13 +960,6 @@ class Events(DnacBase):
                 self.log(self.msg, "ERROR")
                 return self
 
-            server_address = update_syslog_params.get('host')
-            if not self.is_valid_ipv4(server_address):
-                self.status = "failed"
-                self.msg = "Invalid server adderess '{0}' given in the playbook for updating syslog destination".format(server_address)
-                self.log(self.msg, "ERROR")
-                return self
-
             response = self.dnac._exec(
                 family="event_management",
                 function='update_syslog_destination',
@@ -1061,8 +1048,9 @@ class Events(DnacBase):
             'snmpVersion': snmp_details.get('snmp_version')
         }
         server_address = snmp_details.get('server_address')
+        pattern = re.compile(r'^[A-Za-z0-9]([A-Za-z0-9.:-]*[A-Za-z0-9])?$')
 
-        if server_address and not self.is_valid_ipv4(server_address):
+        if server_address and not re.match(pattern, server_address):
             self.status = "failed"
             self.msg = "Invalid server adderess '{0}' given in the playbook for configuring SNMP destination".format(server_address)
             self.log(self.msg, "ERROR")
@@ -1637,15 +1625,7 @@ class Events(DnacBase):
             time.sleep(2)
             status = response.get('statusUri')
             status_execution_id = status.split("/")[-1]
-
-            # Now we check the status of API Events for configuring Email destination
-            status_response = self.dnac._exec(
-                family="event_management",
-                function='get_status_api_for_events',
-                op_modifies=True,
-                params={"execution_id": status_execution_id}
-            )
-            self.log("Received API response from 'get_status_api_for_events': {0}".format(str(status_response)), "DEBUG")
+            status_response = self.check_status_api_events(status_execution_id)
 
             if status_response['apiStatus'] == "SUCCESS":
                 self.status = "success"
@@ -1708,6 +1688,47 @@ class Events(DnacBase):
 
         return update_needed
 
+    def check_status_api_events(self, status_execution_id):
+        """
+        Checks the status of API events in Cisco Catalyst Center until completion or timeout.
+        Args:
+            status_execution_id (str): The execution ID for the event to check the status.
+        Returns:
+            dict or None: The response from the API once the status is no longer "IN_PROGRESS",
+                        or None if the maximum timeout is reached.
+        Description:
+            This method repeatedly checks the status of an API event in Cisco Catalyst Center using the provided
+            execution ID. The status is checked at intervals specified by the 'dnac_task_poll_interval' parameter
+            until the status is no longer "IN_PROGRESS" or the maximum timeout ('dnac_api_task_timeout') is reached.
+            If the status becomes anything other than "IN_PROGRESS" before the timeout, the method returns the
+            response from the API. If the timeout is reached first, the method logs a warning and returns None.
+        """
+
+        max_timeout = self.params.get('dnac_api_task_timeout')
+        events_response = None
+        start_time = time.time()
+
+        while True:
+            end_time = time.time()
+            if (end_time - start_time) >= max_timeout:
+                self.log("""Max timeout of {0} sec has reached for the execution id '{1}' for the event and unexpected
+                        api status so moving out of the loop.""".format(max_timeout, status_execution_id), "WARNING")
+                break
+            # Now we check the status of API Events for configuring destination and notifications
+            response = self.dnac._exec(
+                family="event_management",
+                function='get_status_api_for_events',
+                op_modifies=True,
+                params={"execution_id": status_execution_id}
+            )
+            self.log("Received API response from 'get_status_api_for_events': {0}".format(str(response)), "DEBUG")
+            if response['apiStatus'] != "IN_PROGRESS":
+                events_response = response
+                break
+            time.sleep(self.params.get('dnac_task_poll_interval'))
+
+        return events_response
+
     def update_email_destination(self, email_details, email_dest_detail_in_ccc):
         """
         Updates an Email destination based on the provided parameters and current details.
@@ -1746,15 +1767,7 @@ class Events(DnacBase):
             time.sleep(2)
             status = response.get('statusUri')
             status_execution_id = status.split("/")[-1]
-
-            # Now we check the status of API Events for configuring Email destination
-            status_response = self.dnac._exec(
-                family="event_management",
-                function='get_status_api_for_events',
-                op_modifies=True,
-                params={"execution_id": status_execution_id}
-            )
-            self.log("Received API response from 'get_status_api_for_events': {0}".format(str(status_response)), "DEBUG")
+            status_response = self.check_status_api_events(status_execution_id)
 
             if status_response['apiStatus'] == "SUCCESS":
                 self.status = "success"
@@ -2195,12 +2208,22 @@ class Events(DnacBase):
                 self.log(self.msg, "ERROR")
                 return self
 
-            regex_pattern = r'https://\S+'
+            regex_pattern = re.compile(
+                r'^https://'  # Ensure the URL starts with "https://"
+                r'(([A-Za-z0-9-]+\.)+[A-Za-z]{2,6}|'  # Domain name
+                r'localhost|'  # Localhost
+                r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}|'  # IPv4
+                r'\[?[A-Fa-f0-9:]+\]?)'  # IPv6
+                r'(:\d+)?'  # Optional port
+                r'(\/[A-Za-z0-9._~:/?#[@!$&\'()*+,;=-]*)?$'
+            )
             url = webhook_params.get('url')
 
-            if not re.match(regex_pattern, url):
+            # Check if the input string matches the pattern
+            if url and not re.match(regex_pattern, url):
                 self.status = "failed"
-                self.msg = "Given url '{0}' is invalid url for Creating/Updating Webhook destination. It must starts with 'https://'".format(url)
+                self.msg = """Given url '{0}' is invalid url for Creating/Updating Webhook destination. It must starts with 'https://' and
+                        follow the valid https url format.""".format(url)
                 self.log(self.msg, "ERROR")
                 return self
 
@@ -2234,9 +2257,9 @@ class Events(DnacBase):
 
             if primary_config and primary_config.get("hostName"):
                 server_address = primary_config.get("hostName")
-                special_chars = r'[!@#$%^&*()_+\-=\[\]{};\'\\:"|,.<>\/?]'
+                special_chars = r'[!@#$%^&*()_+\=\[\]{};\'\\:"|,<>\/?]'
 
-                if re.search(special_chars, server_address):
+                if server_address and re.search(special_chars, server_address):
                     self.status = "failed"
                     self.msg = """Invalid Primary SMTP server hostname '{0}' as special character present in the input server address so
                         unable to add/update the email destination in Cisco Catalyst Center.""".format(server_address)
@@ -2281,6 +2304,7 @@ class Events(DnacBase):
             syslog_details = self.want.get('syslog_details')
             name = syslog_details.get('name')
             port = syslog_details.get('port')
+            server_address = syslog_details.get("server_address")
 
             if not name:
                 self.status = "failed"
@@ -2299,6 +2323,13 @@ class Events(DnacBase):
             if isinstance(port, int) and (int(port) not in range(1, 65536)):
                 self.status = "failed"
                 self.msg = "Invalid Syslog destination port '{0}' given in playbook. Please choose a port within the range of numbers (1, 65535)".format(port)
+                self.log(self.msg, "ERROR")
+                return self
+
+            pattern = re.compile(r'^[A-Za-z0-9]([A-Za-z0-9.:-]*[A-Za-z0-9])?$')
+            if server_address and not pattern.match(server_address):
+                self.status = "failed"
+                self.msg = "Invalid server adderess '{0}' given in the playbook for configuring syslog destination".format(server_address)
                 self.log(self.msg, "ERROR")
                 return self
 
@@ -2329,8 +2360,8 @@ class Events(DnacBase):
 
         # Create/Update snmp destination in Cisco Catalyst Center
         if config.get('snmp_destination'):
-            snmp_details = self.want.get('snmp_details')
-            destination_name = snmp_details.get('name')
+            snmp_details = self.want.get("snmp_details")
+            destination_name = snmp_details.get("name")
 
             if not destination_name:
                 self.status = "failed"
