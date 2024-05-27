@@ -1688,47 +1688,6 @@ class Events(DnacBase):
 
         return update_needed
 
-    def check_status_api_events(self, status_execution_id):
-        """
-        Checks the status of API events in Cisco Catalyst Center until completion or timeout.
-        Args:
-            status_execution_id (str): The execution ID for the event to check the status.
-        Returns:
-            dict or None: The response from the API once the status is no longer "IN_PROGRESS",
-                        or None if the maximum timeout is reached.
-        Description:
-            This method repeatedly checks the status of an API event in Cisco Catalyst Center using the provided
-            execution ID. The status is checked at intervals specified by the 'dnac_task_poll_interval' parameter
-            until the status is no longer "IN_PROGRESS" or the maximum timeout ('dnac_api_task_timeout') is reached.
-            If the status becomes anything other than "IN_PROGRESS" before the timeout, the method returns the
-            response from the API. If the timeout is reached first, the method logs a warning and returns None.
-        """
-
-        max_timeout = self.params.get('dnac_api_task_timeout')
-        events_response = None
-        start_time = time.time()
-
-        while True:
-            end_time = time.time()
-            if (end_time - start_time) >= max_timeout:
-                self.log("""Max timeout of {0} sec has reached for the execution id '{1}' for the event and unexpected
-                        api status so moving out of the loop.""".format(max_timeout, status_execution_id), "WARNING")
-                break
-            # Now we check the status of API Events for configuring destination and notifications
-            response = self.dnac._exec(
-                family="event_management",
-                function='get_status_api_for_events',
-                op_modifies=True,
-                params={"execution_id": status_execution_id}
-            )
-            self.log("Received API response from 'get_status_api_for_events': {0}".format(str(response)), "DEBUG")
-            if response['apiStatus'] != "IN_PROGRESS":
-                events_response = response
-                break
-            time.sleep(self.params.get('dnac_task_poll_interval'))
-
-        return events_response
-
     def update_email_destination(self, email_details, email_dest_detail_in_ccc):
         """
         Updates an Email destination based on the provided parameters and current details.
