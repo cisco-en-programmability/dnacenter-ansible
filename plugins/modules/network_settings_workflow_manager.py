@@ -1273,28 +1273,42 @@ class NetworkSettings(DnacBase):
             self.status = "failed"
             return reserve_pool
 
-        response = self.dnac._exec(
-            family="network_settings",
-            function="get_reserve_ip_subpool",
-            op_modifies=True,
-            params={"site_id": site_id}
-        )
-        if not isinstance(response, dict):
-            reserve_pool.update({"success": False})
-            self.msg = "Error in getting reserve pool - Response is not a dictionary"
-            self.status = "exited"
-            return reserve_pool
+        value = 1
+        while True:
+            self.log(str(value))
+            response = self.dnac._exec(
+                family="network_settings",
+                function="get_reserve_ip_subpool",
+                op_modifies=True,
+                params={
+                    "site_id": site_id,
+                    "offset": value
+                }
+            )
+            value += 25
+            if not isinstance(response, dict):
+                reserve_pool.update({"success": False})
+                self.msg = "Error in getting reserve pool - Response is not a dictionary"
+                self.log(self.msg, "CRITICAL")
+                self.status = "exited"
+                return self.check_return_status()
 
-        all_reserve_pool_details = response.get("response")
-        reserve_pool_details = get_dict_result(all_reserve_pool_details, "groupName", name)
-        if not reserve_pool_details:
-            self.log("Reserved pool {0} does not exist in the site {1}"
-                     .format(name, site_name), "DEBUG")
-            return reserve_pool
+            all_reserve_pool_details = response.get("response")
+            self.log(str(all_reserve_pool_details))
+            if not all_reserve_pool_details:
+                self.log("Reserved pool {0} does not exist in the site {1}"
+                         .format(name, site_name), "DEBUG")
+                return reserve_pool
 
-        reserve_pool.update({"exists": True})
-        reserve_pool.update({"id": reserve_pool_details.get("id")})
-        reserve_pool.update({"details": self.get_reserve_pool_params(reserve_pool_details)})
+            reserve_pool_details = get_dict_result(all_reserve_pool_details, "groupName", name)
+            self.log(str(reserve_pool_details))
+            if reserve_pool_details:
+                self.log("Reserve pool found with name '{0}' in the site '{1}': {2}"
+                         .format(name, site_name, reserve_pool_details), "INFO")
+                reserve_pool.update({"exists": True})
+                reserve_pool.update({"id": reserve_pool_details.get("id")})
+                reserve_pool.update({"details": self.get_reserve_pool_params(reserve_pool_details)})
+                break
 
         self.log("Reserved pool details: {0}".format(reserve_pool.get("details")), "DEBUG")
         self.log("Reserved pool id: {0}".format(reserve_pool.get("id")), "DEBUG")
