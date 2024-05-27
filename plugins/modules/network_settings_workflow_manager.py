@@ -1220,7 +1220,6 @@ class NetworkSettings(DnacBase):
                 function="get_global_pool",
                 params={"offset": value}
             )
-            value += 25
             if not isinstance(response, dict):
                 self.msg = "Failed to retrieve the global pool details - Response is not a dictionary"
                 self.log(self.msg, "CRITICAL")
@@ -1239,6 +1238,8 @@ class NetworkSettings(DnacBase):
                 global_pool.update({"id": global_pool_details.get("id")})
                 global_pool["details"] = self.get_global_pool_params(global_pool_details)
                 break
+
+            value += 25
 
         self.log("Formatted global pool details: {0}".format(global_pool), "DEBUG")
         return global_pool
@@ -1285,7 +1286,6 @@ class NetworkSettings(DnacBase):
                     "offset": value
                 }
             )
-            value += 25
             if not isinstance(response, dict):
                 reserve_pool.update({"success": False})
                 self.msg = "Error in getting reserve pool - Response is not a dictionary"
@@ -1309,6 +1309,8 @@ class NetworkSettings(DnacBase):
                 reserve_pool.update({"id": reserve_pool_details.get("id")})
                 reserve_pool.update({"details": self.get_reserve_pool_params(reserve_pool_details)})
                 break
+
+            value += 25
 
         self.log("Reserved pool details: {0}".format(reserve_pool.get("details")), "DEBUG")
         self.log("Reserved pool id: {0}".format(reserve_pool.get("id")), "DEBUG")
