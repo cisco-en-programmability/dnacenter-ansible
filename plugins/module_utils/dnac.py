@@ -29,6 +29,7 @@ import inspect
 import re
 import socket
 import time
+import ipaddress
 
 
 class DnacBase():
@@ -552,6 +553,31 @@ class DnacBase():
             time.sleep(self.params.get('dnac_task_poll_interval'))
 
         return events_response
+
+    def is_valid_server_address(self, server_address):
+        """
+        Validates the server address to check if it's a valid IPv4, IPv6 address, or a valid hostname.
+        Args:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            server_address (str): The server address to validate.
+        Returns:
+            bool: True if the server address is valid, otherwise False.
+        """
+        # Check if the address is a valid IPv4 or IPv6 address
+        try:
+            ipaddress.ip_address(server_address)
+            return True
+        except ValueError:
+            pass
+
+        # Define the regex for a valid hostname
+        hostname_regex = re.compile(r'^(?!-)[A-Za-z0-9-]{1,63}(?<!-)(\.[A-Za-z0-9-]{1,63})*(\.[A-Za-z]{2,6})?$')
+
+        # Check if the address is a valid hostname
+        if hostname_regex.match(server_address):
+            return True
+
+        return False
 
     def is_path_exists(self, file_path):
         """
