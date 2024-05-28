@@ -1234,8 +1234,8 @@ class IseRadiusIntegration(DnacBase):
                 ise_state_set = {"FAILED", "INPROGRESS"}
                 state = ise_server_details.get("state")
                 if state in ise_state_set:
-                    self.msg = "The Cisco ISE server '{0}' integration is not successful. The state is '{1}'" \
-                               .format(ipAddress, state)
+                    self.msg = "The Cisco ISE server '{0}' integration is not successful. The state is '{1}'. ".format(ipAddress, state) + \
+                               "Expected states for successful integration are not in {0}.".format(ise_state_set)
                     self.log(str(self.msg), "ERROR")
                     self.status = "failed"
                     return
