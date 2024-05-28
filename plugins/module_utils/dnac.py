@@ -571,7 +571,13 @@ class DnacBase():
             pass
 
         # Define the regex for a valid hostname
-        hostname_regex = re.compile(r'^(?!-)[A-Za-z0-9-]{1,63}(?<!-)(\.[A-Za-z0-9-]{1,63})*(\.[A-Za-z]{2,6})?$')
+        hostname_regex = re.compile(
+            r'^(?!-)'  # Hostname must not start with a hyphen
+            r'[A-Za-z0-9-]{1,63}'  # Hostname segment must be 1-63 characters long
+            r'(?!-)$'  # Hostname segment must not end with a hyphen
+            r'(\.[A-Za-z0-9-]{1,63})*'  # Each segment can be 1-63 characters long
+            r'(\.[A-Za-z]{2,6})$'  # Top-level domain must be 2-6 alphabetic characters
+        )
 
         # Check if the address is a valid hostname
         if hostname_regex.match(server_address):
