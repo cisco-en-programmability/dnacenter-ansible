@@ -1051,7 +1051,7 @@ class Events(DnacBase):
 
         if server_address and not self.is_valid_server_address(server_address):
             self.status = "failed"
-            self.msg = "Invalid server adderess '{0}' given in the playbook for configuring SNMP destination".format(server_address)
+            self.msg = "Invalid server address '{0}' given in the playbook for configuring SNMP destination".format(server_address)
             self.log(self.msg, "ERROR")
             self.check_return_status()
 
@@ -2167,13 +2167,13 @@ class Events(DnacBase):
                 return self
 
             regex_pattern = re.compile(
-                r'^https://'  # Ensure the URL starts with "https://"
-                r'(([A-Za-z0-9-]+\.)+[A-Za-z]{2,6}|'  # Domain name
+                r'^https://'  # Ensure the URL starts with "https://" like https://webhook.cisco.com
+                r'(([A-Za-z0-9-]+\.)+[A-Za-z]{2,6}|'  # Domain name (e.g., example.com, webhook.cisco.com)
                 r'localhost|'  # Localhost
-                r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}|'  # IPv4
-                r'\[?[A-Fa-f0-9:]+\]?)'  # IPv6
-                r'(:\d+)?'  # Optional port
-                r'(\/[A-Za-z0-9._~:/?#[@!$&\'()*+,;=-]*)?$'
+                r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}|'  # IPv4 address (e.g., 192.168.0.1)
+                r'\[?[A-Fa-f0-9:]+\]?)'  # IPv6 address (e.g., [2001:db8::1])
+                r'(:\d+)?'  # Optional port (e.g., :8080)
+                r'(\/[A-Za-z0-9._~:/?#[@!$&\'()*+,;=-]*)?$'  # Path and query (optional)
             )
             url = webhook_params.get('url')
 
@@ -2286,7 +2286,7 @@ class Events(DnacBase):
 
             if server_address and not self.is_valid_server_address(server_address):
                 self.status = "failed"
-                self.msg = "Invalid server adderess '{0}' given in the playbook for configuring syslog destination".format(server_address)
+                self.msg = "Invalid server address '{0}' given in the playbook for configuring syslog destination".format(server_address)
                 self.log(self.msg, "ERROR")
                 return self
 
