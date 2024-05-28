@@ -1048,9 +1048,8 @@ class Events(DnacBase):
             'snmpVersion': snmp_details.get('snmp_version')
         }
         server_address = snmp_details.get('server_address')
-        pattern = re.compile(r'^[A-Za-z0-9]([A-Za-z0-9.:-]*[A-Za-z0-9])?$')
 
-        if server_address and not re.match(pattern, server_address):
+        if server_address and not self.is_valid_server_address(server_address):
             self.status = "failed"
             self.msg = "Invalid server adderess '{0}' given in the playbook for configuring SNMP destination".format(server_address)
             self.log(self.msg, "ERROR")
@@ -2285,8 +2284,7 @@ class Events(DnacBase):
                 self.log(self.msg, "ERROR")
                 return self
 
-            pattern = re.compile(r'^[A-Za-z0-9]([A-Za-z0-9.:-]*[A-Za-z0-9])?$')
-            if server_address and not pattern.match(server_address):
+            if server_address and not self.is_valid_server_address(server_address):
                 self.status = "failed"
                 self.msg = "Invalid server adderess '{0}' given in the playbook for configuring syslog destination".format(server_address)
                 self.log(self.msg, "ERROR")
