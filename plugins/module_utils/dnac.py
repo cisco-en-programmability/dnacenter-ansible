@@ -17,6 +17,7 @@ from ansible.module_utils.common import validation
 from abc import ABCMeta, abstractmethod
 try:
     import logging
+    import ipaddress
 except ImportError:
     LOGGING_IN_STANDARD = False
 else:
@@ -552,6 +553,37 @@ class DnacBase():
             time.sleep(self.params.get('dnac_task_poll_interval'))
 
         return events_response
+
+    def is_valid_server_address(self, server_address):
+        """
+        Validates the server address to check if it's a valid IPv4, IPv6 address, or a valid hostname.
+        Args:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            server_address (str): The server address to validate.
+        Returns:
+            bool: True if the server address is valid, otherwise False.
+        """
+        # Check if the address is a valid IPv4 or IPv6 address
+        try:
+            ipaddress.ip_address(server_address)
+            return True
+        except ValueError:
+            pass
+
+        # Define the regex for a valid hostname
+        hostname_regex = re.compile(
+            r'^(?!-)'  # Hostname must not start with a hyphen
+            r'[A-Za-z0-9-]{1,63}'  # Hostname segment must be 1-63 characters long
+            r'(?!-)$'  # Hostname segment must not end with a hyphen
+            r'(\.[A-Za-z0-9-]{1,63})*'  # Each segment can be 1-63 characters long
+            r'(\.[A-Za-z]{2,6})$'  # Top-level domain must be 2-6 alphabetic characters
+        )
+
+        # Check if the address is a valid hostname
+        if hostname_regex.match(server_address):
+            return True
+
+        return False
 
     def is_path_exists(self, file_path):
         """
