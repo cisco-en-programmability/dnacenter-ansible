@@ -31,6 +31,7 @@ import re
 import socket
 import time
 
+
 class DnacBase():
 
     """Class contains members which can be reused for all intent modules"""
