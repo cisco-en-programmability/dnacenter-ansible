@@ -849,6 +849,7 @@ class NetworkSettings(DnacBase):
         try:
             if get_object == "GlobalPool":
                 obj_params = [
+                    ("ipPoolName", "ipPoolName"),
                     ("IpAddressSpace", "IpAddressSpace"),
                     ("dhcpServerIps", "dhcpServerIps"),
                     ("dnsServerIps", "dnsServerIps"),
@@ -1374,11 +1375,14 @@ class NetworkSettings(DnacBase):
             prev_name = pool_details.get("prev_name")
             if global_pool[global_pool_index].get("exists") is False and \
                     prev_name is not None:
+                global_pool.pop()
                 global_pool.append(self.global_pool_exists(prev_name))
-                if global_pool.get("exists") is False:
+                if global_pool[global_pool_index].get("exists") is False:
                     self.msg = "Prev name {0} doesn't exist in global_pool_details".format(prev_name)
                     self.status = "failed"
                     return self
+
+                global_pool[global_pool_index].update({"prev_name": name})
             global_pool_index += 1
 
         self.log("Global pool details: {0}".format(global_pool), "DEBUG")
@@ -1445,6 +1449,7 @@ class NetworkSettings(DnacBase):
             prev_name = item.get("prev_name")
             if reserve_pool[reserve_pool_index].get("exists") is False and \
                     prev_name is not None:
+                reserve_pool.pop()
                 reserve_pool.append(self.reserve_pool_exists(prev_name, site_name))
                 if not reserve_pool[reserve_pool_index].get("success"):
                     return self.check_return_status()
@@ -2154,7 +2159,7 @@ class NetworkSettings(DnacBase):
             for item in update_global_pool:
                 name = item.get("ipPoolName")
                 for pool_value in self.have.get("globalPool"):
-                    if pool_value.get("exists") and pool_value.get("details").get("ipPoolName") == name:
+                    if pool_value.get("exists") and (pool_value.get("details").get("ipPoolName") == name or pool_value.get("prev_name") == name):
                         if not self.requires_update(pool_value.get("details"), item, self.global_pool_obj_params):
                             self.log("Global pool '{0}' doesn't require an update".format(name), "INFO")
                             result_global_pool.get("msg").update({name: "Global pool doesn't require an update"})
