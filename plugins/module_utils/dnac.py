@@ -17,6 +17,7 @@ from ansible.module_utils.common import validation
 from abc import ABCMeta, abstractmethod
 try:
     import logging
+    import ipaddress
 except ImportError:
     LOGGING_IN_STANDARD = False
 else:
@@ -29,8 +30,6 @@ import inspect
 import re
 import socket
 import time
-import ipaddress
-
 
 class DnacBase():
 
