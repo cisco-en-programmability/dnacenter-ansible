@@ -581,12 +581,6 @@ class NetworkCompliance(DnacBase):
                 # Log an error message if any exception occurs during the process
                 self.log("Error while fetching device ID for device: '{0}' from Cisco Catalyst Center: {1}".format(device_ip, str(e)), "ERROR")
 
-        # if not mgmt_ip_instance_id_map:
-        #     msg = "Error occurred while retrieving device details (Device UUID) using the 'get_device_list' API "
-        #     msg += "for the following device(s): {0}".format(ip_address_list)
-        #     self.log(msg, "ERROR")
-        #     self.module.fail_json(msg=msg)
-
         return mgmt_ip_instance_id_map
 
     def get_device_ids_from_site(self, site_name, site_id):
@@ -649,11 +643,6 @@ class NetworkCompliance(DnacBase):
         except Exception as e:
             # Log an error message if any exception occurs during the process
             self.log("Unable to fetch the device(s) associated to the site '{0}' due to {1}".format(site_name, str(e)), "ERROR")
-
-        if not mgmt_ip_instance_id_map:
-            msg = "Error retrieving device details using the 'get_membership' API from Site: {0}".format(site_name)
-            self.log(msg, "ERROR")
-            self.module.fail_json(msg=msg)
 
         return mgmt_ip_instance_id_map
 
