@@ -58,7 +58,7 @@ options:
         description: Determines if a full compliance check should be triggered on the devices specified in the "ip_address_list" and/or "site_name".
                      if it is True then compliance will be triggered for all categories.
                      If it is False then compliance will be not be triggered even if run_compliance categories are provided.
-                     Note: This operation cannot be performed on Access Points (APs) and if APs are provided, they will be skipped.
+                     Note - This operation cannot be performed on Access Points (APs) and if APs are provided, they will be skipped.
         type: bool
         default: True
       run_compliance_categories:
@@ -74,7 +74,7 @@ options:
                      Sync device configuration, primarily addresses the status of the `RUNNING_CONFIG`.
                      If set to True, and if `RUNNING_CONFIG` status is non-compliant this operation would commit device running configuration
                      to startup by issuing "write memory" to device.
-                     Note: This operation cannot be performed on Access Points (APs) and if APs are provided, they will be skipped.
+                     Note - This operation cannot be performed on Access Points (APs) and if APs are provided, they will be skipped.
         type: bool
         default: False
 
@@ -277,7 +277,7 @@ EXAMPLES = r"""
 
 RETURN = r"""
 #Case_1: Response when Run Compliance operation is performed successfully on device/s.
-sample_response_2:
+sample_response_1:
   description: A dictionary with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
