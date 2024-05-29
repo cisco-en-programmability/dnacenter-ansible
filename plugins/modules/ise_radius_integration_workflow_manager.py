@@ -116,13 +116,6 @@ options:
             - Accounting port should be from 1 to 65535.
             type: int
             default: 1813
-          port:
-            description:
-            - Port of TACACS server.
-            - Updation of port is not possible.
-            - Port should be from 1 to 65535.
-            type: int
-            default: 49
           retries:
             description:
             - Number of communication retries between devices and authentication and policy server.
@@ -257,7 +250,6 @@ EXAMPLES = r"""
         message_authenticator_code_key: asdfghjklasdfghjklas
         authentication_port: 1812
         accounting_port: 1813
-        port: 49
         retries: 3
         timeout: 4
         role: secondary
@@ -286,7 +278,6 @@ EXAMPLES = r"""
         message_authenticator_code_key: asdfghjklasdfghjklas
         authentication_port: 1812
         accounting_port: 1813
-        port: 49
         retries: 3
         timeout: 4
         role: primary
@@ -321,7 +312,6 @@ EXAMPLES = r"""
         protocol: RADIUS_TACACS
         authentication_port: 1812
         accounting_port: 1813
-        port: 49
         retries: 3
         timeout: 5
         role: secondary
@@ -346,7 +336,6 @@ EXAMPLES = r"""
         protocol: RADIUS_TACACS
         authentication_port: 1812
         accounting_port: 1813
-        port: 49
         retries: 3
         timeout: 5
         role: primary
@@ -423,6 +412,7 @@ response_3:
 """
 
 import copy
+import time
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
@@ -475,7 +465,6 @@ class IseRadiusIntegration(DnacBase):
                 "encryption_key": {"type": 'string'},
                 "authentication_port": {"type": 'integer'},
                 "accounting_port": {"type": 'integer'},
-                "port": {"type": 'integer'},
                 "retries": {"type": 'integer'},
                 "timeout": {"type": 'integer'},
                 "role": {"type": 'string'},
@@ -564,12 +553,9 @@ class IseRadiusIntegration(DnacBase):
             obj_params = []
             if get_object == "authenticationPolicyServer":
                 obj_params = [
-                    ("pxgridEnabled", "pxgridEnabled"),
-                    ("useDnacCertForPxgrid", "useDnacCertForPxgrid"),
                     ("protocol", "protocol"),
                     ("retries", "retries"),
-                    ("timeoutSeconds", "timeoutSeconds"),
-                    ("externalCiscoIseIpAddrDtos", "externalCiscoIseIpAddrDtos")
+                    ("timeoutSeconds", "timeoutSeconds")
                 ]
             else:
                 raise ValueError("Received an unexpected value for 'get_object': {0}"
@@ -752,7 +738,7 @@ class IseRadiusIntegration(DnacBase):
         Parameters:
             auth_policy_server (dict) - Playbook authentication policy server details
             containing IpAddress, authentication port, accounting port, Cisco ISE Details,
-            protocol, port, retries, role, timeout seconds, encryption details.
+            protocol, retries, role, timeout seconds, encryption details.
 
         Returns:
             self - The current object with updated desired Authentication Policy Server information.
@@ -809,6 +795,8 @@ class IseRadiusIntegration(DnacBase):
             auth_server.update({"protocol": protocol})
         else:
             auth_server.update({"protocol": "RADIUS"})
+
+        auth_server.update({"port": 49})
 
         encryption_scheme = auth_policy_server.get("encryption_scheme")
         if encryption_scheme not in ["KEYWRAP", "RADSEC", None]:
@@ -882,22 +870,6 @@ class IseRadiusIntegration(DnacBase):
             return self
 
         auth_server.update({"accountingPort": accounting_port})
-
-        port = auth_policy_server.get("port")
-        if not port:
-            port = 49
-
-        if not str(port).isdigit():
-            self.msg = "The 'port' should contain only digits."
-            self.status = "failed"
-            return self
-
-        if not 1 <= port <= 65535:
-            self.msg = "The 'port' should be from 1 to 65535."
-            self.status = "failed"
-            return self
-
-        auth_server.update({"port": port})
 
         retries = auth_policy_server.get("retries")
         if not retries:
@@ -1156,7 +1128,7 @@ class IseRadiusIntegration(DnacBase):
         if want_auth_server.get("encryptionKey") is not None:
             del want_auth_server["encryptionKey"]
 
-        update_params = ["authenticationPort", "accountingPort", "port", "role"]
+        update_params = ["authenticationPort", "accountingPort", "role"]
         for item in update_params:
             have_auth_server_item = have_auth_server.get(item)
             want_auth_server_item = want_auth_server.get(item)
@@ -1218,6 +1190,7 @@ class IseRadiusIntegration(DnacBase):
             if is_ise_server:
                 trusted_server = self.want.get("trusted_server")
                 self.accept_cisco_ise_server_certificate(ipAddress, trusted_server)
+                time.sleep(15)
                 response = self.dnac._exec(
                     family="system_settings",
                     function='get_authentication_and_policy_servers',
@@ -1256,9 +1229,10 @@ class IseRadiusIntegration(DnacBase):
         # Edit API not working, remove this
         self.format_payload_for_update(self.have.get("authenticationPolicyServer").get("details"),
                                        self.want.get("authenticationPolicyServer")).check_return_status()
-        if not self.requires_update(self.have.get("authenticationPolicyServer").get("details"),
-                                    self.want.get("authenticationPolicyServer"),
-                                    self.authentication_policy_server_obj_params):
+        is_ise_server_enabled = self.have.get("authenticationPolicyServer").get("details").get("isIseEnabled")
+        if not (is_ise_server_enabled or self.requires_update(self.have.get("authenticationPolicyServer").get("details"),
+                                                              self.want.get("authenticationPolicyServer"),
+                                                              self.authentication_policy_server_obj_params)):
             self.log("Authentication and Policy Server '{0}' doesn't require an update"
                      .format(ipAddress), "INFO")
             result_auth_server.get("response").get(ipAddress).update({
