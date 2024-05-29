@@ -54,7 +54,9 @@ options:
             description: Name of site where the device needs to be added.
             type: str
         managed_ap_locations:
-            description: Location of the sites allocated for the APs
+            description:
+                - Location of the sites allocated for the APs.
+                - This is mandatory for provisioning of wireless devices.
             type: list
             elements: str
         dynamic_interfaces:
@@ -104,6 +106,7 @@ notes:
     post /dna/intent/api/v1/wireless/provision
 
   - Added 'provisioning' option in v6.14.1
+  - Added provisioning and reprovisioning of wireless devices in v6.14.1
 
 """
 
@@ -160,6 +163,24 @@ EXAMPLES = r"""
         - site_name_hierarchy: Global/USA/San Francisco/BGL_18
           management_ip_address: 204.192.3.40
           provisioning: False
+
+- name: Provision a wireless device to a site
+  cisco.dnac.provision_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: True
+    state: merged
+    config_verify: True
+    config:
+        - site_name_hierarchy: Global/USA/RTP/BLD11
+          management_ip_address: 204.192.12.201
+          managed_ap_locations:
+            - Global/USA/RTP/BLD11/BLD11_FLOOR1
 
 """
 
@@ -288,13 +309,16 @@ class Provision(DnacBase):
           Post creation of the validated input, we this method gets the
           type of the device.
         """
-
-        dev_response = self.dnac_apply['exec'](
-            family="devices",
-            function='get_network_device_by_ip',
-            params={"ip_address": self.validated_config[0]["management_ip_address"]},
-            op_modifies=True
-        )
+        try:
+            dev_response = self.dnac_apply['exec'](
+                family="devices",
+                function='get_network_device_by_ip',
+                params={"ip_address": self.validated_config[0]["management_ip_address"]},
+                op_modifies=True
+            )
+        except Exception as e:
+            self.log(str(e), "ERROR")
+            self.module.fail_json(msg=str(e))
 
         self.log("The device response from 'get_network_device_by_ip' API is {0}".format(str(dev_response)), "DEBUG")
         dev_dict = dev_response.get("response")
@@ -308,6 +332,34 @@ class Provision(DnacBase):
             device_type = None
         self.log("The device type is {0}".format(device_type), "INFO")
         return device_type
+
+    def get_device_id(self):
+        """
+        Fetches the UUID of the device added in the inventory
+
+        Parameters:
+          - self: The instance of the class containing the 'config' attribute
+                  to be validated.
+        Returns:
+          The method returns the serial number of the device as a string. If it fails, it returns None.
+        Example:
+          After creating the validated input, this method retrieves the
+          UUID of the device.
+        """
+
+        dev_response = self.dnac_apply['exec'](
+            family="devices",
+            function='get_network_device_by_ip',
+            params={"ip_address": self.validated_config[0]["management_ip_address"]},
+            op_modifies=True
+        )
+
+        self.log("The device response from 'get_network_device_by_ip' API is {0}".format(str(dev_response)), "DEBUG")
+        dev_dict = dev_response.get("response")
+        device_id = dev_dict.get("id")
+
+        self.log("Device ID of the device with IP address {0} is {1}".format(self.validated_config[0]["management_ip_address"], device_id), "INFO")
+        return device_id
 
     def get_serial_number(self):
         """
@@ -395,9 +447,9 @@ class Provision(DnacBase):
         self.result.update(dict(provision_task=response))
         return result
 
-    def get_execution_status(self, execution_id=None):
+    def get_execution_status_site(self, execution_id=None):
         """
-        Fetches the status of the task once any provision API is called
+        Fetches the status of the BAPI once site assignment API is called
 
         Parameters:
           - self: The instance of the class containing the 'config' attribute
@@ -424,6 +476,52 @@ class Provision(DnacBase):
             self.log("Execution status for the execution id {0} is {1}".format(str(execution_id), str(response.get("status"))), "INFO")
             if response.get('bapiError') or response.get("status") == "FAILURE":
                 msg = 'Assigning to site execution with id {0} has not completed - Reason: {1}'.format(
+                    execution_id, response.get("bapiError"))
+                self.module.fail_json(msg=msg)
+                return False
+
+            if response.get('status') == 'SUCCESS':
+                result = True
+                break
+
+            time.sleep(3)
+        self.result.update(dict(assignment_task=response))
+        return result
+
+    def get_execution_status_wireless(self, execution_id=None):
+        """
+        Fetches the status of the BAPI once site wireless provision API is called
+
+        Parameters:
+          - self: The instance of the class containing the 'config' attribute
+                  to be validated.
+          - execution_id: execution_id of the BAPI API.
+        Returns:
+          The method returns the status of the BAPI used to track wireless provisioning.
+          Returns True if the status is not failed, otheriwse returns False.
+        Example:
+          Post creation of the provision task, this method fetheches the task
+          status.
+
+        """
+        result = False
+        params = {"execution_id": execution_id}
+        while True:
+            response = self.dnac_apply['exec'](
+                family="task",
+                function="get_business_api_execution_details",
+                params=params,
+                op_modifies=True
+            )
+            self.log("Response collected from 'get_business_api_execution_details' API is {0}".format(str(response)), "DEBUG")
+            self.log("Execution status for the execution id {0} is {1}".format(str(execution_id), str(response.get("status"))), "INFO")
+            if response.get('bapiError') or response.get("status") == "FAILURE":
+                if response.get("bapiError") == "Device was already provisioned , please use provision update API to reprovision the device":
+                    msg = "Performing reprovisioning of wireless device"
+                    result = True
+                    self.perform_wireless_reprovision()
+                    break
+                msg = 'Wireless provisioning execution with id {0} has not completed - Reason: {1}'.format(
                     execution_id, response.get("bapiError"))
                 self.module.fail_json(msg=msg)
                 return False
@@ -623,31 +721,39 @@ class Provision(DnacBase):
                 "managedAPLocations": self.validated_config[0].get("managed_ap_locations"),
             }
         ]
-        for ap_loc in wireless_params[0]["managedAPLocations"]:
+
+        if not (wireless_params[0].get("managedAPLocations") and isinstance(wireless_params[0].get("managedAPLocations"), list)):
+            msg = "Managed AP locations must be passed as a list of sites. For example, [Global/USA/RTP/BLD11/BLD11_FLOOR1,\
+                Global/USA/RTP/BLD11/BLD11_FLOOR2]"
+            self.log(msg, "CRITICAL")
+            self.module.fail_json(msg=msg, response=[])
+
+        for ap_loc in self.validated_config[0].get("managed_ap_locations"):
             if self.get_site_type(site_name_hierarchy=ap_loc) != "floor":
                 self.log("Managed AP Location must be a floor", "CRITICAL")
                 self.module.fail_json(msg="Managed AP Location must be a floor", response=[])
 
         wireless_params[0]["dynamicInterfaces"] = []
-        for interface in self.validated_config[0].get("dynamic_interfaces"):
-            interface_dict = {
-                "interfaceIPAddress": interface.get("interface_ip_address"),
-                "interfaceNetmaskInCIDR": interface.get("interface_netmask_in_c_i_d_r"),
-                "interfaceGateway": interface.get("interface_gateway"),
-                "lagOrPortNumber": interface.get("lag_or_port_number"),
-                "vlanId": interface.get("vlan_id"),
-                "interfaceName": interface.get("interface_name")
-            }
-            wireless_params[0]["dynamicInterfaces"].append(interface_dict)
+        if self.validated_config[0].get("dynamic_interfaces"):
+            for interface in self.validated_config[0].get("dynamic_interfaces"):
+                interface_dict = {
+                    "interfaceIPAddress": interface.get("interface_ip_address"),
+                    "interfaceNetmaskInCIDR": interface.get("interface_netmask_in_c_i_d_r"),
+                    "interfaceGateway": interface.get("interface_gateway"),
+                    "lagOrPortNumber": interface.get("lag_or_port_number"),
+                    "vlanId": interface.get("vlan_id"),
+                    "interfaceName": interface.get("interface_name")
+                }
+                wireless_params[0]["dynamicInterfaces"].append(interface_dict)
         response = self.dnac_apply['exec'](
             family="devices",
             function='get_network_device_by_ip',
-            params={"management_ip_address": self.validated_config[0]["management_ip_address"]},
+            params={"ip_address": self.validated_config[0]["management_ip_address"]},
             op_modifies=True
         )
 
         self.log("Response collected from 'get_network_device_by_ip' is:{0}".format(str(response)), "DEBUG")
-        wireless_params[0]["deviceName"] = response.get("response")[0].get("hostname")
+        wireless_params[0]["deviceName"] = response.get("response").get("hostname")
         self.log("Parameters collected for the provisioning of wireless device:{0}".format(wireless_params), "INFO")
         return wireless_params
 
@@ -682,6 +788,47 @@ class Provision(DnacBase):
         self.log(self.msg, "INFO")
         self.status = "success"
         return self
+
+    def perform_wireless_reprovision(self):
+        """
+        This method performs the reprovisioning of a wireless device. Since, we don't have any
+        APIs to get provisioned wireless devices, so we are reprovisioning based on the failure
+        condition of the device
+        Parameters:
+            - self: The instance of the class containing the 'config' attribute
+                  to be validated.
+        Returns:
+            object: An instance of the class with updated results and status
+            based on the processing of differences.
+        Example:
+            If wireless device is already provisioned, this method calls the provision update
+            API and handles it accordingly
+        """
+
+        try:
+            headers_payload = {"__persistbapioutput": "true"}
+            response = self.dnac_apply['exec'](
+                family="wireless",
+                function="provision_update",
+                op_modifies=True,
+                params={"payload": self.want.get("prov_params"),
+                        "headers": headers_payload}
+            )
+            self.log("Wireless provisioning response collected from 'provision_update' API is: {0}".format(str(response)), "DEBUG")
+            execution_id = response.get("executionId")
+            provision_info = self.get_execution_status_wireless(execution_id=execution_id)
+            self.result["changed"] = True
+            self.result['msg'] = "Wireless device with IP address {0} got re-provisioned successfully".format(self.validated_config[0]["management_ip_address"])
+            self.result['diff'] = self.validated_config
+            self.result['response'] = execution_id
+            self.log(self.result['msg'], "INFO")
+            return self
+        except Exception as e:
+            self.log("Parameters are {0}".format(self.want))
+            self.msg = "Error in wireless re-provisioning of {0} due to {1}".format(self.validated_config[0]["management_ip_address"], e)
+            self.log(self.msg, "ERROR")
+            self.status = "failed"
+            return self
 
     def get_diff_merged(self):
         """
@@ -775,7 +922,7 @@ class Provision(DnacBase):
                         )
                         self.log("Assignment response collected from 'assign_devices_to_site' API is: {0}".format(response), "DEBUG")
                         execution_id = response.get("executionId")
-                        assignment_info = self.get_execution_status(execution_id=execution_id)
+                        assignment_info = self.get_execution_status_site(execution_id=execution_id)
                         self.result["changed"] = True
                         self.result['msg'] = "Site assignment done successfully"
                         self.result['diff'] = self.validated_config
@@ -789,13 +936,28 @@ class Provision(DnacBase):
                         return self
 
         elif device_type == "wireless":
-            response = self.dnac_apply['exec'](
-                family="wireless",
-                function="provision",
-                op_modifies=True,
-                params=self.want.get("prov_params"),
-            )
-            self.log("Wireless provisioning response collected from 'provision' API is: {0}".format(response), "DEBUG")
+            try:
+                response = self.dnac_apply['exec'](
+                    family="wireless",
+                    function="provision",
+                    op_modifies=True,
+                    params={"payload": self.want.get("prov_params")}
+                )
+                self.log("Wireless provisioning response collected from 'provision' API is: {0}".format(str(response)), "DEBUG")
+                execution_id = response.get("executionId")
+                provision_info = self.get_execution_status_wireless(execution_id=execution_id)
+                self.result["changed"] = True
+                self.result['msg'] = "Wireless device with IP {0} got provisioned successfully".format(self.validated_config[0]["management_ip_address"])
+                self.result['diff'] = self.validated_config
+                self.result['response'] = execution_id
+                self.log(self.result['msg'], "INFO")
+                return self
+            except Exception as e:
+                self.log("Parameters are {0}".format(self.want))
+                self.msg = "Error in wireless provisioning of {0} due to {1}".format(self.validated_config[0]["management_ip_address"], e)
+                self.log(self.msg, "ERROR")
+                self.status = "failed"
+                return self
 
         else:
             self.result['msg'] = "Passed device is neither wired nor wireless"
@@ -924,7 +1086,7 @@ class Provision(DnacBase):
                 self.log("Requested wired device is not provisioned", "INFO")
 
         else:
-            self.log("Currently we don't have any API in the Cisco Catalyst Center to fetch the provisioning details of wired devices")
+            self.log("Currently we don't have any API in the Cisco Catalyst Center to fetch the provisioning details of wireless devices")
         self.status = "success"
 
         return self
@@ -970,7 +1132,7 @@ class Provision(DnacBase):
                 self.log("Requested wired device is unprovisioned", "INFO")
 
         else:
-            self.log("Currently we don't have any API in the Cisco Catalyst Center to fetch the provisioning details of wired devices")
+            self.log("Currently we don't have any API in the Cisco Catalyst Center to fetch the provisioning details of wireless devices")
         self.status = "success"
 
         return self
