@@ -1957,22 +1957,22 @@ class DeviceCredential(DnacBase):
         want = {
             "assign_credentials": {}
         }
-        site_name = AssignCredentials.get("site_name")
-        if not site_name:
+        site_names = AssignCredentials.get("site_name")
+        if not site_names:
             self.msg = "The 'site_name' is required parameter for 'assign_credentials_to_site'"
             self.status = "failed"
             return self
 
-        site_id = []
-        for site_name in site_name:
-            siteId = self.get_site_id(site_name)
-            if not siteId:
+        site_ids = []
+        for site_name in site_names:
+            current_site_id = self.get_site_id(site_name)
+            if not current_site_id:
                 self.msg = "The site_name '{0}' is invalid in 'assign_credentials_to_site'".format(site_name)
                 self.status = "failed"
                 return self
-            site_id.append(siteId)
+            site_ids.append(current_site_id)
 
-        want.update({"site_id": site_id})
+        want.update({"site_id": site_ids})
         global_credentials = self.get_global_credentials_params()
         cli_credential = AssignCredentials.get("cli_credential")
         if cli_credential:
