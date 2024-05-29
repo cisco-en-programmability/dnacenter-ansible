@@ -358,7 +358,7 @@ class Provision(DnacBase):
         dev_dict = dev_response.get("response")
         device_id = dev_dict.get("id")
 
-        self.log("Device ID of the device is {0}".format(device_id), "INFO")
+        self.log("Device ID of the device with IP address {0} is {1}".format(self.validated_config[0]["management_ip_address"], device_id), "INFO")
         return device_id
 
     def get_serial_number(self):
@@ -954,7 +954,7 @@ class Provision(DnacBase):
                 return self
             except Exception as e:
                 self.log("Parameters are {0}".format(self.want))
-                self.msg = "Error in wireless provisioning of {0}due to {1}".format(self.validated_config[0]["management_ip_address"], e)
+                self.msg = "Error in wireless provisioning of {0} due to {1}".format(self.validated_config[0]["management_ip_address"], e)
                 self.log(self.msg, "ERROR")
                 self.status = "failed"
                 return self
