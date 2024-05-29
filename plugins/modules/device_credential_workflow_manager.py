@@ -889,7 +889,12 @@ class DeviceCredential(DnacBase):
                          .format(site_name), "ERROR")
                 return None
 
-            _id = response.get("response")[0].get("id")
+            response = response.get("response")
+            if not response:
+                self.log("The site with the name '{0}' is not valid".format(site_name), "ERROR")
+                return None
+
+            _id = response[0].get("id")
             self.log("Site ID for the site name {0}: {1}".format(site_name, _id), "INFO")
         except Exception as e:
             self.log("Exception occurred while getting site_id from the site_name: {0}"
@@ -1961,7 +1966,7 @@ class DeviceCredential(DnacBase):
         site_id = []
         for site_name in site_name:
             siteId = self.get_site_id(site_name)
-            if not site_id:
+            if not siteId:
                 self.msg = "The site_name '{0}' is invalid in 'assign_credentials_to_site'".format(site_name)
                 self.status = "failed"
                 return self
