@@ -17,6 +17,7 @@ from ansible.module_utils.common import validation
 from abc import ABCMeta, abstractmethod
 try:
     import logging
+    import ipaddress
 except ImportError:
     LOGGING_IN_STANDARD = False
 else:
@@ -28,6 +29,7 @@ import json
 import inspect
 import re
 import socket
+import time
 
 
 class DnacBase():
@@ -509,6 +511,79 @@ class DnacBase():
             return True
         except socket.error:
             return False
+
+    def check_status_api_events(self, status_execution_id):
+        """
+        Checks the status of API events in Cisco Catalyst Center until completion or timeout.
+        Args:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            status_execution_id (str): The execution ID for the event to check the status.
+        Returns:
+            dict or None: The response from the API once the status is no longer "IN_PROGRESS",
+                        or None if the maximum timeout is reached.
+        Description:
+            This method repeatedly checks the status of an API event in Cisco Catalyst Center using the provided
+            execution ID. The status is checked at intervals specified by the 'dnac_task_poll_interval' parameter
+            until the status is no longer "IN_PROGRESS" or the maximum timeout ('dnac_api_task_timeout') is reached.
+            If the status becomes anything other than "IN_PROGRESS" before the timeout, the method returns the
+            response from the API. If the timeout is reached first, the method logs a warning and returns None.
+        """
+
+        max_timeout = self.params.get('dnac_api_task_timeout')
+        events_response = None
+        start_time = time.time()
+
+        while True:
+            end_time = time.time()
+            if (end_time - start_time) >= max_timeout:
+                self.log("""Max timeout of {0} sec has reached for the execution id '{1}' for the event and unexpected
+                        api status so moving out of the loop.""".format(max_timeout, status_execution_id), "WARNING")
+                break
+            # Now we check the status of API Events for configuring destination and notifications
+            response = self.dnac._exec(
+                family="event_management",
+                function='get_status_api_for_events',
+                op_modifies=True,
+                params={"execution_id": status_execution_id}
+            )
+            self.log("Received API response from 'get_status_api_for_events': {0}".format(str(response)), "DEBUG")
+            if response['apiStatus'] != "IN_PROGRESS":
+                events_response = response
+                break
+            time.sleep(self.params.get('dnac_task_poll_interval'))
+
+        return events_response
+
+    def is_valid_server_address(self, server_address):
+        """
+        Validates the server address to check if it's a valid IPv4, IPv6 address, or a valid hostname.
+        Args:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            server_address (str): The server address to validate.
+        Returns:
+            bool: True if the server address is valid, otherwise False.
+        """
+        # Check if the address is a valid IPv4 or IPv6 address
+        try:
+            ipaddress.ip_address(server_address)
+            return True
+        except ValueError:
+            pass
+
+        # Define the regex for a valid hostname
+        hostname_regex = re.compile(
+            r'^(?!-)'  # Hostname must not start with a hyphen
+            r'[A-Za-z0-9-]{1,63}'  # Hostname segment must be 1-63 characters long
+            r'(?!-)$'  # Hostname segment must not end with a hyphen
+            r'(\.[A-Za-z0-9-]{1,63})*'  # Each segment can be 1-63 characters long
+            r'(\.[A-Za-z]{2,6})$'  # Top-level domain must be 2-6 alphabetic characters
+        )
+
+        # Check if the address is a valid hostname
+        if hostname_regex.match(server_address):
+            return True
+
+        return False
 
     def is_path_exists(self, file_path):
         """
