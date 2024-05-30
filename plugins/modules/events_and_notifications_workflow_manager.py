@@ -103,7 +103,8 @@ options:
             type: bool
       email_destination:
         description: Configure settings to send out emails from Cisco Catalyst Center. Also we can create or configure email destination in Cisco Catalyst
-            Center only once then later we can just modify it.
+            Center only once then later we can just modify it. This one is just used to configure the Primary and Secondary SMTP server while configuring
+            the email destination. It's not related to email event subscription notification.
         type: dict
         suboptions:
           primary_smtp_config:
@@ -1048,6 +1049,13 @@ class Events(DnacBase):
             'snmpVersion': snmp_details.get('snmp_version')
         }
         server_address = snmp_details.get('server_address')
+        snmp_version = playbook_params.get("snmpVersion")
+
+        if snmp_version and snmp_version not in ["V2C", "V3"]:
+            self.status = "failed"
+            self.msg = "Invalid SNMP version '{0}' given in the playbook for configuring SNMP destination".format(snmp_version)
+            self.log(self.msg, "ERROR")
+            self.check_return_status()
 
         if server_address and not self.is_valid_server_address(server_address):
             self.status = "failed"
@@ -1055,19 +1063,35 @@ class Events(DnacBase):
             self.log(self.msg, "ERROR")
             self.check_return_status()
 
-        if playbook_params.get('snmpVersion') == "V2C":
+        if snmp_version == "V2C":
             playbook_params['community'] = snmp_details.get('community')
-        elif playbook_params.get('snmpVersion') == "V3":
+        elif snmp_version == "V3":
             playbook_params['userName'] = snmp_details.get('username')
             playbook_params['snmpMode'] = snmp_details.get('mode')
+            mode = playbook_params['snmpMode']
+            auth_type = snmp_details.get('auth_type')
 
-            if playbook_params['snmpMode'] == "AUTH_PRIVACY":
-                playbook_params['snmpAuthType'] = snmp_details.get('auth_type')
+            if not mode or (mode not in ["AUTH_PRIVACY", "AUTH_NO_PRIVACY", "NO_AUTH_NO_PRIVACY"]):
+                self.status = "failed"
+                self.msg = """Invalid SNMP Mode '{0}' given in the playbook for configuring SNMP destination. Please select one of
+                        the mode - AUTH_PRIVACY, AUTH_NO_PRIVACY, NO_AUTH_NO_PRIVACY in the playbook""".format(mode)
+                self.log(self.msg, "ERROR")
+                self.check_return_status()
+
+            if auth_type and auth_type not in ["SHA", "MD5"]:
+                self.status = "failed"
+                self.msg = """Invalid SNMP Authentication Type '{0}' given in the playbook for configuring SNMP destination. Please
+                        select either SHA or MD5 as authentication type in the playbook""".format(auth_type)
+                self.log(self.msg, "ERROR")
+                self.check_return_status()
+
+            if playbook_params.get("snmpMode") == "AUTH_PRIVACY":
+                playbook_params['snmpAuthType'] = auth_type
                 playbook_params['authPassword'] = snmp_details.get('auth_password')
                 playbook_params['snmpPrivacyType'] = snmp_details.get('privacy_type', 'AES128')
                 playbook_params['privacyPassword'] = snmp_details.get('privacy_password')
-            elif playbook_params['snmpMode'] == "AUTH_NO_PRIVACY":
-                playbook_params['snmpAuthType'] = snmp_details.get('auth_type')
+            elif playbook_params.get("snmpMode") == "AUTH_NO_PRIVACY":
+                playbook_params['snmpAuthType'] = auth_type
                 playbook_params['authPassword'] = snmp_details.get('auth_password')
 
         return playbook_params
@@ -1570,11 +1594,19 @@ class Events(DnacBase):
 
         if email_details.get('primary_smtp_config'):
             primary_smtp_details = email_details.get('primary_smtp_config')
+            primary_smtp_type = primary_smtp_details.get('smtp_type', "DEFAULT")
+            if primary_smtp_type not in ["DEFAULT", "TLS", "SSL"]:
+                self.status = "failed"
+                self.msg = """Invalid Primary SMTP Type '{0}' given in the playbook for configuring primary smtp server.
+                    Please select one of the type - DEFAULT, TLS, SSL in the playbook""".format(primary_smtp_type)
+                self.log(self.msg, "ERROR")
+                self.check_return_status()
+
             playbook_params['primarySMTPConfig'] = {}
             playbook_params['primarySMTPConfig']['hostName'] = primary_smtp_details.get('server_address')
-            playbook_params['primarySMTPConfig']['smtpType'] = primary_smtp_details.get('smtp_type', "DEFAULT")
+            playbook_params['primarySMTPConfig']['smtpType'] = primary_smtp_type
 
-            if playbook_params['primarySMTPConfig']['smtpType'] == 'DEFAULT':
+            if primary_smtp_type == 'DEFAULT':
                 playbook_params['primarySMTPConfig']['port'] = "25"
             else:
                 playbook_params['primarySMTPConfig']['port'] = primary_smtp_details.get('port')
@@ -1583,9 +1615,18 @@ class Events(DnacBase):
 
         if email_details.get('secondary_smtp_config'):
             secondary_smtp_details = email_details.get('secondary_smtp_config')
+            secondary_smtp_type = secondary_smtp_details.get('smtp_type', "DEFAULT")
+
+            if secondary_smtp_type and secondary_smtp_type not in ["DEFAULT", "TLS", "SSL"]:
+                self.status = "failed"
+                self.msg = """Invalid Secondary SMTP Type '{0}' given in the playbook for configuring secondary smtp server.
+                    Please select one of the type - DEFAULT, TLS, SSL in the playbook""".format(secondary_smtp_type)
+                self.log(self.msg, "ERROR")
+                self.check_return_status()
+
             playbook_params['secondarySMTPConfig'] = {}
             playbook_params['secondarySMTPConfig']['hostName'] = secondary_smtp_details.get('server_address')
-            playbook_params['secondarySMTPConfig']['smtpType'] = secondary_smtp_details.get('smtp_type', "DEFAULT")
+            playbook_params['secondarySMTPConfig']['smtpType'] = secondary_smtp_type
 
             if playbook_params['secondarySMTPConfig']['smtpType'] == 'DEFAULT':
                 playbook_params['secondarySMTPConfig']['port'] = "25"
@@ -2167,18 +2208,20 @@ class Events(DnacBase):
                 return self
 
             regex_pattern = re.compile(
-                r'^https://'  # Ensure the URL starts with "https://" like https://webhook.cisco.com
-                r'(([A-Za-z0-9-]+\.)+[A-Za-z]{2,6}|'  # Domain name (e.g., example.com, webhook.cisco.com)
+                r'^https://'  # Ensure the URL starts with "https://"
+                r'('
+                r'(([A-Za-z0-9-]+\.)+[A-Za-z]{2,6}|'  # Domain name (e.g., example.com)
                 r'localhost|'  # Localhost
                 r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}|'  # IPv4 address (e.g., 192.168.0.1)
-                r'\[?[A-Fa-f0-9:]+\]?)'  # IPv6 address (e.g., [2001:db8::1])
+                r'\[[A-Fa-f0-9:]+\]'  # IPv6 address (e.g., [2001:db8::1])
+                r')'
                 r'(:\d+)?'  # Optional port (e.g., :8080)
-                r'(\/[A-Za-z0-9._~:/?#[@!$&\'()*+,;=-]*)?$'  # Path and query (optional)
+                r'(\/[A-Za-z0-9._~:/?#[@!$&\'()*+,;=-]*)?$)'  # Path and query (optional)
             )
             url = webhook_params.get('url')
 
             # Check if the input string matches the pattern
-            if url and not re.match(regex_pattern, url):
+            if url and not regex_pattern.match(url):
                 self.status = "failed"
                 self.msg = """Given url '{0}' is invalid url for Creating/Updating Webhook destination. It must starts with 'https://' and
                         follow the valid https url format.""".format(url)
@@ -2286,7 +2329,7 @@ class Events(DnacBase):
 
             if server_address and not self.is_valid_server_address(server_address):
                 self.status = "failed"
-                self.msg = "Invalid server address '{0}' given in the playbook for configuring syslog destination".format(server_address)
+                self.msg = "Invalid server address '{0}' given in the playbook for configuring Syslog destination".format(server_address)
                 self.log(self.msg, "ERROR")
                 return self
 
@@ -2477,25 +2520,30 @@ class Events(DnacBase):
             self.msg = "Deleting the Webhook destination is not supported in Cisco Catalyst Center because of API limitations"
             self.log(self.msg, "ERROR")
             self.result['changed'] = False
+            return self
 
         if config.get('email_destination'):
             self.status = "failed"
             self.msg = "Deleting the Email destination is not supported in Cisco Catalyst Center because of API limitations"
             self.log(self.msg, "ERROR")
             self.result['changed'] = False
+            return self
 
         if config.get('syslog_destination'):
             self.status = "failed"
             self.msg = "Deleting the Syslog destination is not supported in Cisco Catalyst Center because of API limitations"
             self.log(self.msg, "ERROR")
             self.result['changed'] = False
+            return self
 
         if config.get('snmp_destination'):
             self.status = "failed"
             self.msg = "Deleting the SNMP destination is not supported in Cisco Catalyst Center because of API limitations"
             self.log(self.msg, "ERROR")
             self.result['changed'] = False
+            return self
 
+        # Delete ITSM Integration setting from Cisco Catalyst Center
         if config.get('itsm_setting'):
             itsm_details = self.want.get('itsm_details')
             itsm_name = itsm_details.get('instance_name')
