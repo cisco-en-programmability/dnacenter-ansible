@@ -869,7 +869,7 @@ releases:
   6.14.0
       release_date: "2024-04-25"
       changes:
-          release_summary: New Dna Center API version 2.3.7.5.
+          release_summary: New Dna Center API version 2.3.7.6.
           minor_changes:
           - application_policy_application_set_count_info - new module
           - application_policy_application_set_info - new module
