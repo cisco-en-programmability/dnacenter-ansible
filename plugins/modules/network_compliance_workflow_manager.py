@@ -436,6 +436,7 @@ class NetworkCompliance(DnacBase):
             - If `run_compliance` is set and `run_compliance_categories` is not, full compliance checks are triggered.
             - If both `run_compliance` and `run_compliance_categories` are set, compliance checks are triggered for specific categories.
         """
+        # Initializing empty dicts/lists
         run_compliance_params = {}
         compliance_detail_params = {}
         valid_categories = ["INTENT", "RUNNING_CONFIG", "IMAGE", "PSIRT", "EOX", "NETWORK_SETTINGS"]
@@ -477,6 +478,32 @@ class NetworkCompliance(DnacBase):
 
             # compliance_detail_params
             compliance_detail_params["deviceUuids"] = ",".join(list(mgmt_ip_instance_id_map.values()))
+
+        # Verify if there are any devices with Compliance Status of "IN_PROGRESS"
+        if run_compliance_params:
+            device_in_progress = []
+
+            response = self.get_compliance_detail(compliance_detail_params)
+            if not response:
+                msg = "Error occurred when retrieving Compliance Report to identify if there are devices with 'IN_PROGRESS' status"
+                msg += "is required on device(s): {0}".format(list(mgmt_ip_instance_id_map.keys()))
+                self.log(msg)
+                self.module.fail_json(msg)
+
+            # Iterate through the response to identify devices with 'IN_PROGRESS' status
+            for device in response:
+                if device["status"] == "IN_PROGRESS":
+                    device_in_progress.append(device["deviceUuid"])
+            self.log("Devices currently with a Compliance Status of 'IN_PROGRESS': {0}".format(device_in_progress), "DEBUG")
+
+            if device_in_progress:
+                # Update run_compliance_params to exclude devices with 'IN_PROGRESS' status
+                run_compliance_params["deviceUuids"] = [device_id for device_id in mgmt_ip_instance_id_map.values() if device_id not in device_in_progress]
+                self.log(
+                    "Updated the run_compliance_params to exclude devices with a compliance status of 'IN_PROGRESS'."
+                    "run_compliance_params: {0}".format(run_compliance_params),
+                    "DEBUG"
+                )
 
         return run_compliance_params, compliance_detail_params
 
@@ -721,14 +748,8 @@ class NetworkCompliance(DnacBase):
             msg = "Device(s) {0} are already compliant with the RUNNING_CONFIG compliance type. Therefore, {1} is not required.".format(
                 list(mgmt_ip_instance_id_map.keys()), task_name)
             required = False
-        elif len(categorized_devices["NON_COMPLIANT"]) != len(mgmt_ip_instance_id_map):
-            required = False
-            msg = ("The operation {0} cannot be performed on one or more of the devices "
-                   "{1} because the status of the RUNNING_CONFIG compliance type is not "
-                   "as expected; it should be NON_COMPLIANT."
-                   ).format(task_name, list(mgmt_ip_instance_id_map.keys()))
 
-        return required, msg
+        return required, msg, categorized_devices
 
     def get_want(self, config):
         """
@@ -810,10 +831,26 @@ class NetworkCompliance(DnacBase):
                 self.module.fail_json(msg)
 
             compliance_details = self.modify_compliance_response(response, mgmt_ip_instance_id_map)
-            required, msg = self.is_sync_required(compliance_details, mgmt_ip_instance_id_map)
+            required, self.msg, categorized_devices = self.is_sync_required(compliance_details, mgmt_ip_instance_id_map)
+            self.log("Is Sync Requied: {0} {1}".format(required, self.msg), "DEBUG")
             if not required:
-                self.log(msg, "ERROR")
-                self.module.fail_json(msg)
+                self.update_result("success", False, self.msg, "INFO")
+                self.module.exit_json(**self.result)
+
+            # Get the device IDs of devices in the "OTHER" category and "COMPLIANT" category
+            other_device_ids = categorized_devices.get("OTHER", {}).keys()
+            compliant_device_ids = categorized_devices.get("COMPLIANT", {}).keys()
+            excluded_device_ids = set(other_device_ids) | set(compliant_device_ids)
+            
+            if excluded_device_ids:
+                # Exclude devices in the "OTHER" category from sync_device_config_params
+                sync_device_config_params["deviceId"] = [device_id for device_id in mgmt_ip_instance_id_map.values() if device_id not in excluded_device_ids]
+                self.log(
+                    "Skipping these devices because their compliance status is not 'NON_COMPLIANT': {0}".format(
+                        categorized_devices.get("OTHER")
+                    ), 
+                    "WARNING"
+                )
 
         # Construct the "want" dictionary containing the desired state parameters
         want = {}
