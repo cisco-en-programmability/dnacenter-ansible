@@ -841,14 +841,14 @@ class NetworkCompliance(DnacBase):
             other_device_ids = categorized_devices.get("OTHER", {}).keys()
             compliant_device_ids = categorized_devices.get("COMPLIANT", {}).keys()
             excluded_device_ids = set(other_device_ids) | set(compliant_device_ids)
-            
+
             if excluded_device_ids:
                 # Exclude devices in the "OTHER" category from sync_device_config_params
                 sync_device_config_params["deviceId"] = [device_id for device_id in mgmt_ip_instance_id_map.values() if device_id not in excluded_device_ids]
                 self.log(
                     "Skipping these devices because their compliance status is not 'NON_COMPLIANT': {0}".format(
                         categorized_devices.get("OTHER")
-                    ), 
+                    ),
                     "WARNING"
                 )
 
