@@ -2210,13 +2210,16 @@ class Events(DnacBase):
             regex_pattern = re.compile(
                 r'^https://'  # Ensure the URL starts with "https://"
                 r'('
-                r'(([A-Za-z0-9-]+\.)+[A-Za-z]{2,6}|'  # Domain name (e.g., example.com)
+                r'(([A-Za-z0-9-*.&@]+\.)+[A-Za-z]{2,6})|'  # Domain name with wildcards and special characters
                 r'localhost|'  # Localhost
-                r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}|'  # IPv4 address (e.g., 192.168.0.1)
-                r'\[[A-Fa-f0-9:]+\]'  # IPv6 address (e.g., [2001:db8::1])
+                r'(?:(?:\d{1,3}\.){3}\d{1,3}\b\.?)'  # Partial or complete IPv4 address with optional trailing dot
+                r'(\[[A-Fa-f0-9:]+\])?'  # Optional IPv6 address in square brackets (e.g., [2001:db8::1])
+                r'|'  # Alternation for different valid segments
+                r'([A-Za-z-_.&@]+)'  # Hostname with allowed special characters
                 r')'
-                r'(:\d+)?'  # Optional port (e.g., :8080)
-                r'(\/[A-Za-z0-9._~:/?#[@!$&\'()*+,;=-]*)?$)'  # Path and query (optional)
+                r'(:\d+)?'  # Optional port
+                r'(\/[A-Za-z0-9._~:/?#[@!$&\'()*+,;=-]*)?'  # Optional path
+                r'$'  # End of the string
             )
             url = webhook_params.get('url')
 
