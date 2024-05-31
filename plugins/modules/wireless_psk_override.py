@@ -16,26 +16,21 @@ extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
-  payload:
-    description: Wireless Psk Override's payload.
-    elements: dict
-    suboptions:
-      passPhrase:
-        description: Pass phrase (create/update).
-        type: str
-      site:
-        description: Site name hierarchy (ex Global/aaa/zzz/...).
-        type: str
-      ssid:
-        description: Enterprise ssid name(already created/present).
-        type: str
-      wlanProfileName:
-        description: WLAN Profile Name.
-        type: str
-    type: list
+  passPhrase:
+    description: Pass phrase (create/update).
+    type: str
+  site:
+    description: Site name hierarchy (ex Global/aaa/zzz/...).
+    type: str
+  ssidName:
+    description: Enterprise SSID Name(already created/present).
+    type: str
+  wlanProfileName:
+    description: WLAN Profile Name.
+    type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Wireless PSKOverride
   description: Complete reference of the PSKOverride API.
@@ -59,14 +54,12 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    payload:
-    - passPhrase: string
-      site: string
-      ssid: string
-      wlanProfileName: string
+    passPhrase: string
+    site: string
+    ssidName: string
+    wlanProfileName: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

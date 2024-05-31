@@ -149,6 +149,7 @@ class PnpWorkflow(object):
         new_object_params['useState'] = self.new_object.get('useState')
         new_object_params['version'] = self.new_object.get('version')
         new_object_params['id'] = self.new_object.get('id')
+        new_object_params['id'] = self.new_object.get('id')
         return new_object_params
 
     def get_object_by_name(self, name):

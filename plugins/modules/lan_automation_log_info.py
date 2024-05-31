@@ -24,18 +24,18 @@ options:
   offset:
     description:
     - Offset query parameter. Starting index of the LAN Automation session. Minimum value is 1.
-    type: int
+    type: float
   limit:
     description:
     - Limit query parameter. Number of LAN Automation sessions to be retrieved. Limit value can range between 1 to 10.
-    type: int
+    type: float
   id:
     description:
     - Id path parameter. LAN Automation session identifier.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for LAN Automation LANAutomationLog
   description: Complete reference of the LANAutomationLog API.
@@ -83,7 +83,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

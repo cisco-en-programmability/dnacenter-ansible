@@ -32,11 +32,11 @@ options:
   offset:
     description:
     - Offset query parameter. Used for pagination. It indicates the starting row number out of available member records.
-    type: str
+    type: float
   limit:
     description:
     - Limit query parameter. Used to Number of maximum members to return in the result.
-    type: str
+    type: float
   memberAssociationType:
     description:
     - >
@@ -50,8 +50,8 @@ options:
     - Level query parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Tag GetTagMembersById
   description: Complete reference of the GetTagMembersById API.
@@ -77,15 +77,14 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
     memberType: string
-    offset: string
-    limit: string
+    offset: 0
+    limit: 0
     memberAssociationType: string
     level: string
     id: string
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

@@ -32,16 +32,16 @@ options:
     - >
       Number_days query parameter. Number of days to track proximity until current date. Defaults and maximum up
       to 14 days.
-    type: int
+    type: float
   time_resolution:
     description:
     - >
       Time_resolution query parameter. Time interval (in minutes) to measure proximity. Defaults to 15 minutes
       with a minimum 5 minutes.
-    type: int
+    type: float
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Clients ClientProximity
   description: Complete reference of the ClientProximity API.
@@ -72,7 +72,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

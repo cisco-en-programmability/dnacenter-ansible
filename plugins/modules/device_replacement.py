@@ -22,51 +22,52 @@ options:
     elements: dict
     suboptions:
       creationTime:
-        description: Device Replacement's creationTime.
+        description: Date and time of marking the device for replacement.
         type: int
       family:
-        description: Device Replacement's family.
+        description: Faulty device family.
         type: str
       faultyDeviceId:
-        description: Device Replacement's faultyDeviceId.
+        description: Unique identifier of the faulty device.
         type: str
       faultyDeviceName:
-        description: Device Replacement's faultyDeviceName.
+        description: Faulty device name.
         type: str
       faultyDevicePlatform:
-        description: Device Replacement's faultyDevicePlatform.
+        description: Faulty device platform.
         type: str
       faultyDeviceSerialNumber:
-        description: Device Replacement's faultyDeviceSerialNumber.
+        description: Faulty device serial number.
         type: str
       id:
-        description: Device Replacement's id.
+        description: Unique identifier of the device replacement resource.
         type: str
       neighbourDeviceId:
-        description: Device Replacement's neighbourDeviceId.
+        description: Unique identifier of the neighbor device to create the DHCP server.
         type: str
       networkReadinessTaskId:
-        description: Device Replacement's networkReadinessTaskId.
+        description: Unique identifier of network readiness task.
         type: str
       replacementDevicePlatform:
-        description: Device Replacement's replacementDevicePlatform.
+        description: Replacement device platform.
         type: str
       replacementDeviceSerialNumber:
-        description: Device Replacement's replacementDeviceSerialNumber.
+        description: Replacement device serial number.
         type: str
       replacementStatus:
-        description: Device Replacement's replacementStatus.
+        description: Device replacement status. Use NON-FAULTY to unmark the device
+          for replacement.
         type: str
       replacementTime:
-        description: Device Replacement's replacementTime.
+        description: Date and time of device replacement.
         type: int
       workflowId:
-        description: Device Replacement's workflowId.
+        description: Unique identifier of the device replacement workflow.
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Device Replacement MarkDeviceForReplacement
   description: Complete reference of the MarkDeviceForReplacement API.
@@ -139,7 +140,6 @@ EXAMPLES = r"""
       workflowId: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

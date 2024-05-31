@@ -108,8 +108,8 @@ options:
     - Limit query parameter.
     type: int
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Devices GetDeviceValuesThatMatchFullyOrPartiallyAnAttribute
   description: Complete reference of the GetDeviceValuesThatMatchFullyOrPartiallyAnAttribute API.
@@ -159,17 +159,11 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
-  type: dict
+  type: str
   sample: >
-    {
-      "response": [
-        "string"
-      ],
-      "version": "string"
-    }
+    "string"
 """

@@ -10,8 +10,8 @@ module: roles_info
 short_description: Information module for Roles
 description:
 - Get all Roles.
-- Get all roles for the Cisco DNA Center system.
-version_added: '6.7.0'
+- Get all roles for the Cisco DNA Center System.
+version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
 author: Rafael Campos (@racampos)
@@ -20,15 +20,15 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for User and Roles GetRolesAPI
   description: Complete reference of the GetRolesAPI API.
   link: https://developer.cisco.com/docs/dna-center/#!get-roles-api
 notes:
   - SDK Method used are
-    user_and_roles.UserandRoles.get_roles_ap_i,
+    userand_roles.UserandRoles.get_roles_api,
 
   - Paths used are
     get /dna/system/api/v1/roles,
@@ -49,7 +49,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

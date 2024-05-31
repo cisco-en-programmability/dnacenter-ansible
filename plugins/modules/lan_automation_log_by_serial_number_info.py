@@ -13,7 +13,7 @@ description:
 - >
    Invoke this API to get the LAN Automation session logs for individual devices based on the given LAN Automation
    session id and device serial number.
-version_added: '6.7.0'
+version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
 author: Rafael Campos (@racampos)
@@ -37,8 +37,8 @@ options:
       the remaining logs, please leave the query parameter blank.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for LAN Automation LANAutomationLogsForIndividualDevices
   description: Complete reference of the LANAutomationLogsForIndividualDevices API.
@@ -69,7 +69,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

@@ -23,15 +23,16 @@ options:
   memberId:
     description: MemberId path parameter. TagMember id to be removed from tag.
     type: str
-  object:
-    description: Object.
-    type: str
+  memberType:
+    description: Tag Member's memberType.
+    elements: str
+    type: list
   payload:
     description: Map of member type and member ids.
     type: dict
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Tag AddMembersToTheTag
   description: Complete reference of the AddMembersToTheTag API.
@@ -62,7 +63,8 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
     id: string
-    object: string
+    memberType:
+    - string
     payload:
       networkinterface:
       - string
@@ -79,10 +81,8 @@ EXAMPLES = r"""
     state: absent
     id: string
     memberId: string
-    memberType: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

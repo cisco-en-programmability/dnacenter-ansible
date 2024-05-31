@@ -36,6 +36,9 @@ options:
         description: Value.
         type: str
     type: list
+  isProxyRoute:
+    description: Is Proxy Route.
+    type: bool
   method:
     description: Method.
     type: str
@@ -52,8 +55,8 @@ options:
     description: Required only for update webhook configuration.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Event Management UpdateWebhookDestination
   description: Complete reference of the UpdateWebhookDestination API.
@@ -83,6 +86,7 @@ EXAMPLES = r"""
       encrypt: true
       name: string
       value: string
+    isProxyRoute: true
     method: string
     name: string
     trustCert: true
@@ -90,7 +94,6 @@ EXAMPLES = r"""
     webhookId: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

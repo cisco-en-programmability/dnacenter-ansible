@@ -23,6 +23,7 @@ from ansible_collections.cisco.dnac.plugins.plugin_utils.dnac import (
     get_dict_result,
 )
 from ansible_collections.cisco.dnac.plugins.plugin_utils.exceptions import (
+    InconsistentParameters,
     AnsibleSDAException,
 )
 
@@ -37,6 +38,7 @@ argument_spec.update(dict(
 
 required_if = [
     ("state", "present", ["payload"], True),
+    ("state", "absent", ["payload"], True),
 ]
 required_one_of = []
 mutually_exclusive = []
@@ -159,8 +161,11 @@ class SdaFabricAuthenticationProfile(object):
         return result
 
     def delete(self):
-        id = self.new_object.get("id")
-        name = self.new_object.get("name")
+        requested_obj = self.new_object.get('payload')
+        if requested_obj and len(requested_obj) > 0:
+            requested_obj = requested_obj[0]
+        id = self.new_object.get("id") or requested_obj.get("id")
+        name = self.new_object.get("name") or requested_obj.get("name")
         result = None
         result = self.dnac.exec(
             family="sda",

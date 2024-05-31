@@ -30,7 +30,7 @@ from ansible_collections.cisco.dnac.plugins.plugin_utils.exceptions import (
 argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
-    state=dict(type="str", default="present", choices=["present"]),
+    state=dict(type="str", default="present", choices=["present", "absent"]),
     firstName=dict(type="str"),
     lastName=dict(type="str"),
     username=dict(type="str"),
@@ -41,6 +41,8 @@ argument_spec.update(dict(
 ))
 
 required_if = [
+    ("state", "present", ["userId"], True),
+    ("state", "absent", ["userId"], True),
 ]
 required_one_of = []
 mutually_exclusive = []
@@ -58,12 +60,15 @@ class User(object):
             email=params.get("email"),
             roleList=params.get("roleList"),
             userId=params.get("userId"),
+            user_id=params.get("userId"),
         )
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
         new_object_params['invoke_source'] = self.new_object.get('invokeSource') or \
             self.new_object.get('invoke_source')
+        new_object_params['auth_source'] = self.new_object.get('authSource') or \
+            self.new_object.get('auth_source')
         return new_object_params
 
     def create_params(self):
@@ -74,6 +79,11 @@ class User(object):
         new_object_params['password'] = self.new_object.get('password')
         new_object_params['email'] = self.new_object.get('email')
         new_object_params['roleList'] = self.new_object.get('roleList')
+        return new_object_params
+
+    def delete_by_id_params(self):
+        new_object_params = {}
+        new_object_params['user_id'] = self.new_object.get('user_id')
         return new_object_params
 
     def update_all_params(self):
@@ -88,10 +98,10 @@ class User(object):
 
     def get_object_by_name(self, name):
         result = None
-        # NOTE: Does not have a get by name method, using get all
+        # NOTE: Does not have a get by name method or it is in another action
         try:
             items = self.dnac.exec(
-                family="user_and_roles",
+                family="userand_roles",
                 function="get_users_api",
                 params=self.get_all_params(name=name),
             )
@@ -106,13 +116,26 @@ class User(object):
     def get_object_by_id(self, id):
         result = None
         # NOTE: Does not have a get by id method or it is in another action
+        try:
+            items = self.dnac.exec(
+                family="userand_roles",
+                function="get_users_api",
+                params=self.get_all_params(id=id),
+            )
+            if isinstance(items, dict):
+                if 'response' in items:
+                    items = items.get('response')
+            result = get_dict_result(items, 'id', id)
+        except Exception:
+            result = None
         return result
 
     def exists(self):
-        prev_obj = None
         id_exists = False
         name_exists = False
+        prev_obj = None
         o_id = self.new_object.get("id")
+        o_id = o_id or self.new_object.get("user_id")
         name = self.new_object.get("name")
         if o_id:
             prev_obj = self.get_object_by_id(o_id)
@@ -122,10 +145,12 @@ class User(object):
             name_exists = prev_obj is not None and isinstance(prev_obj, dict)
         if name_exists:
             _id = prev_obj.get("id")
+            _id = _id or prev_obj.get("userId")
             if id_exists and name_exists and o_id != _id:
                 raise InconsistentParameters("The 'id' and 'name' params don't refer to the same object")
             if _id:
                 self.new_object.update(dict(id=_id))
+                self.new_object.update(dict(user_id=_id))
         it_exists = prev_obj is not None and isinstance(prev_obj, dict)
         return (it_exists, prev_obj)
 
@@ -139,8 +164,9 @@ class User(object):
             ("email", "email"),
             ("roleList", "roleList"),
             ("userId", "userId"),
+            ("userId", "user_id"),
         ]
-        # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params
+        # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params
         # If any does not have eq params, it requires update
         return any(not dnac_compare_equality(current_obj.get(dnac_param),
                                              requested_obj.get(ansible_param))
@@ -148,7 +174,7 @@ class User(object):
 
     def create(self):
         result = self.dnac.exec(
-            family="user_and_roles",
+            family="userand_roles",
             function="add_user_api",
             params=self.create_params(),
             op_modifies=True,
@@ -160,10 +186,30 @@ class User(object):
         name = self.new_object.get("name")
         result = None
         result = self.dnac.exec(
-            family="user_and_roles",
+            family="userand_roles",
             function="update_user_api",
             params=self.update_all_params(),
             op_modifies=True,
+        )
+        return result
+
+    def delete(self):
+        id = self.new_object.get("id")
+        id = id or self.new_object.get("user_id")
+        name = self.new_object.get("name")
+        result = None
+        if not id:
+            prev_obj_name = self.get_object_by_name(name)
+            id_ = None
+            if prev_obj_name:
+                id_ = prev_obj_name.get("id")
+                id_ = id_ or prev_obj_name.get("userId")
+            if id_:
+                self.new_object.update(dict(user_id=id_))
+        result = self.dnac.exec(
+            family="userand_roles",
+            function="delete_user_api",
+            params=self.delete_by_id_params(),
         )
         return result
 
@@ -207,6 +253,7 @@ class ActionModule(ActionBase):
         state = self._task.args.get("state")
 
         response = None
+
         if state == "present":
             (obj_exists, prev_obj) = obj.exists()
             if obj_exists:
@@ -219,6 +266,14 @@ class ActionModule(ActionBase):
             else:
                 response = obj.create()
                 dnac.object_created()
+
+        elif state == "absent":
+            (obj_exists, prev_obj) = obj.exists()
+            if obj_exists:
+                response = obj.delete()
+                dnac.object_deleted()
+            else:
+                dnac.object_already_absent()
 
         self._result.update(dict(dnac_response=response))
         self._result.update(dnac.exit_json())

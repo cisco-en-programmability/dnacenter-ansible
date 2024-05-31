@@ -28,7 +28,7 @@ options:
     description: SiteId path parameter. Site id to which site the device to assign.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
+- dnacentersdk >= 2.7.0
 - python >= 3.9
 notes:
   - SDK Method used are

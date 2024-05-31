@@ -16,150 +16,81 @@ extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
-  _id:
-    description: Pnp Global Settings's _id.
-    type: str
-  aaaCredentials:
-    description: Pnp Global Settings's aaaCredentials.
-    suboptions:
-      password:
-        description: Pnp Global Settings's password.
-        type: str
-      username:
-        description: Pnp Global Settings's username.
-        type: str
-    type: dict
   acceptEula:
-    description: AcceptEula flag.
-    type: bool
+    description: Accept Eula.
+    type: str
   defaultProfile:
     description: Pnp Global Settings's defaultProfile.
     suboptions:
       cert:
-        description: Pnp Global Settings's cert.
+        description: Cert.
         type: str
       fqdnAddresses:
-        description: Pnp Global Settings's fqdnAddresses.
+        description: Fqdn Addresses.
         elements: str
         type: list
       ipAddresses:
-        description: Pnp Global Settings's ipAddresses.
+        description: Ip Addresses.
         elements: str
         type: list
       port:
-        description: Pnp Global Settings's port.
-        type: int
+        description: Port.
+        type: str
       proxy:
-        description: Proxy flag.
-        type: bool
+        description: Proxy.
+        type: str
     type: dict
+  id:
+    description: Id.
+    type: str
   savaMappingList:
     description: Pnp Global Settings's savaMappingList.
     elements: dict
     suboptions:
-      autoSyncPeriod:
-        description: Pnp Global Settings's autoSyncPeriod.
-        type: int
       ccoUser:
-        description: Pnp Global Settings's ccoUser.
+        description: Cco User.
         type: str
       expiry:
-        description: Pnp Global Settings's expiry.
-        type: int
-      lastSync:
-        description: Pnp Global Settings's lastSync.
-        type: int
+        description: Expiry.
+        type: str
       profile:
         description: Pnp Global Settings's profile.
         suboptions:
           addressFqdn:
-            description: Pnp Global Settings's addressFqdn.
+            description: Address Fqdn.
             type: str
           addressIpV4:
-            description: Pnp Global Settings's addressIpV4.
+            description: Address Ip V4.
             type: str
           cert:
-            description: Pnp Global Settings's cert.
+            description: Cert.
             type: str
           makeDefault:
-            description: MakeDefault flag.
-            type: bool
+            description: Make Default.
+            type: str
           name:
-            description: Pnp Global Settings's name.
+            description: Name.
             type: str
           port:
-            description: Pnp Global Settings's port.
-            type: int
+            description: Port.
+            type: str
           profileId:
-            description: Pnp Global Settings's profileId.
+            description: Profile Id.
             type: str
           proxy:
-            description: Proxy flag.
-            type: bool
-        type: dict
-      smartAccountId:
-        description: Pnp Global Settings's smartAccountId.
-        type: str
-      syncResult:
-        description: Pnp Global Settings's syncResult.
-        suboptions:
-          syncList:
-            description: Pnp Global Settings's syncList.
-            elements: dict
-            suboptions:
-              deviceSnList:
-                description: Pnp Global Settings's deviceSnList.
-                elements: str
-                type: list
-              syncType:
-                description: Pnp Global Settings's syncType.
-                type: str
-            type: list
-          syncMsg:
-            description: Pnp Global Settings's syncMsg.
+            description: Proxy.
             type: str
         type: dict
-      syncResultStr:
-        description: Pnp Global Settings's syncResultStr.
-        type: str
-      syncStartTime:
-        description: Pnp Global Settings's syncStartTime.
-        type: int
-      syncStatus:
-        description: Pnp Global Settings's syncStatus.
-        type: str
-      tenantId:
-        description: Pnp Global Settings's tenantId.
-        type: str
-      token:
-        description: Pnp Global Settings's token.
+      smartAccountId:
+        description: Smart Account Id.
         type: str
       virtualAccountId:
-        description: Pnp Global Settings's virtualAccountId.
+        description: Virtual Account Id.
         type: str
     type: list
-  taskTimeOuts:
-    description: Pnp Global Settings's taskTimeOuts.
-    suboptions:
-      configTimeOut:
-        description: Pnp Global Settings's configTimeOut.
-        type: int
-      generalTimeOut:
-        description: Pnp Global Settings's generalTimeOut.
-        type: int
-      imageDownloadTimeOut:
-        description: Pnp Global Settings's imageDownloadTimeOut.
-        type: int
-    type: dict
-  tenantId:
-    description: Pnp Global Settings's tenantId.
-    type: str
-  version:
-    description: Pnp Global Settings's version.
-    type: int
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Device Onboarding (PnP) UpdatePnPGlobalSettings
   description: Complete reference of the UpdatePnPGlobalSettings API.
@@ -184,55 +115,32 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: present
-    _id: string
-    aaaCredentials:
-      password: string
-      username: string
-    acceptEula: true
+    acceptEula: string
     defaultProfile:
       cert: string
       fqdnAddresses:
       - string
       ipAddresses:
       - string
-      port: 0
-      proxy: true
+      port: string
+      proxy: string
+    id: string
     savaMappingList:
-    - autoSyncPeriod: 0
-      ccoUser: string
-      expiry: 0
-      lastSync: 0
+    - ccoUser: string
+      expiry: string
       profile:
         addressFqdn: string
         addressIpV4: string
         cert: string
-        makeDefault: true
+        makeDefault: string
         name: string
-        port: 0
+        port: string
         profileId: string
-        proxy: true
+        proxy: string
       smartAccountId: string
-      syncResult:
-        syncList:
-        - deviceSnList:
-          - string
-          syncType: string
-        syncMsg: string
-      syncResultStr: string
-      syncStartTime: 0
-      syncStatus: string
-      tenantId: string
-      token: string
       virtualAccountId: string
-    taskTimeOuts:
-      configTimeOut: 0
-      generalTimeOut: 0
-      imageDownloadTimeOut: 0
-    tenantId: string
-    version: 0
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
@@ -299,7 +207,6 @@ dnac_response:
       },
       "acceptEula": true,
       "id": "string",
-      "_id": "string",
       "version": 0
     }
 """

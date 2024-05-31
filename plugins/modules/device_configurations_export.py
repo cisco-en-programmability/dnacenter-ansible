@@ -17,15 +17,17 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   deviceId:
-    description: Device Id.
-    elements: str
-    type: list
+    description: UUIDs of the devices for which configurations need to be exported.
+    type: str
   password:
-    description: Password.
+    description: Password for the zip file to protect exported configurations. Must
+      contain, at minimum 8 characters, one lowercase letter, one uppercase letter,
+      one number, one special character(-=;,./~!@#$%^&*()_+{}| ?). It may not contain
+      white space or the characters <>.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Configuration Archive ExportDeviceConfigurations
   description: Complete reference of the ExportDeviceConfigurations API.
@@ -49,12 +51,10 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    deviceId:
-    - string
+    deviceId: string
     password: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
@@ -62,10 +62,10 @@ dnac_response:
   type: dict
   sample: >
     {
+      "version": "string",
       "response": {
-        "taskId": "string",
-        "url": "string"
-      },
-      "version": "string"
+        "url": "string",
+        "taskId": "string"
+      }
     }
 """

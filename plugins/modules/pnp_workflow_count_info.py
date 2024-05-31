@@ -21,12 +21,12 @@ options:
     type: dict
   name:
     description:
-    - Name query parameter. Workflow Name.
+    - Name query parameter. Workflow Name. 
     elements: str
     type: list
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Device Onboarding (PnP) GetWorkflowCount
   description: Complete reference of the GetWorkflowCount API.
@@ -55,7 +55,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

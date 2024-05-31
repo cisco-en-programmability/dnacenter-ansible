@@ -10,7 +10,7 @@ module: security_advisories_ids_per_device_info
 short_description: Information module for Security Advisories Ids Per Device
 description:
 - Get Security Advisories Ids Per Device by id.
-- Retrieves list of advisory IDs for a device.
+- Retrieves advisory device details for a device.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -24,15 +24,15 @@ options:
     - DeviceId path parameter. Device instance UUID.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Security Advisories GetAdvisoryIDsPerDevice
-  description: Complete reference of the GetAdvisoryIDsPerDevice API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-advisory-i-ds-per-device
+- name: Cisco DNA Center documentation for Security Advisories GetAdvisoryDeviceDetail
+  description: Complete reference of the GetAdvisoryDeviceDetail API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-advisory-device-detail
 notes:
   - SDK Method used are
-    security_advisories.SecurityAdvisories.get_advisory_ids_per_device,
+    security_advisories.SecurityAdvisories.get_advisory_device_detail,
 
   - Paths used are
     get /dna/intent/api/v1/security-advisory/device/{deviceId},
@@ -54,7 +54,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
@@ -62,14 +61,17 @@ dnac_response:
   type: dict
   sample: >
     {
-      "response": [
-        {
-          "deviceId": "string",
-          "advisoryIds": [
-            "string"
-          ]
-        }
-      ],
+      "response": {
+        "deviceId": "string",
+        "advisoryIds": [
+          "string"
+        ],
+        "hiddenAdvisoryCount": 0,
+        "scanMode": "string",
+        "scanStatus": "string",
+        "comments": "string",
+        "lastScanTime": 0
+      },
       "version": "string"
     }
 """

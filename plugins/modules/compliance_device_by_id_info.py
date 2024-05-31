@@ -21,33 +21,28 @@ options:
     type: dict
   deviceUuid:
     description:
-    - DeviceUuid path parameter.
+    - DeviceUuid path parameter. Device Id.
     type: str
   category:
     description:
-    - Category query parameter. ComplianceCategory can have any value among 'INTENT', 'RUNNING_CONFIG'.
+    - >
+      Category query parameter. Category can have any value among 'INTENT', 'RUNNING_CONFIG' , 'IMAGE' , 'PSIRT' ,
+      'DESIGN_OOD' , 'EOX' , 'NETWORK_SETTINGS'.
     type: str
   complianceType:
     description:
     - >
-      ComplianceType query parameter. ComplianceType can have any value among 'NETWORK_DESIGN', 'NETWORK_PROFILE',
-      'FABRIC', 'POLICY', 'RUNNING_CONFIG'.
+      ComplianceType query parameter. Specify "Compliance type(s)" separated by commas. The Compliance type can be
+      'APPLICATION_VISIBILITY', 'EOX', 'FABRIC', 'IMAGE', 'NETWORK_PROFILE', 'NETWORK_SETTINGS', 'PSIRT',
+      'RUNNING_CONFIG', 'WORKFLOW'.
     type: str
   diffList:
     description:
     - DiffList query parameter. Diff list pass true to fetch the diff list.
     type: bool
-  key:
-    description:
-    - Key query parameter. Extended attribute key.
-    type: str
-  value:
-    description:
-    - Value query parameter. Extended attribute value.
-    type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Compliance ComplianceDetailsOfDevice
   description: Complete reference of the ComplianceDetailsOfDevice API.
@@ -75,13 +70,10 @@ EXAMPLES = r"""
     category: string
     complianceType: string
     diffList: True
-    key: string
-    value: string
     deviceUuid: string
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
@@ -89,55 +81,63 @@ dnac_response:
   type: dict
   sample: >
     {
-      "deviceUuid": "string",
-      "version": "string",
       "response": [
         {
-          "displayName": "string",
+          "deviceUuid": "string",
           "complianceType": "string",
+          "status": "string",
+          "state": "string",
           "lastSyncTime": 0,
-          "additionalDataURL": "string",
+          "lastUpdateTime": 0,
           "sourceInfoList": [
             {
+              "name": "string",
+              "nameWithBusinessKey": "string",
+              "sourceEnum": "string",
+              "type": "string",
+              "appName": "string",
               "count": 0,
-              "displayName": "string",
+              "ackStatus": "string",
+              "businessKey": {
+                "resourceName": "string",
+                "businessKeyAttributes": {},
+                "otherAttributes": {
+                  "name": "string",
+                  "cfsAttributes": {
+                    "displayName": "string",
+                    "appName": "string",
+                    "description": "string",
+                    "source": "string",
+                    "type": "string"
+                  }
+                }
+              },
               "diffList": [
                 {
-                  "displayName": "string",
-                  "moveFromPath": "string",
                   "op": "string",
                   "configuredValue": "string",
                   "intendedValue": "string",
-                  "path": "string",
+                  "moveFromPath": "string",
                   "businessKey": "string",
-                  "extendedAttributes": "string"
+                  "path": "string",
+                  "extendedAttributes": {
+                    "attributeDisplayName": "string",
+                    "path": "string",
+                    "dataConverter": "string",
+                    "type": "string"
+                  },
+                  "ackStatus": "string",
+                  "instanceUUID": "string",
+                  "displayName": "string"
                 }
               ],
-              "sourceEnum": "string",
-              "licenseAppName": "string",
-              "provisioningArea": "string",
-              "networkProfileName": "string",
-              "nameWithBusinessKey": "string",
-              "appName": "string",
-              "name": "string",
-              "type": "string",
-              "businessKey": {
-                "otherAttributes": {
-                  "cfsAttributes": "string",
-                  "name": "string"
-                },
-                "resourceName": "string",
-                "businessKeyAttributes": "string"
-              }
+              "displayName": "string"
             }
           ],
-          "deviceUuid": "string",
-          "message": "string",
-          "state": "string",
-          "status": "string",
-          "category": "string",
-          "lastUpdateTime": 0
+          "ackStatus": "string",
+          "version": "string"
         }
-      ]
+      ],
+      "deviceUuid": "string"
     }
 """

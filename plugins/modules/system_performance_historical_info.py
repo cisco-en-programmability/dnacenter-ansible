@@ -10,7 +10,10 @@ module: system_performance_historical_info
 short_description: Information module for System Performance Historical
 description:
 - Get all System Performance Historical.
-- This API retrieves the historical performance indicators. The data can be retrieved for the last 3 months.
+- >
+   Retrieves the average values of cluster key performance indicators KPIs , like CPU utilization, memory utilization
+   or network rates grouped by time intervals within a specified time range. The data will be available from the past
+   24 hours.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -28,16 +31,16 @@ options:
     - >
       StartTime query parameter. This is the epoch start time in milliseconds from which performance indicator
       need to be fetched.
-    type: int
+    type: float
   endTime:
     description:
     - >
       EndTime query parameter. This is the epoch end time in milliseconds upto which performance indicator need to
       be fetched.
-    type: int
+    type: float
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Health and Performance SystemPerformanceHistoricalAPI
   description: Complete reference of the SystemPerformanceHistoricalAPI API.
@@ -68,7 +71,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
@@ -97,7 +99,9 @@ dnac_response:
           "t1": [
             "string"
           ]
-        }
+        },
+        "cpuAvg": "string",
+        "memoryAvg": "string"
       }
     }
 """
