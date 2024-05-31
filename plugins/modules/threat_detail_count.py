@@ -44,7 +44,7 @@ options:
     elements: str
     type: list
 requirements:
-- dnacentersdk >= 2.6.0
+- dnacentersdk >= 2.7.0
 - python >= 3.9
 notes:
   - SDK Method used are
