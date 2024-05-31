@@ -375,7 +375,7 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.7.0
+- dnacentersdk >= 2.7.1
 - python >= 3.9
 seealso:
 - name: Cisco DNA Center documentation for Site Design ProvisionNFV

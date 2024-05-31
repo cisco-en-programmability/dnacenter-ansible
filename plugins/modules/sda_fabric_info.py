@@ -24,7 +24,7 @@ options:
     - FabricName query parameter. Fabric Name.
     type: str
 requirements:
-- dnacentersdk >= 2.7.0
+- dnacentersdk >= 2.7.1
 - python >= 3.9
 notes:
   - SDK Method used are
