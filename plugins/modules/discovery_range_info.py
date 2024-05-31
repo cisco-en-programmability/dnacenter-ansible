@@ -10,7 +10,7 @@ module: discovery_range_info
 short_description: Information module for Discovery Range
 description:
 - Get all Discovery Range.
-- Returns the discovery by specified range.
+- Returns the discoveries by specified range.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,15 +21,15 @@ options:
     type: dict
   startIndex:
     description:
-    - StartIndex path parameter. Start index.
+    - StartIndex path parameter. Starting index for the records.
     type: int
   recordsToReturn:
     description:
-    - RecordsToReturn path parameter. Number of records to return.
+    - RecordsToReturn path parameter. Number of records to fetch from the starting index.
     type: int
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Discovery GetDiscoveriesByRange
   description: Complete reference of the GetDiscoveriesByRange API.
@@ -59,7 +59,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

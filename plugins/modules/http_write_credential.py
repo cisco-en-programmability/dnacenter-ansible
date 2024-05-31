@@ -18,38 +18,39 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   comments:
-    description: Http Write Credential's comments.
+    description: Comments to identify the HTTP(S) Write credential.
     type: str
   credentialType:
-    description: Http Write Credential's credentialType.
+    description: Credential type to identify the application that uses the HTTP(S) Write
+      credential.
     type: str
   description:
-    description: Http Write Credential's description.
+    description: Description for HTTP(S) Write Credential.
     type: str
   id:
-    description: Http Write Credential's id.
+    description: Id of the HTTP(S) Write Credential in UUID format.
     type: str
   instanceTenantId:
-    description: Http Write Credential's instanceTenantId.
+    description: Deprecated.
     type: str
   instanceUuid:
-    description: Http Write Credential's instanceUuid.
+    description: Deprecated.
     type: str
   password:
-    description: Http Write Credential's password.
+    description: HTTP(S) Write Password.
     type: str
   port:
-    description: Http Write Credential's port.
+    description: HTTP(S) Port. Valid port should be in the range of 1 to 65535.
     type: int
   secure:
-    description: Secure flag.
+    description: Flag for HTTPS Write.
     type: bool
   username:
-    description: Http Write Credential's username.
+    description: HTTP(S) Write Username.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Discovery CreateHTTPWriteCredentials
   description: Complete reference of the CreateHTTPWriteCredentials API.
@@ -112,7 +113,6 @@ EXAMPLES = r"""
     username: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

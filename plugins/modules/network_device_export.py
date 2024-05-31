@@ -17,25 +17,22 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   deviceUuids:
-    description: Network Device Export's deviceUuids.
+    description: List of device uuids.
     elements: str
     type: list
-  id:
-    description: Network Device Export's id.
-    type: str
   operationEnum:
-    description: Network Device Export's operationEnum.
+    description: 0 to export Device Credential Details Or 1 to export Device Details.
     type: str
   parameters:
-    description: Network Device Export's parameters.
+    description: List of device parameters that needs to be exported to file.
     elements: str
     type: list
   password:
-    description: Network Device Export's password.
+    description: Password is required when the operationEnum value is 0.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Devices ExportDeviceList
   description: Complete reference of the ExportDeviceList API.
@@ -61,14 +58,12 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     deviceUuids:
     - string
-    id: string
     operationEnum: string
     parameters:
     - string
     password: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

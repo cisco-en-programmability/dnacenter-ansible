@@ -28,16 +28,16 @@ argument_spec.update(dict(
     periodicRefresh=dict(type="bool"),
     sourceIP=dict(type="str"),
     destIP=dict(type="str"),
-    sourcePort=dict(type="str"),
-    destPort=dict(type="str"),
-    gtCreateTime=dict(type="str"),
-    ltCreateTime=dict(type="str"),
+    sourcePort=dict(type="float"),
+    destPort=dict(type="float"),
+    gtCreateTime=dict(type="float"),
+    ltCreateTime=dict(type="float"),
     protocol=dict(type="str"),
     status=dict(type="str"),
     taskId=dict(type="str"),
-    lastUpdateTime=dict(type="str"),
-    limit=dict(type="int"),
-    offset=dict(type="int"),
+    lastUpdateTime=dict(type="float"),
+    limit=dict(type="float"),
+    offset=dict(type="float"),
     order=dict(type="str"),
     sortBy=dict(type="str"),
     flowAnalysisId=dict(type="str"),
@@ -122,7 +122,7 @@ class ActionModule(ActionBase):
         if not id:
             response = dnac.exec(
                 family="path_trace",
-                function='retrives_all_previous_pathtraces_summary',
+                function='retrieves_all_previous_pathtraces_summary',
                 params=self.get_object(self._task.args),
             )
             self._result.update(dict(dnac_response=response))

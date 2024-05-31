@@ -868,7 +868,7 @@ releases:
   6.14.0:
       release_date: "2024-05-09"
       changes:
-        release_summary: Addition of Workflow Manager modules support for device configuration backups, events and notifications, ISE and RADIUS server integrations, and network compliance.
+        release_summary: New Dna Center API version 2.3.7.6, and addition of Workflow Manager modules support for device configuration backups, events and notifications, ISE and RADIUS server integrations, and network compliance.
         minor_changes:
           - device_configs_backup_workflow_manager - New workflow manager module for device configuration backup functions.
           - events_and_notifications_workflow_manager - New workflow manager for configuring various types of destinations(Webhook, Email, Syslog, SNMP, ITSM) to deliver event notifications.
@@ -880,3 +880,32 @@ releases:
           - site_workflow_manager - Updated changes in Site updation.
           - network_settings_workflow_manager - Added attributes 'ipv4_global_pool_name'.
           - template_workflow_manager - Removed attributes 'create_time', 'failure_policy', 'last_update_time', 'latest_version_time', 'parent_template_id', 'project_id', 'validation_errors', 'rollback_template_params' and 'rollback_template_content'.
+          - Changes in inventory and swim workflow manager modules.
+          - application_policy_application_set_count_info - new module
+          - application_policy_application_set_info - new module
+          - application_policy_application_set - new module
+          - applications_count_v2_info - new module
+          - applications_v2_info - new module
+          - applications_v2 - new module
+          - auth_token_create - new module
+          - authentication_policy_servers - new module
+          - device_reboot_apreboot - new module
+          - dna_event_snmp_config_info - new module
+          - event_snmp_config - new module
+          - event_webhook_read_info - new module
+          - flexible_report_content_info - new module
+          - flexible_report_execute - new module
+          - flexible_report_executions_info - new module
+          - flexible_report_schedule_info - new module
+          - flexible_report_schedule  - new module
+          - integration_settings_itsm_instances_info - new module
+          - integration_settings_status_info - new module
+          - ise_integration_status_info - new module
+          - lan_automation_sessions_info - new module
+          - lan_automation_update_device - new module
+          - lan_automation_update_v2 - new module
+          - lan_automation_update - new module
+          - lan_automation_v2 - new module
+          - network_device_user_defined_field_delete - new module
+          - users_external_authentication - new module
+          - users_external_servers_aaa_attribute - new module

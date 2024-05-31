@@ -89,7 +89,7 @@ class Snmpv2ReadCommunityCredential(object):
             if isinstance(items, dict):
                 if 'response' in items:
                     items = items.get('response')
-            result = get_dict_result(items, 'description', name)
+            result = get_dict_result(items, 'description', name) or get_dict_result(items, 'username', name)
         except Exception:
             result = None
         return result
@@ -115,7 +115,7 @@ class Snmpv2ReadCommunityCredential(object):
         id_exists = False
         name_exists = False
         o_id = self.new_object.get("id")
-        name = self.new_object.get("username") or self.new_object.get("description")
+        name = self.new_object.get("description") or self.new_object.get("username")
         if o_id:
             prev_obj = self.get_object_by_id(o_id)
             id_exists = prev_obj is not None and isinstance(prev_obj, dict)

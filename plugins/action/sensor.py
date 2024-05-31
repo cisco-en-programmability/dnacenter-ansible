@@ -31,11 +31,17 @@ argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
     state=dict(type="str", default="present", choices=["present", "absent"]),
-    ssids=dict(type="list"),
     name=dict(type="str"),
-    connection=dict(type="str"),
-    apCoverage=dict(type="list"),
+    version=dict(type="int"),
     modelVersion=dict(type="int"),
+    connection=dict(type="str"),
+    ssids=dict(type="list"),
+    profiles=dict(type="list"),
+    encryptionMode=dict(type="str"),
+    runNow=dict(type="str"),
+    locationInfoList=dict(type="list"),
+    sensors=dict(type="list"),
+    apCoverage=dict(type="list"),
     templateName=dict(type="str"),
 ))
 
@@ -52,11 +58,17 @@ class Sensor(object):
     def __init__(self, params, dnac):
         self.dnac = dnac
         self.new_object = dict(
-            ssids=params.get("ssids"),
             name=params.get("name"),
-            connection=params.get("connection"),
-            apCoverage=params.get("apCoverage"),
+            version=params.get("version"),
             modelVersion=params.get("modelVersion"),
+            connection=params.get("connection"),
+            ssids=params.get("ssids"),
+            profiles=params.get("profiles"),
+            encryptionMode=params.get("encryptionMode"),
+            runNow=params.get("runNow"),
+            locationInfoList=params.get("locationInfoList"),
+            sensors=params.get("sensors"),
+            apCoverage=params.get("apCoverage"),
             template_name=params.get("templateName"),
         )
 
@@ -68,11 +80,17 @@ class Sensor(object):
 
     def create_params(self):
         new_object_params = {}
-        new_object_params['ssids'] = self.new_object.get('ssids')
         new_object_params['name'] = self.new_object.get('name')
-        new_object_params['connection'] = self.new_object.get('connection')
-        new_object_params['apCoverage'] = self.new_object.get('apCoverage')
+        new_object_params['version'] = self.new_object.get('version')
         new_object_params['modelVersion'] = self.new_object.get('modelVersion')
+        new_object_params['connection'] = self.new_object.get('connection')
+        new_object_params['ssids'] = self.new_object.get('ssids')
+        new_object_params['profiles'] = self.new_object.get('profiles')
+        new_object_params['encryptionMode'] = self.new_object.get('encryptionMode')
+        new_object_params['runNow'] = self.new_object.get('runNow')
+        new_object_params['locationInfoList'] = self.new_object.get('locationInfoList')
+        new_object_params['sensors'] = self.new_object.get('sensors')
+        new_object_params['apCoverage'] = self.new_object.get('apCoverage')
         return new_object_params
 
     def delete_all_params(self):
@@ -127,11 +145,17 @@ class Sensor(object):
         requested_obj = self.new_object
 
         obj_params = [
-            ("ssids", "ssids"),
             ("name", "name"),
-            ("connection", "connection"),
-            ("apCoverage", "apCoverage"),
+            ("version", "version"),
             ("modelVersion", "modelVersion"),
+            ("connection", "connection"),
+            ("ssids", "ssids"),
+            ("profiles", "profiles"),
+            ("encryptionMode", "encryptionMode"),
+            ("runNow", "runNow"),
+            ("locationInfoList", "locationInfoList"),
+            ("sensors", "sensors"),
+            ("apCoverage", "apCoverage"),
             ("templateName", "template_name"),
         ]
         # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params

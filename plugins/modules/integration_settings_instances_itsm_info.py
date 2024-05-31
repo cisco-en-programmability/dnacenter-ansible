@@ -11,7 +11,7 @@ short_description: Information module for Integration Settings Instances Itsm
 description:
 - Get Integration Settings Instances Itsm by id.
 - Fetches ITSM Integration setting by ID.
-version_added: '6.7.0'
+version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
 author: Rafael Campos (@racampos)
@@ -24,8 +24,8 @@ options:
     - InstanceId path parameter. Instance Id of the Integration setting instance.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for ITSM Integration GetITSMIntegrationSettingById
   description: Complete reference of the GetITSMIntegrationSettingById API.
@@ -54,7 +54,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

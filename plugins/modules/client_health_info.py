@@ -22,10 +22,10 @@ options:
   timestamp:
     description:
     - Timestamp query parameter. Epoch time(in milliseconds) when the Client health data is required.
-    type: str
+    type: float
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Clients GetOverallClientHealth
   description: Complete reference of the GetOverallClientHealth API.
@@ -50,60 +50,58 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
-    timestamp: string
+    timestamp: 0
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
-  type: list
-  elements: dict
+  type: dict
   sample: >
-    [
-      {
-        "siteId": "string",
-        "scoreDetail": [
-          {
-            "scoreCategory": {
-              "scoreCategory": "string",
-              "value": "string"
-            },
-            "scoreValue": 0,
-            "clientCount": 0,
-            "clientUniqueCount": 0,
-            "starttime": 0,
-            "endtime": 0,
-            "scoreList": [
-              {
-                "scoreCategory": {
-                  "scoreCategory": "string",
-                  "value": "string"
-                },
-                "scoreValue": 0,
-                "clientCount": 0,
-                "clientUniqueCount": 0,
-                "starttime": 0,
-                "endtime": 0,
-                "scoreList": [
-                  {
-                    "scoreCategory": {
-                      "scoreCategory": "string",
-                      "value": "string"
-                    },
-                    "scoreValue": 0,
-                    "clientCount": 0,
-                    "clientUniqueCount": {},
-                    "starttime": 0,
-                    "endtime": 0
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
-    ]
+    {
+      "version": "string",
+      "response": [
+        {
+          "siteId": "string",
+          "scoreDetail": [
+            {
+              "scoreCategory": {
+                "scoreCategory": "string",
+                "value": "string"
+              },
+              "scoreValue": 0,
+              "clientCount": 0,
+              "clientUniqueCount": 0,
+              "maintenanceAffectedClientCount": 0,
+              "randomMacCount": 0,
+              "duidCount": 0,
+              "starttime": 0,
+              "endtime": 0,
+              "connectedToUdnCount": 0,
+              "unconnectedToUdnCount": 0,
+              "scoreList": [
+                {
+                  "scoreCategory": {
+                    "scoreCategory": "string",
+                    "value": "string"
+                  },
+                  "scoreValue": 0,
+                  "clientCount": 0,
+                  "clientUniqueCount": 0,
+                  "maintenanceAffectedClientCount": 0,
+                  "randomMacCount": 0,
+                  "duidCount": 0,
+                  "starttime": 0,
+                  "endtime": 0,
+                  "connectedToUdnCount": 0,
+                  "unconnectedToUdnCount": 0
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
 """

@@ -11,7 +11,7 @@ short_description: Information module for Device Reboot Apreboot
 description:
 - Get all Device Reboot Apreboot.
 - Users can query the access point reboot status using this intent API.
-version_added: '6.7.0'
+version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
 author: Rafael Campos (@racampos)
@@ -24,8 +24,8 @@ options:
     - ParentTaskId query parameter. Task id of ap reboot request.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Wireless GetAccessPointRebootTaskResult
   description: Complete reference of the GetAccessPointRebootTaskResult API.
@@ -54,7 +54,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

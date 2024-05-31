@@ -28,7 +28,6 @@ argument_spec.update(dict(
     id=dict(type="str"),
     memberType=dict(type="str"),
     memberAssociationType=dict(type="str"),
-    level=dict(type="str"),
     headers=dict(type="dict"),
 ))
 
@@ -70,7 +69,6 @@ class ActionModule(ActionBase):
             id=params.get("id"),
             member_type=params.get("memberType"),
             member_association_type=params.get("memberAssociationType"),
-            level=params.get("level"),
             headers=params.get("headers"),
         )
         return new_object

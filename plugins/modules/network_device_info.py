@@ -113,17 +113,17 @@ options:
     type: list
   reachabilityStatus:
     description:
-    - ReachabilityStatus query parameter.
+    - ReachabilityStatus query parameter. 
     elements: str
     type: list
   upTime:
     description:
-    - UpTime query parameter.
+    - UpTime query parameter. 
     elements: str
     type: list
   associatedWlcIp:
     description:
-    - AssociatedWlcIp query parameter.
+    - AssociatedWlcIp query parameter. 
     elements: str
     type: list
   license_name:
@@ -190,8 +190,8 @@ options:
     - Limit query parameter. 1 <= limit <= 500 max. No. Of devices to be returned in the result.
     type: int
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Devices GetDeviceByID
   description: Complete reference of the GetDeviceByID API.
@@ -271,7 +271,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
@@ -318,7 +317,19 @@ dnac_response:
         "tunnelUdpPort": "string",
         "type": "string",
         "upTime": "string",
-        "waasDeviceMode": "string"
+        "waasDeviceMode": "string",
+        "dnsResolvedManagementAddress": "string",
+        "apEthernetMacAddress": "string",
+        "vendor": "string",
+        "reasonsForPendingSyncRequests": "string",
+        "pendingSyncRequestsCount": "string",
+        "reasonsForDeviceResync": "string",
+        "lastDeviceResyncStartTime": "string",
+        "uptimeSeconds": 0,
+        "managedAtleastOnce": true,
+        "deviceSupportLevel": "string",
+        "managementState": "string",
+        "description": "string"
       },
       "version": "string"
     }

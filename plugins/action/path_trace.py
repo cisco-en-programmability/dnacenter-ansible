@@ -20,6 +20,7 @@ from ansible_collections.cisco.dnac.plugins.plugin_utils.dnac import (
     DNACSDK,
     dnac_argument_spec,
     dnac_compare_equality,
+    get_dict_result,
 )
 from ansible_collections.cisco.dnac.plugins.plugin_utils.exceptions import (
     InconsistentParameters,
@@ -117,7 +118,7 @@ class PathTrace(object):
         try:
             items = self.dnac.exec(
                 family="path_trace",
-                function="retrives_all_previous_pathtraces_summary",
+                function="retrieves_all_previous_pathtraces_summary",
                 params=self.get_all_params(name=name),
             )
             if isinstance(items, dict):

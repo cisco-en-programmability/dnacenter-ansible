@@ -17,17 +17,17 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   id:
-    description: Network Device Update Role's id.
+    description: DeviceId of the Device.
     type: str
   role:
-    description: Network Device Update Role's role.
+    description: Role of device as ACCESS, CORE, DISTRIBUTION, BORDER ROUTER.
     type: str
   roleSource:
-    description: Network Device Update Role's roleSource.
+    description: Role source as MANUAL / AUTO.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Devices UpdateDeviceRole
   description: Complete reference of the UpdateDeviceRole API.
@@ -56,7 +56,6 @@ EXAMPLES = r"""
     roleSource: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
