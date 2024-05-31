@@ -147,7 +147,7 @@ options:
     description: Name of the profile to create NFV profile.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
+- dnacentersdk >= 2.7.0
 - python >= 3.9
 seealso:
 - name: Cisco DNA Center documentation for Site Design CreateNFVProfile
