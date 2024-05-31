@@ -58,6 +58,7 @@ options:
         description: Determines if a full compliance check should be triggered on the devices specified in the "ip_address_list" and/or "site_name".
                      if it is True then compliance will be triggered for all categories.
                      If it is False then compliance will be not be triggered even if run_compliance categories are provided.
+                     Note - This operation cannot be performed on Access Points (APs) and if APs are provided, they will be skipped.
         type: bool
         default: True
       run_compliance_categories:
@@ -73,6 +74,7 @@ options:
                      Sync device configuration, primarily addresses the status of the `RUNNING_CONFIG`.
                      If set to True, and if `RUNNING_CONFIG` status is non-compliant this operation would commit device running configuration
                      to startup by issuing "write memory" to device.
+                     Note - This operation cannot be performed on Access Points (APs) and if APs are provided, they will be skipped.
         type: bool
         default: False
 
@@ -274,7 +276,25 @@ EXAMPLES = r"""
 """
 
 RETURN = r"""
-#Case_1: Response when Network Compliance operations are performed successfully on device/s.
+#Case_1: Response when Run Compliance operation is performed successfully on device/s.
+sample_response_1:
+  description: A dictionary with the response returned by the Cisco Catalyst Center Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "status": "string",
+      "changed": bool,
+      "msg": "string"
+      "response": {
+        "taskId": "string",
+        "url": "string"
+      },
+      "data": dict,
+      "version": "string"
+    }
+
+#Case_2: Response when Sync Device Configuration operation is performed successfully on device/s.
 sample_response_2:
   description: A dictionary with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
@@ -291,7 +311,7 @@ sample_response_2:
       "version": "string"
     }
 
-#Case_2: Response when Error Occurs in performing Run Compliance or Sync Device Configuration operation on device/s.
+#Case_3: Response when Error Occurs in performing Run Compliance or Sync Device Configuration operation on device/s.
 sample_response_3:
   description: A dictionary with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
@@ -535,7 +555,7 @@ class NetworkCompliance(DnacBase):
                     op_modifies=True,
                     params={"managementIpAddress": device_ip}
                 )
-                self.log("Response received post 'get_device_list' API call: {0} ".format(str(response)), "DEBUG")
+                self.log("Response received post 'get_device_list' API call: {0}".format(str(response)), "DEBUG")
 
                 # Check if a valid response is received
                 if response.get("response"):
@@ -544,8 +564,15 @@ class NetworkCompliance(DnacBase):
                         continue
                     for device_info in response:
                         if device_info["reachabilityStatus"] == "Reachable":
-                            device_id = response[0]["id"]
-                            mgmt_ip_instance_id_map[device_ip] = device_id
+                            if device_info["family"] != "Unified AP":
+                                device_id = device_info["id"]
+                                mgmt_ip_instance_id_map[device_ip] = device_id
+                            else:
+                                msg = "Skipping device {0} as its family is {1}.".format(device_ip, device_info["family"])
+                                self.log(msg, "INFO")
+                        else:
+                            msg = "Skipping device {0} as its status is {2}.".format(device_ip, device_info["reachabilityStatus"])
+                            self.log(msg, "INFO")
                 else:
                     # If unable to retrieve device information, log an error message
                     self.log("Unable to retrieve device information for {0}. Please ensure that the device exists and is reachable.".format(device_ip), "ERROR")
@@ -553,12 +580,6 @@ class NetworkCompliance(DnacBase):
             except Exception as e:
                 # Log an error message if any exception occurs during the process
                 self.log("Error while fetching device ID for device: '{0}' from Cisco Catalyst Center: {1}".format(device_ip, str(e)), "ERROR")
-
-        if not mgmt_ip_instance_id_map:
-            msg = "Error occurred while retrieving device details (Device UUID) using the 'get_device_list' API "
-            msg += "for the following device(s): {0}".format(ip_address_list)
-            self.log(msg, "ERROR")
-            self.module.fail_json(msg=msg)
 
         return mgmt_ip_instance_id_map
 
@@ -605,12 +626,16 @@ class NetworkCompliance(DnacBase):
                         for item_dict in item["response"]:
                             # Check if the device is reachable
                             if item_dict["reachabilityStatus"] == "Reachable":
-                                mgmt_ip_instance_id_map[item_dict["managementIpAddress"]] = item_dict["instanceUuid"]
+                                if item_dict["family"] != "Unified AP":
+                                    mgmt_ip_instance_id_map[item_dict["managementIpAddress"]] = item_dict["instanceUuid"]
+                                else:
+                                    msg = "Skipping device {0} in site {1} as its family is {2}".format(
+                                        item_dict["managementIpAddress"], site_name, item_dict["family"])
+                                    self.log(msg, "INFO")
                             else:
-                                msg = "Unable to get deviceId  for device {0} in site {1} as its status is {2}".format(
-                                    item["managementIpAddress"], site_name, item["reachabilityStatus"])
-                                self.log(msg, "CRITICAL")
-                                self.module.fail_json(msg=msg)
+                                msg = "Skipping device {0} in site {1} as its status is {2}".format(
+                                    item_dict["managementIpAddress"], site_name, item_dict["reachabilityStatus"])
+                                self.log(msg, "WARNING")
             else:
                 # If unable to retrieve device information, log an error message
                 self.log("No response received from API call to get membership information for site. {0}".format(site_name), "ERROR")
@@ -618,11 +643,6 @@ class NetworkCompliance(DnacBase):
         except Exception as e:
             # Log an error message if any exception occurs during the process
             self.log("Unable to fetch the device(s) associated to the site '{0}' due to {1}".format(site_name, str(e)), "ERROR")
-
-        if not mgmt_ip_instance_id_map:
-            msg = "Error retrieving device details using the 'get_membership' API from Site: {0}".format(site_name)
-            self.log(msg, "ERROR")
-            self.module.fail_json(msg=msg)
 
         return mgmt_ip_instance_id_map
 
@@ -761,7 +781,8 @@ class NetworkCompliance(DnacBase):
         mgmt_ip_instance_id_map = self.get_device_id_list(ip_address_list, site_name)
         if not mgmt_ip_instance_id_map:
             # Log an error message if mgmt_ip_instance_id_map is empty
-            msg = "Failed to retrieve device IDs for the provided IP addresses: {0} or site name: {1}.".format(ip_address_list, site_name)
+            msg = ("No device UUIDs were fetched for network compliance operations with the provided IP addresses: {0} "
+                   "or site name: {1}. This could be due to Unreachable devices or access points (APs).").format(ip_address_list, site_name)
             self.log(msg, "ERROR")
             self.module.fail_json(msg)
 
@@ -1164,7 +1185,7 @@ class NetworkCompliance(DnacBase):
                     task_name, list(mgmt_ip_instance_id_map.keys()), modified_response), "INFO")
 
                 # Update result with modified response
-                self.update_result("success", True, self.msg, "INFO")
+                self.update_result("success", True, self.msg, "INFO", modified_response)
                 break
 
             # Check if task failed
