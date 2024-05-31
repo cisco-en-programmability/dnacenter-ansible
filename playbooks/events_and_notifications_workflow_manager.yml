@@ -21,13 +21,7 @@
         config_verify: true
         state: merged
         config:
-        - syslog_destination:
-            name: "{{item.syslog_destination.name}}"
-            description: "{{item.syslog_destination.description}}"
-            server_address: "{{item.syslog_destination.server_address}}"
-            protocol: "{{item.syslog_destination.protocol}}"
-            port: "{{item.syslog_destination.port}}"
-          webhook_destination:
+        - webhook_destination:
             name: "{{item.webhook_destination.name}}"
             description: "{{item.webhook_destination.description}}"
             url: "{{item.webhook_destination.url}}"
@@ -40,6 +34,13 @@
             primary_smtp_config:
               server_address: "{{item.email_destination.primary_smtp_config.server_address}}"
               port: "{{item.email_destination.primary_smtp_config.port}}"
+              username: "{{item.email_destination.primary_smtp_config.username}}"
+          syslog_destination:
+            name: "{{item.syslog_destination.name}}"
+            description: "{{item.syslog_destination.description}}"
+            server_address: "{{item.syslog_destination.server_address}}"
+            protocol: "{{item.syslog_destination.protocol}}"
+            port: "{{item.syslog_destination.port}}"
           snmp_destination:
             name: "{{item.snmp_destination.name}}"
             description: "{{item.snmp_destination.description}}"
@@ -59,6 +60,28 @@
               url: "{{item.itsm_setting.connection_settings.url}}"
               username: "{{item.itsm_setting.connection_settings.username}}"
               password: "{{item.itsm_setting.connection_settings.password}}"
+          webhook_event_notification:
+            notification_name: "{{item.webhook_event_notification.notification_name}}"
+            description: "{{item.webhook_event_notification.description}}"
+            webhook_dest_name: "{{item.webhook_event_notification.webhook_dest_name}}"
+            events_name_list: "{{item.webhook_event_notification.events_name_list}}"
+            site_name_list: "{{item.webhook_event_notification.site_name_list}}"
+          email_event_notification:
+            notification_name: "{{item.email_event_notification.notification_name}}"
+            description: "{{item.email_event_notification.description}}"
+            events_name_list: "{{item.email_event_notification.events_name_list}}"
+            site_name_list: "{{item.email_event_notification.site_name_list}}"
+            from_email_address: "{{item.email_event_notification.from_email_address}}"
+            to_email_addresses: "{{item.email_event_notification.to_email_addresses}}"
+            subject: "{{item.email_event_notification.subject}}"
+            instance_name: "{{item.email_event_notification.instance_name}}"
+            instance_description: "{{item.email_event_notification.instance_description}}"
+          syslog_event_notification:
+            notification_name: "{{item.syslog_event_notification.notification_name}}"
+            description: "{{item.syslog_event_notification.description}}"
+            syslog_dest_name: "{{item.syslog_event_notification.syslog_dest_name}}"
+            events_name_list: "{{item.syslog_event_notification.events_name_list}}"
+            site_name_list: "{{item.syslog_event_notification.site_name_list}}"
 
       with_items: "{{ events_notification }}"
       tags:
