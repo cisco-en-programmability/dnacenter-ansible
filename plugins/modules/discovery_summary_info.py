@@ -41,42 +41,42 @@ options:
     type: str
   ipAddress:
     description:
-    - IpAddress query parameter. IP Address of the device. 
+    - IpAddress query parameter. IP Address of the device.
     elements: str
     type: list
   pingStatus:
     description:
     - >
       PingStatus query parameter. Ping status for the IP during the job run. Available values are 'SUCCESS',
-      'FAILURE', 'NOT-PROVIDED' and 'NOT-VALIDATED'. 
+      'FAILURE', 'NOT-PROVIDED' and 'NOT-VALIDATED'.
     elements: str
     type: list
   snmpStatus:
     description:
     - >
       SnmpStatus query parameter. SNMP status for the IP during the job run. Available values are 'SUCCESS',
-      'FAILURE', 'NOT-PROVIDED' and 'NOT-VALIDATED'. 
+      'FAILURE', 'NOT-PROVIDED' and 'NOT-VALIDATED'.
     elements: str
     type: list
   cliStatus:
     description:
     - >
       CliStatus query parameter. CLI status for the IP during the job run. Available values are 'SUCCESS',
-      'FAILURE', 'NOT-PROVIDED' and 'NOT-VALIDATED'. 
+      'FAILURE', 'NOT-PROVIDED' and 'NOT-VALIDATED'.
     elements: str
     type: list
   netconfStatus:
     description:
     - >
       NetconfStatus query parameter. NETCONF status for the IP during the job run. Available values are 'SUCCESS',
-      'FAILURE', 'NOT-PROVIDED' and 'NOT-VALIDATED'. 
+      'FAILURE', 'NOT-PROVIDED' and 'NOT-VALIDATED'.
     elements: str
     type: list
   httpStatus:
     description:
     - >
       HttpStatus query parameter. HTTP staus for the IP during the job run. Available values are 'SUCCESS',
-      'FAILURE', 'NOT-PROVIDED' and 'NOT-VALIDATED'. 
+      'FAILURE', 'NOT-PROVIDED' and 'NOT-VALIDATED'.
     elements: str
     type: list
 requirements:

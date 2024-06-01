@@ -25,7 +25,7 @@ options:
     type: str
   nameList:
     description:
-    - NameList query parameter. 
+    - NameList query parameter.
     elements: str
     type: list
   vendorEquipmentTypeList:
@@ -40,7 +40,7 @@ options:
     type: list
   operationalStateCodeList:
     description:
-    - OperationalStateCodeList query parameter. 
+    - OperationalStateCodeList query parameter.
     elements: str
     type: list
 requirements:

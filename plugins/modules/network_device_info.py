@@ -113,17 +113,17 @@ options:
     type: list
   reachabilityStatus:
     description:
-    - ReachabilityStatus query parameter. 
+    - ReachabilityStatus query parameter.
     elements: str
     type: list
   upTime:
     description:
-    - UpTime query parameter. 
+    - UpTime query parameter.
     elements: str
     type: list
   associatedWlcIp:
     description:
-    - AssociatedWlcIp query parameter. 
+    - AssociatedWlcIp query parameter.
     elements: str
     type: list
   license_name:
