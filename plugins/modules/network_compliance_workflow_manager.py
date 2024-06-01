@@ -503,7 +503,7 @@ class NetworkCompliance(DnacBase):
                 # Update run_compliance_params to exclude devices with 'IN_PROGRESS' status
                 run_compliance_params["deviceUuids"] = [device_id for device_id in mgmt_ip_instance_id_map.values() if device_id not in device_in_progress]
                 msg = "Excluding 'IN_PROGRESS' devices from compliance check. Updated run_compliance_params: {0}".format(run_compliance_params)
-                self.log(message, "DEBUG")
+                self.log(msg, "DEBUG")
 
         return run_compliance_params, compliance_detail_params
 
@@ -845,8 +845,8 @@ class NetworkCompliance(DnacBase):
             if excluded_device_ids:
                 # Exclude devices in the "OTHER" category from sync_device_config_params
                 sync_device_config_params["deviceId"] = [device_id for device_id in mgmt_ip_instance_id_map.values() if device_id not in excluded_device_ids]
-                message = "Skipping these devices because their compliance status is not 'NON_COMPLIANT': {0}".format(', '.join(excluded_device_ids))
-                self.log(message, "WARNING")
+                msg = "Skipping these devices because their compliance status is not 'NON_COMPLIANT': {0}".format(excluded_device_ids)
+                self.log(msg, "WARNING")
 
         # Construct the "want" dictionary containing the desired state parameters
         want = {}
