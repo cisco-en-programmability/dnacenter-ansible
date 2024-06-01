@@ -42,7 +42,7 @@ cisco.dnac.device_replacement module -- Resource module for Device Replacement
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.13.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.14.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -86,7 +86,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.5.5
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -375,7 +375,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.5.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
 
       .. raw:: html
 
@@ -442,7 +442,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Device Replacement's creationTime.
+      Date and time of marking the device for replacement.
 
 
       .. raw:: html
@@ -476,7 +476,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Device Replacement's family.
+      Faulty device family.
 
 
       .. raw:: html
@@ -510,7 +510,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Device Replacement's faultyDeviceId.
+      Unique identifier of the faulty device.
 
 
       .. raw:: html
@@ -544,7 +544,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Device Replacement's faultyDeviceName.
+      Faulty device name.
 
 
       .. raw:: html
@@ -578,7 +578,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Device Replacement's faultyDevicePlatform.
+      Faulty device platform.
 
 
       .. raw:: html
@@ -612,7 +612,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Device Replacement's faultyDeviceSerialNumber.
+      Faulty device serial number.
 
 
       .. raw:: html
@@ -646,7 +646,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Device Replacement's id.
+      Unique identifier of the device replacement resource.
 
 
       .. raw:: html
@@ -680,7 +680,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Device Replacement's neighbourDeviceId.
+      Unique identifier of the neighbor device to create the DHCP server.
 
 
       .. raw:: html
@@ -714,7 +714,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Device Replacement's networkReadinessTaskId.
+      Unique identifier of network readiness task.
 
 
       .. raw:: html
@@ -748,7 +748,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Device Replacement's replacementDevicePlatform.
+      Replacement device platform.
 
 
       .. raw:: html
@@ -782,7 +782,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Device Replacement's replacementDeviceSerialNumber.
+      Replacement device serial number.
 
 
       .. raw:: html
@@ -816,7 +816,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Device Replacement's replacementStatus.
+      Device replacement status. Use NON-FAULTY to unmark the device for replacement.
 
 
       .. raw:: html
@@ -850,7 +850,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Device Replacement's replacementTime.
+      Date and time of device replacement.
 
 
       .. raw:: html
@@ -884,7 +884,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Device Replacement's workflowId.
+      Unique identifier of the device replacement workflow.
 
 
       .. raw:: html

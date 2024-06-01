@@ -42,7 +42,7 @@ cisco.dnac.wireless_provision_device_update module -- Resource module for Wirele
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.13.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.14.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -85,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.5.5
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -374,7 +374,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.5.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
 
       .. raw:: html
 
@@ -475,7 +475,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Device Name.
+      Controller Name.
 
 
       .. raw:: html
@@ -543,7 +543,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Interface Gateway.
+      Interface Gateway. Required for AireOS.
 
 
       .. raw:: html
@@ -577,7 +577,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Interface IPAddress.
+      Interface IP Address. Required for AireOS.
 
 
       .. raw:: html
@@ -611,7 +611,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Interface Name.
+      Interface Name. Required for AireOS and EWLC.
 
 
       .. raw:: html
@@ -645,7 +645,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Interface Netmask In CIDR.
+      Interface Netmask In CIDR. Required for AireOS.
 
 
       .. raw:: html
@@ -679,7 +679,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Lag Or Port Number.
+      Lag Or Port Number. Required for AireOS.
 
 
       .. raw:: html
@@ -713,7 +713,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Vlan Id.
+      VLAN ID. Required for AireOS and EWLC.
 
 
       .. raw:: html
@@ -748,7 +748,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Managed APLocations.
+      List of managed AP locations (Site Hierarchies).
 
 
       .. raw:: html
@@ -914,7 +914,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"executionId": "string", "executionUrl": "string", "provisioningTasks": {"failed": ["string"], "success": ["string"]}}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"executionId": "string", "executionStatusUrl": "string", "message": "string"}`
 
 
       .. raw:: html

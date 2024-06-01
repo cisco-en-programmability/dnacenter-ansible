@@ -42,7 +42,7 @@ cisco.dnac.network_device module -- Resource module for Network Device
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.13.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.14.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -71,7 +71,8 @@ Synopsis
 - Manage operations create, update and delete of the resource Network Device.
 - Adds the device with given credential.
 - Deletes the network device for the given Id.
-- Sync the devices provided as input.
+- Update the credentials, management IP address of a given device or a set of devices in Catalyst Center and trigger an inventory sync.
+
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -87,7 +88,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.5.5
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -182,7 +183,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Network Device's cliTransport.
+      CLI transport. Supported values telnet, ssh2.
 
 
       .. raw:: html
@@ -216,7 +217,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      ComputeDevice flag.
+      Compute Device or not. Options are TRUE / FALSE.
 
 
       .. rst-class:: ansible-option-line
@@ -497,7 +498,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.5.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
 
       .. raw:: html
 
@@ -530,7 +531,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Network Device's enablePassword.
+      CLI enable password of the device.
 
 
       .. raw:: html
@@ -564,7 +565,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Network Device's extendedDiscoveryInfo.
+      This field holds that info as whether to add device with canned data or not. Supported values DISCOVER\_WITH\_CANNED\_DATA.
 
 
       .. raw:: html
@@ -598,7 +599,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Network Device's httpPassword.
+      HTTP password of the device.
 
 
       .. raw:: html
@@ -632,7 +633,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Network Device's httpPort.
+      HTTP port of the device.
 
 
       .. raw:: html
@@ -666,7 +667,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      HttpSecure flag.
+      Flag to select HTTP / HTTPS protocol. Options are TRUE / FALSE. TRUE for HTTPS and FALSE for HTTP.
 
 
       .. rst-class:: ansible-option-line
@@ -708,7 +709,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Network Device's httpUserName.
+      HTTP Username of the device.
 
 
       .. raw:: html
@@ -776,7 +777,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Network Device's ipAddress.
+      IP Address of the device.
 
 
       .. raw:: html
@@ -810,7 +811,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Network Device's merakiOrgId.
+      Selected meraki organization for which the devices needs to be imported.
 
 
       .. raw:: html
@@ -844,7 +845,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Network Device's netconfPort.
+      Netconf Port of the device.
 
 
       .. raw:: html
@@ -878,7 +879,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Network Device's password.
+      CLI Password of the device.
 
 
       .. raw:: html
@@ -912,7 +913,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Network Device's serialNumber.
+      Serial Number of the Device.
 
 
       .. raw:: html
@@ -946,7 +947,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Network Device's snmpAuthPassphrase.
+      SNMPV3 auth passphrase of the device.
 
 
       .. raw:: html
@@ -980,7 +981,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Network Device's snmpAuthProtocol.
+      SNMPV3 auth protocol. Supported values sha, md5.
 
 
       .. raw:: html
@@ -1014,7 +1015,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Network Device's snmpMode.
+      SNMPV3 mode. Supported values noAuthnoPriv, authNoPriv, authPriv.
 
 
       .. raw:: html
@@ -1048,7 +1049,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Network Device's snmpPrivPassphrase.
+      SNMPV3 priv passphrase.
 
 
       .. raw:: html
@@ -1082,7 +1083,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Network Device's snmpPrivProtocol.
+      SNMPV3 priv protocol. Supported values AES128.
 
 
       .. raw:: html
@@ -1116,7 +1117,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Network Device's snmpRetry.
+      SNMP retry count. Max value supported is 3. Default is Global SNMP retry (if exists) or 3.
 
 
       .. raw:: html
@@ -1150,7 +1151,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Network Device's snmpROCommunity.
+      SNMP Read Community of the device.
 
 
       .. raw:: html
@@ -1184,7 +1185,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Network Device's snmpRWCommunity.
+      SNMP Write Community of the device.
 
 
       .. raw:: html
@@ -1218,7 +1219,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Network Device's snmpTimeout.
+      SNMP timeout in seconds. Max value supported is 300. Default is Global SNMP timeout (if exists) or 5.
 
 
       .. raw:: html
@@ -1252,7 +1253,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Network Device's snmpUserName.
+      SNMPV3 user name of the device.
 
 
       .. raw:: html
@@ -1286,7 +1287,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Network Device's snmpVersion.
+      SNMP version. Values supported v2, v3. Default is v2.
 
 
       .. raw:: html
@@ -1320,7 +1321,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Network Device's type.
+      Type of device being added.
 
 
       .. raw:: html
@@ -1388,7 +1389,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Network Device's existMgmtIpAddress.
+      ExistMgmtIpAddress IP Address of the device.
 
 
       .. raw:: html
@@ -1422,7 +1423,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Network Device's newMgmtIpAddress.
+      New IP Address to be Updated.
 
 
       .. raw:: html
@@ -1457,7 +1458,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Network Device's userName.
+      CLI user name of the device.
 
 
       .. raw:: html
@@ -1534,8 +1535,8 @@ See Also
        Complete reference of the AddDevice2 API.
    `Cisco DNA Center documentation for Devices DeleteDeviceById <https://developer.cisco.com/docs/dna-center/#!delete-device-by-id>`_
        Complete reference of the DeleteDeviceById API.
-   `Cisco DNA Center documentation for Devices SyncDevices2 <https://developer.cisco.com/docs/dna-center/#!sync-devices>`_
-       Complete reference of the SyncDevices2 API.
+   `Cisco DNA Center documentation for Devices UpdateDeviceDetails <https://developer.cisco.com/docs/dna-center/#!update-device-details>`_
+       Complete reference of the UpdateDeviceDetails API.
 
 .. Examples
 
@@ -1582,9 +1583,6 @@ Examples
         snmpUserName: string
         snmpVersion: string
         type: string
-        updateMgmtIPaddressList:
-        - existMgmtIpAddress: string
-          newMgmtIpAddress: string
         userName: string
 
     - name: Update all

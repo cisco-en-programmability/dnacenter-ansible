@@ -42,7 +42,7 @@ cisco.dnac.compliance_device_info module -- Information module for Compliance De
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.13.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.14.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -87,7 +87,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.5.5
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -137,7 +137,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      ComplianceStatus query parameter. Compliance status can be have value among 'COMPLIANT','NON\_COMPLIANT','IN\_PROGRESS', 'ERROR'.
+      ComplianceStatus query parameter. Specify "Compliance status(es)" separated by commas. The Compliance status can be 'COMPLIANT', 'NON\_COMPLIANT', 'IN\_PROGRESS', 'NOT\_AVAILABLE', 'NOT\_APPLICABLE', 'ERROR'.
           
 
 
@@ -172,7 +172,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      DeviceUuid query parameter. Comma separated deviceUuids.
+      DeviceUuid query parameter. Comma separated 'Device Ids'.
 
 
       .. raw:: html
@@ -445,7 +445,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.5.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
 
       .. raw:: html
 
@@ -479,74 +479,6 @@ Parameters
         <div class="ansible-option-cell">
 
       Additional headers.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-limit"></div>
-
-      .. _ansible_collections.cisco.dnac.compliance_device_info_module__parameter-limit:
-
-      .. rst-class:: ansible-option-title
-
-      **limit**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-limit" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Limit query parameter. Number of records to be retrieved.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-offset"></div>
-
-      .. _ansible_collections.cisco.dnac.compliance_device_info_module__parameter-offset:
-
-      .. rst-class:: ansible-option-title
-
-      **offset**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-offset" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Offset query parameter. Offset/starting row.
 
 
       .. raw:: html
@@ -643,8 +575,6 @@ Examples
         headers: "{{my_headers | from_json}}"
         complianceStatus: string
         deviceUuid: string
-        offset: 0
-        limit: 0
       register: result
 
     - name: Get Compliance Device by id
@@ -720,7 +650,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"complianceStatus": "string", "deviceUuid": "string", "lastUpdateTime": 0, "message": "string", "scheduleTime": 0}, "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"complianceStatus": "string", "deviceUuid": "string", "lastUpdateTime": 0, "scheduleTime": "string"}, "version": "string"}`
 
 
       .. raw:: html

@@ -42,7 +42,7 @@ cisco.dnac.network_device_by_serial_number_info module -- Information module for
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.13.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.14.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -69,7 +69,7 @@ Synopsis
 .. Description
 
 - Get Network Device By Serial Number by id.
-- Returns the network device if the given serial number matches with any of the serial numbers collected.
+- Returns the network device with given serial number.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.5.5
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -374,7 +374,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.5.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
 
       .. raw:: html
 
@@ -597,7 +597,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"apManagerInterfaceIp": "string", "associatedWlcIp": "string", "bootDateTime": "string", "collectionInterval": "string", "collectionStatus": "string", "errorCode": "string", "errorDescription": "string", "family": "string", "hostname": "string", "id": "string", "instanceTenantId": "string", "instanceUuid": "string", "interfaceCount": "string", "inventoryStatusDetail": "string", "lastUpdateTime": 0, "lastUpdated": "string", "lineCardCount": "string", "lineCardId": "string", "location": "string", "locationName": "string", "macAddress": "string", "managementIpAddress": "string", "memorySize": "string", "platformId": "string", "reachabilityFailureReason": "string", "reachabilityStatus": "string", "role": "string", "roleSource": "string", "serialNumber": "string", "series": "string", "snmpContact": "string", "snmpLocation": "string", "softwareType": "string", "softwareVersion": "string", "tagCount": "string", "tunnelUdpPort": "string", "type": "string", "upTime": "string", "waasDeviceMode": "string"}, "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"apEthernetMacAddress": "string", "apManagerInterfaceIp": "string", "associatedWlcIp": "string", "bootDateTime": "string", "collectionInterval": "string", "collectionStatus": "string", "description": "string", "deviceSupportLevel": "string", "dnsResolvedManagementAddress": "string", "errorCode": "string", "errorDescription": "string", "family": "string", "hostname": "string", "id": "string", "instanceTenantId": "string", "instanceUuid": "string", "interfaceCount": "string", "inventoryStatusDetail": "string", "lastDeviceResyncStartTime": "string", "lastUpdateTime": 0, "lastUpdated": "string", "lineCardCount": "string", "lineCardId": "string", "location": "string", "locationName": "string", "macAddress": "string", "managedAtleastOnce": true, "managementIpAddress": "string", "managementState": "string", "memorySize": "string", "pendingSyncRequestsCount": "string", "platformId": "string", "reachabilityFailureReason": "string", "reachabilityStatus": "string", "reasonsForDeviceResync": "string", "reasonsForPendingSyncRequests": "string", "role": "string", "roleSource": "string", "serialNumber": "string", "series": "string", "snmpContact": "string", "snmpLocation": "string", "softwareType": "string", "softwareVersion": "string", "tagCount": "string", "tunnelUdpPort": "string", "type": "string", "upTime": "string", "uptimeSeconds": 0, "vendor": "string", "waasDeviceMode": "string"}, "version": "string"}`
 
 
       .. raw:: html

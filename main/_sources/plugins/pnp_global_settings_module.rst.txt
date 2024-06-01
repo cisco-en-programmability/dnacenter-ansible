@@ -42,7 +42,7 @@ cisco.dnac.pnp_global_settings module -- Resource module for Pnp Global Settings
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.13.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.14.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -85,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.5.5
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -111,143 +111,6 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-_id"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-_id:
-
-      .. rst-class:: ansible-option-title
-
-      **_id**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-_id" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Pnp Global Settings's \_id.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-aaaCredentials"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-aaacredentials:
-
-      .. rst-class:: ansible-option-title
-
-      **aaaCredentials**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-aaaCredentials" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`dictionary`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Pnp Global Settings's aaaCredentials.
-
-
-      .. raw:: html
-
-        </div>
-    
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-aaaCredentials/password"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-aaacredentials/password:
-
-      .. rst-class:: ansible-option-title
-
-      **password**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-aaaCredentials/password" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Global Settings's password.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-aaaCredentials/username"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-aaacredentials/username:
-
-      .. rst-class:: ansible-option-title
-
-      **username**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-aaaCredentials/username" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Global Settings's username.
-
-
-      .. raw:: html
-
-        </div>
-
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-acceptEula"></div>
 
       .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-accepteula:
@@ -262,7 +125,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`boolean`
+      :ansible-option-type:`string`
 
       .. raw:: html
 
@@ -272,15 +135,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      AcceptEula flag.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry:`false`
-      - :ansible-option-choices-entry:`true`
+      Accept Eula.
 
 
       .. raw:: html
@@ -348,7 +203,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Pnp Global Settings's cert.
+      Cert.
 
 
       .. raw:: html
@@ -382,7 +237,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Pnp Global Settings's fqdnAddresses.
+      Fqdn Addresses.
 
 
       .. raw:: html
@@ -416,7 +271,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Pnp Global Settings's ipAddresses.
+      Ip Addresses.
 
 
       .. raw:: html
@@ -440,7 +295,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`integer`
+      :ansible-option-type:`string`
 
       .. raw:: html
 
@@ -450,7 +305,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Pnp Global Settings's port.
+      Port.
 
 
       .. raw:: html
@@ -474,7 +329,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`boolean`
+      :ansible-option-type:`string`
 
       .. raw:: html
 
@@ -484,15 +339,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Proxy flag.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry:`false`
-      - :ansible-option-choices-entry:`true`
+      Proxy.
 
 
       .. raw:: html
@@ -766,7 +613,41 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.5.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-id"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Id.
+
 
       .. raw:: html
 
@@ -809,40 +690,6 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-savaMappingList/autoSyncPeriod"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savamappinglist/autosyncperiod:
-
-      .. rst-class:: ansible-option-title
-
-      **autoSyncPeriod**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-savaMappingList/autoSyncPeriod" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Global Settings's autoSyncPeriod.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-savaMappingList/ccoUser"></div>
 
       .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savamappinglist/ccouser:
@@ -867,7 +714,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Pnp Global Settings's ccoUser.
+      Cco User.
 
 
       .. raw:: html
@@ -891,7 +738,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`integer`
+      :ansible-option-type:`string`
 
       .. raw:: html
 
@@ -901,41 +748,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Pnp Global Settings's expiry.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-savaMappingList/lastSync"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savamappinglist/lastsync:
-
-      .. rst-class:: ansible-option-title
-
-      **lastSync**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-savaMappingList/lastSync" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Global Settings's lastSync.
+      Expiry.
 
 
       .. raw:: html
@@ -1003,7 +816,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Pnp Global Settings's addressFqdn.
+      Address Fqdn.
 
 
       .. raw:: html
@@ -1037,7 +850,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Pnp Global Settings's addressIpV4.
+      Address Ip V4.
 
 
       .. raw:: html
@@ -1071,7 +884,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Pnp Global Settings's cert.
+      Cert.
 
 
       .. raw:: html
@@ -1095,7 +908,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`boolean`
+      :ansible-option-type:`string`
 
       .. raw:: html
 
@@ -1105,15 +918,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      MakeDefault flag.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry:`false`
-      - :ansible-option-choices-entry:`true`
+      Make Default.
 
 
       .. raw:: html
@@ -1147,7 +952,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Pnp Global Settings's name.
+      Name.
 
 
       .. raw:: html
@@ -1171,7 +976,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`integer`
+      :ansible-option-type:`string`
 
       .. raw:: html
 
@@ -1181,7 +986,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Pnp Global Settings's port.
+      Port.
 
 
       .. raw:: html
@@ -1215,7 +1020,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Pnp Global Settings's profileId.
+      Profile Id.
 
 
       .. raw:: html
@@ -1239,7 +1044,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`boolean`
+      :ansible-option-type:`string`
 
       .. raw:: html
 
@@ -1249,15 +1054,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Proxy flag.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry:`false`
-      - :ansible-option-choices-entry:`true`
+      Proxy.
 
 
       .. raw:: html
@@ -1292,349 +1089,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Pnp Global Settings's smartAccountId.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-savaMappingList/syncResult"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savamappinglist/syncresult:
-
-      .. rst-class:: ansible-option-title
-
-      **syncResult**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-savaMappingList/syncResult" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`dictionary`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Global Settings's syncResult.
-
-
-      .. raw:: html
-
-        </div>
-    
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-savaMappingList/syncResult/syncList"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savamappinglist/syncresult/synclist:
-
-      .. rst-class:: ansible-option-title
-
-      **syncList**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-savaMappingList/syncResult/syncList" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Global Settings's syncList.
-
-
-      .. raw:: html
-
-        </div>
-    
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-savaMappingList/syncResult/syncList/deviceSnList"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savamappinglist/syncresult/synclist/devicesnlist:
-
-      .. rst-class:: ansible-option-title
-
-      **deviceSnList**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-savaMappingList/syncResult/syncList/deviceSnList" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Global Settings's deviceSnList.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-savaMappingList/syncResult/syncList/syncType"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savamappinglist/syncresult/synclist/synctype:
-
-      .. rst-class:: ansible-option-title
-
-      **syncType**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-savaMappingList/syncResult/syncList/syncType" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Global Settings's syncType.
-
-
-      .. raw:: html
-
-        </div>
-
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-savaMappingList/syncResult/syncMsg"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savamappinglist/syncresult/syncmsg:
-
-      .. rst-class:: ansible-option-title
-
-      **syncMsg**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-savaMappingList/syncResult/syncMsg" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Global Settings's syncMsg.
-
-
-      .. raw:: html
-
-        </div>
-
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-savaMappingList/syncResultStr"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savamappinglist/syncresultstr:
-
-      .. rst-class:: ansible-option-title
-
-      **syncResultStr**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-savaMappingList/syncResultStr" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Global Settings's syncResultStr.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-savaMappingList/syncStartTime"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savamappinglist/syncstarttime:
-
-      .. rst-class:: ansible-option-title
-
-      **syncStartTime**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-savaMappingList/syncStartTime" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Global Settings's syncStartTime.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-savaMappingList/syncStatus"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savamappinglist/syncstatus:
-
-      .. rst-class:: ansible-option-title
-
-      **syncStatus**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-savaMappingList/syncStatus" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Global Settings's syncStatus.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-savaMappingList/tenantId"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savamappinglist/tenantid:
-
-      .. rst-class:: ansible-option-title
-
-      **tenantId**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-savaMappingList/tenantId" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Global Settings's tenantId.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-savaMappingList/token"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savamappinglist/token:
-
-      .. rst-class:: ansible-option-title
-
-      **token**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-savaMappingList/token" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Global Settings's token.
+      Smart Account Id.
 
 
       .. raw:: html
@@ -1668,184 +1123,13 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Pnp Global Settings's virtualAccountId.
+      Virtual Account Id.
 
 
       .. raw:: html
 
         </div>
 
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-taskTimeOuts"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-tasktimeouts:
-
-      .. rst-class:: ansible-option-title
-
-      **taskTimeOuts**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-taskTimeOuts" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`dictionary`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Pnp Global Settings's taskTimeOuts.
-
-
-      .. raw:: html
-
-        </div>
-    
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-taskTimeOuts/configTimeOut"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-tasktimeouts/configtimeout:
-
-      .. rst-class:: ansible-option-title
-
-      **configTimeOut**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-taskTimeOuts/configTimeOut" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Global Settings's configTimeOut.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-taskTimeOuts/generalTimeOut"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-tasktimeouts/generaltimeout:
-
-      .. rst-class:: ansible-option-title
-
-      **generalTimeOut**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-taskTimeOuts/generalTimeOut" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Global Settings's generalTimeOut.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-taskTimeOuts/imageDownloadTimeOut"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-tasktimeouts/imagedownloadtimeout:
-
-      .. rst-class:: ansible-option-title
-
-      **imageDownloadTimeOut**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-taskTimeOuts/imageDownloadTimeOut" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Global Settings's imageDownloadTimeOut.
-
-
-      .. raw:: html
-
-        </div>
-
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-tenantId"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-tenantid:
-
-      .. rst-class:: ansible-option-title
-
-      **tenantId**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-tenantId" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Pnp Global Settings's tenantId.
-
-
-      .. raw:: html
-
-        </div>
 
   * - .. raw:: html
 
@@ -1883,40 +1167,6 @@ Parameters
 
       - :ansible-option-choices-entry:`false`
       - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-version"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-version:
-
-      .. rst-class:: ansible-option-title
-
-      **version**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-version" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Pnp Global Settings's version.
 
 
       .. raw:: html
@@ -1967,52 +1217,30 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         state: present
-        _id: string
-        aaaCredentials:
-          password: string
-          username: string
-        acceptEula: true
+        acceptEula: string
         defaultProfile:
           cert: string
           fqdnAddresses:
           - string
           ipAddresses:
           - string
-          port: 0
-          proxy: true
+          port: string
+          proxy: string
+        id: string
         savaMappingList:
-        - autoSyncPeriod: 0
-          ccoUser: string
-          expiry: 0
-          lastSync: 0
+        - ccoUser: string
+          expiry: string
           profile:
             addressFqdn: string
             addressIpV4: string
             cert: string
-            makeDefault: true
+            makeDefault: string
             name: string
-            port: 0
+            port: string
             profileId: string
-            proxy: true
+            proxy: string
           smartAccountId: string
-          syncResult:
-            syncList:
-            - deviceSnList:
-              - string
-              syncType: string
-            syncMsg: string
-          syncResultStr: string
-          syncStartTime: 0
-          syncStatus: string
-          tenantId: string
-          token: string
           virtualAccountId: string
-        taskTimeOuts:
-          configTimeOut: 0
-          generalTimeOut: 0
-          imageDownloadTimeOut: 0
-        tenantId: string
-        version: 0
 
 
 
@@ -2074,7 +1302,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"\_id": "string", "aaaCredentials": {"password": "string", "username": "string"}, "acceptEula": true, "defaultProfile": {"cert": "string", "fqdnAddresses": ["string"], "ipAddresses": ["string"], "port": 0, "proxy": true}, "id": "string", "savaMappingList": [{"autoSyncPeriod": 0, "ccoUser": "string", "expiry": 0, "lastSync": 0, "profile": {"addressFqdn": "string", "addressIpV4": "string", "cert": "string", "makeDefault": true, "name": "string", "port": 0, "profileId": "string", "proxy": true}, "smartAccountId": "string", "syncResult": {"syncList": [{"deviceSnList": ["string"], "syncType": "string"}], "syncMsg": "string"}, "syncResultStr": "string", "syncStartTime": 0, "syncStatus": "string", "tenantId": "string", "token": "string", "virtualAccountId": "string"}], "taskTimeOuts": {"configTimeOut": 0, "generalTimeOut": 0, "imageDownloadTimeOut": 0}, "tenantId": "string", "version": 0}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"aaaCredentials": {"password": "string", "username": "string"}, "acceptEula": true, "defaultProfile": {"cert": "string", "fqdnAddresses": ["string"], "ipAddresses": ["string"], "port": 0, "proxy": true}, "id": "string", "savaMappingList": [{"autoSyncPeriod": 0, "ccoUser": "string", "expiry": 0, "lastSync": 0, "profile": {"addressFqdn": "string", "addressIpV4": "string", "cert": "string", "makeDefault": true, "name": "string", "port": 0, "profileId": "string", "proxy": true}, "smartAccountId": "string", "syncResult": {"syncList": [{"deviceSnList": ["string"], "syncType": "string"}], "syncMsg": "string"}, "syncResultStr": "string", "syncStartTime": 0, "syncStatus": "string", "tenantId": "string", "token": "string", "virtualAccountId": "string"}], "taskTimeOuts": {"configTimeOut": 0, "generalTimeOut": 0, "imageDownloadTimeOut": 0}, "tenantId": "string", "version": 0}`
 
 
       .. raw:: html

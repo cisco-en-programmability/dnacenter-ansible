@@ -42,7 +42,7 @@ cisco.dnac.network_device_equipment_info module -- Information module for Networ
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.13.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.14.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -69,7 +69,8 @@ Synopsis
 .. Description
 
 - Get all Network Device Equipment.
-- Return PowerSupply/ Fan details for the Given device.
+- Return all types of equipment details like PowerSupply, Fan, Chassis, Backplane, Module, PROCESSOR, Other and SFP for the Given device.
+
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,7 +86,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.5.5
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -408,7 +409,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.5.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
 
       .. raw:: html
 
@@ -535,7 +536,7 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are devices.Devices.return\_power\_supply\_fan\_details\_for\_the\_given\_device,
+   - SDK Method used are devices.Devices.get\_the\_details\_of\_physical\_components\_of\_the\_given\_device,
    - Paths used are get /dna/intent/api/v1/network-device/{deviceUuid}/equipment,
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
@@ -548,8 +549,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Devices ReturnPowerSupplyFanDetailsForTheGivenDevice <https://developer.cisco.com/docs/dna-center/#!return-power-supply-fan-details-for-the-given-device>`_
-       Complete reference of the ReturnPowerSupplyFanDetailsForTheGivenDevice API.
+   `Cisco DNA Center documentation for Devices GetTheDetailsOfPhysicalComponentsOfTheGivenDevice <https://developer.cisco.com/docs/dna-center/#!get-the-details-of-physical-components-of-the-given-device>`_
+       Complete reference of the GetTheDetailsOfPhysicalComponentsOfTheGivenDevice API.
 
 .. Examples
 
@@ -633,7 +634,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"description": "string", "instanceUuid": "string", "name": "string", "operationalStateCode": "string", "productId": "string", "serialNumber": "string", "vendorEquipmentType": "string"}], "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"description": "string", "instanceUuid": "string", "manufacturer": "string", "name": "string", "operationalStateCode": "string", "productId": "string", "serialNumber": "string", "vendorEquipmentType": "string"}], "version": "string"}`
 
 
       .. raw:: html

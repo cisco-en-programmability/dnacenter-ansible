@@ -42,7 +42,7 @@ cisco.dnac.site_info module -- Information module for Site
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.13.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.14.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -69,7 +69,7 @@ Synopsis
 .. Description
 
 - Get all Site.
-- Get site using siteNameHierarchy/siteId/type ,return all sites if these parameters are not given as input.
+- Get sites by site-name-hierarchy or siteId or type. List all sites if these parameters are not given as an input.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.5.5
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -374,7 +374,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.5.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
 
       .. raw:: html
 
@@ -441,7 +441,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Limit query parameter. Number of sites to be retrieved. The default value is 500.
+      Limit query parameter. Number of sites to be listed.
 
 
       .. raw:: html
@@ -475,7 +475,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Name query parameter. SiteNameHierarchy (ex global/groupName).
+      Name query parameter. Site name hierarchy (E.g Global/USA/CA).
 
 
       .. raw:: html
@@ -509,7 +509,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Offset query parameter. Offset/starting row. The default value is 1.
+      Offset query parameter. Offset/starting index for pagination. Indexed from 1.
 
 
       .. raw:: html
@@ -543,7 +543,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      SiteId query parameter. Site id to which site details to retrieve.
+      SiteId query parameter. Site Id.
 
 
       .. raw:: html
@@ -577,7 +577,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Type query parameter. Type (ex area, building, floor).
+      Type query parameter. Site type (Ex area, building, floor).
 
 
       .. raw:: html

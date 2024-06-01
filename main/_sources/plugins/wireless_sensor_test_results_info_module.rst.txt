@@ -42,7 +42,7 @@ cisco.dnac.wireless_sensor_test_results_info module -- Information module for Wi
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.13.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.14.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -85,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.5.5
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -374,7 +374,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.5.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
 
       .. raw:: html
 
@@ -397,7 +397,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`integer`
+      :ansible-option-type:`float`
 
       .. raw:: html
 
@@ -499,7 +499,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`integer`
+      :ansible-option-type:`float`
 
       .. raw:: html
 
@@ -543,7 +543,8 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      TestFailureBy query parameter. Obtain failure statistics group by "area", "building", or "floor".
+      TestFailureBy query parameter. Obtain failure statistics group by "area", "building", or "floor" (case insensitive).
+          
 
 
       .. raw:: html
@@ -702,7 +703,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"failureStats": [{"errorCode": 0, "errorTitle": "string", "testCategory": "string", "testType": "string"}], "summary": {"APP\_CONNECTIVITY": {"FILETRANSFER": {"failCount": 0, "passCount": 0}, "HOST\_REACHABILITY": {"failCount": 0, "passCount": 0}, "WEBSERVER": {"failCount": 0, "passCount": 0}}, "EMAIL": {"MAILSERVER": {"failCount": 0, "passCount": 0}}, "NETWORK\_SERVICES": {"DNS": {"failCount": 0, "passCount": 0}}, "ONBOARDING": {"ASSOC": {"failCount": 0, "passCount": 0}, "AUTH": {"failCount": 0, "passCount": 0}, "DHCP": {"failCount": 0, "passCount": 0}}, "PERFORMANCE": {"IPSLASENDER": {"failCount": 0, "passCount": 0}}, "RF\_ASSESSMENT": {"DATA\_RATE": {"failCount": 0, "passCount": 0}, "SNR": {"failCount": 0, "passCount": 0}}, "totalTestCount": 0}}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"failureStats": [{"errorCode": 0, "errorTitle": "string", "testCategory": "string", "testType": "string"}], "summary": {"APP\_CONNECTIVITY": {"FILETRANSFER": {"failCount": 0, "passCount": 0}, "HOST\_REACHABILITY": {"failCount": 0, "passCount": 0}, "WEBSERVER": {"failCount": 0, "passCount": 0}}, "EMAIL": {"MAILSERVER": {"failCount": 0, "passCount": 0}}, "NETWORK\_SERVICES": {"DNS": {"failCount": 0, "passCount": 0}}, "ONBOARDING": {"ASSOC": {"failCount": 0, "passCount": 0}, "AUTH": {"failCount": 0, "passCount": 0}, "DHCP": {"failCount": 0, "passCount": 0}}, "PERFORMANCE": {"IPSLASENDER": {"failCount": 0, "passCount": 0}}, "RF\_ASSESSMENT": {"DATA\_RATE": {"failCount": 0, "passCount": 0}, "SNR": {"failCount": 0, "passCount": 0}}, "totalTestCount": 0}}, "version": "string"}`
 
 
       .. raw:: html

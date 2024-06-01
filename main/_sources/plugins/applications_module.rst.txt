@@ -42,7 +42,7 @@ cisco.dnac.applications module -- Resource module for Applications
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.13.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.14.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -87,7 +87,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.5.5
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -376,7 +376,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.5.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
 
       .. raw:: html
 
@@ -512,245 +512,6 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Id Ref.
-
-
-      .. raw:: html
-
-        </div>
-
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-payload/indicativeNetworkIdentity"></div>
-
-      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/indicativenetworkidentity:
-
-      .. rst-class:: ansible-option-title
-
-      **indicativeNetworkIdentity**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-payload/indicativeNetworkIdentity" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Applications's indicativeNetworkIdentity.
-
-
-      .. raw:: html
-
-        </div>
-    
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-payload/indicativeNetworkIdentity/displayName"></div>
-
-      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/indicativenetworkidentity/displayname:
-
-      .. rst-class:: ansible-option-title
-
-      **displayName**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-payload/indicativeNetworkIdentity/displayName" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      DisplayName.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-payload/indicativeNetworkIdentity/id"></div>
-
-      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/indicativenetworkidentity/id:
-
-      .. rst-class:: ansible-option-title
-
-      **id**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-payload/indicativeNetworkIdentity/id" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Id.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-payload/indicativeNetworkIdentity/lowerPort"></div>
-
-      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/indicativenetworkidentity/lowerport:
-
-      .. rst-class:: ansible-option-title
-
-      **lowerPort**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-payload/indicativeNetworkIdentity/lowerPort" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      LowerPort.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-payload/indicativeNetworkIdentity/ports"></div>
-
-      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/indicativenetworkidentity/ports:
-
-      .. rst-class:: ansible-option-title
-
-      **ports**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-payload/indicativeNetworkIdentity/ports" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Ports.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-payload/indicativeNetworkIdentity/protocol"></div>
-
-      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/indicativenetworkidentity/protocol:
-
-      .. rst-class:: ansible-option-title
-
-      **protocol**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-payload/indicativeNetworkIdentity/protocol" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Protocol.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-payload/indicativeNetworkIdentity/upperPort"></div>
-
-      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/indicativenetworkidentity/upperport:
-
-      .. rst-class:: ansible-option-title
-
-      **upperPort**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-payload/indicativeNetworkIdentity/upperPort" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      UpperPort.
 
 
       .. raw:: html
@@ -1629,7 +1390,7 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are application\_policy.ApplicationPolicy.create\_application, application\_policy.ApplicationPolicy.delete\_application, application\_policy.ApplicationPolicy.edit\_application,
+   - SDK Method used are application\_policy.ApplicationPolicy.create\_application, application\_policy.ApplicationPolicy.delete\_application2, application\_policy.ApplicationPolicy.edit\_application,
    - Paths used are post /dna/intent/api/v1/applications, delete /dna/intent/api/v1/applications, put /dna/intent/api/v1/applications,
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
@@ -1644,8 +1405,8 @@ See Also
 
    `Cisco DNA Center documentation for Application Policy CreateApplication <https://developer.cisco.com/docs/dna-center/#!create-application>`_
        Complete reference of the CreateApplication API.
-   `Cisco DNA Center documentation for Application Policy DeleteApplication <https://developer.cisco.com/docs/dna-center/#!delete-application>`_
-       Complete reference of the DeleteApplication API.
+   `Cisco DNA Center documentation for Application Policy DeleteApplication2 <https://developer.cisco.com/docs/dna-center/#!delete-application-2>`_
+       Complete reference of the DeleteApplication2 API.
    `Cisco DNA Center documentation for Application Policy EditApplication <https://developer.cisco.com/docs/dna-center/#!edit-application>`_
        Complete reference of the EditApplication API.
 
@@ -1670,13 +1431,6 @@ Examples
         payload:
         - applicationSet:
             idRef: string
-          indicativeNetworkIdentity:
-          - displayName: string
-            id: string
-            lowerPort: 0
-            ports: string
-            protocol: string
-            upperPort: 0
           name: string
           networkApplications:
           - appProtocol: string
@@ -1815,7 +1569,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"taskId": "string", "url": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "string", "url": "string"}, "version": "string"}`
 
 
       .. raw:: html

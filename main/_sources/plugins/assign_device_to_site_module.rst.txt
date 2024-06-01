@@ -42,7 +42,7 @@ cisco.dnac.assign_device_to_site module -- Resource module for Assign Device To 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.13.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.14.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.dnac.assign_device_to_site module -- Resource module for Assign Device To 
 
 .. rst-class:: ansible-version-added
 
-New in cisco.dnac 6.5.0
+New in cisco.dnac 6.0.0
 
 .. contents::
    :local:
@@ -85,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.5.5
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -169,7 +169,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Device ip (eg 10.104.240.64).
+      Device IP. It can be either IPv4 or IPv6. IPV4 e.g., 10.104.240.64. IPV6 e.g., 2001 420 284 2004 4 181 500 183.
 
 
       .. raw:: html
@@ -443,7 +443,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.5.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
 
       .. raw:: html
 
@@ -510,7 +510,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      SiteId path parameter. Site id to which site the device to assign.
+      SiteId path parameter. Site Id where device(s) needs to be assigned.
 
 
       .. raw:: html
@@ -569,7 +569,7 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are ..assign\_devices\_to\_site,
+   - SDK Method used are sites.Sites.assign\_devices\_to\_site,
    - Paths used are post /dna/intent/api/v1/assign-device-to-site/{siteId}/device,
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
@@ -582,7 +582,7 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for  AssignDevicesToSite <https://developer.cisco.com/docs/dna-center/#!assign-devices-to-site>`_
+   `Cisco DNA Center documentation for Sites AssignDevicesToSite <https://developer.cisco.com/docs/dna-center/#!assign-devices-to-site>`_
        Complete reference of the AssignDevicesToSite API.
 
 .. Examples

@@ -42,7 +42,7 @@ cisco.dnac.reserve_ip_subpool_info module -- Information module for Reserve Ip S
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.13.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.14.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -85,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.5.5
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -374,7 +374,41 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.5.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-groupName"></div>
+
+      .. _ansible_collections.cisco.dnac.reserve_ip_subpool_info_module__parameter-groupname:
+
+      .. rst-class:: ansible-option-title
+
+      **groupName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-groupName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      GroupName query parameter. Name of the group.
+
 
       .. raw:: html
 
@@ -417,6 +451,41 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ignoreInheritedGroups"></div>
+
+      .. _ansible_collections.cisco.dnac.reserve_ip_subpool_info_module__parameter-ignoreinheritedgroups:
+
+      .. rst-class:: ansible-option-title
+
+      **ignoreInheritedGroups**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ignoreInheritedGroups" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      IgnoreInheritedGroups query parameter. Ignores pools inherited from parent site. Either siteId or ignoreInheritedGroups must be passed. They can also be used together.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-limit"></div>
 
       .. _ansible_collections.cisco.dnac.reserve_ip_subpool_info_module__parameter-limit:
@@ -431,7 +500,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`integer`
+      :ansible-option-type:`float`
 
       .. raw:: html
 
@@ -441,7 +510,8 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Limit query parameter. No of Global Pools to be retrieved.
+      Limit query parameter. Number of reserve pools to be retrieved. Default is 25 if not specified. Maximum allowed limit is 500.
+          
 
 
       .. raw:: html
@@ -465,7 +535,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`integer`
+      :ansible-option-type:`float`
 
       .. raw:: html
 
@@ -475,7 +545,41 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Offset query parameter. Offset/starting row.
+      Offset query parameter. Offset/starting row. Indexed from 1.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-poolUsage"></div>
+
+      .. _ansible_collections.cisco.dnac.reserve_ip_subpool_info_module__parameter-poolusage:
+
+      .. rst-class:: ansible-option-title
+
+      **poolUsage**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-poolUsage" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      PoolUsage query parameter. Can take values empty, partially-full or empty-partially-full.
 
 
       .. raw:: html
@@ -509,7 +613,8 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      SiteId query parameter. Site id to get the reserve ip associated with the site.
+      SiteId query parameter. Site id of site from which to retrieve associated reserve pools. Either siteId (per site queries) or ignoreInheritedGroups must be used. They can also be used together.
+          
 
 
       .. raw:: html
@@ -605,6 +710,9 @@ Examples
         siteId: string
         offset: 0
         limit: 0
+        ignoreInheritedGroups: string
+        poolUsage: string
+        groupName: string
       register: result
 
 

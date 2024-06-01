@@ -42,7 +42,7 @@ cisco.dnac.network_device_export module -- Resource module for Network Device Ex
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.13.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.14.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -85,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.5.5
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -135,7 +135,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Network Device Export's deviceUuids.
+      List of device uuids.
 
 
       .. raw:: html
@@ -408,41 +408,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.5.3"`
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-id"></div>
-
-      .. _ansible_collections.cisco.dnac.network_device_export_module__parameter-id:
-
-      .. rst-class:: ansible-option-title
-
-      **id**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-id" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Network Device Export's id.
-
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
 
       .. raw:: html
 
@@ -475,7 +441,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Network Device Export's operationEnum.
+      0 to export Device Credential Details Or 1 to export Device Details.
 
 
       .. raw:: html
@@ -509,7 +475,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Network Device Export's parameters.
+      List of device parameters that needs to be exported to file.
 
 
       .. raw:: html
@@ -543,7 +509,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Network Device Export's password.
+      Password is required when the operationEnum value is 0.
 
 
       .. raw:: html
@@ -637,7 +603,6 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         deviceUuids:
         - string
-        id: string
         operationEnum: string
         parameters:
         - string

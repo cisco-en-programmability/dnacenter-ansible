@@ -42,7 +42,7 @@ cisco.dnac.topology_network_health_info module -- Information module for Topolog
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.13.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.14.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -86,7 +86,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.5.5
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -375,7 +375,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.5.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
 
       .. raw:: html
 
@@ -432,7 +432,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`float`
 
       .. raw:: html
 
@@ -442,7 +442,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Timestamp query parameter. Epoch time(in milliseconds) when the Network health data is required.
+      Timestamp query parameter. UTC timestamp of network health data in milliseconds.
 
 
       .. raw:: html
@@ -535,7 +535,7 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         headers: "{{my_headers | from_json}}"
-        timestamp: string
+        timestamp: 0
       register: result
 
 
@@ -598,7 +598,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"healthDistirubution": [{"badCount": 0, "badPercentage": 0, "category": "string", "fairCount": 0, "fairPercentage": 0, "goodCount": 0, "goodPercentage": 0, "healthScore": 0, "kpiMetrics": [{}], "totalCount": 0, "unmonCount": 0, "unmonPercentage": 0}], "latestHealthScore": 0, "latestMeasuredByEntity": {}, "measuredBy": "string", "monitoredDevices": 0, "monitoredHealthyDevices": 0, "monitoredUnHealthyDevices": 0, "response": [{"badCount": 0, "entity": {}, "fairCount": 0, "goodCount": 0, "healthScore": 0, "time": "string", "timeinMillis": 0, "totalCount": 0, "unmonCount": 0}], "unMonitoredDevices": 0, "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"healthContributingDevices": 0, "healthDistirubution": [{"badCount": 0, "badPercentage": 0, "category": "string", "fairCount": 0, "fairPercentage": 0, "goodCount": 0, "goodPercentage": 0, "healthScore": 0, "kpiMetrics": [{"key": "string", "value": "string"}], "noHealthCount": 0, "noHealthPercentage": 0, "thirdPartyDeviceCount": 0, "totalCount": 0, "unmonCount": 0, "unmonPercentage": 0}], "latestHealthScore": 0, "latestMeasuredByEntity": "string", "measuredBy": "string", "monitoredDevices": 0, "monitoredFairHealthDevices": 0, "monitoredHealthyDevices": 0, "monitoredPoorHealthDevices": 0, "monitoredUnHealthyDevices": 0, "noHealthDevices": 0, "response": [{"badCount": 0, "entity": "string", "fairCount": 0, "goodCount": 0, "healthScore": 0, "maintenanceModeCount": 0, "noHealthCount": 0, "time": "string", "timeinMillis": 0, "totalCount": 0, "unmonCount": 0}], "totalDevices": 0, "unMonitoredDevices": 0, "version": "string"}`
 
 
       .. raw:: html

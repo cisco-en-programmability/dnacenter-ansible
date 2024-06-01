@@ -42,7 +42,7 @@ cisco.dnac.network_settings_workflow_manager module -- Resource module for IP Ad
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.13.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.14.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -85,8 +85,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk == 2.4.5
-- python \>= 3.5
+- dnacentersdk \>= 2.4.5
+- python \>= 3.9
 
 
 
@@ -1885,6 +1885,47 @@ Parameters
 
       IP v4 Global pool address with cidr, example 175.175.0.0/16.
 
+      If both 'ipv6\_global\_pool' and 'ipv4\_global\_pool\_name' are provided, the 'ipv4\_global\_pool' will be given priority.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/reserve_pool_details/ipv4_global_pool_name"></div>
+
+      .. _ansible_collections.cisco.dnac.network_settings_workflow_manager_module__parameter-config/reserve_pool_details/ipv4_global_pool_name:
+
+      .. rst-class:: ansible-option-title
+
+      **ipv4_global_pool_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/reserve_pool_details/ipv4_global_pool_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      :ansible-option-versionadded:`added in cisco.dnac 6.14.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the name to be associated with the IPv4 Global IP Pool.
+
+      If both 'ipv4\_global\_pool' and 'ipv4\_global\_pool\_name' are provided, the 'ipv4\_global\_pool' will be given priority.
+
 
       .. raw:: html
 
@@ -2209,8 +2250,50 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      IPv6 Global pool address with cidr this is required when ipv6\_address\_space value is true, example 2001 db8 85a3 /64.
-          
+      The ipv6\_global\_pool is a mandatory when the ipv6\_address\_space is set to true.
+
+      It specifies the global IPv6 address pool using CIDR notation, such as "2001:db8:85a3::/64".
+
+      In cases where both ipv6\_global\_pool and ipv6\_global\_pool\_name are specified, ipv6\_global\_pool will take precedence.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/reserve_pool_details/ipv6_global_pool_name"></div>
+
+      .. _ansible_collections.cisco.dnac.network_settings_workflow_manager_module__parameter-config/reserve_pool_details/ipv6_global_pool_name:
+
+      .. rst-class:: ansible-option-title
+
+      **ipv6_global_pool_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/reserve_pool_details/ipv6_global_pool_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      :ansible-option-versionadded:`added in cisco.dnac 6.14.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the name assigned to the Ip v6 Global IP Pool.
+
+      If both 'ipv6\_global\_pool' and 'ipv6\_global\_pool\_name' are provided, the 'ipv6\_global\_pool' will be given priority.
 
 
       .. raw:: html
@@ -2321,7 +2404,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      IPv6 Subnet address, example 2001 db8 85a3 0 100.
+      IPv6 Subnet address, example 2001:db8:85a3:0:100.
 
 
       .. raw:: html
@@ -3240,7 +3323,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Create global pool, reserve an ip pool and network
+    - name: Create global pool
       cisco.dnac.network_settings_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -3258,55 +3341,133 @@ Examples
             settings:
               ip_pool:
               - name: string
-                gateway: string
+                pool_type: Generic
                 ip_address_space: string
                 cidr: string
-                pool_type: Generic
+                gateway: string
                 dhcp_server_ips: list
                 dns_server_ips: list
-          reserve_pool_details:
+
+    - name: Create reserve an ip pool
+      cisco.dnac.network_settings_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: True
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: merged
+        config_verify: True
+        config:
+        - reserve_pool_details:
+          - site_name: string
+            name: string
+            pool_type: LAN
             ipv6_address_space: True
             ipv4_global_pool: string
             ipv4_prefix: True
             ipv4_prefix_length: 9
             ipv4_subnet: string
-            name: string
             ipv6_prefix: True
             ipv6_prefix_length: 64
             ipv6_global_pool: string
             ipv6_subnet: string
-            site_name: string
             slaac_support: True
+
+    - name: Create reserve an ip pool using global pool name
+      cisco.dnac.network_settings_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: True
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: merged
+        config_verify: True
+        config:
+        - reserve_pool_details:
+          - name: string
+            site_name: string
             pool_type: LAN
-          network_management_details:
+            ipv6_address_space: True
+            ipv4_global_pool_name: string
+            ipv4_prefix: True
+            ipv4_prefix_length: 9
+            ipv4_subnet: string
+            ipv6_prefix: True
+            ipv6_prefix_length: 64
+            ipv6_global_pool_name: string
+            ipv6_subnet: string
+            slaac_support: True
+
+    - name: Delete reserved pool
+      cisco.dnac.network_settings_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: True
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: deleted
+        config_verify: True
+        config:
+        - reserve_pool_details:
+          - site_name: string
+            name: string
+
+    - name: Manage the network functions
+      cisco.dnac.network_settings_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: True
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: merged
+        config_verify: True
+        config:
+        - network_management_details:
+            site_name: string
             settings:
+              network_aaa:
+                network: string
+                protocol: string
+                servers: string
+              client_and_endpoint_aaa:
+                network: string
+                protocol: string
+                servers: string
               dhcp_server: list
               dns_server:
                 domain_name: string
                 primary_ip_address: string
                 secondary_ip_address: string
-              client_and_endpoint_aaa:
-                network: string
-                protocol: string
-                servers: string
+              ntp_server: list
+              timezone: string
               message_of_the_day:
                 banner_message: string
                 retain_existing_banner: string
               netflow_collector:
                 ip_address: string
                 port: 443
-              network_aaa:
-                network: string
-                protocol: string
-                servers: string
-              ntp_server: list
               snmp_server:
                 configure_dnac_ip: True
                 ip_addresses: list
               syslog_server:
                 configure_dnac_ip: True
                 ip_addresses: list
-            site_name: string
 
 
 

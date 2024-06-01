@@ -42,7 +42,7 @@ cisco.dnac.eox_status_device_info module -- Information module for Eox Status De
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.13.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.14.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.dnac.eox_status_device_info module -- Information module for Eox Status De
 
 .. rst-class:: ansible-version-added
 
-New in cisco.dnac 6.7.0
+New in cisco.dnac 3.1.0
 
 .. contents::
    :local:
@@ -87,7 +87,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.5.5
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -410,7 +410,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.5.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
 
       .. raw:: html
 
@@ -502,7 +502,7 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are eo\_x.EoX.get\_eo\_x\_details\_per\_device, eo\_x.EoX.get\_eo\_x\_status\_for\_all\_devices,
+   - SDK Method used are eox.Eox.get\_eox\_details\_per\_device, eox.Eox.get\_eox\_status\_for\_all\_devices,
    - Paths used are get /dna/intent/api/v1/eox-status/device, get /dna/intent/api/v1/eox-status/device/{deviceId},
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
@@ -613,7 +613,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"alertCount": 0, "comments": [{}], "deviceId": "string", "eoxDetails": [{"bulletinHeadline": "string", "bulletinNumber": "string", "bulletinURL": "string", "endOfHardwareNewServiceAttachmentDate": 0, "endOfHardwareServiceContractRenewalDate": 0, "endOfLastHardwareShipDate": 0, "endOfLifeDate": 0, "endOfLifeExternalAnnouncementDate": 0, "endOfSaleDate": 0, "endOfSignatureReleasesDate": 0, "endOfSoftwareMaintenanceReleasesDate": 0, "endOfSoftwareVulnerabilityOrSecuritySupportDate": 0, "endOfSoftwareVulnerabilityOrSecuritySupportDateHw": 0, "eoxAlertType": "string", "lastDateOfSupport": 0, "name": "string"}], "lastScanTime": 0, "scanStatus": "string"}, "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"alertCount": 0, "comments": ["string"], "deviceId": "string", "eoxDetails": [{"bulletinHeadline": "string", "bulletinName": "string", "bulletinNumber": "string", "bulletinPID": "string", "bulletinURL": "string", "endOfHardwareNewServiceAttachmentDate": "string", "endOfHardwareServiceContractRenewalDate": "string", "endOfLastHardwareShipDate": "string", "endOfLifeDate": "string", "endOfLifeExternalAnnouncementDate": "string", "endOfSaleDate": "string", "endOfSignatureReleasesDate": "string", "endOfSoftwareMaintenanceReleasesDate": "string", "endOfSoftwareVulnerabilityOrSecuritySupportDate": "string", "endOfSoftwareVulnerabilityOrSecuritySupportDateHw": "string", "eoXPhysicalType": "string", "eoxAlertType": "string", "lastDateOfSupport": "string", "name": "string"}], "lastScanTime": 0, "scanStatus": "string"}, "version": "string"}`
 
 
       .. raw:: html

@@ -42,7 +42,7 @@ cisco.dnac.tag_member module -- Resource module for Tag Member
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.13.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.14.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -86,7 +86,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.5.5
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -375,7 +375,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.5.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
 
       .. raw:: html
 
@@ -452,21 +452,21 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-object"></div>
+        <div class="ansibleOptionAnchor" id="parameter-memberType"></div>
 
-      .. _ansible_collections.cisco.dnac.tag_member_module__parameter-object:
+      .. _ansible_collections.cisco.dnac.tag_member_module__parameter-membertype:
 
       .. rst-class:: ansible-option-title
 
-      **object**
+      **memberType**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-object" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-memberType" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
 
       .. raw:: html
 
@@ -476,7 +476,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Object.
+      Tag Member's memberType.
 
 
       .. raw:: html
@@ -606,7 +606,8 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: present
         id: string
-        object: string
+        memberType:
+        - string
         payload:
           networkinterface:
           - string
@@ -623,7 +624,6 @@ Examples
         state: absent
         id: string
         memberId: string
-        memberType: string
 
 
 

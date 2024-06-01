@@ -42,7 +42,7 @@ cisco.dnac.pnp_server_profile_update module -- Resource module for Pnp Server Pr
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.13.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.14.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -86,7 +86,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.5.5
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -108,40 +108,6 @@ Parameters
 
   * - Parameter
     - Comments
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-autoSyncPeriod"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_server_profile_update_module__parameter-autosyncperiod:
-
-      .. rst-class:: ansible-option-title
-
-      **autoSyncPeriod**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-autoSyncPeriod" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Pnp Server Profile Update's autoSyncPeriod.
-
-
-      .. raw:: html
-
-        </div>
 
   * - .. raw:: html
 
@@ -170,7 +136,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Pnp Server Profile Update's ccoUser.
+      Cco User.
 
 
       .. raw:: html
@@ -443,75 +409,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.5.3"`
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-expiry"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_server_profile_update_module__parameter-expiry:
-
-      .. rst-class:: ansible-option-title
-
-      **expiry**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-expiry" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Pnp Server Profile Update's expiry.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-lastSync"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_server_profile_update_module__parameter-lastsync:
-
-      .. rst-class:: ansible-option-title
-
-      **lastSync**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-lastSync" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Pnp Server Profile Update's lastSync.
-
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
 
       .. raw:: html
 
@@ -578,7 +476,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Pnp Server Profile Update's addressFqdn.
+      Address Fqdn.
 
 
       .. raw:: html
@@ -612,7 +510,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Pnp Server Profile Update's addressIpV4.
+      Address Ip V4.
 
 
       .. raw:: html
@@ -646,7 +544,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Pnp Server Profile Update's cert.
+      Cert.
 
 
       .. raw:: html
@@ -680,7 +578,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      MakeDefault flag.
+      Make Default.
 
 
       .. rst-class:: ansible-option-line
@@ -722,7 +620,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Pnp Server Profile Update's name.
+      Name.
 
 
       .. raw:: html
@@ -746,7 +644,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`integer`
+      :ansible-option-type:`float`
 
       .. raw:: html
 
@@ -756,7 +654,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Pnp Server Profile Update's port.
+      Port.
 
 
       .. raw:: html
@@ -790,7 +688,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Pnp Server Profile Update's profileId.
+      Profile Id.
 
 
       .. raw:: html
@@ -824,7 +722,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Proxy flag.
+      Proxy.
 
 
       .. rst-class:: ansible-option-line
@@ -867,349 +765,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Pnp Server Profile Update's smartAccountId.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-syncResult"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_server_profile_update_module__parameter-syncresult:
-
-      .. rst-class:: ansible-option-title
-
-      **syncResult**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-syncResult" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`dictionary`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Pnp Server Profile Update's syncResult.
-
-
-      .. raw:: html
-
-        </div>
-    
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-syncResult/syncList"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_server_profile_update_module__parameter-syncresult/synclist:
-
-      .. rst-class:: ansible-option-title
-
-      **syncList**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-syncResult/syncList" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Server Profile Update's syncList.
-
-
-      .. raw:: html
-
-        </div>
-    
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-syncResult/syncList/deviceSnList"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_server_profile_update_module__parameter-syncresult/synclist/devicesnlist:
-
-      .. rst-class:: ansible-option-title
-
-      **deviceSnList**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-syncResult/syncList/deviceSnList" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Server Profile Update's deviceSnList.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-syncResult/syncList/syncType"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_server_profile_update_module__parameter-syncresult/synclist/synctype:
-
-      .. rst-class:: ansible-option-title
-
-      **syncType**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-syncResult/syncList/syncType" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Server Profile Update's syncType.
-
-
-      .. raw:: html
-
-        </div>
-
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-syncResult/syncMsg"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_server_profile_update_module__parameter-syncresult/syncmsg:
-
-      .. rst-class:: ansible-option-title
-
-      **syncMsg**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-syncResult/syncMsg" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Server Profile Update's syncMsg.
-
-
-      .. raw:: html
-
-        </div>
-
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-syncResultStr"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_server_profile_update_module__parameter-syncresultstr:
-
-      .. rst-class:: ansible-option-title
-
-      **syncResultStr**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-syncResultStr" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Pnp Server Profile Update's syncResultStr.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-syncStartTime"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_server_profile_update_module__parameter-syncstarttime:
-
-      .. rst-class:: ansible-option-title
-
-      **syncStartTime**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-syncStartTime" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Pnp Server Profile Update's syncStartTime.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-syncStatus"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_server_profile_update_module__parameter-syncstatus:
-
-      .. rst-class:: ansible-option-title
-
-      **syncStatus**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-syncStatus" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Pnp Server Profile Update's syncStatus.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-tenantId"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_server_profile_update_module__parameter-tenantid:
-
-      .. rst-class:: ansible-option-title
-
-      **tenantId**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-tenantId" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Pnp Server Profile Update's tenantId.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-token"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_server_profile_update_module__parameter-token:
-
-      .. rst-class:: ansible-option-title
-
-      **token**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-token" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Pnp Server Profile Update's token.
+      Smart Account Id.
 
 
       .. raw:: html
@@ -1285,7 +841,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Pnp Server Profile Update's virtualAccountId.
+      Virtual Account Id.
 
 
       .. raw:: html
@@ -1335,10 +891,7 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        autoSyncPeriod: 0
         ccoUser: string
-        expiry: 0
-        lastSync: 0
         profile:
           addressFqdn: string
           addressIpV4: string
@@ -1349,17 +902,6 @@ Examples
           profileId: string
           proxy: true
         smartAccountId: string
-        syncResult:
-          syncList:
-          - deviceSnList:
-            - string
-            syncType: string
-          syncMsg: string
-        syncResultStr: string
-        syncStartTime: 0
-        syncStatus: string
-        tenantId: string
-        token: string
         virtualAccountId: string
 
 
