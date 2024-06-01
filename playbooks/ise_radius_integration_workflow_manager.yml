@@ -86,7 +86,6 @@
               password: abcd
               fqdn: abc.cisco.com
               ip_address: 10.195.243.59
-              subscriber_name: abcde
               description: CISCO ISE
             trusted_server: True
 
