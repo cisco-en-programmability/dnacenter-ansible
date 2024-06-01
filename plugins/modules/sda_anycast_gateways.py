@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: sda_any_cast_gateways
+module: sda_anycast_gateways
 short_description: Resource module for Sda Anycastgateways
 description:
 - Manage operations create, update and delete of the resource Sda Anycastgateways.
@@ -117,7 +117,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Update all
-  cisco.dnac.sda_any_cast_gateways:
+  cisco.dnac.sda_anycast_gateways:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

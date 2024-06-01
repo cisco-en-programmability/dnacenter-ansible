@@ -44,6 +44,7 @@ required_one_of = []
 mutually_exclusive = []
 required_together = []
 
+
 class SdaFabricDevicesLayer2Handoffs(object):
     def __init__(self, params, dnac):
         self.dnac = dnac

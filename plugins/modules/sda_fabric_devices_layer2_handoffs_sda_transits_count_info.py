@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: sda_fabric_devices_layer2_handoffs__sda_transits_count_info
+module: sda_fabric_devices_layer2_handoffs_sda_transits_count_info
 short_description: Information module for Sda Fabricdevices Layer2handoffs Sdatransits Count
 description:
 - Get all Sda Fabricdevices Layer2handoffs Sdatransits Count.
@@ -45,7 +45,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Get all Sda Fabricdevices Layer2handoffs Sdatransits Count
-  cisco.dnac.sda_fabric_devices_layer2_handoffs__sda_transits_count_info:
+  cisco.dnac.sda_fabric_devices_layer2_handoffs_sda_transits_count_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
