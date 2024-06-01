@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: sda_fabricZones_count_info
+module: sda_fabric_zones_count_info
 short_description: Information module for Sda Fabriczones Count
 description:
 - Get all Sda Fabriczones Count.
@@ -37,7 +37,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Get all Sda Fabriczones Count
-  cisco.dnac.sda_fabricZones_count_info:
+  cisco.dnac.sda_fabric_zones_count_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: lan_automation_updateDevice
+module: lan_automation_update_device
 short_description: Resource module for Lan Automation Updatedevice
 description:
 - Manage operation update of the resource Lan Automation Updatedevice.

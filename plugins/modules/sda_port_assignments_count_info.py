@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: sda_portAssignments_count_info
+module: sda_port_assignments_count_info
 short_description: Information module for Sda Portassignments Count
 description:
 - Get all Sda Portassignments Count.
@@ -57,7 +57,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Get all Sda Portassignments Count
-  cisco.dnac.sda_portAssignments_count_info:
+  cisco.dnac.sda_port_assignments_count_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

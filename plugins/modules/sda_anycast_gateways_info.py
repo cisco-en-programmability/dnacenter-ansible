@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: sda_anycastGateways_info
+module: sda_anycast_gateways_info
 short_description: Information module for Sda Anycastgateways
 description:
 - Get all Sda Anycastgateways.
@@ -69,7 +69,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Get all Sda Anycastgateways
-  cisco.dnac.sda_anycastGateways_info:
+  cisco.dnac.sda_anycast_gateways_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

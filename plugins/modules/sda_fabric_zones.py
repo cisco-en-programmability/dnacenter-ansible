@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: sda_fabricZones
+module: sda_fabric_zones
 short_description: Resource module for Sda Fabriczones
 description:
 - Manage operations create, update and delete of the resource Sda Fabriczones.
@@ -63,7 +63,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Update all
-  cisco.dnac.sda_fabricZones:
+  cisco.dnac.sda_fabric_zones:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -78,7 +78,7 @@ EXAMPLES = r"""
       siteId: string
 
 - name: Create
-  cisco.dnac.sda_fabricZones:
+  cisco.dnac.sda_fabric_zones:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -92,7 +92,7 @@ EXAMPLES = r"""
       siteId: string
 
 - name: Delete by id
-  cisco.dnac.sda_fabricZones:
+  cisco.dnac.sda_fabric_zones:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

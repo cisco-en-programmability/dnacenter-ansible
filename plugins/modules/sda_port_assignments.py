@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: sda_portAssignments
+module: sda_port_assignments
 short_description: Resource module for Sda Portassignments
 description:
 - Manage operations create, update and delete of the resource Sda Portassignments.
@@ -101,7 +101,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Create
-  cisco.dnac.sda_portAssignments:
+  cisco.dnac.sda_port_assignments:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -122,7 +122,7 @@ EXAMPLES = r"""
       voiceVlanName: string
 
 - name: Update all
-  cisco.dnac.sda_portAssignments:
+  cisco.dnac.sda_port_assignments:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -144,7 +144,7 @@ EXAMPLES = r"""
       voiceVlanName: string
 
 - name: Delete all
-  cisco.dnac.sda_portAssignments:
+  cisco.dnac.sda_port_assignments:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -160,7 +160,7 @@ EXAMPLES = r"""
     voiceVlanName: string
 
 - name: Delete by id
-  cisco.dnac.sda_portAssignments:
+  cisco.dnac.sda_port_assignments:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

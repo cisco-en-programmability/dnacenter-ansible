@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: sda_extranetPolicies
+module: sda_extranet_policies
 short_description: Resource module for Sda Extranetpolicies
 description:
 - Manage operations create, update and delete of the resource Sda Extranetpolicies.
@@ -75,7 +75,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Update all
-  cisco.dnac.sda_extranetPolicies:
+  cisco.dnac.sda_extranet_policies:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -94,7 +94,7 @@ EXAMPLES = r"""
       - string
 
 - name: Create
-  cisco.dnac.sda_extranetPolicies:
+  cisco.dnac.sda_extranet_policies:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -112,7 +112,7 @@ EXAMPLES = r"""
       - string
 
 - name: Delete by id
-  cisco.dnac.sda_extranetPolicies:
+  cisco.dnac.sda_extranet_policies:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

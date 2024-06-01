@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: sda_authenticationProfiles_info
+module: sda_authentication_profiles_info
 short_description: Information module for Sda Authenticationprofiles
 description:
 - Get all Sda Authenticationprofiles.
@@ -47,7 +47,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Get all Sda Authenticationprofiles
-  cisco.dnac.sda_authenticationProfiles_info:
+  cisco.dnac.sda_authentication_profiles_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

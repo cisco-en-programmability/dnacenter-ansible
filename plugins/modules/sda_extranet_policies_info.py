@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: sda_extranetPolicies_info
+module: sda_extranet_policies_info
 short_description: Information module for Sda Extranetpolicies
 description:
 - Get all Sda Extranetpolicies.
@@ -49,7 +49,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Get all Sda Extranetpolicies
-  cisco.dnac.sda_extranetPolicies_info:
+  cisco.dnac.sda_extranet_policies_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

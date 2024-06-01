@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: sda_provisionDevices_count_info
+module: sda_provision_devices_count_info
 short_description: Information module for Sda Provisiondevices Count
 description:
 - Get all Sda Provisiondevices Count.
@@ -41,7 +41,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Get all Sda Provisiondevices Count
-  cisco.dnac.sda_provisionDevices_count_info:
+  cisco.dnac.sda_provision_devices_count_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

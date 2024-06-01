@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: sda_fabricZones_info
+module: sda_fabric_zones_info
 short_description: Information module for Sda Fabriczones
 description:
 - Get all Sda Fabriczones.
@@ -53,7 +53,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Get all Sda Fabriczones
-  cisco.dnac.sda_fabricZones_info:
+  cisco.dnac.sda_fabric_zones_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

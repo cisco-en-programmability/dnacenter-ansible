@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: sda_authenticationProfiles
+module: sda_authentication_profiles
 short_description: Resource module for Sda Authenticationprofiles
 description:
 - Manage operation update of the resource Sda Authenticationprofiles.
@@ -61,7 +61,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Update all
-  cisco.dnac.sda_authenticationProfiles:
+  cisco.dnac.sda_authentication_profiles:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

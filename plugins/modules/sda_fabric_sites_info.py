@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: sda_fabricSites_info
+module: sda_fabric_sites_info
 short_description: Information module for Sda Fabricsites
 description:
 - Get all Sda Fabricsites.
@@ -53,7 +53,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Get all Sda Fabricsites
-  cisco.dnac.sda_fabricSites_info:
+  cisco.dnac.sda_fabric_sites_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

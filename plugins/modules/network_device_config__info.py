@@ -7,9 +7,9 @@
 DOCUMENTATION = r"""
 ---
 module: network_device_config__info
-short_description: Information module for Network Device Config 
+short_description: Information module for Network Device Config
 description:
-- Get all Network Device Config .
+- Get all Network Device Config.
 - >
    Returns the historical device configurations running configuration , startup configuration , vlan if applicable by
    specified criteria.
@@ -67,7 +67,7 @@ notes:
 """
 
 EXAMPLES = r"""
-- name: Get all Network Device Config 
+- name: Get all Network Device Config
   cisco.dnac.network_device_config__info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

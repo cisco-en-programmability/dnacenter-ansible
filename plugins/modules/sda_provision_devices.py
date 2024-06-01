@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: sda_provisionDevices
+module: sda_provision_devices
 short_description: Resource module for Sda Provisiondevices
 description:
 - Manage operations create, update and delete of the resource Sda Provisiondevices.
@@ -71,7 +71,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Delete all
-  cisco.dnac.sda_provisionDevices:
+  cisco.dnac.sda_provision_devices:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -84,7 +84,7 @@ EXAMPLES = r"""
     siteId: string
 
 - name: Create
-  cisco.dnac.sda_provisionDevices:
+  cisco.dnac.sda_provision_devices:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -98,7 +98,7 @@ EXAMPLES = r"""
       siteId: string
 
 - name: Update all
-  cisco.dnac.sda_provisionDevices:
+  cisco.dnac.sda_provision_devices:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -113,7 +113,7 @@ EXAMPLES = r"""
       siteId: string
 
 - name: Delete by id
-  cisco.dnac.sda_provisionDevices:
+  cisco.dnac.sda_provision_devices:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

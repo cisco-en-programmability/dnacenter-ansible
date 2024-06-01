@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: sda_fabricDevices_layer2Handoffs_sdaTransits
+module: sda_fabric_devices_layer2_handoffs__sda_transits
 short_description: Resource module for Sda Fabricdevices Layer2handoffs Sdatransits
 description:
 - Manage operations create, update and delete of the resource Sda Fabricdevices Layer2handoffs Sdatransits.
@@ -90,7 +90,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Update all
-  cisco.dnac.sda_fabricDevices_layer2Handoffs_sdaTransits:
+  cisco.dnac.sda_fabric_devices_layer2_handoffs__sda_transits:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -109,7 +109,7 @@ EXAMPLES = r"""
       transitNetworkId: string
 
 - name: Delete all
-  cisco.dnac.sda_fabricDevices_layer2Handoffs_sdaTransits:
+  cisco.dnac.sda_fabric_devices_layer2_handoffs__sda_transits:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -122,7 +122,7 @@ EXAMPLES = r"""
     networkDeviceId: string
 
 - name: Create
-  cisco.dnac.sda_fabricDevices_layer2Handoffs_sdaTransits:
+  cisco.dnac.sda_fabric_devices_layer2_handoffs__sda_transits:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
