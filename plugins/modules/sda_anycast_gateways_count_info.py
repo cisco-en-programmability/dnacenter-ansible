@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: sda_anycastGateways_count_info
+module: sda_anycast_gateways_count_info
 short_description: Information module for Sda Anycastgateways Count
 description:
 - Get all Sda Anycastgateways Count.
@@ -57,7 +57,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Get all Sda Anycastgateways Count
-  cisco.dnac.sda_anycastGateways_count_info:
+  cisco.dnac.sda_anycast_gateways_count_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

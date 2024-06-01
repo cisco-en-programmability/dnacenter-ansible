@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: sda_fabricSites
+module: sda_fabric_sites
 short_description: Resource module for Sda Fabricsites
 description:
 - Manage operations create, update and delete of the resource Sda Fabricsites.
@@ -64,7 +64,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Create
-  cisco.dnac.sda_fabricSites:
+  cisco.dnac.sda_fabric_sites:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -79,7 +79,7 @@ EXAMPLES = r"""
       siteId: string
 
 - name: Update all
-  cisco.dnac.sda_fabricSites:
+  cisco.dnac.sda_fabric_sites:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -95,7 +95,7 @@ EXAMPLES = r"""
       siteId: string
 
 - name: Delete by id
-  cisco.dnac.sda_fabricSites:
+  cisco.dnac.sda_fabric_sites:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

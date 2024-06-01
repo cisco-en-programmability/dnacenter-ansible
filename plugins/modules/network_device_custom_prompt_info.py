@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: network_device_custom_prompt_info_info
+module: network_device_custom_prompt_info
 short_description: Information module for Network Device Custom Prompt Info
 description:
 - Get all Network Device Custom Prompt Info.
@@ -37,7 +37,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Get all Network Device Custom Prompt Info
-  cisco.dnac.network_device_custom_prompt_info_info:
+  cisco.dnac.network_device_custom_prompt_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

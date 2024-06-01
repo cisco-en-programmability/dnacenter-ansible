@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: sda_fabricDevices_layer2Handoffs_ipTransits
+module: sda_fabric_devices_layer2_handoffs_ip_transits
 short_description: Resource module for Sda Fabricdevices Layer2handoffs Iptransits
 description:
 - Manage operations create, update and delete of the resource Sda Fabricdevices Layer2handoffs Iptransits.
@@ -119,7 +119,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Create
-  cisco.dnac.sda_fabricDevices_layer2Handoffs_ipTransits:
+  cisco.dnac.sda_fabric_devices_layer2_handoffs_ip_transits:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -143,7 +143,7 @@ EXAMPLES = r"""
       vlanId: 0
 
 - name: Update all
-  cisco.dnac.sda_fabricDevices_layer2Handoffs_ipTransits:
+  cisco.dnac.sda_fabric_devices_layer2_handoffs_ip_transits:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -168,7 +168,7 @@ EXAMPLES = r"""
       vlanId: 0
 
 - name: Delete all
-  cisco.dnac.sda_fabricDevices_layer2Handoffs_ipTransits:
+  cisco.dnac.sda_fabric_devices_layer2_handoffs_ip_transits:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -181,7 +181,7 @@ EXAMPLES = r"""
     networkDeviceId: string
 
 - name: Delete by id
-  cisco.dnac.sda_fabricDevices_layer2Handoffs_ipTransits:
+  cisco.dnac.sda_fabric_devices_layer2_handoffs_ip_transits:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: sda_fabricDevices_layer2Handoffs_info
+module: sda_fabric_devices_layer2_handoffs_info
 short_description: Information module for Sda Fabricdevices Layer2handoffs
 description:
 - Get all Sda Fabricdevices Layer2handoffs.
@@ -53,7 +53,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Get all Sda Fabricdevices Layer2handoffs
-  cisco.dnac.sda_fabricDevices_layer2Handoffs_info:
+  cisco.dnac.sda_fabric_devices_layer2_handoffs_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: sda_fabricDevices_count_info
+module: sda_fabric_devices_count_info
 short_description: Information module for Sda Fabricdevices Count
 description:
 - Get all Sda Fabricdevices Count.
@@ -49,7 +49,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Get all Sda Fabricdevices Count
-  cisco.dnac.sda_fabricDevices_count_info:
+  cisco.dnac.sda_fabric_devices_count_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
