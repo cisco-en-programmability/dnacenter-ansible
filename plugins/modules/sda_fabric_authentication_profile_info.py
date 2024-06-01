@@ -29,8 +29,8 @@ options:
     - AuthenticateTemplateName query parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for SDA GetDefaultAuthenticationProfileFromSDAFabric
   description: Complete reference of the GetDefaultAuthenticationProfileFromSDAFabric API.
@@ -60,24 +60,21 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
-  type: list
-  elements: dict
+  type: dict
   sample: >
-    [
-      {
-        "siteNameHierarchy": "string",
-        "authenticateTemplateName": "string",
-        "authenticationOrder": "string",
-        "dot1xToMabFallbackTimeout": "string",
-        "wakeOnLan": true,
-        "numberOfHosts": "string",
-        "status": "string",
-        "description": "string"
-      }
-    ]
+    {
+      "siteNameHierarchy": "string",
+      "authenticateTemplateName": "string",
+      "authenticationOrder": "string",
+      "dot1xToMabFallbackTimeout": "string",
+      "wakeOnLan": true,
+      "numberOfHosts": "string",
+      "status": "string",
+      "description": "string",
+      "executionId": "string"
+    }
 """

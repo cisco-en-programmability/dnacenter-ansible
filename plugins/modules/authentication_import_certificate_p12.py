@@ -30,8 +30,8 @@ options:
     description: PkPassword query parameter. Private Key Passsword.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Authentication Management ImportCertificateP12
   description: Complete reference of the ImportCertificateP12 API.
@@ -61,7 +61,6 @@ EXAMPLES = r"""
     pkPassword: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

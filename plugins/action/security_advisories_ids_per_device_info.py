@@ -83,7 +83,7 @@ class ActionModule(ActionBase):
         if id:
             response = dnac.exec(
                 family="security_advisories",
-                function='get_advisory_ids_per_device',
+                function='get_advisory_device_detail',
                 params=self.get_object(self._task.args),
             )
             self._result.update(dict(dnac_response=response))

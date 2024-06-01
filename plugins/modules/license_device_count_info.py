@@ -40,15 +40,15 @@ options:
     - Smart_account_id query parameter. Smart account id.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Licenses DeviceCountDetails2
-  description: Complete reference of the DeviceCountDetails2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!device-count-details-2
+- name: Cisco DNA Center documentation for Licenses DeviceCountDetails
+  description: Complete reference of the DeviceCountDetails API.
+  link: https://developer.cisco.com/docs/dna-center/#!device-count-details
 notes:
   - SDK Method used are
-    licenses.Licenses.device_count_details2,
+    licenses.Licenses.device_count_details,
 
   - Paths used are
     get /dna/intent/api/v1/licenses/device/count,
@@ -74,7 +74,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

@@ -89,8 +89,8 @@ options:
     - Limit query parameter. Limits number of results.
     type: int
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Configuration Templates GetTemplatesDetails
   description: Complete reference of the GetTemplatesDetails API.
@@ -135,7 +135,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

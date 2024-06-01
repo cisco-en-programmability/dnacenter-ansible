@@ -24,8 +24,8 @@ options:
     - IpAddress path parameter. Device IP address.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Devices GetNetworkDeviceByIP
   description: Complete reference of the GetNetworkDeviceByIP API.
@@ -54,7 +54,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
@@ -101,7 +100,19 @@ dnac_response:
         "tunnelUdpPort": "string",
         "type": "string",
         "upTime": "string",
-        "waasDeviceMode": "string"
+        "waasDeviceMode": "string",
+        "dnsResolvedManagementAddress": "string",
+        "apEthernetMacAddress": "string",
+        "vendor": "string",
+        "reasonsForPendingSyncRequests": "string",
+        "pendingSyncRequestsCount": "string",
+        "reasonsForDeviceResync": "string",
+        "lastDeviceResyncStartTime": "string",
+        "uptimeSeconds": 0,
+        "managedAtleastOnce": true,
+        "deviceSupportLevel": "string",
+        "managementState": "string",
+        "description": "string"
       },
       "version": "string"
     }

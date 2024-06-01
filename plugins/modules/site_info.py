@@ -10,7 +10,7 @@ module: site_info
 short_description: Information module for Site
 description:
 - Get all Site.
-- Get site using siteNameHierarchy/siteId/type ,return all sites if these parameters are not given as input.
+- Get sites by site-name-hierarchy or siteId or type. List all sites if these parameters are not given as an input.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,27 +21,27 @@ options:
     type: dict
   name:
     description:
-    - Name query parameter. SiteNameHierarchy (ex global/groupName).
+    - Name query parameter. Site name hierarchy (E.g Global/USA/CA).
     type: str
   siteId:
     description:
-    - SiteId query parameter. Site id to which site details to retrieve.
+    - SiteId query parameter. Site Id.
     type: str
   type:
     description:
-    - Type query parameter. Type (ex area, building, floor).
+    - Type query parameter. Site type (Ex area, building, floor).
     type: str
   offset:
     description:
-    - Offset query parameter. Offset/starting row. The default value is 1.
+    - Offset query parameter. Offset/starting index for pagination. Indexed from 1.
     type: int
   limit:
     description:
-    - Limit query parameter. Number of sites to be retrieved. The default value is 500.
+    - Limit query parameter. Number of sites to be listed.
     type: int
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Sites GetSite
   description: Complete reference of the GetSite API.
@@ -74,7 +74,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

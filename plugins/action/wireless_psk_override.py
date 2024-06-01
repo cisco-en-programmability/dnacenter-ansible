@@ -25,7 +25,10 @@ from ansible_collections.cisco.dnac.plugins.plugin_utils.dnac import (
 argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
-    payload=dict(type="list"),
+    ssidName=dict(type="str"),
+    site=dict(type="str"),
+    passPhrase=dict(type="str"),
+    wlanProfileName=dict(type="str"),
 ))
 
 required_if = []
@@ -63,7 +66,10 @@ class ActionModule(ActionBase):
 
     def get_object(self, params):
         new_object = dict(
-            payload=params.get("payload"),
+            ssidName=params.get("ssidName"),
+            site=params.get("site"),
+            passPhrase=params.get("passPhrase"),
+            wlanProfileName=params.get("wlanProfileName"),
         )
         return new_object
 

@@ -34,15 +34,15 @@ options:
     - Device_type query parameter. Type of device like router, switch, wireless or ise.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Licenses LicenseUsageDetails2
-  description: Complete reference of the LicenseUsageDetails2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!license-usage-details-2
+- name: Cisco DNA Center documentation for Licenses LicenseUsageDetails
+  description: Complete reference of the LicenseUsageDetails API.
+  link: https://developer.cisco.com/docs/dna-center/#!license-usage-details
 notes:
   - SDK Method used are
-    licenses.Licenses.license_usage_details2,
+    licenses.Licenses.license_usage_details,
 
   - Paths used are
     get /dna/intent/api/v1/licenses/usage/smartAccount/{smart_account_id}/virtualAccount/{virtual_account_name},
@@ -66,7 +66,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
@@ -102,6 +101,24 @@ dnac_response:
         ]
       },
       "used_network_license": {
+        "total_license_count": 0,
+        "license_count_by_type": [
+          {
+            "license_type": "string",
+            "license_count": 0
+          }
+        ]
+      },
+      "purchased_ise_license": {
+        "total_license_count": 0,
+        "license_count_by_type": [
+          {
+            "license_type": "string",
+            "license_count": 0
+          }
+        ]
+      },
+      "used_ise_license": {
         "total_license_count": 0,
         "license_count_by_type": [
           {
