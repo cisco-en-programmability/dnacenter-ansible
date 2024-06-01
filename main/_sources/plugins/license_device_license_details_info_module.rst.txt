@@ -42,7 +42,7 @@ cisco.dnac.license_device_license_details_info module -- Information module for 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.13.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.14.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -85,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.5.5
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -408,7 +408,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.5.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
 
       .. raw:: html
 
@@ -500,7 +500,7 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are licenses.Licenses.device\_license\_details2,
+   - SDK Method used are licenses.Licenses.device\_license\_details,
    - Paths used are get /dna/intent/api/v1/licenses/device/{device\_uuid}/details,
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
@@ -513,8 +513,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Licenses DeviceLicenseDetails2 <https://developer.cisco.com/docs/dna-center/#!device-license-details-2>`_
-       Complete reference of the DeviceLicenseDetails2 API.
+   `Cisco DNA Center documentation for Licenses DeviceLicenseDetails <https://developer.cisco.com/docs/dna-center/#!device-license-details>`_
+       Complete reference of the DeviceLicenseDetails API.
 
 .. Examples
 
@@ -577,7 +577,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+      :ansible-option-type:`dictionary`
 
       .. raw:: html
 
@@ -597,7 +597,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"[\\n  {\\n    \\"device\_uuid\\": \\"string\\",\\n    \\"site\\": \\"string\\",\\n    \\"model\\": \\"string\\",\\n    \\"license\_mode\\": \\"string\\",\\n    \\"is\_license\_expired\\": true,\\n    \\"software\_version\\": \\"string\\",\\n    \\"network\_license\\": \\"string\\",\\n    \\"evaluation\_license\_expiry\\": \\"string\\",\\n    \\"device\_name\\": \\"string\\",\\n    \\"device\_type\\": \\"string\\",\\n    \\"dna\_level\\": \\"string\\",\\n    \\"virtual\_account\_name\\": \\"string\\",\\n    \\"ip\_address\\": \\"string\\",\\n    \\"mac\_address\\": \\"string\\",\\n    \\"sntc\_status\\": \\"string\\",\\n    \\"feature\_license\\": [\\n      \\"string\\"\\n    ],\\n    \\"has\_sup\_cards\\": true,\\n    \\"udi\\": \\"string\\",\\n    \\"stacked\_devices\\": [\\n      {\\n        \\"mac\_address\\": \\"string\\",\\n        \\"id\\": \\"string\\",\\n        \\"role\\": \\"string\\",\\n        \\"serial\_number\\": \\"string\\"\\n      }\\n    ],\\n    \\"is\_stacked\_device\\": true,\\n    \\"access\_points\\": [\\n      {\\n        \\"ap\_type\\": \\"string\\",\\n        \\"count\\": \\"string\\"\\n      }\\n    ],\\n    \\"chassis\_details\\": {\\n      \\"board\_serial\_number\\": \\"string\\",\\n      \\"modules\\": [\\n        {\\n          \\"module\_type\\": \\"string\\",\\n          \\"module\_name\\": \\"string\\",\\n          \\"serial\_number\\": \\"string\\",\\n          \\"id\\": \\"string\\"\\n        }\\n      ],\\n      \\"supervisor\_cards\\": [\\n        {\\n          \\"serial\_number\\": \\"string\\",\\n          \\"supervisor\_card\_type\\": \\"string\\",\\n          \\"status\\": \\"string\\"\\n        }\\n      ],\\n      \\"port\\": 0\\n    }\\n  }\\n]\\n"`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"access\_points": [{"ap\_type": "string", "count": "string"}], "chassis\_details": {"board\_serial\_number": "string", "modules": [{"id": 0, "module\_name": "string", "module\_type": "string", "serial\_number": "string"}], "port": 0, "supervisor\_cards": [{"serial\_number": "string", "status": "string", "supervisor\_card\_type": "string"}]}, "device\_name": "string", "device\_type": "string", "device\_uuid": "string", "dna\_level": "string", "evaluation\_license\_expiry": "string", "feature\_license": ["string"], "has\_sup\_cards": true, "ip\_address": "string", "is\_license\_expired": true, "is\_stacked\_device": true, "license\_mode": "string", "mac\_address": "string", "model": "string", "network\_license": "string", "site": "string", "sntc\_status": "string", "software\_version": "string", "stacked\_devices": [{"id": 0, "mac\_address": "string", "role": "string", "serial\_number": "string"}], "udi": "string", "virtual\_account\_name": "string"}`
 
 
       .. raw:: html

@@ -42,7 +42,7 @@ cisco.dnac.discovery module -- Resource module for Discovery
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.13.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.14.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -89,7 +89,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.5.5
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -139,7 +139,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Discovery's attributeInfo.
+      Deprecated.
 
 
       .. raw:: html
@@ -173,7 +173,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Discovery's cdpLevel.
+      CDP level to which neighbor devices to be discovered.
 
 
       .. raw:: html
@@ -207,7 +207,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Discovery's deviceIds.
+      Ids of the devices discovered in a discovery.
 
 
       .. raw:: html
@@ -241,7 +241,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Discovery's discoveryCondition.
+      To indicate the discovery status. Available options Complete or In Progress.
 
 
       .. raw:: html
@@ -275,7 +275,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Discovery's discoveryStatus.
+      Status of the discovery. Available options are active, inactive, edit.
 
 
       .. raw:: html
@@ -309,7 +309,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Discovery's discoveryType.
+      Type of the discovery. 'SINGLE', 'RANGE', 'MULTI RANGE', 'CDP', 'LLDP', 'CIDR'.
 
 
       .. raw:: html
@@ -582,7 +582,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.5.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
 
       .. raw:: html
 
@@ -615,7 +615,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Discovery's enablePasswordList.
+      Enable Password of the devices to be discovered.
 
 
       .. raw:: html
@@ -649,7 +649,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Discovery's globalCredentialIdList.
+      List of global credential ids to be used.
 
 
       .. raw:: html
@@ -717,7 +717,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Discovery's comments.
+      Comments to identify the credential.
 
 
       .. raw:: html
@@ -751,7 +751,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Discovery's credentialType.
+      Credential type to identify the application that uses the credential.
 
 
       .. raw:: html
@@ -785,7 +785,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Discovery's description.
+      Description of the credential.
 
 
       .. raw:: html
@@ -819,7 +819,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Discovery's id.
+      Credential Id.
 
 
       .. raw:: html
@@ -853,7 +853,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Discovery's instanceTenantId.
+      Credential Tenant Id.
 
 
       .. raw:: html
@@ -887,7 +887,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Discovery's instanceUuid.
+      Credential Id.
 
 
       .. raw:: html
@@ -921,7 +921,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Discovery's password.
+      HTTP(S) password.
 
 
       .. raw:: html
@@ -955,7 +955,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Discovery's port.
+      HTTP(S) port.
 
 
       .. raw:: html
@@ -989,7 +989,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Secure flag.
+      Flag for HTTPS.
 
 
       .. rst-class:: ansible-option-line
@@ -1031,7 +1031,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Discovery's username.
+      HTTP(S) username.
 
 
       .. raw:: html
@@ -1100,7 +1100,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Discovery's comments.
+      Comments to identify the credential.
 
 
       .. raw:: html
@@ -1134,7 +1134,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Discovery's credentialType.
+      Credential type to identify the application that uses the credential.
 
 
       .. raw:: html
@@ -1168,7 +1168,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Discovery's description.
+      Description of the credential.
 
 
       .. raw:: html
@@ -1202,7 +1202,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Discovery's id.
+      Credential Id.
 
 
       .. raw:: html
@@ -1236,7 +1236,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Discovery's instanceTenantId.
+      Credential Tenant Id.
 
 
       .. raw:: html
@@ -1270,7 +1270,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Discovery's instanceUuid.
+      Credential Id.
 
 
       .. raw:: html
@@ -1304,7 +1304,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Discovery's password.
+      HTTP(S) password.
 
 
       .. raw:: html
@@ -1338,7 +1338,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Discovery's port.
+      HTTP(S) port.
 
 
       .. raw:: html
@@ -1372,7 +1372,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Secure flag.
+      Flag for HTTPS.
 
 
       .. rst-class:: ansible-option-line
@@ -1414,7 +1414,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Discovery's username.
+      HTTP(S) username.
 
 
       .. raw:: html
@@ -1449,7 +1449,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Discovery's id.
+      Unique Discovery Id.
 
 
       .. raw:: html
@@ -1483,7 +1483,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Discovery's ipAddressList.
+      List of IP address of the devices to be discovered.
 
 
       .. raw:: html
@@ -1517,7 +1517,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Discovery's ipFilterList.
+      IP addresses of the devices to be filtered.
 
 
       .. raw:: html
@@ -1551,7 +1551,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      IsAutoCdp flag.
+      Flag to mention if CDP discovery or not.
 
 
       .. rst-class:: ansible-option-line
@@ -1593,7 +1593,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Discovery's lldpLevel.
+      LLDP level to which neighbor devices to be discovered.
 
 
       .. raw:: html
@@ -1627,7 +1627,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Discovery's name.
+      Name for the discovery.
 
 
       .. raw:: html
@@ -1661,7 +1661,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Discovery's netconfPort.
+      Netconf port on the device. Netconf will need valid sshv2 credentials for it to work.
 
 
       .. raw:: html
@@ -1695,7 +1695,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Discovery's numDevices.
+      Number of devices discovered in the discovery.
 
 
       .. raw:: html
@@ -1729,7 +1729,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Discovery's parentDiscoveryId.
+      Parent Discovery Id from which the discovery was initiated.
 
 
       .. raw:: html
@@ -1763,7 +1763,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Discovery's passwordList.
+      Password of the devices to be discovered.
 
 
       .. raw:: html
@@ -1797,7 +1797,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Discovery's preferredMgmtIPMethod.
+      Preferred management IP method. Available options are 'None' and 'UseLoopBack'.
 
 
       .. raw:: html
@@ -1831,7 +1831,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Discovery's protocolOrder.
+      Order of protocol (ssh/telnet) in which device connection will be tried. Ex 'telnet' only telnet; 'ssh,telnet' ssh with higher order than telnet.
 
 
       .. raw:: html
@@ -1899,7 +1899,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Discovery's retryCount.
+      Number of times to try establishing connection to device.
 
 
       .. raw:: html
@@ -1933,7 +1933,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Discovery's snmpAuthPassphrase.
+      Auth passphrase for SNMP.
 
 
       .. raw:: html
@@ -1967,7 +1967,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Discovery's snmpAuthProtocol.
+      SNMP auth protocol. SHA' or 'MD5'.
 
 
       .. raw:: html
@@ -2001,7 +2001,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Discovery's snmpMode.
+      Mode of SNMP. 'AUTHPRIV' or 'AUTHNOPRIV' or 'NOAUTHNOPRIV'.
 
 
       .. raw:: html
@@ -2035,7 +2035,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Discovery's snmpPrivPassphrase.
+      Passphrase for SNMP privacy.
 
 
       .. raw:: html
@@ -2069,7 +2069,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Discovery's snmpPrivProtocol.
+      SNMP privacy protocol. 'AES128'.
 
 
       .. raw:: html
@@ -2103,7 +2103,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Snmp RO community of the devices to be discovered.
+      SNMP RO community of the devices to be discovered.
 
 
       .. raw:: html
@@ -2137,7 +2137,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Discovery's snmpRoCommunity.
+      SNMP RO community of the devices to be discovered.
 
 
       .. raw:: html
@@ -2171,7 +2171,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Description for Snmp RO community.
+      Description for SNMP RO community.
 
 
       .. raw:: html
@@ -2205,7 +2205,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Discovery's snmpRoCommunityDesc.
+      Description for SNMP RO community.
 
 
       .. raw:: html
@@ -2239,7 +2239,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Snmp RW community of the devices to be discovered.
+      SNMP RW community of the devices to be discovered.
 
 
       .. raw:: html
@@ -2273,7 +2273,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Discovery's snmpRwCommunity.
+      SNMP RW community of the devices to be discovered.
 
 
       .. raw:: html
@@ -2307,7 +2307,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Description for Snmp RW community.
+      Description for SNMP RW community.
 
 
       .. raw:: html
@@ -2341,7 +2341,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Discovery's snmpRwCommunityDesc.
+      Description for SNMP RW community.
 
 
       .. raw:: html
@@ -2375,7 +2375,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Discovery's snmpUserName.
+      SNMP username of the device.
 
 
       .. raw:: html
@@ -2443,7 +2443,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Discovery's timeOut.
+      Time to wait for device response.
 
 
       .. raw:: html
@@ -2511,7 +2511,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      UpdateMgmtIp flag.
+      Updates Management IP if multiple IPs are available for a device. If set to true, when a device is rediscovered with a different IP, the management IP is updated. Default value is false.
 
 
       .. rst-class:: ansible-option-line
@@ -2553,7 +2553,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Discovery's userNameList.
+      Username of the devices to be discovered.
 
 
       .. raw:: html

@@ -42,7 +42,7 @@ cisco.dnac.transit_peer_network_info module -- Information module for Transit Pe
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.13.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.14.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.dnac.transit_peer_network_info module -- Information module for Transit Pe
 
 .. rst-class:: ansible-version-added
 
-New in cisco.dnac 6.5.0
+New in cisco.dnac 6.0.0
 
 .. contents::
    :local:
@@ -85,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.5.5
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -374,7 +374,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.5.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
 
       .. raw:: html
 
@@ -500,7 +500,7 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are ..get\_transit\_peer\_network\_info,
+   - SDK Method used are sda.Sda.get\_transit\_peer\_network\_info,
    - Paths used are get /dna/intent/api/v1/business/sda/transit-peer-network,
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
@@ -513,7 +513,7 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for  GetTransitPeerNetworkInfo <https://developer.cisco.com/docs/dna-center/#!get-transit-peer-network-info>`_
+   `Cisco DNA Center documentation for SDA GetTransitPeerNetworkInfo <https://developer.cisco.com/docs/dna-center/#!get-transit-peer-network-info>`_
        Complete reference of the GetTransitPeerNetworkInfo API.
 
 .. Examples

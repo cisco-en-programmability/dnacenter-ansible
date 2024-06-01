@@ -42,7 +42,7 @@ cisco.dnac.transit_peer_network module -- Resource module for Transit Peer Netwo
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.13.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.14.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.dnac.transit_peer_network module -- Resource module for Transit Peer Netwo
 
 .. rst-class:: ansible-version-added
 
-New in cisco.dnac 6.5.0
+New in cisco.dnac 6.0.0
 
 .. contents::
    :local:
@@ -86,7 +86,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.5.5
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -375,7 +375,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.5.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
 
       .. raw:: html
 
@@ -442,7 +442,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Autonomous System Number (e.g.,1-65535).
+      Autonomous System Number.
 
 
       .. raw:: html
@@ -742,7 +742,7 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are ..add\_transit\_peer\_network, ..delete\_transit\_peer\_network,
+   - SDK Method used are sda.Sda.add\_transit\_peer\_network, sda.Sda.delete\_transit\_peer\_network,
    - Paths used are post /dna/intent/api/v1/business/sda/transit-peer-network, delete /dna/intent/api/v1/business/sda/transit-peer-network,
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
@@ -755,9 +755,9 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for  AddTransitPeerNetwork <https://developer.cisco.com/docs/dna-center/#!add-transit-peer-network>`_
+   `Cisco DNA Center documentation for SDA AddTransitPeerNetwork <https://developer.cisco.com/docs/dna-center/#!add-transit-peer-network>`_
        Complete reference of the AddTransitPeerNetwork API.
-   `Cisco DNA Center documentation for  DeleteTransitPeerNetwork <https://developer.cisco.com/docs/dna-center/#!delete-transit-peer-network>`_
+   `Cisco DNA Center documentation for SDA DeleteTransitPeerNetwork <https://developer.cisco.com/docs/dna-center/#!delete-transit-peer-network>`_
        Complete reference of the DeleteTransitPeerNetwork API.
 
 .. Examples

@@ -42,7 +42,7 @@ cisco.dnac.interface_update module -- Resource module for Interface Update
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.13.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.14.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -86,7 +86,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.5.5
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -136,7 +136,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Admin Status.
+      Admin status as ('UP'/'DOWN').
 
 
       .. raw:: html
@@ -204,7 +204,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Description.
+      Description for the Interface.
 
 
       .. raw:: html
@@ -477,7 +477,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.5.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
 
       .. raw:: html
 
@@ -586,7 +586,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Vlan Id.
+      VLAN Id to be Updated.
 
 
       .. raw:: html
@@ -620,7 +620,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Voice Vlan Id.
+      Voice Vlan Id to be Updated.
 
 
       .. raw:: html

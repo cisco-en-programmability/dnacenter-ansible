@@ -42,7 +42,7 @@ cisco.dnac.tag_membership module -- Resource module for Tag Membership
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.13.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.14.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -69,7 +69,7 @@ Synopsis
 .. Description
 
 - Manage operation update of the resource Tag Membership.
-- Updates tag membership. As part of the request payload through this API, only the specified members are added / retained to the given input tags. Possible values of memberType attribute in the request payload can be queried by using the /tag/member/type API.
+- Update tag membership. As part of the request payload through this API, only the specified members are added / retained to the given input tags. Possible values of memberType attribute in the request payload can be queried by using the /tag/member/type API.
 
 
 .. note::
@@ -86,7 +86,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.5.5
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -375,7 +375,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.5.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
 
       .. raw:: html
 
@@ -398,7 +398,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+      :ansible-option-type:`dictionary`
 
       .. raw:: html
 
@@ -536,7 +536,7 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are tag.Tag.updates\_tag\_membership,
+   - SDK Method used are tag.Tag.update\_tag\_membership,
    - Paths used are put /dna/intent/api/v1/tag/member,
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
@@ -549,8 +549,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Tag UpdatesTagMembership <https://developer.cisco.com/docs/dna-center/#!updates-tag-membership>`_
-       Complete reference of the UpdatesTagMembership API.
+   `Cisco DNA Center documentation for Tag UpdateTagMembership <https://developer.cisco.com/docs/dna-center/#!update-tag-membership>`_
+       Complete reference of the UpdateTagMembership API.
 
 .. Examples
 
@@ -570,7 +570,7 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         memberToTags:
-        - key:
+          key:
           - string
         memberType: string
 

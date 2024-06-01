@@ -42,7 +42,7 @@ cisco.dnac.network_device_count_info module -- Information module for Network De
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.13.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.14.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -88,7 +88,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.5.5
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -411,7 +411,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.5.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
 
       .. raw:: html
 
@@ -445,6 +445,142 @@ Parameters
         <div class="ansible-option-cell">
 
       Additional headers.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-hostname"></div>
+
+      .. _ansible_collections.cisco.dnac.network_device_count_info_module__parameter-hostname:
+
+      .. rst-class:: ansible-option-title
+
+      **hostname**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-hostname" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Hostname query parameter.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-locationName"></div>
+
+      .. _ansible_collections.cisco.dnac.network_device_count_info_module__parameter-locationname:
+
+      .. rst-class:: ansible-option-title
+
+      **locationName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-locationName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      LocationName query parameter.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-macAddress"></div>
+
+      .. _ansible_collections.cisco.dnac.network_device_count_info_module__parameter-macaddress:
+
+      .. rst-class:: ansible-option-title
+
+      **macAddress**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-macAddress" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      MacAddress query parameter.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-managementIpAddress"></div>
+
+      .. _ansible_collections.cisco.dnac.network_device_count_info_module__parameter-managementipaddress:
+
+      .. rst-class:: ansible-option-title
+
+      **managementIpAddress**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-managementIpAddress" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      ManagementIpAddress query parameter.
 
 
       .. raw:: html
@@ -518,8 +654,8 @@ See Also
 
    `Cisco DNA Center documentation for Devices GetDeviceCount2 <https://developer.cisco.com/docs/dna-center/#!get-device-count>`_
        Complete reference of the GetDeviceCount2 API.
-   `Cisco DNA Center documentation for Devices GetDeviceInterfaceCount2 <https://developer.cisco.com/docs/dna-center/#!get-device-interface-count-2>`_
-       Complete reference of the GetDeviceInterfaceCount2 API.
+   `Cisco DNA Center documentation for Devices GetDeviceInterfaceCount <https://developer.cisco.com/docs/dna-center/#!get-device-interface-count>`_
+       Complete reference of the GetDeviceInterfaceCount API.
 
 .. Examples
 
@@ -539,6 +675,10 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         headers: "{{my_headers | from_json}}"
+        hostname: []
+        managementIpAddress: []
+        macAddress: []
+        locationName: []
       register: result
 
     - name: Get Network Device Count by id

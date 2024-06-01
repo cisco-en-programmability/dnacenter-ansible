@@ -42,7 +42,7 @@ cisco.dnac.device_replacement_info module -- Information module for Device Repla
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.13.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.14.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -86,7 +86,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.5.5
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -375,7 +375,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.5.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
 
       .. raw:: html
 
@@ -949,7 +949,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"creationTime": 0, "family": "string", "faultyDeviceId": "string", "faultyDeviceName": "string", "faultyDevicePlatform": "string", "faultyDeviceSerialNumber": "string", "id": "string", "neighbourDeviceId": "string", "networkReadinessTaskId": "string", "replacementDevicePlatform": "string", "replacementDeviceSerialNumber": "string", "replacementStatus": "string", "replacementTime": 0, "workflowId": "string"}], "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"creationTime": 0, "family": "string", "faultyDeviceId": "string", "faultyDeviceName": "string", "faultyDevicePlatform": "string", "faultyDeviceSerialNumber": "string", "id": "string", "neighbourDeviceId": "string", "networkReadinessTaskId": "string", "readinesscheckTaskId": "string", "replacementDevicePlatform": "string", "replacementDeviceSerialNumber": "string", "replacementStatus": "string", "replacementTime": 0, "workflowFailedStep": "string", "workflowId": "string"}], "version": "string"}`
 
 
       .. raw:: html

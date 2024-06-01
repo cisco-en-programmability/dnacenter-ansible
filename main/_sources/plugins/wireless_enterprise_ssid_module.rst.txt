@@ -42,7 +42,7 @@ cisco.dnac.wireless_enterprise_ssid module -- Resource module for Wireless Enter
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.13.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.14.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -87,7 +87,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.5.5
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -109,6 +109,82 @@ Parameters
 
   * - Parameter
     - Comments
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-aaaOverride"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_enterprise_ssid_module__parameter-aaaoverride:
+
+      .. rst-class:: ansible-option-title
+
+      **aaaOverride**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-aaaOverride" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Aaa Override.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-authKeyMgmt"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_enterprise_ssid_module__parameter-authkeymgmt:
+
+      .. rst-class:: ansible-option-title
+
+      **authKeyMgmt**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-authKeyMgmt" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Takes string inputs for the AKMs that should be set true. Possible AKM values dot1x,dot1x\_ft, dot1x\_sha, psk, psk\_ft, psk\_sha, owe, sae, sae\_ft.
+
+
+      .. raw:: html
+
+        </div>
 
   * - .. raw:: html
 
@@ -137,7 +213,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Basic Service Set Client Idle Timeout.
+      Basic Service Set Client Idle Timeout (Default 300 if enableBasicServiceSetMaxIdle is true, 0 otherwise).
 
 
       .. raw:: html
@@ -171,7 +247,83 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Client Exclusion Timeout.
+      Client Exclusion Timeout(Default 180 if enableClientExclusion is true, 0 otherwise).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-clientRateLimit"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_enterprise_ssid_module__parameter-clientratelimit:
+
+      .. rst-class:: ansible-option-title
+
+      **clientRateLimit**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-clientRateLimit" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`float`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Client Rate Limit (in bits per second).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-coverageHoleDetectionEnable"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_enterprise_ssid_module__parameter-coverageholedetectionenable:
+
+      .. rst-class:: ansible-option-title
+
+      **coverageHoleDetectionEnable**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-coverageHoleDetectionEnable" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Coverage Hole Detection Enable.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
 
 
       .. raw:: html
@@ -444,7 +596,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.5.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
 
       .. raw:: html
 
@@ -477,7 +629,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Enable Basic Service Set Max Idle.
+      Enable Basic Service Set Max Idle (Default true).
 
 
       .. rst-class:: ansible-option-line
@@ -561,7 +713,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Enable Client Exclusion.
+      Enable Client Exclusion(Default true).
 
 
       .. rst-class:: ansible-option-line
@@ -771,7 +923,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Enable Session Timeout.
+      Enable Session Timeout(Default true).
 
 
       .. rst-class:: ansible-option-line
@@ -823,6 +975,82 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ghz24Policy"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_enterprise_ssid_module__parameter-ghz24policy:
+
+      .. rst-class:: ansible-option-title
+
+      **ghz24Policy**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ghz24Policy" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Ghz24 Policy.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ghz6PolicyClientSteering"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_enterprise_ssid_module__parameter-ghz6policyclientsteering:
+
+      .. rst-class:: ansible-option-title
+
+      **ghz6PolicyClientSteering**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ghz6PolicyClientSteering" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Ghz6 Policy Client Steering.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-mfpClientProtection"></div>
 
       .. _ansible_collections.cisco.dnac.wireless_enterprise_ssid_module__parameter-mfpclientprotection:
@@ -853,6 +1081,143 @@ Parameters
       .. raw:: html
 
         </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-multiPSKSettings"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_enterprise_ssid_module__parameter-multipsksettings:
+
+      .. rst-class:: ansible-option-title
+
+      **multiPSKSettings**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-multiPSKSettings" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Wireless Enterprise Ssid's multiPSKSettings.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-multiPSKSettings/passphrase"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_enterprise_ssid_module__parameter-multipsksettings/passphrase:
+
+      .. rst-class:: ansible-option-title
+
+      **passphrase**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-multiPSKSettings/passphrase" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Passphrase.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-multiPSKSettings/passphraseType"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_enterprise_ssid_module__parameter-multipsksettings/passphrasetype:
+
+      .. rst-class:: ansible-option-title
+
+      **passphraseType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-multiPSKSettings/passphraseType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Passphrase Type.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-multiPSKSettings/priority"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_enterprise_ssid_module__parameter-multipsksettings/priority:
+
+      .. rst-class:: ansible-option-title
+
+      **priority**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-multiPSKSettings/priority" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Priority.
+
+
+      .. raw:: html
+
+        </div>
+
 
   * - .. raw:: html
 
@@ -959,6 +1324,108 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-policyProfileName"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_enterprise_ssid_module__parameter-policyprofilename:
+
+      .. rst-class:: ansible-option-title
+
+      **policyProfileName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-policyProfileName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Policy Profile Name.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profileName"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_enterprise_ssid_module__parameter-profilename:
+
+      .. rst-class:: ansible-option-title
+
+      **profileName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profileName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Profile Name.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-protectedManagementFrame"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_enterprise_ssid_module__parameter-protectedmanagementframe:
+
+      .. rst-class:: ansible-option-title
+
+      **protectedManagementFrame**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-protectedManagementFrame" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      (Required applicable for Security Type WPA3\_PERSONAL, WPA3\_ENTERPRISE, OPEN\_SECURED) and (Optional, Required Applicable for Security Type WPA2\_WPA3\_PERSONAL and WPA2\_WPA3\_ENTERPRISE).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-radioPolicy"></div>
 
       .. _ansible_collections.cisco.dnac.wireless_enterprise_ssid_module__parameter-radiopolicy:
@@ -983,7 +1450,133 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Radio Policy Enum (enum Triple band operation (2.4GHz, 5GHz and 6GHz), Triple band operation with band select, 5GHz only, 2.4GHz only, 6GHz only).
+      Radio Policy Enum.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-rsnCipherSuiteCcmp256"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_enterprise_ssid_module__parameter-rsnciphersuiteccmp256:
+
+      .. rst-class:: ansible-option-title
+
+      **rsnCipherSuiteCcmp256**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-rsnCipherSuiteCcmp256" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Rsn Cipher Suite Ccmp256.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-rsnCipherSuiteGcmp128"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_enterprise_ssid_module__parameter-rsnciphersuitegcmp128:
+
+      .. rst-class:: ansible-option-title
+
+      **rsnCipherSuiteGcmp128**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-rsnCipherSuiteGcmp128" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Rsn Cipher Suite Gcmp 128.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-rsnCipherSuiteGcmp256"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_enterprise_ssid_module__parameter-rsnciphersuitegcmp256:
+
+      .. rst-class:: ansible-option-title
+
+      **rsnCipherSuiteGcmp256**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-rsnCipherSuiteGcmp256" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Rsn Cipher Suite Gcmp256.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
 
 
       .. raw:: html
@@ -1051,7 +1644,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Session Time Out.
+      Session Time Out (Default 1800 if enableSessionTimeOut is true, 0 otherwise).
 
 
       .. raw:: html
@@ -1216,8 +1809,13 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         state: present
+        aaaOverride: true
+        authKeyMgmt:
+        - string
         basicServiceSetClientIdleTimeout: 0
         clientExclusionTimeout: 0
+        clientRateLimit: 0
+        coverageHoleDetectionEnable: true
         enableBasicServiceSetMaxIdle: true
         enableBroadcastSSID: true
         enableClientExclusion: true
@@ -1227,12 +1825,24 @@ Examples
         enableNeighborList: true
         enableSessionTimeOut: true
         fastTransition: string
+        ghz24Policy: string
+        ghz6PolicyClientSteering: true
         mfpClientProtection: string
+        multiPSKSettings:
+        - passphrase: string
+          passphraseType: string
+          priority: 0
         name: string
         nasOptions:
         - string
         passphrase: string
+        policyProfileName: string
+        profileName: string
+        protectedManagementFrame: string
         radioPolicy: string
+        rsnCipherSuiteCcmp256: true
+        rsnCipherSuiteGcmp128: true
+        rsnCipherSuiteGcmp256: true
         securityLevel: string
         sessionTimeOut: 0
         trafficType: string
@@ -1247,8 +1857,13 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         state: present
+        aaaOverride: true
+        authKeyMgmt:
+        - string
         basicServiceSetClientIdleTimeout: 0
         clientExclusionTimeout: 0
+        clientRateLimit: 0
+        coverageHoleDetectionEnable: true
         enableBasicServiceSetMaxIdle: true
         enableBroadcastSSID: true
         enableClientExclusion: true
@@ -1258,12 +1873,24 @@ Examples
         enableNeighborList: true
         enableSessionTimeOut: true
         fastTransition: string
+        ghz24Policy: string
+        ghz6PolicyClientSteering: true
         mfpClientProtection: string
+        multiPSKSettings:
+        - passphrase: string
+          passphraseType: string
+          priority: 0
         name: string
         nasOptions:
         - string
         passphrase: string
+        policyProfileName: string
+        profileName: string
+        protectedManagementFrame: string
         radioPolicy: string
+        rsnCipherSuiteCcmp256: true
+        rsnCipherSuiteGcmp128: true
+        rsnCipherSuiteGcmp256: true
         securityLevel: string
         sessionTimeOut: 0
         trafficType: string

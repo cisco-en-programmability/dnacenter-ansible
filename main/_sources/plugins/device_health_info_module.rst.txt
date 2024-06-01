@@ -42,7 +42,7 @@ cisco.dnac.device_health_info module -- Information module for Device Health
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.13.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.14.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -86,7 +86,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.5.5
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -136,7 +136,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      DeviceRole query parameter. The device role (One of CORE, ACCESS, DISTRIBUTION, ROUTER, WLC, AP).
+      DeviceRole query parameter. CORE, ACCESS, DISTRIBUTION, ROUTER, WLC, or AP (case insensitive).
 
 
       .. raw:: html
@@ -409,7 +409,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.5.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
 
       .. raw:: html
 
@@ -432,7 +432,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`integer`
+      :ansible-option-type:`float`
 
       .. raw:: html
 
@@ -442,7 +442,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      EndTime query parameter. UTC epoch time in miliseconds.
+      EndTime query parameter. UTC epoch time in milliseconds.
 
 
       .. raw:: html
@@ -510,7 +510,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Health query parameter. The device overall health (One of POOR, FAIR, GOOD).
+      Health query parameter. DNAC health catagory POOR, FAIR, or GOOD (case insensitive).
 
 
       .. raw:: html
@@ -534,7 +534,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`integer`
+      :ansible-option-type:`float`
 
       .. raw:: html
 
@@ -544,7 +544,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Limit query parameter. Max number of device entries in the response (default to 50. Max at 1000).
+      Limit query parameter. Max number of device entries in the response (default to 50. Max at 500).
 
 
       .. raw:: html
@@ -568,7 +568,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`integer`
+      :ansible-option-type:`float`
 
       .. raw:: html
 
@@ -578,7 +578,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Offset query parameter. The offset of the first device in the returned data.
+      Offset query parameter. The offset of the first device in the returned data (Mutiple of 'limit' + 1).
 
 
       .. raw:: html
@@ -612,7 +612,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      SiteId query parameter. Assurance site UUID value.
+      SiteId query parameter. DNAC site UUID.
 
 
       .. raw:: html
@@ -636,7 +636,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`integer`
+      :ansible-option-type:`float`
 
       .. raw:: html
 
@@ -808,7 +808,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"airQualityHealth": {"Ghz24": 0, "Ghz50": 0, "radio0": 0, "radio1": 0}, "clientCount": {"Ghz24": 0, "Ghz50": 0, "radio0": 0, "radio1": 0}, "cpuHealth": 0, "cpuUlitilization": 0, "deviceFamily": "string", "deviceType": "string", "interDeviceLinkAvailHealth": 0, "interfaceLinkErrHealth": 0, "interferenceHealth": {"Ghz24": 0, "Ghz50": 0, "radio0": 0, "radio1": 0}, "ipAddress": "string", "issueCount": 0, "location": "string", "macAddress": "string", "memoryUtilization": 0, "memoryUtilizationHealth": 0, "model": "string", "name": "string", "noiseHealth": {"Ghz50": 0, "radio1": 0}, "osVersion": "string", "overallHealth": 0, "reachabilityHealth": "string", "utilizationHealth": {"Ghz24": 0, "Ghz50": 0, "radio0": 0, "radio1": 0}}], "totalCount": 0, "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"airQualityHealth": {"Ghz24": 0, "Ghz50": 0, "radio0": 0, "radio1": 0, "radio2": 0, "radio3": 0}, "apCount": 0, "avgTemperature": 0, "band": {"radio0": "string", "radio1": "string", "radio2": "string", "radio3": 0}, "clientCount": {"Ghz24": 0, "Ghz50": 0, "radio0": 0, "radio1": 0, "radio2": 0, "radio3": 0}, "cpuHealth": 0, "cpuUlitilization": 0, "cpuUtilization": 0, "deviceFamily": "string", "deviceType": "string", "freeMemoryBuffer": 0, "freeMemoryBufferHealth": 0, "freeTimer": 0, "freeTimerScore": 0, "interDeviceLinkAvailFabric": 0, "interDeviceLinkAvailHealth": 0, "interfaceLinkErrHealth": 0, "interferenceHealth": {"Ghz24": 0, "Ghz50": 0, "radio0": 0, "radio1": 0, "radio2": 0, "radio3": 0}, "ipAddress": "string", "issueCount": 0, "location": "string", "macAddress": "string", "maxTemperature": 0, "memoryUtilization": 0, "memoryUtilizationHealth": 0, "model": "string", "name": "string", "noiseHealth": {"Ghz24": 0, "Ghz50": 0, "radio0": 0, "radio1": 0, "radio2": 0, "radio3": 0}, "osVersion": "string", "overallHealth": 0, "packetPool": 0, "packetPoolHealth": 0, "reachabilityHealth": "string", "utilizationHealth": {"Ghz24": 0, "Ghz50": 0, "radio0": 0, "radio1": 0, "radio2": 0, "radio3": 0}, "uuid": "string", "wanLinkUtilization": 0, "wqePools": 0, "wqePoolsHealth": 0}], "totalCount": 0, "version": "string"}`
 
 
       .. raw:: html

@@ -42,7 +42,7 @@ cisco.dnac.sda_fabric_authentication_profile_info module -- Information module f
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.13.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.14.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -85,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.5.5
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -411,7 +411,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.5.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
 
       .. raw:: html
 
@@ -615,7 +615,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+      :ansible-option-type:`dictionary`
 
       .. raw:: html
 
@@ -635,7 +635,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"[\\n  {\\n    \\"siteNameHierarchy\\": \\"string\\",\\n    \\"authenticateTemplateName\\": \\"string\\",\\n    \\"authenticationOrder\\": \\"string\\",\\n    \\"dot1xToMabFallbackTimeout\\": \\"string\\",\\n    \\"wakeOnLan\\": true,\\n    \\"numberOfHosts\\": \\"string\\",\\n    \\"status\\": \\"string\\",\\n    \\"description\\": \\"string\\"\\n  }\\n]\\n"`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"authenticateTemplateName": "string", "authenticationOrder": "string", "description": "string", "dot1xToMabFallbackTimeout": "string", "executionId": "string", "numberOfHosts": "string", "siteNameHierarchy": "string", "status": "string", "wakeOnLan": true}`
 
 
       .. raw:: html

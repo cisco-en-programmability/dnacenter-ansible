@@ -42,7 +42,7 @@ cisco.dnac.device_details_info module -- Information module for Device Details
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.13.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.14.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -85,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.5.5
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -374,7 +374,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.5.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
 
       .. raw:: html
 
@@ -441,7 +441,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Identifier query parameter. One of keywords macAddress or uuid or nwDeviceName.
+      Identifier query parameter. One of "macAddress", "nwDeviceName", "uuid" (case insensitive).
 
 
       .. raw:: html
@@ -475,7 +475,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      SearchBy query parameter. MAC Address or Device Name value or UUID of the network device.
+      SearchBy query parameter. MAC Address, device name, or UUID of the network device.
 
 
       .. raw:: html
@@ -499,7 +499,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`float`
 
       .. raw:: html
 
@@ -509,7 +509,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Timestamp query parameter. Epoch time(in milliseconds) when the device data is required.
+      Timestamp query parameter. UTC timestamp of device data in milliseconds.
 
 
       .. raw:: html
@@ -602,9 +602,9 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         headers: "{{my_headers | from_json}}"
-        timestamp: string
-        searchBy: string
+        timestamp: 0
         identifier: string
+        searchBy: string
       register: result
 
 
@@ -667,7 +667,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"HALastResetReason": "string", "HAPrimaryPowerStatus": "string", "HASecondaryPowerStatus": "string", "airQuality": "string", "airQualityScore": 0, "clientCount": "string", "collectionStatus": "string", "communicationState": "string", "cpu": "string", "cpuScore": 0, "deviceSeries": "string", "freeMbuf": "string", "freeMbufScore": 0, "freeTimer": "string", "freeTimerScore": 0, "interference": "string", "interferenceScore": 0, "location": "string", "macAddress": "string", "managementIpAddr": "string", "memory": "string", "memoryScore": 0, "noise": "string", "noiseScore": 0, "nwDeviceFamily": "string", "nwDeviceId": "string", "nwDeviceName": "string", "nwDeviceRole": "string", "nwDeviceType": "string", "osType": "string", "overallHealth": 0, "packetPool": "string", "packetPoolScore": 0, "platformId": "string", "redundancyMode": "string", "redundancyPeerState": "string", "redundancyState": "string", "redundancyUnit": "string", "softwareVersion": "string", "timestamp": "string", "utilization": "string", "utilizationScore": 0, "wqe": "string", "wqeScore": 0}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"HALastResetReason": "string", "adminState": "string", "airQuality": "string", "airQualityScore": 0, "apGroup": "string", "apType": "string", "avgTemperature": 0, "collectionStatus": "string", "communicationState": "string", "connectedTime": "string", "connectivityStatus": 0, "cpu": "string", "cpuScore": 0, "deviceGroupHierarchyId": "string", "deviceSeries": "string", "ethernetMac": "string", "featureFlagList": ["string"], "flexGroup": "string", "freeMbuf": 0, "freeMbufScore": 0, "freeTimer": 0, "freeTimerScore": 0, "haStatus": "string", "homeApEnabled": "string", "icapCapability": "string", "interference": "string", "interferenceScore": 0, "ip\_addr\_managementIpAddr": "string", "lastBootTime": 0, "ledFlashEnabled": "string", "ledFlashSeconds": "string", "location": "string", "macAddress": "string", "maintenanceMode": true, "managementIpAddr": "string", "maxTemperature": 0, "memory": "string", "memoryScore": 0, "mode": "string", "noise": "string", "noiseScore": 0, "nwDeviceFamily": "string", "nwDeviceId": "string", "nwDeviceName": "string", "nwDeviceRole": "string", "nwDeviceType": "string", "opState": "string", "osType": "string", "overallHealth": 0, "packetPool": 0, "packetPoolScore": 0, "platformId": "string", "policyTagName": "string", "powerCalendarProfile": "string", "powerMode": "string", "powerProfile": "string", "powerSaveMode": "string", "powerSaveModeCapable": "string", "powerType": "string", "protocol": "string", "redundancyMode": "string", "redundancyPeerState": "string", "redundancyPeerStateDerived": "string", "redundancyState": "string", "redundancyStateDerived": "string", "regulatoryDomain": "string", "resetReason": "string", "rfTagName": "string", "ringStatus": true, "serialNumber": "string", "siteHierarchyGraphId": "string", "siteTagName": "string", "softwareVersion": "string", "stackType": "string", "subMode": "string", "tagIdList": [{}], "timestamp": 0, "upTime": "string", "utilization": "string", "utilizationScore": 0, "wqe": 0, "wqeScore": 0}`
 
 
       .. raw:: html

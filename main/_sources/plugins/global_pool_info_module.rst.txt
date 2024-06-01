@@ -42,7 +42,7 @@ cisco.dnac.global_pool_info module -- Information module for Global Pool
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.13.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.14.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -69,7 +69,7 @@ Synopsis
 .. Description
 
 - Get all Global Pool.
-- API to get global pool.
+- API to get the global pool.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.5.5
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -374,7 +374,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.5.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
 
       .. raw:: html
 
@@ -431,7 +431,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`integer`
+      :ansible-option-type:`float`
 
       .. raw:: html
 
@@ -441,7 +441,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Limit query parameter. No of Global Pools to be retrieved.
+      Limit query parameter. Number of Global Pools to be retrieved. Default is 25 if not specified.
 
 
       .. raw:: html
@@ -465,7 +465,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`integer`
+      :ansible-option-type:`float`
 
       .. raw:: html
 
@@ -475,7 +475,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Offset query parameter. Offset/starting row.
+      Offset query parameter. Offset/starting row. Indexed from 1. Default value of 1.
 
 
       .. raw:: html
@@ -632,7 +632,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"clientOptions": {}, "configureExternalDhcp": "string", "context": [{"contextKey": "string", "contextValue": "string", "owner": "string"}], "createTime": "string", "dhcpServerIps": ["string"], "dnsServerIps": ["string"], "gateways": ["string"], "id": "string", "ipPoolCidr": "string", "ipPoolName": "string", "ipv6": "string", "lastUpdateTime": "string", "overlapping": "string", "owner": "string", "parentUuid": "string", "shared": "string", "totalIpAddressCount": "string", "usedIpAddressCount": "string", "usedPercentage": "string"}], "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"availableIpAddressCount": 0, "clientOptions": {}, "configureExternalDhcp": true, "context": [{"contextKey": "string", "contextValue": "string", "owner": "string"}], "createTime": 0, "defaultAssignedIpAddressCount": 0, "dhcpServerIps": ["string"], "dnsServerIps": ["string"], "gateways": ["string"], "hasSubpools": true, "id": "string", "ipPoolCidr": "string", "ipPoolName": "string", "ipPoolType": "string", "ipv6": true, "lastUpdateTime": 0, "overlapping": true, "owner": "string", "parentUuid": "string", "shared": true, "totalAssignableIpAddressCount": 0, "totalIpAddressCount": 0, "unavailableIpAddressCount": 0, "usedIpAddressCount": 0, "usedPercentage": "string"}], "version": "string"}`
 
 
       .. raw:: html

@@ -42,7 +42,7 @@ cisco.dnac.network_device_custom_prompt_info module -- Information module for Ne
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.13.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.14.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -69,7 +69,7 @@ Synopsis
 .. Description
 
 - Get all Network Device Custom Prompt Info.
-- Returns supported custom prompts by Cisco DNA Center.
+- Returns supported custom prompts by Catalyst Center.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.5.5
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -374,7 +374,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.5.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
 
       .. raw:: html
 
@@ -466,7 +466,7 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are system\_settings.SystemSettings.custom\_prompt\_support\_get\_api,
+   - SDK Method used are system\_settings.SystemSettings.custom\_prompt\_support\_g\_e\_t\_api,
    - Paths used are get /dna/intent/api/v1/network-device/custom-prompt,
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
@@ -491,7 +491,7 @@ Examples
 
     
     - name: Get all Network Device Custom Prompt Info
-      cisco.dnac.network_device_custom_prompt_info_info:
+      cisco.dnac.network_device_custom_prompt_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
         dnac_password: "{{dnac_password}}"

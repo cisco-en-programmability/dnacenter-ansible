@@ -42,7 +42,7 @@ cisco.dnac.tag module -- Resource module for Tag
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.13.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.14.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -87,7 +87,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.5.5
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -137,7 +137,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Tag's description.
+      Description of the tag.
 
 
       .. raw:: html
@@ -410,7 +410,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.5.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
 
       .. raw:: html
 
@@ -477,7 +477,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Tag's memberType.
+      MemberType of the tag (e.g. Networkdevice, interface).
 
 
       .. raw:: html
@@ -535,7 +535,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
 
       .. raw:: html
 
@@ -545,7 +545,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Tag's items.
+      Items details,multiple rules can be defined by items(e.g. "items" {"operation" "ILIKE", "name" "managementIpAddress", "value" "%10%"}, {"operation" "ILIKE", "name" "hostname", "value" "%NA%"} ).
 
 
       .. raw:: html
@@ -579,7 +579,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Tag's name.
+      Name of the parameter (e.g. For interface portName,adminStatus,speed,status,description. For networkdevice family,series,hostname,managementIpAddress,groupNameHierarchy,softwareVersion).
 
 
       .. raw:: html
@@ -613,7 +613,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Tag's operation.
+      Opeartion used in the rules (e.g. OR,IN,EQ,LIKE,ILIKE,AND).
 
 
       .. raw:: html
@@ -647,7 +647,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Tag's value.
+      Value of the parameter (e.g. For portName 1/0/1,for adminStatus,status up/down, for speed any integer value, for description any valid string, for family switches, for series C3650, for managementIpAddress 10.197.124.90, groupNameHierarchy Global, softwareVersion 16.9.1).
 
 
       .. raw:: html
@@ -681,7 +681,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Tag's values.
+      Values of the parameter,Only one of the value or values can be used for the given parameter. (for managementIpAddress e.g. "10.197.124.90","10.197.124.91").
 
 
       .. raw:: html
@@ -717,7 +717,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Tag's id.
+      Mandatory instanceUuid of the tag that needs to be updated.
 
 
       .. raw:: html
@@ -751,7 +751,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Tag's instanceTenantId.
+      InstanceTenantId generated for the tag.
 
 
       .. raw:: html
@@ -785,7 +785,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Tag's name.
+      Name of the tag.
 
 
       .. raw:: html
@@ -819,7 +819,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      SystemTag flag.
+      True for system created tags, false for user defined tags.
 
 
       .. rst-class:: ansible-option-line
@@ -929,7 +929,7 @@ Examples
         - memberType: string
           rules:
             items:
-            - string
+            - {}
             name: string
             operation: string
             value: string
@@ -954,7 +954,8 @@ Examples
         dynamicRules:
         - memberType: string
           rules:
-            items: string
+            items:
+            - {}
             name: string
             operation: string
             value: string

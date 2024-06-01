@@ -42,7 +42,7 @@ cisco.dnac.wireless_profile module -- Resource module for Wireless Profile
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.13.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.14.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -71,7 +71,7 @@ Synopsis
 - Manage operations create, update and delete of the resource Wireless Profile.
 - Creates Wireless Network Profile on Cisco DNA Center and associates sites and SSIDs to it.
 - Delete the Wireless Profile from Cisco DNA Center whose name is provided.
-- Updates the wireless Network Profile with updated details provided. All sites to be present in the network profile should be provided.
+- Updates the wireless Network Profile with updated details provided. All sites to be present in the network profile should be provided. This API has been deprecated. Please use the new endpoint URL /dna/intent/api/v2/wireless/profile.
 
 
 .. note::
@@ -88,7 +88,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.5.5
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -377,7 +377,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.5.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
 
       .. raw:: html
 
@@ -733,7 +733,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Ssid Name.
+      Ssid Name is required if ssidDetails is passed in PayLoad for mapping to the Network Profile.
 
 
       .. raw:: html
@@ -768,40 +768,6 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Policy Profile Name.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-profileDetails/ssidDetails/type"></div>
-
-      .. _ansible_collections.cisco.dnac.wireless_profile_module__parameter-profiledetails/ssiddetails/type:
-
-      .. rst-class:: ansible-option-title
-
-      **type**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-profileDetails/ssidDetails/type" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Ssid Type(enum Enterprise/Guest).
 
 
       .. raw:: html
@@ -992,7 +958,6 @@ Examples
             interfaceName: string
             name: string
             policyProfileName: string
-            type: string
             wlanProfileName: string
 
     - name: Create
@@ -1017,7 +982,6 @@ Examples
             interfaceName: string
             name: string
             policyProfileName: string
-            type: string
             wlanProfileName: string
 
 

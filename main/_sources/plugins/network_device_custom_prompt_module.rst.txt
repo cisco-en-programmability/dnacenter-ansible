@@ -42,7 +42,7 @@ cisco.dnac.network_device_custom_prompt module -- Resource module for Network De
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.13.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.14.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -69,7 +69,7 @@ Synopsis
 .. Description
 
 - Manage operation create of the resource Network Device Custom Prompt.
-- Save custom prompt added by user in Cisco DNA Center. API will always override the existing prompts. User should provide all the custom prompt in case of any update.
+- Save custom prompt added by user in Catalyst Center. API will always override the existing prompts. User should provide all the custom prompt in case of any update.
 
 
 .. note::
@@ -86,7 +86,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.5.5
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -375,7 +375,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.5.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
 
       .. raw:: html
 
@@ -408,7 +408,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Password Prompt.
+      Password for Custom Prompt.
 
 
       .. raw:: html
@@ -442,7 +442,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Username Prompt.
+      Username for Custom Prompt.
 
 
       .. raw:: html
@@ -501,7 +501,7 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are system\_settings.SystemSettings.custom\_prompt\_post\_api,
+   - SDK Method used are system\_settings.SystemSettings.custom\_prompt\_p\_o\_s\_t\_api,
    - Paths used are post /dna/intent/api/v1/network-device/custom-prompt,
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK

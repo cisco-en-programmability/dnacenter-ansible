@@ -42,7 +42,7 @@ cisco.dnac.event_email_config module -- Resource module for Event Email Config
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.13.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.14.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.dnac.event_email_config module -- Resource module for Event Email Config
 
 .. rst-class:: ansible-version-added
 
-New in cisco.dnac 6.7.0
+New in cisco.dnac 3.1.0
 
 .. contents::
    :local:
@@ -86,7 +86,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.5.5
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -375,7 +375,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.5.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
 
       .. raw:: html
 
@@ -588,6 +588,40 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-primarySMTPConfig/smtpType"></div>
+
+      .. _ansible_collections.cisco.dnac.event_email_config_module__parameter-primarysmtpconfig/smtptype:
+
+      .. rst-class:: ansible-option-title
+
+      **smtpType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-primarySMTPConfig/smtpType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      SmtpType.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-primarySMTPConfig/userName"></div>
 
       .. _ansible_collections.cisco.dnac.event_email_config_module__parameter-primarysmtpconfig/username:
@@ -750,6 +784,40 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Port.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-secondarySMTPConfig/smtpType"></div>
+
+      .. _ansible_collections.cisco.dnac.event_email_config_module__parameter-secondarysmtpconfig/smtptype:
+
+      .. rst-class:: ansible-option-title
+
+      **smtpType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-secondarySMTPConfig/smtpType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      SmtpType.
 
 
       .. raw:: html
@@ -953,11 +1021,13 @@ Examples
           hostName: string
           password: string
           port: string
+          smtpType: string
           userName: string
         secondarySMTPConfig:
           hostName: string
           password: string
           port: string
+          smtpType: string
           userName: string
         subject: string
         toEmail: string
@@ -978,11 +1048,13 @@ Examples
           hostName: string
           password: string
           port: string
+          smtpType: string
           userName: string
         secondarySMTPConfig:
           hostName: string
           password: string
           port: string
+          smtpType: string
           userName: string
         subject: string
         toEmail: string

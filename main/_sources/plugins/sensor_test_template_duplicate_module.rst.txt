@@ -42,7 +42,7 @@ cisco.dnac.sensor_test_template_duplicate module -- Resource module for Sensor T
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.13.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.14.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -85,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.5.5
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -374,7 +374,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.5.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
 
       .. raw:: html
 
@@ -407,7 +407,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      New Template Name.
+      Destination test template name.
 
 
       .. raw:: html
@@ -441,7 +441,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Template Name.
+      Source test template name.
 
 
       .. raw:: html
@@ -596,7 +596,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"\_id": "string", "apCoverage": [{"bands": "string", "numberOfApsToTest": 0, "rssiThreshold": 0}], "connection": "string", "encryptionMode": "string", "frequency": {}, "lastModifiedTime": 0, "legacyTestSuite": true, "location": {}, "locationInfoList": [{"allSensors": true, "locationId": "string", "locationType": "string", "macAddressList": [{}], "siteHierarchy": "string"}], "modelVersion": 0, "name": "string", "numAssociatedSensor": 0, "numNeighborAPThreshold": 0, "radioAsSensorRemoved": true, "rssiThreshold": 0, "runNow": "string", "schedule": {"frequency": {"unit": "string", "value": 0}, "scheduleRange": [{"day": "string", "timeRange": [{"frequency": {"unit": "string", "value": 0}, "from": "string", "to": "string"}]}], "startTime": 0, "testScheduleMode": "string"}, "scheduleInDays": 0, "sensors": [{}], "showWlcUpgradeBanner": true, "siteHierarchy": {}, "ssids": [{"authProtocol": {}, "authType": "string", "authTypeRcvd": {}, "bands": {}, "certdownloadurl": {}, "certfilename": {}, "certpassphrase": {}, "certstatus": "string", "certxferprotocol": "string", "eapMethod": {}, "extWebAuth": true, "extWebAuthAccessUrl": {}, "extWebAuthHtmlTag": [{}], "extWebAuthPortal": {}, "extWebAuthVirtualIp": {}, "id": 0, "layer3webAuthEmailAddress": {}, "layer3webAuthpassword": {}, "layer3webAuthsecurity": {}, "layer3webAuthuserName": {}, "numAps": 0, "numSensors": 0, "password": {}, "profileName": "string", "psk": "string", "qosPolicy": "string", "scep": true, "ssid": "string", "status": "string", "tests": [{"config": [{}], "name": "string"}], "thirdParty": {"selected": true}, "username": {}, "validFrom": 0, "validTo": 0, "whiteList": true, "wlanId": 0, "wlc": {}}], "startTime": 0, "status": "string", "tenantId": {}, "testDurationEstimate": 0, "testScheduleMode": "string", "testTemplate": true, "tests": {}, "version": 0, "wlans": [{}]}, "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"\_id": "string", "actionInProgress": "string", "apCoverage": [{"bands": "string", "numberOfApsToTest": 0, "rssiThreshold": 0}], "connection": "string", "encryptionMode": "string", "frequency": {"unit": "string", "value": 0}, "lastModifiedTime": 0, "location": "string", "locationInfoList": [{"allSensors": true, "customManagementVlan": true, "locationId": "string", "locationType": "string", "macAddressList": ["string"], "managementVlan": "string", "siteHierarchy": "string"}], "modelVersion": 0, "name": "string", "numAssociatedSensor": 0, "numNeighborAPThreshold": 0, "profiles": [{"authProtocol": "string", "authType": "string", "certdownloadurl": "string", "certfilename": "string", "certpassphrase": "string", "certstatus": "string", "certxferprotocol": "string", "deviceType": "string", "eapMethod": "string", "extWebAuth": true, "extWebAuthAccessUrl": "string", "extWebAuthHtmlTag": [{"label": "string", "tag": "string", "value": "string"}], "extWebAuthPortal": "string", "extWebAuthVirtualIp": "string", "locationVlanList": [{"locationId": "string", "vlans": ["string"]}], "password": "string", "passwordType": "string", "profileName": "string", "psk": "string", "qosPolicy": "string", "scep": true, "tests": [{"config": [{"direction": "string", "domains": ["string"], "downlinkTest": true, "endPort": 0, "exitCommand": "string", "finalPrompt": "string", "ndtServer": "string", "ndtServerPath": "string", "ndtServerPort": "string", "numPackets": 0, "password": "string", "passwordPrompt": "string", "pathToDownload": "string", "port": 0, "probeType": "string", "protocol": "string", "proxyPassword": "string", "proxyPort": "string", "proxyServer": "string", "proxyUserName": "string", "server": "string", "servers": ["string"], "sharedSecret": "string", "startPort": 0, "transferType": "string", "udpBandwidth": 0, "uplinkTest": true, "url": "string", "userName": "string", "userNamePrompt": "string"}], "name": "string"}], "username": "string", "vlan": "string", "whiteList": true}], "radioAsSensorRemoved": true, "rssiThreshold": 0, "runNow": "string", "scheduleInDays": 0, "sensors": [{"allSensorAddition": true, "assigned": true, "configUpdated": "string", "hostName": "string", "iPerfInfo": {}, "id": "string", "ipAddress": "string", "locationId": "string", "macAddress": "string", "markedForUninstall": true, "name": "string", "runNow": "string", "sensorType": "string", "servicePolicy": "string", "status": "string", "switchMac": "string", "switchSerialNumber": "string", "switchUuid": "string", "targetAPs": ["string"], "testMacAddresses": {}, "wiredApplicationMessage": "string", "wiredApplicationStatus": "string", "xorSensor": true}], "showWlcUpgradeBanner": true, "siteHierarchy": "string", "ssids": [{"authProtocol": "string", "authType": "string", "bands": "string", "certdownloadurl": "string", "certfilename": "string", "certpassphrase": "string", "certstatus": "string", "certxferprotocol": "string", "eapMethod": "string", "extWebAuth": true, "extWebAuthAccessUrl": "string", "extWebAuthHtmlTag": [{"label": "string", "tag": "string", "value": "string"}], "extWebAuthPortal": "string", "extWebAuthVirtualIp": "string", "id": 0, "layer3webAuthEmailAddress": "string", "layer3webAuthpassword": "string", "layer3webAuthsecurity": "string", "layer3webAuthuserName": "string", "numAps": 0, "numSensors": 0, "password": "string", "passwordType": "string", "profileName": "string", "proxyPassword": "string", "proxyPort": "string", "proxyServer": "string", "proxyUserName": "string", "psk": "string", "qosPolicy": "string", "scep": true, "ssid": "string", "status": "string", "tests": [{"config": [{"direction": "string", "domains": ["string"], "downlinkTest": true, "endPort": 0, "exitCommand": "string", "finalPrompt": "string", "ndtServer": "string", "ndtServerPath": "string", "ndtServerPort": "string", "numPackets": 0, "password": "string", "passwordPrompt": "string", "pathToDownload": "string", "port": 0, "probeType": "string", "protocol": "string", "proxyPassword": "string", "proxyPort": "string", "proxyServer": "string", "proxyUserName": "string", "server": "string", "servers": ["string"], "sharedSecret": "string", "startPort": 0, "transferType": "string", "udpBandwidth": 0, "uplinkTest": true, "url": "string", "userName": "string", "userNamePrompt": "string"}], "name": "string"}], "thirdParty": {"selected": true}, "username": "string", "validFrom": 0, "validTo": 0, "whiteList": true, "wlanId": 0, "wlc": "string"}], "startTime": 0, "status": "string", "testScheduleMode": "string", "version": 0, "wlans": ["string"]}, "version": "string"}`
 
 
       .. raw:: html

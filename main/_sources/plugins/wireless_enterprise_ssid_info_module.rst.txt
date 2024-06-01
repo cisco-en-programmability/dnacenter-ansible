@@ -42,7 +42,7 @@ cisco.dnac.wireless_enterprise_ssid_info module -- Information module for Wirele
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.13.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.14.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -85,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.5.5
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -374,7 +374,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.5.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
 
       .. raw:: html
 
@@ -598,7 +598,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"[\\n  {\\n    \\"instanceUuid\\": \\"string\\",\\n    \\"version\\": 0,\\n    \\"ssidDetails\\": [\\n      {\\n        \\"name\\": \\"string\\",\\n        \\"wlanType\\": \\"string\\",\\n        \\"enableFastLane\\": true,\\n        \\"securityLevel\\": \\"string\\",\\n        \\"authServer\\": \\"string\\",\\n        \\"passphrase\\": \\"string\\",\\n        \\"trafficType\\": \\"string\\",\\n        \\"enableMACFiltering\\": true,\\n        \\"isEnabled\\": true,\\n        \\"isFabric\\": true,\\n        \\"fastTransition\\": \\"string\\",\\n        \\"radioPolicy\\": \\"string\\",\\n        \\"enableBroadcastSSID\\": true,\\n        \\"nasOptions\\": [\\n          \\"string\\"\\n        ],\\n        \\"aaaOverride\\": true,\\n        \\"coverageHoleDetectionEnable\\": true,\\n        \\"protectedManagementFrame\\": \\"string\\",\\n        \\"multiPSKSettings\\": [\\n          {\\n            \\"priority\\": 0,\\n            \\"passphraseType\\": \\"string\\",\\n            \\"passphrase\\": \\"string\\"\\n          }\\n        ],\\n        \\"clientRateLimit\\": 0\\n      }\\n    ],\\n    \\"groupUuid\\": \\"string\\",\\n    \\"inheritedGroupUuid\\": \\"string\\",\\n    \\"inheritedGroupName\\": \\"string\\"\\n  }\\n]\\n"`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"[\\n  {\\n    \\"instanceUuid\\": \\"string\\",\\n    \\"version\\": 0,\\n    \\"ssidDetails\\": [\\n      {\\n        \\"name\\": \\"string\\",\\n        \\"wlanType\\": \\"string\\",\\n        \\"enableFastLane\\": true,\\n        \\"securityLevel\\": \\"string\\",\\n        \\"authServer\\": \\"string\\",\\n        \\"passphrase\\": \\"string\\",\\n        \\"trafficType\\": \\"string\\",\\n        \\"enableMACFiltering\\": true,\\n        \\"isEnabled\\": true,\\n        \\"isFabric\\": true,\\n        \\"fastTransition\\": \\"string\\",\\n        \\"radioPolicy\\": \\"string\\",\\n        \\"enableBroadcastSSID\\": true,\\n        \\"nasOptions\\": [\\n          \\"string\\"\\n        ],\\n        \\"aaaOverride\\": true,\\n        \\"coverageHoleDetectionEnable\\": true,\\n        \\"protectedManagementFrame\\": \\"string\\",\\n        \\"multiPSKSettings\\": [\\n          {\\n            \\"priority\\": 0,\\n            \\"passphraseType\\": \\"string\\",\\n            \\"passphrase\\": \\"string\\"\\n          }\\n        ],\\n        \\"clientRateLimit\\": 0,\\n        \\"enableSessionTimeOut\\": true,\\n        \\"sessionTimeOut\\": 0,\\n        \\"enableClientExclusion\\": true,\\n        \\"clientExclusionTimeout\\": 0,\\n        \\"enableBasicServiceSetMaxIdle\\": true,\\n        \\"basicServiceSetClientIdleTimeout\\": 0,\\n        \\"enableDirectedMulticastService\\": true,\\n        \\"enableNeighborList\\": true,\\n        \\"mfpClientProtection\\": \\"string\\"\\n      }\\n    ],\\n    \\"groupUuid\\": \\"string\\",\\n    \\"inheritedGroupUuid\\": \\"string\\",\\n    \\"inheritedGroupName\\": \\"string\\"\\n  }\\n]\\n"`
 
 
       .. raw:: html

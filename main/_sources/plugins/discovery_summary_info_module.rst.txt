@@ -42,7 +42,7 @@ cisco.dnac.discovery_summary_info module -- Information module for Discovery Sum
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.13.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.14.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -69,7 +69,7 @@ Synopsis
 .. Description
 
 - Get all Discovery Summary.
-- Returns the network devices from a discovery job based on given filters. Discovery ID can be obtained using the "Get Discoveries by range" API.
+- Returns the devices discovered in the given discovery based on given filters. Discovery ID can be obtained using the "Get Discoveries by range" API.
 
 
 .. note::
@@ -86,7 +86,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.5.5
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -136,7 +136,8 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      CliStatus query parameter.
+      CliStatus query parameter. CLI status for the IP during the job run. Available values are 'SUCCESS', 'FAILURE', 'NOT-PROVIDED' and 'NOT-VALIDATED'.
+          
 
 
       .. raw:: html
@@ -409,7 +410,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.5.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
 
       .. raw:: html
 
@@ -476,7 +477,8 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      HttpStatus query parameter.
+      HttpStatus query parameter. HTTP staus for the IP during the job run. Available values are 'SUCCESS', 'FAILURE', 'NOT-PROVIDED' and 'NOT-VALIDATED'.
+          
 
 
       .. raw:: html
@@ -544,7 +546,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      IpAddress query parameter.
+      IpAddress query parameter. IP Address of the device.
 
 
       .. raw:: html
@@ -578,7 +580,8 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      NetconfStatus query parameter.
+      NetconfStatus query parameter. NETCONF status for the IP during the job run. Available values are 'SUCCESS', 'FAILURE', 'NOT-PROVIDED' and 'NOT-VALIDATED'.
+          
 
 
       .. raw:: html
@@ -612,7 +615,8 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      PingStatus query parameter.
+      PingStatus query parameter. Ping status for the IP during the job run. Available values are 'SUCCESS', 'FAILURE', 'NOT-PROVIDED' and 'NOT-VALIDATED'.
+          
 
 
       .. raw:: html
@@ -646,7 +650,8 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      SnmpStatus query parameter.
+      SnmpStatus query parameter. SNMP status for the IP during the job run. Available values are 'SUCCESS', 'FAILURE', 'NOT-PROVIDED' and 'NOT-VALIDATED'.
+          
 
 
       .. raw:: html
@@ -680,7 +685,8 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      SortBy query parameter.
+      SortBy query parameter. Sort by field. Available values are pingStatus, cliStatus,snmpStatus, httpStatus and netconfStatus.
+          
 
 
       .. raw:: html
@@ -714,7 +720,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      SortOrder query parameter.
+      SortOrder query parameter. Order of sorting based on sortBy. Available values are 'asc' and 'des'.
 
 
       .. raw:: html

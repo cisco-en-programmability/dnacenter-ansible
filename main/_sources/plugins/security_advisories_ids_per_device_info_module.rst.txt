@@ -42,7 +42,7 @@ cisco.dnac.security_advisories_ids_per_device_info module -- Information module 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.13.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.14.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -69,7 +69,7 @@ Synopsis
 .. Description
 
 - Get Security Advisories Ids Per Device by id.
-- Retrieves list of advisory IDs for a device.
+- Retrieves advisory device details for a device.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.5.5
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -408,7 +408,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.5.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
 
       .. raw:: html
 
@@ -500,7 +500,7 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are security\_advisories.SecurityAdvisories.get\_advisory\_ids\_per\_device,
+   - SDK Method used are security\_advisories.SecurityAdvisories.get\_advisory\_device\_detail,
    - Paths used are get /dna/intent/api/v1/security-advisory/device/{deviceId},
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
@@ -513,8 +513,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Security Advisories GetAdvisoryIDsPerDevice <https://developer.cisco.com/docs/dna-center/#!get-advisory-i-ds-per-device>`_
-       Complete reference of the GetAdvisoryIDsPerDevice API.
+   `Cisco DNA Center documentation for Security Advisories GetAdvisoryDeviceDetail <https://developer.cisco.com/docs/dna-center/#!get-advisory-device-detail>`_
+       Complete reference of the GetAdvisoryDeviceDetail API.
 
 .. Examples
 
@@ -597,7 +597,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"advisoryIds": ["string"], "deviceId": "string"}], "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"advisoryIds": ["string"], "comments": "string", "deviceId": "string", "hiddenAdvisoryCount": 0, "lastScanTime": 0, "scanMode": "string", "scanStatus": "string"}, "version": "string"}`
 
 
       .. raw:: html

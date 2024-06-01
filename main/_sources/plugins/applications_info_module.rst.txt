@@ -42,7 +42,7 @@ cisco.dnac.applications_info module -- Information module for Applications
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.13.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.14.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -85,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.5.5
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -374,7 +374,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.5.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
 
       .. raw:: html
 
@@ -431,7 +431,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`integer`
+      :ansible-option-type:`float`
 
       .. raw:: html
 
@@ -499,7 +499,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`integer`
+      :ansible-option-type:`float`
 
       .. raw:: html
 
@@ -568,7 +568,7 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are application\_policy.ApplicationPolicy.get\_applications,
+   - SDK Method used are application\_policy.ApplicationPolicy.get\_applications2,
    - Paths used are get /dna/intent/api/v1/applications,
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
@@ -581,8 +581,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Application Policy GetApplications <https://developer.cisco.com/docs/dna-center/#!get-applications>`_
-       Complete reference of the GetApplications API.
+   `Cisco DNA Center documentation for Application Policy GetApplications2 <https://developer.cisco.com/docs/dna-center/#!get-applications-2>`_
+       Complete reference of the GetApplications2 API.
 
 .. Examples
 
@@ -667,7 +667,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"[\\n  {\\n    \\"id\\": \\"string\\",\\n    \\"name\\": \\"string\\",\\n    \\"indicativeNetworkIdentity\\": [\\n      {\\n        \\"id\\": \\"string\\",\\n        \\"displayName\\": \\"string\\",\\n        \\"lowerPort\\": 0,\\n        \\"ports\\": \\"string\\",\\n        \\"protocol\\": \\"string\\",\\n        \\"upperPort\\": 0\\n      }\\n    ],\\n    \\"networkApplications\\": [\\n      {\\n        \\"id\\": \\"string\\",\\n        \\"appProtocol\\": \\"string\\",\\n        \\"applicationSubType\\": \\"string\\",\\n        \\"applicationType\\": \\"string\\",\\n        \\"categoryId\\": \\"string\\",\\n        \\"displayName\\": \\"string\\",\\n        \\"engineId\\": \\"string\\",\\n        \\"helpString\\": \\"string\\",\\n        \\"longDescription\\": \\"string\\",\\n        \\"name\\": \\"string\\",\\n        \\"popularity\\": 0,\\n        \\"rank\\": 0,\\n        \\"trafficClass\\": \\"string\\",\\n        \\"serverName\\": \\"string\\",\\n        \\"url\\": \\"string\\",\\n        \\"dscp\\": \\"string\\",\\n        \\"ignoreConflict\\": \\"string\\"\\n      }\\n    ],\\n    \\"networkIdentity\\": [\\n      {\\n        \\"id\\": \\"string\\",\\n        \\"displayName\\": \\"string\\",\\n        \\"lowerPort\\": 0,\\n        \\"ports\\": \\"string\\",\\n        \\"protocol\\": \\"string\\",\\n        \\"upperPort\\": 0\\n      }\\n    ],\\n    \\"applicationSet\\": {\\n      \\"idRef\\": \\"string\\"\\n    }\\n  }\\n]\\n"`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"[\\n  {\\n    \\"id\\": \\"string\\",\\n    \\"name\\": \\"string\\",\\n    \\"networkApplications\\": [\\n      {\\n        \\"id\\": \\"string\\",\\n        \\"appProtocol\\": \\"string\\",\\n        \\"applicationSubType\\": \\"string\\",\\n        \\"applicationType\\": \\"string\\",\\n        \\"categoryId\\": \\"string\\",\\n        \\"displayName\\": \\"string\\",\\n        \\"engineId\\": \\"string\\",\\n        \\"helpString\\": \\"string\\",\\n        \\"longDescription\\": \\"string\\",\\n        \\"name\\": \\"string\\",\\n        \\"popularity\\": \\"string\\",\\n        \\"rank\\": \\"string\\",\\n        \\"trafficClass\\": \\"string\\",\\n        \\"serverName\\": \\"string\\",\\n        \\"url\\": \\"string\\",\\n        \\"dscp\\": \\"string\\",\\n        \\"ignoreConflict\\": \\"string\\"\\n      }\\n    ],\\n    \\"networkIdentity\\": [\\n      {\\n        \\"id\\": \\"string\\",\\n        \\"displayName\\": \\"string\\",\\n        \\"lowerPort\\": \\"string\\",\\n        \\"ports\\": \\"string\\",\\n        \\"protocol\\": \\"string\\",\\n        \\"upperPort\\": \\"string\\"\\n      }\\n    ],\\n    \\"applicationSet\\": {\\n      \\"idRef\\": \\"string\\"\\n    }\\n  }\\n]\\n"`
 
 
       .. raw:: html

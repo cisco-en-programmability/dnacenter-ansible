@@ -42,7 +42,7 @@ cisco.dnac.issues_info module -- Information module for Issues
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.13.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.14.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -86,7 +86,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.5.5
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -136,7 +136,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      AiDriven query parameter. The issue's AI driven value (Yes or No)(Use only when macAddress and deviceId are not provided).
+      AiDriven query parameter. The issue's AI driven value YES or NO (case insensitive) (Use only when macAddress and deviceId are not provided).
           
 
 
@@ -444,7 +444,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.5.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
 
       .. raw:: html
 
@@ -467,7 +467,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`integer`
+      :ansible-option-type:`float`
 
       .. raw:: html
 
@@ -545,7 +545,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      IssueStatus query parameter. The issue's status value (One of ACTIVE, IGNORED, RESOLVED).
+      IssueStatus query parameter. The issue's status value ACTIVE, IGNORED, RESOLVED (case insensitive).
 
 
       .. raw:: html
@@ -613,7 +613,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Priority query parameter. The issue's priority value (One of P1, P2, P3, or P4)(Use only when macAddress and deviceId are not provided).
+      Priority query parameter. The issue's priority value P1, P2, P3, or P4 (case insensitive) (Use only when macAddress and deviceId are not provided).
           
 
 
@@ -672,7 +672,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`integer`
+      :ansible-option-type:`float`
 
       .. raw:: html
 
@@ -781,8 +781,8 @@ Examples
         deviceId: string
         macAddress: string
         priority: string
-        aiDriven: string
         issueStatus: string
+        aiDriven: string
       register: result
 
 
@@ -845,7 +845,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"aiDriven": true, "category": "string", "clientMac": "string", "deviceId": "string", "deviceRole": "string", "issueId": "string", "issue\_occurence\_count": 0, "last\_occurence\_time": 0, "name": "string", "priority": "string", "siteId": "string", "status": "string"}], "totalCount": 0, "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"aiDriven": "string", "category": "string", "clientMac": "string", "deviceId": "string", "deviceRole": "string", "issueId": "string", "issue\_occurence\_count": 0, "last\_occurence\_time": 0, "name": "string", "priority": "string", "siteId": "string", "status": "string"}], "totalCount": "string", "version": "string"}`
 
 
       .. raw:: html

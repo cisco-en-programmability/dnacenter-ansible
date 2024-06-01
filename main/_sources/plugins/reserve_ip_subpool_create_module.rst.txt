@@ -42,7 +42,7 @@ cisco.dnac.reserve_ip_subpool_create module -- Resource module for Reserve Ip Su
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.13.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.14.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -85,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.5.5
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -374,7 +374,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.5.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
 
       .. raw:: html
 
@@ -407,7 +407,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      IPv4 input for dhcp server ip example 1.1.1.1.
+      IPv4 input for dhcp server ip example "1.1.1.1".
 
 
       .. raw:: html
@@ -441,7 +441,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      IPv4 input for dns server ip example 4.4.4.4.
+      IPv4 input for dns server ip example "4.4.4.4".
 
 
       .. raw:: html
@@ -619,7 +619,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      IPv4 Subnet address, example 175.175.0.0.
+      IPv4 Subnet address, example 175.175.0.0. Either ipv4Subnet or ipv4TotalHost needs to be passed if creating IPv4 subpool.
 
 
       .. raw:: html
@@ -687,7 +687,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      If the value is false only ipv4 input are required, otherwise both ipv6 and ipv4 are required.
+      If the value is omitted or false only ipv4 input are required, otherwise both ipv6 and ipv4 are required.
 
 
       .. rst-class:: ansible-option-line
@@ -729,7 +729,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      IPv6 format dhcp server as input example 2001 db8 1234.
+      IPv6 format dhcp server as input example "2001 db8 1234".
 
 
       .. raw:: html
@@ -763,7 +763,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      IPv6 format dns server input example 2001 db8 1234.
+      IPv6 format dns server input example "2001 db8 1234".
 
 
       .. raw:: html
@@ -941,7 +941,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      IPv6 Subnet address, example 2001 db8 85a3 0 100.
+      IPv6 Subnet address, example 2001 db8 85a3 0 100. Either ipv6Subnet or ipv6TotalHost needs to be passed if creating IPv6 subpool.
 
 
       .. raw:: html

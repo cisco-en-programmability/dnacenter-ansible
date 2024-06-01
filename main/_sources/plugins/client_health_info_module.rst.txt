@@ -42,7 +42,7 @@ cisco.dnac.client_health_info module -- Information module for Client Health
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.13.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.14.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -85,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.5.5
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -374,7 +374,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.5.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
 
       .. raw:: html
 
@@ -431,7 +431,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`float`
 
       .. raw:: html
 
@@ -534,7 +534,7 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         headers: "{{my_headers | from_json}}"
-        timestamp: string
+        timestamp: 0
       register: result
 
 
@@ -577,7 +577,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+      :ansible-option-type:`dictionary`
 
       .. raw:: html
 
@@ -597,7 +597,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"[\\n  {\\n    \\"siteId\\": \\"string\\",\\n    \\"scoreDetail\\": [\\n      {\\n        \\"scoreCategory\\": {\\n          \\"scoreCategory\\": \\"string\\",\\n          \\"value\\": \\"string\\"\\n        },\\n        \\"scoreValue\\": 0,\\n        \\"clientCount\\": 0,\\n        \\"clientUniqueCount\\": 0,\\n        \\"starttime\\": 0,\\n        \\"endtime\\": 0,\\n        \\"scoreList\\": [\\n          {\\n            \\"scoreCategory\\": {\\n              \\"scoreCategory\\": \\"string\\",\\n              \\"value\\": \\"string\\"\\n            },\\n            \\"scoreValue\\": 0,\\n            \\"clientCount\\": 0,\\n            \\"clientUniqueCount\\": 0,\\n            \\"starttime\\": 0,\\n            \\"endtime\\": 0,\\n            \\"scoreList\\": [\\n              {\\n                \\"scoreCategory\\": {\\n                  \\"scoreCategory\\": \\"string\\",\\n                  \\"value\\": \\"string\\"\\n                },\\n                \\"scoreValue\\": 0,\\n                \\"clientCount\\": 0,\\n                \\"clientUniqueCount\\": {},\\n                \\"starttime\\": 0,\\n                \\"endtime\\": 0\\n              }\\n            ]\\n          }\\n        ]\\n      }\\n    ]\\n  }\\n]\\n"`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"scoreDetail": [{"clientCount": 0, "clientUniqueCount": 0, "connectedToUdnCount": 0, "duidCount": 0, "endtime": 0, "maintenanceAffectedClientCount": 0, "randomMacCount": 0, "scoreCategory": {"scoreCategory": "string", "value": "string"}, "scoreList": [{"clientCount": 0, "clientUniqueCount": 0, "connectedToUdnCount": 0, "duidCount": 0, "endtime": 0, "maintenanceAffectedClientCount": 0, "randomMacCount": 0, "scoreCategory": {"scoreCategory": "string", "value": "string"}, "scoreValue": 0, "starttime": 0, "unconnectedToUdnCount": 0}], "scoreValue": 0, "starttime": 0, "unconnectedToUdnCount": 0}], "siteId": "string"}], "version": "string"}`
 
 
       .. raw:: html
