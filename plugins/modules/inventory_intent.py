@@ -57,7 +57,7 @@ options:
         default: "NETWORK_DEVICE"
       cli_transport:
         description: The essential prerequisite for adding Network devices is the specification of the transport
-            protocol (either SSH or Telnet) used by the device.
+            protocol (either ssh or telnet) used by the device.
         type: str
       compute_device:
         description: Indicates whether a device is a compute device.
@@ -307,7 +307,7 @@ options:
             version_added: 6.12.0
 
 requirements:
-- dnacentersdk >= 2.6.0
+- dnacentersdk >= 2.7.1
 - python >= 3.9
 seealso:
 - name: Cisco Catalyst Center documentation for Devices AddDevice2
@@ -775,6 +775,7 @@ class DnacDevice(DnacBase):
             'clean_config': {'type': 'bool'},
             'add_user_defined_field': {
                 'type': 'list',
+                'elements': 'dict',
                 'name': {'type': 'str'},
                 'description': {'type': 'str'},
                 'value': {'type': 'str'},
@@ -797,6 +798,7 @@ class DnacDevice(DnacBase):
             },
             'provision_wired_device': {
                 'type': 'list',
+                'elements': 'dict',
                 'device_ip': {'type': 'str'},
                 'site_name': {'type': 'str'},
                 'resync_retry_count': {'default': 200, 'type': 'int'},
@@ -1586,6 +1588,21 @@ class DnacDevice(DnacBase):
                 'siteNameHierarchy': site_name
             }
 
+            # Check the provisioning status of device
+            device_prov_status = self.get_provision_wired_device(device_ip)
+            if device_prov_status == 2:
+                self.status = "success"
+                already_provision_count += 1
+                self.result['changed'] = False
+                self.msg = "Device '{0}' is already provisioned in the Cisco Catalyst Center".format(device_ip)
+                self.log(self.msg, "INFO")
+                continue
+            if device_prov_status == 3:
+                self.status = "failed"
+                error_msg = "Cannot do Provisioning for device {0}.".format(device_ip)
+                self.log(error_msg, "ERROR")
+                continue
+
             # Check till device comes into managed state
             while resync_retry_count:
                 response = self.get_device_response(device_ip)
@@ -1629,7 +1646,7 @@ class DnacDevice(DnacBase):
                 if response.get("status") == "failed":
                     description = response.get("description")
                     error_msg = "Cannot do Provisioning for device {0} beacuse of {1}".format(device_ip, description)
-                    self.log(error_msg)
+                    self.log(error_msg, "ERROR")
                     continue
 
                 task_id = response.get("taskId")
@@ -1650,9 +1667,6 @@ class DnacDevice(DnacBase):
                 # Not returning from here as there might be possiblity that for some devices it comes into exception
                 # but for others it gets provision successfully or If some devices are already provsioned
                 self.handle_provisioning_exception(device_ip, e, device_type)
-                if "already provisioned" in str(e):
-                    self.log(str(e), "INFO")
-                    already_provision_count += 1
 
         # Check If all the devices are already provsioned, return from here only
         if already_provision_count == total_devices_to_provisioned:
@@ -2465,18 +2479,24 @@ class DnacDevice(DnacBase):
             logs the response.
         """
 
-        response = self.dnac._exec(
-            family="sda",
-            function='get_provisioned_wired_device',
-            op_modifies=True,
-            params={"device_management_ip_address": device_ip}
-        )
+        try:
+            flag = 3
+            response = self.dnac._exec(
+                family="sda",
+                function='get_provisioned_wired_device',
+                op_modifies=True,
+                params={"device_management_ip_address": device_ip}
+            )
 
-        if response.get("status") == "failed":
-            self.log("Cannot do provisioning for wired device {0} because of {1}.".format(device_ip, response.get('description')), "ERROR")
-            return False
+            if response.get("status") == "success" and "Wired Provisioned device detail retrieved successfully." in response.get("description"):
+                flag = 2
+                self.log("Wired device '{0}' already provisioned in the Cisco Catalyst Center.".format(device_ip), "INFO")
 
-        return True
+        except Exception as e:
+            if "not provisioned to any site" in str(e):
+                flag = 1
+
+        return flag
 
     def clear_mac_address(self, interface_id, deploy_mode, interface_name):
         """
@@ -2879,10 +2899,26 @@ class DnacDevice(DnacBase):
         credential_update = self.config[0].get("credential_update", False)
 
         config['type'] = device_type
+        config['ip_address_list'] = devices_to_add
         if device_type == "FIREPOWER_MANAGEMENT_SYSTEM":
             config['http_port'] = self.config[0].get("http_port", "443")
 
-        config['ip_address_list'] = devices_to_add
+        if self.config[0].get('provision_wired_device'):
+            provision_wired_list = self.config[0]['provision_wired_device']
+            device_not_available = []
+            device_in_ccc = self.device_exists_in_dnac()
+
+            for prov_dict in provision_wired_list:
+                device_ip = prov_dict['device_ip']
+                if device_ip not in device_in_ccc:
+                    device_not_available.append(device_ip)
+            if device_not_available:
+                self.status = "failed"
+                self.msg = """Unable to Provision Wired Device(s) because the device(s) listed: {0} are not present in the
+                            Cisco Catalyst Center.""".format(str(device_not_available))
+                self.result['response'] = self.msg
+                self.log(self.msg, "ERROR")
+                return self
 
         if self.config[0].get('update_mgmt_ipaddresslist'):
             device_ip = self.config[0].get('update_mgmt_ipaddresslist')[0].get('existMgmtIpAddress')
@@ -3032,6 +3068,7 @@ class DnacDevice(DnacBase):
             devices_to_update_role = self.get_device_ips_from_config_priority()
             device_role = self.config[0].get('role')
             role_update_count = 0
+            role_updated_list = []
             for device_ip in devices_to_update_role:
                 device_id = self.get_device_ids([device_ip])
 
@@ -3076,10 +3113,8 @@ class DnacDevice(DnacBase):
 
                             if 'successfully' in progress or 'succesfully' in progress:
                                 self.status = "success"
-                                self.result['changed'] = True
-                                self.msg = "Device(s) '{0}' role updated successfully to '{1}'".format(str(devices_to_update_role), device_role)
-                                self.result['response'] = self.msg
-                                self.log(self.msg, "INFO")
+                                self.log("Device '{0}' role updated successfully to '{1}'".format(device_ip, device_role), "INFO")
+                                role_updated_list.append(device_ip)
                                 break
                             elif execution_details.get("isError"):
                                 self.status = "failed"
@@ -3100,9 +3135,16 @@ class DnacDevice(DnacBase):
                 self.status = "success"
                 self.result['changed'] = False
                 self.msg = """The device role '{0}' is already set in Cisco Catalyst Center, no device role update is needed for the
-                  devices {1}.""".format(device_role, str(devices_to_update_role))
+                  device(s) {1}.""".format(device_role, str(devices_to_update_role))
                 self.log(self.msg, "INFO")
                 self.result['response'] = self.msg
+
+            if role_updated_list:
+                self.status = "success"
+                self.result['changed'] = True
+                self.msg = "Device(s) '{0}' role updated successfully to '{1}'".format(str(role_updated_list), device_role)
+                self.result['response'] = self.msg
+                self.log(self.msg, "INFO")
 
         if credential_update:
             device_to_update = self.get_device_ips_from_config_priority()
@@ -3228,6 +3270,10 @@ class DnacDevice(DnacBase):
                     playbook_params['httpPassword'] = device_data.get('http_config_password', None)
                 if not playbook_params['httpPort']:
                     playbook_params['httpPort'] = device_data.get('http_port', None)
+
+                for key, value in playbook_params.items():
+                    if value == " ":
+                        playbook_params[key] = None
 
                 try:
                     if playbook_params['updateMgmtIPaddressList']:
@@ -3598,7 +3644,8 @@ class DnacDevice(DnacBase):
             for prov_dict in provision_wired_list:
                 device_ip = prov_dict['device_ip']
                 provision_device_list.append(device_ip)
-                if not self.get_provision_wired_device(device_ip):
+                device_prov_status = self.get_provision_wired_device(device_ip)
+                if device_prov_status == 1 or device_prov_status == 3:
                     provision_wired_flag = False
                     break
 

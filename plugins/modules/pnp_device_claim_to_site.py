@@ -10,7 +10,9 @@ module: pnp_device_claim_to_site
 short_description: Resource module for Pnp Device Claim To Site
 description:
 - Manage operation create of the resource Pnp Device Claim To Site.
-- Claim a device based on DNA-C Site-based design process. Some required parameters differ based on device platform.
+- >
+   Claim a device based on Catalyst Center Site-based design process. Some required parameters differ based on device
+   platform.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -18,13 +20,13 @@ author: Rafael Campos (@racampos)
 options:
   configInfo:
     description: Pnp Device Claim To Site's configInfo.
-    elements: dict
     suboptions:
       configId:
         description: Config Id.
         type: str
       configParameters:
         description: Pnp Device Claim To Site's configParameters.
+        elements: dict
         suboptions:
           key:
             description: Key.
@@ -32,8 +34,8 @@ options:
           value:
             description: Value.
             type: str
-        type: dict
-    type: list
+        type: list
+    type: dict
     version_added: 4.2.0
   deviceId:
     description: Device Id.
@@ -53,9 +55,10 @@ options:
         type: bool
     type: dict
     version_added: 4.2.0
-  interfaceName:
+  ipInterfaceName:
     description: For Catalyst 9800 WLC.
     type: str
+    version_added: 6.4.0
   rfProfile:
     description: For Access Points.
     type: str
@@ -76,12 +79,13 @@ options:
   type:
     description: Type.
     type: str
-  vlanID:
+  vlanId:
     description: For Catalyst 9800 WLC.
     type: str
+    version_added: 6.4.0
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Device Onboarding (PnP) ClaimADeviceToASite
   description: Complete reference of the ClaimADeviceToASite API.
@@ -106,26 +110,25 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     configInfo:
-    - configId: string
+      configId: string
       configParameters:
-        key: string
+      - key: string
         value: string
     deviceId: string
     gateway: string
     imageInfo:
       imageId: string
       skip: true
-    interfaceName: string
+    ipInterfaceName: string
     rfProfile: string
     sensorProfile: string
     siteId: string
     staticIP: string
     subnetMask: string
     type: string
-    vlanID: string
+    vlanId: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

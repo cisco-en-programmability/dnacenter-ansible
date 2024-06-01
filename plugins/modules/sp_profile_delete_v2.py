@@ -11,17 +11,17 @@ short_description: Resource module for Sp Profile Delete V2
 description:
 - Manage operation delete of the resource Sp Profile Delete V2.
 - API to delete Service Provider Profile QoS .
-version_added: '6.7.0'
+version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   spProfileName:
-    description: SpProfileName path parameter. Sp profile name.
+    description: SpProfileName path parameter. SP profile name.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Network Settings DeleteSPProfileV2
   description: Complete reference of the DeleteSPProfileV2 API.
@@ -48,7 +48,6 @@ EXAMPLES = r"""
     spProfileName: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

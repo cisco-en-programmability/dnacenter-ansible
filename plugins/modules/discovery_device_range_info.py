@@ -27,19 +27,19 @@ options:
     type: str
   startIndex:
     description:
-    - StartIndex path parameter. Start index.
+    - StartIndex path parameter. Starting index for the records.
     type: int
   recordsToReturn:
     description:
-    - RecordsToReturn path parameter. Number of records to return.
+    - RecordsToReturn path parameter. Number of records to fetch from the start index.
     type: int
   taskId:
     description:
     - TaskId query parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Discovery GetDiscoveredDevicesByRange
   description: Complete reference of the GetDiscoveredDevicesByRange API.
@@ -71,7 +71,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

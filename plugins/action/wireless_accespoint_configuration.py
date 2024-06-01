@@ -30,8 +30,6 @@ argument_spec.update(dict(
     adminStatus=dict(type="bool"),
     configureApMode=dict(type="bool"),
     apMode=dict(type="int"),
-    configureApHeight=dict(type="bool"),
-    apHeight=dict(type="int"),
     configureFailoverPriority=dict(type="bool"),
     failoverPriority=dict(type="int"),
     configureLedStatus=dict(type="bool"),
@@ -48,6 +46,7 @@ argument_spec.update(dict(
     tertiaryControllerName=dict(type="str"),
     tertiaryIpAddress=dict(type="dict"),
     radioConfigurations=dict(type="list"),
+    isAssignedSiteAsLocation=dict(type="bool"),
 ))
 
 required_if = []
@@ -90,8 +89,6 @@ class ActionModule(ActionBase):
             adminStatus=params.get("adminStatus"),
             configureApMode=params.get("configureApMode"),
             apMode=params.get("apMode"),
-            configureApHeight=params.get("configureApHeight"),
-            apHeight=params.get("apHeight"),
             configureFailoverPriority=params.get("configureFailoverPriority"),
             failoverPriority=params.get("failoverPriority"),
             configureLedStatus=params.get("configureLedStatus"),
@@ -108,6 +105,7 @@ class ActionModule(ActionBase):
             tertiaryControllerName=params.get("tertiaryControllerName"),
             tertiaryIpAddress=params.get("tertiaryIpAddress"),
             radioConfigurations=params.get("radioConfigurations"),
+            isAssignedSiteAsLocation=params.get("isAssignedSiteAsLocation"),
         )
         return new_object
 
@@ -121,7 +119,7 @@ class ActionModule(ActionBase):
 
         response = dnac.exec(
             family="wireless",
-            function='configure_access_points',
+            function='configure_access_points_v1',
             op_modifies=True,
             params=self.get_object(self._task.args),
         )

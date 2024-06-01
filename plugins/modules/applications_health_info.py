@@ -36,11 +36,11 @@ options:
   startTime:
     description:
     - StartTime query parameter. Starting epoch time in milliseconds of time window.
-    type: int
+    type: float
   endTime:
     description:
     - EndTime query parameter. Ending epoch time in milliseconds of time window.
-    type: int
+    type: float
   applicationHealth:
     description:
     - >
@@ -52,20 +52,20 @@ options:
     - >
       Offset query parameter. The offset of the first application in the returned data (optionally used with
       siteId only).
-    type: int
+    type: float
   limit:
     description:
     - >
       Limit query parameter. The max number of application entries in returned data 1, 1000 (optionally used with
       siteId only).
-    type: int
+    type: float
   applicationName:
     description:
     - ApplicationName query parameter. The name of the application to get information on.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Applications Applications
   description: Complete reference of the Applications API.
@@ -102,7 +102,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

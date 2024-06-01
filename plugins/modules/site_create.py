@@ -43,10 +43,10 @@ options:
             type: str
           latitude:
             description: Latitude coordinate of the building (eg 37.338).
-            type: int
+            type: float
           longitude:
             description: Longitude coordinate of the building (eg -121.832).
-            type: int
+            type: float
           name:
             description: Name of the building (eg building1).
             type: str
@@ -59,13 +59,13 @@ options:
         suboptions:
           floorNumber:
             description: Floor number. (eg 5).
-            type: int
+            type: float
           height:
             description: Height of the floor. Unit of measure is ft. (eg 15).
-            type: int
+            type: float
           length:
             description: Length of the floor. Unit of measure is ft. (eg 100).
-            type: int
+            type: float
           name:
             description: Name of the floor (eg floor-1).
             type: str
@@ -77,15 +77,15 @@ options:
             type: str
           width:
             description: Width of the floor. Unit of measure is ft. (eg 100).
-            type: int
+            type: float
         type: dict
     type: dict
   type:
     description: Type of site to create (eg area, building, floor).
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Sites CreateSite
   description: Complete reference of the CreateSite API.
@@ -132,7 +132,6 @@ EXAMPLES = r"""
     type: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

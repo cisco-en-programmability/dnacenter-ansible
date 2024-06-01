@@ -24,8 +24,8 @@ options:
     - Name query parameter. Queuing profile name.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Application Policy GetApplicationPolicyQueuingProfile
   description: Complete reference of the GetApplicationPolicyQueuingProfile API.
@@ -54,7 +54,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

@@ -479,14 +479,17 @@ class Provision(DnacBase):
 
         device_type = self.want.get("device_type")
         if device_type == "wired":
-            status_response = self.dnac_apply['exec'](
-                family="sda",
-                function="get_provisioned_wired_device",
-                op_modifies=True,
-                params={
-                    "device_management_ip_address": self.validated_config[0]["management_ip_address"]
-                },
-            )
+            try:
+                status_response = self.dnac_apply['exec'](
+                    family="sda",
+                    function="get_provisioned_wired_device",
+                    op_modifies=True,
+                    params={
+                        "device_management_ip_address": self.validated_config[0]["management_ip_address"]
+                    },
+                )
+            except Exception:
+                status_response = {}
             self.log("Wired device's status Response collected from 'get_provisioned_wired_device' API is:{0}".format(str(status_response)), "DEBUG")
             status = status_response.get("status")
             self.log("The provisioned status of the wired device is {0}".format(status), "INFO")
