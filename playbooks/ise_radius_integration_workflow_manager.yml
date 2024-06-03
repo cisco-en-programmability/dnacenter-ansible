@@ -86,9 +86,9 @@
               password: abcd
               fqdn: abc.cisco.com
               ip_address: 10.195.243.59
-              subscriber_name: abcde
               description: CISCO ISE
             trusted_server: True
+            ise_integration_wait_time: 20
 
     - name: Delete an ISE Server.
       cisco.dnac.ise_radius_integration_workflow_manager:
