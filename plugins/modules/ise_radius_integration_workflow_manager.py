@@ -201,7 +201,14 @@ options:
             description:
             - Indicates whether the certificate is trustworthy for the server.
             - Serves as a validation of its authenticity and reliability in secure connections.
+            default: True
             type: bool
+          ise_integration_wait_time:
+            description:
+            - Indicates the sleep time after initiating the Cisco ISE integration process.
+            - Maximum sleep time should be less or equal to 60 seconds.
+            default: 20
+            type: int
 requirements:
 - dnacentersdk >= 2.7.0
 - python >= 3.9
@@ -285,6 +292,7 @@ EXAMPLES = r"""
           ip_address: 10.0.0.2
           description: Cisco ISE
         trusted_server: True
+        ise_integration_wait_time: 20
 
 - name: Update an AAA server.
   cisco.dnac.ise_radius_integration_workflow_manager:
@@ -479,7 +487,9 @@ class IseRadiusIntegration(DnacBase):
                         "external_ip_address": {"type": 'string'},
                     },
                     "ise_type": {"type": 'string'},
-                }
+                },
+                "trusted_server": {"type": 'bool'},
+                "ise_integration_wait_time": {"type": 'integer'}
             }
         }
 
@@ -743,7 +753,7 @@ class IseRadiusIntegration(DnacBase):
         if not auth_server_exists:
             server_type = auth_policy_server.get("server_type")
             if server_type not in ["ISE", "AAA", None]:
-                self.msg = "server_type should either be ISE or AAA but not {0}.".format(server_type)
+                self.msg = "The server_type should either be ISE or AAA but not {0}.".format(server_type)
                 self.status = "failed"
                 return self
 
@@ -760,7 +770,7 @@ class IseRadiusIntegration(DnacBase):
 
         if not auth_server_exists:
             shared_secret = auth_policy_server.get("shared_secret")
-            if not (shared_secret or auth_server_exists):
+            if not shared_secret:
                 self.msg = "Missing parameter 'shared_secret' is required."
                 self.status = "failed"
                 return self
@@ -771,15 +781,12 @@ class IseRadiusIntegration(DnacBase):
                 self.status = "failed"
                 return self
 
-            if " " in shared_secret:
-                self.msg = "The 'shared_secret' should not contain any spaces."
-                self.status = "failed"
-                return self
-
-            if "?" in shared_secret or "<" in shared_secret:
-                self.msg = "The 'shared_secret' should not contain '?' or '<' characters."
-                self.status = "failed"
-                return self
+            invalid_chars = " ?<"
+            for char in invalid_chars:
+                if char in shared_secret:
+                    self.msg = "The 'shared_secret' should not contain spaces or the characters '?', '<'."
+                    self.status = "failed"
+                    return self
 
             auth_server.update({"sharedSecret": shared_secret})
 
@@ -803,7 +810,7 @@ class IseRadiusIntegration(DnacBase):
         if not auth_server_exists:
             encryption_scheme = auth_policy_server.get("encryption_scheme")
             if encryption_scheme not in ["KEYWRAP", "RADSEC", None]:
-                self.msg = "encryption_scheme should be in ['KEYWRAP', 'RADSEC']. " + \
+                self.msg = "The encryption_scheme should be in ['KEYWRAP', 'RADSEC']. " + \
                            "It should not be {0}.".format(encryption_scheme)
                 self.status = "failed"
                 return self
@@ -829,7 +836,7 @@ class IseRadiusIntegration(DnacBase):
 
                 encryption_key = auth_policy_server.get("encryption_key")
                 if not encryption_key:
-                    self.msg = "encryption_key should not be empty if encryption_scheme is 'KEYWRAP'."
+                    self.msg = "The encryption_key should not be empty if encryption_scheme is 'KEYWRAP'."
                     self.status = "failed"
                     return self
 
@@ -887,47 +894,51 @@ class IseRadiusIntegration(DnacBase):
             else:
                 auth_server.update({"retries": auth_server_details.get("retries")})
         else:
-            retries = str(retries)
-            if not retries.isdigit():
+            try:
+                retries = str(retries)
+                if not 1 <= int(retries) <= 3:
+                    self.msg = "The 'retries' should be from 1 to 3."
+                    self.status = "failed"
+                    return self
+            except ValueError:
                 self.msg = "The 'retries' should contain only from 0-9."
-                self.status = "failed"
-                return self
-
-            if not 1 <= int(retries) <= 3:
-                self.msg = "The 'retries' should be from 1 to 3."
                 self.status = "failed"
                 return self
 
             auth_server.update({"retries": retries})
 
         timeout = auth_policy_server.get("timeout")
-        if not timeout:
-            if not auth_server_exists:
-                auth_server.update({"timeoutSeconds": "4"})
-            else:
-                auth_server.update({"timeoutSeconds": auth_server_details.get("timeoutSeconds")})
-        else:
-            timeout = str(timeout)
-            if not timeout.isdigit():
-                self.msg = "The 'timeout' should contain only from 0-9."
-                self.status = "failed"
-                return self
-
-            if not 2 <= int(timeout) <= 20:
-                self.msg = "The 'timeout' should be from 2 to 20."
-                self.status = "failed"
-                return self
-
-            auth_server.update({"timeoutSeconds": timeout})
-
         if not auth_server_exists:
-            role = auth_policy_server.get("role")
-            if role:
-                auth_server.update({"role": role})
-            else:
-                auth_server.update({"role": "secondary"})
+            default_timeout = "4"
         else:
-            auth_server.update({"role": auth_server_details.get("role")})
+            default_timeout = str(auth_server_details.get("timeoutSeconds"))
+
+        # If 'timeout' is not provided, use 'default_timeout'
+        if timeout is None:
+            auth_server.update({"timeoutSeconds": default_timeout})
+        else:
+            try:
+                timeout_int = int(timeout)
+                if timeout_int < 2 or timeout_int > 20:
+                    self.msg = "The 'timeout' should be from 2 to 20."
+                    self.status = "failed"
+                    return self
+
+                auth_server.update({"timeoutSeconds": str(timeout)})
+            except ValueError:
+                self.msg = "The 'time_out' must contain only digits."
+                self.status = "failed"
+                return self
+
+        # Determine the role based on whether the auth server exists and if the role is specified
+        if not auth_server_exists:
+            # Use the role from 'auth_policy_server' if available, otherwise default to "secondary"
+            role = auth_policy_server.get("role", "secondary")
+        else:
+            # Use the role from 'auth_server_details'
+            role = auth_server_details.get("role")
+
+        auth_server.update({"role": role})
 
         if auth_server.get("isIseEnabled"):
             cisco_ise_dtos = auth_policy_server.get("cisco_ise_dtos")
@@ -1008,22 +1019,22 @@ class IseRadiusIntegration(DnacBase):
                 position_ise_creds += 1
 
             pxgrid_enabled = auth_policy_server.get("pxgrid_enabled")
-            if not pxgrid_enabled:
-                if not auth_server_exists:
-                    auth_server.update({"pxgridEnabled": True})
+            if pxgrid_enabled is None:
+                if auth_server_exists:
+                    pxgrid_enabled = auth_server_details.get("pxgridEnabled")
                 else:
-                    auth_server.update({"pxgridEnabled": auth_server_details.get("pxgridEnabled")})
-            else:
-                auth_server.update({"pxgridEnabled": pxgrid_enabled})
+                    pxgrid_enabled = True
+
+            auth_server.update({"pxgridEnabled": pxgrid_enabled})
 
             use_dnac_cert_for_pxgrid = auth_policy_server.get("use_dnac_cert_for_pxgrid")
-            if not use_dnac_cert_for_pxgrid:
-                if not auth_server_exists:
-                    auth_server.update({"useDnacCertForPxgrid": False})
+            if use_dnac_cert_for_pxgrid is None:
+                if auth_server_exists:
+                    use_dnac_cert_for_pxgrid = auth_server_details.get("useDnacCertForPxgrid")
                 else:
-                    auth_server.update({"useDnacCertForPxgrid": auth_server_details.get("useDnacCertForPxgrid")})
-            else:
-                auth_server.update({"useDnacCertForPxgrid": use_dnac_cert_for_pxgrid})
+                    use_dnac_cert_for_pxgrid = False
+
+            auth_server.update({"useDnacCertForPxgrid": use_dnac_cert_for_pxgrid})
 
             external_cisco_ise_ip_addr_dtos = auth_policy_server \
                 .get("external_cisco_ise_ip_addr_dtos")
@@ -1052,13 +1063,35 @@ class IseRadiusIntegration(DnacBase):
                             .update({"type": ise_type})
                     position_ise_addresses += 1
 
-            if auth_policy_server.get("trusted_server"):
+            trusted_server = auth_policy_server.get("trusted_server")
+            if auth_policy_server.get("trusted_server") is None:
                 trusted_server = True
+            else:
+                trusted_server = auth_policy_server.get("trusted_server")
+
+            self.want.update({"trusted_server": trusted_server})
+
+            ise_integration_wait_time = auth_policy_server.get("ise_integration_wait_time")
+            if ise_integration_wait_time is None:
+                ise_integration_wait_time = 20
+            else:
+                try:
+                    ise_integration_wait_time_int = int(ise_integration_wait_time)
+                    if ise_integration_wait_time_int < 1 or ise_integration_wait_time_int > 60:
+                        self.msg = "The ise_integration_wait_time should be from 1 to 60 seconds."
+                        self.status = "failed"
+                        return self
+
+                except ValueError:
+                    self.msg = "The 'ise_integration_wait_time' should contain only digits."
+                    self.status = "failed"
+                    return self
+
+            self.want.update({"ise_integration_wait_time": ise_integration_wait_time})
 
         self.log("Authentication and Policy Server playbook details: {0}"
                  .format(auth_server), "DEBUG")
         self.want.update({"authenticationPolicyServer": auth_server})
-        self.want.update({"trusted_server": trusted_server})
         self.msg = "Collecting the Authentication and Policy Server details from the playbook"
         self.status = "success"
         return self
@@ -1142,15 +1175,6 @@ class IseRadiusIntegration(DnacBase):
             self - The current object with updated desired Authentication Policy Server information.
         """
 
-        # if want_auth_server.get("sharedSecret") is not None:
-        #     del want_auth_server["sharedSecret"]
-        # if want_auth_server.get("encryptionScheme") is not None:
-        #     del want_auth_server["encryptionScheme"]
-        # if want_auth_server.get("messageKey") is not None:
-        #     del want_auth_server["messageKey"]
-        # if want_auth_server.get("encryptionKey") is not None:
-        #     del want_auth_server["encryptionKey"]
-
         update_params = ["authenticationPort", "accountingPort", "role"]
         for item in update_params:
             have_auth_server_item = have_auth_server.get(item)
@@ -1213,7 +1237,8 @@ class IseRadiusIntegration(DnacBase):
             if is_ise_server:
                 trusted_server = self.want.get("trusted_server")
                 self.accept_cisco_ise_server_certificate(ipAddress, trusted_server)
-                time.sleep(20)
+                ise_integration_wait_time = self.want.get("ise_integration_wait_time")
+                time.sleep(ise_integration_wait_time)
                 response = self.dnac._exec(
                     family="system_settings",
                     function='get_authentication_and_policy_servers',
