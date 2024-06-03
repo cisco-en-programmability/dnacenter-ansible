@@ -175,11 +175,6 @@ options:
                 - IP Address of the Cisco ISE Server.
                 - Required for passing the cisco_ise_dtos.
                 type: str
-              subscriber_name:
-                description:
-                - Subscriber name of the Cisco ISE server.
-                - Required for passing the cisco_ise_dtos.
-                type: str
               description:
                 description: Description about the Cisco ISE server.
                 type: str
@@ -206,7 +201,14 @@ options:
             description:
             - Indicates whether the certificate is trustworthy for the server.
             - Serves as a validation of its authenticity and reliability in secure connections.
+            default: True
             type: bool
+          ise_integration_wait_time:
+            description:
+            - Indicates the sleep time after initiating the Cisco ISE integration process.
+            - Maximum sleep time should be less or equal to 60 seconds.
+            default: 20
+            type: int
 requirements:
 - dnacentersdk >= 2.7.0
 - python >= 3.9
@@ -288,9 +290,9 @@ EXAMPLES = r"""
           password: "12345"
           fqdn: abs.cisco.com
           ip_address: 10.0.0.2
-          subscriber_name: px-1234
           description: Cisco ISE
         trusted_server: True
+        ise_integration_wait_time: 20
 
 - name: Update an AAA server.
   cisco.dnac.ise_radius_integration_workflow_manager:
@@ -346,7 +348,6 @@ EXAMPLES = r"""
           password: "12345"
           fqdn: abs.cisco.com
           ip_address: 10.0.0.2
-          subscriber_name: px-1234
           description: Cisco ISE
 
 - name: Delete an Authentication and Policy server.
@@ -476,7 +477,6 @@ class IseRadiusIntegration(DnacBase):
                     "password": {"type": 'string'},
                     "fqdn": {"type": 'string'},
                     "ip_address": {"type": 'string'},
-                    "subscriber_name": {"type": 'string'},
                     "description": {"type": 'string'},
                     "ssh_key": {"type": 'string'},
                 },
@@ -487,7 +487,9 @@ class IseRadiusIntegration(DnacBase):
                         "external_ip_address": {"type": 'string'},
                     },
                     "ise_type": {"type": 'string'},
-                }
+                },
+                "trusted_server": {"type": 'bool'},
+                "ise_integration_wait_time": {"type": 'integer'}
             }
         }
 
@@ -745,44 +747,48 @@ class IseRadiusIntegration(DnacBase):
         """
 
         auth_server = {}
+        auth_server_exists = self.have.get("authenticationPolicyServer").get("exists")
+        auth_server_details = self.have.get("authenticationPolicyServer").get("details")
         trusted_server = False
-        server_type = auth_policy_server.get("server_type")
-        if server_type not in ["ISE", "AAA", None]:
-            self.msg = "server_type should either be ISE or AAA but not {0}.".format(server_type)
-            self.status = "failed"
-            return self
+        if not auth_server_exists:
+            server_type = auth_policy_server.get("server_type")
+            if server_type not in ["ISE", "AAA", None]:
+                self.msg = "The server_type should either be ISE or AAA but not {0}.".format(server_type)
+                self.status = "failed"
+                return self
 
-        if server_type == "ISE":
-            auth_server.update({"isIseEnabled": True})
+            if server_type == "ISE":
+                auth_server.update({"isIseEnabled": True})
+            else:
+                auth_server.update({"isIseEnabled": False})
         else:
-            auth_server.update({"isIseEnabled": False})
+            auth_server.update({"isIseEnabled": auth_server_details.get("isIseEnabled")})
 
         auth_server.update({"ipAddress": auth_policy_server.get("server_ip_address")})
 
         auth_server_exists = self.have.get("authenticationPolicyServer").get("exists")
-        shared_secret = auth_policy_server.get("shared_secret")
-        if not (shared_secret or auth_server_exists):
-            self.msg = "Missing parameter 'shared_secret' is required."
-            self.status = "failed"
-            return self
 
-        shared_secret = str(shared_secret)
-        if not (4 <= len(shared_secret) <= 100):
-            self.msg = "The 'shared_secret' should contain between 4 and 100 characters."
-            self.status = "failed"
-            return self
+        if not auth_server_exists:
+            shared_secret = auth_policy_server.get("shared_secret")
+            if not shared_secret:
+                self.msg = "Missing parameter 'shared_secret' is required."
+                self.status = "failed"
+                return self
 
-        if " " in shared_secret:
-            self.msg = "The 'shared_secret' should not contain any spaces."
-            self.status = "failed"
-            return self
+            shared_secret = str(shared_secret)
+            if len(shared_secret) < 4 or len(shared_secret) > 100:
+                self.msg = "The 'shared_secret' should contain between 4 and 100 characters."
+                self.status = "failed"
+                return self
 
-        if "?" in shared_secret or "<" in shared_secret:
-            self.msg = "The 'shared_secret' should not contain '?' or '<' characters."
-            self.status = "failed"
-            return self
+            invalid_chars = " ?<"
+            for char in invalid_chars:
+                if char in shared_secret:
+                    self.msg = "The 'shared_secret' should not contain spaces or the characters '?', '<'."
+                    self.status = "failed"
+                    return self
 
-        auth_server.update({"sharedSecret": shared_secret})
+            auth_server.update({"sharedSecret": shared_secret})
 
         protocol = auth_policy_server.get("protocol")
         if protocol not in ["RADIUS", "TACACS", "RADIUS_TACACS", None]:
@@ -794,122 +800,145 @@ class IseRadiusIntegration(DnacBase):
         if protocol is not None:
             auth_server.update({"protocol": protocol})
         else:
-            auth_server.update({"protocol": "RADIUS"})
+            if not auth_server_exists:
+                auth_server.update({"protocol": "RADIUS"})
+            else:
+                auth_server.update({"protocol": auth_server_details.get("protocol")})
 
         auth_server.update({"port": 49})
 
-        encryption_scheme = auth_policy_server.get("encryption_scheme")
-        if encryption_scheme not in ["KEYWRAP", "RADSEC", None]:
-            self.msg = "encryption_scheme should be in ['KEYWRAP', 'RADSEC']. " + \
-                       "It should not be {0}.".format(encryption_scheme)
-            self.status = "failed"
-            return self
-
-        if encryption_scheme:
-            auth_server.update({"encryptionScheme": encryption_scheme})
-
-        if encryption_scheme == "KEYWRAP":
-            message_key = auth_policy_server.get("message_authenticator_code_key")
-            if not message_key:
-                self.msg = "The 'message_authenticator_code_key' should not be empty if the encryption_scheme is 'KEYWRAP'."
+        if not auth_server_exists:
+            encryption_scheme = auth_policy_server.get("encryption_scheme")
+            if encryption_scheme not in ["KEYWRAP", "RADSEC", None]:
+                self.msg = "The encryption_scheme should be in ['KEYWRAP', 'RADSEC']. " + \
+                           "It should not be {0}.".format(encryption_scheme)
                 self.status = "failed"
                 return self
 
-            message_key = str(message_key)
-            message_key_length = len(message_key)
-            if message_key_length != 20:
-                self.msg = "The 'message_authenticator_code_key' should be exactly 20 characters."
+            if encryption_scheme:
+                auth_server.update({"encryptionScheme": encryption_scheme})
+
+            if encryption_scheme == "KEYWRAP":
+                message_key = auth_policy_server.get("message_authenticator_code_key")
+                if not message_key:
+                    self.msg = "The 'message_authenticator_code_key' should not be empty if the encryption_scheme is 'KEYWRAP'."
+                    self.status = "failed"
+                    return self
+
+                message_key = str(message_key)
+                message_key_length = len(message_key)
+                if message_key_length != 20:
+                    self.msg = "The 'message_authenticator_code_key' should be exactly 20 characters."
+                    self.status = "failed"
+                    return self
+
+                auth_server.update({"messageKey": message_key})
+
+                encryption_key = auth_policy_server.get("encryption_key")
+                if not encryption_key:
+                    self.msg = "The encryption_key should not be empty if encryption_scheme is 'KEYWRAP'."
+                    self.status = "failed"
+                    return self
+
+                encryption_key = str(encryption_key)
+                encryption_key_length = len(encryption_key)
+                if encryption_key_length != 16:
+                    self.msg = "The 'encryption_key' must be 16 characters long. It may contain alphanumeric and special characters."
+                    self.status = "failed"
+                    return self
+
+                auth_server.update({"encryptionKey": encryption_key})
+
+        if not auth_server_exists:
+            authentication_port = auth_policy_server.get("authentication_port")
+            if not authentication_port:
+                authentication_port = 1812
+
+            if not str(authentication_port).isdigit():
+                self.msg = "The 'authentication_port' should contain only digits."
                 self.status = "failed"
                 return self
 
-            auth_server.update({"messageKey": message_key})
-
-            encryption_key = auth_policy_server.get("encryption_key")
-            if not encryption_key:
-                self.msg = "encryption_key should not be empty if encryption_scheme is 'KEYWRAP'."
+            if authentication_port < 1 or authentication_port > 65535:
+                self.msg = "The 'authentication_port' should be from 1 to 65535."
                 self.status = "failed"
                 return self
 
-            encryption_key = str(encryption_key)
-            encryption_key_length = len(encryption_key)
-            if encryption_key_length != 16:
-                self.msg = "The 'encryption_key' must be 16 characters long. It may contain alphanumeric and special characters."
+            auth_server.update({"authenticationPort": authentication_port})
+        else:
+            auth_server.update({"authenticationPort": auth_server_details.get("authenticationPort")})
+
+        if not auth_server_exists:
+            accounting_port = auth_policy_server.get("accounting_port")
+            if not accounting_port:
+                accounting_port = 1813
+
+            if not str(accounting_port).isdigit():
+                self.msg = "The 'accounting_port' should contain only digits."
                 self.status = "failed"
                 return self
 
-            auth_server.update({"encryptionKey": encryption_key})
+            if accounting_port < 1 or accounting_port > 65535:
+                self.msg = "The 'accounting_port' should be from 1 to 65535."
+                self.status = "failed"
+                return self
 
-        authentication_port = auth_policy_server.get("authentication_port")
-        if not authentication_port:
-            authentication_port = 1812
-
-        if not str(authentication_port).isdigit():
-            self.msg = "The 'authentication_port' should contain only digits."
-            self.status = "failed"
-            return self
-
-        if not 1 <= authentication_port <= 65535:
-            self.msg = "The 'authentication_port' should be from 1 to 65535."
-            self.status = "failed"
-            return self
-
-        auth_server.update({"authenticationPort": authentication_port})
-
-        accounting_port = auth_policy_server.get("accounting_port")
-        if not accounting_port:
-            accounting_port = 1813
-
-        if not str(accounting_port).isdigit():
-            self.msg = "The 'accounting_port' should contain only digits."
-            self.status = "failed"
-            return self
-
-        if not 1 <= accounting_port <= 65535:
-            self.msg = "The 'accounting_port' should be from 1 to 65535."
-            self.status = "failed"
-            return self
-
-        auth_server.update({"accountingPort": accounting_port})
+            auth_server.update({"accountingPort": accounting_port})
+        else:
+            auth_server.update({"accountingPort": auth_server_details.get("accountingPort")})
 
         retries = auth_policy_server.get("retries")
         if not retries:
-            retries = "3"
+            if not auth_server_exists:
+                auth_server.update({"retries": "3"})
+            else:
+                auth_server.update({"retries": auth_server_details.get("retries")})
+        else:
+            try:
+                retries_int = int(retries)
+                if retries_int < 1 or retries_int > 3:
+                    self.msg = "The 'retries' should be from 1 to 3."
+                    self.status = "failed"
+                    return self
+            except ValueError:
+                self.msg = "The 'retries' should contain only from 0-9."
+                self.status = "failed"
+                return self
 
-        retries = str(retries)
-        if not retries.isdigit():
-            self.msg = "The 'retries' should contain only from 0-9."
-            self.status = "failed"
-            return self
-
-        if not 1 <= int(retries) <= 3:
-            self.msg = "The 'retries' should be from 1 to 3."
-            self.status = "failed"
-            return self
-
-        auth_server.update({"retries": retries})
+            auth_server.update({"retries": str(retries)})
 
         timeout = auth_policy_server.get("timeout")
-        if not timeout:
-            timeout = "4"
-
-        timeout = str(timeout)
-        if not timeout.isdigit():
-            self.msg = "The 'timeout' should contain only from 0-9."
-            self.status = "failed"
-            return self
-
-        if not 2 <= int(timeout) <= 20:
-            self.msg = "The 'timeout' should be from 2 to 20."
-            self.status = "failed"
-            return self
-
-        auth_server.update({"timeoutSeconds": timeout})
-
-        role = auth_policy_server.get("role")
-        if role:
-            auth_server.update({"role": role})
+        if not auth_server_exists:
+            default_timeout = "4"
         else:
-            auth_server.update({"role": "secondary"})
+            default_timeout = str(auth_server_details.get("timeoutSeconds"))
+
+        # If 'timeout' is not provided, use 'default_timeout'
+        if timeout is None:
+            auth_server.update({"timeoutSeconds": default_timeout})
+        else:
+            try:
+                timeout_int = int(timeout)
+                if timeout_int < 2 or timeout_int > 20:
+                    self.msg = "The 'timeout' should be from 2 to 20."
+                    self.status = "failed"
+                    return self
+
+                auth_server.update({"timeoutSeconds": str(timeout)})
+            except ValueError:
+                self.msg = "The 'time_out' must contain only digits."
+                self.status = "failed"
+                return self
+
+        # Determine the role based on whether the auth server exists and if the role is specified
+        if not auth_server_exists:
+            # Use the role from 'auth_policy_server' if available, otherwise default to "secondary"
+            role = auth_policy_server.get("role", "secondary")
+        else:
+            # Use the role from 'auth_server_details'
+            role = auth_server_details.get("role")
+
+        auth_server.update({"role": role})
 
         if auth_server.get("isIseEnabled"):
             cisco_ise_dtos = auth_policy_server.get("cisco_ise_dtos")
@@ -966,15 +995,14 @@ class IseRadiusIntegration(DnacBase):
                     "ipAddress": ip_address
                 })
 
-                subscriber_name = ise_credential.get("subscriber_name")
-                if not subscriber_name:
-                    self.msg = "Missing parameter 'subscriber_name' is required when server_type is ISE."
-                    self.status = "failed"
-                    return self
-
-                auth_server.get("ciscoIseDtos")[position_ise_creds].update({
-                    "subscriberName": subscriber_name
-                })
+                if not auth_server_exists:
+                    auth_server.get("ciscoIseDtos")[position_ise_creds].update({
+                        "subscriberName": "ersadmin"
+                    })
+                else:
+                    auth_server.get("ciscoIseDtos")[position_ise_creds].update({
+                        "subscriberName": auth_server_details.get("ciscoIseDtos")[0].get("subscriberName")
+                    })
 
                 description = ise_credential.get("description")
                 if description:
@@ -991,16 +1019,22 @@ class IseRadiusIntegration(DnacBase):
                 position_ise_creds += 1
 
             pxgrid_enabled = auth_policy_server.get("pxgrid_enabled")
-            if pxgrid_enabled is not None:
-                auth_server.update({"pxgridEnabled": pxgrid_enabled})
-            else:
-                auth_server.update({"pxgridEnabled": True})
+            if pxgrid_enabled is None:
+                if auth_server_exists:
+                    pxgrid_enabled = auth_server_details.get("pxgridEnabled")
+                else:
+                    pxgrid_enabled = True
+
+            auth_server.update({"pxgridEnabled": pxgrid_enabled})
 
             use_dnac_cert_for_pxgrid = auth_policy_server.get("use_dnac_cert_for_pxgrid")
-            if use_dnac_cert_for_pxgrid:
-                auth_server.update({"useDnacCertForPxgrid": use_dnac_cert_for_pxgrid})
-            else:
-                auth_server.update({"useDnacCertForPxgrid": False})
+            if use_dnac_cert_for_pxgrid is None:
+                if auth_server_exists:
+                    use_dnac_cert_for_pxgrid = auth_server_details.get("useDnacCertForPxgrid")
+                else:
+                    use_dnac_cert_for_pxgrid = False
+
+            auth_server.update({"useDnacCertForPxgrid": use_dnac_cert_for_pxgrid})
 
             external_cisco_ise_ip_addr_dtos = auth_policy_server \
                 .get("external_cisco_ise_ip_addr_dtos")
@@ -1029,13 +1063,35 @@ class IseRadiusIntegration(DnacBase):
                             .update({"type": ise_type})
                     position_ise_addresses += 1
 
-            if auth_policy_server.get("trusted_server"):
+            trusted_server = auth_policy_server.get("trusted_server")
+            if auth_policy_server.get("trusted_server") is None:
                 trusted_server = True
+            else:
+                trusted_server = auth_policy_server.get("trusted_server")
+
+            self.want.update({"trusted_server": trusted_server})
+
+            ise_integration_wait_time = auth_policy_server.get("ise_integration_wait_time")
+            if ise_integration_wait_time is None:
+                ise_integration_wait_time = 20
+            else:
+                try:
+                    ise_integration_wait_time_int = int(ise_integration_wait_time)
+                    if ise_integration_wait_time_int < 1 or ise_integration_wait_time_int > 60:
+                        self.msg = "The ise_integration_wait_time should be from 1 to 60 seconds."
+                        self.status = "failed"
+                        return self
+
+                except ValueError:
+                    self.msg = "The 'ise_integration_wait_time' should contain only digits."
+                    self.status = "failed"
+                    return self
+
+            self.want.update({"ise_integration_wait_time": ise_integration_wait_time})
 
         self.log("Authentication and Policy Server playbook details: {0}"
                  .format(auth_server), "DEBUG")
         self.want.update({"authenticationPolicyServer": auth_server})
-        self.want.update({"trusted_server": trusted_server})
         self.msg = "Collecting the Authentication and Policy Server details from the playbook"
         self.status = "success"
         return self
@@ -1119,15 +1175,6 @@ class IseRadiusIntegration(DnacBase):
             self - The current object with updated desired Authentication Policy Server information.
         """
 
-        if want_auth_server.get("sharedSecret") is not None:
-            del want_auth_server["sharedSecret"]
-        if want_auth_server.get("encryptionScheme") is not None:
-            del want_auth_server["encryptionScheme"]
-        if want_auth_server.get("messageKey") is not None:
-            del want_auth_server["messageKey"]
-        if want_auth_server.get("encryptionKey") is not None:
-            del want_auth_server["encryptionKey"]
-
         update_params = ["authenticationPort", "accountingPort", "role"]
         for item in update_params:
             have_auth_server_item = have_auth_server.get(item)
@@ -1190,7 +1237,8 @@ class IseRadiusIntegration(DnacBase):
             if is_ise_server:
                 trusted_server = self.want.get("trusted_server")
                 self.accept_cisco_ise_server_certificate(ipAddress, trusted_server)
-                time.sleep(15)
+                ise_integration_wait_time = self.want.get("ise_integration_wait_time")
+                time.sleep(ise_integration_wait_time)
                 response = self.dnac._exec(
                     family="system_settings",
                     function='get_authentication_and_policy_servers',
