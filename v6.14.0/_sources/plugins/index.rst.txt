@@ -277,7 +277,6 @@ Modules
 * :ref:`network_device_by_ip_info module <ansible_collections.cisco.dnac.network_device_by_ip_info_module>` -- Information module for Network Device By Ip
 * :ref:`network_device_by_serial_number_info module <ansible_collections.cisco.dnac.network_device_by_serial_number_info_module>` -- Information module for Network Device By Serial Number
 * :ref:`network_device_chassis_details_info module <ansible_collections.cisco.dnac.network_device_chassis_details_info_module>` -- Information module for Network Device Chassis Details
-* :ref:`network_device_config__info module <ansible_collections.cisco.dnac.network_device_config__info_module>` -- Information module for Network Device Config
 * :ref:`network_device_config_count_info module <ansible_collections.cisco.dnac.network_device_config_count_info_module>` -- Information module for Network Device Config Count
 * :ref:`network_device_config_info module <ansible_collections.cisco.dnac.network_device_config_info_module>` -- Information module for Network Device Config
 * :ref:`network_device_config_task_info module <ansible_collections.cisco.dnac.network_device_config_task_info_module>` -- Information module for Network Device Config Task
@@ -768,7 +767,6 @@ Modules
     network_device_by_ip_info_module
     network_device_by_serial_number_info_module
     network_device_chassis_details_info_module
-    network_device_config__info_module
     network_device_config_count_info_module
     network_device_config_info_module
     network_device_config_task_info_module
