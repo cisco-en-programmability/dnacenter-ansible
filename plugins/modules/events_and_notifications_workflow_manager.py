@@ -1294,12 +1294,6 @@ class Events(DnacBase):
             server_address = syslog_details.get('server_address')
             protocol = syslog_details.get('protocol')
 
-            if not self.is_valid_ipv4(server_address):
-                self.status = "failed"
-                self.msg = "Invalid server adderess '{0}' given in the playbook for configuring syslog destination".format(server_address)
-                self.log(self.msg, "ERROR")
-                return self
-
             if not protocol:
                 self.status = "failed"
                 self.msg = "Protocol is needed while configuring the syslog destionation with name '{0}' in Cisco Catalyst Center".format(name)
@@ -1389,13 +1383,6 @@ class Events(DnacBase):
                 self.status = "failed"
                 self.msg = """Invalid protocol name '{0}' for updating syslog destination in Cisco Catalyst Center.
                             Select one of the following protocol 'TCP/UDP'.""".format(update_syslog_params.get('protocol'))
-                self.log(self.msg, "ERROR")
-                return self
-
-            server_address = update_syslog_params.get('host')
-            if not self.is_valid_ipv4(server_address):
-                self.status = "failed"
-                self.msg = "Invalid server adderess '{0}' given in the playbook for updating syslog destination".format(server_address)
                 self.log(self.msg, "ERROR")
                 return self
 
