@@ -63,14 +63,14 @@
           webhook_event_notification:
             notification_name: "{{item.webhook_event_notification.notification_name}}"
             description: "{{item.webhook_event_notification.description}}"
-            webhook_dest_name: "{{item.webhook_event_notification.webhook_dest_name}}"
-            events_name_list: "{{item.webhook_event_notification.events_name_list}}"
             site_name_list: "{{item.webhook_event_notification.site_name_list}}"
+            events_name_list: "{{item.webhook_event_notification.events_name_list}}"
+            webhook_dest_name: "{{item.webhook_event_notification.webhook_dest_name}}"
           email_event_notification:
             notification_name: "{{item.email_event_notification.notification_name}}"
             description: "{{item.email_event_notification.description}}"
-            events_name_list: "{{item.email_event_notification.events_name_list}}"
             site_name_list: "{{item.email_event_notification.site_name_list}}"
+            events_name_list: "{{item.email_event_notification.events_name_list}}"
             from_email_address: "{{item.email_event_notification.from_email_address}}"
             to_email_addresses: "{{item.email_event_notification.to_email_addresses}}"
             subject: "{{item.email_event_notification.subject}}"
@@ -79,9 +79,9 @@
           syslog_event_notification:
             notification_name: "{{item.syslog_event_notification.notification_name}}"
             description: "{{item.syslog_event_notification.description}}"
-            syslog_dest_name: "{{item.syslog_event_notification.syslog_dest_name}}"
-            events_name_list: "{{item.syslog_event_notification.events_name_list}}"
             site_name_list: "{{item.syslog_event_notification.site_name_list}}"
+            events_name_list: "{{item.syslog_event_notification.events_name_list}}"
+            syslog_dest_name: "{{item.syslog_event_notification.syslog_dest_name}}"
 
       with_items: "{{ events_notification }}"
       tags:
