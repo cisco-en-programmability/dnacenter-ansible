@@ -32,7 +32,7 @@ options:
     - SearchBy query parameter. MAC Address, device name, or UUID of the network device.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.7.1
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Devices GetDeviceDetail

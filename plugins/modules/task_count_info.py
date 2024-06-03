@@ -60,7 +60,7 @@ options:
     - ParentId query parameter. Fetch tasks that have this parent Id.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.7.1
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Task GetTaskCount

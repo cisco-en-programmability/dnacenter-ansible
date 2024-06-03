@@ -909,3 +909,9 @@ releases:
           - network_device_user_defined_field_delete - new module
           - users_external_authentication - new module
           - users_external_servers_aaa_attribute - new module
+  6.15.0:
+      release_date: "2024-06-03"
+      changes:
+        release_summary: Fix module name.
+        minor_changes:
+          - Fix module name from network_device_config__info to configuration_archive_details_info.
