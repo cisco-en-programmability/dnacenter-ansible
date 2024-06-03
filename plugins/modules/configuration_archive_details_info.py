@@ -6,14 +6,14 @@
 
 DOCUMENTATION = r"""
 ---
-module: configuration_archive_details_info 
+module: configuration_archive_details_info
 short_description: Information module for Network Device Config
 description:
 - Get all Network Device Config.
 - >
    Returns the historical device configurations running configuration , startup configuration , vlan if applicable by
    specified criteria.
-version_added: '6.14.1'
+version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
 author: Rafael Campos (@racampos)
