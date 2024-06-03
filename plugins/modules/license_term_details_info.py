@@ -34,7 +34,7 @@ options:
     - Device_type query parameter. Type of device like router, switch, wireless or ise.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.7.1
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Licenses LicenseTermDetails

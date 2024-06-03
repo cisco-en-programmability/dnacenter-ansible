@@ -34,7 +34,7 @@ options:
     - Id path parameter. LAN Automation session identifier.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.7.1
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for LAN Automation LANAutomationStatus
