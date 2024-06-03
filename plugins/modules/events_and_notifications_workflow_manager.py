@@ -300,7 +300,7 @@ options:
             Center.
         type: dict
         suboptions:
-          notification_name:
+          name:
             description: Name of the Webhook event subscription notification .
             type: str
             required: True
@@ -355,7 +355,7 @@ options:
             Center. Here you can create the email subscription notification as well as the create/update the email instance as well.
         type: dict
         suboptions:
-          notification_name:
+          name:
             description: Name of the Webhook event subscription notification .
             type: str
             required: True
@@ -426,7 +426,7 @@ options:
             Center.
         type: dict
         suboptions:
-          notification_name:
+          name:
             description: Name of the Syslog event subscription notification .
             type: str
             required: True
@@ -724,11 +724,11 @@ EXAMPLES = r"""
     state: merged
     config:
       - webhook_event_notification:
-          notification_name: "Webhook Notification."
+          name: "Webhook Notification."
           description: "Notification for webhook events subscription"
-          webhook_dest_name: "Webhook Demo"
-          events_name_list: ["AP Flap", "AP Reboot Crash"]
           site_name_list: ["Global/India", "Global/USA"]
+          events_name_list: ["AP Flap", "AP Reboot Crash"]
+          webhook_dest_name: "Webhook Demo"
 
 - name: Updating Webhook Notification with the list of names of subscribed events in the system.
   cisco.dnac.events_and_notifications_workflow_manager:
@@ -744,10 +744,10 @@ EXAMPLES = r"""
     state: merged
     config:
       - webhook_event_notification:
-          notification_name: "Webhook Notification."
+          name: "Webhook Notification."
           description: "Updated notification for webhook events subscription"
-          events_name_list: ["AP Flap", "AP Reboot Crash"]
           site_name_list: ["Global/India", "Global/USA", "Global/China"]
+          webhook_dest_name: "Webhook Demo"
 
 - name: Creating Email Notification with the list of names of subscribed events in the system.
   cisco.dnac.events_and_notifications_workflow_manager:
@@ -763,10 +763,10 @@ EXAMPLES = r"""
     state: merged
     config:
       - email_event_notification:
-          notification_name: "Email Notification"
+          name: "Email Notification"
           description: "Notification description for email subscription creation"
-          events_name_list: ["AP Flap", "AP Reboot Crash"]
           site_name_list: ["Global/India", "Global/USA"]
+          events_name_list: ["AP Flap", "AP Reboot Crash"]
           from_email_address: "catalyst@cisco.com"
           to_email_addresses: ["test@cisco.com", "demo@cisco.com"]
           subject: "Mail test"
@@ -786,10 +786,10 @@ EXAMPLES = r"""
     state: merged
     config:
       - email_event_notification:
-          notification_name: "Email Notification"
+          name: "Email Notification"
           description: "Notification description for email subscription updation"
-          events_name_list: ["AP Flap", "AP Reboot Crash"]
           site_name_list: ["Global/India", "Global/USA"]
+          events_name_list: ["AP Flap", "AP Reboot Crash"]
           from_email_address: "catalyst@cisco.com"
           to_email_addresses: ["test@cisco.com", "demo@cisco.com", "update@cisco.com"]
           subject: "Mail test for updation"
@@ -809,11 +809,11 @@ EXAMPLES = r"""
     state: merged
     config:
       - syslog_event_notification:
-          notification_name: "Syslog Notification."
+          name: "Syslog Notification."
           description: "Notification for syslog events subscription"
-          syslog_dest_name: "Syslog Demo"
-          events_name_list: ["AP Flap", "AP Reboot Crash"]
           site_name_list: ["Global/India", "Global/USA"]
+          events_name_list: ["AP Flap", "AP Reboot Crash"]
+          syslog_dest_name: "Syslog Demo"
 
 - name: Updating Syslog Notification with the list of names of subscribed events in the system.
   cisco.dnac.events_and_notifications_workflow_manager:
@@ -829,10 +829,10 @@ EXAMPLES = r"""
     state: merged
     config:
       - syslog_event_notification:
-          notification_name: "Syslog Notification."
+          name: "Syslog Notification."
           description: "Updated notification for syslog events subscription"
-          events_name_list: ["AP Flap", "AP Reboot Crash"]
           site_name_list: ["Global/India", "Global/USA", "Global/China"]
+          events_name_list: ["AP Flap", "AP Reboot Crash"]
 
 - name: Deleting ITSM Integration Setting with given name from the system.
   cisco.dnac.events_and_notifications_workflow_manager:
@@ -864,7 +864,7 @@ EXAMPLES = r"""
     state: deleted
     config:
       - webhook_event_notification:
-          notification_name: "Webhook Notification"
+          name: "Webhook Notification"
 
 - name: Deleting Email Events Subscription Notification with given name from the system.
   cisco.dnac.events_and_notifications_workflow_manager:
@@ -880,7 +880,7 @@ EXAMPLES = r"""
     state: deleted
     config:
       - email_event_notification:
-          notification_name: "Email Notification"
+          name: "Email Notification"
 
 - name: Deleting Syslog Events Subscription Notification with given name from the system.
   cisco.dnac.events_and_notifications_workflow_manager:
@@ -896,7 +896,7 @@ EXAMPLES = r"""
     state: deleted
     config:
       - syslog_event_notification:
-          notification_name: "Syslog Notification"
+          name: "Syslog Notification"
 
 """
 
@@ -1026,52 +1026,52 @@ class Events(DnacBase):
             },
             'webhook_event_notification': {
                 'type': 'dict',
-                'notification_name': {'type': 'str'},
+                'name': {'type': 'str'},
                 'version': {'type': 'str'},
                 'description': {'type': 'str'},
-                'webhook_dest_name': {'type': 'str'},
+                'site_name_list': {'type': 'list', 'elements': 'str'},
                 'events_name_list': {'type': 'list', 'elements': 'str'},
+                'webhook_dest_name': {'type': 'str'},
                 'domain': {'type': 'str'},
                 'sub_domains': {'type': 'list', 'elements': 'str'},
                 'event_types': {'type': 'list', 'elements': 'str'},
                 'event_categories': {'type': 'list', 'elements': 'str'},
                 'event_severities': {'type': 'list', 'elements': 'str'},
                 'event_sources': {'type': 'list', 'elements': 'str'},
-                'site_name_list': {'type': 'list', 'elements': 'str'},
             },
             'email_event_notification': {
                 'type': 'dict',
-                'notification_name': {'type': 'str'},
+                'name': {'type': 'str'},
                 'version': {'type': 'str'},
                 'description': {'type': 'str'},
+                'site_name_list': {'type': 'list', 'elements': 'str'},
+                'events_name_list': {'type': 'list', 'elements': 'str'},
                 'from_email_address': {'type': 'str'},
                 'to_email_addresses': {'type': 'list', 'elements': 'str'},
                 'subject': {'type': 'str'},
                 'instance_name': {'type': 'str'},
                 'instance_description': {'type': 'str'},
-                'events_name_list': {'type': 'list', 'elements': 'str'},
                 'domain': {'type': 'str'},
                 'sub_domains': {'type': 'list', 'elements': 'str'},
                 'event_types': {'type': 'list', 'elements': 'str'},
                 'event_categories': {'type': 'list', 'elements': 'str'},
                 'event_severities': {'type': 'list', 'elements': 'str'},
                 'event_sources': {'type': 'list', 'elements': 'str'},
-                'site_name_list': {'type': 'list', 'elements': 'str'},
             },
             'syslog_event_notification': {
                 'type': 'dict',
-                'notification_name': {'type': 'str'},
+                'name': {'type': 'str'},
                 'version': {'type': 'str'},
                 'description': {'type': 'str'},
-                'syslog_dest_name': {'type': 'str'},
+                'site_name_list': {'type': 'list', 'elements': 'str'},
                 'events_name_list': {'type': 'list', 'elements': 'str'},
+                'syslog_dest_name': {'type': 'str'},
                 'domain': {'type': 'str'},
                 'sub_domains': {'type': 'list', 'elements': 'str'},
                 'event_types': {'type': 'list', 'elements': 'str'},
                 'event_categories': {'type': 'list', 'elements': 'str'},
                 'event_severities': {'type': 'list', 'elements': 'str'},
                 'event_sources': {'type': 'list', 'elements': 'str'},
-                'site_name_list': {'type': 'list', 'elements': 'str'},
             },
         }
 
@@ -2761,7 +2761,7 @@ class Events(DnacBase):
         """
 
         syslog_notification_params = []
-        name = syslog_notification_details.get('notification_name')
+        name = syslog_notification_details.get('name')
         playbook_params = {
             'name': name,
             'description': syslog_notification_details.get('description'),
@@ -2864,7 +2864,7 @@ class Events(DnacBase):
         description = syslog_notification_params.get("description")
 
         if not notification_name:
-            required_params_absent.append("notification_name")
+            required_params_absent.append("name")
 
         if not description:
             required_params_absent.append("description")
@@ -3194,7 +3194,6 @@ class Events(DnacBase):
         Retrieves the details of a Webhook Event Notification subscription from the Cisco Catalyst Center.
         Args:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-            notification_name (str): The name of the Webhook Event Notification subscription.
         Returns:
             dict or None: A dictionary containing the details of the Webhook Event Notification subscription if found.
                         Returns None if no subscription is found or if an error occurs during the API call.
@@ -3283,7 +3282,7 @@ class Events(DnacBase):
         """
 
         webhook_notification_params = []
-        name = webhook_notification_details.get('notification_name')
+        name = webhook_notification_details.get('name')
         playbook_params = {
             'name': name,
             'description': webhook_notification_details.get('description'),
@@ -3386,7 +3385,7 @@ class Events(DnacBase):
         description = webhook_notification_params.get("description")
 
         if not notification_name:
-            required_params_absent.append("notification_name")
+            required_params_absent.append("name")
 
         if not description:
             required_params_absent.append("description")
@@ -3609,7 +3608,6 @@ class Events(DnacBase):
         Retrieves the details of a email Event Notification subscription from the Cisco Catalyst Center.
         Args:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-            notification_name (str): The name of the email Event Notification subscription/
         Returns:
             dict or None: A dictionary containing the details of the email Event Notification subscription if found.
                         Returns None if no subscription is found or if an error occurs during the API call.
@@ -3697,7 +3695,7 @@ class Events(DnacBase):
         """
 
         email_notification_params = []
-        email_notf_name = email_notification_details.get('notification_name')
+        email_notf_name = email_notification_details.get('name')
         playbook_params = {
             'name': email_notf_name,
             'description': email_notification_details.get('description'),
@@ -3818,7 +3816,7 @@ class Events(DnacBase):
         description = email_notification_params.get("description")
 
         if not notification_name:
-            required_params_absent.append("notification_name")
+            required_params_absent.append("name")
 
         if not description:
             required_params_absent.append("description")
@@ -4498,7 +4496,7 @@ class Events(DnacBase):
         # Create Rest Webhook Events Subscription Notification in Cisco Catalyst Center
         if config.get('webhook_event_notification'):
             webhook_notification_details = self.want.get('webhook_event_notification')
-            notification_name = webhook_notification_details.get('notification_name')
+            notification_name = webhook_notification_details.get('name')
 
             if not notification_name:
                 self.status = "failed"
@@ -4539,7 +4537,7 @@ class Events(DnacBase):
         # Create Email Events Subscription Notification in Cisco Catalyst Center
         if config.get('email_event_notification'):
             email_notification_details = self.want.get('email_event_notification')
-            notification_name = email_notification_details.get('notification_name')
+            notification_name = email_notification_details.get('name')
 
             if not notification_name:
                 self.status = "failed"
@@ -4581,7 +4579,7 @@ class Events(DnacBase):
         # Create Syslog Events Subscription Notification in Cisco Catalyst Center
         if config.get('syslog_event_notification'):
             syslog_notification_details = self.want.get('syslog_event_notification')
-            notification_name = syslog_notification_details.get('notification_name')
+            notification_name = syslog_notification_details.get('name')
 
             if not notification_name:
                 self.status = "failed"
@@ -4695,7 +4693,7 @@ class Events(DnacBase):
         # Delete Webhook Events Subscription Notification from Cisco Catalyst Center
         if config.get('webhook_event_notification'):
             webhook_notification_details = self.want.get('webhook_event_notification')
-            webhook_notification_name = webhook_notification_details.get('notification_name')
+            webhook_notification_name = webhook_notification_details.get('name')
             current_webhook_notifications = self.have.get("webhook_subscription_notifications")
             webhook_notification_id = None
 
@@ -4724,7 +4722,7 @@ class Events(DnacBase):
         # Delete Email Events Subscription Notification from Cisco Catalyst Center
         if config.get('email_event_notification'):
             email_notification_details = self.want.get('email_event_notification')
-            email_notification_name = email_notification_details.get('notification_name')
+            email_notification_name = email_notification_details.get('name')
             current_email_notifications = self.have.get("email_subscription_notifications")
             email_notification_id = None
 
@@ -4753,7 +4751,7 @@ class Events(DnacBase):
         # Delete Syslog Events Subscription Notification from Cisco Catalyst Center
         if config.get('syslog_event_notification'):
             syslog_notification_details = self.want.get('syslog_event_notification')
-            syslog_notification_name = syslog_notification_details.get('notification_name')
+            syslog_notification_name = syslog_notification_details.get('name')
             current_syslog_notifications = self.have.get("syslog_subscription_notifications")
             syslog_notification_id = None
 
@@ -4893,7 +4891,7 @@ class Events(DnacBase):
 
         if config.get('webhook_event_notification'):
             webhook_notification_details = self.want.get('webhook_event_notification')
-            web_notification_name = webhook_notification_details.get('notification_name')
+            web_notification_name = webhook_notification_details.get('name')
             current_webhook_notifications = self.have.get("webhook_subscription_notifications")
             is_webhook_notification_exist = False
 
@@ -4914,7 +4912,7 @@ class Events(DnacBase):
 
         if config.get('email_event_notification'):
             email_notification_details = self.want.get('email_event_notification')
-            email_notification_name = email_notification_details.get('notification_name')
+            email_notification_name = email_notification_details.get('name')
             current_email_notifications = self.have.get("email_subscription_notifications")
             is_email_notification_exist = False
 
@@ -4935,7 +4933,7 @@ class Events(DnacBase):
 
         if config.get('syslog_event_notification'):
             syslog_notification_details = self.want.get('syslog_event_notification')
-            syslog_notification_name = syslog_notification_details.get('notification_name')
+            syslog_notification_name = syslog_notification_details.get('name')
             current_syslog_notifications = self.have.get("syslog_subscription_notifications")
             is_syslog_notification_exist = False
 
@@ -4999,7 +4997,7 @@ class Events(DnacBase):
 
         if config.get('webhook_event_notification'):
             webhook_notification_details = self.want.get('webhook_event_notification')
-            web_notification_name = webhook_notification_details.get('notification_name')
+            web_notification_name = webhook_notification_details.get('name')
             current_webhook_notifications = self.have.get("webhook_subscription_notifications")
             is_webhook_notification_deleted = True
 
@@ -5020,7 +5018,7 @@ class Events(DnacBase):
 
         if config.get('email_event_notification'):
             email_notification_details = self.want.get('email_event_notification')
-            email_notification_name = email_notification_details.get('notification_name')
+            email_notification_name = email_notification_details.get('name')
             current_email_notifications = self.have.get("email_subscription_notifications")
             is_email_notification_deleted = True
 
@@ -5041,7 +5039,7 @@ class Events(DnacBase):
 
         if config.get('syslog_event_notification'):
             syslog_notification_details = self.want.get('syslog_event_notification')
-            syslog_notification_name = syslog_notification_details.get('notification_name')
+            syslog_notification_name = syslog_notification_details.get('name')
             current_syslog_notifications = self.have.get("syslog_subscription_notifications")
             is_syslog_notification_deleted = True
 
