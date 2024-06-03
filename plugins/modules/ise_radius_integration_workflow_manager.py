@@ -895,8 +895,8 @@ class IseRadiusIntegration(DnacBase):
                 auth_server.update({"retries": auth_server_details.get("retries")})
         else:
             try:
-                retries = str(retries)
-                if not 1 <= int(retries) <= 3:
+                retries_int = int(retries)
+                if not 1 <= retries_int <= 3:
                     self.msg = "The 'retries' should be from 1 to 3."
                     self.status = "failed"
                     return self
@@ -905,7 +905,7 @@ class IseRadiusIntegration(DnacBase):
                 self.status = "failed"
                 return self
 
-            auth_server.update({"retries": retries})
+            auth_server.update({"retries": str(retries)})
 
         timeout = auth_policy_server.get("timeout")
         if not auth_server_exists:
