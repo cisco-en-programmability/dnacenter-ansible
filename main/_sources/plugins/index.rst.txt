@@ -6,7 +6,7 @@
 Cisco.Dnac
 ==========
 
-Collection version 6.14.0
+Collection version 6.15.0
 
 .. contents::
    :local:
@@ -104,6 +104,7 @@ Modules
 * :ref:`compliance_device_details_info module <ansible_collections.cisco.dnac.compliance_device_details_info_module>` -- Information module for Compliance Device Details
 * :ref:`compliance_device_info module <ansible_collections.cisco.dnac.compliance_device_info_module>` -- Information module for Compliance Device
 * :ref:`compliance_device_status_count_info module <ansible_collections.cisco.dnac.compliance_device_status_count_info_module>` -- Information module for Compliance Device Status Count
+* :ref:`configuration_archive_details_info module <ansible_collections.cisco.dnac.configuration_archive_details_info_module>` -- Information module for Network Device Config
 * :ref:`configuration_template module <ansible_collections.cisco.dnac.configuration_template_module>` -- Resource module for Configuration Template
 * :ref:`configuration_template_clone module <ansible_collections.cisco.dnac.configuration_template_clone_module>` -- Resource module for Configuration Template Clone
 * :ref:`configuration_template_create module <ansible_collections.cisco.dnac.configuration_template_create_module>` -- Resource module for Configuration Template Create
@@ -594,6 +595,7 @@ Modules
     compliance_device_details_info_module
     compliance_device_info_module
     compliance_device_status_count_info_module
+    configuration_archive_details_info_module
     configuration_template_module
     configuration_template_clone_module
     configuration_template_create_module
