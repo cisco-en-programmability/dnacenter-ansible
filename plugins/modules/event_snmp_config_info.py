@@ -40,7 +40,7 @@ options:
     - Order query parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
+- dnacentersdk >= 2.7.1
 - python >= 3.9
 seealso:
 - name: Cisco DNA Center documentation for Event Management GetSNMPDestination

@@ -27,7 +27,7 @@ options:
     description: Contains the actual value for the entity type that has been defined.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.7.1
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Issues ExecuteSuggestedActionsCommands

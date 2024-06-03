@@ -32,7 +32,7 @@ options:
       here /dna/platform/app/consumer-portal/developer-toolkit/events.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.7.1
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Health and Performance SystemHealthCountAPI
