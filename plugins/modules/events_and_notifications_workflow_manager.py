@@ -297,7 +297,7 @@ options:
 
 
 requirements:
-- dnacentersdk >= 2.5.5
+- dnacentersdk >= 2.7.1
 - python >= 3.5
 
 notes:

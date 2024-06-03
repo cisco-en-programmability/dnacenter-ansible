@@ -32,7 +32,7 @@ options:
     - Role query parameter. Authentication and Policy Server Role (Example primary, secondary).
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.7.1
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for System Settings GetAuthenticationAndPolicyServers

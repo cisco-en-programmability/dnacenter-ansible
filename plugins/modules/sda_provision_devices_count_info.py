@@ -24,7 +24,7 @@ options:
     - SiteId query parameter. ID of the site hierarchy.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.7.1
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for SDA GetProvisionedDevicesCount
