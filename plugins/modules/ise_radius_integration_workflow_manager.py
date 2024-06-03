@@ -776,7 +776,7 @@ class IseRadiusIntegration(DnacBase):
                 return self
 
             shared_secret = str(shared_secret)
-            if not (4 <= len(shared_secret) <= 100):
+            if len(shared_secret) < 4 or len(shared_secret) > 100:
                 self.msg = "The 'shared_secret' should contain between 4 and 100 characters."
                 self.status = "failed"
                 return self
@@ -859,7 +859,7 @@ class IseRadiusIntegration(DnacBase):
                 self.status = "failed"
                 return self
 
-            if not 1 <= authentication_port <= 65535:
+            if authentication_port < 1 or authentication_port > 65535:
                 self.msg = "The 'authentication_port' should be from 1 to 65535."
                 self.status = "failed"
                 return self
@@ -878,7 +878,7 @@ class IseRadiusIntegration(DnacBase):
                 self.status = "failed"
                 return self
 
-            if not 1 <= accounting_port <= 65535:
+            if accounting_port < 1 or accounting_port > 65535:
                 self.msg = "The 'accounting_port' should be from 1 to 65535."
                 self.status = "failed"
                 return self
@@ -896,7 +896,7 @@ class IseRadiusIntegration(DnacBase):
         else:
             try:
                 retries_int = int(retries)
-                if not 1 <= retries_int <= 3:
+                if retries_int < 1 or retries_int > 3:
                     self.msg = "The 'retries' should be from 1 to 3."
                     self.status = "failed"
                     return self
