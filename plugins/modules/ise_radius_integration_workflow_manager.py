@@ -312,11 +312,8 @@ EXAMPLES = r"""
         server_type: AAA
         server_ip_address: 10.0.0.1
         protocol: RADIUS_TACACS
-        authentication_port: 1812
-        accounting_port: 1813
         retries: 3
         timeout: 5
-        role: secondary
 
 - name: Update an Cisco ISE server.
   cisco.dnac.ise_radius_integration_workflow_manager:
@@ -336,11 +333,8 @@ EXAMPLES = r"""
         server_type: ISE
         server_ip_address: 10.0.0.2
         protocol: RADIUS_TACACS
-        authentication_port: 1812
-        accounting_port: 1813
         retries: 3
         timeout: 5
-        role: primary
         use_dnac_cert_for_pxgrid: False
         pxgrid_enabled: True
         cisco_ise_dtos:
