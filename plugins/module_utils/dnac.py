@@ -572,11 +572,12 @@ class DnacBase():
 
         # Define the regex for a valid hostname
         hostname_regex = re.compile(
-            r'^(?!-)'  # Hostname must not start with a hyphen
-            r'[A-Za-z0-9-]{1,63}'  # Hostname segment must be 1-63 characters long
-            r'(?!-)$'  # Hostname segment must not end with a hyphen
-            r'(\.[A-Za-z0-9-]{1,63})*'  # Each segment can be 1-63 characters long
-            r'(\.[A-Za-z]{2,6})$'  # Top-level domain must be 2-6 alphabetic characters
+            r'^('  # Start of the string
+            r'([A-Za-z0-9]+([A-Za-z0-9-]*[A-Za-z0-9])?\.)+[A-Za-z]{2,6}|'  # Domain name (e.g., example.com)
+            r'localhost|'  # Localhost
+            r'(\d{1,3}\.)+\d{1,3}|'  # Custom IPv4-like format (e.g., 2.2.3.31.3.4.4)
+            r'[A-Fa-f0-9:]+$'  # IPv6 address (e.g., 2f8:192:3::40:41:41:42)
+            r')$'  # End of the string
         )
 
         # Check if the address is a valid hostname
