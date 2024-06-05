@@ -13,7 +13,7 @@ description:
 - Creates ITSM Integration setting.
 - Deletes the ITSM Integration setting.
 - Updates the ITSM Integration setting.
-version_added: '6.7.0'
+version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
@@ -39,7 +39,7 @@ options:
     description: Description of the setting instance.
     type: str
   dypName:
-    description: It should be ServiceNowConnection.
+    description: It can be ServiceNowConnection.
     type: str
   instanceId:
     description: InstanceId path parameter. Instance Id of the Integration setting instance.
@@ -48,8 +48,8 @@ options:
     description: Name of the setting instance.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.7.1
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for ITSM Integration CreateITSMIntegrationSetting
   description: Complete reference of the CreateITSMIntegrationSetting API.
@@ -126,7 +126,6 @@ EXAMPLES = r"""
     instanceId: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

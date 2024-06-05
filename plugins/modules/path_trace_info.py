@@ -31,24 +31,24 @@ options:
     type: str
   destIP:
     description:
-    - DestIP query parameter. Destination IP adress.
+    - DestIP query parameter. Destination IP address.
     type: str
   sourcePort:
     description:
     - SourcePort query parameter. Source port.
-    type: str
+    type: float
   destPort:
     description:
     - DestPort query parameter. Destination port.
-    type: str
+    type: float
   gtCreateTime:
     description:
     - GtCreateTime query parameter. Analyses requested after this time.
-    type: str
+    type: float
   ltCreateTime:
     description:
     - LtCreateTime query parameter. Analyses requested before this time.
-    type: str
+    type: float
   protocol:
     description:
     - Protocol query parameter.
@@ -64,15 +64,15 @@ options:
   lastUpdateTime:
     description:
     - LastUpdateTime query parameter. Last update time.
-    type: str
+    type: float
   limit:
     description:
     - Limit query parameter. Number of resources returned.
-    type: int
+    type: float
   offset:
     description:
     - Offset query parameter. Start index of resources returned (1-based).
-    type: int
+    type: float
   order:
     description:
     - Order query parameter. Order by this field.
@@ -86,19 +86,19 @@ options:
     - FlowAnalysisId path parameter. Flow analysis request id.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.7.1
+- python >= 3.5
 seealso:
+- name: Cisco DNA Center documentation for Path Trace RetrievesAllPreviousPathtracesSummary
+  description: Complete reference of the RetrievesAllPreviousPathtracesSummary API.
+  link: https://developer.cisco.com/docs/dna-center/#!retrieves-all-previous-pathtraces-summary
 - name: Cisco DNA Center documentation for Path Trace RetrievesPreviousPathtrace
   description: Complete reference of the RetrievesPreviousPathtrace API.
   link: https://developer.cisco.com/docs/dna-center/#!retrieves-previous-pathtrace
-- name: Cisco DNA Center documentation for Path Trace RetrivesAllPreviousPathtracesSummary
-  description: Complete reference of the RetrivesAllPreviousPathtracesSummary API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrives-all-previous-pathtraces-summary
 notes:
   - SDK Method used are
+    path_trace.PathTrace.retrieves_all_previous_pathtraces_summary,
     path_trace.PathTrace.retrieves_previous_pathtrace,
-    path_trace.PathTrace.retrives_all_previous_pathtraces_summary,
 
   - Paths used are
     get /dna/intent/api/v1/flow-analysis,
@@ -120,14 +120,14 @@ EXAMPLES = r"""
     periodicRefresh: True
     sourceIP: string
     destIP: string
-    sourcePort: string
-    destPort: string
-    gtCreateTime: string
-    ltCreateTime: string
+    sourcePort: 0
+    destPort: 0
+    gtCreateTime: 0
+    ltCreateTime: 0
     protocol: string
     status: string
     taskId: string
-    lastUpdateTime: string
+    lastUpdateTime: 0
     limit: 0
     offset: 0
     order: string
@@ -148,7 +148,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
@@ -1068,7 +1067,8 @@ dnac_response:
           "protocol": "string",
           "sourceIP": "string",
           "sourcePort": "string",
-          "status": "string"
+          "status": "string",
+          "previousFlowAnalysisId": "string"
         }
       },
       "version": "string"

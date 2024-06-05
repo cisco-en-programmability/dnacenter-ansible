@@ -25,7 +25,7 @@ from ansible_collections.cisco.dnac.plugins.plugin_utils.dnac import (
 argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
-    memberToTags=dict(type="list"),
+    memberToTags=dict(type="dict"),
     memberType=dict(type="str"),
 ))
 
@@ -79,7 +79,7 @@ class ActionModule(ActionBase):
 
         response = dnac.exec(
             family="tag",
-            function='updates_tag_membership',
+            function='update_tag_membership',
             op_modifies=True,
             params=self.get_object(self._task.args),
         )

@@ -22,25 +22,25 @@ options:
   offset:
     description:
     - Offset query parameter. The offset of the first application to be returned.
-    type: int
+    type: float
   limit:
     description:
     - Limit query parameter. The maximum number of applications to be returned.
-    type: int
+    type: float
   name:
     description:
     - Name query parameter. Application's name.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.7.1
+- python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Application Policy GetApplications
-  description: Complete reference of the GetApplications API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-applications
+- name: Cisco DNA Center documentation for Application Policy GetApplications2
+  description: Complete reference of the GetApplications2 API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-applications-2
 notes:
   - SDK Method used are
-    application_policy.ApplicationPolicy.get_applications,
+    application_policy.ApplicationPolicy.get_applications2,
 
   - Paths used are
     get /dna/intent/api/v1/applications,
@@ -64,7 +64,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
@@ -76,16 +75,6 @@ dnac_response:
       {
         "id": "string",
         "name": "string",
-        "indicativeNetworkIdentity": [
-          {
-            "id": "string",
-            "displayName": "string",
-            "lowerPort": 0,
-            "ports": "string",
-            "protocol": "string",
-            "upperPort": 0
-          }
-        ],
         "networkApplications": [
           {
             "id": "string",
@@ -98,8 +87,8 @@ dnac_response:
             "helpString": "string",
             "longDescription": "string",
             "name": "string",
-            "popularity": 0,
-            "rank": 0,
+            "popularity": "string",
+            "rank": "string",
             "trafficClass": "string",
             "serverName": "string",
             "url": "string",
@@ -111,10 +100,10 @@ dnac_response:
           {
             "id": "string",
             "displayName": "string",
-            "lowerPort": 0,
+            "lowerPort": "string",
             "ports": "string",
             "protocol": "string",
-            "upperPort": 0
+            "upperPort": "string"
           }
         ],
         "applicationSet": {

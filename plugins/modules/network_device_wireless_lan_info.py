@@ -24,8 +24,8 @@ options:
     - Id path parameter. Device ID.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.7.1
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Devices GetWirelessLanControllerDetailsById
   description: Complete reference of the GetWirelessLanControllerDetailsById API.
@@ -54,7 +54,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
@@ -62,22 +61,19 @@ dnac_response:
   type: dict
   sample: >
     {
-      "response": {
-        "adminEnabledPorts": [
-          0
-        ],
-        "apGroupName": "string",
-        "deviceId": "string",
-        "ethMacAddress": "string",
-        "flexGroupName": "string",
-        "id": "string",
-        "instanceTenantId": "string",
-        "instanceUuid": "string",
-        "lagModeEnabled": true,
-        "netconfEnabled": true,
-        "wirelessLicenseInfo": "string",
-        "wirelessPackageInstalled": true
-      },
-      "version": "string"
+      "adminEnabledPorts": [
+        0
+      ],
+      "apGroupName": "string",
+      "deviceId": "string",
+      "ethMacAddress": "string",
+      "flexGroupName": "string",
+      "id": "string",
+      "instanceTenantId": "string",
+      "instanceUuid": "string",
+      "lagModeEnabled": true,
+      "netconfEnabled": true,
+      "wirelessLicenseInfo": "string",
+      "wirelessPackageInstalled": true
     }
 """

@@ -14,7 +14,7 @@ description:
    This API triggers the execution of the suggested actions for an issue, given the Issue Id. It will return an
    execution Id. At the completion of the execution, the output of the commands associated with the suggested actions
    will be provided.
-version_added: '6.7.0'
+version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
@@ -27,8 +27,8 @@ options:
     description: Contains the actual value for the entity type that has been defined.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.7.1
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Issues ExecuteSuggestedActionsCommands
   description: Complete reference of the ExecuteSuggestedActionsCommands API.
@@ -56,7 +56,6 @@ EXAMPLES = r"""
     entity_value: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

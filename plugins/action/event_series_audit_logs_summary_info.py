@@ -42,8 +42,8 @@ argument_spec.update(dict(
     deviceId=dict(type="str"),
     isSystemEvents=dict(type="bool"),
     description=dict(type="str"),
-    startTime=dict(type="int"),
-    endTime=dict(type="int"),
+    startTime=dict(type="float"),
+    endTime=dict(type="float"),
     headers=dict(type="dict"),
 ))
 

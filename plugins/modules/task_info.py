@@ -82,8 +82,8 @@ options:
     - TaskId path parameter. UUID of the Task.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.7.1
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Task GetTaskById
   description: Complete reference of the GetTaskById API.
@@ -143,7 +143,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

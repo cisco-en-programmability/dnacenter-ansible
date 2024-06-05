@@ -17,14 +17,14 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   newTemplateName:
-    description: New Template Name.
+    description: Destination test template name.
     type: str
   templateName:
-    description: Template Name.
+    description: Source test template name.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.7.1
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Sensors DuplicateSensorTestTemplate
   description: Complete reference of the DuplicateSensorTestTemplate API.
@@ -52,7 +52,6 @@ EXAMPLES = r"""
     templateName: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
@@ -62,71 +61,202 @@ dnac_response:
     {
       "version": "string",
       "response": {
-        "_id": "string",
         "name": "string",
+        "_id": "string",
         "version": 0,
         "modelVersion": 0,
         "startTime": 0,
         "lastModifiedTime": 0,
         "numAssociatedSensor": 0,
-        "location": {},
-        "siteHierarchy": {},
+        "location": "string",
+        "siteHierarchy": "string",
         "status": "string",
         "connection": "string",
-        "frequency": {},
+        "actionInProgress": "string",
+        "frequency": {
+          "value": 0,
+          "unit": "string"
+        },
         "rssiThreshold": 0,
         "numNeighborAPThreshold": 0,
         "scheduleInDays": 0,
         "wlans": [
-          {}
+          "string"
         ],
         "ssids": [
           {
-            "bands": {},
+            "bands": "string",
             "ssid": "string",
             "profileName": "string",
-            "authType": "string",
-            "authTypeRcvd": {},
-            "psk": "string",
-            "username": {},
-            "password": {},
-            "eapMethod": {},
-            "scep": true,
-            "authProtocol": {},
-            "certfilename": {},
-            "certxferprotocol": "string",
-            "certstatus": "string",
-            "certpassphrase": {},
-            "certdownloadurl": {},
             "numAps": 0,
             "numSensors": 0,
-            "layer3webAuthsecurity": {},
-            "layer3webAuthuserName": {},
-            "layer3webAuthpassword": {},
-            "extWebAuthVirtualIp": {},
-            "layer3webAuthEmailAddress": {},
-            "qosPolicy": "string",
-            "extWebAuth": true,
-            "whiteList": true,
-            "extWebAuthPortal": {},
-            "extWebAuthAccessUrl": {},
-            "extWebAuthHtmlTag": [
-              {}
-            ],
+            "layer3webAuthsecurity": "string",
+            "layer3webAuthuserName": "string",
+            "layer3webAuthpassword": "string",
+            "layer3webAuthEmailAddress": "string",
             "thirdParty": {
               "selected": true
             },
             "id": 0,
             "wlanId": 0,
-            "wlc": {},
+            "wlc": "string",
             "validFrom": 0,
             "validTo": 0,
             "status": "string",
+            "proxyServer": "string",
+            "proxyPort": "string",
+            "proxyUserName": "string",
+            "proxyPassword": "string",
+            "authType": "string",
+            "psk": "string",
+            "username": "string",
+            "password": "string",
+            "passwordType": "string",
+            "eapMethod": "string",
+            "scep": true,
+            "authProtocol": "string",
+            "certfilename": "string",
+            "certxferprotocol": "string",
+            "certstatus": "string",
+            "certpassphrase": "string",
+            "certdownloadurl": "string",
+            "extWebAuthVirtualIp": "string",
+            "extWebAuth": true,
+            "whiteList": true,
+            "extWebAuthPortal": "string",
+            "extWebAuthAccessUrl": "string",
+            "extWebAuthHtmlTag": [
+              {
+                "label": "string",
+                "tag": "string",
+                "value": "string"
+              }
+            ],
+            "qosPolicy": "string",
             "tests": [
               {
                 "name": "string",
                 "config": [
-                  {}
+                  {
+                    "domains": [
+                      "string"
+                    ],
+                    "server": "string",
+                    "userName": "string",
+                    "password": "string",
+                    "url": "string",
+                    "port": 0,
+                    "protocol": "string",
+                    "servers": [
+                      "string"
+                    ],
+                    "direction": "string",
+                    "startPort": 0,
+                    "endPort": 0,
+                    "udpBandwidth": 0,
+                    "probeType": "string",
+                    "numPackets": 0,
+                    "pathToDownload": "string",
+                    "transferType": "string",
+                    "sharedSecret": "string",
+                    "ndtServer": "string",
+                    "ndtServerPort": "string",
+                    "ndtServerPath": "string",
+                    "uplinkTest": true,
+                    "downlinkTest": true,
+                    "proxyServer": "string",
+                    "proxyPort": "string",
+                    "proxyUserName": "string",
+                    "proxyPassword": "string",
+                    "userNamePrompt": "string",
+                    "passwordPrompt": "string",
+                    "exitCommand": "string",
+                    "finalPrompt": "string"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "profiles": [
+          {
+            "authType": "string",
+            "psk": "string",
+            "username": "string",
+            "password": "string",
+            "passwordType": "string",
+            "eapMethod": "string",
+            "scep": true,
+            "authProtocol": "string",
+            "certfilename": "string",
+            "certxferprotocol": "string",
+            "certstatus": "string",
+            "certpassphrase": "string",
+            "certdownloadurl": "string",
+            "extWebAuthVirtualIp": "string",
+            "extWebAuth": true,
+            "whiteList": true,
+            "extWebAuthPortal": "string",
+            "extWebAuthAccessUrl": "string",
+            "extWebAuthHtmlTag": [
+              {
+                "label": "string",
+                "tag": "string",
+                "value": "string"
+              }
+            ],
+            "qosPolicy": "string",
+            "tests": [
+              {
+                "name": "string",
+                "config": [
+                  {
+                    "domains": [
+                      "string"
+                    ],
+                    "server": "string",
+                    "userName": "string",
+                    "password": "string",
+                    "url": "string",
+                    "port": 0,
+                    "protocol": "string",
+                    "servers": [
+                      "string"
+                    ],
+                    "direction": "string",
+                    "startPort": 0,
+                    "endPort": 0,
+                    "udpBandwidth": 0,
+                    "probeType": "string",
+                    "numPackets": 0,
+                    "pathToDownload": "string",
+                    "transferType": "string",
+                    "sharedSecret": "string",
+                    "ndtServer": "string",
+                    "ndtServerPort": "string",
+                    "ndtServerPath": "string",
+                    "uplinkTest": true,
+                    "downlinkTest": true,
+                    "proxyServer": "string",
+                    "proxyPort": "string",
+                    "proxyUserName": "string",
+                    "proxyPassword": "string",
+                    "userNamePrompt": "string",
+                    "passwordPrompt": "string",
+                    "exitCommand": "string",
+                    "finalPrompt": "string"
+                  }
+                ]
+              }
+            ],
+            "profileName": "string",
+            "deviceType": "string",
+            "vlan": "string",
+            "locationVlanList": [
+              {
+                "locationId": "string",
+                "vlans": [
+                  "string"
                 ]
               }
             ]
@@ -144,36 +274,40 @@ dnac_response:
             "allSensors": true,
             "siteHierarchy": "string",
             "macAddressList": [
-              {}
-            ]
+              "string"
+            ],
+            "managementVlan": "string",
+            "customManagementVlan": true
           }
         ],
-        "schedule": {
-          "testScheduleMode": "string",
-          "scheduleRange": [
-            {
-              "timeRange": [
-                {
-                  "from": "string",
-                  "to": "string",
-                  "frequency": {
-                    "value": 0,
-                    "unit": "string"
-                  }
-                }
-              ],
-              "day": "string"
-            }
-          ],
-          "startTime": 0,
-          "frequency": {
-            "value": 0,
-            "unit": "string"
-          }
-        },
-        "tests": {},
         "sensors": [
-          {}
+          {
+            "name": "string",
+            "macAddress": "string",
+            "switchMac": "string",
+            "switchUuid": "string",
+            "switchSerialNumber": "string",
+            "markedForUninstall": true,
+            "ipAddress": "string",
+            "hostName": "string",
+            "wiredApplicationStatus": "string",
+            "wiredApplicationMessage": "string",
+            "assigned": true,
+            "status": "string",
+            "xorSensor": true,
+            "targetAPs": [
+              "string"
+            ],
+            "runNow": "string",
+            "locationId": "string",
+            "allSensorAddition": true,
+            "configUpdated": "string",
+            "sensorType": "string",
+            "testMacAddresses": {},
+            "id": "string",
+            "servicePolicy": "string",
+            "iPerfInfo": {}
+          }
         ],
         "apCoverage": [
           {
@@ -181,11 +315,7 @@ dnac_response:
             "numberOfApsToTest": 0,
             "rssiThreshold": 0
           }
-        ],
-        "testDurationEstimate": 0,
-        "testTemplate": true,
-        "legacyTestSuite": true,
-        "tenantId": {}
+        ]
       }
     }
 """
