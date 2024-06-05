@@ -26,8 +26,8 @@ options:
       enterprise SSIDs will be retrieved.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.7.1
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Wireless GetEnterpriseSSID
   description: Complete reference of the GetEnterpriseSSID API.
@@ -56,7 +56,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
@@ -96,7 +95,16 @@ dnac_response:
                 "passphrase": "string"
               }
             ],
-            "clientRateLimit": 0
+            "clientRateLimit": 0,
+            "enableSessionTimeOut": true,
+            "sessionTimeOut": 0,
+            "enableClientExclusion": true,
+            "clientExclusionTimeout": 0,
+            "enableBasicServiceSetMaxIdle": true,
+            "basicServiceSetClientIdleTimeout": 0,
+            "enableDirectedMulticastService": true,
+            "enableNeighborList": true,
+            "mfpClientProtection": "string"
           }
         ],
         "groupUuid": "string",

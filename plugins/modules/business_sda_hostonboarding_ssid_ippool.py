@@ -10,16 +10,17 @@ module: business_sda_hostonboarding_ssid_ippool
 short_description: Resource module for Business Sda Hostonboarding Ssid Ippool
 description:
 - Manage operations create and update of the resource Business Sda Hostonboarding Ssid Ippool.
-- Add SSID to IP Pool Mapping.
-- Update SSID to IP Pool Mapping.
+- >
+   Update SSID mapping to a VLAN. The request does not need to include all the SSIDs currently mapped to a VLAN; it
+   can include only the SSIDs that require update. Note ECA is not supported.
+- >
+   Update SSID mapping to a VLAN. The request does not need to include all the SSIDs currently mapped to a VLAN; it
+   can include only the SSIDs that require update. Note ECA is not supported.
 version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
-  headers:
-    description: Additional headers.
-    type: dict
   scalableGroupName:
     description: Scalable Group Name.
     type: str
@@ -34,8 +35,8 @@ options:
     description: VLAN Name.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.7.1
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Fabric Wireless AddSSIDToIPPoolMapping
   description: Complete reference of the AddSSIDToIPPoolMapping API.
@@ -65,7 +66,6 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: present
-    headers: '{{my_headers | from_json}}'
     scalableGroupName: string
     siteNameHierarchy: string
     ssidNames:
@@ -89,18 +89,15 @@ EXAMPLES = r"""
     vlanName: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
-  type: list
+  type: dict
   sample: >
-    [
-      {
-        "executionId": "string",
-        "executionStatusURL": "string",
-        "message": "string"
-      }
-    ]
+    {
+      "executionId": "string",
+      "executionStatusUrl": "string",
+      "message": "string"
+    }
 """

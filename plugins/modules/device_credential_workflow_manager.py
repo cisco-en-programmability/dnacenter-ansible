@@ -298,7 +298,7 @@ options:
                 description: snmp_v3 Credential Id. Use Description or Id.
                 type: str
 requirements:
-- dnacentersdk >= 2.6.0
+- dnacentersdk >= 2.7.1
 - python >= 3.9
 seealso:
 - name: Cisco Catalyst Center documentation for Discovery CreateGlobalCredentialsV2

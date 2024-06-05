@@ -26,7 +26,7 @@ options:
     description: Destination IP address.
     type: str
   destPort:
-    description: Destination Port.
+    description: Destination Port, range 1-65535.
     type: str
   flowAnalysisId:
     description: FlowAnalysisId path parameter. Flow analysis request id.
@@ -40,17 +40,17 @@ options:
     description: Periodic refresh of path for every 30 sec.
     type: bool
   protocol:
-    description: Protocol.
+    description: Protocol - one of TCP, UDP - checks both when left blank.
     type: str
   sourceIP:
     description: Source IP address.
     type: str
   sourcePort:
-    description: Source Port.
+    description: Source Port, range 1-65535.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.7.1
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Path Trace InitiateANewPathtrace
   description: Complete reference of the InitiateANewPathtrace API.
@@ -103,7 +103,6 @@ EXAMPLES = r"""
     flowAnalysisId: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

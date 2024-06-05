@@ -75,6 +75,7 @@ class NetworkDeviceUserDefinedField(object):
         new_object_params = {}
         new_object_params['name'] = self.new_object.get('name')
         new_object_params['description'] = self.new_object.get('description')
+        new_object_params['id'] = self.new_object.get('id')
         return new_object_params
 
     def get_object_by_name(self, name):

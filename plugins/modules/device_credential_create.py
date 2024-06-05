@@ -10,7 +10,9 @@ module: device_credential_create
 short_description: Resource module for Device Credential Create
 description:
 - Manage operation create of the resource Device Credential Create.
-- API to create device credentials.
+- >
+   API to create device credentials. This API has been deprecated and will not be available in a Cisco DNA Center
+   release after August 1st 2024 23 59 59 GMT. Please refer new Intent API Create Global Credentials V2.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -48,7 +50,7 @@ options:
             type: str
           port:
             description: Port for http read credential.
-            type: int
+            type: float
           username:
             description: User name of the http read credential.
             type: str
@@ -65,7 +67,7 @@ options:
             type: str
           port:
             description: Port for http write credential.
-            type: int
+            type: float
           username:
             description: User name of the http write credential.
             type: str
@@ -120,8 +122,8 @@ options:
         type: list
     type: dict
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.7.1
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Network Settings CreateDeviceCredentials
   description: Complete reference of the CreateDeviceCredentials API.
@@ -177,7 +179,6 @@ EXAMPLES = r"""
         username: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

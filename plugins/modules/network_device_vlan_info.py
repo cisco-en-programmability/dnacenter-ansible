@@ -10,7 +10,7 @@ module: network_device_vlan_info
 short_description: Information module for Network Device Vlan
 description:
 - Get all Network Device Vlan.
-- Returns Device Interface VLANs.
+- Returns Device Interface VLANs. If parameter value is null or empty, it won't return any value in response.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -25,11 +25,14 @@ options:
     type: str
   interfaceType:
     description:
-    - InterfaceType query parameter. Vlan assocaited with sub-interface.
+    - >
+      InterfaceType query parameter. Vlan associated with sub-interface. If no interfaceType mentioned it will
+      return all types of Vlan interfaces. If interfaceType is selected but not specified then it will take
+      default value.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.7.1
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Devices GetDeviceInterfaceVLANs
   description: Complete reference of the GetDeviceInterfaceVLANs API.
@@ -59,7 +62,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

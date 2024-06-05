@@ -11,7 +11,7 @@ short_description: Information module for Transit Peer Network
 description:
 - Get all Transit Peer Network.
 - Get Transit Peer Network Info from SD-Access.
-version_added: '6.5.0'
+version_added: '6.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
 author: Rafael Campos (@racampos)
@@ -24,15 +24,15 @@ options:
     - TransitPeerNetworkName query parameter. Transit or Peer Network Name.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.7.1
+- python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for  GetTransitPeerNetworkInfo
+- name: Cisco DNA Center documentation for SDA GetTransitPeerNetworkInfo
   description: Complete reference of the GetTransitPeerNetworkInfo API.
   link: https://developer.cisco.com/docs/dna-center/#!get-transit-peer-network-info
 notes:
   - SDK Method used are
-    ..get_transit_peer_network_info,
+    sda.Sda.get_transit_peer_network_info,
 
   - Paths used are
     get /dna/intent/api/v1/business/sda/transit-peer-network,
@@ -54,7 +54,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

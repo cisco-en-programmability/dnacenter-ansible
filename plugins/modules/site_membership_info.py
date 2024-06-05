@@ -26,11 +26,11 @@ options:
   offset:
     description:
     - Offset query parameter. Offset/starting row.
-    type: int
+    type: float
   limit:
     description:
     - Limit query parameter. Number of sites to be retrieved.
-    type: int
+    type: float
   deviceFamily:
     description:
     - DeviceFamily query parameter. Device family name.
@@ -40,8 +40,8 @@ options:
     - SerialNumber query parameter. Device serial number.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.7.1
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Sites GetMembership
   description: Complete reference of the GetMembership API.
@@ -74,7 +74,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

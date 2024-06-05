@@ -12,7 +12,7 @@ description:
 - Manage operations create and update of the resource Event Email Config.
 - Create Email Destination.
 - Update Email Destination.
-version_added: '6.7.0'
+version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
@@ -35,6 +35,9 @@ options:
       port:
         description: Port.
         type: str
+      smtpType:
+        description: SmtpType.
+        type: str
       userName:
         description: User Name.
         type: str
@@ -51,6 +54,9 @@ options:
       port:
         description: Port.
         type: str
+      smtpType:
+        description: SmtpType.
+        type: str
       userName:
         description: User Name.
         type: str
@@ -62,8 +68,8 @@ options:
     description: To Email.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.7.1
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Event Management CreateEmailDestination
   description: Complete reference of the CreateEmailDestination API.
@@ -99,11 +105,13 @@ EXAMPLES = r"""
       hostName: string
       password: string
       port: string
+      smtpType: string
       userName: string
     secondarySMTPConfig:
       hostName: string
       password: string
       port: string
+      smtpType: string
       userName: string
     subject: string
     toEmail: string
@@ -124,17 +132,18 @@ EXAMPLES = r"""
       hostName: string
       password: string
       port: string
+      smtpType: string
       userName: string
     secondarySMTPConfig:
       hostName: string
       password: string
       port: string
+      smtpType: string
       userName: string
     subject: string
     toEmail: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

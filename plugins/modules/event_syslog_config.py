@@ -12,7 +12,7 @@ description:
 - Manage operations create and update of the resource Event Syslog Config.
 - Create Syslog Destination.
 - Update Syslog Destination.
-version_added: '6.7.0'
+version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
@@ -31,13 +31,13 @@ options:
     type: str
   port:
     description: Port.
-    type: str
+    type: int
   protocol:
     description: Protocol.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.7.1
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Event Management CreateSyslogDestination
   description: Complete reference of the CreateSyslogDestination API.
@@ -71,7 +71,7 @@ EXAMPLES = r"""
     description: string
     host: string
     name: string
-    port: string
+    port: 0
     protocol: string
 
 - name: Create
@@ -88,11 +88,10 @@ EXAMPLES = r"""
     description: string
     host: string
     name: string
-    port: string
+    port: 0
     protocol: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

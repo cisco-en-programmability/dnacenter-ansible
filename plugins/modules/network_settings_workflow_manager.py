@@ -382,7 +382,7 @@ options:
                     type: list
                 type: dict
 requirements:
-- dnacentersdk >= 2.4.5
+- dnacentersdk >= 2.7.1
 - python >= 3.9
 notes:
   - SDK Method used are
