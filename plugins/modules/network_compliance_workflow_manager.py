@@ -607,6 +607,10 @@ class NetworkCompliance(DnacBase):
             except Exception as e:
                 # Log an error message if any exception occurs during the process
                 self.log("Error while fetching device ID for device: '{0}' from Cisco Catalyst Center: {1}".format(device_ip, str(e)), "ERROR")
+        if not mgmt_ip_instance_id_map:
+            self.msg = "Reachable devices not found in the IP Address List: {0}".format(ip_address_list)
+            self.update_result("ok", False, self.msg, "INFO")
+            self.module.exit_json(**self.result)
 
         return mgmt_ip_instance_id_map
 
@@ -670,6 +674,11 @@ class NetworkCompliance(DnacBase):
         except Exception as e:
             # Log an error message if any exception occurs during the process
             self.log("Unable to fetch the device(s) associated to the site '{0}' due to {1}".format(site_name, str(e)), "ERROR")
+
+        if not mgmt_ip_instance_id_map:
+            self.msg = "Reachable devices not found at Site: {0}".format(site_name)
+            self.update_result("ok", False, self.msg, "INFO")
+            self.module.exit_json(**self.result)
 
         return mgmt_ip_instance_id_map
 
@@ -834,7 +843,7 @@ class NetworkCompliance(DnacBase):
             required, self.msg, categorized_devices = self.is_sync_required(compliance_details, mgmt_ip_instance_id_map)
             self.log("Is Sync Requied: {0} {1}".format(required, self.msg), "DEBUG")
             if not required:
-                self.update_result("success", False, self.msg, "INFO")
+                self.update_result("ok", False, self.msg, "INFO")
                 self.module.exit_json(**self.result)
 
             # Get the device IDs of devices in the "OTHER" category and "COMPLIANT" category
