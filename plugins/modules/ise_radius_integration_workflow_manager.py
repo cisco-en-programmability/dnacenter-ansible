@@ -656,7 +656,7 @@ class IseRadiusIntegration(DnacBase):
         AuthServer.update({"id": auth_server_details.get("instanceUuid")})
         AuthServer["details"] = self.get_auth_server_params(auth_server_details)
 
-        self.log("Formatted global pool details: {0}".format(AuthServer), "DEBUG")
+        self.log("Formatted Authenticaion and Policy Server details: {0}".format(AuthServer), "DEBUG")
         return AuthServer
 
     def get_have_authentication_policy_server(self, config):
@@ -948,9 +948,12 @@ class IseRadiusIntegration(DnacBase):
                 auth_server.get("ciscoIseDtos").append({})
                 user_name = ise_credential.get("user_name")
                 if not user_name:
-                    self.msg = "Missing parameter 'user_name' is required when server_type is ISE."
-                    self.status = "failed"
-                    return self
+                    if not auth_server_exists:
+                        self.msg = "Missing parameter 'user_name' is required when server_type is ISE."
+                        self.status = "failed"
+                        return self
+                    else:
+                        user_name = auth_server_details.get("ciscoIseDtos")[0].get("userName")
 
                 auth_server.get("ciscoIseDtos")[position_ise_creds].update({
                     "userName": user_name
@@ -973,9 +976,12 @@ class IseRadiusIntegration(DnacBase):
 
                 fqdn = ise_credential.get("fqdn")
                 if not fqdn:
-                    self.msg = "Missing parameter 'fqdn' is required when server_type is ISE."
-                    self.status = "failed"
-                    return self
+                    if not auth_server_exists:
+                        self.msg = "Missing parameter 'fqdn' is required when server_type is ISE."
+                        self.status = "failed"
+                        return self
+                    else:
+                        fqdn = auth_server_details.get("ciscoIseDtos")[0].get("fqdn")
 
                 auth_server.get("ciscoIseDtos")[position_ise_creds].update({"fqdn": fqdn})
 
@@ -1222,13 +1228,41 @@ class IseRadiusIntegration(DnacBase):
                 function="add_authentication_and_policy_server_access_configuration",
                 params=auth_server_params,
             )
-            if not is_ise_server:
-                validation_string = "successfully created aaa settings"
-            else:
-                validation_string = "operation sucessful"
+            validation_string_set = ("successfully created aaa settings", "operation sucessful")
+            response = response.get("response")
+            if response.get("errorcode") is not None:
+                self.msg = response.get("response").get("detail")
+                self.status = "failed"
+                return self
 
-            self.check_task_response_status(response, validation_string).check_return_status()
-            if is_ise_server:
+            task_id = response.get("taskId")
+            is_certificate_required = False
+            while True:
+                task_details = self.get_task_details(task_id)
+                self.log('Getting task details from task ID {0}: {1}'.format(task_id, task_details), "DEBUG")
+
+                if task_details.get("isError") is True:
+                    if task_details.get("failureReason"):
+                        self.msg = str(task_details.get("failureReason"))
+                    else:
+                        self.msg = str(task_details.get("progress"))
+                    self.status = "failed"
+                    break
+
+                for validation_string in validation_string_set:
+                    if validation_string in task_details.get("progress").lower():
+                        self.result['changed'] = True
+                        if validation_string == "operation sucessful":
+                            is_certificate_required = True
+                        self.status = "success"
+
+                if self.result['changed'] is True:
+                    self.log("The task with task id '{0}' is successfully executed".format(task_id), "DEBUG")
+                    break
+
+                self.log("progress set to {0} for taskid: {1}".format(task_details.get('progress'), task_id), "DEBUG")
+
+            if is_ise_server and is_certificate_required:
                 trusted_server = self.want.get("trusted_server")
                 self.accept_cisco_ise_server_certificate(ipAddress, trusted_server)
                 ise_integration_wait_time = self.want.get("ise_integration_wait_time")
