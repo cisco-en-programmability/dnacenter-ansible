@@ -952,8 +952,8 @@ class IseRadiusIntegration(DnacBase):
                         self.msg = "Missing parameter 'user_name' is required when server_type is ISE."
                         self.status = "failed"
                         return self
-                    else:
-                        user_name = auth_server_details.get("ciscoIseDtos")[0].get("userName")
+
+                    user_name = auth_server_details.get("ciscoIseDtos")[0].get("userName")
 
                 auth_server.get("ciscoIseDtos")[position_ise_creds].update({
                     "userName": user_name
@@ -980,8 +980,8 @@ class IseRadiusIntegration(DnacBase):
                         self.msg = "Missing parameter 'fqdn' is required when server_type is ISE."
                         self.status = "failed"
                         return self
-                    else:
-                        fqdn = auth_server_details.get("ciscoIseDtos")[0].get("fqdn")
+
+                    fqdn = auth_server_details.get("ciscoIseDtos")[0].get("fqdn")
 
                 auth_server.get("ciscoIseDtos")[position_ise_creds].update({"fqdn": fqdn})
 
@@ -1240,10 +1240,10 @@ class IseRadiusIntegration(DnacBase):
             while True:
                 task_details = self.get_task_details(task_id)
                 self.log('Getting task details from task ID {0}: {1}'.format(task_id, task_details), "DEBUG")
-
                 if task_details.get("isError") is True:
-                    if task_details.get("failureReason"):
-                        self.msg = str(task_details.get("failureReason"))
+                    failure_reason = task_details.get("failureReason")
+                    if failure_reason:
+                        self.msg = str(failure_reason)
                     else:
                         self.msg = str(task_details.get("progress"))
                     self.status = "failed"
@@ -1260,7 +1260,7 @@ class IseRadiusIntegration(DnacBase):
                     self.log("The task with task id '{0}' is successfully executed".format(task_id), "DEBUG")
                     break
 
-                self.log("progress set to {0} for taskid: {1}".format(task_details.get('progress'), task_id), "DEBUG")
+                self.log("Progress set to {0} for taskid: {1}".format(task_details.get('progress'), task_id), "DEBUG")
 
             if is_ise_server and is_certificate_required:
                 trusted_server = self.want.get("trusted_server")
