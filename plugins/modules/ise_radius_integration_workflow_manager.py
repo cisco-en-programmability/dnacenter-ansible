@@ -1231,7 +1231,7 @@ class IseRadiusIntegration(DnacBase):
             validation_string_set = ("successfully created aaa settings", "operation sucessful")
             response = response.get("response")
             if response.get("errorcode") is not None:
-                self.msg = response.get("response").get("detail")
+                self.msg = response.get("detail")
                 self.status = "failed"
                 return self
 
