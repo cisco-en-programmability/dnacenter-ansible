@@ -68,6 +68,7 @@ class DnacBase():
                                         'parsed': self.verify_diff_parsed
                                         }
         self.dnac_log = dnac_params.get("dnac_log")
+        self.max_timeout = self.params.get('dnac_api_task_timeout')
 
         if self.dnac_log and not DnacBase.__is_log_init:
             self.dnac_log_level = dnac_params.get("dnac_log_level") or 'WARNING'
@@ -331,7 +332,14 @@ class DnacBase():
             return self
 
         task_id = response.get("taskId")
+        start_time = time.time()
         while True:
+            end_time = time.time()
+            if (end_time - start_time) >= self.max_timeout:
+                self.log("Max timeout of {0} sec has reached for the task id '{1}' for the event and unexpected "
+                         "api status so moving out of the loop.".format(self.max_timeout, task_id), "WARNING")
+                break
+
             task_details = self.get_task_details(task_id)
             self.log('Getting task details from task ID {0}: {1}'.format(task_id, task_details), "DEBUG")
 
@@ -401,9 +409,16 @@ class DnacBase():
             self.status = "failed"
             return self
 
-        executionid = response.get("executionId")
+        execution_id = response.get("executionId")
+        start_time = time.time()
         while True:
-            execution_details = self.get_execution_details(executionid)
+            end_time = time.time()
+            if (end_time - start_time) >= self.max_timeout:
+                self.log("Max timeout of {0} sec has reached for the execution id '{1}' for the event and unexpected "
+                         "api status so moving out of the loop.".format(self.max_timeout, execution_id), "WARNING")
+                break
+
+            execution_details = self.get_execution_details(execution_id)
             if execution_details.get("status") == "SUCCESS":
                 self.result['changed'] = True
                 self.msg = "Successfully executed"
@@ -529,15 +544,14 @@ class DnacBase():
             response from the API. If the timeout is reached first, the method logs a warning and returns None.
         """
 
-        max_timeout = self.params.get('dnac_api_task_timeout')
         events_response = None
         start_time = time.time()
 
         while True:
             end_time = time.time()
-            if (end_time - start_time) >= max_timeout:
+            if (end_time - start_time) >= self.max_timeout:
                 self.log("""Max timeout of {0} sec has reached for the execution id '{1}' for the event and unexpected
-                        api status so moving out of the loop.""".format(max_timeout, status_execution_id), "WARNING")
+                        api status so moving out of the loop.""".format(self.max_timeout, status_execution_id), "WARNING")
                 break
             # Now we check the status of API Events for configuring destination and notifications
             response = self.dnac._exec(
