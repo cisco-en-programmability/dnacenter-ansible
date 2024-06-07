@@ -575,7 +575,7 @@
 <h1>cisco.dnac.events_and_notifications_workflow_manager module -- Configure various types of destinations to deliver event notifications from Cisco Catalyst Center Platform.<a class="headerlink" href="#cisco-dnac-events-and-notifications-workflow-manager-module-configure-various-types-of-destinations-to-deliver-event-notifications-from-cisco-catalyst-center-platform" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.15.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.16.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -633,7 +633,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-events-a
 <div class="ansibleOptionAnchor" id="parameter-config/email_destination"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-email-destination"><strong>email_destination</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/email_destination" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Configure settings to send out emails from Cisco Catalyst Center. Also we can create or configure email destination in Cisco Catalyst Center only once then later we can just modify it.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Configure settings to send out emails from Cisco Catalyst Center. Also we can create or configure email destination in Cisco Catalyst Center only once then later we can just modify it. This one is just used to configure the Primary and Secondary SMTP server while configuring the email destination. It's not related to email event subscription notification.</p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -742,185 +742,395 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-events-a
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/email_event_notification"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-email-event-notification"><strong>email_event_notification</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/email_event_notification" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Configuration for setting up or modifying an Email Event Subscription in Cisco Catalyst Center. This includes parameters for the email notification itself as well as details for the associated email instance.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/email_event_notification/description"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-email-event-notification-description"><strong>description</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/email_event_notification/description" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>A brief explanation detailing the purpose of the Email events subscription notification.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/email_event_notification/domain"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-email-event-notification-domain"><strong>domain</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/email_event_notification/domain" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The main category or domain under which events fall (e.g., Know Your Network, Connectivity, etc.).</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/email_event_notification/event_categories"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-email-event-notification-event-categories"><strong>event_categories</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/email_event_notification/event_categories" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of event categories to be included in the subscription for notifications (e.g., WARN, INFO, ERROR, ALERT, TASK_COMPLETE, TASK_FAILURE).</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/email_event_notification/event_severities"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-email-event-notification-event-severities"><strong>event_severities</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/email_event_notification/event_severities" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of event severities to be included in the subscription for notifications (e.g., [&quot;1&quot;, &quot;2&quot;, &quot;3&quot;]).</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/email_event_notification/event_sources"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-email-event-notification-event-sources"><strong>event_sources</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/email_event_notification/event_sources" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of event sources to be included in the subscription for notifications.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/email_event_notification/event_types"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-email-event-notification-event-types"><strong>event_types</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/email_event_notification/event_types" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Types of events that trigger the notifications, defining the nature of the event (e.g., [&quot;APP&quot;, &quot;NETWORK&quot;]).</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/email_event_notification/events"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-email-event-notification-events"><strong>events</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/email_event_notification/events" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span> / <span class="ansible-option-required">required</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of event names to be subscribed to for notification configurations (e.g., [&quot;AP Flap&quot;, &quot;AP Reboot Crash&quot;]).</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/email_event_notification/instance"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-email-event-notification-instance"><strong>instance</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/email_event_notification/instance" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name assigned to the specific email instance used for sending the notification.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/email_event_notification/instance_description"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-email-event-notification-instance-description"><strong>instance_description</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/email_event_notification/instance_description" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Detailed explanation of the email instance's purpose and how it relates to the notifications.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/email_event_notification/name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-email-event-notification-name"><strong>name</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/email_event_notification/name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name of the Email event subscription notification.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/email_event_notification/recipient_emails"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-email-event-notification-recipient-emails"><strong>recipient_emails</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/email_event_notification/recipient_emails" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span> / <span class="ansible-option-required">required</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Recipient email addresses that will receive the notifications.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/email_event_notification/sender_email"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-email-event-notification-sender-email"><strong>sender_email</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/email_event_notification/sender_email" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Originating email address for sending out the notifications.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/email_event_notification/sites"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-email-event-notification-sites"><strong>sites</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/email_event_notification/sites" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of site names where events are included in the notification subscription(e.g., [&quot;Global/India&quot;, &quot;Global/USA&quot;]).</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/email_event_notification/subdomains"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-email-event-notification-subdomains"><strong>subdomains</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/email_event_notification/subdomains" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>More specific categories within the main domain to further classify events (e.g., [&quot;Wireless&quot;, &quot;Applications&quot;]).</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/email_event_notification/subject"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-email-event-notification-subject"><strong>subject</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/email_event_notification/subject" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The Subject line for the email notification, briefly indicating the notification content.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/email_event_notification/version"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-email-event-notification-version"><strong>version</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/email_event_notification/version" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Version label for the event subscription, helping track updates or changes.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/itsm_setting"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-itsm-setting"><strong>itsm_setting</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/itsm_setting" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Dictionary containing the configuration details to configure the ServiceNow/BMCRemedy settings to automatically create incidents/problems/RFC's from Cisco Catalyst Center.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/itsm_setting/connection_settings"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-itsm-setting-connection-settings"><strong>connection_settings</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/itsm_setting/connection_settings" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>A dictionary of settings required to establish a connection with the ITSM system.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/itsm_setting/connection_settings/password"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-itsm-setting-connection-settings-password"><strong>password</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/itsm_setting/connection_settings/password" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The password associated with the username for API authentication. It is recommended to handle this data securely.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/itsm_setting/connection_settings/url"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-itsm-setting-connection-settings-url"><strong>url</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/itsm_setting/connection_settings/url" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The URL of the ITSM system API endpoint. This is the base URL used for ITSM service requests.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/itsm_setting/connection_settings/username"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-itsm-setting-connection-settings-username"><strong>username</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/itsm_setting/connection_settings/username" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The username used for authentication with the ITSM system. This is required for accessing the API.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/itsm_setting/description"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-itsm-setting-description"><strong>description</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/itsm_setting/description" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>A brief description of the ITSM settings, outlining its purpose or usage within the organization.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/itsm_setting/instance_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-itsm-setting-instance-name"><strong>instance_name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/itsm_setting/instance_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The name of the ITSM configuration. This helps in identifying the integration within the system. Also while deleting the ITSM Intergration setting from Cisco Catalyst Center.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/snmp_destination"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-snmp-destination"><strong>snmp_destination</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/snmp_destination" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Dictionary containing the details for configuring/updating the SNMP Trap Server to receive Audit logs and Events from Cisco Catalyst Center.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/snmp_destination/auth_password"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-snmp-destination-auth-password"><strong>auth_password</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/snmp_destination/auth_password" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Password used for SNMP authentication.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/snmp_destination/auth_type"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-snmp-destination-auth-type"><strong>auth_type</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/snmp_destination/auth_type" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Type of SNMP authentication protocol to use, such as MD5 or SHA. SHA - Stands for Secure Hash Algorithm, a suite of cryptographic hash functions developed by the National Security Agency (NSA) offering enhanced security. MD5 - Refers to Message Digest Algorithm 5, a well-established cryptographic hash function generating a 128-bit hash value, employed in SNMPv3 for message authenticity and integrity verification.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/snmp_destination/community"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-snmp-destination-community"><strong>community</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/snmp_destination/community" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>SNMP community string used for authentication, necessary only when the snmp_version is set to V2C.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/snmp_destination/description"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-snmp-destination-description"><strong>description</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/snmp_destination/description" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Description of the SNMP destination.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/snmp_destination/mode"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-snmp-destination-mode"><strong>mode</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/snmp_destination/mode" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The security mode for SNMP communication (options - AUTH_PRIVACY, AUTH_NO_PRIVACY, NO_AUTH_NO_PRIVACY). Mandatory for snmp_version V3 and must not be set to NONE. AUTH_PRIVACY - The most secure mode, providing both verification of the message source through authentication and protection of message contents with encryption. If this option is selected, must need to provide auth_type, auth_password, privacy_type, privacy_password parameter in the playbook. AUTH_NO_PRIVACY - This mode ensures the authenticity of SNMP messages via a community string for validation but does not encrypt the data, leaving it vulnerable to interception. If this option is selected, must need to provide auth_type, auth_password parameter in the playbook. NO_AUTH_NO_PRIVACY - In this mode, SNMP messages are neither authenticated nor encrypted, making it the least secure as it requires no credentials or data protection. If this option is selected, not need to provide auth_type, auth_password, privacy_type, privacy_password parameter in the playbook.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/snmp_destination/name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-snmp-destination-name"><strong>name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/snmp_destination/name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name of the SNMP destination.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/snmp_destination/port"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-snmp-destination-port"><strong>port</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/snmp_destination/port" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Port number on which the SNMP server is listening.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/snmp_destination/privacy_password"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-snmp-destination-privacy-password"><strong>privacy_password</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/snmp_destination/privacy_password" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Password used for encryption in SNMP privacy.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/snmp_destination/privacy_type"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-snmp-destination-privacy-type"><strong>privacy_type</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/snmp_destination/privacy_type" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Encryption algorithm used for SNMP privacy, such as AES128.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/snmp_destination/server_address"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-snmp-destination-server-address"><strong>server_address</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/snmp_destination/server_address" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>IP address of the SNMP server.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/snmp_destination/snmp_version"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-snmp-destination-snmp-version"><strong>snmp_version</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/snmp_destination/snmp_version" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The SNMP protocol version used for network management and monitoring, selectable between SNMPv2c and SNMPv3. V2C - Utilizes community strings for the authentication between the SNMP manager (like Cisco Catalyst) and managed network devices (routers, switches, access points), without encryption, as strings are sent in plain text. V3 - Offers enhanced security features over V2C, including authentication, integrity, and encryption, using usernames, passwords, and encryption keys for secure communications.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/snmp_destination/username"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-snmp-destination-username"><strong>username</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/snmp_destination/username" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Username required for SNMP authentication, applicable exclusively when the snmp_version is configured to V3.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/syslog_destination"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-syslog-destination"><strong>syslog_destination</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/syslog_destination" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Dictionary containing the details for configuring/updating the Syslog Server to collect Audit logs and Events from the Cisco Catalyst Center.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/syslog_destination/description"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-syslog-destination-description"><strong>description</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/syslog_destination/description" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>A brief explanation detailing the purpose of the syslog destination.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/syslog_destination/name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-syslog-destination-name"><strong>name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/syslog_destination/name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name of the syslog destination.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/syslog_destination/port"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-syslog-destination-port"><strong>port</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/syslog_destination/port" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Port number on which the syslog server is listening. It must be in the range of 1-65535. If not given any port then we will use 514 as default port.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/syslog_destination/protocol"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-syslog-destination-protocol"><strong>protocol</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/syslog_destination/protocol" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Protocol used for sending syslog messages (e.g., UDP, TCP). Transmission Control Protocol (TCP) - It is a connection-oriented protocol used for reliable and ordered communication between devices on a network. It provides error-checking, retransmission of lost packets, and ensures that data is delivered in the correct order. User Datagram Protocol (UDP) - It is a connectionless protocol used for sending datagrams between devices on a network. It provides a lightweight, best-effort delivery mechanism without guaranteeing delivery or ordering of packets. UDP is commonly used for real-time applications such as streaming media, online gaming, and VoIP.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/syslog_destination/server_address"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-syslog-destination-server-address"><strong>server_address</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/syslog_destination/server_address" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Hostname or IP address of the Syslog server.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/syslog_event_notification"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-syslog-event-notification"><strong>syslog_event_notification</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/syslog_event_notification" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Configuration for establishing or revising a Syslog Event Subscription in the Cisco Catalyst Center. This allows for the specification of Syslog event notification parameters and destination settings.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/syslog_event_notification/description"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-syslog-event-notification-description"><strong>description</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/syslog_event_notification/description" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>A brief explanation detailing the purpose of the syslog events subscription notification.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/syslog_event_notification/destination"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-syslog-event-notification-destination"><strong>destination</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/syslog_event_notification/destination" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The name of the destination for sending event notifications via syslog.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/syslog_event_notification/domain"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-syslog-event-notification-domain"><strong>domain</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/syslog_event_notification/domain" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The main category or domain under which events fall (e.g., Know Your Network, Connectivity, etc.).</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/syslog_event_notification/event_categories"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-syslog-event-notification-event-categories"><strong>event_categories</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/syslog_event_notification/event_categories" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of event categories to be included in the subscription for notifications (e.g., WARN, INFO, ERROR, ALERT, TASK_COMPLETE, TASK_FAILURE).</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/syslog_event_notification/event_severities"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-syslog-event-notification-event-severities"><strong>event_severities</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/syslog_event_notification/event_severities" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of event severities to be included in the subscription for notifications (e.g., [&quot;1&quot;, &quot;2&quot;, &quot;3&quot;]).</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/syslog_event_notification/event_sources"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-syslog-event-notification-event-sources"><strong>event_sources</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/syslog_event_notification/event_sources" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of event sources to be included in the subscription for notifications.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/syslog_event_notification/event_types"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-syslog-event-notification-event-types"><strong>event_types</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/syslog_event_notification/event_types" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Types of events that trigger the notifications, defining the nature of the event (e.g., [&quot;APP&quot;, &quot;NETWORK&quot;]).</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/syslog_event_notification/events"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-syslog-event-notification-events"><strong>events</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/syslog_event_notification/events" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span> / <span class="ansible-option-required">required</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of event names to be subscribed to for notification configurations (e.g., [&quot;AP Flap&quot;, &quot;AP Reboot Crash&quot;]).</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/syslog_event_notification/name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-syslog-event-notification-name"><strong>name</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/syslog_event_notification/name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name of the Syslog event subscription notification.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/syslog_event_notification/sites"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-syslog-event-notification-sites"><strong>sites</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/syslog_event_notification/sites" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of site names where events are included in the notification subscription(e.g., [&quot;Global/India&quot;, &quot;Global/USA&quot;]).</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/syslog_event_notification/subdomains"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-syslog-event-notification-subdomains"><strong>subdomains</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/syslog_event_notification/subdomains" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>More specific categories within the main domain to further classify events (e.g., [&quot;Wireless&quot;, &quot;Applications&quot;]).</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/syslog_event_notification/version"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-syslog-event-notification-version"><strong>version</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/syslog_event_notification/version" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Version label for the event subscription, helping track updates or changes.</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -1022,7 +1232,98 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-events-a
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Fully qualified URL to which the webhook will send requests (e.g., &quot;<a class="reference external" href="https://ciscocatalyst.com">https://ciscocatalyst.com</a>&quot;).</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/webhook_event_notification"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-webhook-event-notification"><strong>webhook_event_notification</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/webhook_event_notification" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Dictionary containing the details for creating/updating the Webhook Event subscription notification in Cisco Catalyst Center.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/webhook_event_notification/description"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-webhook-event-notification-description"><strong>description</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/webhook_event_notification/description" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>A brief explanation detailing the purpose of the email events subscription notification.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/webhook_event_notification/destination"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-webhook-event-notification-destination"><strong>destination</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/webhook_event_notification/destination" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The name of the destination for sending event notifications via webhook.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/webhook_event_notification/domain"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-webhook-event-notification-domain"><strong>domain</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/webhook_event_notification/domain" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The main category or domain under which events fall (e.g., Know Your Network, Connectivity, etc.).</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/webhook_event_notification/event_categories"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-webhook-event-notification-event-categories"><strong>event_categories</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/webhook_event_notification/event_categories" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of event categories to be included in the subscription for notifications (e.g., WARN, INFO, ERROR, ALERT, TASK_COMPLETE, TASK_FAILURE).</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/webhook_event_notification/event_severities"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-webhook-event-notification-event-severities"><strong>event_severities</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/webhook_event_notification/event_severities" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of event severities to be included in the subscription for notifications (e.g., [&quot;1&quot;, &quot;2&quot;, &quot;3&quot;]).</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/webhook_event_notification/event_sources"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-webhook-event-notification-event-sources"><strong>event_sources</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/webhook_event_notification/event_sources" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of event sources to be included in the subscription for notifications.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/webhook_event_notification/event_types"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-webhook-event-notification-event-types"><strong>event_types</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/webhook_event_notification/event_types" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Types of events that trigger the notifications, defining the nature of the event (e.g., [&quot;APP&quot;, &quot;NETWORK&quot;]).</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/webhook_event_notification/events"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-webhook-event-notification-events"><strong>events</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/webhook_event_notification/events" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span> / <span class="ansible-option-required">required</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of event names to be subscribed to for notification configurations (e.g., [&quot;AP Flap&quot;, &quot;AP Reboot Crash&quot;]).</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/webhook_event_notification/name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-webhook-event-notification-name"><strong>name</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/webhook_event_notification/name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name of the Webhook event subscription notification.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/webhook_event_notification/sites"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-webhook-event-notification-sites"><strong>sites</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/webhook_event_notification/sites" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of site names where events are included in the notification subscription(e.g., [&quot;Global/India&quot;, &quot;Global/USA&quot;]).</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/webhook_event_notification/subdomains"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-webhook-event-notification-subdomains"><strong>subdomains</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/webhook_event_notification/subdomains" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>More specific categories within the main domain to further classify events (e.g., [&quot;Wireless&quot;, &quot;Applications&quot;]).</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/webhook_event_notification/version"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-webhook-event-notification-version"><strong>version</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/webhook_event_notification/version" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Version label for the event subscription, helping track updates or changes.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config_verify"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-verify"><strong>config_verify</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config_verify" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -1034,7 +1335,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-events-a
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_api_task_timeout"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-dnac-api-task-timeout"><strong>dnac_api_task_timeout</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_api_task_timeout" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
@@ -1042,7 +1343,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-events-a
 <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id17"><span class="problematic" id="id18">:ansible-option-default:`1200`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-dnac-debug"><strong>dnac_debug</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -1054,14 +1355,14 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-events-a
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-dnac-host"><strong>dnac_host</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>The hostname of the Cisco Catalyst Center.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_log"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-dnac-log"><strong>dnac_log</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_log" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -1078,7 +1379,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-events-a
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_log_append"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-dnac-log-append"><strong>dnac_log_append</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_log_append" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -1090,7 +1391,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-events-a
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_log_file_path"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-dnac-log-file-path"><strong>dnac_log_file_path</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_log_file_path" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -1100,7 +1401,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-events-a
 <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id31"><span class="problematic" id="id32">:ansible-option-default:`&quot;dnac.log&quot;`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_log_level"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-dnac-log-level"><strong>dnac_log_level</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_log_level" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -1113,14 +1414,14 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-events-a
 <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id33"><span class="problematic" id="id34">:ansible-option-default:`&quot;WARNING&quot;`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-dnac-password"><strong>dnac_password</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>The password for authentication at the Cisco Catalyst Center.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-dnac-port"><strong>dnac_port</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -1128,7 +1429,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-events-a
 <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id35"><span class="problematic" id="id36">:ansible-option-default:`&quot;443&quot;`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_task_poll_interval"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-dnac-task-poll-interval"><strong>dnac_task_poll_interval</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_task_poll_interval" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
@@ -1136,7 +1437,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-events-a
 <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id37"><span class="problematic" id="id38">:ansible-option-default:`2`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
 <div class="ansibleOptionAnchor" id="parameter-user"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-user"><span id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-dnac-username"></span><strong>dnac_username</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-aliases">aliases: user</span></p>
@@ -1146,7 +1447,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-events-a
 <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id39"><span class="problematic" id="id40">:ansible-option-default:`&quot;admin&quot;`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-dnac-verify"><strong>dnac_verify</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -1158,7 +1459,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-events-a
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-dnac-version"><strong>dnac_version</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -1166,7 +1467,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-events-a
 <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id45"><span class="problematic" id="id46">:ansible-option-default:`&quot;2.2.3.3&quot;`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-state"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-state"><strong>state</strong></p>
 <a class="ansibleOptionLink" href="#parameter-state" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -1178,7 +1479,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-events-a
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-validate-response-schema"><strong>validate_response_schema</strong></p>
 <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -1200,7 +1501,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-events-a
 <ul class="simple">
 <li><p>Configuring the webhook destination with headers now supports starting from dnacentersdk version 2.9.1 onwards. This enhancement is in alignment with Catalyst Center Release 2.3.7.5.</p></li>
 <li><p>Configuring the SNMP destination now supports starting from dnacentersdk version 2.9.1 onwards. This enhancement is in alignment with Catalyst Center Release 2.3.7.5.</p></li>
-<li><p>SDK Method used are events.Events.get_syslog_destination, events.Events.create_syslog_destination, events.Events.update_syslog_destination, events.Events.get_snmp_destination, events.Events.create_snmp_destination, events.Events.update_snmp_destination, events.Events.get_webhook_destination, events.Events.create_webhook_destination, events.Events.update_webhook_destination, events.Events.get_email_destination, events.Events.create_email_destination, events.Events.get_status_api_for_events, events.Events.get_all_itsm_integration_settings, events.Events.get_itsm_integration_setting_by_id, events.Events.create_itsm_integration_setting, events.Events.update_itsm_integration_setting, events.Events.delete_itsm_integration_setting</p></li>
+<li><p>SDK Method used are events.Events.get_syslog_destination, events.Events.create_syslog_destination, events.Events.update_syslog_destination, events.Events.get_snmp_destination, events.Events.create_snmp_destination, events.Events.update_snmp_destination, events.Events.get_webhook_destination, events.Events.create_webhook_destination, events.Events.update_webhook_destination, events.Events.get_email_destination, events.Events.create_email_destination, events.Events.get_status_api_for_events, events.Events.get_all_itsm_integration_settings, events.Events.get_itsm_integration_setting_by_id, events.Events.create_itsm_integration_setting, events.Events.update_itsm_integration_setting, events.Events.delete_itsm_integration_setting, events.Events.get_eventartifacts, events.Events.get_site, events.Events.get_syslog_event_subscriptions, events.Events.get_syslog_subscription_details, events.Events.create_syslog_event_subscription, events.Events.update_syslog_event_subscription, events.Events.get_rest_webhook_event_subscriptions, events.Events.get_rest_webhook_subscription_details, events.Events.create_rest_webhook_event_subscription, events.Events.update_rest_webhook_event_subscription, events.Events.get_email_event_subscriptions, events.Events.get_email_subscription_details, events.Events.create_email_event_subscription, events.Events.update_email_event_subscription, events.Events.delete_event_subscriptions</p></li>
 <li><p>Does not support <code class="docutils literal notranslate"><span class="pre">check_mode</span></code></p></li>
 <li><p>The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK</p></li>
 <li><p>The parameters starting with dnac_ are used by the Cisco Catalyst Center Python SDK to establish the connection</p></li>
@@ -1411,6 +1712,130 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-events-a
 <span class="w">            </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;http/catalystcenterupdate.com&quot;</span>
 <span class="w">            </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;catalyst@123&quot;</span>
 
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Creating Webhook Notification with the list of names of subscribed events in the system.</span>
+<span class="w">  </span><span class="nt">cisco.dnac.events_and_notifications_workflow_manager</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_password</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_verify</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_port</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_log_level</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
+<span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
+<span class="w">    </span><span class="nt">config</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">webhook_event_notification</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Webhook</span><span class="nv"> </span><span class="s">Notification.&quot;</span>
+<span class="w">          </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Notification</span><span class="nv"> </span><span class="s">for</span><span class="nv"> </span><span class="s">webhook</span><span class="nv"> </span><span class="s">events</span><span class="nv"> </span><span class="s">subscription&quot;</span>
+<span class="w">          </span><span class="nt">sites</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;Global/India&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;Global/USA&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">          </span><span class="nt">events</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;AP</span><span class="nv"> </span><span class="s">Flap&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;AP</span><span class="nv"> </span><span class="s">Reboot</span><span class="nv"> </span><span class="s">Crash&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">          </span><span class="nt">destination</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Webhook</span><span class="nv"> </span><span class="s">Demo&quot;</span>
+
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Updating Webhook Notification with the list of names of subscribed events in the system.</span>
+<span class="w">  </span><span class="nt">cisco.dnac.events_and_notifications_workflow_manager</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_password</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_verify</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_port</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_log_level</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
+<span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
+<span class="w">    </span><span class="nt">config</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">webhook_event_notification</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Webhook</span><span class="nv"> </span><span class="s">Notification.&quot;</span>
+<span class="w">          </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Updated</span><span class="nv"> </span><span class="s">notification</span><span class="nv"> </span><span class="s">for</span><span class="nv"> </span><span class="s">webhook</span><span class="nv"> </span><span class="s">events</span><span class="nv"> </span><span class="s">subscription&quot;</span>
+<span class="w">          </span><span class="nt">sites</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;Global/India&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;Global/USA&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;Global/China&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">          </span><span class="nt">destination</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Webhook</span><span class="nv"> </span><span class="s">Demo&quot;</span>
+
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Creating Email Notification with the list of names of subscribed events in the system.</span>
+<span class="w">  </span><span class="nt">cisco.dnac.events_and_notifications_workflow_manager</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_password</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_verify</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_port</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_log_level</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
+<span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
+<span class="w">    </span><span class="nt">config</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">email_event_notification</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Email</span><span class="nv"> </span><span class="s">Notification&quot;</span>
+<span class="w">          </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Notification</span><span class="nv"> </span><span class="s">description</span><span class="nv"> </span><span class="s">for</span><span class="nv"> </span><span class="s">email</span><span class="nv"> </span><span class="s">subscription</span><span class="nv"> </span><span class="s">creation&quot;</span>
+<span class="w">          </span><span class="nt">sites</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;Global/India&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;Global/USA&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">          </span><span class="nt">events</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;AP</span><span class="nv"> </span><span class="s">Flap&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;AP</span><span class="nv"> </span><span class="s">Reboot</span><span class="nv"> </span><span class="s">Crash&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">          </span><span class="nt">sender_email</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;catalyst@cisco.com&quot;</span>
+<span class="w">          </span><span class="nt">recipient_emails</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;test@cisco.com&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;demo@cisco.com&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">          </span><span class="nt">subject</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Mail</span><span class="nv"> </span><span class="s">test&quot;</span>
+<span class="w">          </span><span class="nt">instance</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Email Instance test</span>
+
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Updating Email Notification with the list of names of subscribed events in the system.</span>
+<span class="w">  </span><span class="nt">cisco.dnac.events_and_notifications_workflow_manager</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_password</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_verify</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_port</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_log_level</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
+<span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
+<span class="w">    </span><span class="nt">config</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">email_event_notification</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Email</span><span class="nv"> </span><span class="s">Notification&quot;</span>
+<span class="w">          </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Notification</span><span class="nv"> </span><span class="s">description</span><span class="nv"> </span><span class="s">for</span><span class="nv"> </span><span class="s">email</span><span class="nv"> </span><span class="s">subscription</span><span class="nv"> </span><span class="s">updation&quot;</span>
+<span class="w">          </span><span class="nt">sites</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;Global/India&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;Global/USA&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">          </span><span class="nt">events</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;AP</span><span class="nv"> </span><span class="s">Flap&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;AP</span><span class="nv"> </span><span class="s">Reboot</span><span class="nv"> </span><span class="s">Crash&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">          </span><span class="nt">sender_email</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;catalyst@cisco.com&quot;</span>
+<span class="w">          </span><span class="nt">recipient_emails</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;test@cisco.com&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;demo@cisco.com&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;update@cisco.com&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">          </span><span class="nt">subject</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Mail</span><span class="nv"> </span><span class="s">test</span><span class="nv"> </span><span class="s">for</span><span class="nv"> </span><span class="s">updation&quot;</span>
+<span class="w">          </span><span class="nt">instance</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Email Instance test</span>
+
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Creating Syslog Notification with the list of names of subscribed events in the system.</span>
+<span class="w">  </span><span class="nt">cisco.dnac.events_and_notifications_workflow_manager</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_password</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_verify</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_port</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_log_level</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
+<span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
+<span class="w">    </span><span class="nt">config</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">syslog_event_notification</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Syslog</span><span class="nv"> </span><span class="s">Notification.&quot;</span>
+<span class="w">          </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Notification</span><span class="nv"> </span><span class="s">for</span><span class="nv"> </span><span class="s">syslog</span><span class="nv"> </span><span class="s">events</span><span class="nv"> </span><span class="s">subscription&quot;</span>
+<span class="w">          </span><span class="nt">sites</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;Global/India&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;Global/USA&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">          </span><span class="nt">events</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;AP</span><span class="nv"> </span><span class="s">Flap&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;AP</span><span class="nv"> </span><span class="s">Reboot</span><span class="nv"> </span><span class="s">Crash&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">          </span><span class="nt">destination</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Syslog</span><span class="nv"> </span><span class="s">Demo&quot;</span>
+
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Updating Syslog Notification with the list of names of subscribed events in the system.</span>
+<span class="w">  </span><span class="nt">cisco.dnac.events_and_notifications_workflow_manager</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_password</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_verify</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_port</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_log_level</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
+<span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
+<span class="w">    </span><span class="nt">config</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">syslog_event_notification</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Syslog</span><span class="nv"> </span><span class="s">Notification.&quot;</span>
+<span class="w">          </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Updated</span><span class="nv"> </span><span class="s">notification</span><span class="nv"> </span><span class="s">for</span><span class="nv"> </span><span class="s">syslog</span><span class="nv"> </span><span class="s">events</span><span class="nv"> </span><span class="s">subscription&quot;</span>
+<span class="w">          </span><span class="nt">sites</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;Global/India&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;Global/USA&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;Global/China&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">          </span><span class="nt">events</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;AP</span><span class="nv"> </span><span class="s">Flap&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;AP</span><span class="nv"> </span><span class="s">Reboot</span><span class="nv"> </span><span class="s">Crash&quot;</span><span class="p p-Indicator">]</span>
+
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deleting ITSM Integration Setting with given name from the system.</span>
 <span class="w">  </span><span class="nt">cisco.dnac.events_and_notifications_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -1426,12 +1851,60 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-events-a
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">itsm_setting</span><span class="p">:</span>
 <span class="w">          </span><span class="nt">instance_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ITSM</span><span class="nv"> </span><span class="s">test&quot;</span>
+
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deleting Webhook Events Subscription Notification with given name from the system.</span>
+<span class="w">  </span><span class="nt">cisco.dnac.events_and_notifications_workflow_manager</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_password</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_verify</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_port</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_log_level</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
+<span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deleted</span>
+<span class="w">    </span><span class="nt">config</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">webhook_event_notification</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Webhook</span><span class="nv"> </span><span class="s">Notification&quot;</span>
+
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deleting Email Events Subscription Notification with given name from the system.</span>
+<span class="w">  </span><span class="nt">cisco.dnac.events_and_notifications_workflow_manager</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_password</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_verify</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_port</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_log_level</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
+<span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deleted</span>
+<span class="w">    </span><span class="nt">config</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">email_event_notification</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Email</span><span class="nv"> </span><span class="s">Notification&quot;</span>
+
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deleting Syslog Events Subscription Notification with given name from the system.</span>
+<span class="w">  </span><span class="nt">cisco.dnac.events_and_notifications_workflow_manager</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_password</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_verify</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_port</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_log_level</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
+<span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deleted</span>
+<span class="w">    </span><span class="nt">config</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">syslog_event_notification</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Syslog</span><span class="nv"> </span><span class="s">Notification&quot;</span>
 </pre></div>
 </div>
 </section>
 <section id="return-values">
 <h2><a class="toc-backref" href="#id62" role="doc-backlink">Return Values</a><a class="headerlink" href="#return-values" title="Permalink to this heading"></a></h2>
-<p>Common return values are documented <a class="reference external" href="https://docs.ansible.com/ansible/latest/reference_appendices/common_return_values.html#common-return-values" title="(in Ansible v9)"><span class="xref std std-ref">here</span></a>, the following are the fields unique to this module:</p>
+<p>Common return values are documented <a class="reference external" href="https://docs.ansible.com/ansible/latest/reference_appendices/common_return_values.html#common-return-values" title="(in Ansible v10)"><span class="xref std std-ref">here</span></a>, the following are the fields unique to this module:</p>
 <table class="ansible-option-table docutils align-default" style="width: 100%">
 <thead>
 <tr class="row-odd"><th class="head"><p>Key</p></th>

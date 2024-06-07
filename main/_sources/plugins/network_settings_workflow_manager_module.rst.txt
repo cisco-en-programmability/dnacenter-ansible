@@ -42,7 +42,7 @@ cisco.dnac.network_settings_workflow_manager module -- Resource module for IP Ad
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.15.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.16.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -445,6 +445,12 @@ Parameters
 
       Specifies the name assigned to the Global IP Pool.
 
+      Required for the operations in the Global IP Pool.
+
+      Length should be less than or equal to 100.
+
+      Only letters, numbers and -\_./ characters are allowed.
+
 
       .. raw:: html
 
@@ -630,7 +636,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Network V2's clientAndEndpoint\_aaa.
+      Manages AAA (Authentication Authorization Accounting) for clients and endpoints.
 
 
       .. raw:: html
@@ -640,21 +646,24 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/network_management_details/settings/client_and_endpoint_aaa/ip_address"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/network_management_details/settings/client_and_endpoint_aaa/pan_address"></div>
 
-      .. _ansible_collections.cisco.dnac.network_settings_workflow_manager_module__parameter-config/network_management_details/settings/client_and_endpoint_aaa/ip_address:
+      .. _ansible_collections.cisco.dnac.network_settings_workflow_manager_module__parameter-config/network_management_details/settings/client_and_endpoint_aaa/pan_address:
 
       .. rst-class:: ansible-option-title
 
-      **ip_address**
+      **pan_address**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/network_management_details/settings/client_and_endpoint_aaa/ip_address" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/network_management_details/settings/client_and_endpoint_aaa/pan_address" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
       :ansible-option-type:`string`
+
+      :ansible-option-versionadded:`added in cisco.dnac 6.14.0`
+
 
       .. raw:: html
 
@@ -664,7 +673,9 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      IP address for ISE serve (eg 1.1.1.4).
+      PAN IP address for the ISE server.
+
+      For example, 1.1.1.1.
 
 
       .. raw:: html
@@ -674,21 +685,24 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/network_management_details/settings/client_and_endpoint_aaa/network"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/network_management_details/settings/client_and_endpoint_aaa/primary_server_address"></div>
 
-      .. _ansible_collections.cisco.dnac.network_settings_workflow_manager_module__parameter-config/network_management_details/settings/client_and_endpoint_aaa/network:
+      .. _ansible_collections.cisco.dnac.network_settings_workflow_manager_module__parameter-config/network_management_details/settings/client_and_endpoint_aaa/primary_server_address:
 
       .. rst-class:: ansible-option-title
 
-      **network**
+      **primary_server_address**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/network_management_details/settings/client_and_endpoint_aaa/network" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/network_management_details/settings/client_and_endpoint_aaa/primary_server_address" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
       :ansible-option-type:`string`
+
+      :ansible-option-versionadded:`added in cisco.dnac 6.14.0`
+
 
       .. raw:: html
 
@@ -698,7 +712,9 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      IP address for AAA or ISE server (eg 2.2.2.1).
+      Primary IP address for the ISE/AAA server.
+
+      For example, 1.1.1.2.
 
 
       .. raw:: html
@@ -732,7 +748,15 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Protocol for AAA or ISE serve (eg RADIUS).
+      Protocol for AAA or ISE server.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`"RADIUS"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"TACACS"`
 
 
       .. raw:: html
@@ -742,17 +766,56 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/network_management_details/settings/client_and_endpoint_aaa/servers"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/network_management_details/settings/client_and_endpoint_aaa/secondary_server_address"></div>
 
-      .. _ansible_collections.cisco.dnac.network_settings_workflow_manager_module__parameter-config/network_management_details/settings/client_and_endpoint_aaa/servers:
+      .. _ansible_collections.cisco.dnac.network_settings_workflow_manager_module__parameter-config/network_management_details/settings/client_and_endpoint_aaa/secondary_server_address:
 
       .. rst-class:: ansible-option-title
 
-      **servers**
+      **secondary_server_address**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/network_management_details/settings/client_and_endpoint_aaa/servers" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/network_management_details/settings/client_and_endpoint_aaa/secondary_server_address" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      :ansible-option-versionadded:`added in cisco.dnac 6.14.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Secondary IP address for the AAA server.
+
+      For example, 1.1.1.3.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/network_management_details/settings/client_and_endpoint_aaa/server_type"></div>
+
+      .. _ansible_collections.cisco.dnac.network_settings_workflow_manager_module__parameter-config/network_management_details/settings/client_and_endpoint_aaa/server_type:
+
+      .. rst-class:: ansible-option-title
+
+      **server_type**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/network_management_details/settings/client_and_endpoint_aaa/server_type" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -766,7 +829,15 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Server type AAA or ISE server (eg AAA).
+      Server type for managing AAA for client and endpoints.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"AAA"`
+      - :ansible-option-choices-entry-default:`"ISE"` :ansible-option-choices-default-mark:`← (default)`
 
 
       .. raw:: html
@@ -800,7 +871,11 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Shared secret for ISE server.
+      Shared secret for ISE Server.
+
+      Required when the server\_type is set to ISE.
+
+      Length of the shared secret should be atleast 4 characters.
 
 
       .. raw:: html
@@ -835,7 +910,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      DHCP Server IP (eg 1.1.1.1).
+      DHCP Server IP address (eg 1.1.1.4).
 
 
       .. raw:: html
@@ -869,7 +944,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Network V2's dnsServer.
+      DNS server details of the network under a specific site.
 
 
       .. raw:: html
@@ -903,7 +978,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Domain Name of DHCP (eg; cisco).
+      Domain Name of DHCP (eg; cisco.com, cisco.net).
 
 
       .. raw:: html
@@ -1006,7 +1081,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Network V2's messageOfTheday.
+      Banner details under a specific site.
 
 
       .. raw:: html
@@ -1040,7 +1115,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Massage for Banner message (eg; Good day).
+      Message for the banner (eg; Good day).
 
 
       .. raw:: html
@@ -1064,7 +1139,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`boolean`
 
       .. raw:: html
 
@@ -1074,7 +1149,15 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Retain existing Banner Message (eg "true" or "false").
+      Retain existing banner message.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
 
 
       .. raw:: html
@@ -1109,7 +1192,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Network V2's netflowcollector.
+      Netflow collector details under a specific site.
 
 
       .. raw:: html
@@ -1212,7 +1295,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Network V2's network\_aaa.
+      Manages AAA (Authentication Authorization Accounting) for network devices.
 
 
       .. raw:: html
@@ -1222,21 +1305,24 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/network_management_details/settings/network_aaa/ip_address"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/network_management_details/settings/network_aaa/pan_address"></div>
 
-      .. _ansible_collections.cisco.dnac.network_settings_workflow_manager_module__parameter-config/network_management_details/settings/network_aaa/ip_address:
+      .. _ansible_collections.cisco.dnac.network_settings_workflow_manager_module__parameter-config/network_management_details/settings/network_aaa/pan_address:
 
       .. rst-class:: ansible-option-title
 
-      **ip_address**
+      **pan_address**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/network_management_details/settings/network_aaa/ip_address" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/network_management_details/settings/network_aaa/pan_address" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
       :ansible-option-type:`string`
+
+      :ansible-option-versionadded:`added in cisco.dnac 6.14.0`
+
 
       .. raw:: html
 
@@ -1246,7 +1332,9 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      IP address for AAA and ISE server (eg 1.1.1.1).
+      PAN IP address for the ISE server.
+
+      For example, 1.1.1.1.
 
 
       .. raw:: html
@@ -1256,21 +1344,24 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/network_management_details/settings/network_aaa/network"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/network_management_details/settings/network_aaa/primary_server_address"></div>
 
-      .. _ansible_collections.cisco.dnac.network_settings_workflow_manager_module__parameter-config/network_management_details/settings/network_aaa/network:
+      .. _ansible_collections.cisco.dnac.network_settings_workflow_manager_module__parameter-config/network_management_details/settings/network_aaa/primary_server_address:
 
       .. rst-class:: ansible-option-title
 
-      **network**
+      **primary_server_address**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/network_management_details/settings/network_aaa/network" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/network_management_details/settings/network_aaa/primary_server_address" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
       :ansible-option-type:`string`
+
+      :ansible-option-versionadded:`added in cisco.dnac 6.14.0`
+
 
       .. raw:: html
 
@@ -1280,7 +1371,9 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      IP Address for AAA or ISE server (eg 2.2.2.2).
+      Primary IP address for the ISE/AAA server.
+
+      For example, 1.1.1.2.
 
 
       .. raw:: html
@@ -1314,7 +1407,15 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Protocol for AAA or ISE serve (eg RADIUS).
+      Protocol for AAA or ISE server.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`"RADIUS"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"TACACS"`
 
 
       .. raw:: html
@@ -1324,17 +1425,56 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/network_management_details/settings/network_aaa/servers"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/network_management_details/settings/network_aaa/secondary_server_address"></div>
 
-      .. _ansible_collections.cisco.dnac.network_settings_workflow_manager_module__parameter-config/network_management_details/settings/network_aaa/servers:
+      .. _ansible_collections.cisco.dnac.network_settings_workflow_manager_module__parameter-config/network_management_details/settings/network_aaa/secondary_server_address:
 
       .. rst-class:: ansible-option-title
 
-      **servers**
+      **secondary_server_address**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/network_management_details/settings/network_aaa/servers" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/network_management_details/settings/network_aaa/secondary_server_address" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      :ansible-option-versionadded:`added in cisco.dnac 6.14.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Secondary IP address for the AAA server.
+
+      For example, 1.1.1.3.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/network_management_details/settings/network_aaa/server_type"></div>
+
+      .. _ansible_collections.cisco.dnac.network_settings_workflow_manager_module__parameter-config/network_management_details/settings/network_aaa/server_type:
+
+      .. rst-class:: ansible-option-title
+
+      **server_type**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/network_management_details/settings/network_aaa/server_type" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -1348,7 +1488,15 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Server type for AAA Network (eg AAA).
+      Server type for managing AAA for network devices.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"AAA"`
+      - :ansible-option-choices-entry-default:`"ISE"` :ansible-option-choices-default-mark:`← (default)`
 
 
       .. raw:: html
@@ -1384,6 +1532,10 @@ Parameters
 
       Shared secret for ISE Server.
 
+      Required when the server\_type is set to ISE.
+
+      Length of the shared secret should be atleast 4 characters.
+
 
       .. raw:: html
 
@@ -1417,7 +1569,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      IP address for NTP server (eg 1.1.1.2).
+      IP address for NTP server under a specific site (eg 1.1.1.2).
 
 
       .. raw:: html
@@ -1451,7 +1603,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Network V2's snmpServer.
+      Snmp Server details under a specific site.
 
 
       .. raw:: html
@@ -1562,7 +1714,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Network V2's syslogServer.
+      syslog Server details under a specific site.
 
 
       .. raw:: html
@@ -1673,7 +1825,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Input for time zone (eg Africa/Abidjan).
+      Time zone of a specific site. (eg Africa/Abidjan/GMT).
 
 
       .. raw:: html
@@ -1708,7 +1860,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The name of the site provided as a path parameter, used to specify where the IP sub-pool will be reserved.
+      The name of the site provided as a path parameter, used to specify where the IP sub-pool will be reserved. (eg Global/Chennai/Trill)
           
 
 
@@ -2250,7 +2402,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The ipv6\_global\_pool is a mandatory when the ipv6\_address\_space is set to true.
+      The ipv6\_global\_pool is a required when the ipv6\_address\_space is set to true.
 
       It specifies the global IPv6 address pool using CIDR notation, such as "2001:db8:85a3::/64".
 
@@ -2327,7 +2479,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Ipv6 prefix value is true, the ip6 prefix length input field is enabled, if it is false ipv6 total Host input is enable.
+      Determines whether to enable the 'ipv6\_prefix\_length' or 'ipv6\_total\_host' input field. If IPv6 prefix value is true, the IPv6 prefix length input field is required, If it is false ipv6 total Host input is required.
           
 
 
@@ -2370,7 +2522,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      IPv6 prefix length is required when the ipv6\_prefix value is true.
+      Specifies the IPv6 prefix length. Required when 'ipv6\_prefix' is set to true.
 
 
       .. raw:: html
@@ -2438,7 +2590,9 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The total number of hosts for IPv6 is required if the 'ipv6\_prefix' is set to false.
+      Specifies the total number of IPv6 hosts. Required when 'ipv6\_prefix' is set to false.
+
+      Must specify a number of IPv6 IP addresses that is less than 256.
 
 
       .. raw:: html
@@ -2473,6 +2627,12 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Name of the reserve IP subpool.
+
+      Required for the operations in the Reserve IP Pool.
+
+      Length should be less than or equal to 100.
+
+      Only letters, numbers and -\_./ characters are allowed.
 
 
       .. raw:: html
@@ -3441,14 +3601,6 @@ Examples
         - network_management_details:
             site_name: string
             settings:
-              network_aaa:
-                network: string
-                protocol: string
-                servers: string
-              client_and_endpoint_aaa:
-                network: string
-                protocol: string
-                servers: string
               dhcp_server: list
               dns_server:
                 domain_name: string
@@ -3458,7 +3610,7 @@ Examples
               timezone: string
               message_of_the_day:
                 banner_message: string
-                retain_existing_banner: string
+                retain_existing_banner: bool
               netflow_collector:
                 ip_address: string
                 port: 443
@@ -3468,6 +3620,62 @@ Examples
               syslog_server:
                 configure_dnac_ip: True
                 ip_addresses: list
+
+    - name: Adding the network_aaa and client_and_endpoint_aaa AAA server
+      cisco.dnac.network_settings_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: True
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: merged
+        config_verify: True
+        config:
+        - network_management_details:
+            site_name: string
+            settings:
+              network_aaa:
+                server_type: AAA
+                primary_server_address: string
+                secondary_server_address: string
+                protocol: string
+              client_and_endpoint_aaa:
+                server_type: AAA
+                primary_server_address: string
+                secondary_server_address: string
+                protocol: string
+
+    - name: Adding the network_aaa and client_and_endpoint_aaa ISE server
+      cisco.dnac.network_settings_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: True
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: merged
+        config_verify: True
+        config:
+        - network_management_details:
+            site_name: string
+            settings:
+              network_aaa:
+                server_type: ISE
+                pan_address: string
+                primary_server_address: string
+                protocol: string
+              client_and_endpoint_aaa:
+                server_type: ISE
+                pan_address: string
+                primary_server_address: string
+                protocol: string
 
 
 
