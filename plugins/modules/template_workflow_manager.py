@@ -2181,6 +2181,7 @@ class Template(DnacBase):
             validation_string = "successfully exported project"
             self.check_task_response_status(response,
                                             validation_string,
+                                            "export_projects",
                                             True).check_return_status()
             self.result['response'][1].get("export").get("response").update({"exportProject": self.msg})
 
@@ -2200,6 +2201,7 @@ class Template(DnacBase):
             validation_string = "successfully exported template"
             self.check_task_response_status(response,
                                             validation_string,
+                                            "export_templates",
                                             True).check_return_status()
             self.result['response'][1].get("export").get("response").update({"exportTemplate": self.msg})
 
@@ -2248,7 +2250,7 @@ class Template(DnacBase):
                         params=_import_project,
                     )
                     validation_string = "successfully imported project"
-                    self.check_task_response_status(response, validation_string).check_return_status()
+                    self.check_task_response_status(response, validation_string, "imports_the_projects_provided").check_return_status()
                     self.result['response'][2].get("import").get("response").update({"importProject": validation_string})
             else:
                 self.msg = "Projects '{0}' already available.".format(payload)
@@ -2334,7 +2336,7 @@ class Template(DnacBase):
                     params=import_template
                 )
                 validation_string = "successfully imported template"
-                self.check_task_response_status(response, validation_string).check_return_status()
+                self.check_task_response_status(response, validation_string, "imports_the_templates_provided").check_return_status()
                 self.result['response'][2].get("import").get("response") \
                     .update({"importTemplate": "Successfully imported the templates"})
 
