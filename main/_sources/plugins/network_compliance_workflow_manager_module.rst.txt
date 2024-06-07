@@ -42,7 +42,7 @@ cisco.dnac.network_compliance_workflow_manager module -- Network Compliance modu
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.15.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.16.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -202,7 +202,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Determines if a full compliance check should be triggered on the devices specified in the "ip\_address\_list" and/or "site\_name". if it is True then compliance will be triggered for all categories. If it is False then compliance will be not be triggered even if run\_compliance categories are provided.
+      Determines if a full compliance check should be triggered on the devices specified in the "ip\_address\_list" and/or "site\_name". if it is True then compliance will be triggered for all categories. If it is False then compliance will be not be triggered even if run\_compliance categories are provided. Note - This operation cannot be performed on Access Points (APs) and if APs are provided, they will be skipped.
 
 
       .. rst-class:: ansible-option-line
@@ -312,7 +312,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Determines whether to synchronize the device configuration on the devices specified in the "ip\_address\_list" and/or "site\_name". Sync device configuration, primarily addresses the status of the \`RUNNING\_CONFIG\`. If set to True, and if \`RUNNING\_CONFIG\` status is non-compliant this operation would commit device running configuration to startup by issuing "write memory" to device.
+      Determines whether to synchronize the device configuration on the devices specified in the "ip\_address\_list" and/or "site\_name". Sync device configuration, primarily addresses the status of the \`RUNNING\_CONFIG\`. If set to True, and if \`RUNNING\_CONFIG\` status is non-compliant this operation would commit device running configuration to startup by issuing "write memory" to device. Note - This operation cannot be performed on Access Points (APs) and if APs are provided, they will be skipped.
 
 
       .. rst-class:: ansible-option-line
@@ -1209,6 +1209,51 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
   * - Key
     - Description
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-sample_response_1"></div>
+
+      .. _ansible_collections.cisco.dnac.network_compliance_workflow_manager_module__return-sample_response_1:
+
+      .. rst-class:: ansible-option-title
+
+      **sample_response_1**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-sample_response_1" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary with the response returned by the Cisco Catalyst Center Python SDK
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"{\\n  \\"status\\": \\"string\\",\\n  \\"changed\\": bool,\\n  \\"msg\\": \\"string\\"\\n  \\"response\\": {\\n    \\"taskId\\": \\"string\\",\\n    \\"url\\": \\"string\\"\\n  },\\n  \\"data\\": dict,\\n  \\"version\\": \\"string\\"\\n}\\n"`
+
+
+      .. raw:: html
+
+        </div>
+
 
   * - .. raw:: html
 

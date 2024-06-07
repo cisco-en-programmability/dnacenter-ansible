@@ -42,7 +42,7 @@ cisco.dnac.ise_radius_integration_workflow_manager module -- Resource module for
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.15.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.16.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -193,7 +193,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`integer`
 
       .. raw:: html
 
@@ -212,7 +212,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"1813"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`1813`
 
       .. raw:: html
 
@@ -235,7 +235,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`integer`
 
       .. raw:: html
 
@@ -254,7 +254,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"1812"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`1812`
 
       .. raw:: html
 
@@ -468,42 +468,6 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       SSH key of the Cisco ISE server.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/authentication_policy_server/cisco_ise_dtos/subscriber_name"></div>
-
-      .. _ansible_collections.cisco.dnac.ise_radius_integration_workflow_manager_module__parameter-config/authentication_policy_server/cisco_ise_dtos/subscriber_name:
-
-      .. rst-class:: ansible-option-title
-
-      **subscriber_name**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/authentication_policy_server/cisco_ise_dtos/subscriber_name" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Subscriber name of the Cisco ISE server.
-
-      Required for passing the cisco\_ise\_dtos.
 
 
       .. raw:: html
@@ -781,6 +745,46 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/authentication_policy_server/ise_integration_wait_time"></div>
+
+      .. _ansible_collections.cisco.dnac.ise_radius_integration_workflow_manager_module__parameter-config/authentication_policy_server/ise_integration_wait_time:
+
+      .. rst-class:: ansible-option-title
+
+      **ise_integration_wait_time**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/authentication_policy_server/ise_integration_wait_time" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Indicates the sleep time after initiating the Cisco ISE integration process.
+
+      Maximum sleep time should be less or equal to 60 seconds.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`20`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/authentication_policy_server/message_authenticator_code_key"></div>
 
       .. _ansible_collections.cisco.dnac.ise_radius_integration_workflow_manager_module__parameter-config/authentication_policy_server/message_authenticator_code_key:
@@ -814,48 +818,6 @@ Parameters
       Message Authentication Code Key may contain alphanumeric and special characters. Key must be 20 char long.
           
 
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/authentication_policy_server/port"></div>
-
-      .. _ansible_collections.cisco.dnac.ise_radius_integration_workflow_manager_module__parameter-config/authentication_policy_server/port:
-
-      .. rst-class:: ansible-option-title
-
-      **port**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/authentication_policy_server/port" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Port of TACACS server.
-
-      Updation of port is not possible.
-
-      Port should be from 1 to 65535.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"49"`
 
       .. raw:: html
 
@@ -972,7 +934,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`integer`
 
       .. raw:: html
 
@@ -989,7 +951,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`3`
 
       .. raw:: html
 
@@ -1170,7 +1132,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`integer`
 
       .. raw:: html
 
@@ -1187,7 +1149,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"4"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`4`
 
       .. raw:: html
 
@@ -1230,7 +1192,7 @@ Parameters
       :ansible-option-choices:`Choices:`
 
       - :ansible-option-choices-entry:`false`
-      - :ansible-option-choices-entry:`true`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
 
 
       .. raw:: html
@@ -1983,14 +1945,13 @@ Examples
         - authentication_policy_server:
             server_type: AAA
             server_ip_address: 10.0.0.1
-            shared_secret: 12345
+            shared_secret: "12345"
             protocol: RADIUS_TACACS
             encryption_scheme: KEYWRAP
-            encryption_key: 1234567890123456
+            encryption_key: "1234567890123456"
             message_authenticator_code_key: asdfghjklasdfghjklas
             authentication_port: 1812
             accounting_port: 1813
-            port: 49
             retries: 3
             timeout: 4
             role: secondary
@@ -2012,14 +1973,13 @@ Examples
         - authentication_policy_server:
             server_type: ISE
             server_ip_address: 10.0.0.2
-            shared_secret: 12345
+            shared_secret: "12345"
             protocol: RADIUS_TACACS
             encryption_scheme: KEYWRAP
-            encryption_key: 1234567890123456
+            encryption_key: "1234567890123456"
             message_authenticator_code_key: asdfghjklasdfghjklas
             authentication_port: 1812
             accounting_port: 1813
-            port: 49
             retries: 3
             timeout: 4
             role: primary
@@ -2027,11 +1987,12 @@ Examples
             pxgrid_enabled: True
             cisco_ise_dtos:
             - user_name: Cisco ISE
-              password: 12345
+              password: "12345"
               fqdn: abs.cisco.com
               ip_address: 10.0.0.2
-              subscriber_name: px-1234
               description: Cisco ISE
+            trusted_server: True
+            ise_integration_wait_time: 20
 
     - name: Update an AAA server.
       cisco.dnac.ise_radius_integration_workflow_manager:
@@ -2051,12 +2012,8 @@ Examples
             server_type: AAA
             server_ip_address: 10.0.0.1
             protocol: RADIUS_TACACS
-            authentication_port: 1812
-            accounting_port: 1813
-            port: 49
             retries: 3
             timeout: 5
-            role: secondary
 
     - name: Update an Cisco ISE server.
       cisco.dnac.ise_radius_integration_workflow_manager:
@@ -2076,20 +2033,15 @@ Examples
             server_type: ISE
             server_ip_address: 10.0.0.2
             protocol: RADIUS_TACACS
-            authentication_port: 1812
-            accounting_port: 1813
-            port: 49
             retries: 3
             timeout: 5
-            role: primary
             use_dnac_cert_for_pxgrid: False
             pxgrid_enabled: True
             cisco_ise_dtos:
             - user_name: Cisco ISE
-              password: 12345
+              password: "12345"
               fqdn: abs.cisco.com
               ip_address: 10.0.0.2
-              subscriber_name: px-1234
               description: Cisco ISE
 
     - name: Delete an Authentication and Policy server.
@@ -2103,7 +2055,7 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         dnac_log: True
         dnac_log_level: "{{ dnac_log_level }}"
-        state: merged
+        state: deleted
         config_verify: True
         config:
         - authentication_policy_server:

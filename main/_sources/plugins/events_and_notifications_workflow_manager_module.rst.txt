@@ -42,7 +42,7 @@ cisco.dnac.events_and_notifications_workflow_manager module -- Configure various
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.15.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.16.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -173,7 +173,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Configure settings to send out emails from Cisco Catalyst Center. Also we can create or configure email destination in Cisco Catalyst Center only once then later we can just modify it.
+      Configure settings to send out emails from Cisco Catalyst Center. Also we can create or configure email destination in Cisco Catalyst Center only once then later we can just modify it. This one is just used to configure the Primary and Secondary SMTP server while configuring the email destination. It's not related to email event subscription notification.
 
 
       .. raw:: html
@@ -686,6 +686,585 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Recipient's email address that will receive emails when an email destination is created or updated.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/email_event_notification"></div>
+
+      .. _ansible_collections.cisco.dnac.events_and_notifications_workflow_manager_module__parameter-config/email_event_notification:
+
+      .. rst-class:: ansible-option-title
+
+      **email_event_notification**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/email_event_notification" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Configuration for setting up or modifying an Email Event Subscription in Cisco Catalyst Center. This includes parameters for the email notification itself as well as details for the associated email instance.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/email_event_notification/description"></div>
+
+      .. _ansible_collections.cisco.dnac.events_and_notifications_workflow_manager_module__parameter-config/email_event_notification/description:
+
+      .. rst-class:: ansible-option-title
+
+      **description**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/email_event_notification/description" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A brief explanation detailing the purpose of the Email events subscription notification.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/email_event_notification/domain"></div>
+
+      .. _ansible_collections.cisco.dnac.events_and_notifications_workflow_manager_module__parameter-config/email_event_notification/domain:
+
+      .. rst-class:: ansible-option-title
+
+      **domain**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/email_event_notification/domain" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The main category or domain under which events fall (e.g., Know Your Network, Connectivity, etc.).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/email_event_notification/event_categories"></div>
+
+      .. _ansible_collections.cisco.dnac.events_and_notifications_workflow_manager_module__parameter-config/email_event_notification/event_categories:
+
+      .. rst-class:: ansible-option-title
+
+      **event_categories**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/email_event_notification/event_categories" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of event categories to be included in the subscription for notifications (e.g., WARN, INFO, ERROR, ALERT, TASK\_COMPLETE, TASK\_FAILURE).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/email_event_notification/event_severities"></div>
+
+      .. _ansible_collections.cisco.dnac.events_and_notifications_workflow_manager_module__parameter-config/email_event_notification/event_severities:
+
+      .. rst-class:: ansible-option-title
+
+      **event_severities**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/email_event_notification/event_severities" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of event severities to be included in the subscription for notifications (e.g., ["1", "2", "3"]).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/email_event_notification/event_sources"></div>
+
+      .. _ansible_collections.cisco.dnac.events_and_notifications_workflow_manager_module__parameter-config/email_event_notification/event_sources:
+
+      .. rst-class:: ansible-option-title
+
+      **event_sources**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/email_event_notification/event_sources" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of event sources to be included in the subscription for notifications.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/email_event_notification/event_types"></div>
+
+      .. _ansible_collections.cisco.dnac.events_and_notifications_workflow_manager_module__parameter-config/email_event_notification/event_types:
+
+      .. rst-class:: ansible-option-title
+
+      **event_types**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/email_event_notification/event_types" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Types of events that trigger the notifications, defining the nature of the event (e.g., ["APP", "NETWORK"]).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/email_event_notification/events"></div>
+
+      .. _ansible_collections.cisco.dnac.events_and_notifications_workflow_manager_module__parameter-config/email_event_notification/events:
+
+      .. rst-class:: ansible-option-title
+
+      **events**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/email_event_notification/events" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of event names to be subscribed to for notification configurations (e.g., ["AP Flap", "AP Reboot Crash"]).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/email_event_notification/instance"></div>
+
+      .. _ansible_collections.cisco.dnac.events_and_notifications_workflow_manager_module__parameter-config/email_event_notification/instance:
+
+      .. rst-class:: ansible-option-title
+
+      **instance**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/email_event_notification/instance" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name assigned to the specific email instance used for sending the notification.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/email_event_notification/instance_description"></div>
+
+      .. _ansible_collections.cisco.dnac.events_and_notifications_workflow_manager_module__parameter-config/email_event_notification/instance_description:
+
+      .. rst-class:: ansible-option-title
+
+      **instance_description**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/email_event_notification/instance_description" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Detailed explanation of the email instance's purpose and how it relates to the notifications.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/email_event_notification/name"></div>
+
+      .. _ansible_collections.cisco.dnac.events_and_notifications_workflow_manager_module__parameter-config/email_event_notification/name:
+
+      .. rst-class:: ansible-option-title
+
+      **name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/email_event_notification/name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of the Email event subscription notification.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/email_event_notification/recipient_emails"></div>
+
+      .. _ansible_collections.cisco.dnac.events_and_notifications_workflow_manager_module__parameter-config/email_event_notification/recipient_emails:
+
+      .. rst-class:: ansible-option-title
+
+      **recipient_emails**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/email_event_notification/recipient_emails" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Recipient email addresses that will receive the notifications.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/email_event_notification/sender_email"></div>
+
+      .. _ansible_collections.cisco.dnac.events_and_notifications_workflow_manager_module__parameter-config/email_event_notification/sender_email:
+
+      .. rst-class:: ansible-option-title
+
+      **sender_email**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/email_event_notification/sender_email" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Originating email address for sending out the notifications.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/email_event_notification/sites"></div>
+
+      .. _ansible_collections.cisco.dnac.events_and_notifications_workflow_manager_module__parameter-config/email_event_notification/sites:
+
+      .. rst-class:: ansible-option-title
+
+      **sites**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/email_event_notification/sites" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of site names where events are included in the notification subscription(e.g., ["Global/India", "Global/USA"]).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/email_event_notification/subdomains"></div>
+
+      .. _ansible_collections.cisco.dnac.events_and_notifications_workflow_manager_module__parameter-config/email_event_notification/subdomains:
+
+      .. rst-class:: ansible-option-title
+
+      **subdomains**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/email_event_notification/subdomains" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      More specific categories within the main domain to further classify events (e.g., ["Wireless", "Applications"]).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/email_event_notification/subject"></div>
+
+      .. _ansible_collections.cisco.dnac.events_and_notifications_workflow_manager_module__parameter-config/email_event_notification/subject:
+
+      .. rst-class:: ansible-option-title
+
+      **subject**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/email_event_notification/subject" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The Subject line for the email notification, briefly indicating the notification content.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/email_event_notification/version"></div>
+
+      .. _ansible_collections.cisco.dnac.events_and_notifications_workflow_manager_module__parameter-config/email_event_notification/version:
+
+      .. rst-class:: ansible-option-title
+
+      **version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/email_event_notification/version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Version label for the event subscription, helping track updates or changes.
 
 
       .. raw:: html
@@ -1584,6 +2163,449 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/syslog_event_notification"></div>
+
+      .. _ansible_collections.cisco.dnac.events_and_notifications_workflow_manager_module__parameter-config/syslog_event_notification:
+
+      .. rst-class:: ansible-option-title
+
+      **syslog_event_notification**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/syslog_event_notification" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Configuration for establishing or revising a Syslog Event Subscription in the Cisco Catalyst Center. This allows for the specification of Syslog event notification parameters and destination settings.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/syslog_event_notification/description"></div>
+
+      .. _ansible_collections.cisco.dnac.events_and_notifications_workflow_manager_module__parameter-config/syslog_event_notification/description:
+
+      .. rst-class:: ansible-option-title
+
+      **description**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/syslog_event_notification/description" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A brief explanation detailing the purpose of the syslog events subscription notification.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/syslog_event_notification/destination"></div>
+
+      .. _ansible_collections.cisco.dnac.events_and_notifications_workflow_manager_module__parameter-config/syslog_event_notification/destination:
+
+      .. rst-class:: ansible-option-title
+
+      **destination**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/syslog_event_notification/destination" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The name of the destination for sending event notifications via syslog.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/syslog_event_notification/domain"></div>
+
+      .. _ansible_collections.cisco.dnac.events_and_notifications_workflow_manager_module__parameter-config/syslog_event_notification/domain:
+
+      .. rst-class:: ansible-option-title
+
+      **domain**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/syslog_event_notification/domain" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The main category or domain under which events fall (e.g., Know Your Network, Connectivity, etc.).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/syslog_event_notification/event_categories"></div>
+
+      .. _ansible_collections.cisco.dnac.events_and_notifications_workflow_manager_module__parameter-config/syslog_event_notification/event_categories:
+
+      .. rst-class:: ansible-option-title
+
+      **event_categories**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/syslog_event_notification/event_categories" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of event categories to be included in the subscription for notifications (e.g., WARN, INFO, ERROR, ALERT, TASK\_COMPLETE, TASK\_FAILURE).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/syslog_event_notification/event_severities"></div>
+
+      .. _ansible_collections.cisco.dnac.events_and_notifications_workflow_manager_module__parameter-config/syslog_event_notification/event_severities:
+
+      .. rst-class:: ansible-option-title
+
+      **event_severities**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/syslog_event_notification/event_severities" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of event severities to be included in the subscription for notifications (e.g., ["1", "2", "3"]).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/syslog_event_notification/event_sources"></div>
+
+      .. _ansible_collections.cisco.dnac.events_and_notifications_workflow_manager_module__parameter-config/syslog_event_notification/event_sources:
+
+      .. rst-class:: ansible-option-title
+
+      **event_sources**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/syslog_event_notification/event_sources" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of event sources to be included in the subscription for notifications.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/syslog_event_notification/event_types"></div>
+
+      .. _ansible_collections.cisco.dnac.events_and_notifications_workflow_manager_module__parameter-config/syslog_event_notification/event_types:
+
+      .. rst-class:: ansible-option-title
+
+      **event_types**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/syslog_event_notification/event_types" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Types of events that trigger the notifications, defining the nature of the event (e.g., ["APP", "NETWORK"]).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/syslog_event_notification/events"></div>
+
+      .. _ansible_collections.cisco.dnac.events_and_notifications_workflow_manager_module__parameter-config/syslog_event_notification/events:
+
+      .. rst-class:: ansible-option-title
+
+      **events**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/syslog_event_notification/events" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of event names to be subscribed to for notification configurations (e.g., ["AP Flap", "AP Reboot Crash"]).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/syslog_event_notification/name"></div>
+
+      .. _ansible_collections.cisco.dnac.events_and_notifications_workflow_manager_module__parameter-config/syslog_event_notification/name:
+
+      .. rst-class:: ansible-option-title
+
+      **name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/syslog_event_notification/name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of the Syslog event subscription notification.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/syslog_event_notification/sites"></div>
+
+      .. _ansible_collections.cisco.dnac.events_and_notifications_workflow_manager_module__parameter-config/syslog_event_notification/sites:
+
+      .. rst-class:: ansible-option-title
+
+      **sites**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/syslog_event_notification/sites" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of site names where events are included in the notification subscription(e.g., ["Global/India", "Global/USA"]).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/syslog_event_notification/subdomains"></div>
+
+      .. _ansible_collections.cisco.dnac.events_and_notifications_workflow_manager_module__parameter-config/syslog_event_notification/subdomains:
+
+      .. rst-class:: ansible-option-title
+
+      **subdomains**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/syslog_event_notification/subdomains" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      More specific categories within the main domain to further classify events (e.g., ["Wireless", "Applications"]).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/syslog_event_notification/version"></div>
+
+      .. _ansible_collections.cisco.dnac.events_and_notifications_workflow_manager_module__parameter-config/syslog_event_notification/version:
+
+      .. rst-class:: ansible-option-title
+
+      **version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/syslog_event_notification/version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Version label for the event subscription, helping track updates or changes.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/webhook_destination"></div>
 
       .. _ansible_collections.cisco.dnac.events_and_notifications_workflow_manager_module__parameter-config/webhook_destination:
@@ -2008,6 +3030,449 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Fully qualified URL to which the webhook will send requests (e.g., "https://ciscocatalyst.com").
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/webhook_event_notification"></div>
+
+      .. _ansible_collections.cisco.dnac.events_and_notifications_workflow_manager_module__parameter-config/webhook_event_notification:
+
+      .. rst-class:: ansible-option-title
+
+      **webhook_event_notification**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/webhook_event_notification" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Dictionary containing the details for creating/updating the Webhook Event subscription notification in Cisco Catalyst Center.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/webhook_event_notification/description"></div>
+
+      .. _ansible_collections.cisco.dnac.events_and_notifications_workflow_manager_module__parameter-config/webhook_event_notification/description:
+
+      .. rst-class:: ansible-option-title
+
+      **description**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/webhook_event_notification/description" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A brief explanation detailing the purpose of the email events subscription notification.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/webhook_event_notification/destination"></div>
+
+      .. _ansible_collections.cisco.dnac.events_and_notifications_workflow_manager_module__parameter-config/webhook_event_notification/destination:
+
+      .. rst-class:: ansible-option-title
+
+      **destination**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/webhook_event_notification/destination" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The name of the destination for sending event notifications via webhook.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/webhook_event_notification/domain"></div>
+
+      .. _ansible_collections.cisco.dnac.events_and_notifications_workflow_manager_module__parameter-config/webhook_event_notification/domain:
+
+      .. rst-class:: ansible-option-title
+
+      **domain**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/webhook_event_notification/domain" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The main category or domain under which events fall (e.g., Know Your Network, Connectivity, etc.).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/webhook_event_notification/event_categories"></div>
+
+      .. _ansible_collections.cisco.dnac.events_and_notifications_workflow_manager_module__parameter-config/webhook_event_notification/event_categories:
+
+      .. rst-class:: ansible-option-title
+
+      **event_categories**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/webhook_event_notification/event_categories" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of event categories to be included in the subscription for notifications (e.g., WARN, INFO, ERROR, ALERT, TASK\_COMPLETE, TASK\_FAILURE).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/webhook_event_notification/event_severities"></div>
+
+      .. _ansible_collections.cisco.dnac.events_and_notifications_workflow_manager_module__parameter-config/webhook_event_notification/event_severities:
+
+      .. rst-class:: ansible-option-title
+
+      **event_severities**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/webhook_event_notification/event_severities" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of event severities to be included in the subscription for notifications (e.g., ["1", "2", "3"]).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/webhook_event_notification/event_sources"></div>
+
+      .. _ansible_collections.cisco.dnac.events_and_notifications_workflow_manager_module__parameter-config/webhook_event_notification/event_sources:
+
+      .. rst-class:: ansible-option-title
+
+      **event_sources**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/webhook_event_notification/event_sources" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of event sources to be included in the subscription for notifications.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/webhook_event_notification/event_types"></div>
+
+      .. _ansible_collections.cisco.dnac.events_and_notifications_workflow_manager_module__parameter-config/webhook_event_notification/event_types:
+
+      .. rst-class:: ansible-option-title
+
+      **event_types**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/webhook_event_notification/event_types" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Types of events that trigger the notifications, defining the nature of the event (e.g., ["APP", "NETWORK"]).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/webhook_event_notification/events"></div>
+
+      .. _ansible_collections.cisco.dnac.events_and_notifications_workflow_manager_module__parameter-config/webhook_event_notification/events:
+
+      .. rst-class:: ansible-option-title
+
+      **events**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/webhook_event_notification/events" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of event names to be subscribed to for notification configurations (e.g., ["AP Flap", "AP Reboot Crash"]).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/webhook_event_notification/name"></div>
+
+      .. _ansible_collections.cisco.dnac.events_and_notifications_workflow_manager_module__parameter-config/webhook_event_notification/name:
+
+      .. rst-class:: ansible-option-title
+
+      **name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/webhook_event_notification/name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of the Webhook event subscription notification.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/webhook_event_notification/sites"></div>
+
+      .. _ansible_collections.cisco.dnac.events_and_notifications_workflow_manager_module__parameter-config/webhook_event_notification/sites:
+
+      .. rst-class:: ansible-option-title
+
+      **sites**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/webhook_event_notification/sites" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of site names where events are included in the notification subscription(e.g., ["Global/India", "Global/USA"]).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/webhook_event_notification/subdomains"></div>
+
+      .. _ansible_collections.cisco.dnac.events_and_notifications_workflow_manager_module__parameter-config/webhook_event_notification/subdomains:
+
+      .. rst-class:: ansible-option-title
+
+      **subdomains**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/webhook_event_notification/subdomains" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      More specific categories within the main domain to further classify events (e.g., ["Wireless", "Applications"]).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/webhook_event_notification/version"></div>
+
+      .. _ansible_collections.cisco.dnac.events_and_notifications_workflow_manager_module__parameter-config/webhook_event_notification/version:
+
+      .. rst-class:: ansible-option-title
+
+      **version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/webhook_event_notification/version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Version label for the event subscription, helping track updates or changes.
 
 
       .. raw:: html
@@ -2686,7 +4151,7 @@ Notes
 .. note::
    - Configuring the webhook destination with headers now supports starting from dnacentersdk version 2.9.1 onwards. This enhancement is in alignment with Catalyst Center Release 2.3.7.5.
    - Configuring the SNMP destination now supports starting from dnacentersdk version 2.9.1 onwards. This enhancement is in alignment with Catalyst Center Release 2.3.7.5.
-   - SDK Method used are events.Events.get\_syslog\_destination, events.Events.create\_syslog\_destination, events.Events.update\_syslog\_destination, events.Events.get\_snmp\_destination, events.Events.create\_snmp\_destination, events.Events.update\_snmp\_destination, events.Events.get\_webhook\_destination, events.Events.create\_webhook\_destination, events.Events.update\_webhook\_destination, events.Events.get\_email\_destination, events.Events.create\_email\_destination, events.Events.get\_status\_api\_for\_events, events.Events.get\_all\_itsm\_integration\_settings, events.Events.get\_itsm\_integration\_setting\_by\_id, events.Events.create\_itsm\_integration\_setting, events.Events.update\_itsm\_integration\_setting, events.Events.delete\_itsm\_integration\_setting
+   - SDK Method used are events.Events.get\_syslog\_destination, events.Events.create\_syslog\_destination, events.Events.update\_syslog\_destination, events.Events.get\_snmp\_destination, events.Events.create\_snmp\_destination, events.Events.update\_snmp\_destination, events.Events.get\_webhook\_destination, events.Events.create\_webhook\_destination, events.Events.update\_webhook\_destination, events.Events.get\_email\_destination, events.Events.create\_email\_destination, events.Events.get\_status\_api\_for\_events, events.Events.get\_all\_itsm\_integration\_settings, events.Events.get\_itsm\_integration\_setting\_by\_id, events.Events.create\_itsm\_integration\_setting, events.Events.update\_itsm\_integration\_setting, events.Events.delete\_itsm\_integration\_setting, events.Events.get\_eventartifacts, events.Events.get\_site, events.Events.get\_syslog\_event\_subscriptions, events.Events.get\_syslog\_subscription\_details, events.Events.create\_syslog\_event\_subscription, events.Events.update\_syslog\_event\_subscription, events.Events.get\_rest\_webhook\_event\_subscriptions, events.Events.get\_rest\_webhook\_subscription\_details, events.Events.create\_rest\_webhook\_event\_subscription, events.Events.update\_rest\_webhook\_event\_subscription, events.Events.get\_email\_event\_subscriptions, events.Events.get\_email\_subscription\_details, events.Events.create\_email\_event\_subscription, events.Events.update\_email\_event\_subscription, events.Events.delete\_event\_subscriptions
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK
    - The parameters starting with dnac\_ are used by the Cisco Catalyst Center Python SDK to establish the connection
@@ -2904,6 +4369,130 @@ Examples
                 url: "http/catalystcenterupdate.com"
                 password: "catalyst@123"
 
+    - name: Creating Webhook Notification with the list of names of subscribed events in the system.
+      cisco.dnac.events_and_notifications_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log_level: "{{dnac_log_level}}"
+        dnac_log: False
+        state: merged
+        config:
+          - webhook_event_notification:
+              name: "Webhook Notification."
+              description: "Notification for webhook events subscription"
+              sites: ["Global/India", "Global/USA"]
+              events: ["AP Flap", "AP Reboot Crash"]
+              destination: "Webhook Demo"
+
+    - name: Updating Webhook Notification with the list of names of subscribed events in the system.
+      cisco.dnac.events_and_notifications_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log_level: "{{dnac_log_level}}"
+        dnac_log: False
+        state: merged
+        config:
+          - webhook_event_notification:
+              name: "Webhook Notification."
+              description: "Updated notification for webhook events subscription"
+              sites: ["Global/India", "Global/USA", "Global/China"]
+              destination: "Webhook Demo"
+
+    - name: Creating Email Notification with the list of names of subscribed events in the system.
+      cisco.dnac.events_and_notifications_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log_level: "{{dnac_log_level}}"
+        dnac_log: False
+        state: merged
+        config:
+          - email_event_notification:
+              name: "Email Notification"
+              description: "Notification description for email subscription creation"
+              sites: ["Global/India", "Global/USA"]
+              events: ["AP Flap", "AP Reboot Crash"]
+              sender_email: "catalyst@cisco.com"
+              recipient_emails: ["test@cisco.com", "demo@cisco.com"]
+              subject: "Mail test"
+              instance: Email Instance test
+
+    - name: Updating Email Notification with the list of names of subscribed events in the system.
+      cisco.dnac.events_and_notifications_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log_level: "{{dnac_log_level}}"
+        dnac_log: False
+        state: merged
+        config:
+          - email_event_notification:
+              name: "Email Notification"
+              description: "Notification description for email subscription updation"
+              sites: ["Global/India", "Global/USA"]
+              events: ["AP Flap", "AP Reboot Crash"]
+              sender_email: "catalyst@cisco.com"
+              recipient_emails: ["test@cisco.com", "demo@cisco.com", "update@cisco.com"]
+              subject: "Mail test for updation"
+              instance: Email Instance test
+
+    - name: Creating Syslog Notification with the list of names of subscribed events in the system.
+      cisco.dnac.events_and_notifications_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log_level: "{{dnac_log_level}}"
+        dnac_log: False
+        state: merged
+        config:
+          - syslog_event_notification:
+              name: "Syslog Notification."
+              description: "Notification for syslog events subscription"
+              sites: ["Global/India", "Global/USA"]
+              events: ["AP Flap", "AP Reboot Crash"]
+              destination: "Syslog Demo"
+
+    - name: Updating Syslog Notification with the list of names of subscribed events in the system.
+      cisco.dnac.events_and_notifications_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log_level: "{{dnac_log_level}}"
+        dnac_log: False
+        state: merged
+        config:
+          - syslog_event_notification:
+              name: "Syslog Notification."
+              description: "Updated notification for syslog events subscription"
+              sites: ["Global/India", "Global/USA", "Global/China"]
+              events: ["AP Flap", "AP Reboot Crash"]
+
     - name: Deleting ITSM Integration Setting with given name from the system.
       cisco.dnac.events_and_notifications_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -2919,6 +4508,54 @@ Examples
         config:
           - itsm_setting:
               instance_name: "ITSM test"
+
+    - name: Deleting Webhook Events Subscription Notification with given name from the system.
+      cisco.dnac.events_and_notifications_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log_level: "{{dnac_log_level}}"
+        dnac_log: False
+        state: deleted
+        config:
+          - webhook_event_notification:
+              name: "Webhook Notification"
+
+    - name: Deleting Email Events Subscription Notification with given name from the system.
+      cisco.dnac.events_and_notifications_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log_level: "{{dnac_log_level}}"
+        dnac_log: False
+        state: deleted
+        config:
+          - email_event_notification:
+              name: "Email Notification"
+
+    - name: Deleting Syslog Events Subscription Notification with given name from the system.
+      cisco.dnac.events_and_notifications_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log_level: "{{dnac_log_level}}"
+        dnac_log: False
+        state: deleted
+        config:
+          - syslog_event_notification:
+              name: "Syslog Notification"
 
 
 

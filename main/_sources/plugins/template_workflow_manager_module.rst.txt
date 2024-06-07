@@ -42,7 +42,7 @@ cisco.dnac.template_workflow_manager module -- Resource module for Template func
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.15.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.16.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -432,6 +432,24 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Denotes the family to which the device belongs.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"Cisco Cloud Services Platform"`
+      - :ansible-option-choices-entry:`"Cisco Interfaces and Modules"`
+      - :ansible-option-choices-entry:`"Content Networking"`
+      - :ansible-option-choices-entry:`"Network Management"`
+      - :ansible-option-choices-entry:`"NFV-ThirdParty Devices"`
+      - :ansible-option-choices-entry:`"NFVIS"`
+      - :ansible-option-choices-entry:`"Routers"`
+      - :ansible-option-choices-entry:`"Security and VPN"`
+      - :ansible-option-choices-entry:`"Storage Networking"`
+      - :ansible-option-choices-entry:`"Switches and Hubs"`
+      - :ansible-option-choices-entry:`"Voice and Telephony"`
+      - :ansible-option-choices-entry:`"Wireless Controller"`
 
 
       .. raw:: html
@@ -1874,6 +1892,24 @@ Parameters
       Denotes the family to which the device belongs.
 
 
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"Cisco Cloud Services Platform"`
+      - :ansible-option-choices-entry:`"Cisco Interfaces and Modules"`
+      - :ansible-option-choices-entry:`"Content Networking"`
+      - :ansible-option-choices-entry:`"Network Management"`
+      - :ansible-option-choices-entry:`"NFV-ThirdParty Devices"`
+      - :ansible-option-choices-entry:`"NFVIS"`
+      - :ansible-option-choices-entry:`"Routers"`
+      - :ansible-option-choices-entry:`"Security and VPN"`
+      - :ansible-option-choices-entry:`"Storage Networking"`
+      - :ansible-option-choices-entry:`"Switches and Hubs"`
+      - :ansible-option-choices-entry:`"Voice and Telephony"`
+      - :ansible-option-choices-entry:`"Wireless Controller"`
+
+
       .. raw:: html
 
         </div>
@@ -1946,6 +1982,49 @@ Parameters
 
         </div>
 
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/failure_policy"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/failure_policy:
+
+      .. rst-class:: ansible-option-title
+
+      **failure_policy**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/failure_policy" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Define failure policy if template provisioning fails.
+
+      failure\_policy will be enabled only when the composite is set to True.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"ABORT\_TARGET\_ON\_ERROR"`
+
+
+      .. raw:: html
+
+        </div>
 
   * - .. raw:: html
 
@@ -2121,38 +2200,19 @@ Parameters
       Applicable device software type. This field is mandatory to create a new template.
 
 
-      .. raw:: html
+      .. rst-class:: ansible-option-line
 
-        </div>
+      :ansible-option-choices:`Choices:`
 
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/software_variant"></div>
-
-      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/software_variant:
-
-      .. rst-class:: ansible-option-title
-
-      **software_variant**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/software_variant" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Refers to a version or edition of a software application that differs from the main or standard release.
+      - :ansible-option-choices-entry:`"IOS"`
+      - :ansible-option-choices-entry:`"IOS-XE"`
+      - :ansible-option-choices-entry:`"IOS-XR"`
+      - :ansible-option-choices-entry:`"NX-OS"`
+      - :ansible-option-choices-entry:`"Cisco Controller"`
+      - :ansible-option-choices-entry:`"Wide Area Application Services"`
+      - :ansible-option-choices-entry:`"Adaptive Security Appliance"`
+      - :ansible-option-choices-entry:`"NFV-OS"`
+      - :ansible-option-choices-entry:`"Others"`
 
 
       .. raw:: html
@@ -4029,6 +4089,24 @@ Parameters
       Denotes the family to which the device belongs.
 
 
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"Cisco Cloud Services Platform"`
+      - :ansible-option-choices-entry:`"Cisco Interfaces and Modules"`
+      - :ansible-option-choices-entry:`"Content Networking"`
+      - :ansible-option-choices-entry:`"Network Management"`
+      - :ansible-option-choices-entry:`"NFV-ThirdParty Devices"`
+      - :ansible-option-choices-entry:`"NFVIS"`
+      - :ansible-option-choices-entry:`"Routers"`
+      - :ansible-option-choices-entry:`"Security and VPN"`
+      - :ansible-option-choices-entry:`"Storage Networking"`
+      - :ansible-option-choices-entry:`"Switches and Hubs"`
+      - :ansible-option-choices-entry:`"Voice and Telephony"`
+      - :ansible-option-choices-entry:`"Wireless Controller"`
+
+
       .. raw:: html
 
         </div>
@@ -5435,6 +5513,24 @@ Parameters
       Denotes the family to which the device belongs.
 
 
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"Cisco Cloud Services Platform"`
+      - :ansible-option-choices-entry:`"Cisco Interfaces and Modules"`
+      - :ansible-option-choices-entry:`"Content Networking"`
+      - :ansible-option-choices-entry:`"Network Management"`
+      - :ansible-option-choices-entry:`"NFV-ThirdParty Devices"`
+      - :ansible-option-choices-entry:`"NFVIS"`
+      - :ansible-option-choices-entry:`"Routers"`
+      - :ansible-option-choices-entry:`"Security and VPN"`
+      - :ansible-option-choices-entry:`"Storage Networking"`
+      - :ansible-option-choices-entry:`"Switches and Hubs"`
+      - :ansible-option-choices-entry:`"Voice and Telephony"`
+      - :ansible-option-choices-entry:`"Wireless Controller"`
+
+
       .. raw:: html
 
         </div>
@@ -5507,6 +5603,49 @@ Parameters
 
         </div>
 
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/failure_policy"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/failure_policy:
+
+      .. rst-class:: ansible-option-title
+
+      **failure_policy**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/failure_policy" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Define failure policy if template provisioning fails.
+
+      failure\_policy will be enabled only when the composite is set to True.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"ABORT\_TARGET\_ON\_ERROR"`
+
+
+      .. raw:: html
+
+        </div>
 
   * - .. raw:: html
 
@@ -5682,38 +5821,19 @@ Parameters
       Applicable device software type. This field is mandatory to create a new template.
 
 
-      .. raw:: html
+      .. rst-class:: ansible-option-line
 
-        </div>
+      :ansible-option-choices:`Choices:`
 
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/software_variant"></div>
-
-      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/software_variant:
-
-      .. rst-class:: ansible-option-title
-
-      **software_variant**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/software_variant" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Refers to a version or edition of a software application that differs from the main or standard release.
+      - :ansible-option-choices-entry:`"IOS"`
+      - :ansible-option-choices-entry:`"IOS-XE"`
+      - :ansible-option-choices-entry:`"IOS-XR"`
+      - :ansible-option-choices-entry:`"NX-OS"`
+      - :ansible-option-choices-entry:`"Cisco Controller"`
+      - :ansible-option-choices-entry:`"Wide Area Application Services"`
+      - :ansible-option-choices-entry:`"Adaptive Security Appliance"`
+      - :ansible-option-choices-entry:`"NFV-OS"`
+      - :ansible-option-choices-entry:`"Others"`
 
 
       .. raw:: html
@@ -7686,13 +7806,13 @@ Examples
             - product_family: string
               product_series: string
               product_type: string
+            failure_policy: string
             id: string
             language: string
             name: string
             project_name: string
             project_description: string
             software_type: string
-            software_variant: string
             software_version: string
             tags:
             - id: string
