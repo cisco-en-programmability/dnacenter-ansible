@@ -1338,7 +1338,7 @@ class IseRadiusIntegration(DnacBase):
             params=auth_server_params,
         )
         validation_string = "successfully updated aaa settings"
-        self.check_task_response_status(response, validation_string).check_return_status()
+        self.check_task_response_status(response, validation_string, "edit_authentication_and_policy_server_access_configuration").check_return_status()
         self.log("Authentication and Policy Server '{0}' updated successfully"
                  .format(ipAddress), "INFO")
         result_auth_server.get("response").get(ipAddress) \
@@ -1399,7 +1399,7 @@ class IseRadiusIntegration(DnacBase):
 
         # Check the task status
         validation_string = "successfully deleted aaa settings"
-        self.check_task_response_status(response, validation_string).check_return_status()
+        self.check_task_response_status(response, validation_string, "delete_authentication_and_policy_server_access_configuration").check_return_status()
         taskid = response.get("response").get("taskId")
 
         # Update result information

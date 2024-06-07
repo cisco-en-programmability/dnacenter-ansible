@@ -2223,7 +2223,7 @@ class DeviceCredential(DnacBase):
         self.log("Received API response from 'create_global_credentials_v2': {0}"
                  .format(response), "DEBUG")
         validation_string = "global credential addition performed"
-        self.check_task_response_status(response, validation_string).check_return_status()
+        self.check_task_response_status(response, validation_string, "create_global_credentials_v2").check_return_status()
         self.log("Global credential created successfully", "INFO")
         result_global_credential.update({
             "Creation": {
@@ -2288,7 +2288,7 @@ class DeviceCredential(DnacBase):
                 self.log("Received API response for 'update_global_credentials_v2': {0}"
                          .format(response), "DEBUG")
                 validation_string = "global credential update performed"
-                self.check_task_response_status(response, validation_string).check_return_status()
+                self.check_task_response_status(response, validation_string, "update_global_credentials_v2").check_return_status()
         self.log("Updating device credential API input parameters: {0}"
                  .format(final_response), "DEBUG")
         self.log("Global device credential updated successfully", "INFO")
@@ -2344,7 +2344,7 @@ class DeviceCredential(DnacBase):
             self.log("Received API response for 'assign_device_credential_to_site_v2': {0}"
                      .format(response), "DEBUG")
             validation_string = "desired common settings operation successful"
-            self.check_task_response_status(response, validation_string).check_return_status()
+            self.check_task_response_status(response, validation_string, "assign_device_credential_to_site_v2").check_return_status()
         self.log("Device credential assigned to site {0} is successfully."
                  .format(site_ids), "INFO")
         self.log("Desired State for assign credentials to a site: {0}"
