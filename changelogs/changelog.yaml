@@ -916,8 +916,8 @@ releases:
         release_summary: Fix module name.
         minor_changes:
           - Fix module name from network_device_config__info to configuration_archive_details_info.
-  6.15.1:
-      release_date: "2024-06-05"
+  6.16.0:
+      release_date: "2024-06-07"
       changes:
         release_summary: Code changes in workflow manager modules. 
         minor_changes:
@@ -928,5 +928,7 @@ releases:
           - Added new attribute 'ise_integration_wait_time' in ise_radius_integration_workflow_manager.py
           - Added example playbooks in network_compliance_workflow_manager.py
           - Added detailed documentation in network_settings_workflow_manager.py
-          - Added new attribute 'provisioning' in provision_workflow_manager.py
-          - Added new attributes 'choices', 'failure_policy' in template_workflow_manager.py
+          - Added the code for creating/updating/deleting events subscription notification with specified destination and added the playbook and documentation with examples
+          - provision_workflow_manager.py - Added attribute 'provisioning'
+          - template_workflow_manager.py - Added attributes 'choices', 'failure_policy'
+          - events_and_notifications_workflow_manager.py - Added attributes 'webhook_event_notification', 'email_event_notification', 'syslog_event_notification'
