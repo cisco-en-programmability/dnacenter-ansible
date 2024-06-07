@@ -880,6 +880,7 @@ releases:
           - site_workflow_manager - Updated changes in Site updation.
           - network_settings_workflow_manager - Added attributes 'ipv4_global_pool_name'.
           - template_workflow_manager - Removed attributes 'create_time', 'failure_policy', 'last_update_time', 'latest_version_time', 'parent_template_id', 'project_id', 'validation_errors', 'rollback_template_params' and 'rollback_template_content'.
+          - ise_radius_integration_workflow_manager - Removed the attributes 'port' and 'subscriber_name'. Added the attribute 'ise_integration_wait_time'.
           - Changes in inventory and swim workflow manager modules.
           - application_policy_application_set_count_info - new module
           - application_policy_application_set_info - new module
@@ -915,3 +916,19 @@ releases:
         release_summary: Fix module name.
         minor_changes:
           - Fix module name from network_device_config__info to configuration_archive_details_info.
+  6.16.0:
+      release_date: "2024-06-07"
+      changes:
+        release_summary: Code changes in workflow manager modules. 
+        minor_changes:
+          - Added example playbooks in device_provision_workflow.yml
+          - Added API to validate the server address
+          - Minor bug fixes in device_credential_workflow_manager.py module
+          - Checking SNMP versions in events_and_notifications_workflow_manager.py module
+          - Added new attribute 'ise_integration_wait_time' in ise_radius_integration_workflow_manager.py
+          - Added example playbooks in network_compliance_workflow_manager.py
+          - Added detailed documentation in network_settings_workflow_manager.py
+          - Added the code for creating/updating/deleting events subscription notification with specified destination and added the playbook and documentation with examples
+          - provision_workflow_manager.py - Added attribute 'provisioning'
+          - template_workflow_manager.py - Added attributes 'choices', 'failure_policy'
+          - events_and_notifications_workflow_manager.py - Added attributes 'webhook_event_notification', 'email_event_notification', 'syslog_event_notification'
