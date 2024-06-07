@@ -258,6 +258,30 @@ class DnacBase():
 
         return re.match(pattern, password) is not None
 
+    def is_valid_email(self, email):
+        """
+        Validate an email address.
+        Args:
+            self (object): An instance of a class that provides access to Cisco Catalyst Center.
+            email (str): The email address to be validated.
+        Returns:
+            bool: True if the email is valid, False otherwise.
+        Description:
+            This function checks if the provided email address is valid based on the following criteria:
+            - It contains one or more alphanumeric characters or allowed special characters before the '@'.
+            - It contains one or more alphanumeric characters or dashes after the '@' and before the domain.
+            - It contains a period followed by at least two alphabetic characters at the end of the string.
+        The allowed special characters before the '@' are: ._%+-.
+        """
+
+        # Define the regex pattern for a valid email address
+        pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+        # Use re.match to see if the email matches the pattern
+        if re.match(pattern, email):
+            return True
+        else:
+            return False
+
     def get_dnac_params(self, params):
         """Store the Cisco Catalyst Center parameters from the playbook"""
 
