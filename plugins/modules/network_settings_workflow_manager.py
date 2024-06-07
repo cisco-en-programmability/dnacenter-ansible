@@ -2223,7 +2223,7 @@ class NetworkSettings(DnacBase):
                 op_modifies=True,
                 params=pool_params,
             )
-            self.check_execution_response_status(response).check_return_status()
+            self.check_execution_response_status(response, "create_global_pool").check_return_status()
             self.log("Successfully created global pool successfully.", "INFO")
             for item in pool_params.get("settings").get("ippool"):
                 name = item.get("ipPoolName")
@@ -2267,7 +2267,7 @@ class NetworkSettings(DnacBase):
                     params=pool_params,
                 )
 
-                self.check_execution_response_status(response).check_return_status()
+                self.check_execution_response_status(response, "update_global_pool").check_return_status()
                 for item in pool_params.get("settings").get("ippool"):
                     name = item.get("ipPoolName")
                     self.log("Global pool '{0}' Updated successfully.".format(name), "INFO")
@@ -2316,7 +2316,7 @@ class NetworkSettings(DnacBase):
                     op_modifies=True,
                     params=reserve_params,
                 )
-                self.check_execution_response_status(response).check_return_status()
+                self.check_execution_response_status(response, "reserve_ip_subpool").check_return_status()
                 self.log("Successfully created IP subpool reservation '{0}'.".format(name), "INFO")
                 result_reserve_pool.get("response") \
                     .update({name: self.want.get("wantReserve")[reserve_pool_index]})
@@ -2347,7 +2347,7 @@ class NetworkSettings(DnacBase):
                 op_modifies=True,
                 params=reserve_params,
             )
-            self.check_execution_response_status(response).check_return_status()
+            self.check_execution_response_status(response, "update_reserve_ip_subpool").check_return_status()
             self.log("Reserved ip subpool '{0}' updated successfully.".format(name), "INFO")
             result_reserve_pool.get("response") \
                 .update({name: reserve_params})
@@ -2402,7 +2402,7 @@ class NetworkSettings(DnacBase):
         )
         self.log("Received API response of 'update_network_v2': {0}".format(response), "DEBUG")
         validation_string = "desired common settings operation successful"
-        self.check_task_response_status(response, validation_string).check_return_status()
+        self.check_task_response_status(response, validation_string, "update_network_v2").check_return_status()
         self.log("Network has been changed successfully", "INFO")
         result_network.get("msg") \
             .update({site_name: "Network Updated successfully"})
@@ -2469,7 +2469,7 @@ class NetworkSettings(DnacBase):
                 op_modifies=True,
                 params={"id": _id},
             )
-            self.check_execution_response_status(response).check_return_status()
+            self.check_execution_response_status(response, "release_reserve_ip_subpool").check_return_status()
             executionid = response.get("executionId")
             result_reserve_pool = self.result.get("response")[1].get("reservePool")
             result_reserve_pool.get("response").update({name: {}})
@@ -2513,7 +2513,7 @@ class NetworkSettings(DnacBase):
             )
 
             # Check the execution status
-            self.check_execution_response_status(response).check_return_status()
+            self.check_execution_response_status(response, "delete_global_ip_pool").check_return_status()
             executionid = response.get("executionId")
 
             # Update result information

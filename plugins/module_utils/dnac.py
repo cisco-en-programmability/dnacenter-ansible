@@ -302,14 +302,16 @@ class DnacBase():
 
         return result
 
-    def check_task_response_status(self, response, validation_string, data=False):
+    def check_task_response_status(self, response, validation_string, api_name="", data=False):
         """
         Get the site id from the site name.
 
         Parameters:
             self - The current object details.
             response (dict) - API response.
-            validation_string (string) - String used to match the progress status.
+            validation_string (str) - String used to match the progress status.
+            api_name (str) - API name.
+            data (bool) - Set to True if the API is returning any information. Else, False.
 
         Returns:
             self
@@ -336,8 +338,9 @@ class DnacBase():
         while True:
             end_time = time.time()
             if (end_time - start_time) >= self.max_timeout:
-                self.log("Max timeout of {0} sec has reached for the execution id '{1}'. Exiting the loop due to unexpected API status."
-                         .format(self.max_timeout, task_id), "WARNING")
+                self.log("Max timeout of {0} sec has reached for the execution id '{1}'. "
+                         "Exiting the loop due to unexpected API '{2}' status."
+                         .format(self.max_timeout, task_id, api_name), "WARNING")
                 break
 
             task_details = self.get_task_details(task_id)
@@ -388,12 +391,13 @@ class DnacBase():
         self.log("Response for the current execution: {0}".format(response))
         return response
 
-    def check_execution_response_status(self, response):
+    def check_execution_response_status(self, response, api_name=""):
         """
         Checks the reponse status provided by API in the Cisco Catalyst Center
 
         Parameters:
             response (dict) - API response
+            api_name (str) - API name
 
         Returns:
             self
@@ -414,8 +418,9 @@ class DnacBase():
         while True:
             end_time = time.time()
             if (end_time - start_time) >= self.max_timeout:
-                self.log("Max timeout of {0} sec has reached for the execution id '{1}'. Exiting the loop due to unexpected API status."
-                         .format(self.max_timeout, execution_id), "WARNING")
+                self.log("Max timeout of {0} sec has reached for the execution id '{1}'. "
+                         "Exiting the loop due to unexpected API '{2}' status."
+                         .format(self.max_timeout, execution_id, api_name), "WARNING")
                 break
 
             execution_details = self.get_execution_details(execution_id)
