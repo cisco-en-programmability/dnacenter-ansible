@@ -105,8 +105,8 @@ notes:
     post /dna/intent/api/v1/business/sda/provision-device
     post /dna/intent/api/v1/wireless/provision
 
-  - Added 'provisioning' option in v6.15.1
-  - Added provisioning and reprovisioning of wireless devices in v6.15.1
+  - Added 'provisioning' option in v6.16.0
+  - Added provisioning and reprovisioning of wireless devices in v6.16.0
 
 """
 
