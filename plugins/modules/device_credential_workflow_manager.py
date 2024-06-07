@@ -889,7 +889,12 @@ class DeviceCredential(DnacBase):
                          .format(site_name), "ERROR")
                 return None
 
-            _id = response.get("response")[0].get("id")
+            response = response.get("response")
+            if not response:
+                self.log("The site with the name '{0}' is not valid".format(site_name), "ERROR")
+                return None
+
+            _id = response[0].get("id")
             self.log("Site ID for the site name {0}: {1}".format(site_name, _id), "INFO")
         except Exception as e:
             self.log("Exception occurred while getting site_id from the site_name: {0}"
@@ -1952,22 +1957,22 @@ class DeviceCredential(DnacBase):
         want = {
             "assign_credentials": {}
         }
-        site_name = AssignCredentials.get("site_name")
-        if not site_name:
+        site_names = AssignCredentials.get("site_name")
+        if not site_names:
             self.msg = "The 'site_name' is required parameter for 'assign_credentials_to_site'"
             self.status = "failed"
             return self
 
-        site_id = []
-        for site_name in site_name:
-            siteId = self.get_site_id(site_name)
-            if not site_id:
+        site_ids = []
+        for site_name in site_names:
+            current_site_id = self.get_site_id(site_name)
+            if not current_site_id:
                 self.msg = "The site_name '{0}' is invalid in 'assign_credentials_to_site'".format(site_name)
                 self.status = "failed"
                 return self
-            site_id.append(siteId)
+            site_ids.append(current_site_id)
 
-        want.update({"site_id": site_id})
+        want.update({"site_id": site_ids})
         global_credentials = self.get_global_credentials_params()
         cli_credential = AssignCredentials.get("cli_credential")
         if cli_credential:
@@ -2218,7 +2223,7 @@ class DeviceCredential(DnacBase):
         self.log("Received API response from 'create_global_credentials_v2': {0}"
                  .format(response), "DEBUG")
         validation_string = "global credential addition performed"
-        self.check_task_response_status(response, validation_string).check_return_status()
+        self.check_task_response_status(response, validation_string, "create_global_credentials_v2").check_return_status()
         self.log("Global credential created successfully", "INFO")
         result_global_credential.update({
             "Creation": {
@@ -2283,7 +2288,7 @@ class DeviceCredential(DnacBase):
                 self.log("Received API response for 'update_global_credentials_v2': {0}"
                          .format(response), "DEBUG")
                 validation_string = "global credential update performed"
-                self.check_task_response_status(response, validation_string).check_return_status()
+                self.check_task_response_status(response, validation_string, "update_global_credentials_v2").check_return_status()
         self.log("Updating device credential API input parameters: {0}"
                  .format(final_response), "DEBUG")
         self.log("Global device credential updated successfully", "INFO")
@@ -2339,7 +2344,7 @@ class DeviceCredential(DnacBase):
             self.log("Received API response for 'assign_device_credential_to_site_v2': {0}"
                      .format(response), "DEBUG")
             validation_string = "desired common settings operation successful"
-            self.check_task_response_status(response, validation_string).check_return_status()
+            self.check_task_response_status(response, validation_string, "assign_device_credential_to_site_v2").check_return_status()
         self.log("Device credential assigned to site {0} is successfully."
                  .format(site_ids), "INFO")
         self.log("Desired State for assign credentials to a site: {0}"
@@ -2403,20 +2408,27 @@ class DeviceCredential(DnacBase):
             "httpsRead": "https_read",
             "httpsWrite": "https_write"
         }
+        failed_status = False
+        changed_status = False
         for item in have_values:
-            config_itr = 0
+            config_itr = -1
             final_response.update({item: []})
             for value in have_values.get(item):
+                config_itr = config_itr + 1
+                description = config.get("global_credential_details") \
+                                    .get(credential_mapping.get(item))[config_itr].get("description")
                 if value is None:
                     self.log("Credential Name: {0}".format(item), "DEBUG")
                     self.log("Credential Item: {0}".format(config.get("global_credential_details")
                              .get(credential_mapping.get(item))), "DEBUG")
-                    final_response.get(item).append(
-                        str(config.get("global_credential_details")
-                            .get(credential_mapping.get(item))[config_itr]) + " is not found."
-                    )
+                    final_response.get(item).append({
+                        "description": description,
+                        "response": "Global credential not found"
+                    })
                     continue
+
                 _id = have_values.get(item)[config_itr].get("id")
+                changed_status = True
                 response = self.dnac._exec(
                     family="discovery",
                     function="delete_global_credential_v2",
@@ -2426,21 +2438,59 @@ class DeviceCredential(DnacBase):
                 self.log("Received API response for 'delete_global_credential_v2': {0}"
                          .format(response), "DEBUG")
                 validation_string = "global credential deleted successfully"
-                self.check_task_response_status(response, validation_string).check_return_status()
-                final_response.get(item).append(_id)
-                config_itr = config_itr + 1
+                response = response.get("response")
+                if response.get("errorcode") is not None:
+                    self.msg = response.get("response").get("detail")
+                    self.status = "failed"
+                    return self
+
+                task_id = response.get("taskId")
+                while True:
+                    task_details = self.get_task_details(task_id)
+                    self.log('Getting task details from task ID {0}: {1}'.format(task_id, task_details), "DEBUG")
+
+                    if task_details.get("isError") is True:
+                        if task_details.get("failureReason"):
+                            failure_msg = str(task_details.get("failureReason"))
+                        else:
+                            failure_msg = str(task_details.get("progress"))
+                        self.status = "failed"
+                        break
+
+                    if validation_string in task_details.get("progress").lower():
+                        self.status = "success"
+                        break
+
+                    self.log("progress set to {0} for taskid: {1}".format(task_details.get('progress'), task_id), "DEBUG")
+
+                if self.status == "failed":
+                    failed_status = True
+                    final_response.get(item).append({
+                        "description": description,
+                        "failure_response": failure_msg
+                    })
+                else:
+                    final_response.get(item).append({
+                        "description": description,
+                        "response": "Global credential deleted successfully"
+                    })
 
         self.log("Deleting device credential API input parameters: {0}"
                  .format(final_response), "DEBUG")
-        self.log("Successfully deleted global device credential.", "INFO")
         result_global_credential.update({
             "Deletion": {
                 "response": final_response,
-                "msg": "Global Device Credentials Deleted Successfully"
             }
         })
-        self.msg = "Global Device Credentials Updated Successfully"
-        self.status = "success"
+        if failed_status is True:
+            self.msg = "Global device credentials are not deleted."
+            self.module.fail_json(msg=self.msg, response=final_response)
+        else:
+            self.result['changed'] = changed_status
+            self.msg = "Global device credentials deleted successfully"
+            self.log(str(self.msg), "INFO")
+            self.status = "success"
+
         return self
 
     def get_diff_deleted(self, config):

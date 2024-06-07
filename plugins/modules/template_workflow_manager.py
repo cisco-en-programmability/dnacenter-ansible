@@ -75,6 +75,19 @@ options:
                 suboptions:
                   product_family:
                     description: Denotes the family to which the device belongs.
+                    choices:
+                      - Cisco Cloud Services Platform
+                      - Cisco Interfaces and Modules
+                      - Content Networking
+                      - Network Management
+                      - NFV-ThirdParty Devices
+                      - NFVIS
+                      - Routers
+                      - Security and VPN
+                      - Storage Networking
+                      - Switches and Hubs
+                      - Voice and Telephony
+                      - Wireless Controller
                     type: str
                   product_series:
                     description: Specifies the series classification of the device.
@@ -216,6 +229,19 @@ options:
             suboptions:
               product_family:
                 description: Denotes the family to which the device belongs.
+                choices:
+                  - Cisco Cloud Services Platform
+                  - Cisco Interfaces and Modules
+                  - Content Networking
+                  - Network Management
+                  - NFV-ThirdParty Devices
+                  - NFVIS
+                  - Routers
+                  - Security and VPN
+                  - Storage Networking
+                  - Switches and Hubs
+                  - Voice and Telephony
+                  - Wireless Controller
                 type: str
               product_series:
                 description: Specifies the series classification of the device.
@@ -223,6 +249,13 @@ options:
               product_type:
                 description: Describes the exact type of the device.
                 type: str
+          failure_policy:
+            description:
+            - Define failure policy if template provisioning fails.
+            - failure_policy will be enabled only when the composite is set to True.
+            choices:
+              - ABORT_TARGET_ON_ERROR
+            type: str
           id:
             description: A unique identifier, represented as a UUID.
             type: str
@@ -243,9 +276,16 @@ options:
             type: str
           software_type:
             description: Applicable device software type. This field is mandatory to create a new template.
-            type: str
-          software_variant:
-            description: Refers to a version or edition of a software application that differs from the main or standard release.
+            choices:
+              - IOS
+              - IOS-XE
+              - IOS-XR
+              - NX-OS
+              - Cisco Controller
+              - Wide Area Application Services
+              - Adaptive Security Appliance
+              - NFV-OS
+              - Others
             type: str
           software_version:
             description: Applicable device software version.
@@ -435,6 +475,19 @@ options:
                         suboptions:
                           product_family:
                             description: Denotes the family to which the device belongs.
+                            choices:
+                              - Cisco Cloud Services Platform
+                              - Cisco Interfaces and Modules
+                              - Content Networking
+                              - Network Management
+                              - NFV-ThirdParty Devices
+                              - NFVIS
+                              - Routers
+                              - Security and VPN
+                              - Storage Networking
+                              - Switches and Hubs
+                              - Voice and Telephony
+                              - Wireless Controller
                             type: str
                           product_series:
                             description: Specifies the series classification of the device.
@@ -573,6 +626,19 @@ options:
                     suboptions:
                       product_family:
                         description: Denotes the family to which the device belongs.
+                        choices:
+                          - Cisco Cloud Services Platform
+                          - Cisco Interfaces and Modules
+                          - Content Networking
+                          - Network Management
+                          - NFV-ThirdParty Devices
+                          - NFVIS
+                          - Routers
+                          - Security and VPN
+                          - Storage Networking
+                          - Switches and Hubs
+                          - Voice and Telephony
+                          - Wireless Controller
                         type: str
                       product_series:
                         description: Specifies the series classification of the device.
@@ -580,6 +646,13 @@ options:
                       product_type:
                         description: Describes the exact type of the device.
                         type: str
+                  failure_policy:
+                    description:
+                    - Define failure policy if template provisioning fails.
+                    - failure_policy will be enabled only when the composite is set to True.
+                    choices:
+                      - ABORT_TARGET_ON_ERROR
+                    type: str
                   id:
                     description: A unique identifier, represented as a UUID.
                     type: str
@@ -600,9 +673,16 @@ options:
                     type: str
                   software_type:
                     description: Applicable device software type. This field is mandatory to create a new template.
-                    type: str
-                  software_variant:
-                    description: Refers to a version or edition of a software application that differs from the main or standard release.
+                    choices:
+                      - IOS
+                      - IOS-XE
+                      - IOS-XR
+                      - NX-OS
+                      - Cisco Controller
+                      - Wide Area Application Services
+                      - Adaptive Security Appliance
+                      - NFV-OS
+                      - Others
                     type: str
                   software_version:
                     description: Applicable device software version.
@@ -761,13 +841,13 @@ EXAMPLES = r"""
         - product_family: string
           product_series: string
           product_type: string
+        failure_policy: string
         id: string
         language: string
         name: string
         project_name: string
         project_description: string
         software_type: string
-        software_variant: string
         software_version: string
         tags:
         - id: string
@@ -996,13 +1076,13 @@ class Template(DnacBase):
                     'product_series': {'type': 'str'},
                     'product_type': {'type': 'str'},
                 },
+                'failure_policy': {'type': 'str'},
                 'id': {'type': 'str'},
                 'language': {'type': 'str'},
                 'name': {'type': 'str'},
                 'project_name': {'type': 'str'},
                 'project_description': {'type': 'str'},
                 'software_type': {'type': 'str'},
-                'software_variant': {'type': 'str'},
                 'software_version': {'type': 'str'},
                 'template_content': {'type': 'str'},
                 'template_params': {'type': 'list'},
@@ -1044,13 +1124,13 @@ class Template(DnacBase):
                             'product_series': {'type': 'str'},
                             'product_type': {'type': 'str'},
                         },
+                        'failure_policy': {'type': 'str'},
                         'id': {'type': 'str'},
                         'language': {'type': 'str'},
                         'name': {'type': 'str'},
                         'project_name': {'type': 'str'},
                         'project_description': {'type': 'str'},
                         'software_type': {'type': 'str'},
-                        'software_variant': {'type': 'str'},
                         'software_version': {'type': 'str'},
                         'template_content': {'type': 'str'},
                         'template_params': {'type': 'list'},
@@ -1152,6 +1232,15 @@ class Template(DnacBase):
                 deviceTypes[i].update({"productFamily": product_family})
             else:
                 self.msg = "product_family is mandatory for deviceTypes"
+                self.status = "failed"
+                return self.check_return_status()
+
+            product_families_list = ["Cisco Cloud Services Platform", "Cisco Interfaces and Modules",
+                                     "Content Networking", "Network Management", "NFV-ThirdParty Devices",
+                                     "NFVIS", "Routers", "Security and VPN", "Storage Networking",
+                                     "Switches and Hubs", "Voice and Telephony", "Wireless Controller"]
+            if product_family not in product_families_list:
+                self.msg = "The 'product_family should be in the following list {0}.".format(product_families_list)
                 self.status = "failed"
                 return self.check_return_status()
 
@@ -1455,7 +1544,6 @@ class Template(DnacBase):
             "deviceTypes":
                 self.get_device_types(params.get("device_types")),
             "id": params.get("id"),
-            "softwareVariant": params.get("software_variant"),
             "softwareVersion": params.get("software_version"),
             "templateContent": params.get("template_content"),
             "templateParams":
@@ -1499,7 +1587,25 @@ class Template(DnacBase):
             self.status = "failed"
             return self.check_return_status()
 
+        software_types_list = ["IOS", "IOS-XE", "IOS-XR", "NX-OS",
+                               "Cisco Controller", "Wide Area Application Services",
+                               "Adaptive Security Appliance", "NFV-OS", "Others"]
+        if softwareType not in software_types_list:
+            self.msg = "The 'software_type' should be in the following list {0}.".format(software_types_list)
+            self.status = "failed"
+            return self.check_return_status()
+
         temp_params.update({"softwareType": softwareType})
+
+        if temp_params.get("composite") is True:
+            failure_policy = params.get("failure_policy")
+            failure_policy_list = ["ABORT_TARGET_ON_ERROR", None]
+            if failure_policy not in failure_policy_list:
+                self.msg = "The 'failure_policy' should be in the following list {0}.".format(failure_policy)
+                self.status = "failed"
+                return self
+
+            temp_params.update({"failurePolicy": failure_policy})
 
         self.log("Formatted template params details: {0}".format(temp_params), "DEBUG")
         copy_temp_params = copy.deepcopy(temp_params)
@@ -1827,12 +1933,12 @@ class Template(DnacBase):
             ("customParamsOrder", "customParamsOrder", False),
             ("description", "description", ""),
             ("deviceTypes", "deviceTypes", []),
+            ("failurePolicy", "failurePolicy", ""),
             ("id", "id", ""),
             ("language", "language", "VELOCITY"),
             ("name", "name", ""),
             ("projectName", "projectName", ""),
             ("softwareType", "softwareType", ""),
-            ("softwareVariant", "softwareVariant", ""),
             ("softwareVersion", "softwareVersion", ""),
             ("templateContent", "templateContent", ""),
             ("templateParams", "templateParams", []),
@@ -2075,6 +2181,7 @@ class Template(DnacBase):
             validation_string = "successfully exported project"
             self.check_task_response_status(response,
                                             validation_string,
+                                            "export_projects",
                                             True).check_return_status()
             self.result['response'][1].get("export").get("response").update({"exportProject": self.msg})
 
@@ -2094,6 +2201,7 @@ class Template(DnacBase):
             validation_string = "successfully exported template"
             self.check_task_response_status(response,
                                             validation_string,
+                                            "export_templates",
                                             True).check_return_status()
             self.result['response'][1].get("export").get("response").update({"exportTemplate": self.msg})
 
@@ -2142,7 +2250,7 @@ class Template(DnacBase):
                         params=_import_project,
                     )
                     validation_string = "successfully imported project"
-                    self.check_task_response_status(response, validation_string).check_return_status()
+                    self.check_task_response_status(response, validation_string, "imports_the_projects_provided").check_return_status()
                     self.result['response'][2].get("import").get("response").update({"importProject": validation_string})
             else:
                 self.msg = "Projects '{0}' already available.".format(payload)
@@ -2228,7 +2336,7 @@ class Template(DnacBase):
                     params=import_template
                 )
                 validation_string = "successfully imported template"
-                self.check_task_response_status(response, validation_string).check_return_status()
+                self.check_task_response_status(response, validation_string, "imports_the_templates_provided").check_return_status()
                 self.result['response'][2].get("import").get("response") \
                     .update({"importTemplate": "Successfully imported the templates"})
 
@@ -2395,8 +2503,8 @@ class Template(DnacBase):
                 self.status = "failed"
                 return self
 
-            template_params = ["language", "name", "projectName", "softwareType",
-                               "softwareVariant", "templateContent"]
+            template_params = ["language", "name", "projectName",
+                               "softwareType", "templateContent"]
             have_template = self.have_template.get("template")
             want_template = self.want.get("template_params")
             for item in template_params:
@@ -2407,20 +2515,21 @@ class Template(DnacBase):
                     return self
 
             want_template_containing_template = want_template.get("containingTemplates")
-            for item in want_template_containing_template:
-                name = item.get("name")
-                response = get_dict_result(have_template.get("containingTemplates"), "name", name)
-                if response is None:
-                    self.msg = "Configuration Template config with template_name '{0}' under ".format(name) + \
-                               "'containing_templates' is not available in the Cisco Catalyst Center."
-                    self.status = "failed"
-                    return self
-                for value in item:
-                    if item.get(value) != response.get(value):
-                        self.msg = "Configuration Template config with template_name " + \
-                                   "{0}'s '{1}' is not applied to the Cisco Catalyst Center.".format(name, value)
+            if want_template_containing_template:
+                for item in want_template_containing_template:
+                    name = item.get("name")
+                    response = get_dict_result(have_template.get("containingTemplates"), "name", name)
+                    if response is None:
+                        self.msg = "Configuration Template config with template_name '{0}' under ".format(name) + \
+                                   "'containing_templates' is not available in the Cisco Catalyst Center."
                         self.status = "failed"
                         return self
+                    for value in item:
+                        if item.get(value) != response.get(value):
+                            self.msg = "Configuration Template config with template_name " + \
+                                       "{0}'s '{1}' is not applied to the Cisco Catalyst Center.".format(name, value)
+                            self.status = "failed"
+                            return self
 
             self.log("Successfully validated the Template in the Catalyst Center.", "INFO")
             self.result['response'][0].get("configurationTemplate").get("response").update({"Validation": "Success"})
