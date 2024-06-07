@@ -29,7 +29,6 @@
             message_authenticator_code_key: dnacisesolutions1234 # For KEYWRAP, must be 20 char long
             authentication_port: 1800
             accounting_port: 1700
-            port: 40 # For TACACS
             retries: 3 # Range from 1 to 3
             timeout: 4 # Range from 2 to 20
             role: secondary
@@ -77,7 +76,6 @@
             message_authenticator_code_key: dnacisesolutions1234 # For KEYWRAP, must be 20 char long
             authentication_port: 1800
             accounting_port: 1700
-            port: 40 # For TACACS
             retries: 3 # Range from 1 to 3
             timeout: 4 # Range from 2 to 20
             role: primary
@@ -88,9 +86,9 @@
               password: abcd
               fqdn: abc.cisco.com
               ip_address: 10.195.243.59
-              subscriber_name: abcde
               description: CISCO ISE
             trusted_server: True
+            ise_integration_wait_time: 20
 
     - name: Delete an ISE Server.
       cisco.dnac.ise_radius_integration_workflow_manager:
