@@ -311,20 +311,20 @@ options:
           version:
             description: Version label for the event subscription, helping track updates or changes.
             type: str
-          destination_name:
-            description: The single Webhook destination's name for sending event notifications.
+          destination:
+            description: The name of the destination for sending event notifications via webhook.
             type: str
             required: True
-          events_names:
-            description: List of the event names to be subscribed while configuring notification (For example, ["AP Flap", "AP Reboot Crash"]).
+          events:
+            description: List of event names to be subscribed to for notification configurations (e.g., ["AP Flap", "AP Reboot Crash"]).
             type: list
             elements: str
             required: True
-          domain_name:
-            description: Broad category or domain under which the events fall (e.g., Know Your Network, Connectivity etc.).
+          domain:
+            description: The main category or domain under which events fall (e.g., Know Your Network, Connectivity, etc.).
             type: str
-          subdomain_names:
-            description: More specific categories within the main domain to further classify the events (e.g., ["Wireless", "Applications"]).
+          subdomains:
+            description: More specific categories within the main domain to further classify events (e.g., ["Wireless", "Applications"]).
             type: list
             elements: str
           event_types:
@@ -332,21 +332,20 @@ options:
             type: list
             elements: str
           event_categories:
-            description: List of event categories to be included in the subscription of a notification
-                    (For example, ["WARN", "INFO", "ERROR", "ALERT", "TASK_COMPLETE", "TASK_FAILURE"]).
+            description: List of event categories to be included in the subscription for notifications
+                    (e.g., WARN, INFO, ERROR, ALERT, TASK_COMPLETE, TASK_FAILURE).
             type: list
             elements: str
           event_severities:
-            description: List of event severities to be included in the subscription of a notification (For example, ["1", "2", "3"]).
+            description: List of event severities to be included in the subscription for notifications (e.g., ["1", "2", "3"]).
             type: list
             elements: str
           event_sources:
-            description: List of event sources to be included in the subscription of a notification.
+            description: List of event sources to be included in the subscription for notifications.
             type: list
             elements: str
-          site_names:
-            description: List of site names where events are to be included in the subscription of a notification.
-                    (For example, ["Global/India", "Global/USA"]).
+          sites:
+            description: List of site names where events are included in the notification subscription(e.g., ["Global/India", "Global/USA"]).
             type: list
             elements: str
       email_event_notification:
@@ -365,8 +364,8 @@ options:
           version:
             description: Version label for the event subscription, helping track updates or changes.
             type: str
-          events_names:
-            description: List of the event names to be subscribed while configuring notification (For example, ["AP Flap", "AP Reboot Crash"]).
+          events:
+            description: List of event names to be subscribed to for notification configurations (e.g., ["AP Flap", "AP Reboot Crash"]).
             type: list
             elements: str
             required: True
@@ -383,7 +382,7 @@ options:
             description: The Subject line for the email notification, briefly indicating the notification content.
             type: str
             required: True
-          instance_name:
+          instance:
             description: Name assigned to the specific email instance used for sending the notification.
             type: str
             required: True
@@ -391,11 +390,11 @@ options:
             description: Detailed explanation of the email instance's purpose and how it relates to the notifications.
             type: str
             required: True
-          domain_name:
-            description: Broad category or domain under which the events fall (e.g., Know Your Network, Connectivity etc.).
+          domain:
+            description: The main category or domain under which events fall (e.g., Know Your Network, Connectivity, etc.).
             type: str
-          subdomain_names:
-            description: More specific categories within the main domain to further classify the events (e.g., ["Wireless", "Applications"]).
+          subdomains:
+            description: More specific categories within the main domain to further classify events (e.g., ["Wireless", "Applications"]).
             type: list
             elements: str
           event_types:
@@ -403,21 +402,20 @@ options:
             type: list
             elements: str
           event_categories:
-            description: List of event categories to be included in the subscription of a notification
-                    (For example, ["WARN", "INFO", "ERROR", "ALERT", "TASK_COMPLETE", "TASK_FAILURE"]).
+            description: List of event categories to be included in the subscription for notifications
+                    (e.g., WARN, INFO, ERROR, ALERT, TASK_COMPLETE, TASK_FAILURE).
             type: list
             elements: str
           event_severities:
-            description: List of event severities to be included in the subscription of a notification (For example, ["1", "2", "3"]).
+            description: List of event severities to be included in the subscription for notifications (e.g., ["1", "2", "3"]).
             type: list
             elements: str
           event_sources:
-            description: List of event sources to be included in the subscription of a notification.
+            description: List of event sources to be included in the subscription for notifications.
             type: list
             elements: str
-          site_names:
-            description: List of site names where events are to be included in the subscription of a notification.
-                    (For example, ["Global/India", "Global/USA"]).
+          sites:
+            description: List of site names where events are included in the notification subscription(e.g., ["Global/India", "Global/USA"]).
             type: list
             elements: str
       syslog_event_notification:
@@ -436,20 +434,20 @@ options:
           version:
             description: Version label for the event subscription, helping track updates or changes.
             type: str
-          destination_name:
-            description: The single Syslog destination's name for sending event notifications.
+          destination:
+            description: The name of the destination for sending event notifications via syslog.
             type: str
             required: True
-          events_names:
-            description: List of the event names to be subscribed while configuring notification (For example, ["AP Flap", "AP Reboot Crash"]).
+          events:
+            description: List of event names to be subscribed to for notification configurations (e.g., ["AP Flap", "AP Reboot Crash"]).
             type: list
             elements: str
             required: True
-          domain_name:
-            description: Broad category or domain under which the events fall (e.g., Know Your Network, Connectivity etc.).
+          domain:
+            description: The main category or domain under which events fall (e.g., Know Your Network, Connectivity, etc.).
             type: str
-          subdomain_names:
-            description: More specific categories within the main domain to further classify the events (e.g., ["Wireless", "Applications"]).
+          subdomains:
+            description: More specific categories within the main domain to further classify events (e.g., ["Wireless", "Applications"]).
             type: list
             elements: str
           event_types:
@@ -457,21 +455,20 @@ options:
             type: list
             elements: str
           event_categories:
-            description: List of event categories to be included in the subscription of a notification
-                    (For example, ["WARN", "INFO", "ERROR", "ALERT", "TASK_COMPLETE", "TASK_FAILURE"]).
+            description: List of event categories to be included in the subscription for notifications
+                    (e.g., WARN, INFO, ERROR, ALERT, TASK_COMPLETE, TASK_FAILURE).
             type: list
             elements: str
           event_severities:
-            description: List of event severities to be included in the subscription of a notification (For example, ["1", "2", "3"]).
+            description: List of event severities to be included in the subscription for notifications (e.g., ["1", "2", "3"]).
             type: list
             elements: str
           event_sources:
-            description: List of event sources to be included in the subscription of a notification.
+            description: List of event sources to be included in the subscription for notifications.
             type: list
             elements: str
-          site_names:
-            description: List of site names where events are to be included in the subscription of a notification.
-                    (For example, ["Global/India", "Global/USA"]).
+          sites:
+            description: List of site names where events are included in the notification subscription(e.g., ["Global/India", "Global/USA"]).
             type: list
             elements: str
 
@@ -739,9 +736,9 @@ EXAMPLES = r"""
       - webhook_event_notification:
           name: "Webhook Notification."
           description: "Notification for webhook events subscription"
-          site_names: ["Global/India", "Global/USA"]
-          events_names: ["AP Flap", "AP Reboot Crash"]
-          destination_name: "Webhook Demo"
+          sites: ["Global/India", "Global/USA"]
+          events: ["AP Flap", "AP Reboot Crash"]
+          destination: "Webhook Demo"
 
 - name: Updating Webhook Notification with the list of names of subscribed events in the system.
   cisco.dnac.events_and_notifications_workflow_manager:
@@ -759,8 +756,8 @@ EXAMPLES = r"""
       - webhook_event_notification:
           name: "Webhook Notification."
           description: "Updated notification for webhook events subscription"
-          site_names: ["Global/India", "Global/USA", "Global/China"]
-          destination_name: "Webhook Demo"
+          sites: ["Global/India", "Global/USA", "Global/China"]
+          destination: "Webhook Demo"
 
 - name: Creating Email Notification with the list of names of subscribed events in the system.
   cisco.dnac.events_and_notifications_workflow_manager:
@@ -778,12 +775,12 @@ EXAMPLES = r"""
       - email_event_notification:
           name: "Email Notification"
           description: "Notification description for email subscription creation"
-          site_names: ["Global/India", "Global/USA"]
-          events_names: ["AP Flap", "AP Reboot Crash"]
+          sites: ["Global/India", "Global/USA"]
+          events: ["AP Flap", "AP Reboot Crash"]
           sender_email: "catalyst@cisco.com"
           recipient_emails: ["test@cisco.com", "demo@cisco.com"]
           subject: "Mail test"
-          instance_name: Email Instance test
+          instance: Email Instance test
 
 - name: Updating Email Notification with the list of names of subscribed events in the system.
   cisco.dnac.events_and_notifications_workflow_manager:
@@ -801,12 +798,12 @@ EXAMPLES = r"""
       - email_event_notification:
           name: "Email Notification"
           description: "Notification description for email subscription updation"
-          site_names: ["Global/India", "Global/USA"]
-          events_names: ["AP Flap", "AP Reboot Crash"]
+          sites: ["Global/India", "Global/USA"]
+          events: ["AP Flap", "AP Reboot Crash"]
           sender_email: "catalyst@cisco.com"
           recipient_emails: ["test@cisco.com", "demo@cisco.com", "update@cisco.com"]
           subject: "Mail test for updation"
-          instance_name: Email Instance test
+          instance: Email Instance test
 
 - name: Creating Syslog Notification with the list of names of subscribed events in the system.
   cisco.dnac.events_and_notifications_workflow_manager:
@@ -824,9 +821,9 @@ EXAMPLES = r"""
       - syslog_event_notification:
           name: "Syslog Notification."
           description: "Notification for syslog events subscription"
-          site_names: ["Global/India", "Global/USA"]
-          events_names: ["AP Flap", "AP Reboot Crash"]
-          destination_name: "Syslog Demo"
+          sites: ["Global/India", "Global/USA"]
+          events: ["AP Flap", "AP Reboot Crash"]
+          destination: "Syslog Demo"
 
 - name: Updating Syslog Notification with the list of names of subscribed events in the system.
   cisco.dnac.events_and_notifications_workflow_manager:
@@ -844,8 +841,8 @@ EXAMPLES = r"""
       - syslog_event_notification:
           name: "Syslog Notification."
           description: "Updated notification for syslog events subscription"
-          site_names: ["Global/India", "Global/USA", "Global/China"]
-          events_names: ["AP Flap", "AP Reboot Crash"]
+          sites: ["Global/India", "Global/USA", "Global/China"]
+          events: ["AP Flap", "AP Reboot Crash"]
 
 - name: Deleting ITSM Integration Setting with given name from the system.
   cisco.dnac.events_and_notifications_workflow_manager:
@@ -1042,11 +1039,11 @@ class Events(DnacBase):
                 'name': {'type': 'str'},
                 'version': {'type': 'str'},
                 'description': {'type': 'str'},
-                'site_names': {'type': 'list', 'elements': 'str'},
-                'events_names': {'type': 'list', 'elements': 'str'},
-                'destination_name': {'type': 'str'},
-                'domain_name': {'type': 'str'},
-                'subdomain_names': {'type': 'list', 'elements': 'str'},
+                'sites': {'type': 'list', 'elements': 'str'},
+                'events': {'type': 'list', 'elements': 'str'},
+                'destination': {'type': 'str'},
+                'domain': {'type': 'str'},
+                'subdomains': {'type': 'list', 'elements': 'str'},
                 'event_types': {'type': 'list', 'elements': 'str'},
                 'event_categories': {'type': 'list', 'elements': 'str'},
                 'event_severities': {'type': 'list', 'elements': 'str'},
@@ -1057,15 +1054,15 @@ class Events(DnacBase):
                 'name': {'type': 'str'},
                 'version': {'type': 'str'},
                 'description': {'type': 'str'},
-                'site_names': {'type': 'list', 'elements': 'str'},
-                'events_names': {'type': 'list', 'elements': 'str'},
+                'sites': {'type': 'list', 'elements': 'str'},
+                'events': {'type': 'list', 'elements': 'str'},
                 'sender_email': {'type': 'str'},
                 'recipient_emails': {'type': 'list', 'elements': 'str'},
                 'subject': {'type': 'str'},
-                'instance_name': {'type': 'str'},
+                'instance': {'type': 'str'},
                 'instance_description': {'type': 'str'},
-                'domain_name': {'type': 'str'},
-                'subdomain_names': {'type': 'list', 'elements': 'str'},
+                'domain': {'type': 'str'},
+                'subdomains': {'type': 'list', 'elements': 'str'},
                 'event_types': {'type': 'list', 'elements': 'str'},
                 'event_categories': {'type': 'list', 'elements': 'str'},
                 'event_severities': {'type': 'list', 'elements': 'str'},
@@ -1076,11 +1073,11 @@ class Events(DnacBase):
                 'name': {'type': 'str'},
                 'version': {'type': 'str'},
                 'description': {'type': 'str'},
-                'site_names': {'type': 'list', 'elements': 'str'},
-                'events_names': {'type': 'list', 'elements': 'str'},
-                'destination_name': {'type': 'str'},
-                'domain_name': {'type': 'str'},
-                'subdomain_names': {'type': 'list', 'elements': 'str'},
+                'sites': {'type': 'list', 'elements': 'str'},
+                'events': {'type': 'list', 'elements': 'str'},
+                'destination': {'type': 'str'},
+                'domain': {'type': 'str'},
+                'subdomains': {'type': 'list', 'elements': 'str'},
                 'event_types': {'type': 'list', 'elements': 'str'},
                 'event_categories': {'type': 'list', 'elements': 'str'},
                 'event_severities': {'type': 'list', 'elements': 'str'},
@@ -2632,18 +2629,18 @@ class Events(DnacBase):
             self.log(self.msg, "ERROR")
             self.check_return_status()
 
-    def get_syslog_subscription_detail(self, destination_name):
+    def get_syslog_subscription_detail(self, destination):
         """
         Retrieves the details of a specific Syslog destination subscription from the Cisco Catalyst Center.
         Args:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-            destination_name (str): The name of the Syslog destination for which details needs to be fetched.
+            destination (str): The name of the Syslog destination for which details needs to be fetched.
         Returns:
             dict or list: A dictionary containing the details of the Syslog destination subscription if found.
                         Returns an empty list if no destination is found or if an error occurs during the API call.
         Description:
             This function calls an API to fetch the details of all Syslog destination from the Cisco Catalyst Center.
-            It then searches for a subscription that matches the given `destination_name`. If a match is found, it returns
+            It then searches for a subscription that matches the given `destination`. If a match is found, it returns
             details of the matching subscription. If no match is found or if an error occurs, it logs the appropriate message
             and handles the exception accordingly.
         """
@@ -2661,9 +2658,9 @@ class Events(DnacBase):
                 return sys_destination_details
 
             for dest in response:
-                if dest["name"] == destination_name:
+                if dest["name"] == destination:
                     return dest
-            self.log("Syslog destination with the name '{0}' not found in Cisco Catalyst Center.".format(destination_name), "INFO")
+            self.log("Syslog destination with the name '{0}' not found in Cisco Catalyst Center.".format(destination), "INFO")
 
             return sys_destination_details
 
@@ -2671,17 +2668,17 @@ class Events(DnacBase):
             self.status = "failed"
             self.msg = (
                 "Error while getting the details of the Syslog Subscription with the given name '{0}'"
-                " from Cisco Catalyst Center: {1}".format(destination_name, repr(e))
+                " from Cisco Catalyst Center: {1}".format(destination, repr(e))
             )
             self.log(self.msg, "ERROR")
             self.check_return_status()
 
-    def get_event_ids(self, events_names):
+    def get_event_ids(self, events):
         """
         Retrieves the event IDs for a given list of event names from the Cisco Catalyst Center.
         Args:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-            events_names (list of str): A list of event names for which the event IDs need to be retrieved.
+            events (list of str): A list of event names for which the event IDs need to be retrieved.
         Returns:
             list of str: A list of event IDs corresponding to the provided event names. If an event name is not
                     found, it is skipped.
@@ -2694,7 +2691,7 @@ class Events(DnacBase):
 
         event_ids = []
 
-        for event_name in events_names:
+        for event_name in events:
             try:
                 response = self.dnac._exec(
                     family="event_management",
@@ -2721,12 +2718,12 @@ class Events(DnacBase):
 
         return event_ids
 
-    def get_site_ids(self, site_names):
+    def get_site_ids(self, sites):
         """
         Retrieves the site IDs for a given list of site names from the Cisco Catalyst Center.
         Args:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-            site_names (list of str): A list of site names for which the site IDs need to be retrieved.
+            sites (list of str): A list of site names for which the site IDs need to be retrieved.
         Returns:
             list of str: A list of site IDs corresponding to the provided site names. If a site name is not
                     found, it is skipped and return empty list.
@@ -2738,7 +2735,7 @@ class Events(DnacBase):
         """
 
         site_ids = []
-        for site in site_names:
+        for site in sites:
             try:
                 response = self.dnac._exec(
                     family="sites",
@@ -2792,15 +2789,15 @@ class Events(DnacBase):
         }
         # Collect the Instance ID of the syslog destination
         self.log("Collecting parameters for Syslog Event Notification named '{0}'.".format(name), "INFO")
-        destination_name = syslog_notification_details.get('destination_name')
+        destination = syslog_notification_details.get('destination')
 
-        if destination_name:
-            subscription_details = self.get_syslog_subscription_detail(destination_name)
+        if destination:
+            subscription_details = self.get_syslog_subscription_detail(destination)
 
             if not subscription_details:
                 self.status = "failed"
                 self.msg = """Unable to create/update the syslog event notification '{0}' as syslog desination '{1}' is not configured or
-                        present in Cisco Catalyst Center""".format(name, destination_name)
+                        present in Cisco Catalyst Center""".format(name, destination)
                 self.log(self.msg, "ERROR")
                 self.check_return_status()
 
@@ -2814,27 +2811,27 @@ class Events(DnacBase):
             }
             playbook_params["subscriptionEndpoints"].append(temp_subscript_endpoint)
 
-        events_names = syslog_notification_details.get('events_names')
-        if events_names:
-            events_ids = self.get_event_ids(events_names)
+        events = syslog_notification_details.get('events')
+        if events:
+            events_ids = self.get_event_ids(events)
             if not events_ids:
                 self.status = "failed"
                 self.msg = (
                     "Unable to create/update Syslog event notification as the given event names '{0}' "
                     "are incorrect or could not be found."
-                ).format(str(events_names))
+                ).format(str(events))
                 self.log(self.msg, "ERROR")
                 self.check_return_status()
 
             playbook_params["filter"]["eventIds"] = events_ids
 
-        domain_name = syslog_notification_details.get("domain_name")
-        subdomain_names = syslog_notification_details.get("subdomain_names")
-        if domain_name and subdomain_names:
+        domain = syslog_notification_details.get("domain")
+        subdomains = syslog_notification_details.get("subdomains")
+        if domain and subdomains:
             playbook_params["filter"]["domainsSubdomains"] = []
             domain_dict = {
-                "domain": domain_name,
-                "subDomains": subdomain_names
+                "domain": domain,
+                "subDomains": subdomains
             }
             playbook_params["filter"]["domainsSubdomains"].append(domain_dict)
 
@@ -2852,11 +2849,11 @@ class Events(DnacBase):
             if value:
                 playbook_params["filter"][filter_mapping[key]] = value
 
-        site_names = syslog_notification_details.get("site_names")
-        if site_names:
-            site_ids = self.get_site_ids(site_names)
+        sites = syslog_notification_details.get("sites")
+        if sites:
+            site_ids = self.get_site_ids(sites)
             if not site_ids:
-                self.msg = "Unable to find the Site ID's for the given site(s) - '{0}' in the playbook's input.".format(site_names)
+                self.msg = "Unable to find the Site ID's for the given site(s) - '{0}' in the playbook's input.".format(sites)
                 self.log(self.msg, "INFO")
 
             playbook_params["filter"]["siteIds"] = site_ids
@@ -2893,12 +2890,12 @@ class Events(DnacBase):
         subs_endpoints = syslog_notification_params.get('subscriptionEndpoints')
 
         if not subs_endpoints:
-            required_params_absent.append("destination_name")
+            required_params_absent.append("destination")
 
         filters = syslog_notification_params.get("filter")
 
         if not filters.get("eventIds"):
-            required_params_absent.append("events_names")
+            required_params_absent.append("events")
 
         if required_params_absent:
             self.status = "failed"
@@ -3240,18 +3237,18 @@ class Events(DnacBase):
             self.log(self.msg, "ERROR")
             self.check_return_status()
 
-    def get_webhook_subscription_detail(self, destination_name):
+    def get_webhook_subscription_detail(self, destination):
         """
         Retrieves the details of a specific webhook destination subscription from the Cisco Catalyst Center.
         Args:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-            destination_name (str): The name of the webhook destination for which details needs to be fetched.
+            destination (str): The name of the webhook destination for which details needs to be fetched.
         Returns:
             dict or list: A dictionary containing the details of the webhook destination subscription if found.
                         Returns an empty list if no destination is found or if an error occurs during the API call.
         Description:
             This function calls an API to fetch the details of all webhook destination from the Cisco Catalyst Center.
-            It then searches for a subscription that matches the given `destination_name`. If a match is found, it returns
+            It then searches for a subscription that matches the given `destination`. If a match is found, it returns
             details of the matching subscription. If no match is found or if an error occurs, it logs the appropriate message
             and handles the exception accordingly.
         """
@@ -3269,16 +3266,16 @@ class Events(DnacBase):
                 return web_destination_details
 
             for dest in response:
-                if dest["name"] == destination_name:
+                if dest["name"] == destination:
                     return dest
-            self.log("There is no webhook destination with given name '{0}' present in Cisco Catalyst Center.".format(destination_name), "INFO")
+            self.log("There is no webhook destination with given name '{0}' present in Cisco Catalyst Center.".format(destination), "INFO")
 
             return web_destination_details
 
         except Exception as e:
             self.status = "failed"
             self.msg = """Error while getting the details of webhook Subscription with given name '{0}' present in
-                    Cisco Catalyst Center: {1}""".format(destination_name, str(e))
+                    Cisco Catalyst Center: {1}""".format(destination, str(e))
             self.log(self.msg, "ERROR")
             self.check_return_status()
 
@@ -3310,15 +3307,15 @@ class Events(DnacBase):
         }
         # Collect the Instance ID of the webhook destination
         self.log("Collecting parameters for Webhook Event Notification named '{0}'.".format(name), "INFO")
-        destination_name = webhook_notification_details.get('destination_name')
+        destination = webhook_notification_details.get('destination')
 
-        if destination_name:
-            subscription_details = self.get_webhook_subscription_detail(destination_name)
+        if destination:
+            subscription_details = self.get_webhook_subscription_detail(destination)
 
             if not subscription_details:
                 self.status = "failed"
                 self.msg = """Unable to create/update the webhook event notification '{0}' as webhook desination '{1}' is not configured or
-                        present in Cisco Catalyst Center""".format(name, destination_name)
+                        present in Cisco Catalyst Center""".format(name, destination)
                 self.log(self.msg, "ERROR")
                 self.check_return_status()
 
@@ -3332,27 +3329,27 @@ class Events(DnacBase):
             }
             playbook_params["subscriptionEndpoints"].append(temp_subscript_endpoint)
 
-        events_names = webhook_notification_details.get('events_names')
-        if events_names:
-            events_ids = self.get_event_ids(events_names)
+        events = webhook_notification_details.get('events')
+        if events:
+            events_ids = self.get_event_ids(events)
             if not events_ids:
                 self.status = "failed"
                 self.msg = (
                     "Unable to create/update Webhook event notification as the given event names '{0}' "
                     "are incorrect or could not be found."
-                ).format(str(events_names))
+                ).format(str(events))
                 self.log(self.msg, "ERROR")
                 self.check_return_status()
 
             playbook_params["filter"]["eventIds"] = events_ids
 
-        domain_name = webhook_notification_details.get("domain_name")
-        subdomain_names = webhook_notification_details.get("subdomain_names")
-        if domain_name and subdomain_names:
+        domain = webhook_notification_details.get("domain")
+        subdomains = webhook_notification_details.get("subdomains")
+        if domain and subdomains:
             playbook_params["filter"]["domainsSubdomains"] = []
             domain_dict = {
-                "domain": domain_name,
-                "subDomains": subdomain_names
+                "domain": domain,
+                "subDomains": subdomains
             }
             playbook_params["filter"]["domainsSubdomains"].append(domain_dict)
 
@@ -3370,15 +3367,15 @@ class Events(DnacBase):
             if value:
                 playbook_params["filter"][filter_mapping[key]] = value
 
-        site_names = webhook_notification_details.get("site_names")
-        if site_names:
-            site_ids = self.get_site_ids(site_names)
+        sites = webhook_notification_details.get("sites")
+        if sites:
+            site_ids = self.get_site_ids(sites)
             if not site_ids:
-                self.msg = "Unable to find the Site IDs for the given site(s) - '{0}' in the playbook's input.".format(site_names)
+                self.msg = "Unable to find the Site IDs for the given site(s) - '{0}' in the playbook's input.".format(sites)
                 self.log(self.msg, "INFO")
 
             playbook_params["filter"]["siteIds"] = site_ids
-            self.log("Site IDs '{0}' found for site names '{1}'. Added to filter.".format(site_ids, site_names), "INFO")
+            self.log("Site IDs '{0}' found for site names '{1}'. Added to filter.".format(site_ids, sites), "INFO")
 
         self.log("Webhook notification playbook parameters collected successfully for '{0}': {1}".format(name, playbook_params), "INFO")
         webhook_notification_params.append(playbook_params)
@@ -3413,10 +3410,10 @@ class Events(DnacBase):
             required_params_absent.append("description")
 
         if not subs_endpoints:
-            required_params_absent.append("destination_name")
+            required_params_absent.append("destination")
 
         if not filters.get("eventIds"):
-            required_params_absent.append("events_names")
+            required_params_absent.append("events")
 
         if required_params_absent:
             self.status = "failed"
@@ -3655,18 +3652,18 @@ class Events(DnacBase):
             self.log(self.msg, "ERROR")
             self.check_return_status()
 
-    def get_email_subscription_detail(self, instance_name):
+    def get_email_subscription_detail(self, instance):
         """
         Retrieves the details of a specific email destination subscription from the Cisco Catalyst Center.
         Args:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-            instance_name (str): The name of the email destination for which details needs to be fetched.
+            instance (str): The name of the email destination for which details needs to be fetched.
         Returns:
             dict or list: A dictionary containing the details of the email destination subscription if found.
                         Returns an empty list if no destination is found or if an error occurs during the API call.
         Description:
             This function calls an API to fetch the details of all email destination from the Cisco Catalyst Center.
-            It then searches for a subscription that matches the given `instance_name`. If a match is found, it returns
+            It then searches for a subscription that matches the given `instance`. If a match is found, it returns
             details of the matching subscription. If no match is found or if an error occurs, it logs the appropriate message
             and handles the exception accordingly.
         """
@@ -3684,16 +3681,16 @@ class Events(DnacBase):
                 return email_destination_details
 
             for dest in response:
-                if dest["name"] == instance_name:
+                if dest["name"] == instance:
                     return dest
-            self.log("There is no email destination with given name '{0}' present in Cisco Catalyst Center.".format(instance_name), "INFO")
+            self.log("There is no email destination with given name '{0}' present in Cisco Catalyst Center.".format(instance), "INFO")
 
             return email_destination_details
 
         except Exception as e:
             self.status = "failed"
             self.msg = """Error while getting the details of Email event Subscription with given destination name '{0}' present in
-                    Cisco Catalyst Center: {1}""".format(instance_name, str(e))
+                    Cisco Catalyst Center: {1}""".format(instance, str(e))
             self.log(self.msg, "ERROR")
             self.check_return_status()
 
@@ -3725,15 +3722,15 @@ class Events(DnacBase):
         }
         # Collect the Instance ID of the email destination
         self.log("Collecting parameters for Email Event Notification named '{0}'.".format(email_notf_name), "INFO")
-        instance_name = email_notification_details.get('instance_name')
+        instance = email_notification_details.get('instance')
 
-        if not instance_name:
+        if not instance:
             self.status = "failed"
             self.msg = "Instance name for Subscription Endpoints is required for Email notification '{0}'.".format(email_notf_name)
             self.log(self.msg, "ERROR")
             return self
 
-        subscription_details = self.get_email_subscription_detail(instance_name)
+        subscription_details = self.get_email_subscription_detail(instance)
         instance_id = None
 
         if subscription_details:
@@ -3769,35 +3766,35 @@ class Events(DnacBase):
                     "fromEmailAddress": fromEmailAddress,
                     "toEmailAddresses": toEmailAddresses,
                     "subject": subject,
-                    "name": instance_name,
+                    "name": instance,
                     "description": description
                 }
             }
             playbook_params["subscriptionEndpoints"].append(temp_subscript_endpoint)
         else:
-            self.log("No subscription details found for instance '{0}'.".format(instance_name), "WARNING")
+            self.log("No subscription details found for instance '{0}'.".format(instance), "WARNING")
 
-        events_names = email_notification_details.get('events_names')
-        if events_names:
-            events_ids = self.get_event_ids(events_names)
+        events = email_notification_details.get('events')
+        if events:
+            events_ids = self.get_event_ids(events)
             if not events_ids:
                 self.status = "failed"
                 self.msg = (
                     "Unable to create/update Email event notification as the given event names '{0}' "
                     "are incorrect or could not be found."
-                ).format(str(events_names))
+                ).format(str(events))
                 self.log(self.msg, "ERROR")
                 self.check_return_status()
 
             playbook_params["filter"]["eventIds"] = events_ids
 
-        domain_name = email_notification_details.get("domain_name")
-        subdomain_names = email_notification_details.get("subdomain_names")
-        if domain_name and subdomain_names:
+        domain = email_notification_details.get("domain")
+        subdomains = email_notification_details.get("subdomains")
+        if domain and subdomains:
             playbook_params["filter"]["domainsSubdomains"] = []
             domain_dict = {
-                "domain": domain_name,
-                "subDomains": subdomain_names
+                "domain": domain,
+                "subDomains": subdomains
             }
             playbook_params["filter"]["domainsSubdomains"].append(domain_dict)
 
@@ -3815,11 +3812,11 @@ class Events(DnacBase):
             if value:
                 playbook_params["filter"][filter_mapping[key]] = value
 
-        site_names = email_notification_details.get("site_names")
-        if site_names:
-            site_ids = self.get_site_ids(site_names)
+        sites = email_notification_details.get("sites")
+        if sites:
+            site_ids = self.get_site_ids(sites)
             if not site_ids:
-                self.msg = "Unable to find the Site IDs for the given site(s) - '{0}' in the playbook's input.".format(site_names)
+                self.msg = "Unable to find the Site IDs for the given site(s) - '{0}' in the playbook's input.".format(sites)
                 self.log(self.msg, "INFO")
 
             playbook_params["filter"]["siteIds"] = site_ids
@@ -3860,7 +3857,7 @@ class Events(DnacBase):
         subs_endpoints = email_notification_params.get('subscriptionEndpoints')
 
         if not subs_endpoints:
-            required_params_absent.extends(["instance_name", "fromEmailAddress", "toEmailAddresses", "subject"])
+            required_params_absent.extends(["instance", "sender_email", "recipient_emails", "subject"])
         else:
             subs_endpoints = subs_endpoints[0].get("subscriptionDetails")
             if not subs_endpoints.get("fromEmailAddress"):
@@ -3870,11 +3867,11 @@ class Events(DnacBase):
             if not subs_endpoints.get("subject"):
                 required_params_absent.append("subject")
             if not subs_endpoints.get("name"):
-                required_params_absent.append("instance_name")
+                required_params_absent.append("instance")
 
         filters = email_notification_params.get("filter")
         if not filters:
-            required_params_absent.append("events_names")
+            required_params_absent.append("events")
 
         if required_params_absent:
             self.status = "failed"
@@ -4204,9 +4201,9 @@ class Events(DnacBase):
         # Create/Update Rest Webhook destination in Cisco Catalyst Center
         if config.get('webhook_destination'):
             webhook_details = self.want.get('webhook_details')
-            destination_name = webhook_details.get('name')
+            destination = webhook_details.get('name')
 
-            if not destination_name:
+            if not destination:
                 self.status = "failed"
                 self.msg = "Name is required parameter for adding/updating Webhook destination for creating/updating the event."
                 self.log(self.msg, "ERROR")
@@ -4214,7 +4211,7 @@ class Events(DnacBase):
 
             is_destination_exist = False
             for webhook_dict in self.have.get('webhook_destinations'):
-                if webhook_dict['name'] == destination_name:
+                if webhook_dict['name'] == destination:
                     webhook_dest_detail_in_ccc = webhook_dict
                     is_destination_exist = True
                     break
@@ -4269,7 +4266,7 @@ class Events(DnacBase):
                 webhook_need_update = self.webhook_dest_needs_update(webhook_params, webhook_dest_detail_in_ccc)
 
                 if not webhook_need_update:
-                    self.msg = "Webhook Destination with name '{0}' needs no update in Cisco Catalyst Center".format(destination_name)
+                    self.msg = "Webhook Destination with name '{0}' needs no update in Cisco Catalyst Center".format(destination)
                     self.log(self.msg, "INFO")
                     self.result['changed'] = False
                     self.result['response'] = self.msg
@@ -4386,9 +4383,9 @@ class Events(DnacBase):
         # Create/Update snmp destination in Cisco Catalyst Center
         if config.get('snmp_destination'):
             snmp_details = self.want.get("snmp_details")
-            destination_name = snmp_details.get("name")
+            destination = snmp_details.get("name")
 
-            if not destination_name:
+            if not destination:
                 self.status = "failed"
                 self.msg = "Name is required parameter for adding/updating SNMP destination for creating/updating the event."
                 self.log(self.msg, "ERROR")
@@ -4396,7 +4393,7 @@ class Events(DnacBase):
             is_destination_exist = False
 
             for snmp_dict in self.have.get('snmp_destinations'):
-                if snmp_dict['name'] == destination_name:
+                if snmp_dict['name'] == destination:
                     snmp_dest_detail_in_ccc = snmp_dict
                     is_destination_exist = True
                     break
@@ -4420,7 +4417,7 @@ class Events(DnacBase):
             if privacy_type and privacy_type not in ["AES128", "DES"]:
                 self.status = "failed"
                 self.msg = """Invalid SNMP Privacy type '{0}' given in playbook. Select either AES128/DES as privacy type to add/update the snmp
-                        destination '{1}' in the Cisco Catalyst Center.""".format(privacy_type, destination_name)
+                        destination '{1}' in the Cisco Catalyst Center.""".format(privacy_type, destination)
                 self.log(self.msg, "ERROR")
                 return self
 
@@ -4428,13 +4425,13 @@ class Events(DnacBase):
                 # Need to Add snmp destination in Cisco Catalyst Center with given playbook params
                 self.check_snmp_required_parameters(snmp_params).check_return_status()
                 self.log("""Required parameter validated successfully for adding SNMP Destination with name '{0}' in Cisco
-                            Catalyst Center.""".format(destination_name), "INFO")
+                            Catalyst Center.""".format(destination), "INFO")
                 self.add_snmp_destination(snmp_params).check_return_status()
             else:
                 # Check destination needs update and if yes then update SNMP Destination
                 snmp_need_update = self.snmp_dest_needs_update(snmp_params, snmp_dest_detail_in_ccc)
                 if not snmp_need_update:
-                    self.msg = "SNMP Destination with name '{0}' needs no update in Cisco Catalyst Center".format(destination_name)
+                    self.msg = "SNMP Destination with name '{0}' needs no update in Cisco Catalyst Center".format(destination)
                     self.log(self.msg, "INFO")
                     self.result['changed'] = False
                     self.result['response'] = self.msg
