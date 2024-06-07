@@ -302,7 +302,7 @@ class DnacBase():
 
         return result
 
-    def check_task_response_status(self, response, validation_string, api_name="", data=False):
+    def check_task_response_status(self, response, validation_string, api_name, data=False):
         """
         Get the site id from the site name.
 
@@ -391,7 +391,7 @@ class DnacBase():
         self.log("Response for the current execution: {0}".format(response))
         return response
 
-    def check_execution_response_status(self, response, api_name=""):
+    def check_execution_response_status(self, response, api_name):
         """
         Checks the reponse status provided by API in the Cisco Catalyst Center
 
