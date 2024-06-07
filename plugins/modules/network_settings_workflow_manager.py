@@ -1540,7 +1540,7 @@ class NetworkSettings(DnacBase):
 
         site_id = self.get_site_id(site_name)
         if site_id is None:
-            self.msg = "The site with the name '{0}' is not available in the DNAC".format(site_name)
+            self.msg = "The site with the name '{0}' is not available in the Catalyst Center".format(site_name)
             self.status = "failed"
             return self
 
