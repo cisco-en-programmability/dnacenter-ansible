@@ -909,7 +909,7 @@ class NetworkCompliance(DnacBase):
                     break
 
             if device_ip is None:
-              self.log("Device UUID: {0} not found in mgmt_ip_instance_id_map: {}".format(device_uuid, mgmt_ip_instance_id_map))
+              self.log("Device UUID: {0} not found in mgmt_ip_instance_id_map: {}".format(device_uuid, mgmt_ip_instance_id_map), "ERROR")
               continue
 
             # Add the device IP to the device list
