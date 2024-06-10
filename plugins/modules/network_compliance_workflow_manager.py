@@ -958,10 +958,10 @@ class NetworkCompliance(DnacBase):
         try:
             # Make the API call to fetch compliance details for the device
             response = self.dnac_apply["exec"](
-                        family="compliance",
-                        function="compliance_details_of_device",
-                        params=compliance_details_of_device_params,
-                        op_modifies=True
+                family="compliance",
+                function="compliance_details_of_device",
+                params=compliance_details_of_device_params,
+                op_modifies=True
             )
             self.log("Response received post 'compliance_details_of_device' API call: {0}".format(str(response)), "DEBUG")
 
