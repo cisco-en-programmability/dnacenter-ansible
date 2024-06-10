@@ -897,6 +897,7 @@ class NetworkCompliance(DnacBase):
         final_response = {}
         device_list = []
         compliance_details_of_device_params = {}
+        device_ip = None
 
         # Iterate through each device UUID in the run compliance parameters
         for device_uuid in run_compliance_params["deviceUuids"]:
@@ -906,6 +907,10 @@ class NetworkCompliance(DnacBase):
                 if device_uuid == device_id:
                     device_ip = ip
                     break
+
+            if device_ip is None:
+              self.log("Device UUID: {0} not found in mgmt_ip_instance_id_map: {}".format(device_uuid, mgmt_ip_instance_id_map))
+              continue
 
             # Add the device IP to the device list
             device_list.append(device_ip)
