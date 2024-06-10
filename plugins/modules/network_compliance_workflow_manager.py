@@ -902,9 +902,9 @@ class NetworkCompliance(DnacBase):
         for device_uuid in run_compliance_params["deviceUuids"]:
 
             # Find the corresponding device IP for the given device UUID
-            for device_ip, device_id in mgmt_ip_instance_id_map.items():
+            for ip, device_id in mgmt_ip_instance_id_map.items():
                 if device_uuid == device_id:
-                    device_ip = device_ip
+                    device_ip = ip
                     break
 
             # Add the device IP to the device list
