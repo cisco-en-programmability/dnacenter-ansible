@@ -3744,18 +3744,18 @@ class Events(DnacBase):
 
         if not subscription_details:
             instance_id = None
-            fromEmailAddress = email_notification_details.get("sender_email")
-            toEmailAddresses = email_notification_details.get("recipient_emails")
+            sender_email = email_notification_details.get("sender_email")
+            recipient_emails = email_notification_details.get("recipient_emails")
             subject = email_notification_details.get("subject")
             description = email_notification_details.get("instance_description")
         else:
             instance_id = subscription_details.get("instanceId")
-            fromEmailAddress = email_notification_details.get("sender_email") or subscription_details.get("fromEmailAddress")
-            toEmailAddresses = email_notification_details.get("recipient_emails") or subscription_details.get("toEmailAddresses")
+            sender_email = email_notification_details.get("sender_email") or subscription_details.get("fromEmailAddress")
+            recipient_emails = email_notification_details.get("recipient_emails") or subscription_details.get("toEmailAddresses")
             subject = email_notification_details.get("subject") or subscription_details.get("subject")
             description = email_notification_details.get("instance_description") or subscription_details.get("description")
 
-        if not fromEmailAddress:
+        if not sender_email:
             self.status = "failed"
             self.msg = (
                 "Unable to create/update Email event notification as missing the required parameter 'sender_email' "
@@ -3764,7 +3764,7 @@ class Events(DnacBase):
             self.log(self.msg, "ERROR")
             self.check_return_status()
 
-        if not toEmailAddresses:
+        if not recipient_emails:
             self.status = "failed"
             self.msg = (
                 "Unable to create/update Email event notification as missing the required parameter 'recipient_emails' "
@@ -3782,16 +3782,16 @@ class Events(DnacBase):
             self.log(self.msg, "ERROR")
             self.check_return_status()
 
-        if not self.is_valid_email(fromEmailAddress):
+        if not self.is_valid_email(sender_email):
             self.status = "failed"
             self.msg = (
                 "Unable to create/update Email event notification as the given sender_email '{0}' "
                 "are incorrect or invalid given in the playbook."
-            ).format(fromEmailAddress)
+            ).format(sender_email)
             self.log(self.msg, "ERROR")
             self.check_return_status()
 
-        for email in toEmailAddresses:
+        for email in recipient_emails:
             if not self.is_valid_email(email):
                 self.status = "failed"
                 self.msg = (
@@ -3805,8 +3805,8 @@ class Events(DnacBase):
             "instanceId": instance_id,
             "subscriptionDetails": {
                 "connectorType": "EMAIL",
-                "fromEmailAddress": fromEmailAddress,
-                "toEmailAddresses": toEmailAddresses,
+                "fromEmailAddress": sender_email,
+                "toEmailAddresses": recipient_emails,
                 "subject": subject,
                 "name": instance,
                 "description": description
