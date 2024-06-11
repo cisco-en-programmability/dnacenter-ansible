@@ -29,19 +29,19 @@ options:
     type: str
   sortBy:
     description:
-    - SortBy query parameter.
+    - SortBy query parameter. Field to sort the results by. Sorts by 'instanceId' if no value is provided.
     type: str
   order:
     description:
-    - Order query parameter.
+    - Order query parameter. Order of sorting. 'asc' or 'des'.
     type: str
   id:
     description:
     - Id path parameter. Global Credential ID.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.7.1
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Discovery GetCredentialSubTypeByCredentialId
   description: Complete reference of the GetCredentialSubTypeByCredentialId API.
@@ -90,7 +90,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

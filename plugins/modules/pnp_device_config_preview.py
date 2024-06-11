@@ -26,8 +26,8 @@ options:
     description: Pnp Device Config Preview's type.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.7.1
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Device Onboarding (PnP) PreviewConfig
   description: Complete reference of the PreviewConfig API.
@@ -56,7 +56,6 @@ EXAMPLES = r"""
     type: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

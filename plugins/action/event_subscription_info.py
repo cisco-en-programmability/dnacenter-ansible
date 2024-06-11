@@ -26,8 +26,8 @@ argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
     eventIds=dict(type="str"),
-    offset=dict(type="int"),
-    limit=dict(type="int"),
+    offset=dict(type="float"),
+    limit=dict(type="float"),
     sortBy=dict(type="str"),
     order=dict(type="str"),
     headers=dict(type="dict"),

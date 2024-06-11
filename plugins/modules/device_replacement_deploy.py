@@ -19,14 +19,14 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   faultyDeviceSerialNumber:
-    description: Device Replacement Deploy's faultyDeviceSerialNumber.
+    description: Faulty device serial number.
     type: str
   replacementDeviceSerialNumber:
-    description: Device Replacement Deploy's replacementDeviceSerialNumber.
+    description: Replacement device serial number.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.7.1
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Device Replacement DeployDeviceReplacementWorkflow
   description: Complete reference of the DeployDeviceReplacementWorkflow API.
@@ -54,7 +54,6 @@ EXAMPLES = r"""
     replacementDeviceSerialNumber: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

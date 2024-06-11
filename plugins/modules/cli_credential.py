@@ -18,35 +18,35 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   comments:
-    description: Cli Credential's comments.
+    description: Comments to identify the CLI credential.
     type: str
   credentialType:
-    description: Cli Credential's credentialType.
+    description: Credential type to identify the application that uses the CLI credential.
     type: str
   description:
-    description: Cli Credential's description.
+    description: Description for CLI Credentials.
     type: str
   enablePassword:
-    description: Cli Credential's enablePassword.
+    description: CLI Enable Password.
     type: str
   id:
-    description: Cli Credential's id.
+    description: Id of the CLI Credential in UUID format.
     type: str
   instanceTenantId:
-    description: Cli Credential's instanceTenantId.
+    description: Deprecated.
     type: str
   instanceUuid:
-    description: Cli Credential's instanceUuid.
+    description: Deprecated.
     type: str
   password:
-    description: Cli Credential's password.
+    description: CLI Password.
     type: str
   username:
-    description: Cli Credential's username.
+    description: CLI Username.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.7.1
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Discovery CreateCLICredentials
   description: Complete reference of the CreateCLICredentials API.
@@ -107,7 +107,6 @@ EXAMPLES = r"""
     username: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

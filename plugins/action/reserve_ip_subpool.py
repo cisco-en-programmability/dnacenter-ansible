@@ -98,6 +98,12 @@ class ReserveIpSubpool(object):
             self.new_object.get('site_id')
         new_object_params['offset'] = self.new_object.get('offset')
         new_object_params['limit'] = self.new_object.get('limit')
+        new_object_params['ignore_inherited_groups'] = self.new_object.get('ignoreInheritedGroups') or \
+            self.new_object.get('ignore_inherited_groups')
+        new_object_params['pool_usage'] = self.new_object.get('poolUsage') or \
+            self.new_object.get('pool_usage')
+        new_object_params['group_name'] = self.new_object.get('groupName') or \
+            self.new_object.get('group_name')
         return new_object_params
 
     def create_params(self):
@@ -122,6 +128,7 @@ class ReserveIpSubpool(object):
         new_object_params['ipv4TotalHost'] = self.new_object.get('ipv4TotalHost')
         new_object_params['ipv6TotalHost'] = self.new_object.get('ipv6TotalHost')
         new_object_params['slaacSupport'] = self.new_object.get('slaacSupport')
+        new_object_params['siteId'] = self.new_object.get('siteId')
         new_object_params['site_id'] = self.new_object.get('site_id')
         return new_object_params
 
@@ -140,12 +147,13 @@ class ReserveIpSubpool(object):
         new_object_params['ipv6Prefix'] = self.new_object.get('ipv6Prefix')
         new_object_params['ipv6PrefixLength'] = self.new_object.get('ipv6PrefixLength')
         new_object_params['ipv6Subnet'] = self.new_object.get('ipv6Subnet')
+        new_object_params['ipv6TotalHost'] = self.new_object.get('ipv6TotalHost')
         new_object_params['ipv6GateWay'] = self.new_object.get('ipv6GateWay')
         new_object_params['ipv6DhcpServers'] = self.new_object.get('ipv6DhcpServers')
         new_object_params['ipv6DnsServers'] = self.new_object.get('ipv6DnsServers')
-        new_object_params['ipv6TotalHost'] = self.new_object.get('ipv6TotalHost')
         new_object_params['slaacSupport'] = self.new_object.get('slaacSupport')
         new_object_params['ipv4GateWay'] = self.new_object.get('ipv4GateWay')
+        new_object_params['siteId'] = self.new_object.get('siteId')
         new_object_params['id'] = self.new_object.get('id')
         new_object_params['site_id'] = self.new_object.get('site_id')
         return new_object_params

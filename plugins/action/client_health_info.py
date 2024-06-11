@@ -25,7 +25,7 @@ from ansible_collections.cisco.dnac.plugins.plugin_utils.dnac import (
 argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
-    timestamp=dict(type="str"),
+    timestamp=dict(type="float"),
     headers=dict(type="dict"),
 ))
 

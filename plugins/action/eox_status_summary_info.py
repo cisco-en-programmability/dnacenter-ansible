@@ -78,8 +78,8 @@ class ActionModule(ActionBase):
         dnac = DNACSDK(params=self._task.args)
 
         response = dnac.exec(
-            family="eo_x",
-            function='get_eo_x_summary',
+            family="eox",
+            function='get_eox_summary',
             params=self.get_object(self._task.args),
         )
         self._result.update(dict(dnac_response=response))

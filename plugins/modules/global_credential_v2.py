@@ -17,7 +17,7 @@ description:
 - >
    API to update device credentials. Multiple credentials can be passed at once, but only a single credential of a
    given type can be passed at once. Please refer sample Request Body for more information.
-version_added: '6.7.0'
+version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
@@ -26,57 +26,57 @@ options:
     description: Global Credential V2's cliCredential.
     suboptions:
       description:
-        description: Description.
+        description: Description for CLI credential.
         type: str
       enablePassword:
-        description: Enable Password.
+        description: CLI Enable Password.
         type: str
       id:
-        description: Id.
+        description: Id of the CLI Credential in UUID format.
         type: str
       password:
-        description: Password.
+        description: CLI Password.
         type: str
       username:
-        description: Username.
+        description: CLI Username.
         type: str
     type: dict
   httpsRead:
     description: Global Credential V2's httpsRead.
     suboptions:
-      id:
-        description: Id.
+      description:
+        description: Description for HTTP(S) Read Credentials.
         type: str
-      name:
-        description: Name.
+      id:
+        description: Id of the HTTP(S) Read Credential in UUID format.
         type: str
       password:
-        description: Password.
+        description: HTTP(S) Read Password.
         type: str
       port:
-        description: Port.
+        description: HTTP(S) Port.
         type: int
       username:
-        description: Username.
+        description: HTTP(S) Read Username.
         type: str
     type: dict
   httpsWrite:
     description: Global Credential V2's httpsWrite.
     suboptions:
-      id:
-        description: Id.
+      description:
+        description: Description for HTTP(S) Write Credentials.
         type: str
-      name:
-        description: Name.
+      id:
+        description: Id of the HTTP(S) Read Credential in UUID format.
         type: str
       password:
-        description: Password.
+        description: HTTP(S) Write Password.
         type: str
       port:
-        description: Port.
+        description: HTTP(S) Port.
         type: int
       username:
-        description: Username.
+        description: HTTP(S) Write Username.
         type: str
     type: dict
   id:
@@ -86,59 +86,59 @@ options:
     description: Global Credential V2's snmpV2cRead.
     suboptions:
       description:
-        description: Description.
+        description: Description for Snmp RO community.
         type: str
       id:
-        description: Id.
+        description: Id of the SNMP Read Credential in UUID format.
         type: str
       readCommunity:
-        description: Read Community.
+        description: Snmp RO community.
         type: str
     type: dict
   snmpV2cWrite:
     description: Global Credential V2's snmpV2cWrite.
     suboptions:
       description:
-        description: Description.
+        description: Description for Snmp RW community.
         type: str
       id:
-        description: Id.
+        description: Id of the SNMP Write Credential in UUID format.
         type: str
       writeCommunity:
-        description: Write Community.
+        description: Snmp RW community.
         type: str
     type: dict
   snmpV3:
     description: Global Credential V2's snmpV3.
     suboptions:
       authPassword:
-        description: Auth Password.
+        description: Auth Password for SNMP V3.
         type: str
       authType:
-        description: Auth Type.
+        description: SNMP auth protocol. SHA' or 'MD5'.
         type: str
       description:
-        description: Description.
+        description: Description for Snmp V3 Credential.
         type: str
       id:
-        description: Id.
+        description: Id of the SNMP V3 Credential in UUID format.
         type: str
       privacyPassword:
-        description: Privacy Password.
+        description: Privacy Password for SNMP privacy.
         type: str
       privacyType:
-        description: Privacy Type.
+        description: SNMP privacy protocol. 'AES128','AES192','AES256'.
         type: str
       snmpMode:
-        description: Snmp Mode.
+        description: Mode of SNMP. 'AUTHPRIV' or 'AUTHNOPRIV' or 'NOAUTHNOPRIV'.
         type: str
       username:
-        description: Username.
+        description: SNMP V3 Username.
         type: str
     type: dict
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.7.1
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Discovery CreateGlobalCredentialsV2
   description: Complete reference of the CreateGlobalCredentialsV2 API.
@@ -180,14 +180,14 @@ EXAMPLES = r"""
       password: string
       username: string
     httpsRead:
+      description: string
       id: string
-      name: string
       password: string
       port: 0
       username: string
     httpsWrite:
+      description: string
       id: string
-      name: string
       password: string
       port: 0
       username: string
@@ -225,12 +225,12 @@ EXAMPLES = r"""
       password: string
       username: string
     httpsRead:
-    - name: string
+    - description: string
       password: string
       port: 0
       username: string
     httpsWrite:
-    - name: string
+    - description: string
       password: string
       port: 0
       username: string
@@ -262,7 +262,6 @@ EXAMPLES = r"""
     id: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

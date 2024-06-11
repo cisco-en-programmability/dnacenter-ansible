@@ -26,18 +26,18 @@ options:
   limit:
     description:
     - Limit query parameter.
-    type: int
+    type: float
   offset:
     description:
     - Offset query parameter.
-    type: int
+    type: float
   radios:
     description:
     - Radios query parameter. Inlcude planned radio details.
     type: bool
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.7.1
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Devices GetPlannedAccessPointsForBuilding
   description: Complete reference of the GetPlannedAccessPointsForBuilding API.
@@ -69,7 +69,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

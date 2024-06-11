@@ -32,7 +32,7 @@ argument_spec = dnac_argument_spec()
 argument_spec.update(dict(
     state=dict(type="str", default="present", choices=["present", "absent"]),
     payload=dict(type="dict"),
-    object=dict(type="str"),
+    memberType=dict(type="list"),
     id=dict(type="str"),
     memberId=dict(type="str"),
 ))
@@ -51,17 +51,17 @@ class TagMember(object):
         self.dnac = dnac
         self.new_object = dict(
             payload=params.get("payload"),
-            object=params.get("object"),
+            memberType=params.get("memberType"),
             id=params.get("id"),
             member_id=params.get("memberId"),
-            member_type=params.get("memberType"),
         )
 
     def create_params(self):
         new_object_params = {}
         new_object_params['payload'] = self.new_object.get('payload')
         new_object_params['id'] = self.new_object.get('id')
-        new_object_params['object'] = self.new_object.get('object')
+        new_object_params['memberType'] = self.new_object.get('memberType')
+        new_object_params['id'] = self.new_object.get('id')
         return new_object_params
 
     def delete_by_id_params(self):
@@ -82,8 +82,7 @@ class TagMember(object):
             items = self.dnac.exec(
                 family="tag",
                 function="get_tag_members_by_id",
-                params={"id": id, "memberType": self.new_object.get(
-                    'member_type'), }
+                params={"id": id}
             )
             if isinstance(items, dict):
                 if 'response' in items:
@@ -110,8 +109,7 @@ class TagMember(object):
             _id = prev_obj.get("id")
             _id = _id or prev_obj.get("memberId")
             if id_exists and name_exists and o_id != _id:
-                raise InconsistentParameters(
-                    "The 'id' and 'name' params don't refer to the same object")
+                raise InconsistentParameters("The 'id' and 'name' params don't refer to the same object")
             if _id:
                 self.new_object.update(dict(id=_id))
                 self.new_object.update(dict(member_id=_id))
@@ -124,7 +122,7 @@ class TagMember(object):
         requested_obj = self.new_object
 
         obj_params = [
-            ("object", "object"),
+            ("memberType", "memberType"),
             ("id", "id"),
             ("memberId", "member_id"),
         ]
@@ -167,8 +165,7 @@ class TagMember(object):
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail(
-                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False
