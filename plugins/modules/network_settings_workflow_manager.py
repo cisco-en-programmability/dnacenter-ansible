@@ -382,7 +382,7 @@ options:
                     type: list
                 type: dict
 requirements:
-- dnacentersdk >= 2.4.5
+- dnacentersdk >= 2.7.1
 - python >= 3.9
 notes:
   - SDK Method used are
@@ -881,6 +881,48 @@ class NetworkSettings(DnacBase):
             self.log("Received exception: {0}".format(msg), "CRITICAL")
 
         return obj_params
+
+    def is_server_exists(self, ip_address):
+        """
+        Finds if the provided Authentication and Policy Server with
+        the ip_address is available in the system or not.
+
+        Parameters:
+            ip_address (str) - IP Address of the Authentication and Policy Server.
+
+        Returns:
+            True or False - True if the Authentication and Policy Server is
+                            available in the system. Else, False.
+        """
+
+        try:
+            response = self.dnac._exec(
+                family="system_settings",
+                function='get_authentication_and_policy_servers'
+            )
+            self.log("Received API response from 'get_authentication_and_policy_servers': {0}"
+                     .format(response), "DEBUG")
+            if not response:
+                self.msg = "Failed to retrieve the Authentication and Policy Server details"
+                self.log(str(self.msg), "ERROR")
+                self.status = "failed"
+                return self.check_return_status()
+
+            response = response.get("response")
+            server_details = get_dict_result(response, "ipAddress", ip_address)
+            if not server_details:
+                self.log("The server with IP Address '{0}' is not available in the system.".format(ip_address))
+                return False
+
+            self.log("Server details for the IP address '{0}': {1}".format(ip_address, server_details), "DEBUG")
+        except Exception as msg:
+            self.msg = "Exception occurred while retrieving server details from the IP Address '{0}': {1}" \
+                       .format(ip_address, msg)
+            self.log(str(self.msg), "CRITICAL")
+            self.status = "failed"
+            return self.check_return_status()
+
+        return True
 
     def get_site_id(self, site_name):
         """
@@ -1498,7 +1540,7 @@ class NetworkSettings(DnacBase):
 
         site_id = self.get_site_id(site_name)
         if site_id is None:
-            self.msg = "Failed to get site id from {0}".format(site_name)
+            self.msg = "The site with the name '{0}' is not available in the Catalyst Center".format(site_name)
             self.status = "failed"
             return self
 
@@ -1954,6 +1996,12 @@ class NetworkSettings(DnacBase):
 
             primary_server_address = network_aaa.get("primary_server_address")
             if primary_server_address:
+                if not self.is_server_exists(primary_server_address):
+                    self.msg = "The 'primary_server_address' - '{0}' under 'network_aaa' is not found in the system." \
+                               .format(primary_server_address)
+                    self.status = "failed"
+                    return self
+
                 want_network_settings.get("network_aaa").update({
                     "network": primary_server_address
                 })
@@ -1965,6 +2013,12 @@ class NetworkSettings(DnacBase):
             if server_type == "ISE":
                 pan_address = network_aaa.get("pan_address")
                 if pan_address:
+                    if not self.is_server_exists(pan_address):
+                        self.msg = "The 'pan_address' - '{0}' under 'network_aaa' is not found in the system." \
+                                   .format(pan_address)
+                        self.status = "failed"
+                        return self
+
                     want_network_settings.get("network_aaa").update({
                         "ipAddress": pan_address
                     })
@@ -1975,6 +2029,12 @@ class NetworkSettings(DnacBase):
             else:
                 secondary_server_address = network_aaa.get("secondary_server_address")
                 if secondary_server_address:
+                    if not self.is_server_exists(secondary_server_address):
+                        self.msg = "The 'secondary_server_address' - '{0}' under 'network_aaa' is not found in the system." \
+                                   .format(secondary_server_address)
+                        self.status = "failed"
+                        return self
+
                     want_network_settings.get("network_aaa").update({
                         "ipAddress": secondary_server_address
                     })
@@ -2021,6 +2081,12 @@ class NetworkSettings(DnacBase):
 
             primary_server_address = clientAndEndpoint_aaa.get("primary_server_address")
             if primary_server_address:
+                if not self.is_server_exists(primary_server_address):
+                    self.msg = "The 'primary_server_address' - '{0}' under 'clientAndEndpoint_aaa' is not found in the system." \
+                               .format(primary_server_address)
+                    self.status = "failed"
+                    return self
+
                 want_network_settings.get("clientAndEndpoint_aaa").update({
                     "network": primary_server_address
                 })
@@ -2032,6 +2098,12 @@ class NetworkSettings(DnacBase):
             if server_type == "ISE":
                 pan_address = clientAndEndpoint_aaa.get("pan_address")
                 if pan_address:
+                    if not self.is_server_exists(pan_address):
+                        self.msg = "The 'pan_address' - '{0}' under 'clientAndEndpoint_aaa' is not found in the system." \
+                                   .format(pan_address)
+                        self.status = "failed"
+                        return self
+
                     want_network_settings.get("clientAndEndpoint_aaa").update({
                         "ipAddress": pan_address
                     })
@@ -2042,6 +2114,12 @@ class NetworkSettings(DnacBase):
             else:
                 secondary_server_address = clientAndEndpoint_aaa.get("secondary_server_address")
                 if secondary_server_address:
+                    if not self.is_server_exists(secondary_server_address):
+                        self.msg = "The 'secondary_server_address' - '{0}' under 'clientAndEndpoint_aaa' is not found in the system." \
+                                   .format(secondary_server_address)
+                        self.status = "failed"
+                        return self
+
                     want_network_settings.get("clientAndEndpoint_aaa").update({
                         "ipAddress": secondary_server_address
                     })
@@ -2145,7 +2223,7 @@ class NetworkSettings(DnacBase):
                 op_modifies=True,
                 params=pool_params,
             )
-            self.check_execution_response_status(response).check_return_status()
+            self.check_execution_response_status(response, "create_global_pool").check_return_status()
             self.log("Successfully created global pool successfully.", "INFO")
             for item in pool_params.get("settings").get("ippool"):
                 name = item.get("ipPoolName")
@@ -2189,7 +2267,7 @@ class NetworkSettings(DnacBase):
                     params=pool_params,
                 )
 
-                self.check_execution_response_status(response).check_return_status()
+                self.check_execution_response_status(response, "update_global_pool").check_return_status()
                 for item in pool_params.get("settings").get("ippool"):
                     name = item.get("ipPoolName")
                     self.log("Global pool '{0}' Updated successfully.".format(name), "INFO")
@@ -2238,7 +2316,7 @@ class NetworkSettings(DnacBase):
                     op_modifies=True,
                     params=reserve_params,
                 )
-                self.check_execution_response_status(response).check_return_status()
+                self.check_execution_response_status(response, "reserve_ip_subpool").check_return_status()
                 self.log("Successfully created IP subpool reservation '{0}'.".format(name), "INFO")
                 result_reserve_pool.get("response") \
                     .update({name: self.want.get("wantReserve")[reserve_pool_index]})
@@ -2269,7 +2347,7 @@ class NetworkSettings(DnacBase):
                 op_modifies=True,
                 params=reserve_params,
             )
-            self.check_execution_response_status(response).check_return_status()
+            self.check_execution_response_status(response, "update_reserve_ip_subpool").check_return_status()
             self.log("Reserved ip subpool '{0}' updated successfully.".format(name), "INFO")
             result_reserve_pool.get("response") \
                 .update({name: reserve_params})
@@ -2324,7 +2402,7 @@ class NetworkSettings(DnacBase):
         )
         self.log("Received API response of 'update_network_v2': {0}".format(response), "DEBUG")
         validation_string = "desired common settings operation successful"
-        self.check_task_response_status(response, validation_string).check_return_status()
+        self.check_task_response_status(response, validation_string, "update_network_v2").check_return_status()
         self.log("Network has been changed successfully", "INFO")
         result_network.get("msg") \
             .update({site_name: "Network Updated successfully"})
@@ -2391,7 +2469,7 @@ class NetworkSettings(DnacBase):
                 op_modifies=True,
                 params={"id": _id},
             )
-            self.check_execution_response_status(response).check_return_status()
+            self.check_execution_response_status(response, "release_reserve_ip_subpool").check_return_status()
             executionid = response.get("executionId")
             result_reserve_pool = self.result.get("response")[1].get("reservePool")
             result_reserve_pool.get("response").update({name: {}})
@@ -2435,7 +2513,7 @@ class NetworkSettings(DnacBase):
             )
 
             # Check the execution status
-            self.check_execution_response_status(response).check_return_status()
+            self.check_execution_response_status(response, "delete_global_ip_pool").check_return_status()
             executionid = response.get("executionId")
 
             # Update result information

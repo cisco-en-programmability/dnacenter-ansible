@@ -110,7 +110,7 @@ options:
         description: External Domain Routing Protocol Name.
         type: str
       internalAutonomouSystemNumber:
-        description: Internal Autonomouns System Number (e.g.,1-65535).
+        description: Internal Autonomous System Number.
         type: str
       routeDistributionProtocol:
         description: Route Distribution Protocol for Control Plane Device. Allowed values
@@ -125,8 +125,8 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.7.1
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for SDA AddBorderDeviceInSDAFabric
   description: Complete reference of the AddBorderDeviceInSDAFabric API.
@@ -195,7 +195,6 @@ EXAMPLES = r"""
     deviceManagementIpAddress: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

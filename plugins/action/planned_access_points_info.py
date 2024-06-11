@@ -26,8 +26,8 @@ argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
     floorId=dict(type="str"),
-    limit=dict(type="int"),
-    offset=dict(type="int"),
+    limit=dict(type="float"),
+    offset=dict(type="float"),
     radios=dict(type="bool"),
     headers=dict(type="dict"),
 ))

@@ -20,8 +20,8 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.7.1
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Security Advisories GetAdvisoriesSummary
   description: Complete reference of the GetAdvisoriesSummary API.
@@ -49,7 +49,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
@@ -58,33 +57,39 @@ dnac_response:
   sample: >
     {
       "response": {
-        "NA": {
-          "CONFIG": 0,
-          "VERSION": 0,
-          "TOTAL": 0
-        },
         "INFORMATIONAL": {
           "CONFIG": 0,
+          "CUSTOM_CONFIG": 0,
           "VERSION": 0,
           "TOTAL": 0
         },
         "LOW": {
           "CONFIG": 0,
+          "CUSTOM_CONFIG": 0,
           "VERSION": 0,
           "TOTAL": 0
         },
         "MEDIUM": {
           "CONFIG": 0,
+          "CUSTOM_CONFIG": 0,
           "VERSION": 0,
           "TOTAL": 0
         },
         "HIGH": {
           "CONFIG": 0,
+          "CUSTOM_CONFIG": 0,
           "VERSION": 0,
           "TOTAL": 0
         },
         "CRITICAL": {
           "CONFIG": 0,
+          "CUSTOM_CONFIG": 0,
+          "VERSION": 0,
+          "TOTAL": 0
+        },
+        "NA": {
+          "CONFIG": 0,
+          "CUSTOM_CONFIG": 0,
           "VERSION": 0,
           "TOTAL": 0
         }

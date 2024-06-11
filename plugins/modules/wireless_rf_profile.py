@@ -21,7 +21,7 @@ options:
     description: Channel Width.
     type: str
   defaultRfProfile:
-    description: Is Default Rf Profile.
+    description: Default Rf Profile.
     type: bool
   enableBrownField:
     description: Enable Brown Field.
@@ -52,16 +52,16 @@ options:
         type: str
       maxPowerLevel:
         description: Max Power Level.
-        type: int
+        type: float
       minPowerLevel:
         description: Rx Sop Threshold.
-        type: int
+        type: float
       parentProfile:
         description: Parent Profile.
         type: str
       powerThresholdV1:
         description: Power Threshold V1.
-        type: int
+        type: float
       radioChannels:
         description: Radio Channels.
         type: str
@@ -80,16 +80,16 @@ options:
         type: str
       maxPowerLevel:
         description: Max Power Level.
-        type: int
+        type: float
       minPowerLevel:
         description: Min Power Level.
-        type: int
+        type: float
       parentProfile:
         description: Parent Profile.
         type: str
       powerThresholdV1:
         description: Power Threshold V1.
-        type: int
+        type: float
       radioChannels:
         description: Radio Channels.
         type: str
@@ -108,16 +108,16 @@ options:
         type: str
       maxPowerLevel:
         description: Max Power Level.
-        type: int
+        type: float
       minPowerLevel:
         description: Min Power Level.
-        type: int
+        type: float
       parentProfile:
         description: Parent Profile.
         type: str
       powerThresholdV1:
         description: Power Threshold V1.
-        type: int
+        type: float
       radioChannels:
         description: Radio Channels.
         type: str
@@ -130,8 +130,8 @@ options:
       *non-custom RF profile cannot be deleted.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.7.1
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Wireless CreateOrUpdateRFProfile
   description: Complete reference of the CreateOrUpdateRFProfile API.
@@ -210,7 +210,6 @@ EXAMPLES = r"""
     rfProfileName: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
@@ -219,7 +218,7 @@ dnac_response:
   sample: >
     {
       "executionId": "string",
-      "executionUrl": "string",
+      "executionStatusUrl": "string",
       "message": "string"
     }
 """

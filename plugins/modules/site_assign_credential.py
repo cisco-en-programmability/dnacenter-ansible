@@ -41,8 +41,8 @@ options:
     description: Snmp V3 Id.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.7.1
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Network Settings AssignDeviceCredentialToSite
   description: Complete reference of the AssignDeviceCredentialToSite API.
@@ -76,7 +76,6 @@ EXAMPLES = r"""
     snmpV3Id: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

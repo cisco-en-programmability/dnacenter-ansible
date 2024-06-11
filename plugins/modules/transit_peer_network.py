@@ -12,7 +12,7 @@ description:
 - Manage operations create and delete of the resource Transit Peer Network.
 - Add Transit Peer Network in SD-Access.
 - Delete Transit Peer Network from SD-Access.
-version_added: '6.5.0'
+version_added: '6.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
@@ -21,7 +21,7 @@ options:
     description: Transit Peer Network's ipTransitSettings.
     suboptions:
       autonomousSystemNumber:
-        description: Autonomous System Number (e.g.,1-65535).
+        description: Autonomous System Number.
         type: str
       routingProtocolName:
         description: Routing Protocol Name.
@@ -49,19 +49,19 @@ options:
     description: Transit Peer Network Type.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.7.1
+- python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for  AddTransitPeerNetwork
+- name: Cisco DNA Center documentation for SDA AddTransitPeerNetwork
   description: Complete reference of the AddTransitPeerNetwork API.
   link: https://developer.cisco.com/docs/dna-center/#!add-transit-peer-network
-- name: Cisco DNA Center documentation for  DeleteTransitPeerNetwork
+- name: Cisco DNA Center documentation for SDA DeleteTransitPeerNetwork
   description: Complete reference of the DeleteTransitPeerNetwork API.
   link: https://developer.cisco.com/docs/dna-center/#!delete-transit-peer-network
 notes:
   - SDK Method used are
-    ..add_transit_peer_network,
-    ..delete_transit_peer_network,
+    sda.Sda.add_transit_peer_network,
+    sda.Sda.delete_transit_peer_network,
 
   - Paths used are
     post /dna/intent/api/v1/business/sda/transit-peer-network,
@@ -103,7 +103,6 @@ EXAMPLES = r"""
     transitPeerNetworkType: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

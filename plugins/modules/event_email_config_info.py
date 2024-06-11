@@ -11,7 +11,7 @@ short_description: Information module for Event Email Config
 description:
 - Get all Event Email Config.
 - Get Email Destination.
-version_added: '6.7.0'
+version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
 author: Rafael Campos (@racampos)
@@ -20,8 +20,8 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.7.1
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Event Management GetEmailDestination
   description: Complete reference of the GetEmailDestination API.
@@ -49,7 +49,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
@@ -65,14 +64,14 @@ dnac_response:
           "port": "string",
           "userName": "string",
           "password": "string",
-          "security": "string"
+          "smtpType": "string"
         },
         "secondarySMTPConfig": {
           "hostName": "string",
           "port": "string",
           "userName": "string",
           "password": "string",
-          "security": "string"
+          "smtpType": "string"
         },
         "fromEmail": "string",
         "toEmail": "string",

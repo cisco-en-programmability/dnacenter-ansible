@@ -26,11 +26,11 @@ options:
   startTime:
     description:
     - StartTime query parameter. Start Time in milliseconds.
-    type: int
+    type: float
   endTime:
     description:
     - EndTime query parameter. End Time in milliseconds.
-    type: int
+    type: float
   category:
     description:
     - Category query parameter.
@@ -56,8 +56,8 @@ options:
     - Source query parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.7.1
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Event Management CountOfNotifications
   description: Complete reference of the CountOfNotifications API.
@@ -94,7 +94,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

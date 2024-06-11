@@ -10,8 +10,10 @@ module: wireless_accespoint_configuration
 short_description: Resource module for Wireless Accespoint Configuration
 description:
 - Manage operation create of the resource Wireless Accespoint Configuration.
-- User can configure multiple access points with required options using this intent API.
-version_added: '6.7.0'
+- >
+   User can configure multiple access points with required options using this intent API. This API does not support
+   configuration of CleanAir or SI for IOS-XE devices with version greater than or equal to 17.9.
+version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
@@ -20,10 +22,6 @@ options:
     description: Configure the access point's admin status. Set this parameter's value
       to "true" to enable it and "false" to disable it.
     type: bool
-  apHeight:
-    description: Configure the height of the access point by setting a value between
-      3 and height of the floor.
-    type: int
   apList:
     description: Wireless Accespoint Configuration's apList.
     elements: dict
@@ -46,10 +44,6 @@ options:
   configureAdminStatus:
     description: To change the access point's admin status, set this parameter's value
       to "true".
-    type: bool
-  configureApHeight:
-    description: To change the access point's height, set this parameter's value to
-      "true".
     type: bool
   configureApMode:
     description: To change the access point's mode, set this parameter's value to "true".
@@ -78,6 +72,10 @@ options:
     description: Configure the acess point's failover priority for low, set "1"; for
       medium, set "2"; for high, set "3"; and for critical, set "4".
     type: int
+  isAssignedSiteAsLocation:
+    description: If AP is assigned to a site, then to assign AP location as the site
+      name, set this parameter's value to "true".
+    type: bool
   ledBrightnessLevel:
     description: Configure the access point's LED brightness level by setting a value
       between 1 and 8.
@@ -113,31 +111,19 @@ options:
           access point. If cable loss needs to be configured, set this parameter's value
           to "other".
         type: str
-      antennaDegree:
-        description: Configure the antenna degree on the specified radio for an access
-          point.
-        type: int
-      antennaElevAngleDegree:
-        description: Configure the antenna elevation angle on the specified radio for
-          an access point.
-        type: int
-      antennaElevAngleSign:
-        description: Configure the antenna elevation angle direction on the specified
-          radio for an access point for up, set "1"; for down, set "-1".
-        type: int
       antennaGain:
         description: Configure the antenna gain on the specified radio for an access
-          point by setting a decimal value (in dBi).
+          point by setting a decimal value (in dBi). To configure "antennaGain", set
+          "antennaPatternName" value to "other".
         type: int
       antennaPatternName:
-        description: Configure the antenna pattern name on the specified radio for an
-          access point. If antenna gain needs to be configured, set this parameter's
-          value to "other".
+        description: Specify the antenna name on the specified radio for an access point.
+          The antenna name is used to calculate the gain on the radio slot.
         type: str
       cableLoss:
         description: Configure the cable loss on the specified radio for an access point
           by setting a decimal value (in dBi).
-        type: int
+        type: float
       channelAssignmentMode:
         description: Configure the channel assignment mode on the specified radio for
           an access point for global mode, set "1"; and for custom mode, set "2".
@@ -164,13 +150,9 @@ options:
         description: To change the antenna cable name on the specified radio for an
           access point, set this parameter's value to "true".
         type: bool
-      configureAntennaDegree:
-        description: To change the antenna degree on the specified radio for an access
-          point, set this parameter's value to "true".
-        type: bool
       configureAntennaPatternName:
-        description: To change the antenna pattern name on the specified radio for an
-          access point, set the value for this parameter to "true".
+        description: To change the antenna gain on the specified radio for an access
+          point, set the value for this parameter to "true".
         type: bool
       configureChannel:
         description: To change the channel on the specified radio for an access point,
@@ -183,10 +165,6 @@ options:
       configureCleanAirSI:
         description: To enable or disable either CleanAir or Spectrum Intelligence on
           the specified radio for an access point, set this parameter's value to "true".
-        type: bool
-      configureElevAngleDegree:
-        description: To change the elevation angle degree on the specified radio for
-          an access point, set this parameter's value to "true".
         type: bool
       configurePower:
         description: To change the power assignment mode on the specified radio for
@@ -206,11 +184,13 @@ options:
         type: int
       radioBand:
         description: Configure the band on the specified radio for an access point for
-          2.4 GHz, set "RADIO24"; for 5 GHz, set "RADIO5".
+          2.4 GHz, set "RADIO24"; for 5 GHz, set "RADIO5". Any other string is invalid,
+          including empty string.
         type: str
       radioRoleAssignment:
-        description: Configure one of the following roles on the specified radio for
-          an access point "auto", "serving", or "monitor".
+        description: Configure only one of the following roles on the specified radio
+          for an access point as "AUTO", "SERVING", or "MONITOR". Any other string is
+          invalid, including empty string.
         type: str
       radioType:
         description: Configure an access point's radio band for 2.4 GHz, set "1"; for
@@ -238,15 +218,15 @@ options:
         type: str
     type: dict
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.7.1
+- python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Wireless ConfigureAccessPoints
-  description: Complete reference of the ConfigureAccessPoints API.
-  link: https://developer.cisco.com/docs/dna-center/#!configure-access-points
+- name: Cisco DNA Center documentation for Wireless ConfigureAccessPointsV1
+  description: Complete reference of the ConfigureAccessPointsV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!configure-access-points-v-1
 notes:
   - SDK Method used are
-    wireless.Wireless.configure_access_points,
+    wireless.Wireless.configure_access_points_v1,
 
   - Paths used are
     post /dna/intent/api/v1/wireless/accesspoint-configuration,
@@ -264,14 +244,12 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     adminStatus: true
-    apHeight: 0
     apList:
     - apName: string
       apNameNew: string
       macAddress: string
     apMode: 0
     configureAdminStatus: true
-    configureApHeight: true
     configureApMode: true
     configureFailoverPriority: true
     configureHAController: true
@@ -279,6 +257,7 @@ EXAMPLES = r"""
     configureLedStatus: true
     configureLocation: true
     failoverPriority: 0
+    isAssignedSiteAsLocation: true
     ledBrightnessLevel: 0
     ledStatus: true
     location: string
@@ -288,9 +267,6 @@ EXAMPLES = r"""
     radioConfigurations:
     - adminStatus: true
       antennaCableName: string
-      antennaDegree: 0
-      antennaElevAngleDegree: 0
-      antennaElevAngleSign: 0
       antennaGain: 0
       antennaPatternName: string
       cableLoss: 0
@@ -300,12 +276,10 @@ EXAMPLES = r"""
       cleanAirSI: 0
       configureAdminStatus: true
       configureAntennaCable: true
-      configureAntennaDegree: true
       configureAntennaPatternName: true
       configureChannel: true
       configureChannelWidth: true
       configureCleanAirSI: true
-      configureElevAngleDegree: true
       configurePower: true
       configureRadioRoleAssignment: true
       powerAssignmentMode: 0
@@ -321,7 +295,6 @@ EXAMPLES = r"""
       address: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

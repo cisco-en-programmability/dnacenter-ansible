@@ -24,15 +24,15 @@ options:
     - Smart_account_id path parameter. Id of smart account.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.7.1
+- python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Licenses VirtualAccountDetails2
-  description: Complete reference of the VirtualAccountDetails2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!virtual-account-details-2
+- name: Cisco DNA Center documentation for Licenses VirtualAccountDetails
+  description: Complete reference of the VirtualAccountDetails API.
+  link: https://developer.cisco.com/docs/dna-center/#!virtual-account-details
 notes:
   - SDK Method used are
-    licenses.Licenses.virtual_account_details2,
+    licenses.Licenses.virtual_account_details,
 
   - Paths used are
     get /dna/intent/api/v1/licenses/smartAccount/{smart_account_id}/virtualAccounts,
@@ -54,7 +54,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

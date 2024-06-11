@@ -94,8 +94,8 @@ options:
     description: Subscriptions query parameter. List of EventSubscriptionId's for removal.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.7.1
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Event Management CreateEventSubscriptions
   description: Complete reference of the CreateEventSubscriptions API.
@@ -207,7 +207,6 @@ EXAMPLES = r"""
       version: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

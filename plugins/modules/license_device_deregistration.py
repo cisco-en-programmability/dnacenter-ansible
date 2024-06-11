@@ -21,15 +21,15 @@ options:
     elements: str
     type: list
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.7.1
+- python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Licenses DeviceDeregistration2
-  description: Complete reference of the DeviceDeregistration2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!device-deregistration-2
+- name: Cisco DNA Center documentation for Licenses DeviceDeregistration
+  description: Complete reference of the DeviceDeregistration API.
+  link: https://developer.cisco.com/docs/dna-center/#!device-deregistration
 notes:
   - SDK Method used are
-    licenses.Licenses.device_deregistration2,
+    licenses.Licenses.device_deregistration,
 
   - Paths used are
     put /dna/intent/api/v1/licenses/smartAccount/virtualAccount/deregister,
@@ -50,7 +50,6 @@ EXAMPLES = r"""
     - string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
