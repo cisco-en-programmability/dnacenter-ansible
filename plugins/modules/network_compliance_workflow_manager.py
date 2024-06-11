@@ -88,6 +88,7 @@ notes:
     task.Task.get_task_by_id
     task.Task.get_task_tree
     compliance.Compliance.get_compliance_detail
+    compliance.Compliance.compliance_details_of_device
 
   - Paths used are
     post /dna/intent/api/v1/compliance/
@@ -95,6 +96,7 @@ notes:
     get /dna/intent/api/v1/task/{taskId}
     get /dna/intent/api/v1/task/{taskId}/tree
     get /dna/intent/api/v1/compliance/detail
+    get /dna/intent/api/v1/compliance/${deviceUuid}/detail
 """
 
 EXAMPLES = r"""
@@ -608,7 +610,7 @@ class NetworkCompliance(DnacBase):
                 # Log an error message if any exception occurs during the process
                 self.log("Error while fetching device ID for device: '{0}' from Cisco Catalyst Center: {1}".format(device_ip, str(e)), "ERROR")
         if not mgmt_ip_instance_id_map:
-            self.msg = "Reachable devices not found in the IP Address List: {0}".format(ip_address_list)
+            self.msg = "No reachable devices found among the provided IP addresses: {0}".format(', '.join(ip_address_list))
             self.update_result("ok", False, self.msg, "INFO")
             self.module.exit_json(**self.result)
 
@@ -874,6 +876,112 @@ class NetworkCompliance(DnacBase):
 
         return self
 
+    def get_compliance_report(self, run_compliance_params, mgmt_ip_instance_id_map):
+        """
+        Generate a compliance report for devices based on provided parameters.
+
+        This function fetches the compliance details for a list of devices specified
+        in the run_compliance_params. It maps the device UUIDs to their corresponding
+        management IPs, and then retrieves the compliance details for each device.
+
+        Args:
+            run_compliance_params (dict): Parameters for running compliance checks.
+                                          Expected to contain "deviceUuids" and optionally "categories".
+            mgmt_ip_instance_id_map (dict): Mapping of device management IPs to device UUIDs.
+
+        Returns:
+            dict: A dictionary with device management IPs as keys and lists of compliance details as values.
+        """
+
+        # Initialize the lists/dicts
+        final_response = {}
+        device_list = []
+        compliance_details_of_device_params = {}
+        device_ip = None
+
+        # Iterate through each device UUID in the run compliance parameters
+        for device_uuid in run_compliance_params["deviceUuids"]:
+
+            # Find the corresponding device IP for the given device UUID
+            for ip, device_id in mgmt_ip_instance_id_map.items():
+                if device_uuid == device_id:
+                    device_ip = ip
+                    break
+
+            if device_ip is None:
+                self.log("Device UUID: {0} not found in mgmt_ip_instance_id_map: {1}".format(device_uuid, mgmt_ip_instance_id_map), "DEBUG")
+                continue
+
+            # Add the device IP to the device list
+            device_list.append(device_ip)
+
+            # Initialize the response list for the device IP if not already present
+            if device_ip not in final_response.keys():
+                final_response[device_ip] = []
+
+            # Check if categories are specified and fetch details for each category of the device
+            if "categories" in run_compliance_params.keys():
+                for category in run_compliance_params["categories"]:
+                    compliance_details_of_device_params["category"] = category
+                    compliance_details_of_device_params["device_uuid"] = device_uuid
+                    compliance_details_of_device_params["diff_list"] = True
+
+                    response = self.get_compliance_details_of_device(compliance_details_of_device_params, device_ip)
+                    final_response[device_ip].extend(response)
+
+            else:
+                # Fetch compliance details for the device without specific category
+                compliance_details_of_device_params["device_uuid"] = device_uuid
+                compliance_details_of_device_params["diff_list"] = True
+                response = self.get_compliance_details_of_device(compliance_details_of_device_params, device_ip)
+                final_response[device_ip].extend(response)
+
+        # If no compliance details were found, update the result with an error message
+        if not final_response:
+            self.msg = "No Compliance Details found for the devices: {0}".format(', '.join(device_list))
+            self.update_result("failed", False, self.msg, "ERROR")
+            self.check_return_status()
+
+        return final_response
+
+    def get_compliance_details_of_device(self, compliance_details_of_device_params, device_ip):
+        """
+        Retrieve compliance details for a specific device.
+
+        This function makes an API call to fetch compliance details for a given device
+        using the specified parameters. It handles the API response and logs the
+        necessary information.
+
+        Args:
+            compliance_details_of_device_params (dict): Parameters required for the compliance details API call.
+            device_ip (str): The IP address of the device for which compliance details are being fetched.
+
+        Returns:
+            dict or None: The response from the compliance details API call if successful,
+                          None if an error occurs or no response is received.
+        """
+        try:
+            # Make the API call to fetch compliance details for the device
+            response = self.dnac_apply["exec"](
+                family="compliance",
+                function="compliance_details_of_device",
+                params=compliance_details_of_device_params,
+                op_modifies=True
+            )
+            self.log("Response received post 'compliance_details_of_device' API call: {0}".format(str(response)), "DEBUG")
+
+            if response:
+                response = response.response
+            else:
+                self.log("No response received from the 'compliance_details_of_device' API call.", "ERROR")
+            return response
+        except Exception as e:
+            # Handle any exceptions that occur during the API call
+            msg = ("An error occurred while retrieving Compliance Details for device:{0} using 'compliance_details_of_device' API call"
+                   ". Error: {1}".format(device_ip, str(e)))
+            self.log(msg, "ERROR")
+            return None
+
     def get_compliance_detail(self, compliance_detail_params):
         """
         Execute the GET compliance detail operation.
@@ -938,6 +1046,7 @@ class NetworkCompliance(DnacBase):
                     modified_response[ip_address] = []
                 modified_response[ip_address].append(item)
 
+        self.log("Modified compliance detail response: {0}".format(modified_response), "DEBUG")
         return modified_response
 
     def run_compliance(self, run_compliance_params):
@@ -1212,22 +1321,13 @@ class NetworkCompliance(DnacBase):
             # Check if task completed successfully
             elif not response.get("isError") and "success" in response.get("progress").lower():
                 # Task completed successfully
-                self.msg = "{0} has completed successfully on device(s): {1}".format(task_name, list(mgmt_ip_instance_id_map.keys()))
+                self.msg = "{0} has completed successfully on device(s): {1}".format(task_name, ', '.join(list(mgmt_ip_instance_id_map.keys())))
 
                 # Retrieve and modify compliance check details
-                response = self.get_compliance_detail(self.want.get("compliance_detail_params"))
-                if not response:
-                    self.msg = "Error Occurred when retrieving Compliance Report after {0} with Task Id {1} for device(s) {2}".format(
-                        task_name, task_id, list(mgmt_ip_instance_id_map.keys()))
-                    self.update_result("failed", False, self.msg, "ERROR")
-                    break
-
-                modified_response = self.modify_compliance_response(response, mgmt_ip_instance_id_map)
-                self.log("Compliance Report for {0} operation for device(s) {1} : {2}".format(
-                    task_name, list(mgmt_ip_instance_id_map.keys()), modified_response), "INFO")
+                compliance_report = self.get_compliance_report(self.want.get("run_compliance_params"), mgmt_ip_instance_id_map)
 
                 # Update result with modified response
-                self.update_result("success", True, self.msg, "INFO", modified_response)
+                self.update_result("success", True, self.msg, "INFO", compliance_report)
                 break
 
             # Check if task failed
