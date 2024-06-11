@@ -159,11 +159,11 @@ options:
               password:
                 description: Password for Authenticating Secondary SMTP Server.
                 type: str
-          from_email:
+          sender_email:
             description: Sender's email address used when setting up or modifying an email destination.
             type: str
             required: True
-          to_email:
+          recipient_email:
             description: Recipient's email address that will receive emails when an email destination is created or updated.
             type: str
             required: True
@@ -570,8 +570,8 @@ EXAMPLES = r"""
     state: merged
     config:
       - email_destination:
-          from_email: "test@cisco.com"
-          to_email: "demo@cisco.com"
+          sender_email: "test@cisco.com"
+          recipient_email: "demo@cisco.com"
           subject: "Ansible testing"
           primary_smtp_config:
             server_address: "outbound.cisco.com"
@@ -592,8 +592,8 @@ EXAMPLES = r"""
     state: merged
     config:
       - email_destination:
-          from_email: "test@cisco.com"
-          to_email: "demo123@cisco.com"
+          sender_email: "test@cisco.com"
+          recipient_email: "demo123@cisco.com"
           subject: "Ansible updated email config testing"
 
 - name: Create Syslog destination with given name.
@@ -996,8 +996,8 @@ class Events(DnacBase):
                     'username': {'type': 'str'},
                     'password': {'type': 'str'},
                 },
-                'from_email': {'type': 'str'},
-                'to_email': {'type': 'str'},
+                'sender_email': {'type': 'str'},
+                'recipient_email': {'type': 'str'},
                 'subject': {'type': 'str'},
             },
             'syslog_destination': {
@@ -1806,8 +1806,8 @@ class Events(DnacBase):
             'description': webhook_details.get('description'),
             'url': webhook_details.get('url'),
             'method': webhook_details.get('method', 'POST').upper(),
-            'trustCert': webhook_details.get('trust_cert', False),
-            'isProxyRoute': webhook_details.get('is_proxy_route', True)
+            'trustCert': webhook_details.get('trust_cert'),
+            'isProxyRoute': webhook_details.get('is_proxy_route')
         }
 
         if webhook_details.get('headers'):
@@ -1836,6 +1836,11 @@ class Events(DnacBase):
         """
 
         try:
+            if webhook_params.get("trustCert") is None:
+                webhook_params["trustCert"] = False
+            if webhook_params.get("isProxyRoute") is None:
+                webhook_params["isProxyRoute"] = True
+
             self.log("Requested payload for creating webhook destination - {0}".format(str(webhook_params)), "INFO")
             response = self.dnac._exec(
                 family="event_management",
@@ -1928,15 +1933,20 @@ class Events(DnacBase):
             update_webhook_params['description'] = webhook_params.get('description') or webhook_dest_detail_in_ccc.get('description')
             update_webhook_params['url'] = webhook_params.get('url') or webhook_dest_detail_in_ccc.get('url')
             update_webhook_params['method'] = webhook_params.get('method') or webhook_dest_detail_in_ccc.get('method')
-            update_webhook_params['trustCert'] = webhook_params.get('trustCert') or webhook_dest_detail_in_ccc.get('trustCert')
-            update_webhook_params['isProxyRoute'] = webhook_params.get('isProxyRoute') or webhook_dest_detail_in_ccc.get('isProxyRoute')
+            update_webhook_params['trustCert'] = webhook_params.get('trustCert')
+            update_webhook_params['isProxyRoute'] = webhook_params.get('isProxyRoute')
             update_webhook_params['headers'] = webhook_params.get('headers')
+            update_webhook_params['webhookId'] = webhook_dest_detail_in_ccc.get('webhookId')
+            name = update_webhook_params.get('name')
+
+            if update_webhook_params.get("trustCert") is None:
+                update_webhook_params["trustCert"] = webhook_dest_detail_in_ccc.get('trustCert')
+
+            if update_webhook_params.get("isProxyRoute") is None:
+                update_webhook_params["isProxyRoute"] = webhook_dest_detail_in_ccc.get('isProxyRoute')
 
             if not update_webhook_params['headers'] and webhook_dest_detail_in_ccc.get('headers'):
                 update_webhook_params['headers'] = webhook_dest_detail_in_ccc.get('headers')[0]
-
-            update_webhook_params['webhookId'] = webhook_dest_detail_in_ccc.get('webhookId')
-            name = update_webhook_params.get('name')
 
             response = self.dnac._exec(
                 family="event_management",
@@ -2022,8 +2032,8 @@ class Events(DnacBase):
         """
 
         playbook_params = {
-            'fromEmail': email_details.get('from_email'),
-            'toEmail': email_details.get('to_email'),
+            'fromEmail': email_details.get('sender_email'),
+            'toEmail': email_details.get('recipient_email'),
             'subject': email_details.get('subject')
         }
 
@@ -3728,51 +3738,81 @@ class Events(DnacBase):
             self.status = "failed"
             self.msg = "Instance name for Subscription Endpoints is required for Email notification '{0}'.".format(email_notf_name)
             self.log(self.msg, "ERROR")
-            return self
+            self.check_return_status()
 
         subscription_details = self.get_email_subscription_detail(instance)
-        instance_id = None
 
-        if subscription_details:
+        if not subscription_details:
+            instance_id = None
+            sender_email = email_notification_details.get("sender_email")
+            recipient_emails = email_notification_details.get("recipient_emails")
+            subject = email_notification_details.get("subject")
+            description = email_notification_details.get("instance_description")
+        else:
             instance_id = subscription_details.get("instanceId")
-            fromEmailAddress = email_notification_details.get("sender_email") or subscription_details.get("fromEmailAddress")
-            toEmailAddresses = email_notification_details.get("recipient_emails") or subscription_details.get("toEmailAddresses")
+            sender_email = email_notification_details.get("sender_email") or subscription_details.get("fromEmailAddress")
+            recipient_emails = email_notification_details.get("recipient_emails") or subscription_details.get("toEmailAddresses")
             subject = email_notification_details.get("subject") or subscription_details.get("subject")
             description = email_notification_details.get("instance_description") or subscription_details.get("description")
 
-            if not self.is_valid_email(fromEmailAddress):
+        if not sender_email:
+            self.status = "failed"
+            self.msg = (
+                "Unable to create/update Email event notification as missing the required parameter 'sender_email' "
+                "in the playbook to create/update the Email Events Subscription Notification"
+            )
+            self.log(self.msg, "ERROR")
+            self.check_return_status()
+
+        if not recipient_emails:
+            self.status = "failed"
+            self.msg = (
+                "Unable to create/update Email event notification as missing the required parameter 'recipient_emails' "
+                "in the playbook to create/update the Email Events Subscription Notification"
+            )
+            self.log(self.msg, "ERROR")
+            self.check_return_status()
+
+        if not subject:
+            self.status = "failed"
+            self.msg = (
+                "Unable to create/update Email event notification as missing the required parameter 'subject' "
+                "in the playbook to create/update the Email Events Subscription Notification"
+            )
+            self.log(self.msg, "ERROR")
+            self.check_return_status()
+
+        if not self.is_valid_email(sender_email):
+            self.status = "failed"
+            self.msg = (
+                "Unable to create/update Email event notification as the given sender_email '{0}' "
+                "are incorrect or invalid given in the playbook."
+            ).format(sender_email)
+            self.log(self.msg, "ERROR")
+            self.check_return_status()
+
+        for email in recipient_emails:
+            if not self.is_valid_email(email):
                 self.status = "failed"
                 self.msg = (
-                    "Unable to create/update Email event notification as the given sender_email '{0}' "
-                    "are incorrect or invalid given in the playbook."
-                ).format(fromEmailAddress)
+                    "Unable to create/update Email event notification as the given recipient_email '{0}' "
+                    "is incorrect or invalid given in the playbook."
+                ).format(email)
                 self.log(self.msg, "ERROR")
                 self.check_return_status()
 
-            for email in toEmailAddresses:
-                if not self.is_valid_email(email):
-                    self.status = "failed"
-                    self.msg = (
-                        "Unable to create/update Email event notification as the given recipient_email '{0}' "
-                        "is incorrect or invalid given in the playbook."
-                    ).format(email)
-                    self.log(self.msg, "ERROR")
-                    self.check_return_status()
-
-            temp_subscript_endpoint = {
-                "instanceId": instance_id,
-                "subscriptionDetails": {
-                    "connectorType": "EMAIL",
-                    "fromEmailAddress": fromEmailAddress,
-                    "toEmailAddresses": toEmailAddresses,
-                    "subject": subject,
-                    "name": instance,
-                    "description": description
-                }
+        temp_subscript_endpoint = {
+            "instanceId": instance_id,
+            "subscriptionDetails": {
+                "connectorType": "EMAIL",
+                "fromEmailAddress": sender_email,
+                "toEmailAddresses": recipient_emails,
+                "subject": subject,
+                "name": instance,
+                "description": description
             }
-            playbook_params["subscriptionEndpoints"].append(temp_subscript_endpoint)
-        else:
-            self.log("No subscription details found for instance '{0}'.".format(instance), "WARNING")
+        }
+        playbook_params["subscriptionEndpoints"].append(temp_subscript_endpoint)
 
         events = email_notification_details.get('events')
         if events:
@@ -3853,21 +3893,6 @@ class Events(DnacBase):
 
         if not description:
             required_params_absent.append("description")
-
-        subs_endpoints = email_notification_params.get('subscriptionEndpoints')
-
-        if not subs_endpoints:
-            required_params_absent.extends(["instance", "sender_email", "recipient_emails", "subject"])
-        else:
-            subs_endpoints = subs_endpoints[0].get("subscriptionDetails")
-            if not subs_endpoints.get("fromEmailAddress"):
-                required_params_absent.append("sender_email")
-            if not subs_endpoints.get("toEmailAddresses"):
-                required_params_absent.append("recipient_emails")
-            if not subs_endpoints.get("subject"):
-                required_params_absent.append("subject")
-            if not subs_endpoints.get("name"):
-                required_params_absent.append("instance")
 
         filters = email_notification_params.get("filter")
         if not filters:
@@ -4470,7 +4495,7 @@ class Events(DnacBase):
                 connection_setting = itsm_params.get('data').get('ConnectionSettings')
 
                 if not connection_setting:
-                    invalid_itsm_params.extends(["url", "username", "password"])
+                    invalid_itsm_params.extend(["url", "username", "password"])
                     self.status = "failed"
                     self.msg = (
                         "Required parameter '{0}' for configuring ITSM Intergartion setting in Cisco Catalyst "

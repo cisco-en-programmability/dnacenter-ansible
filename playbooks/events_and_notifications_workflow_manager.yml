@@ -28,8 +28,8 @@
             method: "{{item.webhook_destination.method}}"
             trust_cert: "{{item.webhook_destination.trust_cert}}"
           email_destination:
-            from_email: "{{item.email_destination.from_email}}"
-            to_email: "{{item.email_destination.to_email}}"
+            sender_email: "{{item.email_destination.sender_email}}"
+            recipient_email: "{{item.email_destination.recipient_email}}"
             subject: "{{item.email_destination.subject}}"
             primary_smtp_config:
               server_address: "{{item.email_destination.primary_smtp_config.server_address}}"
