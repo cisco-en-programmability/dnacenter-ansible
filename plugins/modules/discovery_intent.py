@@ -145,7 +145,7 @@ options:
                     - SNMP v2 also delivers data encryptions, but it uses data types.
                 type: dict
                 suboptions:
-                    desc:
+                    description:
                         description: Name/Description of the SNMP read credential to be used for creation of snmp_v2_read_credential.
                         type: str
                     community:
@@ -157,7 +157,7 @@ options:
                     - SNMP v2 also delivers data encryptions, but it uses data types.
                 type: dict
                 suboptions:
-                    desc:
+                    description:
                         description: Name/Description of the SNMP write credential to be used for creation of snmp_v2_write_credential.
                         type: str
                     community:
@@ -393,10 +393,10 @@ EXAMPLES = r"""
                 port: 443
                 secure: True
             snmp_v2_read_credential:
-                desc: snmp_v2-new
+                description: snmp_v2-new
                 community: Cisco123
             snmp_v2_write_credential:
-                desc: snmp_v2-new
+                description: snmp_v2-new
                 community: Cisco123
             snmp_v3_credential:
                 username: v3Public2
@@ -467,10 +467,10 @@ EXAMPLES = r"""
                 port: 443
                 secure: True
             snmp_v2_read_credential:
-                desc: snmp_v2-new
+                description: snmp_v2-new
                 community: Cisco123
             snmp_v2_write_credential:
-                desc: snmp_v2-new
+                description: snmp_v2-new
                 community: Cisco123
             snmp_v3_credential:
                 username: v3Public2
@@ -1168,24 +1168,24 @@ class Discovery(DnacBase):
             new_object_params['httpWriteCredential'] = http_write_credential
 
         if snmp_v2_read_credential:
-            if not (snmp_v2_read_credential.get('desc')) and isinstance(snmp_v2_read_credential.get('desc'), str):
+            if not (snmp_v2_read_credential.get('description')) and isinstance(snmp_v2_read_credential.get('description'), str):
                 msg = "Name/description for the SNMP v2 read credential must be of string type"
                 self.discovery_specific_cred_failure(msg=msg)
             if not (snmp_v2_read_credential.get('community')) and isinstance(snmp_v2_read_credential.get('community'), str):
                 msg = "The community string must be of string type"
                 self.discovery_specific_cred_failure(msg=msg)
-            new_object_params['snmpROCommunityDesc'] = snmp_v2_read_credential.get('desc')
+            new_object_params['snmpROCommunityDesc'] = snmp_v2_read_credential.get('description')
             new_object_params['snmpROCommunity'] = snmp_v2_read_credential.get('community')
             new_object_params['snmpVersion'] = "v2"
 
         if snmp_v2_write_credential:
-            if not (snmp_v2_write_credential.get('desc')) and isinstance(snmp_v2_write_credential.get('desc'), str):
+            if not (snmp_v2_write_credential.get('description')) and isinstance(snmp_v2_write_credential.get('description'), str):
                 msg = "Name/description for the SNMP v2 write credential must be of string type"
                 self.discovery_specific_cred_failure(msg=msg)
             if not (snmp_v2_write_credential.get('community')) and isinstance(snmp_v2_write_credential.get('community'), str):
                 msg = "The community string must be of string type"
                 self.discovery_specific_cred_failure(msg=msg)
-            new_object_params['snmpRWCommunityDesc'] = snmp_v2_write_credential.get('desc')
+            new_object_params['snmpRWCommunityDesc'] = snmp_v2_write_credential.get('description')
             new_object_params['snmpRWCommunity'] = snmp_v2_write_credential.get('community')
             new_object_params['snmpVersion'] = "v2"
 
