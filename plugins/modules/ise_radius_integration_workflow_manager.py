@@ -1282,17 +1282,17 @@ class IseRadiusIntegration(DnacBase):
                 ise_server_details = get_dict_result(response, "ipAddress", ipAddress)
                 ise_state_set = {"FAILED", "INPROGRESS"}
                 state = ise_server_details.get("state")
-                if state == "INPROGRESS":
-                    self.msg = "The Cisco ISE server '{0}' integration is not completed. The state is 'INPROGRESS'. ".format(ipAddress) + \
-                               "Integration took more than '{0}' seconds.".format(ise_integration_wait_time)
-                elif state == "FAILED":
-                    self.msg = "The Cisco ISE server '{0}' integration is not successful. The state is 'FAILED'." \
-                               .format(ipAddress)
-                    if self.want.get("trusted_server") is False:
-                        self.msg += " This is the first time Cisco Catalyst Center has encountered " + \
-                                    "this certificate from Cisco ISE, and it is not yet trusted."
-
                 if state in ise_state_set:
+                    if state == "INPROGRESS":
+                        self.msg = "The Cisco ISE server '{0}' integration is not completed. The state is 'INPROGRESS'. ".format(ipAddress) + \
+                                   "Integration took more than '{0}' seconds.".format(ise_integration_wait_time)
+                    elif state == "FAILED":
+                        self.msg = "The Cisco ISE server '{0}' integration is not successful. The state is 'FAILED'." \
+                                   .format(ipAddress)
+                        if self.want.get("trusted_server") is False:
+                            self.msg += " This is the first time Cisco Catalyst Center has encountered " + \
+                                        "this certificate from Cisco ISE, and it is not yet trusted."
+
                     self.log(str(self.msg), "ERROR")
                     self.status = "failed"
                     return
