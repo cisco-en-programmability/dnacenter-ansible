@@ -1077,8 +1077,8 @@ class IseRadiusIntegration(DnacBase):
             else:
                 try:
                     ise_integration_wait_time_int = int(ise_integration_wait_time)
-                    if ise_integration_wait_time_int < 1 or ise_integration_wait_time_int > 60:
-                        self.msg = "The ise_integration_wait_time should be from 1 to 60 seconds."
+                    if ise_integration_wait_time_int < 1 or ise_integration_wait_time_int > 100:
+                        self.msg = "The ise_integration_wait_time should be from 1 to 100 seconds."
                         self.status = "failed"
                         return self
 
@@ -1282,9 +1282,17 @@ class IseRadiusIntegration(DnacBase):
                 ise_server_details = get_dict_result(response, "ipAddress", ipAddress)
                 ise_state_set = {"FAILED", "INPROGRESS"}
                 state = ise_server_details.get("state")
+                if state == "INPROGRESS":
+                    self.msg = "The Cisco ISE server '{0}' integration is not completed. The state is 'INPROGRESS'." \
+                               .format(ipAddress)
+                elif state == "FAILED":
+                    self.msg = "The Cisco ISE server '{0}' integration is not successful. The state is 'FAILED'." \
+                               .format(ipAddress)
+                    if self.want.get("trusted_server") is False:
+                        self.msg += " This is the first time Cisco Catalyst Center has encountered " + \
+                                    "this certificate from Cisco ISE, and it is not yet trusted."
+
                 if state in ise_state_set:
-                    self.msg = "The Cisco ISE server '{0}' integration is not successful. The state is '{1}'. ".format(ipAddress, state) + \
-                               "Expected states for successful integration are not in {0}.".format(ise_state_set)
                     self.log(str(self.msg), "ERROR")
                     self.status = "failed"
                     return
