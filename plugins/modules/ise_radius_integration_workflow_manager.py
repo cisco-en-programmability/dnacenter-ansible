@@ -206,7 +206,7 @@ options:
           ise_integration_wait_time:
             description:
             - Indicates the sleep time after initiating the Cisco ISE integration process.
-            - Maximum sleep time should be less or equal to 60 seconds.
+            - Maximum sleep time should be less or equal to 120 seconds.
             default: 20
             type: int
 requirements:
@@ -1077,8 +1077,8 @@ class IseRadiusIntegration(DnacBase):
             else:
                 try:
                     ise_integration_wait_time_int = int(ise_integration_wait_time)
-                    if ise_integration_wait_time_int < 1 or ise_integration_wait_time_int > 100:
-                        self.msg = "The ise_integration_wait_time should be from 1 to 100 seconds."
+                    if ise_integration_wait_time_int < 1 or ise_integration_wait_time_int > 120:
+                        self.msg = "The ise_integration_wait_time should be from 1 to 120 seconds."
                         self.status = "failed"
                         return self
 
