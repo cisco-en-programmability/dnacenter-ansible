@@ -206,7 +206,7 @@ options:
           ise_integration_wait_time:
             description:
             - Indicates the sleep time after initiating the Cisco ISE integration process.
-            - Maximum sleep time should be less or equal to 60 seconds.
+            - Maximum sleep time should be less or equal to 120 seconds.
             default: 20
             type: int
 requirements:
@@ -1077,8 +1077,8 @@ class IseRadiusIntegration(DnacBase):
             else:
                 try:
                     ise_integration_wait_time_int = int(ise_integration_wait_time)
-                    if ise_integration_wait_time_int < 1 or ise_integration_wait_time_int > 60:
-                        self.msg = "The ise_integration_wait_time should be from 1 to 60 seconds."
+                    if ise_integration_wait_time_int < 1 or ise_integration_wait_time_int > 120:
+                        self.msg = "The ise_integration_wait_time should be from 1 to 120 seconds."
                         self.status = "failed"
                         return self
 
@@ -1283,8 +1283,17 @@ class IseRadiusIntegration(DnacBase):
                 ise_state_set = {"FAILED", "INPROGRESS"}
                 state = ise_server_details.get("state")
                 if state in ise_state_set:
-                    self.msg = "The Cisco ISE server '{0}' integration is not successful. The state is '{1}'. ".format(ipAddress, state) + \
-                               "Expected states for successful integration are not in {0}.".format(ise_state_set)
+                    if state == "INPROGRESS":
+                        self.msg = "The Cisco ISE server '{ip}' integration is incomplete, currently in 'INPROGRESS' state. ".format(ip=ipAddress) + \
+                                   "The integration has exceeded the expected duration of '{wait_time}' second(s)." \
+                                   .format(wait_time=ise_integration_wait_time)
+                    elif state == "FAILED":
+                        self.msg = "The Cisco ISE server '{ip}' integration has failed and in 'FAILED' state." \
+                                   .format(ip=ipAddress)
+                        if self.want.get("trusted_server") is False:
+                            self.msg += " This is the first time Cisco Catalyst Center has encountered " + \
+                                        "this certificate from Cisco ISE, and it is not yet trusted."
+
                     self.log(str(self.msg), "ERROR")
                     self.status = "failed"
                     return
