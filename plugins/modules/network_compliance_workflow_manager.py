@@ -1373,7 +1373,7 @@ class NetworkCompliance(DnacBase):
 
             # Handle error if task execution encounters an error
             if response[0].get("isError"):
-                failure_reason = response.get("failureReason")
+                failure_reason = response[0].get("failureReason")
                 self.handle_error(task_name, mgmt_ip_instance_id_map, failure_reason)
                 break
 
@@ -1382,7 +1382,9 @@ class NetworkCompliance(DnacBase):
                 for ip, device_id in mgmt_ip_instance_id_map.items():
                     if device_id in progress and "copy_Running_To_Startup=Success" in progress:
                         success_devices.append(ip)
+                        self.log("{0} operation completed successfully on device: {1} with device UUID: {2}".format(task_name, ip, device_id), "DEBUG")
                     elif device_id in progress and "copy_Running_To_Startup=Failed" in progress:
+                        self.log("{0} operation FAILED on device: {1} with device UUID: {2}".format(task_name, ip, device_id),  "DEBUG")
                         failed_devices.append(ip)
 
             success_devices = set(success_devices)
