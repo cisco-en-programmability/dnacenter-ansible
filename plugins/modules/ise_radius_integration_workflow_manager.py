@@ -1284,11 +1284,12 @@ class IseRadiusIntegration(DnacBase):
                 state = ise_server_details.get("state")
                 if state in ise_state_set:
                     if state == "INPROGRESS":
-                        self.msg = "The Cisco ISE server '{0}' integration is not completed. The state is 'INPROGRESS'. ".format(ipAddress) + \
-                                   "Integration took more than '{0}' seconds.".format(ise_integration_wait_time)
+                        self.msg = "The Cisco ISE server '{ip}' integration is incomplete, currently in 'INPROGRESS' state. ".format(ip=ipAddress) + \
+                                   "The integration has exceeded the expected duration of '{wait_time}' second(s)." \
+                                   .format(wait_time=ise_integration_wait_time)
                     elif state == "FAILED":
-                        self.msg = "The Cisco ISE server '{0}' integration is not successful. The state is 'FAILED'." \
-                                   .format(ipAddress)
+                        self.msg = "The Cisco ISE server '{ip}' integration has failed and in 'FAILED' state." \
+                                   .format(ip=ipAddress)
                         if self.want.get("trusted_server") is False:
                             self.msg += " This is the first time Cisco Catalyst Center has encountered " + \
                                         "this certificate from Cisco ISE, and it is not yet trusted."
