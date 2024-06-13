@@ -1244,7 +1244,7 @@ class IseRadiusIntegration(DnacBase):
                 if (end_time - start_time) >= self.max_timeout:
                     self.log("Max timeout of {0} sec has reached for the execution id '{1}'. Exiting the loop due to "
                              "unexpected API 'add_authentication_and_policy_server_access_configuration' status."
-                            .format(self.max_timeout, task_id), "WARNING")
+                             .format(self.max_timeout, task_id), "WARNING")
                     break
 
                 task_details = self.get_task_details(task_id)
