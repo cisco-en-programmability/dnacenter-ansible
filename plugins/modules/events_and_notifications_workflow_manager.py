@@ -4363,7 +4363,7 @@ class Events(DnacBase):
             if webhook_params.get('method') and webhook_params.get('method') not in ["POST", "PUT"]:
                 self.status = "failed"
                 self.msg = (
-                    "Invalid Webhook method name '{0}' for creating/updating Webhook destination in Cisco Catalyst Center."
+                    "Invalid Webhook method name '{0}' for creating/updating Webhook destination in Cisco Catalyst Center. "
                     "Select one of the following method 'POST/PUT'.".format(webhook_params.get('method'))
                 )
                 self.log(self.msg, "ERROR")
