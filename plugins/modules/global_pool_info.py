@@ -10,7 +10,7 @@ module: global_pool_info
 short_description: Information module for Global Pool
 description:
 - Get all Global Pool.
-- API to get global pool.
+- API to get the global pool.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,15 +21,15 @@ options:
     type: dict
   offset:
     description:
-    - Offset query parameter. Offset/starting row.
-    type: int
+    - Offset query parameter. Offset/starting row. Indexed from 1. Default value of 1.
+    type: float
   limit:
     description:
-    - Limit query parameter. No of Global Pools to be retrieved.
-    type: int
+    - Limit query parameter. Number of Global Pools to be retrieved. Default is 25 if not specified.
+    type: float
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.7.1
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Network Settings GetGlobalPool
   description: Complete reference of the GetGlobalPool API.
@@ -59,7 +59,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
@@ -76,20 +75,26 @@ dnac_response:
           "gateways": [
             "string"
           ],
-          "createTime": "string",
-          "lastUpdateTime": "string",
-          "totalIpAddressCount": "string",
-          "usedIpAddressCount": "string",
+          "createTime": 0,
+          "lastUpdateTime": 0,
+          "totalIpAddressCount": 0,
+          "usedIpAddressCount": 0,
           "parentUuid": "string",
           "owner": "string",
-          "shared": "string",
-          "overlapping": "string",
-          "configureExternalDhcp": "string",
+          "shared": true,
+          "overlapping": true,
+          "configureExternalDhcp": true,
           "usedPercentage": "string",
           "clientOptions": {},
+          "ipPoolType": "string",
+          "unavailableIpAddressCount": 0,
+          "availableIpAddressCount": 0,
+          "totalAssignableIpAddressCount": 0,
           "dnsServerIps": [
             "string"
           ],
+          "hasSubpools": true,
+          "defaultAssignedIpAddressCount": 0,
           "context": [
             {
               "owner": "string",
@@ -97,7 +102,7 @@ dnac_response:
               "contextValue": "string"
             }
           ],
-          "ipv6": "string",
+          "ipv6": true,
           "id": "string",
           "ipPoolCidr": "string"
         }

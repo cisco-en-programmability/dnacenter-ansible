@@ -20,14 +20,16 @@ options:
     description: Additional headers.
     type: dict
   managedAPLocations:
-    description: ManagedAPLocations path parameter.
+    description: ManagedAPLocations path parameter. List of managed AP locations (Site
+      Hierarchies). This parameter needs to be encoded as per UTF-8 encoding.
     type: str
   ssidName:
-    description: SsidName path parameter.
+    description: SsidName path parameter. SSID Name. This parameter needs to be encoded
+      as per UTF-8 encoding.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.7.1
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Wireless DeleteSSIDAndProvisionItToDevices
   description: Complete reference of the DeleteSSIDAndProvisionItToDevices API.
@@ -56,7 +58,6 @@ EXAMPLES = r"""
     ssidName: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

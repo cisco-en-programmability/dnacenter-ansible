@@ -10,7 +10,10 @@ module: system_performance_info
 short_description: Information module for System Performance
 description:
 - Get all System Performance.
-- This API gives the aggregated performance indicators. The data can be retrieved for the last 3 months.
+- >
+   Retrieves the aggregated metrics total, average or maximum of cluster key performance indicators KPIs , such as
+   CPU utilization, memory utilization or network rates recorded within a specified time period. The data will be
+   available from the past 24 hours.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -32,16 +35,16 @@ options:
     - >
       StartTime query parameter. This is the epoch start time in milliseconds from which performance indicator
       need to be fetched.
-    type: int
+    type: float
   endTime:
     description:
     - >
       EndTime query parameter. This is the epoch end time in milliseconds upto which performance indicator need to
       be fetched.
-    type: int
+    type: float
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.7.1
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Health and Performance SystemPerformanceAPI
   description: Complete reference of the SystemPerformanceAPI API.
@@ -73,7 +76,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

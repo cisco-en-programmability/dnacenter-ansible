@@ -20,8 +20,8 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.7.1
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Devices GetOSPFInterfaces
   description: Complete reference of the GetOSPFInterfaces API.
@@ -49,7 +49,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
@@ -59,9 +58,24 @@ dnac_response:
     {
       "response": [
         {
+          "addresses": [
+            {
+              "address": {
+                "ipAddress": {
+                  "address": "string"
+                },
+                "ipMask": {
+                  "address": "string"
+                },
+                "isInverseMask": true
+              },
+              "type": "string"
+            }
+          ],
           "adminStatus": "string",
           "className": "string",
           "description": "string",
+          "name": "string",
           "deviceId": "string",
           "duplex": "string",
           "id": "string",
@@ -72,11 +86,14 @@ dnac_response:
           "ipv4Address": "string",
           "ipv4Mask": "string",
           "isisSupport": "string",
+          "lastOutgoingPacketTime": 0,
+          "lastIncomingPacketTime": 0,
           "lastUpdated": "string",
           "macAddress": "string",
           "mappedPhysicalInterfaceId": "string",
           "mappedPhysicalInterfaceName": "string",
           "mediaType": "string",
+          "mtu": "string",
           "nativeVlanId": "string",
           "ospfSupport": "string",
           "pid": "string",

@@ -83,8 +83,8 @@ options:
     type: str
     version_added: 4.0.0
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.7.1
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for SDA AddIPPoolInSDAVirtualNetwork
   description: Complete reference of the AddIPPoolInSDAVirtualNetwork API.
@@ -146,7 +146,6 @@ EXAMPLES = r"""
     vlanName: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

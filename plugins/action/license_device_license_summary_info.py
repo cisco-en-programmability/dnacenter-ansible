@@ -25,15 +25,15 @@ from ansible_collections.cisco.dnac.plugins.plugin_utils.dnac import (
 argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
-    page_number=dict(type="int"),
+    page_number=dict(type="float"),
     order=dict(type="str"),
     sort_by=dict(type="str"),
     dna_level=dict(type="str"),
     device_type=dict(type="str"),
-    limit=dict(type="int"),
+    limit=dict(type="float"),
     registration_status=dict(type="str"),
     virtual_account_name=dict(type="str"),
-    smart_account_id=dict(type="int"),
+    smart_account_id=dict(type="str"),
     device_uuid=dict(type="str"),
     headers=dict(type="dict"),
 ))

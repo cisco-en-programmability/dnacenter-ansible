@@ -17,19 +17,23 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   categories:
-    description: Compliance Check Run's categories.
+    description: Category can have any value among 'INTENT'(mapped to compliance types
+      NETWORK_SETTINGS,NETWORK_PROFILE,WORKFLOW,FABRIC,APPLICATION_VISIBILITY), 'RUNNING_CONFIG'
+      , 'IMAGE' , 'PSIRT' , 'EOX' , 'NETWORK_SETTINGS'.
     elements: str
     type: list
   deviceUuids:
-    description: Compliance Check Run's deviceUuids.
+    description: UUID of the device.
     elements: str
     type: list
   triggerFull:
-    description: TriggerFull flag.
+    description: If it is true then compliance will be triggered for all categories.
+      If it is false then compliance will be triggered for categories mentioned in categories
+      section .
     type: bool
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.7.1
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Compliance RunCompliance
   description: Complete reference of the RunCompliance API.
@@ -60,7 +64,6 @@ EXAMPLES = r"""
     triggerFull: true
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

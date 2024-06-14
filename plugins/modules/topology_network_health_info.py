@@ -23,11 +23,11 @@ options:
     type: dict
   timestamp:
     description:
-    - Timestamp query parameter. Epoch time(in milliseconds) when the Network health data is required.
-    type: str
+    - Timestamp query parameter. UTC timestamp of network health data in milliseconds.
+    type: float
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.7.1
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Topology GetOverallNetworkHealth
   description: Complete reference of the GetOverallNetworkHealth API.
@@ -52,11 +52,10 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
-    timestamp: string
+    timestamp: 0
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
@@ -71,20 +70,27 @@ dnac_response:
           "healthScore": 0,
           "totalCount": 0,
           "goodCount": 0,
+          "noHealthCount": 0,
           "unmonCount": 0,
           "fairCount": 0,
           "badCount": 0,
-          "entity": {},
+          "maintenanceModeCount": 0,
+          "entity": "string",
           "timeinMillis": 0
         }
       ],
       "measuredBy": "string",
-      "latestMeasuredByEntity": {},
+      "latestMeasuredByEntity": "string",
       "latestHealthScore": 0,
       "monitoredDevices": 0,
       "monitoredHealthyDevices": 0,
       "monitoredUnHealthyDevices": 0,
       "unMonitoredDevices": 0,
+      "noHealthDevices": 0,
+      "totalDevices": 0,
+      "monitoredPoorHealthDevices": 0,
+      "monitoredFairHealthDevices": 0,
+      "healthContributingDevices": 0,
       "healthDistirubution": [
         {
           "category": "string",
@@ -93,13 +99,19 @@ dnac_response:
           "goodPercentage": 0,
           "badPercentage": 0,
           "fairPercentage": 0,
+          "noHealthPercentage": 0,
           "unmonPercentage": 0,
           "goodCount": 0,
           "badCount": 0,
           "fairCount": 0,
+          "noHealthCount": 0,
           "unmonCount": 0,
+          "thirdPartyDeviceCount": 0,
           "kpiMetrics": [
-            {}
+            {
+              "key": "string",
+              "value": "string"
+            }
           ]
         }
       ]

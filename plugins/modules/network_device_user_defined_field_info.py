@@ -12,8 +12,8 @@ description:
 - Get all Network Device User Defined Field.
 - >
    Gets existing global User Defined Fields. If no input is given, it fetches ALL the Global UDFs. Filter/search is
-   supported either by UDF Ids or by UDF names, but not both.
-version_added: '6.7.0'
+   supported by UDF Ids or UDF names or both.
+version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
 author: Rafael Campos (@racampos)
@@ -30,8 +30,8 @@ options:
     - Name query parameter. Comma-seperated name(s) used for search/filtering.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.7.1
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Devices GetAllUserDefinedFields
   description: Complete reference of the GetAllUserDefinedFields API.
@@ -61,7 +61,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

@@ -60,7 +60,7 @@ options:
     - RuleId path parameter. Unique rule identifier.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
+- dnacentersdk >= 2.7.1
 - python >= 3.9
 notes:
   - SDK Method used are

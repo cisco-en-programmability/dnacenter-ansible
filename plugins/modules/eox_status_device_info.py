@@ -13,7 +13,7 @@ description:
 - Get Eox Status Device by id.
 - Retrieves EoX details for a device.
 - Retrieves EoX status for all devices in the network.
-version_added: '6.7.0'
+version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
 author: Rafael Campos (@racampos)
@@ -26,8 +26,8 @@ options:
     - DeviceId path parameter. Device instance UUID.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.7.1
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for EoX GetEoXDetailsPerDevice
   description: Complete reference of the GetEoXDetailsPerDevice API.
@@ -37,8 +37,8 @@ seealso:
   link: https://developer.cisco.com/docs/dna-center/#!get-eo-x-status-for-all-devices
 notes:
   - SDK Method used are
-    eo_x.EoX.get_eo_x_details_per_device,
-    eo_x.EoX.get_eo_x_status_for_all_devices,
+    eox.Eox.get_eox_details_per_device,
+    eox.Eox.get_eox_status_for_all_devices,
 
   - Paths used are
     get /dna/intent/api/v1/eox-status/device,
@@ -73,7 +73,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
@@ -86,27 +85,30 @@ dnac_response:
         "alertCount": 0,
         "eoxDetails": [
           {
+            "name": "string",
             "bulletinHeadline": "string",
+            "bulletinName": "string",
             "bulletinNumber": "string",
             "bulletinURL": "string",
-            "endOfHardwareNewServiceAttachmentDate": 0,
-            "endOfHardwareServiceContractRenewalDate": 0,
-            "endOfLastHardwareShipDate": 0,
-            "endOfLifeDate": 0,
-            "endOfLifeExternalAnnouncementDate": 0,
-            "endOfSaleDate": 0,
-            "endOfSignatureReleasesDate": 0,
-            "endOfSoftwareVulnerabilityOrSecuritySupportDate": 0,
-            "endOfSoftwareVulnerabilityOrSecuritySupportDateHw": 0,
-            "endOfSoftwareMaintenanceReleasesDate": 0,
+            "endOfHardwareNewServiceAttachmentDate": "string",
+            "endOfHardwareServiceContractRenewalDate": "string",
+            "endOfLastHardwareShipDate": "string",
+            "endOfLifeExternalAnnouncementDate": "string",
+            "endOfSignatureReleasesDate": "string",
+            "endOfSoftwareVulnerabilityOrSecuritySupportDate": "string",
+            "endOfSoftwareVulnerabilityOrSecuritySupportDateHw": "string",
+            "endOfSaleDate": "string",
+            "endOfLifeDate": "string",
+            "lastDateOfSupport": "string",
+            "endOfSoftwareMaintenanceReleasesDate": "string",
             "eoxAlertType": "string",
-            "lastDateOfSupport": 0,
-            "name": "string"
+            "eoXPhysicalType": "string",
+            "bulletinPID": "string"
           }
         ],
         "scanStatus": "string",
         "comments": [
-          {}
+          "string"
         ],
         "lastScanTime": 0
       },

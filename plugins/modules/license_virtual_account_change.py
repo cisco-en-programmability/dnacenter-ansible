@@ -27,15 +27,15 @@ options:
     description: Virtual_account_name path parameter. Name of target virtual account.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.7.1
+- python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Licenses ChangeVirtualAccount2
-  description: Complete reference of the ChangeVirtualAccount2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!change-virtual-account-2
+- name: Cisco DNA Center documentation for Licenses ChangeVirtualAccount
+  description: Complete reference of the ChangeVirtualAccount API.
+  link: https://developer.cisco.com/docs/dna-center/#!change-virtual-account
 notes:
   - SDK Method used are
-    licenses.Licenses.change_virtual_account2,
+    licenses.Licenses.change_virtual_account,
 
   - Paths used are
     post /dna/intent/api/v1/licenses/smartAccount/{smart_account_id}/virtualAccount/{virtual_account_name}/device/transfer,
@@ -58,7 +58,6 @@ EXAMPLES = r"""
     virtual_account_name: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

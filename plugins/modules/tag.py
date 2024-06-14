@@ -19,52 +19,59 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   description:
-    description: Tag's description.
+    description: Description of the tag.
     type: str
   dynamicRules:
     description: Tag's dynamicRules.
     elements: dict
     suboptions:
       memberType:
-        description: Tag's memberType.
+        description: MemberType of the tag (e.g. Networkdevice, interface).
         type: str
       rules:
         description: Tag's rules.
         suboptions:
           items:
-            description: Tag's items.
-            elements: str
+            description: Items details,multiple rules can be defined by items(e.g. "items"
+              {"operation" "ILIKE", "name" "managementIpAddress", "value" "%10%"}, {"operation"
+              "ILIKE", "name" "hostname", "value" "%NA%"} ).
+            elements: dict
             type: list
           name:
-            description: Tag's name.
+            description: Name of the parameter (e.g. For interface portName,adminStatus,speed,status,description.
+              For networkdevice family,series,hostname,managementIpAddress,groupNameHierarchy,softwareVersion).
             type: str
           operation:
-            description: Tag's operation.
+            description: Opeartion used in the rules (e.g. OR,IN,EQ,LIKE,ILIKE,AND).
             type: str
           value:
-            description: Tag's value.
+            description: Value of the parameter (e.g. For portName 1/0/1,for adminStatus,status
+              up/down, for speed any integer value, for description any valid string,
+              for family switches, for series C3650, for managementIpAddress 10.197.124.90,
+              groupNameHierarchy Global, softwareVersion 16.9.1).
             type: str
           values:
-            description: Tag's values.
+            description: Values of the parameter,Only one of the value or values can
+              be used for the given parameter. (for managementIpAddress e.g. "10.197.124.90","10.197.124.91").
             elements: str
             type: list
         type: dict
     type: list
   id:
-    description: Tag's id.
+    description: Mandatory instanceUuid of the tag that needs to be updated.
     type: str
   instanceTenantId:
-    description: Tag's instanceTenantId.
+    description: InstanceTenantId generated for the tag.
     type: str
   name:
-    description: Tag's name.
+    description: Name of the tag.
     type: str
   systemTag:
-    description: SystemTag flag.
+    description: True for system created tags, false for user defined tags.
     type: bool
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.7.1
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Tag CreateTag
   description: Complete reference of the CreateTag API.
@@ -104,7 +111,7 @@ EXAMPLES = r"""
     - memberType: string
       rules:
         items:
-        - string
+        - {}
         name: string
         operation: string
         value: string
@@ -129,7 +136,8 @@ EXAMPLES = r"""
     dynamicRules:
     - memberType: string
       rules:
-        items: string
+        items:
+        - {}
         name: string
         operation: string
         value: string
@@ -153,7 +161,6 @@ EXAMPLES = r"""
     id: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
