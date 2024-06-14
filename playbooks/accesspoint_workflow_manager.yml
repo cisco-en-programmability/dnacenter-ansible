@@ -1,0 +1,32 @@
+--- 
+- name: Create/Update/Delete Wireless Accesspoint Configuration
+  hosts: dnac_servers
+  connection: local
+  gather_facts: no
+  vars_files:
+    - "credentials.yml"
+  tasks:
+    - name: Updating Accesspoint Configureation
+      cisco.dnac.accesspoint_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: True
+        dnac_log_level: DEBUG
+        config_verify: True
+        state: merged
+        config:
+          - device_fields: "id,hostname,family,type,mac_address,management_ip_address,ap_ethernet_mac_address,last_updated,up_time"
+            ap_selected_field: "mac_address,eth_mac,ap_name,led_brightness_level,led_status,location"
+            mac_address: "90:e9:5e:03:f3:40"
+            led_brightness_level: 2
+            led_status: "Enabled"
+            location: "LTTS-Bangalore"
+            ap_name: "LTTS-Test1"
+            ap_name_new: "NFW-AP1-9130AXE"
+
+      register: output_list
