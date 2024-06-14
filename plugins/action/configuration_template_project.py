@@ -37,7 +37,7 @@ argument_spec.update(dict(
     id=dict(type="str"),
     lastUpdateTime=dict(type="int"),
     name=dict(type="str"),
-    templates=dict(type="dict"),
+    templates=dict(type="list"),
     projectId=dict(type="str"),
 ))
 

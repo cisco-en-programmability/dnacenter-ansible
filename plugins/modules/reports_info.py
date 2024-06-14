@@ -34,8 +34,8 @@ options:
     - ReportId path parameter. ReportId of report.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.7.1
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Reports GetAScheduledReport
   description: Complete reference of the GetAScheduledReport API.
@@ -83,7 +83,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

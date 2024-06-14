@@ -11,7 +11,7 @@ short_description: Information module for Users External Servers
 description:
 - Get all Users External Servers.
 - Get external users authentication servers.
-version_added: '6.7.0'
+version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
 author: Rafael Campos (@racampos)
@@ -21,18 +21,20 @@ options:
     type: dict
   invokeSource:
     description:
-    - InvokeSource query parameter. The source that invokes this API.
+    - >
+      InvokeSource query parameter. The source that invokes this API. The value of this query parameter must be
+      set to "external".
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.7.1
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for User and Roles GetExternalAuthenticationServersAPI
   description: Complete reference of the GetExternalAuthenticationServersAPI API.
   link: https://developer.cisco.com/docs/dna-center/#!get-external-authentication-servers-api
 notes:
   - SDK Method used are
-    user_and_roles.UserandRoles.get_external_authentication_servers_ap_i,
+    userand_roles.UserandRoles.get_external_authentication_servers_api,
 
   - Paths used are
     get /dna/system/api/v1/users/external-servers,
@@ -54,7 +56,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

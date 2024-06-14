@@ -22,12 +22,12 @@ options:
   complianceStatus:
     description:
     - >
-      ComplianceStatus query parameter. Compliance status can have value among 'COMPLIANT', 'NON_COMPLIANT',
-      'IN_PROGRESS', 'NOT_AVAILABLE', 'NOT_APPLICABLE', 'ERROR'.
+      ComplianceStatus query parameter. Specify "Compliance status(es)" separated by commas. The Compliance status
+      can be 'COMPLIANT', 'NON_COMPLIANT', 'IN_PROGRESS', 'NOT_AVAILABLE', 'NOT_APPLICABLE', 'ERROR'.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.7.1
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Compliance GetComplianceStatusCount
   description: Complete reference of the GetComplianceStatusCount API.
@@ -56,7 +56,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
@@ -65,6 +64,6 @@ dnac_response:
   sample: >
     {
       "version": "string",
-      "response": 0
+      "response": "string"
     }
 """

@@ -38,6 +38,7 @@ argument_spec.update(dict(
     view=dict(type="dict"),
     viewGroupId=dict(type="str"),
     viewGroupVersion=dict(type="str"),
+    dataCategory=dict(type="str"),
     reportId=dict(type="str"),
 ))
 
@@ -61,6 +62,7 @@ class Reports(object):
             view=params.get("view"),
             viewGroupId=params.get("viewGroupId"),
             viewGroupVersion=params.get("viewGroupVersion"),
+            dataCategory=params.get("dataCategory"),
             report_id=params.get("reportId"),
         )
 
@@ -80,6 +82,7 @@ class Reports(object):
         new_object_params['view'] = self.new_object.get('view')
         new_object_params['viewGroupId'] = self.new_object.get('viewGroupId')
         new_object_params['viewGroupVersion'] = self.new_object.get('viewGroupVersion')
+        new_object_params['dataCategory'] = self.new_object.get('dataCategory')
         return new_object_params
 
     def delete_by_id_params(self):
@@ -157,6 +160,7 @@ class Reports(object):
             ("view", "view"),
             ("viewGroupId", "viewGroupId"),
             ("viewGroupVersion", "viewGroupVersion"),
+            ("dataCategory", "dataCategory"),
             ("reportId", "report_id"),
         ]
         # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params

@@ -27,14 +27,14 @@ options:
     description: InterfaceUuid path parameter. Interface Id.
     type: str
   operation:
-    description: Operation.
+    description: Operation needs to be specified as 'ClearMacAddress'.
     type: str
   payload:
-    description: Payload.
+    description: Payload is not applicable.
     type: dict
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.7.1
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Devices ClearMacAddressTable
   description: Complete reference of the ClearMacAddressTable API.
@@ -64,7 +64,6 @@ EXAMPLES = r"""
     payload: {}
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

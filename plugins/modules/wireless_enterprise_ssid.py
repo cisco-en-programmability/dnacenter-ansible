@@ -18,20 +18,36 @@ extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
+  aaaOverride:
+    description: Aaa Override.
+    type: bool
+  authKeyMgmt:
+    description: Takes string inputs for the AKMs that should be set true. Possible
+      AKM values dot1x,dot1x_ft, dot1x_sha, psk, psk_ft, psk_sha, owe, sae, sae_ft.
+    elements: str
+    type: list
   basicServiceSetClientIdleTimeout:
-    description: Basic Service Set Client Idle Timeout.
+    description: Basic Service Set Client Idle Timeout (Default 300 if enableBasicServiceSetMaxIdle
+      is true, 0 otherwise).
     type: int
   clientExclusionTimeout:
-    description: Client Exclusion Timeout.
+    description: Client Exclusion Timeout(Default 180 if enableClientExclusion is true,
+      0 otherwise).
     type: int
+  clientRateLimit:
+    description: Client Rate Limit (in bits per second).
+    type: float
+  coverageHoleDetectionEnable:
+    description: Coverage Hole Detection Enable.
+    type: bool
   enableBasicServiceSetMaxIdle:
-    description: Enable Basic Service Set Max Idle.
+    description: Enable Basic Service Set Max Idle (Default true).
     type: bool
   enableBroadcastSSID:
     description: Enable Broadcase SSID.
     type: bool
   enableClientExclusion:
-    description: Enable Client Exclusion.
+    description: Enable Client Exclusion(Default true).
     type: bool
   enableDirectedMulticastService:
     description: Enable Directed Multicast Service.
@@ -46,14 +62,34 @@ options:
     description: Enable Neighbor List.
     type: bool
   enableSessionTimeOut:
-    description: Enable Session Timeout.
+    description: Enable Session Timeout(Default true).
     type: bool
   fastTransition:
     description: Fast Transition.
     type: str
+  ghz24Policy:
+    description: Ghz24 Policy.
+    type: str
+  ghz6PolicyClientSteering:
+    description: Ghz6 Policy Client Steering.
+    type: bool
   mfpClientProtection:
     description: Management Frame Protection Client.
     type: str
+  multiPSKSettings:
+    description: Wireless Enterprise Ssid's multiPSKSettings.
+    elements: dict
+    suboptions:
+      passphrase:
+        description: Passphrase.
+        type: str
+      passphraseType:
+        description: Passphrase Type.
+        type: str
+      priority:
+        description: Priority.
+        type: int
+    type: list
   name:
     description: SSID NAME.
     type: str
@@ -64,15 +100,34 @@ options:
   passphrase:
     description: Passphrase.
     type: str
-  radioPolicy:
-    description: Radio Policy Enum (enum Triple band operation (2.4GHz, 5GHz and 6GHz),
-      Triple band operation with band select, 5GHz only, 2.4GHz only, 6GHz only).
+  policyProfileName:
+    description: Policy Profile Name.
     type: str
+  profileName:
+    description: Profile Name.
+    type: str
+  protectedManagementFrame:
+    description: (Required applicable for Security Type WPA3_PERSONAL, WPA3_ENTERPRISE,
+      OPEN_SECURED) and (Optional, Required Applicable for Security Type WPA2_WPA3_PERSONAL
+      and WPA2_WPA3_ENTERPRISE).
+    type: str
+  radioPolicy:
+    description: Radio Policy Enum.
+    type: str
+  rsnCipherSuiteCcmp256:
+    description: Rsn Cipher Suite Ccmp256.
+    type: bool
+  rsnCipherSuiteGcmp128:
+    description: Rsn Cipher Suite Gcmp 128.
+    type: bool
+  rsnCipherSuiteGcmp256:
+    description: Rsn Cipher Suite Gcmp256.
+    type: bool
   securityLevel:
     description: Security Level.
     type: str
   sessionTimeOut:
-    description: Session Time Out.
+    description: Session Time Out (Default 1800 if enableSessionTimeOut is true, 0 otherwise).
     type: int
   ssidName:
     description: SsidName path parameter. Enter the SSID name to be deleted.
@@ -81,8 +136,8 @@ options:
     description: Traffic Type Enum (voicedata or data ).
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.7.1
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Wireless CreateEnterpriseSSID
   description: Complete reference of the CreateEnterpriseSSID API.
@@ -117,8 +172,13 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: present
+    aaaOverride: true
+    authKeyMgmt:
+    - string
     basicServiceSetClientIdleTimeout: 0
     clientExclusionTimeout: 0
+    clientRateLimit: 0
+    coverageHoleDetectionEnable: true
     enableBasicServiceSetMaxIdle: true
     enableBroadcastSSID: true
     enableClientExclusion: true
@@ -128,12 +188,24 @@ EXAMPLES = r"""
     enableNeighborList: true
     enableSessionTimeOut: true
     fastTransition: string
+    ghz24Policy: string
+    ghz6PolicyClientSteering: true
     mfpClientProtection: string
+    multiPSKSettings:
+    - passphrase: string
+      passphraseType: string
+      priority: 0
     name: string
     nasOptions:
     - string
     passphrase: string
+    policyProfileName: string
+    profileName: string
+    protectedManagementFrame: string
     radioPolicy: string
+    rsnCipherSuiteCcmp256: true
+    rsnCipherSuiteGcmp128: true
+    rsnCipherSuiteGcmp256: true
     securityLevel: string
     sessionTimeOut: 0
     trafficType: string
@@ -148,8 +220,13 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: present
+    aaaOverride: true
+    authKeyMgmt:
+    - string
     basicServiceSetClientIdleTimeout: 0
     clientExclusionTimeout: 0
+    clientRateLimit: 0
+    coverageHoleDetectionEnable: true
     enableBasicServiceSetMaxIdle: true
     enableBroadcastSSID: true
     enableClientExclusion: true
@@ -159,12 +236,24 @@ EXAMPLES = r"""
     enableNeighborList: true
     enableSessionTimeOut: true
     fastTransition: string
+    ghz24Policy: string
+    ghz6PolicyClientSteering: true
     mfpClientProtection: string
+    multiPSKSettings:
+    - passphrase: string
+      passphraseType: string
+      priority: 0
     name: string
     nasOptions:
     - string
     passphrase: string
+    policyProfileName: string
+    profileName: string
+    protectedManagementFrame: string
     radioPolicy: string
+    rsnCipherSuiteCcmp256: true
+    rsnCipherSuiteGcmp128: true
+    rsnCipherSuiteGcmp256: true
     securityLevel: string
     sessionTimeOut: 0
     trafficType: string
@@ -182,7 +271,6 @@ EXAMPLES = r"""
     ssidName: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

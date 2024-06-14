@@ -77,6 +77,7 @@ class IntegrationSettingsInstancesItsm(object):
         new_object_params['description'] = self.new_object.get('description')
         new_object_params['data'] = self.new_object.get('data')
         new_object_params['dypName'] = self.new_object.get('dypName')
+        new_object_params['instanceId'] = self.new_object.get('instanceId')
         return new_object_params
 
     def get_object_by_name(self, name):

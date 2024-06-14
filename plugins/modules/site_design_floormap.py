@@ -24,7 +24,7 @@ options:
     description: Site Design Floormap's payload
     type: dict
 requirements:
-- dnacentersdk >= 2.6.0
+- dnacentersdk >= 2.7.1
 - python >= 3.9
 notes:
   - SDK Method used are

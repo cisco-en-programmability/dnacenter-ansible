@@ -28,7 +28,7 @@ argument_spec.update(dict(
     forcePushTemplate=dict(type="bool"),
     isComposite=dict(type="bool"),
     mainTemplateId=dict(type="str"),
-    memberTemplateDeploymentInfo=dict(type="str"),
+    memberTemplateDeploymentInfo=dict(type="list"),
     targetInfo=dict(type="list"),
     templateId=dict(type="str"),
 ))

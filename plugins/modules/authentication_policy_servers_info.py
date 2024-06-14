@@ -11,7 +11,7 @@ short_description: Information module for Authentication Policy Servers
 description:
 - Get all Authentication Policy Servers.
 - API to get Authentication and Policy Servers.
-version_added: '6.7.0'
+version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
 author: Rafael Campos (@racampos)
@@ -25,15 +25,15 @@ options:
     type: bool
   state_:
     description:
-    - State query parameter. Valid values are INPROGRESS, ACTIVE, DELETED, RBAC-FAILURE, FAILED.
+    - State query parameter. Valid values are ACTIVE, INACTIVE, RBAC_SUCCESS, RBAC_FAILURE, DELETED, FAILED, INPROGRESS.
     type: str
   role:
     description:
     - Role query parameter. Authentication and Policy Server Role (Example primary, secondary).
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.7.1
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for System Settings GetAuthenticationAndPolicyServers
   description: Complete reference of the GetAuthenticationAndPolicyServers API.
@@ -64,7 +64,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
@@ -79,8 +78,8 @@ dnac_response:
         "protocol": "string",
         "role": "string",
         "port": 0,
-        "authenticationPort": "string",
-        "accountingPort": "string",
+        "authenticationPort": 0,
+        "accountingPort": 0,
         "retries": 0,
         "timeoutSeconds": 0,
         "isIseEnabled": true,
@@ -115,7 +114,9 @@ dnac_response:
         "encryptionKey": "string",
         "useDnacCertForPxgrid": true,
         "iseEnabled": true,
-        "pxgridEnabled": true
+        "pxgridEnabled": true,
+        "rbacUuid": "string",
+        "multiDnacEnabled": true
       }
     ]
 """

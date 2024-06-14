@@ -10,8 +10,8 @@ module: user_info
 short_description: Information module for User
 description:
 - Get all User.
-- Get all users for the Cisco DNA Center system.
-version_added: '6.7.0'
+- Get all users for the Cisco DNA Center System.
+version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
 author: Rafael Campos (@racampos)
@@ -21,18 +21,26 @@ options:
     type: dict
   invokeSource:
     description:
-    - InvokeSource query parameter. The source that invokes this API.
+    - >
+      InvokeSource query parameter. The source that invokes this API. The value of this query parameter must be
+      set to "external".
+    type: str
+  authSource:
+    description:
+    - >
+      AuthSource query parameter. The source that authenticates the user. The value of this query parameter can be
+      set to "internal" or "external". If not provided, then all users will be returned in the response.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.7.1
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for User and Roles GetUsersAPI
   description: Complete reference of the GetUsersAPI API.
   link: https://developer.cisco.com/docs/dna-center/#!get-users-api
 notes:
   - SDK Method used are
-    user_and_roles.UserandRoles.get_users_api,
+    userand_roles.UserandRoles.get_users_api,
 
   - Paths used are
     get /dna/system/api/v1/user,
@@ -51,10 +59,10 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
     invokeSource: string
+    authSource: string
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

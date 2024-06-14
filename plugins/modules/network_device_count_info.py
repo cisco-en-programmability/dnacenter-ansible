@@ -27,16 +27,36 @@ options:
     description:
     - DeviceId path parameter. Device ID.
     type: str
+  hostname:
+    description:
+    - Hostname query parameter.
+    elements: str
+    type: list
+  managementIpAddress:
+    description:
+    - ManagementIpAddress query parameter.
+    elements: str
+    type: list
+  macAddress:
+    description:
+    - MacAddress query parameter.
+    elements: str
+    type: list
+  locationName:
+    description:
+    - LocationName query parameter.
+    elements: str
+    type: list
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.7.1
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Devices GetDeviceCount2
   description: Complete reference of the GetDeviceCount2 API.
   link: https://developer.cisco.com/docs/dna-center/#!get-device-count
-- name: Cisco DNA Center documentation for Devices GetDeviceInterfaceCount2
-  description: Complete reference of the GetDeviceInterfaceCount2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-device-interface-count-2
+- name: Cisco DNA Center documentation for Devices GetDeviceInterfaceCount
+  description: Complete reference of the GetDeviceInterfaceCount API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-device-interface-count
 notes:
   - SDK Method used are
     devices.Devices.get_device_count,
@@ -59,6 +79,10 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
+    hostname: []
+    managementIpAddress: []
+    macAddress: []
+    locationName: []
   register: result
 
 - name: Get Network Device Count by id
@@ -75,7 +99,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

@@ -36,8 +36,8 @@ options:
     - The filename used to save the download file.
     type: str
 requirements:
-- dnacentersdk >= 2.6.0
-- python >= 3.9
+- dnacentersdk >= 2.7.1
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for File DownloadAFileByFileId
   description: Complete reference of the DownloadAFileByFileId API.
@@ -63,13 +63,9 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
     fileId: string
-    dirPath: /tmp/downloads/Test-242.bin
-    saveFile: true
-    filename: string
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

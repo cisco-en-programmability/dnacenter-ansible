@@ -37,6 +37,7 @@ argument_spec.update(dict(
 
 required_if = [
     ("state", "present", ["payload"], True),
+    ("state", "absent", ["payload"], True),
 ]
 required_one_of = []
 mutually_exclusive = []
@@ -183,8 +184,11 @@ class EventSubscription(object):
         return result
 
     def delete(self):
-        id = self.new_object.get("id")
-        name = self.new_object.get("name")
+        requested_obj = self.new_object.get('payload')
+        if requested_obj and len(requested_obj) > 0:
+            requested_obj = requested_obj[0]
+        id = self.new_object.get("id") or requested_obj.get("id")
+        name = self.new_object.get("name") or requested_obj.get("name")
         result = None
         result = self.dnac.exec(
             family="event_management",
