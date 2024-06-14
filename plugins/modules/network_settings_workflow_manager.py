@@ -244,7 +244,6 @@ options:
                   server_type:
                     description: Server type for managing AAA for network devices.
                     choices: [AAA, ISE]
-                    default: ISE
                     type: str
                   protocol:
                     description: Protocol for AAA or ISE server.
@@ -272,7 +271,6 @@ options:
                   shared_secret:
                     description:
                     - Shared secret for ISE Server.
-                    - Required when the server_type is set to ISE.
                     - Length of the shared secret should be atleast 4 characters.
                     type: str
                 type: dict
@@ -283,7 +281,6 @@ options:
                     description:
                     - Server type for managing AAA for client and endpoints.
                     choices: [AAA, ISE]
-                    default: ISE
                     type: str
                   protocol:
                     description: Protocol for AAA or ISE server.
@@ -311,7 +308,6 @@ options:
                   shared_secret:
                     description:
                     - Shared secret for ISE Server.
-                    - Required when the server_type is set to ISE.
                     - Length of the shared secret should be atleast 4 characters.
                     type: str
                 type: dict
@@ -1812,12 +1808,6 @@ class NetworkSettings(DnacBase):
                 else:
                     del pool_values['ipv6Prefix']
 
-                if not pool_values.get("ipv6AddressSpace"):
-                    keys_to_check = ['ipv6PrefixLength', 'ipv6GateWay', 'ipv6DhcpServers',
-                                     'ipv6DnsServers', 'ipv6TotalHost']
-                    for key in keys_to_check:
-                        if pool_values.get(key) is None:
-                            del pool_values[key]
             else:
                 keys_to_delete = ['type', 'ipv4GlobalPool', 'ipv4Prefix', 'ipv4PrefixLength',
                                   'ipv4TotalHost', 'ipv4Subnet', 'slaacSupport']
@@ -1829,6 +1819,13 @@ class NetworkSettings(DnacBase):
                 for item in copy_pool_values:
                     if pool_values.get(item) is None:
                         del pool_values[item]
+
+            if not pool_values.get("ipv6AddressSpace"):
+                keys_to_check = ['ipv6PrefixLength', 'ipv6GateWay', 'ipv6DhcpServers',
+                                 'ipv6DnsServers', 'ipv6TotalHost', 'ipv6Subnet']
+                for key in keys_to_check:
+                    if key in pool_values:
+                        del pool_values[key]
 
             want_reserve.append(pool_values)
             reserve_pool_index += 1
@@ -1985,9 +1982,9 @@ class NetworkSettings(DnacBase):
                     "servers": server_type
                 })
             else:
-                want_network_settings.get("network_aaa").update({
-                    "servers": "ISE"
-                })
+                self.msg = "The 'server_type' is required under network_aaa."
+                self.status = "failed"
+                return self
 
             if server_type not in server_types:
                 self.msg = "The 'server_type' in the network_aaa should be in {0}".format(server_types)
@@ -2070,9 +2067,9 @@ class NetworkSettings(DnacBase):
                     "servers": server_type
                 })
             else:
-                want_network_settings.get("clientAndEndpoint_aaa").update({
-                    "servers": "ISE"
-                })
+                self.msg = "The 'server_type' is required under client_and_endpoint_aaa."
+                self.status = "failed"
+                return self
 
             if server_type not in server_types:
                 self.msg = "The 'server_type' in the client_and_endpoint_aaa should be in {0}".format(server_types)
