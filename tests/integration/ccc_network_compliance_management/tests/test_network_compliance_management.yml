@@ -1,0 +1,88 @@
+---
+- debug: msg="Starting network compliance management test"
+- debug: msg="Role Path {{ role_path }}"
+
+- block:
+  - name: Load vars and declare dnac vars
+    include_vars:
+      file: "{{ role_path }}/vars/vars_network_compliance_management.yml"
+      name: vars_map
+    vars:
+      dnac_login: &dnac_login
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: True
+        dnac_log_level: DEBUG
+        config_verify: True
+
+  # - debug:
+  #     msg: "{{ vars_map. }}"
+
+#############################################
+#                Clean Up                   #
+#############################################
+
+  - name: Delete device
+    cisco.dnac.inventory_workflow_manager:
+      <<: *dnac_login
+      state: deleted
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.delete_devices }}"
+
+#############################################
+#                Add Devices                #
+#############################################
+
+  - name: Add new device
+    cisco.dnac.inventory_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.device_details }}"
+    register: result_add_device
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_add_device.results }}"
+
+  - name: Assert device addition success
+    assert:
+      that:
+        - item.changed == true
+        - "'added to Cisco Catalyst Center' in item.msg"
+    loop: "{{ result_add_device.results }}"
+    when: result_add_device is defined
+
+#############################################
+#           Run Full Compliance             #
+#############################################
+
+  - name: Pause for 60 seconds before updating interfaces
+    pause:
+      seconds: 60
+
+#############################################
+#           Run Full Compliance             #
+#############################################
+  
+  - name: Run full complaince check on Site
+    cisco.dnac.network_compliance_workflow_manager:
+      <<: *dnac_login
+      dnac_log_append: False
+      config:  
+        - "{{ item }}"
+    loop: "{{ vars_map.run_complaince }}"
+    register: run_complaince
+ 
+  - name: Debug item
+    debug:
+      var: item
+    loop: "{{ run_complaince.results }}"
