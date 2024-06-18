@@ -362,8 +362,9 @@ class DnacBase():
         while True:
             end_time = time.time()
             if (end_time - start_time) >= self.max_timeout:
-                self.msg = "Max timeout of {0} sec has reached for the task id '{1}'. ".format(self.max_timeout, task_id) + \
-                           "Exiting the loop due to unexpected API '{2}' status.".format(api_name)
+                self.msg = "Max timeout of {max_timeout} sec has reached for the task id '{task_id}'. " \
+                           .format(max_timeout=self.max_timeout, task_id=task_id) + \
+                           "Exiting the loop due to unexpected API '{api_name}' status.".format(api_name=api_name)
                 self.log(self.msg, "WARNING")
                 self.status = "failed"
                 break
@@ -443,8 +444,9 @@ class DnacBase():
         while True:
             end_time = time.time()
             if (end_time - start_time) >= self.max_timeout:
-                self.msg = "Max timeout of {0} sec has reached for the execution id '{1}'. ".format(self.max_timeout, execution_id) + \
-                           "Exiting the loop due to unexpected API '{2}' status.".format(api_name)
+                self.msg = "Max timeout of {max_timeout} sec has reached for the execution id '{execution_id}'. "\
+                           .format(max_timeout=self.max_timeout, execution_id=execution_id) + \
+                           "Exiting the loop due to unexpected API '{api_name}' status.".format(api_name=api_name)
                 self.log(self.msg, "WARNING")
                 self.status = "failed"
                 break
