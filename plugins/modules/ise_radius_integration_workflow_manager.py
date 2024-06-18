@@ -1242,9 +1242,9 @@ class IseRadiusIntegration(DnacBase):
             while True:
                 end_time = time.time()
                 if (end_time - start_time) >= self.max_timeout:
-                    self.log("Max timeout of {0} sec has reached for the execution id '{1}'. Exiting the loop due to "
-                             "unexpected API 'add_authentication_and_policy_server_access_configuration' status."
-                             .format(self.max_timeout, task_id), "WARNING")
+                    self.msg = "Max timeout of {0} sec has reached for the execution id '{1}'.".format(self.max_timeout, task_id) + \
+                               "Exiting the loop due to unexpected API 'add_authentication_and_policy_server_access_configuration' status."
+                    self.status = "failed"
                     break
 
                 task_details = self.get_task_details(task_id)
@@ -1270,6 +1270,10 @@ class IseRadiusIntegration(DnacBase):
                     break
 
                 self.log("Progress set to {0} for taskid: {1}".format(task_details.get('progress'), task_id), "DEBUG")
+
+            if self.status == "failed":
+                self.log(self.msg, "ERROR")
+                return
 
             if is_ise_server and is_certificate_required:
                 trusted_server = self.want.get("trusted_server")
