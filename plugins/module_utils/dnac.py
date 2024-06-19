@@ -688,7 +688,6 @@ class DnacBase():
             error_msg (str) - Returns the task tree error message of the task ID.
         """
 
-        result = None
         response = self.dnac._exec(
             family="task",
             function='get_task_tree',
@@ -704,7 +703,8 @@ class DnacBase():
                 if item.get("isError") is True:
                     error_messages.append(item.get("progress"))
 
-            error_msg = ". ".join(error_messages) + "."
+            if error_messages:
+                error_msg = ". ".join(error_messages) + "."
 
         return error_msg
 
