@@ -694,9 +694,8 @@ class DnacBase():
             function='get_task_tree',
             params={"task_id": task_id}
         )
-
-        self.log("Retrieving task tree details by the API 'get_task_tree' using task ID: {0}, Response: {1}"
-                 .format(task_id, response), "DEBUG")
+        self.log("Retrieving task tree details by the API 'get_task_tree' using task ID: {task_id}, Response: {response}"
+                 .format(task_id=task_id, response=response), "DEBUG")
         if response and isinstance(response, dict):
             result = response.get('response')
 
