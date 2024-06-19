@@ -375,6 +375,10 @@ class DnacBase():
             if task_details.get("isError") is True:
                 if task_details.get("failureReason"):
                     self.msg = str(task_details.get("failureReason"))
+                    string_check = "check task tree"
+                    if string_check in self.msg.lower():
+                        time.sleep(self.params.get('dnac_task_poll_interval'))
+                        self.msg = self.check_task_tree_response(task_id)
                 else:
                     self.msg = str(task_details.get("progress"))
                 self.status = "failed"
@@ -672,6 +676,37 @@ class DnacBase():
         except (ValueError, FileNotFoundError):
             self.log("The provided file '{0}' is not in JSON format".format(file_path), "CRITICAL")
             return False
+
+    def check_task_tree_response(self, task_id):
+        """
+        Returns the task tree response of the task ID.
+
+        Parameters:
+            task_id (string) - The unique identifier of the task for which you want to retrieve details.
+
+        Returns:
+            error_msg (str) - Returns the task tree error message of the task ID.
+        """
+
+        response = self.dnac._exec(
+            family="task",
+            function='get_task_tree',
+            params={"task_id": task_id}
+        )
+        self.log("Retrieving task tree details by the API 'get_task_tree' using task ID: {task_id}, Response: {response}"
+                 .format(task_id=task_id, response=response), "DEBUG")
+        error_msg = ""
+        if response and isinstance(response, dict):
+            result = response.get('response')
+            error_messages = []
+            for item in result:
+                if item.get("isError") is True:
+                    error_messages.append(item.get("progress"))
+
+            if error_messages:
+                error_msg = ". ".join(error_messages) + "."
+
+        return error_msg
 
 
 def is_list_complex(x):
