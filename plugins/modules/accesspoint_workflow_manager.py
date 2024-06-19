@@ -5,7 +5,7 @@
 
 from __future__ import absolute_import, division, print_function
 __metaclass__ = type
-__author__ = ("A Mohamed Rafeek, Natarajan")
+__author__ = ("Madhan Sankaranarayanan, A Mohamed Rafeek, Natarajan")
 
 DOCUMENTATION = r"""
 ---
@@ -19,7 +19,8 @@ description:
 version_added: '6.6.0'
 extends_documentation_fragment:
   - cisco.dnac.accesspoint_workflow_manager
-author: A Mohamed Rafeek (@mohamedrafeek)
+author: Madhan Sankaranarayanan (@madhansansel)
+        A Mohamed Rafeek (@mohamedrafeek)
         Natarajan (@natarajan)
 
 options:
@@ -62,31 +63,24 @@ options:
             (also it is Required or Hostname Required), This field cannot be mofidied.
             MAC Address format should be eg: mac_address: "90:e9:5e:03:f3:40"
         type: str
-        required: False
+        required: True
     hostname:
         description: This is name of device if MAC address not known
             Then hostname can be used to indentify the device
             eg : hostname: "NFW-AP1-9130AXE"
         type: str
-        required: False
+        required: True
     management_ip_address:
         description: This param used to indetify the devices based on IP address
             from the device detail we have used to get the AP Details
             eg: management_ip_address: "204.192.6.200"
         type: str
-        required: False
-    family:
-        description: This param used to get all devices which is belong to this family
-            also when we use family param to identify, you have to use only few changes
-            of AP param can be changed like change all led_brightness param to 8 in config
-            eg : family: "Unified AP"
-        type: str
-        required: False
+        required: True
 
       below list of AP Config param can be changes based on the requirement
     ap_name:
         description: AP Name changes, we need to provide the current name
-            of AP need to give in this field also ap_name_new also need to give.
+            of AP and ap_name_new.
             unless the AP name never change.
             eg : ap_name: "Test2"
                  ap_name_new: "NFW-AP1-9130AXE"
@@ -120,9 +114,17 @@ options:
 
 requirements:
 - dnacentersdk >= 2.4.5
-- python >= 3.10
+- python >= 3.8
 notes:
-  - dnacsdk Method used 
+  - SDK Method used are 
+    devices.get_device_list
+    wireless.get_access_point_configuration
+    wireless.configure_access_points
+
+  - Paths used are
+    get /dna/intent/api/v1/network-device
+    get /dna/intent/api/v1/wireless/accesspoint-configuration/summary?key={ap_ethernet_mac_address}
+    post /dna/intent/api/v2/wireless/accesspoint-configuration
 """
 
 EXAMPLES = r"""
@@ -156,10 +158,6 @@ EXAMPLES = r"""
             ap_name: "LTTS-Test1"
             ap_name_new: "NFW-AP1-9130AXE"
       register: output_list
-    - name: iterate through module output (a list)
-      debug:
-        msg: '{{ item }}'
-        with_items: "{{output_list.output }}"
 """
 
 RETURN = r"""
@@ -213,7 +211,6 @@ import re, time
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
     validate_list_of_dicts,
-    validate_int,
     validate_str
 )
 from ansible.module_utils.basic import AnsibleModule
@@ -229,6 +226,7 @@ class Accesspoint(DnacBase):
         self.payload = module.params
         self.keymap = {}
 
+
     # Below function used to validate input over the ansible validation
     def validate_input_yml(self):
         """
@@ -242,87 +240,50 @@ class Accesspoint(DnacBase):
                 - self.msg: A message describing the validation result.
                 - self.status: The status of the validation (either 'success' or 'failed').
                 - self.validated_config: If successful, a validated version of the 'config' parameter.
-        Example:
-            To use this method, create an instance of the class and call 'validate_input_yml' on it.
-            If the validation succeeds, 'self.status' will be 'success' and 'self.validated_config'
-            will contain the validated configuration. If it fails, 'self.status' will be 'failed', and
-            'self.msg' will describe the validation issues.To use this method, create an instance of the class and call 'validate_input_yml' on it.
-          If the validation succeeds, this will allow to go next step, unless this will stop execution.
-          based on the fields.
+        Description:
+            Example:
+                To use this method, create an instance of the class and call 'validate_input_yml' on it.
+                If the validation succeeds, 'self.status' will be 'success' and 'self.validated_config'
+                will contain the validated configuration. If it fails, 'self.status' will be 'failed', and
+                'self.msg' will describe the validation issues.To use this method, create an instance of the class and call 'validate_input_yml' on it.
+                If the validation succeeds, this will allow to go next step, unless this will stop execution.
+                based on the fields.
         """
         self.log('Validating the Playbook Yaml File..', "INFO")
-        try:
-            errormsg = []
-            aplist = self.payload.get("config")
-            aplist = self.camel_to_snake_case(aplist)
-            aplist = self.update_site_type_key(aplist)
-            accesspoint_spec = dict(mac_address=dict(required=False, type='str'),
-                        led_brightness_level=dict(required=False, type='int'),
-                        led_status = dict(required=False, type='str'),
-                        location = dict(required=False, type='str'),
-                        ap_name = dict(required=False, type='str'),
-                        ap_name_new = dict(required=False, type='str'),
-                        management_ip_address = dict(required=False, type='str'),
-                        hostname = dict(required=False, type='str'),
-                        device_fields = dict(required=False, type='str'),
-                        ap_selected_field = dict(required=False, type='str'),
-                        )
-            valid_param, invalid_param = validate_list_of_dicts(aplist, accesspoint_spec)
-            eachap = valid_param[0]
-            if len(invalid_param) > 0:
-                errormsg.append("Invalid param found in playbook: '{0}' "\
-                                .format(", ".join(invalid_param)))
-            self.log(str(eachap) + str(valid_param), "INFO")
-            if eachap.get("mac_address"):
-                mac_regex = re.compile(r'^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$')
-                if not mac_regex.match(eachap["mac_address"]):
-                    errormsg.append("mac_address : Invalid MAC Address '{0}' in playbook."\
-                                    .format(eachap["mac_address"]))
-            
-            if eachap.get("led_brightness_level"):
-                if eachap["led_brightness_level"] not in range(1,11):
-                    errormsg.append("led_brightness_level: Invalid LED Brightness level '{0}' in playbook"\
-                                    .format(eachap["led_brightness_level"]))
+        if not self.config:
+            self.status = "success"
+            self.msg = "Configuration is not available in the playbook for validation"
+            self.log(self.msg, "ERROR")
+            return self
 
-            if eachap.get("led_status") and eachap.get("led_status") not in ("Disabled", "Enabled"):
-                errormsg.append("led_status: Invalid LED Status '{0}' in playbook"\
-                                .format(eachap["led_status"]))
-
-            if eachap.get("management_ip_address"):
-                if not self.is_valid_ipv4(eachap["management_ip_address"]):
-                    errormsg.append("management_ip_address: Invalid Management IP Address '{0}' in playbook"\
-                                    .format(eachap["management_ip_address"]))
-
-            if eachap.get("ap_name"):
-                param_spec = dict(type = "str", length_max = 32)
-                validate_str(eachap["ap_name"], param_spec, "ap_name",
-                                errormsg)
-
-            if eachap.get("ap_name_new"):
-                param_spec = dict(type = "str", length_max = 32)
-                validate_str(eachap["ap_name_new"], param_spec, "ap_name_new",
-                                errormsg)
-
-            if eachap.get("location"):
-                param_spec = dict(type = "str", length_max = 255)
-                validate_str(eachap["location"], param_spec, "location",
-                                errormsg)
-
-            if len(errormsg) > 0:
-                self.log("Invalid parameters in playbook file: '{0}' ".format(str("\n".join(errormsg))), "ERROR")
-                self.module.fail_json(msg=str("\n".join(errormsg)))
-            else:
-                self.validated_config = valid_param
-                self.msg = "Successfully validated playbook config params: {0}".format(str(valid_param))
-                self.log(self.msg, "INFO")
-                self.status = "success"
-                return self
-
-        except Exception as e:
-            self.log("Invalid Param provided in playbook Yml File. {0}".format(str(e)), "ERROR")
-            self.msg = "Invalid parameters in playbook: {0}".format(str("\n".join(errormsg)))
+        aplist = self.payload.get("config")
+        aplist = self.camel_to_snake_case(aplist)
+        aplist = self.update_site_type_key(aplist)
+        accesspoint_spec = dict(mac_address=dict(required=False, type='str'),
+                    led_brightness_level=dict(required=False, type='int'),
+                    led_status = dict(required=False, type='str'),
+                    location = dict(required=False, type='str'),
+                    ap_name = dict(required=False, type='str'),
+                    ap_name_new = dict(required=False, type='str'),
+                    management_ip_address = dict(required=False, type='str'),
+                    hostname = dict(required=False, type='str'),
+                    device_fields = dict(required=False, type='str'),
+                    ap_selected_field = dict(required=False, type='str'),
+                    )
+        valid_param, invalid_params = validate_list_of_dicts(aplist, accesspoint_spec)
+        if invalid_params:
+            self.msg = "Invalid parameters in playbook: {0}".format(
+                "\n".join(invalid_params)
+            )
+            self.log(self.msg, "ERROR")
             self.status = "failed"
             return self
+
+        self.validated_config = valid_param
+        self.msg = "Successfully validated playbook config params:{0}".format(str(valid_param[0]))
+        self.log(self.msg, "INFO")
+        self.status = "success"
+        return self
 
     def get_want(self, ap_config):
         """
@@ -338,11 +299,15 @@ class Accesspoint(DnacBase):
             parameters such as 'site_params' and 'site_name.' The gathered
             information is stored in the 'want' attribute for later reference.
         """
+        self.log("CHECKIN" + str(ap_config), "INFO")
+        want = {}
         for key,value in ap_config.items():
             if key not in ("device_fields", "ap_selected_field"):
-                self.want[key] = value
+                want[key] = value
+        self.want = want
         self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
         return self
+
 
     def get_have(self, input_config):
         """
@@ -360,15 +325,18 @@ class Accesspoint(DnacBase):
         """
         device_exists = False
         current_ap_config = None
-        # check if given AP config exists, if exists store current site info
+        # check if given AP config exists, if exists store current AP config info
         (device_exists, current_ap_config) = self.get_current_config(input_config)
         self.log("Current AP config details (have): {0}".format(str(current_ap_config)), "DEBUG")
+        have = {}
         if device_exists:
-            self.have["mac_address"] = current_ap_config.get("mac_address")
-            self.have["device_exists"] = device_exists
-            self.have["current_ap_config"] = current_ap_config
+            have["mac_address"] = current_ap_config.get("mac_address")
+            have["device_exists"] = device_exists
+            have["current_ap_config"] = current_ap_config
+        self.have = have
         self.log("Current State (have): {0}".format(str(self.have)), "INFO")
         return self
+
 
     def get_diff_merged(self, config):
         """
@@ -393,15 +361,54 @@ class Accesspoint(DnacBase):
         config_updated = False
         config_created = False
         task_response = None
-        # check if the given AP config exists and/or needs to be updated/created.
+        errormsg = []
+        eachap = config
+        if eachap.get("mac_address"):
+            mac_regex = re.compile(r'^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$')
+            if not mac_regex.match(eachap["mac_address"]):
+                errormsg.append("mac_address : Invalid MAC Address '{0}' in playbook."\
+                                .format(eachap["mac_address"]))
 
+        if eachap.get("management_ip_address"):
+            if not self.is_valid_ipv4(eachap["management_ip_address"]):
+                errormsg.append("management_ip_address: Invalid Management IP Address '{0}' in playbook"\
+                                .format(eachap["management_ip_address"]))
+
+        if eachap.get("ap_name"):
+            param_spec = dict(type = "str", length_max = 32)
+            validate_str(eachap["ap_name"], param_spec, "ap_name", errormsg)
+
+        if eachap.get("ap_name_new"):
+            param_spec = dict(type = "str", length_max = 32)
+            validate_str(eachap["ap_name_new"], param_spec, "ap_name_new", errormsg)
+
+        if eachap.get("led_brightness_level"):
+            if eachap["led_brightness_level"] not in range(1,9):
+                errormsg.append("led_brightness_level: Invalid LED Brightness level '{0}' in playbook"\
+                                .format(eachap["led_brightness_level"]))
+
+        if eachap.get("led_status") and eachap.get("led_status") not in ("Disabled", "Enabled"):
+            errormsg.append("led_status: Invalid LED Status '{0}' in playbook"\
+                            .format(eachap["led_status"]))
+
+        if eachap.get("location"):
+            param_spec = dict(type = "str", length_max = 255)
+            validate_str(eachap["location"], param_spec, "location",
+                            errormsg)
+
+        if len(errormsg) > 0:
+            self.log("Invalid parameters in playbook config: '{0}' "\
+                     .format(str("\n".join(errormsg))), "ERROR")
+            self.module.fail_json(msg=str("\n".join(errormsg)))
+
+        # check if the given AP config exists and/or needs to be updated/created.
         if self.have.get("device_exists"):
             consolidated_data = self.compare_ap_cofig_with_inputdata(self.have["current_ap_config"])
             if consolidated_data:
-                self.log('Final AP Configuration data to update {}'.format(str(consolidated_data)),
+                self.log('Final AP Configuration data to update {0}'.format(str(consolidated_data)),
                       "INFO")
                 task_response = self.update_ap_configuration(consolidated_data)
-                self.log('Task respoonse {}'.format(str(task_response)),"INFO")
+                self.log('Task respoonse {0}'.format(str(task_response)),"INFO")
                 config_updated = True
             else:
                 # Accesspoint does not need update
@@ -413,29 +420,28 @@ class Accesspoint(DnacBase):
                 responses["accesspoints_updates"] = {"response": self.payload["device_config"]}
                 self.result['msg'] = self.msg
                 self.result["response"].append(responses)
-                self.result["skipped"] = True
+                self.result["changed"] = False
                 return self
-        else:
-            #need to add the method for creation.
-            pass
 
+        responses = {}
         if config_updated or config_created:
-            responses = {}
             if task_response and isinstance(task_response, dict):
-                self.check_task_response_status(task_response, "task_intent", True).check_return_status()
+                self.check_task_response_status(task_response, "task_intent", True)\
+                    .check_return_status()
                 if self.status == "success":
                     self.result['changed'] = True
                     responses["accesspoints_updates"] = {"response": task_response}
+                    state = "Updated" if config_updated else "Created"
+                    self.msg = "AP Configuration - {0} {1} Successfully"\
+                        .format(self.have["current_ap_config"].get("ap_name"), state)
+                    self.log(self.msg, "INFO")
+                    self.result['msg'] = self.msg
+                    self.result['response'].append(responses)
                 else:
-                    self.module.fail_json(msg="Unable to get Task Details.", response=task_response)
+                    self.status = "failed"
+                    self.msg = "Unable to get task response"
+            return self
 
-            if config_updated:
-                self.msg = "AP Configuration - {0} Updated Successfully"\
-                    .format(self.have["current_ap_config"].get("ap_name"))
-                self.log(self.msg, "INFO")
-                self.result['msg'] = self.msg
-                self.result['response'].append(responses)
-        return self
 
     def verify_diff_merged(self, config):
         """
@@ -450,7 +456,7 @@ class Accesspoint(DnacBase):
             (have) and desired state (want) of the configuration, logs the states, and validates whether the specified
             AP exists in the Catalyst Center configuration.
         """
-        time.sleep(20)
+        time.sleep(5)
         self.get_have(config)
         self.log("Current AP Config (have): {0}".format(str(self.have)), "INFO")
         self.log("Desired AP Config (want): {0}".format(str(self.want)), "INFO")
@@ -482,6 +488,7 @@ class Accesspoint(DnacBase):
                  may not have executed successfully.""".format(ap_name), "INFO")
 
         return self
+
 
     def get_current_config(self, input_config):
         """
@@ -533,51 +540,82 @@ class Accesspoint(DnacBase):
                 op_modifies=True,
                 params=input_param,
             )
+            if response:
+                response = response.get("response")
+                response = self.camel_to_snake_case(response)
+                device_fields = self.payload.get("config")[0].get("device_fields")
+                if device_fields is None or device_fields == "" or device_fields == "all":
+                    self.payload["device_list"] = response[0]
+                else:
+                    self.payload["device_list"]=self.data_frame(device_fields,response)
+                self.log("Received API response from 'get_device_list': {0}"\
+                        .format(str(self.payload["device_list"][0])), "DEBUG")
+
+                ap_ethernet_mac_address = response[0]["ap_ethernet_mac_address"]
+                accesspoint_exists, current_configuration = self.get_accesspoint_config(
+                ap_ethernet_mac_address)
         except Exception as e:
             self.log("The provided device '{0}' is either invalid or not present in the Cisco Catalyst Center."\
                      .format(str(input_param) + str(e)), "WARNING")
-        if response:
-            response = response.get("response")
-            response = self.camel_to_snake_case(response)
-            device_fields = self.payload.get("config")[0].get("device_fields")
-            if device_fields is None or device_fields == "" or device_fields == "all":
-                self.payload["device_list"] = response[0]
-            else:
-                self.payload["device_list"]=self.data_frame(device_fields,response)
-            self.log("Received API response from 'get_device_list': {0}"\
-                     .format(str(self.payload["device_list"][0])), "DEBUG")
-
-            ap_response = None
-            input_param = {}
-            ap_ethernet_mac_address = response[0]["ap_ethernet_mac_address"]
-            input_param["key"] = ap_ethernet_mac_address
-            try:
-                ap_response = self.dnac._exec(
-                    family="wireless",
-                    function='get_access_point_configuration',
-                    params=input_param,
-                )
-            except Exception as e:
-                self.log("Unable to get the Accesspoint configuratoin for '{0}' ."\
-                         .format(str(input_param) + str(e)), "WARNING")
-
-            if ap_response:
-                self.keymap = self.keymaping(self.keymap, ap_response)
-                ap_response = self.camel_to_snake_case(ap_response)
-                current_configuration = ap_response
-                self.log("Received API response from 'get_access_point_configuration': {0}"\
-                         .format(str(current_configuration)), "DEBUG")
-                ap_selected_field = self.payload.get("config")[0].get("ap_selected_field")
-                if ap_selected_field is None or ap_selected_field == "" or ap_selected_field == "all":
-                    self.payload["device_config"] = ap_response
-                else:
-                    self.payload["device_config"]=self.data_frame(ap_selected_field,[ap_response])
-
-                self.log("AP configuration {0} exists in Cisco Catalyst Center"\
-                         .format(str(self.payload["device_config"][0])), "INFO")
-                accesspoint_exists = True
 
         return (accesspoint_exists, current_configuration)
+
+
+    def get_accesspoint_config(self, ap_ethernet_mac_address):
+        """
+        Gives output as accesspoint configuration data from Cisco Catalyst Center.
+
+        Parameters:
+          - self (object): An instance of the class containing the method.
+          - ap_ethernet_mac_address (str): Contains AP eth mac address from device data
+        Returns:
+            A Dictionary list contains Accesspoint configuration based on the input given from
+            Device list 
+            [
+                {
+                    "ap_name": "NFW-AP1-9130AXE",
+                    "eth_mac": "34:5d:a8:0e:20:b4",
+                    "led_brightnessLevel": 3,
+                    "led_status": "Enabled",
+                    "location": "LTTS",
+                    "mac_address": "90:e9:5e:03:f3:40"
+                }
+            ]
+        Description:
+            get the Accesspoint configuration data from Cisco Catalyst Center by querying the
+             to this function 'get_access_point_configuration' function
+            in the 'wireless' family to get AP configuration data.
+        """
+        ap_response = None
+        input_param = {}
+        input_param["key"] = ap_ethernet_mac_address
+        try:
+            ap_response = self.dnac._exec(
+                family="wireless",
+                function='get_access_point_configuration',
+                params=input_param,
+            )
+        except Exception as e:
+            self.log("Unable to get the Accesspoint configuratoin for '{0}' ."\
+                        .format(str(input_param) + str(e)), "WARNING")
+
+        if ap_response:
+            self.keymap = self.keymaping(self.keymap, ap_response)
+            ap_response = self.camel_to_snake_case(ap_response)
+            current_configuration = ap_response
+            self.log("Received API response from 'get_access_point_configuration': {0}"\
+                        .format(str(current_configuration)), "DEBUG")
+            ap_selected_field = self.payload.get("config")[0].get("ap_selected_field")
+            if ap_selected_field is None or ap_selected_field == "" or ap_selected_field == "all":
+                self.payload["device_config"] = ap_response
+            else:
+                self.payload["device_config"]=self.data_frame(ap_selected_field,[ap_response])
+
+            self.log("AP configuration {0} exists in Cisco Catalyst Center"\
+                        .format(str(self.payload["device_config"][0])), "INFO")
+            accesspoint_exists = True
+        return (accesspoint_exists, current_configuration)
+
 
     def compare_ap_cofig_with_inputdata(self, apconfig):
         """
@@ -630,6 +668,7 @@ class Accesspoint(DnacBase):
                 self.log('Playbook AP Configuration remain same in Current AP configration',
                       "INFO")
                 return None
+
 
     def update_ap_configuration(self, device_data):
         """
@@ -685,11 +724,13 @@ class Accesspoint(DnacBase):
                     params=device,
                 )
 
-            self.log("Response of Access Point Configuration: " + str(response["response"]), "INFO")
+            self.log("Response of Access Point Configuration: {0}"\
+                     .format(str(response["response"])), "INFO")
             return dict(macAdress=device["macAddress"], response=response["response"])
 
         except Exception as e:
-            self.log("AP config update Error" + device["macAddress"] + str(e), "ERROR")
+            self.log("AP config update Error {0}".format(str(device["macAddress"])+str(e)), "ERROR")
+
 
     def data_frame(self, fieldlist = None, data = list):
         """
@@ -725,10 +766,11 @@ class Accesspoint(DnacBase):
                     dataframe.append(limitedfields)
                 return dataframe
             else:
-                return None
+                return data
         except Exception as e:
             self.log("Unable to process Dataframe "+ str(e) , "ERROR")
             return None
+
 
     def keymaping(self, keymap = any, data = any):
         """
@@ -765,6 +807,7 @@ class Accesspoint(DnacBase):
             self.keymaping(keymap, (item for item in data if isinstance(item, dict)))
         else:
             return keymap
+
 
 
 def main():
@@ -813,6 +856,7 @@ def main():
         if config_verify:
             ccc_network.verify_diff_state_apply[state](config).check_return_status()
     module.exit_json(**ccc_network.result)
+
 
 if __name__ == '__main__':
     main()
