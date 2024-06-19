@@ -696,16 +696,16 @@ class DnacBase():
         )
         self.log("Retrieving task tree details by the API 'get_task_tree' using task ID: {task_id}, Response: {response}"
                  .format(task_id=task_id, response=response), "DEBUG")
+        error_msg = ""
         if response and isinstance(response, dict):
             result = response.get('response')
+            error_messages = []
+            for item in result:
+                if item.get("isError") is True:
+                    error_messages.append(item.get("progress"))
 
-        error_msg = ""
-        progress_list = []
-        for item in result:
-            if item.get("isError") is True:
-                progress_list.append(item.get("progress"))
+            error_msg = ". ".join(error_messages) + "."
 
-        error_msg = ". ".join(progress_list) + "."
         return error_msg
 
 
