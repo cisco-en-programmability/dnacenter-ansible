@@ -2487,7 +2487,8 @@ class DeviceCredential(DnacBase):
             self.module.fail_json(msg=self.msg, response=final_response)
         else:
             self.result['changed'] = changed_status
-            self.msg = "Global device credentials deleted successfully"
+            self.msg = "Global Device Credentials Deleted Successfully"
+            result_global_credential.get("Deletion").update({"msg": self.msg})
             self.log(str(self.msg), "INFO")
             self.status = "success"
 
