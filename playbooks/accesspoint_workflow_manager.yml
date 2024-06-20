@@ -1,5 +1,5 @@
 --- 
-- name: Create/Update/Delete Wireless Accesspoint Configuration
+- name: Create/Update Wireless Accesspoint Configuration
   hosts: dnac_servers
   connection: local
   gather_facts: no
