@@ -2779,7 +2779,7 @@ class Events(DnacBase):
 
         if not isinstance(event_types, list):
             self.status = "failed"
-            self.msg = "Given event types '{0}' should be of type list containing str element".format(event_types)
+            self.msg = "Given event types '{0}' should be a list of strings.".format(event_types)
             self.log(self.msg, "ERROR")
             return self
 
@@ -2790,8 +2790,9 @@ class Events(DnacBase):
         if invalid_event_types:
             self.status = "failed"
             self.msg = (
-                "Invalid Event type(s) '{0}' details given in the playbook, with this unable to create/update"
-                " event subscription notification in Cisco Catalyst Center.".format(str(invalid_event_types))
+                "Invalid event type(s) {0} provided in the playbook. Unable to create or update "
+                "event subscription notifications in Cisco Catalyst Center due to these unrecognized"
+                " types.".format(invalid_event_types)
             )
             self.log(self.msg, "ERROR")
 
@@ -2817,7 +2818,7 @@ class Events(DnacBase):
 
         if not isinstance(event_categories, list):
             self.status = "failed"
-            self.msg = "Given event categories '{0}' should be of type list containing str element".format(event_categories)
+            self.msg = "Given event categories '{0}' should be a list of strings.".format(event_categories)
             self.log(self.msg, "ERROR")
             return self
 
@@ -2828,8 +2829,9 @@ class Events(DnacBase):
         if invalid_event_categories:
             self.status = "failed"
             self.msg = (
-                "Invalid Event categorioes '{0}' details given in the playbook, with this unable to create/update"
-                " event subscription notification in Cisco Catalyst Center.".format(str(invalid_event_categories))
+                "Invalid event catergory/categories {0} provided in the playbook. Unable to create or update "
+                "event subscription notifications in Cisco Catalyst Center due to these unrecognized categories."
+                .format(invalid_event_categories)
             )
             self.log(self.msg, "ERROR")
 
@@ -2854,22 +2856,24 @@ class Events(DnacBase):
 
         if not isinstance(event_severities, list):
             self.status = "failed"
-            self.msg = "Given event severities '{0}' should be of type list containing str element".format(event_severities)
+            self.msg = "Given event severities '{0}' should be a list of strings.".format(event_severities)
             self.log(self.msg, "ERROR")
             return self
 
         for severity in event_severities:
-            if not severity.isdigit():
-                invalid_event_severities.append(severity)
-            elif severity.isdigit() and int(severity) not in range(1, 6):
+            try:
+                severity_int = int(severity)
+                if severity_int not in range(1, 6):
+                    invalid_event_severities.append(severity)
+            except ValueError:
                 invalid_event_severities.append(severity)
 
         if invalid_event_severities:
             self.status = "failed"
             self.msg = (
-                "Invalid Event severities '{0}' details given in the playbook, with this unable to create/update"
-                " event subscription notification in Cisco Catalyst Center. Select the severity from the"
-                " range(1,5).".format(str(invalid_event_severities))
+                "Invalid event severity/severities provided in the playbook: {0}. "
+                "Unable to create or update event subscription notifications in Cisco Catalyst Center. "
+                "Severity levels must be integers within the range 1 to 5.".format(invalid_event_severities)
             )
             self.log(self.msg, "ERROR")
 
@@ -4959,8 +4963,8 @@ class Events(DnacBase):
             if not webhook_notification_name:
                 self.status = "failed"
                 self.msg = (
-                    "Name is required parameter for deleting Webhook events subscription notification"
-                    "in Cisco Catalyst Center."
+                    "A name is a required parameter for deleting syslog events subscription notification"
+                    " in Cisco Catalyst Center."
                 )
                 self.log(self.msg, "ERROR")
                 return self
@@ -4997,8 +5001,8 @@ class Events(DnacBase):
             if not email_notification_name:
                 self.status = "failed"
                 self.msg = (
-                    "Name is required parameter for deleting Email events subscription notification"
-                    "in Cisco Catalyst Center."
+                    "A name is a required parameter for deleting email events subscription notification"
+                    " in Cisco Catalyst Center."
                 )
                 self.log(self.msg, "ERROR")
                 return self
@@ -5035,8 +5039,8 @@ class Events(DnacBase):
             if not syslog_notification_name:
                 self.status = "failed"
                 self.msg = (
-                    "Name is required parameter for deleting Syslog events subscription notification"
-                    "in Cisco Catalyst Center."
+                    "A name is a required parameter for deleting syslog events subscription notification"
+                    " in Cisco Catalyst Center."
                 )
                 self.log(self.msg, "ERROR")
                 return self
