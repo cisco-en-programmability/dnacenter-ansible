@@ -379,7 +379,7 @@ class Accesspoint(DnacBase):
         provided in the playbook.
         Parameters:
           self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-          config (dict): A dictionary containing configuration information.
+          ap_config (dict): A dictionary containing configuration information.
         Returns:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
         Description:
