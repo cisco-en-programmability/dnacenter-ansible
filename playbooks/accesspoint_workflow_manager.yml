@@ -1,12 +1,12 @@
 --- 
-- name: Create/Update Wireless Accesspoint Configuration
+- name: Create/Update Wireless Access Point Configuration
   hosts: dnac_servers
   connection: local
   gather_facts: no
   vars_files:
     - "credentials.yml"
   tasks:
-    - name: Updating Accesspoint Configureation
+    - name: Updating Access Point Configuration
       cisco.dnac.accesspoint_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
