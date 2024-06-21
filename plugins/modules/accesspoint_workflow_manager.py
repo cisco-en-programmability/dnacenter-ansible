@@ -373,7 +373,7 @@ class Accesspoint(DnacBase):
         return self
 
 
-    def get_diff_merged(self, config):
+    def get_diff_merged(self, ap_config):
         """
         Update/Create wireless accesspoint configuration in Cisco Catalyst Center with fields
         provided in the playbook.
@@ -397,7 +397,7 @@ class Accesspoint(DnacBase):
         config_created = False
         task_response = None
         errormsg = []
-        ap_config = config
+
         if ap_config.get("mac_address"):
             mac_regex = re.compile(r'^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$')
             if not mac_regex.match(ap_config["mac_address"]):
