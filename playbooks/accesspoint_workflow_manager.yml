@@ -20,10 +20,10 @@
         config_verify: True
         state: merged
         config:
-          - device_fields: "id,hostname,family,type,mac_address,management_ip_address,ap_ethernet_mac_address,last_updated,up_time"
-            ap_selected_field: "mac_address,eth_mac,ap_name,led_brightness_level,led_status,location"
+          - ap_selected_fields: "id,hostname,family,type,mac_address,management_ip_address,ap_ethernet_mac_address,last_updated,up_time"
+            ap_config_selected_fields: "mac_address,eth_mac,ap_name,led_brightness_level,led_status,location"
             mac_address: "90:e9:5e:03:f3:40"
-            led_brightness_level: 2
+            led_brightness_level: 5
             led_status: "Enabled"
             location: "LTTS-Bangalore"
             ap_name: "LTTS-Test1"
