@@ -41,23 +41,44 @@ options:
     type: list
     elements: dict
     required: True
-    device_fields:
+    ap_selected_fields:
         description:
-            - Optional field to specify specific fields to display from the device details.
+            - Optional field to specify specific fields to display from the AP device details.
+            - Below list of available fields to display the output in the "access_point_list"
+                "type,memory_size,last_update_time,device_support_level,software_type,software_version,
+                serial_number,mac_address,inventory_status_detail,collection_interval,
+                dns_resolved_management_address,management_state,pending_sync_requests_count,
+                reasons_for_device_resync,reasons_for_pending_sync_requests,up_time,role_source,
+                last_updated,boot_date_time,ap_manager_interface_ip,collection_status,family,
+                hostname,location_name,management_ip_address,platform_id,reachability_failure_reason,
+                reachability_status,series,snmp_contact,snmp_location,tag_count,tunnel_udp_port,
+                uptime_seconds,vendor,waas_device_mode,associated_wlc_ip,ap_ethernet_mac_address,
+                error_code,error_description,interface_count,last_device_resync_start_time,line_card_count,
+                line_card_id,managed_atleast_once,description,location,role,instance_tenant_id,
+                instance_uuid,id"
             - Fields should be separated by commas without spaces before or after the commas.
             - If not defined, all device fields are shown by default.
             - Example: "id,hostname,family,type,mac_address,management_ip_address,ap_ethernet_mac_address,last_updated,up_time"
         type: str
         required: False
-    ap_selected_field:
-        description: Optional field to specify specific parameters from the Access Point configuration details.
-            Each field should be separated by commas without spaces.
-            If not defined, all fields will be shown by default.
-            Example: "mac_address,eth_mac,ap_name,led_brightness_level,led_status,location"
+    ap_config_selected_fields:
+        description: 
+            - Optional field to specify specific parameters from the Access Point configuration details.
+            - Below list of available fields to display the output in the "have" or "access_point_config"
+                "instance_uuid,instance_id,auth_entity_id,auth_entity_class,instance_tenant_id,
+                _ordered_list_oeindex,_ordered_list_oeassoc_name,_creation_order_index,_is_being_changed,
+                deploy_pending,instance_created_on,instance_updated_on,change_log_list,instance_origin,
+                instance_version,admin_status,ap_height,ap_mode,ap_name,eth_mac,failover_priority,
+                led_brightness_level,led_status,location,mac_address,primary_controller_name,primary_ip_address,
+                secondary_controller_name,secondary_ip_address,tertiary_controller_name,tertiary_ip_address,
+                mesh_dtos,radio_dtos,internal_key,display_name,lazy_loaded_entities"
+            - Each field should be separated by commas without spaces.
+            - If not defined, all fields will be shown by default.
+            - Example: "mac_address,eth_mac,ap_name,led_brightness_level,led_status,location"
         type: str
         required: False
 
-      Unchangable Params are below any one of the below 3 is required.
+    To identify the specific access point any one of the below 3 param is required.
     mac_address:
         description: |
             MAC Address field used to identify the device. If MAC address is known,
@@ -79,7 +100,8 @@ options:
         type: str
         required: True
 
-      below list of AP Config param can be changes based on the requirement
+    To update the access point configuration below list of access point config param available
+    it can be added/removed based on the requirement
     ap_name:
         description: |
             Current AP name that needs to be changed along with the new AP name.
@@ -148,8 +170,8 @@ EXAMPLES = r"""
         config_verify: True
         state: merged
         config:
-          - device_fields: "id,hostname,family,type,mac_address,management_ip_address,ap_ethernet_mac_address,last_updated,up_time"
-            ap_selected_field: "mac_address,eth_mac,ap_name,led_brightness_level,led_status,location"
+          - ap_selected_fields: "id,hostname,family,type,mac_address,management_ip_address,ap_ethernet_mac_address,last_updated,up_time"
+            ap_config_selected_fields: "mac_address,eth_mac,ap_name,led_brightness_level,led_status,location"
             mac_address: "90:e9:5e:03:f3:40"
             led_brightness_level: 2
             led_status: "Enabled"
@@ -180,8 +202,8 @@ EXAMPLES = r"""
         config_verify: True
         state: merged
         config:
-          - device_fields: "id,hostname,mac_address,management_ip_address,ap_ethernet_mac_address"
-            ap_selected_field: "mac_address,eth_mac,ap_name"
+          - ap_selected_fields: "id,hostname,mac_address,management_ip_address,ap_ethernet_mac_address"
+            ap_config_selected_fields: "mac_address,eth_mac,ap_name"
             mac_address: "90:e9:5e:03:f3:40"
             ap_name: "LTTS-Test1"
             ap_name_new: "NFW-AP1-9130AXE"
@@ -255,7 +277,6 @@ class Accesspoint(DnacBase):
         self.payload = module.params
         self.keymap = {}
 
-
     # Below function used to validate input over the ansible validation
     def validate_input_yml(self):
         """
@@ -297,8 +318,8 @@ class Accesspoint(DnacBase):
                     ap_name_new = dict(required=False, type='str'),
                     management_ip_address = dict(required=False, type='str'),
                     hostname = dict(required=False, type='str'),
-                    device_fields = dict(required=False, type='str'),
-                    ap_selected_field = dict(required=False, type='str'),
+                    ap_selected_fields = dict(required=False, type='str'),
+                    ap_config_selected_fields = dict(required=False, type='str'),
                     )
         valid_param, invalid_params = validate_list_of_dicts(aplist, accesspoint_spec)
         if invalid_params:
@@ -315,7 +336,6 @@ class Accesspoint(DnacBase):
         self.status = "success"
         return self
 
-
     def get_want(self, ap_config):
         """
         Get all Access Point related information from the playbook needed for creation/updation
@@ -328,20 +348,18 @@ class Accesspoint(DnacBase):
         Description:
              Retrieves all Access Point configuration details from the playbook config,
         excluding any fields not directly related to the Access Point configuration such as
-        'device_fields' and 'ap_selected_field'. The extracted information is stored in the 
+        'ap_selected_fields' and 'ap_config_selected_fields'. The extracted information is stored in the 
         'want' attribute of the instance for later use in the workflow.
         """
-        self.log("CHECKIN" + str(ap_config), "INFO")
         want = {}
 
         for key,value in ap_config.items():
-            if key not in ("device_fields", "ap_selected_field"):
+            if key not in ("ap_selected_fields", "ap_config_selected_fields"):
                 want[key] = value
 
         self.want = want
         self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
         return self
-
 
     def get_have(self, input_config):
         """
@@ -372,7 +390,6 @@ class Accesspoint(DnacBase):
         self.log("Current State (have): {0}".format(str(self.have)), "INFO")
         return self
 
-
     def get_diff_merged(self, ap_config):
         """
         Update/Create wireless accesspoint configuration in Cisco Catalyst Center with fields
@@ -392,7 +409,6 @@ class Accesspoint(DnacBase):
             does not require an update, the method exits, indicating that Accesspoint
             configuration is up to date.
         """
-
         config_updated = False
         config_created = False
         task_response = None
@@ -448,8 +464,8 @@ class Accesspoint(DnacBase):
                     .format(self.have.get("current_ap_config").get("ap_name"))
                 self.log(self.msg, "INFO")
                 responses = {}
-                del self.payload["device_list"]
-                responses["accesspoints_updates"] = {"response": self.payload["device_config"]}
+                del self.payload["access_point_list"]
+                responses["accesspoints_updates"] = {"response": self.payload["access_point_config"]}
                 self.result['msg'] = self.msg
                 self.result["response"].append(responses)
                 self.result["changed"] = False
@@ -480,7 +496,6 @@ class Accesspoint(DnacBase):
                     self.status = "failed"
                     self.msg = "Unable to get task response"
             return self
-
 
     def verify_diff_merged(self, config):
         """
@@ -525,7 +540,7 @@ class Accesspoint(DnacBase):
             self.status = "success"
             responses = {}
             responses["accesspoints_verify"] = {"want": self.want,
-                                                "have": self.payload["device_config"],
+                                                "have": self.payload["access_point_config"],
                                                 "message": msg}
             self.result['response'].append(responses)
         else:
@@ -535,7 +550,6 @@ class Accesspoint(DnacBase):
             self.status = "failure"
 
         return self
-
 
     def get_current_config(self, input_config):
         """
@@ -591,15 +605,16 @@ class Accesspoint(DnacBase):
 
             if ap_response and ap_response.get("response"):
                 ap_response = self.camel_to_snake_case(ap_response["response"])
-                device_fields = self.payload.get("config")[0].get("device_fields")
+                ap_selected_fields = self.payload.get("config")[0].get("ap_selected_fields")
 
-                if device_fields is None or device_fields == "" or device_fields == "all":
-                    self.payload["device_list"] = ap_response[0]
+                if ap_selected_fields is None or ap_selected_fields == "" or \
+                    ap_selected_fields == "all":
+                    self.payload["access_point_list"] = ap_response[0]
                 else:
-                    self.payload["device_list"]=self.data_frame(device_fields,ap_response)
+                    self.payload["access_point_list"]=self.data_frame(ap_selected_fields, ap_response)
 
                 self.log("Received API response from 'get_device_list': {0}"\
-                        .format(str(self.payload["device_list"][0])), "DEBUG")
+                        .format(str(self.payload["access_point_list"][0])), "DEBUG")
 
                 ap_ethernet_mac_address = ap_response[0]["ap_ethernet_mac_address"]
                 accesspoint_exists, current_configuration = self.get_accesspoint_config(
@@ -610,7 +625,6 @@ class Accesspoint(DnacBase):
                      .format(str(input_param) + str(e)), "WARNING")
 
         return (accesspoint_exists, current_configuration)
-
 
     def get_accesspoint_config(self, ap_ethernet_mac_address):
         """
@@ -654,17 +668,17 @@ class Accesspoint(DnacBase):
                 current_configuration = self.camel_to_snake_case(ap_config_response)
                 self.log("Received API response from 'get_access_point_configuration': {0}"\
                             .format(str(current_configuration)), "DEBUG")
-                ap_selected_field = self.payload.get("config")[0].get("ap_selected_field")
+                ap_config_selected_fields = self.payload.get("config")[0].get("ap_config_selected_fields")
 
-                if ap_selected_field is None or ap_selected_field == "" \
-                    or ap_selected_field == "all":
-                    self.payload["device_config"] = current_configuration
+                if ap_config_selected_fields is None or ap_config_selected_fields == "" \
+                    or ap_config_selected_fields == "all":
+                    self.payload["access_point_config"] = current_configuration
                 else:
-                    self.payload["device_config"]=self.data_frame(ap_selected_field,
+                    self.payload["access_point_config"]=self.data_frame(ap_config_selected_fields,
                                                                   [current_configuration])
 
                 self.log("AP configuration {0} exists in Cisco Catalyst Center"\
-                            .format(str(self.payload["device_config"][0])), "INFO")
+                            .format(str(self.payload["access_point_config"][0])), "INFO")
                 accesspoint_config_exists = True
             return (accesspoint_config_exists, current_configuration)
 
@@ -672,7 +686,6 @@ class Accesspoint(DnacBase):
             self.log("Unable to get the Accesspoint configuratoin for '{0}' ."\
                         .format(str(input_param) + str(e)), "WARNING")
             return None
-
 
     def compare_ap_config_with_inputdata(self, current_ap_config):
         """
@@ -702,24 +715,21 @@ class Accesspoint(DnacBase):
         update_config = {}
 
         if self.want and current_ap_config:
-
             if self.want.get("mac_address") == current_ap_config["mac_address"] or \
                     self.want.get("hostname") == current_ap_config["ap_name"]:
-                allkey = list(self.want.keys())
+                configurable_keys = list(self.want.keys())
 
                 excluded_keys = ("mac_address", "hostname", "management_ip_address")
                 for value in excluded_keys:
-                    if value in allkey: allkey.remove(value)
+                    if value in configurable_keys: configurable_keys.remove(value)
 
-                for each_key in allkey:
-
+                for each_key in configurable_keys :
                     if each_key == "ap_name_new":
                         if self.want["ap_name_new"] != current_ap_config.get("ap_name"):
                             update_config["apNameNew"] = self.want["ap_name_new"]
                     elif each_key == "ap_name":
                         update_config[self.keymap[each_key]] = self.want[each_key]
                     else:
-
                         if self.want[each_key] != current_ap_config[each_key]:
                             update_config[self.keymap[each_key]] = self.want[each_key]
 
@@ -730,12 +740,12 @@ class Accesspoint(DnacBase):
                     update_config["macAddress"] = current_ap_config["eth_mac"]
 
             if update_config:
+                self.log("Consolidated config to update AP configuration: {0}"\
+                         .format(str(update_config)), "INFO")
                 return update_config
-            else:
-                self.log('Playbook AP Configuration remain same in Current AP configration',
-                      "INFO")
-                return None
 
+            self.log('Playbook AP configuration remain same in current AP configration', "INFO")
+            return None
 
     def update_ap_configuration(self, ap_config):
         """
@@ -755,7 +765,6 @@ class Accesspoint(DnacBase):
             functions = Accesspoint(module)
             final_input_data = functions.update_ap_configuration(ap_config)
         """
-
         try:
             self.log("Updating access point configuration information: "+ ap_config["macAddress"],
                         "INFO")
@@ -815,7 +824,7 @@ class Accesspoint(DnacBase):
             }
         Example:
             functions = Accesspoint(module)
-            final_input_data = functions.data_frame(device_fields, device_records)
+            final_input_data = functions.data_frame(ap_selected_fields, device_records)
         """
         try:
             if records is None:
@@ -842,7 +851,6 @@ class Accesspoint(DnacBase):
         except Exception as e:
             self.log("Unable to filter fields: {0}".format(str(e)) , "ERROR")
             return None
-
 
     def map_config_key_to_api_param(self, keymap=any, data=any):
         """
@@ -882,7 +890,6 @@ class Accesspoint(DnacBase):
                             self.map_config_key_to_api_param(keymap, item)
 
         elif isinstance(data, list):
-
             for item in data:
                 if isinstance(item, dict):
                     self.map_config_key_to_api_param(keymap, item)
@@ -939,7 +946,6 @@ def main():
             ccc_network.verify_diff_state_apply[state](config).check_return_status()
 
     module.exit_json(**ccc_network.result)
-
 
 if __name__ == '__main__':
     main()
