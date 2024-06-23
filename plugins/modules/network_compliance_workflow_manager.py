@@ -1015,7 +1015,7 @@ class NetworkCompliance(DnacBase):
                 msg = (
                     "An error occurred while executing the 'run_compliance' operation for parameters - {0}. "
                     "Error: {1}".format(batch_params, str(e))
-                    )
+                )
                 self.log(msg, "CRITICAL")
 
         return batches_dict
@@ -1335,7 +1335,7 @@ class NetworkCompliance(DnacBase):
                         "Batch for device(s) {0} has already been retried with batch size of 1 and failed. "
                         "Stopping recursion.".format(", ".join(device_ids)),
                         "ERROR"
-                    )        
+                    )
                     continue
 
                 self.log("Re-running compliance check for batch {0} with batch_result: {1} ".format(batch, batches_result), "WARNING")
@@ -1570,7 +1570,7 @@ class NetworkCompliance(DnacBase):
                 all(all_status == "NON_COMPLIANT" for all_status in all_statuses_before) and
                 all(all_status == "COMPLIANT" for all_status in all_statuses_after)
             ):
-                self.log("Verified the success of the Sync Device Configuration operation.")    
+                self.log("Verified the success of the Sync Device Configuration operation.")
             else:
                 self.log(
                     "Sync Device Configuration operation may have been unsuccessful "
