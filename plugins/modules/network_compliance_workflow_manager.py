@@ -349,7 +349,6 @@ class NetworkCompliance(DnacBase):
         Returns:
           The method does not return a value.
         """
-
         super().__init__(module)
 
     def validate_input(self):
@@ -1052,8 +1051,10 @@ class NetworkCompliance(DnacBase):
 
         # Log the error if an exception occurs during the API call
         except Exception as e:
-            self.msg = ("Error occurred while synchronizing device configuration for parameters - {0}. "
-                "Error: {1}".format(sync_device_config_params, str(e)))
+            self.msg = (
+                "Error occurred while synchronizing device configuration for parameters - {0}. "
+                "Error: {1}".format(sync_device_config_params, str(e))
+                )
             self.update_result("failed", False, self.msg, "ERROR")
             self.check_return_status()
 
@@ -1333,7 +1334,7 @@ class NetworkCompliance(DnacBase):
                         "Batch for device(s) {0} has already been retried with batch size of 1 and failed. "
                         "Stopping recursion.".format(", ".join(device_ids)),
                         "ERROR"
-                    )                    
+                    )               
                     continue
 
                 self.log("Re-running compliance check for batch {0} with batch_result: {1} ".format(batch, batches_result), "WARNING")
@@ -1467,6 +1468,7 @@ class NetworkCompliance(DnacBase):
                 break
 
         return self
+
     def get_diff_merged(self):
         """
         This method is designed to Perform Network Compliance Actions in Cisco Catalyst Center.
@@ -1474,7 +1476,7 @@ class NetworkCompliance(DnacBase):
         Returns:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
         Description:
-            This method orchestrates compliance check operation and device configuration synchronization tasks specified in a playbook. 
+            This method orchestrates compliance check operation and device configuration synchronization tasks specified in a playbook.
             It ensures all required tasks are present, executes them, and checks their status, facilitating smooth playbook execution.
         """
         # Action map for different network compliance operations
@@ -1503,7 +1505,6 @@ class NetworkCompliance(DnacBase):
                     status_func(result_task_id, self.want.get("mgmt_ip_instance_id_map")).check_return_status()
 
         return self
-
 
     def verify_diff_merged(self, config):
         """
@@ -1538,9 +1539,11 @@ class NetworkCompliance(DnacBase):
             # Get the device IDs to check
             sync_device_ids = self.want.get("sync_device_config_params").get("deviceId", [])
             if not sync_device_ids:
-                self.log("No device IDs found in sync_device_config_params, Sync Device Configuration "
+                self.log(
+                    "No device IDs found in sync_device_config_params, Sync Device Configuration "
                     "operation may not have been performed.",
-                    "WARNING")
+                    "WARNING"
+                )
                 return self
 
             # Initialize the status lists
@@ -1556,16 +1559,17 @@ class NetworkCompliance(DnacBase):
                     compliance_before = compliance_details_before.get(ip_address, [])
                     if compliance_before:
                         all_statuses_before.append(compliance_before[0]["status"])
-
                     # Get the status after
                     compliance_after = compliance_details_after.get(ip_address, [])
                     if compliance_after:
                         all_statuses_after.append(compliance_after[0]["status"])
 
             # Check if all statuses changed from "NON_COMPLIANT" to "COMPLIANT"
-            if (all(all_status == "NON_COMPLIANT" for all_status in all_statuses_before) and
-                all(all_status == "COMPLIANT" for all_status in all_statuses_after)):
-                self.log("Verified the success of the Sync Device Configuration operation.")
+            if (
+                all(all_status == "NON_COMPLIANT" for all_status in all_statuses_before) and 
+                all(all_status == "COMPLIANT" for all_status in all_statuses_after)
+            ):
+                self.log("Verified the success of the Sync Device Configuration operation.")        
             else:
                 self.log("Sync Device Configuration operation may have been unsuccessful "
                     "since not all devices have 'COMPLIANT' status after the operation.",
