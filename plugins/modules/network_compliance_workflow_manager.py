@@ -371,7 +371,6 @@ class NetworkCompliance(DnacBase):
             If the validation is successful, it logs a success message and returns an instance of the class
             with the validated configuration.
         """
-
         if not self.config:
             self.msg = "config not available in playbook for validation"
             self.status = "success"
@@ -416,7 +415,6 @@ class NetworkCompliance(DnacBase):
             If any address is found to be invalid, it logs an error message and fails.
             After validating all IP addresses, it logs a success message.
         """
-
         for ip in ip_address_list:
             if not self.is_valid_ipv4(ip):
                 self.msg = "IP address: {0} is not valid".format(ip)
@@ -470,7 +468,6 @@ class NetworkCompliance(DnacBase):
         if run_compliance_params:
             device_in_progress = set()
 
-
             response = self.get_compliance_report(run_compliance_params, mgmt_ip_instance_id_map)
             if not response:
                 msg = (
@@ -512,7 +509,6 @@ class NetworkCompliance(DnacBase):
             If the site does not exist, "site_exists" is set to False, and "site_id" is None.
             If an exception occurs during the site lookup, an error message is logged, and the module fails.
         """
-
         site_exists = False
         site_id = None
         response = None
@@ -559,7 +555,6 @@ class NetworkCompliance(DnacBase):
             If the device is found and reachable, it extracts the device ID and maps it to the corresponding IP address.
             If any error occurs during the process, it logs an error message and continues to the next IP address.
         """
-
         mgmt_ip_instance_id_map = {}
 
         # Iterate through the provided list of IP addresses
@@ -685,7 +680,6 @@ class NetworkCompliance(DnacBase):
             This method queries Cisco Catalyst Center to retrieve the unique device IDs associated with devices having the
             specified IP addresses or belonging to the specified site.
         """
-
         # Initialize a dictionary to store management IP addresses and their corresponding device IDs
         mgmt_ip_instance_id_map = {}
 
@@ -762,7 +756,6 @@ class NetworkCompliance(DnacBase):
             either "ip_address_list" or "site_name" and constructs parameters for running compliance checks and syncing
             device configurations based on the provided configuration. It also logs the desired state for reference.
         """
-
         # Initialize parameters
         run_compliance_params = {}
         sync_device_config_params = {}
@@ -847,7 +840,6 @@ class NetworkCompliance(DnacBase):
 
                 # Exclude devices in the "OTHER" category from sync_device_config_params
                 sync_device_config_params["deviceId"] = [device_id for device_id in mgmt_ip_instance_id_map.values() if device_id not in excluded_device_uuids]
-                #sync_device_config_params["deviceId"] = [device_id for device_id in mgmt_ip_instance_id_map.values() if device_id not in excluded_device_ids]
                 msg = "Skipping these devices because their compliance status is not 'NON_COMPLIANT': {0}".format(", ".join(excluded_device_ids))
                 self.log(msg, "WARNING")
                 self.log("Updated 'sync_device_config_params' parameters: {0}".format(sync_device_config_params), "DEBUG")
@@ -885,7 +877,6 @@ class NetworkCompliance(DnacBase):
         Returns:
             dict: A dictionary with device management IPs as keys and lists of compliance details as values.
         """
-
         # Initialize the lists/dicts
         final_response = {}
         device_list = []
@@ -986,7 +977,6 @@ class NetworkCompliance(DnacBase):
             This method initiates a compliance check operation in Cisco DNA Center by calling the "run_compliance" function
             from the "compliance" family of APIs. It passes the provided parameters and updates the result accordingly.
         """
-
         # Execute the compliance check operation
         device_uuids = run_compliance_params.get("deviceUuids")
         batches_dict = {}
@@ -1079,7 +1069,6 @@ class NetworkCompliance(DnacBase):
             This method makes an API call to retrieve the task status and logs the status information.
             If an error occurs during the API call, it will be caught and logged.
         """
-
         # Make an API call to retrieve the task tree
         try:
             response = self.dnac_apply["exec"](
@@ -1115,7 +1104,6 @@ class NetworkCompliance(DnacBase):
             This method makes an API call to retrieve the task status and logs the status information.
             If an error occurs during the API call, it will be caught and logged.
         """
-
         # Make an API call to retrieve the task status
         try:
             response = self.dnac_apply["exec"](
@@ -1153,7 +1141,6 @@ class NetworkCompliance(DnacBase):
             - If the status is "failed", the "failed" key in the result dictionary will be set to True.
             - If data is provided, it will be included in the result dictionary.
         """
-
         # Update the result attributes with the provided values
         self.status = status
         self.result["status"] = status
@@ -1184,7 +1171,6 @@ class NetworkCompliance(DnacBase):
         Returns:
             bool: True if the elapsed time exceeds the timeout period, False otherwise.
         """
-
         # If the elapsed time exceeds the timeout period
         if time.time() - start_time > self.params.get("dnac_api_task_timeout"):
             if response.get("data"):
@@ -1212,7 +1198,6 @@ class NetworkCompliance(DnacBase):
         Returns:
             self (object): An instance of the class used for interacting with Cisco Catalyst Center.
         """
-
         # If failure reason is provided, include it in the error message
         if failure_reason:
             self.msg = "An error occurred while performing {0} on device(s): {1}. The operation failed due to the following reason: {2}".format(
@@ -1243,7 +1228,6 @@ class NetworkCompliance(DnacBase):
             If there is an error during task execution, it returns the error message and status.
             If the task fails, it returns the failure message and status.
         """
-
         task_name = "Run Compliance Check"
         start_time = time.time()
 
@@ -1290,27 +1274,27 @@ class NetworkCompliance(DnacBase):
         """
         batches_result = []
         for idx, batch_info in batches_dict.items():
-                task_id = batch_info["task_id"]
-                device_ids = batch_info["batch_params"]["deviceUuids"]
+            task_id = batch_info["task_id"]
+            device_ids = batch_info["batch_params"]["deviceUuids"]
 
-                # Get task status for the current batch
-                task_status = self.get_task_result(task_id, device_ids)
-                self.log("The task status of batch: {0} with task id: {1} is {2}".format(idx, task_id, task_status), "INFO")
+            # Get task status for the current batch
+            task_status = self.get_task_result(task_id, device_ids)
+            self.log("The task status of batch: {0} with task id: {1} is {2}".format(idx, task_id, task_status), "INFO")
 
-                # Extract message and status from the task status result
-                msg = task_status[task_id]["msg"]
-                status = task_status[task_id]["status"]
+            # Extract message and status from the task status result
+            msg = task_status[task_id]["msg"]
+            status = task_status[task_id]["status"]
 
-                # Store the result for the current batch
-                batch_result = {
-                    "task_id": task_id,
-                    "batch_params": batch_info["batch_params"],
-                    "task_status": status,
-                    "msg": msg
-                }
+            # Store the result for the current batch
+            batch_result = {
+                "task_id": task_id,
+                "batch_params": batch_info["batch_params"],
+                "task_status": status,
+                "msg": msg
+            }
 
-                # Append the current batch result to the batches_result list
-                batches_result.append(batch_result)
+            # Append the current batch result to the batches_result list
+            batches_result.append(batch_result)
 
         self.log("Collective result of all batches: {0}".format(batches_result), "DEBUG")
         return batches_result
@@ -1329,7 +1313,6 @@ class NetworkCompliance(DnacBase):
             it re-runs the compliance check with a batch size of 1, validates the results recursively, and collects
             the successful device IDs.
         """
-
         if retried_batches is None:
             retried_batches = set()
         successful_devices = []
@@ -1346,7 +1329,11 @@ class NetworkCompliance(DnacBase):
             else:
                 # Check if the batch has already been retried with batch size of 1
                 if device_ids in retried_batches:
-                    self.log("Batch for device(s) {0} has already been retried with batch size of 1 and failed. Stopping recursion.".format(", ".join(device_ids)), "ERROR")
+                    self.log(
+                        "Batch for device(s) {0} has already been retried with batch size of 1 and failed. "
+                        "Stopping recursion.".format(", ".join(device_ids)),
+                        "ERROR"
+                    )                    
                     continue
 
                 self.log("Re-running compliance check for batch {0} with batch_result: {1} ".format(batch, batches_result), "WARNING")
@@ -1357,7 +1344,6 @@ class NetworkCompliance(DnacBase):
 
                 # Recursively validate the batch results and append the successful device IDs
                 successful_devices.extend(self.validate_batch_result(batches_result, retried_batches=retried_batches))
-
         return successful_devices
 
     def get_compliance_task_status(self, batches_dict, mgmt_ip_instance_id_map):
@@ -1374,7 +1360,6 @@ class NetworkCompliance(DnacBase):
             the success message, updates the result, and retrieves compliance reports. If all batches failed,
             it logs the failure message and updates the result accordingly.
         """
-
         task_name = "Run Compliance Check"
         batches_result = self.get_batches_result(batches_dict)
         successful_devices = self.validate_batch_result(batches_result)
@@ -1423,7 +1408,6 @@ class NetworkCompliance(DnacBase):
             If all devices are already compliant, it logs a success message. If some devices have unexpected statuses, it logs an error.
             It continuously checks the task status until completion, updating the result accordingly.
         """
-
         task_name = "Sync Device Configuration"
         start_time = time.time()
 
@@ -1490,11 +1474,9 @@ class NetworkCompliance(DnacBase):
         Returns:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
         Description:
-            This method orchestrates compliance check operation and device configuration synchronization tasks
-            specified in a playbook. It ensures all required tasks are present, executes them, and checks their
-            status, facilitating smooth playbook execution.
+            This method orchestrates compliance check operation and device configuration synchronization tasks specified in a playbook. 
+            It ensures all required tasks are present, executes them, and checks their status, facilitating smooth playbook execution.
         """
-
         # Action map for different network compliance operations
         action_map = {
             "run_compliance_params": (self.run_compliance, self.get_compliance_task_status),
