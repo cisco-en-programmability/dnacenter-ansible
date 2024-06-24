@@ -615,7 +615,7 @@ class Provision(DnacBase):
 
         return (site_exists, site_id)
 
-    def get_site_assignment(self):
+    def get_site_assignment(self, uuid=None):
         """
         Tells us the whether a device is assigned to the site
 
@@ -629,7 +629,6 @@ class Provision(DnacBase):
           Post creation of the validated input, this method tells whether devices are associated with a site.
         """
 
-        uuid = self.get_device_id()
         self.log("Device ID of the device is {0}".format(uuid), "INFO")
         try:
             site_response = self.dnac_apply['exec'](
@@ -639,7 +638,7 @@ class Provision(DnacBase):
                         "identifier": "uuid"},
                 op_modifies=True
             )
-            self.log("Response collectef from the ")
+            self.log("Response collected from the API 'get_device_detail' {0}".format(site_response))
             site_response = site_response.get("response")
             if site_response.get("location"):
                 return True
@@ -937,7 +936,8 @@ class Provision(DnacBase):
                         return self
 
                 else:
-                    if self.get_site_assignment() is True:
+                    uuid = self.get_device_id()
+                    if self.get_site_assignment(uuid=uuid) is True:
                         self.result["changed"] = False
                         self.result['msg'] = "Device is already assigned to the desired site"
                         self.result['diff'] = self.want
@@ -1091,8 +1091,9 @@ class Provision(DnacBase):
         device_type = self.want.get("device_type")
         provisioning = self.validated_config[0].get("provisioning")
         site_name_hierarchy = self.validated_config[0].get("site_name_hierarchy")
+        uuid = self.get_device_id()
         if provisioning is False:
-            if self.get_site_assignment() is True:
+            if self.get_site_assignment(uuid=uuid) is True:
                 self.log("Requested device is already added to the site {0}".format(site_name_hierarchy), "INFO")
             else:
                 self.log("Requested device is not added to the site {0}".format(site_name_hierarchy), "INFO")
