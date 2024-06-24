@@ -276,7 +276,6 @@ class Accesspoint(DnacBase):
         self.supported_states = ["merged", "deleted"]
         self.payload = module.params
         self.keymap = {}
-        self.needs_update = False
 
     # Below function used to validate input over the ansible validation
     def validate_input_yml(self):
@@ -638,9 +637,10 @@ class Accesspoint(DnacBase):
 
                 if ap_selected_fields is None or ap_selected_fields == "" or \
                     ap_selected_fields == "all":
-                    self.payload["access_point_list"] = ap_response[0]
+                    self.payload["access_point_list"] = ap_response
                 else:
-                    self.payload["access_point_list"]=self.data_frame(ap_selected_fields, ap_response)
+                    self.payload["access_point_list"]=self.data_frame(ap_selected_fields,
+                                                                      ap_response)
 
                 self.log("Received API response from 'get_device_list': {0}"\
                         .format(str(self.payload["access_point_list"][0])), "DEBUG")
@@ -701,7 +701,7 @@ class Accesspoint(DnacBase):
 
                 if ap_config_selected_fields is None or ap_config_selected_fields == "" \
                     or ap_config_selected_fields == "all":
-                    self.payload["access_point_config"] = current_configuration
+                    self.payload["access_point_config"] = [current_configuration]
                 else:
                     self.payload["access_point_config"]=self.data_frame(ap_config_selected_fields,
                                                                   [current_configuration])
@@ -771,7 +771,6 @@ class Accesspoint(DnacBase):
             if update_config:
                 self.log("Consolidated config to update AP configuration: {0}"\
                          .format(str(update_config)), "INFO")
-                self.needs_update = True
                 return update_config
 
             self.log('Playbook AP configuration remain same in current AP configration', "INFO")
@@ -805,9 +804,9 @@ class Accesspoint(DnacBase):
             temp_dict = {}
 
             if ap_config.get("apName") is not None:
-                temp_dict["apName"] = ap_config["apName"],
-                temp_dict["apNameNew"] = ap_config["apNameNew"],
+                temp_dict["apName"] = ap_config["apName"]
                 temp_dict["apNameNew"] = ap_config["apNameNew"]
+                temp_dict["macAddress"] = ap_config["macAddress"]
                 del ap_config["apName"]
                 del ap_config["apNameNew"]
             elif ap_config.get("macAddress") is not None:
