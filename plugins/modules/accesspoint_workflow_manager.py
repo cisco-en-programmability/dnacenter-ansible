@@ -811,7 +811,7 @@ class Accesspoint(DnacBase):
                 del ap_config["apName"]
                 del ap_config["apNameNew"]
             elif ap_config.get("macAddress") is not None:
-                temp_dict["apList"] = ap_config["macAddress"]
+                temp_dict["macAddress"] = ap_config["macAddress"]
 
             ap_config["apList"].append(temp_dict)
 
