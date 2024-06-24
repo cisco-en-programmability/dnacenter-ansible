@@ -276,6 +276,7 @@ class Accesspoint(DnacBase):
         self.supported_states = ["merged", "deleted"]
         self.payload = module.params
         self.keymap = {}
+        self.needs_update = False
 
     # Below function used to validate input over the ansible validation
     def validate_input_yml(self):
@@ -402,18 +403,138 @@ class Accesspoint(DnacBase):
         Description:
             This method determines whether to update or create AP configuration in Cisco
             Catalyst Center based on the provided configuration information.
-            If the specified site exists, the method checks if it requires an update
+            If the specified access point exists, the method checks if it requires an update
             by calling the 'update_ap_configuration' method. If an update is required,
             it calls the 'configure_access_points' function from the 'wireless' family of
             the Cisco Catalyst Center API. If Current configuration same as input configuration
             does not require an update, the method exits, indicating that Accesspoint
             configuration is up to date.
         """
-        config_updated = False
-        config_created = False
         task_response = None
-        errormsg = []
+        self.valid_ap_config_parameters(ap_config).check_return_status()
 
+        # check if the given AP config exists and/or needs to be updated/created.
+        if self.have.get("ap_exists"):
+            consolidated_data = self.compare_ap_config_with_inputdata(
+                self.have["current_ap_config"])
+
+            if not consolidated_data:
+                # Accesspoint does not need update
+                self.msg = "AP - {0} does not need any update"\
+                    .format(self.have.get("current_ap_config").get("ap_name"))
+                self.log(self.msg, "INFO")
+                responses = {}
+                del self.payload["access_point_list"]
+                responses["accesspoints_updates"] = {
+                    "response": self.payload["access_point_config"]}
+                self.result['msg'] = self.msg
+                self.result["response"].append(responses)
+                self.result["changed"] = False
+                return self
+
+            self.log('Final AP Configuration data to update {0}'.format(str(consolidated_data)),
+                      "INFO")
+            task_response = self.update_ap_configuration(consolidated_data)
+            self.log('Task respoonse {0}'.format(str(task_response)),"INFO")
+
+            if task_response and isinstance(task_response, dict):
+                self.check_task_response_status(task_response, "task_intent", True)\
+                    .check_return_status()
+                self.log("Status of the task is {0}.".format(self.status), "INFO")
+                if self.status == "success":
+                    self.result['changed'] = True
+                    responses = {}
+                    responses["accesspoints_updates"] = {"response": task_response}
+                    self.msg = "AP Configuration - {0} updated Successfully"\
+                        .format(self.have["current_ap_config"].get("ap_name"))
+                    self.log(self.msg, "INFO")
+                    self.result['msg'] = self.msg
+                    self.result['response'].append(responses)
+                else:
+                    self.status = "failed"
+                    self.msg = "Unable to get task response, hence AP config not updated"
+                    self.log(self.msg, "ERROR")
+                return self
+            self.status = "failed"
+            self.msg = "Unable to call update AP config API "
+            self.log(self.msg, "ERROR")
+            return self
+
+    def verify_diff_merged(self, config):
+        """
+        Verifies whether the configuration changes for an AP have been successfully applied
+            in the Cisco Catalyst Center.
+        Args:
+            - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            - config (dict): The configuration details to be verified.
+        Return:
+            - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+        Description:
+            This method logs the current and desired configuration states and checks if 
+            the AP exists and whether any updates are required. If the configuration is
+            as expected, it logs a success message. Otherwise, it indicates a potential 
+            issue with the merge operation.
+        """
+        self.get_have(config)
+        self.log("Current AP Config (have): {0}".format(str(self.have)), "INFO")
+        self.log("Desired AP Config (want): {0}".format(str(self.want)), "INFO")
+
+        # Code to validate dnac config for merged state
+        ap_exists  = self.have.get("ap_exists")
+        ap_name = self.have.get("current_ap_config").get("ap_name")
+
+        if not ap_exists:
+            self.status = "failed"
+            self.msg = "AP Config '{0}' does not exist in the system.".format(ap_name)
+            self.log(self.msg, "ERROR")
+            return self
+        else:
+            self.status = "success"
+            self.msg = """The requested AP Config '{0}' is present in the Cisco Catalyst Center 
+                        and its creation has been verified.""".format(ap_name)
+            self.log(self.msg, "INFO")
+
+        require_update = self.compare_ap_config_with_inputdata(self.have["current_ap_config"])
+        self.log(str(require_update), "INFO")
+
+        if not require_update:
+            msg = "The update for AP Config '{0}' has been successfully verified.".format(ap_name)
+            self.log(msg, "INFO")
+            self.status = "success"
+            responses = {}
+            responses["accesspoints_verify"] = {"want": self.want,
+                                                "have": self.payload["access_point_config"],
+                                                "message": msg}
+            self.result['response'].append(responses)
+        else:
+            self.msg = "Configuration for AP '{0}' does not match the desired state."\
+                .format(ap_name)
+            self.log(self.msg, "INFO")
+            self.status = "failed"
+
+        return self
+
+    def valid_ap_config_parameters(self, ap_config):
+        """
+        Addtional validation for the update API AP configuration payload.
+        Parameters:
+          - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+          - ap_config (dict): A dictionary containing the input configuration details.
+        Returns:
+          The method returns an instance of the class with updated attributes:
+                - self.msg: A message describing the validation result.
+                - self.status: The status of the validation (either 'success' or 'failed').
+        Description:
+            Example:
+                To use this method, create an instance of the class and call 
+                'valid_ap_config_parameters' on it. If the validation succeeds it return 'success'.
+                If it fails, 'self.status' will be 'failed', and
+                'self.msg' will describe the validation issues.To use this method, create an
+                instance of the class and call 'valid_ap_config_parameters' on it.
+                If the validation succeeds, this will allow to go next step, 
+                unless this will stop execution based on the fields.
+        """
+        errormsg = []
         if ap_config.get("mac_address"):
             mac_regex = re.compile(r'^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$')
             if not mac_regex.match(ap_config["mac_address"]):
@@ -454,101 +575,9 @@ class Accesspoint(DnacBase):
             self.status = "failed"
             return self
 
-        # check if the given AP config exists and/or needs to be updated/created.
-        if self.have.get("ap_exists"):
-            consolidated_data = self.compare_ap_config_with_inputdata(self.have["current_ap_config"])
-
-            if not consolidated_data:
-                # Accesspoint does not need update
-                self.msg = "AP - {0} does not need any update"\
-                    .format(self.have.get("current_ap_config").get("ap_name"))
-                self.log(self.msg, "INFO")
-                responses = {}
-                del self.payload["access_point_list"]
-                responses["accesspoints_updates"] = {"response": self.payload["access_point_config"]}
-                self.result['msg'] = self.msg
-                self.result["response"].append(responses)
-                self.result["changed"] = False
-                return self
-
-            self.log('Final AP Configuration data to update {0}'.format(str(consolidated_data)),
-                      "INFO")
-            task_response = self.update_ap_configuration(consolidated_data)
-            self.log('Task respoonse {0}'.format(str(task_response)),"INFO")
-            config_updated = True
-
-        responses = {}
-        if config_updated or config_created:
-            if task_response and isinstance(task_response, dict):
-                self.check_task_response_status(task_response, "task_intent", True)\
-                    .check_return_status()
-                self.log("Status of the task is {}.".format(self.status), "INFO")
-                if self.status == "success":
-                    self.result['changed'] = True
-                    responses["accesspoints_updates"] = {"response": task_response}
-                    state = "Updated" if config_updated else "Created"
-                    self.msg = "AP Configuration - {0} {1} Successfully"\
-                        .format(self.have["current_ap_config"].get("ap_name"), state)
-                    self.log(self.msg, "INFO")
-                    self.result['msg'] = self.msg
-                    self.result['response'].append(responses)
-                else:
-                    self.status = "failed"
-                    self.msg = "Unable to get task response"
-            return self
-
-    def verify_diff_merged(self, config):
-        """
-        Verifies whether the configuration changes for an AP have been successfully applied
-            in the Cisco Catalyst Center.
-        Args:
-            - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-            - config (dict): The configuration details to be verified.
-        Return:
-            - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-        Description:
-            This method logs the current and desired configuration states and checks if 
-            the AP exists and whether any updates are required. If the configuration is
-            as expected, it logs a success message. Otherwise, it indicates a potential 
-            issue with the merge operation.
-        """
-        self.get_have(config)
-        self.log("Current AP Config (have): {0}".format(str(self.have)), "INFO")
-        self.log("Desired AP Config (want): {0}".format(str(self.want)), "INFO")
-
-        # Code to validate dnac config for merged state
-        ap_exists  = self.have.get("ap_exists")
-        ap_name = self.have.get("current_ap_config").get("ap_name")
-
-        if not ap_exists:
-            self.status = "failure"
-            self.msg = "AP Config '{0}' does not exist in the system.".format(ap_name)
-            self.log(self.msg, "ERROR")
-            return self
-        else:
-            self.status = "success"
-            self.msg = """The requested AP Config '{0}' is present in the Cisco Catalyst Center 
-                        and its creation has been verified.""".format(ap_name)
-            self.log(self.msg, "INFO")
-
-        require_update = self.compare_ap_config_with_inputdata(self.have["current_ap_config"])
-        self.log(str(require_update), "INFO")
-
-        if not require_update:
-            msg = "The update for AP Config '{0}' has been successfully verified.".format(ap_name)
-            self.log(msg, "INFO")
-            self.status = "success"
-            responses = {}
-            responses["accesspoints_verify"] = {"want": self.want,
-                                                "have": self.payload["access_point_config"],
-                                                "message": msg}
-            self.result['response'].append(responses)
-        else:
-            self.msg = "Configuration for AP '{0}' does not match the desired state."\
-                .format(ap_name)
-            self.log(self.msg, "INFO")
-            self.status = "failure"
-
+        self.msg = "Successfully validated config params:{0}".format(str(ap_config))
+        self.log(self.msg, "INFO")
+        self.status = "success"
         return self
 
     def get_current_config(self, input_config):
@@ -742,6 +771,7 @@ class Accesspoint(DnacBase):
             if update_config:
                 self.log("Consolidated config to update AP configuration: {0}"\
                          .format(str(update_config)), "INFO")
+                self.needs_update = True
                 return update_config
 
             self.log('Playbook AP configuration remain same in current AP configration', "INFO")
@@ -755,6 +785,7 @@ class Accesspoint(DnacBase):
               - dict: A dictionary containing the task ID and URL from the update response.
         Returns:
             {
+                "mac_address": "string",
                 "response": {
                     "taskId": "string",
                     "url": "string"
@@ -766,18 +797,23 @@ class Accesspoint(DnacBase):
             final_input_data = functions.update_ap_configuration(ap_config)
         """
         try:
-            self.log("Updating access point configuration information: "+ ap_config["macAddress"],
-                        "INFO")
+            self.log("Updating access point configuration information: {0}"\
+                     .format(ap_config["macAddress"]), "INFO")
             ap_config["adminStatus"] = True
 
+            ap_config["apList"] = []
+            temp_dict = {}
+
             if ap_config.get("apName") is not None:
-                ap_config["apList"] = [dict(apName = ap_config["apName"],
-                                    apNameNew = ap_config["apNameNew"],
-                                    macAddress = ap_config["macAddress"])]
+                temp_dict["apName"] = ap_config["apName"],
+                temp_dict["apNameNew"] = ap_config["apNameNew"],
+                temp_dict["apNameNew"] = ap_config["apNameNew"]
                 del ap_config["apName"]
                 del ap_config["apNameNew"]
             elif ap_config.get("macAddress") is not None:
-                ap_config["apList"] = [dict(macAddress = ap_config["macAddress"])]
+                temp_dict["apList"] = ap_config["macAddress"]
+
+            ap_config["apList"].append(temp_dict)
 
             if ap_config.get("location") is not None:
                 ap_config["configureLocation"] = True
@@ -799,12 +835,15 @@ class Accesspoint(DnacBase):
                     params=ap_config,
                 )
 
-            self.log("Response of Access Point Configuration: {0}"\
-                     .format(str(response["response"])), "INFO")
-            return dict(macAdress=ap_config["macAddress"], response=response["response"])
+            if response:
+                response = response.get("response")
+                self.log("Response of Access Point Configuration: {0}".format(str(response)),
+                         "INFO")
+                return dict(mac_address=ap_config["macAddress"], response=response)
 
         except Exception as e:
-            self.log("AP config update Error {0}".format(str(ap_config["macAddress"])+str(e)), "ERROR")
+            self.log("AP config update Error {0}".format(str(ap_config["macAddress"])+str(e)),
+                     "ERROR")
             return None
 
     def data_frame(self, fields_to_include=None, records=list):
