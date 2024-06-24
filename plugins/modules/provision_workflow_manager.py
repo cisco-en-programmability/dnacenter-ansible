@@ -558,7 +558,7 @@ class Provision(DnacBase):
             )
         except Exception:
             self.log("Exception occurred as \
-                site '{0}' was not found".format(self.want.get("site_name")), "CRITICAL")
+                site '{0}' was not found".format(site_name_hierarchy), "CRITICAL")
             self.module.fail_json(msg="Site not found", response=[])
 
         if response:
@@ -617,6 +617,41 @@ class Provision(DnacBase):
 
     def get_site_assignment(self):
         """
+        Tells us the whether a device is assigned to the site
+
+        Parameters:
+          - self: The instance of the class containing the 'config' attribute
+                  to be validated.
+        Returns:
+          - boolean: True if any device is associated with the site, False if no device is associated with site
+
+        Example:
+          Post creation of the validated input, this method tells whether devices are associated with a site.
+        """
+
+        uuid = self.get_device_id()
+        self.log("Device ID of the device is {0}".format(uuid), "INFO")
+        try:
+            site_response = self.dnac_apply['exec'](
+                family="devices",
+                function='get_device_detail',
+                params={"search_by": uuid ,
+                        "identifier": "uuid"},
+                op_modifies=True
+            )
+            self.log("Response collectef from the ")
+            site_response = site_response.get("response")
+            if site_response.get("location"):
+                return True
+            else:
+                return False
+        except Exception as e:
+            msg = "Device with uuid {0} not found due to {1}".format(uuid, e)
+            self.log(msg, "CRITICAL")
+            self.module.fail_json(msg=msg)
+
+    def get_site_assign(self):
+        """
         Fetches the details of devices assigned to a site
 
         Parameters:
@@ -630,9 +665,9 @@ class Provision(DnacBase):
         """
 
         site_name_hierarchy = self.validated_config[0].get("site_name_hierarchy")
-        site_exits, site_id = self.get_site_details(site_name_hierarchy=site_name_hierarchy)
+        site_exists, site_id = self.get_site_details(site_name_hierarchy=site_name_hierarchy)
         serial_number = self.get_serial_number()
-        if site_exits:
+        if site_exists:
             site_response = self.dnac_apply['exec'](
                 family="sites",
                 function='get_membership',
