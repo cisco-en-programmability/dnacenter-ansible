@@ -524,7 +524,6 @@ class Site(DnacBase):
           type. If the site type is 'floor', it ensures that the 'rfModel'
           parameter is stored in uppercase.
         """
-
         typeinfo = params.get("type")
         site_info = {}
 
