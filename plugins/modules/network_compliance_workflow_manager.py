@@ -491,7 +491,7 @@ class NetworkCompliance(DnacBase):
 
             self.log(
                 "Number of devices with Compliance Status 'IN_PROGRESS': {0}. Device UUIDs: {1}".format(
-                    len(device_in_progress), list(device_in_progress)),"DEBUG"
+                    len(device_in_progress), list(device_in_progress)), "DEBUG"
             )
             if device_in_progress:
                 # Update run_compliance_params to exclude devices with 'IN_PROGRESS' status
@@ -852,7 +852,10 @@ class NetworkCompliance(DnacBase):
                 excluded_device_uuids = [mgmt_ip_to_instance_id_map[ip] for ip in excluded_device_ids if ip in mgmt_ip_to_instance_id_map]
 
                 # Exclude devices in the "OTHER" category from sync_device_config_params
-                sync_device_config_params["deviceId"] = [device_id for device_id in mgmt_ip_to_instance_id_map.values() if device_id not in excluded_device_uuids]
+                sync_device_config_params["deviceId"] = [
+                    device_id for device_id in mgmt_ip_to_instance_id_map.values()
+                    if device_id not in excluded_device_uuids
+                ]
                 excluded_device_ids_str = ", ".join(excluded_device_ids)
                 msg = "Skipping these devices because their compliance status is not 'NON_COMPLIANT': {0}".format(excluded_device_ids_str)
                 self.log(msg, "WARNING")
@@ -1223,13 +1226,12 @@ class NetworkCompliance(DnacBase):
             self (object): An instance of the class used for interacting with Cisco Catalyst Center.
         """
         # If failure reason is provided, include it in the error message
+        ip_address_list_str = ", ".join(list(mgmt_ip_to_instance_id_map.keys()))
         if failure_reason:
-            ip_address_list_str = ", ".join(list(mgmt_ip_to_instance_id_map.keys()))
             self.msg = "An error occurred while performing {0} on device(s): {1}. The operation failed due to the following reason: {2}".format(
-                task_name, failure_reason)
+                task_name, ip_address_list_str, failure_reason)
         # If no failure reason is provided, generate a generic error message
         else:
-            ip_address_list_str = ", ".join(list(mgmt_ip_to_instance_id_map.keys()))
             self.msg = "An error occurred while performing {0} on device(s): {1}".format(
                 task_name, ip_address_list_str)
 
@@ -1403,7 +1405,11 @@ class NetworkCompliance(DnacBase):
         id_to_ip_map = {v: k for k, v in mgmt_ip_to_instance_id_map.items()}
 
         # Determine unsuccessful devices
-        all_device_ids = [device_id for batch in batches_dict.values() for device_id in batch["batch_params"]["deviceUuids"]]
+        all_device_ids = [
+            device_id
+            for batch in batches_dict.values()
+            for device_id in batch["batch_params"]["deviceUuids"]
+        ]
         unsuccessful_devices = list(set(all_device_ids) - set(successful_devices))
         unsuccessful_ips = [id_to_ip_map[device_id] for device_id in unsuccessful_devices if device_id in id_to_ip_map]
         unsuccessful_ips_str =  ", ".join(unsuccessful_ips)
