@@ -1412,7 +1412,7 @@ class NetworkCompliance(DnacBase):
         ]
         unsuccessful_devices = list(set(all_device_ids) - set(successful_devices))
         unsuccessful_ips = [id_to_ip_map[device_id] for device_id in unsuccessful_devices if device_id in id_to_ip_map]
-        unsuccessful_ips_str =  ", ".join(unsuccessful_ips)
+        unsuccessful_ips_str = ", ".join(unsuccessful_ips)
         self.log("{0} unsuccessful on device(s): {1}".format(task_name, unsuccessful_ips_str), "DEBUG")
 
         if successful_devices:
