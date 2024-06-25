@@ -615,21 +615,20 @@ class Provision(DnacBase):
 
         return (site_exists, site_id)
 
-    def get_site_assignment(self, uuid=None):
+    def is_device_assigned_to_site(self, uuid):
         """
-        Tells us the whether a device is assigned to the site
+        Checks if a device, specified by its UUID, is assigned to any site.
 
         Parameters:
           - self: The instance of the class containing the 'config' attribute
                   to be validated.
+          - uuid (str): The UUID of the device to check for site assignment.
         Returns:
-          - boolean: True if any device is associated with the site, False if no device is associated with site
+          - boolean:  True if the device is assigned to a site, False otherwise.
 
-        Example:
-          Post creation of the validated input, this method tells whether devices are associated with a site.
         """
 
-        self.log("Device ID of the device is {0}".format(uuid), "INFO")
+        self.log("Checking site assignment for device with UUID: {0}".format(uuid), "INFO")
         try:
             site_response = self.dnac_apply['exec'](
                 family="devices",
@@ -645,7 +644,7 @@ class Provision(DnacBase):
             else:
                 return False
         except Exception as e:
-            msg = "Device with uuid {0} not found due to {1}".format(uuid, e)
+            msg = "Failed to find device with UUID {0} due to: {1}".format(uuid, e)
             self.log(msg, "CRITICAL")
             self.module.fail_json(msg=msg)
 
@@ -937,7 +936,7 @@ class Provision(DnacBase):
 
                 else:
                     uuid = self.get_device_id()
-                    if self.get_site_assignment(uuid=uuid) is True:
+                    if self.is_device_assigned_to_site(uuid) is True:
                         self.result["changed"] = False
                         self.result['msg'] = "Device is already assigned to the desired site"
                         self.result['diff'] = self.want
@@ -1093,7 +1092,7 @@ class Provision(DnacBase):
         site_name_hierarchy = self.validated_config[0].get("site_name_hierarchy")
         uuid = self.get_device_id()
         if provisioning is False:
-            if self.get_site_assignment(uuid=uuid) is True:
+            if self.is_device_assigned_to_site(uuid) is True:
                 self.log("Requested device is already added to the site {0}".format(site_name_hierarchy), "INFO")
             else:
                 self.log("Requested device is not added to the site {0}".format(site_name_hierarchy), "INFO")
