@@ -524,8 +524,15 @@ class Site(DnacBase):
           type. If the site type is 'floor', it ensures that the 'rfModel'
           parameter is stored in uppercase.
         """
+
         typeinfo = params.get("type")
         site_info = {}
+
+        if typeinfo not in ["area", "building", "floor"]:
+            self.status = "failed"
+            self.msg = "Invalid site type '{0}' given in the playbook. Please select one of the type - 'area', 'building', 'floor'".format(typeinfo)
+            self.log(self.msg, "ERROR")
+            self.check_return_status()
 
         if typeinfo == 'area':
             area_details = params.get('site').get('area')
