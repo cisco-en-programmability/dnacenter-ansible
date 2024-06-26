@@ -1871,7 +1871,9 @@ class Events(DnacBase):
             'isProxyRoute': webhook_details.get('is_proxy_route')
         }
 
-        if webhook_details.get('headers'):
+        if webhook_details.get("headers") == []:
+            playbook_params['headers'] = []
+        elif webhook_details.get('headers'):
             custom_header = webhook_details['headers']
             playbook_params['headers'] = []
             for header in custom_header:
@@ -1938,6 +1940,41 @@ class Events(DnacBase):
 
         return self
 
+    def webhook_header_needs_update(self, playbook_header, ccc_header):
+        """
+        Determines if an update is needed by comparing two lists of dictionaries based on the 'name' and 'value' keys.
+        Args:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            playbook_header (list of dict): The first list of dictionaries for headers given in the playbook. Each dictionary
+                should contain 'name' and 'value' keys.
+            ccc_header (list of dict): The second list of dictionaries for headers present in the Cisco Catalyst Center.
+                Each dictionary should contain 'name' and 'value' keys, and may contain additional keys.
+        Returns:
+            bool: True if an update is needed, False otherwise.
+        Description:
+            This function checks whether an update is required by comparing two lists of dictionaries.
+            It first checks for simple cases where one list is empty and the other is not.
+            If neither of these cases applies, it converts both lists into dictionaries
+            with the 'name' keys as dictionary keys and 'value' keys as dictionary values.
+            It then compares these dictionaries to determine if they are identical.
+            If they are not identical, it sets the update_needed flag to True.
+        """
+
+        update_needed = False
+
+        if playbook_header == [] and ccc_header:
+            update_needed = True
+        elif playbook_header and not ccc_header:
+            update_needed = True
+        else:
+            playbook_dict = {item['name']: item['value'] for item in playbook_header}
+            ccc_dict = {item['name']: item['value'] for item in ccc_header}
+
+            if not playbook_dict == ccc_dict:
+                update_needed = True
+
+        return update_needed
+
     def webhook_dest_needs_update(self, webhook_params, webhook_dest_detail_in_ccc):
         """
         Check if updates are needed for a webhook destination in Cisco Catalyst Center.
@@ -1959,7 +1996,7 @@ class Events(DnacBase):
 
         for key, value in webhook_params.items():
             if isinstance(value, list):
-                update_needed = self.webhook_dest_needs_update(value[0], webhook_dest_detail_in_ccc[key][0])
+                update_needed = self.webhook_header_needs_update(value, webhook_dest_detail_in_ccc[key])
                 if update_needed:
                     break
             elif webhook_dest_detail_in_ccc[key] == value or value is None:
@@ -2006,8 +2043,8 @@ class Events(DnacBase):
             if update_webhook_params.get("isProxyRoute") is None:
                 update_webhook_params["isProxyRoute"] = webhook_dest_detail_in_ccc.get('isProxyRoute')
 
-            if not update_webhook_params['headers'] and webhook_dest_detail_in_ccc.get('headers'):
-                update_webhook_params['headers'] = webhook_dest_detail_in_ccc.get('headers')[0]
+            if update_webhook_params['headers'] != [] and not update_webhook_params['headers'] and webhook_dest_detail_in_ccc.get('headers'):
+                update_webhook_params['headers'] = webhook_dest_detail_in_ccc.get('headers')
 
             response = self.dnac._exec(
                 family="event_management",
