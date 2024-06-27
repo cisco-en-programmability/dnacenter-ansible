@@ -45,11 +45,7 @@ jobs:
     #machine: true
     docker:
       - image: python:3.8.10
-    resource_class: rukapse/dnacenter-ansible-minikube
-
-    environment:
-      CIRCLE_PROJECT_REPONAME: << pipeline.trigger_parameters.github_app.repo_name >>
-      CIRCLE_PROJECT_BRANCHNAME: << pipeline.trigger_parameters.github_app.branch >>
+    resource_class: madhansansel/dnacenter-ansible
 
     steps:
       - run:
@@ -69,11 +65,7 @@ jobs:
     #machine: true
     docker:
       - image: python:3.8.10
-    resource_class: rukapse/dnacenter-ansible-minikube
-    environment:
-      REPO_URL: << pipeline.trigger_parameters.github_app.repo_url >>
-      CIRCLE_PROJECT_REPONAME: << pipeline.trigger_parameters.github_app.repo_name >>
-      CIRCLE_PROJECT_BRANCHNAME: << pipeline.trigger_parameters.github_app.branch >>
+    resource_class: madhansansel/dnacenter-ansible
     steps:
       - run:
           name: Debug information
@@ -93,7 +85,10 @@ jobs:
             fi
       - run:
           name: Clone repo to workspace
-          command: git clone --depth=1 -b $CIRCLE_PROJECT_BRANCHNAME $REPO_URL .
+          command: |
+            git clone --depth=1 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+            git fetch origin $CIRCLE_BRANCH:work
+            git checkout work
 
       - restore_cache:
           keys:
@@ -119,7 +114,7 @@ jobs:
     #machine: true
     docker:
       - image: python:3.8.10
-    resource_class: rukapse/dnacenter-ansible-minikube
+    resource_class: madhansansel/dnacenter-ansible
 
     steps:
       - run:
@@ -199,12 +194,7 @@ jobs:
     #machine: true
     docker:
       - image: python:3.8.10
-    resource_class: rukapse/dnacenter-ansible-minikube 
-
-    environment:
-      REPO_URL: << pipeline.trigger_parameters.github_app.repo_url >>
-      CIRCLE_PROJECT_REPONAME: << pipeline.trigger_parameters.github_app.repo_name >>
-      CIRCLE_PROJECT_BRANCHNAME: << pipeline.trigger_parameters.github_app.branch >>
+    resource_class: madhansansel/dnacenter-ansible 
 
     steps:
       - run:
@@ -216,7 +206,10 @@ jobs:
 
       - run:
           name: Clone repo to workspace
-          command: git clone --depth=1 -b $CIRCLE_PROJECT_BRANCHNAME $REPO_URL .
+          command: |
+            git clone --depth=1 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+            git fetch origin $CIRCLE_BRANCH:work
+            git checkout work
 
       - attach_workspace:
           at: roles-file
@@ -261,7 +254,7 @@ jobs:
     #machine: true
     docker:
       - image: python:3.8.10
-    resource_class: rukapse/dnacenter-ansible-minikube
+    resource_class: madhansansel/dnacenter-ansible
 
     steps:
       - when:
