@@ -1962,7 +1962,7 @@ class Events(DnacBase):
 
         update_needed = False
 
-        if playbook_header == [] and ccc_header:
+        if len(playbook_header) == 0 and ccc_header:
             update_needed = True
         elif playbook_header and not ccc_header:
             update_needed = True
@@ -1970,8 +1970,7 @@ class Events(DnacBase):
             playbook_dict = {item['name']: item['value'] for item in playbook_header}
             ccc_dict = {item['name']: item['value'] for item in ccc_header}
 
-            if not playbook_dict == ccc_dict:
-                update_needed = True
+            return playbook_dict != ccc_dict
 
         return update_needed
 
@@ -4527,7 +4526,7 @@ class Events(DnacBase):
             url = webhook_params.get('url')
 
             regex_pattern = re.compile(
-                r'^(https?:\/\/)?'  # protocol
+                r'^https:\/\/'  # ensure the URL starts with https://
                 r'((([a-z\d]([a-z\d-]*[a-z\d])*)\.)+[a-z]{2,}|'  # domain name
                 r'((\d{1,3}\.){3}\d{1,3})|'  # OR IPv4 address
                 r'(\[[0-9a-fA-F:.]+\]))'  # OR IPv6 address
