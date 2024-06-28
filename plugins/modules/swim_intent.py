@@ -800,7 +800,7 @@ class DnacSwims(DnacBase):
             'role': device_role
         }
         offset = 0
-        limit = 500
+        limit = self.get_device_details_limit()
         initial_exec = False
         site_memberships_ids, device_response_ids = [], []
 

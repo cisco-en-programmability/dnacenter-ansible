@@ -326,6 +326,21 @@ class DnacBase():
 
         return result
 
+    def get_device_details_limit(self):
+        """
+        Retrieves the limit for 'get_device_list' API to collect the device details..
+        Parameters:
+            self (object): An instance of a class that provides access to Cisco Catalyst Center.
+        Returns:
+            int: The limit for 'get_device_list' api device details, which is set to 500 by default.
+        Description:
+            This method returns a predefined limit for the number of device details that can be processed or retrieved
+            from 'get_device_list' api. Currently, the limit is set to a fixed value of 500.
+        """
+
+        api_response_limit = 500
+        return api_response_limit
+
     def check_task_response_status(self, response, validation_string, api_name, data=False):
         """
         Get the site id from the site name.
