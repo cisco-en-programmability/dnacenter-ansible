@@ -878,7 +878,7 @@ class DnacDevice(DnacBase):
 
         device_in_dnac = set()
         offset = 0
-        limit = 500
+        limit = self.get_device_details_limit()
         initial_exec = False
 
         while True:
@@ -901,7 +901,7 @@ class DnacDevice(DnacBase):
                 offset = offset + 1
                 response = response.get("response")
                 if not response:
-                    self.log("There is no device details present in Cisco Catalyst Center", "INFO")
+                    self.log("There are no device details received from 'get_device_list' API.", "INFO")
                     break
 
                 self.log("Received API response from 'get_device_list': {0}".format(str(response)), "DEBUG")
