@@ -876,25 +876,46 @@ class DnacDevice(DnacBase):
             The method returns a list of management IP addressesfor devices that exist in Cisco Catalyst Center.
         """
 
-        device_in_dnac = []
+        device_in_dnac = set()
+        offset = 0
+        limit = 500
+        initial_exec = False
 
-        try:
-            response = self.dnac._exec(
-                family="devices",
-                function='get_device_list',
-            )
+        while True:
+            try:
+                if initial_exec:
+                    response = self.dnac._exec(
+                        family="devices",
+                        function='get_device_list',
+                        params={
+                            "offset": offset * limit,
+                            "limit": limit
+                        }
+                    )
+                else:
+                    response = self.dnac._exec(
+                        family="devices",
+                        function='get_device_list',
+                    )
+                initial_exec = True
+                offset = offset + 1
+                response = response.get("response")
+                if not response:
+                    self.log("There is no device details present in Cisco Catalyst Center", "INFO")
+                    break
 
-        except Exception as e:
-            error_message = "Error while fetching device from Cisco Catalyst Center: {0}".format(str(e))
-            self.log(error_message, "CRITICAL")
-            raise Exception(error_message)
+                self.log("Received API response from 'get_device_list': {0}".format(str(response)), "DEBUG")
+                for ip in response:
+                    device_ip = ip["managementIpAddress"]
+                    device_in_dnac.add(device_ip)
 
-        if response:
-            self.log("Received API response from 'get_device_list': {0}".format(str(response)), "DEBUG")
-            response = response.get("response")
-            for ip in response:
-                device_ip = ip["managementIpAddress"]
-                device_in_dnac.append(device_ip)
+            except Exception as e:
+                self.status = "failed"
+                self.msg = "Error while fetching device details from Cisco Catalyst Center: {0}".format(str(e))
+                self.log(self.msg, "CRITICAL")
+                self.check_return_status()
+        self.log("Devices present in Cisco Catalyst Center are : {0}".format(str(device_in_dnac)), "DEBUG")
+        device_in_dnac = list(device_in_dnac)
 
         return device_in_dnac
 
@@ -2847,7 +2868,7 @@ class DnacDevice(DnacBase):
         # First check if device present in Cisco Catalyst Center or not
         device_exist = False
         for device in device_to_update:
-            if device in self.have.get("device_in_ccc"):
+            if device in self.have.get("device_in_dnac"):
                 device_exist = True
                 break
 
