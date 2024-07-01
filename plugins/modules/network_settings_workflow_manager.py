@@ -878,48 +878,6 @@ class NetworkSettings(DnacBase):
 
         return obj_params
 
-    def is_server_exists(self, ip_address):
-        """
-        Finds if the provided Authentication and Policy Server with
-        the ip_address is available in the system or not.
-
-        Parameters:
-            ip_address (str) - IP Address of the Authentication and Policy Server.
-
-        Returns:
-            True or False - True if the Authentication and Policy Server is
-                            available in the system. Else, False.
-        """
-
-        try:
-            response = self.dnac._exec(
-                family="system_settings",
-                function='get_authentication_and_policy_servers'
-            )
-            self.log("Received API response from 'get_authentication_and_policy_servers': {0}"
-                     .format(response), "DEBUG")
-            if not response:
-                self.msg = "Failed to retrieve the Authentication and Policy Server details"
-                self.log(str(self.msg), "ERROR")
-                self.status = "failed"
-                return self.check_return_status()
-
-            response = response.get("response")
-            server_details = get_dict_result(response, "ipAddress", ip_address)
-            if not server_details:
-                self.log("The server with IP Address '{0}' is not available in the system.".format(ip_address))
-                return False
-
-            self.log("Server details for the IP address '{0}': {1}".format(ip_address, server_details), "DEBUG")
-        except Exception as msg:
-            self.msg = "Exception occurred while retrieving server details from the IP Address '{0}': {1}" \
-                       .format(ip_address, msg)
-            self.log(str(self.msg), "CRITICAL")
-            self.status = "failed"
-            return self.check_return_status()
-
-        return True
-
     def get_site_id(self, site_name):
         """
         Get the site id from the site name.
@@ -1993,12 +1951,6 @@ class NetworkSettings(DnacBase):
 
             primary_server_address = network_aaa.get("primary_server_address")
             if primary_server_address:
-                if not self.is_server_exists(primary_server_address):
-                    self.msg = "The 'primary_server_address' - '{0}' under 'network_aaa' is not found in the system." \
-                               .format(primary_server_address)
-                    self.status = "failed"
-                    return self
-
                 want_network_settings.get("network_aaa").update({
                     "network": primary_server_address
                 })
@@ -2010,12 +1962,6 @@ class NetworkSettings(DnacBase):
             if server_type == "ISE":
                 pan_address = network_aaa.get("pan_address")
                 if pan_address:
-                    if not self.is_server_exists(pan_address):
-                        self.msg = "The 'pan_address' - '{0}' under 'network_aaa' is not found in the system." \
-                                   .format(pan_address)
-                        self.status = "failed"
-                        return self
-
                     want_network_settings.get("network_aaa").update({
                         "ipAddress": pan_address
                     })
@@ -2026,12 +1972,6 @@ class NetworkSettings(DnacBase):
             else:
                 secondary_server_address = network_aaa.get("secondary_server_address")
                 if secondary_server_address:
-                    if not self.is_server_exists(secondary_server_address):
-                        self.msg = "The 'secondary_server_address' - '{0}' under 'network_aaa' is not found in the system." \
-                                   .format(secondary_server_address)
-                        self.status = "failed"
-                        return self
-
                     want_network_settings.get("network_aaa").update({
                         "ipAddress": secondary_server_address
                     })
@@ -2078,12 +2018,6 @@ class NetworkSettings(DnacBase):
 
             primary_server_address = clientAndEndpoint_aaa.get("primary_server_address")
             if primary_server_address:
-                if not self.is_server_exists(primary_server_address):
-                    self.msg = "The 'primary_server_address' - '{0}' under 'clientAndEndpoint_aaa' is not found in the system." \
-                               .format(primary_server_address)
-                    self.status = "failed"
-                    return self
-
                 want_network_settings.get("clientAndEndpoint_aaa").update({
                     "network": primary_server_address
                 })
@@ -2095,12 +2029,6 @@ class NetworkSettings(DnacBase):
             if server_type == "ISE":
                 pan_address = clientAndEndpoint_aaa.get("pan_address")
                 if pan_address:
-                    if not self.is_server_exists(pan_address):
-                        self.msg = "The 'pan_address' - '{0}' under 'clientAndEndpoint_aaa' is not found in the system." \
-                                   .format(pan_address)
-                        self.status = "failed"
-                        return self
-
                     want_network_settings.get("clientAndEndpoint_aaa").update({
                         "ipAddress": pan_address
                     })
@@ -2111,12 +2039,6 @@ class NetworkSettings(DnacBase):
             else:
                 secondary_server_address = clientAndEndpoint_aaa.get("secondary_server_address")
                 if secondary_server_address:
-                    if not self.is_server_exists(secondary_server_address):
-                        self.msg = "The 'secondary_server_address' - '{0}' under 'clientAndEndpoint_aaa' is not found in the system." \
-                                   .format(secondary_server_address)
-                        self.status = "failed"
-                        return self
-
                     want_network_settings.get("clientAndEndpoint_aaa").update({
                         "ipAddress": secondary_server_address
                     })
@@ -2391,12 +2313,21 @@ class NetworkSettings(DnacBase):
 
         net_params = copy.deepcopy(self.want.get("wantNetwork"))
         net_params.update({"site_id": self.have.get("network").get("site_id")})
-        response = self.dnac._exec(
-            family="network_settings",
-            function='update_network_v2',
-            op_modifies=True,
-            params=net_params,
-        )
+        try:
+            response = self.dnac._exec(
+                family="network_settings",
+                function='update_network_v2',
+                op_modifies=True,
+                params=net_params,
+            )
+        except Exception as msg:
+            if "[400] Bad Request" in str(msg):
+                self.msg = "Please provide valid server under the network_management_details."
+
+            self.log(str(msg), "ERROR")
+            self.status = "failed"
+            return self
+
         self.log("Received API response of 'update_network_v2': {0}".format(response), "DEBUG")
         validation_string = "desired common settings operation successful"
         self.check_task_response_status(response, validation_string, "update_network_v2").check_return_status()
