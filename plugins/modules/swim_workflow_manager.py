@@ -801,13 +801,13 @@ class Swim(DnacBase):
                         params=device_params
                     )
                 else:
+                    initial_exec = True
                     device_list_response = self.dnac._exec(
                         family="devices",
                         function='get_device_list',
                         op_modifies=True,
                         params=device_params,
                     )
-                initial_exec = True
                 offset = offset + 1
                 device_response = device_list_response.get('response')
 
