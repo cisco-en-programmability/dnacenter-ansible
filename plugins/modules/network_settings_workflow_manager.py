@@ -2322,7 +2322,10 @@ class NetworkSettings(DnacBase):
             )
         except Exception as msg:
             if "[400] Bad Request" in str(msg):
-                self.msg = "Please provide valid server under the network_management_details."
+                self.msg = (
+                    "Received Bad Request [400] from the server. "
+                    "Please provide valid input or check the server IPs under the network_management_details."
+                )
 
             self.log(str(msg), "ERROR")
             self.status = "failed"
