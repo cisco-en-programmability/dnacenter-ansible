@@ -860,18 +860,18 @@ class Inventory(DnacBase):
         # If no information is available, return an empty list
         return []
 
-    def device_exists_in_ccc(self):
+    def get_existing_devices_in_ccc(self):
         """
-        Check which devices already exists in Cisco Catalyst Center and return both device_exist and device_not_exist in Cisco Catalyst Center.
+        Check which devices already exists and retrieve the list of devices that already exist in Cisco Catalyst Center.
         Parameters:
             self (object): An instance of a class used for interacting with Cisco Cisco Catalyst Center.
         Returns:
-            list: A list of devices that exist in Cisco Catalyst Center.
+            list: A list of management IP addresses for devices that exist in Cisco Catalyst Center.
         Description:
             Queries Cisco Catalyst Center to check which devices are already present in Cisco Catalyst Center and store
             its management IP address in the list of devices that exist.
         Example:
-            To use this method, create an instance of the class and call 'device_exists_in_ccc' on it,
+            To use this method, create an instance of the class and call 'get_existing_devices_in_ccc' on it,
             The method returns a list of management IP addressesfor devices that exist in Cisco Catalyst Center.
         """
 
@@ -1282,7 +1282,7 @@ class Inventory(DnacBase):
         # Code for triggers the resync operation using the retrieved device IDs and force sync parameter.
         device_ips = self.get_device_ips_from_config_priority()
         input_device_ips = device_ips.copy()
-        device_in_ccc = self.device_exists_in_ccc()
+        device_in_ccc = self.get_existing_devices_in_ccc()
 
         for device_ip in input_device_ips:
             if device_ip not in device_in_ccc:
@@ -2012,7 +2012,7 @@ class Inventory(DnacBase):
         want_device = self.get_device_ips_from_config_priority()
 
         # Get the list of device that are present in Cisco Catalyst Center
-        device_in_ccc = self.device_exists_in_ccc()
+        device_in_ccc = self.get_existing_devices_in_ccc()
         device_not_in_ccc, devices_in_playbook = [], []
 
         for ip in want_device:
@@ -2919,7 +2919,7 @@ class Inventory(DnacBase):
         if self.config[0].get('provision_wired_device'):
             provision_wired_list = self.config[0]['provision_wired_device']
             device_not_available = []
-            device_in_ccc = self.device_exists_in_ccc()
+            device_in_ccc = self.get_existing_devices_in_ccc()
 
             for prov_dict in provision_wired_list:
                 device_ip = prov_dict['device_ip']
@@ -3693,7 +3693,7 @@ class Inventory(DnacBase):
         self.log("Current State (have): {0}".format(str(self.have)), "INFO")
         self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
         input_devices = self.have["want_device"]
-        device_in_ccc = self.device_exists_in_ccc()
+        device_in_ccc = self.get_existing_devices_in_ccc()
 
         if self.config[0].get('add_user_defined_field'):
             udf_field_list = self.config[0].get('add_user_defined_field')
