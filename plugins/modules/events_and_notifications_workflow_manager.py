@@ -1960,19 +1960,16 @@ class Events(DnacBase):
             If they are not identical, it sets the update_needed flag to True.
         """
 
-        update_needed = False
-
         if len(playbook_header) == 0 and ccc_header:
-            update_needed = True
-        elif playbook_header and not ccc_header:
-            update_needed = True
-        else:
-            playbook_dict = {item['name']: item['value'] for item in playbook_header}
-            ccc_dict = {item['name']: item['value'] for item in ccc_header}
+            return True
 
-            return playbook_dict != ccc_dict
+        if playbook_header and not ccc_header:
+            return True
 
-        return update_needed
+        playbook_dict = {item['name']: item['value'] for item in playbook_header}
+        ccc_dict = {item['name']: item['value'] for item in ccc_header}
+
+        return playbook_dict != ccc_dict
 
     def webhook_dest_needs_update(self, webhook_params, webhook_dest_detail_in_ccc):
         """
