@@ -860,42 +860,64 @@ class Inventory(DnacBase):
         # If no information is available, return an empty list
         return []
 
-    def device_exists_in_ccc(self):
+    def get_existing_devices_in_ccc(self):
         """
-        Check which devices already exists in Cisco Catalyst Center and return both device_exist and device_not_exist in Cisco Catalyst Center.
+        Check which devices already exists and retrieve the list of devices that already exist in Cisco Catalyst Center.
         Parameters:
             self (object): An instance of a class used for interacting with Cisco Cisco Catalyst Center.
         Returns:
-            list: A list of devices that exist in Cisco Catalyst Center.
+            list: A list of management IP addresses for devices that exist in Cisco Catalyst Center.
         Description:
             Queries Cisco Catalyst Center to check which devices are already present in Cisco Catalyst Center and store
             its management IP address in the list of devices that exist.
         Example:
-            To use this method, create an instance of the class and call 'device_exists_in_ccc' on it,
+            To use this method, create an instance of the class and call 'get_existing_devices_in_ccc' on it,
             The method returns a list of management IP addressesfor devices that exist in Cisco Catalyst Center.
         """
 
-        device_in_ccc = []
+        existing_devices_in_ccc = set()
+        offset = 0
+        limit = self.get_device_details_limit()
+        initial_exec = False
 
-        try:
-            response = self.dnac._exec(
-                family="devices",
-                function='get_device_list',
-            )
+        while True:
+            try:
+                if initial_exec:
+                    response = self.dnac._exec(
+                        family="devices",
+                        function='get_device_list',
+                        params={
+                            "offset": offset * limit,
+                            "limit": limit
+                        }
+                    )
+                else:
+                    initial_exec = True
+                    response = self.dnac._exec(
+                        family="devices",
+                        function='get_device_list',
+                    )
+                offset = offset + 1
+                response = response.get("response")
+                if not response:
+                    self.log("There are no device details received from 'get_device_list' API.", "INFO")
+                    break
 
-        except Exception as e:
-            error_message = "Error while fetching device from Cisco Catalyst Center: {0}".format(str(e))
-            self.log(error_message, "CRITICAL")
-            raise Exception(error_message)
+                self.log("Received API response from 'get_device_list': {0}".format(str(response)), "DEBUG")
+                for ip in response:
+                    device_ip = ip["managementIpAddress"]
+                    existing_devices_in_ccc.add(device_ip)
 
-        if response:
-            self.log("Received API response from 'get_device_list': {0}".format(str(response)), "DEBUG")
-            response = response.get("response")
-            for ip in response:
-                device_ip = ip["managementIpAddress"]
-                device_in_ccc.append(device_ip)
+            except Exception as e:
+                self.status = "failed"
+                self.msg = "Error while fetching device details from Cisco Catalyst Center: {0}".format(str(e))
+                self.log(self.msg, "CRITICAL")
+                self.check_return_status()
 
-        return device_in_ccc
+        self.log("Devices present in Cisco Catalyst Center: {0}".format(str(existing_devices_in_ccc)), "DEBUG")
+        existing_devices_in_ccc = list(existing_devices_in_ccc)
+
+        return existing_devices_in_ccc
 
     def is_udf_exist(self, field_name):
         """
@@ -1260,7 +1282,7 @@ class Inventory(DnacBase):
         # Code for triggers the resync operation using the retrieved device IDs and force sync parameter.
         device_ips = self.get_device_ips_from_config_priority()
         input_device_ips = device_ips.copy()
-        device_in_ccc = self.device_exists_in_ccc()
+        device_in_ccc = self.get_existing_devices_in_ccc()
 
         for device_ip in input_device_ips:
             if device_ip not in device_in_ccc:
@@ -1990,7 +2012,7 @@ class Inventory(DnacBase):
         want_device = self.get_device_ips_from_config_priority()
 
         # Get the list of device that are present in Cisco Catalyst Center
-        device_in_ccc = self.device_exists_in_ccc()
+        device_in_ccc = self.get_existing_devices_in_ccc()
         device_not_in_ccc, devices_in_playbook = [], []
 
         for ip in want_device:
@@ -2897,7 +2919,7 @@ class Inventory(DnacBase):
         if self.config[0].get('provision_wired_device'):
             provision_wired_list = self.config[0]['provision_wired_device']
             device_not_available = []
-            device_in_ccc = self.device_exists_in_ccc()
+            device_in_ccc = self.get_existing_devices_in_ccc()
 
             for prov_dict in provision_wired_list:
                 device_ip = prov_dict['device_ip']
@@ -3465,6 +3487,7 @@ class Inventory(DnacBase):
                     op_modifies=True,
                     params=provision_params,
                 )
+                self.log("Received API response from 'get_provisioned_wired_device': {0}".format(str(prov_respone)), "DEBUG")
 
                 if prov_respone.get("status") == "success":
                     response = self.dnac._exec(
@@ -3473,13 +3496,14 @@ class Inventory(DnacBase):
                         op_modifies=True,
                         params=provision_params,
                     )
+                    self.log("Received API response from 'delete_provisioned_wired_device': {0}".format(str(response)), "DEBUG")
                     executionid = response.get("executionId")
 
                     while True:
                         execution_details = self.get_execution_details(executionid)
                         if execution_details.get("status") == "SUCCESS":
                             self.result['changed'] = True
-                            self.msg = execution_details.get("bapiName")
+                            self.msg = "Delete provisioned Wired Device '{0}' successfully from Cisco Catalyst Center".format(device_ip)
                             self.log(self.msg, "INFO")
                             self.result['response'] = self.msg
                             self.result['msg'].append(self.msg)
@@ -3669,7 +3693,7 @@ class Inventory(DnacBase):
         self.log("Current State (have): {0}".format(str(self.have)), "INFO")
         self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
         input_devices = self.have["want_device"]
-        device_in_ccc = self.device_exists_in_ccc()
+        device_in_ccc = self.get_existing_devices_in_ccc()
 
         if self.config[0].get('add_user_defined_field'):
             udf_field_list = self.config[0].get('add_user_defined_field')
