@@ -875,7 +875,7 @@ class Inventory(DnacBase):
             The method returns a list of management IP addressesfor devices that exist in Cisco Catalyst Center.
         """
 
-        device_in_ccc = set()
+        existing_devices_in_ccc = set()
         offset = 0
         limit = self.get_device_details_limit()
         initial_exec = False
@@ -892,11 +892,11 @@ class Inventory(DnacBase):
                         }
                     )
                 else:
+                    initial_exec = True
                     response = self.dnac._exec(
                         family="devices",
                         function='get_device_list',
                     )
-                initial_exec = True
                 offset = offset + 1
                 response = response.get("response")
                 if not response:
@@ -906,7 +906,7 @@ class Inventory(DnacBase):
                 self.log("Received API response from 'get_device_list': {0}".format(str(response)), "DEBUG")
                 for ip in response:
                     device_ip = ip["managementIpAddress"]
-                    device_in_ccc.add(device_ip)
+                    existing_devices_in_ccc.add(device_ip)
 
             except Exception as e:
                 self.status = "failed"
@@ -914,10 +914,10 @@ class Inventory(DnacBase):
                 self.log(self.msg, "CRITICAL")
                 self.check_return_status()
 
-        self.log("Devices present in Cisco Catalyst Center are : {0}".format(str(device_in_ccc)), "DEBUG")
-        device_in_ccc = list(device_in_ccc)
+        self.log("Devices present in Cisco Catalyst Center: {0}".format(str(existing_devices_in_ccc)), "DEBUG")
+        existing_devices_in_ccc = list(existing_devices_in_ccc)
 
-        return device_in_ccc
+        return existing_devices_in_ccc
 
     def is_udf_exist(self, field_name):
         """
