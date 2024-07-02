@@ -2323,7 +2323,7 @@ class NetworkSettings(DnacBase):
         except Exception as msg:
             if "[400] Bad Request" in str(msg):
                 self.msg = (
-                    "Received Bad Request [400] from the server. "
+                    "Received Bad Request [400] from the Catalyst Center. "
                     "Please provide valid input or check the server IPs under the network_management_details."
                 )
 
