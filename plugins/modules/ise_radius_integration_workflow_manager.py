@@ -1218,8 +1218,8 @@ class IseRadiusIntegration(DnacBase):
                 break
 
             # sleep time after checking the status of the response from the API
-            time.sleep(sleep_time)
             self.log("The time interval before checking the next response, sleep for {0}".format(sleep_time))
+            time.sleep(sleep_time)
             self.log("Progress set to {0} for taskid: {1}".format(task_details.get('progress'), task_id), "DEBUG")
 
         return self
