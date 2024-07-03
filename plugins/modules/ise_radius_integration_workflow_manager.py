@@ -1172,7 +1172,7 @@ class IseRadiusIntegration(DnacBase):
         Parameters:
             response (dict): The initial response from the task creation API.
             validation_string_set (set): A set of strings expected to be found in the task progress for a successful operation.
-            api_name (str): Name of the function.
+            api_name (str): Name of the function during the SDK call.
 
         Returns:
             self - The current object with updated desired Authentication Policy Server information.
@@ -1210,10 +1210,16 @@ class IseRadiusIntegration(DnacBase):
                     self.result['changed'] = True
                     self.validation_string = validation_string
                     self.status = "success"
+                    break
 
             if self.result['changed'] is True:
                 self.log("The task with task id '{0}' is successfully executed".format(task_id), "DEBUG")
                 break
+            else:
+                # sleep time after checking the status of the response from the API
+                sleep_time = self.max_timeout / 1000
+                self.log("The time interval before checking the next response is {0}".format(sleep_time))
+                time.sleep(sleep_time)
 
             self.log("Progress set to {0} for taskid: {1}".format(task_details.get('progress'), task_id), "DEBUG")
 
@@ -1280,13 +1286,14 @@ class IseRadiusIntegration(DnacBase):
             auth_server_params = self.want.get("authenticationPolicyServer")
             self.log("Desired State for Authentication and Policy Server (want): {0}"
                      .format(auth_server_params), "DEBUG")
+            function_name = "add_authentication_and_policy_server_access_configuration"
             response = self.dnac._exec(
                 family="system_settings",
-                function="add_authentication_and_policy_server_access_configuration",
+                function=function_name,
                 params=auth_server_params,
             )
             validation_string_set = ("successfully created aaa settings", "operation sucessful")
-            self.check_auth_server_response_status(response, validation_string_set, "add_authentication_and_policy_server_access_configuration")
+            self.check_auth_server_response_status(response, validation_string_set, function_name)
             if self.status == "failed":
                 self.log(self.msg, "ERROR")
                 return
@@ -1370,13 +1377,14 @@ class IseRadiusIntegration(DnacBase):
                  .format(auth_server_params), "DEBUG")
         self.log("Current State for Authentication and Policy Server (have): {0}"
                  .format(self.have.get("authenticationPolicyServer").get("details")), "DEBUG")
+        function_name = "edit_authentication_and_policy_server_access_configuration"
         response = self.dnac._exec(
             family="system_settings",
-            function="edit_authentication_and_policy_server_access_configuration",
+            function=function_name,
             params=auth_server_params,
         )
         validation_string_set = ("successfully updated aaa settings", "operation sucessful")
-        self.check_auth_server_response_status(response, validation_string_set, "edit_authentication_and_policy_server_access_configuration")
+        self.check_auth_server_response_status(response, validation_string_set, function_name)
         if self.status == "failed":
             self.log(self.msg, "ERROR")
             return
