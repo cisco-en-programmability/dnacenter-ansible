@@ -428,6 +428,7 @@ class IseRadiusIntegration(DnacBase):
         ]
         self.authentication_policy_server_obj_params = \
             self.get_obj_params("authenticationPolicyServer")
+        self.validation_string = ""
 
     def validate_input(self):
         """
@@ -1163,6 +1164,66 @@ class IseRadiusIntegration(DnacBase):
             return None
         return
 
+    def check_auth_server_response_status(self, response, validation_string_set, api_name):
+        """
+        Checks the status of a task related to updating the authentication and policy server
+        by polling the task details until it completes or a timeout is reached.
+
+        Parameters:
+            response (dict): The initial response from the task creation API.
+            validation_string_set (set): A set of strings expected to be found in the task progress for a successful operation.
+            api_name (str): Name of the function during the SDK call.
+
+        Returns:
+            self - The current object with updated desired Authentication Policy Server information.
+        """
+
+        response = response.get("response")
+        if response.get("errorcode") is not None:
+            self.msg = response.get("detail")
+            self.status = "failed"
+            return self
+
+        task_id = response.get("taskId")
+        start_time = time.time()
+        sleep_time = self.max_timeout / 1000
+        while True:
+            end_time = time.time()
+            if (end_time - start_time) >= self.max_timeout:
+                self.msg = "Max timeout of {0} sec has reached for the execution id '{1}'.".format(self.max_timeout, task_id) + \
+                           "Exiting the loop due to unexpected API '{0}' status.".format(api_name)
+                self.status = "failed"
+                break
+
+            task_details = self.get_task_details(task_id)
+            self.log('Getting task details from task ID {0}: {1}'.format(task_id, task_details), "DEBUG")
+            if task_details.get("isError") is True:
+                failure_reason = task_details.get("failureReason")
+                if failure_reason:
+                    self.msg = str(failure_reason)
+                else:
+                    self.msg = str(task_details.get("progress"))
+                self.status = "failed"
+                break
+
+            for validation_string in validation_string_set:
+                if validation_string in task_details.get("progress").lower():
+                    self.result['changed'] = True
+                    self.validation_string = validation_string
+                    self.status = "success"
+                    break
+
+            if self.result['changed'] is True:
+                self.log("The task with task id '{0}' is successfully executed".format(task_id), "DEBUG")
+                break
+
+            # sleep time after checking the status of the response from the API
+            self.log("The time interval before checking the next response, sleep for {0}".format(sleep_time))
+            time.sleep(sleep_time)
+            self.log("Progress set to {0} for taskid: {1}".format(task_details.get('progress'), task_id), "DEBUG")
+
+        return self
+
     def format_payload_for_update(self, have_auth_server, want_auth_server):
         """
         Format the parameter of the payload for updating the authentication and policy server
@@ -1224,58 +1285,19 @@ class IseRadiusIntegration(DnacBase):
             auth_server_params = self.want.get("authenticationPolicyServer")
             self.log("Desired State for Authentication and Policy Server (want): {0}"
                      .format(auth_server_params), "DEBUG")
+            function_name = "add_authentication_and_policy_server_access_configuration"
             response = self.dnac._exec(
                 family="system_settings",
-                function="add_authentication_and_policy_server_access_configuration",
+                function=function_name,
                 params=auth_server_params,
             )
             validation_string_set = ("successfully created aaa settings", "operation sucessful")
-            response = response.get("response")
-            if response.get("errorcode") is not None:
-                self.msg = response.get("detail")
-                self.status = "failed"
-                return self
-
-            task_id = response.get("taskId")
-            is_certificate_required = False
-            start_time = time.time()
-            while True:
-                end_time = time.time()
-                if (end_time - start_time) >= self.max_timeout:
-                    self.msg = "Max timeout of {0} sec has reached for the execution id '{1}'.".format(self.max_timeout, task_id) + \
-                               "Exiting the loop due to unexpected API 'add_authentication_and_policy_server_access_configuration' status."
-                    self.status = "failed"
-                    break
-
-                task_details = self.get_task_details(task_id)
-                self.log('Getting task details from task ID {0}: {1}'.format(task_id, task_details), "DEBUG")
-                if task_details.get("isError") is True:
-                    failure_reason = task_details.get("failureReason")
-                    if failure_reason:
-                        self.msg = str(failure_reason)
-                    else:
-                        self.msg = str(task_details.get("progress"))
-                    self.status = "failed"
-                    break
-
-                for validation_string in validation_string_set:
-                    if validation_string in task_details.get("progress").lower():
-                        self.result['changed'] = True
-                        if validation_string == "operation sucessful":
-                            is_certificate_required = True
-                        self.status = "success"
-
-                if self.result['changed'] is True:
-                    self.log("The task with task id '{0}' is successfully executed".format(task_id), "DEBUG")
-                    break
-
-                self.log("Progress set to {0} for taskid: {1}".format(task_details.get('progress'), task_id), "DEBUG")
-
+            self.check_auth_server_response_status(response, validation_string_set, function_name)
             if self.status == "failed":
                 self.log(self.msg, "ERROR")
                 return
 
-            if is_ise_server and is_certificate_required:
+            if is_ise_server and self.validation_string == "operation sucessful":
                 trusted_server = self.want.get("trusted_server")
                 self.accept_cisco_ise_server_certificate(ipAddress, trusted_server)
                 ise_integration_wait_time = self.want.get("ise_integration_wait_time")
@@ -1354,13 +1376,18 @@ class IseRadiusIntegration(DnacBase):
                  .format(auth_server_params), "DEBUG")
         self.log("Current State for Authentication and Policy Server (have): {0}"
                  .format(self.have.get("authenticationPolicyServer").get("details")), "DEBUG")
+        function_name = "edit_authentication_and_policy_server_access_configuration"
         response = self.dnac._exec(
             family="system_settings",
-            function="edit_authentication_and_policy_server_access_configuration",
+            function=function_name,
             params=auth_server_params,
         )
-        validation_string = "successfully updated aaa settings"
-        self.check_task_response_status(response, validation_string, "edit_authentication_and_policy_server_access_configuration").check_return_status()
+        validation_string_set = ("successfully updated aaa settings", "operation sucessful")
+        self.check_auth_server_response_status(response, validation_string_set, function_name)
+        if self.status == "failed":
+            self.log(self.msg, "ERROR")
+            return
+
         self.log("Authentication and Policy Server '{0}' updated successfully"
                  .format(ipAddress), "INFO")
         result_auth_server.get("response").get(ipAddress) \
