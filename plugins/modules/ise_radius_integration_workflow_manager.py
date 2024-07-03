@@ -1186,6 +1186,7 @@ class IseRadiusIntegration(DnacBase):
 
         task_id = response.get("taskId")
         start_time = time.time()
+        sleep_time = self.max_timeout / 1000
         while True:
             end_time = time.time()
             if (end_time - start_time) >= self.max_timeout:
@@ -1215,12 +1216,10 @@ class IseRadiusIntegration(DnacBase):
             if self.result['changed'] is True:
                 self.log("The task with task id '{0}' is successfully executed".format(task_id), "DEBUG")
                 break
-            else:
-                # sleep time after checking the status of the response from the API
-                sleep_time = self.max_timeout / 1000
-                self.log("The time interval before checking the next response is {0}".format(sleep_time))
-                time.sleep(sleep_time)
 
+            # sleep time after checking the status of the response from the API
+            time.sleep(sleep_time)
+            self.log("The time interval before checking the next response, sleep for {0}".format(sleep_time))
             self.log("Progress set to {0} for taskid: {1}".format(task_details.get('progress'), task_id), "DEBUG")
 
         return self
