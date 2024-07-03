@@ -1164,14 +1164,15 @@ class IseRadiusIntegration(DnacBase):
             return None
         return
 
-    def check_auth_server_response_status(self, response, validation_string_set):
+    def check_auth_server_response_status(self, response, validation_string_set, api_name):
         """
-        Format the parameter of the payload for updating the authentication and policy server
-        in accordance with the information in the Cisco Catalyst Ceter.
+        Checks the status of a task related to updating the authentication and policy server
+        by polling the task details until it completes or a timeout is reached.
 
         Parameters:
-            have_auth_server (dict) - Authentication and policy server information from the Cisco Catalyst Center.
-            want_auth_server (dict) - Authentication and policy server information from the Playbook.
+            response (dict): The initial response from the task creation API.
+            validation_string_set (set): A set of strings expected to be found in the task progress for a successful operation.
+            api_name (str): Name of the function.
 
         Returns:
             self - The current object with updated desired Authentication Policy Server information.
@@ -1189,7 +1190,7 @@ class IseRadiusIntegration(DnacBase):
             end_time = time.time()
             if (end_time - start_time) >= self.max_timeout:
                 self.msg = "Max timeout of {0} sec has reached for the execution id '{1}'.".format(self.max_timeout, task_id) + \
-                           "Exiting the loop due to unexpected API 'edit_authentication_and_policy_server_access_configuration' status."
+                           "Exiting the loop due to unexpected API '{0}' status.".format(api_name)
                 self.status = "failed"
                 break
 
@@ -1216,7 +1217,7 @@ class IseRadiusIntegration(DnacBase):
 
             self.log("Progress set to {0} for taskid: {1}".format(task_details.get('progress'), task_id), "DEBUG")
 
-        return
+        return self
 
     def format_payload_for_update(self, have_auth_server, want_auth_server):
         """
@@ -1285,7 +1286,7 @@ class IseRadiusIntegration(DnacBase):
                 params=auth_server_params,
             )
             validation_string_set = ("successfully created aaa settings", "operation sucessful")
-            self.check_auth_server_response_status(response, validation_string_set)
+            self.check_auth_server_response_status(response, validation_string_set, "add_authentication_and_policy_server_access_configuration")
             if self.status == "failed":
                 self.log(self.msg, "ERROR")
                 return
@@ -1375,7 +1376,7 @@ class IseRadiusIntegration(DnacBase):
             params=auth_server_params,
         )
         validation_string_set = ("successfully updated aaa settings", "operation sucessful")
-        self.check_auth_server_response_status(response, validation_string_set)
+        self.check_auth_server_response_status(response, validation_string_set, "edit_authentication_and_policy_server_access_configuration")
         if self.status == "failed":
             self.log(self.msg, "ERROR")
             return
