@@ -198,12 +198,12 @@ class Device_configs_backup(DnacBase):
           'failed', and 'self.msg' will describe the validation issues.
         """
         if HAS_PYZIPPER is False:
-            msg= "Pyzipper is not installed. Please install it using 'pip install pyzipper' command"
+            msg = "Pyzipper is not installed. Please install it using 'pip install pyzipper' command"
             self.log(msg, "CRITICAL")
             self.module.fail_json(msg=msg)
 
         if HAS_PATHLIB is False:
-            msg= "Pathlib is not installed. Please install it using 'pip install pathlib' command"
+            msg = "Pathlib is not installed. Please install it using 'pip install pathlib' command"
             self.log(msg, "CRITICAL")
             self.module.fail_json(msg=msg)
 
