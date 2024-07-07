@@ -1532,7 +1532,6 @@ class ProvisionAccesspoint(DnacBase):
             will contain the validated configuration. If it fails, 'self.status' will be 'failed',
             and 'self.msg' will describe the validation issues.
         """
-        self.logger.debug('Validating input...')
         if not self.config:
             self.status = "success"
             self.msg = "Configuration is not available in the playbook for validation"
@@ -1577,7 +1576,6 @@ class ProvisionAccesspoint(DnacBase):
         """
         want = dict(
             ap_params= self.get_ap_params(config),
-            ap_name = self.get_ap_name(config),
             site_params= self.get_site_params(config),
             site_name= self.get_site_name(config),
         )
@@ -1601,44 +1599,53 @@ class ProvisionAccesspoint(DnacBase):
         ap_exists = False
         current_ap = {}
         response = None
+        input_param={}
+
+        for key in ['macAddress', 'managementIpAddress', 'hostname']:
+            if self.want.get("ap_params").get("device").get(key):
+                input_param[key]= \
+                    self.want.get("ap_params").get("device").get(key)
+                break
+        if not input_param:
+            self.log("""Required param of mac_address, management_ip_address or hostname
+                      is not in playbook config""","ERROR")
+            return (ap_exists, current_ap)
 
         try:
             response = self.dnac._exec(
                 family="devices",
                 function='get_device_list',
                 op_modifies=True,
-                params={"macAddress": self.want.get("ap_params").get("device").get("macAddress")}
+                params=input_param
             )
+
+            if response.get("response"):
+                device = response["response"][0]
+                self.log("Device response: {0}".format(self.pprint(device)), "INFO")
+                ap_info = {
+                    "devices": {
+                        "host_name": device.get("hostname"),
+                        "mac_address": device.get("macAddress"),
+                        "management_ip_address": device.get("managementIpAddress"),
+                        "associated_wlc_ip": device.get("associatedWlcIp"),
+                        "family": device.get("family")
+                    }
+                }
+                current_ap = {
+                    "type": "devices",
+                    "ap": ap_info,
+                    "device": device.get("id")
+                }
+
+                ap_exists = True
+                self.want["ap_name"] = device.get("hostname")
+                self.log("AP '{0}' exists in Cisco Catalyst Center".format(
+                    device.get("hostname")), "INFO")
+                self.log("Current AP details: {0}".format(self.pprint(current_ap)), "INFO")
         except Exception as e:
             self.log("Error fetching AP details: {0}".format(str(e)), "WARNING")
             self.log("The provided AP name '{0}' is either invalid or not present in the \
                      Cisco Catalyst Center.".format(self.want.get("ap_name")), "WARNING")
-            return ap_exists, current_ap
-
-        if response:
-            response_data = response.get("response")
-            self.log("Task response: {0}".format(self.pprint(response_data)), "INFO")
-
-            if response_data:
-                site = response_data[0]
-                ap_info = {
-                    "devices": {
-                        "host_name": site.get("hostname"),
-                        "mac_address": site.get("macAddress"),
-                        "rf_profile": site.get("rfProfile")
-                    }
-                }
-
-                current_ap = {
-                    "type": "devices",
-                    "ap": ap_info,
-                    "device": site.get("id")
-                }
-
-                ap_exists = True
-                self.log("AP '{0}' exists in Cisco Catalyst Center".format(
-                    self.want.get("ap_name")), "INFO")
-                self.log("Current AP details: {0}".format(self.pprint(current_ap)), "INFO")
 
         return ap_exists, current_ap
 
@@ -1657,10 +1664,10 @@ class ProvisionAccesspoint(DnacBase):
         ap_details = config.get("site", {}).get("devices", {})
         ap_info = {
             'device': {
-                'host_name': ap_details.get('host_name'),
+                'hostname': ap_details.get('host_name'),
                 'macAddress': ap_details.get('mac_address'),
                 'family': ap_details.get('family'),
-                'managementIPAddress': ap_details.get('management_ip_address'),
+                'managementIpAddress': ap_details.get('management_ip_address'),
                 'serialNumber': ap_details.get('serial_number'),
                 'imageVersion': ap_details.get('image_version'),
                 'rf_profile': ap_details.get('rf_profile')
@@ -1669,35 +1676,6 @@ class ProvisionAccesspoint(DnacBase):
 
         self.log("AP parameters: {0}".format(self.pprint(ap_info)), "DEBUG")
         return ap_info
-
-    def get_ap_name(self, config):
-        """
-        Retrieves the AP name from the configuration.
-        Args:
-            config (dict): Configuration dictionary.
-        Returns:
-            str: AP name.
-        """
-        if config is None or config.get("site") is None or \
-            config.get("site", {}).get("devices") is None:
-            self.log("Config, site, or devices is None. Cannot proceed with get_ap_name.", "ERROR")
-            return None
-
-        self.log("Getting AP name with config: {0}".format(self.pprint(config)), "DEBUG")
-
-        host_name = config.get("site", {}).get("devices", {}).get("host_name")
-        mac_address = config.get("site", {}).get("devices", {}).get("mac_address")
-
-        self.log("Host name: {0}, MAC address: {1}".format(host_name, mac_address), "DEBUG")
-
-        if not host_name or not mac_address:
-            self.log("Host name or MAC address is missing or None. Host name: {0},\
-                      MAC address: {1}".format(host_name, mac_address), "WARNING")
-            return None
-
-        ap_name = host_name
-        self.log("AP name: {0}".format(ap_name), "INFO")
-        return ap_name
 
     def get_site_params(self, params):
         """
@@ -1765,41 +1743,37 @@ class ProvisionAccesspoint(DnacBase):
                 op_modifies=True,
                 params={"name": self.want.get("site_name")},
             )
-        except Exception as e:
-            self.log("The provided site name '{0}' is either invalid or not present in the \
-                     Cisco Catalyst Center.".format(self.want.get("site_name")), "WARNING")
-            return site_exists, None
 
-        if response:
-            response_data = response.get("response")
-            self.log("Task response: {0}".format(self.pprint(response_data)), "INFO")
-            
-            try:
-                location = get_dict_result(response_data[0].get("additionalInfo"), 'nameSpace', "Location")
+            if response.get("response"):
+                site = response["response"][0]
+                self.log("Site response: {0}".format(self.pprint(site)), "INFO")
+                location = get_dict_result(site.get("additionalInfo"), 'nameSpace',
+                                                "Location")
                 type_info = location.get("attributes", {}).get("type")
 
                 if type_info == "floor":
                     site_info = {
                         "floor": {
-                            "name": response_data[0].get("name"),
-                            "parentName": response_data[0].get("siteNameHierarchy").split(
-                                "/" + response_data[0].get("name"))[0]
+                            "name": site.get("name"),
+                            "parentName": site.get("siteNameHierarchy").split(
+                                "/" + site.get("name"))[0]
                         }
                     }
 
                 current_site = {
                     "type": type_info,
                     "site": site_info,
-                    "siteId": response_data[0].get("id")
+                    "siteId": site.get("id"),
+                    "site_name": site_info["floor"]["parentName"] +"/" +site_info["floor"]["name"]
                 }
-
                 self.log('Current site details: {0}'.format(str(current_site)), "INFO")
+                self.log("Site '{0}' exists in Cisco Catalyst Center".format(site.get("name")),
+                         "INFO")
                 site_exists = True
-                self.log("Site '{0}' exists in Cisco Catalyst Center".format(self.want.get("site_name")), "INFO")
-
-            except Exception as e:
-                self.log('Error retrieving current site details: {0}. Details: {1}'.format(str(e), self.pprint(response_data)), "ERROR")
-                return site_exists, None
+        except Exception as e:
+            self.log("The provided site name '{0}' is either invalid or not present in the \
+                     Cisco Catalyst Center.".format(self.want.get("site_name")), "WARNING")
+            return site_exists, None
 
         return site_exists, current_site
 
@@ -1819,6 +1793,7 @@ class ProvisionAccesspoint(DnacBase):
 
         if site_exists and current_site:
             have["site_name_hierarchy"] = current_site.get("site")
+            have["site_hierarchy"] = current_site.get("site")
             have["site_exists"] = site_exists
             have["current_site"] = current_site
 
@@ -1836,7 +1811,7 @@ class ProvisionAccesspoint(DnacBase):
 
         return self
 
-    def valid_ap_config_parameters(self, config):
+    def validate_ap_config(self, config):
         """
         Validate AP configuration parameters.
         Args:
@@ -1857,20 +1832,26 @@ class ProvisionAccesspoint(DnacBase):
         if config.get("mac_address"):
             mac_regex = re.compile(r'^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$')
             if not mac_regex.match(config["mac_address"]):
-                errormsg.append("mac_address: Invalid MAC Address '{0}' in playbook.".format(config["mac_address"]))
+                errormsg.append("mac_address: Invalid MAC Address '{0}' in playbook.".\
+                                format(config["mac_address"]))
 
         if config.get("management_ip_address"):
             if not self.is_valid_ipv4(config["management_ip_address"]):
-                errormsg.append("management_ip_address: Invalid Management IP Address '{0}' in playbook"\
-                                .format(config["management_ip_address"]))
+                errormsg.append("management_ip_address: Invalid Management IP Address '{0}'\
+                                 in playbook".format(config["management_ip_address"]))
 
         if config.get("serial_number"):
             if not isinstance(config["serial_number"], str) or len(config["serial_number"]) > 32:
-                errormsg.append("serial_number: Invalid type or length > 32 characters in playbook.")
+                errormsg.append("serial_number: Invalid type or length > 32 characters\
+                                in playbook.")
 
-        if config.get("image_version"):
-            if not isinstance(config["image_version"], str) or len(config["image_version"]) > 32:
-                errormsg.append("image_version: Invalid type or length > 32 characters in playbook.")
+        if config.get("site").get("devices").get("rf_profile"):
+            rf_profile = config.get("site").get("devices").get("rf_profile")
+            if not isinstance(rf_profile, str) or len(rf_profile) > 32:
+                errormsg.append("rf_profile: Invalid type or length > 32 characters\
+                                in playbook.")
+        else:
+            errormsg.append("rf_profile: RF Profile is missing in playbook.")
 
         if config.get("name"):
             if not isinstance(config["name"], str) or len(config["name"]) > 32:
@@ -1882,52 +1863,132 @@ class ProvisionAccesspoint(DnacBase):
 
         if len(errormsg) > 0:
             self.msg = "Invalid parameters in playbook config: '{0}'".format("\n".join(errormsg))
-            self.log('Task response {0}'.format(str(self.msg)), "ERROR")
+            self.log(self.msg, "ERROR")
             self.status = "failed"
+            self.result['changed'] = False
+            self.result['msg'] = self.msg
             return self
 
         self.msg = "Successfully validated config params: {0}".format(str(config))
-        self.log('Task response {0}'.format(str(self.msg)), "INFO")
+        self.log(self.msg, "INFO")
         self.status = "success"
         return self
 
     def get_diff_merged(self, config):
         """
-        Get differences between current state (have) and desired state (want).
+        Compares the current state (have) with the desired state (want) and checks for differences.
+        Args:
+            config (dict): Configuration dictionary.
         Returns:
-        - ClassName instance: Returns self instance with updated diff and logs.
+            self: Returns the instance itself.
         """
-        diff = {}
+        self.validate_ap_config(config).check_return_status()
+        have_site_id = self.have.get("current_site", {}).get("siteId")
+        want_site_id = self.want.get("site_params", {}).get("site", {}).get("site_id")
 
-        if self.have.get("site_exists") and self.want.get("site_params"):
-            diff["site_id"] = self.have["site_id"]
+        have_site_name = self.want.get("site_name")
+        want_site_name = self.want.get("site_name")
+        site_update_status, execution_details = (None, None)
 
-        if self.have.get("ap_exists") and self.want.get("ap_params"):
-            diff["mac_address"] = self.have["mac_address"]
+        self.log("Comparing site parameters. Have: {0}, Want: {1}".format(
+            self.pprint({'siteId': have_site_id, 'siteName': have_site_name}),
+            self.pprint({'siteId': want_site_id, 'siteName': want_site_name})), "DEBUG")
 
-        self.diff = diff
-        self.log('Difference (get_diff_merged):\n{0}'.format(self.pprint(self.diff)), "INFO")
+        if have_site_name == want_site_name:
+            self.log("Site parameters are the same as desired site, hence no need to update",
+                     "INFO")
+        else:
+            self.log("Site parameters are different in have and want states.", "INFO")
+            site_update_status, execution_details = self.assign_device_to_site()
+
+        have_ap_params = self.have.get("current_ap", {}).get("device", {})
+        want_ap_params = self.want.get("ap_params", {}).get("device", {})
+
+        self.log("Getting AP parameters. Have: {0}, Want: {1}".format(
+            self.pprint(have_ap_params), self.pprint(want_ap_params)), "DEBUG")
+
+        verify_status, details = self.verify_ap_provision()
+        provision_status, provision_details = (None, {})
+        if verify_status == "success":
+            provision_status, provision_details = self.provision_device()
+
+        if site_update_status == "SUCCESS" and provision_status == "SUCCESS":
+            self.msg = "Site {0} assigned and device {1} provisioned.".format(
+                want_site_name, self.pprint(want_ap_params))
+            self.log(self.msg, "INFO")
+            self.result['changed'] = True
+            self.status = "success"
+        elif site_update_status != "SUCCESS" and provision_status == "SUCCESS":
+            self.msg = "Site {0} remains desired state and device {1} provisioned.".format(
+                want_site_name, self.pprint(want_ap_params))
+            self.result['changed'] = True
+            self.log(self.msg, "INFO")
+            self.status = "success"
+        else:
+            error_msg = "Unable to provision the device: {0} {1} {2}".format(
+                str(details),str(provision_details), str(execution_details))
+            self.log(error_msg, "ERROR")
+            self.status = "failed"
+            self.result['msg'] = error_msg
 
         return self
 
-    def verify_diff_merged(self):
+    def verify_diff_merged(self, config):
         """
-        Verify differences between current state (have) and desired state (want).
+        Verifies differences between have and want states and performs actions accordingly.
+        Args:
+            config (dict): Configuration dictionary.
         Returns:
-        - ClassName instance: Returns self instance with updated diff and logs.
+            self: Returns the instance itself.
         """
-        diff = {}
+        site_id = self.have.get("current_site", {}).get("siteId")
+        device_id = self.have.get("device_id")
 
-        if self.have.get("site_exists"):
-            diff["site_id"] = self.have["site_id"]
+        if not site_id:
+            self.log("Site does not exist. Cannot verify device assignment.", "ERROR")
+            return self
 
-        if self.have.get("ap_exists"):
-            diff["mac_address"] = self.have["mac_address"]
+        if not device_id:
+            self.log("Device ID is not assigned to the site. Proceeding with device assignment.", "INFO")
+            self.assign_device_to_site().check_return_status()
+        else:
+            self.log("Device ID is already assigned to the site.", "INFO")
 
-        self.diff = diff
-        self.log('Difference (verify_diff_merged):\n{0}'.format(self.pprint(self.diff)), "INFO")
+        self.verify_ap_provision()
 
         return self
+
+    def verify_ap_provision(self):
+        """
+        Verifies if the AP (device) is provisioned.
+        Returns:
+            self: Returns the instance itself.
+        """
+        provision_status = "failed"
+        provision_details = None
+        device_management_ip_address = \
+            self.have.get("current_ap").get("ap").get("devices").get("associated_wlc_ip")
+        try:
+            response = self.dnac._exec(
+                family="sda",
+                function='get_device_info',
+                op_modifies=True,
+                params={"device_management_ip_address": device_management_ip_address}
+            )
+            if response and response.get("status") == "success":
+                self.log('Response from get_device_info: {0}'.format(self.pprint(response)),
+                         "INFO")
+                self.log("Device is already provisioned.", "INFO")
+                provision_status = "success"
+                provision_details = self.pprint(response)
+        except Exception as e:
+            msg = "Wireles controller is not provisioned: {0}".format(str(e))
+            self.log(msg, "ERROR")
+            provision_details = str(e)
+            self.status = "failed"
+            self.module.fail_json(msg=msg, response=provision_details)
+
+        return provision_status, provision_details
 
     def assign_device_to_site(self):
         """
@@ -1935,53 +1996,44 @@ class ProvisionAccesspoint(DnacBase):
         Returns:
             self: Returns the instance itself.
         """
-        site_name = self.want.get("site_name")
-        device_ip = self.want.get("ap_params").get("device").get("managementIPAddress")
-        site_id= self.have.get("current_site").get("id")
-
-        if not site_name or not device_ip:
-            error_msg="Cannot assign device to site: site_name ({0}), device_ip ({1}) is missing."\
-                .format(site_name, device_ip)
-            self.log(error_msg, "ERROR")
-            self.status = "failed"
-            return self
-
+        site_update_status = None
+        execution_details = {}
+        self.log("CHECKIN {}".format(self.pprint(self.have)), "INFO")
         try:
-            self.log("Fetching site details for site_name: '{0}'".format(site_name), "DEBUG")
-            response = self.dnac._exec(
-                family="sites",
-                function='get_site',
-                params={"name": site_name}
-            )
-
-            self.log("Response from get_site: {0}".format(str(response)), "DEBUG")
-            site_id = response.get("response")[0].get("id") if response.get("response") else None
-
-            if not site_id:
-                self.log("Site with name '{0}' not found.".format(site_name), "ERROR")
-                self.status = "failed"
-                return self
-
+            site_id = self.have.get("current_site").get("siteId")
+            device_ip = self.have.get("current_ap").get("ap").get("devices").\
+                get("management_ip_address")
             payload_param = {"site_id": site_id, "device": [{"ip": device_ip}]}
+            self.log("CHECKIN {}".format(str(payload_param)), "INFO")
             response = self.dnac._exec(
                 family="sites",
                 function='assign_devices_to_site',
                 op_modifies=True,
                 params=payload_param
             )
+            self.log("CHECKIN {}".format(str(response)), "INFO")
+            if response and isinstance(response, dict):
+                executionid = response.get("executionId")
+                while True:
+                    execution_details = self.get_execution_details(executionid)
+                    if execution_details.get("status") == "SUCCESS":
+                        self.result['changed'] = True
+                        self.result['response'] = execution_details
+                        site_update_status = "SUCCESS"
+                        break
+                    elif execution_details.get("bapiError"):
+                        self.module.fail_json(msg=execution_details.get("bapiError"),
+                                              response=execution_details)
+                        break
 
-            self.status = "success"
-            self.log("Assigned device with IP '{0}' to site '{1}' successfully.".format(
-                device_ip, site_name), "INFO")
-
-            self.result['site_id'] = site_id
-            self.result['execution_id'] = response.get("executionId")
+            self.msg = "Site - {0} Updated Successfully".format(self.want.get("site_name"))
+            self.log(self.msg, "INFO")
+            return site_update_status, execution_details
 
         except Exception as e:
-            self.log("Error assigning device to site: {0}".format(str(e)), "ERROR")
-            self.status = "failed"
-
-        return self
+            msg = "Error assigning device to site: {0}".format(str(e))
+            self.log(msg, "ERROR")
+            return site_update_status, execution_details
 
     def provision_device(self):
         """
@@ -1989,11 +2041,14 @@ class ProvisionAccesspoint(DnacBase):
         Returns:
             dict: Returns a dictionary with status and result message.
         """
+        provision_status = "failed"
+        provision_details = None
         try:
+            self.log("CHECKIN {0}".format(self.pprint(self.have)))
             site_name_hierarchy = self.want.get("site_name")
             rf_profile = self.want.get("ap_params").get("device").get("rf_profile")
             host_name = self.want.get("ap_name")
-            type_name = self.want.get("ap_params").get("device").get("family")
+            type_name = self.have.get("current_ap").get("ap").get("devices").get("family")
 
             if not site_name_hierarchy or not rf_profile or not host_name or not type_name:
                 error_msg = ("Cannot provision device: Missing parameters - \
@@ -2031,6 +2086,8 @@ class ProvisionAccesspoint(DnacBase):
                     if execution_details.get("status") == "SUCCESS":
                         self.result['changed'] = True
                         self.result['response'] = execution_details
+                        provision_status = "SUCCESS"
+                        provision_details = execution_details
                         break
 
                     elif execution_details.get("bapiError"):
@@ -2038,21 +2095,14 @@ class ProvisionAccesspoint(DnacBase):
                                               response=execution_details)
                         break
 
-            self.msg = "Site - {0} Updated Successfully".format(site_name_hierarchy)
-            self.log(self.msg, "INFO")
             self.log("Provisioned device with host '{0}' to site '{1}' successfully.".format(
                 host_name, site_name_hierarchy), "INFO")
-            self.status = "success"
-            self.result['msg'] = self.msg
-            self.result['response'].append({"siteId": self.have.get("site_id")})
-
         except Exception as e:
             error_msg = 'An error occurred during device provisioning: {0}'.format(str(e))
             self.log(error_msg, "ERROR")
             self.status = "failed"
-            self.result['msg'] = error_msg
 
-        return self
+        return provision_status, provision_details
 
 
 floor_plan = {
@@ -2228,7 +2278,7 @@ class Accesspointmovement(Accesspoint):
         self.log("Current AP config details (have): {0}".format(str(current_ap_config)), "DEBUG")
         (site_exists, current_site) = self.site_exists("site_name")
         self.log("Current Site details (have): {0}".format(str(current_site)), "DEBUG")
-        (dest_site_exists, current_dest_site) = self.site_exists("dest_site_name")
+        (dest_site_exists, current_dest_site) = self.site_exists("dest_site_name").check_return_status()
         self.log("Current Destination Site details (have): {0}".format(str(current_dest_site)),
                   "DEBUG")
 
@@ -2299,9 +2349,13 @@ class Accesspointmovement(Accesspoint):
             self.log(response)
 
         except Exception as e:
-            self.log("The provided site name '{0}' is either invalid or not present \
-                     in the Cisco Catalyst Center."
-                     .format(self.want.get(site_type)), "WARNING")
+            self.msg = "The provided site name '{0}' is either invalid or not present \
+                     in the Cisco Catalyst Center.".format(self.want.get(site_type))
+            self.log(self.msg, "ERROR")
+            self.status = "failed"
+            self.result['changed'] = False
+            self.result['msg'] = self.msg
+            return self
 
         if response:
             response = response.get("response")
@@ -2466,6 +2520,7 @@ class Accesspointmovement(Accesspoint):
      
         Check if access point movement is required and perform the movement if needed.
         """
+        self.validate_input(config).check_return_status()
         if self.have.get("dest_site_exists") and self.have.get("ap_exists"):
             current_site_id = self.have.get("site_id")
             self.log(current_site_id)
@@ -2693,22 +2748,22 @@ def main():
 
     main_config = module.params.get("config")
     if main_config and (main_config[0].get("site").get("devices")):
-        ccc_site = ProvisionAccesspoint(module)
-        state = ccc_site.params.get("state")
+        ccc_network = ProvisionAccesspoint(module)
+        state = ccc_network.params.get("state")
 
-        if state not in ccc_site.supported_states:
-            ccc_site.status = "invalid"
-            ccc_site.msg = "State {0} is invalid".format(state)
-            ccc_site.check_return_status()
+        if state not in ccc_network.supported_states:
+            ccc_network.status = "invalid"
+            ccc_network.msg = "State {0} is invalid".format(state)
+            ccc_network.check_return_status()
 
-        ccc_site.validate_input().check_return_status()
-        config_verify = ccc_site.params.get("config_verify")
+        ccc_network.validate_input().check_return_status()
+        config_verify = ccc_network.params.get("config_verify")
 
-        for config in ccc_site.validated_config:
-            ccc_site.reset_values()
-            ccc_site.get_want(config).check_return_status()
-            ccc_site.get_have(config).check_return_status()
-            ccc_site.get_diff_state_apply[state](config).check_return_status()
+        for config in ccc_network.validated_config:
+            ccc_network.reset_values()
+            ccc_network.get_want(config).check_return_status()
+            ccc_network.get_have(config).check_return_status()
+            ccc_network.get_diff_state_apply[state](config).check_return_status()
 
             #if config_verify:
             #    time.sleep(20)
@@ -2738,7 +2793,6 @@ def main():
             ccc_network.get_want(config).check_return_status()
             ccc_network.get_have(config).check_return_status()
             ccc_network.get_diff_state_apply[state](config).check_return_status()
-            ccc_network.validate_input(config).check_return_status()
 
         if config_verify:
             time.sleep(5)
