@@ -6,7 +6,7 @@
   vars_files:
     - "credentials.yml"
   tasks:
-    - name: Provision AP to Site with RF properties
+    - name: Updating Access Point Site / Configuration details
       cisco.dnac.accesspoint_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
@@ -20,116 +20,90 @@
         config_verify: True
         state: merged
         config:
-          - site:
-              devices:
-                host_name: "NFW-AP1-9130AXE"
-                family: "Unified AP"
-                mac_address: "90:e9:5e:03:x3:400"
-                management_ip_address: "204.1.216.2"
-                # serial_number: "FJC27101PRX"
-                # image_version: "17.14.0.79"
-                rf_profile: "HIGH"
+          - mac_address: 90:e9:5e:03:f3:40
+            rf_profile: "HIGH"
+            site:
               floor:
                 name: "FLOOR2"
                 parent_name: "Global/USA/New York/BLDNYC"
-                rf_model: "Cubes And Walled Offices"
-            site_type: "floor"
-      register: result
-    - name: Display provisioning result
+            ap_name: "LTTS-test2"
+            admin_status: "Enabled"
+            led_status: "Enabled"
+            led_brightness_level: 2
+            ap_mode: "Local"
+            location: "LTTS/Cisco/Bangalore"
+            failover_priority: "Medium"
+            clean_air_si_2.4ghz: "Enabled"
+            clean_air_si_5ghz: "Enabled"
+            clean_air_si_6ghz: "Disabled"
+            primary_controller_name: "SJ-EWLC-1"
+            primary_ip_address:
+              address: "204.192.4.200"
+            secondary_controller_name: "Inherit from site/Clear"
+            secondary_ip_address:
+              address: "10.0.0.2"
+            tertiary_controller_name": "Clear"
+            tertiary_ip_address:
+              address: "10.0.0.3"
+            2.4ghz_radio:
+              admin_status: "Enabled"
+              antenna_name: "other"
+              antenna_gain: 4
+              radio_role_assignment: "Auto"
+              cable_loss: 75
+              antenna_cable_name: "other"
+              channel_assignment_mode: "Custom"
+              channel_number: 36
+              power_assignment_mode: "Custom"
+              powerlevel: 1
+            5ghz_radio:
+              admin_status: "Enabled"
+              antenna_name: "other"
+              antenna_gain: 4
+              radio_role_assignment: "Auto"
+              power_assignment_mode: "Custom"
+              powerlevel: 1
+              antenna_cable_name: "other"
+              cable_loss: 75
+              channel_assignment_mode: "Custom"
+              channel_number: 36
+              channel_width: "20 MHz"
+            6ghz_radio:
+              admin_status: "Enabled"
+              radio_role_assignment: "Auto"
+              power_assignment_mode: "Custom"
+              powerlevel: 1
+              channel_assignment_mode: "Custom"
+              channel_number: 36
+              channel_width: "20 MHz"
+            xor_radio:
+              admin_status: "Enabled"
+              antenna_name: "other"
+              antenna_gain: 4
+              antenna_cable_name: "other"
+              cable_loss: 75
+              radio_role_assignment: "Auto"
+              radio_band: "5 GHz"
+              power_assignment_mode: "Custom"
+              powerlevel: 1
+              channel_assignment_mode: "Custom"
+              channel_number: 36
+              channel_width: "20 MHz"
+            tri_radio:
+              dual_radio_mode: "Auto"
+              antenna_name: "other"
+              antenna_gain: 4
+              radio_role_assignment: "Auto"
+              admin_status: "Enabled"
+              antenna_cable_name: "other"
+              cable_loss: 75
+              power_assignment_mode: "Custom"
+              powerlevel: 1
+              channel_assignment_mode: "Custom"
+              channel_number: 36
+              channel_width: "20 MHz"
+      register: output_list
+    - name: Display provisioning/update access point result
       debug:
         var: result
 
-    - name: Updating Access Point Site details
-      cisco.dnac.accesspoint_movement:
-        dnac_host: "{{ dnac_host }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_log: True
-        dnac_log_level: DEBUG
-        config_verify: True
-        state: merged
-        config:
-              - ap_type: "Unified AP"
-                mac_address:  90:e9:5e:03:f3:40
-                rf_profile: "HIGH"
-                site:
-                  floor:
-                    name: "FLOOR1"
-                    parent_name: "Global/USA/New York/BLDNYC"
-                dest_site:
-                  floor:
-                    name: "FLOOR2"
-                    parent_name: "Global/USA/New York/BLDNYC"
-                type: floor
-      register: output_list
-    - name: Display Accesspoint movement results
-      debug:
-        var: output_list
-
-    - name: Updating Access Point Configuration
-      cisco.dnac.accesspoint_workflow_manager:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
-        dnac_log: True
-        dnac_log_level: DEBUG
-        config_verify: True
-        state: merged
-        config:
-          - mac_address: "68:7d:b4:06:b0:a0"
-            led_brightness_level: 2
-            led_status: "Enabled"
-            location: "LTTS/Cisco/Bangalore"
-            ap_name: "AP687D.B402.1E98"
-            ap_name_new: "LTTS-Test01"
-            ap_mode: "Monitor"
-            admin_status: "Enabled"
-            failover_priority: "Medium"
-            radio_dtos:
-              - admin_status: "Enabled"
-                antenna_gain: 4
-                radio_role_assignment: "Auto"
-                clean_air_si: "Enabled"
-                antenna_cable_name: "other"
-                antenna_pattern_name: "AntennaPatternName"
-                radio_band: "2.4 GHz"
-                cable_loss: 75
-                channel_assignment_mode: "Custom"
-                channel_number: 36
-                channel_width: "20 MHz"
-                power_assignment_mode: "Global"
-                powerlevel: 1
-                radio_type: "2.4 GHz"
-                slot_id: 0
-                antenna_angle: 0
-                antenna_elev_angle: 0
-              - admin_status: "Enabled"
-                antenna_gain: 4
-                radio_role_assignment: "Auto"
-                clean_air_si: "Enabled"
-                antenna_cable_name: "other"
-                antenna_pattern_name: "AntennaPatternName"
-                radio_band: "5 GHz"
-                cable_loss: 75
-                channel_assignment_mode: "Global"
-                channel_number: 40
-                channel_width: "40 MHz"
-                power_assignment_mode: "Global"
-                powerlevel: 2
-                radio_type: "5 GHz"
-                slot_id: 1
-                antenna_angle: 0
-                antenna_elev_angle: 0
-
-      register: output_list
-    - name: Display Accesspoint movement results
-      debug:
-        var: output_list
