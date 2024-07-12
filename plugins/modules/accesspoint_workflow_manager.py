@@ -12,184 +12,239 @@ DOCUMENTATION = r"""
 module: accesspoint_workflow_manager
 short_description: accesspoint_workflow_manager used to automate bulk AP configuration changes.
 description:
-  - Automates bulk configuration changes for Access Point (APs).
+  - Automates bulk configuration changes for Access Points (APs).
   - Modify AP display names, AP names, or other parameters.
-  - Filter specific device details, such as selecting devices with hostnames matching "NFW-AP1-9130AXE"
+  - Filter specific device details, such as selecting devices with hostnames matching "NFW-AP1-9130AXE".
   - Compares input details with current AP configurations and applies desired changes only to relevant APs.
 
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.accesspoint_workflow_manager
-author: 
-    - A Mohamed Rafeek (@mohamedrafeek)
-    - Sonali Deepthi Kesali (@sonalideepthi)
-    - Megha Kandari (@meghakandari)
-    - Natarajan (@natarajan)
-    - Madhan Sankaranarayanan (@madhansansel)
-    - Abhishek Maheshwari (@abmahesh)
-       
+author:
+  - A Mohamed Rafeek (@mabdulk2)
+  - Sonali Deepthi Kesali (@skesali)
+  - Megha Kandari (@mekandar)
+  - Natarajan (@natarajan)
+  - Madhan Sankaranarayanan (@madhansansel)
+  - Abhishek Maheshwari (@abmahesh)
+
 options:
-    config_verify:
-        description: Set to True to verify the Cisco Catalyst Center config after applying the playbook config.
+  config_verify:
+    description: Set to True to verify the Cisco Catalyst Center config after applying the playbook config.
     type: bool
     default: False
-    state:
-        description: The state of Cisco Catalyst Center after module completion.
+  state:
+    description: The state of Cisco Catalyst Center after module completion.
     type: str
-    choices: [ merged ]
+    choices: [merged]
     default: merged
-    config:
-        description: It represents a list of details for Updating site of an access point.
+  config:
+    description: List of details of AP being managed.
     type: list
     elements: dict
     required: True
     suboptions:
-        ap_type:
-            description: Specifies the access point type used to facilitate seamless mobility between different sites within a network infrastructure.
-            type :str
-            example: "Unified AP"
-        mac_address:
-            description: "MAC address of the Access Point (e.g., '90:e9:5e:03:f3:40')."
-            type: str
-            example: "90:e9:5e:03:f3:40"  # Replace with actual MAC address
-        rf_profile:
-            description: "Radio Frequency (RF) profile of the Access Point (e.g., 'HIGH')."
-            type: str
-            example: "HIGH"
-        site:
-            description: "Current site details where the Access Point is located."
+      mac_address:
+        description: |
+          MAC Address field used to identify the device. If MAC address is known,
+          it must be provided. This field cannot be modified.
+          To identify the specific access point, any one of the (mac_address, hostname,
+          management_ip_address) parameters is required.
+          Example: mac_address: "90:e9:5e:03:f3:40"
+        type: str
+        required: True
+      rf_profile:
+        description: |
+          Radio Frequency (RF) profile of the Access Point (e.g., 'HIGH').
+        type: str
+        example: "HIGH"
+      site:
+        description: |
+          Current site details where the Access Point is located.
+        type: object
+        suboptions:
+          floor:
+            description: |
+              Floor details of the current site.
             type: object
             suboptions:
-                floor:
-                    description: "Floor details of the current site."
-                    type: object
-                    suboptions:
-                        name:
-                            description: "Name of the floor (e.g., 'FLOOR1')."
-                            type: str
-                        parent_name:
-                    description: "Parent name of the floor in the site hierarchy (e.g., 'Global/USA/New York/BLDNYC')."
-                    type: str
-        dest_site:
-            description: "Destination site details where the Access Point will be moved."
-            type: object
-            suboptions:
-                floor:
-                description: "Floor details of the destination site."
-                type: object
-                suboptions:
-                    name:
-                        description: "Name of the floor (e.g., 'FLOOR2')."
-                        type: str
-                    parent_name:
-                        description: "Parent name of the floor in the site hierarchy (e.g., 'Global/USA/New York/BLDNYC')."
-                        type: str
-        type:
-            description: "Type of site detail provided (e.g., 'floor')."
-            type: str
-            example: "floor"
-
-
-    config:
-        description: List of details of AP being managed
-    type: list
-    elements: dict
-    required: True
-
-    mac_address:
+              name:
+                description: |
+                  Name of the floor (e.g., 'FLOOR1').
+                type: str
+              parent_name:
+                description: |
+                  Parent name of the floor in the site hierarchy (e.g., 'Global/USA/New York/BLDNYC').
+                type: str
+      ap_name:
         description: |
-            MAC Address field used to identify the device. If MAC address is known,
-            it must be provided. This field cannot be modified.
-            To identify the specific access point any one of the (mac_address, hostname,
-            management_ip_address) 3 param is required.
-            Example: mac_address: "90:e9:5e:03:f3:40"
-        type: str
-        required: True
-    hostname:
-        description: |
-            Device hostname used to identify the device.
-            To identify the specific access point any one of the (mac_address, hostname,
-            management_ip_address) 3 param is required.
-            Example: hostname: "NFW-AP1-9130AXE"
-        type: str
-        required: True
-    management_ip_address:
-        description: |
-            Management IP address used to identify the device based on IP.
-            This is an alternative if MAC address or hostname is not available.
-            To identify the specific access point any one of the (mac_address, hostname,
-            management_ip_address) 3 param is required.
-            Example: management_ip_address: "204.192.6.200"
-        type: str
-        required: True
-
-    ap_name:
-        description: |
-            Current AP name that needs to be changed along with the new AP name.
-            Example: ap_name: "Test2", ap_name_new: "NFW-AP1-9130AXE"
+          Current AP name that needs to be changed along with the new AP name.
+          Example: ap_name: "Test2", ap_name_new: "NFW-AP1-9130AXE"
         type: str
         required: False
-    ap_name_new:
+      admin_status:
         description: |
-            New AP name to be assigned. Must be provided along with the current AP name.
-            Example: ap_name: "Test2", ap_name_new: "NFW-AP1-9130AXE"
+          Status of the AP configuration. Accepts "Enabled" or "Disabled".
+          Example: admin_status: "Enabled"
         type: str
         required: False
-    led_brightness_level:
+      led_status:
         description: |
-            Brightness level of the AP's LED. Accepts values from 1 to 8.
-            Example: led_brightness_level: 3
+          State of the AP's LED. Accepts "Enabled" or "Disabled".
+          Example: led_status: "Enabled"
+        type: str
+        required: False
+      led_brightness_level:
+        description: |
+          Brightness level of the AP's LED. Accepts values from 1 to 8.
+          Example: led_brightness_level: 3
         type: int
         required: False
-    led_status:
+      ap_mode:
         description: |
-            State of the AP's LED. Accepts "Enabled" or "Disabled".
-            Example: led_status: "Enabled"
+          Mode of operation for the Access Point (AP). Possible values include "local/flexconnect" or "monitor" or "sniffer" or Bridge/Flex+Bridge.
+          - If Ap mode is local/flex, then only radio role assignment can be changed.
+          Example: ap_mode: "local"
         type: str
         required: False
-    location:
+      location:
         description: |
-            Location name of the AP. Provide this data if a change is required.
-            Example: location: "Bangalore"
+          Location name of the AP. Provide this data if a change is required.
+          Example: location: "Bangalore"
         type: str
         required: False
+      failover_priority:
+        description: |
+          Priority order for failover in AP configuration. Accepts "Low" or "Medium" or "High" or "Critical".
+        type: str
+        required: False
+      clean_air_si_2.4ghz/5ghz/6ghz:
+        description: |
+          Clean Air Spectrum Intelligence (SI) feature status for 2.4/5/6GHz band. Indicates whether Clean Air Spectrum Intelligence is enabled or disabled.
+          Example: clean_air_si_2.4ghz: "Enabled"
+        type: str
+        required: False
+      primary_controller_name:
+        description: |
+          Name or identifier of the primary wireless LAN controller (WLC) managing the Access Point (AP).
+          Example: primary_controller_name: "SJ-EWLC-1"
+        type: str
+        required: False
+      primary_ip_address:
+        description: |
+          IP address of the primary wireless LAN controller (WLC) managing the Access Point (AP).
+          Example: primary_ip_address:
+                   address: "204.192.4.200"
+        type: str
+        required: False
+      secondary_controller_name:
+        description: |
+          Name or identifier of the secondary wireless LAN controller (WLC) managing the Access Point (AP).
+          Example: secondary_controller_name: "Inherit from site/Clear"
+        type: str
+        required: False
+      secondary_ip_address:
+        description: |
+          IP address of the secondary wireless LAN controller (WLC) managing the Access Point (AP).
+          Example: secondary_ip_address:
+                   address: "10.0.0.2"
+        type: str
+        required: False
+      tertiary_controller_name:
+        description: |
+          Name or identifier of the tertiary wireless LAN controller (WLC) managing the Access Point (AP).
+          Example: tertiary_controller_name: "Clear"
+        type: str
+        required: False
+      tertiary_ip_address:
+        description: |
+          IP address of the tertiary wireless LAN controller (WLC) managing the Access Point (AP).
+          Example: tertiary_ip_address:
+                   address: "10.0.0.3"
+        type: str
+        required: False
+      2.4ghz_radio/5ghz_radio/6ghz_radio/xor_radio/tri_radio:
+        suboptions:
+          admin_status:
+            description: |
+              Administrative status for the 2.4GHz/5GHz/6GHz/xor_radio/tri_radio radio interface.
+              Example: admin_status: "Enabled"
+            type: str
+            required: False
+          antenna_name:
+            description: |
+              Name or type of antenna used for the 2.4GHz/5GHz/xor_radio/tri_radio radio interface.
+              Example: antenna_name: "other"
+            type: str
+            required: False
+          antenna_gain:
+            description: |
+              Antenna gain value in decibels (dB) for the 2.4GHz/5GHz/xor_radio/tri_radio radio interface.
+              Example: antenna_gain: 4
+            type: int
+            required: False
+          radio_role_assignment:
+            description: |
+              Role assignment mode for the 2.4GHz/5GHz/6GHz/xor_radio/tri_radio radio interface. Accepts "Auto" or "Client-serving" or "Monitor".
+              - If radio_role_assignment is "client-serving", then only power-level and channel-level can be changed.
+              Example: radio_role_assignment: "Auto"
+            type: str
+            required: False
+          cable_loss:
+            description: |
+              Cable loss in dB for the 2.4GHz/5GHz/xor_radio/tri_radio radio interface.
+              Example: cable_loss: 75
+            type: int
+            required: False
+          antenna_cable_name:
+            description: |
+              Name or type of antenna cable used for the 2.4GHz/5GHz/xor_radio/tri_radio radio interface.
+              Example: antenna_cable_name: "other"
+            type: str
+            required: False
+          channel_assignment_mode:
+            description: |
+              Mode of channel assignment for the 2.4GHz/5GHz/6GHz/xor_radio/tri_radio radio interface. Accepts "Global" or "Custom".
+              - For 5GHz Custom, it accepts values like 36, 40, 44, 48, 52, 56, 60, 64, 100,
+                104, 108, 112, 116, 120, 124, 128, 132,
+                136, 140, 144, 149, 153, 157, 161, 165,
+                169, 173.
+              - For 2.4GHz Custom, it accepts values like 1 to 12.
+              Example: channel_assignment_mode: "Custom"
+            type: str
+            required: False
+          channel_number:
+            description: |
+              Custom channel number configured for the 2.4GHz/5GHz/6GHz/xor_radio/tri_radio radio interface.
+              Example: channel_number: 36
+            type: int
+            required: False
+          channel_width:
+            description: |
+              Width of the channel configured for the 5GHz/6GHz/xor_radio/tri_radio radio interface. Accepts values "20MHz" or "40MHz" or "80MHz" or "160MHz".
+              Example: channel_width: "20 MHz"
+            type: str
+            required: False
+          power_assignment_mode:
+            description: |
+              Mode of power assignment for the 2.4GHz/5GHz/6GHz/xor_radio/tri_radio radio interface. Accepts "Global" or "Custom".
+              - In Custom, it accepts values 1 to 8.
+              Example: power_assignment_mode: "Custom"
+            type: str
+            required: False
+          powerlevel:
+            description: |
+              Custom power level configured for the 2.4GHz/5GHz/6GHz/xor_radio/tri_radio radio interface.
+              Example: powerlevel: 1
+            type: int
+            required: False
+          dual_radio_mode:
+            description: |
+              Mode of operation configured for the tri_radio radio interface. Specifies how the access point (AP) manages its dual radio functionality.
+              Example: dual_radio_mode: "Auto"
+            type: str
+            required: False
 
-    ap_selected_fields:
-        description:
-            - Optional field to specify specific fields to display from the AP device details.
-            - Below list of available fields to display the output in the "access_point_details"
-                "type,memory_size,last_update_time,device_support_level,software_type,software_version,
-                serial_number,mac_address,inventory_status_detail,collection_interval,
-                dns_resolved_management_address,management_state,pending_sync_requests_count,
-                reasons_for_device_resync,reasons_for_pending_sync_requests,up_time,role_source,
-                last_updated,boot_date_time,ap_manager_interface_ip,collection_status,family,
-                hostname,location_name,management_ip_address,platform_id,reachability_failure_reason,
-                reachability_status,series,snmp_contact,snmp_location,tag_count,tunnel_udp_port,
-                uptime_seconds,vendor,waas_device_mode,associated_wlc_ip,ap_ethernet_mac_address,
-                error_code,error_description,interface_count,last_device_resync_start_time,line_card_count,
-                line_card_id,managed_atleast_once,description,location,role,instance_tenant_id,
-                instance_uuid,id"
-            - Fields should be separated by commas without spaces before or after the commas.
-            - If not defined, all device fields are shown by default.
-            - Example: "id,hostname,family,type,mac_address,management_ip_address,ap_ethernet_mac_address,last_updated,up_time"
-        type: str
-        required: False
-    ap_config_selected_fields:
-        description:
-            - Optional field to specify specific parameters from the Access Point configuration details.
-            - Below list of available fields to display the output in the "have" or "access_point_config"
-                "instance_uuid,instance_id,auth_entity_id,auth_entity_class,instance_tenant_id,
-                _ordered_list_oeindex,_ordered_list_oeassoc_name,_creation_order_index,_is_being_changed,
-                deploy_pending,instance_created_on,instance_updated_on,change_log_list,instance_origin,
-                instance_version,admin_status,ap_height,ap_mode,ap_name,eth_mac,failover_priority,
-                led_brightness_level,led_status,location,mac_address,primary_controller_name,primary_ip_address,
-                secondary_controller_name,secondary_ip_address,tertiary_controller_name,tertiary_ip_address,
-                mesh_dtos,radio_dtos,internal_key,display_name,lazy_loaded_entities"
-            - Each field should be separated by commas without spaces.
-            - If not defined, all fields will be shown by default.
-            - Example: "mac_address,eth_mac,ap_name,led_brightness_level,led_status,location"
-        type: str
-        required: False
 
 requirements:
 - dnacentersdk >= 2.4.5
@@ -200,16 +255,21 @@ notes:
     devices.get_device_list
     wireless.get_access_point_configuration
     sites.get_site
-    sites.get_membership
+    sda.get_device_info
+    sites.assign_devices_to_site
     wireless.ap_provision
     wireless.configure_access_points
+    sites.get_membership
 
   - Paths used are
     get /dna/intent/api/v1/network-device
-    get /dna/intent/api/v1/wireless/accesspoint-configuration/summary?key={ap_ethernet_mac_address}
     get /dna/intent/api/v1/site
+    GET/dna/intent/api/v1/business/sda/device
     post /dna/intent/api/v1/wireless/ap-provision
+    GET/dna/intent/api/v1/membership/{siteId}
+    GET/dna/intent/api/v1/wireless/accesspoint-' + 'configuration/details/{task_id}'
     post /dna/intent/api/v2/wireless/accesspoint-configuration
+    Post/dna/intent/api/v1/assign-device-to-site/{siteId}/device
 """
 
 EXAMPLES = r"""
@@ -384,38 +444,7 @@ EXAMPLES = r"""
               channel_width: "20 MHz"
       register: output_list
 
-    - name: Provision AP to Site with RF properties
-      cisco.dnac.accesspoint_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_log: True
-        dnac_log_level: DEBUG
-        config_verify: True
-        state: merged
-        config:
-          - site:
-              devices:
-                host_name: "NFW-AP1-9130AXE"
-                family: "Unified AP"
-                mac_address: "90:e9:5e:03:x3:400"
-                management_ip_address: "204.1.216.2"
-                rf_profile: "HIGH"
-              floor:
-                name: "FLOOR2"
-                parent_name: "Global/USA/New York/BLDNYC"
-                rf_model: "Cubes And Walled Offices"
-            site_type: "floor"
-      register: result
-    - name: Display provisioning result
-      debug:
-        var: result
-
-    - name: Updating Access Point Site details
+    - name: Provisioning and Re-provisiong Access Point Site details
       cisco.dnac.accesspoint_movement:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
@@ -436,130 +465,109 @@ EXAMPLES = r"""
                   floor:
                     name: "FLOOR1"
                     parent_name: "Global/USA/New York/BLDNYC"
-                dest_site:
-                  floor:
-                    name: "FLOOR2"
-                    parent_name: "Global/USA/New York/BLDNYC"
-                type: floor
       register: output_list
-    - name: Display Accesspoint movement results
-      debug:
-        var: output_list
-
-    - name: Updating Access Point name change in configuration
+    
+    - name: Updating Access Point Site / Configuration details
       cisco.dnac.accesspoint_workflow_manager:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
         dnac_log: True
         dnac_log_level: DEBUG
         config_verify: True
         state: merged
         config:
-          - mac_address: "90:e9:5e:03:f3:40"
-            ap_name: "LTTS-Test1"
-            ap_name_new: "NFW-AP1-9130AXE"
-            ap_selected_fields: "id,hostname,mac_address,management_ip_address,ap_ethernet_mac_address"
-            ap_config_selected_fields: "mac_address,eth_mac,ap_name"
-      register: output_list
-
-    - name: Updating Access Point few field changes in configuration
-      cisco.dnac.accesspoint_workflow_manager:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
-        dnac_log: True
-        dnac_log_level: DEBUG
-        config_verify: True
-        state: merged
-        config:
-          - mac_address: "68:7d:b4:06:b0:a0"
-            led_brightness_level: 2
-            led_status: "Enabled"
-            location: "LTTS/Cisco/Bangalore"
-            ap_name: "AP687D.B402.1E98"
-            ap_name_new: "LTTS-Test01"
-            ap_mode: "Monitor"
+          - mac_address: 90:e9:5e:03:f3:40
+            rf_profile: "HIGH"
+            site:
+              floor:
+                name: "FLOOR2"
+                parent_name: "Global/USA/New York/BLDNYC"
+            ap_name: "LTTS-test2"
             admin_status: "Enabled"
-            failover_priority: "Medium"
-            ap_selected_fields: "id,hostname,family,type,mac_address,management_ip_address,ap_ethernet_mac_address,last_updated,up_time"
-            ap_config_selected_fields: "mac_address,eth_mac,ap_name,led_brightness_level,led_status,location"
-      register: output_list
-
-    - name: Updating Access Point all field changes in configuration
-      cisco.dnac.accesspoint_workflow_manager:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
-        dnac_log: True
-        dnac_log_level: DEBUG
-        config_verify: True
-        state: merged
-        config:
-          - ap_selected_fields: "id,hostname,family,type,mac_address,management_ip_address,ap_ethernet_mac_address,last_updated,up_time"
-            ap_config_selected_fields: "mac_address,eth_mac,ap_name,led_brightness_level,led_status,location,radioDTOs"
-            mac_address: "68:7d:b4:06:b0:a0"
-            led_brightness_level: 2
             led_status: "Enabled"
+            led_brightness_level: 2
+            ap_mode: "Local"
             location: "LTTS/Cisco/Bangalore"
-            ap_name: "AP687D.B402.1E98"
-            ap_name_new: "LTTS-Test01"
-            ap_mode: "Monitor"
-            admin_status: "Enabled"
             failover_priority: "Medium"
-            radio_dtos:
-              - admin_status: "Enabled"
-                antenna_gain: 4
-                radio_role_assignment: "Auto"
-                clean_air_si: "Enabled"
-                antenna_cable_name: "other"
-                antenna_pattern_name: "AntennaPatternName"
-                radio_band: "2.4 GHz"
-                cable_loss: 75
-                channel_assignment_mode: "Custom"
-                channel_number: 36
-                channel_width: "20 MHz"
-                power_assignment_mode: "Global"
-                powerlevel: 1
-                radio_type: "2.4 GHz"
-                slot_id: 0
-                antenna_angle: 0
-                antenna_elev_angle: 0
-              - admin_status: "Enabled"
-                antenna_gain: 4
-                radio_role_assignment: "Auto"
-                clean_air_si: "Enabled"
-                antenna_cable_name: "other"
-                antenna_pattern_name: "AntennaPatternName"
-                radio_band: "5 GHz"
-                cable_loss: 75
-                channel_assignment_mode: "Global"
-                channel_number: 40
-                channel_width: "40 MHz"
-                power_assignment_mode: "Global"
-                powerlevel: 2
-                radio_type: "5 GHz"
-                slot_id: 1
-                antenna_angle: 0
-                antenna_elev_angle: 0
-
+            clean_air_si_2.4ghz: "Enabled"
+            clean_air_si_5ghz: "Enabled"
+            clean_air_si_6ghz: "Disabled"
+            primary_controller_name: "SJ-EWLC-1"
+            primary_ip_address:
+              address: "204.192.4.200"
+            secondary_controller_name: "Inherit from site/Clear"
+            secondary_ip_address:
+              address: "10.0.0.2"
+            tertiary_controller_name": "Clear"
+            tertiary_ip_address:
+              address: "10.0.0.3"
+            2.4ghz_radio:
+              admin_status: "Enabled"
+              antenna_name: "other"
+              antenna_gain: 4
+              radio_role_assignment: "Auto"
+              cable_loss: 75
+              antenna_cable_name: "other"
+              channel_assignment_mode: "Custom"
+              channel_number: 36
+              power_assignment_mode: "Custom"
+              powerlevel: 1
+            5ghz_radio:
+              admin_status: "Enabled"
+              antenna_name: "other"
+              antenna_gain: 4
+              radio_role_assignment: "Auto"
+              power_assignment_mode: "Custom"
+              powerlevel: 1
+              antenna_cable_name: "other"
+              cable_loss: 75
+              channel_assignment_mode: "Custom"
+              channel_number: 36
+              channel_width: "20 MHz"
+            6ghz_radio:
+              admin_status: "Enabled"
+              radio_role_assignment: "Auto"
+              power_assignment_mode: "Custom"
+              powerlevel: 1
+              channel_assignment_mode: "Custom"
+              channel_number: 36
+              channel_width: "20 MHz"
+            xor_radio:
+              admin_status: "Enabled"
+              antenna_name: "other"
+              antenna_gain: 4
+              antenna_cable_name: "other"
+              cable_loss: 75
+              radio_role_assignment: "Auto"
+              radio_band: "5 GHz"
+              power_assignment_mode: "Custom"
+              powerlevel: 1
+              channel_assignment_mode: "Custom"
+              channel_number: 36
+              channel_width: "20 MHz"
+            tri_radio:
+              dual_radio_mode: "Auto"
+              antenna_name: "other"
+              antenna_gain: 4
+              radio_role_assignment: "Auto"
+              admin_status: "Enabled"
+              antenna_cable_name: "other"
+              cable_loss: 75
+              power_assignment_mode: "Custom"
+              powerlevel: 1
+              channel_assignment_mode: "Custom"
+              channel_number: 36
+              channel_width: "20 MHz"
       register: output_list
 """
 
 RETURN = r"""
-#Case: Modification of the AP details updated and Rebooted Access Point
+#Case-1: Modification of the AP details updated and Rebooted Access Point
 response:
   description: A list of dictionaries containing details about the AP updates and verification
                 results, as returned by the Catalyst Center Python SDK
@@ -604,6 +612,27 @@ response:
             }
         }
     ]
+#Case-2: Provisioning and Re-Provisioning of Accesspoint
+response:
+  description: A dictionary with activation details as returned by the Catalyst Center Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+                        {
+                            'bapiKey': 'd897-19b8-47aa-a9c4',
+                                'bapiName': 'AP Provision',
+                                    'bapiExecutionId': '97d5edd5-d5db-40d8-9ab6-f15dc4a5cc30',
+                                        'tartTime': 'Wed Jul 03 18:37:24 UTC 2024', 
+                                        'startTimeEpoch': 1720031844919, 
+                                        'endTimeEpoch': 0, 
+                                    'timeDuration': 0, 
+                                'status': 'IN_PROGRESS', 
+                            'runtimeInstanceId': 'DNACP_Runtime_3f8f258c-9f7a-4511-b361-592ee9e0c4d2'
+                        } 
+                    }
+
 """
 
 import re, time, json
@@ -639,29 +668,27 @@ class Accesspoint(DnacBase):
                           136, 140, 144, 149, 153, 157, 161, 165,
                           169, 173)
         }
-    # Below function used to validate input over the ansible validation
     def validate_input_yml(self):
         """
-        Validate the fields provided in the yml files.
-        Checks the configuration provided in the playbook against a predefined specification
-        to ensure it adheres to the expected structure and data types based on input.
+        Validate fields provided in a YAML file against predefined specifications.
+        Checks playbook configuration to ensure it matches expected structure and data types.
+
         Parameters:
-          - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+        - self (object): Instance of a class for Cisco Catalyst Center interaction.
+
         Returns:
-          The method returns an instance of the class with updated attributes:
-                - self.msg: A message describing the validation result.
-                - self.status: The status of the validation (either 'success' or 'failed').
-                - self.validated_config: If successful, a validated version of the 'config' parameter.
+        - Updates instance attributes:
+            - self.msg: Validation result message.
+            - self.status: Validation status ('success' or 'failed').
+            - self.validated_config: Validated 'config' parameter if successful.
+
         Description:
-            Example:
-                To use this method, create an instance of the class and call 'validate_input_yml' on it.
-                If the validation succeeds, 'self.status' will be 'success' and 'self.validated_config'
-                will contain the validated configuration. If it fails, 'self.status' will be 'failed', and
-                'self.msg' will describe the validation issues.To use this method, create an
-                instance of the class and call 'validate_input_yml' on it.
-                If the validation succeeds, this will allow to go next step, 
-                unless this will stop execution based on the fields.
+        Example:
+        Instantiate the class and call 'validate_input_yml'.
+        - 'self.status' is 'success' on successful validation; 'self.validated_config' holds validated data.
+        - 'self.status' is 'failed' on validation failure; 'self.msg' describes issues.
         """
+
         self.log('Validating the Playbook Yaml File..', "INFO")
         if not self.config:
             self.status = "success"
@@ -748,19 +775,20 @@ class Accesspoint(DnacBase):
 
     def get_want(self, ap_config):
         """
-        Get all Access Point related information from the playbook needed for creation/updation
-         in Cisco Catalyst Center.
+        Retrieve Access Point configuration and site-related details from the playbook needed for AP configuration, provisioning, and re-provisioning.
         Parameters:
-            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-            config (dict): A dictionary containing configuration information.
+            self (object): An instance of a class for Cisco Catalyst Center interaction.
+            ap_config (dict): Dictionary containing Access Point configuration information.
+
         Returns:
-            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            self (object): Updated instance with extracted Access Point configuration stored in 'want'.
+
         Description:
-             Retrieves all Access Point configuration details from the playbook config,
-        excluding any fields not directly related to the Access Point configuration such as
-        'ap_selected_fields' and 'ap_config_selected_fields'. The extracted information is stored
-        in the 'want' attribute of the instance for later use in the workflow.
+            Extracts all Access Point configuration details from 'ap_config', excluding fields such as
+            'ap_selected_fields' and 'ap_config_selected_fields'. The extracted information is stored
+            in the 'want' attribute of the instance for use in subsequent workflow steps.
         """
+
         want = {}
 
         for key,value in ap_config.items():
@@ -774,20 +802,22 @@ class Accesspoint(DnacBase):
 
     def get_have(self, input_config):
         """
-        Retrieves the current Access Point configuration details from Cisco Catalyst Center.
+        Retrieve current Access Point configuration and site releated details from Cisco Catalyst Center.
         Parameters:
-          - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-          - input_config (dict): A dictionary containing the configuration details.
+            self (object): An instance of a class for Cisco Catalyst Center interaction.
+            input_config (dict): Dictionary containing configuration details.
+
         Returns:
-          - self (object): An instance of a class used for interacting with  Cisco Catalyst Center.
+            self (object): Updated instance with retrieved Access Point configuration stored in 'have'.
+
         Description:
-            This method checks the system to determine if the specified Access Point configuration exists.
-        If it does, it retrieves the current configuration details, such as the MAC address, ... and other
-        relevant information. These details are stored in the 'self.have' attribute of the instance.
+            Checks if the specified Access Point configuration and site exists in the system. If found,
+            retrieves details such as MAC address, IP address, hostname, associated WLC IP, AP type,
+            and site information if available. These details are stored in the 'have' attribute of the instance.
         """
+
         ap_exists = False
         current_ap_config = None
-        # check if given AP config exists, if exists store current AP config info
         (ap_exists, current_ap_config) = self.get_current_config(input_config)
 
         self.log("Current AP config details (have): {0}".format(str(current_ap_config)), "DEBUG")
@@ -815,23 +845,22 @@ class Accesspoint(DnacBase):
 
     def get_diff_merged(self, ap_config):
         """
-        Update/Create wireless accesspoint configuration in Cisco Catalyst Center with fields
-        provided in the playbook.
+        Provision, re-provision, update, or create wireless access point configurations in Cisco Catalyst Center using playbook-provided fields.
         Parameters:
-          self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-          ap_config (dict): A dictionary containing configuration information.
+            self (object): An instance of a class for interacting with Cisco Catalyst Center.
+            ap_config (dict): Dictionary containing configuration information.
+
         Returns:
-            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            self (object): Updated instance with operation results stored in 'result'.
+
         Description:
-            This method determines whether to update or create AP configuration in Cisco
-            Catalyst Center based on the provided configuration information.
-            If the specified access point exists, the method checks if it requires an update
-            by calling the 'update_ap_configuration' method. If an update is required,
-            it calls the 'configure_access_points' function from the 'wireless' family of
-            the Cisco Catalyst Center API. If Current configuration same as input configuration
-            does not require an update, the method exits, indicating that Accesspoint
-            configuration is up to date.
+            Determines whether to Provision, re-provision, update or create the Access Point configuration in Cisco Catalyst Center
+            based on provided information. If the Access Point and site exists, it compares current configuration
+            with input data. If changes are required, it updates the configuration using the 'configure_access_points'
+            function from the Cisco Catalyst Center API. If no updates are needed, it logs that the configuration
+            is up to date. Handles provisioning and site assignment if specified by playbook data.
         """
+
         task_response = None
         self.validate_ap_config_parameters(ap_config).check_return_status()
         self.log("CHECKIN have {}".format(self.pprint(self.have)))
@@ -859,13 +888,11 @@ class Accesspoint(DnacBase):
                 #self.result['response'].append(responses)
             """
 
-        # check if the given AP config exists and/or needs to be updated/created.
         if self.have.get("ap_exists"):
             consolidated_data = self.compare_ap_config_with_inputdata(
                 self.have["current_ap_config"])
 
             if not consolidated_data:
-                # Accesspoint does not need update
                 self.msg = "AP - {0} does not need any update"\
                     .format(self.have.get("current_ap_config").get("ap_name"))
                 self.log(self.msg, "INFO")
@@ -921,24 +948,25 @@ class Accesspoint(DnacBase):
 
     def verify_diff_merged(self, config):
         """
-        Verifies whether the configuration changes for an AP have been successfully applied
-            in the Cisco Catalyst Center.
-        Args:
-            - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-            - config (dict): The configuration details to be verified.
-        Return:
-            - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+        Verify if configuration changes for an Access Point (AP) have been successfully applied in Cisco Catalyst Center.
+        Parameters:
+            self (object): An instance of a class for interacting with Cisco Catalyst Center.
+            config (dict): The configuration details to be verified.
+
+        Returns:
+            self (object): Updated instance reflecting verification results.
+
         Description:
-            This method logs the current and desired configuration states and checks if 
-            the AP exists and whether any updates are required. If the configuration is
-            as expected, it logs a success message. Otherwise, it indicates a potential 
-            issue with the merge operation.
+            Checks the current and desired states of the AP configuration in Cisco Catalyst Center.
+            Logs the current and desired configuration states and verifies if the AP exists and
+            whether updates are required. If the configuration matches the desired state,
+            it logs a success message. Otherwise, it indicates a potential issue with the merge operation.
         """
+
         self.get_have(config)
         self.log("Current AP Config (have): {0}".format(str(self.have)), "INFO")
         self.log("Desired AP Config (want): {0}".format(str(self.want)), "INFO")
 
-        # Code to validate dnac config for merged state
         ap_exists  = self.have.get("ap_exists")
         ap_name = self.have.get("current_ap_config").get("ap_name")
 
@@ -996,20 +1024,22 @@ class Accesspoint(DnacBase):
 
     def validate_radio_series(self, ap_config):
         """
-        Addtional validation for checking given input radio configuration data
-        series able to update to the access point radio configuration.
+        Additional validation to check if the provided input radio configuration data series can be updated
+        to the Access Point radio configuration in Cisco Catalyst Center.
+
         Parameters:
-          - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-          - ap_config (dict): A dictionary containing the input configuration details.
+            self (object): An instance of a class for interacting with Cisco Catalyst Center.
+            ap_config (dict): Dictionary containing the input configuration details.
+
         Returns:
-          The method returns invalid radio interface with details:
-                - invalid_series: Invalid radio interface and details of supported model.
+            list: List of invalid radio interfaces with details.
+
         Description:
-            Example:
-                To use this method, create an instance of the class and call
-                'validate_ap_config_parameters' on it. If the validation succeeds it return
-                empty list else return with invalide message.
+            Iterates through available radio interfaces and checks if the Access Point series supports
+            the specified radio type. If not supported, adds details to the 'invalid_series' list.
+            Returns the list of invalid radio interfaces for further action or validation.
         """
+
         invalid_series = []
         for each_series in self.radio_interface:
             if ap_config.get(each_series):
@@ -1030,26 +1060,31 @@ class Accesspoint(DnacBase):
 
     def validate_ap_config_parameters(self, ap_config):
         """
-        Addtional validation for the update API AP configuration payload.
+        Additional validation for the update API AP configuration, AP provisioning, and re-provisioning payload.
+
         Parameters:
-          - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-          - ap_config (dict): A dictionary containing the input configuration details.
+        - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+        - ap_config (dict): A dictionary containing the input configuration details.
+
         Returns:
-          The method returns an instance of the class with updated attributes:
-                - self.msg: A message describing the validation result.
-                - self.status: The status of the validation (either 'success' or 'failed').
+        An instance of the class with updated attributes:
+            - self.msg (str): A message describing the validation result.
+            - self.status (str): The status of the validation ('success' or 'failed').
+
         Description:
-            Example:
-                To use this method, create an instance of the class and call 
-                'validate_ap_config_parameters' on it. If the validation succeeds it return 'success'.
-                If it fails, 'self.status' will be 'failed', and
-                'self.msg' will describe the validation issues.To use this method, create an
-                instance of the class and call 'validate_ap_config_parameters' on it.
-                If the validation succeeds, this will allow to go next step, 
-                unless this will stop execution based on the fields.
+        This method validates various parameters in the AP configuration, AP provisioning, and re-provisioning
+        provided by the playbook. It checks and logs errors for fields such as MAC address validity, IP address formats,
+        string lengths, and specific values for fields like LED status and radio settings.
+
+        Example:
+        To use this method, create an instance of the class and call 'validate_ap_config_parameters'
+        on it. If validation succeeds, 'self.status' will be 'success'. If it fails, 'self.status'
+        will be 'failed', and 'self.msg' will describe the validation issues.
         """
+
         errormsg = []
         invalid_series = self.validate_radio_series(ap_config)
+
         if len(invalid_series) > 0:
             errormsg.append(invalid_series)
 
@@ -1282,6 +1317,26 @@ class Accesspoint(DnacBase):
         return self
 
     def check_current_radio_role_assignment(self, radio_type, radio_dtos):
+        """
+        Check the current radio role assignment based on radio type and DTOs.
+
+        Parameters:
+        - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+        - radio_type (str): Type of radio ("2.4ghz_radio", "5ghz_radio", or "6ghz_radio").
+        - radio_dtos (list): List of radio data transfer objects containing slot IDs and role assignments.
+
+        Returns:
+        - str: Current radio role assignment corresponding to the specified radio type.
+
+        Description:
+        This method iterates through the provided list of radio DTOS to find and return the radio role assignment
+        based on the specified radio type (2.4 GHz, 5 GHz, or 6 GHz).
+
+        Example:
+        To check the current radio role assignment for the 5 GHz radio, call this method with '5ghz_radio'
+        as 'radio_type' and the list of radio DTOS.
+        """
+
         for each_dto in radio_dtos:
             if radio_type == "2.4ghz_radio" and "_"+ str(each_dto["slot_id"]) == "_"+str(0):
                 return each_dto["radio_role_assignment"]
@@ -1290,33 +1345,33 @@ class Accesspoint(DnacBase):
             elif radio_type == "6ghz_radio" and "_"+ str(each_dto["slot_id"]) == "_"+str(2):
                 return each_dto["radio_role_assignment"]
 
-    def get_accesspoint_details(self, input_config):
+    def get_devices_details(self, input_config):
         """
-        Retrieves the current details of an access point in Cisco Catalyst Center.
+        Retrieves the current details of an device in Cisco Catalyst Center.
 
         Parameters:
-          - self (object): An instance of the class containing the method.
-          - input_config (dict): A dictionary containing the input configuration details.
+        - self (object): An instance of the class containing the method.
+        - input_config (dict): A dictionary containing the input configuration details.
+
         Returns:
-            A tuple containing a boolean indicating if the access point exists and a
-            dictionary of the current inventry details based on the input given from
-            playbook either mac_address or management_ip_address or hostname
-            (
-                True
-                {
-                    "ap_name": "NFW-AP1-9130AXE",
-                    "eth_mac": "34:5d:a8:0e:20:b4",
-                    "led_brightnessLevel": 3,
-                    "led_status": "Enabled",
-                    "location": "LTTS",
-                    "mac_address": "90:e9:5e:03:f3:40"
-                }
-            )
+        A tuple containing a boolean indicating if the device exists and a
+        dictionary of the current inventory details based on the input given from
+        playbook either mac_address or management_ip_address or hostname
+        (
+            True,
+            {
+                "ap_name": "NFW-AP1-9130AXE",
+                "eth_mac": "34:5d:a8:0e:20:b4",
+                "led_brightnessLevel": 3,
+                "led_status": "Enabled",
+                "location": "LTTS",
+                "mac_address": "90:e9:5e:03:f3:40"
+            }
+        )
+
         Description:
-            Queries the Cisco Catalyst Center for the existence of an Access Point
-            using the provided input configuration details such as MAC address,
-            management IP address, or hostname. If found, it retrieves the current
-            Access Point details and returns it.
+        Retrieve device details from Cisco Catalyst Center using provided MAC address, management IP, or hostname.
+        If found, return current device details; otherwise, log errors and fail the function.
         """
         accesspoint_exists = False
         current_configuration = {}
@@ -1368,13 +1423,13 @@ class Accesspoint(DnacBase):
 
     def get_current_config(self, input_config):
         """
-        Retrieves the current configuration of an access point in Cisco Catalyst Center.
+        Retrieves the current configuration of an access point and site releated details from Cisco Catalyst Center.
 
         Parameters:
           - self (object): An instance of the class containing the method.
           - input_config (dict): A dictionary containing the input configuration details.
         Returns:
-            A tuple containing a boolean indicating if the access point exists and a
+            A tuple containing a boolean indicating if the access point and site exists and a
             dictionary of the current configuration based on the input given from
             playbook either mac_address or management_ip_address or hostname
             (
@@ -1397,7 +1452,7 @@ class Accesspoint(DnacBase):
         accesspoint_exists = False
         current_configuration = {}
 
-        accesspoint_exists, current_configuration = self.get_accesspoint_details(
+        accesspoint_exists, current_configuration = self.get_devices_details(
             input_config)
         if input_config.get("site"):
             site_exists, current_site = self.site_exists(input_config)
@@ -1406,9 +1461,9 @@ class Accesspoint(DnacBase):
                 self.payload["current_site"] = current_site
                 self.payload["site_changes"] = self.get_site_device(current_site["site_id"],
                                     current_configuration["mac_address"])
-                provion_status, wlc_details = self.verify_ap_provision(
+                provision_status, wlc_details = self.verify_ap_provision(
                     current_configuration["associated_wlc_ip"])
-                self.payload["wlc_provision_status"] = provion_status
+                self.payload["wlc_provision_status"] = provision_status
 
         if accesspoint_exists:
             self.payload["access_point_details"] = current_configuration
@@ -1472,15 +1527,18 @@ class Accesspoint(DnacBase):
 
     def site_exists(self, input_config):
         """
-        Checks if the site and destination site exist in Cisco Catalyst Center and retrieves
-        current site details if they exist.
-        Args:
-            site_type (str): The key to retrieve the site name from the want dictionary.
-            dest_site_type (str): The key to retrieve the destination site name from
-            the want dictionary.
+        Checks if the site exists in Cisco Catalyst Center and retrieves current site details if they exist.
+
+        Parameters:
+        - self (object): An instance of the class containing the method.
+        - input_config (dict): A dictionary containing the input configuration details.
+
         Returns:
-            dict: A dictionary containing the existence and details of the main site and
-            destination site.
+        A tuple containing a boolean indicating if the site exists and a dictionary of the current site details.
+
+        Description:
+        Checks the existence of a site in Cisco Catalyst Center using the provided site details from the input configuration.
+        If the site is found, returns current site details; otherwise, logs errors and fails the function.
         """
         site_exists = False
         name = None
@@ -1545,8 +1603,7 @@ class Accesspoint(DnacBase):
             ap_mac_address (str): The MAC address of the Access Point (AP) device to check.
 
         Returns:
-            tuple: A tuple containing a boolean indicating success or failure of the operation,
-                and an optional dictionary or list of retrieved device information.
+            bool: True if the AP MAC address is found in the site's devices, otherwise False.
 
         Description:
             This method utilizes the 'get_membership' API to retrieve details about devices
@@ -1554,19 +1611,8 @@ class Accesspoint(DnacBase):
             'ap_mac_address' is among the devices retrieved for the site. If found, it logs a
             success message indicating presence; otherwise, it logs a failure message.
 
-            If successful, the method returns a tuple (True, ...), indicating the device was found
-            in the site. If unsuccessful or if the device is not found, it returns (False, ...).
-
-            Example log messages:
-            - "Device with MAC address: <ap_mac_address> found in site: <site_id>, Proceeding with
-               ap_site updation."
-            - "Device with MAC address: <ap_mac_address> not found in site: <site_id>"
-
-            Logging levels used:
-            - DEBUG for logging API response details.
-            - INFO for logging device presence or absence.
-            - ERROR for logging any exceptions encountered during API interaction.
-
+            If the AP MAC address is found in the site, the method returns True. If the device is
+            not found or if an error occurs during the API call, it returns False.
         """
         try:
             response = self.dnac._exec(
@@ -1600,9 +1646,21 @@ class Accesspoint(DnacBase):
     def verify_ap_provision(self, wlc_ip_address):
         """
         Verifies if the AP (device) is provisioned.
+
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            wlc_ip_address (str): The management IP address of the Wireless LAN Controller (WLC).
+
         Returns:
-            self: Returns the instance itself.
+            tuple: A tuple containing the provisioning status ("success" or "failed") and
+            the provisioning details or error message.
+
+        Description:
+            Checks if the WLC specified by the management IP address is provisioned.
+            Returns "success" and details if provisioned, otherwise logs an error
+            and returns "failed" with error details.
         """
+
         provision_status = "failed"
         provision_details = None
         device_management_ip_address = wlc_ip_address
@@ -1676,9 +1734,20 @@ class Accesspoint(DnacBase):
     def provision_device(self):
         """
         Provisions a device (AP) to a specific site.
+
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+
         Returns:
-            dict: Returns a dictionary with status and result message.
+            tuple: A tuple containing the provisioning status ("SUCCESS" or "failed") and
+            the provisioning details or error message.
+
+        Description:
+            Provisions an Access Point (AP) to a specified site using the provided
+            site name hierarchy, RF profile, hostname, and AP type. Logs details
+            and handles 
         """
+
         provision_status = "failed"
         provision_details = None
         try:
@@ -1738,9 +1807,23 @@ class Accesspoint(DnacBase):
 
     def compare_radio_config(self, current_radio, want_radio):
         """
-        This function used to compare current radio config with input radio
-        config and retrun unmatched value in dict.
+        Compares the current radio configuration with the desired radio configuration and
+        returns a dictionary of unmatched values.
+
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            current_radio (dict): A dictionary containing the current radio configuration.
+            want_radio (dict): A dictionary containing the desired radio configuration.
+
+        Returns:
+            dict: A dictionary of unmatched configuration values.
+
+        Description:
+            This function checks the current radio configuration against the desired
+            configuration for specific keys based on the radio slot ID. If discrepancies
+            are found, they are collected and returned in a dictionary.
         """
+
         available_key = {
             "_0": ("admin_status", "antenna_gain", "antenna_name", "radio_role_assignment",
                   "power_assignment_mode", "powerlevel", "channel_assignment_mode",
@@ -1787,23 +1870,14 @@ class Accesspoint(DnacBase):
         """
         Compares the desired AP configuration with the current configuration and identifies
         changes.
+
         Parameters:
-            - ap_config: Response of the get_have containing the current AP configuration.
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            current_ap_config (dict): A dictionary containing the current AP configuration.
+
         Returns:
-            This will be the return the final data for update AP detail.
-            dict: Configuration updates needed to match the desired AP configuration.
-            "final_input": [
-                {
-                    "adminStatus": true,
-                    "apList": [
-                        {
-                            "macAddress": "34:5d:a8:0e:20:b4"
-                        }
-                    ],
-                    "configureLedBrightnessLevel": true,
-                    "ledBrightnessLevel": 4,
-                    "macAddress": "34:5d:a8:0e:20:b4"
-                } ]
+            dict: A dictionary with configuration updates needed to match the desired AP configuration.
+
         Example:
             functions = Accesspoint(module)
             final_input_data = functions.compare_ap_config_with_inputdata(current_ap_config)
@@ -1902,22 +1976,19 @@ class Accesspoint(DnacBase):
     def update_ap_configuration(self, ap_config):
         """
         Updates the Access Point (AP) configuration based on the provided device data.
+
         Parameters:
-              - ap_config: Final input config data response from compare_ap_config_with_inputdata
-              - dict: A dictionary containing the task ID and URL from the update response.
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            ap_config (dict): Final input config data response from compare_ap_config_with_inputdata.
+
         Returns:
-            {
-                "mac_address": "string",
-                "response": {
-                    "taskId": "string",
-                    "url": "string"
-                },
-                "version": "string"
-            }
+            dict: A dictionary containing the task ID and URL from the update response.
+
         Example:
             functions = Accesspoint(module)
             final_input_data = functions.update_ap_configuration(ap_config)
         """
+
         self.log("Updating access point configuration information: {0}"\
                     .format(ap_config[self.keymap["mac_address"]]), "INFO")
         ap_config["adminStatus"] = True
@@ -2110,18 +2181,14 @@ class Accesspoint(DnacBase):
     def data_frame(self, fields_to_include=None, records=list):
         """
         Filters the input data to include only the specified fields.
+
         Parameters:
-           - fieldlist (str): Comma-separated string of keys to display.
-           - records (list of dict): A list of dictionaries with only the specified fields.
+            fields_to_include (str): Comma-separated string of keys to display.
+            records (list of dict): A list of dictionaries with only the specified fields.
+
         Returns:
-            {
-                "family": "Unified AP",
-                "hostname": "LTTS-Test2",
-                "id": "34f5a410-413d-4a6c-b195-8267fd599491",
-                "last_updated": "2024-06-05 13:06:24",
-                "mac_address": "34:5d:a8:3b:d8:e0",
-                "up_time": "7 days, 13:07:00.020"
-            }
+            list: A list of dictionaries containing filtered records.
+
         Example:
             functions = Accesspoint(module)
             final_input_data = functions.data_frame(ap_selected_fields, device_records)
@@ -2155,22 +2222,19 @@ class Accesspoint(DnacBase):
     def map_config_key_to_api_param(self, keymap=any, data=any):
         """
         Converts keys in a dictionary from CamelCase to snake_case and creates a keymap.
+        
         Parameters:
-          - keymap: type Dict : Already any Key map dict was available add here or empty dict.{}
-          - data: Type :Dict : Which key need do the key map use the data {}
-            eg: Device list response or AP config response as a input
-          - dict: A dictionary with the original keys as values and the converted snake_case keys as keys.
+            keymap (dict): Already existing key map dictionary to add to or empty dict {}.
+            data (dict): Input data where keys need to be mapped using the key map.
+            
         Returns:
-            {
-                {
-                    "mac_address": "macAddress",
-                    "ap_name": "apName"
-                }
-            }
+            dict: A dictionary with the original keys as values and the converted snake_case keys as keys.
+            
         Example:
             functions = Accesspoint(module)
-            keymap = functions.map_config_key_to_api_param(keymap,device_data)
+            keymap = functions.map_config_key_to_api_param(keymap, device_data)
         """
+
         if keymap is None:
            keymap = {}
 
@@ -2198,12 +2262,13 @@ class Accesspoint(DnacBase):
 
     def pprint(self, jsondata):
         """
-        To print the json/dict data to the readable format
+        Pretty prints JSON/dictionary data in a readable format.
+        
         Parameters:
-            jsondata (dict) - Any dictonary data received from dict variable.
-
+            jsondata (dict): Dictionary data to be printed.
+            
         Returns:
-            new_config (str) - readable json response.
+            str: Formatted JSON string.
         """
         return json.dumps(jsondata, indent=4, separators=(',',': '))
 
@@ -2212,10 +2277,10 @@ class Accesspoint(DnacBase):
         Convert camel case keys to snake case keys in the config.
 
         Parameters:
-            config (list) - Playbook details provided by the user.
+            config (dict or list): Configuration data to be transformed.
 
         Returns:
-            new_config (list) - Updated config after eliminating the camel cases.
+            dict or list: Updated config with snake_case keys.
         """
 
         if isinstance(config, dict):
@@ -2235,7 +2300,6 @@ class Accesspoint(DnacBase):
 def main():
     """ main entry point for module execution
     """
-    # Basic Ansible type check or assign default.
     accepoint_spec = {'dnac_host': {'required': True, 'type': 'str'},
                     'dnac_port': {'type': 'str', 'default': '443'},
                     'dnac_username': {'type': 'str', 'default': 'admin'},
