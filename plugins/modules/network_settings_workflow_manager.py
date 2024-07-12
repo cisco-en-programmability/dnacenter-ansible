@@ -771,7 +771,6 @@ class NetworkSettings(DnacBase):
                         "secondary_server_address": {"type": 'string'},
                         "protocol": {"type": 'string', "choices": ["RADIUS", "TACACS"]},
                         "shared_secret": {"type": 'string'}
-
                     },
                     "client_and_endpoint_aaa": {
                         "type": 'dict',
@@ -1067,12 +1066,13 @@ class NetworkSettings(DnacBase):
         network_aaa = get_dict_result(all_network_details, "key", "aaa.network.server.1")
         network_aaa2 = get_dict_result(all_network_details, "key", "aaa.network.server.2")
         network_aaa_pan = get_dict_result(all_network_details, "key", "aaa.server.pan.network")
-        clientAndEndpoint_aaa = get_dict_result(all_network_details, "key", "aaa.endpoint.server.1")
-        clientAndEndpoint_aaa2 = get_dict_result(all_network_details,
-                                                 "key",
-                                                 "aaa.endpoint.server.2")
-        clientAndEndpoint_aaa_pan = \
-            get_dict_result(all_network_details, "key", "aaa.server.pan.endpoint")
+        client_and_endpoint_aaa = get_dict_result(all_network_details, "key", "aaa.endpoint.server.1")
+        client_and_endpoint_aaa2 = get_dict_result(all_network_details,
+                                                   "key",
+                                                   "aaa.endpoint.server.2")
+        client_and_endpoint_aaa_pan = get_dict_result(all_network_details,
+                                                      "key",
+                                                      "aaa.server.pan.endpoint")
 
         # Prepare the network details for Cisco Catalyst Center configuration
         network_details = {
@@ -1160,15 +1160,15 @@ class NetworkSettings(DnacBase):
                     }
                 })
 
-        if clientAndEndpoint_aaa and clientAndEndpoint_aaa_pan:
-            aaa_pan_value = clientAndEndpoint_aaa_pan.get("value")[0]
-            aaa_value = clientAndEndpoint_aaa.get("value")[0]
+        if client_and_endpoint_aaa and client_and_endpoint_aaa_pan:
+            aaa_pan_value = client_and_endpoint_aaa_pan.get("value")[0]
+            aaa_value = client_and_endpoint_aaa.get("value")[0]
             if aaa_pan_value == "None":
                 network_settings.update({
                     "clientAndEndpoint_aaa": {
                         "network": aaa_value.get("ipAddress"),
                         "protocol": aaa_value.get("protocol"),
-                        "ipAddress": clientAndEndpoint_aaa2.get("value")[0].get("ipAddress"),
+                        "ipAddress": client_and_endpoint_aaa2.get("value")[0].get("ipAddress"),
                         "servers": "AAA"
                     }
                 })
@@ -1856,77 +1856,77 @@ class NetworkSettings(DnacBase):
             else:
                 want_network_settings["timezone"] = "GMT"
 
-            dnsServer = item.get("dns_server")
-            if dnsServer is not None:
-                if dnsServer.get("domain_name") is not None:
+            dns_server = item.get("dns_server")
+            if dns_server is not None:
+                if dns_server.get("domain_name") is not None:
                     want_network_settings.get("dnsServer").update({
                         "domainName":
-                        dnsServer.get("domain_name")
+                        dns_server.get("domain_name")
                     })
 
-                if dnsServer.get("primary_ip_address") is not None:
+                if dns_server.get("primary_ip_address") is not None:
                     want_network_settings.get("dnsServer").update({
                         "primaryIpAddress":
-                        dnsServer.get("primary_ip_address")
+                        dns_server.get("primary_ip_address")
                     })
 
-                if dnsServer.get("secondary_ip_address") is not None:
+                if dns_server.get("secondary_ip_address") is not None:
                     want_network_settings.get("dnsServer").update({
                         "secondaryIpAddress":
-                        dnsServer.get("secondary_ip_address")
+                        dns_server.get("secondary_ip_address")
                     })
             else:
                 del want_network_settings["dnsServer"]
 
-            snmpServer = item.get("snmp_server")
-            if snmpServer is not None:
-                if snmpServer.get("configure_dnac_ip") is not None:
+            snmp_server = item.get("snmp_server")
+            if snmp_server is not None:
+                if snmp_server.get("configure_dnac_ip") is not None:
                     want_network_settings.get("snmpServer").update({
-                        "configureDnacIP": snmpServer.get("configure_dnac_ip")
+                        "configureDnacIP": snmp_server.get("configure_dnac_ip")
                     })
-                if snmpServer.get("ip_addresses") is not None:
+                if snmp_server.get("ip_addresses") is not None:
                     want_network_settings.get("snmpServer").update({
-                        "ipAddresses": snmpServer.get("ip_addresses")
+                        "ipAddresses": snmp_server.get("ip_addresses")
                     })
             else:
                 del want_network_settings["snmpServer"]
 
-            syslogServer = item.get("syslog_server")
-            if syslogServer is not None:
-                if syslogServer.get("configure_dnac_ip") is not None:
+            syslog_server = item.get("syslog_server")
+            if syslog_server is not None:
+                if syslog_server.get("configure_dnac_ip") is not None:
                     want_network_settings.get("syslogServer").update({
-                        "configureDnacIP": syslogServer.get("configure_dnac_ip")
+                        "configureDnacIP": syslog_server.get("configure_dnac_ip")
                     })
-                if syslogServer.get("ip_addresses") is not None:
+                if syslog_server.get("ip_addresses") is not None:
                     want_network_settings.get("syslogServer").update({
-                        "ipAddresses": syslogServer.get("ip_addresses")
+                        "ipAddresses": syslog_server.get("ip_addresses")
                     })
             else:
                 del want_network_settings["syslogServer"]
 
-            netflowcollector = item.get("netflow_collector")
-            if netflowcollector is not None:
-                if netflowcollector.get("ip_address") is not None:
+            netflow_collector = item.get("netflow_collector")
+            if netflow_collector is not None:
+                if netflow_collector.get("ip_address") is not None:
                     want_network_settings.get("netflowcollector").update({
                         "ipAddress":
-                        netflowcollector.get("ip_address")
+                        netflow_collector.get("ip_address")
                     })
-                if netflowcollector.get("port") is not None:
+                if netflow_collector.get("port") is not None:
                     want_network_settings.get("netflowcollector").update({
                         "port":
-                        netflowcollector.get("port")
+                        netflow_collector.get("port")
                     })
             else:
                 del want_network_settings["netflowcollector"]
 
-            messageOfTheday = item.get("message_of_the_day")
-            if messageOfTheday is not None:
-                if messageOfTheday.get("banner_message") is not None:
+            message_of_the_day = item.get("message_of_the_day")
+            if message_of_the_day is not None:
+                if message_of_the_day.get("banner_message") is not None:
                     want_network_settings.get("messageOfTheday").update({
                         "bannerMessage":
-                        messageOfTheday.get("banner_message")
+                        message_of_the_day.get("banner_message")
                     })
-                retain_existing_banner = messageOfTheday.get("retain_existing_banner")
+                retain_existing_banner = message_of_the_day.get("retain_existing_banner")
                 if retain_existing_banner is not None:
                     if retain_existing_banner is True:
                         want_network_settings.get("messageOfTheday").update({
@@ -2008,9 +2008,9 @@ class NetworkSettings(DnacBase):
             else:
                 del want_network_settings["network_aaa"]
 
-            clientAndEndpoint_aaa = item.get("client_and_endpoint_aaa")
-            if clientAndEndpoint_aaa:
-                server_type = clientAndEndpoint_aaa.get("server_type")
+            client_and_endpoint_aaa = item.get("client_and_endpoint_aaa")
+            if client_and_endpoint_aaa:
+                server_type = client_and_endpoint_aaa.get("server_type")
                 if server_type:
                     want_network_settings.get("clientAndEndpoint_aaa").update({
                         "servers": server_type
@@ -2025,7 +2025,7 @@ class NetworkSettings(DnacBase):
                     self.status = "failed"
                     return self
 
-                primary_server_address = clientAndEndpoint_aaa.get("primary_server_address")
+                primary_server_address = client_and_endpoint_aaa.get("primary_server_address")
                 if primary_server_address:
                     want_network_settings.get("clientAndEndpoint_aaa").update({
                         "network": primary_server_address
@@ -2036,7 +2036,7 @@ class NetworkSettings(DnacBase):
                     return self
 
                 if server_type == "ISE":
-                    pan_address = clientAndEndpoint_aaa.get("pan_address")
+                    pan_address = client_and_endpoint_aaa.get("pan_address")
                     if pan_address:
                         want_network_settings.get("clientAndEndpoint_aaa").update({
                             "ipAddress": pan_address
@@ -2046,13 +2046,13 @@ class NetworkSettings(DnacBase):
                         self.status = "failed"
                         return self
                 else:
-                    secondary_server_address = clientAndEndpoint_aaa.get("secondary_server_address")
+                    secondary_server_address = client_and_endpoint_aaa.get("secondary_server_address")
                     if secondary_server_address:
                         want_network_settings.get("clientAndEndpoint_aaa").update({
                             "ipAddress": secondary_server_address
                         })
 
-                protocol = clientAndEndpoint_aaa.get("protocol")
+                protocol = client_and_endpoint_aaa.get("protocol")
                 if protocol:
                     want_network_settings.get("clientAndEndpoint_aaa").update({
                         "protocol": protocol
@@ -2067,7 +2067,7 @@ class NetworkSettings(DnacBase):
                     self.status = "failed"
                     return self
 
-                shared_secret = clientAndEndpoint_aaa.get("shared_secret")
+                shared_secret = client_and_endpoint_aaa.get("shared_secret")
                 if shared_secret:
                     want_network_settings.get("clientAndEndpoint_aaa").update({
                         "sharedSecret": shared_secret
