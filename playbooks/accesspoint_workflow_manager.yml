@@ -16,6 +16,7 @@
         dnac_version: "{{ dnac_version }}"
         dnac_debug: "{{ dnac_debug }}"
         dnac_log: True
+        force_sync: False
         dnac_log_level: DEBUG
         config_verify: True
         state: merged
