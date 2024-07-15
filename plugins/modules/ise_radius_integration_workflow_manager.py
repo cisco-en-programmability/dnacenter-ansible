@@ -1537,7 +1537,7 @@ class IseRadiusIntegration(DnacBase):
             auth_server_want = self.want.get("authenticationPolicyServer")
             auth_server_index = 0
             total_item_in_config = len(config)
-            while(auth_server_index < total_item_in_config):
+            while auth_server_index < total_item_in_config:
                 for value in check_list:
                     if auth_server_have[auth_server_index].get("details").get(value) and auth_server_want[auth_server_index].get(value) and \
                             auth_server_have[auth_server_index].get("details").get(value) != auth_server_want[auth_server_index].get(value):
