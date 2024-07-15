@@ -1658,11 +1658,10 @@ class Events(DnacBase):
             self.status = "failed"
             error_messages = response.get('errorMessage')
             if error_messages:
-                failure_msg = error_messages.get('errors')
+                self.msg = error_messages.get('errors')
             else:
-                failure_msg = "Unable to Add SNMP destination with name '{0}' in Cisco Catalyst Center".format(snmp_params.get('name'))
+                self.msg = "Unable to Add SNMP destination with name '{0}' in Cisco Catalyst Center".format(snmp_params.get('name'))
 
-            self.msg = failure_msg
             self.log(self.msg, "ERROR")
             self.result['response'] = self.msg
 
@@ -1780,11 +1779,10 @@ class Events(DnacBase):
             self.status = "failed"
             error_messages = response.get('errorMessage')
             if error_messages:
-                failure_msg = error_messages.get('errors')
+                self.msg = error_messages.get('errors')
             else:
-                failure_msg = "Unable to update SNMP destination with name '{0}' in Cisco Catalyst Center".format(update_snmp_params.get('name'))
+                self.msg = "Unable to update SNMP destination with name '{0}' in Cisco Catalyst Center".format(update_snmp_params.get('name'))
 
-            self.msg = failure_msg
             self.log(self.msg, "ERROR")
             self.result['response'] = self.msg
 
@@ -1925,11 +1923,10 @@ class Events(DnacBase):
             self.status = "failed"
             error_messages = response.get('errorMessage')
             if error_messages:
-                failure_msg = error_messages.get('errors')
+                self.msg = error_messages.get('errors')
             else:
-                failure_msg = "Unable to Add Webhook destination with name '{0}' in Cisco Catalyst Center".format(webhook_params.get('name'))
+                self.msg = "Unable to Add Webhook destination with name '{0}' in Cisco Catalyst Center".format(webhook_params.get('name'))
 
-            self.msg = failure_msg
             self.log(self.msg, "ERROR")
             self.result['response'] = self.msg
 
@@ -2063,11 +2060,10 @@ class Events(DnacBase):
             error_messages = response.get('errorMessage')
 
             if error_messages:
-                failure_msg = error_messages.get('errors')
+                self.msg = error_messages.get('errors')
             else:
-                failure_msg = "Unable to update rest webhook destination with name '{0}' in Cisco Catalyst Center".format(name)
+                self.msg = "Unable to update rest webhook destination with name '{0}' in Cisco Catalyst Center".format(name)
 
-            self.msg = failure_msg
             self.log(self.msg, "ERROR")
             self.result['response'] = self.msg
 
@@ -2218,11 +2214,10 @@ class Events(DnacBase):
             error_messages = response.get('errorMessage')
 
             if error_messages:
-                failure_msg = error_messages.get('errors')
+                self.msg = error_messages.get('errors')
             else:
-                failure_msg = "Unable to Add Email destination in Cisco Catalyst Center."
+                self.msg = "Unable to Add Email destination in Cisco Catalyst Center."
 
-            self.msg = failure_msg
             self.log(self.msg, "ERROR")
             self.result['response'] = self.msg
 
@@ -2319,11 +2314,10 @@ class Events(DnacBase):
             error_messages = status_response.get('errorMessage')
 
             if error_messages:
-                failure_msg = error_messages.get('errors')
+                self.msg = error_messages.get('errors')
             else:
-                failure_msg = "Unable to update Email destination in Cisco Catalyst Center."
+                self.msg = "Unable to update Email destination in Cisco Catalyst Center."
 
-            self.msg = failure_msg
             self.log(self.msg, "ERROR")
             self.result['response'] = self.msg
 
@@ -3200,12 +3194,12 @@ class Events(DnacBase):
             error_messages = status_response.get('errorMessage')
 
             if error_messages:
-                failure_msg = error_messages.get('errors')
+                self.msg = error_messages.get('errors')
             else:
-                failure_msg = "Unable to add Syslog Event Notification '{0}' in Cisco Catalyst Center.".format(notification_name)
+                self.msg = "Unable to add Syslog Event Notification '{0}' in Cisco Catalyst Center.".format(notification_name)
 
-            self.log(failure_msg, "ERROR")
-            self.result['response'] = failure_msg
+            self.log(self.msg, "ERROR")
+            self.result['response'] = self.msg
 
         except Exception as e:
             self.status = "failed"
@@ -3445,12 +3439,12 @@ class Events(DnacBase):
             error_messages = status_response.get('errorMessage')
 
             if error_messages:
-                failure_msg = error_messages.get('errors')
+                self.msg = error_messages.get('errors')
             else:
-                failure_msg = "Unable to update Syslog Event Notification '{0}' in Cisco Catalyst Center.".format(name)
+                self.msg = "Unable to update Syslog Event Notification '{0}' in Cisco Catalyst Center.".format(name)
 
-            self.log(failure_msg, "ERROR")
-            self.result['response'] = failure_msg
+            self.log(self.msg, "ERROR")
+            self.result['response'] = self.msg
 
         except Exception as e:
             self.status = "failed"
@@ -3746,12 +3740,12 @@ class Events(DnacBase):
             error_messages = status_response.get('errorMessage')
 
             if error_messages:
-                failure_msg = error_messages.get('errors')
+                self.msg = error_messages.get('errors')
             else:
-                failure_msg = "Unable to add Webhook Events Subscription Notification '{0}' in Cisco Catalyst Center.".format(notification_name)
+                self.msg = "Unable to add Webhook Events Subscription Notification '{0}' in Cisco Catalyst Center.".format(notification_name)
 
-            self.log(failure_msg, "ERROR")
-            self.result['response'] = failure_msg
+            self.log(self.msg, "ERROR")
+            self.result['response'] = self.msg
 
         except Exception as e:
             self.status = "failed"
@@ -3880,12 +3874,12 @@ class Events(DnacBase):
             error_messages = status_response.get('errorMessage')
 
             if error_messages:
-                failure_msg = error_messages.get('errors')
+                self.msg = error_messages.get('errors')
             else:
-                failure_msg = "Unable to update webhook Event Subscription Notification '{0}' in Cisco Catalyst Center.".format(name)
+                self.msg = "Unable to update webhook Event Subscription Notification '{0}' in Cisco Catalyst Center.".format(name)
 
-            self.log(failure_msg, "ERROR")
-            self.result['response'] = failure_msg
+            self.log(self.msg, "ERROR")
+            self.result['response'] = self.msg
 
         except Exception as e:
             self.status = "failed"
@@ -4239,12 +4233,12 @@ class Events(DnacBase):
             error_messages = status_response.get('errorMessage')
 
             if error_messages:
-                failure_msg = error_messages.get('errors')
+                self.msg = error_messages.get('errors')
             else:
-                failure_msg = "Unable to add Email Events Subscription Notification '{0}' in Cisco Catalyst Center.".format(notification_name)
+                self.msg = "Unable to add Email Events Subscription Notification '{0}' in Cisco Catalyst Center.".format(notification_name)
 
-            self.log(failure_msg, "ERROR")
-            self.result['response'] = failure_msg
+            self.log(self.msg, "ERROR")
+            self.result['response'] = self.msg
 
         except Exception as e:
             self.status = "failed"
@@ -4414,13 +4408,12 @@ class Events(DnacBase):
             error_messages = status_response.get('errorMessage')
 
             if error_messages:
-                failure_msg = error_messages.get('errors')
+                self.msg = error_messages.get('errors')
             else:
-                failure_msg = "Unable to update Email Event Subscription Notification '{0}' in Cisco Catalyst Center.".format(name)
+                self.msg = "Unable to update Email Event Subscription Notification '{0}' in Cisco Catalyst Center.".format(name)
 
-            self.log(failure_msg, "ERROR")
-            self.result['response'] = failure_msg
-            self.msg = failure_msg
+            self.log(self.msg, "ERROR")
+            self.result['response'] = self.msg
 
         except Exception as e:
             self.status = "failed"
@@ -4471,13 +4464,12 @@ class Events(DnacBase):
             error_messages = status_response.get('errorMessage')
 
             if error_messages:
-                failure_msg = error_messages.get('errors')
+                self.msg = error_messages.get('errors')
             else:
-                failure_msg = "Unable to delete Event Subscription Notification '{0}' from Cisco Catalyst Center.".format(subscription_name)
+                self.msg = "Unable to delete Event Subscription Notification '{0}' from Cisco Catalyst Center.".format(subscription_name)
 
-            self.log(failure_msg, "ERROR")
-            self.result['response'] = failure_msg
-            self.msg = failure_msg
+            self.log(self.msg, "ERROR")
+            self.result['response'] = self.msg
         except Exception as e:
             self.status = "failed"
             self.msg = "Exception occurred while deleting Event Subscription Notification '{0}' due to: {1}".format(subscription_name, str(e))
