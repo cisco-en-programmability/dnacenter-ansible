@@ -20,7 +20,7 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.5.5
+- dnacentersdk >= 2.7.1
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Security Advisories GetAdvisoriesList
@@ -49,7 +49,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
@@ -57,21 +56,20 @@ dnac_response:
   type: dict
   sample: >
     {
-      "response": [
-        {
-          "advisoryId": "string",
-          "deviceCount": 0,
-          "hiddenDeviceCount": 0,
-          "cves": [
-            "string"
-          ],
-          "publicationUrl": "string",
-          "sir": "string",
-          "detectionType": "string",
-          "defaultDetectionType": "string",
-          "defaultConfigMatchPattern": "string"
-        }
-      ],
+      "response": {
+        "advisoryId": "string",
+        "deviceCount": 0,
+        "hiddenDeviceCount": 0,
+        "cves": [
+          "string"
+        ],
+        "publicationUrl": "string",
+        "sir": "string",
+        "detectionType": "string",
+        "defaultDetectionType": "string",
+        "defaultConfigMatchPattern": "string",
+        "fixedVersions": {}
+      },
       "version": "string"
     }
 """

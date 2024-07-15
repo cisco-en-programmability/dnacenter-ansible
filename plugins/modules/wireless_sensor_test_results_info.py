@@ -26,17 +26,19 @@ options:
   startTime:
     description:
     - StartTime query parameter. The epoch time in milliseconds.
-    type: int
+    type: float
   endTime:
     description:
     - EndTime query parameter. The epoch time in milliseconds.
-    type: int
+    type: float
   testFailureBy:
     description:
-    - TestFailureBy query parameter. Obtain failure statistics group by "area", "building", or "floor".
+    - >
+      TestFailureBy query parameter. Obtain failure statistics group by "area", "building", or "floor" (case
+      insensitive).
     type: str
 requirements:
-- dnacentersdk >= 2.5.5
+- dnacentersdk >= 2.7.1
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Wireless SensorTestResults
@@ -69,7 +71,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
@@ -77,72 +78,75 @@ dnac_response:
   type: dict
   sample: >
     {
-      "summary": {
-        "totalTestCount": 0,
-        "ONBOARDING": {
-          "AUTH": {
-            "passCount": 0,
-            "failCount": 0
+      "version": "string",
+      "response": {
+        "summary": {
+          "totalTestCount": 0,
+          "ONBOARDING": {
+            "AUTH": {
+              "passCount": 0,
+              "failCount": 0
+            },
+            "DHCP": {
+              "passCount": 0,
+              "failCount": 0
+            },
+            "ASSOC": {
+              "passCount": 0,
+              "failCount": 0
+            }
           },
-          "DHCP": {
-            "passCount": 0,
-            "failCount": 0
+          "PERFORMANCE": {
+            "IPSLASENDER": {
+              "passCount": 0,
+              "failCount": 0
+            }
           },
-          "ASSOC": {
-            "passCount": 0,
-            "failCount": 0
+          "NETWORK_SERVICES": {
+            "DNS": {
+              "passCount": 0,
+              "failCount": 0
+            }
+          },
+          "APP_CONNECTIVITY": {
+            "HOST_REACHABILITY": {
+              "passCount": 0,
+              "failCount": 0
+            },
+            "WEBSERVER": {
+              "passCount": 0,
+              "failCount": 0
+            },
+            "FILETRANSFER": {
+              "passCount": 0,
+              "failCount": 0
+            }
+          },
+          "RF_ASSESSMENT": {
+            "DATA_RATE": {
+              "passCount": 0,
+              "failCount": 0
+            },
+            "SNR": {
+              "passCount": 0,
+              "failCount": 0
+            }
+          },
+          "EMAIL": {
+            "MAILSERVER": {
+              "passCount": 0,
+              "failCount": 0
+            }
           }
         },
-        "PERFORMANCE": {
-          "IPSLASENDER": {
-            "passCount": 0,
-            "failCount": 0
+        "failureStats": [
+          {
+            "errorCode": 0,
+            "errorTitle": "string",
+            "testType": "string",
+            "testCategory": "string"
           }
-        },
-        "NETWORK_SERVICES": {
-          "DNS": {
-            "passCount": 0,
-            "failCount": 0
-          }
-        },
-        "APP_CONNECTIVITY": {
-          "HOST_REACHABILITY": {
-            "passCount": 0,
-            "failCount": 0
-          },
-          "WEBSERVER": {
-            "passCount": 0,
-            "failCount": 0
-          },
-          "FILETRANSFER": {
-            "passCount": 0,
-            "failCount": 0
-          }
-        },
-        "RF_ASSESSMENT": {
-          "DATA_RATE": {
-            "passCount": 0,
-            "failCount": 0
-          },
-          "SNR": {
-            "passCount": 0,
-            "failCount": 0
-          }
-        },
-        "EMAIL": {
-          "MAILSERVER": {
-            "passCount": 0,
-            "failCount": 0
-          }
-        }
-      },
-      "failureStats": [
-        {
-          "errorCode": 0,
-          "errorTitle": "string",
-          "testType": "string",
-          "testCategory": "string"
-        }
-      ]
+        ]
+      }
     }
 """

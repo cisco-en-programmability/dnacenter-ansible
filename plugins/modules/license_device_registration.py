@@ -24,15 +24,15 @@ options:
     description: Virtual_account_name path parameter. Name of virtual account.
     type: str
 requirements:
-- dnacentersdk >= 2.5.5
+- dnacentersdk >= 2.7.1
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Licenses DeviceRegistration2
-  description: Complete reference of the DeviceRegistration2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!device-registration-2
+- name: Cisco DNA Center documentation for Licenses DeviceRegistration
+  description: Complete reference of the DeviceRegistration API.
+  link: https://developer.cisco.com/docs/dna-center/#!device-registration
 notes:
   - SDK Method used are
-    licenses.Licenses.device_registration2,
+    licenses.Licenses.device_registration,
 
   - Paths used are
     put /dna/intent/api/v1/licenses/smartAccount/virtualAccount/{virtual_account_name}/register,
@@ -54,7 +54,6 @@ EXAMPLES = r"""
     virtual_account_name: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

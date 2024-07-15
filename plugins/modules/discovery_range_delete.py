@@ -17,13 +17,14 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   recordsToDelete:
-    description: RecordsToDelete path parameter. Number of records to delete.
+    description: RecordsToDelete path parameter. Number of records to delete from the
+      starting index.
     type: int
   startIndex:
-    description: StartIndex path parameter. Start index.
+    description: StartIndex path parameter. Starting index for the records.
     type: int
 requirements:
-- dnacentersdk >= 2.5.5
+- dnacentersdk >= 2.7.1
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Discovery DeleteDiscoveryBySpecifiedRange
@@ -52,7 +53,6 @@ EXAMPLES = r"""
     startIndex: 0
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

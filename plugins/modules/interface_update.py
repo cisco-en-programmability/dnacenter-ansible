@@ -19,7 +19,7 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   adminStatus:
-    description: Admin Status.
+    description: Admin status as ('UP'/'DOWN').
     type: str
   deploymentMode:
     description: DeploymentMode query parameter. Preview/Deploy 'Preview' means the
@@ -27,19 +27,19 @@ options:
       to the device.
     type: str
   description:
-    description: Description.
+    description: Description for the Interface.
     type: str
   interfaceUuid:
     description: InterfaceUuid path parameter. Interface ID.
     type: str
   vlanId:
-    description: Vlan Id.
+    description: VLAN Id to be Updated.
     type: int
   voiceVlanId:
-    description: Voice Vlan Id.
+    description: Voice Vlan Id to be Updated.
     type: int
 requirements:
-- dnacentersdk >= 2.5.5
+- dnacentersdk >= 2.7.1
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Devices UpdateInterfaceDetails
@@ -72,7 +72,6 @@ EXAMPLES = r"""
     voiceVlanId: 0
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

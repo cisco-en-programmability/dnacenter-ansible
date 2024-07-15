@@ -26,8 +26,11 @@ argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
     siteId=dict(type="str"),
-    offset=dict(type="int"),
-    limit=dict(type="int"),
+    offset=dict(type="float"),
+    limit=dict(type="float"),
+    ignoreInheritedGroups=dict(type="str"),
+    poolUsage=dict(type="str"),
+    groupName=dict(type="str"),
     headers=dict(type="dict"),
 ))
 
@@ -69,6 +72,9 @@ class ActionModule(ActionBase):
             site_id=params.get("siteId"),
             offset=params.get("offset"),
             limit=params.get("limit"),
+            ignore_inherited_groups=params.get("ignoreInheritedGroups"),
+            pool_usage=params.get("poolUsage"),
+            group_name=params.get("groupName"),
             headers=params.get("headers"),
         )
         return new_object

@@ -34,11 +34,6 @@ options:
     - OnbState query parameter. Device Onboarding State.
     elements: str
     type: list
-  cmState:
-    description:
-    - CmState query parameter. Device Connection Manager State.
-    elements: str
-    type: list
   name:
     description:
     - Name query parameter. Device Name.
@@ -54,19 +49,9 @@ options:
     - Source query parameter. Device Source.
     elements: str
     type: list
-  projectId:
-    description:
-    - ProjectId query parameter. Device Project Id.
-    elements: str
-    type: list
   workflowId:
     description:
     - WorkflowId query parameter. Device Workflow Id.
-    elements: str
-    type: list
-  projectName:
-    description:
-    - ProjectName query parameter. Device Project Name.
     elements: str
     type: list
   workflowName:
@@ -89,7 +74,7 @@ options:
     - LastContact query parameter. Device Has Contacted lastContact > 0.
     type: bool
 requirements:
-- dnacentersdk >= 2.5.5
+- dnacentersdk >= 2.7.1
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Device Onboarding (PnP) GetDeviceCount
@@ -118,13 +103,10 @@ EXAMPLES = r"""
     serialNumber: []
     state_: []
     onbState: []
-    cmState: []
     name: []
     pid: []
     source: []
-    projectId: []
     workflowId: []
-    projectName: []
     workflowName: []
     smartAccountId: []
     virtualAccountId: []
@@ -132,7 +114,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

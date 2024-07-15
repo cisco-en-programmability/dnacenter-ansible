@@ -40,11 +40,11 @@ options:
   offset:
     description:
     - Offset query parameter.
-    type: int
+    type: float
   limit:
     description:
     - Limit query parameter.
-    type: int
+    type: float
   size:
     description:
     - Size query parameter. Size in kilobytes(KB).
@@ -72,7 +72,7 @@ options:
     - Id path parameter. Tag ID.
     type: str
 requirements:
-- dnacentersdk >= 2.5.5
+- dnacentersdk >= 2.7.1
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Tag GetTag
@@ -130,7 +130,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
@@ -149,7 +148,9 @@ dnac_response:
               "values": [
                 "string"
               ],
-              "items": "string",
+              "items": [
+                {}
+              ],
               "operation": "string",
               "name": "string",
               "value": "string"

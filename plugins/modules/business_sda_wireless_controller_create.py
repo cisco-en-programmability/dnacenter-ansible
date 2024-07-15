@@ -17,13 +17,13 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   deviceName:
-    description: EWLC Device Name.
+    description: WLC Device Name.
     type: str
   siteNameHierarchy:
-    description: Site Name Hierarchy.
+    description: Fabric Site Name Hierarchy.
     type: str
 requirements:
-- dnacentersdk >= 2.5.5
+- dnacentersdk >= 2.7.1
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Fabric Wireless AddWLCToFabricDomain
@@ -53,7 +53,6 @@ EXAMPLES = r"""
     siteNameHierarchy: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
@@ -62,7 +61,7 @@ dnac_response:
   sample: >
     {
       "executionId": "string",
-      "executionStatusURL": "string",
+      "executionStatusUrl": "string",
       "message": "string"
     }
 """

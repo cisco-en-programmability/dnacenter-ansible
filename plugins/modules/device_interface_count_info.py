@@ -20,12 +20,12 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.5.5
+- dnacentersdk >= 2.7.1
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Devices GetDeviceInterfaceCount
-  description: Complete reference of the GetDeviceInterfaceCount API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-device-interface-count
+- name: Cisco DNA Center documentation for Devices GetDeviceInterfaceCountForMultipleDevices
+  description: Complete reference of the GetDeviceInterfaceCountForMultipleDevices API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-device-interface-count-for-multiple-devices
 notes:
   - SDK Method used are
     devices.Devices.get_device_interface_count,
@@ -49,7 +49,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

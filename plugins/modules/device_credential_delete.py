@@ -10,7 +10,9 @@ module: device_credential_delete
 short_description: Resource module for Device Credential Delete
 description:
 - Manage operation delete of the resource Device Credential Delete.
-- Delete device credential.
+- >
+   Delete device credential. This API has been deprecated and will not be available in a Cisco DNA Center release
+   after August 1st 2024 23 59 59 GMT. Please refer new Intent API Delete Global Credentials V2.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -20,7 +22,7 @@ options:
     description: Id path parameter. Global credential id.
     type: str
 requirements:
-- dnacentersdk >= 2.5.5
+- dnacentersdk >= 2.7.1
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Network Settings DeleteDeviceCredential
@@ -48,7 +50,6 @@ EXAMPLES = r"""
     id: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

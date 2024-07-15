@@ -28,7 +28,7 @@ options:
     - Name query parameter. Interface name.
     type: str
 requirements:
-- dnacentersdk >= 2.5.5
+- dnacentersdk >= 2.7.1
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Devices GetInterfaceDetailsByDeviceIdAndInterfaceName
@@ -59,7 +59,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
@@ -68,9 +67,24 @@ dnac_response:
   sample: >
     {
       "response": {
+        "addresses": [
+          {
+            "address": {
+              "ipAddress": {
+                "address": "string"
+              },
+              "ipMask": {
+                "address": "string"
+              },
+              "isInverseMask": true
+            },
+            "type": "string"
+          }
+        ],
         "adminStatus": "string",
         "className": "string",
         "description": "string",
+        "name": "string",
         "deviceId": "string",
         "duplex": "string",
         "id": "string",
@@ -81,11 +95,14 @@ dnac_response:
         "ipv4Address": "string",
         "ipv4Mask": "string",
         "isisSupport": "string",
+        "lastOutgoingPacketTime": 0,
+        "lastIncomingPacketTime": 0,
         "lastUpdated": "string",
         "macAddress": "string",
         "mappedPhysicalInterfaceId": "string",
         "mappedPhysicalInterfaceName": "string",
         "mediaType": "string",
+        "mtu": "string",
         "nativeVlanId": "string",
         "ospfSupport": "string",
         "pid": "string",
@@ -97,7 +114,13 @@ dnac_response:
         "speed": "string",
         "status": "string",
         "vlanId": "string",
-        "voiceVlan": "string"
+        "voiceVlan": "string",
+        "poweroverethernet": "string",
+        "networkdevice_id": "string",
+        "managedComputeElement": "string",
+        "managedNetworkElement": "string",
+        "managedNetworkElementUrl": "string",
+        "managedComputeElementUrl": "string"
       },
       "version": "string"
     }

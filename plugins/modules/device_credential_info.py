@@ -10,7 +10,9 @@ module: device_credential_info
 short_description: Information module for Device Credential
 description:
 - Get all Device Credential.
-- API to get device credential details.
+- >
+   API to get device credential details. This API has been deprecated and will not be available in a Cisco DNA Center
+   release after August 1st 2024 23 59 59 GMT. Please refer new Intent API Get All Global Credentials V2.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -24,7 +26,7 @@ options:
     - SiteId query parameter. Site id to retrieve the credential details associated with the site.
     type: str
 requirements:
-- dnacentersdk >= 2.5.5
+- dnacentersdk >= 2.7.1
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Network Settings GetDeviceCredentialDetails
@@ -54,7 +56,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

@@ -27,8 +27,6 @@ argument_spec = dnac_argument_spec()
 argument_spec.update(dict(
     complianceStatus=dict(type="str"),
     deviceUuid=dict(type="str"),
-    offset=dict(type="int"),
-    limit=dict(type="int"),
     headers=dict(type="dict"),
 ))
 
@@ -69,8 +67,6 @@ class ActionModule(ActionBase):
         new_object = dict(
             compliance_status=params.get("complianceStatus"),
             device_uuid=params.get("deviceUuid"),
-            offset=params.get("offset"),
-            limit=params.get("limit"),
             headers=params.get("headers"),
         )
         return new_object

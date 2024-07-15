@@ -18,28 +18,29 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   comments:
-    description: Netconf Credential's comments.
+    description: Comments to identify the netconf credential.
     type: str
   credentialType:
-    description: Netconf Credential's credentialType.
+    description: Credential type to identify the application that uses the netconf credential.
     type: str
   description:
-    description: Netconf Credential's description.
+    description: Description for Netconf Credentials.
     type: str
   id:
-    description: Netconf Credential's id.
+    description: Id of the Netconf Credential in UUID format.
     type: str
   instanceTenantId:
-    description: Netconf Credential's instanceTenantId.
+    description: Deprecated.
     type: str
   instanceUuid:
-    description: Netconf Credential's instanceUuid.
+    description: Deprecated.
     type: str
   netconfPort:
-    description: Netconf Credential's netconfPort.
+    description: Netconf port on the device. Valid port should be in the range of 1
+      to 65535.
     type: str
 requirements:
-- dnacentersdk >= 2.5.5
+- dnacentersdk >= 2.7.1
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Discovery CreateNetconfCredentials
@@ -98,7 +99,6 @@ EXAMPLES = r"""
       netconfPort: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
