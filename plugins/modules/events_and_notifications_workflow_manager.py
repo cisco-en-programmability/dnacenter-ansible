@@ -1365,7 +1365,7 @@ class Events(DnacBase):
             try:
                 failure_msg = response.get('errorMessage').get('errors')
             except Exception as e:
-                failure_msg = "Unable to Add syslog destination with name '{0}' in Cisco Catalyst Center".format(name)
+                failure_msg = "Unable to add syslog destination with name '{0}' in Cisco Catalyst Center".format(name)
 
             self.msg = failure_msg
             self.log(self.msg, "ERROR")
@@ -1660,7 +1660,7 @@ class Events(DnacBase):
             if error_messages:
                 self.msg = error_messages.get('errors')
             else:
-                self.msg = "Unable to Add SNMP destination with name '{0}' in Cisco Catalyst Center".format(snmp_params.get('name'))
+                self.msg = "Unable to add SNMP destination with name '{0}' in Cisco Catalyst Center".format(snmp_params.get('name'))
 
             self.log(self.msg, "ERROR")
             self.result['response'] = self.msg
@@ -1925,7 +1925,7 @@ class Events(DnacBase):
             if error_messages:
                 self.msg = error_messages.get('errors')
             else:
-                self.msg = "Unable to Add Webhook destination with name '{0}' in Cisco Catalyst Center".format(webhook_params.get('name'))
+                self.msg = "Unable to add Webhook destination with name '{0}' in Cisco Catalyst Center".format(webhook_params.get('name'))
 
             self.log(self.msg, "ERROR")
             self.result['response'] = self.msg
@@ -2216,7 +2216,7 @@ class Events(DnacBase):
             if error_messages:
                 self.msg = error_messages.get('errors')
             else:
-                self.msg = "Unable to Add Email destination in Cisco Catalyst Center."
+                self.msg = "Unable to add Email destination in Cisco Catalyst Center."
 
             self.log(self.msg, "ERROR")
             self.result['response'] = self.msg
@@ -4547,7 +4547,7 @@ class Events(DnacBase):
             webhook_dest_detail_in_ccc = self.have.get("webhook_destinations")
 
             if not self.have.get("webhook_destinations"):
-                # Need to Add snmp destination in Cisco Catalyst Center with given playbook params
+                # Need to add snmp destination in Cisco Catalyst Center with given playbook params
                 if not url:
                     self.status = "failed"
                     self.msg = "Url is required parameter for creating Webhook destination for creating/updating the event in Cisco Catalyst Center."
@@ -4588,7 +4588,7 @@ class Events(DnacBase):
                     return self
 
             if not self.have.get("email_destination"):
-                # Need to Add email destination in Cisco Catalyst Center with given playbook params
+                # Need to add email destination in Cisco Catalyst Center with given playbook params
                 invalid_email_params = []
 
                 if email_params.get("primarySMTPConfig") and not email_params.get("primarySMTPConfig").get("hostName"):
@@ -4652,7 +4652,7 @@ class Events(DnacBase):
             syslog_details_in_ccc = self.have.get('syslog_destinations')
 
             if not syslog_details_in_ccc:
-                # We need to Add the Syslog Destination in the Catalyst Center
+                # We need to add the Syslog Destination in the Catalyst Center
                 self.add_syslog_destination(syslog_details).check_return_status()
             else:
                 # Check destination needs update and if yes then update Syslog Destination
@@ -4703,7 +4703,7 @@ class Events(DnacBase):
                 return self
 
             if not self.have.get("snmp_destinations"):
-                # Need to Add snmp destination in Cisco Catalyst Center with given playbook params
+                # Need to add snmp destination in Cisco Catalyst Center with given playbook params
                 self.check_snmp_required_parameters(snmp_params).check_return_status()
                 self.log("""Required parameter validated successfully for adding SNMP Destination with name '{0}' in Cisco
                             Catalyst Center.""".format(destination), "INFO")
@@ -4740,7 +4740,7 @@ class Events(DnacBase):
                 itsm_id = itsm_detail_in_ccc[0].get("id")
 
             if not itsm_detail_in_ccc:
-                # Need to Add snmp destination in Cisco Catalyst Center with given playbook params
+                # Need to add snmp destination in Cisco Catalyst Center with given playbook params
                 invalid_itsm_params = []
                 invalid_itsm_params = self.check_required_itsm_param(itsm_params, invalid_itsm_params)
                 connection_setting = itsm_params.get('data').get('ConnectionSettings')
