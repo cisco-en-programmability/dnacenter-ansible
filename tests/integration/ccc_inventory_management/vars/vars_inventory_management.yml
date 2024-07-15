@@ -1,0 +1,268 @@
+---
+device_details:
+  - type: "NETWORK_DEVICE"
+    ip_address_list: ["204.1.2.5"]
+    # CLI Credentials
+    username: "cisco"
+    password: "Cisco#123"
+    enable_password: "Cisco#123"
+    # SNMP Credentials
+    snmp_version: v3
+    snmp_username: "v3Public2"
+    snmp_mode: "AUTHPRIV"
+    snmp_auth_protocol: "SHA"
+    snmp_auth_passphrase: "Lablab#1234"
+    snmp_priv_protocol: "CISCOAES256"
+    snmp_priv_passphrase: "Lablab#1234"
+    #SNMP Retry and Timeout
+    snmp_retry: 3
+    snmp_timeout: 5
+    #CLI Transport (ssh, Telnet)
+    cli_transport: "ssh"
+    netconf_port: 830
+
+
+  # - type: "NETWORK_DEVICE"
+  #   ip_address_list: ["204.192.6.200"]
+  #   device_added: True
+  #   # CLI Credentials
+  #   username: "cisco"
+  #   password: "Cisco#123"
+  #   enable_password: "Cisco#123"
+  #   # HTTP Credentials
+  #   http_username: "wlcaccess"
+  #   http_password: "Lablab#123"
+  #   http_port: "443"
+  #   http_secure: False
+  #   # SNMP Credentials
+  #   snmp_version: v3
+  #   snmp_username: "v3Public2"
+  #   snmp_mode: "AUTHPRIV"
+  #   snmp_auth_protocol: "SHA"
+  #   snmp_auth_passphrase: "Lablab#1234"
+  #   snmp_priv_protocol: "AES256"
+  #   snmp_priv_passphrase: "Lablab#1234"
+  #   #SNMP Retry and Timeout
+  #   snmp_retry: 3
+  #   snmp_timeout: 5
+  #   #CLI Transport (ssh, Telnet)
+  #   cli_transport: "ssh"s
+  #   netconf_port: 830    
+
+
+device_credential_updates:
+  # Update CLI password
+  - type: "NETWORK_DEVICE"
+    ip_address_list: ["204.1.2.5"]
+    credential_update: True
+    # CLI Credentials
+    password: "Cisco#1234"
+
+
+  # Update SNMP privacy type  
+  - type: "NETWORK_DEVICE"
+    ip_address_list: ["204.1.2.5"]
+    credential_update: True
+    # SNMP Credentials
+    snmp_priv_protocol: "AES192"
+
+
+  # Update SNMP username
+  - type: "NETWORK_DEVICE"
+    ip_address_list: ["204.1.2.5"]
+    credential_update: True
+    # SNMP Credentials
+    snmp_username: "v3Public2-2"
+
+
+  # Update SNMP mode
+  - type: "NETWORK_DEVICE"
+    ip_address_list: ["204.1.2.5"]
+    credential_update: True
+    # SNMP Credentials
+    snmp_version: v3
+    snmp_mode: "NOAUTHNOPRIV"
+
+  # Update cli_transport
+  - type: "NETWORK_DEVICE"
+    ip_address_list: ["204.1.2.5"]
+    credential_update: True
+    #change cli_transport from ssh to telnet
+    cli_transport: telnet
+
+  # SNMPv2 credentials
+  - type: "NETWORK_DEVICE"
+    ip_address_list: ["204.1.2.5"]
+    credential_update: True
+    snmp_version: v2
+    snmp_ro_community: 'j5aj#0z%'
+    snmp_rw_community: 'j5aj#0z%'
+
+  # Reverse changes
+  - type: "NETWORK_DEVICE"
+    ip_address_list: ["204.1.2.5"]
+    credential_update: True
+    # CLI Credentials
+    username: "cisco"
+    password: "Cisco#123"
+    enable_password: "Cisco#123"
+    # SNMP Credentials
+    snmp_version: v3
+    snmp_username: "v3Public2"
+    snmp_mode: "AUTHPRIV"
+    snmp_auth_protocol: "SHA"
+    snmp_auth_passphrase: "Lablab#1234"
+    snmp_priv_protocol: "CISCOAES256"
+    snmp_priv_passphrase: "Lablab#1234"
+    #CLI Transport (ssh, Telnet)
+    cli_transport: "ssh"
+    netconf_port: 830
+
+
+
+device_interface_updates:  
+  # Update Interface Details
+  - ip_address_list: ["204.1.2.5"]
+    # Interface details
+    update_interface_details:
+      interface_name: ["GigabitEthernet1/0/8"]
+      description: "Testing for updating interface details"
+      vlan_id: 23
+      voice_vlan_id: 45
+      admin_status: "UP"
+
+
+device_role_updates:
+  #Update role from access to core
+  - ip_address_list: ["204.1.2.5"]
+    role: ACCESS
+
+
+device_int_update_post_rolechange:
+  # Update Interface description
+  - ip_address_list: ["204.1.2.5"]
+    # Interface details
+    update_interface_details:
+      interface_name: ["GigabitEthernet1/0/23"]
+      description: "Testing for updating interface description post changing role"
+
+
+device_resync:
+  # Resync the device
+  - ip_address_list: ["204.1.2.5"]
+    device_resync: True
+    force_sync: False
+
+
+create_assign_udf:
+  - ip_address_list: ["204.1.2.5"]
+    add_user_defined_field:
+    # User defined fields
+    - name: Test123
+      description: "Added first udf for testing"
+      value: "value123"
+    - name: Test321
+      description: "Added second udf for testing"
+      value: "value321"
+
+
+update_udf:
+  - ip_address_list: ["204.1.2.5"]
+    add_user_defined_field:
+    # User defined fields
+    - name: Test123
+      description: "modified first udf for testing"
+      value: "value124"
+    - name: Test321
+      description: "modified second udf for testing"
+      value: "value421"
+
+
+delete_udf:
+  # User defined fields
+  - ip_address_list: ["204.1.2.5"]
+    add_user_defined_field:
+    - name: "Test123"
+  - ip_address_list: ["204.1.2.5"]
+    add_user_defined_field:
+    - name: "Test321"
+
+
+export_device_details:
+  - ip_address_list: ["204.1.2.5"]
+    export_device_list:
+      operation_enum: 1
+      password: "Password123!"
+
+
+export_credential_details:
+  - ip_address_list: ["204.1.2.5"]
+    export_device_list:
+      operation_enum: "0"
+      password: "Password123$"
+
+
+design_sites:
+  # Create site to associate device to
+  - site:
+      area:
+        name: ITest_Area
+        parent_name: Global
+    site_type: area
+  - site:
+      building:
+        name: ITest_Building
+        parent_name: Global/ITest_Area
+        address: Bengaluru, Karnataka, India
+        latitude: 12.969910
+        longitude: 77.597960
+        country: India
+    site_type: building
+  - site:
+      floor:
+        name: ITest_Floor1
+        parent_name: Global/ITest_Area/ITest_Building
+        rf_model: Cubes And Walled Offices
+        width: 100.00
+        length: 100.00
+        height: 10.00
+        floor_number: 1
+    site_type: floor
+
+
+associate_wired_device:
+  - provision_wired_device:
+    - device_ip: "204.1.2.5"
+      site_name: "Global/ITest_Area/ITest_Building/ITest_Floor1"
+      resync_retry_count: 200
+      resync_interval: 2
+
+
+associate_wireless_device:
+  - provision_wireless_device:
+    - device_ip: "204.192.6.200"
+      site_name: "Global/ITest_Inventory_P_Area/ITest_Inventory_Building/ITest_Inventory_Floor1"
+      managed_ap_locations: ["Global/ITest_Inventory_P_Area/ITest_Inventory_Building/ITest_Inventory_Floor1", "Global/ITest_Inventory_S_Area/ITest_Inventory_Building/ITest_Inventory_Floor1"]
+      dynamic_interfaces:
+      - interface_ip_address: 23.23.21.12
+        interface_netmask_in_cidr: 24
+        interface_gateway: "gateway"
+        lag_or_port_number: 12
+        vlan_id: 99
+        interface_name: "management"
+      resync_retry_count: 200
+      resync_retry_interval: 2
+
+
+delete_sites:
+  - site:
+      area:
+        name: ITest_Area
+        parent_name: Global
+    site_type: area
+
+
+delete_devices:
+  - ip_address_list: ["204.1.2.5"]
+    #ip_address_list: ["204.1.2.5", "204.192.6.200"]
+    clean_config: False

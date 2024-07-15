@@ -10,7 +10,7 @@ module: network_device_by_serial_number_info
 short_description: Information module for Network Device By Serial Number
 description:
 - Get Network Device By Serial Number by id.
-- Returns the network device if the given serial number matches with any of the serial numbers collected.
+- Returns the network device with given serial number.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -24,7 +24,7 @@ options:
     - SerialNumber path parameter. Device serial number.
     type: str
 requirements:
-- dnacentersdk >= 2.5.5
+- dnacentersdk >= 2.7.1
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Devices GetDeviceBySerialNumber
@@ -54,7 +54,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
@@ -101,7 +100,19 @@ dnac_response:
         "tunnelUdpPort": "string",
         "type": "string",
         "upTime": "string",
-        "waasDeviceMode": "string"
+        "waasDeviceMode": "string",
+        "dnsResolvedManagementAddress": "string",
+        "apEthernetMacAddress": "string",
+        "vendor": "string",
+        "reasonsForPendingSyncRequests": "string",
+        "pendingSyncRequestsCount": "string",
+        "reasonsForDeviceResync": "string",
+        "lastDeviceResyncStartTime": "string",
+        "uptimeSeconds": 0,
+        "managedAtleastOnce": true,
+        "deviceSupportLevel": "string",
+        "managementState": "string",
+        "description": "string"
       },
       "version": "string"
     }

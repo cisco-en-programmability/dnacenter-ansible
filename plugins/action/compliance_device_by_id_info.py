@@ -29,8 +29,6 @@ argument_spec.update(dict(
     category=dict(type="str"),
     complianceType=dict(type="str"),
     diffList=dict(type="bool"),
-    key=dict(type="str"),
-    value=dict(type="str"),
     headers=dict(type="dict"),
 ))
 
@@ -73,8 +71,6 @@ class ActionModule(ActionBase):
             category=params.get("category"),
             compliance_type=params.get("complianceType"),
             diff_list=params.get("diffList"),
-            key=params.get("key"),
-            value=params.get("value"),
             headers=params.get("headers"),
         )
         return new_object

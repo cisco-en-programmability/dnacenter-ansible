@@ -12,7 +12,7 @@ description:
 - Manage operation create of the resource Pnp Virtual Account Devices Sync.
 - >
    Synchronizes the device info from the given smart account & virtual account with the PnP database. The response
-   payload returns a list of synced devices.
+   payload returns a list of synced devices Deprecated .
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -99,7 +99,7 @@ options:
     description: Pnp Virtual Account Devices Sync's virtualAccountId.
     type: str
 requirements:
-- dnacentersdk >= 2.5.5
+- dnacentersdk >= 2.7.1
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Device Onboarding (PnP) SyncVirtualAccountDevices
@@ -152,7 +152,6 @@ EXAMPLES = r"""
     virtualAccountId: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

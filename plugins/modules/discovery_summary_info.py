@@ -11,8 +11,8 @@ short_description: Information module for Discovery Summary
 description:
 - Get all Discovery Summary.
 - >
-   Returns the network devices from a discovery job based on given filters. Discovery ID can be obtained using the
-   "Get Discoveries by range" API.
+   Returns the devices discovered in the given discovery based on given filters. Discovery ID can be obtained using
+   the "Get Discoveries by range" API.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -31,44 +31,56 @@ options:
     type: str
   sortBy:
     description:
-    - SortBy query parameter.
+    - >
+      SortBy query parameter. Sort by field. Available values are pingStatus, cliStatus,snmpStatus, httpStatus and
+      netconfStatus.
     type: str
   sortOrder:
     description:
-    - SortOrder query parameter.
+    - SortOrder query parameter. Order of sorting based on sortBy. Available values are 'asc' and 'des'.
     type: str
   ipAddress:
     description:
-    - IpAddress query parameter.
+    - IpAddress query parameter. IP Address of the device.
     elements: str
     type: list
   pingStatus:
     description:
-    - PingStatus query parameter.
+    - >
+      PingStatus query parameter. Ping status for the IP during the job run. Available values are 'SUCCESS',
+      'FAILURE', 'NOT-PROVIDED' and 'NOT-VALIDATED'.
     elements: str
     type: list
   snmpStatus:
     description:
-    - SnmpStatus query parameter.
+    - >
+      SnmpStatus query parameter. SNMP status for the IP during the job run. Available values are 'SUCCESS',
+      'FAILURE', 'NOT-PROVIDED' and 'NOT-VALIDATED'.
     elements: str
     type: list
   cliStatus:
     description:
-    - CliStatus query parameter.
+    - >
+      CliStatus query parameter. CLI status for the IP during the job run. Available values are 'SUCCESS',
+      'FAILURE', 'NOT-PROVIDED' and 'NOT-VALIDATED'.
     elements: str
     type: list
   netconfStatus:
     description:
-    - NetconfStatus query parameter.
+    - >
+      NetconfStatus query parameter. NETCONF status for the IP during the job run. Available values are 'SUCCESS',
+      'FAILURE', 'NOT-PROVIDED' and 'NOT-VALIDATED'.
     elements: str
     type: list
   httpStatus:
     description:
-    - HttpStatus query parameter.
+    - >
+      HttpStatus query parameter. HTTP staus for the IP during the job run. Available values are 'SUCCESS',
+      'FAILURE', 'NOT-PROVIDED' and 'NOT-VALIDATED'.
     elements: str
     type: list
 requirements:
-- dnacentersdk >= 2.5.5
+- dnacentersdk >= 2.7.1
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Discovery GetNetworkDevicesFromDiscovery
@@ -107,7 +119,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

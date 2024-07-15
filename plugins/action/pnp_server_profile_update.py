@@ -25,19 +25,10 @@ from ansible_collections.cisco.dnac.plugins.plugin_utils.dnac import (
 argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
-    autoSyncPeriod=dict(type="int"),
-    ccoUser=dict(type="str"),
-    expiry=dict(type="int"),
-    lastSync=dict(type="int"),
-    profile=dict(type="dict"),
     smartAccountId=dict(type="str"),
-    syncResult=dict(type="dict"),
-    syncResultStr=dict(type="str"),
-    syncStartTime=dict(type="int"),
-    syncStatus=dict(type="str"),
-    tenantId=dict(type="str"),
-    token=dict(type="str"),
     virtualAccountId=dict(type="str"),
+    profile=dict(type="dict"),
+    ccoUser=dict(type="str"),
 ))
 
 required_if = []
@@ -75,19 +66,10 @@ class ActionModule(ActionBase):
 
     def get_object(self, params):
         new_object = dict(
-            autoSyncPeriod=params.get("autoSyncPeriod"),
-            ccoUser=params.get("ccoUser"),
-            expiry=params.get("expiry"),
-            lastSync=params.get("lastSync"),
-            profile=params.get("profile"),
             smartAccountId=params.get("smartAccountId"),
-            syncResult=params.get("syncResult"),
-            syncResultStr=params.get("syncResultStr"),
-            syncStartTime=params.get("syncStartTime"),
-            syncStatus=params.get("syncStatus"),
-            tenantId=params.get("tenantId"),
-            token=params.get("token"),
             virtualAccountId=params.get("virtualAccountId"),
+            profile=params.get("profile"),
+            ccoUser=params.get("ccoUser"),
         )
         return new_object
 

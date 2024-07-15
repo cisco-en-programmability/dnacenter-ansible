@@ -36,9 +36,6 @@ options:
       rfProfile:
         description: Radio frequency profile name.
         type: str
-      siteId:
-        description: Site name hierarchy(ex Global/...).
-        type: str
       siteNameHierarchy:
         description: Site name hierarchy(ex Global/...).
         type: str
@@ -47,7 +44,7 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.5.5
+- dnacentersdk >= 2.7.1
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Wireless APProvision
@@ -79,7 +76,6 @@ EXAMPLES = r"""
       - string
       deviceName: string
       rfProfile: string
-      siteId: string
       siteNameHierarchy: string
       type: string
 
@@ -92,7 +88,7 @@ dnac_response:
   sample: >
     {
       "executionId": "string",
-      "executionUrl": "string",
+      "executionStatusUrl": "string",
       "message": "string"
     }
 """

@@ -31,10 +31,6 @@ options:
     description:
     - AttributeName query parameter.
     type: str
-  level:
-    description:
-    - Level query parameter.
-    type: str
   size:
     description:
     - Size query parameter. Size in kilobytes(KB).
@@ -44,7 +40,7 @@ options:
     - SystemTag query parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.5.5
+- dnacentersdk >= 2.7.1
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Tag GetTagCount
@@ -73,13 +69,11 @@ EXAMPLES = r"""
     name: string
     nameSpace: string
     attributeName: string
-    level: string
     size: string
     systemTag: string
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

@@ -22,199 +22,205 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   attributeInfo:
-    description: Discovery's attributeInfo.
+    description: Deprecated.
     type: dict
   cdpLevel:
-    description: Discovery's cdpLevel.
+    description: CDP level to which neighbor devices to be discovered.
     type: int
   deviceIds:
-    description: Discovery's deviceIds.
+    description: Ids of the devices discovered in a discovery.
     type: str
   discoveryCondition:
-    description: Discovery's discoveryCondition.
+    description: To indicate the discovery status. Available options Complete or In
+      Progress.
     type: str
   discoveryStatus:
-    description: Discovery's discoveryStatus.
+    description: Status of the discovery. Available options are active, inactive, edit.
     type: str
   discoveryType:
-    description: Discovery's discoveryType.
+    description: Type of the discovery. 'SINGLE', 'RANGE', 'MULTI RANGE', 'CDP', 'LLDP',
+      'CIDR'.
     type: str
   enablePasswordList:
-    description: Discovery's enablePasswordList.
+    description: Enable Password of the devices to be discovered.
     type: str
   globalCredentialIdList:
-    description: Discovery's globalCredentialIdList.
+    description: List of global credential ids to be used.
     elements: str
     type: list
   httpReadCredential:
     description: Discovery's httpReadCredential.
     suboptions:
       comments:
-        description: Discovery's comments.
+        description: Comments to identify the credential.
         type: str
       credentialType:
-        description: Discovery's credentialType.
+        description: Credential type to identify the application that uses the credential.
         type: str
       description:
-        description: Discovery's description.
+        description: Description of the credential.
         type: str
       id:
-        description: Discovery's id.
+        description: Credential Id.
         type: str
       instanceTenantId:
-        description: Discovery's instanceTenantId.
+        description: Credential Tenant Id.
         type: str
       instanceUuid:
-        description: Discovery's instanceUuid.
+        description: Credential Id.
         type: str
       password:
-        description: Discovery's password.
+        description: HTTP(S) password.
         type: str
       port:
-        description: Discovery's port.
+        description: HTTP(S) port.
         type: int
       secure:
-        description: Secure flag.
+        description: Flag for HTTPS.
         type: bool
       username:
-        description: Discovery's username.
+        description: HTTP(S) username.
         type: str
     type: dict
   httpWriteCredential:
     description: Discovery's httpWriteCredential.
     suboptions:
       comments:
-        description: Discovery's comments.
+        description: Comments to identify the credential.
         type: str
       credentialType:
-        description: Discovery's credentialType.
+        description: Credential type to identify the application that uses the credential.
         type: str
       description:
-        description: Discovery's description.
+        description: Description of the credential.
         type: str
       id:
-        description: Discovery's id.
+        description: Credential Id.
         type: str
       instanceTenantId:
-        description: Discovery's instanceTenantId.
+        description: Credential Tenant Id.
         type: str
       instanceUuid:
-        description: Discovery's instanceUuid.
+        description: Credential Id.
         type: str
       password:
-        description: Discovery's password.
+        description: HTTP(S) password.
         type: str
       port:
-        description: Discovery's port.
+        description: HTTP(S) port.
         type: int
       secure:
-        description: Secure flag.
+        description: Flag for HTTPS.
         type: bool
       username:
-        description: Discovery's username.
+        description: HTTP(S) username.
         type: str
     type: dict
   id:
-    description: Discovery's id.
+    description: Unique Discovery Id.
     type: str
   ipAddressList:
-    description: Discovery's ipAddressList.
+    description: List of IP address of the devices to be discovered.
     type: str
   ipFilterList:
-    description: Discovery's ipFilterList.
+    description: IP addresses of the devices to be filtered.
     type: str
   isAutoCdp:
-    description: IsAutoCdp flag.
+    description: Flag to mention if CDP discovery or not.
     type: bool
   lldpLevel:
-    description: Discovery's lldpLevel.
+    description: LLDP level to which neighbor devices to be discovered.
     type: int
   name:
-    description: Discovery's name.
+    description: Name for the discovery.
     type: str
   netconfPort:
-    description: Discovery's netconfPort.
+    description: Netconf port on the device. Netconf will need valid sshv2 credentials
+      for it to work.
     type: str
   numDevices:
-    description: Discovery's numDevices.
+    description: Number of devices discovered in the discovery.
     type: int
   parentDiscoveryId:
-    description: Discovery's parentDiscoveryId.
+    description: Parent Discovery Id from which the discovery was initiated.
     type: str
   passwordList:
-    description: Discovery's passwordList.
+    description: Password of the devices to be discovered.
     type: str
   preferredMgmtIPMethod:
-    description: Discovery's preferredMgmtIPMethod.
+    description: Preferred management IP method. Available options are 'None' and 'UseLoopBack'.
     type: str
   protocolOrder:
-    description: Discovery's protocolOrder.
+    description: Order of protocol (ssh/telnet) in which device connection will be tried.
+      Ex 'telnet' only telnet; 'ssh,telnet' ssh with higher order than telnet.
     type: str
   retry:
     description: Number of times to try establishing connection to device.
     type: int
   retryCount:
-    description: Discovery's retryCount.
+    description: Number of times to try establishing connection to device.
     type: int
   snmpAuthPassphrase:
-    description: Discovery's snmpAuthPassphrase.
+    description: Auth passphrase for SNMP.
     type: str
   snmpAuthProtocol:
-    description: Discovery's snmpAuthProtocol.
+    description: SNMP auth protocol. SHA' or 'MD5'.
     type: str
   snmpMode:
-    description: Discovery's snmpMode.
+    description: Mode of SNMP. 'AUTHPRIV' or 'AUTHNOPRIV' or 'NOAUTHNOPRIV'.
     type: str
   snmpPrivPassphrase:
-    description: Discovery's snmpPrivPassphrase.
+    description: Passphrase for SNMP privacy.
     type: str
   snmpPrivProtocol:
-    description: Discovery's snmpPrivProtocol.
+    description: SNMP privacy protocol. 'AES128'.
     type: str
   snmpROCommunity:
-    description: Snmp RO community of the devices to be discovered.
+    description: SNMP RO community of the devices to be discovered.
     type: str
   snmpROCommunityDesc:
-    description: Description for Snmp RO community.
+    description: Description for SNMP RO community.
     type: str
   snmpRWCommunity:
-    description: Snmp RW community of the devices to be discovered.
+    description: SNMP RW community of the devices to be discovered.
     type: str
   snmpRWCommunityDesc:
-    description: Description for Snmp RW community.
+    description: Description for SNMP RW community.
     type: str
   snmpRoCommunity:
-    description: Discovery's snmpRoCommunity.
+    description: SNMP RO community of the devices to be discovered.
     type: str
   snmpRoCommunityDesc:
-    description: Discovery's snmpRoCommunityDesc.
+    description: Description for SNMP RO community.
     type: str
   snmpRwCommunity:
-    description: Discovery's snmpRwCommunity.
+    description: SNMP RW community of the devices to be discovered.
     type: str
   snmpRwCommunityDesc:
-    description: Discovery's snmpRwCommunityDesc.
+    description: Description for SNMP RW community.
     type: str
   snmpUserName:
-    description: Discovery's snmpUserName.
+    description: SNMP username of the device.
     type: str
   snmpVersion:
     description: Version of SNMP. V2 or v3.
     type: str
   timeOut:
-    description: Discovery's timeOut.
+    description: Time to wait for device response.
     type: int
   timeout:
     description: Time to wait for device response in seconds.
     type: int
   updateMgmtIp:
-    description: UpdateMgmtIp flag.
+    description: Updates Management IP if multiple IPs are available for a device. If
+      set to true, when a device is rediscovered with a different IP, the management
+      IP is updated. Default value is false.
     type: bool
   userNameList:
-    description: Discovery's userNameList.
+    description: Username of the devices to be discovered.
     type: str
 requirements:
-- dnacentersdk >= 2.5.5
+- dnacentersdk >= 2.7.1
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Discovery StartDiscovery
@@ -388,7 +394,6 @@ EXAMPLES = r"""
     id: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

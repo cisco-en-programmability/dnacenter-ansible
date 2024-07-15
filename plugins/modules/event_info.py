@@ -30,11 +30,11 @@ options:
   offset:
     description:
     - Offset query parameter. The number of Registries to offset in the resultset whose default value 0.
-    type: int
+    type: float
   limit:
     description:
     - Limit query parameter. The number of Registries to limit in the resultset whose default value 10.
-    type: int
+    type: float
   sortBy:
     description:
     - SortBy query parameter. SortBy field name.
@@ -44,7 +44,7 @@ options:
     - Order query parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.5.5
+- dnacentersdk >= 2.7.1
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Event Management GetEvents
@@ -79,7 +79,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

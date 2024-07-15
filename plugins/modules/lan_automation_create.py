@@ -63,7 +63,7 @@ options:
         type: bool
     type: list
 requirements:
-- dnacentersdk >= 2.5.5
+- dnacentersdk >= 2.7.1
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for LAN Automation LANAutomationStart
@@ -104,7 +104,6 @@ EXAMPLES = r"""
       redistributeIsisToBgp: true
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

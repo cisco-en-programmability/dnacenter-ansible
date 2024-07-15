@@ -19,24 +19,24 @@ options:
   headers:
     description: Additional headers.
     type: dict
-  timestamp:
-    description:
-    - Timestamp query parameter. Epoch time(in milliseconds) when the Site Hierarchy data is required.
-    type: str
   siteType:
     description:
-    - SiteType query parameter. Type of the site to return. AREA or BUILDING. Default to AREA.
+    - SiteType query parameter. Site type AREA or BUILDING (case insensitive).
     type: str
   offset:
     description:
-    - Offset query parameter. The offset value, starting from 1, of the first returned site entry. Default is 1.
-    type: int
+    - Offset query parameter. Offset of the first returned data set entry (Multiple of 'limit' + 1).
+    type: float
   limit:
     description:
-    - Limit query parameter. The max number of sites in the returned data set. Default is 25, and max at 50.
-    type: int
+    - Limit query parameter. Max number of data entries in the returned data set 1,50. Default is 25.
+    type: float
+  timestamp:
+    description:
+    - Timestamp query parameter. Epoch time(in milliseconds) when the Site Hierarchy data is required.
+    type: float
 requirements:
-- dnacentersdk >= 2.5.5
+- dnacentersdk >= 2.7.1
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Sites GetSiteHealth
@@ -62,14 +62,13 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
-    timestamp: string
     siteType: string
     offset: 0
     limit: 0
+    timestamp: 0
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
@@ -86,41 +85,62 @@ dnac_response:
         "siteType": "string",
         "latitude": 0,
         "longitude": 0,
-        "healthyNetworkDevicePercentage": {},
-        "healthyClientsPercentage": {},
-        "clientHealthWired": {},
-        "clientHealthWireless": {},
-        "numberOfClients": {},
-        "numberOfNetworkDevice": {},
-        "networkHealthAverage": {},
-        "networkHealthAccess": {},
-        "networkHealthCore": {},
-        "networkHealthDistribution": {},
-        "networkHealthRouter": {},
-        "networkHealthWireless": {},
-        "networkHealthOthers": {},
-        "numberOfWiredClients": {},
-        "numberOfWirelessClients": {},
-        "totalNumberOfConnectedWiredClients": {},
-        "totalNumberOfActiveWirelessClients": {},
-        "wiredGoodClients": {},
-        "wirelessGoodClients": {},
-        "overallGoodDevices": {},
-        "accessGoodCount": {},
-        "accessTotalCount": {},
-        "coreGoodCount": {},
-        "coreTotalCount": {},
-        "distributionGoodCount": {},
-        "distributionTotalCount": {},
-        "routerGoodCount": {},
-        "routerTotalCount": {},
-        "wirelessDeviceGoodCount": {},
-        "wirelessDeviceTotalCount": {},
-        "applicationHealth": {},
-        "applicationGoodCount": {},
-        "applicationTotalCount": {},
-        "applicationBytesTotalCount": {},
-        "dnacInfo": {},
+        "healthyNetworkDevicePercentage": 0,
+        "healthyClientsPercentage": 0,
+        "clientHealthWired": 0,
+        "clientHealthWireless": 0,
+        "numberOfClients": 0,
+        "numberOfNetworkDevice": 0,
+        "networkHealthAverage": 0,
+        "networkHealthAccess": 0,
+        "networkHealthCore": 0,
+        "networkHealthDistribution": 0,
+        "networkHealthRouter": 0,
+        "networkHealthWireless": 0,
+        "networkHealthAP": 0,
+        "networkHealthWLC": 0,
+        "networkHealthSwitch": 0,
+        "networkHealthOthers": 0,
+        "numberOfWiredClients": 0,
+        "numberOfWirelessClients": 0,
+        "totalNumberOfConnectedWiredClients": 0,
+        "totalNumberOfActiveWirelessClients": 0,
+        "wiredGoodClients": 0,
+        "wirelessGoodClients": 0,
+        "overallGoodDevices": 0,
+        "accessGoodCount": 0,
+        "accessTotalCount": 0,
+        "coreGoodCount": 0,
+        "coreTotalCount": 0,
+        "distributionGoodCount": 0,
+        "distributionTotalCount": 0,
+        "routerGoodCount": 0,
+        "routerTotalCount": 0,
+        "wirelessDeviceGoodCount": 0,
+        "wirelessDeviceTotalCount": 0,
+        "apDeviceGoodCount": 0,
+        "apDeviceTotalCount": 0,
+        "wlcDeviceGoodCount": 0,
+        "wlcDeviceTotalCount": 0,
+        "switchDeviceGoodCount": 0,
+        "switchDeviceTotalCount": 0,
+        "applicationHealth": 0,
+        "applicationHealthInfo": [
+          {
+            "trafficClass": "string",
+            "bytesCount": 0,
+            "healthScore": 0
+          }
+        ],
+        "applicationGoodCount": 0,
+        "applicationTotalCount": 0,
+        "applicationBytesTotalCount": 0,
+        "dnacInfo": {
+          "uuid": "string",
+          "ip": "string",
+          "status": "string"
+        },
+        "usage": 0,
         "applicationHealthStats": {
           "appTotalCount": 0,
           "businessRelevantAppCount": {

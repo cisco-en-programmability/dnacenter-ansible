@@ -26,7 +26,6 @@ argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
     deviceUuids=dict(type="list"),
-    id=dict(type="str"),
     operationEnum=dict(type="str"),
     parameters=dict(type="list"),
     password=dict(type="str", no_log=True),
@@ -68,7 +67,6 @@ class ActionModule(ActionBase):
     def get_object(self, params):
         new_object = dict(
             deviceUuids=params.get("deviceUuids"),
-            id=params.get("id"),
             operationEnum=params.get("operationEnum"),
             parameters=params.get("parameters"),
             password=params.get("password"),

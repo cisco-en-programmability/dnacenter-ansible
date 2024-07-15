@@ -1,0 +1,31 @@
+--- 
+device_details:
+  - type: "NETWORK_DEVICE"
+    ip_address_list: ["204.1.2.5"]
+    # CLI Credentials
+    username: "cisco"
+    password: "Cisco#123"
+    enable_password: "Cisco#123"
+    # SNMP Credentials
+    snmp_version: v3
+    snmp_username: "v3Public2"
+    snmp_mode: "AUTHPRIV"
+    snmp_auth_protocol: "SHA"
+    snmp_auth_passphrase: "Lablab#1234"
+    snmp_priv_protocol: "CISCOAES256"
+    snmp_priv_passphrase: "Lablab#1234"
+    #SNMP Retry and Timeout
+    snmp_retry: 3
+    snmp_timeout: 5
+    #CLI Transport (ssh, Telnet)
+    cli_transport: "ssh"
+    netconf_port: 830 
+
+
+run_complaince:
+  - ip_address_list: ['204.1.2.5'] 
+
+
+delete_devices:
+  - ip_address_list: ["204.1.2.5"]
+    clean_config: False

@@ -34,8 +34,8 @@ argument_spec.update(dict(
     staticIP=dict(type="str"),
     subnetMask=dict(type="str"),
     gateway=dict(type="str"),
-    vlanID=dict(type="str"),
-    interfaceName=dict(type="str"),
+    vlanId=dict(type="str"),
+    ipInterfaceName=dict(type="str"),
     sensorProfile=dict(type="str"),
 ))
 
@@ -83,8 +83,8 @@ class ActionModule(ActionBase):
             staticIP=params.get("staticIP"),
             subnetMask=params.get("subnetMask"),
             gateway=params.get("gateway"),
-            vlanID=params.get("vlanID"),
-            interfaceName=params.get("interfaceName"),
+            vlanId=params.get("vlanId"),
+            ipInterfaceName=params.get("ipInterfaceName"),
             sensorProfile=params.get("sensorProfile"),
         )
         return new_object
