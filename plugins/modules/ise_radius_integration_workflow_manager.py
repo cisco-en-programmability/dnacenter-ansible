@@ -720,13 +720,12 @@ class IseRadiusIntegration(DnacBase):
         """
 
         authentication_policy_server = config.get("authentication_policy_server")
-        if authentication_policy_server is not None:
-            self.get_have_authentication_policy_server(authentication_policy_server).check_return_status()
-        else:
+        if authentication_policy_server is None:
             self.msg = "The 'authentication_policy_server' is missing in the playbook configuration."
             self.status = "failed"
             return self
 
+        self.get_have_authentication_policy_server(authentication_policy_server).check_return_status()
         self.log("Current State (have): {0}".format(self.have), "INFO")
         self.msg = "Successfully retrieved the details from the Cisco Catalyst Center"
         self.status = "success"
