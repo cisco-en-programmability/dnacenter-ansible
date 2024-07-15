@@ -1,9 +1,11 @@
-#!/usr/bin/python
 # -*- coding: utf-8 -*-
 # Copyright (c) 2024, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
+import time
+import re
+import json
 __metaclass__ = type
 __author__ = ("A Mohamed Rafeek, Megha Kandari, Sonali Deepthi Kesali, Natarajan, Madhan Sankaranarayanan, Abhishek Maheshwari")
 
@@ -250,8 +252,7 @@ requirements:
 - dnacentersdk >= 2.4.5
 - python >= 3.8
 notes:
-  - SDK Method used are 
-
+  - SDK Method used are
     devices.get_device_list
     wireless.get_access_point_configuration
     sites.get_site
@@ -473,7 +474,7 @@ EXAMPLES = r"""
                     name: "FLOOR1"
                     parent_name: "Global/USA/New York/BLDNYC"
       register: output_list
-    
+
     - name: Updating Access Point Site / Configuration details
       cisco.dnac.accesspoint_workflow_manager:
         dnac_host: "{{ dnac_host }}"
@@ -485,7 +486,7 @@ EXAMPLES = r"""
         dnac_debug: "{{ dnac_debug }}"
         dnac_log: True
         dnac_log_level: DEBUG
-        config_verify: True
+        config_verify: False
         state: merged
         force_sync: False
         config:
@@ -493,84 +494,28 @@ EXAMPLES = r"""
             rf_profile: "HIGH"
             site:
               floor:
-                name: "FLOOR2"
+                name: "FLOOR1"
                 parent_name: "Global/USA/New York/BLDNYC"
             ap_name: "LTTS-test2"
             admin_status: "Enabled"
             led_status: "Enabled"
-            led_brightness_level: 2
+            led_brightness_level: 5
             ap_mode: "Local"
-            location: "LTTS/Cisco/Bangalore"
-            failover_priority: "Medium"
-            clean_air_si_2.4ghz: "Enabled"
-            clean_air_si_5ghz: "Enabled"
-            clean_air_si_6ghz: "Disabled"
-            primary_controller_name: "SJ-EWLC-1"
-            primary_ip_address:
-              address: "204.192.4.200"
-            secondary_controller_name: "Inherit from site/Clear"
-            secondary_ip_address:
-              address: "10.0.0.2"
-            tertiary_controller_name": "Clear"
-            tertiary_ip_address:
-              address: "10.0.0.3"
+            location: "LTTS/Cisco/Chennai"
+            failover_priority: "Low"
             2.4ghz_radio:
               admin_status: "Enabled"
-              antenna_name: "other"
-              antenna_gain: 4
-              radio_role_assignment: "Auto"
-              cable_loss: 75
-              antenna_cable_name: "other"
-              channel_assignment_mode: "Custom"
-              channel_number: 36
-              power_assignment_mode: "Custom"
-              powerlevel: 1
+              antenna_name: "C-ANT9104-2.4GHz"
+              radio_role_assignment: "Client-Serving"
+              channel_number: 5
+              powerlevel: 2
             5ghz_radio:
               admin_status: "Enabled"
-              antenna_name: "other"
-              antenna_gain: 4
-              radio_role_assignment: "Auto"
-              power_assignment_mode: "Custom"
-              powerlevel: 1
-              antenna_cable_name: "other"
-              cable_loss: 75
-              channel_assignment_mode: "Custom"
+              antenna_name: "AIR-ANT2513P4M-N-5GHz"
+              radio_role_assignment: "Client-Serving"
               channel_number: 36
-              channel_width: "20 MHz"
-            6ghz_radio:
-              admin_status: "Enabled"
-              radio_role_assignment: "Auto"
-              power_assignment_mode: "Custom"
-              powerlevel: 1
-              channel_assignment_mode: "Custom"
-              channel_number: 36
-              channel_width: "20 MHz"
-            xor_radio:
-              admin_status: "Enabled"
-              antenna_name: "other"
-              antenna_gain: 4
-              antenna_cable_name: "other"
-              cable_loss: 75
-              radio_role_assignment: "Auto"
-              radio_band: "5 GHz"
-              power_assignment_mode: "Custom"
-              powerlevel: 1
-              channel_assignment_mode: "Custom"
-              channel_number: 36
-              channel_width: "20 MHz"
-            tri_radio:
-              dual_radio_mode: "Auto"
-              antenna_name: "other"
-              antenna_gain: 4
-              radio_role_assignment: "Auto"
-              admin_status: "Enabled"
-              antenna_cable_name: "other"
-              cable_loss: 75
-              power_assignment_mode: "Custom"
-              powerlevel: 1
-              channel_assignment_mode: "Custom"
-              channel_number: 36
-              channel_width: "20 MHz"
+              powerlevel: 2
+              channel_width: "40 MHz"
       register: output_list
 """
 
@@ -632,18 +577,18 @@ response:
                             'bapiKey': 'd897-19b8-47aa-a9c4',
                                 'bapiName': 'AP Provision',
                                     'bapiExecutionId': '97d5edd5-d5db-40d8-9ab6-f15dc4a5cc30',
-                                        'tartTime': 'Wed Jul 03 18:37:24 UTC 2024', 
-                                        'startTimeEpoch': 1720031844919, 
-                                        'endTimeEpoch': 0, 
-                                    'timeDuration': 0, 
-                                'status': 'IN_PROGRESS', 
+                                        'tartTime': 'Wed Jul 03 18:37:24 UTC 2024',
+                                        'startTimeEpoch': 1720031844919,
+                                        'endTimeEpoch': 0,
+                                    'timeDuration': 0,
+                                'status': 'IN_PROGRESS',
                             'runtimeInstanceId': 'DNACP_Runtime_3f8f258c-9f7a-4511-b361-592ee9e0c4d2'
-                        } 
+                        }
                     }
 
 """
 
-import re, time, json
+
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
     validate_list_of_dicts,
@@ -669,11 +614,9 @@ class Accesspoint(DnacBase):
             "tri_radio": ["9124AXE", "9130AXI", "9130AXE"]
         }
         self.allowed_channel_no = {
-            "2.4ghz_radio": [no for no in range(1,12)],
-            "5ghz_radio": (36, 40, 44, 48, 52, 56, 60, 64, 100,
-                          104, 108, 112, 116, 120, 124, 128, 132,
-                          136, 140, 144, 149, 153, 157, 161, 165,
-                          169, 173)
+            "2.4ghz_radio": list(range(1, 12)),
+            "5ghz_radio": (36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120,
+                           124, 128, 132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173)
         }
 
     def validate_input_yml(self):
@@ -763,7 +706,7 @@ class Accesspoint(DnacBase):
                 valid_param_radio, invalid_params_radio = \
                     validate_list_of_dicts([radio_config], radio_config_sepc)
                 if len(invalid_params_radio) > 0:
-                    invalid_list_radio.append(each_radio+str(invalid_params_radio))
+                    invalid_list_radio.append(each_radio + str(invalid_params_radio))
 
         valid_param, invalid_params = validate_list_of_dicts(aplist, accesspoint_spec)
 
@@ -802,7 +745,7 @@ class Accesspoint(DnacBase):
         """
         want = {}
 
-        for key,value in ap_config.items():
+        for key, value in ap_config.items():
             if key not in ("ap_selected_fields", "ap_config_selected_fields"):
                 if ap_config.get(key) is not None:
                     want[key] = value
@@ -892,12 +835,12 @@ class Accesspoint(DnacBase):
                 responses["accesspoints_updates"] = {
                     "ap_config_response": self.payload["access_point_config"],
                     "ap_config_message": self.msg
-                    }
+                }
                 self.result['ap_update_msg'] = self.msg
                 self.result["changed"] = False
             else:
                 self.log('Final AP Configuration data to update {0}'.format(self.pprint(
-                consolidated_data)), "INFO")
+                    consolidated_data)), "INFO")
                 task_response = self.update_ap_configuration(consolidated_data)
 
                 if task_response and isinstance(task_response, dict):
@@ -905,7 +848,7 @@ class Accesspoint(DnacBase):
                     resync_retry_interval = self.payload.get("dnac_task_poll_interval", 1)
                     while resync_retry_count:
                         task_details_response = self.get_task_details(
-                                task_response["response"]["taskId"])
+                            task_response["response"]["taskId"])
                         self.log("Status of the task: {0} .".format(self.status), "INFO")
                         if  task_details_response.get("endTime") is not None and \
                             task_details_response.get("isError") is False:
@@ -998,7 +941,7 @@ class Accesspoint(DnacBase):
             return self
         else:
             self.status = "success"
-            self.msg = """The requested AP Config '{0}' is present in the Cisco Catalyst Center 
+            self.msg = """The requested AP Config '{0}' is present in the Cisco Catalyst Center
                         and its creation has been verified.""".format(ap_name)
             self.log(self.msg, "INFO")
 
@@ -1437,7 +1380,7 @@ class Accesspoint(DnacBase):
                      Cisco Catalyst Center.".format(str(input_param))
             self.log(msg + str(e), "WARNING")
 
-        if accesspoint_exists == False:
+        if not accesspoint_exists:
             self.msg = "The provided device '{0}' is either invalid or not present in the \
                      Cisco Catalyst Center.".format(str(input_param))
             self.module.fail_json(msg="MAC Address not exist:", response=str(self.msg))
@@ -1885,7 +1828,8 @@ class Accesspoint(DnacBase):
                 excluded_keys = ("mac_address", "hostname", "management_ip_address",
                                  "rf_profile", "site", "site_name")
                 for value in excluded_keys:
-                    if value in configurable_keys: configurable_keys.remove(value)
+                    if value in configurable_keys:
+                        configurable_keys.remove(value)
 
                 temp_dtos_list = []
                 for each_key in configurable_keys :
@@ -2151,7 +2095,8 @@ class Accesspoint(DnacBase):
 
         for key_to_remove in ("mac_address", "hostname", "management_ip_address",
                                 "macAddress"):
-            if ap_config.get(key_to_remove): del ap_config[key_to_remove]
+            if ap_config.get(key_to_remove):
+                del ap_config[key_to_remove]
         self.log("CHECKIN update: {0}".format(self.pprint(ap_config)),
                         "INFO")
         try:
