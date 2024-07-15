@@ -1072,15 +1072,13 @@ class Accesspoint(DnacBase):
         if ap_config.get("site"):
             if ap_config.get("site").get("floor").get("name"):
                 if not isinstance(ap_config.get("site").get("floor").get("name"), str) or \
-                len(ap_config.get("site").get("floor").get("name")) > 32:
-                    errormsg.append("name: Invalid type or length > 32 characters \
-                                        in playbook.")
+                        len(ap_config.get("site").get("floor").get("name")) > 32:
+                    errormsg.append("name: Invalid type or length > 32 characters in playbook.")
 
             if ap_config.get("site").get("floor").get("parent_name"):
                 if not isinstance(ap_config.get("site").get("floor").get("parent_name"), str) or \
-                len(ap_config.get("site").get("floor").get("parent_name")) > 64:
-                    errormsg.append("parent_name: Invalid type or length > 64 characters \
-                                        in playbook.")
+                        len(ap_config.get("site").get("floor").get("parent_name")) > 64:
+                    errormsg.append("parent_name: Invalid type or length > 64 characters in playbook.")
 
         if ap_config.get("ap_name"):
             param_spec = dict(type="str", length_max=32)
@@ -1088,102 +1086,92 @@ class Accesspoint(DnacBase):
 
         if ap_config.get("led_brightness_level"):
             if ap_config["led_brightness_level"] not in range(1, 9):
-                errormsg.append("led_brightness_level: Invalid LED Brightness level '{0}'\
-                                in playbook".format(ap_config["led_brightness_level"]))
+                errormsg.append("led_brightness_level: Invalid LED Brightness level '{0}' in playbook"
+                                .format(ap_config["led_brightness_level"]))
 
-        if ap_config.get("led_status") and ap_config.get("led_status")\
-            not in ("Disabled", "Enabled"):
-                errormsg.append("led_status: Invalid LED Status '{0}' in playbook".format(
-                                ap_config["led_status"]))
+        if ap_config.get("led_status") and ap_config.get("led_status") not in ("Disabled", "Enabled"):
+            errormsg.append("led_status: Invalid LED Status '{0}' in playbook".format(ap_config["led_status"]))
 
         if ap_config.get("location"):
             param_spec = dict(type="str", length_max=255)
             validate_str(ap_config["location"], param_spec, "location", errormsg)
 
         if ap_config.get("ap_mode"):
-            if ap_config.get("ap_mode") not in ("Local", "Monitor", "Sniffer",
-                                                "Bridge"):
-                errormsg.append("ap_mode: Invalid value '{0}' for ap_mode in playbook.\
-                                Must be one of: Local, Monitor, Sniffer or Bridge."\
+            if ap_config.get("ap_mode") not in ("Local", "Monitor", "Sniffer", "Bridge"):
+                errormsg.append("ap_mode: Invalid value '{0}' for ap_mode in playbook. Must be one of: Local, Monitor, Sniffer or Bridge."
                                 .format(ap_config.get("ap_mode")))
 
         if ap_config.get("failover_priority"):
             if ap_config.get("failover_priority") not in ("Low", "Medium", "High", "Critical"):
-                errormsg.append("failover_priority: Invalid value '{0}' for failover_priority\
-                                in playbook. Must be one of:  Low, Medium, High or Critical."\
+                errormsg.append("failover_priority: Invalid value '{0}' for failover_priority in playbook. Must be one of: Low, Medium, High or Critical."
                                 .format(ap_config.get("failover_priority")))
 
         if ap_config.get("clean_air_si_2.4ghz"):
             if ap_config.get("clean_air_si_2.4ghz") not in ("Enabled", "Disabled"):
-                errormsg.append("clean_air_si_2.4ghz: Invalid value '{0}' for clean air 2.4ghz\
-                            in playbook. Must be either 'Enabled' or 'Disabled'."\
-                            .format(ap_config.get("clean_air_si_2.4ghz")))
+                errormsg.append("clean_air_si_2.4ghz: Invalid value '{0}' for clean air 2.4ghz in playbook. Must be either 'Enabled' or 'Disabled'."
+                                .format(ap_config.get("clean_air_si_2.4ghz")))
 
         if ap_config.get("clean_air_si_5ghz"):
             if ap_config.get("clean_air_si_5ghz") not in ("Enabled", "Disabled"):
-                errormsg.append("clean_air_si_5ghz: Invalid value '{0}' for clean air 6ghz\
-                            in playbook. Must be either 'Enabled' or 'Disabled'."\
-                            .format(ap_config.get("clean_air_si_5ghz")))
+                errormsg.append("clean_air_si_5ghz: Invalid value '{0}' for clean air 6ghz in playbook. Must be either 'Enabled' or 'Disabled'."
+                                .format(ap_config.get("clean_air_si_5ghz")))
 
         if ap_config.get("clean_air_si_6ghz"):
             if ap_config.get("clean_air_si_6ghz") not in ("Enabled", "Disabled"):
-                errormsg.append("clean_air_si_6ghz: Invalid value '{0}' for clean air 6ghz\
-                            in playbook. Must be either 'Enabled' or 'Disabled'."\
-                            .format(ap_config.get("clean_air_si_6ghz")))
+                errormsg.append("clean_air_si_6ghz: Invalid value '{0}' for clean air 6ghz in playbook. Must be either 'Enabled' or 'Disabled'."
+                                .format(ap_config.get("clean_air_si_6ghz")))
 
         if ap_config.get("primary_controller_name"):
             if ap_config["primary_controller_name"] == "":
-                errormsg.append("primary_controller_name: Invalid primary controller name '{0}'\
-                                in playbook. Please select one of: Inherit from site/Clear or \
-                                Controller name."\
-                                .format(ap_config["primary_controller_name"]))
+                errormsg.append(
+                    "primary_controller_name: Invalid primary controller name '{0}' in playbook. "
+                    "Please select one of: Inherit from site/Clear or Controller name."
+                    .format(ap_config["primary_controller_name"])
+                )
 
         if ap_config.get("secondary_controller_name"):
             if ap_config["secondary_controller_name"] == "":
-                errormsg.append("secondary_controller_name: Invalid Secondary Controller Name '{0}'\
-                                in playbook. Please select one of: Inherit from site/Clear or \
-                                controller name."\
-                                .format(ap_config["secondary_controller_name"]))
+                errormsg.append(
+                    "secondary_controller_name: Invalid Secondary Controller Name '{0}' in playbook. "
+                    "Please select one of: Inherit from site/Clear or controller name."
+                    .format(ap_config["secondary_controller_name"])
+                )
 
         if ap_config.get("tertiary_controller_name"):
             if ap_config["tertiary_controller_name"] == "":
-                errormsg.append("tertiary_controller_name: Invalid Tertiary Controller Name '{0}' \
-                                in playbook. Please select: Clear or Controller name."\
+                errormsg.append("tertiary_controller_name: Invalid Tertiary Controller Name '{0}' in playbook. Please select: Clear or Controller name."
                                 .format(ap_config["tertiary_controller_name"]))
 
         if ap_config.get("primary_ip_address"):
             if not self.is_valid_ipv4(ap_config["primary_ip_address"]["address"]):
-                errormsg.append("primary_ip_address: Invalid Primary IP Address '{0}' in playbook"\
+                errormsg.append("primary_ip_address: Invalid Primary IP Address '{0}' in playbook"
                                 .format(ap_config["primary_ip_address"]))
 
         if ap_config.get("secondary_ip_address"):
             if not self.is_valid_ipv4(ap_config["secondary_ip_address"]["address"]):
-                errormsg.append("secondary_ip_address: Invalid Secondary IP Address '{0}'\
-                                in playbook".format(ap_config["secondary_ip_address"]))
+                errormsg.append("secondary_ip_address: Invalid Secondary IP Address '{0}' in playbook"
+                                .format(ap_config["secondary_ip_address"]))
 
-        if ap_config.get("tertiary_ip_address"):
-            if not self.is_valid_ipv4(ap_config["tertiary_ip_address"]["address"]):
-                errormsg.append("tertiary_ip_address: Invalid Tertiary IP Address '{0}'\
-                                 in playbook".format(ap_config["tertiary_ip_address"]))
+            if ap_config.get("tertiary_ip_address"):
+                if not self.is_valid_ipv4(ap_config["tertiary_ip_address"]["address"]):
+                    errormsg.append("tertiary_ip_address: Invalid Tertiary IP Address '{0}' in playbook"
+                                    .format(ap_config["tertiary_ip_address"]))
 
         if ap_config.get("dual_radio_mode") and \
-            ap_config.get("dual_radio_mode") not in ["Auto", "Enable", "Disable"]:
-            errormsg.append("dual_radio_mode: Invalid value '{0}' for Dual Radio Mode in playbook.\
-                             Must be one of: Auto, Enable, Disable."\
+                ap_config.get("dual_radio_mode") not in ["Auto", "Enable", "Disable"]:
+            errormsg.append("dual_radio_mode: Invalid value '{0}' for Dual Radio Mode in playbook. Must be one of: Auto, Enable, Disable."
                             .format(ap_config.get("dual_radio_mode")))
 
         for radio_series in ("2.4ghz_radio", "5ghz_radio", "6ghz_radio", "xor_radio", "tri_radio"):
             if ap_config.get(radio_series):
                 each_radio = ap_config.get(radio_series)
                 if each_radio.get("admin_status") not in ("Enabled", "Disabled"):
-                    errormsg.append("""admin_status: Invalid value '{0}' for admin_status
-                                    in playbook. Must be either 'Enabled' or 'Disabled'."""\
+                    errormsg.append("admin_status: Invalid value '{0}' for admin_status in playbook. Must be either 'Enabled' or 'Disabled'."
                                     .format(each_radio.get("admin_status")))
 
-                if self.have["current_ap_config"]["ap_mode"] not in ("Local/FlexConnect",
-                                                                             "Local"):
-                    errormsg.append("Radio Params cannot be changed when AP mode is in {0}."\
-                        .format(self.have["current_ap_config"]["ap_mode"]))
+                if self.have["current_ap_config"]["ap_mode"] not in ("Local/FlexConnect", "Local"):
+                    errormsg.append("Radio Params cannot be changed when AP mode is in {0}."
+                                    .format(self.have["current_ap_config"]["ap_mode"]))
 
                 if radio_series in ("2.4ghz_radio", "5ghz_radio", "6ghz_radio", "xor_radio"):
                     if radio_series == "2.4ghz_radio":
@@ -1203,120 +1191,91 @@ class Accesspoint(DnacBase):
 
                 if each_radio.get("antenna_gain") is not None:
                     if each_radio["antenna_gain"] not in range(1, 10):
-                        errormsg.append("antenna_gain: Invalid Antenna Gain '{0}' in playbook"\
-                                .format(each_radio["antenna_gain"]))
+                        errormsg.append(
+                            "antenna_gain: Invalid Antenna Gain '{0}' in playbook"
+                            .format(each_radio["antenna_gain"])
+                        )
 
                 if each_radio.get("channel_assignment_mode") is not None:
                     if each_radio.get("channel_assignment_mode") not in ("Global", "Custom"):
-                        errormsg.append("channel_assignment_mode: Invalid value '{0}' \
-                            for Channel Assignment Mode in playbook. \
-                            Must be either 'Global' or 'Custom'."\
-                            .format(each_radio.get("channel_assignment_mode")))
+                        errormsg.append(
+                            "channel_assignment_mode: Invalid value '{0}' for Channel Assignment Mode in playbook. Must be either 'Global' or 'Custom'."
+                            .format(each_radio.get("channel_assignment_mode"))
+                        )
 
                 if each_radio.get("channel_number") is not None:
-                    if each_radio.get("channel_number") not in \
-                        self.allowed_channel_no[radio_series] :
-                        errormsg.append("channel_number: Invalid value '{0}'\
-                            for Channel Number in playbook. Must be one of: {1}."\
-                            .format(each_radio.get("channel_number"),
-                                 str(self.allowed_channel_no[radio_series])))
+                    if each_radio.get("channel_number") not in self.allowed_channel_no[radio_series]:
+                        errormsg.append(
+                            "channel_number: Invalid value '{0}' for Channel Number in playbook. Must be one of: {1}."
+                            .format(each_radio.get("channel_number"), str(self.allowed_channel_no[radio_series]))
+                        )
                     else:
                         current_radio_role = self.check_current_radio_role_assignment(
                             radio_series, self.have["current_ap_config"]["radio_dtos"])
                         if current_radio_role != "Client-Serving":
-                            errormsg.append("channel_number: This configuration is only supported\
-                                            with Client-Serving Radio Role Assignment {} "\
-                            .format(current_radio_role))
+                            errormsg.append(
+                                "channel_number: This configuration is only supported with Client-Serving Radio Role Assignment {0} "
+                                .format(current_radio_role)
+                            )
 
                 if each_radio.get("channel_width") is not None:
-                    if each_radio.get("channel_width") not in ("20 MHz", "40 MHz", "80 MHz",
-                                                               "160 MHz"):
-                        errormsg.append("channel_width: Invalid value '{0}' \
-                        for Channel width in playbook. \
-                        Must be one of: '20 MHz', '40 MHz', '80 MHz', or '160 MHz'."\
-                        .format(each_radio.get("channel_width")))
+                    if each_radio.get("channel_width") not in ("20 MHz", "40 MHz", "80 MHz", "160 MHz"):
+                        errormsg.append(
+                            "channel_width: Invalid value '{0}' for Channel width in playbook. "
+                            "Must be one of: '20 MHz', '40 MHz', '80 MHz', or '160 MHz'."
+                            .format(each_radio.get("channel_width"))
+                        )
 
                 if each_radio.get("power_assignment_mode") is not None:
                     if each_radio.get("power_assignment_mode") not in ("Global", "Custom"):
-                        errormsg.append("power_assignment_mode: Invalid value '{0}' \
-                            for Power assignment mode in playbook. \
-                            Must be either 'Global' or 'Custom'."\
-                            .format(each_radio.get("power_assignment_mode")))
+                        errormsg.append("power_assignment_mode: Invalid value '{0}' for Power assignment mode in playbook. Must be either 'Global' or 'Custom'."
+                                        .format(each_radio.get("power_assignment_mode")))
 
                 if each_radio.get("powerlevel") is not None:
                     if each_radio["powerlevel"] not in range(1, 9):
-                        errormsg.append("powerlevel: Invalid Power level '{0}' in playbook\
-                            Must be between 1 to 8.".format(each_radio["powerlevel"]))
+                        errormsg.append(
+                            "powerlevel: Invalid Power level '{0}' in playbook. Must be between 1 to 8."
+                            .format(each_radio["powerlevel"])
+                        )
                     else:
                         current_radio_role = self.check_current_radio_role_assignment(
                             radio_series, self.have["current_ap_config"]["radio_dtos"])
                         if current_radio_role != "Client-Serving":
-                            errormsg.append("channel_number: This configuration is only supported\
-                                            with Client-Serving Radio Role Assignment {} "\
-                            .format(current_radio_role))
+                            errormsg.append(
+                                "powerlevel: This configuration is only supported with Client-Serving Radio Role Assignment {0} "
+                                .format(current_radio_role)
+                            )
 
                 if each_radio.get("radio_band") is not None:
                     if each_radio.get("radio_band") not in ("2.4 GHz", "5 GHz"):
-                        errormsg.append("radio_band: Invalid value '{0}' for Radio band\
-                                        in playbook. Must be either '2.4 GHz' or '5 GHz'."\
-                            .format(each_radio.get("radio_band")))
+                        errormsg.append("radio_band: Invalid value '{0}' for Radio band in playbook. Must be either '2.4 GHz' or '5 GHz'."
+                                        .format(each_radio.get("radio_band")))
 
                 if each_radio.get("radio_role_assignment") is not None:
-                    if each_radio.get("radio_role_assignment") not in ("Auto",
-                        "Client-Serving", "Monitor"):
-                        errormsg.append("radio_role_assignment: Invalid value '{0}' \
-                                        for radio role assignment in playbook.\
-                            Must be one of: 'Auto', 'Monitor' or 'Client-Serving'."\
-                            .format(each_radio.get("radio_role_assignment")))
+                    if each_radio.get("radio_role_assignment") not in ("Auto", "Client-Serving", "Monitor"):
+                        errormsg.append(
+                            "radio_role_assignment: Invalid value '{0}' for radio role assignment in playbook. "
+                            "Must be one of: 'Auto', 'Monitor' or 'Client-Serving'."
+                            .format(each_radio.get("radio_role_assignment"))
+                        )
                     else:
-                        if self.have["current_ap_config"]["ap_mode"] not in ("Local/FlexConnect",
-                                                                             "Local"):
-                            errormsg.append("radio_role_assignment: Invalid value '{0}' \
-                                        Hence, AP mode is not Local. Kindly change the AP mode to Local \
-                            Then change the radio_role_assignment to Auto ."\
-                            .format(each_radio.get("radio_role_assignment")))
+                        if self.have["current_ap_config"]["ap_mode"] not in ("Local/FlexConnect", "Local"):
+                            errormsg.append(
+                                "radio_role_assignment: Invalid value '{0}'. Hence, AP mode is not Local. "
+                                "Kindly change the AP mode to Local then change the radio_role_assignment to Auto."
+                                .format(each_radio.get("radio_role_assignment"))
+                            )
 
-        if len(errormsg) > 0:
-            self.msg = "Invalid parameters in playbook config: '{0}' "\
-                     .format(str(" \n ".join(errormsg)))
-            self.log(self.msg, "ERROR")
-            self.status = "failed"
-            return self
+                if len(errormsg) > 0:
+                    self.msg = "Invalid parameters in playbook config: '{0}' ".format(str("\n ".join(errormsg)))
+                    self.log(self.msg, "ERROR")
+                    self.status = "failed"
+                    return self
 
-        self.msg = "Successfully validated config params:{0}".format(str(ap_config))
-        self.log(self.msg, "INFO")
-        self.status = "success"
-        return self
-
-    def check_current_radio_role_assignment(self, radio_type, radio_dtos):
-        """
-        Check the current radio role assignment based on radio type and DTOs.
-
-        Parameters:
-        - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-        - radio_type (str): Type of radio ("2.4ghz_radio", "5ghz_radio", or "6ghz_radio").
-        - radio_dtos (list): List of radio data transfer objects containing slot IDs and
-            role assignments.
-
-        Returns:
-        - str: Current radio role assignment corresponding to the specified radio type.
-
-        Description:
-        This method iterates through the provided list of radio DTOS to find and return
-        the radio role assignment based on the specified radio type (2.4 GHz, 5 GHz, or 6 GHz).
-
-        Example:
-        To check the current radio role assignment for the 5 GHz radio, call this method with
-        '5ghz_radio' as 'radio_type' and the list of radio DTOS.
-        """
-
-        for each_dto in radio_dtos:
-            if radio_type == "2.4ghz_radio" and "_"+ str(each_dto["slot_id"]) == "_"+str(0):
-                return each_dto["radio_role_assignment"]
-            elif radio_type == "5ghz_radio" and each_dto["slot_id"] == 1:
-                return each_dto["radio_role_assignment"]
-            elif radio_type == "6ghz_radio" and each_dto["slot_id"] == 2:
-                return each_dto["radio_role_assignment"]
+                self.msg = "Successfully validated config params: {0}".format(str(ap_config))
+                self.log(self.msg, "INFO")
+                self.status = "success"
+                return self
 
     def get_accesspoint_details(self, input_config):
         """
@@ -1356,7 +1315,7 @@ class Accesspoint(DnacBase):
         self.keymap["hostname"] = "hostname"
         for key in ['mac_address', 'management_ip_address', 'hostname']:
             if input_config.get(key):
-                input_param[self.keymap[key]]= input_config[key]
+                input_param[self.keymap[key]] = input_config[key]
                 break
 
         if not input_param:
@@ -1434,7 +1393,7 @@ class Accesspoint(DnacBase):
                 self.payload["site_exists"] = site_exists
                 self.payload["current_site"] = current_site
                 self.payload["site_changes"] = self.get_site_device(current_site["site_id"],
-                                    current_configuration["mac_address"])
+                                                                    current_configuration["mac_address"])
                 provision_status, wlc_details = self.verify_ap_provision(
                     current_configuration["associated_wlc_ip"])
                 self.payload["wlc_provision_status"] = provision_status
@@ -1454,13 +1413,13 @@ class Accesspoint(DnacBase):
         Retrieves the access point configuration data from Cisco Catalyst Center.
 
         Parameters:
-          - self (object): An instance of the class containing the method.
-          - ap_ethernet_mac_address (str): The Ethernet MAC address of the access point.
-          - tuple: A tuple containing a boolean indicating if the access point exists and
+        - self (object): An instance of the class containing the method.
+        - ap_ethernet_mac_address (str): The Ethernet MAC address of the access point.
+        - tuple: A tuple containing a boolean indicating if the access point exists and
             a dictionary of the current configuration.
         Returns:
             (
-                True
+                True,
                 {
                     "ap_name": "NFW-AP1-9130AXE",
                     "eth_mac": "34:5d:a8:0e:20:b4",
@@ -1490,12 +1449,10 @@ class Accesspoint(DnacBase):
             if ap_config_response:
                 self.keymap = self.map_config_key_to_api_param(self.keymap, ap_config_response)
                 current_configuration = self.camel_to_snake_case(ap_config_response)
-                self.log("Received API response from 'get_access_point_configuration': {0}"\
-                            .format(self.pprint(current_configuration)), "INFO")
+                self.log("Received API response from 'get_access_point_configuration': {0}".format(self.pprint(current_configuration)), "INFO")
                 accesspoint_config_exists = True
         except Exception as e:
-            self.log("Unable to get the Accesspoint configuratoin for '{0}' ."\
-                        .format(str(input_param) + str(e)), "WARNING")
+            self.log("Unable to get the Accesspoint configuration for '{0}'.".format(str(input_param) + str(e)), "WARNING")
 
         return (accesspoint_config_exists, current_configuration)
 
@@ -1537,8 +1494,7 @@ class Accesspoint(DnacBase):
                 if response.get("response"):
                     site = response["response"][0]
                     self.log("Site response: {0}".format(self.pprint(site)), "INFO")
-                    location = get_dict_result(site.get("additionalInfo"), 'nameSpace',
-                                                    "Location")
+                    location = get_dict_result(site.get("additionalInfo"), 'nameSpace', "Location")
                     type_info = location.get("attributes", {}).get("type")
 
                     if type_info == "floor":
@@ -1554,12 +1510,10 @@ class Accesspoint(DnacBase):
                         "type": type_info,
                         "site": site_info,
                         "site_id": site.get("id"),
-                        "site_name": site_info["floor"]["parentName"] +"/" +\
-                            site_info["floor"]["name"]
+                        "site_name": site_info["floor"]["parentName"] + "/" + site_info["floor"]["name"]
                     }
                     self.log('Current site details: {0}'.format(str(current_site)), "INFO")
-                    self.log("Site '{0}' exists in Cisco Catalyst Center".format(site.get("name")),
-                            "INFO")
+                    self.log("Site '{0}' exists in Cisco Catalyst Center".format(site.get("name")), "INFO")
                     site_exists = True
             except Exception as e:
                 msg = "The provided site name '{0}' is either invalid or not present in the \
@@ -1608,13 +1562,14 @@ class Accesspoint(DnacBase):
                         if mac_address:
                             device_mac_info.append(mac_address)
                 if ap_mac_address in device_mac_info:
-                    self.log("Device with MAC address: {macAddress} found in site: {sId},\
-                        Proceeding with ap_site updation.".format(macAddress= ap_mac_address,
-                                                                sId = site_id), "INFO")
+                    self.log("Device with MAC address: {macAddress} found in site: {sId},"
+                             "Proceeding with ap_site updation."
+                             .format(macAddress=ap_mac_address, sId=site_id), "INFO")
                     return True
                 else:
-                    self.log("Device with MAC address: {macAddress} not found in site:\
-                        {sId}".format(macAddress=ap_mac_address, sId=site_id), "INFO")
+                    self.log("Device with MAC address: {macAddress} found in site: {sId},"
+                             "Proceeding with ap_site updation."
+                             .format(macAddress=ap_mac_address, sId=site_id), "INFO")
                     return False
         except Exception as e:
             self.log("Failed to execute the get_membership function '{}'\
@@ -1691,9 +1646,9 @@ class Accesspoint(DnacBase):
             type_name = self.have.get("ap_type")
 
             if not site_name_hierarchy or not rf_profile or not host_name:
-                error_msg = ("Cannot provision device: Missing parameters - \
-                            site_name_hierarchy: {0}, rf_profile: {1}, host_name: {2}").\
-                             format(site_name_hierarchy, rf_profile, host_name)
+                error_msg = ("Cannot Provision device: Missing parameters - "
+                             "site_name_hierarchy: {0}, rf_profile: {1}, host_name: {2}"
+                             .format(site_name_hierarchy, rf_profile, host_name))
                 self.log(error_msg, "ERROR")
                 self.module.fail_json(msg=error_msg)
 
@@ -1764,30 +1719,31 @@ class Accesspoint(DnacBase):
 
         available_key = {
             "_0": ("admin_status", "antenna_gain", "antenna_name", "radio_role_assignment",
-                  "power_assignment_mode", "powerlevel", "channel_assignment_mode",
-                  "channel_number", "cable_loss", "antenna_cable_name", "radio_type"),
+                   "power_assignment_mode", "powerlevel", "channel_assignment_mode",
+                   "channel_number", "cable_loss", "antenna_cable_name", "radio_type"),
             "_1": ("admin_status", "antenna_gain", "antenna_name", "radio_role_assignment",
-                  "power_assignment_mode", "powerlevel", "channel_assignment_mode",
-                  "channel_number", "cable_loss", "antenna_cable_name", "channel_width",
-                  "radio_type"),
+                   "power_assignment_mode", "powerlevel", "channel_assignment_mode",
+                   "channel_number", "cable_loss", "antenna_cable_name", "channel_width",
+                   "radio_type"),
             "_2": ("admin_status", "radio_role_assignment", "radio_type",
-                  "power_assignment_mode", "powerlevel", "channel_assignment_mode",
-                  "channel_number", "channel_width"),
+                   "power_assignment_mode", "powerlevel", "channel_assignment_mode",
+                   "channel_number", "channel_width"),
             "_3": ("admin_status", "antenna_gain", "antenna_name", "radio_role_assignment",
-                  "power_assignment_mode", "powerlevel", "channel_assignment_mode",
-                  "channel_number", "cable_loss", "antenna_cable_name", "radio_band",
-                  "channel_width", "radio_type"),
+                   "power_assignment_mode", "powerlevel", "channel_assignment_mode",
+                   "channel_number", "cable_loss", "antenna_cable_name", "radio_band",
+                   "channel_width", "radio_type"),
             "_4": ("admin_status", "antenna_gain", "antenna_name", "radio_role_assignment",
-                  "power_assignment_mode", "powerlevel", "channel_assignment_mode",
-                  "channel_number", "cable_loss", "antenna_cable_name", "dual_radio_mode",
-                  "channel_width", "radio_type")
+                   "power_assignment_mode", "powerlevel", "channel_assignment_mode",
+                   "channel_number", "cable_loss", "antenna_cable_name", "dual_radio_mode",
+                   "channel_width", "radio_type")
         }
+
         temp_dtos = {}
         unmatch_count = 0
         dtos_keys = list(want_radio.keys())
 
         for dto_key in dtos_keys:
-            if dto_key in available_key["_"+ str(current_radio["slot_id"])]:
+            if dto_key in available_key[" _ " + str(current_radio["slot_id"])]:
                 if dto_key == "antenna_name":
                     temp_dtos[dto_key] = want_radio[dto_key]
                     unmatch_count = unmatch_count + 1
@@ -1873,15 +1829,15 @@ class Accesspoint(DnacBase):
                         current_radio_dtos = current_ap_config.get("radio_dtos")
                         for each_dtos in current_radio_dtos:
                             if each_key == "clean_air_si_2.4ghz" and each_dtos["slot_id"] == 0 \
-                                and each_dtos["clean_air_si"] != self.want.get(each_key):
+                                    and each_dtos["clean_air_si"] != self.want.get(each_key):
                                 update_config["cleanAirSI24"] = self.want[each_key]
                                 break
                             elif each_key == "clean_air_si_5ghz" and each_dtos["slot_id"] == 1 \
-                                and each_dtos["clean_air_si"] != self.want.get(each_key):
+                                    and each_dtos["clean_air_si"] != self.want.get(each_key):
                                 update_config["cleanAirSI5"] = self.want[each_key]
                                 break
                             elif each_key == "clean_air_si_6ghz" and each_dtos["slot_id"] == 2 \
-                                and each_dtos["clean_air_si"] != self.want.get(each_key):
+                                    and each_dtos["clean_air_si"] != self.want.get(each_key):
                                 update_config["cleanAirSI6"] = self.want[each_key]
                                 break
                     else:
@@ -1891,7 +1847,7 @@ class Accesspoint(DnacBase):
                 if temp_dtos_list:
                     update_config["radioConfigurations"] = temp_dtos_list
                 if update_config.get("apName") is not None and \
-                    update_config.get("apNameNew") is None:
+                        update_config.get("apNameNew") is None:
                     del update_config["apName"]
 
                 if self.want.get("primary_controller_name") == "Inherit from site/Clear":
@@ -1908,7 +1864,7 @@ class Accesspoint(DnacBase):
                     update_config["macAddress"] = current_ap_config["eth_mac"]
 
             if update_config:
-                self.log("Consolidated config to update AP configuration: {0}"\
+                self.log("Consolidated config to update AP configuration: {0}"
                          .format(self.pprint(update_config)), "INFO")
                 return update_config
 
@@ -1932,8 +1888,8 @@ class Accesspoint(DnacBase):
             final_input_data = functions.update_ap_configuration(ap_config)
         """
 
-        self.log("Updating access point configuration information: {0}"\
-                    .format(ap_config[self.keymap["mac_address"]]), "INFO")
+        self.log("Updating access point configuration information: {0}"
+                 .format(ap_config[self.keymap["mac_address"]]), "INFO")
         ap_config["adminStatus"] = True
         ap_config["configureAdminStatus"] = True
 
@@ -1976,11 +1932,11 @@ class Accesspoint(DnacBase):
             ap_config["configureApMode"] = True
 
         if ap_config.get(self.keymap["primary_controller_name"]) is not None or \
-            ap_config.get(self.keymap["secondary_controller_name"]) is not None or \
-            ap_config.get(self.keymap["tertiary_controller_name"]) is not None or \
-            ap_config.get(self.keymap["primary_ip_address"]) is not None or \
-            ap_config.get(self.keymap["secondary_ip_address"]) is not None or \
-            ap_config.get(self.keymap["tertiary_ip_address"]) is not None :
+                ap_config.get(self.keymap["secondary_controller_name"]) is not None or \
+                ap_config.get(self.keymap["tertiary_controller_name"]) is not None or \
+                ap_config.get(self.keymap["primary_ip_address"]) is not None or \
+                ap_config.get(self.keymap["secondary_ip_address"]) is not None or \
+                ap_config.get(self.keymap["tertiary_ip_address"]) is not None :
             ap_config["configureHAController"] = True
 
         if ap_config.get(self.keymap["failover_priority"]) is not None:
@@ -2069,8 +2025,7 @@ class Accesspoint(DnacBase):
                 if each_radio.get(self.keymap["radio_role_assignment"]) is not None:
                     if each_radio.get(self.keymap["radio_role_assignment"]) == "Auto":
                         radio_dtos[self.keymap["radio_role_assignment"]] = "AUTO"
-                    elif each_radio.get(self.keymap["radio_role_assignment"]) == \
-                        "Client-Serving":
+                    elif each_radio.get(self.keymap["radio_role_assignment"]) == "Client-Serving":
                         radio_dtos[self.keymap["radio_role_assignment"]] = "SERVING"
                     else:
                         radio_dtos[self.keymap["radio_role_assignment"]] = "MONITOR"
@@ -2087,7 +2042,7 @@ class Accesspoint(DnacBase):
 
                 if each_radio.get(self.keymap["antenna_gain"]) is not None:
                     if each_radio.get(self.keymap["antenna_gain"]) is not None and \
-                        each_radio.get(self.keymap["antenna_gain"]) > 0:
+                            each_radio.get(self.keymap["antenna_gain"]) > 0:
                         radio_dtos[self.keymap["antenna_gain"]] = \
                             each_radio.get(self.keymap["antenna_gain"])
                         radio_dtos["antennaPatternName"] = "other"
@@ -2096,12 +2051,10 @@ class Accesspoint(DnacBase):
                 temp_radio_dtos_list.append(radio_dtos)
             ap_config["radioConfigurations"] = temp_radio_dtos_list
 
-        for key_to_remove in ("mac_address", "hostname", "management_ip_address",
-                                "macAddress"):
+        for key_to_remove in ("mac_address", "hostname", "management_ip_address", "macAddress"):
             if ap_config.get(key_to_remove):
                 del ap_config[key_to_remove]
-        self.log("CHECKIN update: {0}".format(self.pprint(ap_config)),
-                        "INFO")
+        self.log("CHECKIN update: {0}".format(self.pprint(ap_config)), "INFO")
         try:
             response = self.dnac._exec(
                 family="wireless",
