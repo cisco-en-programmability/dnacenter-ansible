@@ -680,25 +680,25 @@ class IseRadiusIntegration(DnacBase):
 
         all_auth_server_details = []
         for item in authentication_policy_server:
-            AuthServer = {
+            auth_server = {
                 "exists": False,
                 "details": None,
                 "id": None
             }
             ip_address = item.get("server_ip_address")
             if ip_address is None:
-                self.msg = "Missing parameter 'server_ip_address' is required."
+                self.msg = "The parameter 'server_ip_address' is missing but required."
                 self.status = "failed"
                 return self
 
-            AuthServer = self.auth_server_exists(ip_address)
+            auth_server = self.auth_server_exists(ip_address)
             self.log("Authentication and Policy Server exists for '{0}': {1}"
-                     .format(ip_address, AuthServer.get("exists")), "DEBUG")
+                     .format(ip_address, auth_server.get("exists")), "DEBUG")
             self.log("Authentication and Policy Server details for '{0}': {1}"
-                     .format(ip_address, AuthServer.get("details")), "DEBUG")
+                     .format(ip_address, auth_server.get("details")), "DEBUG")
             self.log("Authentication and Policy Server Id for '{0}': {1}"
-                     .format(ip_address, AuthServer.get("id")), "DEBUG")
-            all_auth_server_details.append(AuthServer)
+                     .format(ip_address, auth_server.get("id")), "DEBUG")
+            all_auth_server_details.append(auth_server)
 
         self.have.update({"authenticationPolicyServer": all_auth_server_details})
         self.msg = "Collecting the Authentication and Policy Server " + \
@@ -723,7 +723,7 @@ class IseRadiusIntegration(DnacBase):
         if authentication_policy_server is not None:
             self.get_have_authentication_policy_server(authentication_policy_server).check_return_status()
         else:
-            self.msg = "authentication_policy_server in config is missing in the playbook"
+            self.msg = "The 'authentication_policy_server' is missing in the playbook configuration."
             self.status = "failed"
             return self
 
@@ -757,7 +757,7 @@ class IseRadiusIntegration(DnacBase):
             if not auth_server_exists:
                 server_type = item.get("server_type")
                 if server_type not in ["ISE", "AAA", None]:
-                    self.msg = "The server_type should either be ISE or AAA but not {0}.".format(server_type)
+                    self.msg = "The server_type should be either 'ISE' or 'AAA' but {0} was provided.".format(server_type)
                     self.status = "failed"
                     return self
 
@@ -775,7 +775,7 @@ class IseRadiusIntegration(DnacBase):
             if not auth_server_exists:
                 shared_secret = item.get("shared_secret")
                 if not shared_secret:
-                    self.msg = "Missing parameter 'shared_secret' is required."
+                    self.msg = "The required parameter 'shared_secret' is missing."
                     self.status = "failed"
                     return self
 
@@ -796,8 +796,10 @@ class IseRadiusIntegration(DnacBase):
 
             protocol = item.get("protocol")
             if protocol not in ["RADIUS", "TACACS", "RADIUS_TACACS", None]:
-                self.msg = "protocol should either be ['RADIUS', 'TACACS', 'RADIUS_TACACS']." + \
-                           "It should not be {0}".format(protocol)
+                self.msg = (
+                    "The 'protocol' should be one of ['RADIUS', 'TACACS', 'RADIUS_TACACS'], "
+                    "not '{0}'.".format(protocol)
+                )
                 self.status = "failed"
                 return self
 
@@ -825,7 +827,7 @@ class IseRadiusIntegration(DnacBase):
                 if encryption_scheme == "KEYWRAP":
                     message_key = item.get("message_authenticator_code_key")
                     if not message_key:
-                        self.msg = "The 'message_authenticator_code_key' should not be empty if the encryption_scheme is 'KEYWRAP'."
+                        self.msg = "The 'message_authenticator_code_key' must not be empty when the 'encryption_scheme' is set to 'KEYWRAP'."
                         self.status = "failed"
                         return self
 
