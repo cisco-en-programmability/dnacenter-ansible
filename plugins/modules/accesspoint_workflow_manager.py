@@ -850,7 +850,7 @@ class Accesspoint(DnacBase):
                         task_details_response = self.get_task_details(
                             task_response["response"]["taskId"])
                         self.log("Status of the task: {0} .".format(self.status), "INFO")
-                        if  task_details_response.get("endTime") is not None and \
+                        if  task_details_response.get("endTime") is not None and\
                             task_details_response.get("isError") is False:
                             self.result['changed'] = True
                             self.log("Task Details: {0} .".format(self.pprint(
