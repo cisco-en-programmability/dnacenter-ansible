@@ -850,8 +850,8 @@ class Accesspoint(DnacBase):
                         task_details_response = self.get_task_details(
                             task_response["response"]["taskId"])
                         self.log("Status of the task: {0} .".format(self.status), "INFO")
-                        if  task_details_response.get("endTime") is not None and\
-                            task_details_response.get("isError") is False:
+                        if task_details_response.get("endTime") is not None and\
+                           task_details_response.get("isError") is False:
                             self.result['changed'] = True
                             self.log("Task Details: {0} .".format(self.pprint(
                                 task_details_response)), "INFO")
@@ -862,11 +862,11 @@ class Accesspoint(DnacBase):
                                 "ap_update_config_task_response": task_response,
                                 "ap_update_config_task_details": task_details_response,
                                 "ap_config_update_status": self.msg
-                                }
+                            }
                             self.result['ap_update_msg'] = self.msg
                             break
                         if task_details_response.get("endTime") is not None and \
-                            task_details_response.get("isError") is True:
+                           task_details_response.get("isError") is True:
                             self.result['changed'] = False
                             self.status = "failed"
                             self.msg = "Unable to get success response, hence AP config not updated"
@@ -883,7 +883,7 @@ class Accesspoint(DnacBase):
                         time.sleep(resync_retry_interval)
                         resync_retry_count = resync_retry_count - 1
 
-            if self.have.get("site_required_changes"):
+            if self.have.get("site_required_changes") and self.want.get("site") is not None:
                 if self.have["wlc_provision_status"] == "success":
                     provision_status, provision_details = self.provision_device()
                     if provision_status == "SUCCESS":
@@ -894,9 +894,9 @@ class Accesspoint(DnacBase):
                             "provision_response": provision_details,
                             "provision_message": self.msg
                         })
-            else:
+            elif self.want.get("site") is not None:
                 self.msg = "AP {0} already provisioned in the same site {1}".format(
-                    self.have["hostname"], self.have["site_name_hierarchy"])
+                    self.have["hostname"], self.have.get("site_name_hierarchy"))
                 self.log(self.msg, "INFO")
                 self.result['changed'] = False
                 responses["accesspoints_updates"].update({"provision_message": self.msg})
@@ -931,7 +931,7 @@ class Accesspoint(DnacBase):
         self.log("Current AP Config (have): {0}".format(str(self.have)), "INFO")
         self.log("Desired AP Config (want): {0}".format(str(self.want)), "INFO")
 
-        ap_exists  = self.have.get("ap_exists")
+        ap_exists = self.have.get("ap_exists")
         ap_name = self.have.get("current_ap_config").get("ap_name")
 
         if not ap_exists:
@@ -955,20 +955,20 @@ class Accesspoint(DnacBase):
 
             ap_selected_fields = self.payload.get("config")[0].get("ap_selected_fields")
             if ap_selected_fields is None or ap_selected_fields == "" or \
-                ap_selected_fields == "all":
+               ap_selected_fields == "all":
                 self.payload["access_point_details"] = self.payload["access_point_details"]
             else:
-                self.payload["access_point_details"]=self.data_frame(
+                self.payload["access_point_details"] = self.data_frame(
                     ap_selected_fields, [self.payload["access_point_details"]])
 
             ap_config_selected_fields =\
                 self.payload.get("config")[0].get("ap_config_selected_fields")
 
             if ap_config_selected_fields is None or ap_config_selected_fields == "" \
-                or ap_config_selected_fields == "all":
+               or ap_config_selected_fields == "all":
                 self.payload["access_point_config"] = self.payload["access_point_config"]
             else:
-                self.payload["access_point_config"]=self.data_frame(
+                self.payload["access_point_config"] = self.data_frame(
                     ap_config_selected_fields, [self.payload["access_point_config"]])
 
             self.have["current_ap_config"] = self.payload["access_point_config"]
@@ -1010,16 +1010,16 @@ class Accesspoint(DnacBase):
                 set_flag = False
                 for series in self.allowed_series:
                     pattern = rf'\b{series}\b'
-                    match = re.search(pattern, self.payload["access_point_details"][0]["series"],\
-                                    re.IGNORECASE)
+                    match = re.search(pattern, self.payload["access_point_details"][0]["series"],
+                                      re.IGNORECASE)
                     if match:
                         set_flag = True
                         break
                 if set_flag is False:
-                    invalid_series.append("Access Point series '{0}' not supported for \
-                                          the radio type {1} allowed series {2} "\
-                            .format(self.payload["access_point_details"][0]["series"],
-                                    each_series, ", ".join(self.allowed_series)))
+                    invalid_series.append(
+                        "Access Point series '{0}' not supported for the radio type {1} allowed\
+                        series {2} ".format(self.payload["access_point_details"][0]["series"],
+                                            each_series, ", ".join(self.allowed_series)))
         return invalid_series
 
     def validate_ap_config_parameters(self, ap_config):
@@ -1057,8 +1057,8 @@ class Accesspoint(DnacBase):
         if ap_config.get("mac_address"):
             mac_regex = re.compile(r'^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$')
             if not mac_regex.match(ap_config["mac_address"]):
-                errormsg.append("mac_address : Invalid MAC Address '{0}' in playbook."\
-                                .format(ap_config["mac_address"]))
+                errormsg.append("mac_address : Invalid MAC Address '{0}' in playbook.".format(
+                                ap_config["mac_address"]))
 
         if ap_config.get("management_ip_address"):
             if not self.is_valid_ipv4(ap_config["management_ip_address"]):
@@ -1066,39 +1066,39 @@ class Accesspoint(DnacBase):
                                 in playbook".format(ap_config["management_ip_address"]))
 
         if ap_config.get("rf_profile"):
-            param_spec = dict(type = "str", length_max = 32)
+            param_spec = dict(type="str", length_max=32)
             validate_str(ap_config["rf_profile"], param_spec, "rf_profile", errormsg)
 
         if ap_config.get("site"):
             if ap_config.get("site").get("floor").get("name"):
-                if not isinstance(ap_config.get("site").get("floor").get("name"), str) or\
-                    len(ap_config.get("site").get("floor").get("name")) > 32:
-                    errormsg.append("name: Invalid type or length > 32 characters in playbook.")
+                if not isinstance(ap_config.get("site").get("floor").get("name"), str) or \
+                len(ap_config.get("site").get("floor").get("name")) > 32:
+                    errormsg.append("name: Invalid type or length > 32 characters \
+                                        in playbook.")
 
             if ap_config.get("site").get("floor").get("parent_name"):
-                if not isinstance(ap_config.get("site").get("floor").get("parent_name"), str) \
-                    or len(ap_config.get("site").get("floor").get("parent_name")) > 64:
+                if not isinstance(ap_config.get("site").get("floor").get("parent_name"), str) or \
+                len(ap_config.get("site").get("floor").get("parent_name")) > 64:
                     errormsg.append("parent_name: Invalid type or length > 64 characters \
-                                    in playbook.")
+                                        in playbook.")
 
         if ap_config.get("ap_name"):
-            param_spec = dict(type = "str", length_max = 32)
+            param_spec = dict(type="str", length_max=32)
             validate_str(ap_config["ap_name"], param_spec, "ap_name", errormsg)
 
         if ap_config.get("led_brightness_level"):
-            if ap_config["led_brightness_level"] not in range(1,9):
+            if ap_config["led_brightness_level"] not in range(1, 9):
                 errormsg.append("led_brightness_level: Invalid LED Brightness level '{0}'\
                                 in playbook".format(ap_config["led_brightness_level"]))
 
-        if ap_config.get("led_status") and ap_config.get("led_status") not in (
-            "Disabled", "Enabled"):
-            errormsg.append("led_status: Invalid LED Status '{0}' in playbook"\
-                            .format(ap_config["led_status"]))
+        if ap_config.get("led_status") and ap_config.get("led_status")\
+            not in ("Disabled", "Enabled"):
+                errormsg.append("led_status: Invalid LED Status '{0}' in playbook".format(
+                                ap_config["led_status"]))
 
         if ap_config.get("location"):
-            param_spec = dict(type = "str", length_max = 255)
-            validate_str(ap_config["location"], param_spec, "location",
-                            errormsg)
+            param_spec = dict(type="str", length_max=255)
+            validate_str(ap_config["location"], param_spec, "location", errormsg)
 
         if ap_config.get("ap_mode"):
             if ap_config.get("ap_mode") not in ("Local", "Monitor", "Sniffer",
@@ -1180,6 +1180,11 @@ class Accesspoint(DnacBase):
                                     in playbook. Must be either 'Enabled' or 'Disabled'."""\
                                     .format(each_radio.get("admin_status")))
 
+                if self.have["current_ap_config"]["ap_mode"] not in ("Local/FlexConnect",
+                                                                             "Local"):
+                    errormsg.append("Radio Params cannot be changed when AP mode is in {0}."\
+                        .format(self.have["current_ap_config"]["ap_mode"]))
+
                 if radio_series in ("2.4ghz_radio", "5ghz_radio", "6ghz_radio", "xor_radio"):
                     if radio_series == "2.4ghz_radio":
                         ap_config[radio_series]["radio_type"] = 1
@@ -1193,11 +1198,11 @@ class Accesspoint(DnacBase):
                     self.keymap["radio_type"] = "radioType"
 
                 if each_radio.get("antenna_name") is not None:
-                    param_spec = dict(type = "str", length_max = 32)
+                    param_spec = dict(type="str", length_max=32)
                     validate_str(each_radio["antenna_name"], param_spec, "antenna_name", errormsg)
 
                 if each_radio.get("antenna_gain") is not None:
-                    if each_radio["antenna_gain"] not in range(1,10):
+                    if each_radio["antenna_gain"] not in range(1, 10):
                         errormsg.append("antenna_gain: Invalid Antenna Gain '{0}' in playbook"\
                                 .format(each_radio["antenna_gain"]))
 
@@ -1239,7 +1244,7 @@ class Accesspoint(DnacBase):
                             .format(each_radio.get("power_assignment_mode")))
 
                 if each_radio.get("powerlevel") is not None:
-                    if each_radio["powerlevel"] not in range(1,9):
+                    if each_radio["powerlevel"] not in range(1, 9):
                         errormsg.append("powerlevel: Invalid Power level '{0}' in playbook\
                             Must be between 1 to 8.".format(each_radio["powerlevel"]))
                     else:
@@ -1270,7 +1275,6 @@ class Accesspoint(DnacBase):
                                         Hence, AP mode is not Local. Kindly change the AP mode to Local \
                             Then change the radio_role_assignment to Auto ."\
                             .format(each_radio.get("radio_role_assignment")))
-
 
         if len(errormsg) > 0:
             self.msg = "Invalid parameters in playbook config: '{0}' "\
@@ -1606,11 +1610,11 @@ class Accesspoint(DnacBase):
                 if ap_mac_address in device_mac_info:
                     self.log("Device with MAC address: {macAddress} found in site: {sId},\
                         Proceeding with ap_site updation.".format(macAddress= ap_mac_address,
-                                                                sId = site_id) ,  "INFO")
+                                                                sId = site_id), "INFO")
                     return True
                 else:
-                    self.log("Device with MAC address: {macAddress} not found in site: \
-                        {sId}".format(macAddress= ap_mac_address,sId = site_id) ,  "INFO")
+                    self.log("Device with MAC address: {macAddress} not found in site:\
+                        {sId}".format(macAddress=ap_mac_address, sId=site_id), "INFO")
                     return False
         except Exception as e:
             self.log("Failed to execute the get_membership function '{}'\
@@ -1675,7 +1679,7 @@ class Accesspoint(DnacBase):
         Description:
             Provisions an Access Point (AP) to a specified site using the provided
             site name hierarchy, RF profile, hostname, and AP type. Logs details
-            and handles 
+            and handles
         """
 
         provision_status = "failed"
@@ -1686,11 +1690,10 @@ class Accesspoint(DnacBase):
             host_name = self.have.get("hostname")
             type_name = self.have.get("ap_type")
 
-            if not site_name_hierarchy or not rf_profile or not host_name or not type_name:
+            if not site_name_hierarchy or not rf_profile or not host_name:
                 error_msg = ("Cannot provision device: Missing parameters - \
-                            site_name_hierarchy: {0}, rf_profile: {1}, host_name: {2},\
-                            type_name: {3}").format(site_name_hierarchy, rf_profile, host_name,
-                                                   type_name)
+                            site_name_hierarchy: {0}, rf_profile: {1}, host_name: {2}").\
+                             format(site_name_hierarchy, rf_profile, host_name)
                 self.log(error_msg, "ERROR")
                 self.module.fail_json(msg=error_msg)
 
@@ -2101,16 +2104,16 @@ class Accesspoint(DnacBase):
                         "INFO")
         try:
             response = self.dnac._exec(
-                    family="wireless",
-                    function='configure_access_points',
-                    op_modifies=True,
-                    params={"payload": ap_config}
-                )
+                family="wireless",
+                function='configure_access_points',
+                op_modifies=True,
+                params={"payload": ap_config}
+            )
 
             if response:
                 response = response.get("response")
                 self.log("Response of Access Point Configuration: {0}".format(
-                    self.pprint(response)),"INFO")
+                    self.pprint(response)), "INFO")
                 return dict(mac_address=self.have["mac_address"], response=response)
 
         except Exception as e:
@@ -2162,15 +2165,15 @@ class Accesspoint(DnacBase):
     def map_config_key_to_api_param(self, keymap=any, data=any):
         """
         Converts keys in a dictionary from CamelCase to snake_case and creates a keymap.
-        
+
         Parameters:
             keymap (dict): Already existing key map dictionary to add to or empty dict {}.
             data (dict): Input data where keys need to be mapped using the key map.
-            
+
         Returns:
             dict: A dictionary with the original keys as values and the converted snake_case
                     keys as keys.
-            
+
         Example:
             functions = Accesspoint(module)
             keymap = functions.map_config_key_to_api_param(keymap, device_data)
@@ -2204,14 +2207,14 @@ class Accesspoint(DnacBase):
     def pprint(self, jsondata):
         """
         Pretty prints JSON/dictionary data in a readable format.
-        
+
         Parameters:
             jsondata (dict): Dictionary data to be printed.
-            
+
         Returns:
             str: Formatted JSON string.
         """
-        return json.dumps(jsondata, indent=4, separators=(',',': '))
+        return json.dumps(jsondata, indent=4, separators=(',', ': '))
 
     def camel_to_snake_case(self, config):
         """
@@ -2228,8 +2231,6 @@ class Accesspoint(DnacBase):
             new_config = {}
             for key, value in config.items():
                 new_key = re.sub(r'([a-z0-9])([A-Z])', r'\1_\2', key).lower()
-                #if new_key != key:
-                #    self.log("{0} will be deprecated soon. Please use {1}.".format(key, new_key), "DEBUG")
                 new_value = self.camel_to_snake_case(value)
                 new_config[new_key] = new_value
         elif isinstance(config, list):
@@ -2238,28 +2239,30 @@ class Accesspoint(DnacBase):
             return config
         return new_config
 
+
 def main():
     """ main entry point for module execution
     """
-    accepoint_spec = {'dnac_host': {'required': True, 'type': 'str'},
-                    'dnac_port': {'type': 'str', 'default': '443'},
-                    'dnac_username': {'type': 'str', 'default': 'admin'},
-                    'dnac_password': {'type': 'str', 'no_log': True},
-                    'dnac_verify': {'type': 'bool', 'default': 'True'},
-                    'dnac_version': {'type': 'str', 'default': '2.2.3.3'},
-                    'dnac_debug': {'type': 'bool', 'default': False},
-                    'dnac_log': {'type': 'bool', 'default': False},
-                    'dnac_log_level': {'type': 'str', 'default': 'WARNING'},
-                    "dnac_log_file_path": {"type": 'str', "default": 'dnac.log'},
-                    'config_verify': {'type': 'bool', "default": False},
-                    "dnac_log_append": {"type": 'bool', "default": True},
-                    'dnac_api_task_timeout': {'type': 'int', "default": 300},
-                    'dnac_task_poll_interval': {'type': 'int', "default": 2},
-                    'config': {'required': True, 'type': 'list', 'elements': 'dict'},
-                    'validate_response_schema': {'type': 'bool', 'default': True},
-                    'state': {'default': 'merged', 'choices': ['merged', 'deleted']},
-                    'force_sync': {'type': 'bool'}
-                }
+    accepoint_spec = {
+        'dnac_host': {'required': True, 'type': 'str'},
+        'dnac_port': {'type': 'str', 'default': '443'},
+        'dnac_username': {'type': 'str', 'default': 'admin'},
+        'dnac_password': {'type': 'str', 'no_log': True},
+        'dnac_verify': {'type': 'bool', 'default': 'True'},
+        'dnac_version': {'type': 'str', 'default': '2.2.3.3'},
+        'dnac_debug': {'type': 'bool', 'default': False},
+        'dnac_log': {'type': 'bool', 'default': False},
+        'dnac_log_level': {'type': 'str', 'default': 'WARNING'},
+        "dnac_log_file_path": {"type": 'str', "default": 'dnac.log'},
+        'config_verify': {'type': 'bool', "default": False},
+        "dnac_log_append": {"type": 'bool', "default": True},
+        'dnac_api_task_timeout': {'type': 'int', "default": 300},
+        'dnac_task_poll_interval': {'type': 'int', "default": 2},
+        'config': {'required': True, 'type': 'list', 'elements': 'dict'},
+        'validate_response_schema': {'type': 'bool', 'default': True},
+        'state': {'default': 'merged', 'choices': ['merged', 'deleted']},
+        'force_sync': {'type': 'bool'}
+    }
     module = AnsibleModule(
         argument_spec=accepoint_spec,
         supports_check_mode=True
@@ -2287,6 +2290,7 @@ def main():
             ccc_network.verify_diff_state_apply[state](config).check_return_status()
 
     module.exit_json(**ccc_network.result)
+
 
 if __name__ == '__main__':
     main()
