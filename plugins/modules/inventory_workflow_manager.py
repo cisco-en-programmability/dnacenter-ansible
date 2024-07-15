@@ -2796,16 +2796,14 @@ class Inventory(DnacBase):
                 else:
                     self.msg = "Device Updation for device '{0}' get failed".format(device_ip)
                 self.log(self.msg, "ERROR")
+                self.result['response'] = self.msg
+                self.check_return_status()
                 break
             elif execution_details.get("endTime"):
-                self.status = "success"
-                self.result['changed'] = True
-                self.msg = "Device '{0}' present in Cisco Catalyst Center and have been updated successfully".format(device_ip)
-                self.result['response'] = self.msg
-                self.log(self.msg, "INFO")
+                self.log("Device '{0}' present in Cisco Catalyst Center and have been updated successfully.".format(device_ip), "INFO")
                 break
 
-        return self
+        return device_ip
 
     def is_device_exist_in_ccc(self, device_ip):
         """
@@ -3161,6 +3159,7 @@ class Inventory(DnacBase):
 
         if credential_update:
             device_to_update = self.get_device_ips_from_config_priority()
+            update_device_ips = []
 
             # Update Device details and credentails
             device_uuids = self.get_device_ids(device_to_update)
@@ -3323,12 +3322,20 @@ class Inventory(DnacBase):
 
                         if response and isinstance(response, dict):
                             self.check_device_update_execution_response(response, device_ip)
+                            update_device_ips.append(device_ip)
                             self.check_return_status()
 
                 except Exception as e:
                     error_message = "Error while updating device in Cisco Catalyst Center: {0}".format(str(e))
                     self.log(error_message, "ERROR")
                     raise Exception(error_message)
+
+            if update_device_ips:
+                self.status = "success"
+                self.result['changed'] = True
+                self.msg = "Device(s) '{0}' present in Cisco Catalyst Center and have been updated successfully.".format(str(update_device_ips))
+                self.result['response'] = self.msg
+                self.log(self.msg, "INFO")
 
         # Update list of interface details on specific or list of devices.
         if self.config[0].get('update_interface_details'):

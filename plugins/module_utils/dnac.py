@@ -231,11 +231,11 @@ class DnacBase():
         # self.log("status: {0}, msg:{1}".format(self.status, self.msg), frameIncrement=1)
         self.log("status: {0}, msg: {1}".format(self.status, self.msg), "DEBUG")
         if "failed" in self.status:
-            self.module.fail_json(msg=self.msg, response=[])
+            self.module.fail_json(msg=self.msg, response=self.result.get('response', []))
         elif "exited" in self.status:
             self.module.exit_json(**self.result)
         elif "invalid" in self.status:
-            self.module.fail_json(msg=self.msg, response=[])
+            self.module.fail_json(msg=self.msg, response=self.result.get('response', []))
 
     def is_valid_password(self, password):
         """
