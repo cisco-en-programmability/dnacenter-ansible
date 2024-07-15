@@ -757,7 +757,7 @@ class IseRadiusIntegration(DnacBase):
             if not auth_server_exists:
                 server_type = item.get("server_type")
                 if server_type not in ["ISE", "AAA", None]:
-                    self.msg = "The server_type should be either 'ISE' or 'AAA' but {0} was provided.".format(server_type)
+                    self.msg = "The 'server_type' should be either 'ISE' or 'AAA' but {0} was provided.".format(server_type)
                     self.status = "failed"
                     return self
 
@@ -816,7 +816,7 @@ class IseRadiusIntegration(DnacBase):
             if not auth_server_exists:
                 encryption_scheme = item.get("encryption_scheme")
                 if encryption_scheme not in ["KEYWRAP", "RADSEC", None]:
-                    self.msg = "The encryption_scheme should be in ['KEYWRAP', 'RADSEC']. " + \
+                    self.msg = "The 'encryption_scheme' should be in ['KEYWRAP', 'RADSEC']. " + \
                                "It should not be {0}.".format(encryption_scheme)
                     self.status = "failed"
                     return self
@@ -842,7 +842,7 @@ class IseRadiusIntegration(DnacBase):
 
                     encryption_key = item.get("encryption_key")
                     if not encryption_key:
-                        self.msg = "The encryption_key should not be empty if encryption_scheme is 'KEYWRAP'."
+                        self.msg = "The 'encryption_key' should not be empty if encryption_scheme is 'KEYWRAP'."
                         self.status = "failed"
                         return self
 
@@ -949,8 +949,7 @@ class IseRadiusIntegration(DnacBase):
             if auth_server.get("isIseEnabled"):
                 cisco_ise_dtos = item.get("cisco_ise_dtos")
                 if not cisco_ise_dtos:
-                    self.msg = "Missing parameter 'cisco_ise_dtos' " + \
-                               "required when server_type is 'ISE'."
+                    self.msg = "The required parameter 'cisco_ise_dtos' is missing for 'server_type' is 'ISE'."
                     self.status = "failed"
                     return self
 
@@ -961,7 +960,7 @@ class IseRadiusIntegration(DnacBase):
                     user_name = ise_credential.get("user_name")
                     if not user_name:
                         if not auth_server_exists:
-                            self.msg = "Missing parameter 'user_name' is required when server_type is ISE."
+                            self.msg = "The required parameter 'user_name' is missing when 'server_type' is 'ISE'."
                             self.status = "failed"
                             return self
 
@@ -973,7 +972,7 @@ class IseRadiusIntegration(DnacBase):
 
                     password = ise_credential.get("password")
                     if not password:
-                        self.msg = "Missing parameter 'password' is required when server_type is ISE."
+                        self.msg = "The required parameter 'password' is missing when 'server_type' is 'ISE'."
                         self.status = "failed"
                         return self
 
@@ -989,7 +988,7 @@ class IseRadiusIntegration(DnacBase):
                     fqdn = ise_credential.get("fqdn")
                     if not fqdn:
                         if not auth_server_exists:
-                            self.msg = "Missing parameter 'fqdn' is required when server_type is ISE."
+                            self.msg = "The required parameter 'fqdn' is missing when 'server_type' is 'ISE'."
                             self.status = "failed"
                             return self
 
@@ -999,7 +998,7 @@ class IseRadiusIntegration(DnacBase):
 
                     ip_address = ise_credential.get("ip_address")
                     if not ip_address:
-                        self.msg = "Missing parameter 'ip_address' is required when server_type is ISE."
+                        self.msg = "The required parameter 'ip_address' is missing when 'server_type' is 'ISE'."
                         self.status = "failed"
                         return self
 
@@ -1090,7 +1089,7 @@ class IseRadiusIntegration(DnacBase):
                     try:
                         ise_integration_wait_time_int = int(ise_integration_wait_time)
                         if ise_integration_wait_time_int < 1 or ise_integration_wait_time_int > 120:
-                            self.msg = "The ise_integration_wait_time should be from 1 to 120 seconds."
+                            self.msg = "The 'ise_integration_wait_time' should be from 1 to 120 seconds."
                             self.status = "failed"
                             return self
 
