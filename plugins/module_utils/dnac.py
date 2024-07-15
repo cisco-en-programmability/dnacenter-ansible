@@ -1048,10 +1048,15 @@ def validate_list_of_dicts(param_list, spec, module=None):
     return normalized, invalid_params
 
 
+RATE_LIMIT_MESSAGE = "Rate Limit exceeded"
+RATE_LIMIT_RETRY_AFTER = 15
+
+
 class DNACSDK(object):
     def __init__(self, params):
         self.result = dict(changed=False, result="")
         self.validate_response_schema = params.get("validate_response_schema")
+        self.logger = logging.getLogger('dnacentersdk')
         if DNAC_SDK_IS_INSTALLED:
             self.api = api.DNACenterAPI(
                 username=params.get("dnac_username"),
@@ -1064,7 +1069,7 @@ class DNACSDK(object):
                 debug=params.get("dnac_debug"),
             )
             if params.get("dnac_debug") and LOGGING_IN_STANDARD:
-                logging.getLogger('dnacentersdk').addHandler(logging.StreamHandler())
+                self.logger.addHandler(logging.StreamHandler())
         else:
             self.fail_json(msg="DNA Center Python SDK is not installed. Execute 'pip install dnacentersdk'")
 
@@ -1105,6 +1110,8 @@ class DNACSDK(object):
         return os.path.basename(file_path)
 
     def _exec(self, family, function, params=None, op_modifies=False, **kwargs):
+        family_name = family
+        function_name = function
         try:
             family = getattr(self.api, family)
             func = getattr(family, function)
@@ -1130,8 +1137,30 @@ class DNACSDK(object):
                     params["active_validation"] = False
 
                 response = func(**params)
+
             else:
                 response = func()
+
+            if response and isinstance(response, dict) and response.get("executionId"):
+                execution_id = response.get("executionId")
+                exec_details_params = {"execution_id": execution_id}
+                exec_details_func = getattr(
+                    getattr(self.api, "task"), "get_business_api_execution_details"
+                )
+
+                while True:
+                    execution_details = exec_details_func(**exec_details_params)
+                    if execution_details.get("status") == "SUCCESS":
+                        break
+
+                    bapi_error = execution_details.get("bapiError")
+                    if bapi_error and RATE_LIMIT_MESSAGE in bapi_error:
+                        self.logger.warning("!!!!! %s !!!!!", RATE_LIMIT_MESSAGE)
+                        time.sleep(RATE_LIMIT_RETRY_AFTER)
+                        return self._exec(
+                            family_name, function_name, params, op_modifies, **kwargs
+                        )
+
         except exceptions.dnacentersdkException as e:
             self.fail_json(
                 msg=(
