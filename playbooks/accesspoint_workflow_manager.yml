@@ -16,10 +16,10 @@
         dnac_version: "{{ dnac_version }}"
         dnac_debug: "{{ dnac_debug }}"
         dnac_log: True
-        force_sync: False
         dnac_log_level: DEBUG
-        config_verify: True
+        config_verify: False
         state: merged
+        force_sync: False
         config:
           - mac_address: 90:e9:5e:03:f3:40
             rf_profile: "HIGH"
@@ -28,83 +28,23 @@
                 name: "FLOOR2"
                 parent_name: "Global/USA/New York/BLDNYC"
             ap_name: "LTTS-test2"
-            admin_status: "Enabled"
             led_status: "Enabled"
-            led_brightness_level: 2
+            led_brightness_level: 5
             ap_mode: "Local"
-            location: "LTTS/Cisco/Bangalore"
-            failover_priority: "Medium"
-            clean_air_si_2.4ghz: "Enabled"
-            clean_air_si_5ghz: "Enabled"
-            clean_air_si_6ghz: "Disabled"
-            primary_controller_name: "SJ-EWLC-1"
-            primary_ip_address:
-              address: "204.192.4.200"
-            secondary_controller_name: "Inherit from site/Clear"
-            secondary_ip_address:
-              address: "10.0.0.2"
-            tertiary_controller_name": "Clear"
-            tertiary_ip_address:
-              address: "10.0.0.3"
+            location: "LTTS/Cisco/Chennai"
+            failover_priority: "Low"
             2.4ghz_radio:
               admin_status: "Enabled"
-              antenna_name: "other"
-              antenna_gain: 4
-              radio_role_assignment: "Auto"
-              cable_loss: 75
-              antenna_cable_name: "other"
-              channel_assignment_mode: "Custom"
-              channel_number: 36
-              power_assignment_mode: "Custom"
-              powerlevel: 1
+              antenna_name: "C-ANT9104-2.4GHz"
+              radio_role_assignment: "Client-Serving"
+              channel_number: 5
+              powerlevel: 2
             5ghz_radio:
               admin_status: "Enabled"
-              antenna_name: "other"
-              antenna_gain: 4
-              radio_role_assignment: "Auto"
-              power_assignment_mode: "Custom"
-              powerlevel: 1
-              antenna_cable_name: "other"
-              cable_loss: 75
-              channel_assignment_mode: "Custom"
+              antenna_name: "AIR-ANT2513P4M-N-5GHz"
+              radio_role_assignment: "Client-Serving"
               channel_number: 36
-              channel_width: "20 MHz"
-            6ghz_radio:
-              admin_status: "Enabled"
-              radio_role_assignment: "Auto"
-              power_assignment_mode: "Custom"
-              powerlevel: 1
-              channel_assignment_mode: "Custom"
-              channel_number: 36
-              channel_width: "20 MHz"
-            xor_radio:
-              admin_status: "Enabled"
-              antenna_name: "other"
-              antenna_gain: 4
-              antenna_cable_name: "other"
-              cable_loss: 75
-              radio_role_assignment: "Auto"
-              radio_band: "5 GHz"
-              power_assignment_mode: "Custom"
-              powerlevel: 1
-              channel_assignment_mode: "Custom"
-              channel_number: 36
-              channel_width: "20 MHz"
-            tri_radio:
-              dual_radio_mode: "Auto"
-              antenna_name: "other"
-              antenna_gain: 4
-              radio_role_assignment: "Auto"
-              admin_status: "Enabled"
-              antenna_cable_name: "other"
-              cable_loss: 75
-              power_assignment_mode: "Custom"
-              powerlevel: 1
-              channel_assignment_mode: "Custom"
-              channel_number: 36
-              channel_width: "20 MHz"
+              powerlevel: 2
+              channel_width: "40 MHz"
       register: output_list
-    - name: Display provisioning/update access point result
-      debug:
-        var: result
 
