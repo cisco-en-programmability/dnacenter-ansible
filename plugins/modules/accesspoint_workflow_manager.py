@@ -822,20 +822,39 @@ class Accesspoint(DnacBase):
         """
         task_response = None
         self.validate_ap_config_parameters(ap_config).check_return_status()
-
+        responses = {}
+        responses["accesspoints_updates"] = {}
         if self.have.get("ap_exists"):
+            if self.have.get("site_required_changes") and self.want.get("site") is not None:
+                if self.have["wlc_provision_status"] == "success":
+                    provision_status, provision_details = self.provision_device()
+                    if provision_status == "SUCCESS":
+                        self.result['changed'] = True
+                        self.msg = "AP {0} provisioned Successfully".format(self.have["hostname"])
+                        self.log(self.msg, "INFO")
+                        responses["accesspoints_updates"].update({
+                            "provision_response": provision_details,
+                            "provision_message": self.msg
+                        })
+            elif self.want.get("site") is not None:
+                self.msg = "AP {0} already provisioned in the same site {1}".format(
+                    self.have["hostname"], self.have.get("site_name_hierarchy"))
+                self.log(self.msg, "INFO")
+                self.result['changed'] = False
+                responses["accesspoints_updates"].update({"provision_message": self.msg})
+
+            time.sleep(60)
             consolidated_data = self.compare_ap_config_with_inputdata(
                 self.have["current_ap_config"])
-            responses = {}
             if not consolidated_data:
                 self.msg = "AP - {0} does not need any update"\
                     .format(self.have.get("current_ap_config").get("ap_name"))
                 self.log(self.msg, "INFO")
                 del self.payload["access_point_details"]
-                responses["accesspoints_updates"] = {
+                responses["accesspoints_updates"].update({
                     "ap_config_response": self.payload["access_point_config"],
                     "ap_config_message": self.msg
-                }
+                })
                 self.result['ap_update_msg'] = self.msg
                 self.result["changed"] = False
             else:
@@ -844,8 +863,8 @@ class Accesspoint(DnacBase):
                 task_response = self.update_ap_configuration(consolidated_data)
 
                 if task_response and isinstance(task_response, dict):
-                    resync_retry_count = self.payload.get("dnac_api_task_timeout", 100)
-                    resync_retry_interval = self.payload.get("dnac_task_poll_interval", 1)
+                    resync_retry_count = 300
+                    resync_retry_interval = 3
                     while resync_retry_count:
                         task_details_response = self.get_task_details(
                             task_response["response"]["taskId"])
@@ -881,25 +900,7 @@ class Accesspoint(DnacBase):
                             break
 
                         time.sleep(resync_retry_interval)
-                        resync_retry_count = resync_retry_count - 1
-
-            if self.have.get("site_required_changes") and self.want.get("site") is not None:
-                if self.have["wlc_provision_status"] == "success":
-                    provision_status, provision_details = self.provision_device()
-                    if provision_status == "SUCCESS":
-                        self.result['changed'] = True
-                        self.msg = "AP {0} provisioned Successfully".format(self.have["hostname"])
-                        self.log(self.msg, "INFO")
-                        responses["accesspoints_updates"].update({
-                            "provision_response": provision_details,
-                            "provision_message": self.msg
-                        })
-            elif self.want.get("site") is not None:
-                self.msg = "AP {0} already provisioned in the same site {1}".format(
-                    self.have["hostname"], self.have.get("site_name_hierarchy"))
-                self.log(self.msg, "INFO")
-                self.result['changed'] = False
-                responses["accesspoints_updates"].update({"provision_message": self.msg})
+                        resync_retry_count = resync_retry_count - resync_retry_interval
 
             self.result["response"] = responses
             return self
@@ -946,9 +947,26 @@ class Accesspoint(DnacBase):
             self.log(self.msg, "INFO")
 
         require_update = self.compare_ap_config_with_inputdata(self.have["current_ap_config"])
-        self.log(str(require_update), "INFO")
+        unmatch_count = 0
+        if require_update:
+            radio_list = require_update.get("radioConfigurations")
+            if len(radio_list) > 0:
+                for each_radio in radio_list:
+                    radio_key_list = list(each_radio.keys())
+                    for each_key in radio_key_list:
+                        if each_key not in ("antenna_name", "radioType", "unmatch", "cable_loss"):
+                            unmatch_count += 1
+            other_keys = list(require_update.keys())
+            for each_key in other_keys:
+                if each_key not in ("macAddress", "radioConfigurations", "isAssignedSiteAsLocation"):
+                    unmatch_count += 1
 
-        if not require_update:
+        self.log(str(require_update), "INFO")
+        responses = {}
+        responses["accesspoints_verify"] = {"want": self.want,
+                                            "have": self.have}
+
+        if unmatch_count < 1:
             msg = "The update for AP Config '{0}' has been successfully verified.".format(ap_name)
             self.log(msg, "INFO")
             self.status = "success"
@@ -963,27 +981,26 @@ class Accesspoint(DnacBase):
 
             ap_config_selected_fields =\
                 self.payload.get("config")[0].get("ap_config_selected_fields")
-
             if ap_config_selected_fields is None or ap_config_selected_fields == "" \
                or ap_config_selected_fields == "all":
                 self.payload["access_point_config"] = self.payload["access_point_config"]
             else:
                 self.payload["access_point_config"] = self.data_frame(
                     ap_config_selected_fields, [self.payload["access_point_config"]])
-
             self.have["current_ap_config"] = self.payload["access_point_config"]
 
-            responses = {}
-            responses["accesspoints_verify"] = {"want": self.want,
-                                                "have": self.have,
-                                                "message": msg}
-            self.result['response'].append(responses)
+            responses["accesspoints_verify"]["ap_config_update_status"] = msg
+        elif self.have.get("site_required_changes") is False:
+            msg = "AP provision for the site '{0}' has been successfully verified."\
+                .format(self.want.get("site_name"))
+            responses["accesspoints_verify"]["ap_provision_update_status"] = msg
         else:
             self.msg = "Configuration for AP '{0}' does not match the desired state."\
                 .format(ap_name)
             self.log(self.msg, "INFO")
             self.status = "failed"
 
+        self.result['response'] = responses
         return self
 
     def validate_radio_series(self, ap_config):
@@ -1163,7 +1180,7 @@ class Accesspoint(DnacBase):
                             .format(ap_config.get("dual_radio_mode")))
 
         for radio_series in ("2.4ghz_radio", "5ghz_radio", "6ghz_radio", "xor_radio", "tri_radio"):
-            if ap_config.get(radio_series):
+            if ap_config.get(radio_series) is not None:
                 each_radio = ap_config.get(radio_series)
                 if each_radio.get("admin_status") not in ("Enabled", "Disabled"):
                     errormsg.append("admin_status: Invalid value '{0}' for admin_status in playbook. Must be either 'Enabled' or 'Disabled'."
@@ -1266,16 +1283,45 @@ class Accesspoint(DnacBase):
                                 .format(each_radio.get("radio_role_assignment"))
                             )
 
-                if len(errormsg) > 0:
-                    self.msg = "Invalid parameters in playbook config: '{0}' ".format(str("\n ".join(errormsg)))
-                    self.log(self.msg, "ERROR")
-                    self.status = "failed"
-                    return self
+        if len(errormsg) > 0:
+            self.msg = "Invalid parameters in playbook config: '{0}' ".format(str("\n ".join(errormsg)))
+            self.log(self.msg, "ERROR")
+            self.status = "failed"
+            return self
 
-                self.msg = "Successfully validated config params: {0}".format(str(ap_config))
-                self.log(self.msg, "INFO")
-                self.status = "success"
-                return self
+        self.msg = "Successfully validated config params: {0}".format(str(ap_config))
+        self.log(self.msg, "INFO")
+        self.status = "success"
+        return self
+
+    def check_current_radio_role_assignment(self, radio_type, radio_dtos):
+        """
+        Check the current radio role assignment based on radio type and DTOs.
+
+        Parameters:
+        - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+        - radio_type (str): Type of radio ("2.4ghz_radio", "5ghz_radio", or "6ghz_radio").
+        - radio_dtos (list): List of radio data transfer objects containing slot IDs and
+            role assignments.
+
+        Returns:
+        - str: Current radio role assignment corresponding to the specified radio type.
+
+        Description:
+        This method iterates through the provided list of radio DTOS to find and return
+        the radio role assignment based on the specified radio type (2.4 GHz, 5 GHz, or 6 GHz).
+
+        Example:
+        To check the current radio role assignment for the 5 GHz radio, call this method with
+        '5ghz_radio' as 'radio_type' and the list of radio DTOS.
+        """
+        for each_dto in radio_dtos:
+            if radio_type == "2.4ghz_radio" and "_" + str(each_dto["slot_id"]) == "_" + str(0):
+                return each_dto["radio_role_assignment"]
+            elif radio_type == "5ghz_radio" and each_dto["slot_id"] == 1:
+                return each_dto["radio_role_assignment"]
+            elif radio_type == "6ghz_radio" and each_dto["slot_id"] == 2:
+                return each_dto["radio_role_assignment"]
 
     def get_accesspoint_details(self, input_config):
         """
@@ -1567,8 +1613,7 @@ class Accesspoint(DnacBase):
                              .format(macAddress=ap_mac_address, sId=site_id), "INFO")
                     return True
                 else:
-                    self.log("Device with MAC address: {macAddress} found in site: {sId},"
-                             "Proceeding with ap_site updation."
+                    self.log("Device with MAC address: {macAddress} not found in site: {sId},"
                              .format(macAddress=ap_mac_address, sId=site_id), "INFO")
                     return False
         except Exception as e:
@@ -1646,7 +1691,7 @@ class Accesspoint(DnacBase):
             type_name = self.have.get("ap_type")
 
             if not site_name_hierarchy or not rf_profile or not host_name:
-                error_msg = ("Cannot Provision device: Missing parameters - "
+                error_msg = ("Cannot provision device: Missing parameters - "
                              "site_name_hierarchy: {0}, rf_profile: {1}, host_name: {2}"
                              .format(site_name_hierarchy, rf_profile, host_name))
                 self.log(error_msg, "ERROR")
@@ -1743,7 +1788,7 @@ class Accesspoint(DnacBase):
         dtos_keys = list(want_radio.keys())
 
         for dto_key in dtos_keys:
-            if dto_key in available_key[" _ " + str(current_radio["slot_id"])]:
+            if dto_key in available_key["_" + str(current_radio["slot_id"])]:
                 if dto_key == "antenna_name":
                     temp_dtos[dto_key] = want_radio[dto_key]
                     unmatch_count = unmatch_count + 1

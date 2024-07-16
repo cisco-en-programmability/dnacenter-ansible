@@ -20,8 +20,7 @@ __metaclass__ = type
 from ansible_collections.cisco.dnac.plugins.modules import accesspoint_workflow_manager
 from .dnac_module import TestDnacModule, set_module_args
 
-
-class TestAccesspoint(TestDnacModule):
+class TestDnacSiteIntent(TestDnacModule):
     def __init__(self):
         """
         Inheriting from the base class of dnac_module
@@ -31,7 +30,6 @@ class TestAccesspoint(TestDnacModule):
         super().__init__(module)
 
     def load_fixtures(self, response=None, device=""):
-
         """
         Load fixtures for a specific device.
 
@@ -40,25 +38,36 @@ class TestAccesspoint(TestDnacModule):
         device (str, optional): The device for which to load fixtures. Defaults to an empty string.
         """
 
-        if "create_site" in self._testMethodName:
+        if "site_exists" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 Exception(),
-                self.test_data.get("create_site_response"),
-                self.test_data.get("get_business_api_execution_details_response"),
-                self.test_data.get("get_site_response")
+                self.test_data.get("site_exist_get_site_response")
             ]
 
-        elif "update_not_needed" in self._testMethodName:
+        elif "site_exists_found" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
-                self.test_data.get("update_not_needed_get_site_response"),
+                self.test_data.get("site_not_exist_get_site_response"),
             ]
 
-        elif "update_needed" in self._testMethodName:
+        elif "accesspoint_workflow_update_needed" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("update_needed_get_site_response"),
+            ]
+
+        elif "accesspoint_workflow_update_needed" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("update_needed_get_site_response"),
                 self.test_data.get("update_needed_update_site_response"),
                 self.test_data.get("get_business_api_execution_details_response")
             ]
+
+        elif "accesspoint_workflow_update_needed" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("update_needed_get_site_response"),
+                self.test_data.get("update_needed_update_site_response"),
+                self.test_data.get("get_business_api_execution_details_response")
+            ]
+
         elif "delete_existing_site" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("delete_get_site_response"),
@@ -69,25 +78,40 @@ class TestAccesspoint(TestDnacModule):
             self.run_dnac_exec.side_effect = [
                 Exception()
             ]
-        elif "error_delete" in self._testMethodName:
+        elif "provision_device" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("delete_error_get_site_response"),
                 self.test_data.get("delete_delete_site_response"),
                 self.test_data.get("delete_execution_details_error")
             ]
-        elif "error_create" in self._testMethodName:
+
+        elif "wsl_provision" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("delete_error_get_site_response"),
+                self.test_data.get("delete_delete_site_response"),
+                self.test_data.get("delete_execution_details_error")
+            ]
+
+        elif "get_site_devic" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 Exception(),
                 self.test_data.get("create_site_response"),
                 self.test_data.get("delete_execution_details_error")
             ]
 
-    def test_site_intent_create_site(self):
+        elif "get_accesspoint_details" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                Exception(),
+                self.test_data.get("create_site_response"),
+                self.test_data.get("delete_execution_details_error")
+            ]
 
+    def test_validate_radio_series(self):
         """
-        Test case for site intent when creating a site.
+        Test case for validate radio series method.
 
-        This test case checks the behavior of the site intent when creating a new site in the specified DNAC.
+        This test case check for validation of the radio series 
+        parameters when configuaring the access point in the specified DNAC.
         """
 
         set_module_args(
@@ -100,18 +124,64 @@ class TestAccesspoint(TestDnacModule):
                 config=self.playbook_config
             )
         )
-        result = self.execute_module(changed=True, failed=False)
+        result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
             result.get('msg'),
-            "Site Created Successfully"
+            "Access Point series not supported for the radio type "
         )
 
-    def test_site_intent_update_not_needed(self):
-
+    def test_validate_ap_config_parameters(self):
         """
-        Test case for site intent when no update is needed.
+        Test case for validate_ap_config_parameters.
 
-        This test case checks the behavior of the site intent when an update is not required for the specified site in the DNAC.
+        This test case check for validation of the validate 
+        ap config parameters when configuaring the access point in the specified DNAC.
+        """
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="deleted",
+                config=self.playbook_config
+            )
+        )
+        result = self.execute_module(changed=False, failed=False)
+        self.assertEqual(
+            result.get('msg'),
+            "Successfully validated config params"
+        )
+
+    def test_site_exists_not_found(self):
+        """
+        Test case for site_exists method when site is not found.
+
+        This test case checks the if site exists, when an update is not required for the specified site in the DNAC.
+        """
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merged",
+                config=self.playbook_config
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertEqual(
+            result.get('msg'),
+            "Site does not exist in DNAC"
+        )
+
+    def test_site_exists_found(self):
+        """
+        Test case for site_exists method when site is not found.
+
+        This test case checks the if site exists, when an update is not required for the specified site in the DNAC.
         """
 
         set_module_args(
@@ -127,15 +197,14 @@ class TestAccesspoint(TestDnacModule):
         result = self.execute_module(changed=False, failed=False)
         self.assertEqual(
             result.get('msg'),
-            "Site does not need update"
+            "Site present in Cisco Catalyst Center"
         )
 
-    def test_site_intent_update_needed(self):
-
+    def test_accesspoint_workflow_update_needed(self):
         """
-        Test case for site intent when an update is needed.
+        Test case for access point when an update is needed.
 
-        This test case checks the behavior of the site intent when an update is required for the specified site in the DNAC.
+        This test case checks the  update is required for the specified access point in the DNAC.
         """
 
         set_module_args(
@@ -151,15 +220,14 @@ class TestAccesspoint(TestDnacModule):
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
             result.get('msg'),
-            "Site Updated Successfully"
+            "Access point configuration Updated Successfully"
         )
 
-    def test_site_intent_delete_existing_site(self):
-
+    def test_accesspoint_workflow_update_not_needed(self):
         """
-        Test case for site intent when deleting an existing site.
+        Test case for access point when an update is not needed.
 
-        This test case checks the behavior of the site intent when deleting an existing site in the DNAC.
+        This test case checks the  update is not equired for the specified access point in the DNAC.
         """
 
         set_module_args(
@@ -168,46 +236,21 @@ class TestAccesspoint(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="deleted",
-                config=self.playbook_config
-            )
-        )
-        result = self.execute_module(changed=True, failed=False)
-        self.assertEqual(
-            result.get('response').get('status'),
-            "SUCCESS"
-        )
-
-    def test_site_intent_delete_non_existing_site(self):
-
-        """
-        Test case for site intent when attempting to delete a non-existing site.
-
-        This test case checks the behavior of the site intent when trying to delete a site that does not exist in the DNAC.
-        """
-
-        set_module_args(
-            dict(
-                dnac_host="1.1.1.1",
-                dnac_username="dummy",
-                dnac_password="dummy",
-                dnac_log=True,
-                state="deleted",
+                state="merged",
                 config=self.playbook_config
             )
         )
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
             result.get('msg'),
-            "Site Not Found"
+            "Access point configuration not required Update"
         )
 
-    def test_site_intent_invalid_param(self):
-
+    def test_accesspoint_workflow_invalid_param(self):
         """
         Test case for site intent with invalid parameters in the playbook.
 
-        This test case checks the behavior of the site intent when the playbook contains invalid parameters.
+        This test case checks the validation for access point workflow contains invalid parameters.
         """
 
         set_module_args(
@@ -222,63 +265,14 @@ class TestAccesspoint(TestDnacModule):
         )
         result = self.execute_module(changed=False, failed=True)
         self.assertTrue(
-            "Invalid parameters in playbook:" in result.get('msg')
+            "Invalid parameters for access point workflow:" in result.get('msg')
         )
 
-    def test_site_intent_error_delete(self):
-
+    def test_accesspoint_workflow_invalid_state(self):
         """
-        Test case for site intent when an error occurs during site deletion.
+        Test case for access point workflow with an invalid 'state' parameter.
 
-        This test case checks the behavior of the site intent when an error occurs while deleting a site in the DNAC.
-        """
-
-        set_module_args(
-            dict(
-                dnac_host="1.1.1.1",
-                dnac_username="dummy",
-                dnac_password="dummy",
-                dnac_log=True,
-                state="deleted",
-                config=self.playbook_config
-            )
-        )
-        result = self.execute_module(changed=False, failed=True)
-        self.assertEqual(
-            result.get('msg'),
-            "True"
-        )
-
-    def test_site_intent_error_create(self):
-
-        """
-        Test case for site intent when an error occurs during site creation.
-
-        This test case checks the behavior of the site intent when an error occurs while creating a site in the DNAC.
-        """
-
-        set_module_args(
-            dict(
-                dnac_host="1.1.1.1",
-                dnac_username="dummy",
-                dnac_password="dummy",
-                dnac_log=True,
-                state="merged",
-                config=self.playbook_config
-            )
-        )
-        result = self.execute_module(changed=False, failed=True)
-        self.assertEqual(
-            result.get('msg'),
-            "True"
-        )
-
-    def test_site_intent_invalid_state(self):
-
-        """
-        Test case for site intent with an invalid 'state' parameter.
-
-        This test case checks the behavior of the site intent when an invalid 'state' parameter is provided in the playbook.
+        This test case checks the behavior of the access point workflow when an invalid 'state' parameter is provided in the playbook.
         """
 
         set_module_args(
@@ -294,5 +288,122 @@ class TestAccesspoint(TestDnacModule):
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
             result.get('msg'),
-            "value of state must be one of: merged, deleted, got: merge"
+            "value of state must be one of: merged  got: merge"
         )
+
+    def test_update_ap_configuration(self):
+        """
+        Test case for Access Point (AP) configuration based on the provided device data.
+
+        This test case checks the behavior of the Access Point (AP) configuration based on the provided device dat in Cisco Catalyst Center.
+        """
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merged",
+                config=self.playbook_config
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        self.assertEqual(
+            result.get('msg'),
+            " Access point configuration parameters Updated Successfully"
+        )
+
+    def test_provision_device(self):
+        """
+        Test case for checking Provision a device (AP) .
+
+        This test case checks the behavior of the Provision a device (AP) in Cisco catalyst Center.
+        """
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merged",
+                config=self.playbook_config
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        self.assertEqual(
+            result.get('msg'),
+            " Device is Provisioned Successfully"
+        )
+
+    def test_wsl_provision(self):
+        """
+        Test case for checking Provision a device (AP) .
+
+        This test case checks the behavior of the Provision a device (AP) in Cisco catalyst Center.
+        """
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merged",
+                config=self.playbook_config
+            )
+        )
+        result = self.execute_module(changed=False, failed=False)
+        self.assertEqual(
+            result.get('msg'),
+            " wireless controller is already Provisioned "
+        )
+
+    def test_get_site_device(self):
+        """
+        Test case for to check  if a given AP MAC address is present inside a Specific site or not.
+
+        This test case checks the behavior of the fetching device information in Cisco Catalyst Center.
+        """
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merged",
+                config=self.playbook_config
+            )
+        )
+        result = self.execute_module(changed=False, failed=False)
+        self.assertEqual(
+            result.get('msg'),
+            "Device with MAC address is found "
+        )
+
+    def test_get_accesspoint_details(self):
+
+        """
+        Test case for Device exist or not in Cisco Catalyst Center.
+
+        This test case checks if the  .
+        """
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merged",
+                config=self.playbook_config
+            )
+        )
+        result = self.execute_module(changed=False, failed=False)
+        self.assertEqual(
+            result.get('response').get('status'),
+            "Device present in Cisco Catalyst Center"
+        )
+
