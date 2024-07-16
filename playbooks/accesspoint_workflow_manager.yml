@@ -17,7 +17,7 @@
         dnac_debug: "{{ dnac_debug }}"
         dnac_log: True
         dnac_log_level: DEBUG
-        config_verify: False
+        config_verify: True
         state: merged
         force_sync: False
         config:
@@ -25,11 +25,11 @@
             rf_profile: "HIGH"
             site:
               floor:
-                name: "FLOOR2"
+                name: "FLOOR1"
                 parent_name: "Global/USA/New York/BLDNYC"
-            ap_name: "LTTS-test2"
+            ap_name: "LTTS-test1"
             led_status: "Enabled"
-            led_brightness_level: 5
+            led_brightness_level: 3
             ap_mode: "Local"
             location: "LTTS/Cisco/Chennai"
             failover_priority: "Low"
@@ -37,14 +37,14 @@
               admin_status: "Enabled"
               antenna_name: "C-ANT9104-2.4GHz"
               radio_role_assignment: "Client-Serving"
-              channel_number: 5
-              powerlevel: 2
+              channel_number: 3
+              powerlevel: 3
             5ghz_radio:
               admin_status: "Enabled"
               antenna_name: "AIR-ANT2513P4M-N-5GHz"
               radio_role_assignment: "Client-Serving"
-              channel_number: 36
-              powerlevel: 2
-              channel_width: "40 MHz"
+              channel_number: 48
+              powerlevel: 3
+              channel_width: "20 MHz"
       register: output_list
 
