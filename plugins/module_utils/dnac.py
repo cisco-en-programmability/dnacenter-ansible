@@ -81,9 +81,10 @@ class DnacBase():
             self.logger = logging.getLogger('logger')
             DnacBase.__is_log_init = True
             self.log('Logging configured and initiated', "DEBUG")
-        elif not self.dnac_log:
+        else:
             # If dnac_log is False, return an empty logger
             self.logger = logging.getLogger('empty_logger')
+            self.logger.addHandler(logging.NullHandler())
 
         self.log('Cisco Catalyst Center parameters: {0}'.format(dnac_params), "DEBUG")
         self.supported_states = ["merged", "deleted", "replaced", "overridden", "gathered", "rendered", "parsed"]
