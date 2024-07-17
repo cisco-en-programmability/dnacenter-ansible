@@ -4548,45 +4548,47 @@ class Events(DnacBase):
         result_msg_list = []
 
         if self.create_dest:
-            create_dest_msg = "Given destination(s) '{0}' created successfully in Cisco Catalyst Center.".format(self.create_dest)
+            create_dest_msg = "Destination(s) '{0}' created successfully in Cisco Catalyst Center.".format(self.create_dest)
             result_msg_list.append(create_dest_msg)
 
         if self.update_dest:
-            update_dest_msg = "Given destination(s) '{0}' updated successfully in Cisco Catalyst Center.".format(self.update_dest)
+            update_dest_msg = "Destination(s) '{0}' updated successfully in Cisco Catalyst Center.".format(self.update_dest)
             result_msg_list.append(update_dest_msg)
 
         if self.no_update_dest:
-            no_update_dest_msg = "Given destination(s) '{0}' needs no update in Cisco Catalyst Center.".format(self.no_update_dest)
+            no_update_dest_msg = "Destination(s) '{0}' need no update in Cisco Catalyst Center.".format(self.no_update_dest)
             result_msg_list.append(no_update_dest_msg)
 
         if self.create_notification:
-            create_notf_msg = "Given Events subscription notification(s) '{0}' created successfully in Cisco Catalyst Center.".format(self.create_notification)
+            create_notf_msg = "Event subscription notification(s) '{0}' created successfully in Cisco Catalyst Center.".format(self.create_notification)
             result_msg_list.append(create_notf_msg)
 
         if self.update_notification:
-            update_notf_msg = "Given Events subscription notification(s) '{0}' updated successfully in Cisco Catalyst Center.".format(self.update_notification)
+            update_notf_msg = "Event subscription notification(s) '{0}' updated successfully in Cisco Catalyst Center.".format(self.update_notification)
             result_msg_list.append(update_notf_msg)
 
         if self.no_update_notification:
-            no_update_notf_msg = "Given Events subscription notification(s) '{0}' needs no update in Cisco Catalyst Center.".format(self.no_update_notification)
+            no_update_notf_msg = "Event subscription notification(s) '{0}' needs no update in Cisco Catalyst Center.".format(self.no_update_notification)
             result_msg_list.append(no_update_notf_msg)
 
         if self.delete_dest:
-            delete_dest_msg = "Given destination(s) '{0}' deleted successfully from the Cisco Catalyst Center.".format(self.delete_dest)
+            delete_dest_msg = "Destination(s) '{0}' deleted successfully from the Cisco Catalyst Center.".format(self.delete_dest)
             result_msg_list.append(delete_dest_msg)
 
         if self.absent_dest:
-            absent_dest_msg = "Unable to delete the following destination(s) '{0}' as they are not present in Cisco Catalyst Center.".format(self.absent_dest)
+            absent_dest_msg = "Unable to delete destination(s) '{0}' as they are not present in Cisco Catalyst Center.".format(self.absent_dest)
             result_msg_list.append(absent_dest_msg)
 
         if self.delete_notification:
-            delete_notification_msg = """Given Events subscription notification(s) '{0}' deleted successfully from the Cisco Catalyst
-                        Center.""".format(self.delete_notification)
+            delete_notification_msg = (
+                "Events subscription notification(s) '{0}' deleted successfully from the Cisco Catalyst Center."
+            ).format(self.delete_notification)
             result_msg_list.append(delete_notification_msg)
 
         if self.absent_notification:
-            absent_notification_msg = """Unable to delete the following Events subscription notification(s) '{0}' as they are not present in
-                        Cisco Catalyst Center.""".format(self.absent_notification)
+            absent_notification_msg = (
+                "Unable to delete event subscription notifications '{0}' as they are not present in Cisco Catalyst Center."
+            ).format(self.absent_notification)
             result_msg_list.append(absent_notification_msg)
 
         if self.create_dest or self.update_dest or self.create_notification or self.update_notification or self.delete_dest or self.delete_notification:
