@@ -4521,16 +4521,27 @@ class Events(DnacBase):
 
     def update_destination_notification_messages(self):
         """
-        Update site messages based on the status of created, updated, and deleted sites.
+        Updates the destination and notification messages for Cisco Catalyst Center.
         Args:
-            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            self (object): Instance of the class containing attributes for destinations and notifications.
+        Attributes:
+            self.create_dest (list): List of destinations to be created.
+            self.update_dest (list): List of destinations to be updated.
+            self.no_update_dest (list): List of destinations that need no update.
+            self.create_notification (list): List of notifications to be created.
+            self.update_notification (list): List of notifications to be updated.
+            self.no_update_notification (list): List of notifications that need no update.
+            self.delete_dest (list): List of destinations to be deleted.
+            self.absent_dest (list): List of destinations that are not present or cannot be deleted.
+            self.delete_notification (list): List of notifications to be deleted.
+            self.absent_notification (list): List of notifications that are not present and cannot be deleted.
         Returns:
             self (object): An instance of a class representing the status of the operation, including whether it was
                 successful or failed, any error messages encountered during operation.
         Description:
-            This method updates the messages related to site creation, updating, and deletion in the Cisco Catalyst Center.
-            It evaluates the status of created sites, updated sites, and sites that are no longer needed for update to
-            determine the appropriate message to be set. The messages are then stored in the 'msg' attribute of the object.
+            This method constructs and logs messages based on the actions performed (create, update, or delete)
+            on destinations and event subscription notifications. It updates the `self.result` dictionary to
+            indicate if changes were made and compiles the messages into a single string.
         """
 
         self.result["changed"] = False
