@@ -192,7 +192,9 @@ options:
       credential_update:
         description: Make this as true needed for the updation of device credentials and other device details. Also if this parameter
             is set to True then make sure that the device(s) must be present in Cisco Catalyst Center then only we can perform the
-            update operations for the respective device(s).
+            update operations for the respective device(s). Otherwise if some devices are missing then module will try to add them in
+            Cisco Catalsyt Center and while adding if some required parameter is missing then module will failed and stop the execution
+            and we cannot perform the update operation for the devices that are already there.
         type: bool
         default: False
       clean_config:
