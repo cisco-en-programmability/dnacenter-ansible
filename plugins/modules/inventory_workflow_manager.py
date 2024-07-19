@@ -190,7 +190,9 @@ options:
         type: bool
         default: False
       credential_update:
-        description: Make this as true needed for the updation of device credentials and other device details.
+        description: Make this as true needed for the updation of device credentials and other device details. Also if this parameter
+            is set to True then make sure that the device(s) must be present in Cisco Catalyst Center then only we can perform the
+            update operations for the respective device(s).
         type: bool
         default: False
       clean_config:
