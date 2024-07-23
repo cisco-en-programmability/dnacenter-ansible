@@ -227,7 +227,8 @@ options:
             type: bool
       network_management_details:
         description: Set default network settings for the site
-        type: dict
+        type: list
+        elements: dict
         suboptions:
           site_name:
             description: >
@@ -518,7 +519,7 @@ EXAMPLES = r"""
     config_verify: True
     config:
     - network_management_details:
-        site_name: string
+      - site_name: string
         settings:
           dhcp_server: list
           dns_server:
@@ -555,7 +556,7 @@ EXAMPLES = r"""
     config_verify: True
     config:
     - network_management_details:
-        site_name: string
+      - site_name: string
         settings:
           network_aaa:
             server_type: AAA
@@ -583,7 +584,7 @@ EXAMPLES = r"""
     config_verify: True
     config:
     - network_management_details:
-        site_name: string
+      - site_name: string
         settings:
           network_aaa:
             server_type: ISE
@@ -729,7 +730,8 @@ class NetworkSettings(DnacBase):
                 },
             },
             "network_management_details": {
-                "type": 'dict',
+                "type": 'list',
+                "elements": 'dict',
                 "settings": {
                     "type": 'dict',
                     "dhcp_server": {"type": 'list'},
@@ -769,7 +771,6 @@ class NetworkSettings(DnacBase):
                         "secondary_server_address": {"type": 'string'},
                         "protocol": {"type": 'string', "choices": ["RADIUS", "TACACS"]},
                         "shared_secret": {"type": 'string'}
-
                     },
                     "client_and_endpoint_aaa": {
                         "type": 'dict',
@@ -877,48 +878,6 @@ class NetworkSettings(DnacBase):
             self.log("Received exception: {0}".format(msg), "CRITICAL")
 
         return obj_params
-
-    def is_server_exists(self, ip_address):
-        """
-        Finds if the provided Authentication and Policy Server with
-        the ip_address is available in the system or not.
-
-        Parameters:
-            ip_address (str) - IP Address of the Authentication and Policy Server.
-
-        Returns:
-            True or False - True if the Authentication and Policy Server is
-                            available in the system. Else, False.
-        """
-
-        try:
-            response = self.dnac._exec(
-                family="system_settings",
-                function='get_authentication_and_policy_servers'
-            )
-            self.log("Received API response from 'get_authentication_and_policy_servers': {0}"
-                     .format(response), "DEBUG")
-            if not response:
-                self.msg = "Failed to retrieve the Authentication and Policy Server details"
-                self.log(str(self.msg), "ERROR")
-                self.status = "failed"
-                return self.check_return_status()
-
-            response = response.get("response")
-            server_details = get_dict_result(response, "ipAddress", ip_address)
-            if not server_details:
-                self.log("The server with IP Address '{0}' is not available in the system.".format(ip_address))
-                return False
-
-            self.log("Server details for the IP address '{0}': {1}".format(ip_address, server_details), "DEBUG")
-        except Exception as msg:
-            self.msg = "Exception occurred while retrieving server details from the IP Address '{0}': {1}" \
-                       .format(ip_address, msg)
-            self.log(str(self.msg), "CRITICAL")
-            self.status = "failed"
-            return self.check_return_status()
-
-        return True
 
     def get_site_id(self, site_name):
         """
@@ -1107,12 +1066,13 @@ class NetworkSettings(DnacBase):
         network_aaa = get_dict_result(all_network_details, "key", "aaa.network.server.1")
         network_aaa2 = get_dict_result(all_network_details, "key", "aaa.network.server.2")
         network_aaa_pan = get_dict_result(all_network_details, "key", "aaa.server.pan.network")
-        clientAndEndpoint_aaa = get_dict_result(all_network_details, "key", "aaa.endpoint.server.1")
-        clientAndEndpoint_aaa2 = get_dict_result(all_network_details,
-                                                 "key",
-                                                 "aaa.endpoint.server.2")
-        clientAndEndpoint_aaa_pan = \
-            get_dict_result(all_network_details, "key", "aaa.server.pan.endpoint")
+        client_and_endpoint_aaa = get_dict_result(all_network_details, "key", "aaa.endpoint.server.1")
+        client_and_endpoint_aaa2 = get_dict_result(all_network_details,
+                                                   "key",
+                                                   "aaa.endpoint.server.2")
+        client_and_endpoint_aaa_pan = get_dict_result(all_network_details,
+                                                      "key",
+                                                      "aaa.server.pan.endpoint")
 
         # Prepare the network details for Cisco Catalyst Center configuration
         network_details = {
@@ -1200,15 +1160,15 @@ class NetworkSettings(DnacBase):
                     }
                 })
 
-        if clientAndEndpoint_aaa and clientAndEndpoint_aaa_pan:
-            aaa_pan_value = clientAndEndpoint_aaa_pan.get("value")[0]
-            aaa_value = clientAndEndpoint_aaa.get("value")[0]
+        if client_and_endpoint_aaa and client_and_endpoint_aaa_pan:
+            aaa_pan_value = client_and_endpoint_aaa_pan.get("value")[0]
+            aaa_value = client_and_endpoint_aaa.get("value")[0]
             if aaa_pan_value == "None":
                 network_settings.update({
                     "clientAndEndpoint_aaa": {
                         "network": aaa_value.get("ipAddress"),
                         "protocol": aaa_value.get("protocol"),
-                        "ipAddress": clientAndEndpoint_aaa2.get("value")[0].get("ipAddress"),
+                        "ipAddress": client_and_endpoint_aaa2.get("value")[0].get("ipAddress"),
                         "servers": "AAA"
                     }
                 })
@@ -1528,22 +1488,26 @@ class NetworkSettings(DnacBase):
         Returns:
             self - The current object with updated Network information.
         """
-        network = {}
-        site_name = network_details.get("site_name")
-        if site_name is None:
-            site_name = "Global"
-            network_details.update({"site_name": site_name})
+        all_network_management_details = []
+        for item in network_details:
+            network = {}
+            site_name = item.get("site_name")
+            if site_name is None:
+                site_name = "Global"
+                item.update({"site_name": site_name})
 
-        site_id = self.get_site_id(site_name)
-        if site_id is None:
-            self.msg = "The site with the name '{0}' is not available in the Catalyst Center".format(site_name)
-            self.status = "failed"
-            return self
+            site_id = self.get_site_id(site_name)
+            if site_id is None:
+                self.msg = "The site with the name '{0}' is not available in the Catalyst Center".format(site_name)
+                self.status = "failed"
+                return self
 
-        network["site_id"] = site_id
-        network["net_details"] = self.get_network_params(site_id)
-        self.log("Network details from the Catalyst Center: {0}".format(network), "DEBUG")
-        self.have.update({"network": network})
+            network["site_id"] = site_id
+            network["net_details"] = self.get_network_params(site_id)
+            self.log("Network details from the Catalyst Center for site '{0}': {1}".format(site_name, network), "DEBUG")
+            all_network_management_details.append(network)
+
+        self.have.update({"network": all_network_management_details})
         self.msg = "Collecting the network details from the Cisco Catalyst Center"
         self.status = "success"
         return self
@@ -1849,303 +1813,273 @@ class NetworkSettings(DnacBase):
         Returns:
             self - The current object with updated desired Network-related information.
         """
-
-        want_network = {
-            "settings": {
-                "dhcpServer": {},
-                "dnsServer": {},
-                "snmpServer": {},
-                "syslogServer": {},
-                "netflowcollector": {},
-                "ntpServer": {},
-                "timezone": "",
-                "messageOfTheday": {},
-                "network_aaa": {},
-                "clientAndEndpoint_aaa": {}
+        all_network_management_details = []
+        network_management_index = 0
+        for item in network_management_details:
+            item = item.get("settings")
+            want_network = {
+                "settings": {
+                    "dhcpServer": {},
+                    "dnsServer": {},
+                    "snmpServer": {},
+                    "syslogServer": {},
+                    "netflowcollector": {},
+                    "ntpServer": {},
+                    "timezone": "",
+                    "messageOfTheday": {},
+                    "network_aaa": {},
+                    "clientAndEndpoint_aaa": {}
+                }
             }
-        }
-        want_network_settings = want_network.get("settings")
-        self.log("Current state (have): {0}".format(self.have), "DEBUG")
-        if network_management_details.get("dhcp_server") is not None:
-            want_network_settings.update({
-                "dhcpServer": network_management_details.get("dhcp_server")
-            })
-        else:
-            del want_network_settings["dhcpServer"]
+            want_network_settings = want_network.get("settings")
+            self.log("Current state (have): {0}".format(self.have), "DEBUG")
+            if item.get("dhcp_server") is not None:
+                want_network_settings.update({
+                    "dhcpServer": item.get("dhcp_server")
+                })
+            else:
+                del want_network_settings["dhcpServer"]
 
-        if network_management_details.get("ntp_server") is not None:
-            want_network_settings.update({
-                "ntpServer": network_management_details.get("ntp_server")
-            })
-        else:
-            del want_network_settings["ntpServer"]
+            if item.get("ntp_server") is not None:
+                want_network_settings.update({
+                    "ntpServer": item.get("ntp_server")
+                })
+            else:
+                del want_network_settings["ntpServer"]
 
-        have_timezone = self.have.get("network").get("net_details").get("settings").get("timezone")
-        if network_management_details.get("timezone") is not None:
-            want_network_settings["timezone"] = \
-                network_management_details.get("timezone")
-        elif have_timezone is not None:
-            want_network_settings["timezone"] = have_timezone
-        else:
-            want_network_settings["timezone"] = "GMT"
+            have_timezone = self.have.get("network")[network_management_index].get("net_details").get("settings").get("timezone")
+            if item.get("timezone") is not None:
+                want_network_settings["timezone"] = \
+                    item.get("timezone")
+            elif have_timezone is not None:
+                want_network_settings["timezone"] = have_timezone
+            else:
+                want_network_settings["timezone"] = "GMT"
 
-        dnsServer = network_management_details.get("dns_server")
-        if dnsServer is not None:
-            if dnsServer.get("domain_name") is not None:
-                want_network_settings.get("dnsServer").update({
-                    "domainName":
-                    dnsServer.get("domain_name")
-                })
+            dns_server = item.get("dns_server")
+            if dns_server is not None:
+                if dns_server.get("domain_name") is not None:
+                    want_network_settings.get("dnsServer").update({
+                        "domainName":
+                        dns_server.get("domain_name")
+                    })
 
-            if dnsServer.get("primary_ip_address") is not None:
-                want_network_settings.get("dnsServer").update({
-                    "primaryIpAddress":
-                    dnsServer.get("primary_ip_address")
-                })
+                if dns_server.get("primary_ip_address") is not None:
+                    want_network_settings.get("dnsServer").update({
+                        "primaryIpAddress":
+                        dns_server.get("primary_ip_address")
+                    })
 
-            if dnsServer.get("secondary_ip_address") is not None:
-                want_network_settings.get("dnsServer").update({
-                    "secondaryIpAddress":
-                    dnsServer.get("secondary_ip_address")
-                })
-        else:
-            del want_network_settings["dnsServer"]
+                if dns_server.get("secondary_ip_address") is not None:
+                    want_network_settings.get("dnsServer").update({
+                        "secondaryIpAddress":
+                        dns_server.get("secondary_ip_address")
+                    })
+            else:
+                del want_network_settings["dnsServer"]
 
-        snmpServer = network_management_details.get("snmp_server")
-        if snmpServer is not None:
-            if snmpServer.get("configure_dnac_ip") is not None:
-                want_network_settings.get("snmpServer").update({
-                    "configureDnacIP": snmpServer.get("configure_dnac_ip")
-                })
-            if snmpServer.get("ip_addresses") is not None:
-                want_network_settings.get("snmpServer").update({
-                    "ipAddresses": snmpServer.get("ip_addresses")
-                })
-        else:
-            del want_network_settings["snmpServer"]
+            snmp_server = item.get("snmp_server")
+            if snmp_server is not None:
+                if snmp_server.get("configure_dnac_ip") is not None:
+                    want_network_settings.get("snmpServer").update({
+                        "configureDnacIP": snmp_server.get("configure_dnac_ip")
+                    })
+                if snmp_server.get("ip_addresses") is not None:
+                    want_network_settings.get("snmpServer").update({
+                        "ipAddresses": snmp_server.get("ip_addresses")
+                    })
+            else:
+                del want_network_settings["snmpServer"]
 
-        syslogServer = network_management_details.get("syslog_server")
-        if syslogServer is not None:
-            if syslogServer.get("configure_dnac_ip") is not None:
-                want_network_settings.get("syslogServer").update({
-                    "configureDnacIP": syslogServer.get("configure_dnac_ip")
-                })
-            if syslogServer.get("ip_addresses") is not None:
-                want_network_settings.get("syslogServer").update({
-                    "ipAddresses": syslogServer.get("ip_addresses")
-                })
-        else:
-            del want_network_settings["syslogServer"]
+            syslog_server = item.get("syslog_server")
+            if syslog_server is not None:
+                if syslog_server.get("configure_dnac_ip") is not None:
+                    want_network_settings.get("syslogServer").update({
+                        "configureDnacIP": syslog_server.get("configure_dnac_ip")
+                    })
+                if syslog_server.get("ip_addresses") is not None:
+                    want_network_settings.get("syslogServer").update({
+                        "ipAddresses": syslog_server.get("ip_addresses")
+                    })
+            else:
+                del want_network_settings["syslogServer"]
 
-        netflowcollector = network_management_details.get("netflow_collector")
-        if netflowcollector is not None:
-            if netflowcollector.get("ip_address") is not None:
-                want_network_settings.get("netflowcollector").update({
-                    "ipAddress":
-                    netflowcollector.get("ip_address")
-                })
-            if netflowcollector.get("port") is not None:
-                want_network_settings.get("netflowcollector").update({
-                    "port":
-                    netflowcollector.get("port")
-                })
-        else:
-            del want_network_settings["netflowcollector"]
+            netflow_collector = item.get("netflow_collector")
+            if netflow_collector is not None:
+                if netflow_collector.get("ip_address") is not None:
+                    want_network_settings.get("netflowcollector").update({
+                        "ipAddress":
+                        netflow_collector.get("ip_address")
+                    })
+                if netflow_collector.get("port") is not None:
+                    want_network_settings.get("netflowcollector").update({
+                        "port":
+                        netflow_collector.get("port")
+                    })
+            else:
+                del want_network_settings["netflowcollector"]
 
-        messageOfTheday = network_management_details.get("message_of_the_day")
-        if messageOfTheday is not None:
-            if messageOfTheday.get("banner_message") is not None:
-                want_network_settings.get("messageOfTheday").update({
-                    "bannerMessage":
-                    messageOfTheday.get("banner_message")
-                })
-            retain_existing_banner = messageOfTheday.get("retain_existing_banner")
-            if retain_existing_banner is not None:
-                if retain_existing_banner is True:
+            message_of_the_day = item.get("message_of_the_day")
+            if message_of_the_day is not None:
+                if message_of_the_day.get("banner_message") is not None:
                     want_network_settings.get("messageOfTheday").update({
-                        "retainExistingBanner": "true"
+                        "bannerMessage":
+                        message_of_the_day.get("banner_message")
                     })
-                else:
-                    want_network_settings.get("messageOfTheday").update({
-                        "retainExistingBanner": "false"
-                    })
-        else:
-            del want_network_settings["messageOfTheday"]
-
-        server_types = ["AAA", "ISE"]
-        protocol_types = ["RADIUS", "TACACS"]
-        network_aaa = network_management_details.get("network_aaa")
-        if network_aaa:
-            server_type = network_aaa.get("server_type")
-            if server_type:
-                want_network_settings.get("network_aaa").update({
-                    "servers": server_type
-                })
+                retain_existing_banner = message_of_the_day.get("retain_existing_banner")
+                if retain_existing_banner is not None:
+                    if retain_existing_banner is True:
+                        want_network_settings.get("messageOfTheday").update({
+                            "retainExistingBanner": "true"
+                        })
+                    else:
+                        want_network_settings.get("messageOfTheday").update({
+                            "retainExistingBanner": "false"
+                        })
             else:
-                self.msg = "The 'server_type' is required under network_aaa."
-                self.status = "failed"
-                return self
+                del want_network_settings["messageOfTheday"]
 
-            if server_type not in server_types:
-                self.msg = "The 'server_type' in the network_aaa should be in {0}".format(server_types)
-                self.status = "failed"
-                return self
-
-            primary_server_address = network_aaa.get("primary_server_address")
-            if primary_server_address:
-                if not self.is_server_exists(primary_server_address):
-                    self.msg = "The 'primary_server_address' - '{0}' under 'network_aaa' is not found in the system." \
-                               .format(primary_server_address)
-                    self.status = "failed"
-                    return self
-
-                want_network_settings.get("network_aaa").update({
-                    "network": primary_server_address
-                })
-            else:
-                self.msg = "Missing required parameter 'primary_server_address' in network_aaa."
-                self.status = "failed"
-                return self
-
-            if server_type == "ISE":
-                pan_address = network_aaa.get("pan_address")
-                if pan_address:
-                    if not self.is_server_exists(pan_address):
-                        self.msg = "The 'pan_address' - '{0}' under 'network_aaa' is not found in the system." \
-                                   .format(pan_address)
-                        self.status = "failed"
-                        return self
-
+            server_types = ["AAA", "ISE"]
+            protocol_types = ["RADIUS", "TACACS"]
+            network_aaa = item.get("network_aaa")
+            if network_aaa:
+                server_type = network_aaa.get("server_type")
+                if server_type:
                     want_network_settings.get("network_aaa").update({
-                        "ipAddress": pan_address
+                        "servers": server_type
                     })
                 else:
-                    self.msg = "Missing required parameter 'pan_address' for ISE server in network_aaa."
+                    self.msg = "The 'server_type' is required under network_aaa."
                     self.status = "failed"
                     return self
-            else:
-                secondary_server_address = network_aaa.get("secondary_server_address")
-                if secondary_server_address:
-                    if not self.is_server_exists(secondary_server_address):
-                        self.msg = "The 'secondary_server_address' - '{0}' under 'network_aaa' is not found in the system." \
-                                   .format(secondary_server_address)
-                        self.status = "failed"
-                        return self
 
+                if server_type not in server_types:
+                    self.msg = "The 'server_type' in the network_aaa should be in {0}".format(server_types)
+                    self.status = "failed"
+                    return self
+
+                primary_server_address = network_aaa.get("primary_server_address")
+                if primary_server_address:
                     want_network_settings.get("network_aaa").update({
-                        "ipAddress": secondary_server_address
-                    })
-
-            protocol = network_aaa.get("protocol")
-            if protocol:
-                want_network_settings.get("network_aaa").update({
-                    "protocol": protocol
-                })
-            else:
-                want_network_settings.get("network_aaa").update({
-                    "protocol": "RADIUS"
-                })
-
-            if protocol not in protocol_types:
-                self.msg = "The 'protocol' in the network_aaa should be in {0}".format(protocol_types)
-                self.status = "failed"
-                return self
-
-            shared_secret = network_aaa.get("shared_secret")
-            if shared_secret:
-                want_network_settings.get("network_aaa").update({
-                    "sharedSecret": shared_secret
-                })
-        else:
-            del want_network_settings["network_aaa"]
-
-        clientAndEndpoint_aaa = network_management_details.get("client_and_endpoint_aaa")
-        if clientAndEndpoint_aaa:
-            server_type = clientAndEndpoint_aaa.get("server_type")
-            if server_type:
-                want_network_settings.get("clientAndEndpoint_aaa").update({
-                    "servers": server_type
-                })
-            else:
-                self.msg = "The 'server_type' is required under client_and_endpoint_aaa."
-                self.status = "failed"
-                return self
-
-            if server_type not in server_types:
-                self.msg = "The 'server_type' in the client_and_endpoint_aaa should be in {0}".format(server_types)
-                self.status = "failed"
-                return self
-
-            primary_server_address = clientAndEndpoint_aaa.get("primary_server_address")
-            if primary_server_address:
-                if not self.is_server_exists(primary_server_address):
-                    self.msg = "The 'primary_server_address' - '{0}' under 'clientAndEndpoint_aaa' is not found in the system." \
-                               .format(primary_server_address)
-                    self.status = "failed"
-                    return self
-
-                want_network_settings.get("clientAndEndpoint_aaa").update({
-                    "network": primary_server_address
-                })
-            else:
-                self.msg = "Missing required parameter 'primary_server_address' in client_and_endpoint_aaa."
-                self.status = "failed"
-                return self
-
-            if server_type == "ISE":
-                pan_address = clientAndEndpoint_aaa.get("pan_address")
-                if pan_address:
-                    if not self.is_server_exists(pan_address):
-                        self.msg = "The 'pan_address' - '{0}' under 'clientAndEndpoint_aaa' is not found in the system." \
-                                   .format(pan_address)
-                        self.status = "failed"
-                        return self
-
-                    want_network_settings.get("clientAndEndpoint_aaa").update({
-                        "ipAddress": pan_address
+                        "network": primary_server_address
                     })
                 else:
-                    self.msg = "Missing required parameter 'pan_address' for ISE server in client_and_endpoint_aaa."
+                    self.msg = "Missing required parameter 'primary_server_address' in network_aaa."
                     self.status = "failed"
                     return self
-            else:
-                secondary_server_address = clientAndEndpoint_aaa.get("secondary_server_address")
-                if secondary_server_address:
-                    if not self.is_server_exists(secondary_server_address):
-                        self.msg = "The 'secondary_server_address' - '{0}' under 'clientAndEndpoint_aaa' is not found in the system." \
-                                   .format(secondary_server_address)
+
+                if server_type == "ISE":
+                    pan_address = network_aaa.get("pan_address")
+                    if pan_address:
+                        want_network_settings.get("network_aaa").update({
+                            "ipAddress": pan_address
+                        })
+                    else:
+                        self.msg = "Missing required parameter 'pan_address' for ISE server in network_aaa."
                         self.status = "failed"
                         return self
+                else:
+                    secondary_server_address = network_aaa.get("secondary_server_address")
+                    if secondary_server_address:
+                        want_network_settings.get("network_aaa").update({
+                            "ipAddress": secondary_server_address
+                        })
 
-                    want_network_settings.get("clientAndEndpoint_aaa").update({
-                        "ipAddress": secondary_server_address
+                protocol = network_aaa.get("protocol")
+                if protocol:
+                    want_network_settings.get("network_aaa").update({
+                        "protocol": protocol
+                    })
+                else:
+                    want_network_settings.get("network_aaa").update({
+                        "protocol": "RADIUS"
                     })
 
-            protocol = clientAndEndpoint_aaa.get("protocol")
-            if protocol:
-                want_network_settings.get("clientAndEndpoint_aaa").update({
-                    "protocol": protocol
-                })
+                if protocol not in protocol_types:
+                    self.msg = "The 'protocol' in the network_aaa should be in {0}".format(protocol_types)
+                    self.status = "failed"
+                    return self
+
+                shared_secret = network_aaa.get("shared_secret")
+                if shared_secret:
+                    want_network_settings.get("network_aaa").update({
+                        "sharedSecret": shared_secret
+                    })
             else:
-                want_network_settings.get("clientAndEndpoint_aaa").update({
-                    "protocol": "RADIUS"
-                })
+                del want_network_settings["network_aaa"]
 
-            if protocol not in protocol_types:
-                self.msg = "The 'protocol' in the client_and_endpoint_aaa should be in {0}".format(protocol_types)
-                self.status = "failed"
-                return self
+            client_and_endpoint_aaa = item.get("client_and_endpoint_aaa")
+            if client_and_endpoint_aaa:
+                server_type = client_and_endpoint_aaa.get("server_type")
+                if server_type:
+                    want_network_settings.get("clientAndEndpoint_aaa").update({
+                        "servers": server_type
+                    })
+                else:
+                    self.msg = "The 'server_type' is required under client_and_endpoint_aaa."
+                    self.status = "failed"
+                    return self
 
-            shared_secret = clientAndEndpoint_aaa.get("shared_secret")
-            if shared_secret:
-                want_network_settings.get("clientAndEndpoint_aaa").update({
-                    "sharedSecret": shared_secret
-                })
-        else:
-            del want_network_settings["clientAndEndpoint_aaa"]
+                if server_type not in server_types:
+                    self.msg = "The 'server_type' in the client_and_endpoint_aaa should be in {0}".format(server_types)
+                    self.status = "failed"
+                    return self
 
-        self.log("Network playbook details: {0}".format(want_network), "DEBUG")
-        self.want.update({"wantNetwork": want_network})
+                primary_server_address = client_and_endpoint_aaa.get("primary_server_address")
+                if primary_server_address:
+                    want_network_settings.get("clientAndEndpoint_aaa").update({
+                        "network": primary_server_address
+                    })
+                else:
+                    self.msg = "Missing required parameter 'primary_server_address' in client_and_endpoint_aaa."
+                    self.status = "failed"
+                    return self
+
+                if server_type == "ISE":
+                    pan_address = client_and_endpoint_aaa.get("pan_address")
+                    if pan_address:
+                        want_network_settings.get("clientAndEndpoint_aaa").update({
+                            "ipAddress": pan_address
+                        })
+                    else:
+                        self.msg = "Missing required parameter 'pan_address' for ISE server in client_and_endpoint_aaa."
+                        self.status = "failed"
+                        return self
+                else:
+                    secondary_server_address = client_and_endpoint_aaa.get("secondary_server_address")
+                    if secondary_server_address:
+                        want_network_settings.get("clientAndEndpoint_aaa").update({
+                            "ipAddress": secondary_server_address
+                        })
+
+                protocol = client_and_endpoint_aaa.get("protocol")
+                if protocol:
+                    want_network_settings.get("clientAndEndpoint_aaa").update({
+                        "protocol": protocol
+                    })
+                else:
+                    want_network_settings.get("clientAndEndpoint_aaa").update({
+                        "protocol": "RADIUS"
+                    })
+
+                if protocol not in protocol_types:
+                    self.msg = "The 'protocol' in the client_and_endpoint_aaa should be in {0}".format(protocol_types)
+                    self.status = "failed"
+                    return self
+
+                shared_secret = client_and_endpoint_aaa.get("shared_secret")
+                if shared_secret:
+                    want_network_settings.get("clientAndEndpoint_aaa").update({
+                        "sharedSecret": shared_secret
+                    })
+            else:
+                del want_network_settings["clientAndEndpoint_aaa"]
+
+            all_network_management_details.append(want_network)
+            network_management_index += 1
+
+        self.log("Network playbook details: {0}".format(all_network_management_details), "DEBUG")
+        self.want.update({"wantNetwork": all_network_management_details})
         self.msg = "Collected the network details from the playbook"
         self.status = "success"
         return self
@@ -2170,8 +2104,7 @@ class NetworkSettings(DnacBase):
             self.get_want_reserve_pool(reserve_pool).check_return_status()
 
         if config.get("network_management_details"):
-            network_management_details = config.get("network_management_details") \
-                                               .get("settings")
+            network_management_details = config.get("network_management_details")
             self.get_want_network(network_management_details).check_return_status()
 
         self.log("Desired State (want): {0}".format(self.want), "INFO")
@@ -2356,55 +2289,70 @@ class NetworkSettings(DnacBase):
         self.log("Updated reserved IP subpool successfully", "INFO")
         return
 
-    def update_network(self, config):
+    def update_network(self, network_management):
         """
         Update or create a network configuration in Cisco Catalyst
         Center based on the provided playbook details.
 
         Parameters:
-            config (list of dict) - Playbook details containing Network Management information.
+            network_management (list of dict) - Playbook details containing Network Management information.
 
         Returns:
             None
         """
+        network_management_index = 0
+        for item in network_management:
+            site_name = item.get("site_name")
+            result_network = self.result.get("response")[2].get("network")
+            result_network.get("response").update({site_name: {}})
 
-        site_name = config.get("network_management_details").get("site_name")
-        result_network = self.result.get("response")[2].get("network")
-        result_network.get("response").update({site_name: {}})
+            # Check update is required or not
+            if not self.requires_update(self.have.get("network")[network_management_index].get("net_details"),
+                                        self.want.get("wantNetwork")[network_management_index], self.network_obj_params):
 
-        # Check update is required or not
-        if not self.requires_update(self.have.get("network").get("net_details"),
-                                    self.want.get("wantNetwork"), self.network_obj_params):
+                self.log("Network in site '{0}' doesn't require an update.".format(site_name), "INFO")
+                result_network.get("response").get(site_name).update({
+                    "Cisco Catalyst Center params": self.have.get("network")[network_management_index]
+                    .get("net_details").get("settings")
+                })
+                result_network.get("msg").update({site_name: "Network doesn't require an update"})
+                continue
 
-            self.log("Network in site '{0}' doesn't require an update.".format(site_name), "INFO")
-            result_network.get("response").get(site_name).update({
-                "Cisco Catalyst Center params": self.have.get("network")
-                .get("net_details").get("settings")
-            })
-            result_network.get("msg").update({site_name: "Network doesn't require an update"})
-            return
+            self.log("Network in site '{0}' requires update.".format(site_name), "INFO")
+            self.log("Current State of network in Catalyst Center: {0}"
+                     .format(self.have.get("network")), "DEBUG")
+            self.log("Desired State of network: {0}".format(self.want.get("wantNetwork")), "DEBUG")
 
-        self.log("Network in site '{0}' requires update.".format(site_name), "INFO")
-        self.log("Current State of network in Catalyst Center: {0}"
-                 .format(self.have.get("network")), "DEBUG")
-        self.log("Desired State of network: {0}".format(self.want.get("wantNetwork")), "DEBUG")
+            net_params = copy.deepcopy(self.want.get("wantNetwork")[network_management_index])
+            net_params.update({"site_id": self.have.get("network")[network_management_index].get("site_id")})
+            try:
+                response = self.dnac._exec(
+                    family="network_settings",
+                    function='update_network_v2',
+                    op_modifies=True,
+                    params=net_params,
+                )
+            except Exception as msg:
+                if "[400] Bad Request" in str(msg):
+                    self.msg = (
+                        "Received Bad Request [400] from the Catalyst Center. "
+                        "Please provide valid input or check the server IPs under the network_management_details."
+                    )
 
-        net_params = copy.deepcopy(self.want.get("wantNetwork"))
-        net_params.update({"site_id": self.have.get("network").get("site_id")})
-        response = self.dnac._exec(
-            family="network_settings",
-            function='update_network_v2',
-            op_modifies=True,
-            params=net_params,
-        )
-        self.log("Received API response of 'update_network_v2': {0}".format(response), "DEBUG")
-        validation_string = "desired common settings operation successful"
-        self.check_task_response_status(response, validation_string, "update_network_v2").check_return_status()
-        self.log("Network has been changed successfully", "INFO")
-        result_network.get("msg") \
-            .update({site_name: "Network Updated successfully"})
-        result_network.get("response").get(site_name) \
-            .update({"Network Details": self.want.get("wantNetwork").get("settings")})
+                self.log(str(msg), "ERROR")
+                self.status = "failed"
+                return self
+
+            self.log("Received API response of 'update_network_v2': {0}".format(response), "DEBUG")
+            validation_string = "desired common settings operation successful"
+            self.check_task_response_status(response, validation_string, "update_network_v2").check_return_status()
+            self.log("Network under the site '{0}' has been changed successfully".format(site_name), "INFO")
+            result_network.get("msg") \
+                .update({site_name: "Network Updated successfully"})
+            result_network.get("response").get(site_name) \
+                .update({"Network Details": self.want.get("wantNetwork")[network_management_index].get("settings")})
+            network_management_index += 1
+
         return
 
     def get_diff_merged(self, config):
@@ -2428,8 +2376,9 @@ class NetworkSettings(DnacBase):
         if reserve_pool is not None:
             self.update_reserve_pool(reserve_pool)
 
-        if config.get("network_management_details") is not None:
-            self.update_network(config)
+        network_management = config.get("network_management_details")
+        if network_management is not None:
+            self.update_network(network_management)
 
         return self
 
@@ -2606,15 +2555,20 @@ class NetworkSettings(DnacBase):
             self.log("Successfully validated the reserved pool(s)", "INFO")
             self.result.get("response")[1].get("reservePool").update({"Validation": "Success"})
 
-        if config.get("network_management_details") is not None:
-            if self.requires_update(self.have.get("network").get("net_details"),
-                                    self.want.get("wantNetwork"), self.network_obj_params):
-                self.msg = "Network Functions Config is not applied to the Cisco Catalyst Center"
-                self.status = "failed"
-                return self
+        network_management_details = config.get("network_management_details")
+        if network_management_details is not None:
+            network_management_index = 0
+            for item in network_management_details:
+                if self.requires_update(self.have.get("network")[network_management_index].get("net_details"),
+                                        self.want.get("wantNetwork")[network_management_index], self.network_obj_params):
+                    self.msg = "Network Functions Config is not applied to the Cisco Catalyst Center"
+                    self.status = "failed"
+                    return self
 
-            self.log("Successfully validated the network functions '{0}'."
-                     .format(config.get("network_management_details").get("site_name")), "INFO")
+                self.log("Successfully validated the network functions '{0}'."
+                         .format(item.get("site_name")), "INFO")
+                network_management_index += 1
+
             self.result.get("response")[2].get("network").update({"Validation": "Success"})
 
         self.msg = "Successfully validated the Global Pool, Reserve Pool and the Network Functions."
