@@ -17,15 +17,13 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
-from dnacentersdk import exceptions
 from unittest.mock import patch
 
 import sys
 sys.path.insert(0, "/Users/rukapse/ansible/dnac/work/collections")
 
 from ansible_collections.cisco.dnac.tests.unit.modules.dnac.dnac_module import TestDnacModule, set_module_args, loadPlaybookData
-from ansible_collections.cisco.dnac.plugins.modules import network_compliance_workflow_manager 
-
+from ansible_collections.cisco.dnac.plugins.modules import network_compliance_workflow_manager
 
 class TestNetworkCompliance(TestDnacModule):
 
@@ -50,10 +48,9 @@ class TestNetworkCompliance(TestDnacModule):
         super(TestNetworkCompliance, self).tearDown()
         self.mock_dnac_init.stop()
         self.mock_dnac_exec.stop()
-        
+
     def load_fixtures(self, response=None, device=""):
         print("Inside load_fixtures")
-
         ##################### FIXTURE FOR SUCCESS TESTCASES ####################
 
         # Run full compliance using an IP Address list
@@ -63,7 +60,7 @@ class TestNetworkCompliance(TestDnacModule):
                 self.test_data.get("response_get_compliance_details_of_device_1"),
                 self.test_data.get("response_run_compliance_success"),
                 self.test_data.get("response_get_task_by_id_success"),
-                self.test_data.get("response_get_compliance_details_of_device_1"),  
+                self.test_data.get("response_get_compliance_details_of_device_1"),
             ]
 
         # Run full compliance using Site
@@ -208,16 +205,10 @@ class TestNetworkCompliance(TestDnacModule):
             ]
 
         ###################### FIXTURES FOR FAILURE TESTCASES ####################
-
-        # Run full compliance using an IP Address list - Failure 1 
+        # Run full compliance using an IP Address list - Failure 1
         if "run_compliance_with_iplist_failure_1" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
-                Exception("Simulated exception"),
-                #self.test_data.get("response_get_device_list_success"),
-                self.test_data.get("response_get_compliance_details_of_device_1"),
-                self.test_data.get("response_run_compliance_success"),
-                self.test_data.get("response_get_task_by_id_success"),
-                self.test_data.get("response_get_compliance_details_of_device_1"),  
+                Exception("Simulated exception")
             ]
 
         # Run full compliance using an IP Address list - Failure 2
@@ -254,7 +245,7 @@ class TestNetworkCompliance(TestDnacModule):
                 Exception("Simulated exception"),
             ]
 
-        # Run full compliance using Site - Failure 1 
+        # Run full compliance using Site - Failure 1
         if "run_compliance_with_site_failure_1" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 Exception("Simulated exception")
@@ -445,7 +436,7 @@ class TestNetworkCompliance(TestDnacModule):
         self.assertIn(
              "Run Compliance Check has completed successfully on 2 device(s):",
              result.get('msg')
-            
+
         )
 
 # Run Sync Device Config using IP Address list - Sync Required (Devices with RUNNING_CONFIG status - 'NON_COMPLIANT')
@@ -487,7 +478,7 @@ class TestNetworkCompliance(TestDnacModule):
         result = self.execute_module(changed=True, failed=False)
         self.assertIn(
             "Sync Device Configuration has completed successfully on 6 device(s):",
-            result.get('msg') 
+            result.get('msg')
         )
 
 # Run Sync Device Config using both IP Address List and Site - Sync Required (Devices with RUNNING_CONFIG status - 'NON_COMPLIANT')
