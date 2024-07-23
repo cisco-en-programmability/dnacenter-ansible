@@ -190,7 +190,11 @@ options:
         type: bool
         default: False
       credential_update:
-        description: Make this as true needed for the updation of device credentials and other device details.
+        description: Set this to 'True' to update device credentials and other device details. When this parameter is 'True', ensure that
+                the devices are present in Cisco Catalyst Center; only then can update operations be performed on the respective devices.
+                If the parameter is 'True' and any device is not present, the module will attempt to add it.  If required parameters are
+                missing during this addition, the module will fail and stop execution, preventing update operations for devices that are
+                already present.
         type: bool
         default: False
       clean_config:
@@ -861,42 +865,63 @@ class DnacDevice(DnacBase):
         # If no information is available, return an empty list
         return []
 
-    def device_exists_in_dnac(self):
+    def get_existing_devices_in_ccc(self):
         """
-        Check which devices already exists in Cisco Catalyst Center and return both device_exist and device_not_exist in dnac.
+        Check which devices already exists and retrieve the list of devices that already exist in Cisco Catalyst Center.
         Parameters:
             self (object): An instance of a class used for interacting with Cisco Cisco Catalyst Center.
         Returns:
-            list: A list of devices that exist in Cisco Catalyst Center.
+            list: A list of management IP addresses for devices that exist in Cisco Catalyst Center.
         Description:
             Queries Cisco Catalyst Center to check which devices are already present in Cisco Catalyst Center and store
             its management IP address in the list of devices that exist.
         Example:
-            To use this method, create an instance of the class and call 'device_exists_in_dnac' on it,
+            To use this method, create an instance of the class and call 'get_existing_devices_in_ccc' on it,
             The method returns a list of management IP addressesfor devices that exist in Cisco Catalyst Center.
         """
 
-        device_in_dnac = []
+        existing_devices_in_ccc = set()
+        offset = 0
+        limit = self.get_device_details_limit()
+        initial_exec = False
 
-        try:
-            response = self.dnac._exec(
-                family="devices",
-                function='get_device_list',
-            )
+        while True:
+            try:
+                if initial_exec:
+                    response = self.dnac._exec(
+                        family="devices",
+                        function='get_device_list',
+                        params={
+                            "offset": offset * limit,
+                            "limit": limit
+                        }
+                    )
+                else:
+                    initial_exec = True
+                    response = self.dnac._exec(
+                        family="devices",
+                        function='get_device_list',
+                    )
+                offset = offset + 1
+                response = response.get("response")
+                if not response:
+                    self.log("There are no device details received from 'get_device_list' API.", "INFO")
+                    break
 
-        except Exception as e:
-            error_message = "Error while fetching device from Cisco Catalyst Center: {0}".format(str(e))
-            self.log(error_message, "CRITICAL")
-            raise Exception(error_message)
+                self.log("Received API response from 'get_device_list': {0}".format(str(response)), "DEBUG")
+                for ip in response:
+                    device_ip = ip["managementIpAddress"]
+                    existing_devices_in_ccc.add(device_ip)
 
-        if response:
-            self.log("Received API response from 'get_device_list': {0}".format(str(response)), "DEBUG")
-            response = response.get("response")
-            for ip in response:
-                device_ip = ip["managementIpAddress"]
-                device_in_dnac.append(device_ip)
+            except Exception as e:
+                self.status = "failed"
+                self.msg = "Error while fetching device details from Cisco Catalyst Center: {0}".format(str(e))
+                self.log(self.msg, "CRITICAL")
+                self.check_return_status()
+        self.log("Devices present in Cisco Catalyst Center: {0}".format(str(existing_devices_in_ccc)), "DEBUG")
+        existing_devices_in_ccc = list(existing_devices_in_ccc)
 
-        return device_in_dnac
+        return existing_devices_in_ccc
 
     def is_udf_exist(self, field_name):
         """
@@ -1262,7 +1287,7 @@ class DnacDevice(DnacBase):
         # Code for triggers the resync operation using the retrieved device IDs and force sync parameter.
         device_ips = self.get_device_ips_from_config_priority()
         input_device_ips = device_ips.copy()
-        device_in_dnac = self.device_exists_in_dnac()
+        device_in_dnac = self.get_existing_devices_in_ccc()
 
         for device_ip in input_device_ips:
             if device_ip not in device_in_dnac:
@@ -1998,7 +2023,7 @@ class DnacDevice(DnacBase):
         want_device = self.get_device_ips_from_config_priority()
 
         # Get the list of device that are present in Cisco Catalyst Center
-        device_in_dnac = self.device_exists_in_dnac()
+        device_in_dnac = self.get_existing_devices_in_ccc()
         device_not_in_dnac, devices_in_playbook = [], []
 
         for ip in want_device:
@@ -2782,13 +2807,11 @@ class DnacDevice(DnacBase):
                 else:
                     self.msg = "Device Updation for device '{0}' get failed".format(device_ip)
                 self.log(self.msg, "ERROR")
+                self.result['response'] = self.msg
+                self.check_return_status()
                 break
             elif execution_details.get("endTime"):
-                self.status = "success"
-                self.result['changed'] = True
-                self.msg = "Device '{0}' present in Cisco Catalyst Center and have been updated successfully".format(device_ip)
-                self.result['response'] = self.msg
-                self.log(self.msg, "INFO")
+                self.log("Device '{0}' present in Cisco Catalyst Center and have been updated successfully.".format(device_ip), "INFO")
                 break
 
         return self
@@ -2847,7 +2870,7 @@ class DnacDevice(DnacBase):
         # First check if device present in Cisco Catalyst Center or not
         device_exist = False
         for device in device_to_update:
-            if device in self.have.get("device_in_ccc"):
+            if device in self.have.get("device_in_dnac"):
                 device_exist = True
                 break
 
@@ -2906,7 +2929,7 @@ class DnacDevice(DnacBase):
         if self.config[0].get('provision_wired_device'):
             provision_wired_list = self.config[0]['provision_wired_device']
             device_not_available = []
-            device_in_ccc = self.device_exists_in_dnac()
+            device_in_ccc = self.get_existing_devices_in_ccc()
 
             for prov_dict in provision_wired_list:
                 device_ip = prov_dict['device_ip']
@@ -2958,6 +2981,7 @@ class DnacDevice(DnacBase):
         if credential_update:
             device_to_update = self.get_device_ips_from_config_priority()
             device_exist = self.is_device_exist_for_update(device_to_update)
+            update_device_ips = []
 
             if not device_exist:
                 self.msg = """Unable to edit device credentials/details because the device(s) listed: {0} are not present in the
@@ -3309,12 +3333,20 @@ class DnacDevice(DnacBase):
 
                         if response and isinstance(response, dict):
                             self.check_device_update_execution_response(response, device_ip)
+                            update_device_ips.append(device_ip)
                             self.check_return_status()
 
                 except Exception as e:
                     error_message = "Error while updating device in Cisco Catalyst Center: {0}".format(str(e))
                     self.log(error_message, "ERROR")
                     raise Exception(error_message)
+
+            if update_device_ips:
+                self.status = "success"
+                self.result['changed'] = True
+                self.msg = "Device(s) '{0}' present in Cisco Catalyst Center and have been updated successfully.".format(str(update_device_ips))
+                self.result['response'] = self.msg
+                self.log(self.msg, "INFO")
 
         # Update list of interface details on specific or list of devices.
         if self.config[0].get('update_interface_details'):
@@ -3676,7 +3708,7 @@ class DnacDevice(DnacBase):
         self.log("Current State (have): {0}".format(str(self.have)), "INFO")
         self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
         input_devices = self.have["want_device"]
-        device_in_dnac = self.device_exists_in_dnac()
+        device_in_dnac = self.get_existing_devices_in_ccc()
 
         if self.config[0].get('add_user_defined_field'):
             udf_field_list = self.config[0].get('add_user_defined_field')
