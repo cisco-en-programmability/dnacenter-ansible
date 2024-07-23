@@ -981,8 +981,7 @@ class NetworkCompliance(DnacBase):
         except Exception as e:
             # Handle any exceptions that occur during the API call
             self.msg = ("An error occurred while retrieving Compliance Details for device:{0} using 'compliance_details_of_device' API call"
-                   ". Error: {1}".format(device_ip, str(e)))
-            #self.log(msg, "ERROR")
+                        ". Error: {1}".format(device_ip, str(e)))
             self.update_result("failed", False, self.msg, "ERROR")
             self.check_return_status()
 
