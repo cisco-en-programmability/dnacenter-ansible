@@ -473,6 +473,7 @@ class NetworkCompliance(DnacBase):
             device_in_progress = set()
 
             response = self.get_compliance_report(run_compliance_params, mgmt_ip_to_instance_id_map)
+
             if not response:
                 ip_address_list_str = ", ".join(list(mgmt_ip_to_instance_id_map.keys()))
                 msg = (
@@ -725,7 +726,7 @@ class NetworkCompliance(DnacBase):
         """
         task_name = "Sync Device Configuration"
         required = True
-        msg = ""
+        msg = None
 
         # Validate if sync is required
         self.log("Compliance Report for {0} operation for device(s) {1} : {2}".format(
@@ -973,16 +974,17 @@ class NetworkCompliance(DnacBase):
             self.log("Response received post 'compliance_details_of_device' API call: {0}".format(str(response)), "DEBUG")
 
             if response:
-                response = response.response
+                response = response["response"]
             else:
                 self.log("No response received from the 'compliance_details_of_device' API call.", "ERROR")
             return response
         except Exception as e:
             # Handle any exceptions that occur during the API call
-            msg = ("An error occurred while retrieving Compliance Details for device:{0} using 'compliance_details_of_device' API call"
+            self.msg = ("An error occurred while retrieving Compliance Details for device:{0} using 'compliance_details_of_device' API call"
                    ". Error: {1}".format(device_ip, str(e)))
-            self.log(msg, "ERROR")
-            return None
+            #self.log(msg, "ERROR")
+            self.update_result("failed", False, self.msg, "ERROR")
+            self.check_return_status()
 
     def run_compliance(self, run_compliance_params, batch_size):
         """
@@ -1028,7 +1030,7 @@ class NetworkCompliance(DnacBase):
 
                 if response:
                     self.result.update(dict(response=response["response"]))
-                    task_id = response.response.get("taskId")
+                    task_id = response["response"].get("taskId")
                     self.log("Task Id for the 'run_compliance' task is {0}".format(task_id), "DEBUG")
                     if task_id:
                         batches_dict[idx] = {"task_id": task_id, "batch_params": batch_params}
@@ -1069,9 +1071,9 @@ class NetworkCompliance(DnacBase):
 
             if response:
                 self.result.update(dict(response=response["response"]))
-                self.log("Task Id for the 'commit_device_configuration' task  is {0}".format(response.response.get("taskId")), "INFO")
+                self.log("Task Id for the 'commit_device_configuration' task  is {0}".format(response["response"].get("taskId")), "INFO")
                 # Return the task ID
-                return response.response.get("taskId")
+                return response["response"].get("taskId")
             else:
                 self.log("No response received from the 'commit_device_configuration' API call.", "ERROR")
                 return None
@@ -1108,7 +1110,7 @@ class NetworkCompliance(DnacBase):
                      "is {2}".format(task_name, str(task_id), str(response)), "DEBUG")
 
             if response:
-                response = response.response
+                response = response["response"]
             else:
                 self.log("No response received from the 'get_task_by_id' API call.", "CRITICAL")
             return response
@@ -1142,7 +1144,7 @@ class NetworkCompliance(DnacBase):
             self.log("Response received post 'get_task_tree' API call for the Task {0} with Task id {1} "
                      "is {2}".format(task_name, str(task_id), str(response)), "DEBUG")
             if response:
-                response = response.response
+                response = response["response"]
             else:
                 self.log("No response received from the 'get_task_tree' API call.", "CRITICAL")
             return response
