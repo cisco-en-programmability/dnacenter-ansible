@@ -25,6 +25,7 @@ sys.path.insert(0, "/Users/rukapse/ansible/dnac/work/collections")
 from ansible_collections.cisco.dnac.tests.unit.modules.dnac.dnac_module import TestDnacModule, set_module_args, loadPlaybookData
 from ansible_collections.cisco.dnac.plugins.modules import network_compliance_workflow_manager
 
+
 class TestNetworkCompliance(TestDnacModule):
 
     module = network_compliance_workflow_manager
@@ -51,7 +52,7 @@ class TestNetworkCompliance(TestDnacModule):
 
     def load_fixtures(self, response=None, device=""):
         print("Inside load_fixtures")
-        ##################### FIXTURE FOR SUCCESS TESTCASES ####################
+        # FIXTURE FOR SUCCESS TESTCASES ############################################################
 
         # Run full compliance using an IP Address list
         if "run_compliance_with_iplist" in self._testMethodName:
@@ -204,7 +205,7 @@ class TestNetworkCompliance(TestDnacModule):
                 self.test_data.get("response_get_compliance_details_of_device_6_running_config_2")
             ]
 
-        ###################### FIXTURES FOR FAILURE TESTCASES ####################
+        # FIXTURES FOR FAILURE TESTCASES ############################################################
         # Run full compliance using an IP Address list - Failure 1
         if "run_compliance_with_iplist_failure_1" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
@@ -331,7 +332,7 @@ class TestNetworkCompliance(TestDnacModule):
                 Exception("Simulated exception")
             ]
 
-############################################# SUCCESS TESTCASES ############################################
+# SUCCESS TESTCASES ########################################################################################
 
 # Run full compliance using an IP Address list
     def test_run_compliance_with_iplist(self):
@@ -434,8 +435,8 @@ class TestNetworkCompliance(TestDnacModule):
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertIn(
-             "Run Compliance Check has completed successfully on 2 device(s):",
-             result.get('msg')
+            "Run Compliance Check has completed successfully on 2 device(s):",
+            result.get('msg')
 
         )
 
@@ -523,7 +524,7 @@ class TestNetworkCompliance(TestDnacModule):
             result.get('msg')
         )
 
-############################################# FAILURE TESTCASES #############################################
+# FAILURE TESTCASES ########################################################################################
 
 # Run full compliance using an IP Address list - Failure 1
     def test_run_compliance_with_iplist_failure_1(self):
