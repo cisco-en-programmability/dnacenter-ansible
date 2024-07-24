@@ -819,6 +819,7 @@ class DnacDevice(DnacBase):
             self.msg = "Invalid parameters in playbook: {0}".format(invalid_params)
             self.log(self.msg, "ERROR")
             self.status = "failed"
+            self.result['response'] = self.msg
             return self
 
         self.validated_config = valid_temp
@@ -1069,6 +1070,7 @@ class DnacDevice(DnacBase):
                 else:
                     self.msg = "Could not get the File ID so can't export device details in csv file"
                 self.log(self.msg, "ERROR")
+                self.result['response'] = self.msg
 
                 return response
 
@@ -1101,6 +1103,7 @@ class DnacDevice(DnacBase):
             self.msg = "pyzipper is required for this module. Install pyzipper to use this functionality."
             self.log(self.msg, "CRITICAL")
             self.status = "failed"
+            self.result['response'] = self.msg
             return self
 
         snmp_protocol = self.config[0].get('snmp_priv_protocol', 'AES128')
@@ -1121,6 +1124,7 @@ class DnacDevice(DnacBase):
             self.msg = "Invalid SNMP protocol '{0}' specified for encryption.".format(snmp_protocol)
             self.log(self.msg, "ERROR")
             self.status = "failed"
+            self.result['response'] = self.msg
             return self
 
         # Create a PyZipper object with the password
@@ -1163,6 +1167,7 @@ class DnacDevice(DnacBase):
             self.status = "failed"
             self.msg = "Cannot export device details as no devices are specified in the playbook"
             self.log(self.msg, "ERROR")
+            self.result['response'] = self.msg
             return self
 
         try:
@@ -1173,6 +1178,7 @@ class DnacDevice(DnacBase):
                 self.result['changed'] = False
                 self.msg = "Could not find device UUIDs for exporting device details"
                 self.log(self.msg, "ERROR")
+                self.result['response'] = self.msg
                 return self
 
             # Now all device UUID get collected so call the export device list API
@@ -1186,6 +1192,7 @@ class DnacDevice(DnacBase):
                 formatted_msg = ' '.join(line.strip() for line in detailed_msg.splitlines())
                 self.msg = formatted_msg
                 self.log(formatted_msg, "INFO")
+                self.result['response'] = self.msg
                 return self
 
             payload_params = {
@@ -1345,6 +1352,7 @@ class DnacDevice(DnacBase):
                         else:
                             self.msg = "Device resynced get failed."
                         self.log(self.msg, "ERROR")
+                        self.result['response'] = self.msg
                         break
 
         except Exception as e:
@@ -1445,6 +1453,7 @@ class DnacDevice(DnacBase):
                     else:
                         self.msg = "AP Device Rebooting get failed"
                     self.log(self.msg, "ERROR")
+                    self.result['response'] = self.msg
                     break
 
         return self
@@ -1486,6 +1495,7 @@ class DnacDevice(DnacBase):
         failure_reason = execution_details.get("failureReason", "Unknown failure reason")
         self.msg = "{0} Device Provisioning failed for {1} because of {2}".format(device_type, device_ip, failure_reason)
         self.log(self.msg, "WARNING")
+        self.result['response'] = self.msg
 
     def handle_provisioning_exception(self, device_ip, exception, device_type):
         """
@@ -1554,6 +1564,7 @@ class DnacDevice(DnacBase):
         self.status = "failed"
         self.msg = "{0} Device Provisioning failed for all devices".format(device_type)
         self.log(self.msg, "INFO")
+        self.result['response'] = self.msg
 
     def handle_partially_provisioned(self, provision_count, device_type):
         """
@@ -1738,6 +1749,7 @@ class DnacDevice(DnacBase):
                     self.status = "failed"
                     self.msg = "Managed AP Location must be a floor"
                     self.log(self.msg, "ERROR")
+                    self.result['response'] = self.msg
                     return self
 
             wireless_param[0]["dynamicInterfaces"] = []
@@ -1763,6 +1775,7 @@ class DnacDevice(DnacBase):
                 self.status = "failed"
                 self.msg = "Device Host name is not present in the Cisco Catalyst Center"
                 self.log(self.msg, "INFO")
+                self.result['response'] = self.msg
                 return self
 
             response = response.get("response")
@@ -2628,6 +2641,7 @@ class DnacDevice(DnacBase):
                     self.msg = """Failed to retrieve interface details or the 'id' is missing for the device with identifier
                                 '{0}' and interface '{1}'""".format(device_id[0], interface_name)
                     self.log(self.msg, "WARNING")
+                    self.result['response'] = self.msg
                     return self
 
                 interface_id = interface_details['id']
@@ -2699,6 +2713,7 @@ class DnacDevice(DnacBase):
                             self.status = "failed"
                             self.msg = "Failed to update the interface because the 'update_interface_details' API returned an empty response."
                             self.log(self.msg, "ERROR")
+                            self.result['response'] = self.msg
                             continue
 
                         task_id = response.get('taskId')
@@ -2721,6 +2736,7 @@ class DnacDevice(DnacBase):
                                 else:
                                     self.msg = "Interface Updation get failed"
                                 self.log(self.msg, "ERROR")
+                                self.result['response'] = self.msg
                                 break
 
                 except Exception as e:
@@ -2772,9 +2788,9 @@ class DnacDevice(DnacBase):
                 self.result['changed'] = True
                 self.msg = """Device '{0}' present in Cisco Catalyst Center and new management ip '{1}' have been
                             updated successfully""".format(device_ip, new_mgmt_ipaddress)
-                self.result['response'] = self.msg
                 self.log(self.msg, "INFO")
                 break
+            self.result['response'] = self.msg
 
         return self
 
@@ -2941,6 +2957,7 @@ class DnacDevice(DnacBase):
                             Cisco Catalyst Center.""".format(str(device_not_available))
                 self.result['response'] = self.msg
                 self.log(self.msg, "ERROR")
+                self.result['response'] = self.msg
                 return self
 
         if self.config[0].get('update_mgmt_ipaddresslist'):
@@ -2952,6 +2969,7 @@ class DnacDevice(DnacBase):
                 self.msg = """Unable to update the Management IP address because the device with IP '{0}' is not
                             found in Cisco Catalyst Center.""".format(device_ip)
                 self.log(self.msg, "ERROR")
+                self.result['response'] = self.msg
                 return self
 
         if self.config[0].get('update_interface_details'):
@@ -3013,7 +3031,7 @@ class DnacDevice(DnacBase):
                 if not device_params['snmpROCommunity']:
                     self.status = "failed"
                     self.msg = "Required parameter 'snmpROCommunity' for adding device with snmmp version v2 is not present"
-                    self.result['msg'] = self.msg
+                    self.result['response'] = self.msg
                     self.log(self.msg, "ERROR")
                     return self
             else:
@@ -3384,7 +3402,7 @@ class DnacDevice(DnacBase):
                     self.msg = """Unable to assign Global User Defined Field: No devices found in Cisco Catalyst Center.
                         Please add devices to proceed."""
                     self.log(self.msg, "INFO")
-                    self.result['changed'] = False
+                    self.result['response'] = self.msg
                     return self
 
                 # Now add code for adding Global UDF to device with Id
@@ -3476,6 +3494,7 @@ class DnacDevice(DnacBase):
                                 else:
                                     self.msg = "Global UDF deletion get failed."
                                 self.log(self.msg, "ERROR")
+                                self.result['response'] = self.msg
                                 break
 
                 except Exception as e:
@@ -3562,6 +3581,7 @@ class DnacDevice(DnacBase):
                             else:
                                 self.msg = "Device '{0}' deletion get failed.".format(device_ip)
                             self.log(self.msg, "ERROR")
+                            self.result['response'] = self.msg
                             break
                     self.result['msg'].append(self.msg)
 
