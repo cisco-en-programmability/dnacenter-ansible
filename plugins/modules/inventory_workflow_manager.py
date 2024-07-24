@@ -818,6 +818,7 @@ class Inventory(DnacBase):
             self.msg = "Invalid parameters in playbook: {0}".format(invalid_params)
             self.log(self.msg, "ERROR")
             self.status = "failed"
+            self.result['response'] = self.msg
             return self
 
         self.validated_config = valid_temp
@@ -916,6 +917,7 @@ class Inventory(DnacBase):
                 self.status = "failed"
                 self.msg = "Error while fetching device details from Cisco Catalyst Center: {0}".format(str(e))
                 self.log(self.msg, "CRITICAL")
+                self.result['response'] = self.msg
                 self.check_return_status()
 
         self.log("Devices present in Cisco Catalyst Center: {0}".format(str(existing_devices_in_ccc)), "DEBUG")
@@ -1068,6 +1070,7 @@ class Inventory(DnacBase):
                 else:
                     self.msg = "Could not get the File ID so can't export device details in csv file"
                 self.log(self.msg, "ERROR")
+                self.result['response'] = self.msg
 
                 return response
 
@@ -1100,6 +1103,7 @@ class Inventory(DnacBase):
             self.msg = "pyzipper is required for this module. Install pyzipper to use this functionality."
             self.log(self.msg, "CRITICAL")
             self.status = "failed"
+            self.result['response'] = self.msg
             return self
 
         snmp_protocol = self.config[0].get('snmp_priv_protocol', 'AES128')
@@ -1120,6 +1124,7 @@ class Inventory(DnacBase):
             self.msg = "Invalid SNMP protocol '{0}' specified for encryption.".format(snmp_protocol)
             self.log(self.msg, "ERROR")
             self.status = "failed"
+            self.result['response'] = self.msg
             return self
 
         # Create a PyZipper object with the password
@@ -1162,6 +1167,7 @@ class Inventory(DnacBase):
             self.status = "failed"
             self.msg = "Cannot export device details as no devices are specified in the playbook"
             self.log(self.msg, "ERROR")
+            self.result['response'] = self.msg
             return self
 
         try:
@@ -1169,9 +1175,9 @@ class Inventory(DnacBase):
 
             if not device_uuids:
                 self.status = "failed"
-                self.result['changed'] = False
                 self.msg = "Could not find device UUIDs for exporting device details"
                 self.log(self.msg, "ERROR")
+                self.result['response'] = self.msg
                 return self
 
             # Now all device UUID get collected so call the export device list API
@@ -1185,6 +1191,7 @@ class Inventory(DnacBase):
                 formatted_msg = ' '.join(line.strip() for line in detailed_msg.splitlines())
                 self.msg = formatted_msg
                 self.log(formatted_msg, "INFO")
+                self.result['response'] = self.msg
                 return self
 
             payload_params = {
@@ -1344,6 +1351,7 @@ class Inventory(DnacBase):
                         else:
                             self.msg = "Device resynced get failed."
                         self.log(self.msg, "ERROR")
+                        self.result['response'] = self.msg
                         break
 
         except Exception as e:
@@ -1444,6 +1452,7 @@ class Inventory(DnacBase):
                     else:
                         self.msg = "AP Device Rebooting get failed"
                     self.log(self.msg, "ERROR")
+                    self.result['response'] = self.msg
                     break
 
         return self
@@ -1485,6 +1494,7 @@ class Inventory(DnacBase):
         failure_reason = execution_details.get("failureReason", "Unknown failure reason")
         self.msg = "{0} Device Provisioning failed for {1} because of {2}".format(device_type, device_ip, failure_reason)
         self.log(self.msg, "WARNING")
+        self.result['response'] = self.msg
 
     def handle_provisioning_exception(self, device_ip, exception, device_type):
         """
@@ -1553,6 +1563,7 @@ class Inventory(DnacBase):
         self.status = "failed"
         self.msg = "{0} Device Provisioning failed for all devices".format(device_type)
         self.log(self.msg, "INFO")
+        self.result['response'] = self.msg
 
     def handle_partially_provisioned(self, provision_count, device_type):
         """
@@ -1736,6 +1747,7 @@ class Inventory(DnacBase):
                     self.status = "failed"
                     self.msg = "Managed AP Location must be a floor"
                     self.log(self.msg, "ERROR")
+                    self.result['response'] = self.msg
                     return self
             wireless_param[0]["dynamicInterfaces"] = []
 
@@ -1987,8 +1999,8 @@ class Inventory(DnacBase):
         if mandatory_params_absent:
             self.status = "failed"
             self.msg = "Required parameters {0} for adding devices '{1}' are not present".format(str(mandatory_params_absent), str(device_to_add_in_ccc))
-            self.result['msg'] = self.msg
             self.log(self.msg, "ERROR")
+            self.result['response'] = self.msg
         else:
             self.status = "success"
             self.msg = "Required parameters for adding the devices '{0}' to inventory are present.".format(str(device_to_add_in_ccc))
@@ -2621,6 +2633,7 @@ class Inventory(DnacBase):
                     self.msg = """Failed to retrieve interface details or the 'id' is missing for the device with identifier
                                 '{0}' and interface '{1}'""".format(device_id[0], interface_name)
                     self.log(self.msg, "WARNING")
+                    self.result['response'] = self.msg
                     return self
 
                 interface_id = interface_details['id']
@@ -2692,6 +2705,7 @@ class Inventory(DnacBase):
                             self.status = "failed"
                             self.msg = "Failed to update the interface because the 'update_interface_details' API returned an empty response."
                             self.log(self.msg, "ERROR")
+                            self.result['response'] = self.msg
                             continue
 
                         task_id = response.get('taskId')
@@ -2714,6 +2728,7 @@ class Inventory(DnacBase):
                                 else:
                                     self.msg = "Interface Updation get failed"
                                 self.log(self.msg, "ERROR")
+                                self.result['response'] = self.msg
                                 break
 
                 except Exception as e:
@@ -2765,9 +2780,9 @@ class Inventory(DnacBase):
                 self.result['changed'] = True
                 self.msg = """Device '{0}' present in Cisco Catalyst Center and new management ip '{1}' have been
                             updated successfully""".format(device_ip, new_mgmt_ipaddress)
-                self.result['response'] = self.msg
                 self.log(self.msg, "INFO")
                 break
+            self.result['response'] = self.msg
 
         return self
 
@@ -3004,7 +3019,7 @@ class Inventory(DnacBase):
                 if not device_params['snmpROCommunity']:
                     self.status = "failed"
                     self.msg = "Required parameter 'snmpROCommunity' for adding device with snmmp version v2 is not present"
-                    self.result['msg'] = self.msg
+                    self.result['response'] = self.msg
                     self.log(self.msg, "ERROR")
                     return self
             else:
@@ -3057,6 +3072,7 @@ class Inventory(DnacBase):
                                 self.msg = "Device(s) '{0}' added to Cisco Catalyst Center".format(str(devices_to_add))
                                 self.log(self.msg, "INFO")
                                 self.result['msg'] = self.msg
+                                self.result['response'] = self.msg
                                 break
                             self.msg = "Device(s) '{0}' already present in Cisco Catalyst Center".format(str(self.config[0].get("ip_address_list")))
                             self.log(self.msg, "INFO")
@@ -3066,11 +3082,11 @@ class Inventory(DnacBase):
                             self.status = "failed"
                             failure_reason = execution_details.get("failureReason")
                             if failure_reason:
-                                self.msg = "Device addition get failed because of {0}".format(failure_reason)
+                                self.msg = "Device addition for the device(s) '{0}' get failed because of {1}.".format(device_to_add_in_ccc, failure_reason)
                             else:
-                                self.msg = "Device addition get failed"
+                                self.msg = "Device addition get failed for the device(s): '{0}'.".format(device_to_add_in_ccc)
                             self.log(self.msg, "ERROR")
-                            self.result['msg'] = self.msg
+                            self.result['response'] = self.msg
                             break
 
             except Exception as e:
@@ -3469,6 +3485,7 @@ class Inventory(DnacBase):
                                 else:
                                     self.msg = "Global UDF deletion get failed."
                                 self.log(self.msg, "ERROR")
+                                self.result['response'] = self.msg
                                 break
 
                 except Exception as e:
@@ -3558,6 +3575,7 @@ class Inventory(DnacBase):
                             else:
                                 self.msg = "Device '{0}' deletion get failed.".format(device_ip)
                             self.log(self.msg, "ERROR")
+                            self.result['response'] = self.msg
                             break
                     self.result['msg'].append(self.msg)
 
