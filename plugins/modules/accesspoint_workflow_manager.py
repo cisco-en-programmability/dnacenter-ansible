@@ -1023,20 +1023,20 @@ class Accesspoint(DnacBase):
         """
         invalid_series = []
         for each_series in self.radio_interface:
-            if ap_config.get(each_series):
+            if ap_config.get(each_series) is not None:
                 set_flag = False
-                for series in self.allowed_series:
+                for series in self.allowed_series[each_series]:
                     pattern = rf'\b{series}\b'
-                    match = re.search(pattern, self.payload["access_point_details"][0]["series"],
+                    match = re.search(pattern, self.payload["access_point_details"]["series"],
                                       re.IGNORECASE)
                     if match:
                         set_flag = True
                         break
                 if set_flag is False:
                     invalid_series.append(
-                        "Access Point series '{0}' not supported for the radio type {1} allowed\
-                        series {2} ".format(self.payload["access_point_details"][0]["series"],
-                                            each_series, ", ".join(self.allowed_series)))
+                        "Access Point series '{0}' not supported for the radio type {1} allowed series {2} ".\
+                            format(self.payload["access_point_details"]["series"],
+                                    each_series, str(self.allowed_series[each_series])))
         return invalid_series
 
     def validate_ap_config_parameters(self, ap_config):
@@ -1221,7 +1221,8 @@ class Accesspoint(DnacBase):
                         )
 
                 if each_radio.get("channel_number") is not None:
-                    if each_radio.get("channel_number") not in self.allowed_channel_no[radio_series]:
+                    if self.allowed_channel_no.get(radio_series) is not None and\
+                        each_radio.get("channel_number") not in self.allowed_channel_no.get(radio_series):
                         errormsg.append(
                             "channel_number: Invalid value '{0}' for Channel Number in playbook. Must be one of: {1}."
                             .format(each_radio.get("channel_number"), str(self.allowed_channel_no[radio_series]))
@@ -1284,7 +1285,7 @@ class Accesspoint(DnacBase):
                             )
 
         if len(errormsg) > 0:
-            self.msg = "Invalid parameters in playbook config: '{0}' ".format(str("\n ".join(errormsg)))
+            self.msg = "Invalid parameters in playbook config: '{0}' ".format(str(errormsg))
             self.log(self.msg, "ERROR")
             self.status = "failed"
             return self
@@ -1317,16 +1318,17 @@ class Accesspoint(DnacBase):
         """
         for each_dto in radio_dtos:
             if radio_type == "2.4ghz_radio" and "_" + str(each_dto["slot_id"]) == "_" + str(0):
-                return each_dto["radio_role_assignment"]
+                return each_dto.get("radio_role_assignment")
             elif radio_type == "5ghz_radio" and each_dto["slot_id"] == 1:
-                return each_dto["radio_role_assignment"]
+                return each_dto.get("radio_role_assignment")
             elif radio_type == "6ghz_radio" and each_dto["slot_id"] == 2:
-                return each_dto["radio_role_assignment"]
+                return each_dto.get("radio_role_assignment")
             elif radio_type == "xor_radio" and radio_band == "2.4 GHz" and\
                 "_" + str(each_dto["slot_id"]) == "_" + str(0):
-                return each_dto["radio_role_assignment"]
+                return each_dto.get("radio_role_assignment")
             elif radio_type == "xor_radio" and radio_band == "5 GHz" and each_dto["slot_id"] == 1:
-                return each_dto["radio_role_assignment"]
+                return each_dto.get("radio_role_assignment")
+
 
     def get_accesspoint_details(self, input_config):
         """
@@ -1940,7 +1942,7 @@ class Accesspoint(DnacBase):
         """
 
         self.log("Updating access point configuration information: {0}"
-                 .format(ap_config[self.keymap["mac_address"]]), "INFO")
+                 .format(ap_config["macAddress"]), "INFO")
         ap_config["adminStatus"] = True
         ap_config["configureAdminStatus"] = True
 
