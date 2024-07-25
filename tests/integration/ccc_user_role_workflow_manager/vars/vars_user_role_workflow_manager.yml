@@ -1,14 +1,14 @@
 ---
 create_user:
-  - first_name: "syed"
-    last_name: "Khadeer"
-    username: "syedkhadeer"
-    email: "syedkhadeer@example.com"
-    password: "Syed@123"
+  - first_name: "TestFirstName"
+    last_name: "TestLastName"
+    username: "testusername"
+    email: "testuser@example.com"
+    password: "Test@123"
     role_list: ["Super-Admin-Role"]
 
 create_role:
-  - role_name: "Test_Role_1"
+  - role_name: "IT_Test_Role"
     description: "Role creation"
     assurance:
       - overall: "read"
@@ -44,13 +44,13 @@ create_role:
         audit_log: "read"
 
 update_user:
-  - first_name: "syed"
-    last_name: "Khadeer-ahmed"
-    username: "syedkhadeer"
+  - first_name: "TestFirstName_update"
+    last_name: "TestLastName_update"
+    username: "testusername"
     role_list: ["Observer-Role"]
 
 update_role:
-  - role_name: "Test_Role_1"
+  - role_name: "IT_Test_Role"
     description: "Role updation"
     network_analytics:
       - overall: "write"
@@ -58,7 +58,7 @@ update_role:
       - overall: "write"
 
 delete_user:
-  - username: "syedkhadeer"
+  - username: "testusername"
 
 delete_role:
-  - role_name: "Test_Role_1"
+  - role_name: "IT_Test_Role"
