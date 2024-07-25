@@ -1186,9 +1186,9 @@ class Accesspoint(DnacBase):
                     errormsg.append("admin_status: Invalid value '{0}' for admin_status in playbook. Must be either 'Enabled' or 'Disabled'."
                                     .format(each_radio.get("admin_status")))
 
-                if self.have["current_ap_config"]["ap_mode"] not in ("Local/FlexConnect", "Local"):
+                if self.have["current_ap_config"].get("ap_mode") not in ("Local/FlexConnect", "Local"):
                     errormsg.append("Radio Params cannot be changed when AP mode is in {0}."
-                                    .format(self.have["current_ap_config"]["ap_mode"]))
+                                    .format(self.have["current_ap_config"].get("ap_mode")))
 
                 if radio_series in ("2.4ghz_radio", "5ghz_radio", "6ghz_radio", "xor_radio"):
                     if radio_series == "2.4ghz_radio":
@@ -1228,7 +1228,7 @@ class Accesspoint(DnacBase):
                         )
                     else:
                         current_radio_role = self.check_current_radio_role_assignment(
-                            radio_series, self.have["current_ap_config"]["radio_dtos"])
+                            radio_series, self.have["current_ap_config"].get("radio_dtos",[]))
                         if current_radio_role != "Client-Serving":
                             errormsg.append(
                                 "channel_number: This configuration is only supported with Client-Serving Radio Role Assignment {0} "
@@ -1256,7 +1256,7 @@ class Accesspoint(DnacBase):
                         )
                     else:
                         current_radio_role = self.check_current_radio_role_assignment(
-                            radio_series, self.have["current_ap_config"]["radio_dtos"])
+                            radio_series, self.have["current_ap_config"].get("radio_dtos", []))
                         if current_radio_role != "Client-Serving":
                             errormsg.append(
                                 "powerlevel: This configuration is only supported with Client-Serving Radio Role Assignment {0} "
@@ -1276,7 +1276,7 @@ class Accesspoint(DnacBase):
                             .format(each_radio.get("radio_role_assignment"))
                         )
                     else:
-                        if self.have["current_ap_config"]["ap_mode"] not in ("Local/FlexConnect", "Local"):
+                        if self.have["current_ap_config"].get("ap_mode") not in ("Local/FlexConnect", "Local"):
                             errormsg.append(
                                 "radio_role_assignment: Invalid value '{0}'. Hence, AP mode is not Local. "
                                 "Kindly change the AP mode to Local then change the radio_role_assignment to Auto."
@@ -1294,7 +1294,7 @@ class Accesspoint(DnacBase):
         self.status = "success"
         return self
 
-    def check_current_radio_role_assignment(self, radio_type, radio_dtos):
+    def check_current_radio_role_assignment(self, radio_type, radio_dtos, radio_band=any):
         """
         Check the current radio role assignment based on radio type and DTOs.
 
@@ -1321,6 +1321,11 @@ class Accesspoint(DnacBase):
             elif radio_type == "5ghz_radio" and each_dto["slot_id"] == 1:
                 return each_dto["radio_role_assignment"]
             elif radio_type == "6ghz_radio" and each_dto["slot_id"] == 2:
+                return each_dto["radio_role_assignment"]
+            elif radio_type == "xor_radio" and radio_band == "2.4 GHz" and\
+                "_" + str(each_dto["slot_id"]) == "_" + str(0):
+                return each_dto["radio_role_assignment"]
+            elif radio_type == "xor_radio" and radio_band == "5 GHz" and each_dto["slot_id"] == 1:
                 return each_dto["radio_role_assignment"]
 
     def get_accesspoint_details(self, input_config):
@@ -1527,6 +1532,7 @@ class Accesspoint(DnacBase):
             name = input_config.get("site").get("floor").get("name")
             parent_name = input_config.get("site").get("floor").get("parent_name")
 
+        current_site = {}
         if name and parent_name:
             site_name = parent_name + "/" + name
             self.want["site_name"] = site_name
