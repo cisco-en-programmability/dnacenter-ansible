@@ -27,30 +27,6 @@
   #     msg: "{{ vars_map. }}"
 
 #############################################
-#                Clean Up                   #
-#############################################
-
-  - name: Delete user
-    cisco.dnac.user_role_workflow_manager:
-      <<: *dnac_login
-      state: deleted
-      config:
-        user_details:
-          - "{{ item }}"
-    loop: "{{ vars_map.delete_user }}"
-    register: result_deleted_user
-
-  - name: Delete role
-    cisco.dnac.user_role_workflow_manager:
-      <<: *dnac_login
-      state: deleted
-      config:
-        role_details:
-          - "{{ item }}"
-    loop: "{{ vars_map.delete_role }}"
-    register: result_deleted_role
-
-#############################################
 #                CREATE USER                #
 #############################################
 
