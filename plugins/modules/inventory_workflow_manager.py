@@ -1194,34 +1194,45 @@ class Inventory(DnacBase):
                 self.result['response'] = self.msg
                 return self
 
-            payload_params = {
-                "deviceUuids": device_uuids,
-                "password": password,
-                "operationEnum": export_device_list.get("operation_enum", "0"),
-                "parameters": export_device_list.get("parameters")
-            }
-
-            response = self.trigger_export_api(payload_params)
-            self.check_return_status()
-
-            if payload_params["operationEnum"] == "0":
-                temp_file_name = response.filename
-                output_file_name = temp_file_name.split(".")[0] + ".csv"
-                csv_reader = self.decrypt_and_read_csv(response, password)
-                self.check_return_status()
-            else:
-                decoded_resp = response.data.decode(encoding='utf-8')
-                self.log("Decoded response of Export Device Credential file: {0}".format(str(decoded_resp)), "DEBUG")
-
-                # Parse the CSV-like string into a list of dictionaries
-                csv_reader = csv.DictReader(StringIO(decoded_resp))
-                current_date = datetime.now()
-                formatted_date = current_date.strftime("%m-%d-%Y")
-                output_file_name = "devices-" + str(formatted_date) + ".csv"
-
+            # Export the device data in a batch of 500 devices at a time
+            start = 0
+            chunk_size = 500
             device_data = []
-            for row in csv_reader:
-                device_data.append(row)
+            first_run = True
+
+            while start < len(device_uuids):
+                device_ids_list = device_uuids[start:start + chunk_size]
+                payload_params = {
+                    "deviceUuids": device_ids_list,
+                    "password": password,
+                    "operationEnum": export_device_list.get("operation_enum", "0"),
+                    "parameters": export_device_list.get("parameters")
+                }
+
+                response = self.trigger_export_api(payload_params)
+                self.check_return_status()
+
+                if payload_params["operationEnum"] == "0":
+                    temp_file_name = response.filename
+                    if first_run:
+                        output_file_name = temp_file_name.split(".")[0] + ".csv"
+                    csv_reader = self.decrypt_and_read_csv(response, password)
+                    self.check_return_status()
+                else:
+                    decoded_resp = response.data.decode(encoding='utf-8')
+                    self.log("Decoded response of Export Device Credential file: {0}".format(str(decoded_resp)), "DEBUG")
+
+                    # Parse the CSV-like string into a list of dictionaries
+                    csv_reader = csv.DictReader(StringIO(decoded_resp))
+                    current_date = datetime.now()
+                    formatted_date = current_date.strftime("%m-%d-%Y")
+                    if first_run:
+                        output_file_name = "devices-" + str(formatted_date) + ".csv"
+
+                for row in csv_reader:
+                    device_data.append(row)
+                start += chunk_size
+                first_run = False
 
             # Write the data to a CSV file
             with open(output_file_name, 'w', newline='') as csv_file:
@@ -2466,7 +2477,9 @@ class Inventory(DnacBase):
         device_ips = self.get_device_ips_from_config_priority()
         device_uuids = self.get_device_ids(device_ips)
         password = "Testing@123"
-        payload_params = {"deviceUuids": device_uuids, "password": password, "operationEnum": "0"}
+        # Split the payload into 500 devices only to match the device credentials
+        device_ids_list = device_uuids[0:500]
+        payload_params = {"deviceUuids": device_ids_list, "password": password, "operationEnum": "0"}
         response = self.trigger_export_api(payload_params)
         self.check_return_status()
         csv_reader = self.decrypt_and_read_csv(response, password)
@@ -3184,16 +3197,22 @@ class Inventory(DnacBase):
             # Update Device details and credentails
             device_uuids = self.get_device_ids(device_to_update)
             password = "Testing@123"
-            export_payload = {"deviceUuids": device_uuids, "password": password, "operationEnum": "0"}
-            export_response = self.trigger_export_api(export_payload)
-            self.check_return_status()
-            csv_reader = self.decrypt_and_read_csv(export_response, password)
-            self.check_return_status()
+            start = 0
+            chunk_size = 500
             device_details = {}
 
-            for row in csv_reader:
-                ip_address = row['ip_address']
-                device_details[ip_address] = row
+            while start < len(device_uuids):
+                device_ids_list = device_uuids[start:start + chunk_size]
+                export_payload = {"deviceUuids": device_ids_list, "password": password, "operationEnum": "0"}
+                export_response = self.trigger_export_api(export_payload)
+                self.check_return_status()
+                csv_reader = self.decrypt_and_read_csv(export_response, password)
+                self.check_return_status()
+
+                for row in csv_reader:
+                    ip_address = row['ip_address']
+                    device_details[ip_address] = row
+                start += chunk_size
 
             for device_ip in device_to_update:
                 playbook_params = self.want.get("device_params").copy()
