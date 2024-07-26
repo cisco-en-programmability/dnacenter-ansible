@@ -1372,8 +1372,7 @@ class Accesspoint(DnacBase):
                 break
 
         if not input_param:
-            msg = """Required param of mac_address, management_ip_address or hostname
-                      is not in playbook config"""
+            msg = "Required param of mac_address,ip_address or hostname is not in playbook config"
             self.log(msg, "WARNING")
             self.module.fail_json(msg=msg, response=msg)
             return (accesspoint_exists, current_configuration)
