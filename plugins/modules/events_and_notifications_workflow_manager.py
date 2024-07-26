@@ -1743,7 +1743,7 @@ class Events(DnacBase):
 
             if update_snmp_params.get('port'):
                 try:
-                    port = int(snmp_params.get('port'))
+                    port = int(update_snmp_params.get('port'))
                     if port not in range(1, 65536):
                         self.status = "failed"
                         self.msg = "Invalid Notification trap port '{0}' given in playbook. Select port from the number range(1, 65535)".format(port)
@@ -1753,7 +1753,7 @@ class Events(DnacBase):
                 except Exception as e:
                     self.status = "failed"
                     self.msg = """Invalid datatype for the Notification trap port '{0}' given in playbook. Select port with correct datatype from the
-                                number range(1, 65535).""".format(port)
+                                number range(1, 65535).""".format(update_snmp_params.get('port'))
                     self.log(self.msg, "ERROR")
                     return self
 
@@ -2116,6 +2116,12 @@ class Events(DnacBase):
             return response[0]
 
         except Exception as e:
+            if "Expecting value: line 1 column 1" in str(e):
+                self.log(
+                    "Getting expection as Email destination is not configured in Cisco Catalyst"
+                    " Center.", "WARNING"
+                )
+                return None
             self.status = "failed"
             self.msg = "Error while getting the details of Email destination present in Cisco Catalyst Center: {0}".format(str(e))
             self.log(self.msg, "ERROR")
@@ -2598,13 +2604,16 @@ class Events(DnacBase):
 
             update_itsm_params['data'] = {}
             update_itsm_params['data']['ConnectionSettings'] = {}
+            url_in_ccc = itsm_in_ccc.get('data').get('ConnectionSettings').get('Url')
+            username_in_ccc = itsm_in_ccc.get('data').get('ConnectionSettings').get('Auth_UserName')
+
             if itsm_params.get('data') is None or itsm_params.get('data').get('ConnectionSettings') is None:
-                update_itsm_params['data']['ConnectionSettings']['Url'] = itsm_in_ccc.get('data').get('ConnectionSettings').get('Url')
-                update_itsm_params['data']['ConnectionSettings']['Auth_UserName'] = itsm_in_ccc.get('data').get('ConnectionSettings').get('Auth_UserName')
+                update_itsm_params['data']['ConnectionSettings']['Url'] = url_in_ccc
+                update_itsm_params['data']['ConnectionSettings']['Auth_UserName'] = username_in_ccc
             else:
                 connection_params = itsm_params.get('data').get('ConnectionSettings')
-                update_itsm_params['data']['ConnectionSettings']['Url'] = connection_params.get('Url')
-                update_itsm_params['data']['ConnectionSettings']['Auth_UserName'] = connection_params.get('Auth_UserName')
+                update_itsm_params['data']['ConnectionSettings']['Url'] = connection_params.get('Url') or url_in_ccc
+                update_itsm_params['data']['ConnectionSettings']['Auth_UserName'] = connection_params.get('Auth_UserName') or username_in_ccc
 
                 if not connection_params.get('Auth_Password'):
                     self.status = "failed"
@@ -4568,7 +4577,7 @@ class Events(DnacBase):
             result_msg_list.append(update_notf_msg)
 
         if self.no_update_notification:
-            no_update_notf_msg = "Event subscription notification(s) '{0}' needs no update in Cisco Catalyst Center.".format(self.no_update_notification)
+            no_update_notf_msg = "Event subscription notification(s) '{0}' need no update in Cisco Catalyst Center.".format(self.no_update_notification)
             result_msg_list.append(no_update_notf_msg)
 
         if self.delete_dest:

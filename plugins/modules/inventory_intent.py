@@ -189,6 +189,13 @@ options:
         description: Make this as true needed for the Rebooting of Access Points.
         type: bool
         default: False
+      export_device_details_limit:
+        description: Specifies the limit for updating device details or exporting device details/credentials to a file.
+                The default limit is set to 500 devices. This limit is applied when exporting device details/credentials
+                and editing device details.
+                The maximum number of device details/credentials that can be exported in a single API call is 800.
+        type: int
+        default: 500
       credential_update:
         description: Set this to 'True' to update device credentials and other device details. When this parameter is 'True', ensure that
                 the devices are present in Cisco Catalyst Center; only then can update operations be performed on the respective devices.
@@ -775,6 +782,7 @@ class DnacDevice(DnacBase):
             'device_resync': {'type': 'bool'},
             'reboot_device': {'type': 'bool'},
             'credential_update': {'type': 'bool'},
+            'export_device_details_limit': {'default': 500, 'type': 'bool'},
             'force_sync': {'type': 'bool'},
             'clean_config': {'type': 'bool'},
             'add_user_defined_field': {
@@ -1195,34 +1203,44 @@ class DnacDevice(DnacBase):
                 self.result['response'] = self.msg
                 return self
 
-            payload_params = {
-                "deviceUuids": device_uuids,
-                "password": password,
-                "operationEnum": export_device_list.get("operation_enum", "0"),
-                "parameters": export_device_list.get("parameters")
-            }
-
-            response = self.trigger_export_api(payload_params)
-            self.check_return_status()
-
-            if payload_params["operationEnum"] == "0":
-                temp_file_name = response.filename
-                output_file_name = temp_file_name.split(".")[0] + ".csv"
-                csv_reader = self.decrypt_and_read_csv(response, password)
-                self.check_return_status()
-            else:
-                decoded_resp = response.data.decode(encoding='utf-8')
-                self.log("Decoded response of Export Device Credential file: {0}".format(str(decoded_resp)), "DEBUG")
-
-                # Parse the CSV-like string into a list of dictionaries
-                csv_reader = csv.DictReader(StringIO(decoded_resp))
-                current_date = datetime.now()
-                formatted_date = current_date.strftime("%m-%d-%Y")
-                output_file_name = "devices-" + str(formatted_date) + ".csv"
-
+            # Export the device data in a batch of 500 devices at a time
+            start = 0
+            device_batch_size = self.config[0].get("export_device_details_limit", 500)
             device_data = []
-            for row in csv_reader:
-                device_data.append(row)
+            first_run = True
+
+            while start < len(device_uuids):
+                device_ids_list = device_uuids[start:start + device_batch_size]
+                payload_params = {
+                    "deviceUuids": device_ids_list,
+                    "password": password,
+                    "operationEnum": export_device_list.get("operation_enum", "0"),
+                    "parameters": export_device_list.get("parameters")
+                }
+
+                response = self.trigger_export_api(payload_params)
+                self.check_return_status()
+
+                if payload_params["operationEnum"] == "0":
+                    temp_file_name = response.filename
+                    if first_run:
+                        output_file_name = temp_file_name.split(".")[0] + ".csv"
+                    csv_reader = self.decrypt_and_read_csv(response, password)
+                    self.check_return_status()
+                else:
+                    decoded_resp = response.data.decode(encoding='utf-8')
+                    self.log("Decoded response of Export Device Credential file: {0}".format(str(decoded_resp)), "DEBUG")
+                    # Parse the CSV-like string into a list of dictionaries
+                    csv_reader = csv.DictReader(StringIO(decoded_resp))
+                    current_date = datetime.now()
+                    formatted_date = current_date.strftime("%m-%d-%Y")
+                    if first_run:
+                        output_file_name = "devices-" + str(formatted_date) + ".csv"
+
+                for row in csv_reader:
+                    device_data.append(row)
+                start += device_batch_size
+                first_run = False
 
             # Write the data to a CSV file
             with open(output_file_name, 'w', newline='') as csv_file:
@@ -2474,7 +2492,10 @@ class DnacDevice(DnacBase):
         device_ips = self.get_device_ips_from_config_priority()
         device_uuids = self.get_device_ids(device_ips)
         password = "Testing@123"
-        payload_params = {"deviceUuids": device_uuids, "password": password, "operationEnum": "0"}
+        # Split the payload into 500 devices(by default) only to match the device credentials
+        device_batch_size = self.config[0].get("export_device_details_limit", 500)
+        device_ids_list = device_uuids[0:device_batch_size]
+        payload_params = {"deviceUuids": device_ids_list, "password": password, "operationEnum": "0"}
         response = self.trigger_export_api(payload_params)
         self.check_return_status()
         csv_reader = self.decrypt_and_read_csv(response, password)
@@ -3199,10 +3220,21 @@ class DnacDevice(DnacBase):
             csv_reader = self.decrypt_and_read_csv(export_response, password)
             self.check_return_status()
             device_details = {}
+            start = 0
+            device_batch_size = self.config[0].get("export_device_details_limit", 500)
 
-            for row in csv_reader:
-                ip_address = row['ip_address']
-                device_details[ip_address] = row
+            while start < len(device_uuids):
+                device_ids_list = device_uuids[start:start + device_batch_size]
+                export_payload = {"deviceUuids": device_ids_list, "password": password, "operationEnum": "0"}
+                export_response = self.trigger_export_api(export_payload)
+                self.check_return_status()
+                csv_reader = self.decrypt_and_read_csv(export_response, password)
+                self.check_return_status()
+
+                for row in csv_reader:
+                    ip_address = row['ip_address']
+                    device_details[ip_address] = row
+                start += device_batch_size
 
             for device_ip in device_to_update:
                 playbook_params = self.want.get("device_params").copy()
