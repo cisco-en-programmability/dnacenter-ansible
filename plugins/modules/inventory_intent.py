@@ -189,6 +189,13 @@ options:
         description: Make this as true needed for the Rebooting of Access Points.
         type: bool
         default: False
+      export_device_details_limit:
+        description: Specifies the limit for updating device details or exporting device details/credentials to a file.
+                The default limit is set to 500 devices. This limit is applied when exporting device details/credentials
+                and editing device details.
+                The maximum number of device details/credentials that can be exported in a single API call is 800.
+        type: int
+        default: 500
       credential_update:
         description: Set this to 'True' to update device credentials and other device details. When this parameter is 'True', ensure that
                 the devices are present in Cisco Catalyst Center; only then can update operations be performed on the respective devices.
@@ -1197,12 +1204,12 @@ class DnacDevice(DnacBase):
 
             # Export the device data in a batch of 500 devices at a time
             start = 0
-            chunk_size = 500
+            device_batch_size = self.config[0].get("export_device_details_limit", 500)
             device_data = []
             first_run = True
 
             while start < len(device_uuids):
-                device_ids_list = device_uuids[start:start + chunk_size]
+                device_ids_list = device_uuids[start:start + device_batch_size]
                 payload_params = {
                     "deviceUuids": device_ids_list,
                     "password": password,
@@ -1231,7 +1238,7 @@ class DnacDevice(DnacBase):
 
                 for row in csv_reader:
                     device_data.append(row)
-                start += chunk_size
+                start += device_batch_size
                 first_run = False
 
             # Write the data to a CSV file
@@ -2484,8 +2491,9 @@ class DnacDevice(DnacBase):
         device_ips = self.get_device_ips_from_config_priority()
         device_uuids = self.get_device_ids(device_ips)
         password = "Testing@123"
-        # Split the payload into 500 devices only to match the device credentials
-        device_ids_list = device_uuids[0:500]
+        # Split the payload into 500 devices(by default) only to match the device credentials
+        device_batch_size = self.config[0].get("export_device_details_limit", 500)
+        device_ids_list = device_uuids[0:device_batch_size]
         payload_params = {"deviceUuids": device_ids_list, "password": password, "operationEnum": "0"}
         response = self.trigger_export_api(payload_params)
         self.check_return_status()
@@ -3212,10 +3220,10 @@ class DnacDevice(DnacBase):
             self.check_return_status()
             device_details = {}
             start = 0
-            chunk_size = 500
+            device_batch_size = self.config[0].get("export_device_details_limit", 500)
 
             while start < len(device_uuids):
-                device_ids_list = device_uuids[start:start + chunk_size]
+                device_ids_list = device_uuids[start:start + device_batch_size]
                 export_payload = {"deviceUuids": device_ids_list, "password": password, "operationEnum": "0"}
                 export_response = self.trigger_export_api(export_payload)
                 self.check_return_status()
@@ -3225,7 +3233,7 @@ class DnacDevice(DnacBase):
                 for row in csv_reader:
                     ip_address = row['ip_address']
                     device_details[ip_address] = row
-                start += chunk_size
+                start += device_batch_size
 
             for device_ip in device_to_update:
                 playbook_params = self.want.get("device_params").copy()
