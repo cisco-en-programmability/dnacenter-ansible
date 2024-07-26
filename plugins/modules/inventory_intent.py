@@ -782,6 +782,7 @@ class DnacDevice(DnacBase):
             'device_resync': {'type': 'bool'},
             'reboot_device': {'type': 'bool'},
             'credential_update': {'type': 'bool'},
+            'export_device_details_limit': {'default': 500, 'type': 'bool'},
             'force_sync': {'type': 'bool'},
             'clean_config': {'type': 'bool'},
             'add_user_defined_field': {
