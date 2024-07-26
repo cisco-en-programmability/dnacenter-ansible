@@ -1,5 +1,5 @@
 ---
-- name: Configure device credentials on Cisco DNA Center
+- name: Configure device credentials on Cisco Catalyst Center
   hosts: localhost
   vars_files:
     - "credentials.yml"
@@ -28,7 +28,7 @@
               username: "ajithandrewj"
               email: "ajith.andrew@example.com"
               password: "Ajith@123"
-              role_list: ["Super-Admin-Role"]
+              role_list: ["Super-Admin-role"]
             - first_name: "syed"
               last_name: "khadeer"
               username: "syedkhadeer"
@@ -61,11 +61,10 @@
               security:
                 - overall: "deny"
                   ip_based_access_control: "read"
-                  security_advisories: "deny"
+                  security_advisories: "write"
               system:
                 - overall: "deny"
                   machine_reasoning: "write"
-                  system_management: "deny"
               utilities: 
                 - overall: "deny"
                   audit_log: "read"

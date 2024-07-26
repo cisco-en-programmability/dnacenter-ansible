@@ -363,7 +363,7 @@
                     "lastModified": "1717390238774"
                 },
                 "roleId": "6486ce97ff1f0d0c8be622f6",
-                "name": "SUPER-ADMIN-ROLE",
+                "name": "OBSERVER-ROLE",
                 "description": "For LTTS Team",
                 "type": "CUSTOM"
             }]
@@ -711,9 +711,9 @@
               ],
               "utilities": [
                 {
-                  "overall": "write",
+                  "overall": "deny",
                   "audit_log": "read",
-                  "event_viewer": "read",
+                  "event_viewer": "deny",
                   "network_reasoner": "write",
                   "remote_device_support": "write",
                   "scheduler": "write",
