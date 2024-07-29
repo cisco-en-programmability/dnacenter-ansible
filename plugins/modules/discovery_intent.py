@@ -1044,7 +1044,7 @@ class Discovery(DnacBase):
         elif discovery_type == "CIDR":
             if len(ip_address_list) == 1:
                 cidr_notation = ip_address_list[0]
-                if int(cidr_notation.split("/")[1]) not in range (20,31):
+                if int (cidr_notation.split("/")[1]) not in range (20, 31):
                     msg = "Prefix length should be between 20 and 30"
                     self.log(msg, "CRITICAL")
                     self.module.fail_json(msg=msg)
