@@ -415,7 +415,7 @@
         }
     },
     "user_invalid_username_email_not_present_param_responce":{
-        "message": "Configuration params like username or email or role_name is not available in the playbook"
+        "message": "Configuration params like 'username' or 'email' or 'role_name' is not available in the playbook"
     },
     "invalid_param_not_correct_formate_get_user_response":{
         "response": {
@@ -1315,7 +1315,7 @@
         "message": "Please provide a valid role_name for role deletion"
     },
     "role_invalid_rolename_not_present_param_response":{
-        "message": "Configuration params like username or email or role_name is not available in the playbook"
+        "message": "Configuration params like 'username' or 'email' or 'role_name' is not available in the playbook"
     },
     "role_invalid_param_not_type_list_response":{
         "message": "Invalid parameter(s) found in playbook: {'overall': 'read'} : is not a valid list"
