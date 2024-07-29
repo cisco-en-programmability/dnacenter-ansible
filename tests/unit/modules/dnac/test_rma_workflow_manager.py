@@ -97,7 +97,6 @@ class TestDnacRmaIntent(TestDnacModule):
                 self.test_data.get("mark_device_for_replacement_response"),
                 self.test_data.get("get_task_details_failure")
             ]
-
         elif "deploy_workflow_success" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_device_list_response_faulty"),
@@ -109,7 +108,6 @@ class TestDnacRmaIntent(TestDnacModule):
                 self.test_data.get("get_task_details_deploy_success"),
                 self.test_data.get("get_task_details_deploy_success_status")
             ]
-        
         elif "deploy_workflow_failure_unmark_failure" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_device_list_response_faulty"),
@@ -123,7 +121,6 @@ class TestDnacRmaIntent(TestDnacModule):
                 self.test_data.get("get_task_details_unmark_failure"),
                 self.test_data.get("get_task_details_unmark_failure_status")
             ]
-
         elif "deploy_workflow_failure_unmark_success" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_device_list_response_faulty"),
@@ -153,7 +150,7 @@ class TestDnacRmaIntent(TestDnacModule):
         self.assertEqual(
             result.get('msg'),
             "Invalid parameters in playbook config: 'faulty_device_serial_number: Invalid Serial Number 'FJC2327U0S2YZ' in playbook.' "
-            )
+        )
 
     def test_rma_workflow_manager_device_no_config(self):
         set_module_args(
@@ -171,7 +168,7 @@ class TestDnacRmaIntent(TestDnacModule):
         self.assertEqual(
             result.get('msg'),
             "Invalid or missing 'want' dictionary"
-            )
+        )
 
     def test_rma_workflow_manager_no_valid_device_info_in_config(self):
         set_module_args(
@@ -189,7 +186,7 @@ class TestDnacRmaIntent(TestDnacModule):
         self.assertEqual(
             result.get('msg'),
             "No valid device combination found in config. Provided values in config: {}"
-            )
+        )
 
     def test_rma_workflow_manager_faulty_device_not_found(self):
         set_module_args(
@@ -207,8 +204,7 @@ class TestDnacRmaIntent(TestDnacModule):
         self.assertEqual(
             result.get('msg'),
             "Faulty device '204.1.2.19' not found in Cisco Catalyst Center"
-            )
-
+        )
 
     def test_rma_workflow_manager_replacement_device_not_found(self):
         set_module_args(
@@ -226,9 +222,7 @@ class TestDnacRmaIntent(TestDnacModule):
         self.assertEqual(
             result.get('msg'),
             "Replacement device '204.1.2.19' not found in Cisco Catalyst Center"
-            )
-
-
+        )
 
     def test_rma_workflow_manager_invalid_params_in_playbook(self):
         set_module_args(
@@ -264,7 +258,7 @@ class TestDnacRmaIntent(TestDnacModule):
         self.assertEqual(
             result.get('msg'),
             "Exception occurred while marking device for replacement: "
-            )
+        )
 
     def test_rma_workflow_manager_mark_device_failure(self):
         set_module_args(
@@ -297,7 +291,7 @@ class TestDnacRmaIntent(TestDnacModule):
         self.assertEqual(
             result.get('msg'),
             "Device replacement completed successfully: RMA deploy workflow with workflowId fff0de41-4f7f-48bb-8cf4-14703a684009 is completed successfully."
-            )
+        )
 
     def test_rma_workflow_manager_deploy_workflow_failure_unmark_failure(self):
         set_module_args(
@@ -334,4 +328,3 @@ class TestDnacRmaIntent(TestDnacModule):
             result.get('msg'),
             "Device replacement task failed: An error occurred during the operation | Unmarking result: Device(s) Unmarked For Replacement successfully."
         )
-
