@@ -59,7 +59,7 @@ options:
             pass a list with single element like - 10.197.156.22. For CIDR based discovery, we should pass a list with
             single element like - 10.197.156.22/22. For RANGE based discovery, we should pass a list with single element
             and range like - 10.197.156.1-10.197.156.100. For MULTI RANGE based discovery, we should pass a list with multiple
-            elementd like - 10.197.156.1-10.197.156.100 and in next line - 10.197.157.1-10.197.157.100. Maximum of 8 IP address ranges
+            elements like - 10.197.156.1-10.197.156.100 and in next line - 10.197.157.1-10.197.157.100. Maximum of 8 IP address ranges
             are allowed.
         type: list
         elements: str
@@ -1044,6 +1044,10 @@ class Discovery(DnacBase):
         elif discovery_type == "CIDR":
             if len(ip_address_list) == 1:
                 cidr_notation = ip_address_list[0]
+                if int(cidr_notation.split("/")[1]) not in range (20,31):
+                    msg = "Prefix length should be between 20 and 30"
+                    self.log(msg, "CRITICAL")
+                    self.module.fail_json(msg=msg)
                 if len(cidr_notation.split("/")) == 2:
                     ip_address_list = cidr_notation
                 else:
