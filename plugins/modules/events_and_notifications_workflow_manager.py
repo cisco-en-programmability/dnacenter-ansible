@@ -477,6 +477,9 @@ requirements:
 - python >= 3.5
 
 notes:
+  - To ensure the module operates correctly for scaled sets, which involve creating or updating multiple destinations and handling
+    event subscription notifications, please provide valid input in the playbook. If any failure is encountered, the module will
+    halt execution without proceeding to further operations.
   - Configuring the webhook destination with headers now supports starting from dnacentersdk version 2.9.1 onwards. This enhancement is in
     alignment with Catalyst Center Release 2.3.7.5.
   - Configuring the SNMP destination now supports starting from dnacentersdk version 2.9.1 onwards. This enhancement is in
