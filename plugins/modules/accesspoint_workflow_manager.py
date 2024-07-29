@@ -59,6 +59,7 @@ options:
         description: |
           Radio Frequency (RF) profile of the Access Point (e.g., 'HIGH').
         type: str
+        required: False
         example: "HIGH"
       site:
         description: |
@@ -69,15 +70,18 @@ options:
             description: |
               Floor details of the current site.
             type: object
+            required: False
             suboptions:
               name:
                 description: |
                   Name of the floor (e.g., 'FLOOR1').
                 type: str
+                required: False
               parent_name:
                 description: |
                   Parent name of the floor in the site hierarchy (e.g., 'Global/USA/New York/BLDNYC').
                 type: str
+                required: False
       ap_name:
         description: |
           Current AP name that needs to be changed along with the new AP name.
@@ -263,14 +267,14 @@ notes:
     sites.get_membership
 
   - Paths used are
-    get /dna/intent/api/v1/network-device
-    get /dna/intent/api/v1/site
-    GET/dna/intent/api/v1/business/sda/device
-    post /dna/intent/api/v1/wireless/ap-provision
-    GET/dna/intent/api/v1/membership/{siteId}
-    GET/dna/intent/api/v1/wireless/accesspoint-' + 'configuration/details/{task_id}'
-    post /dna/intent/api/v2/wireless/accesspoint-configuration
-    Post/dna/intent/api/v1/assign-device-to-site/{siteId}/device
+    GET  /dna/intent/api/v1/network-device
+    GET  /dna/intent/api/v1/site
+    GET  /dna/intent/api/v1/business/sda/device
+    POST /dna/intent/api/v1/wireless/ap-provision
+    GET  /dna/intent/api/v1/membership/{siteId}
+    GET  /dna/intent/api/v1/wireless/accesspoint-' + 'configuration/details/{task_id}'
+    POST /dna/intent/api/v2/wireless/accesspoint-configuration
+    POST /dna/intent/api/v1/assign-device-to-site/{siteId}/device
 """
 
 EXAMPLES = r"""
@@ -577,7 +581,7 @@ response:
                             'bapiKey': 'd897-19b8-47aa-a9c4',
                                 'bapiName': 'AP Provision',
                                     'bapiExecutionId': '97d5edd5-d5db-40d8-9ab6-f15dc4a5cc30',
-                                        'tartTime': 'Wed Jul 03 18:37:24 UTC 2024',
+                                        'startTime': 'Wed Jul 03 18:37:24 UTC 2024',
                                         'startTimeEpoch': 1720031844919,
                                         'endTimeEpoch': 0,
                                     'timeDuration': 0,
@@ -688,7 +692,7 @@ class Accesspoint(DnacBase):
             radio_config = aplist[0].get(each_radio)
             valid_param_radio, invalid_params_radio = (None, None)
             if radio_config:
-                radio_config_sepc = {
+                radio_config_spec = {
                     "admin_status": {"required": False, "type": "str"},
                     "dual_radio_mode": {"required": False, "type": "str"},
                     "antenna_name": {"required": False, "type": "str"},
@@ -704,7 +708,7 @@ class Accesspoint(DnacBase):
                     "radio_band": {"required": False, "type": "str"}
                 }
                 valid_param_radio, invalid_params_radio = \
-                    validate_list_of_dicts([radio_config], radio_config_sepc)
+                    validate_list_of_dicts([radio_config], radio_config_spec)
                 if len(invalid_params_radio) > 0:
                     invalid_list_radio.append(each_radio + str(invalid_params_radio))
 
