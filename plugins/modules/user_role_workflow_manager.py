@@ -961,6 +961,30 @@ class UserandRole(DnacBase):
         if field_value and not regex.match(field_value):
             error_messages.append(error_message)
 
+    def validate_role_parameters(self, role_key, params_list, role_config, role_param_map, error_messages):
+        """
+        Helper function to validate role parameters.
+        """
+        role_list = role_config.get(role_key, [])
+        if role_list is not None:
+            for role in role_list:
+                self.log("Validating role: {0}".format(role), "DEBUG")
+                for param in params_list:
+                    if role.get(param):
+                        self.log("Validating parameter '{0}' with value '{1}'".format(param, role[param]), "DEBUG")
+                        self.validate_string_parameter(param, role[param], error_messages)
+
+                if role == "network_provision":
+                    inventory_management_list = role.get("inventory_management", [])
+                    if inventory_management_list is not None:
+                        for inventory_management in inventory_management_list:
+                            self.log("Validating inventory management: {0}".format(inventory_management), "DEBUG")
+                            for param in role_param_map["inventory_management"]:
+                                if inventory_management.get(param):
+                                    self.log("Validating inventory management parameter '{0}' with value '{1}'".format(param, inventory_management[param]),
+                                             "DEBUG")
+                                    self.validate_string_parameter(param, inventory_management[param], error_messages)
+
     def valid_role_config_parameters(self, role_config):
         """
         Additional validation for the create role configuration payload.
@@ -1001,26 +1025,8 @@ class UserandRole(DnacBase):
             "utilities": ["overall", "audit_log", "event_viewer", "network_reasoner", "remote_device_support", "scheduler", "search"]
         }
 
-        def validate_role_parameters(role_key, params_list):
-            """
-            Helper function to validate role parameters.
-            """
-            role_list = role_config.get(role_key, [])
-            if role_list is not None:
-                for role in role_list:
-                    for param in params_list:
-                        if role.get(param):
-                            self.validate_string_parameter(param, role[param], error_messages)
-
-                    inventory_management_list = role.get("inventory_management", [])
-                    if inventory_management_list is not None:
-                        for inventory_management in inventory_management_list:
-                            for param in role_param_map["inventory_management"]:
-                                if inventory_management.get(param):
-                                    self.validate_string_parameter(param, inventory_management[param], error_messages)
-
         for role_key, params_list in role_param_map.items():
-            validate_role_parameters(role_key, params_list)
+            self.validate_role_parameters(role_key, params_list, role_config, role_param_map, error_messages)
 
         if error_messages:
             self.msg = "Invalid parameters in playbook config: {0}".format(", ".join(error_messages))
