@@ -322,7 +322,7 @@ class TestDnacUserRoleWorkflowManager(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("msg"),
-            "Please provide a valid username or email for user deletion"
+            "Please provide a valid 'username' or 'email' for user deletion"
         )
 
     def test_user_role_workflow_manager_user_invalid_mandatory_field_not_present_param(self):
@@ -368,7 +368,7 @@ class TestDnacUserRoleWorkflowManager(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("msg"),
-            "Configuration params like username or email or role_name is not available in the playbook"
+            "Configuration params like 'username' or 'email' or 'role_name' is not available in the playbook"
         )
 
     def test_user_role_workflow_manager_user_invalid_param_not_correct_formate(self):
@@ -623,7 +623,7 @@ class TestDnacUserRoleWorkflowManager(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get('msg'),
-            "Configuration params like username or email or role_name is not available in the playbook"
+            "Configuration params like 'username' or 'email' or 'role_name' is not available in the playbook"
             )
 
     def test_user_role_workflow_manager_role_invalid_param_not_type_list(self):
