@@ -325,7 +325,7 @@
         }
     },
     "delete_non_existing_user_response":{
-        "message": "Please provide a valid username or email for user deletion"
+        "message": "Please provide a valid 'username' or 'email' for user deletion"
     },
     "invalid_param_mandatory_field_not_present_get_user_response":{
         "response": {
