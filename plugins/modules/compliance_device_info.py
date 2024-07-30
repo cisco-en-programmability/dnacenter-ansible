@@ -24,23 +24,15 @@ options:
   complianceStatus:
     description:
     - >
-      ComplianceStatus query parameter. Compliance status can be have value among
-      'COMPLIANT','NON_COMPLIANT','IN_PROGRESS', 'ERROR'.
+      ComplianceStatus query parameter. Specify "Compliance status(es)" separated by commas. The Compliance status
+      can be 'COMPLIANT', 'NON_COMPLIANT', 'IN_PROGRESS', 'NOT_AVAILABLE', 'NOT_APPLICABLE', 'ERROR'.
     type: str
   deviceUuid:
     description:
-    - DeviceUuid query parameter. Comma separated deviceUuids.
+    - DeviceUuid query parameter. Comma separated 'Device Ids'.
     type: str
-  offset:
-    description:
-    - Offset query parameter. Offset/starting row.
-    type: int
-  limit:
-    description:
-    - Limit query parameter. Number of records to be retrieved.
-    type: int
 requirements:
-- dnacentersdk >= 2.5.5
+- dnacentersdk >= 2.7.1
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Compliance DeviceComplianceStatus
@@ -73,8 +65,6 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     complianceStatus: string
     deviceUuid: string
-    offset: 0
-    limit: 0
   register: result
 
 - name: Get Compliance Device by id
@@ -91,7 +81,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
@@ -99,13 +88,12 @@ dnac_response:
   type: dict
   sample: >
     {
-      "version": "string",
       "response": {
         "deviceUuid": "string",
         "complianceStatus": "string",
-        "message": "string",
-        "scheduleTime": 0,
-        "lastUpdateTime": 0
-      }
+        "lastUpdateTime": 0,
+        "scheduleTime": "string"
+      },
+      "version": "string"
     }
 """

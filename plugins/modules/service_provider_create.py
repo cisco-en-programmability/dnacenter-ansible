@@ -35,7 +35,7 @@ options:
         type: list
     type: dict
 requirements:
-- dnacentersdk >= 2.5.5
+- dnacentersdk >= 2.7.1
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Network Settings CreateSPProfile
@@ -67,7 +67,6 @@ EXAMPLES = r"""
         wanProvider: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

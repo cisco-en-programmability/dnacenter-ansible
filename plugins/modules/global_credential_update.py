@@ -20,11 +20,11 @@ options:
     description: GlobalCredentialId path parameter. Global credential Uuid.
     type: str
   siteUuids:
-    description: Global Credential Update's siteUuids.
+    description: List of siteUuids where credential is to be updated.
     elements: str
     type: list
 requirements:
-- dnacentersdk >= 2.5.5
+- dnacentersdk >= 2.7.1
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Discovery UpdateGlobalCredentials
@@ -54,7 +54,6 @@ EXAMPLES = r"""
     - string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

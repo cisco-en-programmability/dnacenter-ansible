@@ -34,6 +34,9 @@ options:
       port:
         description: Port.
         type: str
+      smtpType:
+        description: SmtpType.
+        type: str
       userName:
         description: User Name.
         type: str
@@ -50,6 +53,9 @@ options:
       port:
         description: Port.
         type: str
+      smtpType:
+        description: SmtpType.
+        type: str
       userName:
         description: User Name.
         type: str
@@ -61,7 +67,7 @@ options:
     description: To Email.
     type: str
 requirements:
-- dnacentersdk >= 2.5.5
+- dnacentersdk >= 2.7.1
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Event Management UpdateEmailDestination
@@ -92,17 +98,18 @@ EXAMPLES = r"""
       hostName: string
       password: string
       port: string
+      smtpType: string
       userName: string
     secondarySMTPConfig:
       hostName: string
       password: string
       port: string
+      smtpType: string
       userName: string
     subject: string
     toEmail: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

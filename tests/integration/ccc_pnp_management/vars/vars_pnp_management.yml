@@ -1,0 +1,56 @@
+---
+pnp_delete:
+  add:
+    - device_info:
+        - serial_number: FJC2721271T
+          hostname: SJ-EN-9300
+          state: Unclaimed
+          pid: C9300-48T
+
+  delete:
+    - device_info:
+        - serial_number: FJC2721271T
+          hostname: SJ-EN-9300
+          state: Unclaimed
+          pid: C9300-48T
+
+
+pnp_claim:
+  cat9k:
+    - device_info:
+        - serial_number: FJC2721271T
+          hostname: Switch
+          state: Unclaimed
+          pid: C9300-48T
+      site_name: Global/ITest_PnP_Area/ITest_PnP_Building
+      template_name: "Ansible_PNP_Switch"
+      project_name: Onboarding Configuration
+      template_params:
+        hostname: SJ-EN-9300
+        interface: GigabitEthernet1/1/4
+
+
+bulk:
+  add:
+    - device_info:
+      - serial_number: FOX2639PAYD
+        hostname: SJ-EWLC-1
+        state: Unclaimed
+        pid: C9800-40-K9
+      - serial_number: FJC271924D9
+        hostname: SJ-EN-9300
+        state: Unclaimed
+        pid: C9300-48UXM
+      - serial_number: FJC271925Q1
+        hostname: NY-EN-9300
+        state: Unclaimed
+        pid: C9300-48UXM
+      - serial_number: FJC2402A0TX
+        hostname: SF-BN-ISR
+        state: Unclaimed
+        pid: ISR4451-X/K9
+
+
+delete_devices:
+  - ip_address_list: ["204.1.2.1"]
+    clean_config: False

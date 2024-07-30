@@ -127,7 +127,7 @@ class CliCredential(object):
         id_exists = False
         name_exists = False
         o_id = self.new_object.get("id")
-        name = self.new_object.get("username") or self.new_object.get("description")
+        name = self.new_object.get("description") or self.new_object.get("username")
         if o_id:
             prev_obj = self.get_object_by_id(o_id)
             id_exists = prev_obj is not None and isinstance(prev_obj, dict)

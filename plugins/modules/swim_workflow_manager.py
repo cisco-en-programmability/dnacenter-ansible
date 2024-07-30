@@ -296,7 +296,7 @@ options:
             type: bool
 requirements:
 - dnacentersdk == 2.4.5
-- python >= 3.5
+- python >= 3.9
 notes:
   - SDK Method used are
     software_image_management_swim.SoftwareImageManagementSwim.import_software_image_via_url,
@@ -785,37 +785,61 @@ class Swim(DnacBase):
             'family': device_family,
             'role': device_role
         }
-        device_list_response = self.dnac._exec(
-            family="devices",
-            function='get_device_list',
-            op_modifies=True,
-            params=device_params,
-        )
-
-        device_response = device_list_response.get('response')
-        if not response or not device_response:
-            self.log("Failed to retrieve devices associated with the site '{0}' due to empty API response.".format(site_name), "INFO")
-            return device_uuid_list
-
+        offset = 0
+        limit = self.get_device_details_limit()
+        initial_exec = False
         site_memberships_ids, device_response_ids = [], []
 
-        for item in site_response_list:
-            if item["reachabilityStatus"] != "Reachable":
-                self.log("""Device '{0}' is currently '{1}' and cannot be included in the SWIM distribution/activation
-                            process.""".format(item["managementIpAddress"], item["reachabilityStatus"]), "INFO")
-                continue
-            self.log("""Device '{0}' from site '{1}' is ready for the SWIM distribution/activation
-                        process.""".format(item["managementIpAddress"], site_name), "INFO")
-            site_memberships_ids.append(item["instanceUuid"])
+        while True:
+            try:
+                if initial_exec:
+                    device_params["limit"] = limit
+                    device_params["offset"] = offset * limit
+                    device_list_response = self.dnac._exec(
+                        family="devices",
+                        function='get_device_list',
+                        params=device_params
+                    )
+                else:
+                    initial_exec = True
+                    device_list_response = self.dnac._exec(
+                        family="devices",
+                        function='get_device_list',
+                        op_modifies=True,
+                        params=device_params,
+                    )
+                offset = offset + 1
+                device_response = device_list_response.get('response')
 
-        for item in device_response:
-            if item["reachabilityStatus"] != "Reachable":
-                self.log("""Unable to proceed with the device '{0}' for SWIM distribution/activation as its status is
-                            '{1}'.""".format(item["managementIpAddress"], item["reachabilityStatus"]), "INFO")
-                continue
-            self.log("""Device '{0}' matches to the specified filter requirements and is set for SWIM
-                      distribution/activation.""".format(item["managementIpAddress"]), "INFO")
-            device_response_ids.append(item["instanceUuid"])
+                if not response or not device_response:
+                    self.log("Failed to retrieve devices associated with the site '{0}' due to empty API response.".format(site_name), "INFO")
+                    break
+
+                for item in site_response_list:
+                    if item["reachabilityStatus"] != "Reachable":
+                        self.log("""Device '{0}' is currently '{1}' and cannot be included in the SWIM distribution/activation
+                                    process.""".format(item["managementIpAddress"], item["reachabilityStatus"]), "INFO")
+                        continue
+                    self.log("""Device '{0}' from site '{1}' is ready for the SWIM distribution/activation
+                                process.""".format(item["managementIpAddress"], site_name), "INFO")
+                    site_memberships_ids.append(item["instanceUuid"])
+
+                for item in device_response:
+                    if item["reachabilityStatus"] != "Reachable":
+                        self.log("""Unable to proceed with the device '{0}' for SWIM distribution/activation as its status is
+                                    '{1}'.""".format(item["managementIpAddress"], item["reachabilityStatus"]), "INFO")
+                        continue
+                    self.log("""Device '{0}' matches to the specified filter requirements and is set for SWIM
+                            distribution/activation.""".format(item["managementIpAddress"]), "INFO")
+                    device_response_ids.append(item["instanceUuid"])
+            except Exception as e:
+                self.msg = "An exception occured while fetching the device uuids from Cisco Catalyst Center: {0}".format(str(e))
+                self.log(self.msg, "ERROR")
+                return device_uuid_list
+
+        if not device_response_ids or not site_memberships_ids:
+            self.log("Failed to retrieve devices associated with the site '{0}' due to empty API response.".format(site_name), "INFO")
+            return device_uuid_list
 
         # Find the intersection of device IDs with the response get from get_membership api and get_device_list api with provided filters
         device_uuid_list = set(site_memberships_ids).intersection(set(device_response_ids))

@@ -17,50 +17,51 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   id:
-    description: Id query parameter. Id of subpool to be associated with the site.
+    description: Id query parameter. Id of subpool group.
     type: str
   ipv4DhcpServers:
-    description: IPv4 input for dhcp server ip example 1.1.1.1.
+    description: IPv4 input for dhcp server ip example "1.1.1.1".
     elements: str
     type: list
   ipv4DnsServers:
-    description: IPv4 input for dns server ip example 4.4.4.4.
+    description: IPv4 input for dns server ip example "4.4.4.4".
     elements: str
     type: list
   ipv4GateWay:
-    description: Ipv4 Gate Way.
+    description: Gateway ip address details, example 175.175.0.1.
     type: str
   ipv6AddressSpace:
-    description: If the value is false only ipv4 input are required, otherwise both
-      ipv6 and ipv4 are required.
+    description: If the value is false only ipv4 input are required. NOTE if value is
+      false then any existing ipv6 subpool in the group will be removed.
     type: bool
   ipv6DhcpServers:
-    description: IPv6 format dhcp server as input example 2001 db8 1234.
+    description: IPv6 format dhcp server as input example "2001 db8 1234".
     elements: str
     type: list
   ipv6DnsServers:
-    description: IPv6 format dns server input example 2001 db8 1234.
+    description: IPv6 format dns server input example "2001 db8 1234".
     elements: str
     type: list
   ipv6GateWay:
     description: Gateway ip address details, example 2001 db8 85a3 0 100 1.
     type: str
   ipv6GlobalPool:
-    description: IP v6 Global pool address with cidr this is required when Ipv6AddressSpace
+    description: IPv6 Global pool address with cidr this is required when Ipv6AddressSpace
       value is true, example 2001 db8 85a3 /64.
     type: str
   ipv6Prefix:
-    description: IPv6 prefix value is true, the ip6 prefix length input field is enabled
-      , if it is false ipv6 total Host input is enable.
+    description: Ipv6 prefix value is true, the ip6 prefix length input field is enabled,
+      if it is false ipv6 total Host input is enable.
     type: bool
   ipv6PrefixLength:
     description: IPv6 prefix length is required when the ipv6prefix value is true.
     type: int
   ipv6Subnet:
-    description: IPv6 Subnet address, example 2001 db8 85a3 0 100.
+    description: IPv6 Subnet address, example 2001 db8 85a3 0 100 .
     type: str
   ipv6TotalHost:
-    description: IPv6 total host is required when ipv6prefix value is false.
+    description: Size of pool in terms of number of IPs. IPv6 total host is required
+      when ipv6prefix value is false.
     type: int
   name:
     description: Name of the reserve ip sub pool.
@@ -72,7 +73,7 @@ options:
     description: Slaac Support.
     type: bool
 requirements:
-- dnacentersdk >= 2.5.5
+- dnacentersdk >= 2.7.1
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Network Settings UpdateReserveIPSubpool
@@ -122,7 +123,6 @@ EXAMPLES = r"""
     slaacSupport: true
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

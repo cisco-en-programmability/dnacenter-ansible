@@ -26,11 +26,11 @@ options:
   startTime:
     description:
     - StartTime query parameter. Start Time in milliseconds.
-    type: int
+    type: float
   endTime:
     description:
     - EndTime query parameter. End Time in milliseconds.
-    type: int
+    type: float
   category:
     description:
     - Category query parameter.
@@ -58,11 +58,11 @@ options:
   offset:
     description:
     - Offset query parameter. Start Offset.
-    type: int
+    type: float
   limit:
     description:
     - Limit query parameter. # of records.
-    type: int
+    type: float
   sortBy:
     description:
     - SortBy query parameter. Sort By column.
@@ -84,7 +84,7 @@ options:
     - SiteId query parameter. Site Id.
     type: str
 requirements:
-- dnacentersdk >= 2.5.5
+- dnacentersdk >= 2.7.1
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Event Management GetNotifications
@@ -129,7 +129,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

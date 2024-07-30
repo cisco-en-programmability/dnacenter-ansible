@@ -41,6 +41,11 @@ options:
   ssidDetails:
     description: Wireless Provision Ssid Create Provision's ssidDetails.
     suboptions:
+      authKeyMgmt:
+        description: Takes string inputs for the AKMs that should be set true. Possible
+          AKM values dot1x,dot1x_ft, dot1x_sha, psk, psk_ft, psk_sha, owe, sae, sae_ft.
+        elements: str
+        type: list
       enableBroadcastSSID:
         description: Enable Broadcast SSID.
         type: bool
@@ -53,6 +58,12 @@ options:
       fastTransition:
         description: Fast Transition.
         type: str
+      ghz24Policy:
+        description: 2.4 GHz Policy.
+        type: str
+      ghz6PolicyClientSteering:
+        description: 6 Ghz Client Steering.
+        type: bool
       name:
         description: SSID Name.
         type: str
@@ -63,6 +74,15 @@ options:
       radioPolicy:
         description: Radio Policy.
         type: str
+      rsnCipherSuiteCcmp256:
+        description: Rsn Cipher Suite Ccmp256.
+        type: bool
+      rsnCipherSuiteGcmp128:
+        description: Rsn Cipher Suite Gcmp128.
+        type: bool
+      rsnCipherSuiteGcmp256:
+        description: Rsn Cipher Suite Gcmp256.
+        type: bool
       securityLevel:
         description: Security Level(For guest SSID OPEN/WEB_AUTH, For Enterprise SSID
           ENTERPRISE/PERSONAL/OPEN).
@@ -78,7 +98,7 @@ options:
     description: SSID Type.
     type: str
 requirements:
-- dnacentersdk >= 2.5.5
+- dnacentersdk >= 2.7.1
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Wireless CreateAndProvisionSSID
@@ -111,20 +131,26 @@ EXAMPLES = r"""
     managedAPLocations:
     - string
     ssidDetails:
+      authKeyMgmt:
+      - string
       enableBroadcastSSID: true
       enableFastLane: true
       enableMACFiltering: true
       fastTransition: string
+      ghz24Policy: string
+      ghz6PolicyClientSteering: true
       name: string
       passphrase: string
       radioPolicy: string
+      rsnCipherSuiteCcmp256: true
+      rsnCipherSuiteGcmp128: true
+      rsnCipherSuiteGcmp256: true
       securityLevel: string
       trafficType: string
       webAuthURL: string
     ssidType: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
