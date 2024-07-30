@@ -2051,8 +2051,8 @@ class Template(DnacBase):
             self.log("Project name for export template: {0}".format(project_name), "DEBUG")
             self.log("Template details: {0}".format(all_project_details), "DEBUG")
             project_details = get_dict_result(all_project_details,
-                                                   "name",
-                                                   project_name)
+                                              "name",
+                                              project_name)
             if not project_details:
                 self.msg = (
                     "There are no projects with the given project name '{project_name}'."
@@ -2074,8 +2074,8 @@ class Template(DnacBase):
                      .format(project_name, all_template_details), "DEBUG")
             template_name = values.get("template_name")
             template_details = get_dict_result(all_template_details,
-                                              "name",
-                                              template_name)
+                                               "name",
+                                               template_name)
             self.log("Template details with template name {0}: {1}"
                      .format(template_name, template_details), "DEBUG")
             if template_details is None:
