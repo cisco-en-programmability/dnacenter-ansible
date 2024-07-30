@@ -440,7 +440,7 @@ options:
                 type: str
 requirements:
   - dnacentersdk >= 2.7.1
-  - python >= 3.10
+  - python >= 3.9.19
 notes:
   - SDK Methods used
     - user_and_roles.UserandRoles.get_user_ap_i
