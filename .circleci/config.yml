@@ -247,6 +247,11 @@ jobs:
                 command: |
                   echo "ccc_pnp_management" >> roles-file/ccc_roles.yml
 
+      - run:
+          name: Debug roles
+          command: |
+            cat roles-file/ccc_roles.yml
+
       - persist_to_workspace:
           root: 'roles-file'
           paths:
