@@ -1,5 +1,3 @@
-# Copyright (c) 2024 Cisco and/or its affiliates.
-
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
@@ -12,6 +10,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# Make coding more python3-ish
+
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -19,8 +19,6 @@ __metaclass__ = type
 from unittest.mock import patch
 
 from ansible_collections.cisco.dnac.plugins.modules import rma_workflow_manager
-from ansible_collections.ansible.netcommon.tests.unit.modules.utils import AnsibleFailJson, AnsibleExitJson
-
 from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
 
 
@@ -88,7 +86,7 @@ class TestDnacRmaIntent(TestDnacModule):
         elif "faulty_device_not_found" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_device_list_empty_response"),
-                self.test_data.get("get_faulty_device_exception")   
+                self.test_data.get("get_faulty_device_exception")
             ]
         elif "mark_device_failure" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
@@ -115,7 +113,7 @@ class TestDnacRmaIntent(TestDnacModule):
                 self.test_data.get("mark_device_for_replacement_response"),
                 self.test_data.get("get_task_details_mark_success"),
                 self.test_data.get("deploy_device_replacement_response"),
-                self.test_data.get("get_task_details_deploy_in_progress"),       
+                self.test_data.get("get_task_details_deploy_in_progress"),
                 self.test_data.get("get_task_details_failure"),
                 self.test_data.get("unmark_device_for_replacement_response"),
                 self.test_data.get("get_task_details_unmark_failure"),
@@ -276,7 +274,7 @@ class TestDnacRmaIntent(TestDnacModule):
         self.assertEqual(
             result.get('msg'),
             "An error occurred during the operation"
-       )
+        )
 
     def test_rma_workflow_manager_deploy_workflow_success(self):
         set_module_args(
