@@ -273,7 +273,10 @@ class TestDnacRmaIntent(TestDnacModule):
         )
         result = self.execute_module(changed=False, failed=True)
         print(result)
-        self.assertIn("An error occurred during the operation", result.get('msg'))
+        self.assertEqual(
+            result.get('msg'),
+            "An error occurred during the operation"
+       )
 
     def test_rma_workflow_manager_deploy_workflow_success(self):
         set_module_args(
