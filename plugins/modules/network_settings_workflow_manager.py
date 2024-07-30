@@ -2001,7 +2001,12 @@ class NetworkSettings(DnacBase):
                     return self
 
                 shared_secret = network_aaa.get("shared_secret")
-                if shared_secret:
+                if shared_secret is not None:
+                    if len(shared_secret) < 4:
+                        self.msg = "The shared_secret length should be greater than or equal to 4."
+                        self.status = "failed"
+                        return self
+
                     want_network_settings.get("network_aaa").update({
                         "sharedSecret": shared_secret
                     })
@@ -2068,12 +2073,27 @@ class NetworkSettings(DnacBase):
                     return self
 
                 shared_secret = client_and_endpoint_aaa.get("shared_secret")
-                if shared_secret:
+                if shared_secret is not None:
+                    if len(shared_secret) < 4:
+                        self.msg = "The 'shared_secret' length should be greater than or equal to 4."
+                        self.status = "failed"
+                        return self
+
                     want_network_settings.get("clientAndEndpoint_aaa").update({
                         "sharedSecret": shared_secret
                     })
             else:
                 del want_network_settings["clientAndEndpoint_aaa"]
+
+            network_aaa = want_network_settings.get("network_aaa")
+            client_and_endpoint_aaa = want_network_settings.get("clientAndEndpoint_aaa")
+            if network_aaa and client_and_endpoint_aaa and \
+                    network_aaa.get("sharedSecret") and \
+                    client_and_endpoint_aaa.get("sharedSecret") and \
+                    network_aaa.get("sharedSecret") != client_and_endpoint_aaa.get("sharedSecret"):
+                self.msg = "The 'shared_secret' of 'network_aaa' and 'client_and_endpoint_aaa' should be same."
+                self.status = "failed"
+                return self
 
             all_network_management_details.append(want_network)
             network_management_index += 1
@@ -2305,10 +2325,15 @@ class NetworkSettings(DnacBase):
             site_name = item.get("site_name")
             result_network = self.result.get("response")[2].get("network")
             result_network.get("response").update({site_name: {}})
+            have_network_details = self.have.get("network")[network_management_index].get("net_details")
+            want_network_details = self.want.get("wantNetwork")[network_management_index]
+            network_aaa = want_network_details.get("settings").get("network_aaa")
+            client_and_endpoint_aaa = want_network_details.get("settings").get("clientAndEndpoint_aaa")
 
             # Check update is required or not
-            if not self.requires_update(self.have.get("network")[network_management_index].get("net_details"),
-                                        self.want.get("wantNetwork")[network_management_index], self.network_obj_params):
+            if not (network_aaa.get("sharedSecret") or
+                    client_and_endpoint_aaa.get("sharedSecret") or
+                    self.requires_update(have_network_details, want_network_details, self.network_obj_params)):
 
                 self.log("Network in site '{0}' doesn't require an update.".format(site_name), "INFO")
                 result_network.get("response").get(site_name).update({
