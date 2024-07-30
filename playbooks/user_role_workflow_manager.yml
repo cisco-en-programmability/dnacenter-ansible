@@ -42,6 +42,8 @@
                   troubleshooting_tools: "write"
               network_analytics:
                 - overall: "deny"
+            - role_name: "Test_Role_2"
+              description: "Default role creation"
               network_design:
                 - overall: "deny"
                   image_repository: "read"
