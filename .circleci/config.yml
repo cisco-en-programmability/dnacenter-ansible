@@ -312,6 +312,8 @@ jobs:
             export ANSIBLE_PERSISTENT_CONNECT_TIMEOUT=1000
             export ANSIBLE_PERSISTENT_COMMAND_TIMEOUT=1000
             export ANSIBLE_ROLES_PATH=$PWD/tests/integration
+            cat ccc_roles.yml
+            echo $(circleci tests glob "tests/integration/*")
             cat ccc_roles.yml | circleci tests run --command "xargs ./run_tests.sh" --split-by=timings --timings-type=name
 
           no_output_timeout: 120m
