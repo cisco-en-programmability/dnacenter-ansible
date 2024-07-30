@@ -21,4 +21,3 @@ class InconsistentParameters(AnsibleDNACException):
 class AnsibleSDAException(Exception):
     def __init__(self, response):
         self._response = response
-
