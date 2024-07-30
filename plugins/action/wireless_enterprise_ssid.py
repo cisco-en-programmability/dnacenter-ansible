@@ -50,6 +50,19 @@ argument_spec.update(dict(
     enableNeighborList=dict(type="bool"),
     mfpClientProtection=dict(type="str"),
     nasOptions=dict(type="list"),
+    profileName=dict(type="str"),
+    policyProfileName=dict(type="str"),
+    aaaOverride=dict(type="bool"),
+    coverageHoleDetectionEnable=dict(type="bool"),
+    protectedManagementFrame=dict(type="str"),
+    multiPSKSettings=dict(type="list"),
+    clientRateLimit=dict(type="float"),
+    authKeyMgmt=dict(type="list"),
+    rsnCipherSuiteGcmp256=dict(type="bool"),
+    rsnCipherSuiteCcmp256=dict(type="bool"),
+    rsnCipherSuiteGcmp128=dict(type="bool"),
+    ghz6PolicyClientSteering=dict(type="bool"),
+    ghz24Policy=dict(type="str"),
     ssidName=dict(type="str"),
 ))
 
@@ -85,6 +98,19 @@ class WirelessEnterpriseSsid(object):
             enableNeighborList=params.get("enableNeighborList"),
             mfpClientProtection=params.get("mfpClientProtection"),
             nasOptions=params.get("nasOptions"),
+            profileName=params.get("profileName"),
+            policyProfileName=params.get("policyProfileName"),
+            aaaOverride=params.get("aaaOverride"),
+            coverageHoleDetectionEnable=params.get("coverageHoleDetectionEnable"),
+            protectedManagementFrame=params.get("protectedManagementFrame"),
+            multiPSKSettings=params.get("multiPSKSettings"),
+            clientRateLimit=params.get("clientRateLimit"),
+            authKeyMgmt=params.get("authKeyMgmt"),
+            rsnCipherSuiteGcmp256=params.get("rsnCipherSuiteGcmp256"),
+            rsnCipherSuiteCcmp256=params.get("rsnCipherSuiteCcmp256"),
+            rsnCipherSuiteGcmp128=params.get("rsnCipherSuiteGcmp128"),
+            ghz6PolicyClientSteering=params.get("ghz6PolicyClientSteering"),
+            ghz24Policy=params.get("ghz24Policy"),
             ssid_name=params.get("ssidName"),
         )
 
@@ -115,6 +141,19 @@ class WirelessEnterpriseSsid(object):
         new_object_params['enableNeighborList'] = self.new_object.get('enableNeighborList')
         new_object_params['mfpClientProtection'] = self.new_object.get('mfpClientProtection')
         new_object_params['nasOptions'] = self.new_object.get('nasOptions')
+        new_object_params['profileName'] = self.new_object.get('profileName')
+        new_object_params['policyProfileName'] = self.new_object.get('policyProfileName')
+        new_object_params['aaaOverride'] = self.new_object.get('aaaOverride')
+        new_object_params['coverageHoleDetectionEnable'] = self.new_object.get('coverageHoleDetectionEnable')
+        new_object_params['protectedManagementFrame'] = self.new_object.get('protectedManagementFrame')
+        new_object_params['multiPSKSettings'] = self.new_object.get('multiPSKSettings')
+        new_object_params['clientRateLimit'] = self.new_object.get('clientRateLimit')
+        new_object_params['authKeyMgmt'] = self.new_object.get('authKeyMgmt')
+        new_object_params['rsnCipherSuiteGcmp256'] = self.new_object.get('rsnCipherSuiteGcmp256')
+        new_object_params['rsnCipherSuiteCcmp256'] = self.new_object.get('rsnCipherSuiteCcmp256')
+        new_object_params['rsnCipherSuiteGcmp128'] = self.new_object.get('rsnCipherSuiteGcmp128')
+        new_object_params['ghz6PolicyClientSteering'] = self.new_object.get('ghz6PolicyClientSteering')
+        new_object_params['ghz24Policy'] = self.new_object.get('ghz24Policy')
         return new_object_params
 
     def delete_by_name_params(self):
@@ -143,6 +182,19 @@ class WirelessEnterpriseSsid(object):
         new_object_params['enableNeighborList'] = self.new_object.get('enableNeighborList')
         new_object_params['mfpClientProtection'] = self.new_object.get('mfpClientProtection')
         new_object_params['nasOptions'] = self.new_object.get('nasOptions')
+        new_object_params['profileName'] = self.new_object.get('profileName')
+        new_object_params['policyProfileName'] = self.new_object.get('policyProfileName')
+        new_object_params['aaaOverride'] = self.new_object.get('aaaOverride')
+        new_object_params['coverageHoleDetectionEnable'] = self.new_object.get('coverageHoleDetectionEnable')
+        new_object_params['protectedManagementFrame'] = self.new_object.get('protectedManagementFrame')
+        new_object_params['multiPSKSettings'] = self.new_object.get('multiPSKSettings')
+        new_object_params['clientRateLimit'] = self.new_object.get('clientRateLimit')
+        new_object_params['authKeyMgmt'] = self.new_object.get('authKeyMgmt')
+        new_object_params['rsnCipherSuiteGcmp256'] = self.new_object.get('rsnCipherSuiteGcmp256')
+        new_object_params['rsnCipherSuiteCcmp256'] = self.new_object.get('rsnCipherSuiteCcmp256')
+        new_object_params['rsnCipherSuiteGcmp128'] = self.new_object.get('rsnCipherSuiteGcmp128')
+        new_object_params['ghz6PolicyClientSteering'] = self.new_object.get('ghz6PolicyClientSteering')
+        new_object_params['ghz24Policy'] = self.new_object.get('ghz24Policy')
         return new_object_params
 
     def get_object_by_name(self, name):
@@ -231,6 +283,19 @@ class WirelessEnterpriseSsid(object):
             ("enableNeighborList", "enableNeighborList"),
             ("mfpClientProtection", "mfpClientProtection"),
             ("nasOptions", "nasOptions"),
+            ("profileName", "profileName"),
+            ("policyProfileName", "policyProfileName"),
+            ("aaaOverride", "aaaOverride"),
+            ("coverageHoleDetectionEnable", "coverageHoleDetectionEnable"),
+            ("protectedManagementFrame", "protectedManagementFrame"),
+            ("multiPSKSettings", "multiPSKSettings"),
+            ("clientRateLimit", "clientRateLimit"),
+            ("authKeyMgmt", "authKeyMgmt"),
+            ("rsnCipherSuiteGcmp256", "rsnCipherSuiteGcmp256"),
+            ("rsnCipherSuiteCcmp256", "rsnCipherSuiteCcmp256"),
+            ("rsnCipherSuiteGcmp128", "rsnCipherSuiteGcmp128"),
+            ("ghz6PolicyClientSteering", "ghz6PolicyClientSteering"),
+            ("ghz24Policy", "ghz24Policy"),
             ("ssidName", "ssid_name"),
         ]
         # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params

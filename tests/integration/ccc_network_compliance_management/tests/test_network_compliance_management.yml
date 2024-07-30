@@ -1,0 +1,335 @@
+---
+- debug: msg="Starting network compliance management test"
+- debug: msg="Role Path {{ role_path }}"
+
+- block:
+  - name: Load vars and declare dnac vars
+    include_vars:
+      file: "{{ role_path }}/vars/vars_network_compliance_management.yml"
+      name: vars_map
+    vars:
+      dnac_login: &dnac_login
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: True
+        dnac_log_level: "DEBUG"
+        config_verify: True
+        dnac_api_task_timeout: "{{ dnac_api_task_timeout }}"
+        dnac_log_append: True
+
+#############################################
+#                Add Devices                #
+#############################################
+
+  - name: Add new device
+    cisco.dnac.inventory_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.device_details }}"
+    register: result_add_device
+
+#############################################
+#                   Pause                   #
+#############################################
+
+  # - name: Pause
+  #   pause:
+  #     seconds: 30
+
+#############################################
+#           Run Full Compliance             #
+#############################################
+  
+  - name: Run full complaince check using IP address list
+    cisco.dnac.network_compliance_workflow_manager:
+      <<: *dnac_login
+      dnac_log_append: False
+      config:  
+        - "{{ item }}"
+    loop: "{{ vars_map.run_complaince_iplist }}"
+    register: result_run_complaince
+ 
+#   - name: Debug item
+#     debug:
+#       var: item
+#     loop: "{{ result_run_complaince.results }}"
+
+#   - name: Assert Run full complaince check using IP address list
+#     assert:
+#       that:
+#         - item.changed == true
+#         - "'Run Compliance Check has completed successfully' in item.msg"
+#     loop: "{{ result_run_complaince.results }}"
+#     when: result_run_complaince is defined
+
+#############################################
+#                   Pause                   #
+#############################################
+
+  - name: Pause
+    pause:
+      seconds: 10
+
+#############################################
+#           Run Full Compliance             #
+#############################################
+
+  - name: Run full Compliance check on device(s) using Site
+    cisco.dnac.network_compliance_workflow_manager:
+      <<: *dnac_login
+      dnac_log_append: False
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.run_complaince_site }}"
+    register: result_run_complaince
+
+#   - name: Debug item
+#     debug:
+#       var: item
+#     loop: "{{ result_run_complaince.results }}"
+
+  - name: Assert Run Compliance check on device(s) using Site
+    assert:
+      that:
+        - item.changed == true
+        - "'Run Compliance Check has completed successfully' in item.msg"
+    loop: "{{ result_run_complaince.results }}"
+    when: result_run_complaince is defined
+
+#############################################
+#                   Pause                   #
+#############################################
+
+  - name: Pause 
+    pause:
+      seconds: 10
+
+#############################################
+#           Run Full Compliance             #
+#############################################
+
+  - name: Run Compliance check on device(s) using both IP address list and Site
+    cisco.dnac.network_compliance_workflow_manager:
+      <<: *dnac_login
+      dnac_log_append: False
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.run_compliance_iplist_site }}"
+    register: result_run_complaince
+
+#   - name: Debug item
+#     debug:
+#       var: item
+#     loop: "{{ result_run_complaince.results }}"
+
+  - name: Assert Run Compliance check on device(s) using both IP address list and Site
+    assert:
+      that:
+        - item.changed == true
+        - "'Run Compliance Check has completed successfully' in item.msg"
+    loop: "{{ result_run_complaince.results }}"
+    when: result_run_complaince is defined
+
+#############################################
+#                   Pause                   #
+#############################################
+
+  - name: Pause 
+    pause:
+      seconds: 10
+
+#############################################
+#       Run Compliance with categories      #
+#############################################
+
+  - name: Run Compliance check with specific categories on device(s) using IP address list
+    cisco.dnac.network_compliance_workflow_manager:
+      <<: *dnac_login
+      dnac_log_append: False
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.run_compliance_category_iplist }}"
+    register: result_run_complaince
+
+#   - name: Debug item
+#     debug:
+#       var: item
+#     loop: "{{ result_run_complaince.results }}"
+
+  - name: Assert Run Compliance check with specific categories on device(s) using IP address list
+    assert:
+      that:
+        - item.changed == true
+        - "'Run Compliance Check has completed successfully' in item.msg"
+    loop: "{{ result_run_complaince.results }}"
+    when: result_run_complaince is defined
+
+#############################################
+#                   Pause                   #
+#############################################
+
+  - name: Pause
+    pause:
+      seconds: 10
+
+#############################################
+#       Run Compliance with categories      #
+#############################################
+
+  - name: Run Compliance check with specific categories on device(s) using Site
+    cisco.dnac.network_compliance_workflow_manager:
+      <<: *dnac_login
+      dnac_log_append: False
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.run_compliance_category_site }}"
+    register: result_run_complaince
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_run_complaince.results }}"
+
+  - name: Assert Run Compliance check with specific categories on device(s) using Site
+    assert:
+      that:
+        - item.changed == true
+        - "'Run Compliance Check has completed successfully' in item.msg"
+    loop: "{{ result_run_complaince.results }}"
+    when: result_run_complaince is defined
+
+#############################################
+#                   Pause                   #
+#############################################
+
+  - name: Pause
+    pause:
+      seconds: 10
+
+#############################################
+#             Sync Device Config            #
+#############################################
+
+  - name: Sync Device Configuration on device(s) using IP address list
+    cisco.dnac.network_compliance_workflow_manager:
+      <<: *dnac_login
+      dnac_log_append: False
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.sync_config_iplist }}"
+    register: result_sync_config
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_sync_config.results }}"
+
+  # - name: Assert Sync Device Configuration on device(s) using IP address list
+  #   assert:
+  #     that:
+  #       - item.changed == false
+  #       - "'' in item.msg"
+  #   loop: "{{ result_sync_config.results }}"
+  #   when: result_sync_config is defined
+
+#############################################
+#                   Pause                   #
+#############################################
+
+  - name: Pause
+    pause:
+      seconds: 10
+
+#############################################
+#             Sync Device Config            #
+#############################################
+
+  - name: Sync Device Configuration on device(s) using Site
+    cisco.dnac.network_compliance_workflow_manager:
+      <<: *dnac_login
+      dnac_log_append: False
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.sync_config_site }}"
+    register: result_sync_config
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_sync_config.results }}"
+
+  # - name: Assert Sync Device Configuration on device(s) using IP address list
+  #   assert:
+  #     that:
+  #       - item.changed == false
+  #       - "'' in item.msg"
+  #   loop: "{{ result_sync_config.results }}"
+  #   when: result_sync_config is defined
+
+#############################################
+#                   Pause                   #
+#############################################
+
+  - name: Pause
+    pause:
+      seconds: 10
+
+#############################################
+#             Sync Device Config            #
+#############################################
+
+  - name: Sync Device Configuration on device(s) using IP address list and Site
+    cisco.dnac.network_compliance_workflow_manager:
+      <<: *dnac_login
+      dnac_log_append: False
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.sync_config_iplist_site }}"
+    register: result_sync_config
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_sync_config.results }}"
+
+  # - name: Assert Sync Device Configuration on device(s) using IP address list
+  #   assert:
+  #     that:
+  #       - item.changed == false
+  #       - "'' in item.msg"
+  #   loop: "{{ result_sync_config.results }}"
+  #   when: result_sync_config is defined
+
+
+#############################################
+#            Scale Run  Compliance          #
+#############################################
+  
+  - name: Scale Run complaince operation
+    cisco.dnac.network_compliance_workflow_manager:
+      <<: *dnac_login
+      dnac_log_append: False
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.run_compliance_scale }}"
+    register: result_run_complaince
+ 
+#   - name: Debug item
+#     debug:
+#       var: item
+#     loop: "{{ result_run_complaince.results }}"
+
+  - name: Assert Run full complaince check using IP address list
+    assert:
+      that:
+        - item.changed == true
+        - "'Run Compliance Check has completed successfully' in item.msg"
+    loop: "{{ result_run_complaince.results }}"
+    when: result_run_complaince is defined

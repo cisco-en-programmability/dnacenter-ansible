@@ -24,7 +24,7 @@ options:
     - DeviceManagementIpAddress query parameter. Device Management IP Address.
     type: str
 requirements:
-- dnacentersdk >= 2.5.5
+- dnacentersdk >= 2.7.1
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for SDA GetDeviceRoleInSDAFabric
@@ -54,7 +54,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
@@ -62,13 +61,10 @@ dnac_response:
   type: dict
   sample: >
     {
-      "response": {
-        "status": "string",
-        "description": "string",
-        "roles": [
-          "string"
-        ]
-      },
-      "version": "string"
+      "roles": [
+        "string"
+      ],
+      "status": "string",
+      "description": "string"
     }
 """

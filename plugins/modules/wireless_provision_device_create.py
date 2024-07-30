@@ -28,22 +28,22 @@ options:
         elements: dict
         suboptions:
           interfaceGateway:
-            description: Interface Gateway.
+            description: Interface Gateway. Required for AireOS.
             type: str
           interfaceIPAddress:
-            description: Interface IP Address.
+            description: Interface IP Address. Required for AireOS.
             type: str
           interfaceName:
-            description: Interface Name.
+            description: Interface Name. Required for both AireOS and EWLC.
             type: str
           interfaceNetmaskInCIDR:
-            description: Interface Netmask In CIDR.
+            description: Interface Netmask In CIDR. Required for AireOS.
             type: int
           lagOrPortNumber:
-            description: Lag Or Port Number.
+            description: Lag Or Port Number. Required for AireOS.
             type: int
           vlanId:
-            description: VLAN ID.
+            description: VLAN ID. Required for both AireOS and EWLC.
             type: int
         type: list
       managedAPLocations:
@@ -55,7 +55,7 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.5.5
+- dnacentersdk >= 2.7.1
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Wireless Provision
@@ -94,7 +94,6 @@ EXAMPLES = r"""
       site: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
@@ -103,14 +102,7 @@ dnac_response:
   sample: >
     {
       "executionId": "string",
-      "executionUrl": "string",
-      "provisioningTasks": {
-        "success": [
-          "string"
-        ],
-        "failed": [
-          "string"
-        ]
-      }
+      "executionStatusUrl": "string",
+      "message": "string"
     }
 """

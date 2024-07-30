@@ -19,6 +19,9 @@ extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
+  dataCategory:
+    description: Category of viewgroup for the report.
+    type: str
   deliveries:
     description: Array of available delivery channels.
     elements: dict
@@ -103,7 +106,7 @@ options:
     description: Version of viewgroup for the report.
     type: str
 requirements:
-- dnacentersdk >= 2.5.5
+- dnacentersdk >= 2.7.1
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Reports CreateOrScheduleAReport
@@ -134,6 +137,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: present
+    dataCategory: string
     deliveries:
     - {}
     name: string
@@ -173,7 +177,6 @@ EXAMPLES = r"""
     reportId: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

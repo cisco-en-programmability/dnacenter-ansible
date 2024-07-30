@@ -28,8 +28,8 @@ argument_spec.update(dict(
     summary=dict(type="bool"),
     domain=dict(type="str"),
     subdomain=dict(type="str"),
-    limit=dict(type="int"),
-    offset=dict(type="int"),
+    limit=dict(type="float"),
+    offset=dict(type="float"),
     headers=dict(type="dict"),
 ))
 

@@ -83,7 +83,7 @@ class ActionModule(ActionBase):
 
         response = dnac.exec(
             family="devices",
-            function='return_power_supply_fan_details_for_the_given_device',
+            function='get_the_details_of_physical_components_of_the_given_device',
             params=self.get_object(self._task.args),
         )
         self._result.update(dict(dnac_response=response))

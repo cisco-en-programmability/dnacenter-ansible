@@ -13,7 +13,7 @@ description:
 - Creates a new global User Defined Field, which can be assigned to devices.
 - Deletes an existing Global User-Defined-Field using it's id.
 - Updates an existing global User Defined Field, using it's id.
-version_added: '6.7.0'
+version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
@@ -28,7 +28,7 @@ options:
     description: Name of UDF.
     type: str
 requirements:
-- dnacentersdk >= 2.5.5
+- dnacentersdk >= 2.7.1
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Devices CreateUserDefinedField
@@ -94,7 +94,6 @@ EXAMPLES = r"""
     id: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

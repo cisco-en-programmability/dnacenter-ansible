@@ -12,7 +12,7 @@ description:
 - Manage operations create and update of the resource Service Provider V2.
 - API to create Service Provider Profile QOS .
 - API to update Service Provider Profile QoS .
-version_added: '6.7.0'
+version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
@@ -36,7 +36,7 @@ options:
         type: list
     type: dict
 requirements:
-- dnacentersdk >= 2.5.5
+- dnacentersdk >= 2.7.1
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Network Settings CreateSPProfileV2
@@ -91,7 +91,6 @@ EXAMPLES = r"""
         wanProvider: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

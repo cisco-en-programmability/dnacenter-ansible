@@ -26,8 +26,8 @@ argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
     siteId=dict(type="str"),
-    offset=dict(type="int"),
-    limit=dict(type="int"),
+    offset=dict(type="float"),
+    limit=dict(type="float"),
     deviceFamily=dict(type="str"),
     serialNumber=dict(type="str"),
     headers=dict(type="dict"),

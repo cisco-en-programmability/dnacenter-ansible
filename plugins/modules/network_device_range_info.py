@@ -30,7 +30,7 @@ options:
     - RecordsToReturn path parameter. Number of records to return 1<= recordsToReturn <= 500.
     type: int
 requirements:
-- dnacentersdk >= 2.5.5
+- dnacentersdk >= 2.7.1
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Devices GetNetworkDeviceByPaginationRange
@@ -61,7 +61,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
@@ -109,7 +108,19 @@ dnac_response:
           "tunnelUdpPort": "string",
           "type": "string",
           "upTime": "string",
-          "waasDeviceMode": "string"
+          "waasDeviceMode": "string",
+          "dnsResolvedManagementAddress": "string",
+          "apEthernetMacAddress": "string",
+          "vendor": "string",
+          "reasonsForPendingSyncRequests": "string",
+          "pendingSyncRequestsCount": "string",
+          "reasonsForDeviceResync": "string",
+          "lastDeviceResyncStartTime": "string",
+          "uptimeSeconds": 0,
+          "managedAtleastOnce": true,
+          "deviceSupportLevel": "string",
+          "managementState": "string",
+          "description": "string"
         }
       ],
       "version": "string"

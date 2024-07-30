@@ -59,7 +59,7 @@ options:
             pass a list with single element like - 10.197.156.22. For CIDR based discovery, we should pass a list with
             single element like - 10.197.156.22/22. For RANGE based discovery, we should pass a list with single element
             and range like - 10.197.156.1-10.197.156.100. For MULTI RANGE based discovery, we should pass a list with multiple
-            elementd like - 10.197.156.1-10.197.156.100 and in next line - 10.197.157.1-10.197.157.100. Maximum of 8 IP address ranges
+            elements like - 10.197.156.1-10.197.156.100 and in next line - 10.197.157.1-10.197.157.100. Maximum of 8 IP address ranges
             are allowed.
         type: list
         elements: str
@@ -145,7 +145,7 @@ options:
                     - SNMP v2 also delivers data encryptions, but it uses data types.
                 type: dict
                 suboptions:
-                    desc:
+                    description:
                         description: Name/Description of the SNMP read credential to be used for creation of snmp_v2_read_credential.
                         type: str
                     community:
@@ -157,7 +157,7 @@ options:
                     - SNMP v2 also delivers data encryptions, but it uses data types.
                 type: dict
                 suboptions:
-                    desc:
+                    description:
                         description: Name/Description of the SNMP write credential to be used for creation of snmp_v2_write_credential.
                         type: str
                     community:
@@ -329,7 +329,7 @@ options:
         default: False
 requirements:
 - dnacentersdk == 2.6.10
-- python >= 3.5
+- python >= 3.9
 notes:
   - SDK Method used are
     discovery.Discovery.get_all_global_credentials_v2,
@@ -393,10 +393,10 @@ EXAMPLES = r"""
                 port: 443
                 secure: True
             snmp_v2_read_credential:
-                desc: snmp_v2-new
+                description: snmp_v2-new
                 community: Cisco123
             snmp_v2_write_credential:
-                desc: snmp_v2-new
+                description: snmp_v2-new
                 community: Cisco123
             snmp_v3_credential:
                 username: v3Public2
@@ -467,10 +467,10 @@ EXAMPLES = r"""
                 port: 443
                 secure: True
             snmp_v2_read_credential:
-                desc: snmp_v2-new
+                description: snmp_v2-new
                 community: Cisco123
             snmp_v2_write_credential:
-                desc: snmp_v2-new
+                description: snmp_v2-new
                 community: Cisco123
             snmp_v3_credential:
                 username: v3Public2
@@ -1044,6 +1044,10 @@ class Discovery(DnacBase):
         elif discovery_type == "CIDR":
             if len(ip_address_list) == 1:
                 cidr_notation = ip_address_list[0]
+                if int(cidr_notation.split("/")[1]) not in range(20, 31):
+                    msg = "Prefix length should be between 20 and 30"
+                    self.log(msg, "CRITICAL")
+                    self.module.fail_json(msg=msg)
                 if len(cidr_notation.split("/")) == 2:
                     ip_address_list = cidr_notation
                 else:
@@ -1168,24 +1172,24 @@ class Discovery(DnacBase):
             new_object_params['httpWriteCredential'] = http_write_credential
 
         if snmp_v2_read_credential:
-            if not (snmp_v2_read_credential.get('desc')) and isinstance(snmp_v2_read_credential.get('desc'), str):
+            if not (snmp_v2_read_credential.get('description')) and isinstance(snmp_v2_read_credential.get('description'), str):
                 msg = "Name/description for the SNMP v2 read credential must be of string type"
                 self.discovery_specific_cred_failure(msg=msg)
             if not (snmp_v2_read_credential.get('community')) and isinstance(snmp_v2_read_credential.get('community'), str):
                 msg = "The community string must be of string type"
                 self.discovery_specific_cred_failure(msg=msg)
-            new_object_params['snmpROCommunityDesc'] = snmp_v2_read_credential.get('desc')
+            new_object_params['snmpROCommunityDesc'] = snmp_v2_read_credential.get('description')
             new_object_params['snmpROCommunity'] = snmp_v2_read_credential.get('community')
             new_object_params['snmpVersion'] = "v2"
 
         if snmp_v2_write_credential:
-            if not (snmp_v2_write_credential.get('desc')) and isinstance(snmp_v2_write_credential.get('desc'), str):
+            if not (snmp_v2_write_credential.get('description')) and isinstance(snmp_v2_write_credential.get('description'), str):
                 msg = "Name/description for the SNMP v2 write credential must be of string type"
                 self.discovery_specific_cred_failure(msg=msg)
             if not (snmp_v2_write_credential.get('community')) and isinstance(snmp_v2_write_credential.get('community'), str):
                 msg = "The community string must be of string type"
                 self.discovery_specific_cred_failure(msg=msg)
-            new_object_params['snmpRWCommunityDesc'] = snmp_v2_write_credential.get('desc')
+            new_object_params['snmpRWCommunityDesc'] = snmp_v2_write_credential.get('description')
             new_object_params['snmpRWCommunity'] = snmp_v2_write_credential.get('community')
             new_object_params['snmpVersion'] = "v2"
 
