@@ -48,8 +48,8 @@ class TestDnacUserRoleWorkflowManager(TestDnacModule):
     playbook_config_invalid_param_with_all_permision_deny = test_data.get("playbook_config_invalid_param_with_all_permision_deny")
     playbook_config_invalid_param_rolename_not_correct_formate = test_data.get("playbook_config_invalid_param_rolename_not_correct_formate")
     playbook_config_invalid_param_type_list_missing = test_data.get("playbook_config_invalid_param_type_list_missing")
-    playbook_config_invalid_param_role_invalid_permission= test_data.get("playbook_config_invalid_param_role_invalid_permission")
-    playbook_config_for_creating_default_role = test_data.get("playbook_config_for_creating_default_role")    
+    playbook_config_invalid_param_role_invalid_permission = test_data.get("playbook_config_invalid_param_role_invalid_permission")
+    playbook_config_for_creating_default_role = test_data.get("playbook_config_for_creating_default_role")
     playbook_config_invalid_invalid_param_state = test_data.get("playbook_config_invalid_invalid_param_state")
 
     def setUp(self):
@@ -68,7 +68,6 @@ class TestDnacUserRoleWorkflowManager(TestDnacModule):
         super(TestDnacUserRoleWorkflowManager, self).tearDown()
         self.mock_dnac_exec.stop()
         self.mock_dnac_init.stop()
-
 
     def load_fixtures(self, response=None, device=""):
         """
@@ -391,7 +390,13 @@ class TestDnacUserRoleWorkflowManager(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("msg"),
-            "Invalid parameters in playbook config: first_name: 'first_name' must only contain letters, numbers,                                    underscores, and hyphens and should not contain spaces or other special characters., last_name: 'last_name' must only contain letters, numbers,                                    underscores, and hyphens and should not contain spaces or other special characters., email: Invalid email format for 'email': ajith.andrewexample.com, password: 'Password' does not meet complexity requirements                                       for password: ajith.andrewexample.com, username: 'Username' must only contain letters, numbers,                                    underscores, and hyphens and should not contain spaces or other special characters."
+            "Invalid parameters in playbook config: first_name: 'first_name' must only contain letters, \
+numbers,                                    underscores, and hyphens and should not contain spaces or other \
+special characters., last_name: 'last_name' must only contain letters, numbers,                                    underscores, \
+and hyphens and should not contain spaces or other special characters., email: Invalid email format for 'email': ajith.andrewexample.com, \
+password: 'Password' does not meet complexity requirements                                       for password: \
+ajith.andrewexample.com, username: 'Username' must only contain letters, numbers,                                    underscores, \
+and hyphens and should not contain spaces or other special characters."
         )
 
     def test_user_role_workflow_manager_user_invalid_param_not_type_list(self):
@@ -415,7 +420,7 @@ class TestDnacUserRoleWorkflowManager(TestDnacModule):
         self.assertEqual(
             result.get('msg'),
             "Invalid parameter(s) found in playbook: Super-Admin-Role : is not a valid list"
-            )
+        )
 
     def test_user_role_workflow_manager_user_invalid_param_rolelist_not_found(self):
         """
@@ -438,7 +443,7 @@ class TestDnacUserRoleWorkflowManager(TestDnacModule):
         self.assertEqual(
             result.get('msg'),
             "The role name in the user details role_list is not present in the Cisco Catalyst Center, Please provide a valid role name"
-            )
+        )
 
     def test_user_role_workflow_manager_user_invalid_param_update_rolelist_not_found(self):
         """
@@ -461,7 +466,7 @@ class TestDnacUserRoleWorkflowManager(TestDnacModule):
         self.assertEqual(
             result.get('msg'),
             "The role name in the user details role_list is not present in the Cisco Catalyst Center, Please provide a valid role name"
-            )
+        )
 
     def test_user_role_workflow_manager_create_role(self):
         """
@@ -556,8 +561,6 @@ class TestDnacUserRoleWorkflowManager(TestDnacModule):
         )
 
     def test_user_role_workflow_manager_delete_existing_role(self):
-
-
         """
         Test case for user role workflow manager when deleting a role.
 
@@ -600,7 +603,7 @@ class TestDnacUserRoleWorkflowManager(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get('msg'),
-            "Please provide a valid role_name for role deletion" 
+            "Please provide a valid role_name for role deletion"
         )
 
     def test_user_role_workflow_manager_role_invalid_param_rolename_not_present(self):
@@ -624,7 +627,7 @@ class TestDnacUserRoleWorkflowManager(TestDnacModule):
         self.assertEqual(
             result.get('msg'),
             "Configuration params like 'username' or 'email' or 'role_name' is not available in the playbook"
-            )
+        )
 
     def test_user_role_workflow_manager_role_invalid_param_not_type_list(self):
         """
@@ -647,7 +650,7 @@ class TestDnacUserRoleWorkflowManager(TestDnacModule):
         self.assertEqual(
             result.get('msg'),
             "Invalid parameter(s) found in playbook: {'overall': 'read'} : is not a valid list"
-            )
+        )
 
     def test_user_role_workflow_manager_role_param_with_all_permision_deny(self):
         """
@@ -670,7 +673,7 @@ class TestDnacUserRoleWorkflowManager(TestDnacModule):
         self.assertEqual(
             result.get('msg'),
             "An error occurred while creating the role without access-level parameters and permissions"
-            )
+        )
 
     def test_user_role_workflow_manager_role_invalid_param_rolename_not_correct_formate(self):
         """
@@ -692,7 +695,8 @@ class TestDnacUserRoleWorkflowManager(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("msg"),
-            "Invalid parameters in playbook config: Role name: 'role_name' must only contain letters, numbers, underscores,                                   and hyphens and should not contain spaces or other special characters."
+            "Invalid parameters in playbook config: Role name: 'role_name' must only contain letters, numbers, underscores,\
+                                   and hyphens and should not contain spaces or other special characters."
         )
 
     def test_user_role_workflow_manager_invalid_param_type_list_missing(self):
