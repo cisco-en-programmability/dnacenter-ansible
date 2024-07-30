@@ -22,11 +22,11 @@ options:
     description: Id path parameter. Id of reserve ip subpool to be deleted.
     type: str
   ipv4DhcpServers:
-    description: IPv4 input for dhcp server ip example 1.1.1.1.
+    description: IPv4 input for dhcp server ip example "1.1.1.1".
     elements: str
     type: list
   ipv4DnsServers:
-    description: IPv4 input for dns server ip example 4.4.4.4.
+    description: IPv4 input for dns server ip example "4.4.4.4".
     elements: str
     type: list
   ipv4GateWay:
@@ -44,21 +44,22 @@ options:
     description: The ipv4 prefix length is required when ipv4prefix value is true.
     type: int
   ipv4Subnet:
-    description: IPv4 Subnet address, example 175.175.0.0.
+    description: IPv4 Subnet address, example 175.175.0.0. Either ipv4Subnet or ipv4TotalHost
+      needs to be passed if creating IPv4 subpool.
     type: str
   ipv4TotalHost:
     description: IPv4 total host is required when ipv4prefix value is false.
     type: int
   ipv6AddressSpace:
-    description: If the value is false only ipv4 input are required, otherwise both
-      ipv6 and ipv4 are required.
+    description: If the value is omitted or false only ipv4 input are required, otherwise
+      both ipv6 and ipv4 are required.
     type: bool
   ipv6DhcpServers:
-    description: IPv6 format dhcp server as input example 2001 db8 1234.
+    description: IPv6 format dhcp server as input example "2001 db8 1234".
     elements: str
     type: list
   ipv6DnsServers:
-    description: IPv6 format dns server input example 2001 db8 1234.
+    description: IPv6 format dns server input example "2001 db8 1234".
     elements: str
     type: list
   ipv6GateWay:
@@ -76,7 +77,8 @@ options:
     description: IPv6 prefix length is required when the ipv6prefix value is true.
     type: int
   ipv6Subnet:
-    description: IPv6 Subnet address, example 2001 db8 85a3 0 100.
+    description: IPv6 Subnet address, example 2001 db8 85a3 0 100. Either ipv6Subnet
+      or ipv6TotalHost needs to be passed if creating IPv6 subpool.
     type: str
   ipv6TotalHost:
     description: IPv6 total host is required when ipv6prefix value is false.
@@ -94,7 +96,7 @@ options:
     description: Type of the reserve ip sub pool.
     type: str
 requirements:
-- dnacentersdk >= 2.5.5
+- dnacentersdk >= 2.7.1
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Network Settings ReserveIPSubpool
@@ -200,7 +202,6 @@ EXAMPLES = r"""
     slaacSupport: true
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

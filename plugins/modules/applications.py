@@ -32,29 +32,6 @@ options:
             description: Id Ref.
             type: str
         type: dict
-      indicativeNetworkIdentity:
-        description: Applications's indicativeNetworkIdentity.
-        elements: dict
-        suboptions:
-          displayName:
-            description: DisplayName.
-            type: str
-          id:
-            description: Id.
-            type: str
-          lowerPort:
-            description: LowerPort.
-            type: int
-          ports:
-            description: Ports.
-            type: str
-          protocol:
-            description: Protocol.
-            type: str
-          upperPort:
-            description: UpperPort.
-            type: int
-        type: list
       name:
         description: Name.
         type: str
@@ -133,22 +110,22 @@ options:
         type: list
     type: list
 requirements:
-- dnacentersdk >= 2.5.5
+- dnacentersdk >= 2.7.1
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Application Policy CreateApplication
   description: Complete reference of the CreateApplication API.
   link: https://developer.cisco.com/docs/dna-center/#!create-application
-- name: Cisco DNA Center documentation for Application Policy DeleteApplication
-  description: Complete reference of the DeleteApplication API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-application
+- name: Cisco DNA Center documentation for Application Policy DeleteApplication2
+  description: Complete reference of the DeleteApplication2 API.
+  link: https://developer.cisco.com/docs/dna-center/#!delete-application-2
 - name: Cisco DNA Center documentation for Application Policy EditApplication
   description: Complete reference of the EditApplication API.
   link: https://developer.cisco.com/docs/dna-center/#!edit-application
 notes:
   - SDK Method used are
     application_policy.ApplicationPolicy.create_application,
-    application_policy.ApplicationPolicy.delete_application,
+    application_policy.ApplicationPolicy.delete_application2,
     application_policy.ApplicationPolicy.edit_application,
 
   - Paths used are
@@ -172,13 +149,6 @@ EXAMPLES = r"""
     payload:
     - applicationSet:
         idRef: string
-      indicativeNetworkIdentity:
-      - displayName: string
-        id: string
-        lowerPort: 0
-        ports: string
-        protocol: string
-        upperPort: 0
       name: string
       networkApplications:
       - appProtocol: string
@@ -258,7 +228,6 @@ EXAMPLES = r"""
     id: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
@@ -266,7 +235,10 @@ dnac_response:
   type: dict
   sample: >
     {
-      "taskId": "string",
-      "url": "string"
+      "response": {
+        "taskId": "string",
+        "url": "string"
+      },
+      "version": "string"
     }
 """

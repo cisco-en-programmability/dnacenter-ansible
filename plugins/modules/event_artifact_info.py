@@ -30,11 +30,11 @@ options:
   offset:
     description:
     - Offset query parameter. Record start offset.
-    type: int
+    type: float
   limit:
     description:
     - Limit query parameter. # of records to return in result set.
-    type: int
+    type: float
   sortBy:
     description:
     - SortBy query parameter. Sort by field.
@@ -48,7 +48,7 @@ options:
     - Search query parameter. Findd matches in name, description, eventId, type, category.
     type: str
 requirements:
-- dnacentersdk >= 2.5.5
+- dnacentersdk >= 2.7.1
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Event Management GetEventArtifacts
@@ -84,7 +84,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
@@ -128,6 +127,10 @@ dnac_response:
         "supportedConnectorTypes": [
           "string"
         ],
+        "configs": {
+          "isAlert": true,
+          "isACKnowledgeable": true
+        },
         "tenantId": "string"
       }
     ]

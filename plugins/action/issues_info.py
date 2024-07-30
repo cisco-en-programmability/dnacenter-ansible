@@ -25,14 +25,14 @@ from ansible_collections.cisco.dnac.plugins.plugin_utils.dnac import (
 argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
-    startTime=dict(type="int"),
-    endTime=dict(type="int"),
+    startTime=dict(type="float"),
+    endTime=dict(type="float"),
     siteId=dict(type="str"),
     deviceId=dict(type="str"),
     macAddress=dict(type="str"),
     priority=dict(type="str"),
-    aiDriven=dict(type="str"),
     issueStatus=dict(type="str"),
+    aiDriven=dict(type="str"),
     headers=dict(type="dict"),
 ))
 
@@ -77,8 +77,8 @@ class ActionModule(ActionBase):
             device_id=params.get("deviceId"),
             mac_address=params.get("macAddress"),
             priority=params.get("priority"),
-            ai_driven=params.get("aiDriven"),
             issue_status=params.get("issueStatus"),
+            ai_driven=params.get("aiDriven"),
             headers=params.get("headers"),
         )
         return new_object

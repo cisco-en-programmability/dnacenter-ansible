@@ -56,9 +56,9 @@ argument_spec.update(dict(
     snmpUserName=dict(type="str"),
     snmpVersion=dict(type="str"),
     type=dict(type="str"),
-    updateMgmtIPaddressList=dict(type="list"),
     userName=dict(type="str"),
     id=dict(type="str"),
+    updateMgmtIPaddressList=dict(type="list"),
     cleanConfig=dict(type="bool"),
 ))
 
@@ -100,9 +100,9 @@ class NetworkDevice(object):
             snmpUserName=params.get("snmpUserName"),
             snmpVersion=params.get("snmpVersion"),
             type=params.get("type"),
-            updateMgmtIPaddressList=params.get("updateMgmtIPaddressList"),
             userName=params.get("userName"),
             id=params.get("id"),
+            updateMgmtIPaddressList=params.get("updateMgmtIPaddressList"),
             clean_config=params.get("cleanConfig"),
             managementIpAddress=params.get("managementIpAddress"),
         )
@@ -188,7 +188,6 @@ class NetworkDevice(object):
         new_object_params['snmpUserName'] = self.new_object.get('snmpUserName')
         new_object_params['snmpVersion'] = self.new_object.get('snmpVersion')
         new_object_params['type'] = self.new_object.get('type')
-        new_object_params['updateMgmtIPaddressList'] = self.new_object.get('updateMgmtIPaddressList')
         new_object_params['userName'] = self.new_object.get('userName')
         return new_object_params
 
@@ -316,9 +315,9 @@ class NetworkDevice(object):
             ("snmpUserName", "snmpUserName"),
             ("snmpVersion", "snmpVersion"),
             ("type", "type"),
-            ("updateMgmtIPaddressList", "updateMgmtIPaddressList"),
             ("userName", "userName"),
             ("id", "id"),
+            ("updateMgmtIPaddressList", "updateMgmtIPaddressList"),
             ("cleanConfig", "clean_config"),
         ]
         # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params

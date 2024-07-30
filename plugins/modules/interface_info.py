@@ -24,7 +24,7 @@ options:
     - InterfaceUuid path parameter. Interface ID.
     type: str
 requirements:
-- dnacentersdk >= 2.5.5
+- dnacentersdk >= 2.7.1
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Devices LegitOperationsForInterface
@@ -54,7 +54,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
@@ -63,62 +62,22 @@ dnac_response:
   sample: >
     {
       "response": {
-        "type": "string",
-        "properties": {
-          "interfaceUuid": {
-            "type": "string"
-          },
-          "properties": {
-            "type": "string",
-            "items": [
-              {
-                "type": "string",
-                "properties": {
-                  "name": {
-                    "type": "string"
-                  },
-                  "applicable": {
-                    "type": "string"
-                  },
-                  "failureReason": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "string"
-                ]
-              }
-            ]
-          },
-          "operations": {
-            "type": "string",
-            "items": [
-              {
-                "type": "string",
-                "properties": {
-                  "name": {
-                    "type": "string"
-                  },
-                  "applicable": {
-                    "type": "string"
-                  },
-                  "failureReason": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "string"
-                ]
-              }
-            ]
+        "interfaceUuid": "string",
+        "properties": [
+          {
+            "name": "string",
+            "applicable": "string",
+            "failureReason": "string"
           }
-        },
-        "required": [
-          "string"
+        ],
+        "operations": [
+          {
+            "name": "string",
+            "applicable": "string",
+            "failureReason": "string"
+          }
         ]
       },
-      "version": {
-        "type": "string"
-      }
+      "version": "string"
     }
 """

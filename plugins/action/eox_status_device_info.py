@@ -82,8 +82,8 @@ class ActionModule(ActionBase):
         id = self._task.args.get("deviceId")
         if id:
             response = dnac.exec(
-                family="eo_x",
-                function='get_eo_x_details_per_device',
+                family="eox",
+                function='get_eox_details_per_device',
                 params=self.get_object(self._task.args),
             )
             self._result.update(dict(dnac_response=response))
@@ -91,8 +91,8 @@ class ActionModule(ActionBase):
             return self._result
         if not id:
             response = dnac.exec(
-                family="eo_x",
-                function='get_eo_x_status_for_all_devices',
+                family="eox",
+                function='get_eox_status_for_all_devices',
                 params=self.get_object(self._task.args),
             )
             self._result.update(dict(dnac_response=response))

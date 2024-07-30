@@ -18,37 +18,38 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   comments:
-    description: Http Read Credential's comments.
+    description: Comments to identify the HTTP(S) Read credential.
     type: str
   credentialType:
-    description: Http Read Credential's credentialType.
+    description: Credential type to identify the application that uses the HTTP(S) Read
+      credential.
     type: str
   description:
-    description: Http Read Credential's description.
+    description: Description for HTTP(S) Read Credential.
     type: str
   id:
-    description: Http Read Credential's id.
+    description: Id of the HTTP(S) Read Credential in UUID format.
     type: str
   instanceTenantId:
-    description: Http Read Credential's instanceTenantId.
+    description: Deprecated.
     type: str
   instanceUuid:
-    description: Http Read Credential's instanceUuid.
+    description: Deprecated.
     type: str
   password:
-    description: Http Read Credential's password.
+    description: HTTP(S) Read Password.
     type: str
   port:
-    description: Http Read Credential's port.
+    description: HTTP(S) Port. Valid port should be in the range of 1 to 65535.
     type: int
   secure:
-    description: Secure flag.
+    description: Flag for HTTPS Read.
     type: bool
   username:
-    description: Http Read Credential's username.
+    description: HTTP(S) Read Username.
     type: str
 requirements:
-- dnacentersdk >= 2.5.5
+- dnacentersdk >= 2.7.1
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Discovery CreateHTTPReadCredentials
@@ -112,7 +113,6 @@ EXAMPLES = r"""
     username: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

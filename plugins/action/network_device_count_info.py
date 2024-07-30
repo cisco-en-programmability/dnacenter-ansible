@@ -26,6 +26,10 @@ argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
     deviceId=dict(type="str"),
+    hostname=dict(type="list"),
+    managementIpAddress=dict(type="list"),
+    macAddress=dict(type="list"),
+    locationName=dict(type="list"),
     headers=dict(type="dict"),
 ))
 
@@ -65,6 +69,10 @@ class ActionModule(ActionBase):
     def get_object(self, params):
         new_object = dict(
             device_id=params.get("deviceId"),
+            hostname=params.get("hostname"),
+            management_ip_address=params.get("managementIpAddress"),
+            mac_address=params.get("macAddress"),
+            location_name=params.get("locationName"),
             headers=params.get("headers"),
         )
         return new_object

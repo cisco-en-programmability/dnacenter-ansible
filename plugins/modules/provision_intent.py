@@ -74,7 +74,7 @@ options:
 
 requirements:
 - dnacentersdk == 2.4.5
-- python >= 3.5
+- python >= 3.9
 notes:
   - SDK Methods used are
     sites.Sites.get_site,

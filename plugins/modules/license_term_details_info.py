@@ -34,15 +34,15 @@ options:
     - Device_type query parameter. Type of device like router, switch, wireless or ise.
     type: str
 requirements:
-- dnacentersdk >= 2.5.5
+- dnacentersdk >= 2.7.1
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Licenses LicenseTermDetails2
-  description: Complete reference of the LicenseTermDetails2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!license-term-details-2
+- name: Cisco DNA Center documentation for Licenses LicenseTermDetails
+  description: Complete reference of the LicenseTermDetails API.
+  link: https://developer.cisco.com/docs/dna-center/#!license-term-details
 notes:
   - SDK Method used are
-    licenses.Licenses.license_term_details2,
+    licenses.Licenses.license_term_details,
 
   - Paths used are
     get /dna/intent/api/v1/licenses/term/smartAccount/{smart_account_id}/virtualAccount/{virtual_account_name},
@@ -66,7 +66,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
