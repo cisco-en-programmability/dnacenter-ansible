@@ -2003,7 +2003,9 @@ class NetworkSettings(DnacBase):
                 shared_secret = network_aaa.get("shared_secret")
                 if shared_secret is not None:
                     if len(shared_secret) < 4:
-                        self.msg = "The shared_secret length should be greater than or equal to 4."
+                        self.msg = (
+                            "The 'shared_secret' length in 'network_aaa' should be greater than or equal to 4."
+                        )
                         self.status = "failed"
                         return self
 
@@ -2075,7 +2077,9 @@ class NetworkSettings(DnacBase):
                 shared_secret = client_and_endpoint_aaa.get("shared_secret")
                 if shared_secret is not None:
                     if len(shared_secret) < 4:
-                        self.msg = "The 'shared_secret' length should be greater than or equal to 4."
+                        self.msg = (
+                            "The 'shared_secret' length in 'client_and_endpoint_aaa' should be greater than or equal to 4."
+                        )
                         self.status = "failed"
                         return self
 
