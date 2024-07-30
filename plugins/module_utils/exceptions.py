@@ -11,3 +11,4 @@ class AnsibleDNACException(Exception):
 class InconsistentParameters(AnsibleDNACException):
     """Provided parameters are not consistent."""
     pass
+
