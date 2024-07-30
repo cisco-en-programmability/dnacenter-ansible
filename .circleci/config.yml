@@ -183,37 +183,37 @@ jobs:
                 command: |
                   echo "ccc_swim_management" >> roles-file/ccc_roles.yml
 
-      - when:
-          condition:
-            or: [ << pipeline.parameters.run-networksettings >>, << pipeline.parameters.run-all >> ]
-          steps:
-            - run: 
-                command: |
-                  echo "ccc_network_settings_management" >> roles-file/ccc_roles.yml
+      # - when:
+      #     condition:
+      #       or: [ << pipeline.parameters.run-networksettings >>, << pipeline.parameters.run-all >> ]
+      #     steps:
+      #       - run: 
+      #           command: |
+      #             echo "ccc_network_settings_management" >> roles-file/ccc_roles.yml
 
-      - when:
-          condition:
-            or: [ << pipeline.parameters.run-serverintegrations >>, << pipeline.parameters.run-all >> ]
-          steps:
-            - run: 
-                command: |
-                  echo "ccc_aaa_server_management" >> roles-file/ccc_roles.yml
+      # - when:
+      #     condition:
+      #       or: [ << pipeline.parameters.run-serverintegrations >>, << pipeline.parameters.run-all >> ]
+      #     steps:
+      #       - run: 
+      #           command: |
+      #             echo "ccc_aaa_server_management" >> roles-file/ccc_roles.yml
 
-      - when:
-          condition:
-            or: [ << pipeline.parameters.run-template >>, << pipeline.parameters.run-all >> ]
-          steps:
-            - run: 
-                command: |
-                  echo "ccc_template_management" >> roles-file/ccc_roles.yml
+      # - when:
+      #     condition:
+      #       or: [ << pipeline.parameters.run-template >>, << pipeline.parameters.run-all >> ]
+      #     steps:
+      #       - run: 
+      #           command: |
+      #             echo "ccc_template_management" >> roles-file/ccc_roles.yml
 
-      - when:
-          condition:
-            or: [ << pipeline.parameters.run-eventsandnotif >>, << pipeline.parameters.run-all >> ]
-          steps:
-            - run: 
-                command: |
-                  echo "ccc_events_and_notification_management" >> roles-file/ccc_roles.yml
+      # - when:
+      #     condition:
+      #       or: [ << pipeline.parameters.run-eventsandnotif >>, << pipeline.parameters.run-all >> ]
+      #     steps:
+      #       - run: 
+      #           command: |
+      #             echo "ccc_events_and_notification_management" >> roles-file/ccc_roles.yml
 
       # - when:
       #     condition:
@@ -231,13 +231,13 @@ jobs:
       #           command: |
       #             echo "ccc_provision" >> roles-file/ccc_roles.yml
 
-      - when:
-          condition:
-            or: [ << pipeline.parameters.run-networkcompliance >>, << pipeline.parameters.run-all >> ]
-          steps:
-            - run: 
-                command: |
-                  echo "ccc_network_compliance_management" >> roles-file/ccc_roles.yml
+      # - when:
+      #     condition:
+      #       or: [ << pipeline.parameters.run-networkcompliance >>, << pipeline.parameters.run-all >> ]
+      #     steps:
+      #       - run: 
+      #           command: |
+      #             echo "ccc_network_compliance_management" >> roles-file/ccc_roles.yml
 
       - when:
           condition:
