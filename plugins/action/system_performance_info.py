@@ -27,8 +27,8 @@ argument_spec = dnac_argument_spec()
 argument_spec.update(dict(
     kpi=dict(type="str"),
     function=dict(type="str"),
-    startTime=dict(type="int"),
-    endTime=dict(type="int"),
+    startTime=dict(type="float"),
+    endTime=dict(type="float"),
     headers=dict(type="dict"),
 ))
 

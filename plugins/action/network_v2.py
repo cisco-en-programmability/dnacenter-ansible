@@ -60,11 +60,13 @@ class NetworkV2(object):
     def create_params(self):
         new_object_params = {}
         new_object_params['settings'] = self.new_object.get('settings')
+        new_object_params['siteId'] = self.new_object.get('siteId')
         return new_object_params
 
     def update_by_id_params(self):
         new_object_params = {}
         new_object_params['settings'] = self.new_object.get('settings')
+        new_object_params['siteId'] = self.new_object.get('siteId')
         return new_object_params
 
     def get_object_by_name(self, name):

@@ -88,23 +88,23 @@ options:
   offset:
     description:
     - Offset query parameter. Position of a particular Audit Log record in the data.
-    type: int
+    type: float
   limit:
     description:
     - Limit query parameter. Number of Audit Log records to be returned per page.
-    type: int
+    type: float
   startTime:
     description:
     - >
       StartTime query parameter. Start Time in milliseconds since Epoch Eg. 1597950637211 (when provided endTime
       is mandatory).
-    type: int
+    type: float
   endTime:
     description:
     - >
       EndTime query parameter. End Time in milliseconds since Epoch Eg. 1597961437211 (when provided startTime is
       mandatory).
-    type: int
+    type: float
   sortBy:
     description:
     - >
@@ -118,7 +118,7 @@ options:
       values asc, desc.
     type: str
 requirements:
-- dnacentersdk >= 2.5.5
+- dnacentersdk >= 2.7.1
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Event Management GetAuditLogParentRecords
@@ -168,7 +168,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

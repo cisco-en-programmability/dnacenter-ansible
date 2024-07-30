@@ -1,0 +1,63 @@
+--- 
+device_details:
+  - type: "NETWORK_DEVICE"
+    ip_address_list: ["204.1.2.5"]
+    # CLI Credentials
+    username: "cisco"
+    password: "Cisco#123"
+    enable_password: "Cisco#123"
+    # SNMP Credentials
+    snmp_version: v3
+    snmp_username: "v3Public2"
+    snmp_mode: "AUTHPRIV"
+    snmp_auth_protocol: "SHA"
+    snmp_auth_passphrase: "Lablab#1234"
+    snmp_priv_protocol: "CISCOAES256"
+    snmp_priv_passphrase: "Lablab#1234"
+    #SNMP Retry and Timeout
+    snmp_retry: 3
+    snmp_timeout: 5
+    #CLI Transport (ssh, Telnet)
+    cli_transport: "ssh"
+    netconf_port: 830 
+
+run_complaince_iplist:
+  - ip_address_list: ['204.1.2.5']
+
+run_complaince_site:
+  - site_name: "Global"
+
+run_compliance_iplist_site:
+  - ip_address_list: ['204.1.2.5', '192.168.0.0']
+    site_name: "Global"
+
+run_compliance_category_iplist:
+  - ip_address_list: ['204.1.2.5', '192.168.0.0']
+    run_compliance_categories: ["INTENT", "RUNNING_CONFIG", "IMAGE", "PSIRT"]
+
+run_compliance_category_site:
+  - site_name: "Global"
+    run_compliance_categories: ["INTENT", "RUNNING_CONFIG", "IMAGE", "PSIRT"]
+
+run_compliance_false:
+  - ip_address_list: ['204.1.2.5', '192.168.0.0']
+    run_compliance: False
+
+sync_config_iplist:
+  - ip_address_list: ['204.1.2.5', '192.168.0.0']
+    sync_device_config: "True"
+
+sync_config_site:
+  - site_name: "Global"
+    sync_device_config: "True"
+
+sync_config_iplist_site:
+  - ip_address_list: ['204.1.2.5', '192.168.0.0']
+    site_name: "Global"
+    sync_device_config: "True"
+    run_compliance: True
+
+run_compliance_scale:
+  - site_name: 'Global'
+    run_compliance_batch_size: 1
+    run_compliance: True

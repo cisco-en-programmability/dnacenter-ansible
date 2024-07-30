@@ -28,10 +28,10 @@ argument_spec.update(dict(
     deviceRole=dict(type="str"),
     siteId=dict(type="str"),
     health=dict(type="str"),
-    startTime=dict(type="int"),
-    endTime=dict(type="int"),
-    limit=dict(type="int"),
-    offset=dict(type="int"),
+    startTime=dict(type="float"),
+    endTime=dict(type="float"),
+    limit=dict(type="float"),
+    offset=dict(type="float"),
     headers=dict(type="dict"),
 ))
 

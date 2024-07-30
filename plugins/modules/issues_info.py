@@ -24,11 +24,11 @@ options:
   startTime:
     description:
     - StartTime query parameter. Starting epoch time in milliseconds of query time window.
-    type: int
+    type: float
   endTime:
     description:
     - EndTime query parameter. Ending epoch time in milliseconds of query time window.
-    type: int
+    type: float
   siteId:
     description:
     - SiteId query parameter. Assurance UUID value of the site in the issue content.
@@ -44,21 +44,21 @@ options:
   priority:
     description:
     - >
-      Priority query parameter. The issue's priority value (One of P1, P2, P3, or P4)(Use only when macAddress and
-      deviceId are not provided).
+      Priority query parameter. The issue's priority value P1, P2, P3, or P4 (case insensitive) (Use only when
+      macAddress and deviceId are not provided).
+    type: str
+  issueStatus:
+    description:
+    - IssueStatus query parameter. The issue's status value ACTIVE, IGNORED, RESOLVED (case insensitive).
     type: str
   aiDriven:
     description:
     - >
-      AiDriven query parameter. The issue's AI driven value (Yes or No)(Use only when macAddress and deviceId are
-      not provided).
-    type: str
-  issueStatus:
-    description:
-    - IssueStatus query parameter. The issue's status value (One of ACTIVE, IGNORED, RESOLVED).
+      AiDriven query parameter. The issue's AI driven value YES or NO (case insensitive) (Use only when macAddress
+      and deviceId are not provided).
     type: str
 requirements:
-- dnacentersdk >= 2.5.5
+- dnacentersdk >= 2.7.1
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Issues Issues
@@ -90,12 +90,11 @@ EXAMPLES = r"""
     deviceId: string
     macAddress: string
     priority: string
-    aiDriven: string
     issueStatus: string
+    aiDriven: string
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
@@ -104,7 +103,7 @@ dnac_response:
   sample: >
     {
       "version": "string",
-      "totalCount": 0,
+      "totalCount": "string",
       "response": [
         {
           "issueId": "string",
@@ -112,7 +111,7 @@ dnac_response:
           "siteId": "string",
           "deviceId": "string",
           "deviceRole": "string",
-          "aiDriven": true,
+          "aiDriven": "string",
           "clientMac": "string",
           "issue_occurence_count": 0,
           "status": "string",

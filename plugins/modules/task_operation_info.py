@@ -34,7 +34,7 @@ options:
       value is 1.
     type: int
 requirements:
-- dnacentersdk >= 2.5.5
+- dnacentersdk >= 2.7.1
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Task GetTaskByOperationId
@@ -66,7 +66,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
@@ -78,20 +77,20 @@ dnac_response:
         {
           "additionalStatusURL": "string",
           "data": "string",
-          "endTime": "string",
+          "endTime": 0,
           "errorCode": "string",
           "errorKey": "string",
           "failureReason": "string",
           "id": "string",
           "instanceTenantId": "string",
           "isError": true,
-          "lastUpdate": "string",
+          "lastUpdate": 0,
           "operationIdList": {},
           "parentId": "string",
           "progress": "string",
           "rootId": "string",
           "serviceType": "string",
-          "startTime": "string",
+          "startTime": 0,
           "username": "string",
           "version": 0
         }

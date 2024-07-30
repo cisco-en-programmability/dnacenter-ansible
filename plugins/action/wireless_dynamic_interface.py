@@ -32,13 +32,10 @@ argument_spec = dnac_argument_spec()
 argument_spec.update(dict(
     state=dict(type="str", default="present", choices=["present", "absent"]),
     interfaceName=dict(type="str"),
-    vlanId=dict(type="int"),
-    headers=dict(type="dict"),
+    vlanId=dict(type="float"),
 ))
 
 required_if = [
-    ("state", "present", ["interfaceName"], True),
-    ("state", "absent", ["interfaceName"], True),
 ]
 required_one_of = []
 mutually_exclusive = []
@@ -51,7 +48,6 @@ class WirelessDynamicInterface(object):
         self.new_object = dict(
             interfaceName=params.get("interfaceName"),
             vlanId=params.get("vlanId"),
-            headers=params.get("headers"),
             interface_name=params.get("interfaceName"),
         )
 
@@ -66,7 +62,7 @@ class WirelessDynamicInterface(object):
         new_object_params['vlanId'] = self.new_object.get('vlanId')
         return new_object_params
 
-    def delete_by_name_params(self):
+    def delete_all_params(self):
         new_object_params = {}
         new_object_params['interface_name'] = self.new_object.get('interface_name')
         new_object_params['headers'] = self.new_object.get('headers')
@@ -100,18 +96,12 @@ class WirelessDynamicInterface(object):
         name_exists = False
         o_id = self.new_object.get("id")
         name = self.new_object.get("name")
-        name = name or self.new_object.get("interface_name")
         if o_id:
             prev_obj = self.get_object_by_id(o_id)
             id_exists = prev_obj is not None and isinstance(prev_obj, dict)
         if not id_exists and name:
             prev_obj = self.get_object_by_name(name)
             name_exists = prev_obj is not None and isinstance(prev_obj, dict)
-        if id_exists:
-            _name = prev_obj.get("name")
-            _name = _name or prev_obj.get("interfaceName")
-            if _name:
-                self.new_object.update(dict(interface_name=_name))
         if name_exists:
             _id = prev_obj.get("id")
             if id_exists and name_exists and o_id != _id:
@@ -147,20 +137,11 @@ class WirelessDynamicInterface(object):
     def delete(self):
         id = self.new_object.get("id")
         name = self.new_object.get("name")
-        name = name or self.new_object.get("interface_name")
         result = None
-        if not name:
-            prev_obj_id = self.get_object_by_id(id)
-            name_ = None
-            if prev_obj_id:
-                name_ = prev_obj_id.get("name")
-                name_ = name_ or prev_obj_id.get("interfaceName")
-            if name_:
-                self.new_object.update(dict(interface_name=name_))
         result = self.dnac.exec(
             family="wireless",
             function="delete_dynamic_interface",
-            params=self.delete_by_name_params(),
+            params=self.delete_all_params(),
         )
         return result
 

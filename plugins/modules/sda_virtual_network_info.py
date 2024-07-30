@@ -28,7 +28,7 @@ options:
     - SiteNameHierarchy query parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.5.5
+- dnacentersdk >= 2.7.1
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for SDA GetVNFromSDAFabric
@@ -59,7 +59,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
@@ -70,9 +69,12 @@ dnac_response:
       "siteNameHierarchy": "string",
       "virtualNetworkName": "string",
       "fabricName": "string",
-      "isInfraVN": "string",
-      "isDefaultVN": "string",
+      "isInfraVN": true,
+      "isDefaultVN": true,
+      "virtualNetworkContextId": "string",
+      "virtualNetworkId": "string",
       "status": "string",
-      "description": "string"
+      "description": "string",
+      "executionId": "string"
     }
 """
