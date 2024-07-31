@@ -306,7 +306,7 @@ class Provision(DnacBase):
           - device_type: A string indicating the type of the
                        device (wired/wireless).
         Example:
-          Post creation of the validated input, we this method gets the
+          Post creation of the validated input, we use this method to get the
           type of the device.
         """
         try:
