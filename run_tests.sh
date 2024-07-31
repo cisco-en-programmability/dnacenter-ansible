@@ -1,7 +1,7 @@
-#!/bin/bash
-set -eux
-ROLES_TO_EXECUTE="$@"
-echo $ROLES_TO_EXECUTE
+#!/bin/bash -eux
+
+ROLES_TO_EXECUTE=$*
+echo "${ROLES_TO_EXECUTE}"
 
 cat <<EOF >>ccc_test_roles.yml
 ---
