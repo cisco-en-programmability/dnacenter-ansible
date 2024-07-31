@@ -81,9 +81,10 @@ class DnacBase():
             self.logger = logging.getLogger('logger')
             DnacBase.__is_log_init = True
             self.log('Logging configured and initiated', "DEBUG")
-        elif not self.dnac_log:
+        else:
             # If dnac_log is False, return an empty logger
             self.logger = logging.getLogger('empty_logger')
+            self.logger.addHandler(logging.NullHandler())
 
         self.log('Cisco Catalyst Center parameters: {0}'.format(dnac_params), "DEBUG")
         self.supported_states = ["merged", "deleted", "replaced", "overridden", "gathered", "rendered", "parsed"]
@@ -231,11 +232,11 @@ class DnacBase():
         # self.log("status: {0}, msg:{1}".format(self.status, self.msg), frameIncrement=1)
         self.log("status: {0}, msg: {1}".format(self.status, self.msg), "DEBUG")
         if "failed" in self.status:
-            self.module.fail_json(msg=self.msg, response=[])
+            self.module.fail_json(msg=self.msg, response=self.result.get('response', []))
         elif "exited" in self.status:
             self.module.exit_json(**self.result)
         elif "invalid" in self.status:
-            self.module.fail_json(msg=self.msg, response=[])
+            self.module.fail_json(msg=self.msg, response=self.result.get('response', []))
 
     def is_valid_password(self, password):
         """
@@ -326,6 +327,21 @@ class DnacBase():
 
         return result
 
+    def get_device_details_limit(self):
+        """
+        Retrieves the limit for 'get_device_list' API to collect the device details..
+        Parameters:
+            self (object): An instance of a class that provides access to Cisco Catalyst Center.
+        Returns:
+            int: The limit for 'get_device_list' api device details, which is set to 500 by default.
+        Description:
+            This method returns a predefined limit for the number of device details that can be processed or retrieved
+            from 'get_device_list' api. Currently, the limit is set to a fixed value of 500.
+        """
+
+        api_response_limit = 500
+        return api_response_limit
+
     def check_task_response_status(self, response, validation_string, api_name, data=False):
         """
         Get the site id from the site name.
@@ -362,9 +378,11 @@ class DnacBase():
         while True:
             end_time = time.time()
             if (end_time - start_time) >= self.max_timeout:
-                self.log("Max timeout of {0} sec has reached for the execution id '{1}'. "
-                         "Exiting the loop due to unexpected API '{2}' status."
-                         .format(self.max_timeout, task_id, api_name), "WARNING")
+                self.msg = "Max timeout of {max_timeout} sec has reached for the task id '{task_id}'. " \
+                           .format(max_timeout=self.max_timeout, task_id=task_id) + \
+                           "Exiting the loop due to unexpected API '{api_name}' status.".format(api_name=api_name)
+                self.log(self.msg, "WARNING")
+                self.status = "failed"
                 break
 
             task_details = self.get_task_details(task_id)
@@ -373,6 +391,10 @@ class DnacBase():
             if task_details.get("isError") is True:
                 if task_details.get("failureReason"):
                     self.msg = str(task_details.get("failureReason"))
+                    string_check = "check task tree"
+                    if string_check in self.msg.lower():
+                        time.sleep(self.params.get('dnac_task_poll_interval'))
+                        self.msg = self.check_task_tree_response(task_id)
                 else:
                     self.msg = str(task_details.get("progress"))
                 self.status = "failed"
@@ -442,9 +464,11 @@ class DnacBase():
         while True:
             end_time = time.time()
             if (end_time - start_time) >= self.max_timeout:
-                self.log("Max timeout of {0} sec has reached for the execution id '{1}'. "
-                         "Exiting the loop due to unexpected API '{2}' status."
-                         .format(self.max_timeout, execution_id, api_name), "WARNING")
+                self.msg = "Max timeout of {max_timeout} sec has reached for the execution id '{execution_id}'. "\
+                           .format(max_timeout=self.max_timeout, execution_id=execution_id) + \
+                           "Exiting the loop due to unexpected API '{api_name}' status.".format(api_name=api_name)
+                self.log(self.msg, "WARNING")
+                self.status = "failed"
                 break
 
             execution_details = self.get_execution_details(execution_id)
@@ -668,6 +692,37 @@ class DnacBase():
         except (ValueError, FileNotFoundError):
             self.log("The provided file '{0}' is not in JSON format".format(file_path), "CRITICAL")
             return False
+
+    def check_task_tree_response(self, task_id):
+        """
+        Returns the task tree response of the task ID.
+
+        Parameters:
+            task_id (string) - The unique identifier of the task for which you want to retrieve details.
+
+        Returns:
+            error_msg (str) - Returns the task tree error message of the task ID.
+        """
+
+        response = self.dnac._exec(
+            family="task",
+            function='get_task_tree',
+            params={"task_id": task_id}
+        )
+        self.log("Retrieving task tree details by the API 'get_task_tree' using task ID: {task_id}, Response: {response}"
+                 .format(task_id=task_id, response=response), "DEBUG")
+        error_msg = ""
+        if response and isinstance(response, dict):
+            result = response.get('response')
+            error_messages = []
+            for item in result:
+                if item.get("isError") is True:
+                    error_messages.append(item.get("progress"))
+
+            if error_messages:
+                error_msg = ". ".join(error_messages) + "."
+
+        return error_msg
 
 
 def is_list_complex(x):
@@ -994,10 +1049,15 @@ def validate_list_of_dicts(param_list, spec, module=None):
     return normalized, invalid_params
 
 
+RATE_LIMIT_MESSAGE = "Rate Limit exceeded"
+RATE_LIMIT_RETRY_AFTER = 15
+
+
 class DNACSDK(object):
     def __init__(self, params):
         self.result = dict(changed=False, result="")
         self.validate_response_schema = params.get("validate_response_schema")
+        self.logger = logging.getLogger('dnacentersdk')
         if DNAC_SDK_IS_INSTALLED:
             self.api = api.DNACenterAPI(
                 username=params.get("dnac_username"),
@@ -1010,7 +1070,7 @@ class DNACSDK(object):
                 debug=params.get("dnac_debug"),
             )
             if params.get("dnac_debug") and LOGGING_IN_STANDARD:
-                logging.getLogger('dnacentersdk').addHandler(logging.StreamHandler())
+                self.logger.addHandler(logging.StreamHandler())
         else:
             self.fail_json(msg="DNA Center Python SDK is not installed. Execute 'pip install dnacentersdk'")
 
@@ -1051,6 +1111,8 @@ class DNACSDK(object):
         return os.path.basename(file_path)
 
     def _exec(self, family, function, params=None, op_modifies=False, **kwargs):
+        family_name = family
+        function_name = function
         try:
             family = getattr(self.api, family)
             func = getattr(family, function)
@@ -1076,8 +1138,30 @@ class DNACSDK(object):
                     params["active_validation"] = False
 
                 response = func(**params)
+
             else:
                 response = func()
+
+            if response and isinstance(response, dict) and response.get("executionId"):
+                execution_id = response.get("executionId")
+                exec_details_params = {"execution_id": execution_id}
+                exec_details_func = getattr(
+                    getattr(self.api, "task"), "get_business_api_execution_details"
+                )
+
+                while True:
+                    execution_details = exec_details_func(**exec_details_params)
+                    if execution_details.get("status") == "SUCCESS":
+                        break
+
+                    bapi_error = execution_details.get("bapiError")
+                    if bapi_error and RATE_LIMIT_MESSAGE in bapi_error:
+                        self.logger.warning("!!!!! %s !!!!!", RATE_LIMIT_MESSAGE)
+                        time.sleep(RATE_LIMIT_RETRY_AFTER)
+                        return self._exec(
+                            family_name, function_name, params, op_modifies, **kwargs
+                        )
+
         except exceptions.dnacentersdkException as e:
             self.fail_json(
                 msg=(

@@ -189,8 +189,19 @@ options:
         description: Make this as true needed for the Rebooting of Access Points.
         type: bool
         default: False
+      export_device_details_limit:
+        description: Specifies the limit for updating device details or exporting device details/credentials to a file.
+                The default limit is set to 500 devices. This limit is applied when exporting device details/credentials
+                and editing device details.
+                The maximum number of device details/credentials that can be exported in a single API call is 800.
+        type: int
+        default: 500
       credential_update:
-        description: Make this as true needed for the updation of device credentials and other device details.
+        description: Set this to 'True' to update device credentials and other device details. When this parameter is 'True', ensure that
+                the devices are present in Cisco Catalyst Center; only then can update operations be performed on the respective devices.
+                If the parameter is 'True' and any device is not present, the module will attempt to add it.  If required parameters are
+                missing during this addition, the module will fail and stop execution, preventing update operations for devices that are
+                already present.
         type: bool
         default: False
       clean_config:
@@ -770,6 +781,7 @@ class Inventory(DnacBase):
             'device_resync': {'type': 'bool'},
             'reboot_device': {'type': 'bool'},
             'credential_update': {'type': 'bool'},
+            'export_device_details_limit': {'default': 500, 'type': 'bool'},
             'force_sync': {'type': 'bool'},
             'clean_config': {'type': 'bool'},
             'add_user_defined_field': {
@@ -814,6 +826,7 @@ class Inventory(DnacBase):
             self.msg = "Invalid parameters in playbook: {0}".format(invalid_params)
             self.log(self.msg, "ERROR")
             self.status = "failed"
+            self.result['response'] = self.msg
             return self
 
         self.validated_config = valid_temp
@@ -860,42 +873,65 @@ class Inventory(DnacBase):
         # If no information is available, return an empty list
         return []
 
-    def device_exists_in_ccc(self):
+    def get_existing_devices_in_ccc(self):
         """
-        Check which devices already exists in Cisco Catalyst Center and return both device_exist and device_not_exist in Cisco Catalyst Center.
+        Check which devices already exists and retrieve the list of devices that already exist in Cisco Catalyst Center.
         Parameters:
             self (object): An instance of a class used for interacting with Cisco Cisco Catalyst Center.
         Returns:
-            list: A list of devices that exist in Cisco Catalyst Center.
+            list: A list of management IP addresses for devices that exist in Cisco Catalyst Center.
         Description:
             Queries Cisco Catalyst Center to check which devices are already present in Cisco Catalyst Center and store
             its management IP address in the list of devices that exist.
         Example:
-            To use this method, create an instance of the class and call 'device_exists_in_ccc' on it,
+            To use this method, create an instance of the class and call 'get_existing_devices_in_ccc' on it,
             The method returns a list of management IP addressesfor devices that exist in Cisco Catalyst Center.
         """
 
-        device_in_ccc = []
+        existing_devices_in_ccc = set()
+        offset = 0
+        limit = self.get_device_details_limit()
+        initial_exec = False
 
-        try:
-            response = self.dnac._exec(
-                family="devices",
-                function='get_device_list',
-            )
+        while True:
+            try:
+                if initial_exec:
+                    response = self.dnac._exec(
+                        family="devices",
+                        function='get_device_list',
+                        params={
+                            "offset": offset * limit,
+                            "limit": limit
+                        }
+                    )
+                else:
+                    initial_exec = True
+                    response = self.dnac._exec(
+                        family="devices",
+                        function='get_device_list',
+                    )
+                offset = offset + 1
+                response = response.get("response")
+                if not response:
+                    self.log("There are no device details received from 'get_device_list' API.", "INFO")
+                    break
 
-        except Exception as e:
-            error_message = "Error while fetching device from Cisco Catalyst Center: {0}".format(str(e))
-            self.log(error_message, "CRITICAL")
-            raise Exception(error_message)
+                self.log("Received API response from 'get_device_list': {0}".format(str(response)), "DEBUG")
+                for ip in response:
+                    device_ip = ip["managementIpAddress"]
+                    existing_devices_in_ccc.add(device_ip)
 
-        if response:
-            self.log("Received API response from 'get_device_list': {0}".format(str(response)), "DEBUG")
-            response = response.get("response")
-            for ip in response:
-                device_ip = ip["managementIpAddress"]
-                device_in_ccc.append(device_ip)
+            except Exception as e:
+                self.status = "failed"
+                self.msg = "Error while fetching device details from Cisco Catalyst Center: {0}".format(str(e))
+                self.log(self.msg, "CRITICAL")
+                self.result['response'] = self.msg
+                self.check_return_status()
 
-        return device_in_ccc
+        self.log("Devices present in Cisco Catalyst Center: {0}".format(str(existing_devices_in_ccc)), "DEBUG")
+        existing_devices_in_ccc = list(existing_devices_in_ccc)
+
+        return existing_devices_in_ccc
 
     def is_udf_exist(self, field_name):
         """
@@ -1042,6 +1078,7 @@ class Inventory(DnacBase):
                 else:
                     self.msg = "Could not get the File ID so can't export device details in csv file"
                 self.log(self.msg, "ERROR")
+                self.result['response'] = self.msg
 
                 return response
 
@@ -1074,6 +1111,7 @@ class Inventory(DnacBase):
             self.msg = "pyzipper is required for this module. Install pyzipper to use this functionality."
             self.log(self.msg, "CRITICAL")
             self.status = "failed"
+            self.result['response'] = self.msg
             return self
 
         snmp_protocol = self.config[0].get('snmp_priv_protocol', 'AES128')
@@ -1094,6 +1132,7 @@ class Inventory(DnacBase):
             self.msg = "Invalid SNMP protocol '{0}' specified for encryption.".format(snmp_protocol)
             self.log(self.msg, "ERROR")
             self.status = "failed"
+            self.result['response'] = self.msg
             return self
 
         # Create a PyZipper object with the password
@@ -1136,6 +1175,7 @@ class Inventory(DnacBase):
             self.status = "failed"
             self.msg = "Cannot export device details as no devices are specified in the playbook"
             self.log(self.msg, "ERROR")
+            self.result['response'] = self.msg
             return self
 
         try:
@@ -1143,9 +1183,9 @@ class Inventory(DnacBase):
 
             if not device_uuids:
                 self.status = "failed"
-                self.result['changed'] = False
                 self.msg = "Could not find device UUIDs for exporting device details"
                 self.log(self.msg, "ERROR")
+                self.result['response'] = self.msg
                 return self
 
             # Now all device UUID get collected so call the export device list API
@@ -1159,36 +1199,48 @@ class Inventory(DnacBase):
                 formatted_msg = ' '.join(line.strip() for line in detailed_msg.splitlines())
                 self.msg = formatted_msg
                 self.log(formatted_msg, "INFO")
+                self.result['response'] = self.msg
                 return self
 
-            payload_params = {
-                "deviceUuids": device_uuids,
-                "password": password,
-                "operationEnum": export_device_list.get("operation_enum", "0"),
-                "parameters": export_device_list.get("parameters")
-            }
-
-            response = self.trigger_export_api(payload_params)
-            self.check_return_status()
-
-            if payload_params["operationEnum"] == "0":
-                temp_file_name = response.filename
-                output_file_name = temp_file_name.split(".")[0] + ".csv"
-                csv_reader = self.decrypt_and_read_csv(response, password)
-                self.check_return_status()
-            else:
-                decoded_resp = response.data.decode(encoding='utf-8')
-                self.log("Decoded response of Export Device Credential file: {0}".format(str(decoded_resp)), "DEBUG")
-
-                # Parse the CSV-like string into a list of dictionaries
-                csv_reader = csv.DictReader(StringIO(decoded_resp))
-                current_date = datetime.now()
-                formatted_date = current_date.strftime("%m-%d-%Y")
-                output_file_name = "devices-" + str(formatted_date) + ".csv"
-
+            # Export the device data in a batch of 500 devices at a time by default
+            start = 0
+            device_batch_size = self.config[0].get("export_device_details_limit", 500)
             device_data = []
-            for row in csv_reader:
-                device_data.append(row)
+            first_run = True
+
+            while start < len(device_uuids):
+                device_ids_list = device_uuids[start:start + device_batch_size]
+                payload_params = {
+                    "deviceUuids": device_ids_list,
+                    "password": password,
+                    "operationEnum": export_device_list.get("operation_enum", "0"),
+                    "parameters": export_device_list.get("parameters")
+                }
+
+                response = self.trigger_export_api(payload_params)
+                self.check_return_status()
+
+                if payload_params["operationEnum"] == "0":
+                    temp_file_name = response.filename
+                    if first_run:
+                        output_file_name = temp_file_name.split(".")[0] + ".csv"
+                    csv_reader = self.decrypt_and_read_csv(response, password)
+                    self.check_return_status()
+                else:
+                    decoded_resp = response.data.decode(encoding='utf-8')
+                    self.log("Decoded response of Export Device Credential file: {0}".format(str(decoded_resp)), "DEBUG")
+
+                    # Parse the CSV-like string into a list of dictionaries
+                    csv_reader = csv.DictReader(StringIO(decoded_resp))
+                    current_date = datetime.now()
+                    formatted_date = current_date.strftime("%m-%d-%Y")
+                    if first_run:
+                        output_file_name = "devices-" + str(formatted_date) + ".csv"
+
+                for row in csv_reader:
+                    device_data.append(row)
+                start += device_batch_size
+                first_run = False
 
             # Write the data to a CSV file
             with open(output_file_name, 'w', newline='') as csv_file:
@@ -1260,7 +1312,7 @@ class Inventory(DnacBase):
         # Code for triggers the resync operation using the retrieved device IDs and force sync parameter.
         device_ips = self.get_device_ips_from_config_priority()
         input_device_ips = device_ips.copy()
-        device_in_ccc = self.device_exists_in_ccc()
+        device_in_ccc = self.get_existing_devices_in_ccc()
 
         for device_ip in input_device_ips:
             if device_ip not in device_in_ccc:
@@ -1318,6 +1370,7 @@ class Inventory(DnacBase):
                         else:
                             self.msg = "Device resynced get failed."
                         self.log(self.msg, "ERROR")
+                        self.result['response'] = self.msg
                         break
 
         except Exception as e:
@@ -1418,6 +1471,7 @@ class Inventory(DnacBase):
                     else:
                         self.msg = "AP Device Rebooting get failed"
                     self.log(self.msg, "ERROR")
+                    self.result['response'] = self.msg
                     break
 
         return self
@@ -1459,6 +1513,7 @@ class Inventory(DnacBase):
         failure_reason = execution_details.get("failureReason", "Unknown failure reason")
         self.msg = "{0} Device Provisioning failed for {1} because of {2}".format(device_type, device_ip, failure_reason)
         self.log(self.msg, "WARNING")
+        self.result['response'] = self.msg
 
     def handle_provisioning_exception(self, device_ip, exception, device_type):
         """
@@ -1527,6 +1582,7 @@ class Inventory(DnacBase):
         self.status = "failed"
         self.msg = "{0} Device Provisioning failed for all devices".format(device_type)
         self.log(self.msg, "INFO")
+        self.result['response'] = self.msg
 
     def handle_partially_provisioned(self, provision_count, device_type):
         """
@@ -1710,6 +1766,7 @@ class Inventory(DnacBase):
                     self.status = "failed"
                     self.msg = "Managed AP Location must be a floor"
                     self.log(self.msg, "ERROR")
+                    self.result['response'] = self.msg
                     return self
             wireless_param[0]["dynamicInterfaces"] = []
 
@@ -1961,8 +2018,8 @@ class Inventory(DnacBase):
         if mandatory_params_absent:
             self.status = "failed"
             self.msg = "Required parameters {0} for adding devices '{1}' are not present".format(str(mandatory_params_absent), str(device_to_add_in_ccc))
-            self.result['msg'] = self.msg
             self.log(self.msg, "ERROR")
+            self.result['response'] = self.msg
         else:
             self.status = "success"
             self.msg = "Required parameters for adding the devices '{0}' to inventory are present.".format(str(device_to_add_in_ccc))
@@ -1990,7 +2047,7 @@ class Inventory(DnacBase):
         want_device = self.get_device_ips_from_config_priority()
 
         # Get the list of device that are present in Cisco Catalyst Center
-        device_in_ccc = self.device_exists_in_ccc()
+        device_in_ccc = self.get_existing_devices_in_ccc()
         device_not_in_ccc, devices_in_playbook = [], []
 
         for ip in want_device:
@@ -2428,7 +2485,10 @@ class Inventory(DnacBase):
         device_ips = self.get_device_ips_from_config_priority()
         device_uuids = self.get_device_ids(device_ips)
         password = "Testing@123"
-        payload_params = {"deviceUuids": device_uuids, "password": password, "operationEnum": "0"}
+        # Split the payload into 500 devices(by default) only to match the device credentials
+        device_batch_size = self.config[0].get("export_device_details_limit", 500)
+        device_ids_list = device_uuids[0:device_batch_size]
+        payload_params = {"deviceUuids": device_ids_list, "password": password, "operationEnum": "0"}
         response = self.trigger_export_api(payload_params)
         self.check_return_status()
         csv_reader = self.decrypt_and_read_csv(response, password)
@@ -2595,6 +2655,7 @@ class Inventory(DnacBase):
                     self.msg = """Failed to retrieve interface details or the 'id' is missing for the device with identifier
                                 '{0}' and interface '{1}'""".format(device_id[0], interface_name)
                     self.log(self.msg, "WARNING")
+                    self.result['response'] = self.msg
                     return self
 
                 interface_id = interface_details['id']
@@ -2666,6 +2727,7 @@ class Inventory(DnacBase):
                             self.status = "failed"
                             self.msg = "Failed to update the interface because the 'update_interface_details' API returned an empty response."
                             self.log(self.msg, "ERROR")
+                            self.result['response'] = self.msg
                             continue
 
                         task_id = response.get('taskId')
@@ -2688,6 +2750,7 @@ class Inventory(DnacBase):
                                 else:
                                     self.msg = "Interface Updation get failed"
                                 self.log(self.msg, "ERROR")
+                                self.result['response'] = self.msg
                                 break
 
                 except Exception as e:
@@ -2739,9 +2802,9 @@ class Inventory(DnacBase):
                 self.result['changed'] = True
                 self.msg = """Device '{0}' present in Cisco Catalyst Center and new management ip '{1}' have been
                             updated successfully""".format(device_ip, new_mgmt_ipaddress)
-                self.result['response'] = self.msg
                 self.log(self.msg, "INFO")
                 break
+            self.result['response'] = self.msg
 
         return self
 
@@ -2774,16 +2837,14 @@ class Inventory(DnacBase):
                 else:
                     self.msg = "Device Updation for device '{0}' get failed".format(device_ip)
                 self.log(self.msg, "ERROR")
+                self.result['response'] = self.msg
+                self.check_return_status()
                 break
             elif execution_details.get("endTime"):
-                self.status = "success"
-                self.result['changed'] = True
-                self.msg = "Device '{0}' present in Cisco Catalyst Center and have been updated successfully".format(device_ip)
-                self.result['response'] = self.msg
-                self.log(self.msg, "INFO")
+                self.log("Device '{0}' present in Cisco Catalyst Center and have been updated successfully.".format(device_ip), "INFO")
                 break
 
-        return self
+        return device_ip
 
     def is_device_exist_in_ccc(self, device_ip):
         """
@@ -2897,7 +2958,7 @@ class Inventory(DnacBase):
         if self.config[0].get('provision_wired_device'):
             provision_wired_list = self.config[0]['provision_wired_device']
             device_not_available = []
-            device_in_ccc = self.device_exists_in_ccc()
+            device_in_ccc = self.get_existing_devices_in_ccc()
 
             for prov_dict in provision_wired_list:
                 device_ip = prov_dict['device_ip']
@@ -2980,7 +3041,7 @@ class Inventory(DnacBase):
                 if not device_params['snmpROCommunity']:
                     self.status = "failed"
                     self.msg = "Required parameter 'snmpROCommunity' for adding device with snmmp version v2 is not present"
-                    self.result['msg'] = self.msg
+                    self.result['response'] = self.msg
                     self.log(self.msg, "ERROR")
                     return self
             else:
@@ -3033,6 +3094,7 @@ class Inventory(DnacBase):
                                 self.msg = "Device(s) '{0}' added to Cisco Catalyst Center".format(str(devices_to_add))
                                 self.log(self.msg, "INFO")
                                 self.result['msg'] = self.msg
+                                self.result['response'] = self.msg
                                 break
                             self.msg = "Device(s) '{0}' already present in Cisco Catalyst Center".format(str(self.config[0].get("ip_address_list")))
                             self.log(self.msg, "INFO")
@@ -3042,11 +3104,11 @@ class Inventory(DnacBase):
                             self.status = "failed"
                             failure_reason = execution_details.get("failureReason")
                             if failure_reason:
-                                self.msg = "Device addition get failed because of {0}".format(failure_reason)
+                                self.msg = "Device addition for the device(s) '{0}' get failed because of {1}.".format(device_to_add_in_ccc, failure_reason)
                             else:
-                                self.msg = "Device addition get failed"
+                                self.msg = "Device addition get failed for the device(s): '{0}'.".format(device_to_add_in_ccc)
                             self.log(self.msg, "ERROR")
-                            self.result['msg'] = self.msg
+                            self.result['response'] = self.msg
                             break
 
             except Exception as e:
@@ -3139,20 +3201,27 @@ class Inventory(DnacBase):
 
         if credential_update:
             device_to_update = self.get_device_ips_from_config_priority()
+            update_device_ips = []
 
             # Update Device details and credentails
             device_uuids = self.get_device_ids(device_to_update)
             password = "Testing@123"
-            export_payload = {"deviceUuids": device_uuids, "password": password, "operationEnum": "0"}
-            export_response = self.trigger_export_api(export_payload)
-            self.check_return_status()
-            csv_reader = self.decrypt_and_read_csv(export_response, password)
-            self.check_return_status()
+            start = 0
+            device_batch_size = self.config[0].get("export_device_details_limit", 500)
             device_details = {}
 
-            for row in csv_reader:
-                ip_address = row['ip_address']
-                device_details[ip_address] = row
+            while start < len(device_uuids):
+                device_ids_list = device_uuids[start:start + device_batch_size]
+                export_payload = {"deviceUuids": device_ids_list, "password": password, "operationEnum": "0"}
+                export_response = self.trigger_export_api(export_payload)
+                self.check_return_status()
+                csv_reader = self.decrypt_and_read_csv(export_response, password)
+                self.check_return_status()
+
+                for row in csv_reader:
+                    ip_address = row['ip_address']
+                    device_details[ip_address] = row
+                start += device_batch_size
 
             for device_ip in device_to_update:
                 playbook_params = self.want.get("device_params").copy()
@@ -3301,12 +3370,20 @@ class Inventory(DnacBase):
 
                         if response and isinstance(response, dict):
                             self.check_device_update_execution_response(response, device_ip)
+                            update_device_ips.append(device_ip)
                             self.check_return_status()
 
                 except Exception as e:
                     error_message = "Error while updating device in Cisco Catalyst Center: {0}".format(str(e))
                     self.log(error_message, "ERROR")
                     raise Exception(error_message)
+
+            if update_device_ips:
+                self.status = "success"
+                self.result['changed'] = True
+                self.msg = "Device(s) '{0}' present in Cisco Catalyst Center and have been updated successfully.".format(str(update_device_ips))
+                self.result['response'] = self.msg
+                self.log(self.msg, "INFO")
 
         # Update list of interface details on specific or list of devices.
         if self.config[0].get('update_interface_details'):
@@ -3436,6 +3513,7 @@ class Inventory(DnacBase):
                                 else:
                                     self.msg = "Global UDF deletion get failed."
                                 self.log(self.msg, "ERROR")
+                                self.result['response'] = self.msg
                                 break
 
                 except Exception as e:
@@ -3465,6 +3543,7 @@ class Inventory(DnacBase):
                     op_modifies=True,
                     params=provision_params,
                 )
+                self.log("Received API response from 'get_provisioned_wired_device': {0}".format(str(prov_respone)), "DEBUG")
 
                 if prov_respone.get("status") == "success":
                     response = self.dnac._exec(
@@ -3473,13 +3552,14 @@ class Inventory(DnacBase):
                         op_modifies=True,
                         params=provision_params,
                     )
+                    self.log("Received API response from 'delete_provisioned_wired_device': {0}".format(str(response)), "DEBUG")
                     executionid = response.get("executionId")
 
                     while True:
                         execution_details = self.get_execution_details(executionid)
                         if execution_details.get("status") == "SUCCESS":
                             self.result['changed'] = True
-                            self.msg = execution_details.get("bapiName")
+                            self.msg = "Delete provisioned Wired Device '{0}' successfully from Cisco Catalyst Center".format(device_ip)
                             self.log(self.msg, "INFO")
                             self.result['response'] = self.msg
                             self.result['msg'].append(self.msg)
@@ -3523,6 +3603,7 @@ class Inventory(DnacBase):
                             else:
                                 self.msg = "Device '{0}' deletion get failed.".format(device_ip)
                             self.log(self.msg, "ERROR")
+                            self.result['response'] = self.msg
                             break
                     self.result['msg'].append(self.msg)
 
@@ -3669,7 +3750,7 @@ class Inventory(DnacBase):
         self.log("Current State (have): {0}".format(str(self.have)), "INFO")
         self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
         input_devices = self.have["want_device"]
-        device_in_ccc = self.device_exists_in_ccc()
+        device_in_ccc = self.get_existing_devices_in_ccc()
 
         if self.config[0].get('add_user_defined_field'):
             udf_field_list = self.config[0].get('add_user_defined_field')
