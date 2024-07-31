@@ -1878,9 +1878,11 @@ class Accesspoint(DnacBase):
                         device_mac_info.append(mac_address)
 
             if ap_mac_address in device_mac_info:
-                self.log("Device with MAC address: {macAddress} found in site: {sId},"
-                            "Proceeding with ap_site updation."
-                            .format(macAddress=ap_mac_address, sId=site_id), "INFO")
+                self.log(
+                    "Device with MAC address: {macAddress} found in site: {sId},"
+                    "Proceeding with ap_site updation."
+                    .format(macAddress=ap_mac_address, sId=site_id), "INFO"
+                )
                 return True
             else:
                 self.log("No site information found : {sId},".format(sId=site_id), "INFO")
