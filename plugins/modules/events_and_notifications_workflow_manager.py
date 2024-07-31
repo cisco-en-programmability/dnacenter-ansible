@@ -3069,7 +3069,7 @@ class Events(DnacBase):
 
             if not subscription_details:
                 self.status = "failed"
-                self.msg = """Unable to create/update the syslog event notification '{0}' as syslog desination '{1}' is not configured or
+                self.msg = """Unable to create/update the syslog event notification '{0}' as syslog destination '{1}' is not configured or
                         present in Cisco Catalyst Center""".format(name, destination)
                 self.log(self.msg, "ERROR")
                 self.result['response'] = self.msg
@@ -3616,7 +3616,7 @@ class Events(DnacBase):
 
             if not subscription_details:
                 self.status = "failed"
-                self.msg = """Unable to create/update the webhook event notification '{0}' as webhook desination '{1}' is not configured or
+                self.msg = """Unable to create/update the webhook event notification '{0}' as webhook destination '{1}' is not configured or
                         present in Cisco Catalyst Center""".format(name, destination)
                 self.log(self.msg, "ERROR")
                 self.result["response"] = self.msg
