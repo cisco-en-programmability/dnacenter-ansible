@@ -26,6 +26,9 @@
             "clean_air_si_6ghz": "Enabled",
             "primary_controller_name": "Testing",
             "secondary_controller_name": "Testing2",
+            "primary_ip_address":{
+                "address": "204.192.4.200"
+            },
             "2.4ghz_radio": {
                 "admin_status": "Enabled",
                 "antenna_name": "C-ANT9104-2.4GHz",
