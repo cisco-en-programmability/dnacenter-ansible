@@ -65,8 +65,7 @@ options:
         type: object
         suboptions:
           floor:
-            description: |
-              Floor details of the current site.
+            description: Floor details of the current site.
             type: object
             required: False
             suboptions:
