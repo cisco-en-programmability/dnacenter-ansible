@@ -1997,7 +1997,6 @@ class Accesspoint(DnacBase):
                         provision_status = "SUCCESS"
                         provision_details = execution_details
                         break
-
                     elif execution_details.get("bapiError"):
                         self.module.fail_json(msg=execution_details.get("bapiError"),
                                               response=execution_details)
