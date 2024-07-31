@@ -60,8 +60,7 @@ options:
         required: False
         example: "HIGH"
       site:
-        description: |
-          Current site details where the Access Point is located.
+        description: Current site details where the Access Point is located.
         type: object
         suboptions:
           floor:
@@ -70,110 +69,103 @@ options:
             required: False
             suboptions:
               name:
-                description: |
-                  Name of the floor (e.g., 'FLOOR1').
+                description: Name of the floor (e.g., 'FLOOR1').
                 type: str
                 required: False
               parent_name:
-                description: |
-                  Parent name of the floor in the site hierarchy (e.g., 'Global/USA/New York/BLDNYC').
+                description: Parent name of the floor in the site hierarchy
+                  Example: 'Global/USA/New York/BLDNYC'.
                 type: str
                 required: False
       ap_name:
-        description: |
-          Current AP name that needs to be changed along with the new AP name.
+        description: Current AP name that needs to be changed along with the new AP name.
           Example: ap_name: "Test2", ap_name_new: "NFW-AP1-9130AXE"
         type: str
         required: False
       admin_status:
-        description: |
-          Status of the AP configuration. Accepts "Enabled" or "Disabled".
+        description: Status of the AP configuration. Accepts "Enabled" or "Disabled".
           Example: admin_status: "Enabled"
         type: str
         required: False
       led_status:
-        description: |
-          State of the AP's LED. Accepts "Enabled" or "Disabled".
+        description: State of the AP's LED. Accepts "Enabled" or "Disabled".
           Example: led_status: "Enabled"
         type: str
         required: False
       led_brightness_level:
-        description: |
-          Brightness level of the AP's LED. Accepts values from 1 to 8.
+        description: Brightness level of the AP's LED. Accepts values from 1 to 8.
           Example: led_brightness_level: 3
         type: int
         required: False
       ap_mode:
         description: |
-          Mode of operation for the Access Point (AP). Possible values include "local/flexconnect" or "monitor" or "sniffer" or Bridge/Flex+Bridge.
+          Mode of operation for the Access Point (AP). Possible values include "local/flexconnect"
+          or "monitor" or "sniffer" or Bridge/Flex+Bridge.
           - If Ap mode is local/flex, then only radio role assignment can be changed.
           Example: ap_mode: "local"
         type: str
         required: False
       location:
-        description: |
-          Location name of the AP. Provide this data if a change is required.
+        description: Location name of the AP. Provide this data if a change is required.
           Example: location: "Bangalore"
         type: str
         required: False
       failover_priority:
-        description: |
-          Priority order for failover in AP configuration. Accepts "Low" or "Medium" or "High" or "Critical".
+        description:
+          Priority order for failover in AP configuration. Accepts "Low" or "Medium" or "High"
+          or "Critical".
         type: str
         required: False
       clean_air_si_2.4ghz:
         description: |
-          Clean Air Spectrum Intelligence (SI) feature status for the 2.4GHz band. Indicates whether Clean Air Spectrum Intelligence is enabled or disabled.
+          Clean Air Spectrum Intelligence (SI) feature status for the 2.4GHz band. Indicates whether
+          Clean Air Spectrum Intelligence is enabled or disabled.
           Example: clean_air_si_2.4ghz: "Enabled"
         type: str
         required: False
       clean_air_si_5ghz:
         description: |
-          Clean Air Spectrum Intelligence (SI) feature status for the 5GHz band. Indicates whether Clean Air Spectrum Intelligence is enabled or disabled.
+          Clean Air Spectrum Intelligence (SI) feature status for the 5GHz band. Indicates whether
+          Clean Air Spectrum Intelligence is enabled or disabled.
           Example: clean_air_si_5ghz: "Enabled"
         type: str
         required: False
       clean_air_si_6ghz:
         description: |
-          Clean Air Spectrum Intelligence (SI) feature status for the 6GHz band. Indicates whether Clean Air Spectrum Intelligence is enabled or disabled.
+          Clean Air Spectrum Intelligence (SI) feature status for the 6GHz band. Indicates whether
+          Clean Air Spectrum Intelligence is enabled or disabled.
           Example: clean_air_si_6ghz: "Enabled"
         type: str
         required: False
       primary_controller_name:
-        description: |
-          Name or identifier of the primary wireless LAN controller (WLC) managing the Access Point (AP).
+        description: Name or identifier of the primary wireless LAN controller (WLC) managing the Access Point (AP).
           Example: primary_controller_name: "SJ-EWLC-1"
         type: str
         required: False
       primary_ip_address:
-        description: |
-          IP address of the primary wireless LAN controller (WLC) managing the Access Point (AP).
+        description: IP address of the primary wireless LAN controller (WLC) managing the Access Point (AP).
           Example: primary_ip_address:
                    address: "204.192.4.200"
         type: str
         required: False
       secondary_controller_name:
-        description: |
-          Name or identifier of the secondary wireless LAN controller (WLC) managing the Access Point (AP).
+        description: Name or identifier of the secondary wireless LAN controller (WLC) managing the Access Point (AP).
           Example: secondary_controller_name: "Inherit from site/Clear"
         type: str
         required: False
       secondary_ip_address:
-        description: |
-          IP address of the secondary wireless LAN controller (WLC) managing the Access Point (AP).
+        description: IP address of the secondary wireless LAN controller (WLC) managing the Access Point (AP).
           Example: secondary_ip_address:
                    address: "10.0.0.2"
         type: str
         required: False
       tertiary_controller_name:
-        description: |
-          Name or identifier of the tertiary wireless LAN controller (WLC) managing the Access Point (AP).
+        description: Name or identifier of the tertiary wireless LAN controller (WLC) managing the Access Point (AP).
           Example: tertiary_controller_name: "Clear"
         type: str
         required: False
       tertiary_ip_address:
-        description: |
-          IP address of the tertiary wireless LAN controller (WLC) managing the Access Point (AP).
+        description: IP address of the tertiary wireless LAN controller (WLC) managing the Access Point (AP).
           Example: tertiary_ip_address:
                    address: "10.0.0.3"
         type: str
@@ -189,20 +181,17 @@ options:
             required: False
             suboptions:
                 admin_status:
-                    description: |
-                        Administrative status for the 2.4GHz radio interface.
+                    description: Administrative status for the 2.4GHz radio interface.
                         Example: admin_status: "Enabled"
                     type: str
                     required: False
                 antenna_name:
-                    description: |
-                        Name or type of antenna used for the 2.4GHz radio interface.
+                    description: Name or type of antenna used for the 2.4GHz radio interface.
                         Example: antenna_name: "other"
                     type: str
                     required: False
                 antenna_gain:
-                    description: |
-                        Antenna gain value in decibels (dB) for the 2.4GHz radio interface.
+                    description: Antenna gain value in decibels (dB) for the 2.4GHz radio interface.
                         Example: antenna_gain: 4
                     type: int
                     required: False
@@ -214,14 +203,12 @@ options:
                     type: str
                     required: False
                 cable_loss:
-                    description: |
-                        Cable loss in dB for the 2.4GHz radio interface.
+                    description: Cable loss in dB for the 2.4GHz radio interface.
                         Example: cable_loss: 75
                     type: int
                     required: False
                 antenna_cable_name:
-                    description: |
-                        Name or type of antenna cable used for the 2.4GHz radio interface.
+                    description: Name or type of antenna cable used for the 2.4GHz radio interface.
                         Example: antenna_cable_name: "other"
                     type: str
                     required: False
@@ -233,8 +220,7 @@ options:
                     type: str
                     required: False
                 channel_number:
-                    description: |
-                        Custom channel number configured for the 2.4GHz radio interface.
+                    description: Custom channel number configured for the 2.4GHz radio interface.
                         Example: channel_number: 6
                     type: int
                     required: False
@@ -246,8 +232,7 @@ options:
                     type: str
                     required: False
                 power_level:
-                    description: |
-                        Custom power level configured for the 2.4GHz radio interface.
+                    description: Custom power level configured for the 2.4GHz radio interface.
                         Example: powerlevel: 3
                     type: int
                     required: False
@@ -257,20 +242,17 @@ options:
             required: False
             suboptions:
                 admin_status:
-                    description: |
-                        Administrative status for the 5GHz radio interface.
+                    description: Administrative status for the 5GHz radio interface.
                         Example: admin_status: "Enabled"
                     type: str
                     required: False
                 antenna_name:
-                    description: |
-                        Name or type of antenna used for the 5GHz radio interface.
+                    description: Name or type of antenna used for the 5GHz radio interface.
                         Example: antenna_name: "other"
                     type: str
                     required: False
                 antenna_gain:
-                    description: |
-                        Antenna gain value in decibels (dB) for the 5GHz radio interface.
+                    description: Antenna gain value in decibels (dB) for the 5GHz radio interface.
                         Example: antenna_gain: 4
                     type: int
                     required: False
@@ -282,14 +264,12 @@ options:
                     type: str
                     required: False
                 cable_loss:
-                    description: |
-                        Cable loss in dB for the 5GHz radio interface.
+                    description: Cable loss in dB for the 5GHz radio interface.
                         Example: cable_loss: 75
                     type: int
                     required: False
                 antenna_cable_name:
-                    description: |
-                        Name or type of antenna cable used for the 5GHz radio interface.
+                    description: Name or type of antenna cable used for the 5GHz radio interface.
                         Example: antenna_cable_name: "other"
                     type: str
                     required: False
@@ -303,14 +283,14 @@ options:
                     type: str
                     required: False
                 channel_number:
-                    description: |
-                        Custom channel number configured for the 5GHz radio interface.
+                    description: Custom channel number configured for the 5GHz radio interface.
                         Example: channel_number: 6
                     type: int
                     required: False
                 channel_width:
-                    description: |
-                        Width of the channel configured for the 5GHz radio interface. Accepts values "20MHz" or "40MHz" or "80MHz" or "160MHz".
+                    description:
+                        Width of the channel configured for the 5GHz radio interface. Accepts values
+                        "20MHz" or "40MHz" or "80MHz" or "160MHz".
                         Example: channel_width: "20 MHz"
                     type: str
                     required: False
@@ -322,8 +302,7 @@ options:
                     type: str
                     required: False
                 power_level:
-                    description: |
-                        Custom power level configured for the 5GHz radio interface.
+                    description: Custom power level configured for the 5GHz radio interface.
                         Example: powerlevel: 3
                     type: int
                     required: False
@@ -333,8 +312,7 @@ options:
             required: False
             suboptions:
                 admin_status:
-                    description: |
-                        Administrative status for the 6GHz radio interface.
+                    description: Administrative status for the 6GHz radio interface.
                         Example: admin_status: "Enabled"
                     type: str
                     required: False
@@ -355,14 +333,14 @@ options:
                     type: str
                     required: False
                 channel_number:
-                    description: |
-                        Custom channel number configured for the 6GHz radio interface.
+                    description: Custom channel number configured for the 6GHz radio interface.
                         Example: channel_number: 6
                     type: int
                     required: False
                 channel_width:
                     description: |
-                        Width of the channel configured for the 6GHz radio interface. Accepts values "20MHz" or "40MHz" or "80MHz" or "160MHz".
+                        Width of the channel configured for the 6GHz radio interface. Accepts values
+                        "20MHz" or "40MHz" or "80MHz" or "160MHz".
                         Example: channel_width: "20 MHz"
                     type: str
                     required: False
@@ -374,8 +352,7 @@ options:
                     type: str
                     required: False
                 power_level:
-                    description: |
-                        Custom power level configured for the 5GHz radio interface.
+                    description: Custom power level configured for the 6GHz radio interface.
                         Example: powerlevel: 3
                     type: int
                     required: False
@@ -385,20 +362,17 @@ options:
             required: False
             suboptions:
                 admin_status:
-                    description: |
-                        Administrative status for the xor radio interface.
+                    description: Administrative status for the xor radio interface.
                         Example: admin_status: "Enabled"
                     type: str
                     required: False
                 antenna_name:
-                    description: |
-                        Name or type of antenna used for the xor radio interface.
+                    description: Name or type of antenna used for the xor radio interface.
                         Example: antenna_name: "other"
                     type: str
                     required: False
                 antenna_gain:
-                    description: |
-                        Antenna gain value in decibels (dB) for the xor radio interface.
+                    description: Antenna gain value in decibels (dB) for the xor radio interface.
                         Example: antenna_gain: 4
                     type: int
                     required: False
@@ -410,14 +384,12 @@ options:
                     type: str
                     required: False
                 cable_loss:
-                    description: |
-                        Cable loss in dB for the xor radio interface.
+                    description: Cable loss in dB for the xor radio interface.
                         Example: cable_loss: 75
                     type: int
                     required: False
                 antenna_cable_name:
-                    description: |
-                        Name or type of antenna cable used for the xor radio interface.
+                    description: Name or type of antenna cable used for the xor radio interface.
                         Example: antenna_cable_name: "other"
                     type: str
                     required: False
@@ -431,14 +403,14 @@ options:
                     type: str
                     required: False
                 channel_number:
-                    description: |
-                        Custom channel number configured for the xor radio interface.
+                    description: Custom channel number configured for the xor radio interface.
                         Example: channel_number: 6
                     type: int
                     required: False
                 channel_width:
                     description: |
-                        Width of the channel configured for the xor radio interface. Accepts values "20MHz" or "40MHz" or "80MHz" or "160MHz".
+                        Width of the channel configured for the xor radio interface. Accepts values
+                        "20MHz" or "40MHz" or "80MHz" or "160MHz".
                         Example: channel_width: "20 MHz"
                     type: str
                     required: False
@@ -450,8 +422,7 @@ options:
                     type: str
                     required: False
                 power_level:
-                    description: |
-                        Custom power level configured for the xor radio interface.
+                    description: Custom power level configured for the xor radio interface.
                         Example: powerlevel: 3
                     type: int
                     required: False
@@ -461,20 +432,17 @@ options:
             required: False
             suboptions:
                 admin_status:
-                    description: |
-                        Administrative status for the tri radio interface.
+                    description: Administrative status for the tri radio interface.
                         Example: admin_status: "Enabled"
                     type: str
                     required: False
                 antenna_name:
-                    description: |
-                        Name or type of antenna used for the tri radio interface.
+                    description: Name or type of antenna used for the tri radio interface.
                         Example: antenna_name: "other"
                     type: str
                     required: False
                 antenna_gain:
-                    description: |
-                        Antenna gain value in decibels (dB) for the tri radio interface.
+                    description: Antenna gain value in decibels (dB) for the tri radio interface.
                         Example: antenna_gain: 4
                     type: int
                     required: False
@@ -486,14 +454,12 @@ options:
                     type: str
                     required: False
                 cable_loss:
-                    description: |
-                        Cable loss in dB for the tri radio interface.
+                    description: Cable loss in dB for the tri radio interface.
                         Example: cable_loss: 75
                     type: int
                     required: False
                 antenna_cable_name:
-                    description: |
-                        Name or type of antenna cable used for the tri radio interface.
+                    description: Name or type of antenna cable used for the tri radio interface.
                         Example: antenna_cable_name: "other"
                     type: str
                     required: False
@@ -507,14 +473,14 @@ options:
                     type: str
                     required: False
                 channel_number:
-                    description: |
-                        Custom channel number configured for the tri radio interface.
+                    description: Custom channel number configured for the tri radio interface.
                         Example: channel_number: 6
                     type: int
                     required: False
                 channel_width:
                     description: |
-                        Width of the channel configured for the tri radio interface. Accepts values "20MHz" or "40MHz" or "80MHz" or "160MHz".
+                        Width of the channel configured for the tri radio interface. Accepts values
+                        "20MHz" or "40MHz" or "80MHz" or "160MHz".
                         Example: channel_width: "20 MHz"
                     type: str
                     required: False
@@ -526,14 +492,14 @@ options:
                     type: str
                     required: False
                 power_level:
-                    description: |
-                        Custom power level configured for the tri radio interface.
+                    description: Custom power level configured for the tri radio interface.
                         Example: powerlevel: 3
                     type: int
                     required: False
                 dual_radio_mode:
                     description: |
-                        Mode of operation configured for the tri radio interface. Specifies how the access point (AP) manages its dual radio functionality.
+                        Mode of operation configured for the tri radio interface. Specifies how the
+                        access point (AP) manages its dual radio functionality.
                         Example: dual_radio_mode: "Auto"
                     type: str
                     required: False
@@ -1245,8 +1211,8 @@ class Accesspoint(DnacBase):
                     and its creation has been verified.""".format(ap_name)
         self.log(self.msg, "INFO")
 
-        require_update = self.config_diff(self.have["current_ap_config"])
         unmatch_count = 0
+        require_update = self.config_diff(self.have["current_ap_config"])
         if require_update:
             radio_list = require_update.get("radioConfigurations")
             if len(radio_list) > 0:
@@ -1414,9 +1380,10 @@ class Accesspoint(DnacBase):
         if led_status and led_status not in ("Disabled", "Enabled"):
             errormsg.append("led_status: Invalid LED Status '{0}' in playbook.".format(led_status))
 
-        if ap_config.get("location"):
+        location = ap_config.get("location")
+        if location:
             param_spec = dict(type="str", length_max=255)
-            validate_str(ap_config["location"], param_spec, "location", errormsg)
+            validate_str(location, param_spec, "location", errormsg)
 
         ap_mode = ap_config.get("ap_mode")
         if ap_mode and ap_mode not in ("Local", "Monitor", "Sniffer", "Bridge"):
@@ -1599,6 +1566,7 @@ class Accesspoint(DnacBase):
         To check the current radio role assignment for the 5 GHz radio, call this method with
         '5ghz_radio' as 'radio_type' and the list of radio DTOS.
         """
+        role_assignment = None
         for each_dto in radio_dtos:
             slot_id = each_dto["slot_id"]
             role_assignment = each_dto.get("radio_role_assignment")
@@ -1611,6 +1579,7 @@ class Accesspoint(DnacBase):
                 if (radio_band == "2.4 GHz" and slot_id == 0) or \
                    (radio_band == "5 GHz" and slot_id == 1):
                     return role_assignment
+        return role_assignment
 
     def get_accesspoint_details(self, input_config):
         """
@@ -1688,6 +1657,7 @@ class Accesspoint(DnacBase):
             if current_configuration["family"] != "Unified AP":
                 self.msg = "Provided device is not Access Point."
                 self.module.fail_json(msg="MAC Address is not Access point")
+
         return accesspoint_exists, current_configuration
 
     def get_current_config(self, input_config):
@@ -1740,6 +1710,7 @@ class Accesspoint(DnacBase):
             ap_ethernet_mac_address = current_configuration["ap_ethernet_mac_address"]
             ap_config_exists, current_configuration = self.get_accesspoint_config(
                 ap_ethernet_mac_address)
+
             if ap_config_exists:
                 self.payload["access_point_config"] = current_configuration
 
@@ -1788,6 +1759,7 @@ class Accesspoint(DnacBase):
                 current_configuration = self.camel_to_snake_case(ap_config_response)
                 self.log("Received API response from 'get_access_point_configuration': {0}".format(self.pprint(current_configuration)), "INFO")
                 accesspoint_config_exists = True
+
         except Exception as e:
             self.log("Unable to get the Accesspoint configuration for '{0}'.".format(str(input_param) + str(e)), "WARNING")
 
@@ -1892,26 +1864,28 @@ class Accesspoint(DnacBase):
                 op_modifies=True,
                 params={"site_id": site_id}
             )
-            if response.get("device"):
-                device_mac_info = []
-                for device_info in response.get('device', []):
-                    response_list = device_info.get('response', [])
-                    for response_item in response_list:
-                        mac_address = response_item.get('macAddress')
-                        if mac_address:
-                            device_mac_info.append(mac_address)
-                if ap_mac_address in device_mac_info:
-                    self.log("Device with MAC address: {macAddress} found in site: {sId},"
-                             "Proceeding with ap_site updation."
-                             .format(macAddress=ap_mac_address, sId=site_id), "INFO")
-                    return True
-                else:
-                    self.log("Device with MAC address: {macAddress} not found in site: {sId},"
-                             .format(macAddress=ap_mac_address, sId=site_id), "INFO")
-                    return False
+
+            if not response.get("device"):
+                self.log("No site information found : {sId},".format(sId=site_id), "INFO")
+                return False
+
+            device_mac_info = []
+            for device_info in response.get('device', []):
+                response_list = device_info.get('response', [])
+                for response_item in response_list:
+                    mac_address = response_item.get('macAddress')
+                    if mac_address:
+                        device_mac_info.append(mac_address)
+
+            if ap_mac_address in device_mac_info:
+                self.log("Device with MAC address: {macAddress} found in site: {sId},"
+                            "Proceeding with ap_site updation."
+                            .format(macAddress=ap_mac_address, sId=site_id), "INFO")
+                return True
             else:
                 self.log("No site information found : {sId},".format(sId=site_id), "INFO")
                 return False
+
         except Exception as e:
             self.log("Failed to execute the get_membership function '{}'\
                       Error: {}".format(site_id, str(e)), "ERROR")
@@ -1952,6 +1926,7 @@ class Accesspoint(DnacBase):
                 self.log("WLC already provisioned.", "INFO")
                 provision_status = "success"
                 provision_details = self.pprint(response)
+
         except Exception as e:
             msg = "Wireles controller is not provisioned:"
             self.log(msg + str(e), "ERROR")
@@ -2027,6 +2002,7 @@ class Accesspoint(DnacBase):
                         self.module.fail_json(msg=execution_details.get("bapiError"),
                                               response=execution_details)
                         break
+
                     time.sleep(resync_retry_interval)
                     resync_retry_count = resync_retry_count - 1
 
@@ -2530,6 +2506,7 @@ class Accesspoint(DnacBase):
             return [self.camel_to_snake_case(item) for item in config]
         else:
             return config
+
         return new_config
 
 
