@@ -1294,9 +1294,10 @@ class Accesspoint(DnacBase):
             if ap_series is not None:
                 is_valid = False
                 for series in self.allowed_series[radio_type]:
-                    pattern = rf'\b{series}\b'
-                    is_valid = re.search(pattern, self.payload["access_point_details"]["series"], re.IGNORECASE)
-                    if is_valid is True:
+                    pattern = r'\b{}\b'.format(re.escape(series))
+                    compiled_pattern = re.compile(pattern)
+                    is_valid = compiled_pattern.search(self.payload["access_point_details"]["series"])
+                    if is_valid:
                         break
 
                     if is_valid is False:
