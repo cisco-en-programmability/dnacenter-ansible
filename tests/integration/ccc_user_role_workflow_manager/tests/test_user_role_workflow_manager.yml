@@ -1,0 +1,196 @@
+---
+- debug: msg="Starting user role workflow manager test"
+- debug: msg="Role Path {{ role_path }}"
+
+- block:
+  - name:  Load vars and declare dnac vars
+    include_vars:
+      file: "{{ role_path }}/vars/vars_user_role_workflow_manager.yml"
+      name: vars_map
+    vars:
+      dnac_login: &dnac_login
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+
+  # - debug:
+  #     msg: "{{ vars_map. }}"
+  # - debug:
+  #     msg: "{{ vars_map. }}"
+  # - debug:
+  #     msg: "{{ vars_map. }}"
+
+#############################################
+#                CREATE USER                #
+#############################################
+
+  - name: Create user
+    cisco.dnac.user_role_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+        user_details:
+          - "{{ item }}"
+    loop: "{{ vars_map.create_user }}"
+    register: result_created_user
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_created_user.results }}"
+  #   when: result_created_user is defined
+
+  - name: Assert create user
+    assert:
+      that:
+        - item.changed == true
+        - "'User created successfully' in item.response.operation.response.response.message"
+    loop: "{{ result_created_user.results }}"
+    when: result_created_user is defined
+
+
+#############################################
+#                CREATE ROLE                #
+#############################################
+
+  - name: Create role
+    cisco.dnac.user_role_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+        role_details:
+          - "{{ item }}"
+    loop: "{{ vars_map.create_role }}"
+    register: result_created_role
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_created_role.results }}"
+  #   when: result_created_role is defined
+
+  - name: Assert create role
+    assert:
+      that:
+        - item.changed == true
+        - "'created successfully' in item.response.operation.response.response.message"
+    loop: "{{ result_created_role.results }}"
+    when: result_created_role is defined
+
+#############################################
+#                UPDATE USER                #
+#############################################
+
+  - name: Update user
+    cisco.dnac.user_role_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+        user_details:
+          - "{{ item }}"
+    loop: "{{ vars_map.update_user }}"
+    register: result_updated_user
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_updated_user.results }}"
+  #   when: result_updated_user is defined
+
+  - name: Assert update user
+    assert:
+      that:
+        - item.changed == true
+        - "'Updated user successfully' in item.response.operation.response.response.message"
+    loop: "{{ result_updated_user.results }}"
+    when: result_updated_user is defined
+
+#############################################
+#                UPDATE ROLE                #
+#############################################
+
+  - name: Update role
+    cisco.dnac.user_role_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+        role_details:
+          - "{{ item }}"
+    loop: "{{ vars_map.update_role }}"
+    register: result_updated_role
+
+  - name: Debug item
+    debug:
+      var: item
+    loop: "{{ result_updated_role.results }}"
+    when: result_updated_role is defined
+
+  - name: Assert update role
+    assert:
+      that:
+        - item.changed == true
+        - "'updated successfully' in item.response.operation.response.response.message"
+    loop: "{{ result_updated_role.results }}"
+    when: result_updated_role is defined
+
+#############################################
+#                DELETE USER                #
+#############################################
+
+  - name: Delete user
+    cisco.dnac.user_role_workflow_manager:
+      <<: *dnac_login
+      state: deleted
+      config:
+        user_details:
+          - "{{ item }}"
+    loop: "{{ vars_map.delete_user }}"
+    register: result_deleted_user
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_deleted_user.results }}"
+  #   when: result_deleted_user is defined
+
+  - name: Assert delete user
+    assert:
+      that:
+        - item.changed == true
+        - "'Deleted user successfully' in item.response.users_operation.response.response.message"
+    loop: "{{ result_deleted_user.results }}"
+    when: result_deleted_user is defined
+
+#############################################
+#                DELETE ROLE                #
+#############################################
+
+  - name: Delete role
+    cisco.dnac.user_role_workflow_manager:
+      <<: *dnac_login
+      state: deleted
+      config:
+        role_details:
+          - "{{ item }}"
+    loop: "{{ vars_map.delete_role }}"
+    register: result_deleted_role
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_deleted_role.results }}"
+  #   when: result_deleted_role is defined
+
+  - name: Assert delete role
+    assert:
+      that:
+        - item.changed == true
+        - "'deleted successfully' in item.response.role_operation.response.response.message"
+    loop: "{{ result_deleted_role.results }}"
+    when: result_deleted_role is defined
