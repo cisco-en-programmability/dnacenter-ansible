@@ -944,6 +944,7 @@ releases:
           - Changes in provision workflow manager module.
           - Checking the device list in swim workflow manager module.
           - UT and IT cases for worflow manager modules.
+          - Added 'user_role_workflow_manager' module to manage operations to create, update, and delete users and roles.
           - discovery_intent.py: Changed attribute name 'desc' to 'description'.
           - discovery_workflow_manager.py: Changed attribute name 'desc' to 'description'.
           - events_and_notifications_worflow_manager.py: Changed attribute names from 'from_email', 'to_email', 'to send_email' and 'recipient_email'.
