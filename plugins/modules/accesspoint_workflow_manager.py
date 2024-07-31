@@ -55,8 +55,7 @@ options:
         type: str
         required: True
       rf_profile:
-        description: |
-          Radio Frequency (RF) profile of the Access Point (e.g., 'HIGH').
+        description: Radio Frequency (RF) profile of the Access Point (e.g., 'HIGH').
         type: str
         required: False
         example: "HIGH"
