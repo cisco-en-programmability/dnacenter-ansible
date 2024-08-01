@@ -29,31 +29,26 @@ author:
 
 options:
   config_verify:
-    description: Set to True to verify the Cisco Catalyst Center config after applying the playbook config.
+    description: Set to True to verify the Cisco Catalyst Center configuration after applying the playbook config.
     type: bool
     default: False
   state:
-    description: The state of Cisco Catalyst Center after module completion.
+    description: The desired state of the device replacement workflow.
     type: str
-    choices: [merged]
+    choices: [ 'merged', 'deleted' ]
     default: merged
   dnac_api_task_timeout:
-    description: |
-      Retry time out to get the task details from API multiple times after post Access Point provision or update
-      to mention the number of time to retry from Cisco Catalyst Center API until complete the execution.
+    description: The number of times to retry resynchronization.
     type: int
-    default: False
-    example: "dnac_api_task_timeout: 300"
+    default: 300
   dnac_task_poll_interval:
-    description: Time between polling the task or execution API to know the status of the taskid or executionid
+    description: The interval, in seconds, for polling Cisco Catalyst Center.
     type: int
-    default: False
-    example: "dnac_task_poll_interval: 3"
+    default: 3
   next_task_after_interval:
     description: Time in second between Provision and AP updated execution
     type: int
-    default: False
-    example: "next_task_after_interval: 5"
+    default: 5
   config:
     description: List of details of AP being managed.
     type: list
@@ -88,9 +83,10 @@ options:
                 required: False
                 example: 'FLOOR1'
               parent_name:
-                description: Parent name of the floor in the site hierarchy (e.g., 'Global/USA/New York/BLDNYC').
+                description: Parent name of the floor in the site hierarchy.
                 type: str
                 required: False
+                example: 'Global/USA/New York/BLDNYC'
       ap_name:
         description: Current AP name that needs to be changed along with the new AP name.
         type: str
