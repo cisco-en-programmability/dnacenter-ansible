@@ -42,7 +42,7 @@ cisco.dnac.network_settings_workflow_manager module -- Resource module for IP Ad
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.16.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.17.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -558,7 +558,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`dictionary`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
 
       .. raw:: html
 
@@ -837,7 +837,7 @@ Parameters
       :ansible-option-choices:`Choices:`
 
       - :ansible-option-choices-entry:`"AAA"`
-      - :ansible-option-choices-entry-default:`"ISE"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"ISE"`
 
 
       .. raw:: html
@@ -872,8 +872,6 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Shared secret for ISE Server.
-
-      Required when the server\_type is set to ISE.
 
       Length of the shared secret should be atleast 4 characters.
 
@@ -1496,7 +1494,7 @@ Parameters
       :ansible-option-choices:`Choices:`
 
       - :ansible-option-choices-entry:`"AAA"`
-      - :ansible-option-choices-entry-default:`"ISE"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"ISE"`
 
 
       .. raw:: html
@@ -1531,8 +1529,6 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Shared secret for ISE Server.
-
-      Required when the server\_type is set to ISE.
 
       Length of the shared secret should be atleast 4 characters.
 
@@ -3599,7 +3595,7 @@ Examples
         config_verify: True
         config:
         - network_management_details:
-            site_name: string
+          - site_name: string
             settings:
               dhcp_server: list
               dns_server:
@@ -3636,7 +3632,7 @@ Examples
         config_verify: True
         config:
         - network_management_details:
-            site_name: string
+          - site_name: string
             settings:
               network_aaa:
                 server_type: AAA
@@ -3664,7 +3660,7 @@ Examples
         config_verify: True
         config:
         - network_management_details:
-            site_name: string
+          - site_name: string
             settings:
               network_aaa:
                 server_type: ISE

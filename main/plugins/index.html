@@ -55,6 +55,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#plugin-index">Plugin Index</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#modules">Modules</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="accesspoint_configuration_details_by_task_id_info_module.html">cisco.dnac.accesspoint_configuration_details_by_task_id_info module -- Information module for Accesspoint Configuration Details By Task Id</a></li>
+<li class="toctree-l4"><a class="reference internal" href="accesspoint_workflow_manager_module.html">cisco.dnac.accesspoint_workflow_manager module -- Automates bulk AP configuration changes.</a></li>
 <li class="toctree-l4"><a class="reference internal" href="app_policy_default_info_module.html">cisco.dnac.app_policy_default_info module -- Information module for App Policy Default</a></li>
 <li class="toctree-l4"><a class="reference internal" href="app_policy_info_module.html">cisco.dnac.app_policy_info module -- Information module for App Policy</a></li>
 <li class="toctree-l4"><a class="reference internal" href="app_policy_intent_create_module.html">cisco.dnac.app_policy_intent_create module -- Resource module for App Policy Intent Create</a></li>
@@ -372,6 +373,7 @@
 <li class="toctree-l4"><a class="reference internal" href="reserve_ip_subpool_delete_module.html">cisco.dnac.reserve_ip_subpool_delete module -- Resource module for Reserve Ip Subpool Delete</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reserve_ip_subpool_info_module.html">cisco.dnac.reserve_ip_subpool_info module -- Information module for Reserve Ip Subpool</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reserve_ip_subpool_update_module.html">cisco.dnac.reserve_ip_subpool_update module -- Resource module for Reserve Ip Subpool Update</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rma_workflow_manager_module.html">cisco.dnac.rma_workflow_manager module -- Manage device replacement workflows in Cisco Catalyst Center.</a></li>
 <li class="toctree-l4"><a class="reference internal" href="role_permissions_info_module.html">cisco.dnac.role_permissions_info module -- Information module for Role Permissions</a></li>
 <li class="toctree-l4"><a class="reference internal" href="roles_module.html">cisco.dnac.roles module -- Resource module for Roles</a></li>
 <li class="toctree-l4"><a class="reference internal" href="roles_info_module.html">cisco.dnac.roles_info module -- Information module for Roles</a></li>
@@ -517,6 +519,7 @@
 <li class="toctree-l4"><a class="reference internal" href="user_module.html">cisco.dnac.user module -- Resource module for User</a></li>
 <li class="toctree-l4"><a class="reference internal" href="user_enrichment_details_info_module.html">cisco.dnac.user_enrichment_details_info module -- Information module for User Enrichment Details</a></li>
 <li class="toctree-l4"><a class="reference internal" href="user_info_module.html">cisco.dnac.user_info module -- Information module for User</a></li>
+<li class="toctree-l4"><a class="reference internal" href="user_role_workflow_manager_module.html">cisco.dnac.user_role_workflow_manager module -- Resource module for managing users and roles in Cisco Catalyst Center.</a></li>
 <li class="toctree-l4"><a class="reference internal" href="users_external_authentication_module.html">cisco.dnac.users_external_authentication module -- Resource module for Users External Authentication</a></li>
 <li class="toctree-l4"><a class="reference internal" href="users_external_authentication_info_module.html">cisco.dnac.users_external_authentication_info module -- Information module for Users External Authentication</a></li>
 <li class="toctree-l4"><a class="reference internal" href="users_external_servers_aaa_attribute_module.html">cisco.dnac.users_external_servers_aaa_attribute module -- Resource module for Users External Servers Aaa Attribute</a></li>
@@ -574,7 +577,7 @@
              
   <section id="cisco-dnac">
 <span id="plugins-in-cisco-dnac"></span><h1>Cisco.Dnac<a class="headerlink" href="#cisco-dnac" title="Permalink to this heading"></a></h1>
-<p>Collection version 6.16.0</p>
+<p>Collection version 6.17.0</p>
 <nav class="contents local" id="contents">
 <ul class="simple">
 <li><p><a class="reference internal" href="#description" id="id1">Description</a></p></li>
@@ -599,6 +602,9 @@
 <li><p>Abhishek Maheshwari &lt;<a class="reference external" href="mailto:abmahesh&#37;&#52;&#48;cisco&#46;com">abmahesh<span>&#64;</span>cisco<span>&#46;</span>com</a>&gt;</p></li>
 <li><p>Phan Nguyen &lt;<a class="reference external" href="mailto:phannguy&#37;&#52;&#48;cisco&#46;com">phannguy<span>&#64;</span>cisco<span>&#46;</span>com</a>&gt;</p></li>
 <li><p>Rugvedi Kapse &lt;<a class="reference external" href="mailto:rukapse&#37;&#52;&#48;cisco&#46;com">rukapse<span>&#64;</span>cisco<span>&#46;</span>com</a>&gt;</p></li>
+<li><p>Rangaprabhu Deenadayalu &lt;<a class="reference external" href="mailto:radeenad&#37;&#52;&#48;cisco&#46;com">radeenad<span>&#64;</span>cisco<span>&#46;</span>com</a>&gt;</p></li>
+<li><p>Ajith Andrew J &lt;<a class="reference external" href="mailto:jajandre&#37;&#52;&#48;cisco&#46;com">jajandre<span>&#64;</span>cisco<span>&#46;</span>com</a>&gt;</p></li>
+<li><p>Syed Khadeer Ahmed &lt;<a class="reference external" href="mailto:syedkahm&#37;&#52;&#48;cisco&#46;com">syedkahm<span>&#64;</span>cisco<span>&#46;</span>com</a>&gt;</p></li>
 </ul>
 <p><strong>Supported ansible-core versions:</strong></p>
 <ul class="simple">
@@ -617,6 +623,7 @@
 <h3>Modules<a class="headerlink" href="#modules" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p><a class="reference internal" href="accesspoint_configuration_details_by_task_id_info_module.html#ansible-collections-cisco-dnac-accesspoint-configuration-details-by-task-id-info-module"><span class="std std-ref">accesspoint_configuration_details_by_task_id_info module</span></a> -- Information module for Accesspoint Configuration Details By Task Id</p></li>
+<li><p><a class="reference internal" href="accesspoint_workflow_manager_module.html#ansible-collections-cisco-dnac-accesspoint-workflow-manager-module"><span class="std std-ref">accesspoint_workflow_manager module</span></a> -- Automates bulk AP configuration changes.</p></li>
 <li><p><a class="reference internal" href="app_policy_default_info_module.html#ansible-collections-cisco-dnac-app-policy-default-info-module"><span class="std std-ref">app_policy_default_info module</span></a> -- Information module for App Policy Default</p></li>
 <li><p><a class="reference internal" href="app_policy_info_module.html#ansible-collections-cisco-dnac-app-policy-info-module"><span class="std std-ref">app_policy_info module</span></a> -- Information module for App Policy</p></li>
 <li><p><a class="reference internal" href="app_policy_intent_create_module.html#ansible-collections-cisco-dnac-app-policy-intent-create-module"><span class="std std-ref">app_policy_intent_create module</span></a> -- Resource module for App Policy Intent Create</p></li>
@@ -934,6 +941,7 @@
 <li><p><a class="reference internal" href="reserve_ip_subpool_delete_module.html#ansible-collections-cisco-dnac-reserve-ip-subpool-delete-module"><span class="std std-ref">reserve_ip_subpool_delete module</span></a> -- Resource module for Reserve Ip Subpool Delete</p></li>
 <li><p><a class="reference internal" href="reserve_ip_subpool_info_module.html#ansible-collections-cisco-dnac-reserve-ip-subpool-info-module"><span class="std std-ref">reserve_ip_subpool_info module</span></a> -- Information module for Reserve Ip Subpool</p></li>
 <li><p><a class="reference internal" href="reserve_ip_subpool_update_module.html#ansible-collections-cisco-dnac-reserve-ip-subpool-update-module"><span class="std std-ref">reserve_ip_subpool_update module</span></a> -- Resource module for Reserve Ip Subpool Update</p></li>
+<li><p><a class="reference internal" href="rma_workflow_manager_module.html#ansible-collections-cisco-dnac-rma-workflow-manager-module"><span class="std std-ref">rma_workflow_manager module</span></a> -- Manage device replacement workflows in Cisco Catalyst Center.</p></li>
 <li><p><a class="reference internal" href="role_permissions_info_module.html#ansible-collections-cisco-dnac-role-permissions-info-module"><span class="std std-ref">role_permissions_info module</span></a> -- Information module for Role Permissions</p></li>
 <li><p><a class="reference internal" href="roles_module.html#ansible-collections-cisco-dnac-roles-module"><span class="std std-ref">roles module</span></a> -- Resource module for Roles</p></li>
 <li><p><a class="reference internal" href="roles_info_module.html#ansible-collections-cisco-dnac-roles-info-module"><span class="std std-ref">roles_info module</span></a> -- Information module for Roles</p></li>
@@ -1079,6 +1087,7 @@
 <li><p><a class="reference internal" href="user_module.html#ansible-collections-cisco-dnac-user-module"><span class="std std-ref">user module</span></a> -- Resource module for User</p></li>
 <li><p><a class="reference internal" href="user_enrichment_details_info_module.html#ansible-collections-cisco-dnac-user-enrichment-details-info-module"><span class="std std-ref">user_enrichment_details_info module</span></a> -- Information module for User Enrichment Details</p></li>
 <li><p><a class="reference internal" href="user_info_module.html#ansible-collections-cisco-dnac-user-info-module"><span class="std std-ref">user_info module</span></a> -- Information module for User</p></li>
+<li><p><a class="reference internal" href="user_role_workflow_manager_module.html#ansible-collections-cisco-dnac-user-role-workflow-manager-module"><span class="std std-ref">user_role_workflow_manager module</span></a> -- Resource module for managing users and roles in Cisco Catalyst Center.</p></li>
 <li><p><a class="reference internal" href="users_external_authentication_module.html#ansible-collections-cisco-dnac-users-external-authentication-module"><span class="std std-ref">users_external_authentication module</span></a> -- Resource module for Users External Authentication</p></li>
 <li><p><a class="reference internal" href="users_external_authentication_info_module.html#ansible-collections-cisco-dnac-users-external-authentication-info-module"><span class="std std-ref">users_external_authentication_info module</span></a> -- Information module for Users External Authentication</p></li>
 <li><p><a class="reference internal" href="users_external_servers_aaa_attribute_module.html#ansible-collections-cisco-dnac-users-external-servers-aaa-attribute-module"><span class="std std-ref">users_external_servers_aaa_attribute module</span></a> -- Resource module for Users External Servers Aaa Attribute</p></li>

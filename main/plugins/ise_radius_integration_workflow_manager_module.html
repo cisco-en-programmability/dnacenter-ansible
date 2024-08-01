@@ -53,6 +53,7 @@
 <li class="toctree-l2 current"><a class="reference internal" href="index.html#plugin-index">Plugin Index</a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="index.html#modules">Modules</a><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="accesspoint_configuration_details_by_task_id_info_module.html">cisco.dnac.accesspoint_configuration_details_by_task_id_info module -- Information module for Accesspoint Configuration Details By Task Id</a></li>
+<li class="toctree-l4"><a class="reference internal" href="accesspoint_workflow_manager_module.html">cisco.dnac.accesspoint_workflow_manager module -- Automates bulk AP configuration changes.</a></li>
 <li class="toctree-l4"><a class="reference internal" href="app_policy_default_info_module.html">cisco.dnac.app_policy_default_info module -- Information module for App Policy Default</a></li>
 <li class="toctree-l4"><a class="reference internal" href="app_policy_info_module.html">cisco.dnac.app_policy_info module -- Information module for App Policy</a></li>
 <li class="toctree-l4"><a class="reference internal" href="app_policy_intent_create_module.html">cisco.dnac.app_policy_intent_create module -- Resource module for App Policy Intent Create</a></li>
@@ -370,6 +371,7 @@
 <li class="toctree-l4"><a class="reference internal" href="reserve_ip_subpool_delete_module.html">cisco.dnac.reserve_ip_subpool_delete module -- Resource module for Reserve Ip Subpool Delete</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reserve_ip_subpool_info_module.html">cisco.dnac.reserve_ip_subpool_info module -- Information module for Reserve Ip Subpool</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reserve_ip_subpool_update_module.html">cisco.dnac.reserve_ip_subpool_update module -- Resource module for Reserve Ip Subpool Update</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rma_workflow_manager_module.html">cisco.dnac.rma_workflow_manager module -- Manage device replacement workflows in Cisco Catalyst Center.</a></li>
 <li class="toctree-l4"><a class="reference internal" href="role_permissions_info_module.html">cisco.dnac.role_permissions_info module -- Information module for Role Permissions</a></li>
 <li class="toctree-l4"><a class="reference internal" href="roles_module.html">cisco.dnac.roles module -- Resource module for Roles</a></li>
 <li class="toctree-l4"><a class="reference internal" href="roles_info_module.html">cisco.dnac.roles_info module -- Information module for Roles</a></li>
@@ -515,6 +517,7 @@
 <li class="toctree-l4"><a class="reference internal" href="user_module.html">cisco.dnac.user module -- Resource module for User</a></li>
 <li class="toctree-l4"><a class="reference internal" href="user_enrichment_details_info_module.html">cisco.dnac.user_enrichment_details_info module -- Information module for User Enrichment Details</a></li>
 <li class="toctree-l4"><a class="reference internal" href="user_info_module.html">cisco.dnac.user_info module -- Information module for User</a></li>
+<li class="toctree-l4"><a class="reference internal" href="user_role_workflow_manager_module.html">cisco.dnac.user_role_workflow_manager module -- Resource module for managing users and roles in Cisco Catalyst Center.</a></li>
 <li class="toctree-l4"><a class="reference internal" href="users_external_authentication_module.html">cisco.dnac.users_external_authentication module -- Resource module for Users External Authentication</a></li>
 <li class="toctree-l4"><a class="reference internal" href="users_external_authentication_info_module.html">cisco.dnac.users_external_authentication_info module -- Information module for Users External Authentication</a></li>
 <li class="toctree-l4"><a class="reference internal" href="users_external_servers_aaa_attribute_module.html">cisco.dnac.users_external_servers_aaa_attribute module -- Resource module for Users External Servers Aaa Attribute</a></li>
@@ -575,7 +578,7 @@
 <h1>cisco.dnac.ise_radius_integration_workflow_manager module -- Resource module for Authentication and Policy Servers<a class="headerlink" href="#cisco-dnac-ise-radius-integration-workflow-manager-module-resource-module-for-authentication-and-policy-servers" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.16.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.17.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-ise-radius-integration-workflow-manager-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -627,7 +630,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-ise-radi
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/authentication_policy_server"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-ise-radius-integration-workflow-manager-module-parameter-config-authentication-policy-server"><strong>authentication_policy_server</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/authentication_policy_server" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
+<a class="ansibleOptionLink" href="#parameter-config/authentication_policy_server" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Manages the Authentication and Policy Servers.</p>
 </div></td>
@@ -766,7 +769,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-ise-radi
 <a class="ansibleOptionLink" href="#parameter-config/authentication_policy_server/ise_integration_wait_time" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Indicates the sleep time after initiating the Cisco ISE integration process.</p>
-<p>Maximum sleep time should be less or equal to 60 seconds.</p>
+<p>Maximum sleep time should be less or equal to 120 seconds.</p>
 <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id9"><span class="problematic" id="id10">:ansible-option-default:`20`</span></a></p>
 </div></td>
 </tr>
@@ -1092,7 +1095,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-ise-radi
 <span class="w">    </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">authentication_policy_server</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">server_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">AAA</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">server_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">AAA</span>
 <span class="w">        </span><span class="nt">server_ip_address</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0.0.1</span>
 <span class="w">        </span><span class="nt">shared_secret</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;12345&quot;</span>
 <span class="w">        </span><span class="nt">protocol</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">RADIUS_TACACS</span>
@@ -1120,7 +1123,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-ise-radi
 <span class="w">    </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">authentication_policy_server</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">server_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ISE</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">server_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ISE</span>
 <span class="w">        </span><span class="nt">server_ip_address</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0.0.2</span>
 <span class="w">        </span><span class="nt">shared_secret</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;12345&quot;</span>
 <span class="w">        </span><span class="nt">protocol</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">RADIUS_TACACS</span>
@@ -1158,7 +1161,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-ise-radi
 <span class="w">    </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">authentication_policy_server</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">server_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">AAA</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">server_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">AAA</span>
 <span class="w">        </span><span class="nt">server_ip_address</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0.0.1</span>
 <span class="w">        </span><span class="nt">protocol</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">RADIUS_TACACS</span>
 <span class="w">        </span><span class="nt">retries</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
@@ -1179,7 +1182,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-ise-radi
 <span class="w">    </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">authentication_policy_server</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">server_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ISE</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">server_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ISE</span>
 <span class="w">        </span><span class="nt">server_ip_address</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0.0.2</span>
 <span class="w">        </span><span class="nt">protocol</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">RADIUS_TACACS</span>
 <span class="w">        </span><span class="nt">retries</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
@@ -1208,7 +1211,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-ise-radi
 <span class="w">    </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">authentication_policy_server</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">server_ip_address</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0.0.1</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">server_ip_address</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0.0.1</span>
 </pre></div>
 </div>
 </section>

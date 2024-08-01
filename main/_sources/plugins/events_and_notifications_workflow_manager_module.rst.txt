@@ -42,7 +42,7 @@ cisco.dnac.events_and_notifications_workflow_manager module -- Configure various
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.16.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.17.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -180,40 +180,6 @@ Parameters
 
         </div>
     
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/email_destination/from_email"></div>
-
-      .. _ansible_collections.cisco.dnac.events_and_notifications_workflow_manager_module__parameter-config/email_destination/from_email:
-
-      .. rst-class:: ansible-option-title
-
-      **from_email**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/email_destination/from_email" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string` / :ansible-option-required:`required`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Sender's email address used when setting up or modifying an email destination.
-
-
-      .. raw:: html
-
-        </div>
-
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -418,6 +384,40 @@ Parameters
 
         </div>
 
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/email_destination/recipient_email"></div>
+
+      .. _ansible_collections.cisco.dnac.events_and_notifications_workflow_manager_module__parameter-config/email_destination/recipient_email:
+
+      .. rst-class:: ansible-option-title
+
+      **recipient_email**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/email_destination/recipient_email" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Recipient's email address that will receive emails when an email destination is created or updated.
+
+
+      .. raw:: html
+
+        </div>
 
   * - .. raw:: html
 
@@ -627,6 +627,40 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/email_destination/sender_email"></div>
+
+      .. _ansible_collections.cisco.dnac.events_and_notifications_workflow_manager_module__parameter-config/email_destination/sender_email:
+
+      .. rst-class:: ansible-option-title
+
+      **sender_email**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/email_destination/sender_email" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Sender's email address used when setting up or modifying an email destination.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/email_destination/subject"></div>
 
       .. _ansible_collections.cisco.dnac.events_and_notifications_workflow_manager_module__parameter-config/email_destination/subject:
@@ -652,40 +686,6 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Subject line of the email to be used when sending emails from the specified email destination.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/email_destination/to_email"></div>
-
-      .. _ansible_collections.cisco.dnac.events_and_notifications_workflow_manager_module__parameter-config/email_destination/to_email:
-
-      .. rst-class:: ansible-option-title
-
-      **to_email**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/email_destination/to_email" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string` / :ansible-option-required:`required`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Recipient's email address that will receive emails when an email destination is created or updated.
 
 
       .. raw:: html
@@ -4149,6 +4149,7 @@ Notes
 -----
 
 .. note::
+   - To ensure the module operates correctly with scaled sets—such as creating or updating multiple destinations and handling event subscription notifications—please ensure that valid input is provided in the playbook. If any failure occurs, the module will halt execution and will not proceed to subsequent operations.
    - Configuring the webhook destination with headers now supports starting from dnacentersdk version 2.9.1 onwards. This enhancement is in alignment with Catalyst Center Release 2.3.7.5.
    - Configuring the SNMP destination now supports starting from dnacentersdk version 2.9.1 onwards. This enhancement is in alignment with Catalyst Center Release 2.3.7.5.
    - SDK Method used are events.Events.get\_syslog\_destination, events.Events.create\_syslog\_destination, events.Events.update\_syslog\_destination, events.Events.get\_snmp\_destination, events.Events.create\_snmp\_destination, events.Events.update\_snmp\_destination, events.Events.get\_webhook\_destination, events.Events.create\_webhook\_destination, events.Events.update\_webhook\_destination, events.Events.get\_email\_destination, events.Events.create\_email\_destination, events.Events.get\_status\_api\_for\_events, events.Events.get\_all\_itsm\_integration\_settings, events.Events.get\_itsm\_integration\_setting\_by\_id, events.Events.create\_itsm\_integration\_setting, events.Events.update\_itsm\_integration\_setting, events.Events.delete\_itsm\_integration\_setting, events.Events.get\_eventartifacts, events.Events.get\_site, events.Events.get\_syslog\_event\_subscriptions, events.Events.get\_syslog\_subscription\_details, events.Events.create\_syslog\_event\_subscription, events.Events.update\_syslog\_event\_subscription, events.Events.get\_rest\_webhook\_event\_subscriptions, events.Events.get\_rest\_webhook\_subscription\_details, events.Events.create\_rest\_webhook\_event\_subscription, events.Events.update\_rest\_webhook\_event\_subscription, events.Events.get\_email\_event\_subscriptions, events.Events.get\_email\_subscription\_details, events.Events.create\_email\_event\_subscription, events.Events.update\_email\_event\_subscription, events.Events.delete\_event\_subscriptions
@@ -4219,8 +4220,8 @@ Examples
         state: merged
         config:
           - email_destination:
-              from_email: "test@cisco.com"
-              to_email: "demo@cisco.com"
+              sender_email: "test@cisco.com"
+              recipient_email: "demo@cisco.com"
               subject: "Ansible testing"
               primary_smtp_config:
                 server_address: "outbound.cisco.com"
@@ -4241,8 +4242,8 @@ Examples
         state: merged
         config:
           - email_destination:
-              from_email: "test@cisco.com"
-              to_email: "demo123@cisco.com"
+              sender_email: "test@cisco.com"
+              recipient_email: "demo123@cisco.com"
               subject: "Ansible updated email config testing"
 
     - name: Create Syslog destination with given name.

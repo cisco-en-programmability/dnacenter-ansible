@@ -42,7 +42,7 @@ cisco.dnac.template_workflow_manager module -- Resource module for Template func
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.16.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.17.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1564,7 +1564,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Dictates whether the parameter is mandatory for template operations.
+      Dictates whether the parameter is required for template operations.
 
 
       .. rst-class:: ansible-option-line
@@ -2197,7 +2197,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Applicable device software type. This field is mandatory to create a new template.
+      Applicable device software type. This field is required to create a new template.
 
 
       .. rst-class:: ansible-option-line
@@ -2348,7 +2348,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Name of template. This field is mandatory to create a new template.
+      Name of template. This field is required to create a new template.
 
 
       .. raw:: html
@@ -3079,7 +3079,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Dictates whether the parameter is mandatory for template operations.
+      Dictates whether the parameter is required for template operations.
 
 
       .. rst-class:: ansible-option-line
@@ -3705,7 +3705,11 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      DoVersion query parameter. If this flag is true, creates a new version of the template with the imported contents, if the templates already exists. " If false and if template already exists, then operation fails with 'Template already exists' error.
+      Determines whether to create a new version of the project with the imported contents.
+
+      If set to true and the project already exists, a new version will be created.
+
+      If false, the operation will fail with a 'Project already exists' error if the project already exists.
 
 
       .. rst-class:: ansible-option-line
@@ -3714,6 +3718,118 @@ Parameters
 
       - :ansible-option-choices-entry:`false`
       - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/project/payload"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/project/payload:
+
+      .. rst-class:: ansible-option-title
+
+      **payload**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/project/payload" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Directly imports configuration data into the system using the provided payload.
+
+      Offers an alternative to 'project\_file' for importing configurations without referencing an external file.
+
+      Ignored if 'project\_file' is also provided.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/project/payload/name"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/project/payload/name:
+
+      .. rst-class:: ansible-option-title
+
+      **name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/project/payload/name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of the project to be imported.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/project/project_file"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/project/project_file:
+
+      .. rst-class:: ansible-option-title
+
+      **project_file**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/project/project_file" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      :ansible-option-versionadded:`added in cisco.dnac 6.17.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the path to a JSON file that contains the import project configuration.
+
+      If both 'project\_file' and 'payload' are provided, the 'project\_file' will be given priority.
 
 
       .. raw:: html
@@ -5185,7 +5301,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Dictates whether the parameter is mandatory for template operations.
+      Dictates whether the parameter is required for template operations.
 
 
       .. rst-class:: ansible-option-line
@@ -5818,7 +5934,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Applicable device software type. This field is mandatory to create a new template.
+      Applicable device software type. This field is required to create a new template.
 
 
       .. rst-class:: ansible-option-line
@@ -5969,7 +6085,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Name of template. This field is mandatory to create a new template.
+      Name of template. This field is required to create a new template.
 
 
       .. raw:: html
@@ -6700,7 +6816,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Dictates whether the parameter is mandatory for template operations.
+      Dictates whether the parameter is required for template operations.
 
 
       .. rst-class:: ansible-option-line

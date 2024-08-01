@@ -6,7 +6,7 @@
 Cisco.Dnac
 ==========
 
-Collection version 6.16.0
+Collection version 6.17.0
 
 .. contents::
    :local:
@@ -32,6 +32,9 @@ Ansible Modules for Cisco DNA Center
 * Abhishek Maheshwari <abmahesh@cisco.com>
 * Phan Nguyen <phannguy@cisco.com>
 * Rugvedi Kapse <rukapse@cisco.com>
+* Rangaprabhu Deenadayalu <radeenad@cisco.com>
+* Ajith Andrew J <jajandre@cisco.com>
+* Syed Khadeer Ahmed <syedkahm@cisco.com>
 
 **Supported ansible-core versions:**
 
@@ -60,6 +63,7 @@ Modules
 ~~~~~~~
 
 * :ref:`accesspoint_configuration_details_by_task_id_info module <ansible_collections.cisco.dnac.accesspoint_configuration_details_by_task_id_info_module>` -- Information module for Accesspoint Configuration Details By Task Id
+* :ref:`accesspoint_workflow_manager module <ansible_collections.cisco.dnac.accesspoint_workflow_manager_module>` -- Automates bulk AP configuration changes.
 * :ref:`app_policy_default_info module <ansible_collections.cisco.dnac.app_policy_default_info_module>` -- Information module for App Policy Default
 * :ref:`app_policy_info module <ansible_collections.cisco.dnac.app_policy_info_module>` -- Information module for App Policy
 * :ref:`app_policy_intent_create module <ansible_collections.cisco.dnac.app_policy_intent_create_module>` -- Resource module for App Policy Intent Create
@@ -377,6 +381,7 @@ Modules
 * :ref:`reserve_ip_subpool_delete module <ansible_collections.cisco.dnac.reserve_ip_subpool_delete_module>` -- Resource module for Reserve Ip Subpool Delete
 * :ref:`reserve_ip_subpool_info module <ansible_collections.cisco.dnac.reserve_ip_subpool_info_module>` -- Information module for Reserve Ip Subpool
 * :ref:`reserve_ip_subpool_update module <ansible_collections.cisco.dnac.reserve_ip_subpool_update_module>` -- Resource module for Reserve Ip Subpool Update
+* :ref:`rma_workflow_manager module <ansible_collections.cisco.dnac.rma_workflow_manager_module>` -- Manage device replacement workflows in Cisco Catalyst Center.
 * :ref:`role_permissions_info module <ansible_collections.cisco.dnac.role_permissions_info_module>` -- Information module for Role Permissions
 * :ref:`roles module <ansible_collections.cisco.dnac.roles_module>` -- Resource module for Roles
 * :ref:`roles_info module <ansible_collections.cisco.dnac.roles_info_module>` -- Information module for Roles
@@ -522,6 +527,7 @@ Modules
 * :ref:`user module <ansible_collections.cisco.dnac.user_module>` -- Resource module for User
 * :ref:`user_enrichment_details_info module <ansible_collections.cisco.dnac.user_enrichment_details_info_module>` -- Information module for User Enrichment Details
 * :ref:`user_info module <ansible_collections.cisco.dnac.user_info_module>` -- Information module for User
+* :ref:`user_role_workflow_manager module <ansible_collections.cisco.dnac.user_role_workflow_manager_module>` -- Resource module for managing users and roles in Cisco Catalyst Center.
 * :ref:`users_external_authentication module <ansible_collections.cisco.dnac.users_external_authentication_module>` -- Resource module for Users External Authentication
 * :ref:`users_external_authentication_info module <ansible_collections.cisco.dnac.users_external_authentication_info_module>` -- Information module for Users External Authentication
 * :ref:`users_external_servers_aaa_attribute module <ansible_collections.cisco.dnac.users_external_servers_aaa_attribute_module>` -- Resource module for Users External Servers Aaa Attribute
@@ -551,6 +557,7 @@ Modules
     :hidden:
 
     accesspoint_configuration_details_by_task_id_info_module
+    accesspoint_workflow_manager_module
     app_policy_default_info_module
     app_policy_info_module
     app_policy_intent_create_module
@@ -868,6 +875,7 @@ Modules
     reserve_ip_subpool_delete_module
     reserve_ip_subpool_info_module
     reserve_ip_subpool_update_module
+    rma_workflow_manager_module
     role_permissions_info_module
     roles_module
     roles_info_module
@@ -1013,6 +1021,7 @@ Modules
     user_module
     user_enrichment_details_info_module
     user_info_module
+    user_role_workflow_manager_module
     users_external_authentication_module
     users_external_authentication_info_module
     users_external_servers_aaa_attribute_module
