@@ -96,34 +96,34 @@ options:
         description: Current AP name that needs to be changed along with the new AP name.
         type: str
         required: False
-        example: ap_name: "Test2", ap_name_new: "NFW-AP1-9130AXE"
+        example: 'ap_name: "Test2"' 
       admin_status:
         description: Status of the AP configuration. Accepts "Enabled" or "Disabled".
         type: str
         required: False
-        example: admin_status: "Enabled"
+        example: 'admin_status: "Enabled"'
       led_status:
         description: State of the AP's LED. Accepts "Enabled" or "Disabled".
         type: str
         required: False
-        example: led_status: "Enabled"
+        example: 'led_status: "Enabled"'
       led_brightness_level:
         description: Brightness level of the AP's LED. Accepts values from 1 to 8.
         type: int
         required: False
-        example: led_brightness_level: 3
+        example: 'led_brightness_level: 3'
       ap_mode:
         description: |
           Mode of operation for the Access Point (AP). Possible values include "local/flexconnect",
           "monitor", "sniffer", or "Bridge/Flex+Bridge".
-        example: ap_mode: "local"
+        example: 'ap_mode: "local"'
         type: str
         required: False
       location:
         description: Location name of the AP. Provide this data if a change is required.
         type: str
         required: False
-        example: location: "Bangalore"
+        example: 'location: "Bangalore"'
       failover_priority:
         description: Priority order for failover in AP configuration. Accepts "Low", "Medium", "High", or "Critical".
         type: str
@@ -134,26 +134,26 @@ options:
           Clean Air Spectrum Intelligence is enabled or disabled.
         type: str
         required: False
-        example: clean_air_si_2.4ghz: "Enabled"
+        example: 'clean_air_si_2.4ghz: "Enabled"'
       clean_air_si_5ghz:
         description: |
           Clean Air Spectrum Intelligence (SI) feature status for the 5GHz band. Indicates whether
           Clean Air Spectrum Intelligence is enabled or disabled.
         type: str
         required: False
-        example: clean_air_si_5ghz: "Enabled"
+        example: 'clean_air_si_5ghz: "Enabled"'
       clean_air_si_6ghz:
         description: |
           Clean Air Spectrum Intelligence (SI) feature status for the 6GHz band. Indicates whether
           Clean Air Spectrum Intelligence is enabled or disabled.
         type: str
         required: False
-        example: clean_air_si_6ghz: "Enabled"
+        example: 'clean_air_si_6ghz: "Enabled"'
       primary_controller_name:
         description: Name or identifier of the primary wireless LAN controller (WLC) managing the Access Point (AP).
         type: str
         required: False
-        example: primary_controller_name: "SJ-EWLC-1"
+        example: 'primary_controller_name: "SJ-EWLC-1"'
       primary_ip_address:
         description: IP address of the primary wireless LAN controller (WLC) managing the Access Point (AP).
         type: str
