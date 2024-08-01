@@ -510,15 +510,11 @@ options:
         required: False
         example: "id,hostname,family,type,mac_address,management_ip_address,ap_ethernet_mac_address"
       ap_config_selected_fields:
-        description: When enable the verify flag "config_verify" to see only the filter field of the AP configuration in the output.
+        description: |
+          When enable the verify flag "config_verify" to see only the filter field of the AP configuration in the output.
+          (eg. "mac_address,eth_mac,ap_name,led_brightness_level,led_status,location,radioDTOs")
         type: str
         required: False
-        example: "mac_address,eth_mac,ap_name,led_brightness_level,led_status,location,radioDTOs"
-  register:
-    description: Name for registering the output. This option is used to store the results of the module's execution in an Ansible variable.
-    example: result
-    type: str
-    required: False
 
 requirements:
   - dnacentersdk >= 2.4.5
@@ -533,25 +529,25 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/
 
 notes:
-  - Make sure to install the required Python dependencies by executing `pip install dnacentersdk`.
+  - Make sure to install the required Python dependencies by executing pip install dnacentersdk.
   - SDK Method used are:
-    - devices.get_device_list
-    - wireless.get_access_point_configuration
-    - sites.get_site
-    - sda.get_device_info
-    - sites.assign_devices_to_site
-    - wireless.ap_provision
-    - wireless.configure_access_points
-    - sites.get_membership
+  - devices.get_device_list
+  - wireless.get_access_point_configuration
+  - sites.get_site
+  - sda.get_device_info
+  - sites.assign_devices_to_site
+  - wireless.ap_provision
+  - wireless.configure_access_points
+  - sites.get_membership
   - Paths used are:
-    - GET  /dna/intent/api/v1/network-device
-    - GET  /dna/intent/api/v1/site
-    - GET  /dna/intent/api/v1/business/sda/device
-    - POST /dna/intent/api/v1/wireless/ap-provision
-    - GET  /dna/intent/api/v1/membership/{siteId}
-    - GET  /dna/intent/api/v1/wireless/accesspoint-configuration/details/{task_id}
-    - POST /dna/intent/api/v2/wireless/accesspoint-configuration
-    - POST /dna/intent/api/v1/assign-device-to-site/{siteId}/device
+  - GET  /dna/intent/api/v1/network-device
+  - GET  /dna/intent/api/v1/site
+  - GET  /dna/intent/api/v1/business/sda/device
+  - POST /dna/intent/api/v1/wireless/ap-provision
+  - GET  /dna/intent/api/v1/membership/{siteId}
+  - GET  /dna/intent/api/v1/wireless/accesspoint-configuration/details/{task_id}
+  - POST /dna/intent/api/v2/wireless/accesspoint-configuration
+  - POST /dna/intent/api/v1/assign-device-to-site/{siteId}/device
 """
 
 EXAMPLES = r"""
