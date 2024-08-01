@@ -480,8 +480,8 @@ options:
                 example: 6
               channel_width:
                 description: |
-                Width of the channel configured for the tri radio interface. Accepts values
-                "20MHz", "40MHz", "80MHz", or "160MHz".
+                  Width of the channel configured for the tri radio interface. Accepts values
+                  "20MHz", "40MHz", "80MHz", or "160MHz".
                 example: 20 MHz
                 type: str
                 required: False
@@ -499,8 +499,8 @@ options:
                 example: 3
               dual_radio_mode:
                 description: |
-                Mode of operation configured for the tri radio interface. Specifies how the
-                access point (AP) manages its dual radio functionality.
+                  Mode of operation configured for the tri radio interface. Specifies how the
+                  access point (AP) manages its dual radio functionality.
                 example: Auto
                 type: str
                 required: False
