@@ -407,9 +407,9 @@ options:
                 required: False
               channel_number:
                 description: Custom channel number configured for the xor radio interface.
+                example: 6
                 type: int
                 required: False
-                example: 6
               channel_width:
                 description: |
                 Width of the channel configured for the xor radio interface. Accepts values
