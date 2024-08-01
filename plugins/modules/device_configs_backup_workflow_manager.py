@@ -149,7 +149,9 @@ except ImportError:
 
 try:
     import pathlib
+    HAS_PATHLIB = True
 except ImportError:
+    HAS_PATHLIB = False
     pathlib = None
 
 from ansible.module_utils.basic import AnsibleModule
@@ -195,6 +197,15 @@ class Device_configs_backup(DnacBase):
           validated configuration. If it fails, 'self.status' will be
           'failed', and 'self.msg' will describe the validation issues.
         """
+        if HAS_PYZIPPER is False:
+            msg = "Pyzipper is not installed. Please install it using 'pip install pyzipper' command"
+            self.log(msg, "CRITICAL")
+            self.module.fail_json(msg=msg)
+
+        if HAS_PATHLIB is False:
+            msg = "Pathlib is not installed. Please install it using 'pip install pathlib' command"
+            self.log(msg, "CRITICAL")
+            self.module.fail_json(msg=msg)
 
         if not self.config:
             self.msg = "config not available in playbook for validattion"
@@ -287,7 +298,7 @@ class Device_configs_backup(DnacBase):
             params=device_params,
             op_modifies=True
         )
-        self.log("Reponse collected from the API 'get_device_list' is {0}".format(str(response)), "DEBUG")
+        self.log("Response collected from the API 'get_device_list' is {0}".format(str(response)), "DEBUG")
         device_list = response.get("response")
 
         self.log("Length of the device list fetched from the API 'get_device_list' is {0}".format(str(device_list)), "INFO")
