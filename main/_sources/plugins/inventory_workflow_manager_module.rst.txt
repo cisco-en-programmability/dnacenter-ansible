@@ -42,7 +42,7 @@ cisco.dnac.inventory_workflow_manager module -- Resource module for Network Devi
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.16.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.17.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -424,7 +424,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Make this as true needed for the updation of device credentials and other device details.
+      Set this to 'True' to update device credentials and other device details. When this parameter is 'True', ensure that the devices are present in Cisco Catalyst Center; only then can update operations be performed on the respective devices. If the parameter is 'True' and any device is not present, the module will attempt to add it.  If required parameters are missing during this addition, the module will fail and stop execution, preventing update operations for devices that are already present.
 
 
       .. rst-class:: ansible-option-line
@@ -510,6 +510,44 @@ Parameters
 
       Password required for enabling configurations on the device.
 
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/export_device_details_limit"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/export_device_details_limit:
+
+      .. rst-class:: ansible-option-title
+
+      **export_device_details_limit**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/export_device_details_limit" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the limit for updating device details or exporting device details/credentials to a file. The default limit is set to 500 devices. This limit is applied when exporting device details/credentials and editing device details. The maximum number of device details/credentials that can be exported in a single API call is 800.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`500`
 
       .. raw:: html
 

@@ -53,6 +53,7 @@
 <li class="toctree-l2 current"><a class="reference internal" href="index.html#plugin-index">Plugin Index</a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="index.html#modules">Modules</a><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="accesspoint_configuration_details_by_task_id_info_module.html">cisco.dnac.accesspoint_configuration_details_by_task_id_info module -- Information module for Accesspoint Configuration Details By Task Id</a></li>
+<li class="toctree-l4"><a class="reference internal" href="accesspoint_workflow_manager_module.html">cisco.dnac.accesspoint_workflow_manager module -- Automates bulk AP configuration changes.</a></li>
 <li class="toctree-l4"><a class="reference internal" href="app_policy_default_info_module.html">cisco.dnac.app_policy_default_info module -- Information module for App Policy Default</a></li>
 <li class="toctree-l4"><a class="reference internal" href="app_policy_info_module.html">cisco.dnac.app_policy_info module -- Information module for App Policy</a></li>
 <li class="toctree-l4"><a class="reference internal" href="app_policy_intent_create_module.html">cisco.dnac.app_policy_intent_create module -- Resource module for App Policy Intent Create</a></li>
@@ -370,6 +371,7 @@
 <li class="toctree-l4"><a class="reference internal" href="reserve_ip_subpool_delete_module.html">cisco.dnac.reserve_ip_subpool_delete module -- Resource module for Reserve Ip Subpool Delete</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reserve_ip_subpool_info_module.html">cisco.dnac.reserve_ip_subpool_info module -- Information module for Reserve Ip Subpool</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reserve_ip_subpool_update_module.html">cisco.dnac.reserve_ip_subpool_update module -- Resource module for Reserve Ip Subpool Update</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rma_workflow_manager_module.html">cisco.dnac.rma_workflow_manager module -- Manage device replacement workflows in Cisco Catalyst Center.</a></li>
 <li class="toctree-l4"><a class="reference internal" href="role_permissions_info_module.html">cisco.dnac.role_permissions_info module -- Information module for Role Permissions</a></li>
 <li class="toctree-l4"><a class="reference internal" href="roles_module.html">cisco.dnac.roles module -- Resource module for Roles</a></li>
 <li class="toctree-l4"><a class="reference internal" href="roles_info_module.html">cisco.dnac.roles_info module -- Information module for Roles</a></li>
@@ -515,6 +517,7 @@
 <li class="toctree-l4"><a class="reference internal" href="user_module.html">cisco.dnac.user module -- Resource module for User</a></li>
 <li class="toctree-l4"><a class="reference internal" href="user_enrichment_details_info_module.html">cisco.dnac.user_enrichment_details_info module -- Information module for User Enrichment Details</a></li>
 <li class="toctree-l4"><a class="reference internal" href="user_info_module.html">cisco.dnac.user_info module -- Information module for User</a></li>
+<li class="toctree-l4"><a class="reference internal" href="user_role_workflow_manager_module.html">cisco.dnac.user_role_workflow_manager module -- Resource module for managing users and roles in Cisco Catalyst Center.</a></li>
 <li class="toctree-l4"><a class="reference internal" href="users_external_authentication_module.html">cisco.dnac.users_external_authentication module -- Resource module for Users External Authentication</a></li>
 <li class="toctree-l4"><a class="reference internal" href="users_external_authentication_info_module.html">cisco.dnac.users_external_authentication_info module -- Information module for Users External Authentication</a></li>
 <li class="toctree-l4"><a class="reference internal" href="users_external_servers_aaa_attribute_module.html">cisco.dnac.users_external_servers_aaa_attribute module -- Resource module for Users External Servers Aaa Attribute</a></li>
@@ -575,7 +578,7 @@
 <h1>cisco.dnac.network_settings_workflow_manager module -- Resource module for IP Address pools and network functions<a class="headerlink" href="#cisco-dnac-network-settings-workflow-manager-module-resource-module-for-ip-address-pools-and-network-functions" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.16.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.17.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-network-settings-workflow-manager-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -722,7 +725,7 @@ GRE tunnels, or other types of overlay networks.</p>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/network_management_details"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-network-settings-workflow-manager-module-parameter-config-network-management-details"><strong>network_management_details</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/network_management_details" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
+<a class="ansibleOptionLink" href="#parameter-config/network_management_details" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Set default network settings for the site</p>
 </div></td>
@@ -788,7 +791,7 @@ GRE tunnels, or other types of overlay networks.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
 <li><p><a href="#id9"><span class="problematic" id="id10">:ansible-option-choices-entry:`&quot;AAA&quot;`</span></a></p></li>
-<li><p><a href="#id11"><span class="problematic" id="id12">:ansible-option-choices-entry-default:`&quot;ISE&quot;`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id11"><span class="problematic" id="id12">:ansible-option-choices-entry:`&quot;ISE&quot;`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -797,7 +800,6 @@ GRE tunnels, or other types of overlay networks.</p>
 <a class="ansibleOptionLink" href="#parameter-config/network_management_details/settings/client_and_endpoint_aaa/shared_secret" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Shared secret for ISE Server.</p>
-<p>Required when the server_type is set to ISE.</p>
 <p>Length of the shared secret should be atleast 4 characters.</p>
 </div></td>
 </tr>
@@ -937,7 +939,7 @@ GRE tunnels, or other types of overlay networks.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
 <li><p><a href="#id21"><span class="problematic" id="id22">:ansible-option-choices-entry:`&quot;AAA&quot;`</span></a></p></li>
-<li><p><a href="#id23"><span class="problematic" id="id24">:ansible-option-choices-entry-default:`&quot;ISE&quot;`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id23"><span class="problematic" id="id24">:ansible-option-choices-entry:`&quot;ISE&quot;`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -946,7 +948,6 @@ GRE tunnels, or other types of overlay networks.</p>
 <a class="ansibleOptionLink" href="#parameter-config/network_management_details/settings/network_aaa/shared_secret" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Shared secret for ISE Server.</p>
-<p>Required when the server_type is set to ISE.</p>
 <p>Length of the shared secret should be atleast 4 characters.</p>
 </div></td>
 </tr>
@@ -1540,7 +1541,7 @@ GRE tunnels, or other types of overlay networks.</p>
 <span class="w">    </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">network_management_details</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">site_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
 <span class="w">        </span><span class="nt">settings</span><span class="p">:</span>
 <span class="w">          </span><span class="nt">dhcp_server</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">list</span>
 <span class="w">          </span><span class="nt">dns_server</span><span class="p">:</span>
@@ -1577,7 +1578,7 @@ GRE tunnels, or other types of overlay networks.</p>
 <span class="w">    </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">network_management_details</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">site_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
 <span class="w">        </span><span class="nt">settings</span><span class="p">:</span>
 <span class="w">          </span><span class="nt">network_aaa</span><span class="p">:</span>
 <span class="w">            </span><span class="nt">server_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">AAA</span>
@@ -1605,7 +1606,7 @@ GRE tunnels, or other types of overlay networks.</p>
 <span class="w">    </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">network_management_details</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">site_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
 <span class="w">        </span><span class="nt">settings</span><span class="p">:</span>
 <span class="w">          </span><span class="nt">network_aaa</span><span class="p">:</span>
 <span class="w">            </span><span class="nt">server_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ISE</span>

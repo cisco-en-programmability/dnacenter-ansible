@@ -53,6 +53,7 @@
 <li class="toctree-l2 current"><a class="reference internal" href="index.html#plugin-index">Plugin Index</a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="index.html#modules">Modules</a><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="accesspoint_configuration_details_by_task_id_info_module.html">cisco.dnac.accesspoint_configuration_details_by_task_id_info module -- Information module for Accesspoint Configuration Details By Task Id</a></li>
+<li class="toctree-l4"><a class="reference internal" href="accesspoint_workflow_manager_module.html">cisco.dnac.accesspoint_workflow_manager module -- Automates bulk AP configuration changes.</a></li>
 <li class="toctree-l4"><a class="reference internal" href="app_policy_default_info_module.html">cisco.dnac.app_policy_default_info module -- Information module for App Policy Default</a></li>
 <li class="toctree-l4"><a class="reference internal" href="app_policy_info_module.html">cisco.dnac.app_policy_info module -- Information module for App Policy</a></li>
 <li class="toctree-l4"><a class="reference internal" href="app_policy_intent_create_module.html">cisco.dnac.app_policy_intent_create module -- Resource module for App Policy Intent Create</a></li>
@@ -370,6 +371,7 @@
 <li class="toctree-l4"><a class="reference internal" href="reserve_ip_subpool_delete_module.html">cisco.dnac.reserve_ip_subpool_delete module -- Resource module for Reserve Ip Subpool Delete</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reserve_ip_subpool_info_module.html">cisco.dnac.reserve_ip_subpool_info module -- Information module for Reserve Ip Subpool</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reserve_ip_subpool_update_module.html">cisco.dnac.reserve_ip_subpool_update module -- Resource module for Reserve Ip Subpool Update</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rma_workflow_manager_module.html">cisco.dnac.rma_workflow_manager module -- Manage device replacement workflows in Cisco Catalyst Center.</a></li>
 <li class="toctree-l4"><a class="reference internal" href="role_permissions_info_module.html">cisco.dnac.role_permissions_info module -- Information module for Role Permissions</a></li>
 <li class="toctree-l4"><a class="reference internal" href="roles_module.html">cisco.dnac.roles module -- Resource module for Roles</a></li>
 <li class="toctree-l4"><a class="reference internal" href="roles_info_module.html">cisco.dnac.roles_info module -- Information module for Roles</a></li>
@@ -515,6 +517,7 @@
 <li class="toctree-l4"><a class="reference internal" href="user_module.html">cisco.dnac.user module -- Resource module for User</a></li>
 <li class="toctree-l4"><a class="reference internal" href="user_enrichment_details_info_module.html">cisco.dnac.user_enrichment_details_info module -- Information module for User Enrichment Details</a></li>
 <li class="toctree-l4"><a class="reference internal" href="user_info_module.html">cisco.dnac.user_info module -- Information module for User</a></li>
+<li class="toctree-l4"><a class="reference internal" href="user_role_workflow_manager_module.html">cisco.dnac.user_role_workflow_manager module -- Resource module for managing users and roles in Cisco Catalyst Center.</a></li>
 <li class="toctree-l4"><a class="reference internal" href="users_external_authentication_module.html">cisco.dnac.users_external_authentication module -- Resource module for Users External Authentication</a></li>
 <li class="toctree-l4"><a class="reference internal" href="users_external_authentication_info_module.html">cisco.dnac.users_external_authentication_info module -- Information module for Users External Authentication</a></li>
 <li class="toctree-l4"><a class="reference internal" href="users_external_servers_aaa_attribute_module.html">cisco.dnac.users_external_servers_aaa_attribute module -- Resource module for Users External Servers Aaa Attribute</a></li>
@@ -575,7 +578,7 @@
 <h1>cisco.dnac.network_compliance_workflow_manager module -- Network Compliance module for managing network compliance tasks on reachable device(s) in Cisco Catalyst Center.<a class="headerlink" href="#cisco-dnac-network-compliance-workflow-manager-module-network-compliance-module-for-managing-network-compliance-tasks-on-reachable-device-s-in-cisco-catalyst-center" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.16.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.17.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-network-compliance-workflow-manager-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -584,16 +587,16 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-network-
 <p class="ansible-version-added">New in cisco.dnac 6.14.0</p>
 <nav class="contents local" id="contents">
 <ul class="simple">
-<li><p><a class="reference internal" href="#synopsis" id="id55">Synopsis</a></p></li>
-<li><p><a class="reference internal" href="#requirements" id="id56">Requirements</a></p></li>
-<li><p><a class="reference internal" href="#parameters" id="id57">Parameters</a></p></li>
-<li><p><a class="reference internal" href="#notes" id="id58">Notes</a></p></li>
-<li><p><a class="reference internal" href="#examples" id="id59">Examples</a></p></li>
-<li><p><a class="reference internal" href="#return-values" id="id60">Return Values</a></p></li>
+<li><p><a class="reference internal" href="#synopsis" id="id57">Synopsis</a></p></li>
+<li><p><a class="reference internal" href="#requirements" id="id58">Requirements</a></p></li>
+<li><p><a class="reference internal" href="#parameters" id="id59">Parameters</a></p></li>
+<li><p><a class="reference internal" href="#notes" id="id60">Notes</a></p></li>
+<li><p><a class="reference internal" href="#examples" id="id61">Examples</a></p></li>
+<li><p><a class="reference internal" href="#return-values" id="id62">Return Values</a></p></li>
 </ul>
 </nav>
 <section id="synopsis">
-<h2><a class="toc-backref" href="#id55" role="doc-backlink">Synopsis</a><a class="headerlink" href="#synopsis" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id57" role="doc-backlink">Synopsis</a><a class="headerlink" href="#synopsis" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p>Perform compliance checks or sync configurations on reachable devices using IP Address(s) or Site.</p></li>
 <li><p>API to perform full compliance checks or specific category checks on reachable device(s).</p></li>
@@ -601,7 +604,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-network-
 </ul>
 </section>
 <section id="requirements">
-<span id="ansible-collections-cisco-dnac-network-compliance-workflow-manager-module-requirements"></span><h2><a class="toc-backref" href="#id56" role="doc-backlink">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
+<span id="ansible-collections-cisco-dnac-network-compliance-workflow-manager-module-requirements"></span><h2><a class="toc-backref" href="#id58" role="doc-backlink">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
 <p>The below requirements are needed on the host that executes this module.</p>
 <ul class="simple">
 <li><p>dnacentersdk == 2.7.0</p></li>
@@ -609,7 +612,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-network-
 </ul>
 </section>
 <section id="parameters">
-<h2><a class="toc-backref" href="#id57" role="doc-backlink">Parameters</a><a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id59" role="doc-backlink">Parameters</a><a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h2>
 <table class="ansible-option-table docutils align-default" style="width: 100%">
 <thead>
 <tr class="row-odd"><th class="head"><p>Parameter</p></th>
@@ -644,71 +647,79 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-network-
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/run_compliance_batch_size"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-network-compliance-workflow-manager-module-parameter-config-run-compliance-batch-size"><strong>run_compliance_batch_size</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/run_compliance_batch_size" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Specifies the number of devices to be included in a single batch for compliance operations. This parameter is crucial for optimizing performance during large-scale compliance checks. By processing devices in manageable batches, the system can enhance the speed and efficiency of the operation, reducing the overall time required and minimizing the risk of overloading system resources. Adjusting this parameter allows for a balance between throughput and resource utilization, ensuring smooth and effective compliance management. Note - Having a higher value for run_compliance_batch_size may cause errors due to the increased load on the system.</p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id5"><span class="problematic" id="id6">:ansible-option-default:`100`</span></a></p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/run_compliance_categories"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-network-compliance-workflow-manager-module-parameter-config-run-compliance-categories"><strong>run_compliance_categories</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/run_compliance_categories" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Specifying compliance categories allows you to trigger compliance checks only for the mentioned categories. Category can have one or more values from among the options &quot;INTENT&quot;, &quot;RUNNING_CONFIG&quot;, &quot;IMAGE&quot;, &quot;PSIRT&quot;, &quot;EOX&quot;, &quot;NETWORK_SETTINGS&quot;. Category &quot;INTENT&quot; is mapped to compliance types &quot;NETWORK_SETTINGS&quot;, &quot;NETWORK_PROFILE&quot;, &quot;WORKFLOW&quot;, &quot;FABRIC&quot;, &quot;APPLICATION_VISIBILITY&quot;. If &quot;run_compliance&quot; is False then compliance will be not be triggered even if &quot;run_compliance_categories&quot; are provided. (e.g. [&quot;INTENT&quot;, &quot;RUNNING_CONFIG&quot;, &quot;IMAGE&quot;, &quot;PSIRT&quot;, &quot;EOX&quot;, &quot;NETWORK_SETTINGS&quot;])</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/site_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-network-compliance-workflow-manager-module-parameter-config-site-name"><strong>site_name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/site_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>When &quot;site_name&quot; is specified, the module executes the operation on all the devices located within the specified site. This is a string value that should represent the complete hierarchical path of the site. Either &quot;site_name&quot; or &quot;ip_address_list&quot; is required for module to execute. If both &quot;site_name&quot; and &quot;ip_address_list&quot; are provided, operations are performed on devices that are present in both the &quot;ip_address_list&quot; and the specified site. (e.g. &quot;Global/USA/San Francisco/Building_2/floor_1&quot;)</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/sync_device_config"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-network-compliance-workflow-manager-module-parameter-config-sync-device-config"><strong>sync_device_config</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/sync_device_config" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Determines whether to synchronize the device configuration on the devices specified in the &quot;ip_address_list&quot; and/or &quot;site_name&quot;. Sync device configuration, primarily addresses the status of the `RUNNING_CONFIG`. If set to True, and if `RUNNING_CONFIG` status is non-compliant this operation would commit device running configuration to startup by issuing &quot;write memory&quot; to device. Note - This operation cannot be performed on Access Points (APs) and if APs are provided, they will be skipped.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id5"><span class="problematic" id="id6">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><a href="#id7"><span class="problematic" id="id8">:ansible-option-choices-entry:`true`</span></a></p></li>
+<li><p><a href="#id7"><span class="problematic" id="id8">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id9"><span class="problematic" id="id10">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config_verify"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-network-compliance-workflow-manager-module-parameter-config-verify"><strong>config_verify</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config_verify" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Set to True to verify the Cisco Catalyst Center config after applying the playbook config.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id9"><span class="problematic" id="id10">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><a href="#id11"><span class="problematic" id="id12">:ansible-option-choices-entry:`true`</span></a></p></li>
+<li><p><a href="#id11"><span class="problematic" id="id12">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id13"><span class="problematic" id="id14">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_api_task_timeout"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-network-compliance-workflow-manager-module-parameter-dnac-api-task-timeout"><strong>dnac_api_task_timeout</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_api_task_timeout" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Defines the timeout in seconds for API calls to retrieve task details. If the task details are not received within this period, the process will end, and a timeout notification will be logged.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id13"><span class="problematic" id="id14">:ansible-option-default:`1200`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id15"><span class="problematic" id="id16">:ansible-option-default:`1200`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-network-compliance-workflow-manager-module-parameter-dnac-debug"><strong>dnac_debug</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Indicates whether debugging is enabled in the Cisco Catalyst Center SDK.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id15"><span class="problematic" id="id16">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><a href="#id17"><span class="problematic" id="id18">:ansible-option-choices-entry:`true`</span></a></p></li>
+<li><p><a href="#id17"><span class="problematic" id="id18">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id19"><span class="problematic" id="id20">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-network-compliance-workflow-manager-module-parameter-dnac-host"><strong>dnac_host</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>The hostname of the Cisco Catalyst Center.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_log"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-network-compliance-workflow-manager-module-parameter-dnac-log"><strong>dnac_log</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_log" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -720,34 +731,34 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-network-
 <p>If the log file exists, - It is overwritten or appended based on the &quot;dnac_log_append&quot; flag.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id19"><span class="problematic" id="id20">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><a href="#id21"><span class="problematic" id="id22">:ansible-option-choices-entry:`true`</span></a></p></li>
+<li><p><a href="#id21"><span class="problematic" id="id22">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id23"><span class="problematic" id="id24">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_log_append"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-network-compliance-workflow-manager-module-parameter-dnac-log-append"><strong>dnac_log_append</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_log_append" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Determines the mode of the file. Set to True for 'append' mode. Set to False for 'write' mode.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id23"><span class="problematic" id="id24">:ansible-option-choices-entry:`false`</span></a></p></li>
-<li><p><a href="#id25"><span class="problematic" id="id26">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id25"><span class="problematic" id="id26">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id27"><span class="problematic" id="id28">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_log_file_path"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-network-compliance-workflow-manager-module-parameter-dnac-log-file-path"><strong>dnac_log_file_path</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_log_file_path" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Governs logging. Logs are recorded if dnac_log is True.</p>
 <p>If path is not specified, - When 'dnac_log_append' is True, 'dnac.log' is generated in the current Ansible directory; logs are appended. - When 'dnac_log_append' is False, 'dnac.log' is generated; logs are overwritten.</p>
 <p>If path is specified, - When 'dnac_log_append' is True, the file opens in append mode. - When 'dnac_log_append' is False, the file opens in write (w) mode. - In shared file scenarios, without append mode, content is overwritten after each module execution. - For a shared log file, set append to False for the 1st module (to overwrite); for subsequent modules, set append to True.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id27"><span class="problematic" id="id28">:ansible-option-default:`&quot;dnac.log&quot;`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id29"><span class="problematic" id="id30">:ansible-option-default:`&quot;dnac.log&quot;`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_log_level"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-network-compliance-workflow-manager-module-parameter-dnac-log-level"><strong>dnac_log_level</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_log_level" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -757,82 +768,82 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-network-
 <p>WARNING indicates potential future issues. Displays WARNING, ERROR, CRITICAL messages.</p>
 <p>INFO tracks normal operation. Displays INFO, WARNING, ERROR, CRITICAL messages.</p>
 <p>DEBUG provides detailed diagnostic info. Displays all log messages.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id29"><span class="problematic" id="id30">:ansible-option-default:`&quot;WARNING&quot;`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id31"><span class="problematic" id="id32">:ansible-option-default:`&quot;WARNING&quot;`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-network-compliance-workflow-manager-module-parameter-dnac-password"><strong>dnac_password</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>The password for authentication at the Cisco Catalyst Center.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-network-compliance-workflow-manager-module-parameter-dnac-port"><strong>dnac_port</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Specifies the port number associated with the Cisco Catalyst Center.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id31"><span class="problematic" id="id32">:ansible-option-default:`&quot;443&quot;`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id33"><span class="problematic" id="id34">:ansible-option-default:`&quot;443&quot;`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_task_poll_interval"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-network-compliance-workflow-manager-module-parameter-dnac-task-poll-interval"><strong>dnac_task_poll_interval</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_task_poll_interval" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Specifies the interval in seconds between successive calls to the API to retrieve task details.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id33"><span class="problematic" id="id34">:ansible-option-default:`2`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id35"><span class="problematic" id="id36">:ansible-option-default:`2`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
 <div class="ansibleOptionAnchor" id="parameter-user"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-network-compliance-workflow-manager-module-parameter-user"><span id="ansible-collections-cisco-dnac-network-compliance-workflow-manager-module-parameter-dnac-username"></span><strong>dnac_username</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-aliases">aliases: user</span></p>
 <p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>The username for authentication at the Cisco Catalyst Center.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id35"><span class="problematic" id="id36">:ansible-option-default:`&quot;admin&quot;`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id37"><span class="problematic" id="id38">:ansible-option-default:`&quot;admin&quot;`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-network-compliance-workflow-manager-module-parameter-dnac-verify"><strong>dnac_verify</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Flag to enable or disable SSL certificate verification.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id37"><span class="problematic" id="id38">:ansible-option-choices-entry:`false`</span></a></p></li>
-<li><p><a href="#id39"><span class="problematic" id="id40">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id39"><span class="problematic" id="id40">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id41"><span class="problematic" id="id42">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-network-compliance-workflow-manager-module-parameter-dnac-version"><strong>dnac_version</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Specifies the version of the Cisco Catalyst Center that the SDK should use.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id41"><span class="problematic" id="id42">:ansible-option-default:`&quot;2.2.3.3&quot;`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id43"><span class="problematic" id="id44">:ansible-option-default:`&quot;2.2.3.3&quot;`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-state"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-network-compliance-workflow-manager-module-parameter-state"><strong>state</strong></p>
 <a class="ansibleOptionLink" href="#parameter-state" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>State of Cisco Catalyst Center after module completion.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id43"><span class="problematic" id="id44">:ansible-option-choices-entry-default:`&quot;merged&quot;`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id45"><span class="problematic" id="id46">:ansible-option-choices-entry-default:`&quot;merged&quot;`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-network-compliance-workflow-manager-module-parameter-validate-response-schema"><strong>validate_response_schema</strong></p>
 <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Flag for Cisco Catalyst Center SDK to enable the validation of request bodies against a JSON schema.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id45"><span class="problematic" id="id46">:ansible-option-choices-entry:`false`</span></a></p></li>
-<li><p><a href="#id47"><span class="problematic" id="id48">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id47"><span class="problematic" id="id48">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id49"><span class="problematic" id="id50">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
 </ul>
 </div></td>
 </tr>
@@ -840,12 +851,12 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-network-
 </table>
 </section>
 <section id="notes">
-<h2><a class="toc-backref" href="#id58" role="doc-backlink">Notes</a><a class="headerlink" href="#notes" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id60" role="doc-backlink">Notes</a><a class="headerlink" href="#notes" title="Permalink to this heading"></a></h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <ul class="simple">
-<li><p>SDK Methods used are compliance.Compliance.run_compliance compliance.Compliance.commit_device_configuration task.Task.get_task_by_id task.Task.get_task_tree compliance.Compliance.get_compliance_detail</p></li>
-<li><p>Paths used are post /dna/intent/api/v1/compliance/ post /dna/intent/api/v1/network-device-config/write-memory get /dna/intent/api/v1/task/{taskId} get /dna/intent/api/v1/task/{taskId}/tree get /dna/intent/api/v1/compliance/detail</p></li>
+<li><p>SDK Methods used are compliance.Compliance.run_compliance compliance.Compliance.commit_device_configuration task.Task.get_task_by_id task.Task.get_task_tree compliance.Compliance.compliance_details_of_device</p></li>
+<li><p>Paths used are post /dna/intent/api/v1/compliance/ post /dna/intent/api/v1/network-device-config/write-memory get /dna/intent/api/v1/task/{taskId} get /dna/intent/api/v1/task/{taskId}/tree get /dna/intent/api/v1/compliance/${deviceUuid}/detail</p></li>
 <li><p>Does not support <code class="docutils literal notranslate"><span class="pre">check_mode</span></code></p></li>
 <li><p>The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK</p></li>
 <li><p>The parameters starting with dnac_ are used by the Cisco Catalyst Center Python SDK to establish the connection</p></li>
@@ -853,7 +864,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-network-
 </div>
 </section>
 <section id="examples">
-<h2><a class="toc-backref" href="#id59" role="doc-backlink">Examples</a><a class="headerlink" href="#examples" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id61" role="doc-backlink">Examples</a><a class="headerlink" href="#examples" title="Permalink to this heading"></a></h2>
 <div class="highlight-yaml+jinja notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run Compliance check on device(s) using IP address list (run_compliance by default is True)</span>
 <span class="w">  </span><span class="nt">cisco.dnac.network_compliance_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -1033,7 +1044,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-network-
 </div>
 </section>
 <section id="return-values">
-<h2><a class="toc-backref" href="#id60" role="doc-backlink">Return Values</a><a class="headerlink" href="#return-values" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id62" role="doc-backlink">Return Values</a><a class="headerlink" href="#return-values" title="Permalink to this heading"></a></h2>
 <p>Common return values are documented <a class="reference external" href="https://docs.ansible.com/ansible/latest/reference_appendices/common_return_values.html#common-return-values" title="(in Ansible v10)"><span class="xref std std-ref">here</span></a>, the following are the fields unique to this module:</p>
 <table class="ansible-option-table docutils align-default" style="width: 100%">
 <thead>
@@ -1048,7 +1059,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-network-
 </div></td>
 <td><div class="ansible-option-cell"><p>A dictionary with the response returned by the Cisco Catalyst Center Python SDK</p>
 <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> always</p>
-<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id49"><span class="problematic" id="id50">:ansible-rv-sample-value:`&quot;{\\n  \\&quot;status\\&quot;: \\&quot;string\\&quot;,\\n  \\&quot;changed\\&quot;: bool,\\n  \\&quot;msg\\&quot;: \\&quot;string\\&quot;\\n  \\&quot;response\\&quot;: {\\n    \\&quot;taskId\\&quot;: \\&quot;string\\&quot;,\\n    \\&quot;url\\&quot;: \\&quot;string\\&quot;\\n  },\\n  \\&quot;data\\&quot;: dict,\\n  \\&quot;version\\&quot;: \\&quot;string\\&quot;\\n}\\n&quot;`</span></a></p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id51"><span class="problematic" id="id52">:ansible-rv-sample-value:`&quot;{\\n  \\&quot;status\\&quot;: \\&quot;string\\&quot;,\\n  \\&quot;changed\\&quot;: bool,\\n  \\&quot;msg\\&quot;: \\&quot;string\\&quot;\\n  \\&quot;response\\&quot;: {\\n    \\&quot;taskId\\&quot;: \\&quot;string\\&quot;,\\n    \\&quot;url\\&quot;: \\&quot;string\\&quot;\\n  },\\n  \\&quot;data\\&quot;: dict,\\n  \\&quot;version\\&quot;: \\&quot;string\\&quot;\\n}\\n&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
@@ -1057,7 +1068,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-network-
 </div></td>
 <td><div class="ansible-option-cell"><p>A dictionary with the response returned by the Cisco Catalyst Center Python SDK</p>
 <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> always</p>
-<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id51"><span class="problematic" id="id52">:ansible-rv-sample-value:`&quot;{\\n  \\&quot;status\\&quot;: \\&quot;string\\&quot;,\\n  \\&quot;changed\\&quot;: bool,\\n  \\&quot;msg\\&quot;: \\&quot;string\\&quot;\\n  \\&quot;response\\&quot;: {\\n    \\&quot;taskId\\&quot;: \\&quot;string\\&quot;,\\n    \\&quot;url\\&quot;: \\&quot;string\\&quot;\\n  },\\n  \\&quot;version\\&quot;: \\&quot;string\\&quot;\\n}\\n&quot;`</span></a></p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id53"><span class="problematic" id="id54">:ansible-rv-sample-value:`&quot;{\\n  \\&quot;status\\&quot;: \\&quot;string\\&quot;,\\n  \\&quot;changed\\&quot;: bool,\\n  \\&quot;msg\\&quot;: \\&quot;string\\&quot;\\n  \\&quot;response\\&quot;: {\\n    \\&quot;taskId\\&quot;: \\&quot;string\\&quot;,\\n    \\&quot;url\\&quot;: \\&quot;string\\&quot;\\n  },\\n  \\&quot;version\\&quot;: \\&quot;string\\&quot;\\n}\\n&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
@@ -1066,7 +1077,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-network-
 </div></td>
 <td><div class="ansible-option-cell"><p>A dictionary with the response returned by the Cisco Catalyst Center Python SDK</p>
 <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> always</p>
-<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id53"><span class="problematic" id="id54">:ansible-rv-sample-value:`&quot;{\\n  \\&quot;changed\\&quot;: bool,\\n  \\&quot;msg\\&quot;: \\&quot;string\\&quot;\\n}\\n&quot;`</span></a></p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id55"><span class="problematic" id="id56">:ansible-rv-sample-value:`&quot;{\\n  \\&quot;changed\\&quot;: bool,\\n  \\&quot;msg\\&quot;: \\&quot;string\\&quot;\\n}\\n&quot;`</span></a></p>
 </div></td>
 </tr>
 </tbody>

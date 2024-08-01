@@ -42,7 +42,7 @@ cisco.dnac.discovery_workflow_manager module -- A resource module for handling d
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.16.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.17.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -897,17 +897,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/discovery_specific_credentials/snmp_v2_read_credential/desc"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/discovery_specific_credentials/snmp_v2_read_credential/description"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_workflow_manager_module__parameter-config/discovery_specific_credentials/snmp_v2_read_credential/desc:
+      .. _ansible_collections.cisco.dnac.discovery_workflow_manager_module__parameter-config/discovery_specific_credentials/snmp_v2_read_credential/description:
 
       .. rst-class:: ansible-option-title
 
-      **desc**
+      **description**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/discovery_specific_credentials/snmp_v2_read_credential/desc" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/discovery_specific_credentials/snmp_v2_read_credential/description" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -1002,17 +1002,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/discovery_specific_credentials/snmp_v2_write_credential/desc"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/discovery_specific_credentials/snmp_v2_write_credential/description"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_workflow_manager_module__parameter-config/discovery_specific_credentials/snmp_v2_write_credential/desc:
+      .. _ansible_collections.cisco.dnac.discovery_workflow_manager_module__parameter-config/discovery_specific_credentials/snmp_v2_write_credential/description:
 
       .. rst-class:: ansible-option-title
 
-      **desc**
+      **description**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/discovery_specific_credentials/snmp_v2_write_credential/desc" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/discovery_specific_credentials/snmp_v2_write_credential/description" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -2068,7 +2068,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      List of IP addresses to be discovered. For CDP/LLDP/SINGLE based discovery, we should pass a list with single element like - 10.197.156.22. For CIDR based discovery, we should pass a list with single element like - 10.197.156.22/22. For RANGE based discovery, we should pass a list with single element and range like - 10.197.156.1-10.197.156.100. For MULTI RANGE based discovery, we should pass a list with multiple elementd like - 10.197.156.1-10.197.156.100 and in next line - 10.197.157.1-10.197.157.100. Maximum of 8 IP address ranges are allowed.
+      List of IP addresses to be discovered. For CDP/LLDP/SINGLE based discovery, we should pass a list with single element like - 10.197.156.22. For CIDR based discovery, we should pass a list with single element like - 10.197.156.22/22. For RANGE based discovery, we should pass a list with single element and range like - 10.197.156.1-10.197.156.100. For MULTI RANGE based discovery, we should pass a list with multiple elements like - 10.197.156.1-10.197.156.100 and in next line - 10.197.157.1-10.197.157.100. Maximum of 8 IP address ranges are allowed.
 
 
       .. raw:: html
@@ -3137,10 +3137,10 @@ Examples
                     port: 443
                     secure: True
                 snmp_v2_read_credential:
-                    desc: snmp_v2-new
+                    description: snmp_v2-new
                     community: Cisco123
                 snmp_v2_write_credential:
-                    desc: snmp_v2-new
+                    description: snmp_v2-new
                     community: Cisco123
                 snmp_v3_credential:
                     username: v3Public2
@@ -3211,10 +3211,10 @@ Examples
                     port: 443
                     secure: True
                 snmp_v2_read_credential:
-                    desc: snmp_v2-new
+                    description: snmp_v2-new
                     community: Cisco123
                 snmp_v2_write_credential:
-                    desc: snmp_v2-new
+                    description: snmp_v2-new
                     community: Cisco123
                 snmp_v3_credential:
                     username: v3Public2

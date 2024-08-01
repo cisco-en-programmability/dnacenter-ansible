@@ -53,6 +53,7 @@
 <li class="toctree-l2 current"><a class="reference internal" href="index.html#plugin-index">Plugin Index</a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="index.html#modules">Modules</a><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="accesspoint_configuration_details_by_task_id_info_module.html">cisco.dnac.accesspoint_configuration_details_by_task_id_info module -- Information module for Accesspoint Configuration Details By Task Id</a></li>
+<li class="toctree-l4"><a class="reference internal" href="accesspoint_workflow_manager_module.html">cisco.dnac.accesspoint_workflow_manager module -- Automates bulk AP configuration changes.</a></li>
 <li class="toctree-l4"><a class="reference internal" href="app_policy_default_info_module.html">cisco.dnac.app_policy_default_info module -- Information module for App Policy Default</a></li>
 <li class="toctree-l4"><a class="reference internal" href="app_policy_info_module.html">cisco.dnac.app_policy_info module -- Information module for App Policy</a></li>
 <li class="toctree-l4"><a class="reference internal" href="app_policy_intent_create_module.html">cisco.dnac.app_policy_intent_create module -- Resource module for App Policy Intent Create</a></li>
@@ -370,6 +371,7 @@
 <li class="toctree-l4"><a class="reference internal" href="reserve_ip_subpool_delete_module.html">cisco.dnac.reserve_ip_subpool_delete module -- Resource module for Reserve Ip Subpool Delete</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reserve_ip_subpool_info_module.html">cisco.dnac.reserve_ip_subpool_info module -- Information module for Reserve Ip Subpool</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reserve_ip_subpool_update_module.html">cisco.dnac.reserve_ip_subpool_update module -- Resource module for Reserve Ip Subpool Update</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rma_workflow_manager_module.html">cisco.dnac.rma_workflow_manager module -- Manage device replacement workflows in Cisco Catalyst Center.</a></li>
 <li class="toctree-l4"><a class="reference internal" href="role_permissions_info_module.html">cisco.dnac.role_permissions_info module -- Information module for Role Permissions</a></li>
 <li class="toctree-l4"><a class="reference internal" href="roles_module.html">cisco.dnac.roles module -- Resource module for Roles</a></li>
 <li class="toctree-l4"><a class="reference internal" href="roles_info_module.html">cisco.dnac.roles_info module -- Information module for Roles</a></li>
@@ -515,6 +517,7 @@
 <li class="toctree-l4"><a class="reference internal" href="user_module.html">cisco.dnac.user module -- Resource module for User</a></li>
 <li class="toctree-l4"><a class="reference internal" href="user_enrichment_details_info_module.html">cisco.dnac.user_enrichment_details_info module -- Information module for User Enrichment Details</a></li>
 <li class="toctree-l4"><a class="reference internal" href="user_info_module.html">cisco.dnac.user_info module -- Information module for User</a></li>
+<li class="toctree-l4"><a class="reference internal" href="user_role_workflow_manager_module.html">cisco.dnac.user_role_workflow_manager module -- Resource module for managing users and roles in Cisco Catalyst Center.</a></li>
 <li class="toctree-l4"><a class="reference internal" href="users_external_authentication_module.html">cisco.dnac.users_external_authentication module -- Resource module for Users External Authentication</a></li>
 <li class="toctree-l4"><a class="reference internal" href="users_external_authentication_info_module.html">cisco.dnac.users_external_authentication_info module -- Information module for Users External Authentication</a></li>
 <li class="toctree-l4"><a class="reference internal" href="users_external_servers_aaa_attribute_module.html">cisco.dnac.users_external_servers_aaa_attribute module -- Resource module for Users External Servers Aaa Attribute</a></li>
@@ -575,7 +578,7 @@
 <h1>cisco.dnac.events_and_notifications_workflow_manager module -- Configure various types of destinations to deliver event notifications from Cisco Catalyst Center Platform.<a class="headerlink" href="#cisco-dnac-events-and-notifications-workflow-manager-module-configure-various-types-of-destinations-to-deliver-event-notifications-from-cisco-catalyst-center-platform" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.16.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.17.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -637,52 +640,52 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-events-a
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/email_destination/from_email"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-email-destination-from-email"><strong>from_email</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/email_destination/from_email" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Sender's email address used when setting up or modifying an email destination.</p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/email_destination/primary_smtp_config"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-email-destination-primary-smtp-config"><strong>primary_smtp_config</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/email_destination/primary_smtp_config" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Add the primary configuration for smtp while creating/updating email destination.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/email_destination/primary_smtp_config/password"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-email-destination-primary-smtp-config-password"><strong>password</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/email_destination/primary_smtp_config/password" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Password for Authenticating Primary SMTP Server.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/email_destination/primary_smtp_config/port"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-email-destination-primary-smtp-config-port"><strong>port</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/email_destination/primary_smtp_config/port" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Port number used for configuring Primary SMTP Server. Also there is a mapping of smtype and port if snmp_type is DEFAULT then port is 25 and for smtp_type TLS or SSL we can choose either 465 or 587 as port number.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/email_destination/primary_smtp_config/server_address"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-email-destination-primary-smtp-config-server-address"><strong>server_address</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/email_destination/primary_smtp_config/server_address" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Hostname or IP address of the primary SMTP server. Supports both IPv4 and IPv6.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/email_destination/primary_smtp_config/smtp_type"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-email-destination-primary-smtp-config-smtp-type"><strong>smtp_type</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/email_destination/primary_smtp_config/smtp_type" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The type of connection used for the SMTP server, with options being DEFAULT, TLS, or SSL. By default, it is set to DEFAULT. DEFAULT - Chooses a standard SMTP connection without encryption. If it's selected then port will be 25 only. TLS - Initiates an unencrypted SMTP connection and upgrades to TLS encryption when available. If it's selected then port will be either 465 or 587. SSL - Begins with an encrypted SMTP connection using SSL from the start. If it's selected then port will be either 465 or 587.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/email_destination/primary_smtp_config/username"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-email-destination-primary-smtp-config-username"><strong>username</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/email_destination/primary_smtp_config/username" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Username for Authenticating Primary SMTP Server.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/email_destination/recipient_email"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-email-destination-recipient-email"><strong>recipient_email</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/email_destination/recipient_email" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Recipient's email address that will receive emails when an email destination is created or updated.</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -728,17 +731,17 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-events-a
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/email_destination/sender_email"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-email-destination-sender-email"><strong>sender_email</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/email_destination/sender_email" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Sender's email address used when setting up or modifying an email destination.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/email_destination/subject"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-email-destination-subject"><strong>subject</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/email_destination/subject" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Subject line of the email to be used when sending emails from the specified email destination.</p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/email_destination/to_email"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module-parameter-config-email-destination-to-email"><strong>to_email</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/email_destination/to_email" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Recipient's email address that will receive emails when an email destination is created or updated.</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -1499,6 +1502,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-events-a
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <ul class="simple">
+<li><p>To ensure the module operates correctly with scaled sets—such as creating or updating multiple destinations and handling event subscription notifications—please ensure that valid input is provided in the playbook. If any failure occurs, the module will halt execution and will not proceed to subsequent operations.</p></li>
 <li><p>Configuring the webhook destination with headers now supports starting from dnacentersdk version 2.9.1 onwards. This enhancement is in alignment with Catalyst Center Release 2.3.7.5.</p></li>
 <li><p>Configuring the SNMP destination now supports starting from dnacentersdk version 2.9.1 onwards. This enhancement is in alignment with Catalyst Center Release 2.3.7.5.</p></li>
 <li><p>SDK Method used are events.Events.get_syslog_destination, events.Events.create_syslog_destination, events.Events.update_syslog_destination, events.Events.get_snmp_destination, events.Events.create_snmp_destination, events.Events.update_snmp_destination, events.Events.get_webhook_destination, events.Events.create_webhook_destination, events.Events.update_webhook_destination, events.Events.get_email_destination, events.Events.create_email_destination, events.Events.get_status_api_for_events, events.Events.get_all_itsm_integration_settings, events.Events.get_itsm_integration_setting_by_id, events.Events.create_itsm_integration_setting, events.Events.update_itsm_integration_setting, events.Events.delete_itsm_integration_setting, events.Events.get_eventartifacts, events.Events.get_site, events.Events.get_syslog_event_subscriptions, events.Events.get_syslog_subscription_details, events.Events.create_syslog_event_subscription, events.Events.update_syslog_event_subscription, events.Events.get_rest_webhook_event_subscriptions, events.Events.get_rest_webhook_subscription_details, events.Events.create_rest_webhook_event_subscription, events.Events.update_rest_webhook_event_subscription, events.Events.get_email_event_subscriptions, events.Events.get_email_subscription_details, events.Events.create_email_event_subscription, events.Events.update_email_event_subscription, events.Events.delete_event_subscriptions</p></li>
@@ -1562,8 +1566,8 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-events-a
 <span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">email_destination</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">from_email</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;test@cisco.com&quot;</span>
-<span class="w">          </span><span class="nt">to_email</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;demo@cisco.com&quot;</span>
+<span class="w">          </span><span class="nt">sender_email</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;test@cisco.com&quot;</span>
+<span class="w">          </span><span class="nt">recipient_email</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;demo@cisco.com&quot;</span>
 <span class="w">          </span><span class="nt">subject</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Ansible</span><span class="nv"> </span><span class="s">testing&quot;</span>
 <span class="w">          </span><span class="nt">primary_smtp_config</span><span class="p">:</span>
 <span class="w">            </span><span class="nt">server_address</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;outbound.cisco.com&quot;</span>
@@ -1584,8 +1588,8 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-events-a
 <span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">email_destination</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">from_email</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;test@cisco.com&quot;</span>
-<span class="w">          </span><span class="nt">to_email</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;demo123@cisco.com&quot;</span>
+<span class="w">          </span><span class="nt">sender_email</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;test@cisco.com&quot;</span>
+<span class="w">          </span><span class="nt">recipient_email</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;demo123@cisco.com&quot;</span>
 <span class="w">          </span><span class="nt">subject</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Ansible</span><span class="nv"> </span><span class="s">updated</span><span class="nv"> </span><span class="s">email</span><span class="nv"> </span><span class="s">config</span><span class="nv"> </span><span class="s">testing&quot;</span>
 
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create Syslog destination with given name.</span>
