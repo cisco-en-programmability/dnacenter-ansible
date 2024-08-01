@@ -151,7 +151,7 @@ options:
         example: 'primary_controller_name: "SJ-EWLC-1"'
       primary_ip_address:
         description: IP address of the primary wireless LAN controller (WLC) managing the Access Point (AP).
-        type: str
+        type: dict
         required: False
         example: 'primary_ip_address:
 				    address: "10.0.0.2"'
@@ -162,7 +162,7 @@ options:
         example: 'secondary_controller_name: "Inherit from site/Clear"'
       secondary_ip_address:
         description: IP address of the secondary wireless LAN controller (WLC) managing the Access Point (AP).
-        type: str
+        type: dict
         required: False
         example: 'secondary_ip_address:
 				    address: "10.0.0.2"'
@@ -173,7 +173,7 @@ options:
         example: 'tertiary_controller_name: "Clear"'
       tertiary_ip_address:
         description: IP address of the tertiary wireless LAN controller (WLC) managing the Access Point (AP).
-        type: str
+        type: dict
         required: False
         example: 'tertiary_ip_address:
 				    address: "10.0.0.2"'
