@@ -96,6 +96,13 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
                 self.test_data.get("ap_update_response"),
                 self.test_data.get("ap_task_error_status")
             ]
+        elif "task_no_error_update_accesspoint" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_device_detail_all_data"),
+                self.test_data.get("get_accesspoint_config"),
+                self.test_data.get("ap_update_response"),
+                self.test_data.get("ap_task_status")
+            ]
         elif "update_accesspoint" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_device_detail_all_data"),
@@ -179,6 +186,28 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
         self.assertEqual(
             result.get('msg'),
             "Unable to get success response, hence AP config not updated"
+        )
+
+    def test_accesspoint_workflow_manager_task_no_error_update_accesspoint(self):
+        """
+        Test case for user role workflow manager when creating a user.
+
+        This test case checks the behavior of the user workflow when creating a new user in the specified Cisco Catalyst Center.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merged",
+                config=self.playbook_config
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        self.assertEqual(
+            result.get("ap_update_msg"),
+            "AP Configuration - NY-AP1-9130AXE updated Successfully"
         )
 
     def test_accesspoint_workflow_manager_missing_rf_profile(self):
@@ -350,7 +379,12 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
             result.get('msg'),
-            'MAC Address not exist:'
+            'Invalid parameters in playbook config: \'[["Access Point series \'Cisco 9164I Series Unified Access Points\' not ' +
+            'supported for the radio type 6ghz_radio allowed series [\'9136I\', \'9162I\', \'9163E\', \'9164I\', \'IW9167IH\', ' +
+            '\'9178I\', \'9176I\', \'9176D1\']", "Access Point series \'Cisco 9164I Series Unified Access Points\' not supported ' +
+            'for the radio type 6ghz_radio allowed series [\'9136I\', \'9162I\', \'9163E\', \'9164I\', \'IW9167IH\', \'9178I\', ' +
+            '\'9176I\', \'9176D1\']", "Access Point series \'Cisco 9164I Series Unified Access Points\' not supported for the radio ' +
+            'type 6ghz_radio allowed series [\'9136I\', \'9162I\', \'9163E\', \'9164I\', \'IW9167IH\', \'9178I\', \'9176I\', \'9176D1\']"]]\' '
         )
 
     def test_accesspoint_workflow_manager_some_missing_data_update_accesspoint(self):
@@ -372,28 +406,35 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
             result.get('msg'),
-            'Invalid parameters in playbook config: \'["management_ip_address: Invalid Management IP Address \'204.192.12.201dsd\'                       ' +
-            '     in playbook.", \'name: Invalid type or length > 32 characters in playbook.\', \'parent_name: Invalid type or length > 64 ' +
-            'characters in playbook.\', "led_brightness_level: Invalid LED Brightness level \'10\' in playbook.", "led_status: Invalid LED Status' +
-            ' \'Enableddd\' in playbook.", "ap_mode: Invalid value \'Monitorw\' for ap_mode in playbook. Must be one of: Local, Monitor, Sniffer or ' +
-            'Bridge.", "failover_priority: Invalid value \'Lossw\' for failover_priority in playbook. Must be one of: Low, Medium, High or Critical.",' +
-            ' "clean_air_si_2.4ghz: Invalid value \'Disableds\' in playbook. Must be either \'Enabled\' or \'Disabled\'.", "clean_air_si_5ghz: Invalid value' +
-            ' \'Disableds\' in playbook. Must be either \'Enabled\' or \'Disabled\'.", "clean_air_si_6ghz: Invalid value \'Enableds\' in playbook. Must be ' +
-            'either \'Enabled\' or \'Disabled\'.", "primary_ip_address: Invalid primary_ip_address \'{\'address\': \'204.192.4.20dfasd0\'}\' in playbook", ' +
-            '"secondary_ip_address: Invalid secondary_ip_address \'{\'address\': \'204.192.4.20dfasd0\'}\' in playbook", "tertiary_ip_address: Invalid ' +
-            'tertiary_ip_address \'{\'address\': \'204.192.4.20dfasd0\'}\' in playbook", \'Radio Params cannot be changed when AP mode is in None.\', ' +
-            '"admin_status: Invalid value \'Enabledsds\' for admin_status in playbook. Must be either \'Enabled\' or \'Disabled\'.", ' +
-            '"channel_assignment_mode: Invalid value \'any\' for Channel Assignment Mode in playbook. Must be either \'Global\' or \'Custom\'.", ' +
-            '"channel_number: Invalid value \'22\' for Channel Number in playbook. Must be one of: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].", "channel_width: ' +
-            'Invalid value \'50\' for Channel width in playbook. Must be one of: \'20 MHz\', \'40 MHz\', \'80 MHz\', or \'160 MHz\'.", ' +
-            '"power_assignment_mode: Invalid value \'any\' for Power assignment mode in playbook. Must be either \'Global\' or \'Custom\'.", ' +
-            '"powerlevel: Invalid Power level \'23\' in playbook. Must be between 1 to 8.", "radio_band: Invalid value \'2\' in playbook. Must be ' +
-            'either \'2.4 GHz\' or \'5 GHz\'.", "radio_role_assignment: Invalid value \'any\' for radio role assignment in playbook. Must be one ' +
-            'of: \'Auto\', \'Monitor\' or \'Client-Serving\'.", \'Radio Params cannot be changed when AP mode is in None.\', "admin_status: Invalid ' +
-            'value \'Enabledsds\' for admin_status in playbook. Must be either \'Enabled\' or \'Disabled\'.", "antenna_gain: Invalid \'15\' in playbook", ' +
-            '"channel_assignment_mode: Invalid value \'any\' for Channel Assignment Mode in playbook. Must be either \'Global\' or \'Custom\'.", ' +
-            '"radio_role_assignment: Invalid value \'Client-Serving\'. Hence, AP mode is not Local. Kindly change the AP mode to Local then change ' +
-            'the radio_role_assignment to Auto."]\' '
+            'Invalid parameters in playbook config: \'[["Access Point series \'Cisco 9164I Series Unified Access Points\' not supported ' +
+            'for the radio type xor_radio allowed series [\'2800\', \'3800\', \'4800\', \'9120\', \'9166\']", "Access Point series \'Cisco ' +
+            '9164I Series Unified Access Points\' not supported for the radio type xor_radio allowed series [\'2800\', \'3800\', \'4800\', ' +
+            '\'9120\', \'9166\']", "Access Point series \'Cisco 9164I Series Unified Access Points\' not supported for the radio type ' +
+            'xor_radio allowed series [\'2800\', \'3800\', \'4800\', \'9120\', \'9166\']", "Access Point series \'Cisco 9164I Series Unified ' +
+            'Access Points\' not supported for the radio type xor_radio allowed series [\'2800\', \'3800\', \'4800\', \'9120\', \'9166\']", "Access ' +
+            'Point series \'Cisco 9164I Series Unified Access Points\' not supported for the radio type xor_radio allowed series [\'2800\', \'3800\', ' +
+            '\'4800\', \'9120\', \'9166\']"], "management_ip_address: Invalid Management IP Address \'204.192.12.201dsd\'                            in ' +
+            'playbook.", \'name: Invalid type or length > 32 characters in playbook.\', \'parent_name: Invalid type or length > 64 characters in ' +
+            'playbook.\', "led_brightness_level: Invalid LED Brightness level \'10\' in playbook.", "led_status: Invalid LED Status \'Enableddd\' in ' +
+            'playbook.", "ap_mode: Invalid value \'Monitorw\' for ap_mode in playbook. Must be one of: Local, Monitor, Sniffer or Bridge.", ' +
+            '"failover_priority: Invalid value \'Lossw\' for failover_priority in playbook. Must be one of: Low, Medium, High or Critical.", ' +
+            '"clean_air_si_2.4ghz: Invalid value \'Disableds\' in playbook. Must be either \'Enabled\' or \'Disabled\'.", "clean_air_si_5ghz: ' +
+            'Invalid value \'Disableds\' in playbook. Must be either \'Enabled\' or \'Disabled\'.", "clean_air_si_6ghz: Invalid value \'Enableds\' ' +
+            'in playbook. Must be either \'Enabled\' or \'Disabled\'.", "primary_ip_address: Invalid primary_ip_address \'{\'address\': ' +
+            '\'204.192.4.20dfasd0\'}\' in playbook", "secondary_ip_address: Invalid secondary_ip_address \'{\'address\': \'204.192.4.20dfasd0\'}\' ' +
+            'in playbook", "tertiary_ip_address: Invalid tertiary_ip_address \'{\'address\': \'204.192.4.20dfasd0\'}\' in playbook", \'Radio Params ' +
+            'cannot be changed when AP mode is in None.\', "admin_status: Invalid value \'Enabledsds\' for admin_status in playbook. Must be ' +
+            'either \'Enabled\' or \'Disabled\'.", "channel_assignment_mode: Invalid value \'any\' for Channel Assignment Mode in playbook. Must be ' +
+            'either \'Global\' or \'Custom\'.", "channel_number: Invalid value \'22\' for Channel Number in playbook. Must be one of: ' +
+            '[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].", "channel_width: Invalid value \'50\' for Channel width in playbook. Must be one of: \'20 MHz\', ' +
+            '\'40 MHz\', \'80 MHz\', or \'160 MHz\'.", "power_assignment_mode: Invalid value \'any\' for Power assignment mode in playbook. Must be ' +
+            'either \'Global\' or \'Custom\'.", "powerlevel: Invalid Power level \'23\' in playbook. Must be between 1 to 8.", "radio_band: ' +
+            'Invalid value \'2\' in playbook. Must be either \'2.4 GHz\' or \'5 GHz\'.", "radio_role_assignment: Invalid value \'any\' for radio ' +
+            'role assignment in playbook. Must be one of: \'Auto\', \'Monitor\' or \'Client-Serving\'.", \'Radio Params cannot be changed when AP mode ' +
+            'is in None.\', "admin_status: Invalid value \'Enabledsds\' for admin_status in playbook. Must be either \'Enabled\' or \'Disabled\'.", ' +
+            '"antenna_gain: Invalid \'15\' in playbook", "channel_assignment_mode: Invalid value \'any\' for Channel Assignment Mode in playbook. Must ' +
+            'be either \'Global\' or \'Custom\'.", "radio_role_assignment: Invalid value \'Client-Serving\'. Hence, AP mode is not Local. Kindly change ' +
+            'the AP mode to Local then change the radio_role_assignment to Auto."]\' '
         )
 
     def test_invalid_wlc_device(self):

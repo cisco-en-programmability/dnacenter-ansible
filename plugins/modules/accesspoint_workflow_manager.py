@@ -1126,6 +1126,8 @@ class Accesspoint(DnacBase):
             })
             self.result['ap_update_msg'] = self.msg
             self.result["changed"] = False
+            self.result["response"] = responses
+            return self
         else:
             self.log('Final AP Configuration data to update {0}'.format(self.pprint(
                 consolidated_data)), "INFO")
@@ -1289,10 +1291,11 @@ class Accesspoint(DnacBase):
             for further action or validation.
         """
         invalid_series = []
+        self.log("Starting validation of radio series with configuration: {0}".format(str(ap_config)))
         for radio_type in self.radio_interface:
             ap_series = ap_config.get(radio_type)
+            self.log('Validating radio type: {0}'.format(radio_type))
             if ap_series is not None:
-                is_valid = False
                 for series in self.allowed_series[radio_type]:
                     pattern = r'\b{}\b'.format(re.escape(series))
                     compiled_pattern = re.compile(pattern)
@@ -1300,11 +1303,16 @@ class Accesspoint(DnacBase):
                     if is_valid:
                         break
 
-                    if is_valid is False:
-                        invalid_series.append(
-                            "Access Point series '{0}' not supported for the radio type {1} allowed series {2} "
-                            .format(self.payload["access_point_details"]["series"],
-                                    radio_type, str(self.allowed_series[radio_type])))
+                    if not is_valid:
+                        invalid_entry = "Access Point series '{0}' not supported for the radio type {1} allowed series {2}".format(
+                            self.payload["access_point_details"]["series"],
+                            radio_type,
+                            str(self.allowed_series[radio_type])
+                        )
+                        self.log("Invalid series detected: {}".format(invalid_entry))
+                        invalid_series.append(invalid_entry)
+
+        self.log("Completed validation. Invalid series: {}".format(invalid_series))
         return invalid_series
 
     def validate_ap_config_parameters(self, ap_config):
@@ -1450,10 +1458,7 @@ class Accesspoint(DnacBase):
                                 "6ghz_radio", "xor_radio" or "tri_radio".
         - radio_series (str): Radio series name as "2.4ghz_radio", "5ghz_radio",
                                 "6ghz_radio", "xor_radio" or "tri_radio"
-        - errormsg (list): Track the error message and return back.
-
-        Returns:
-        - list: return back the all error as output.
+        - errormsg (list): Track and append the error message with existing message.
         """
         admin_status = radio_config.get("admin_status")
         if admin_status and admin_status not in ("Enabled", "Disabled"):
@@ -1574,12 +1579,15 @@ class Accesspoint(DnacBase):
             if (radio_type == "2.4ghz_radio" and slot_id == 0) or \
                (radio_type == "5ghz_radio" and slot_id == 1) or \
                (radio_type == "6ghz_radio" and slot_id == 2):
-                return role_assignment
+                break
 
             if radio_type == "xor_radio":
                 if (radio_band == "2.4 GHz" and slot_id == 0) or \
                    (radio_band == "5 GHz" and slot_id == 1):
-                    return role_assignment
+                    break
+
+        self.log('Completed checking radio role assignments. Role assignment: {0}, radio type: {1}, radio band: {2}'
+                 .format(role_assignment, radio_type, radio_band), "INFO")
         return role_assignment
 
     def get_accesspoint_details(self, input_config):
@@ -1690,11 +1698,16 @@ class Accesspoint(DnacBase):
             management IP address, or hostname. If found, it retrieves the current
             Access Point configuration and returns it.
         """
+        self.log("Starting to retrieve current configuration with input: {0}".format(str(input_config)), "INFO")
         accesspoint_exists, current_configuration = self.get_accesspoint_details(
             input_config)
+        self.log("Access point exists: {0}, Current configuration: {1}"
+                 .format(accesspoint_exists, current_configuration), "INFO")
 
         if input_config.get("site"):
             site_exists, current_site = self.site_exists(input_config)
+            self.log('Site exists: {0}, Current site: {1}'.format(site_exists, current_site), "INFO")
+
             if site_exists:
                 self.payload.update({
                     "site_exists": site_exists,
@@ -1705,16 +1718,22 @@ class Accesspoint(DnacBase):
                 provision_status, wlc_details = self.verify_ap_provision(
                     current_configuration["associated_wlc_ip"])
                 self.payload["wlc_provision_status"] = provision_status
+                self.log("WLC provision status: {0}".format(provision_status), "INFO")
 
         if accesspoint_exists:
             self.payload["access_point_details"] = current_configuration
             ap_ethernet_mac_address = current_configuration["ap_ethernet_mac_address"]
             ap_config_exists, current_configuration = self.get_accesspoint_config(
                 ap_ethernet_mac_address)
+            self.log("Access point configuration exists: {0}, Current configuration: {1}"
+                     .format(ap_config_exists, str(current_configuration)), "INFO")
 
             if ap_config_exists:
                 self.payload["access_point_config"] = current_configuration
+                self.log("Updated payload with access point configuration: {}".format(str(self.payload)))
 
+        self.log('Completed retrieving current configuration. Access point exists: {0}, Current configuration: {1}'
+                 .format(accesspoint_exists, current_configuration), "INFO")
         return (accesspoint_exists, current_configuration)
 
     def get_accesspoint_config(self, ap_ethernet_mac_address):
@@ -1989,8 +2008,8 @@ class Accesspoint(DnacBase):
             self.log('Response from ap_provision: {0}'.format(str(response)), "INFO")
             if response and isinstance(response, dict):
                 executionid = response.get("executionId")
-                resync_retry_count = self.want.get("resync_retry_count", 100)
-                resync_retry_interval = self.want.get("resync_retry_interval", 5)
+                resync_retry_count = self.payload.get("dnac_api_task_timeout", 100)
+                resync_retry_interval = self.payload.get("dnac_task_poll_interval", 5)
 
                 while resync_retry_count:
                     execution_details = self.get_execution_details(executionid)
@@ -2035,7 +2054,9 @@ class Accesspoint(DnacBase):
             configuration for specific keys based on the radio slot ID. If discrepancies
             are found, they are collected and returned in a dictionary.
         """
-
+        self.log("Starting radio configuration comparison.", "INFO")
+        self.log("Current radio configuration: {}".format(current_radio), "INFO")
+        self.log("Desired radio configuration: {}".format(want_radio), "INFO")
         available_key = {
             "_0": ("admin_status", "antenna_gain", "antenna_name", "radio_role_assignment",
                    "power_assignment_mode", "powerlevel", "channel_assignment_mode",
@@ -2060,23 +2081,34 @@ class Accesspoint(DnacBase):
         temp_dtos = {}
         unmatch_count = 0
         dtos_keys = list(want_radio.keys())
+        slot_id_key = "_" + str(current_radio["slot_id"])
+        self.log('Comparing keys for slot ID: {}'.format(current_radio["slot_id"]), "INFO")
 
         for dto_key in dtos_keys:
-            if dto_key in available_key["_" + str(current_radio["slot_id"])]:
+            if dto_key in available_key[slot_id_key]:
                 if dto_key == "antenna_name":
                     temp_dtos[dto_key] = want_radio[dto_key]
                     unmatch_count = unmatch_count + 1
+                    self.log("Antenna name unmatched: {0}".format(want_radio[dto_key]), "INFO")
                 elif dto_key == "cable_loss":
                     temp_dtos[dto_key] = want_radio[dto_key]
+                    self.log("Cable loss set to: {0}".format(want_radio[dto_key]), "INFO")
                 elif dto_key == "antenna_cable_name":
                     temp_dtos[dto_key] = want_radio[dto_key]
+                    self.log("Antenna cable name set to: {0}".format(want_radio[dto_key]), "INFO")
                 elif dto_key == "radio_type":
                     temp_dtos["radioType"] = want_radio[dto_key]
+                    self.log("Radio type set to: {0}".format(want_radio[dto_key]), "INFO")
                 else:
                     if want_radio[dto_key] != current_radio[dto_key]:
                         temp_dtos[self.keymap[dto_key]] = want_radio[dto_key]
                         unmatch_count = unmatch_count + 1
+                        self.log("Unmatched key {0}: current value {1}, desired value {2}"
+                                 .format(dto_key, current_radio[dto_key], want_radio[dto_key]))
+
         temp_dtos["unmatch"] = unmatch_count
+        self.log('Total unmatched keys: {0}'.format(unmatch_count), "INFO")
+        self.log('Completed radio configuration comparison. Result: {0}'.format(temp_dtos), "INFO")
         return temp_dtos
 
     def config_diff(self, current_ap_config):
@@ -2372,6 +2404,7 @@ class Accesspoint(DnacBase):
         for key_to_remove in ("mac_address", "hostname", "management_ip_address", "macAddress"):
             if ap_config.get(key_to_remove):
                 del ap_config[key_to_remove]
+
         self.log("Update access point before update: {0}".format(self.pprint(ap_config)), "INFO")
         try:
             response = self.dnac._exec(
