@@ -82,15 +82,15 @@ options:
                 type: str
                 required: False
               parent_name:
-                description: Parent name of the floor in the site hierarchy.(eg. Global/USA/New York/BLDNYC)
+                description: Parent name of the floor in the site hierarchy.(eg. 'Global/USA/New York/BLDNYC')
                 type: str
                 required: False
-      admin_status:
-        description: Status of the AP configuration. Accepts "Enabled" or "Disabled".(eg. "Enabled")
+      ap_name:
+        description: Current AP name that needs to be changed along with the new AP name. (eg. "Test2"')
         type: str
         required: False
-      ap_name:
-        description: Current AP name that needs to be changed along with the new AP name. (eg. Test2)
+      admin_status:
+        description: Status of the AP configuration. Accepts "Enabled" or "Disabled".(eg. "Enabled")
         type: str
         required: False
       led_status:
@@ -105,7 +105,8 @@ options:
       ap_mode:
         description: |
           Mode of operation for the Access Point (AP). Possible values include "local/flexconnect",
-          "monitor", "sniffer", or "Bridge/Flex+Bridge". (eg. "local")
+          "monitor", "sniffer", or "Bridge/Flex+Bridge".
+        example: 'ap_mode: "local"'
         type: str
         required: False
       location:
@@ -507,6 +508,11 @@ options:
         type: str
         required: False
         example: "mac_address,eth_mac,ap_name,led_brightness_level,led_status,location,radioDTOs"
+  register:
+    description: Name for registering the output. This option is used to store the results of the module's execution in an Ansible variable.
+    example: result
+    type: str
+    required: False
 
 requirements:
   - dnacentersdk >= 2.4.5
