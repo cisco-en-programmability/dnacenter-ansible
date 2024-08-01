@@ -389,9 +389,9 @@ options:
                 required: False
               cable_loss:
                 description: Cable loss in dB for the xor radio interface.
+                example: 75
                 type: int
                 required: False
-                example: 75
               antenna_cable_name:
                 description: Name or type of antenna cable used for the xor radio interface.
                 type: str
