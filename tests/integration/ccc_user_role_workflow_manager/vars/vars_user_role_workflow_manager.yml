@@ -1,0 +1,64 @@
+---
+create_user:
+  - first_name: "TestFirstName"
+    last_name: "TestLastName"
+    username: "testusername"
+    email: "testuser@example.com"
+    password: "Test@123"
+    role_list: ["Super-Admin-Role"]
+
+create_role:
+  - role_name: "IT_Test_Role"
+    description: "Role creation"
+    assurance:
+      - overall: "read"
+        troubleshooting_tools: "write"
+    network_analytics:
+      - overall: "deny"
+    network_design:
+      - overall: "deny"
+        image_repository: "read"
+    network_provision:
+      - overall: "read"
+        eox: "write"
+        image_update: "read"
+        inventory_management:
+          - overall: "write"
+            port_management: "read"
+    network_services:
+      - overall: "deny"
+        bonjour: "Write"
+    platform:
+      - overall: "deny"
+        bundles: "read"
+    security:
+      - overall: "deny"
+        ip_based_access_control: "read"
+        security_advisories: "deny"
+    system:
+      - overall: "deny"
+        machine_reasoning: "write"
+        system_management: "deny"
+    utilities: 
+      - overall: "deny"
+        audit_log: "read"
+
+update_user:
+  - first_name: "TestFirstName_update"
+    last_name: "TestLastName_update"
+    username: "testusername"
+    role_list: ["Observer-Role"]
+
+update_role:
+  - role_name: "IT_Test_Role"
+    description: "Role updation"
+    network_analytics:
+      - overall: "write"
+    network_design:
+      - overall: "write"
+
+delete_user:
+  - username: "testusername"
+
+delete_role:
+  - role_name: "IT_Test_Role"
