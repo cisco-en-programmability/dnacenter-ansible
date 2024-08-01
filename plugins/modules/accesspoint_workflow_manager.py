@@ -494,9 +494,9 @@ options:
                 required: False
               power_level:
                 description: Custom power level configured for the tri radio interface.
+                example: 3
                 type: int
                 required: False
-                example: 3
               dual_radio_mode:
                 description: |
                   Mode of operation configured for the tri radio interface. Specifies how the
