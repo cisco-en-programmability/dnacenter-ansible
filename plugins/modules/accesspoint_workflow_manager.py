@@ -217,14 +217,14 @@ options:
                 example: '4'
               radio_role_assignment:
                 description: Role assignment mode for the 2.4GHz radio interface. Accepts "Auto", "Client-serving", or "Monitor".
-                example: 'radio_role_assignment: "Auto"'
+                example: 'Auto'
                 type: str
                 required: False
               cable_loss:
                 description: Cable loss in dB for the 2.4GHz radio interface.
                 type: int
                 required: False
-                example: 'cable_loss: 75'
+                example: '75'
               antenna_cable_name:
                 description: Name or type of antenna cable used for the 2.4GHz radio interface.
                 type: str
@@ -232,14 +232,14 @@ options:
                 example: 'antenna_cable_name: "other"'
               channel_assignment_mode:
                 description: Mode of channel assignment for the 2.4GHz radio interface. Accepts "Global" or "Custom".
-                example: channel_assignment_mode: "Custom"
+                example: 'Custom'
                 type: str
                 required: False
               channel_number:
                 description: Custom channel number configured for the 2.4GHz radio interface.
                 type: int
                 required: False
-                example: 'channel_number: 6'
+                example: '6'
               power_assignment_mode:
                 description: Mode of power assignment for the 2.4GHz radio interface. Accepts "Global" or "Custom".
                 example: 'power_assignment_mode: "Custom"'
@@ -269,7 +269,7 @@ options:
                 description: Antenna gain value in decibels (dB) for the 5GHz radio interface.
                 type: int
                 required: False
-                example: antenna_gain: 5
+                example: 5
               radio_role_assignment:
                 description: Role assignment mode for the 5GHz radio interface. Accepts "Auto", "Client-serving", or "Monitor".
                 example: radio_role_assignment: "Auto"
@@ -279,12 +279,12 @@ options:
                 description: Cable loss in dB for the 5GHz radio interface.
                 type: int
                 required: False
-                example: cable_loss: 80
+                example: 80
               antenna_cable_name:
                 description: Name or type of antenna cable used for the 5GHz radio interface.
                 type: str
                 required: False
-                example: antenna_cable_name: "other"
+                example: other
               channel_assignment_mode:
                 description: Mode of channel assignment for the 5GHz radio interface. Accepts "Global" or "Custom".
                 example: channel_assignment_mode: "Custom"
@@ -294,7 +294,7 @@ options:
                 description: Custom channel number configured for the 5GHz radio interface.
                 type: int
                 required: False
-                example: channel_number: 36
+                example: 36
               power_assignment_mode:
                 description: Mode of power assignment for the 5GHz radio interface. Accepts "Global" or "Custom".
                 example: power_assignment_mode: "Custom"
@@ -304,7 +304,7 @@ options:
                 description: Custom power level configured for the 5GHz radio interface.
                 type: int
                 required: False
-                example: power_level: 3
+                example: 3
           6ghz_radio:
             description: Configuration options for the 6GHz radio interface.
             type: dict
@@ -314,20 +314,20 @@ options:
                 description: Administrative status for the 6GHz radio interface.
                 type: str
                 required: False
-                example: admin_status: "Enabled"
+                example: "Enabled"
               antenna_name:
                 description: Name or type of antenna used for the 6GHz radio interface.
                 type: str
                 required: False
-                example: antenna_name: "other"
+                example: other
               antenna_gain:
                 description: Antenna gain value in decibels (dB) for the 6GHz radio interface.
                 type: int
                 required: False
-                example: antenna_gain: 4
+                example: 4
               radio_role_assignment:
                 description: Role assignment mode for the 6GHz radio interface. Accepts "Auto", "Client-serving", or "Monitor".
-                example: radio_role_assignment: "Auto"
+                example: Auto
                 type: str
                 required: False
               cable_loss:
