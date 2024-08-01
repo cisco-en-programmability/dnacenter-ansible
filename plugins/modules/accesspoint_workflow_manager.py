@@ -720,59 +720,62 @@ EXAMPLES = r"""
 """
 
 RETURN = r"""
-#Case-1: Modification of the AP details updated and Rebooted Access Point
-response1:
-  description: A list of dictionaries containing details about the AP updates and verification
-                results, as returned by the Catalyst Center Python SDK
+#Case_1: Modification of the AP details updated and Rebooted Access Point
+response_1:
+  description: >
+    A list of dictionaries containing details about the AP updates and verification
+    results, as returned by the Catalyst Center Python SDK
   returned: always
   type: dict
-  sample: >
-  {
-    "response": [
-        {
-            "accesspoints_updates": {
-                "response": {
-                    "macAdress": "34:5d:a8:0e:20:b4",
+  sample: |
+    {
+        "response": [
+            {
+                "accesspoints_updates": {
                     "response": {
-                        "taskId": "2ce139fa-1d58-4739-a6ad-b735b97e4dfe",
-                        "url": "/api/v1/task/2ce139fa-1d58-4739-a6ad-b735b97e4dfe"
+                        "macAdress": "34:5d:a8:0e:20:b4",
+                        "response": {
+                            "taskId": "2ce139fa-1d58-4739-a6ad-b735b97e4dfe",
+                            "url": "/api/v1/task/2ce139fa-1d58-4739-a6ad-b735b97e4dfe"
+                        }
                     }
                 }
-            }
-        },
-        {
-            "accesspoints_verify": {
-                "have": [
-                    {
-                        "ap_name": "NFW-AP1-9130AXE",
-                        "eth_mac": "34:5d:a8:0e:20:b4",
+            },
+            {
+                "accesspoints_verify": {
+                    "have": [
+                        {
+                            "ap_name": "NFW-AP1-9130AXE",
+                            "eth_mac": "34:5d:a8:0e:20:b4",
+                            "led_brightness_level": 2,
+                            "led_status": "Enabled",
+                            "location": "LTTS-Bangalore",
+                            "mac_address": "90:e9:5e:03:f3:40"
+                        }
+                    ],
+                    "message": "The update for AP Config 'NFW-AP1-9130AXE' has been successfully verified.",
+                    "want": {
+                        "ap_name": "LTTS-Test1",
+                        "ap_name_new": "NFW-AP1-9130AXE",
+                        "hostname": null,
                         "led_brightness_level": 2,
                         "led_status": "Enabled",
                         "location": "LTTS-Bangalore",
-                        "mac_address": "90:e9:5e:03:f3:40"
+                        "mac_address": "90:e9:5e:03:f3:40",
+                        "management_ip_address": null
                     }
-                ],
-                "message": "The update for AP Config 'NFW-AP1-9130AXE' has been successfully verified.",
-                "want": {
-                    "ap_name": "LTTS-Test1",
-                    "ap_name_new": "NFW-AP1-9130AXE",
-                    "hostname": null,
-                    "led_brightness_level": 2,
-                    "led_status": "Enabled",
-                    "location": "LTTS-Bangalore",
-                    "mac_address": "90:e9:5e:03:f3:40",
-                    "management_ip_address": null
                 }
             }
-        }
-    ]
-  }
+        ]
+    }
+
 #Case-2: Provisioning and Re-Provisioning of Accesspoint
-response2:
-  description: A dictionary with activation details as returned by the Catalyst Center Python SDK
+response_2:
+  description: >
+    A dictionary with activation details as returned by the Catalyst Center Python SDK
   returned: always
   type: dict
-  sample: >
+  sample: |
     {
         "response": {
                         {
