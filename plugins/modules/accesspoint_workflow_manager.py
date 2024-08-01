@@ -41,11 +41,11 @@ options:
   dnac_api_task_timeout:
     description: The number of times to retry resynchronization.
     type: int
-    default: 300
+    default: 1200
   dnac_task_poll_interval:
     description: The interval, in seconds, for polling Cisco Catalyst Center.
     type: int
-    default: 3
+    default: 2
   next_task_after_interval:
     description: Time in second between Provision and AP updated execution
     type: int
@@ -61,14 +61,13 @@ options:
           The MAC address used to identify the device. If the MAC address is known,
           it must be provided and cannot be modified. At least one of the following parameters is required
           to identify the specific access point: mac_address, hostname, or management_ip_address.
-        example: "90:e9:5e:03:f3:40"
+          (eg 90:e9:5e:03:f3:40)
         type: str
         required: True
       rf_profile:
         description: Radio Frequency (RF) profile of the Access Point (e.g., 'HIGH').
         type: str
         required: False
-        example: "HIGH"
       site:
         description: Current site details where the Access Point is located.
         type: dict
@@ -506,9 +505,9 @@ options:
                 required: False
       ap_selected_fields:
         description: When enable the verify flag "config_verify" to see only the filter field of the AP details in the output.
+          (eg. "id,hostname,family,type,mac_address,management_ip_address,ap_ethernet_mac_address")
         type: str
         required: False
-        example: "id,hostname,family,type,mac_address,management_ip_address,ap_ethernet_mac_address"
       ap_config_selected_fields:
         description: |
           When enable the verify flag "config_verify" to see only the filter field of the AP configuration in the output.
@@ -579,7 +578,6 @@ EXAMPLES = r"""
         dnac_log_level: DEBUG
         config_verify: False
         state: merged
-        force_sync: False
         config:
           - mac_address: 90:e9:5e:03:f3:40
             2.4ghz_radio:
@@ -603,7 +601,6 @@ EXAMPLES = r"""
         dnac_log_level: DEBUG
         config_verify: False
         state: merged
-        force_sync: False
         config:
           - mac_address: 90:e9:5e:03:f3:40
             2.4ghz_radio:
@@ -624,7 +621,6 @@ EXAMPLES = r"""
         dnac_log_level: DEBUG
         config_verify: False
         state: merged
-        force_sync: False
         config:
           - mac_address: 90:e9:5e:03:f3:40
             2.4ghz_radio:
@@ -645,7 +641,6 @@ EXAMPLES = r"""
         dnac_log_level: DEBUG
         config_verify: False
         state: merged
-        force_sync: False
         config:
           - mac_address: 90:e9:5e:03:f3:40
             5ghz_radio:
@@ -666,7 +661,6 @@ EXAMPLES = r"""
         dnac_log_level: DEBUG
         config_verify: False
         state: merged
-        force_sync: False
         config:
           - mac_address: 90:e9:5e:03:f3:40
             5ghz_radio:
@@ -712,7 +706,6 @@ EXAMPLES = r"""
         dnac_log_level: DEBUG
         config_verify: False
         state: merged
-        force_sync: False
         config:
           - mac_address: 90:e9:5e:03:f3:40
             2.4ghz_radio:
@@ -741,7 +734,6 @@ EXAMPLES = r"""
         dnac_log_level: DEBUG
         config_verify: True
         state: merged
-        force_sync: False
         config:
               - ap_type: "Unified AP"
                 mac_address:  90:e9:5e:03:f3:40
@@ -765,7 +757,6 @@ EXAMPLES = r"""
         dnac_log_level: DEBUG
         config_verify: False
         state: merged
-        force_sync: False
         config:
           - mac_address: 90:e9:5e:03:f3:40
             rf_profile: "HIGH"
@@ -2590,8 +2581,7 @@ def main():
         'next_task_after_interval': {'type': 'int', "default": 5},
         'config': {'required': True, 'type': 'list', 'elements': 'dict'},
         'validate_response_schema': {'type': 'bool', 'default': True},
-        'state': {'default': 'merged', 'choices': ['merged', 'deleted']},
-        'force_sync': {'type': 'bool'}
+        'state': {'default': 'merged', 'choices': ['merged', 'deleted']}
     }
     module = AnsibleModule(
         argument_spec=accepoint_spec,
