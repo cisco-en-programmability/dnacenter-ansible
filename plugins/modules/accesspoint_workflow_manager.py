@@ -115,80 +115,70 @@ options:
         type: str
         required: False
       location:
-        description: Location name of the AP. Provide this data if a change is required.
+        description: Location name of the AP. Provide this data if a change is required.(eg. "Bangalore")
         type: str
         required: False
-        example: 'location: "Bangalore"'
       failover_priority:
         description: Priority order for failover in AP configuration. Accepts "Low", "Medium", "High", or "Critical".
         type: str
         required: False
       clean_air_si_2.4ghz:
         description: |
-          Clean Air Spectrum Intelligence (SI) feature status for the 2.4GHz band. Indicates whether
+          Clean Air Spectrum Intelligence (SI) feature status for the 2.4GHz band. Indicates whether.(eg. "Enabled")
           Clean Air Spectrum Intelligence is enabled or disabled.
         type: str
         required: False
-        example: 'clean_air_si_2.4ghz: "Enabled"'
       clean_air_si_5ghz:
         description: |
-          Clean Air Spectrum Intelligence (SI) feature status for the 5GHz band. Indicates whether
+          Clean Air Spectrum Intelligence (SI) feature status for the 5GHz band. Indicates whether.(eg. "Enabled")
           Clean Air Spectrum Intelligence is enabled or disabled.
         type: str
         required: False
-        example: 'clean_air_si_5ghz: "Enabled"'
       clean_air_si_6ghz:
         description: |
-          Clean Air Spectrum Intelligence (SI) feature status for the 6GHz band. Indicates whether
+          Clean Air Spectrum Intelligence (SI) feature status for the 6GHz band. Indicates whether.(eg. "Enabled")
           Clean Air Spectrum Intelligence is enabled or disabled.
         type: str
         required: False
-        example: 'clean_air_si_6ghz: "Enabled"'
       primary_controller_name:
-        description: Name or identifier of the primary wireless LAN controller (WLC) managing the Access Point (AP).
+        description: Name or identifier of the primary wireless LAN controller (WLC) managing the Access Point (AP).(eg. "SJ-EWLC-1")
         type: str
         required: False
-        example: 'primary_controller_name: "SJ-EWLC-1"'
       primary_ip_address:
         description: IP address of the primary wireless LAN controller (WLC) managing the Access Point (AP).
         type: dict
         required: False
         suboptions:
           address:
-              description: IP address of the primary wireless LAN controller
+              description: IP address of the primary wireless LAN controller. (eg. '10.0.0.3')
               type: str
               required: False
-              example: '10.0.0.2'
       secondary_controller_name:
-        description: Name or identifier of the secondary wireless LAN controller (WLC) managing the Access Point (AP).
+        description: Name or identifier of the secondary wireless LAN controller (WLC) managing the Access Point (AP).(eg. "Inherit from site/Clear")
         type: str
         required: False
-        example: 'secondary_controller_name: "Inherit from site/Clear"'
       secondary_ip_address:
         description: IP address of the secondary wireless LAN controller (WLC) managing the Access Point (AP).
         type: dict
         required: False
         suboptions:
           address:
-              description: IP address of the primary wireless LAN controller
+              description: IP address of the primary wireless LAN controller (eg. '10.0.0.3')
               type: str
               required: False
-              example: '10.0.0.2'
       tertiary_controller_name:
-        description: Name or identifier of the tertiary wireless LAN controller (WLC) managing the Access Point (AP).
+        description: Name or identifier of the tertiary wireless LAN controller (WLC) managing the Access Point (AP).(eg. "Clear")
         type: str
         required: False
-        example: 'tertiary_controller_name: "Clear"'
       tertiary_ip_address:
         description: IP address of the tertiary wireless LAN controller (WLC) managing the Access Point (AP).
         type: dict
         required: False
         suboptions:
           address:
-              description: IP address of the primary wireless LAN controller
+              description: IP address of the primary wireless LAN controller (eg. '10.0.0.2')
               type: str
               required: False
-              example: '10.0.0.2'
       radio_settings:
         description: Configuration options for radio interfaces.
         type: dict
