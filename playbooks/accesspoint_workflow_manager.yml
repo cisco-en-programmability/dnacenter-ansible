@@ -47,4 +47,3 @@
               powerlevel: 3
               channel_width: "20 MHz"
       register: output_list
-
