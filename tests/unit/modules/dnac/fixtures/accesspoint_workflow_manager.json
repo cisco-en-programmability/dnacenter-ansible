@@ -24,7 +24,7 @@
             "clean_air_si_2.4ghz": "Disabled",
             "clean_air_si_5ghz": "Disabled",
             "clean_air_si_6ghz": "Enabled",
-            "primary_controller_name": "Testing",
+            "primary_controller_name": "Inherit from site/Clear",
             "secondary_controller_name": "Testing2",
             "primary_ip_address":{
                 "address": "204.192.4.200"
