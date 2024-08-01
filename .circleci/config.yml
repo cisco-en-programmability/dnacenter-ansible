@@ -33,6 +33,27 @@ parameters:
   run-pnp:
     type: boolean
     default: false
+  run-networksettings:
+    type: boolean
+    default: false
+  run-serverintegrations:
+    type: boolean
+    default: false
+  run-template:
+    type: boolean
+    default: false
+  run-eventsandnotif:
+    type: boolean
+    default: false
+  run-configbackups:
+    type: boolean
+    default: false
+  run-provision:
+    type: boolean
+    default: false
+  run-networkcompliance:
+    type: boolean
+    default: false    
 
 jobs:
 
@@ -121,24 +142,14 @@ jobs:
           name: Create Roles File header
           command: |
             mkdir -p roles-file
-            echo "---" > roles-file/ccc_roles.yml
-            echo "- hosts: dnac_servers" >> roles-file/ccc_roles.yml
-            echo "  gather_facts: no" >> roles-file/ccc_roles.yml
-            echo "  connection: local" >> roles-file/ccc_roles.yml
-            echo "  " >> roles-file/ccc_roles.yml
-            echo "  tasks:" >> roles-file/ccc_roles.yml
-            echo "  " >> roles-file/ccc_roles.yml
-            echo "  vars:" >> roles-file/ccc_roles.yml
-            echo "    debug: false" >> roles-file/ccc_roles.yml
-            echo "  " >> roles-file/ccc_roles.yml
-            echo "  roles:" >> roles-file/ccc_roles.yml
+            touch roles-file/ccc_roles.yml
       - when:
           condition: 
             or: [ << pipeline.parameters.run-site >>, << pipeline.parameters.run-all >> ]
           steps:
             - run: 
                 command: |
-                  echo "    - ccc_site_management" >> roles-file/ccc_roles.yml
+                  echo "ccc_site_management" >> roles-file/ccc_roles.yml
 
       - when:
           condition:
@@ -146,7 +157,7 @@ jobs:
           steps:
             - run: 
                 command: |
-                  echo "    - ccc_device_credential_management" >> roles-file/ccc_roles.yml
+                  echo "ccc_device_credential_management" >> roles-file/ccc_roles.yml
 
       - when:
           condition:
@@ -154,7 +165,7 @@ jobs:
           steps:
             - run: 
                 command: |
-                  echo "    - ccc_discovery_management" >> roles-file/ccc_roles.yml
+                  echo "ccc_discovery_management" >> roles-file/ccc_roles.yml
 
       - when:
           condition:
@@ -162,7 +173,7 @@ jobs:
           steps:
             - run: 
                 command: |
-                  echo "    - ccc_inventory_management" >> roles-file/ccc_roles.yml
+                  echo "ccc_inventory_management" >> roles-file/ccc_roles.yml
 
       - when:
           condition:
@@ -170,8 +181,63 @@ jobs:
           steps:
             - run: 
                 command: |
-                  echo "    - ccc_swim_management" >> roles-file/ccc_roles.yml
+                  echo "ccc_swim_management" >> roles-file/ccc_roles.yml
 
+      # - when:
+      #     condition:
+      #       or: [ << pipeline.parameters.run-networksettings >>, << pipeline.parameters.run-all >> ]
+      #     steps:
+      #       - run: 
+      #           command: |
+      #             echo "ccc_network_settings_management" >> roles-file/ccc_roles.yml
+
+      # - when:
+      #     condition:
+      #       or: [ << pipeline.parameters.run-serverintegrations >>, << pipeline.parameters.run-all >> ]
+      #     steps:
+      #       - run: 
+      #           command: |
+      #             echo "ccc_aaa_server_management" >> roles-file/ccc_roles.yml
+
+      # - when:
+      #     condition:
+      #       or: [ << pipeline.parameters.run-template >>, << pipeline.parameters.run-all >> ]
+      #     steps:
+      #       - run: 
+      #           command: |
+      #             echo "ccc_template_management" >> roles-file/ccc_roles.yml
+
+      # - when:
+      #     condition:
+      #       or: [ << pipeline.parameters.run-eventsandnotif >>, << pipeline.parameters.run-all >> ]
+      #     steps:
+      #       - run: 
+      #           command: |
+      #             echo "ccc_events_and_notification_management" >> roles-file/ccc_roles.yml
+
+      # - when:
+      #     condition:
+      #       or: [ << pipeline.parameters.run-configbackups >>, << pipeline.parameters.run-all >> ]
+      #     steps:
+      #       - run: 
+      #           command: |
+      #             echo "ccc_configbackups" >> roles-file/ccc_roles.yml
+
+      # - when:
+      #     condition:
+      #       or: [ << pipeline.parameters.run-provision >>, << pipeline.parameters.run-all >> ]
+      #     steps:
+      #       - run: 
+      #           command: |
+      #             echo "ccc_provision" >> roles-file/ccc_roles.yml
+
+      # - when:
+      #     condition:
+      #       or: [ << pipeline.parameters.run-networkcompliance >>, << pipeline.parameters.run-all >> ]
+      #     steps:
+      #       - run: 
+      #           command: |
+      #             echo "ccc_network_compliance_management" >> roles-file/ccc_roles.yml
 
       - when:
           condition:
@@ -179,7 +245,12 @@ jobs:
           steps:
             - run: 
                 command: |
-                  echo "    - ccc_pnp_management" >> roles-file/ccc_roles.yml
+                  echo "ccc_pnp_management" >> roles-file/ccc_roles.yml
+
+      - run:
+          name: Debug roles
+          command: |
+            cat roles-file/ccc_roles.yml
 
       - persist_to_workspace:
           root: 'roles-file'
@@ -194,8 +265,8 @@ jobs:
     #machine: true
     docker:
       - image: python:3.8.10
-    resource_class: madhansansel/dnacenter-ansible 
-
+    resource_class: madhansansel/dnacenter-ansible
+    parallelism: 4
     steps:
       - run:
           name: Debug information
@@ -246,7 +317,9 @@ jobs:
             export ANSIBLE_PERSISTENT_CONNECT_TIMEOUT=1000
             export ANSIBLE_PERSISTENT_COMMAND_TIMEOUT=1000
             export ANSIBLE_ROLES_PATH=$PWD/tests/integration
-            ansible-playbook -i hosts ccc_roles.yml
+            cat ccc_roles.yml
+            echo $(circleci tests glob "tests/integration/*")
+            cat ccc_roles.yml | circleci tests run --command "xargs ./run_tests.sh" --split-by=timings --timings-type=name
 
           no_output_timeout: 120m
 
@@ -298,6 +371,13 @@ workflows:
             plugins/modules/inventory_workflow_manager.py run-inventory true
             plugins/modules/swim_workflow_manager.py run-swim true
             plugins/modules/pnp_workflow_manager.py run-pnp true
+            plugins/modules/network_settings_workflow_manager.py run-networksettings true
+            plugins/modules/ise_radius_integration_workflow_manager.py run-serverintegrations true
+            plugins/modules/template_workflow_manager.py run-template true
+            plugins/modules/events_and_notifications_workflow_manager.py run-eventsandnotif true
+            plugins/modules/device_configs_backup_workflow_manager.py run-configbackups true
+            plugins/modules/provision_workflow_manager.py run-provision true
+            plugins/modules/network_compliance_workflow_manager.py run-networkcompliance true
             
             tests/integration/ccc_site_management/.* run-site true    
             tests/integration/ccc_device_credential_management/.* run-devicecredential true
@@ -305,6 +385,13 @@ workflows:
             tests/integration/ccc_inventory_management/.* run-inventory true
             tests/integration/ccc_swim_management/.* run-swim true
             tests/integration/ccc_pnp_management/.* run-pnp true
+            tests/integration/ccc_network_settings_management/.* run-networksettings true
+            tests/integration/ccc_aaa_server_management/.* run-serverintegrations true
+            tests/integration/ccc_template_management/.* run-template true
+            tests/integration/ccc_events_and_notification_management/.* run-eventsandnotif true
+            # tests/integration/? run-configbackups true
+            # tests/integration/? run-provision true
+            tests/integration/ccc_network_compliance_management/.* run-networkcompliance true
 
   testing:
     when: << pipeline.parameters.run-any >>
