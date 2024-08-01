@@ -18,7 +18,7 @@ description:
 
 version_added: '6.17.0'
 extends_documentation_fragment:
-  - cisco.dnac.module_info
+  - cisco.dnac.workflow_manager_params
 author:
   - A Mohamed Rafeek (@mabdulk2)
   - Sonali Deepthi Kesali (@skesali)
