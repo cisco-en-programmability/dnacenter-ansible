@@ -41,11 +41,11 @@ options:
   dnac_api_task_timeout:
     description: The number of times to retry resynchronization.
     type: int
-    default: 1200
+    default: 300
   dnac_task_poll_interval:
     description: The interval, in seconds, for polling Cisco Catalyst Center.
     type: int
-    default: 2
+    default: 3
   next_task_after_interval:
     description: Time in second between Provision and AP updated execution
     type: int
@@ -61,13 +61,14 @@ options:
           The MAC address used to identify the device. If the MAC address is known,
           it must be provided and cannot be modified. At least one of the following parameters is required
           to identify the specific access point: mac_address, hostname, or management_ip_address.
-          eg. "90:e9:5e:03:f3:40"
+        example: "90:e9:5e:03:f3:40"
         type: str
         required: True
       rf_profile:
         description: Radio Frequency (RF) profile of the Access Point (e.g., 'HIGH').
         type: str
         required: False
+        example: "HIGH"
       site:
         description: Current site details where the Access Point is located.
         type: dict
@@ -78,25 +79,30 @@ options:
             required: False
             suboptions:
               name:
-                description: Name of the floor.(eg. 'FLOOR1')
+                description: Name of the floor.
                 type: str
                 required: False
+                example: 'FLOOR1'
               parent_name:
-                description: Parent name of the floor in the site hierarchy.(eg. 'Global/USA/New York/BLDNYC')
+                description: Parent name of the floor in the site hierarchy.
                 type: str
                 required: False
+                example: 'Global/USA/New York/BLDNYC'
       ap_name:
-        description: Current AP name that needs to be changed along with the new AP name. (eg. "Test2"')
+        description: Current AP name that needs to be changed along with the new AP name.
         type: str
         required: False
+        example: 'ap_name: "Test2"'
       admin_status:
-        description: Status of the AP configuration. Accepts "Enabled" or "Disabled".(eg. "Enabled")
+        description: Status of the AP configuration. Accepts "Enabled" or "Disabled".
         type: str
         required: False
+        example: 'admin_status: "Enabled"'
       led_status:
-        description: State of the AP's LED. Accepts "Enabled" or "Disabled".(eg. led_status: "Enabled")
+        description: State of the AP's LED. Accepts "Enabled" or "Disabled".
         type: str
         required: False
+        example: 'led_status: "Enabled"'
       led_brightness_level:
         description: Brightness level of the AP's LED. Accepts values from 1 to 8.
         type: int
@@ -527,25 +533,25 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/
 
 notes:
-  - Make sure to install the required Python dependencies by executing 'pip install dnacentersdk'.
-  - SDK Method used are
-  - devices.get_device_list
-  - wireless.get_access_point_configuration
-  - sites.get_site
-  - sda.get_device_info
-  - sites.assign_devices_to_site
-  - wireless.ap_provision
-  - wireless.configure_access_points
-  - sites.get_membership
-  - Paths used are
-  - GET  /dna/intent/api/v1/network-device
-  - GET  /dna/intent/api/v1/site
-  - GET  /dna/intent/api/v1/business/sda/device
-  - POST /dna/intent/api/v1/wireless/ap-provision
-  - GET  /dna/intent/api/v1/membership/{siteId}
-  - GET  /dna/intent/api/v1/wireless/accesspoint-configuration/details/{task_id}
-  - POST /dna/intent/api/v2/wireless/accesspoint-configuration
-  - POST /dna/intent/api/v1/assign-device-to-site/{siteId}/device
+  - Make sure to install the required Python dependencies by executing `pip install dnacentersdk`.
+  - SDK Method used are:
+    - devices.get_device_list
+    - wireless.get_access_point_configuration
+    - sites.get_site
+    - sda.get_device_info
+    - sites.assign_devices_to_site
+    - wireless.ap_provision
+    - wireless.configure_access_points
+    - sites.get_membership
+  - Paths used are:
+    - GET  /dna/intent/api/v1/network-device
+    - GET  /dna/intent/api/v1/site
+    - GET  /dna/intent/api/v1/business/sda/device
+    - POST /dna/intent/api/v1/wireless/ap-provision
+    - GET  /dna/intent/api/v1/membership/{siteId}
+    - GET  /dna/intent/api/v1/wireless/accesspoint-configuration/details/{task_id}
+    - POST /dna/intent/api/v2/wireless/accesspoint-configuration
+    - POST /dna/intent/api/v1/assign-device-to-site/{siteId}/device
 """
 
 EXAMPLES = r"""
@@ -577,6 +583,7 @@ EXAMPLES = r"""
         dnac_log_level: DEBUG
         config_verify: False
         state: merged
+        force_sync: False
         config:
           - mac_address: 90:e9:5e:03:f3:40
             2.4ghz_radio:
@@ -600,6 +607,7 @@ EXAMPLES = r"""
         dnac_log_level: DEBUG
         config_verify: False
         state: merged
+        force_sync: False
         config:
           - mac_address: 90:e9:5e:03:f3:40
             2.4ghz_radio:
@@ -620,6 +628,7 @@ EXAMPLES = r"""
         dnac_log_level: DEBUG
         config_verify: False
         state: merged
+        force_sync: False
         config:
           - mac_address: 90:e9:5e:03:f3:40
             2.4ghz_radio:
@@ -640,6 +649,7 @@ EXAMPLES = r"""
         dnac_log_level: DEBUG
         config_verify: False
         state: merged
+        force_sync: False
         config:
           - mac_address: 90:e9:5e:03:f3:40
             5ghz_radio:
@@ -660,6 +670,7 @@ EXAMPLES = r"""
         dnac_log_level: DEBUG
         config_verify: False
         state: merged
+        force_sync: False
         config:
           - mac_address: 90:e9:5e:03:f3:40
             5ghz_radio:
@@ -705,6 +716,7 @@ EXAMPLES = r"""
         dnac_log_level: DEBUG
         config_verify: False
         state: merged
+        force_sync: False
         config:
           - mac_address: 90:e9:5e:03:f3:40
             2.4ghz_radio:
@@ -733,6 +745,7 @@ EXAMPLES = r"""
         dnac_log_level: DEBUG
         config_verify: True
         state: merged
+        force_sync: False
         config:
               - ap_type: "Unified AP"
                 mac_address:  90:e9:5e:03:f3:40
@@ -756,6 +769,7 @@ EXAMPLES = r"""
         dnac_log_level: DEBUG
         config_verify: False
         state: merged
+        force_sync: False
         config:
           - mac_address: 90:e9:5e:03:f3:40
             rf_profile: "HIGH"
@@ -2580,7 +2594,8 @@ def main():
         'next_task_after_interval': {'type': 'int', "default": 5},
         'config': {'required': True, 'type': 'list', 'elements': 'dict'},
         'validate_response_schema': {'type': 'bool', 'default': True},
-        'state': {'default': 'merged', 'choices': ['merged', 'deleted']}
+        'state': {'default': 'merged', 'choices': ['merged', 'deleted']},
+        'force_sync': {'type': 'bool'}
     }
     module = AnsibleModule(
         argument_spec=accepoint_spec,
