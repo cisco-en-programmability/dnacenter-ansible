@@ -88,30 +88,25 @@ options:
                 required: False
                 example: 'Global/USA/New York/BLDNYC'
       ap_name:
-        description: Current AP name that needs to be changed along with the new AP name.
+        description: Current AP name that needs to be changed along with the new AP name.(eg. "Test2")
         type: str
         required: False
-        example: 'ap_name: "Test2"'
       admin_status:
-        description: Status of the AP configuration. Accepts "Enabled" or "Disabled".
+        description: Status of the AP configuration. Accepts "Enabled" or "Disabled". (eg. "Enabled")
         type: str
         required: False
-        example: 'admin_status: "Enabled"'
       led_status:
-        description: State of the AP's LED. Accepts "Enabled" or "Disabled".
+        description: State of the AP's LED. Accepts "Enabled" or "Disabled".(eg. "Enabled")
         type: str
         required: False
-        example: 'led_status: "Enabled"'
       led_brightness_level:
-        description: Brightness level of the AP's LED. Accepts values from 1 to 8.
+        description: Brightness level of the AP's LED. Accepts values from 1 to 8.(eg. 3)
         type: int
         required: False
-        example: 'led_brightness_level: 3'
       ap_mode:
         description: |
           Mode of operation for the Access Point (AP). Possible values include "local/flexconnect",
-          "monitor", "sniffer", or "Bridge/Flex+Bridge".
-        example: 'ap_mode: "local"'
+          "monitor", "sniffer", or "Bridge/Flex+Bridge".(eg. "Local")
         type: str
         required: False
       location:
