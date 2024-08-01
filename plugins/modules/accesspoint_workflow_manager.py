@@ -86,7 +86,7 @@ options:
                 type: str
                 required: False
       ap_name:
-        description: Current AP name that needs to be changed along with the new AP name. (eg. "Test2"')
+        description: Current AP name that needs to be changed along with the new AP name. (eg. Test2)
         type: str
         required: False
       admin_status:
