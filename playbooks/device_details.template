@@ -14,6 +14,7 @@ template_details:
       template_name: 'DMVPN Spoke for Branch Router - System Default'
     import_project:
       do_version: false
+      project_file: 'JSON project file'
       payload:
       - name: 'Onboarding Configuration2'
     import_template:

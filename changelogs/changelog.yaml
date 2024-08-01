@@ -932,3 +932,27 @@ releases:
           - provision_workflow_manager.py - Added attribute 'provisioning'
           - template_workflow_manager.py - Added attributes 'choices', 'failure_policy'
           - events_and_notifications_workflow_manager.py - Added attributes 'webhook_event_notification', 'email_event_notification', 'syslog_event_notification'
+  6.17.0:
+      release_date: "2024-07-30"
+      changes:
+        release_summary: Code changes in workflow manager modules. 
+        minor_changes:
+          - Added Circle CI support for integration testing.
+          - Adding pyzipper support in device_configs workflow manager module.
+          - Exporting export_device_details_limit in inventory workflow module.
+          - Adding run_compliance_batch_size support in network_compliance module.
+          - Changes in provision workflow manager module.
+          - Checking the device list in swim workflow manager module.
+          - UT and IT cases for worflow manager modules.
+          - Added 'user_role_workflow_manager' module to manage operations to create, update, and delete users and roles.
+          - Added 'rma_workflow_manager' module to manage RMA workflow.
+          - Added 'accesspoint_workflow_manager' module to manage access point configurations.
+          - discovery_intent.py: Changed attribute name 'desc' to 'description'.
+          - discovery_workflow_manager.py: Changed attribute name 'desc' to 'description'.
+          - events_and_notifications_worflow_manager.py: Changed attribute names from 'from_email', 'to_email', 'to send_email' and 'recipient_email'.
+          - inventory_intent.py: added attribute 'export_device_details_limit'.
+          - inventory_workflow_manager.py: added attribute 'export_device_details_limit'.
+          - ise_radius_integration_workflow_manager.py: changed the type of 'authentication_policy_server' from 'dict' to 'list'.
+          - network_compliance_workflow_manager.py: added attribute 'run_compliance_batch_size'.
+          - network_settings_workflow_manager.py: changed the type of network_management_details from 'dic' to 'list'.
+          - template_workflow_manager.py: added project_file and payload.
