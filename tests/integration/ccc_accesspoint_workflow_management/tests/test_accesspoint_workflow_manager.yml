@@ -107,5 +107,3 @@
   #       - "{{ item }}"
   #   loop: "{{ vars_map.delete_wlc }}"
   #   register: result_deleted_wlc
-
-

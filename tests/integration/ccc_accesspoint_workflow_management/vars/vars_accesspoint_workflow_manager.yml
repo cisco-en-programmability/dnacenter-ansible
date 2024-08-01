@@ -28,4 +28,3 @@ update_accesspoint_config:
       channel_number: 48
       powerlevel: 3
       channel_width: "20 MHz"
-
