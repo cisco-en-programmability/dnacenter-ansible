@@ -61,14 +61,13 @@ options:
           The MAC address used to identify the device. If the MAC address is known,
           it must be provided and cannot be modified. At least one of the following parameters is required
           to identify the specific access point: mac_address, hostname, or management_ip_address.
-        example: "90:e9:5e:03:f3:40"
+          eg. "90:e9:5e:03:f3:40"
         type: str
         required: True
       rf_profile:
         description: Radio Frequency (RF) profile of the Access Point (e.g., 'HIGH').
         type: str
         required: False
-        example: "HIGH"
       site:
         description: Current site details where the Access Point is located.
         type: dict
@@ -79,25 +78,21 @@ options:
             required: False
             suboptions:
               name:
-                description: Name of the floor.
+                description: Name of the floor.(eg. 'FLOOR1')
                 type: str
                 required: False
-                example: 'FLOOR1'
               parent_name:
-                description: Parent name of the floor in the site hierarchy.
+                description: Parent name of the floor in the site hierarchy.(eg. 'Global/USA/New York/BLDNYC')
                 type: str
                 required: False
-                example: 'Global/USA/New York/BLDNYC'
       ap_name:
-        description: Current AP name that needs to be changed along with the new AP name.
+        description: Current AP name that needs to be changed along with the new AP name. (eg. "Test2"')
         type: str
         required: False
-        example: 'ap_name: "Test2"'
       admin_status:
-        description: Status of the AP configuration. Accepts "Enabled" or "Disabled".
+        description: Status of the AP configuration. Accepts "Enabled" or "Disabled".(eg. "Enabled")
         type: str
         required: False
-        example: 'admin_status: "Enabled"'
       led_status:
         description: State of the AP's LED. Accepts "Enabled" or "Disabled".
         type: str
