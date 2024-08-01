@@ -404,79 +404,67 @@ options:
                 type: str
                 required: False
               channel_number:
-                description: Custom channel number configured for the xor radio interface.
-                example: 6
+                description: Custom channel number configured for the xor radio interface.(eg. 6)
                 type: int
                 required: False
               channel_width:
                 description: |
                   Width of the channel configured for the xor radio interface. Accepts values
-                  "20 MHz", "40 MHz", "80 MHz", or "160 MHz".
-                example: 20 MHz
+                  "20 MHz", "40 MHz", "80 MHz", or "160 MHz". (eg. 20 MHz)
                 type: str
                 required: False
               power_assignment_mode:
                 description: |
                   Mode of power assignment for the xor radio interface. Accepts "Global" or "Custom".
                   In Custom, it accepts values 1 to 5.
-                example: Custom
                 type: str
                 required: False
               power_level:
-                description: Custom power level configured for the xor radio interface.
+                description: Custom power level configured for the xor radio interface. (eg. 3)
                 type: int
                 required: False
-                example: 3
           tri_radio:
             description: Configuration options for the tri radio interface.
             type: dict
             required: False
             suboptions:
               admin_status:
-                description: Administrative status for the tri radio interface.
-                example: Enabled
+                description: Administrative status for the tri radio interface. (eg. Enabled)
                 type: str
                 required: False
               antenna_name:
-                description: Name or type of antenna used for the tri radio interface.
+                description: Name or type of antenna used for the tri radio interface.(eg. other)
                 type: str
                 required: False
-                example: other
               antenna_gain:
-                description: Antenna gain value in decibels (dB) for the tri radio interface.
+                description: Antenna gain value in decibels (dB) for the tri radio interface. (eg. 4)
                 type: int
                 required: False
-                example: 4
               radio_role_assignment:
                 description: |
                   Role assignment mode for the tri radio interface. Accepts "Auto", "Client-serving", or "Monitor".
                   If radio_role_assignment is "client-serving", then only power-level and channel-level can be changed.
-                example: Auto
                 type: str
                 required: False
               cable_loss:
-                description: Cable loss in dB for the tri radio interface.
+                description: Cable loss in dB for the tri radio interface. (eg. 75)
                 type: int
                 required: False
-                example: 75
               antenna_cable_name:
-                description: Name or type of antenna cable used for the tri radio interface.
+                description: Name or type of antenna cable used for the tri radio interface. (eg. "other")
                 type: str
                 required: False
-                example: "other"
               channel_assignment_mode:
                 description: |
                   Mode of channel assignment for the tri radio interface. Accepts "Global" or "Custom".
                   For tri Custom, it accepts values like 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128,
-                  132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173.
-                example: Custom
+                  132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173. (eg. Custom)
                 type: str
                 required: False
               channel_number:
-                description: Custom channel number configured for the tri radio interface.
+                description: Custom channel number configured for the tri radio interface. (eg. 6)
                 type: int
                 required: False
-                example: 6
               channel_width:
                 description: |
                   Width of the channel configured for the tri radio interface. Accepts values
