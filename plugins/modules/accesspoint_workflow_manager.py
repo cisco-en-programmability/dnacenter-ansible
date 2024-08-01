@@ -388,8 +388,7 @@ options:
                 type: str
                 required: False
               cable_loss:
-                description: Cable loss in dB for the xor radio interface.
-                example: 75
+                description: Cable loss in dB for the xor radio interface. (e.g 75)
                 type: int
                 required: False
               antenna_cable_name:
@@ -399,8 +398,8 @@ options:
                 example: other
               channel_assignment_mode:
                 description: |
-                Mode of channel assignment for the xor radio interface. Accepts "Global" or "Custom".
-                - For xor Custom, it accepts values like 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112,
+                  Mode of channel assignment for the xor radio interface. Accepts "Global" or "Custom".
+                  For xor Custom, it accepts values like 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112,
                   116, 120, 124, 128, 132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173.
                 example: Custom
                 type: str
@@ -412,15 +411,15 @@ options:
                 required: False
               channel_width:
                 description: |
-                Width of the channel configured for the xor radio interface. Accepts values
-                "20MHz", "40MHz", "80MHz", or "160MHz".
+                  Width of the channel configured for the xor radio interface. Accepts values
+                  "20MHz", "40MHz", "80MHz", or "160MHz".
                 example: 20 MHz
                 type: str
                 required: False
               power_assignment_mode:
                 description: |
-                Mode of power assignment for the xor radio interface. Accepts "Global" or "Custom".
-                - In Custom, it accepts values 1 to 5.
+                  Mode of power assignment for the xor radio interface. Accepts "Global" or "Custom".
+                  In Custom, it accepts values 1 to 5.
                 example: Custom
                 type: str
                 required: False
@@ -451,8 +450,8 @@ options:
                 example: 4
               radio_role_assignment:
                 description: |
-                Role assignment mode for the tri radio interface. Accepts "Auto", "Client-serving", or "Monitor".
-                - If radio_role_assignment is "client-serving", then only power-level and channel-level can be changed.
+                  Role assignment mode for the tri radio interface. Accepts "Auto", "Client-serving", or "Monitor".
+                  If radio_role_assignment is "client-serving", then only power-level and channel-level can be changed.
                 example: Auto
                 type: str
                 required: False
@@ -468,8 +467,8 @@ options:
                 example: "other"
               channel_assignment_mode:
                 description: |
-                Mode of channel assignment for the tri radio interface. Accepts "Global" or "Custom".
-                - For tri Custom, it accepts values like 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128,
+                  Mode of channel assignment for the tri radio interface. Accepts "Global" or "Custom".
+                  For tri Custom, it accepts values like 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128,
                   132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173.
                 example: Custom
                 type: str
