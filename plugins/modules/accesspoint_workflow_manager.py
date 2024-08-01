@@ -365,25 +365,22 @@ options:
             required: False
             suboptions:
               admin_status:
-                description: Administrative status for the xor radio interface.
-                example: Enabled
+                description: Administrative status for the xor radio interface. (eg. Enabled)
                 type: str
                 required: False
               antenna_name:
-                description: Name or type of antenna used for the xor radio interface.
-                example: other
+                description: Name or type of antenna used for the xor radio interface.(eg. other)
                 type: str
                 required: False
               antenna_gain:
-                description: Antenna gain value in decibels (dB) for the xor radio interface.
+                description: Antenna gain value in decibels (dB) for the xor radio interface.(eg. 4)
                 type: int
                 required: False
-                example: 4
               radio_role_assignment:
                 description: |
                   Role assignment mode for the xor radio interface. Accepts "Auto", "Client-serving", or "Monitor".
                   If radio_role_assignment is "client-serving", then only power-level and channel-level can be changed.
-                example: Auto
+                  (eg. Auto)
                 type: str
                 required: False
               cable_loss:
@@ -391,16 +388,14 @@ options:
                 type: int
                 required: False
               antenna_cable_name:
-                description: Name or type of antenna cable used for the xor radio interface.
+                description: Name or type of antenna cable used for the xor radio interface.(eg. other)
                 type: str
                 required: False
-                example: other
               channel_assignment_mode:
                 description: |
                   Mode of channel assignment for the xor radio interface. Accepts "Global" or "Custom".
                   For xor Custom, it accepts values like 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112,
-                  116, 120, 124, 128, 132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173.
-                example: Custom
+                  116, 120, 124, 128, 132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173. (eg. "Custom")
                 type: str
                 required: False
               channel_number:
