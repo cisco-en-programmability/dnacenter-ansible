@@ -1312,10 +1312,9 @@ class DnacDevice(DnacBase):
         # Code for triggers the resync operation using the retrieved device IDs and force sync parameter.
         device_ips = self.get_device_ips_from_config_priority()
         input_device_ips = device_ips.copy()
-        device_in_dnac = self.get_existing_devices_in_ccc()
 
         for device_ip in input_device_ips:
-            if device_ip not in device_in_dnac:
+            if device_ip not in self.have.get("device_in_dnac"):
                 input_device_ips.remove(device_ip)
 
         ap_devices = self.get_ap_devices(input_device_ips)
@@ -2966,11 +2965,10 @@ class DnacDevice(DnacBase):
         if self.config[0].get('provision_wired_device'):
             provision_wired_list = self.config[0]['provision_wired_device']
             device_not_available = []
-            device_in_ccc = self.get_existing_devices_in_ccc()
 
             for prov_dict in provision_wired_list:
                 device_ip = prov_dict['device_ip']
-                if device_ip not in device_in_ccc:
+                if device_ip not in self.have.get("device_in_dnac"):
                     device_not_available.append(device_ip)
             if device_not_available:
                 self.status = "failed"
@@ -3760,7 +3758,6 @@ class DnacDevice(DnacBase):
         self.log("Current State (have): {0}".format(str(self.have)), "INFO")
         self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
         input_devices = self.have["want_device"]
-        device_in_dnac = self.get_existing_devices_in_ccc()
 
         if self.config[0].get('add_user_defined_field'):
             udf_field_list = self.config[0].get('add_user_defined_field')
@@ -3778,7 +3775,7 @@ class DnacDevice(DnacBase):
 
         device_delete_flag = True
         for device_ip in input_devices:
-            if device_ip in device_in_dnac:
+            if device_ip in self.have.get("device_in_dnac"):
                 device_after_deletion = device_ip
                 device_delete_flag = False
                 break
