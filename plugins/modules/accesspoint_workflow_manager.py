@@ -489,14 +489,6 @@ EXAMPLES = r"""
   vars_files:
     - "credentials.yml"
   tasks:
-  - name: Create/Update Wireless Access Point Configuration
-  hosts: dnac_servers
-  connection: local
-  gather_facts: no
-  vars_files:
-    - "credentials.yml"
-
-  tasks:
     - name: Updating Access Point Site / Configuration details
       cisco.dnac.accesspoint_workflow_manager:
         dnac_host: "{{ dnac_host }}"
