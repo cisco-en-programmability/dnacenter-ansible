@@ -200,90 +200,74 @@ options:
             required: False
             suboptions:
               admin_status:
-                description: Administrative status for the 2.4GHz radio interface.
+                description: Administrative status for the 2.4GHz radio interface.(eg. 'Enabled')
                 type: str
                 required: False
-                example: 'Enabled'
               antenna_name:
-                description: Name or type of antenna used for the 2.4GHz radio interface.
+                description: Name or type of antenna used for the 2.4GHz radio interface.(eg. "other")
                 type: str
                 required: False
-                example: 'other'
               antenna_gain:
-                description: Antenna gain value in decibels (dB) for the 2.4GHz radio interface.
+                description: Antenna gain value in decibels (dB) for the 2.4GHz radio interface.(eg. 4)
                 type: int
                 required: False
-                example: '4'
               radio_role_assignment:
-                description: Role assignment mode for the 2.4GHz radio interface. Accepts "Auto", "Client-serving", or "Monitor".
-                example: 'Auto'
+                description: Role assignment mode for the 2.4GHz radio interface. Accepts "Auto", "Client-serving", or "Monitor".(eg. "Auto")
                 type: str
                 required: False
               cable_loss:
-                description: Cable loss in dB for the 2.4GHz radio interface.
+                description: Cable loss in dB for the 2.4GHz radio interface.(eg. 75)
                 type: int
                 required: False
-                example: '75'
               antenna_cable_name:
-                description: Name or type of antenna cable used for the 2.4GHz radio interface.
+                description: Name or type of antenna cable used for the 2.4GHz radio interface.(eg. "other")
                 type: str
                 required: False
-                example: 'antenna_cable_name: "other"'
               channel_assignment_mode:
-                description: Mode of channel assignment for the 2.4GHz radio interface. Accepts "Global" or "Custom".
-                example: 'Custom'
+                description: Mode of channel assignment for the 2.4GHz radio interface. Accepts "Global" or "Custom".(eg. "Custom")
                 type: str
                 required: False
               channel_number:
-                description: Custom channel number configured for the 2.4GHz radio interface.
+                description: Custom channel number configured for the 2.4GHz radio interface.(eg. 6)
                 type: int
                 required: False
-                example: '6'
               power_assignment_mode:
-                description: Mode of power assignment for the 2.4GHz radio interface. Accepts "Global" or "Custom".
-                example: 'power_assignment_mode: "Custom"'
+                description: Mode of power assignment for the 2.4GHz radio interface. Accepts "Global" or "Custom".(eg. "Custom")
                 type: str
                 required: False
               power_level:
-                description: Custom power level configured for the 2.4GHz radio interface.
+                description: Custom power level configured for the 2.4GHz radio interface. (eg. 3)
                 type: int
                 required: False
-                example: 'power_level: 3'
           5ghz_radio:
             description: Configuration options for the 5GHz radio interface.
             type: dict
             required: False
             suboptions:
               admin_status:
-                description: Administrative status for the 5GHz radio interface.
+                description: Administrative status for the 5GHz radio interface.(eg. "Enabled")
                 type: str
                 required: False
-                example: Enabled
               antenna_name:
-                description: Name or type of antenna used for the 5GHz radio interface.
+                description: Name or type of antenna used for the 5GHz radio interface.(eg. other)
                 type: str
                 required: False
-                example: other
               antenna_gain:
-                description: Antenna gain value in decibels (dB) for the 5GHz radio interface.
+                description: Antenna gain value in decibels (dB) for the 5GHz radio interface.(eg. 5)
                 type: int
                 required: False
-                example: 5
               radio_role_assignment:
-                description: Role assignment mode for the 5GHz radio interface. Accepts "Auto", "Client-serving", or "Monitor".
-                example: Auto
+                description: Role assignment mode for the 5GHz radio interface. Accepts "Auto", "Client-serving", or "Monitor".(eg. Auto)
                 type: str
                 required: False
               cable_loss:
-                description: Cable loss in dB for the 5GHz radio interface.
+                description: Cable loss in dB for the 5GHz radio interface. (eg. 80)
                 type: int
                 required: False
-                example: 80
               antenna_cable_name:
-                description: Name or type of antenna cable used for the 5GHz radio interface.
+                description: Name or type of antenna cable used for the 5GHz radio interface.(eg. other)
                 type: str
                 required: False
-                example: other
               channel_assignment_mode:
                 description: Mode of channel assignment for the 5GHz radio interface. Accepts "Global" or "Custom".(eg. "Custom")
                 type: str
