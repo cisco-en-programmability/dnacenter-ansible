@@ -153,27 +153,30 @@ options:
         description: IP address of the primary wireless LAN controller (WLC) managing the Access Point (AP).
         type: str
         required: False
-        example: primary_ip_address: "204.192.4.200"
+        example: 'primary_ip_address:
+				    address: "10.0.0.2"'
       secondary_controller_name:
         description: Name or identifier of the secondary wireless LAN controller (WLC) managing the Access Point (AP).
         type: str
         required: False
-        example: secondary_controller_name: "Inherit from site/Clear"
+        example: 'secondary_controller_name: "Inherit from site/Clear"'
       secondary_ip_address:
         description: IP address of the secondary wireless LAN controller (WLC) managing the Access Point (AP).
         type: str
         required: False
-        example: secondary_ip_address: "10.0.0.2"
+        example: 'secondary_ip_address:
+				    address: "10.0.0.2"'
       tertiary_controller_name:
         description: Name or identifier of the tertiary wireless LAN controller (WLC) managing the Access Point (AP).
         type: str
         required: False
-        example: tertiary_controller_name: "Clear"
+        example: 'tertiary_controller_name: "Clear"'
       tertiary_ip_address:
         description: IP address of the tertiary wireless LAN controller (WLC) managing the Access Point (AP).
         type: str
         required: False
-        example: tertiary_ip_address: "10.0.0.3"
+        example: 'tertiary_ip_address:
+				    address: "10.0.0.2"'
       radio_settings:
         description: Configuration options for radio interfaces.
         type: dict
@@ -188,17 +191,17 @@ options:
                 description: Administrative status for the 2.4GHz radio interface.
                 type: str
                 required: False
-                example: admin_status: "Enabled"
+                example: 'admin_status: "Enabled"'
               antenna_name:
                 description: Name or type of antenna used for the 2.4GHz radio interface.
                 type: str
                 required: False
-                example: antenna_name: "other"
+                example: 'antenna_name: "other"'
               antenna_gain:
                 description: Antenna gain value in decibels (dB) for the 2.4GHz radio interface.
                 type: int
                 required: False
-                example: antenna_gain: 4
+                example: 'antenna_gain: 4'
               radio_role_assignment:
                 description: Role assignment mode for the 2.4GHz radio interface. Accepts "Auto", "Client-serving", or "Monitor".
                 example: radio_role_assignment: "Auto"
@@ -208,12 +211,12 @@ options:
                 description: Cable loss in dB for the 2.4GHz radio interface.
                 type: int
                 required: False
-                example: cable_loss: 75
+                example: 'cable_loss: 75'
               antenna_cable_name:
                 description: Name or type of antenna cable used for the 2.4GHz radio interface.
                 type: str
                 required: False
-                example: antenna_cable_name: "other"
+                example: 'antenna_cable_name: "other"'
               channel_assignment_mode:
                 description: Mode of channel assignment for the 2.4GHz radio interface. Accepts "Global" or "Custom".
                 example: channel_assignment_mode: "Custom"
@@ -223,17 +226,17 @@ options:
                 description: Custom channel number configured for the 2.4GHz radio interface.
                 type: int
                 required: False
-                example: channel_number: 6
+                example: 'channel_number: 6'
               power_assignment_mode:
                 description: Mode of power assignment for the 2.4GHz radio interface. Accepts "Global" or "Custom".
-                example: power_assignment_mode: "Custom"
+                example: 'power_assignment_mode: "Custom"'
                 type: str
                 required: False
               power_level:
                 description: Custom power level configured for the 2.4GHz radio interface.
                 type: int
                 required: False
-                example: power_level: 3
+                example: 'power_level: 3'
           5ghz_radio:
             description: Configuration options for the 5GHz radio interface.
             type: dict
@@ -243,12 +246,12 @@ options:
                 description: Administrative status for the 5GHz radio interface.
                 type: str
                 required: False
-                example: admin_status: "Enabled"
+                example: 'admin_status: "Enabled"'
               antenna_name:
                 description: Name or type of antenna used for the 5GHz radio interface.
                 type: str
                 required: False
-                example: antenna_name: "other"
+                example: 'antenna_name: "other"'
               antenna_gain:
                 description: Antenna gain value in decibels (dB) for the 5GHz radio interface.
                 type: int
