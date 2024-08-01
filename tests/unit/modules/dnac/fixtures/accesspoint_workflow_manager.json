@@ -1,0 +1,756 @@
+{
+    "playbook_config_provision": [{
+        "mac_address": "90:e9:5e:03:f3:40",
+        "rf_profile": "HIGH",
+        "site": {
+            "floor": {
+                "name": "FLOOR1",
+                "parent_name": "Global/USA/New York/BLDNYC"
+            }
+        }
+    }],
+
+    "playbook_config_missing_update": [
+        {
+            "mac_address": "90:e9:5e:03:f3:40",
+            "ap_selected_fields": "id,hostname,family,type,mac_address,management_ip_address,ap_ethernet_mac_address",
+            "ap_config_selected_fields": "mac_address,eth_mac,ap_name,led_brightness_level,led_status,location,radioDTOs",
+            "ap_name": "LTTS-test1",
+            "led_status": "Enabled",
+            "led_brightness_level": 5,
+            "ap_mode": "Local",
+            "location": "LTTS/Cisco/Chennai",
+            "failover_priority": "Low",
+            "clean_air_si_2.4ghz": "Disabled",
+            "clean_air_si_5ghz": "Disabled",
+            "clean_air_si_6ghz": "Enabled",
+            "primary_controller_name": "Inherit from site/Clear",
+            "secondary_controller_name": "Testing2",
+            "primary_ip_address":{
+                "address": "204.192.4.200"
+            },
+            "2.4ghz_radio": {
+                "admin_status": "Enabled",
+                "antenna_name": "C-ANT9104-2.4GHz",
+                "radio_role_assignment": "Client-Serving",
+                "channel_number": 2,
+                "powerlevel": 2
+            },
+            "5ghz_radio": {
+                "admin_status": "Enabled",
+                "antenna_name": "AIR-ANT2513P4M-N-5GHz",
+                "radio_role_assignment": "Client-Serving",
+                "channel_number": 44,
+                "powerlevel": 2,
+                "channel_width": "20 MHz"
+            },
+            "6ghz_radio": {
+                "admin_status": "Enabled",
+                "antenna_name": "AIR-ANT2513P4M-N-5GHz",
+                "radio_role_assignment": "Client-Serving",
+                "channel_number": 44,
+                "powerlevel": 2,
+                "channel_width": "20 MHz"
+            }
+        }
+    ],
+
+    "playbook_config_series_error": [
+        {
+            "mac_address": "90:e9:5e:03:f3:40",
+            "ap_selected_fields": "id,hostname,family,type,mac_address,management_ip_address,ap_ethernet_mac_address",
+            "ap_config_selected_fields": "mac_address,eth_mac,ap_name,led_brightness_level,led_status,location,radioDTOs",
+            "rf_profile": "HIGH",
+            "family":"Unified AP",
+            "site": {
+                "floor": {
+                    "name": "FLOOR2",
+                    "parent_name": "Global/USA/New York/BLDNYC"
+                }
+            },
+            "ap_name": "LTTS-test1",
+            "led_status": "Enabled",
+            "led_brightness_level": 5,
+            "ap_mode": "Local",
+            "location": "LTTS/Cisco/Chennai",
+            "failover_priority": "Low",
+            "clean_air_si_2.4ghz": "Enabled",
+            "clean_air_si_5ghz": "Enabled",
+            "clean_air_si_6ghz": "Disabled",
+            "2.4ghz_radio": {
+                "admin_status": "Enabled",
+                "antenna_name": "C-ANT9104-2.4GHz",
+                "radio_role_assignment": "Client-Serving",
+                "channel_number": 2,
+                "powerlevel": 2
+            },
+            "5ghz_radio": {
+                "admin_status": "Enabled",
+                "antenna_name": "AIR-ANT2513P4M-N-5GHz",
+                "radio_role_assignment": "Client-Serving",
+                "channel_number": 44,
+                "powerlevel": 2,
+                "channel_width": "20 MHz"
+            }
+        }
+    ],
+
+    "playbook_config": [
+        {
+            "mac_address": "90:e9:5e:03:f3:40",
+            "ap_selected_fields": "id,hostname,family,type,mac_address,management_ip_address,ap_ethernet_mac_address",
+            "ap_config_selected_fields": "mac_address,eth_mac,ap_name,led_brightness_level,led_status,location,radioDTOs",
+            
+            "ap_name": "LTTS-test1",
+            "led_status": "Enabled",
+            "led_brightness_level": 5,
+            "location": "LTTS/Cisco/Chennai",
+            "failover_priority": "Low",
+            "clean_air_si_2.4ghz": "Enabled",
+            "clean_air_si_5ghz": "Enabled",
+            "clean_air_si_6ghz": "Disabled",
+            "2.4ghz_radio": {
+                "admin_status": "Enabled",
+                "antenna_name": "C-ANT9104-2.4GHz",
+                "radio_role_assignment": "Client-Serving",
+                "channel_number": 2,
+                "powerlevel": 2
+            },
+            "5ghz_radio": {
+                "admin_status": "Enabled",
+                "antenna_name": "AIR-ANT2513P4M-N-5GHz",
+                "radio_role_assignment": "Client-Serving",
+                "channel_number": 44,
+                "powerlevel": 2,
+                "channel_width": "20 MHz"
+            }
+        }
+    ],
+
+    "playbook_config_missing_rf_profile": [
+        {
+            "mac_address": "90:e9:5e:03:f3:40",
+            "site": {
+                "floor": {
+                    "name": "FLOOR2"
+                }
+            }
+        }
+    ],
+    
+    "provision_ap_response": {
+        "executionId": "53d24e89-194d-4ae6-b4f6-73055293dc4b",
+        "Execution_status_url": "/dna/platform/management/business-api/v1/execution-status/53d24e89-194d-4ae6-b4f6-73055293dc4b",
+        "Message": "The request has been accepted for execution"
+    },
+
+    "ap_update_response": {
+        "response": {
+            "taskId": "f0ac3a5d-95b1-42ea-801c-e04ff7a4fbcb",
+            "url": "/api/v1/task/f0ac3a5d-95b1-42ea-801c-e04ff7a4fbcb"
+        }
+    },
+
+    "provision_execution_response": {
+        "timestamp": "07-12-2024 14:58:24",
+        "log_level": "WARNING",
+        "component": "Accesspoint",
+        "method": "get_execution_details",
+        "line_number": 378,
+        "message": "Response for the current execution",
+        "status": "SUCCESS",
+        "details": {
+          "bapiKey": "d897-19b8-47aa-a9c4",
+          "bapiName": "AP Provision",
+          "bapiExecutionId": "53d24e89-194d-4ae6-b4f6-73055293dc4b",
+          "startTime": "Fri Jul 12 09:28:09 UTC 2024",
+          "startTimeEpoch": 1720776489130,
+          "endTimeEpoch": 0,
+          "timeDuration": 0,
+          "status": "SUCCESS",
+          "runtimeInstanceId": "DNACP_Runtime_6bfcd18a-b76d-49c0-ada6-71d02f6e1b17"
+        }
+    },
+
+    "ap_task_status": {
+        "response": {
+            "version": 1721150006005,
+            "progress": "TASK_INTENT",
+            "data": "workflow_id=23b97702-b484-490a-8337-f7aec36f9c46;cfs_id=31eeddf4-2116-4786-ae99-4cd44ca6a3a7;rollback_status=not_supported;rollback_taskid=0;failure_task=NA;processcfs_complete=true",
+            "startTime": 1721149991730,
+            "endTime": 1721150006005,
+            "serviceType": "NCSP",
+            "username": "admin",
+            "lastUpdate": 1721149992544,
+            "isError": false,
+            "instanceTenantId": "6486ce96ff1f0d0c8be622f4",
+            "id": "f0ac3a5d-95b1-42ea-801c-e04ff7a4fbcb"
+        }
+    },
+
+    "ap_task_error_status": {
+        "response": {
+            "version": 1721149801699,
+            "progress": "TASK_INTENT",
+            "data": "workflow_id=c3d0e8c5-6a83-4d72-8da7-8c4e7705578b;cfs_id=31eeddf4-2116-4786-ae99-4cd44ca6a3a7;rollback_status=not_supported;rollback_taskid=0;failure_task=Determination of network intent deployment status:38dca22a-62ab-4fa7-96e3-33a0d30587e5;processcfs_complete=true",
+            "startTime": 1721149785428,
+            "endTime": 1721149801699,
+            "errorCode": "NCNP20100",
+            "serviceType": "NCSP",
+            "username": "admin",
+            "lastUpdate": 1721149801680,
+            "isError": true,
+            "failureReason": "Unable to push to device 204.192.6.200 using protocol ssh2 the CLI do ap name LTTS-test2 name LTTS-test1",
+            "instanceTenantId": "6486ce96ff1f0d0c8be622f4",
+            "id": "f0ac3a5d-95b1-42ea-801c-e04ff7a4fbcb"
+        }
+    },
+
+    "get_accesspoint_config": {
+        "_creationOrderIndex": 0,
+        "_isBeingChanged": false,
+        "_orderedListOEAssocName": null,
+        "_orderedListOEIndex": 0,
+        "adminStatus": "Enabled",
+        "apHeight": 0.0,
+        "apMode": "Local",
+        "apName": "NY-AP1-9130AXE",
+        "authEntityClass": null,
+        "authEntityId": null,
+        "changeLogList": null,
+        "deployPending": "NONE",
+        "displayName": "0",
+        "ethMac": "34:5d:a8:0e:20:b4",
+        "failoverPriority": "Low",
+        "instanceCreatedOn": null,
+        "instanceId": 0,
+        "instanceOrigin": null,
+        "instanceTenantId": "6486ce96ff1f0d0c8be622f4",
+        "instanceUpdatedOn": null,
+        "instanceUuid": null,
+        "instanceVersion": 0,
+        "internalKey": {
+            "id": 0,
+            "longType": "com.cisco.enc.config.wireless.models.apconfigworkflow.APInventory",
+            "type": "APInventory",
+            "url": "../../APInventory/0"
+        },
+        "lazyLoadedEntities": null,
+        "ledBrightnessLevel": 8,
+        "ledStatus": "Enabled",
+        "location": "default location",
+        "macAddress": "90:e9:5e:03:f3:40",
+        "meshDTOs": [],
+        "primaryControllerName": null,
+        "primaryIpAddress": "0.0.0.0",
+        "radioDTOs": [
+            {
+                "_creationOrderIndex": 0,
+                "_isBeingChanged": false,
+                "_orderedListOEAssocName": null,
+                "_orderedListOEIndex": 0,
+                "adminStatus": "Disabled",
+                "antennaAngle": 0,
+                "antennaElevAngle": 0,
+                "antennaGain": 4,
+                "antennaPatternName": null,
+                "authEntityClass": null,
+                "authEntityId": null,
+                "changeLogList": null,
+                "channelAssignmentMode": "Global",
+                "channelNumber": 36,
+                "channelWidth": "20 MHz",
+                "cleanAirSI": "Enabled",
+                "deployPending": "NONE",
+                "displayName": "0",
+                "dualRadioMode": null,
+                "ifType": 2,
+                "ifTypeValue": "5 GHz",
+                "instanceCreatedOn": null,
+                "instanceId": 0,
+                "instanceOrigin": null,
+                "instanceTenantId": "6486ce96ff1f0d0c8be622f4",
+                "instanceUpdatedOn": null,
+                "instanceUuid": null,
+                "instanceVersion": 0,
+                "internalKey": {
+                    "id": 0,
+                    "longType": "com.cisco.enc.config.wireless.models.apconfigworkflow.RadioInventory",
+                    "type": "RadioInventory",
+                    "url": "../../RadioInventory/0"
+                },
+                "lazyLoadedEntities": null,
+                "macAddress": "90:e9:5e:03:f3:40",
+                "powerAssignmentMode": "Global",
+                "powerlevel": 1,
+                "radioBand": null,
+                "radioRoleAssignment": "Client-Serving",
+                "slotId": 2
+            },
+            {
+                "_creationOrderIndex": 0,
+                "_isBeingChanged": false,
+                "_orderedListOEAssocName": null,
+                "_orderedListOEIndex": 0,
+                "adminStatus": "Enabled",
+                "antennaAngle": 0,
+                "antennaElevAngle": 0,
+                "antennaGain": 4,
+                "antennaPatternName": null,
+                "authEntityClass": null,
+                "authEntityId": null,
+                "changeLogList": null,
+                "channelAssignmentMode": "Global",
+                "channelNumber": 36,
+                "channelWidth": "20 MHz",
+                "cleanAirSI": "Enabled",
+                "deployPending": "NONE",
+                "displayName": "0",
+                "dualRadioMode": "Auto",
+                "ifType": 2,
+                "ifTypeValue": "5 GHz",
+                "instanceCreatedOn": null,
+                "instanceId": 0,
+                "instanceOrigin": null,
+                "instanceTenantId": "6486ce96ff1f0d0c8be622f4",
+                "instanceUpdatedOn": null,
+                "instanceUuid": null,
+                "instanceVersion": 0,
+                "internalKey": {
+                    "id": 0,
+                    "longType": "com.cisco.enc.config.wireless.models.apconfigworkflow.RadioInventory",
+                    "type": "RadioInventory",
+                    "url": "../../RadioInventory/0"
+                },
+                "lazyLoadedEntities": null,
+                "macAddress": "90:e9:5e:03:f3:40",
+                "powerAssignmentMode": "Global",
+                "powerlevel": 1,
+                "radioBand": null,
+                "radioRoleAssignment": "Client-Serving",
+                "slotId": 1
+            },
+            {
+                "_creationOrderIndex": 0,
+                "_isBeingChanged": false,
+                "_orderedListOEAssocName": null,
+                "_orderedListOEIndex": 0,
+                "adminStatus": "Enabled",
+                "antennaAngle": 0,
+                "antennaElevAngle": 0,
+                "antennaGain": 4,
+                "antennaPatternName": null,
+                "authEntityClass": null,
+                "authEntityId": null,
+                "changeLogList": null,
+                "channelAssignmentMode": "Global",
+                "channelNumber": 1,
+                "channelWidth": null,
+                "cleanAirSI": "Enabled",
+                "deployPending": "NONE",
+                "displayName": "0",
+                "dualRadioMode": null,
+                "ifType": 1,
+                "ifTypeValue": "2.4 GHz",
+                "instanceCreatedOn": null,
+                "instanceId": 0,
+                "instanceOrigin": null,
+                "instanceTenantId": "6486ce96ff1f0d0c8be622f4",
+                "instanceUpdatedOn": null,
+                "instanceUuid": null,
+                "instanceVersion": 0,
+                "internalKey": {
+                    "id": 0,
+                    "longType": "com.cisco.enc.config.wireless.models.apconfigworkflow.RadioInventory",
+                    "type": "RadioInventory",
+                    "url": "../../RadioInventory/0"
+                },
+                "lazyLoadedEntities": null,
+                "macAddress": "90:e9:5e:03:f3:40",
+                "powerAssignmentMode": "Global",
+                "powerlevel": 1,
+                "radioBand": null,
+                "radioRoleAssignment": "Client-Serving",
+                "slotId": 0
+            }
+        ],
+        "secondaryControllerName": null,
+        "secondaryIpAddress": "0.0.0.0",
+        "tertiaryControllerName": null,
+        "tertiaryIpAddress": "0.0.0.0"
+    },
+
+    "get_site_exist_response": {
+    "response": [
+        {
+            "parentId": "1e3868a6-666d-47a3-813c-6a2aa9bce46c",
+            "additionalInfo": [
+                {
+                    "nameSpace": "mapsSummary",
+                    "attributes": {
+                        "rfModel": "14144130",
+                        "imageURL": "",
+                        "isCadFile": "false",
+                        "floorIndex": "1"
+                    }
+                },
+                {
+                    "nameSpace": "Location",
+                    "attributes": {
+                        "addressInheritedFrom": "597dba2d-c09f-4bae-ae61-8b0d9c8cd268",
+                        "type": "floor"
+                    }
+                },
+                {
+                    "nameSpace": "mapGeometry",
+                    "attributes": {
+                        "offsetX": "0.0",
+                        "offsetY": "0.0",
+                        "width": "90.0",
+                        "length": "100.0",
+                        "height": "100.0"
+                    }
+                }
+            ],
+            "name": "Floor 2",
+            "instanceTenantId": "5fa5559c4238fb00c6cc6801",
+            "id": "ea3848d7-5337-4e48-aec3-605beaee55b4",
+            "siteHierarchy": "c6622c8a-ae49-47db-bc7c-5984fa61ca28/597dba2d-c09f-4bae-ae61-8b0d9c8cd268/1e3868a6-666d-47a3-813c-6a2aa9bce46c/ea3848d7-5337-4e48-aec3-605beaee55b4",
+            "siteNameHierarchy": "Global/USA/New York/BLDNYC/FLOOR2",
+            "family": "Unified AP"
+        }
+    ]
+    },
+
+    "verify_get_device_info":{
+        "name": "NY-EWLC-1.cisco.local",
+        "roles": [
+            "Wireless Controller"
+        ],
+        "deviceManagementIpAddress": "204.192.6.200",
+        "siteNameHierarchy": "Global/USA/New York/BLDNYC/FLOOR1",
+        "status": "success",
+        "description": "Fabric device info successfully retrieved from sda fabric.",
+        "executionId": "ee984a1c-91f1-435c-9048-1bcdc90f3e04"
+    },
+
+    "get_device_detail_series_error": {
+    "response": [{
+            "ap_ethernet_mac_address": "34:5d:a8:0e:20:b4",
+            "apManagerInterfaceIp": "204.192.12.201",
+            "associated_wlc_ip": "204.192.6.200",
+            "bootDateTime": null,
+            "collectionInterval": "NA",
+            "collectionStatus": "Managed",
+            "description": null,
+            "deviceSupportLevel": "Supported",
+            "dnsResolvedManagementAddress": "",
+            "errorCode": "null",
+            "errorDescription": null,
+            "family": "Unified AP",
+            "hostname": "NY-AP1-9130AXE",
+            "id": "ab7b6cd0-cfe5-4344-9169-c5a9690fb55d",
+            "instanceTenantId": "65d815269502a747808a83c5",
+            "instanceUuid": "ab7b6cd0-cfe5-4344-9169-c5a9690fb55d",
+            "interfaceCount": "0",
+            "inventoryStatusDetail": "NA",
+            "lastDeviceResyncStartTime": "",
+            "lastManagedResyncReasons": "",
+            "lastUpdateTime": 1721755030695,
+            "lastUpdated": "2024-07-23 17:17:10",
+            "lineCardCount": "0",
+            "lineCardId": "",
+            "location": null,
+            "locationName": null,
+            "mac_address": "90:e9:5e:03:f3:40",
+            "managedAtleastOnce": false,
+            "managementIpAddress": "204.192.102.11",
+            "managementState": "Managed",
+            "memorySize": "NA",
+            "pendingSyncRequestsCount": "0",
+            "platformId": "AIR-AP3802I-B-K9",
+            "reachabilityFailureReason": "NA",
+            "reachabilityStatus": "Reachable",
+            "reasonsForDeviceResync": "",
+            "reasonsForPendingSyncRequests": "",
+            "role": "ACCESS",
+            "roleSource": "AUTO",
+            "serialNumber": "FCW2203N6H1",
+            "series": "Cisco 3800I Series Unified Access Points",
+            "snmpContact": "",
+            "snmpLocation": "default location",
+            "softwareType": null,
+            "softwareVersion": "17.13.0.107",
+            "syncRequestedByApp": "",
+            "tagCount": "0",
+            "tunnelUdpPort": null,
+            "type": "Cisco 3800I Unified Access Point",
+            "upTime": "04:38:47.750",
+            "uptimeSeconds": 18507,
+            "vendor": "NA",
+            "waasDeviceMode": null
+        }
+    ]
+    },
+
+    "get_device_detail_all_data": {
+    "response": [{
+            "ap_ethernet_mac_address": "34:5d:a8:0e:20:b4",
+            "apManagerInterfaceIp": "204.192.12.201",
+            "associated_wlc_ip": "204.192.6.200",
+            "bootDateTime": null,
+            "collectionInterval": "NA",
+            "collectionStatus": "Managed",
+            "description": null,
+            "deviceSupportLevel": "Supported",
+            "dnsResolvedManagementAddress": "",
+            "errorCode": "null",
+            "errorDescription": null,
+            "family": "Unified AP",
+            "hostname": "NFW-AP2-3802I",
+            "id": "ab7b6cd0-cfe5-4344-9169-c5a9690fb55d",
+            "instanceTenantId": "65d815269502a747808a83c5",
+            "instanceUuid": "ab7b6cd0-cfe5-4344-9169-c5a9690fb55d",
+            "interfaceCount": "0",
+            "inventoryStatusDetail": "NA",
+            "lastDeviceResyncStartTime": "",
+            "lastManagedResyncReasons": "",
+            "lastUpdateTime": 1721755030695,
+            "lastUpdated": "2024-07-23 17:17:10",
+            "lineCardCount": "0",
+            "lineCardId": "",
+            "location": null,
+            "locationName": null,
+            "mac_address": "90:e9:5e:03:f3:40",
+            "managedAtleastOnce": false,
+            "managementIpAddress": "204.192.102.11",
+            "managementState": "Managed",
+            "memorySize": "NA",
+            "pendingSyncRequestsCount": "0",
+            "platformId": "AIR-AP3802I-B-K9",
+            "reachabilityFailureReason": "NA",
+            "reachabilityStatus": "Reachable",
+            "reasonsForDeviceResync": "",
+            "reasonsForPendingSyncRequests": "",
+            "role": "ACCESS",
+            "roleSource": "AUTO",
+            "serialNumber": "FCW2203N6H1",
+            "series": "Cisco 9164I Series Unified Access Points",
+            "snmpContact": "",
+            "snmpLocation": "default location",
+            "softwareType": null,
+            "softwareVersion": "17.13.0.107",
+            "syncRequestedByApp": "",
+            "tagCount": "0",
+            "tunnelUdpPort": null,
+            "type": "Cisco 3800I Unified Access Point",
+            "upTime": "04:38:47.750",
+            "uptimeSeconds": 18507,
+            "vendor": "NA",
+            "waasDeviceMode": null
+        }
+    ]
+    },
+
+    "get_device_detail": {
+    "response": [{
+            "ap_ethernet_mac_address": "34:5d:a8:0e:20:b4",
+            "apManagerInterfaceIp": "204.192.12.201",
+            "associated_wlc_ip": "204.192.6.200",
+            "bootDateTime": null,
+            "collectionInterval": "NA",
+            "collectionStatus": "Managed",
+            "description": null,
+            "deviceSupportLevel": "Supported",
+            "dnsResolvedManagementAddress": "",
+            "errorCode": "null",
+            "errorDescription": null,
+            "family": "Unified AP",
+            "hostname": "NFW-AP2-3802I",
+            "id": "ab7b6cd0-cfe5-4344-9169-c5a9690fb55d",
+            "instanceTenantId": "65d815269502a747808a83c5",
+            "instanceUuid": "ab7b6cd0-cfe5-4344-9169-c5a9690fb55d",
+            "interfaceCount": "0",
+            "inventoryStatusDetail": "NA",
+            "lastDeviceResyncStartTime": "",
+            "lastManagedResyncReasons": "",
+            "lastUpdateTime": 1721755030695,
+            "lastUpdated": "2024-07-23 17:17:10",
+            "lineCardCount": "0",
+            "lineCardId": "",
+            "location": null,
+            "locationName": null,
+            "mac_address": "90:e9:5e:03:f3:40",
+            "managedAtleastOnce": false,
+            "managementIpAddress": "204.192.102.11",
+            "managementState": "Managed",
+            "memorySize": "NA",
+            "pendingSyncRequestsCount": "0",
+            "platformId": "AIR-AP3802I-B-K9",
+            "reachabilityFailureReason": "NA",
+            "reachabilityStatus": "Reachable",
+            "reasonsForDeviceResync": "",
+            "reasonsForPendingSyncRequests": "",
+            "role": "ACCESS",
+            "roleSource": "AUTO",
+            "serialNumber": "FCW2203N6H1",
+            "series": "Cisco 3800I Series Unified Access Points",
+            "snmpContact": "",
+            "snmpLocation": "default location",
+            "softwareType": null,
+            "softwareVersion": "17.13.0.107",
+            "syncRequestedByApp": "",
+            "tagCount": "0",
+            "tunnelUdpPort": null,
+            "type": "Cisco 3800I Unified Access Point",
+            "upTime": "04:38:47.750",
+            "uptimeSeconds": 18507,
+            "vendor": "NA",
+            "waasDeviceMode": null
+        }
+    ]
+    },
+
+    "get_membership":{
+    "site": {
+      "response": [],
+      "version": "1.0",
+      "message": "Site does not have childrens."
+    },
+    "device": [
+      {
+        "response": [
+          {
+            "instanceUuid": "34f5a410-413d-4a6c-b195-8267fd599491",
+            "instanceTenantId": "6486ce96ff1f0d0c8be622f4",
+            "deployPending": "NONE",
+            "instanceVersion": 0,
+            "apEthernetMacAddress": "34:b8:83:15:7c:6c",
+            "apManagerInterfaceIp": "204.192.6.200",
+            "associatedWlcIp": "204.192.6.200",
+            "collectionInterval": "NA",
+            "collectionStatus": "Managed",
+            "deviceSupportLevel": "Supported",
+            "dnsResolvedManagementAddress": "",
+            "errorCode": "null",
+            "family": "Unified AP",
+            "hostname": "LTTS-Test2",
+            "interfaceCount": "0",
+            "inventoryStatusDetail": "NA",
+            "lastDeviceResyncStartTime": "",
+            "lastUpdateTime": 1719810005060,
+            "lastUpdated": "2024-07-01 05:00:05",
+            "lineCardCount": "0",
+            "lineCardId": "",
+            "macAddress": "90:e9:5e:03:f3:40",
+            "managedAtleastOnce": false,
+            "managementIpAddress": "204.1.216.3",
+            "managementState": "Managed",
+            "memorySize": "NA",
+            "paddedMgmtIpAddress": "204.  1.216.  3",
+            "pendingSyncRequestsCount": "0",
+            "platformId": "C9124AXI-B",
+            "reachabilityFailureReason": "NA",
+            "reachabilityStatus": "Reachable",
+            "reasonsForDeviceResync": "",
+            "reasonsForPendingSyncRequests": "",
+            "role": "ACCESS",
+            "roleSource": "AUTO",
+            "serialNumber": "FJC27101PRX",
+            "series": "Cisco Catalyst 9124AXI Series Unified Access Points",
+            "snmpContact": "",
+            "snmpLocation": "LTTS-Cisco",
+            "softwareVersion": "17.14.0.79",
+            "tagCount": "0",
+            "type": "Cisco Catalyst 9124AXI Unified Access Point",
+            "upTime": "33 days, 05:00:40.430",
+            "uptimeSeconds": 2874442,
+            "vendor": "NA"
+          }
+        ],
+        "version": "1.0",
+        "siteId": "17301034-7715-4363-952f-3d290ea6ca59"
+      }
+    ]
+    },
+
+    "get_membership_empty":[{
+    "site": {
+      "response": [],
+      "version": "1.0",
+      "message": "Site does not have childrens."
+    },
+    "device": [
+      {
+        "response": [
+          {
+            "instanceUuid": "34f5a410-413d-4a6c-b195-8267fd599491"
+          }
+        ],
+        "version": "1.0",
+        "siteId": "17301034-7715-4363-952f-3d290ea6ca69"
+      }
+    ]
+    }],
+
+    "playbook_invalid_config_provision": [{
+        "mac_address": "90:e9:5e:03:f3:40",
+        "site": {
+            "floor": {
+                "name": "FLOOR1",
+                "parent_name": "Global/USA/New York/BLDNYC"
+            }
+        }
+    }],
+
+    "playbook_config_update_some_missing_data": [
+        {
+            "mac_address": "90:e9:5e:03:f3:40",
+            "management_ip_address": "204.192.12.201dsd",
+            "ap_selected_fields": "id,hostname,family,type,mac_address,management_ip_address,ap_ethernet_mac_address",
+            "ap_config_selected_fields": "mac_address,eth_mac,ap_name,led_brightness_level,led_status,location,radioDTOs",
+            "rf_profile": "HIGH",
+            "family":"Unified AP",
+            "site": {
+                "floor": {
+                    "name": "FLOOR2FLOOR2FLOOR2FLOOR2FLOOR2FLOOR2FLOO",
+                    "parent_name": "Global/USA/New York/BLDNYCGlobal/USA/New York/BLDNYCGlobal/USA/iikk"
+                }
+            },
+            "ap_name": "LTTS-test2",
+            "led_status": "Enableddd",
+            "led_brightness_level": 10,
+            "ap_mode": "Monitorw",
+            "location": 1,
+            "failover_priority": "Lossw",
+            "clean_air_si_2.4ghz": "Disableds",
+            "clean_air_si_5ghz": "Disableds",
+            "clean_air_si_6ghz": "Enableds",
+            "primary_ip_address": {
+				"address": "204.192.4.20dfasd0" },
+            "secondary_ip_address": {
+				"address": "204.192.4.20dfasd0" },
+            "tertiary_ip_address": {
+				"address": "204.192.4.20dfasd0" },
+            "2.4ghz_radio": {
+                "admin_status": "Enabledsds",
+                "channel_assignment_mode": "any",
+
+                "antenna_name": "C-ANT9104-2.4GHz",
+                "radio_role_assignment": "any",
+                "power_assignment_mode": "any",
+                "channel_number": 22,
+                "channel_width": 50,
+                "powerlevel": 23,
+                "radio_band": 2
+            },
+            "xor_radio": {
+                "admin_status": "Enabledsds",
+                "channel_assignment_mode": "any",
+                "antenna_gain": 15,
+                "radio_role_assignment": "Client-Serving",
+                "channel_number": 2
+            }
+        }
+    ]
+}
