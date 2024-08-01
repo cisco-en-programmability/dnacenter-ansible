@@ -9,11 +9,6 @@ provision_accesspoint:
 
 update_accesspoint_config:
   - mac_address: "90:e9:5e:03:f3:40"
-    rf_profile: "HIGH"
-    site:
-      floor:
-        name: "FLOOR1"
-        parent_name: "Global/USA/New York/BLDNYC"
     ap_name: "LTTS-test1"
     led_status: "Enabled"
     led_brightness_level: 3
