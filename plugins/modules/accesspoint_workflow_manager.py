@@ -1,5 +1,6 @@
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
-# Copyright (c) 2024, Cisco Systems
+# (c) 2024 Cisco Systems, Inc. All rights reserved.
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
@@ -48,9 +49,9 @@ options:
     suboptions:
       mac_address:
         description: |
-            The MAC address used to identify the device. If the MAC address is known,
-            it must be provided and cannot be modified. At least one of the following parameters is required
-            to identify the specific access point: mac_address, hostname, or management_ip_address.
+          The MAC address used to identify the device. If the MAC address is known,
+          it must be provided and cannot be modified. At least one of the following parameters is required
+          to identify the specific access point: mac_address, hostname, or management_ip_address.
         example: "90:e9:5e:03:f3:40"
         type: str
         required: True
@@ -61,11 +62,11 @@ options:
         example: "HIGH"
       site:
         description: Current site details where the Access Point is located.
-        type: object
+        type: dict
         suboptions:
           floor:
             description: Floor details of the current site.
-            type: object
+            type: dict
             required: False
             suboptions:
               name:
@@ -316,7 +317,7 @@ options:
                 example: antenna_cable_name: "other"
               channel_assignment_mode:
                 description: Mode of channel assignment for the 6GHz radio interface. Accepts "Global" or "Custom".
-                  example: channel_assignment_mode: "Custom"
+                example: channel_assignment_mode: "Custom"
                 type: str
                 required: False
               channel_number:
@@ -354,24 +355,24 @@ seealso:
 
 notes:
   - Make sure to install the required Python dependencies by executing `pip install dnacentersdk`.
-  - SDK Method used are
-    devices.get_device_list
-    wireless.get_access_point_configuration
-    sites.get_site
-    sda.get_device_info
-    sites.assign_devices_to_site
-    wireless.ap_provision
-    wireless.configure_access_points
-    sites.get_membership
-  - Paths used are
-    GET  /dna/intent/api/v1/network-device
-    GET  /dna/intent/api/v1/site
-    GET  /dna/intent/api/v1/business/sda/device
-    POST /dna/intent/api/v1/wireless/ap-provision
-    GET  /dna/intent/api/v1/membership/{siteId}
-    GET  /dna/intent/api/v1/wireless/accesspoint-' + 'configuration/details/{task_id}'
-    POST /dna/intent/api/v2/wireless/accesspoint-configuration
-    POST /dna/intent/api/v1/assign-device-to-site/{siteId}/device
+  - SDK Method used are:
+    - devices.get_device_list
+    - wireless.get_access_point_configuration
+    - sites.get_site
+    - sda.get_device_info
+    - sites.assign_devices_to_site
+    - wireless.ap_provision
+    - wireless.configure_access_points
+    - sites.get_membership
+  - Paths used are:
+    - GET  /dna/intent/api/v1/network-device
+    - GET  /dna/intent/api/v1/site
+    - GET  /dna/intent/api/v1/business/sda/device
+    - POST /dna/intent/api/v1/wireless/ap-provision
+    - GET  /dna/intent/api/v1/membership/{siteId}
+    - GET  /dna/intent/api/v1/wireless/accesspoint-configuration/details/{task_id}
+    - POST /dna/intent/api/v2/wireless/accesspoint-configuration
+    - POST /dna/intent/api/v1/assign-device-to-site/{siteId}/device
 """
 
 EXAMPLES = r"""
