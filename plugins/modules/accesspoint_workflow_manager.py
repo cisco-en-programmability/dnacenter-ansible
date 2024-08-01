@@ -82,15 +82,15 @@ options:
                 type: str
                 required: False
               parent_name:
-                description: Parent name of the floor in the site hierarchy.(eg. 'Global/USA/New York/BLDNYC')
+                description: Parent name of the floor in the site hierarchy.(eg. Global/USA/New York/BLDNYC)
                 type: str
                 required: False
-      ap_name:
-        description: Current AP name that needs to be changed along with the new AP name. (eg. Test2)
-        type: str
-        required: False
       admin_status:
         description: Status of the AP configuration. Accepts "Enabled" or "Disabled".(eg. "Enabled")
+        type: str
+        required: False
+      ap_name:
+        description: Current AP name that needs to be changed along with the new AP name. (eg. Test2)
         type: str
         required: False
       led_status:
