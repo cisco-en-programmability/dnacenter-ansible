@@ -372,9 +372,9 @@ options:
                 required: False
               antenna_name:
                 description: Name or type of antenna used for the xor radio interface.
+                example: other
                 type: str
                 required: False
-                example: other
               antenna_gain:
                 description: Antenna gain value in decibels (dB) for the xor radio interface.
                 type: int
@@ -509,15 +509,15 @@ options:
         description: When enable the verify flag "config_verify" to see only the filter field of the AP details in the output.
         type: str
         required: False
-        example: ap_selected_fields: "id,hostname,family,type,mac_address,management_ip_address,ap_ethernet_mac_address"
+        example: "id,hostname,family,type,mac_address,management_ip_address,ap_ethernet_mac_address"
       ap_config_selected_fields:
         description: When enable the verify flag "config_verify" to see only the filter field of the AP configuration in the output.
         type: str
         required: False
-        example: ap_config_selected_fields: "mac_address,eth_mac,ap_name,led_brightness_level,led_status,location,radioDTOs"
+        example: "mac_address,eth_mac,ap_name,led_brightness_level,led_status,location,radioDTOs"
   register:
     description: Name for registering the output. This option is used to store the results of the module's execution in an Ansible variable.
-    example: register: "result"
+    example: result
     type: str
     required: False
 
