@@ -105,8 +105,7 @@ options:
       ap_mode:
         description: |
           Mode of operation for the Access Point (AP). Possible values include "local/flexconnect",
-          "monitor", "sniffer", or "Bridge/Flex+Bridge".
-        example: 'ap_mode: "local"'
+          "monitor", "sniffer", or "Bridge/Flex+Bridge". (eg. "local")
         type: str
         required: False
       location:
