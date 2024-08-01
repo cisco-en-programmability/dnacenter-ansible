@@ -92,7 +92,7 @@ options:
         description: Current AP name that needs to be changed along with the new AP name.
         type: str
         required: False
-        example: 'ap_name: "Test2"' 
+        example: 'ap_name: "Test2"'
       admin_status:
         description: Status of the AP configuration. Accepts "Enabled" or "Disabled".
         type: str
@@ -154,8 +154,12 @@ options:
         description: IP address of the primary wireless LAN controller (WLC) managing the Access Point (AP).
         type: dict
         required: False
-        example: 'primary_ip_address:
-				    address: "10.0.0.2"'
+        suboptions:
+          address:
+              description: IP address of the primary wireless LAN controller
+              type: str
+              required: False
+              example: '10.0.0.2'
       secondary_controller_name:
         description: Name or identifier of the secondary wireless LAN controller (WLC) managing the Access Point (AP).
         type: str
@@ -165,8 +169,12 @@ options:
         description: IP address of the secondary wireless LAN controller (WLC) managing the Access Point (AP).
         type: dict
         required: False
-        example: 'secondary_ip_address:
-				    address: "10.0.0.2"'
+        suboptions:
+          address:
+              description: IP address of the primary wireless LAN controller
+              type: str
+              required: False
+              example: '10.0.0.2'
       tertiary_controller_name:
         description: Name or identifier of the tertiary wireless LAN controller (WLC) managing the Access Point (AP).
         type: str
@@ -176,8 +184,12 @@ options:
         description: IP address of the tertiary wireless LAN controller (WLC) managing the Access Point (AP).
         type: dict
         required: False
-        example: 'tertiary_ip_address:
-				    address: "10.0.0.2"'
+        suboptions:
+          address:
+              description: IP address of the primary wireless LAN controller
+              type: str
+              required: False
+              example: '10.0.0.2'
       radio_settings:
         description: Configuration options for radio interfaces.
         type: dict
@@ -192,20 +204,20 @@ options:
                 description: Administrative status for the 2.4GHz radio interface.
                 type: str
                 required: False
-                example: 'admin_status: "Enabled"'
+                example: 'Enabled'
               antenna_name:
                 description: Name or type of antenna used for the 2.4GHz radio interface.
                 type: str
                 required: False
-                example: 'antenna_name: "other"'
+                example: 'other'
               antenna_gain:
                 description: Antenna gain value in decibels (dB) for the 2.4GHz radio interface.
                 type: int
                 required: False
-                example: 'antenna_gain: 4'
+                example: '4'
               radio_role_assignment:
                 description: Role assignment mode for the 2.4GHz radio interface. Accepts "Auto", "Client-serving", or "Monitor".
-                example: radio_role_assignment: "Auto"
+                example: 'radio_role_assignment: "Auto"'
                 type: str
                 required: False
               cable_loss:
