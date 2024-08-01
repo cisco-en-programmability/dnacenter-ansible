@@ -88,10 +88,9 @@ options:
                 required: False
                 example: 'FLOOR1'
               parent_name:
-                description: Parent name of the floor in the site hierarchy.
+                description: Parent name of the floor in the site hierarchy (e.g., 'Global/USA/New York/BLDNYC').
                 type: str
                 required: False
-                example: 'Global/USA/New York/BLDNYC'
       ap_name:
         description: Current AP name that needs to be changed along with the new AP name.
         type: str
