@@ -70,9 +70,10 @@ options:
             required: False
             suboptions:
               name:
-                description: Name of the floor (e.g., 'FLOOR1').
+                description: Name of the floor.
                 type: str
                 required: False
+                example: 'FLOOR1'
               parent_name:
                 description: Parent name of the floor in the site hierarchy.
                 type: str
