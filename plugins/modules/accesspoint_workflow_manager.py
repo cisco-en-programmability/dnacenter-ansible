@@ -22,7 +22,7 @@ description:
 
 version_added: '6.17.0'
 extends_documentation_fragment:
-  - cisco.dnac.accesspoint_workflow_manager
+  - cisco.dnac.workflow_manager_params
 author:
   - A Mohamed Rafeek (@mabdulk2)
   - Sonali Deepthi Kesali (@skesali)
@@ -975,50 +975,50 @@ class Accesspoint(DnacBase):
             self.result["changed"] = False
             self.result["response"] = responses
             return self
-        else:
-            self.log('Final AP Configuration data to update {0}'.format(self.pprint(
-                consolidated_data)), "INFO")
-            task_response = self.update_ap_configuration(consolidated_data)
-            self.log("Access Point update response: {0} .".format(task_response), "INFO")
 
-            if task_response and isinstance(task_response, dict):
-                resync_retry_count = self.payload.get("dnac_api_task_timeout")
-                resync_retry_interval = self.payload.get("dnac_task_poll_interval")
-                while resync_retry_count:
-                    task_details_response = self.get_task_details(
-                        task_response["response"]["taskId"])
-                    self.log("Status of the task: {0} .".format(self.status), "INFO")
+        self.log('Final AP Configuration data to update {0}'.format(self.pprint(
+            consolidated_data)), "INFO")
+        task_response = self.update_ap_configuration(consolidated_data)
+        self.log("Access Point update response: {0} .".format(task_response), "INFO")
 
-                    if task_details_response.get("endTime") is not None:
-                        if task_details_response.get("isError") is True:
-                            self.result['changed'] = False
-                            self.status = "failed"
-                            self.msg = "Unable to get success response, hence AP config not updated"
-                            self.log(self.msg, "ERROR")
-                            self.log("Task Details: {0} .".format(self.pprint(
-                                task_details_response)), "ERROR")
-                            responses["accesspoints_updates"] = {
-                                "ap_update_config_task_response": task_response,
-                                "ap_update_config_task_details": task_details_response,
-                                "ap_config_update_status": self.msg}
-                            self.module.fail_json(msg=self.msg, response=responses)
-                        else:
-                            self.result['changed'] = True
-                            self.log("Task Details: {0} .".format(self.pprint(
-                                task_details_response)), "INFO")
-                            self.msg = "AP Configuration - {0} updated Successfully"\
-                                .format(self.have["current_ap_config"].get("ap_name"))
-                            self.log(self.msg, "INFO")
-                            responses["accesspoints_updates"] = {
-                                "ap_update_config_task_response": task_response,
-                                "ap_update_config_task_details": task_details_response,
-                                "ap_config_update_status": self.msg
-                            }
-                            self.result['ap_update_msg'] = self.msg
-                        break
+        if task_response and isinstance(task_response, dict):
+            resync_retry_count = self.payload.get("dnac_api_task_timeout")
+            resync_retry_interval = self.payload.get("dnac_task_poll_interval")
+            while resync_retry_count:
+                task_details_response = self.get_task_details(
+                    task_response["response"]["taskId"])
+                self.log("Status of the task: {0} .".format(self.status), "INFO")
 
-                    time.sleep(resync_retry_interval)
-                    resync_retry_count = resync_retry_count - 1
+                if task_details_response.get("endTime") is not None:
+                    if task_details_response.get("isError") is True:
+                        self.result['changed'] = False
+                        self.status = "failed"
+                        self.msg = "Unable to get success response, hence AP config not updated"
+                        self.log(self.msg, "ERROR")
+                        self.log("Task Details: {0} .".format(self.pprint(
+                            task_details_response)), "ERROR")
+                        responses["accesspoints_updates"] = {
+                            "ap_update_config_task_response": task_response,
+                            "ap_update_config_task_details": task_details_response,
+                            "ap_config_update_status": self.msg}
+                        self.module.fail_json(msg=self.msg, response=responses)
+                    else:
+                        self.result['changed'] = True
+                        self.log("Task Details: {0} .".format(self.pprint(
+                            task_details_response)), "INFO")
+                        self.msg = "AP Configuration - {0} updated Successfully"\
+                            .format(self.have["current_ap_config"].get("ap_name"))
+                        self.log(self.msg, "INFO")
+                        responses["accesspoints_updates"] = {
+                            "ap_update_config_task_response": task_response,
+                            "ap_update_config_task_details": task_details_response,
+                            "ap_config_update_status": self.msg
+                        }
+                        self.result['ap_update_msg'] = self.msg
+                    break
+
+                time.sleep(resync_retry_interval)
+                resync_retry_count = resync_retry_count - 1
 
         self.result["response"] = responses
         return self
@@ -1113,7 +1113,7 @@ class Accesspoint(DnacBase):
         else:
             self.msg = "Configuration for AP '{0}' does not match the desired state."\
                 .format(ap_name)
-            self.log(self.msg, "INFO")
+            self.log(self.msg, "DEBUG")
             self.status = "failed"
 
         self.result['response'] = responses
@@ -1138,10 +1138,10 @@ class Accesspoint(DnacBase):
             for further action or validation.
         """
         invalid_series = []
-        self.log("Starting validation of radio series with configuration: {0}".format(str(ap_config)))
+        self.log("Starting validation of radio series with configuration: {0}".format(str(ap_config)), "INFO")
         for radio_type in self.radio_interface:
             ap_series = ap_config.get(radio_type)
-            self.log('Validating radio type: {0}'.format(radio_type))
+            self.log('Validating radio type: {0}'.format(radio_type), "INFO")
             if ap_series is not None:
                 for series in self.allowed_series[radio_type]:
                     pattern = r'\b{}\b'.format(re.escape(series))
@@ -1156,10 +1156,10 @@ class Accesspoint(DnacBase):
                             radio_type,
                             str(self.allowed_series[radio_type])
                         )
-                        self.log("Invalid series detected: {}".format(invalid_entry))
+                        self.log("Invalid series detected: {}".format(invalid_entry), "DEBUG")
                         invalid_series.append(invalid_entry)
 
-        self.log("Completed validation. Invalid series: {}".format(invalid_series))
+        self.log("Completed validation. Invalid series: {}".format(invalid_series), "INFO")
         return invalid_series
 
     def validate_ap_config_parameters(self, ap_config):
@@ -1577,7 +1577,7 @@ class Accesspoint(DnacBase):
 
             if ap_config_exists:
                 self.payload["access_point_config"] = current_configuration
-                self.log("Updated payload with access point configuration: {}".format(str(self.payload)))
+                self.log("Updated payload with access point configuration: {0}".format(str(self.payload)), "INFO")
 
         self.log('Completed retrieving current configuration. Access point exists: {0}, Current configuration: {1}'
                  .format(accesspoint_exists, current_configuration), "INFO")
@@ -1951,7 +1951,7 @@ class Accesspoint(DnacBase):
                         temp_dtos[self.keymap[dto_key]] = want_radio[dto_key]
                         unmatch_count = unmatch_count + 1
                         self.log("Unmatched key {0}: current value {1}, desired value {2}"
-                                 .format(dto_key, current_radio[dto_key], want_radio[dto_key]))
+                                 .format(dto_key, current_radio[dto_key], want_radio[dto_key]), "INFO")
 
         temp_dtos["unmatch"] = unmatch_count
         self.log('Total unmatched keys: {0}'.format(unmatch_count), "INFO")
