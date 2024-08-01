@@ -411,7 +411,7 @@ options:
               channel_width:
                 description: |
                   Width of the channel configured for the xor radio interface. Accepts values
-                  "20MHz", "40MHz", "80MHz", or "160MHz".
+                  "20 MHz", "40 MHz", "80 MHz", or "160 MHz".
                 example: 20 MHz
                 type: str
                 required: False
@@ -480,27 +480,23 @@ options:
               channel_width:
                 description: |
                   Width of the channel configured for the tri radio interface. Accepts values
-                  "20MHz", "40MHz", "80MHz", or "160MHz".
-                example: 20 MHz
+                  "20 MHz", "40 MHz", "80 MHz", or "160 MHz". eg. 20 MHz
                 type: str
                 required: False
               power_assignment_mode:
                 description: |
                     Mode of power assignment for the tri radio interface. Accepts "Global" or "Custom".
                     In Custom, it accepts values 1 to 5.
-                example: Custom
                 type: str
                 required: False
               power_level:
-                description: Custom power level configured for the tri radio interface.
-                example: 3
+                description: Custom power level configured for the tri radio interface.(eg. 3)
                 type: int
                 required: False
               dual_radio_mode:
                 description: |
                   Mode of operation configured for the tri radio interface. Specifies how the
-                  access point (AP) manages its dual radio functionality.
-                example: Auto
+                  access point (AP) manages its dual radio functionality. eg . Auto
                 type: str
                 required: False
       ap_selected_fields:
@@ -529,7 +525,7 @@ seealso:
 
 notes:
   - Make sure to install the required Python dependencies by executing pip install dnacentersdk.
-  - SDK Method used are:
+  - SDK Method used are
   - devices.get_device_list
   - wireless.get_access_point_configuration
   - sites.get_site
@@ -538,7 +534,7 @@ notes:
   - wireless.ap_provision
   - wireless.configure_access_points
   - sites.get_membership
-  - Paths used are:
+  - Paths used are
   - GET  /dna/intent/api/v1/network-device
   - GET  /dna/intent/api/v1/site
   - GET  /dna/intent/api/v1/business/sda/device
