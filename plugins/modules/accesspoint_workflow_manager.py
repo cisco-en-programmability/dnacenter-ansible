@@ -487,8 +487,8 @@ options:
                 required: False
               power_assignment_mode:
                 description: |
-                Mode of power assignment for the tri radio interface. Accepts "Global" or "Custom".
-                - In Custom, it accepts values 1 to 5.
+                    Mode of power assignment for the tri radio interface. Accepts "Global" or "Custom".
+                    In Custom, it accepts values 1 to 5.
                 example: Custom
                 type: str
                 required: False
@@ -853,20 +853,20 @@ response:
   type: dict
   sample: >
     {
-      "response": {
+        "response": {
                         {
                             'bapiKey': 'd897-19b8-47aa-a9c4',
-                                'bapiName': 'AP Provision',
-                                    'bapiExecutionId': '97d5edd5-d5db-40d8-9ab6-f15dc4a5cc30',
-                                        'startTime': 'Wed Jul 03 18:37:24 UTC 2024',
-                                        'startTimeEpoch': 1720031844919,
-                                        'endTimeEpoch': 0,
-                                    'timeDuration': 0,
-                                'status': 'IN_PROGRESS',
+                            'bapiName': 'AP Provision',
+                            'bapiExecutionId': '97d5edd5-d5db-40d8-9ab6-f15dc4a5cc30',
+                            'startTime': 'Wed Jul 03 18:37:24 UTC 2024',
+                            'startTimeEpoch': 1720031844919,
+                            'endTimeEpoch': 0,
+                            'timeDuration': 0,
+                            'status': 'IN_PROGRESS',
                             'runtimeInstanceId': 'DNACP_Runtime_3f8f258c-9f7a-4511-b361-592ee9e0c4d2'
                         }
                     }
-
+    }
 """
 
 
