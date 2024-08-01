@@ -3,10 +3,6 @@
 # (c) 2024 Cisco Systems, Inc. All rights reserved.
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-from __future__ import absolute_import, division, print_function
-import time
-import re
-import json
 __metaclass__ = type
 __author__ = ("A Mohamed Rafeek, Megha Kandari, Sonali Deepthi Kesali, Natarajan, Madhan Sankaranarayanan, Abhishek Maheshwari")
 
@@ -22,7 +18,7 @@ description:
 
 version_added: '6.17.0'
 extends_documentation_fragment:
-  - cisco.dnac.workflow_manager_params
+  - cisco.dnac.module_info
 author:
   - A Mohamed Rafeek (@mabdulk2)
   - Sonali Deepthi Kesali (@skesali)
@@ -47,17 +43,17 @@ options:
       to mention the number of time to retry from Cisco Catalyst Center API until complete the execution.
     type: int
     default: False
-    example: dnac_api_task_timeout: 300
+    example: "dnac_api_task_timeout: 300"
   dnac_task_poll_interval:
     description: Time between polling the task or execution API to know the status of the taskid or executionid
     type: int
     default: False
-    example: dnac_task_poll_interval: 3
+    example: "dnac_task_poll_interval: 3"
   next_task_after_interval:
     description: Time in second between Provision and AP updated execution
     type: int
     default: False
-    example: next_task_after_interval: 5
+    example: "next_task_after_interval: 5"
   config:
     description: List of details of AP being managed.
     type: list
@@ -393,7 +389,8 @@ options:
               channel_assignment_mode:
                 description: |
                 Mode of channel assignment for the xor radio interface. Accepts "Global" or "Custom".
-                - For xor Custom, it accepts values like 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128, 132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173.
+                - For xor Custom, it accepts values like 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112,
+                  116, 120, 124, 128, 132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173.
                 example: channel_assignment_mode: "Custom"
                 type: str
                 required: False
@@ -461,7 +458,8 @@ options:
               channel_assignment_mode:
                 description: |
                 Mode of channel assignment for the tri radio interface. Accepts "Global" or "Custom".
-                - For tri Custom, it accepts values like 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128, 132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173.
+                - For tri Custom, it accepts values like 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128, 
+                  132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173.
                 example: channel_assignment_mode: "Custom"
                 type: str
                 required: False
@@ -862,6 +860,10 @@ response:
 """
 
 
+from __future__ import absolute_import, division, print_function
+import time
+import re
+import json
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
     validate_list_of_dicts,
