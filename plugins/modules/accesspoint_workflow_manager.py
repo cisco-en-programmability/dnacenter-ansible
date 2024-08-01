@@ -721,12 +721,13 @@ EXAMPLES = r"""
 
 RETURN = r"""
 #Case-1: Modification of the AP details updated and Rebooted Access Point
-response:
+response1:
   description: A list of dictionaries containing details about the AP updates and verification
                 results, as returned by the Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >
+  {
     "response": [
         {
             "accesspoints_updates": {
@@ -765,8 +766,9 @@ response:
             }
         }
     ]
+  }
 #Case-2: Provisioning and Re-Provisioning of Accesspoint
-response:
+response2:
   description: A dictionary with activation details as returned by the Catalyst Center Python SDK
   returned: always
   type: dict
