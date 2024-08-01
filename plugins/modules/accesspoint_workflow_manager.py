@@ -382,8 +382,8 @@ options:
                 example: 4
               radio_role_assignment:
                 description: |
-                Role assignment mode for the xor radio interface. Accepts "Auto", "Client-serving", or "Monitor".
-                - If radio_role_assignment is "client-serving", then only power-level and channel-level can be changed.
+                  Role assignment mode for the xor radio interface. Accepts "Auto", "Client-serving", or "Monitor".
+                  If radio_role_assignment is "client-serving", then only power-level and channel-level can be changed.
                 example: Auto
                 type: str
                 required: False
@@ -469,7 +469,7 @@ options:
               channel_assignment_mode:
                 description: |
                 Mode of channel assignment for the tri radio interface. Accepts "Global" or "Custom".
-                - For tri Custom, it accepts values like 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128, 
+                - For tri Custom, it accepts values like 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128,
                   132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173.
                 example: Custom
                 type: str
