@@ -1,0 +1,4612 @@
+
+.. Document meta
+
+:orphan:
+
+.. |antsibull-internal-nbsp| unicode:: 0xA0
+    :trim:
+
+.. role:: ansible-attribute-support-label
+.. role:: ansible-attribute-support-property
+.. role:: ansible-attribute-support-full
+.. role:: ansible-attribute-support-partial
+.. role:: ansible-attribute-support-none
+.. role:: ansible-attribute-support-na
+.. role:: ansible-option-type
+.. role:: ansible-option-elements
+.. role:: ansible-option-required
+.. role:: ansible-option-versionadded
+.. role:: ansible-option-aliases
+.. role:: ansible-option-choices
+.. role:: ansible-option-choices-default-mark
+.. role:: ansible-option-default-bold
+.. role:: ansible-option-configuration
+.. role:: ansible-option-returned-bold
+.. role:: ansible-option-sample-bold
+
+.. Anchors
+
+.. _ansible_collections.cisco.dnac.user_role_workflow_manager_module:
+
+.. Anchors: short name for ansible.builtin
+
+.. Anchors: aliases
+
+
+
+.. Title
+
+cisco.dnac.user_role_workflow_manager module -- Resource module for managing users and roles in Cisco Catalyst Center.
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. Collection note
+
+.. note::
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.17.0).
+
+    To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.cisco.dnac.user_role_workflow_manager_module_requirements>` for details.
+
+    To use it in a playbook, specify: :code:`cisco.dnac.user_role_workflow_manager`.
+
+.. version_added
+
+.. rst-class:: ansible-version-added
+
+New in cisco.dnac 6.17.0
+
+.. contents::
+   :local:
+   :depth: 1
+
+.. Deprecated
+
+
+Synopsis
+--------
+
+.. Description
+
+- Manages operations to create, update, and delete users and roles in Cisco Catalyst Center.
+- Provides APIs to create, update, and delete users and roles.
+
+
+.. Aliases
+
+
+.. Requirements
+
+.. _ansible_collections.cisco.dnac.user_role_workflow_manager_module_requirements:
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- dnacentersdk \>= 2.7.1
+- python \>= 3.9.19
+
+
+
+
+
+
+.. Options
+
+Parameters
+----------
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Parameter
+    - Comments
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config:
+
+      .. rst-class:: ansible-option-title
+
+      **config**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary containing the configuration details for users or roles.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/role_details"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/role_details:
+
+      .. rst-class:: ansible-option-title
+
+      **role_details**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/role_details" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Manages the configuration details for roles.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/role_details/assurance"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/role_details/assurance:
+
+      .. rst-class:: ansible-option-title
+
+      **assurance**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/role_details/assurance" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Ensure consistent service levels with complete visibility across all aspects of the network.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"deny"`
+      - :ansible-option-choices-entry-default:`"read"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"write"`
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/role_details/assurance/monitoring_and_troubleshooting"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/role_details/assurance/monitoring_and_troubleshooting:
+
+      .. rst-class:: ansible-option-title
+
+      **monitoring_and_troubleshooting**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/role_details/assurance/monitoring_and_troubleshooting" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Monitor and manage network health, troubleshoot issues, and perform remediation.
+
+      Includes proactive network monitoring and AI-driven insights.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"deny"`
+      - :ansible-option-choices-entry-default:`"read"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"write"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/role_details/assurance/monitoring_settings"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/role_details/assurance/monitoring_settings:
+
+      .. rst-class:: ansible-option-title
+
+      **monitoring_settings**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/role_details/assurance/monitoring_settings" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Configure and manage health thresholds for the network, clients, and applications.
+
+      Requires at least 'read' permission for Monitoring and Troubleshooting.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"deny"`
+      - :ansible-option-choices-entry-default:`"read"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"write"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/role_details/assurance/overall"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/role_details/assurance/overall:
+
+      .. rst-class:: ansible-option-title
+
+      **overall**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/role_details/assurance/overall" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Set the same access level for all sub-parameters.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"deny"`
+      - :ansible-option-choices-entry-default:`"read"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"write"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/role_details/assurance/troubleshooting_tools"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/role_details/assurance/troubleshooting_tools:
+
+      .. rst-class:: ansible-option-title
+
+      **troubleshooting_tools**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/role_details/assurance/troubleshooting_tools" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Create and manage sensor tests.
+
+      Schedule on-demand forensic packet captures (Intelligent Capture) for troubleshooting clients.
+
+      Requires at least 'read' permission for Monitoring and Troubleshooting.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"deny"`
+      - :ansible-option-choices-entry-default:`"read"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"write"`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/role_details/description"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/role_details/description:
+
+      .. rst-class:: ansible-option-title
+
+      **description**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/role_details/description" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A brief description of the role's purpose and scope.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/role_details/network_analytics"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/role_details/network_analytics:
+
+      .. rst-class:: ansible-option-title
+
+      **network_analytics**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/role_details/network_analytics" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Manage components related to network analytics.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/role_details/network_analytics/data_access"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/role_details/network_analytics/data_access:
+
+      .. rst-class:: ansible-option-title
+
+      **data_access**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/role_details/network_analytics/data_access" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Enable access to query engine APIs.
+
+      Manage functions such as global search, rogue management, and aWIPS.
+
+      Setting this to 'deny' affects Search and Assurance functionality.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"deny"`
+      - :ansible-option-choices-entry-default:`"read"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"write"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/role_details/network_analytics/overall"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/role_details/network_analytics/overall:
+
+      .. rst-class:: ansible-option-title
+
+      **overall**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/role_details/network_analytics/overall" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Set the same access level for all sub-parameters.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"deny"`
+      - :ansible-option-choices-entry-default:`"read"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"write"`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/role_details/network_design"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/role_details/network_design:
+
+      .. rst-class:: ansible-option-title
+
+      **network_design**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/role_details/network_design" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Set up the network hierarchy, update the software image repository, and configure network profiles and settings for managing sites and network devices.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/role_details/network_design/advanced_network_settings"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/role_details/network_design/advanced_network_settings:
+
+      .. rst-class:: ansible-option-title
+
+      **advanced_network_settings**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/role_details/network_design/advanced_network_settings" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Update network settings, including global device credentials, authentication and policy servers, certificates, trustpool, cloud access keys, stealthwatch, umbrella, and data anonymization.
+
+      Export the device inventory and its credentials.
+
+      Requires at least 'read' permission on Network Settings.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"deny"`
+      - :ansible-option-choices-entry-default:`"read"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"write"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/role_details/network_design/image_repository"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/role_details/network_design/image_repository:
+
+      .. rst-class:: ansible-option-title
+
+      **image_repository**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/role_details/network_design/image_repository" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Manage software images and facilitate upgrades and updates on physical and virtual network entities
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"deny"`
+      - :ansible-option-choices-entry-default:`"read"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"write"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/role_details/network_design/network_hierarchy"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/role_details/network_design/network_hierarchy:
+
+      .. rst-class:: ansible-option-title
+
+      **network_hierarchy**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/role_details/network_design/network_hierarchy" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Define and create a network hierarchy of sites, buildings, floors, and areas based on geographic location.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/role_details/network_design/network_profiles"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/role_details/network_design/network_profiles:
+
+      .. rst-class:: ansible-option-title
+
+      **network_profiles**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/role_details/network_design/network_profiles" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Create network profiles for routing, switching, and wireless. Assign profiles to sites.
+
+      Includes roles such as template editor, tagging, model config editor, and authentication template.
+
+      To create SSIDs, 'write' permission on network settings is required.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"deny"`
+      - :ansible-option-choices-entry-default:`"read"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"write"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/role_details/network_design/network_settings"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/role_details/network_design/network_settings:
+
+      .. rst-class:: ansible-option-title
+
+      **network_settings**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/role_details/network_design/network_settings" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Manage common site-wide network settings such as AAA, NTP, DHCP, DNS, Syslog, SNMP, and Telemetry.
+
+      Users in this role can add an SFTP server and adjust the Network Resync Interval found under Systems \> Settings.
+
+      To create wireless profiles, 'write' permission on Network Profiles is required.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"deny"`
+      - :ansible-option-choices-entry-default:`"read"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"write"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/role_details/network_design/overall"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/role_details/network_design/overall:
+
+      .. rst-class:: ansible-option-title
+
+      **overall**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/role_details/network_design/overall" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Set the same access level for all sub-parameters.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"deny"`
+      - :ansible-option-choices-entry-default:`"read"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"write"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/role_details/network_design/virtual_network"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/role_details/network_design/virtual_network:
+
+      .. rst-class:: ansible-option-title
+
+      **virtual_network**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/role_details/network_design/virtual_network" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Manage virtual networks (VNs). Segment physical networks into multiple logical networks for traffic isolation and controlled inter-VN communication.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"deny"`
+      - :ansible-option-choices-entry-default:`"read"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"write"`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/role_details/network_provision"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/role_details/network_provision:
+
+      .. rst-class:: ansible-option-title
+
+      **network_provision**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/role_details/network_provision" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Configure, upgrade, provision, and manage network devices.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/role_details/network_provision/compliance"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/role_details/network_provision/compliance:
+
+      .. rst-class:: ansible-option-title
+
+      **compliance**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/role_details/network_provision/compliance" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Manage compliance provisioning.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"deny"`
+      - :ansible-option-choices-entry-default:`"read"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"write"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/role_details/network_provision/exo"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/role_details/network_provision/exo:
+
+      .. rst-class:: ansible-option-title
+
+      **exo**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/role_details/network_provision/exo" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Scan the network for End of Life, End of Sales, or End of Support information for hardware and software.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"deny"`
+      - :ansible-option-choices-entry-default:`"read"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"write"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/role_details/network_provision/image_update"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/role_details/network_provision/image_update:
+
+      .. rst-class:: ansible-option-title
+
+      **image_update**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/role_details/network_provision/image_update" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Upgrade software images on devices that do not match the Golden Image settings after a complete upgrade lifecycle.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"deny"`
+      - :ansible-option-choices-entry-default:`"read"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"write"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/role_details/network_provision/inventory_management"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/role_details/network_provision/inventory_management:
+
+      .. rst-class:: ansible-option-title
+
+      **inventory_management**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/role_details/network_provision/inventory_management" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Discover, add, replace, or delete devices while managing device attributes and configuration properties.
+
+      To replace a device, 'write' permission is required for pnp under network provision.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/role_details/network_provision/inventory_management/device_configuration"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/role_details/network_provision/inventory_management/device_configuration:
+
+      .. rst-class:: ansible-option-title
+
+      **device_configuration**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/role_details/network_provision/inventory_management/device_configuration" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Display the running configuration of a device.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"deny"`
+      - :ansible-option-choices-entry-default:`"read"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"write"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/role_details/network_provision/inventory_management/discovery"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/role_details/network_provision/inventory_management/discovery:
+
+      .. rst-class:: ansible-option-title
+
+      **discovery**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/role_details/network_provision/inventory_management/discovery" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Discover new devices on the network.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"deny"`
+      - :ansible-option-choices-entry-default:`"read"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"write"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/role_details/network_provision/inventory_management/network_device"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/role_details/network_provision/inventory_management/network_device:
+
+      .. rst-class:: ansible-option-title
+
+      **network_device**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/role_details/network_provision/inventory_management/network_device" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Add devices from inventory, view device details, and perform device-level actions.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"deny"`
+      - :ansible-option-choices-entry-default:`"read"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"write"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/role_details/network_provision/inventory_management/overall"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/role_details/network_provision/inventory_management/overall:
+
+      .. rst-class:: ansible-option-title
+
+      **overall**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/role_details/network_provision/inventory_management/overall" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Provides the same choice for all sub-parameters.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"deny"`
+      - :ansible-option-choices-entry-default:`"read"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"write"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/role_details/network_provision/inventory_management/port_management"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/role_details/network_provision/inventory_management/port_management:
+
+      .. rst-class:: ansible-option-title
+
+      **port_management**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/role_details/network_provision/inventory_management/port_management" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Allow port actions on a device.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"deny"`
+      - :ansible-option-choices-entry-default:`"read"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"write"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/role_details/network_provision/inventory_management/topology"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/role_details/network_provision/inventory_management/topology:
+
+      .. rst-class:: ansible-option-title
+
+      **topology**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/role_details/network_provision/inventory_management/topology" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Display the network device and link connectivity.
+
+      Manage device roles, tag devices, customize the display, and save custom topology layouts.
+
+      To view the SD-Access Fabric window, at least 'read' permission on "Network Provision \> Inventory Management \> Topology" is required.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"deny"`
+      - :ansible-option-choices-entry-default:`"read"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"write"`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/role_details/network_provision/license"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/role_details/network_provision/license:
+
+      .. rst-class:: ansible-option-title
+
+      **license**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/role_details/network_provision/license" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Unified view of software and network assets related to license usage and compliance.
+
+      Also controls permissions for cisco.com and Smart accounts.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"deny"`
+      - :ansible-option-choices-entry-default:`"read"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"write"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/role_details/network_provision/network_telemetry"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/role_details/network_provision/network_telemetry:
+
+      .. rst-class:: ansible-option-title
+
+      **network_telemetry**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/role_details/network_provision/network_telemetry" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Enable or disable the collection of application telemetry from devices.
+
+      Configure telemetry settings for the assigned site.
+
+      Configure additional settings such as wireless service assurance and controller certificates.
+
+      To enable or disable network telemetry, 'write' permission on Provision is required.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"deny"`
+      - :ansible-option-choices-entry-default:`"read"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"write"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/role_details/network_provision/overall"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/role_details/network_provision/overall:
+
+      .. rst-class:: ansible-option-title
+
+      **overall**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/role_details/network_provision/overall" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Provides the same choice for all sub-parameters.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"deny"`
+      - :ansible-option-choices-entry-default:`"read"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"write"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/role_details/network_provision/pnp"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/role_details/network_provision/pnp:
+
+      .. rst-class:: ansible-option-title
+
+      **pnp**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/role_details/network_provision/pnp" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Automatically onboard new devices, assign them to sites, and configure them with site-specific settings.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"deny"`
+      - :ansible-option-choices-entry-default:`"read"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"write"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/role_details/network_provision/provision"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/role_details/network_provision/provision:
+
+      .. rst-class:: ansible-option-title
+
+      **provision**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/role_details/network_provision/provision" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Provision devices with site-specific settings and network policies.
+
+      Includes roles such as Fabric, Application Policy, Application Visibility, Cloud, Site-to-Site VPN, Network/Application Telemetry, Stealthwatch, Sync Start vs Run Configuration, and Umbrella provisioning.
+
+      On the main dashboards for rogue and aWIPS, certain actions, including rogue containment, can be enabled or disabled.
+
+      To provision devices, 'write' permission on Network Design and Network Provision is required.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"deny"`
+      - :ansible-option-choices-entry-default:`"read"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"write"`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/role_details/network_services"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/role_details/network_services:
+
+      .. rst-class:: ansible-option-title
+
+      **network_services**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/role_details/network_services" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Configure additional capabilities on the network beyond basic network connectivity and access.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"read"`
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/role_details/network_services/app_hosting"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/role_details/network_services/app_hosting:
+
+      .. rst-class:: ansible-option-title
+
+      **app_hosting**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/role_details/network_services/app_hosting" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Deploy, manage, and monitor virtualized and container-based applications running on network devices.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"deny"`
+      - :ansible-option-choices-entry-default:`"read"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"write"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/role_details/network_services/bonjour"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/role_details/network_services/bonjour:
+
+      .. rst-class:: ansible-option-title
+
+      **bonjour**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/role_details/network_services/bonjour" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Enable the Wide Area Bonjour service to facilitate policy-based service discovery across the network.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"deny"`
+      - :ansible-option-choices-entry-default:`"read"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"write"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/role_details/network_services/overall"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/role_details/network_services/overall:
+
+      .. rst-class:: ansible-option-title
+
+      **overall**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/role_details/network_services/overall" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Provides the same choice for all sub-parameters.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"deny"`
+      - :ansible-option-choices-entry-default:`"read"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"write"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/role_details/network_services/stealthwatch"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/role_details/network_services/stealthwatch:
+
+      .. rst-class:: ansible-option-title
+
+      **stealthwatch**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/role_details/network_services/stealthwatch" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Configure network elements to send data to Cisco Stealthwatch for threat detection and mitigation, including encrypted traffic.
+
+      To provision Stealthwatch, 'write' permission is required for the following components.
+
+      Network Design \> Network Settings.
+
+      Network Provision \> Provision.
+
+      Network Services \> Stealthwatch.
+
+      Network Design \> Advanced Settings.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"deny"`
+      - :ansible-option-choices-entry-default:`"read"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"write"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/role_details/network_services/umbrella"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/role_details/network_services/umbrella:
+
+      .. rst-class:: ansible-option-title
+
+      **umbrella**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/role_details/network_services/umbrella" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Configure network elements to use Cisco Umbrella as a first line of defense against cybersecurity threats.
+
+      To provision Umbrella, 'write' permission is required for the following components.
+
+      Network Design \> Network Settings.
+
+      Network Provision \> Provision.
+
+      Network Provision \> Scheduler.
+
+      Network Services \> Umbrella.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"deny"`
+      - :ansible-option-choices-entry-default:`"read"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"write"`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/role_details/platform"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/role_details/platform:
+
+      .. rst-class:: ansible-option-title
+
+      **platform**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/role_details/platform" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Open platform for accessible, intent-based workflows, data exchange, notifications, and third-party app integrations.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"deny"`
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/role_details/platform/apis"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/role_details/platform/apis:
+
+      .. rst-class:: ansible-option-title
+
+      **apis**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/role_details/platform/apis" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Access Cisco Catalyst Center through REST APIs to drive value.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`"deny"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"read"`
+      - :ansible-option-choices-entry:`"write"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/role_details/platform/bundles"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/role_details/platform/bundles:
+
+      .. rst-class:: ansible-option-title
+
+      **bundles**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/role_details/platform/bundles" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Enhance productivity by configuring and activating preconfigured bundles for ITSM integration.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`"deny"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"read"`
+      - :ansible-option-choices-entry:`"write"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/role_details/platform/events"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/role_details/platform/events:
+
+      .. rst-class:: ansible-option-title
+
+      **events**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/role_details/platform/events" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Subscribe to near real-time notifications for network and system events of interest.
+
+      Configure email and syslog logs in System \> Settings \> Destinations.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`"deny"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"read"`
+      - :ansible-option-choices-entry:`"write"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/role_details/platform/overall"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/role_details/platform/overall:
+
+      .. rst-class:: ansible-option-title
+
+      **overall**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/role_details/platform/overall" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Provides the same choice for all sub-parameters.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"deny"`
+      - :ansible-option-choices-entry-default:`"read"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"write"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/role_details/platform/reports"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/role_details/platform/reports:
+
+      .. rst-class:: ansible-option-title
+
+      **reports**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/role_details/platform/reports" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Generate reports using predefined templates for all aspects of the network.
+
+      Generate reports for rogue devices and aWIPS.
+
+      Configure webhooks in System \> Settings \> Destinations.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`"deny"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"read"`
+      - :ansible-option-choices-entry:`"write"`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/role_details/role_name"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/role_details/role_name:
+
+      .. rst-class:: ansible-option-title
+
+      **role_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/role_details/role_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The name of the role to be managed.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/role_details/security"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/role_details/security:
+
+      .. rst-class:: ansible-option-title
+
+      **security**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/role_details/security" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Manage and control secure access to the network.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"read"`
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/role_details/security/group_based_policy"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/role_details/security/group_based_policy:
+
+      .. rst-class:: ansible-option-title
+
+      **group_based_policy**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/role_details/security/group_based_policy" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Manage group-based policies for networks that enforce segmentation and access control based on Cisco security group tags.
+
+      This role includes Endpoint Analytics.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"deny"`
+      - :ansible-option-choices-entry-default:`"read"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"write"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/role_details/security/ip_based_access_control"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/role_details/security/ip_based_access_control:
+
+      .. rst-class:: ansible-option-title
+
+      **ip_based_access_control**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/role_details/security/ip_based_access_control" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Manage IP-based access control lists that enforce network segmentation based on IP addresses.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"deny"`
+      - :ansible-option-choices-entry-default:`"read"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"write"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/role_details/security/overall"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/role_details/security/overall:
+
+      .. rst-class:: ansible-option-title
+
+      **overall**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/role_details/security/overall" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Provides the same choice for all sub-parameters.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"deny"`
+      - :ansible-option-choices-entry-default:`"read"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"write"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/role_details/security/security_advisories"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/role_details/security/security_advisories:
+
+      .. rst-class:: ansible-option-title
+
+      **security_advisories**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/role_details/security/security_advisories" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Scan the network for security advisories. Review and understand the impact of published Cisco security advisories.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"deny"`
+      - :ansible-option-choices-entry-default:`"read"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"write"`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/role_details/system"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/role_details/system:
+
+      .. rst-class:: ansible-option-title
+
+      **system**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/role_details/system" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Centralized administration of Cisco Catalyst Center, including configuration management, network connectivity, software upgrades, and more.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"read"`
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/role_details/system/machine_reasoning"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/role_details/system/machine_reasoning:
+
+      .. rst-class:: ansible-option-title
+
+      **machine_reasoning**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/role_details/system/machine_reasoning" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Configure automatic updates to the machine reasoning knowledge base to rapidly identify security vulnerabilities and improve automated issue analysis.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"deny"`
+      - :ansible-option-choices-entry-default:`"read"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"write"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/role_details/system/overall"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/role_details/system/overall:
+
+      .. rst-class:: ansible-option-title
+
+      **overall**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/role_details/system/overall" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Provides the same choice for all sub-parameters.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"deny"`
+      - :ansible-option-choices-entry-default:`"read"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"write"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/role_details/system/system_management"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/role_details/system/system_management:
+
+      .. rst-class:: ansible-option-title
+
+      **system_management**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/role_details/system/system_management" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Manage core system functionality and connectivity settings, user roles, and external authentication.
+
+      This role includes Cisco Credentials, Integrity Verification, Device EULA, HA, Integration Settings, Disaster Recovery, Debugging Logs, Telemetry Collection, System EULA, IPAM, vManage Servers, Cisco AI Analytics, Backup & Restore, and Data Platform.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"deny"`
+      - :ansible-option-choices-entry-default:`"read"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"write"`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/role_details/utilities"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/role_details/utilities:
+
+      .. rst-class:: ansible-option-title
+
+      **utilities**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/role_details/utilities" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      One-stop-shop productivity resource for the most commonly used troubleshooting tools and services.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/role_details/utilities/audit_log"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/role_details/utilities/audit_log:
+
+      .. rst-class:: ansible-option-title
+
+      **audit_log**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/role_details/utilities/audit_log" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Detailed log of changes made via UI or API interface to network devices or Cisco Catalyst Center.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`"deny"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"read"`
+      - :ansible-option-choices-entry:`"write"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/role_details/utilities/event_viewer"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/role_details/utilities/event_viewer:
+
+      .. rst-class:: ansible-option-title
+
+      **event_viewer**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/role_details/utilities/event_viewer" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      View network device and client events for troubleshooting.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"deny"`
+      - :ansible-option-choices-entry-default:`"read"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"write"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/role_details/utilities/network_reasoner"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/role_details/utilities/network_reasoner:
+
+      .. rst-class:: ansible-option-title
+
+      **network_reasoner**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/role_details/utilities/network_reasoner" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Allow the Cisco support team to remotely troubleshoot the network devices managed by Cisco Catalyst Center.
+
+      Enables an engineer from the Cisco Technical Assistance Center (TAC) to connect remotely to a customer's Cisco Catalyst Center setup for troubleshooting.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"deny"`
+      - :ansible-option-choices-entry-default:`"read"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"write"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/role_details/utilities/overall"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/role_details/utilities/overall:
+
+      .. rst-class:: ansible-option-title
+
+      **overall**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/role_details/utilities/overall" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Provides the same choice for all sub-parameters.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"deny"`
+      - :ansible-option-choices-entry:`"read"`
+      - :ansible-option-choices-entry:`"write"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/role_details/utilities/remote_device_support"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/role_details/utilities/remote_device_support:
+
+      .. rst-class:: ansible-option-title
+
+      **remote_device_support**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/role_details/utilities/remote_device_support" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Allow Cisco support team to remotely troubleshoot any network devices managed by Cisco DNA Center.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"deny"`
+      - :ansible-option-choices-entry-default:`"read"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"write"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/role_details/utilities/scheduler"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/role_details/utilities/scheduler:
+
+      .. rst-class:: ansible-option-title
+
+      **scheduler**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/role_details/utilities/scheduler" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Run, schedule, and monitor network tasks and activities such as deploying policies, provisioning, or upgrading the network, integrated with other back-end services.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"deny"`
+      - :ansible-option-choices-entry-default:`"read"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"write"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/role_details/utilities/search"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/role_details/utilities/search:
+
+      .. rst-class:: ansible-option-title
+
+      **search**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/role_details/utilities/search" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Search for various objects in Cisco Catalyst Center, including sites, network devices, clients, applications, policies, settings, tags, menu items, and more.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"deny"`
+      - :ansible-option-choices-entry-default:`"read"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"write"`
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/user_details"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/user_details:
+
+      .. rst-class:: ansible-option-title
+
+      **user_details**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/user_details" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Manages the configuration details for user accounts.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/user_details/email"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/user_details/email:
+
+      .. rst-class:: ansible-option-title
+
+      **email**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/user_details/email" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The email address of the user (e.g., syedkhadeerahmed@example.com).
+
+      Used to retrieve user data if the 'username' is forgotten.
+
+      Required for user deletion if the 'username' is forgotten.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/user_details/first_name"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/user_details/first_name:
+
+      .. rst-class:: ansible-option-title
+
+      **first_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/user_details/first_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The first name of the user.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/user_details/last_name"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/user_details/last_name:
+
+      .. rst-class:: ansible-option-title
+
+      **last_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/user_details/last_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The last name of the user.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/user_details/password"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/user_details/password:
+
+      .. rst-class:: ansible-option-title
+
+      **password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/user_details/password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The password for the user account, which must adhere to specified complexity requirements.
+
+      Must contain at least one special character, one capital letter, one lowercase letter, and a minimum length of 15 characters.
+
+      Required for creating a new user account.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/user_details/role_list"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/user_details/role_list:
+
+      .. rst-class:: ansible-option-title
+
+      **role_list**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/user_details/role_list" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A list of role names to be assigned to the user. If no role is specified, the default role will be "OBSERVER-ROLE".
+
+      The role names must match with those defined in the Cisco Catalyst Center.
+
+      The default roles present in the Cisco Catalyst Center are "SUPER-ADMIN-ROLE", "NETWORK-ADMIN-ROLE", "OBSERVER-ROLE".
+
+      SUPER-ADMIN-ROLE grants Full access, including user management.
+
+      NETWORK-ADMIN-ROLE grants Full network access, no system functions.
+
+      OBSERVER-ROLE grants view-only access, no configuration or control functions.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/user_details/username"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config/user_details/username:
+
+      .. rst-class:: ansible-option-title
+
+      **username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/user_details/username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The 'username' associated with the user account.
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config_verify"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-config_verify:
+
+      .. rst-class:: ansible-option-title
+
+      **config_verify**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config_verify" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Set to True to verify the Cisco Catalyst Center after applying the playbook config.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_api_task_timeout"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-dnac_api_task_timeout:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_api_task_timeout**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_api_task_timeout" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Defines the timeout in seconds for API calls to retrieve task details. If the task details are not received within this period, the process will end, and a timeout notification will be logged.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`1200`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-dnac_debug:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_debug**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Indicates whether debugging is enabled in the Cisco Catalyst Center SDK.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-dnac_host:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_host**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The hostname of the Cisco Catalyst Center.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-dnac_log:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable/disable playbook execution logging.
+
+      When true and dnac\_log\_file\_path is provided, - Create the log file at the execution location with the specified name.
+
+      When true and dnac\_log\_file\_path is not provided, - Create the log file at the execution location with the name 'dnac.log'.
+
+      When false, - Logging is disabled.
+
+      If the log file doesn't exist, - It is created in append or write mode based on the "dnac\_log\_append" flag.
+
+      If the log file exists, - It is overwritten or appended based on the "dnac\_log\_append" flag.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log_append"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-dnac_log_append:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log_append**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log_append" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Determines the mode of the file. Set to True for 'append' mode. Set to False for 'write' mode.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log_file_path"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-dnac_log_file_path:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log_file_path**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log_file_path" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Governs logging. Logs are recorded if dnac\_log is True.
+
+      If path is not specified, - When 'dnac\_log\_append' is True, 'dnac.log' is generated in the current Ansible directory; logs are appended. - When 'dnac\_log\_append' is False, 'dnac.log' is generated; logs are overwritten.
+
+      If path is specified, - When 'dnac\_log\_append' is True, the file opens in append mode. - When 'dnac\_log\_append' is False, the file opens in write (w) mode. - In shared file scenarios, without append mode, content is overwritten after each module execution. - For a shared log file, set append to False for the 1st module (to overwrite); for subsequent modules, set append to True.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"dnac.log"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log_level"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-dnac_log_level:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log_level**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log_level" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Sets the threshold for log level. Messages with a level equal to or higher than this will be logged. Levels are listed in order of severity [CRITICAL, ERROR, WARNING, INFO, DEBUG].
+
+      CRITICAL indicates serious errors halting the program. Displays only CRITICAL messages.
+
+      ERROR indicates problems preventing a function. Displays ERROR and CRITICAL messages.
+
+      WARNING indicates potential future issues. Displays WARNING, ERROR, CRITICAL messages.
+
+      INFO tracks normal operation. Displays INFO, WARNING, ERROR, CRITICAL messages.
+
+      DEBUG provides detailed diagnostic info. Displays all log messages.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"WARNING"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-dnac_password:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The password for authentication at the Cisco Catalyst Center.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-dnac_port:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the port number associated with the Cisco Catalyst Center.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"443"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_task_poll_interval"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-dnac_task_poll_interval:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_task_poll_interval**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_task_poll_interval" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the interval in seconds between successive calls to the API to retrieve task details.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`2`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-user"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-dnac_username:
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-user:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: user`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The username for authentication at the Cisco Catalyst Center.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-dnac_verify:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_verify**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable or disable SSL certificate verification.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-dnac_version:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the version of the Cisco Catalyst Center that the SDK should use.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-state"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-state:
+
+      .. rst-class:: ansible-option-title
+
+      **state**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-state" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The state of Cisco Catalyst Center after module completion.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`"merged"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"deleted"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__parameter-validate_response_schema:
+
+      .. rst-class:: ansible-option-title
+
+      **validate_response_schema**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco Catalyst Center SDK to enable the validation of request bodies against a JSON schema.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+
+.. Attributes
+
+
+.. Notes
+
+Notes
+-----
+
+.. note::
+   - SDK Methods used - user\_and\_roles.UserandRoles.get\_user\_ap\_i - user\_and\_roles.UserandRoles.add\_user\_ap\_i - user\_and\_roles.UserandRoles.update\_user\_ap\_i - user\_and\_roles.UserandRoles.delete\_user\_ap\_i
+   - Paths used - get /dna/system/api/v1/user - post /dna/system/api/v1/user - put /dna/system/api/v1/user - delete /dna/system/api/v1/user/{userId}
+   - Does not support \ :literal:`check\_mode`\ 
+   - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK
+   - The parameters starting with dnac\_ are used by the Cisco Catalyst Center Python SDK to establish the connection
+
+.. Seealso
+
+
+.. Examples
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    ---
+    - name: Create a user
+      cisco.dnac.user_role_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: True
+        dnac_log_level: DEBUG
+        config_verify: True
+        dnac_api_task_timeout: 1000
+        dnac_task_poll_interval: 1
+        state: merged
+        config:
+          user_details:
+            - username: "ajithandrewj"
+              first_name: "ajith"
+              last_name: "andrew"
+              email: "ajith.andrew@example.com"
+              password: "Ajith@123"
+              role_list: ["SUPER-ADMIN-ROLE"]
+
+    - name: Update a user for first name, last name, email, and role list
+      cisco.dnac.user_role_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: True
+        dnac_log_level: DEBUG
+        config_verify: True
+        dnac_api_task_timeout: 1000
+        dnac_task_poll_interval: 1
+        state: merged
+        config:
+          user_details:
+            - username: "ajithandrewj"
+              first_name: "ajith"
+              last_name: "andrew"
+              email: "ajith.andrew@example.com"
+              role_list: ["SUPER-ADMIN-ROLE"]
+
+    - name: Update a user for role list
+      cisco.dnac.user_role_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: True
+        dnac_log_level: DEBUG
+        config_verify: True
+        dnac_api_task_timeout: 1000
+        dnac_task_poll_interval: 1
+        state: merged
+        config:
+          user_details:
+            - username: "ajithandrewj"
+              role_list: ["NETWORK-ADMIN-ROLE"]
+
+    - name: Delete a user using username or email address
+      cisco.dnac.user_role_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: True
+        dnac_log_level: DEBUG
+        config_verify: True
+        dnac_api_task_timeout: 1000
+        dnac_task_poll_interval: 1
+        state: merged
+        config:
+          user_details:
+            username: "ajithandrewj"
+
+    - name: Create a role with all params
+      cisco.dnac.user_role_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: True
+        dnac_log_level: DEBUG
+        config_verify: True
+        config:
+          role_details:
+            - role_name: "role_name"
+              description: "role_description"
+              assurance:
+                - monitoring_and_troubleshooting: "write"
+                  monitoring_settings: "read"
+                  troubleshooting_tools: "deny"
+              network_analytics:
+                data_access: "write"
+              network_design:
+                - advanced_network_settings: "deny"
+                  image_repository: "deny"
+                  network_hierarchy: "deny"
+                  network_profiles: "write"
+                  network_settings: "write"
+                  virtual_network: "read"
+              network_provision:
+                - compliance: "deny"
+                  image_update: "write"
+                  inventory_management:
+                    - device_configuration: "write"
+                      discovery: "deny"
+                      network_device: "read"
+                      port_management: "write"
+                      topology: "write"
+                  license: "write"
+                  network_telemetry: "write"
+                  pnp: "deny"
+                  provision: "read"
+              network_services:
+                - app_hosting: "deny"
+                  bonjour: "write"
+                  stealthwatch: "read"
+                  umbrella: "deny"
+              platform:
+                - apis: "write"
+                  bundles: "write"
+                  events: "write"
+                  reports: "read"
+              security:
+                - group_based_policy: "read"
+                  ip_based_access_control: "write"
+                  security_advisories: "write"
+              system:
+                - machine_reasoning: "read"
+                  system_management: "write"
+              utilities:
+                - audit_log: "read"
+                  event_viewer: "deny"
+                  network_reasoner: "write"
+                  scheduler: "read"
+                  search: "write"
+
+    - name: Create a role for assurance
+      cisco.dnac.user_role_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: True
+        dnac_log_level: DEBUG
+        config_verify: True
+        config:
+          role_details:
+            - role_name: "role_name"
+              description: "role_description"
+              assurance:
+                - overall: "write"
+                  monitoring_and_troubleshooting: "read"
+
+    - name: Create a role for network provision
+      cisco.dnac.user_role_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: True
+        dnac_log_level: DEBUG
+        config_verify: True
+        config:
+          role_details:
+            - role_name: "role_name"
+              description: "role_description"
+              network_provision:
+                - compliance: "deny"
+                  image_update: "write"
+                  inventory_management:
+                    - overall: "read"
+                      device_configuration: "write"
+                  license: "write"
+                  network_telemetry: "write"
+                  pnp: "deny"
+                  provision: "read"
+
+    - name: Update a role for assurance and platform
+      cisco.dnac.user_role_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: True
+        dnac_log_level: DEBUG
+        config_verify: True
+        config:
+          role_details:
+            - role_name: "role_name"
+              assurance:
+                - overall: "deny"
+              platform:
+                - apis: "write"
+                  bundles: "write"
+                  events: "write"
+                  reports: "read"
+
+    - name: Delete a role
+      cisco.dnac.user_role_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: True
+        dnac_log_level: DEBUG
+        config_verify: True
+        dnac_api_task_timeout: 1000
+        dnac_task_poll_interval: 1
+        state: merged
+        config:
+          role_details:
+            - rolename: "role_name"
+
+
+
+
+.. Facts
+
+
+.. Return values
+
+Return Values
+-------------
+Common return values are documented :ref:`here <common_return_values>`, the following are the fields unique to this module:
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Key
+    - Description
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_1"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__return-response_1:
+
+      .. rst-class:: ansible-option-title
+
+      **response_1**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_1" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary with details of the API execution from Cisco Catalyst Center.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"message": "string", "userId": "string"}}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_10"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__return-response_10:
+
+      .. rst-class:: ansible-option-title
+
+      **response_10**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_10" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary with details of the API execution and error information.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"msg": "Error during creating, updating or deleting the role."}}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_11"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__return-response_11:
+
+      .. rst-class:: ansible-option-title
+
+      **response_11**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_11" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary indicating role not found during delete operation.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"msg": "Role not found."}}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_2"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__return-response_2:
+
+      .. rst-class:: ansible-option-title
+
+      **response_2**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_2" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary with details of the API execution from Cisco Catalyst Center.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"message": "string"}}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_3"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__return-response_3:
+
+      .. rst-class:: ansible-option-title
+
+      **response_3**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_3" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary with details of the API execution from Cisco Catalyst Center.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"message": "string"}}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_4"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__return-response_4:
+
+      .. rst-class:: ansible-option-title
+
+      **response_4**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_4" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary with existing user details indicating no update needed.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"msg": "User already exists and no update needed.", "response": {"type": "string", "user": {"email": "user@example.com", "first\_name": "John", "last\_name": "Doe", "role\_list": ["NETWORK-ADMIN-ROLE"], "username": "johndoe"}, "userId": "string"}}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_5"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__return-response_5:
+
+      .. rst-class:: ansible-option-title
+
+      **response_5**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_5" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary with details of the API execution and error information.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"msg": "Error during creating, updating or deleting the user."}}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_6"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__return-response_6:
+
+      .. rst-class:: ansible-option-title
+
+      **response_6**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_6" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary indicating user not found during delete operation.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"msg": "User not found."}}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_7"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__return-response_7:
+
+      .. rst-class:: ansible-option-title
+
+      **response_7**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_7" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary with details of the API execution from Cisco Catalyst Center.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"message": "string", "roleid": "string"}}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_8"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__return-response_8:
+
+      .. rst-class:: ansible-option-title
+
+      **response_8**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_8" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary with details of the API execution from Cisco Catalyst Center.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"message": "string", "roleId": "string"}}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_9"></div>
+
+      .. _ansible_collections.cisco.dnac.user_role_workflow_manager_module__return-response_9:
+
+      .. rst-class:: ansible-option-title
+
+      **response_9**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_9" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary with details of the API execution from Cisco Catalyst Center.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"message": "string"}}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+..  Status (Presently only deprecated)
+
+
+.. Authors
+
+Authors
+~~~~~~~
+
+- Ajith Andrew J (@ajithandrewj)
+- Syed Khadeer Ahmed (@syed-khadeerahmed)
+- Rangaprabhu Deenadayalu (@rangaprabha-d)
+- Madhan Sankaranarayanan (@madhansansel)
+
+
+
+.. Extra links
+
+Collection links
+~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+  <p class="ansible-links">
+    <a href="https://github.com/cisco-en-programmability/dnacenter-ansible/issues" aria-role="button" target="_blank" rel="noopener external">Issue Tracker</a>
+    <a href="https://github.com/cisco-en-programmability/dnacenter-ansible" aria-role="button" target="_blank" rel="noopener external">Repository (Sources)</a>
+  </p>
+
+.. Parsing errors
+
