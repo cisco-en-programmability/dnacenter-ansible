@@ -1,0 +1,1629 @@
+
+.. Document meta
+
+:orphan:
+
+.. |antsibull-internal-nbsp| unicode:: 0xA0
+    :trim:
+
+.. role:: ansible-attribute-support-label
+.. role:: ansible-attribute-support-property
+.. role:: ansible-attribute-support-full
+.. role:: ansible-attribute-support-partial
+.. role:: ansible-attribute-support-none
+.. role:: ansible-attribute-support-na
+.. role:: ansible-option-type
+.. role:: ansible-option-elements
+.. role:: ansible-option-required
+.. role:: ansible-option-versionadded
+.. role:: ansible-option-aliases
+.. role:: ansible-option-choices
+.. role:: ansible-option-choices-default-mark
+.. role:: ansible-option-default-bold
+.. role:: ansible-option-configuration
+.. role:: ansible-option-returned-bold
+.. role:: ansible-option-sample-bold
+
+.. Anchors
+
+.. _ansible_collections.cisco.dnac.authentication_policy_servers_module:
+
+.. Anchors: short name for ansible.builtin
+
+.. Anchors: aliases
+
+
+
+.. Title
+
+cisco.dnac.authentication_policy_servers module -- Resource module for Authentication Policy Servers
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. Collection note
+
+.. note::
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.17.0).
+
+    To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.cisco.dnac.authentication_policy_servers_module_requirements>` for details.
+
+    To use it in a playbook, specify: :code:`cisco.dnac.authentication_policy_servers`.
+
+.. version_added
+
+.. rst-class:: ansible-version-added
+
+New in cisco.dnac 3.1.0
+
+.. contents::
+   :local:
+   :depth: 1
+
+.. Deprecated
+
+
+Synopsis
+--------
+
+.. Description
+
+- Manage operations create, update and delete of the resource Authentication Policy Servers.
+- API to add AAA/ISE server access configuration. Protocol can be configured as either RADIUS OR TACACS OR RADIUS\_TACACS. If configuring Cisco ISE server, after configuration, use 'Cisco ISE Server Integration Status' Intent API to check the integration status. Based on integration status, if require use 'Accept Cisco ISE Server Certificate for Cisco ISE Server Integration' Intent API to accept the Cisco ISE certificate for Cisco ISE server integration, then use again 'Cisco ISE Server Integration Status' Intent API to check the integration status.
+
+- API to delete AAA/ISE server access configuration.
+- API to edit AAA/ISE server access configuration. After edit, use 'Cisco ISE Server Integration Status' Intent API to check the integration status.
+
+
+.. note::
+    This module has a corresponding :ref:`action plugin <action_plugins>`.
+
+.. Aliases
+
+
+.. Requirements
+
+.. _ansible_collections.cisco.dnac.authentication_policy_servers_module_requirements:
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- dnacentersdk \>= 2.7.1
+- python \>= 3.5
+
+
+
+
+
+
+.. Options
+
+Parameters
+----------
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Parameter
+    - Comments
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-accountingPort"></div>
+
+      .. _ansible_collections.cisco.dnac.authentication_policy_servers_module__parameter-accountingport:
+
+      .. rst-class:: ansible-option-title
+
+      **accountingPort**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-accountingPort" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Accounting port of RADIUS server (readonly). The range is from 1 to 65535. E.g. 1813.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-authenticationPort"></div>
+
+      .. _ansible_collections.cisco.dnac.authentication_policy_servers_module__parameter-authenticationport:
+
+      .. rst-class:: ansible-option-title
+
+      **authenticationPort**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-authenticationPort" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Authentication port of RADIUS server (readonly). The range is from 1 to 65535. E.g. 1812.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ciscoIseDtos"></div>
+
+      .. _ansible_collections.cisco.dnac.authentication_policy_servers_module__parameter-ciscoisedtos:
+
+      .. rst-class:: ansible-option-title
+
+      **ciscoIseDtos**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ciscoIseDtos" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Authentication Policy Servers's ciscoIseDtos.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ciscoIseDtos/description"></div>
+
+      .. _ansible_collections.cisco.dnac.authentication_policy_servers_module__parameter-ciscoisedtos/description:
+
+      .. rst-class:: ansible-option-title
+
+      **description**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ciscoIseDtos/description" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Description about the Cisco ISE server.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ciscoIseDtos/fqdn"></div>
+
+      .. _ansible_collections.cisco.dnac.authentication_policy_servers_module__parameter-ciscoisedtos/fqdn:
+
+      .. rst-class:: ansible-option-title
+
+      **fqdn**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ciscoIseDtos/fqdn" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Fully-qualified domain name of the Cisco ISE server (readonly). E.g. Xi-62.my.com.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ciscoIseDtos/ipAddress"></div>
+
+      .. _ansible_collections.cisco.dnac.authentication_policy_servers_module__parameter-ciscoisedtos/ipaddress:
+
+      .. rst-class:: ansible-option-title
+
+      **ipAddress**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ciscoIseDtos/ipAddress" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      IP Address of the Cisco ISE Server (readonly).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ciscoIseDtos/password"></div>
+
+      .. _ansible_collections.cisco.dnac.authentication_policy_servers_module__parameter-ciscoisedtos/password:
+
+      .. rst-class:: ansible-option-title
+
+      **password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ciscoIseDtos/password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Password of the Cisco ISE server.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ciscoIseDtos/sshkey"></div>
+
+      .. _ansible_collections.cisco.dnac.authentication_policy_servers_module__parameter-ciscoisedtos/sshkey:
+
+      .. rst-class:: ansible-option-title
+
+      **sshkey**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ciscoIseDtos/sshkey" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      SSH key of the Cisco ISE server.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ciscoIseDtos/subscriberName"></div>
+
+      .. _ansible_collections.cisco.dnac.authentication_policy_servers_module__parameter-ciscoisedtos/subscribername:
+
+      .. rst-class:: ansible-option-title
+
+      **subscriberName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ciscoIseDtos/subscriberName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Subscriber name of the Cisco ISE server (readonly). E.g. Pxgrid\_client\_1662589467.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ciscoIseDtos/userName"></div>
+
+      .. _ansible_collections.cisco.dnac.authentication_policy_servers_module__parameter-ciscoisedtos/username:
+
+      .. rst-class:: ansible-option-title
+
+      **userName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ciscoIseDtos/userName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      User name of the Cisco ISE server.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div>
+
+      .. _ansible_collections.cisco.dnac.authentication_policy_servers_module__parameter-dnac_debug:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_debug**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco DNA Center SDK to enable debugging.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div>
+
+      .. _ansible_collections.cisco.dnac.authentication_policy_servers_module__parameter-dnac_host:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_host**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center hostname.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div>
+
+      .. _ansible_collections.cisco.dnac.authentication_policy_servers_module__parameter-dnac_password:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center password to authenticate.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div>
+
+      .. _ansible_collections.cisco.dnac.authentication_policy_servers_module__parameter-dnac_port:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center port.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-user"></div>
+
+      .. _ansible_collections.cisco.dnac.authentication_policy_servers_module__parameter-dnac_username:
+      .. _ansible_collections.cisco.dnac.authentication_policy_servers_module__parameter-user:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: user`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center username to authenticate.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div>
+
+      .. _ansible_collections.cisco.dnac.authentication_policy_servers_module__parameter-dnac_verify:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_verify**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable or disable SSL certificate verification.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div>
+
+      .. _ansible_collections.cisco.dnac.authentication_policy_servers_module__parameter-dnac_version:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Informs the SDK which version of Cisco DNA Center to use.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-encryptionKey"></div>
+
+      .. _ansible_collections.cisco.dnac.authentication_policy_servers_module__parameter-encryptionkey:
+
+      .. rst-class:: ansible-option-title
+
+      **encryptionKey**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-encryptionKey" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Encryption key used to encrypt shared secret (readonly).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-encryptionScheme"></div>
+
+      .. _ansible_collections.cisco.dnac.authentication_policy_servers_module__parameter-encryptionscheme:
+
+      .. rst-class:: ansible-option-title
+
+      **encryptionScheme**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-encryptionScheme" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Type of encryption scheme for additional security (readonly).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-externalCiscoIseIpAddrDtos"></div>
+
+      .. _ansible_collections.cisco.dnac.authentication_policy_servers_module__parameter-externalciscoiseipaddrdtos:
+
+      .. rst-class:: ansible-option-title
+
+      **externalCiscoIseIpAddrDtos**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-externalCiscoIseIpAddrDtos" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Authentication Policy Servers's externalCiscoIseIpAddrDtos.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-externalCiscoIseIpAddrDtos/externalCiscoIseIpAddresses"></div>
+
+      .. _ansible_collections.cisco.dnac.authentication_policy_servers_module__parameter-externalciscoiseipaddrdtos/externalciscoiseipaddresses:
+
+      .. rst-class:: ansible-option-title
+
+      **externalCiscoIseIpAddresses**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-externalCiscoIseIpAddrDtos/externalCiscoIseIpAddresses" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Authentication Policy Servers's externalCiscoIseIpAddresses.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-externalCiscoIseIpAddrDtos/externalCiscoIseIpAddresses/externalIpAddress"></div>
+
+      .. _ansible_collections.cisco.dnac.authentication_policy_servers_module__parameter-externalciscoiseipaddrdtos/externalciscoiseipaddresses/externalipaddress:
+
+      .. rst-class:: ansible-option-title
+
+      **externalIpAddress**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-externalCiscoIseIpAddrDtos/externalCiscoIseIpAddresses/externalIpAddress" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      External IP Address.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-externalCiscoIseIpAddrDtos/type"></div>
+
+      .. _ansible_collections.cisco.dnac.authentication_policy_servers_module__parameter-externalciscoiseipaddrdtos/type:
+
+      .. rst-class:: ansible-option-title
+
+      **type**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-externalCiscoIseIpAddrDtos/type" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Type.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-id"></div>
+
+      .. _ansible_collections.cisco.dnac.authentication_policy_servers_module__parameter-id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Id path parameter. Authentication and Policy Server Identifier. Use 'Get Authentication and Policy Servers' intent API to find the identifier.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ipAddress"></div>
+
+      .. _ansible_collections.cisco.dnac.authentication_policy_servers_module__parameter-ipaddress:
+
+      .. rst-class:: ansible-option-title
+
+      **ipAddress**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ipAddress" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      IP address of authentication and policy server (readonly).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-isIseEnabled"></div>
+
+      .. _ansible_collections.cisco.dnac.authentication_policy_servers_module__parameter-isiseenabled:
+
+      .. rst-class:: ansible-option-title
+
+      **isIseEnabled**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-isIseEnabled" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Value true for Cisco ISE Server (readonly). Default value is false.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-messageKey"></div>
+
+      .. _ansible_collections.cisco.dnac.authentication_policy_servers_module__parameter-messagekey:
+
+      .. rst-class:: ansible-option-title
+
+      **messageKey**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-messageKey" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Message key used to encrypt shared secret (readonly).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-port"></div>
+
+      .. _ansible_collections.cisco.dnac.authentication_policy_servers_module__parameter-port:
+
+      .. rst-class:: ansible-option-title
+
+      **port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Port of TACACS server (readonly). The range is from 1 to 65535.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-protocol"></div>
+
+      .. _ansible_collections.cisco.dnac.authentication_policy_servers_module__parameter-protocol:
+
+      .. rst-class:: ansible-option-title
+
+      **protocol**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-protocol" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Type of protocol for authentication and policy server. If already saved with RADIUS, can update to RADIUS\_TACACS. If already saved with TACACS, can update to RADIUS\_TACACS.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-pxgridEnabled"></div>
+
+      .. _ansible_collections.cisco.dnac.authentication_policy_servers_module__parameter-pxgridenabled:
+
+      .. rst-class:: ansible-option-title
+
+      **pxgridEnabled**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-pxgridEnabled" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Value true for enable, false for disable. Default value is true.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-retries"></div>
+
+      .. _ansible_collections.cisco.dnac.authentication_policy_servers_module__parameter-retries:
+
+      .. rst-class:: ansible-option-title
+
+      **retries**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-retries" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Number of communication retries between devices and authentication and policy server. The range is from 1 to 3.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-role"></div>
+
+      .. _ansible_collections.cisco.dnac.authentication_policy_servers_module__parameter-role:
+
+      .. rst-class:: ansible-option-title
+
+      **role**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-role" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Role of authentication and policy server (readonly). E.g. Primary, secondary.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-sharedSecret"></div>
+
+      .. _ansible_collections.cisco.dnac.authentication_policy_servers_module__parameter-sharedsecret:
+
+      .. rst-class:: ansible-option-title
+
+      **sharedSecret**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-sharedSecret" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Shared secret between devices and authentication and policy server (readonly).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-timeoutSeconds"></div>
+
+      .. _ansible_collections.cisco.dnac.authentication_policy_servers_module__parameter-timeoutseconds:
+
+      .. rst-class:: ansible-option-title
+
+      **timeoutSeconds**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-timeoutSeconds" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Number of seconds before timing out between devices and authentication and policy server. The range is from 2 to 20.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-useDnacCertForPxgrid"></div>
+
+      .. _ansible_collections.cisco.dnac.authentication_policy_servers_module__parameter-usednaccertforpxgrid:
+
+      .. rst-class:: ansible-option-title
+
+      **useDnacCertForPxgrid**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-useDnacCertForPxgrid" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Value true to use DNAC certificate for Pxgrid. Default value is false.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
+
+      .. _ansible_collections.cisco.dnac.authentication_policy_servers_module__parameter-validate_response_schema:
+
+      .. rst-class:: ansible-option-title
+
+      **validate_response_schema**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco DNA Center SDK to enable the validation of request bodies against a JSON schema.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+
+.. Attributes
+
+
+.. Notes
+
+Notes
+-----
+
+.. note::
+   - SDK Method used are system\_settings.SystemSettings.add\_authentication\_and\_policy\_server\_access\_configuration, system\_settings.SystemSettings.delete\_authentication\_and\_policy\_server\_access\_configuration, system\_settings.SystemSettings.edit\_authentication\_and\_policy\_server\_access\_configuration,
+   - Paths used are post /dna/intent/api/v1/authentication-policy-servers, delete /dna/intent/api/v1/authentication-policy-servers/{id}, put /dna/intent/api/v1/authentication-policy-servers/{id},
+   - Does not support \ :literal:`check\_mode`\ 
+   - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
+   - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
+
+.. Seealso
+
+See Also
+--------
+
+.. seealso::
+
+   `Cisco DNA Center documentation for System Settings AddAuthenticationAndPolicyServerAccessConfiguration <https://developer.cisco.com/docs/dna-center/#!add-authentication-and-policy-server-access-configuration>`_
+       Complete reference of the AddAuthenticationAndPolicyServerAccessConfiguration API.
+   `Cisco DNA Center documentation for System Settings DeleteAuthenticationAndPolicyServerAccessConfiguration <https://developer.cisco.com/docs/dna-center/#!delete-authentication-and-policy-server-access-configuration>`_
+       Complete reference of the DeleteAuthenticationAndPolicyServerAccessConfiguration API.
+   `Cisco DNA Center documentation for System Settings EditAuthenticationAndPolicyServerAccessConfiguration <https://developer.cisco.com/docs/dna-center/#!edit-authentication-and-policy-server-access-configuration>`_
+       Complete reference of the EditAuthenticationAndPolicyServerAccessConfiguration API.
+
+.. Examples
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    - name: Create
+      cisco.dnac.authentication_policy_servers:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: present
+        accountingPort: 0
+        authenticationPort: 0
+        ciscoIseDtos:
+        - description: string
+          fqdn: string
+          ipAddress: string
+          password: string
+          sshkey: string
+          subscriberName: string
+          userName: string
+        encryptionKey: string
+        encryptionScheme: string
+        externalCiscoIseIpAddrDtos:
+        - externalCiscoIseIpAddresses:
+          - externalIpAddress: string
+          type: string
+        ipAddress: string
+        isIseEnabled: true
+        messageKey: string
+        port: 0
+        protocol: string
+        pxgridEnabled: true
+        retries: string
+        role: string
+        sharedSecret: string
+        timeoutSeconds: string
+        useDnacCertForPxgrid: true
+
+    - name: Delete by id
+      cisco.dnac.authentication_policy_servers:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: absent
+        id: string
+
+    - name: Update by id
+      cisco.dnac.authentication_policy_servers:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: present
+        accountingPort: 0
+        authenticationPort: 0
+        ciscoIseDtos:
+        - description: string
+          fqdn: string
+          ipAddress: string
+          password: string
+          sshkey: string
+          subscriberName: string
+          userName: string
+        encryptionKey: string
+        encryptionScheme: string
+        externalCiscoIseIpAddrDtos:
+        - externalCiscoIseIpAddresses:
+          - externalIpAddress: string
+          type: string
+        id: string
+        ipAddress: string
+        isIseEnabled: true
+        messageKey: string
+        port: 0
+        protocol: string
+        pxgridEnabled: true
+        retries: string
+        role: string
+        sharedSecret: string
+        timeoutSeconds: string
+        useDnacCertForPxgrid: true
+
+
+
+
+
+.. Facts
+
+
+.. Return values
+
+Return Values
+-------------
+Common return values are documented :ref:`here <common_return_values>`, the following are the fields unique to this module:
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Key
+    - Description
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-dnac_response"></div>
+
+      .. _ansible_collections.cisco.dnac.authentication_policy_servers_module__return-dnac_response:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_response**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-dnac_response" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary or list with the response returned by the Cisco DNAC Python SDK
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"taskId": "string", "url": "string"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+..  Status (Presently only deprecated)
+
+
+.. Authors
+
+Authors
+~~~~~~~
+
+- Rafael Campos (@racampos)
+
+
+
+.. Extra links
+
+Collection links
+~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+  <p class="ansible-links">
+    <a href="https://github.com/cisco-en-programmability/dnacenter-ansible/issues" aria-role="button" target="_blank" rel="noopener external">Issue Tracker</a>
+    <a href="https://github.com/cisco-en-programmability/dnacenter-ansible" aria-role="button" target="_blank" rel="noopener external">Repository (Sources)</a>
+  </p>
+
+.. Parsing errors
+
