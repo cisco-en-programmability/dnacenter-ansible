@@ -290,6 +290,7 @@ class DnacBase():
                        "dnac_port": params.get("dnac_port"),
                        "dnac_username": params.get("dnac_username"),
                        "dnac_password": params.get("dnac_password"),
+                       "dnac_version":params.get("dnac_version"),
                        "dnac_verify": params.get("dnac_verify"),
                        "dnac_debug": params.get("dnac_debug"),
                        "dnac_log": params.get("dnac_log"),
