@@ -300,15 +300,42 @@ class Device_configs_backup(DnacBase):
         )
         self.log("Response collected from the API 'get_device_list' is {0}".format(str(response)), "DEBUG")
         device_list = response.get("response")
-
         self.log("Length of the device list fetched from the API 'get_device_list' is {0}".format(str(device_list)), "INFO")
-        if len(device_list) == 0:
+        original_dev_len = len(device_list)
+        if original_dev_len == 0:
             msg = "Couldn't find any devices in the inventory that match the given parameters."
             self.log(msg, "CRITICAL")
             self.module.fail_json(msg=msg)
 
-        dev_id_list = [id.get("id") for id in device_list]
+        changed_dev_list = []
+        for dev_info in device_list:
+            if dev_info.get("collectionStatus") != "Managed":
+                msg = "Device backup of device with IP address {0} \
+                    is not possible due to collection status not being in Managed state".format(dev_info.get("managementIpAddress"))
+                self.log(msg, "WARNING")
+
+            elif dev_info.get("family") != "Unified AP":
+                msg = "Device backup of device with IP address {0} \
+                    is not possible due to device being an Unified AP".format(dev_info.get("managementIpAddress"))
+                self.log(msg, "WARNING")
+
+            elif dev_info.get("reachabilityStatus") != "Reachable":
+                msg = "Device backup of device with IP address {0} \
+                    is not possible due to device being not reachable".format(dev_info.get("managementIpAddress"))
+                self.log(msg, "WARNING")
+            else:
+                changed_dev_list.append(dev_info)
+
+        if len(changed_dev_list) == 0:
+            msg = "No device IDs got collected either due to devices \
+                being an Unified Ap or device not being in Managed state or device not being reachable"
+            self.log(msg, "CRITICAL")
+            self.module.fail_json(msg=msg)
+
+        dev_id_list = [id.get("id") for id in changed_dev_list]
+        dev_len = len(dev_id_list)
         self.log("Device Ids list collected is {0}".format(dev_id_list), "INFO")
+        self.log("Backup of {0} devices out of {1} devices is possible".format(dev_len, original_dev_len), "INFO")
         return dev_id_list
 
     def password_generator(self):
