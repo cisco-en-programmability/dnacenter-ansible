@@ -182,6 +182,21 @@ EXAMPLES = r"""
           managed_ap_locations:
             - Global/USA/RTP/BLD11/BLD11_FLOOR1
 
+- name: Unprovision a device from a site
+  cisco.dnac.provision_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: True
+    state: deleted
+    config_verify: True
+    config:
+        - management_ip_address: 204.1.2.2
+
 """
 
 RETURN = r"""
@@ -261,7 +276,7 @@ class Provision(DnacBase):
         """
 
         if not self.config:
-            self.msg = "config not available in playbook for validattion"
+            self.msg = "config not available in playbook for validation"
             self.status = "success"
             return self
 
@@ -756,8 +771,8 @@ class Provision(DnacBase):
         ]
 
         if not (wireless_params[0].get("managedAPLocations") and isinstance(wireless_params[0].get("managedAPLocations"), list)):
-            msg = "Managed AP locations must be passed as a list of sites. For example, [Global/USA/RTP/BLD11/BLD11_FLOOR1,\
-                Global/USA/RTP/BLD11/BLD11_FLOOR2]"
+            msg = "Missing Managed AP Locations: Please specify the intended location(s) for the wireless device \
+                within the site hierarchy."
             self.log(msg, "CRITICAL")
             self.module.fail_json(msg=msg, response=[])
 
@@ -849,7 +864,7 @@ class Provision(DnacBase):
             )
             self.log("Wireless provisioning response collected from 'provision_update' API is: {0}".format(str(response)), "DEBUG")
             execution_id = response.get("executionId")
-            provision_info = self.get_execution_status_wireless(execution_id=execution_id)
+            self.get_execution_status_wireless(execution_id=execution_id)
             self.result["changed"] = True
             self.result['msg'] = "Wireless device with IP address {0} got re-provisioned successfully".format(self.validated_config[0]["management_ip_address"])
             self.result['diff'] = self.validated_config
@@ -905,7 +920,7 @@ class Provision(DnacBase):
                     )
                     self.log("Reprovisioning response collected from 're_provision_wired_device' API is: {0}".format(response), "DEBUG")
                     task_id = response.get("taskId")
-                    provision_info = self.get_task_status(task_id=task_id)
+                    self.get_task_status(task_id=task_id)
                     self.result["changed"] = True
                     self.result['msg'] = "Re-Provision done Successfully"
                     self.result['diff'] = self.validated_config
@@ -979,7 +994,7 @@ class Provision(DnacBase):
                 )
                 self.log("Wireless provisioning response collected from 'provision' API is: {0}".format(str(response)), "DEBUG")
                 execution_id = response.get("executionId")
-                provision_info = self.get_execution_status_wireless(execution_id=execution_id)
+                self.get_execution_status_wireless(execution_id=execution_id)
                 self.result["changed"] = True
                 self.result['msg'] = "Wireless device with IP {0} got provisioned successfully".format(self.validated_config[0]["management_ip_address"])
                 self.result['diff'] = self.validated_config
@@ -1000,7 +1015,7 @@ class Provision(DnacBase):
             return self
 
         task_id = response.get("taskId")
-        provision_info = self.get_task_status(task_id=task_id)
+        self.get_task_status(task_id=task_id)
         self.result["changed"] = True
         self.result['msg'] = "Provision done Successfully"
         self.result['diff'] = self.validated_config
