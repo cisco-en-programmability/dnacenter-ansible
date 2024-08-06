@@ -279,7 +279,7 @@ class Device_configs_backup(DnacBase):
         Args:
             self: The instance of the class containing the 'config' attribute to be validated.
         Returns:
-            dev_id_list: The list of device ids based on the parameters passed by the user
+            device_ids: The list of device ids based on the parameters passed by the user
         Example:
             Stored paramters like management ip address/ family can be used to fetch the device ids
             list
@@ -300,16 +300,44 @@ class Device_configs_backup(DnacBase):
         )
         self.log("Response collected from the API 'get_device_list' is {0}".format(str(response)), "DEBUG")
         device_list = response.get("response")
-
         self.log("Length of the device list fetched from the API 'get_device_list' is {0}".format(str(device_list)), "INFO")
-        if len(device_list) == 0:
-            msg = "Couldn't find any devices in the inventory that match the given parameters."
+        original_valid_device_count = len(device_list)
+        if original_valid_device_count == 0:
+            msg = "No devices found in the inventory matching the given parameters."
             self.log(msg, "CRITICAL")
             self.module.fail_json(msg=msg)
 
-        dev_id_list = [id.get("id") for id in device_list]
-        self.log("Device Ids list collected is {0}".format(dev_id_list), "INFO")
-        return dev_id_list
+        valid_devices = []
+        for dev_info in device_list:
+            ip_address = dev_info.get("managementIpAddress")
+            if dev_info.get("collectionStatus") != "Managed":
+                msg = "Device backup of device with IP address {0} \
+                    is not possible due to collection status not being in Managed state".format(ip_address)
+                self.log(msg, "WARNING")
+
+            elif dev_info.get("family") != "Unified AP":
+                msg = "Device backup of device with IP address {0} \
+                    is not possible due to device being an Unified AP".format(ip_address)
+                self.log(msg, "WARNING")
+
+            elif dev_info.get("reachabilityStatus") != "Reachable":
+                msg = "Device backup of device with IP address {0} \
+                    is not possible due to device being not reachable".format(ip_address)
+                self.log(msg, "WARNING")
+            else:
+                valid_devices.append(dev_info)
+
+        if len(valid_devices) == 0:
+            msg = "No device IDs were collected because the devices are either Unified APs \
+                not in the Managed state, or not reachable."
+            self.log(msg, "CRITICAL")
+            self.module.fail_json(msg=msg)
+
+        device_ids = [id.get("id") for id in valid_devices]
+        valid_device_count = len(device_ids)
+        self.log("Collected device IDs: {0}".format(device_ids), "INFO")
+        self.log("Backup of {0} devices out of {1} devices is possible".format(valid_device_count, original_valid_device_count), "INFO")
+        return device_ids
 
     def password_generator(self):
         """
