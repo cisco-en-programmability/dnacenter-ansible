@@ -1,0 +1,109 @@
+---
+- debug: msg="Starting accesspoint workflow manager test"
+- debug: msg="accesspoint Path {{ role_path }}"
+
+- block:
+  - name:  accesspoint workflow manager
+    include_vars:
+      file: "{{ role_path }}/vars/vars_accesspoint_workflow_manager.yml"
+      name: vars_map
+    vars:
+      dnac_login: &dnac_login
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        config_verify: true
+
+  # - debug:
+  #     msg: "{{ vars_map. }}"
+  # - debug:
+  #     msg: "{{ vars_map. }}"
+  # - debug:
+  #     msg: "{{ vars_map. }}"
+
+#############################################
+#                Clean Up                   #
+#############################################
+
+  # - name: Delete wlc
+  #   cisco.dnac.accesspoint_workflow_manager:
+  #     <<: *dnac_login
+  #     state: deleted
+  #     config:
+  #       - "{{ item }}"
+  #   loop: "{{ vars_map.delete_wlc }}"
+    # register: result_deleted_wlc
+
+###########################################
+ #       PROVISION ACCESSPOINT           #
+###########################################
+
+  - name: Provision accesspoint
+    cisco.dnac.accesspoint_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config: 
+        - "{{ item }}"
+    loop: "{{ vars_map.provision_accesspoint }}"
+    register: result_provision_accesspoint
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_provision_accesspoint.results }}"
+  #   when: result_provision_accesspoint is defined
+
+  - name: Assert Provision accesspoint
+    assert:
+      that:
+        - item.changed == false
+        - "'AP - AP34B8.8315.7C6C does not need any update' in item.ap_update_msg"
+    loop: "{{ result_provision_accesspoint.results }}"
+    when: result_provision_accesspoint is defined
+
+
+#############################################
+#     UPDATE ACCESSPOINT CONFIGURATION      #
+#############################################
+
+  - name: Update accesspoint configuration
+    cisco.dnac.accesspoint_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.update_accesspoint_config }}"
+    register: result_update_accesspoint_config
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_update_accesspoint_config.results }}"
+  #   when: result_update_accesspoint_config is defined
+
+  - name: Assert Update accesspoint configuration
+    assert:
+      that:
+        - item.changed == true
+        - "'AP Configuration - LTTS-test1 updated Successfully' in item.ap_update_msg"
+    loop: "{{ result_update_accesspoint_config.results }}"
+    when: result_update_accesspoint_config is defined
+
+#############################################
+#               POST Clean Up               #
+#############################################
+
+  # - name: Delete wlc
+  #   cisco.dnac.accesspoint_workflow_manager:
+  #     <<: *dnac_login
+  #     state: deleted
+  #     config:
+  #       - "{{ item }}"
+  #   loop: "{{ vars_map.delete_wlc }}"
+  #   register: result_deleted_wlc
