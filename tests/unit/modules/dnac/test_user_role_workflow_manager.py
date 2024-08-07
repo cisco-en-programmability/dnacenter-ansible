@@ -395,7 +395,7 @@ numbers,                                    underscores, and hyphens and should 
 special characters., last_name: 'last_name' must only contain letters, numbers,                                    underscores, \
 and hyphens and should not contain spaces or other special characters., email: Invalid email format for 'email': ajith.andrewexample.com, \
 password: 'Password' does not meet complexity requirements                                       for password: \
-ajith.andrewexample.com, username: 'Username' must only contain letters, numbers,                                    underscores, \
+Ajith123, username: 'Username' must only contain letters, numbers,                                    underscores, \
 and hyphens and should not contain spaces or other special characters."
         )
 
