@@ -1005,8 +1005,8 @@ class UserandRole(DnacBase):
 
         role_name_regex = re.compile(r"^[A-Za-z0-9_-]+$")
         self.validate_string_field(role_config.get("role_name"), role_name_regex,
-                                   "Role name: 'role_name' must only contain letters, numbers, underscores,\
-                                   and hyphens and should not contain spaces or other special characters.", error_messages)
+                                   "Role name: 'role_name' must only contain letters, numbers, underscores "
+                                   "and hyphens and should not contain spaces or other special characters.", error_messages)
 
         if role_config.get("description"):
             self.validate_string_parameter("description", role_config["description"], error_messages)
@@ -1058,11 +1058,11 @@ class UserandRole(DnacBase):
         error_messages = []
         regex_name_validation = re.compile(r"^[A-Za-z0-9_-]+$")
 
-        self.validate_string_field(user_config.get("first_name"), regex_name_validation, "first_name: 'first_name' must only contain letters, numbers, \
-                                   underscores, and hyphens and should not contain spaces or other special characters.", error_messages)
+        self.validate_string_field(user_config.get("first_name"), regex_name_validation, "first_name: 'first_name' must only contain letters, numbers, "
+                                   "underscores and hyphens and should not contain spaces or other special characters.", error_messages)
 
-        self.validate_string_field(user_config.get("last_name"), regex_name_validation, "last_name: 'last_name' must only contain letters, numbers, \
-                                   underscores, and hyphens and should not contain spaces or other special characters.", error_messages)
+        self.validate_string_field(user_config.get("last_name"), regex_name_validation, "last_name: 'last_name' must only contain letters, numbers, "
+                                   "underscores and hyphens and should not contain spaces or other special characters.", error_messages)
 
         email_regex = re.compile(r"[^@]+@[^@]+\.[^@]+")
         if user_config.get("email"):
@@ -1071,11 +1071,11 @@ class UserandRole(DnacBase):
 
         password_regex = re.compile(r"^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$")
         if user_config.get("password"):
-            self.validate_string_field(user_config.get("password"), password_regex, "password: 'Password' does not meet complexity requirements\
-                                       for password: {0}".format(user_config.get("password")), error_messages)
+            self.validate_string_field(user_config.get("password"), password_regex, "password: 'Password' does not meet complexity requirements "
+                                       "for password: {0}".format(user_config.get("password")), error_messages)
 
-        self.validate_string_field(user_config.get("username"), regex_name_validation, "username: 'Username' must only contain letters, numbers, \
-                                   underscores, and hyphens and should not contain spaces or other special characters.", error_messages)
+        self.validate_string_field(user_config.get("username"), regex_name_validation, "username: 'Username' must only contain letters, numbers, "
+                                   "underscores and hyphens and should not contain spaces or other special characters.", error_messages)
 
         if user_config.get("role_list"):
             param_spec = dict(type="list", elements="str")
