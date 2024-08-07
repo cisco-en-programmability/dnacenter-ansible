@@ -1328,6 +1328,8 @@ class UserandRole(DnacBase):
         current_role_id = {}
 
         if "role_name" in input_config and input_config["role_name"] is not None:
+            self.log("Retrieving role details for role_name: {0}".format(str(input_config["role_name"])), "DEBUG")
+
             response_role = self.get_role()
             response_role = self.camel_to_snake_case(response_role)
             roles = response_role.get("response", {}).get("roles", [])
@@ -1337,9 +1339,13 @@ class UserandRole(DnacBase):
                     current_role_configuration = role
                     role_exists = True
 
+            self.log("Role retrieval result - role_exists: {0}, current_role_configuration: {1}".format(
+                str(role_exists), str(current_role_configuration)), "DEBUG")
             return role_exists, current_role_configuration
 
         if "username" in input_config or "email" in input_config:
+            self.log("Retrieving user details for username: {0}, email: {1}".format(
+                str(input_config.get("username")), str(input_config.get("email"))), "DEBUG")
             response_user = self.get_user()
             response_role = self.get_role()
             response_user = self.camel_to_snake_case(response_user)
@@ -1356,6 +1362,9 @@ class UserandRole(DnacBase):
                         current_user_configuration = user
                         user_exists = True
 
+            self.log("User retrieval result - user_exists: {0}, current_user_configuration: {1}".format(
+                str(user_exists), str(current_user_configuration)), "DEBUG")
+
             if input_config.get("role_list"):
                 for role_name in input_config["role_list"]:
                     for role in roles:
@@ -1366,6 +1375,7 @@ class UserandRole(DnacBase):
                     if role.get("name").lower() == "observer-role":
                         current_role_id[role.get("name").lower()] = role.get("role_id")
 
+            self.log("Role ID retrieval result - current_role_id: {0}".format(str(current_role_id)), "DEBUG")
             return user_exists, current_user_configuration, current_role_id
 
     def create_user(self, user_params):
