@@ -116,6 +116,8 @@ notes:
   - To ensure the module operates correctly for scaled sets, which involve creating or updating fabric sites/zones and handling
     the updation of authentication profile template, please provide valid input in the playbook. If any failure is encountered,
     the module willhalt execution without proceeding to further operations.
+  - When deleting fabric sites, make sure to provide the input to remove the fabric zones associated with them in the
+    playbook. Fabric sites cannot be deleted until all underlying fabric zones have been removed.
   - SDK Method used are
     ccc_fabric_sites.FabricSitesZones.get_site
     ccc_fabric_sites.FabricSitesZones.get_fabric_sites
