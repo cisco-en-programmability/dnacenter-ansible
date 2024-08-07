@@ -48,6 +48,7 @@ design_sites:
         longitude: -78.8829258991226
         country: United States
     site_type: building
+
   - site:
       building:
         name: BLD11
