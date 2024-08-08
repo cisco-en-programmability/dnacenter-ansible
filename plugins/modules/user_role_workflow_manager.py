@@ -45,6 +45,7 @@ options:
           username:
             description: The 'username' associated with the user account.
             type: str
+            required: true
           first_name:
             description: The first name of the user.
             type: str
@@ -64,6 +65,7 @@ options:
                 and a minimum length of 15 characters.
               - Required for creating a new user account.
             type: str
+            required: true
           role_list:
             description:
               - A list of role names to be assigned to the user. If no role is specified, the default role will be "OBSERVER-ROLE".
@@ -74,6 +76,7 @@ options:
               - OBSERVER-ROLE grants view-only access, no configuration or control functions.
             type: list
             elements: str
+            required: true
       role_details:
         description: Manages the configuration details for roles.
         type: list
@@ -1397,6 +1400,14 @@ class UserandRole(DnacBase):
             - Logs the provided user parameters and the received API response.
             - Returns the API response from the "create_user" function.
         """
+        required_keys = ['username', 'password']
+        missing_keys = []
+
+        self.log("Check if each required key is present in the user_params dictionary...", "DEBUG")
+        for key in required_keys:
+            if key not in user_params:
+                missing_keys.append(key)
+
         try:
             self.log("Create user with user_info_params: {0}".format(str(user_params)), "DEBUG")
             response = self.dnac._exec(
@@ -1409,7 +1420,7 @@ class UserandRole(DnacBase):
             return response
 
         except Exception:
-            error_message = "Mandatory field not present: An error occurred while creating the user"
+            error_message = "Mandatory parameter(s) {0} not present in the user details".format(", ".join(missing_keys))
             return {"error": error_message}
 
     def create_role(self, role_params):
