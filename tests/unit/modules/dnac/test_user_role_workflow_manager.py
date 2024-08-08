@@ -390,12 +390,12 @@ class TestDnacUserRoleWorkflowManager(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("msg"),
-            "Invalid parameters in playbook config: first_name: 'first_name' must only contain letters, \
-numbers,                                    underscores, and hyphens and should not contain spaces or other \
-special characters., last_name: 'last_name' must only contain letters, numbers,                                    underscores, \
+            "Invalid parameters in playbook config: first_name: 'ajith ' must only contain letters, \
+numbers, underscores and hyphens and should not contain spaces or other \
+special characters., last_name: 'andrew ' must only contain letters, numbers, underscores \
 and hyphens and should not contain spaces or other special characters., email: Invalid email format for 'email': ajith.andrewexample.com, \
-password: 'Password' does not meet complexity requirements                                       for password: \
-ajith.andrewexample.com, username: 'Username' must only contain letters, numbers,                                    underscores, \
+password: 'Password' does not meet complexity requirements for password: \
+Ajith123, username: 'ajithandrewj ' must only contain letters, numbers, underscores \
 and hyphens and should not contain spaces or other special characters."
         )
 
@@ -695,8 +695,8 @@ and hyphens and should not contain spaces or other special characters."
         print(result)
         self.assertEqual(
             result.get("msg"),
-            "Invalid parameters in playbook config: Role name: 'role_name' must only contain letters, numbers, underscores,\
-                                   and hyphens and should not contain spaces or other special characters."
+            "Invalid parameters in playbook config: role_name: 'Test_Role_1 ' must only contain letters, numbers, underscores \
+and hyphens and should not contain spaces or other special characters."
         )
 
     def test_user_role_workflow_manager_invalid_param_type_list_missing(self):
