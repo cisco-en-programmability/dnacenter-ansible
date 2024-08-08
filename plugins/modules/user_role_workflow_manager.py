@@ -883,7 +883,7 @@ class UserandRole(DnacBase):
         """
         self.log("Validating the Playbook Yaml File..", "INFO")
 
-        if user_role_details is None or isinstance(user_role_details, dict):
+        if user_role_details is None or not isinstance(user_role_details, list):
             self.msg = "Configuration is not available in the playbook for validation or user/role details are not type list"
             self.log(self.msg, "ERROR")
             self.status = "failed"
@@ -1003,10 +1003,11 @@ class UserandRole(DnacBase):
         self.log("Validating role configuration parameters...", "INFO")
         error_messages = []
 
+        role_name = role_config.get("role_name")
         role_name_regex = re.compile(r"^[A-Za-z0-9_-]+$")
-        self.validate_string_field(role_config.get("role_name"), role_name_regex,
-                                   "Role name: 'role_name' must only contain letters, numbers, underscores,\
-                                   and hyphens and should not contain spaces or other special characters.", error_messages)
+        role_name_regex_msg = "must only contain letters, numbers, underscores and hyphens and should not contain spaces or other special characters."
+        self.validate_string_field(role_name, role_name_regex,
+                                   "role_name: '{0}' {1}".format(role_name, role_name_regex_msg), error_messages)
 
         if role_config.get("description"):
             self.validate_string_parameter("description", role_config["description"], error_messages)
@@ -1056,28 +1057,32 @@ class UserandRole(DnacBase):
         """
         self.log("Validating user configuration parameters...", "INFO")
         error_messages = []
+        regex_name_validation = re.compile(r"^[A-Za-z0-9_-]+$")
+        regex_name_validation_msg = "must only contain letters, numbers, underscores and hyphens and should not contain spaces or other special characters."
 
-        first_name_regex = re.compile(r"^[A-Za-z0-9_-]+$")
-        self.validate_string_field(user_config.get("first_name"), first_name_regex, "first_name: 'first_name' must only contain letters, numbers, \
-                                   underscores, and hyphens and should not contain spaces or other special characters.", error_messages)
+        first_name = user_config.get("first_name")
+        self.validate_string_field(first_name, regex_name_validation,
+                                   "first_name: '{0}' {1}".format(first_name, regex_name_validation_msg), error_messages)
 
-        last_name_regex = re.compile(r"^[A-Za-z0-9_-]+$")
-        self.validate_string_field(user_config.get("last_name"), last_name_regex, "last_name: 'last_name' must only contain letters, numbers, \
-                                   underscores, and hyphens and should not contain spaces or other special characters.", error_messages)
+        last_name = user_config.get("last_name")
+        self.validate_string_field(last_name, regex_name_validation,
+                                   "last_name: '{0}' {1}".format(last_name, regex_name_validation_msg), error_messages)
 
         email_regex = re.compile(r"[^@]+@[^@]+\.[^@]+")
-        if user_config.get("email"):
-            self.validate_string_field(user_config.get("email"), email_regex,
-                                       "email: Invalid email format for 'email': {0}".format(user_config.get("email")), error_messages)
+        email = user_config.get("email")
+        email_regex_msg = "email: Invalid email format for 'email': {0}".format(email)
+        if email:
+            self.validate_string_field(email, email_regex, email_regex_msg, error_messages)
 
         password_regex = re.compile(r"^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$")
-        if user_config.get("password"):
-            self.validate_string_field(user_config.get("password"), password_regex, "password: 'Password' does not meet complexity requirements\
-                                       for password: {0}".format(user_config.get("email")), error_messages)
+        password = user_config.get("password")
+        password_regex_msg = "password: 'Password' does not meet complexity requirements for password: {0}".format(password)
+        if password:
+            self.validate_string_field(password, password_regex, password_regex_msg, error_messages)
 
-        username_regex = re.compile(r"^[A-Za-z0-9_-]+$")
-        self.validate_string_field(user_config.get("username"), username_regex, "username: 'Username' must only contain letters, numbers, \
-                                   underscores, and hyphens and should not contain spaces or other special characters.", error_messages)
+        username = user_config.get("username")
+        self.validate_string_field(username, regex_name_validation,
+                                   "username: '{0}' {1}".format(username, regex_name_validation_msg), error_messages)
 
         if user_config.get("role_list"):
             param_spec = dict(type="list", elements="str")
@@ -2238,7 +2243,7 @@ class UserandRole(DnacBase):
             if current_description != desired_description:
                 self.log("Updating description from {0} to {1}.".format(current_description, desired_description), "DEBUG")
                 update_role_params["description"] = desired_description
-                update_needed = True
+                update_required = True
             elif "description" not in update_role_params:
                 update_role_params["description"] = current_description
         else:
