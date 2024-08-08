@@ -1,0 +1,151 @@
+{
+    "playbook_import_image_url_tag_golden_load": [
+        {
+          "import_image_details": {
+            "type": "remote",
+            "url_details": {
+              "payload": [
+                {
+                  "source_url": "http://172.21.236.183/stda/cat9k_iosxe.17.12.01.SPA.bin",
+                  "is_third_party": false
+                }
+              ]
+            }
+          },
+          "tagging_details": {
+            "image_name": "cat9k_iosxe.17.12.01.SPA.bin",
+            "device_role": "ACCESS",
+            "device_image_family_name": "Cisco Catalyst 9300 Switch",
+            "site_name": "Global/USA/San Francisco/BGL_18",
+            "tagging": true
+          },
+          "image_distribution_details": {
+            "image_name": "cat9k_iosxe.17.12.01.SPA.bin",
+            "device_serial_number": "FJC2327U0S2"
+          },
+          "image_activation_details": {
+            "image_name": "cat9k_iosxe.17.12.01.SPA.bin",
+            "schedule_validate": false,
+            "activate_lower_image_version": false,
+            "distribute_if_needed": true,
+            "device_serial_number": "FJC2327U0S2"
+          }
+        }
+    ],
+
+    "playbook_import_image_from_local_tag_golden": [
+        {
+          "import_image_details": {
+            "type": "local",
+            "local_image_details": {
+              "file_path": "/Users/Downloads/cat9k_iosxe.17.12.01.SPA.bin",
+              "is_third_party": false
+            }
+          },
+          "tagging_details": {
+            "image_name": "cat9k_iosxe.17.12.01.SPA.bin",
+            "device_role": "ACCESS",
+            "device_image_family_name": "Cisco Catalyst 9300 Switch",
+            "site_name": "Global/USA/San Francisco/BGL_18",
+            "tagging": true
+          }
+        }
+    ],
+
+    "playbook_tag_image_as_golden_and_load_on_device": [
+        {
+          "tagging_details": {
+            "image_name": "cat9k_iosxe.17.12.01.SPA.bin",
+            "device_role": "ACCESS",
+            "device_image_family_name": "Cisco Catalyst 9300 Switch",
+            "site_name": "Global/USA/San Francisco/BGL_18",
+            "tagging": true
+          }
+        }
+    ],
+
+    "playbook_untag_image_as_golden_and_load_on_device": [
+        {
+          "tagging_details": {
+            "image_name": "cat9k_iosxe.17.12.02.SPA.bin",
+            "device_role": "ALL",
+            "device_image_family_name": "Cisco Catalyst 9300 Switch",
+            "tagging": false
+          }
+        }
+    ],
+
+    "playbook_Distribute_image_associate_site_role": [
+        {
+          "image_distribution_details": {
+            "image_name": "cat9k_iosxe.17.12.01.SPA.bin",
+            "site_name": "Global/USA/San Francisco/BGL_18",
+            "device_role": "ALL",
+            "device_family_name": "Switches and Hubs",
+            "device_series_name": "Cisco Catalyst 9300 Series Switches"
+          }
+        }
+    ],
+
+    "playbook_Activate_image_associate_site_role": [
+        {
+          "image_activation_details": {
+            "image_name": "cat9k_iosxe.17.12.01.SPA.bin",
+            "site_name": "Global/USA/San Francisco/BGL_18",
+            "device_role": "ALL",
+            "device_family_name": "Switches and Hubs",
+            "device_series_name": "Cisco Catalyst 9300 Series Switches",
+            "schedule_validate": false,
+            "activate_lower_image_version": true,
+            "distribute_if_needed": true
+          }
+        }
+    ],
+    "playbook_import_image_url_tag_golden": [
+        {
+          "import_image_details": {
+            "type": "remote",
+            "url_details": {
+              "payload": [
+                {
+                  "source_url": "http://172.21.236.183/stda/cat9k_iosxe.17.12.01.SPA.bin",
+                  "is_third_party": false
+                }
+              ]
+            }
+          },
+          "tagging_details": {
+            "image_name": "cat9k_iosxe.17.12.01.SPA.bin",
+            "device_role": "ALL",
+            "device_image_family_name": "Cisco Catalyst 9300 Switch",
+            "tagging": true
+          }
+        }
+    ],
+    "get_software_image_details": {
+        "response": [], 
+        "version": "1.0"
+    },
+
+    "import_software_image_via_url": {"response": {"taskId": "01912ce2-73b4-7bbe-a6f3-428e4809602a", "url": "/api/v1/task/01912ce2-73b4-7bbe-a6f3-428e4809602a"}, "version": "1.0"},
+    "get_software_image_details_1": {"response": [{"imageUuid": "bb3c6249-ec3d-4d48-a376-5accaf286221", "name": "cat9k_iosxe.17.12.02.SPA.bin", "family": "CAT9K", "version": "17.12.02.0.2739", "displayVersion": "17.12.02", "md5Checksum": "2405eeb2627eeee594078b6019a2d936", "shaCheckSum": "457d3bc8240bcb18066c56051a5085d6cdaea5d0cc9df6ca615b2db84abe7672a29d1c3c6eaa784b487ff812847948bbdf3107d226feb96844fe54d0ba873c4c", "createdTime": "2024-08-07 12:49:06.0", "imageType": "SYSTEM_SW", "fileSize": "1316755714 bytes", "imageName": "cat9k_iosxe.17.12.02.SPA.bin", "applicationType": "", "feature": "", "fileServiceId": "bf13fa1d-8108-405e-b6fe-d75df23c62a8", "isTaggedGolden": false, "imageSource": "http://172.21.236.183/swim/V1712_2_CCO/cat9k_iosxe.17.12.02.SPA.bin", "extendedAttributes": {"Description": "Cisco IOS Software, IOS-XE Software", "BOOTROM": "UNKNOWN", "MINFLASHSIZE": "UNKNOWN", "MEDIA": "5", "FULL_VERSION": "17.12.02.0.2739", "DEFAULT_BOOTROM": "UNKNOWN", "DEFAULT_RAM": "UNKNOWN", "GAIA_FEATURE": "UNKNOWN", "COMPRESSION_CODE": "-1", "DEFAULT_MINFLASHSIZE": "UNKNOWN", "RAM": "UNKNOWN"}, "vendor": "CISCO", "imageIntegrityStatus": "UNKNOWN", "importSourceType": "REMOTEURL"}], "version": "1.0"},
+    "get_device_family_identifiers": {"response": [{"deviceFamily": "Cisco Catalyst 8000V Edge Software", "deviceFamilyIdentifier": "286327102"}, {"deviceFamily": "Cisco Catalyst 9300 Switch", "deviceFamilyIdentifier": "286315874"}, {"deviceFamily": "Cisco Catalyst 9000 UADP 8 Port Virtual Switch", "deviceFamilyIdentifier": "999999901"}], "version": "1.0"},
+    "get_golden_tag_status_of_an_image": {"response": {"deviceRole": "ALL", "inheritedSiteName": null, "inheritedSiteId": null, "taggedGolden": false}, "version": "1.0"},
+    "tag_as_golden_image": {"response": {"taskId": "01912ce2-f6f0-777c-8ec6-b404471af00d", "url": "/api/v1/task/01912ce2-f6f0-777c-8ec6-b404471af00d"}, "version": "1.0"},
+    "import_image_url_tag_golden_response":{
+        "message": "Tagging image  cat9k_iosxe.17.12.02.SPA.bin  golden for site  Global for family Cisco Catalyst 9300 Switch  for device deviceTag ALL successful."
+    },
+   "get_software_image_details_untag_golden": {"response": [{"imageUuid": "bb3c6249-ec3d-4d48-a376-5accaf286221", "name": "cat9k_iosxe.17.12.02.SPA.bin", "family": "CAT9K", "version": "17.12.02.0.2739", "displayVersion": "17.12.02", "md5Checksum": "2405eeb2627eeee594078b6019a2d936", "shaCheckSum": "457d3bc8240bcb18066c56051a5085d6cdaea5d0cc9df6ca615b2db84abe7672a29d1c3c6eaa784b487ff812847948bbdf3107d226feb96844fe54d0ba873c4c", "createdTime": "2024-08-07 12:49:06.0", "imageType": "SYSTEM_SW", "fileSize": "1316755714 bytes", "imageName": "cat9k_iosxe.17.12.02.SPA.bin", "applicationType": "", "feature": "", "fileServiceId": "bf13fa1d-8108-405e-b6fe-d75df23c62a8", "isTaggedGolden": true, "imageSource": "http://172.21.236.183/swim/V1712_2_CCO/cat9k_iosxe.17.12.02.SPA.bin", "extendedAttributes": {"Description": "Cisco IOS Software, IOS-XE Software", "BOOTROM": "UNKNOWN", "MINFLASHSIZE": "UNKNOWN", "MEDIA": "5", "FULL_VERSION": "17.12.02.0.2739", "DEFAULT_BOOTROM": "UNKNOWN", "DEFAULT_RAM": "UNKNOWN", "GAIA_FEATURE": "UNKNOWN", "COMPRESSION_CODE": "-1", "DEFAULT_MINFLASHSIZE": "UNKNOWN", "RAM": "UNKNOWN"}, "vendor": "CISCO", "imageIntegrityStatus": "UNKNOWN", "importSourceType": "REMOTEURL"}], "version": "1.0"},
+   "get_device_family_identifiers_untag_golden": {"response": [{"deviceFamily": "Cisco Catalyst 9300 Switch", "deviceFamilyIdentifier": "286315874"}, {"deviceFamily": "Cisco Catalyst 8000V Edge Software", "deviceFamilyIdentifier": "286327102"}, {"deviceFamily": "Cisco Catalyst 9000 UADP 8 Port Virtual Switch", "deviceFamilyIdentifier": "999999901"}], "version": "1.0"},
+   "get_software_image_details_untag_golden_1": {"response": [{"imageUuid": "bb3c6249-ec3d-4d48-a376-5accaf286221", "name": "cat9k_iosxe.17.12.02.SPA.bin", "family": "CAT9K", "version": "17.12.02.0.2739", "displayVersion": "17.12.02", "md5Checksum": "2405eeb2627eeee594078b6019a2d936", "shaCheckSum": "457d3bc8240bcb18066c56051a5085d6cdaea5d0cc9df6ca615b2db84abe7672a29d1c3c6eaa784b487ff812847948bbdf3107d226feb96844fe54d0ba873c4c", "createdTime": "2024-08-07 12:49:06.0", "imageType": "SYSTEM_SW", "fileSize": "1316755714 bytes", "imageName": "cat9k_iosxe.17.12.02.SPA.bin", "applicationType": "", "feature": "", "fileServiceId": "bf13fa1d-8108-405e-b6fe-d75df23c62a8", "isTaggedGolden": true, "imageSource": "http://172.21.236.183/swim/V1712_2_CCO/cat9k_iosxe.17.12.02.SPA.bin", "extendedAttributes": {"Description": "Cisco IOS Software, IOS-XE Software", "BOOTROM": "UNKNOWN", "MINFLASHSIZE": "UNKNOWN", "MEDIA": "5", "FULL_VERSION": "17.12.02.0.2739", "DEFAULT_BOOTROM": "UNKNOWN", "DEFAULT_RAM": "UNKNOWN", "GAIA_FEATURE": "UNKNOWN", "COMPRESSION_CODE": "-1", "DEFAULT_MINFLASHSIZE": "UNKNOWN", "RAM": "UNKNOWN"}, "vendor": "CISCO", "imageIntegrityStatus": "UNKNOWN", "importSourceType": "REMOTEURL"}], "version": "1.0"},
+   "get_golden_tag_status_of_an_image_untag_golden_1": {"response": {"deviceRole": "ALL", "inheritedSiteName": null, "inheritedSiteId": null, "taggedGolden": true}, "version": "1.0"},
+   "remove_golden_tag_for_image_untag_golden": {"response": {"taskId": "01913071-3edb-746d-a773-bd38590b2c27", "url": "/api/v1/task/01913071-3edb-746d-a773-bd38590b2c27"}, "version": "1.0"},
+   "get_software_image_details_untag_golden_2": {"response": [{"imageUuid": "bb3c6249-ec3d-4d48-a376-5accaf286221", "name": "cat9k_iosxe.17.12.02.SPA.bin", "family": "CAT9K", "version": "17.12.02.0.2739", "displayVersion": "17.12.02", "md5Checksum": "2405eeb2627eeee594078b6019a2d936", "shaCheckSum": "457d3bc8240bcb18066c56051a5085d6cdaea5d0cc9df6ca615b2db84abe7672a29d1c3c6eaa784b487ff812847948bbdf3107d226feb96844fe54d0ba873c4c", "createdTime": "2024-08-07 12:49:06.0", "imageType": "SYSTEM_SW", "fileSize": "1316755714 bytes", "imageName": "cat9k_iosxe.17.12.02.SPA.bin", "applicationType": "", "feature": "", "fileServiceId": "bf13fa1d-8108-405e-b6fe-d75df23c62a8", "isTaggedGolden": false, "imageSource": "http://172.21.236.183/swim/V1712_2_CCO/cat9k_iosxe.17.12.02.SPA.bin", "extendedAttributes": {"Description": "Cisco IOS Software, IOS-XE Software", "BOOTROM": "UNKNOWN", "MINFLASHSIZE": "UNKNOWN", "MEDIA": "5", "FULL_VERSION": "17.12.02.0.2739", "DEFAULT_BOOTROM": "UNKNOWN", "DEFAULT_RAM": "UNKNOWN", "GAIA_FEATURE": "UNKNOWN", "COMPRESSION_CODE": "-1", "DEFAULT_MINFLASHSIZE": "UNKNOWN", "RAM": "UNKNOWN"}, "vendor": "CISCO", "imageIntegrityStatus": "UNKNOWN", "importSourceType": "REMOTEURL"}], "version": "1.0"},
+   "get_device_family_identifiers_untag_golden_1": {"response": [{"deviceFamily": "Cisco Catalyst 9000 UADP 8 Port Virtual Switch", "deviceFamilyIdentifier": "999999901"}, {"deviceFamily": "Cisco Catalyst 9300 Switch", "deviceFamilyIdentifier": "286315874"}, {"deviceFamily": "Cisco Catalyst 8000V Edge Software", "deviceFamilyIdentifier": "286327102"}], "version": "1.0"},
+   "get_software_image_details_untag_golden_3": {"response": [{"imageUuid": "bb3c6249-ec3d-4d48-a376-5accaf286221", "name": "cat9k_iosxe.17.12.02.SPA.bin", "family": "CAT9K", "version": "17.12.02.0.2739", "displayVersion": "17.12.02", "md5Checksum": "2405eeb2627eeee594078b6019a2d936", "shaCheckSum": "457d3bc8240bcb18066c56051a5085d6cdaea5d0cc9df6ca615b2db84abe7672a29d1c3c6eaa784b487ff812847948bbdf3107d226feb96844fe54d0ba873c4c", "createdTime": "2024-08-07 12:49:06.0", "imageType": "SYSTEM_SW", "fileSize": "1316755714 bytes", "imageName": "cat9k_iosxe.17.12.02.SPA.bin", "applicationType": "", "feature": "", "fileServiceId": "bf13fa1d-8108-405e-b6fe-d75df23c62a8", "isTaggedGolden": false, "imageSource": "http://172.21.236.183/swim/V1712_2_CCO/cat9k_iosxe.17.12.02.SPA.bin", "extendedAttributes": {"Description": "Cisco IOS Software, IOS-XE Software", "BOOTROM": "UNKNOWN", "MINFLASHSIZE": "UNKNOWN", "MEDIA": "5", "FULL_VERSION": "17.12.02.0.2739", "DEFAULT_BOOTROM": "UNKNOWN", "DEFAULT_RAM": "UNKNOWN", "GAIA_FEATURE": "UNKNOWN", "COMPRESSION_CODE": "-1", "DEFAULT_MINFLASHSIZE": "UNKNOWN", "RAM": "UNKNOWN"}, "vendor": "CISCO", "imageIntegrityStatus": "UNKNOWN", "importSourceType": "REMOTEURL"}], "version": "1.0"},
+   "get_golden_tag_status_of_an_image_untag_golden": {"response": {"deviceRole": "ALL", "inheritedSiteName": null, "inheritedSiteId": null, "taggedGolden": false}, "version": "1.0"},
+
+   "untag_image_as_golden_and_load_on_device_responce":{
+    "message": "Untagging of image  cat9k_iosxe.17.12.02.SPA.bin for site  Global for family Cisco Catalyst 9300 Switch  for device deviceTag ALL successful."
+}
+}
