@@ -1004,9 +1004,9 @@ class UserandRole(DnacBase):
         error_messages = []
 
         role_name_regex = re.compile(r"^[A-Za-z0-9_-]+$")
+        role_name_regex_msg = "must only contain letters, numbers, underscores and hyphens and should not contain spaces or other special characters."
         self.validate_string_field(role_config.get("role_name"), role_name_regex,
-                                   "Role name: 'role_name' must only contain letters, numbers, underscores "
-                                   "and hyphens and should not contain spaces or other special characters.", error_messages)
+                                   "role_name: '{0}' {1}".format(role_config.get("role_name"), role_name_regex_msg), error_messages)
 
         if role_config.get("description"):
             self.validate_string_parameter("description", role_config["description"], error_messages)
@@ -1057,25 +1057,26 @@ class UserandRole(DnacBase):
         self.log("Validating user configuration parameters...", "INFO")
         error_messages = []
         regex_name_validation = re.compile(r"^[A-Za-z0-9_-]+$")
+        regex_name_validation_msg = "must only contain letters, numbers, underscores and hyphens and should not contain spaces or other special characters."
 
-        self.validate_string_field(user_config.get("first_name"), regex_name_validation, "first_name: 'first_name' must only contain letters, numbers, "
-                                   "underscores and hyphens and should not contain spaces or other special characters.", error_messages)
+        self.validate_string_field(user_config.get("first_name"), regex_name_validation,
+                                   "first_name: '{0}' {1}".format(user_config.get("first_name"), regex_name_validation_msg), error_messages)
 
-        self.validate_string_field(user_config.get("last_name"), regex_name_validation, "last_name: 'last_name' must only contain letters, numbers, "
-                                   "underscores and hyphens and should not contain spaces or other special characters.", error_messages)
+        self.validate_string_field(user_config.get("last_name"), regex_name_validation,
+                                   "last_name: '{0}' {1}".format(user_config.get("last_name"), regex_name_validation_msg), error_messages)
 
         email_regex = re.compile(r"[^@]+@[^@]+\.[^@]+")
+        email_regex_msg = "email: Invalid email format for 'email': {0}".format(user_config.get("email"))
         if user_config.get("email"):
-            self.validate_string_field(user_config.get("email"), email_regex,
-                                       "email: Invalid email format for 'email': {0}".format(user_config.get("email")), error_messages)
+            self.validate_string_field(user_config.get("email"), email_regex, email_regex_msg, error_messages)
 
         password_regex = re.compile(r"^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$")
+        password_regex_msg = "password: 'Password' does not meet complexity requirements for password: {0}".format(user_config.get("password"))
         if user_config.get("password"):
-            self.validate_string_field(user_config.get("password"), password_regex, "password: 'Password' does not meet complexity requirements "
-                                       "for password: {0}".format(user_config.get("password")), error_messages)
+            self.validate_string_field(user_config.get("password"), password_regex, password_regex_msg, error_messages)
 
-        self.validate_string_field(user_config.get("username"), regex_name_validation, "username: 'Username' must only contain letters, numbers, "
-                                   "underscores and hyphens and should not contain spaces or other special characters.", error_messages)
+        self.validate_string_field(user_config.get("username"), regex_name_validation,
+                                   "username: '{0}' {1}".format(user_config.get("username"), regex_name_validation_msg), error_messages)
 
         if user_config.get("role_list"):
             param_spec = dict(type="list", elements="str")
