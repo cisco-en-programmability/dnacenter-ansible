@@ -1106,7 +1106,7 @@ class SDAExtranetPolicies(DnacBase):
         site_details = {}
 
         self.log("Creating Parameters for API Calls with state: {0}".format(state))
-        
+
         # Identify if policy already exists or needs to be created
         extranet_policy_name = config.get("extranet_policy_name")
         extranet_policy_exists = self.have.get("extranet_policy_exists")
@@ -1128,14 +1128,12 @@ class SDAExtranetPolicies(DnacBase):
                     "therefore setting 'update_extranet_policy_params'.".format(extranet_policy_name),
                     "DEBUG"
                 )
-                want = dict(
-                    update_extranet_policy_params=self.get_update_extranet_policy_params(config, extranet_policy_id, site_details),
-                    )
+                want = dict(update_extranet_policy_params=self.get_update_extranet_policy_params(config, extranet_policy_id, site_details))
                 if self.compare_extranet_policies(extranet_policy_details, want["update_extranet_policy_params"]):
                     self.msg = (
                         "Extranet Policy - '{0}' is already same as the update requested, "
                         "and hence an update operation is not required.".format(extranet_policy_name)
-                        )
+                    )
                     self.update_result("ok", False, self.msg, "INFO")
                     self.check_return_status()
                     return self
@@ -1145,9 +1143,7 @@ class SDAExtranetPolicies(DnacBase):
                     "therefore setting 'add_extranet_policy_params'.".format(extranet_policy_name),
                     "DEBUG"
                 )
-                want = dict(
-                    add_extranet_policy_params=self.get_add_extranet_policy_params(config, site_details),
-                    )
+                want = dict(add_extranet_policy_params=self.get_add_extranet_policy_params(config, site_details))
         else:
             if extranet_policy_exists:
                 self.log(
@@ -1155,15 +1151,13 @@ class SDAExtranetPolicies(DnacBase):
                     "therefore setting 'delete_extranet_policy_params'.".format(extranet_policy_name),
                     "DEBUG"
                     )
-                want = dict(
-                    extranet_policy_name=extranet_policy_name,
-                    delete_extranet_policy_params=self.get_delete_extranet_policy_params(extranet_policy_id)
-                    )
+                want = dict(extranet_policy_name=extranet_policy_name,
+                            delete_extranet_policy_params=self.get_delete_extranet_policy_params(extranet_policy_id))
             else:
                 self.msg = (
                     "Extranet Policy - '{0}' does not exist in the Cisco Catalyst Center and "
                     "hence delete operation not required.".format(extranet_policy_name)
-                    )
+                )
                 self.update_result("ok", False, self.msg, "INFO")
                 self.check_return_status()
                 return self
