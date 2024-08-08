@@ -1069,14 +1069,16 @@ class UserandRole(DnacBase):
                                    "last_name: '{0}' {1}".format(last_name, regex_name_validation_msg), error_messages)
 
         email_regex = re.compile(r"[^@]+@[^@]+\.[^@]+")
-        email_regex_msg = "email: Invalid email format for 'email': {0}".format(user_config.get("email"))
-        if user_config.get("email"):
-            self.validate_string_field(user_config.get("email"), email_regex, email_regex_msg, error_messages)
+        email = user_config.get("email")
+        email_regex_msg = "email: Invalid email format for 'email': {0}".format(email)
+        if email:
+            self.validate_string_field(email, email_regex, email_regex_msg, error_messages)
 
         password_regex = re.compile(r"^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$")
-        password_regex_msg = "password: 'Password' does not meet complexity requirements for password: {0}".format(user_config.get("password"))
-        if user_config.get("password"):
-            self.validate_string_field(user_config.get("password"), password_regex, password_regex_msg, error_messages)
+        password = user_config.get("password")
+        password_regex_msg = "password: 'Password' does not meet complexity requirements for password: {0}".format(password)
+        if password:
+            self.validate_string_field(password, password_regex, password_regex_msg, error_messages)
 
         username = user_config.get("username")
         self.validate_string_field(username, regex_name_validation,
