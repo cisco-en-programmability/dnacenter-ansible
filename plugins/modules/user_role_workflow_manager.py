@@ -1003,10 +1003,11 @@ class UserandRole(DnacBase):
         self.log("Validating role configuration parameters...", "INFO")
         error_messages = []
 
+        role_name = role_config.get("role_name")
         role_name_regex = re.compile(r"^[A-Za-z0-9_-]+$")
         role_name_regex_msg = "must only contain letters, numbers, underscores and hyphens and should not contain spaces or other special characters."
-        self.validate_string_field(role_config.get("role_name"), role_name_regex,
-                                   "role_name: '{0}' {1}".format(role_config.get("role_name"), role_name_regex_msg), error_messages)
+        self.validate_string_field(role_name, role_name_regex,
+                                   "role_name: '{0}' {1}".format(role_name, role_name_regex_msg), error_messages)
 
         if role_config.get("description"):
             self.validate_string_parameter("description", role_config["description"], error_messages)
@@ -1059,11 +1060,13 @@ class UserandRole(DnacBase):
         regex_name_validation = re.compile(r"^[A-Za-z0-9_-]+$")
         regex_name_validation_msg = "must only contain letters, numbers, underscores and hyphens and should not contain spaces or other special characters."
 
-        self.validate_string_field(user_config.get("first_name"), regex_name_validation,
-                                   "first_name: '{0}' {1}".format(user_config.get("first_name"), regex_name_validation_msg), error_messages)
+        first_name = user_config.get("first_name")
+        self.validate_string_field(first_name, regex_name_validation,
+                                   "first_name: '{0}' {1}".format(first_name, regex_name_validation_msg), error_messages)
 
-        self.validate_string_field(user_config.get("last_name"), regex_name_validation,
-                                   "last_name: '{0}' {1}".format(user_config.get("last_name"), regex_name_validation_msg), error_messages)
+        last_name = user_config.get("last_name")
+        self.validate_string_field(last_name, regex_name_validation,
+                                   "last_name: '{0}' {1}".format(last_name, regex_name_validation_msg), error_messages)
 
         email_regex = re.compile(r"[^@]+@[^@]+\.[^@]+")
         email_regex_msg = "email: Invalid email format for 'email': {0}".format(user_config.get("email"))
@@ -1075,8 +1078,9 @@ class UserandRole(DnacBase):
         if user_config.get("password"):
             self.validate_string_field(user_config.get("password"), password_regex, password_regex_msg, error_messages)
 
-        self.validate_string_field(user_config.get("username"), regex_name_validation,
-                                   "username: '{0}' {1}".format(user_config.get("username"), regex_name_validation_msg), error_messages)
+        username = user_config.get("username")
+        self.validate_string_field(username, regex_name_validation,
+                                   "username: '{0}' {1}".format(username, regex_name_validation_msg), error_messages)
 
         if user_config.get("role_list"):
             param_spec = dict(type="list", elements="str")
