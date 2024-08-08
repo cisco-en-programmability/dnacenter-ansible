@@ -15,10 +15,10 @@ module: sda_extranet_policies_workflow_manager
 short_description: SDA Extranet Policies Module provides functionality for managing SDA Extranet Policy in Cisco Catalyst Center.
 description:
 version_added: "6.17.0"
-- Manage extranet policy operations such as add/update/delete.
-- API to create a new extranet policy.
-- API to update an existing or edit an existing extranet policy.
-- API for deletion of an existing extranet policy using the policy name.
+  - Manage extranet policy operations such as add/update/delete.
+  - API to create a new extranet policy.
+  - API to update an existing or edit an existing extranet policy.
+  - API for deletion of an existing extranet policy using the policy name.
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
 author: Rugvedi Kapse (@rukapse)
@@ -1150,7 +1150,7 @@ class SDAExtranetPolicies(DnacBase):
                     "State is delete and Extranet Policy - '{0}' exists in the Cisco Catalyst Center, "
                     "therefore setting 'delete_extranet_policy_params'.".format(extranet_policy_name),
                     "DEBUG"
-                    )
+                )
                 want = dict(extranet_policy_name=extranet_policy_name,
                             delete_extranet_policy_params=self.get_delete_extranet_policy_params(extranet_policy_id))
             else:
