@@ -366,26 +366,26 @@ class Device_configs_backup(DnacBase):
             self.module.fail_json(msg=msg)
 
         valid_devices = []
-        for dev_info in device_list:
-            ip_address = dev_info.get("managementIpAddress")
-            if dev_info.get("collectionStatus") != "Managed":
+        for device in device_list:
+            ip_address = device.get("managementIpAddress")
+            if device.get("collectionStatus") != "Managed":
                 msg = "Device backup of device with IP address {0} \
                     is not possible due to collection status not being in Managed state".format(ip_address)
                 self.log(msg, "WARNING")
 
-            elif dev_info.get("family") == "Unified AP":
+            elif device.get("family") == "Unified AP":
                 msg = "Device backup of device with IP address {0} \
                     is not possible due to device being an Unified AP".format(ip_address)
                 self.log(msg, "WARNING")
 
-            elif dev_info.get("reachabilityStatus") != "Reachable":
+            elif device.get("reachabilityStatus") != "Reachable":
                 msg = "Device backup of device with IP address {0} \
                     is not possible due to device being not reachable".format(ip_address)
                 self.log(msg, "WARNING")
             else:
-                valid_devices.append(dev_info)
+                valid_devices.append(device)
 
-        if len(valid_devices) == 0:
+        if not valid_devices:
             msg = "No device IDs were collected because the devices are either Unified APs \
                 not in the Managed state, or not reachable."
             self.log(msg, "CRITICAL")
@@ -397,52 +397,50 @@ class Device_configs_backup(DnacBase):
         self.log("Backup of {0} devices out of {1} devices is possible".format(valid_device_count, original_valid_device_count), "INFO")
         return device_ids
 
-    def get_site_devices(self):
+    def get_devices_by_site_and_params(self):
         """
-        Fetches the list of device ids when site is passed along with other parameters
+        Retrieves a list of device IDs that match the given site and other parameters.
         Args:
             self: The instance of the class containing the 'config' attribute to be validated.
         Returns:
-            device_in_site: The list of device ids based on the parameters passed by the user,
-                present in the passed site
+            device_in_site: List of device IDs that match the criteria and are located at the specified site.
         Example:
-            Stored paramters like management ip address/ family can be used to fetch the device ids
-            list present at the given site
+            Uses stored parameters like management IP address/family to fetch device IDs at the given site.
         """
 
         site = self.validated_config[0].get("site")
         device_ids = self.get_device_ids_list()
-        dev_in_site = []
+        devices_in_site = []
+
         for dev_id in device_ids:
-            dev_response = self.dnac_apply['exec'](
+            device_details_response = self.dnac_apply['exec'](
                 family="devices",
                 function='get_device_detail',
                 params={"search_by": dev_id,
                         "identifier": "uuid"},
                 op_modifies=True
             )
-            self.log("Response collected from the API 'get_device_detail' {0}".format(dev_response), "DEBUG")
-            dev_response = dev_response.get("response")
-            if dev_response.get("location") == site:
-                dev_in_site.append(dev_id)
+            self.log("Response collected from the API 'get_device_detail' {0}".format(device_details_response), "DEBUG")
+            device_details = device_details_response.get("response")
+            if device_details.get("location") == site:
+                devices_in_site.append(dev_id)
 
-        if len(dev_in_site) == 0:
+        if not devices_in_site:
             msg = "No devices found in the given site {0}".format(site)
             self.log(msg, "CRITICAL")
             self.module.fail_json(msg=msg)
 
-        return dev_in_site
+        return devices_in_site
 
-    def handle_only_site(self):
+    def get_device_ids_by_site(self):
         """
-        Fetches the list of device ids present at the site, when only site is passed as the parameter
+        Retrieves the list of device IDs at the specified site., when only site is passed as the parameter
         Args:
             self: The instance of the class containing the 'config' attribute to be validated.
         Returns:
             device_ids: The list of device ids present at the site passed by the user
         Example:
-            Stored paramters like management ip address/ family can be used to fetch the device ids
-            list present at the given site
+            Uses site as parameter to fetch the device IDs at the given site.
         """
         site = self.validated_config[0].get("site")
         response = self.dnac_apply['exec'](
@@ -453,15 +451,16 @@ class Device_configs_backup(DnacBase):
         self.log("Response collected from the API 'get_device_list' is {0}".format(str(response)), "DEBUG")
         device_list = response.get("response")
         self.log("Length of the device list fetched from the API 'get_device_list' is {0}".format(str(device_list)), "INFO")
-        if len(device_list):
+        if len(device_list) == 0:
             msg = "No devices found in the inventory"
             self.log(msg, "CRITICAL")
             self.module.fail_json(msg=msg)
 
         device_ids = []
-        for dev_info in device_list:
-            if dev_info.get("site") == site:
-                device_ids.append(dev_info)
+        for device in device_list:
+            if device.get("site") == site:
+                device_ids.append(device)
+
         self.log("Device IDs collected:{0}".format(device_ids), "INFO")
         return device_ids
 
@@ -535,9 +534,9 @@ class Device_configs_backup(DnacBase):
 
         if device_params.get("site") and self.get_site_details(site):
             if len(filtered_keys) > 1:
-                self.want["deviceId"] = self.get_site_devices()
+                self.want["deviceId"] = self.get_devices_by_site_and_params()
             else:
-                self.want["deviceId"] = self.handle_only_site()
+                self.want["deviceId"] = self.get_device_ids_by_site()
         else:
             self.want["deviceId"] = self.get_device_ids_list()
 
