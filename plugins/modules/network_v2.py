@@ -134,7 +134,7 @@ options:
       the network settings.
     type: str
 requirements:
-- dnacentersdk >= 2.7.1
+- dnacentersdk >= 2.7.2
 - python >= 3.9
 seealso:
 - name: Cisco DNA Center documentation for Network Settings CreateNetworkV2

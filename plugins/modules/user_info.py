@@ -32,7 +32,7 @@ options:
       set to "internal" or "external". If not provided, then all users will be returned in the response.
     type: str
 requirements:
-- dnacentersdk >= 2.7.1
+- dnacentersdk >= 2.7.2
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for User and Roles GetUsersAPI
@@ -40,7 +40,7 @@ seealso:
   link: https://developer.cisco.com/docs/dna-center/#!get-users-api
 notes:
   - SDK Method used are
-    userand_roles.UserandRoles.get_users_api,
+    user_and_roles.UserandRoles.get_users_api,
 
   - Paths used are
     get /dna/system/api/v1/user,
