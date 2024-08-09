@@ -638,6 +638,7 @@ response_3:
 
 import copy
 import re
+import time
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
@@ -660,6 +661,7 @@ class NetworkSettings(DnacBase):
         self.global_pool_obj_params = self.get_obj_params("GlobalPool")
         self.reserve_pool_obj_params = self.get_obj_params("ReservePool")
         self.network_obj_params = self.get_obj_params("Network")
+        self.all_reserved_pool_details = []
 
     def validate_input(self):
         """
@@ -1193,6 +1195,55 @@ class NetworkSettings(DnacBase):
         self.log("Formatted playbook network details: {0}".format(network_details), "DEBUG")
         return network_details
 
+    def get_reserved_ip_subpool(self, site_id):
+        """
+        Retrieve all the reserved IP subpool details from the Cisco Catalyst Center.
+
+        Parameters:
+            self (object) - The current object details.
+
+        Returns:
+            self (object) - The current object with updated desired Fabric Transits information.
+        """
+
+        value = 1
+        start_time = time.time()
+        while True:
+            end_time = time.time()
+            if (end_time - start_time) >= self.max_timeout:
+                self.msg = (
+                    "Max timeout of {0} sec has reached for the API 'get_reserved_ip_subpool' status."
+                    .format(self.max_timeout)
+                )
+                self.status = "failed"
+                break
+
+            response = self.dnac._exec(
+                family="network_settings",
+                function="get_reserve_ip_subpool",
+                op_modifies=True,
+                params={
+                    "site_id": site_id,
+                    "offset": value
+                }
+            )
+            if not isinstance(response, dict):
+                self.msg = "Error in getting reserve pool - Response is not a dictionary"
+                self.log(self.msg, "CRITICAL")
+                self.status = "exited"
+                return self.check_return_status()
+
+            reserve_pool_details = response.get("response")
+            if not reserve_pool_details:
+                self.log("No subpools are reserved in the site with ID - '{0}'."
+                         .format(site_id), "DEBUG")
+                return self
+
+            self.all_reserved_pool_details.extend(reserve_pool_details)
+            value += 25
+
+        return self
+
     def global_pool_exists(self, name):
         """
         Check if the Global Pool with the given name exists
@@ -1273,43 +1324,19 @@ class NetworkSettings(DnacBase):
             self.status = "failed"
             return reserve_pool
 
-        value = 1
-        while True:
-            self.log(str(value))
-            response = self.dnac._exec(
-                family="network_settings",
-                function="get_reserve_ip_subpool",
-                op_modifies=True,
-                params={
-                    "site_id": site_id,
-                    "offset": value
-                }
-            )
-            if not isinstance(response, dict):
-                reserve_pool.update({"success": False})
-                self.msg = "Error in getting reserve pool - Response is not a dictionary"
-                self.log(self.msg, "CRITICAL")
-                self.status = "exited"
-                return self.check_return_status()
+        self.get_reserved_ip_subpool(site_id)
+        if not self.all_reserved_pool_details:
+            self.log("Reserved pool {0} does not exist in the site {1}"
+                     .format(name, site_name), "DEBUG")
+            return reserve_pool
 
-            all_reserve_pool_details = response.get("response")
-            self.log(str(all_reserve_pool_details))
-            if not all_reserve_pool_details:
-                self.log("Reserved pool {0} does not exist in the site {1}"
-                         .format(name, site_name), "DEBUG")
-                return reserve_pool
-
-            reserve_pool_details = get_dict_result(all_reserve_pool_details, "groupName", name)
-            self.log(str(reserve_pool_details))
-            if reserve_pool_details:
-                self.log("Reserve pool found with name '{0}' in the site '{1}': {2}"
-                         .format(name, site_name, reserve_pool_details), "INFO")
-                reserve_pool.update({"exists": True})
-                reserve_pool.update({"id": reserve_pool_details.get("id")})
-                reserve_pool.update({"details": self.get_reserve_pool_params(reserve_pool_details)})
-                break
-
-            value += 25
+        reserve_pool_details = get_dict_result(self.all_reserved_pool_details, "groupName", name)
+        if reserve_pool_details:
+            self.log("Reserve pool found with name '{0}' in the site '{1}': {2}"
+                     .format(name, site_name, reserve_pool_details), "INFO")
+            reserve_pool.update({"exists": True})
+            reserve_pool.update({"id": reserve_pool_details.get("id")})
+            reserve_pool.update({"details": self.get_reserve_pool_params(reserve_pool_details)})
 
         self.log("Reserved pool details: {0}".format(reserve_pool.get("details")), "DEBUG")
         self.log("Reserved pool id: {0}".format(reserve_pool.get("id")), "DEBUG")
@@ -2535,6 +2562,7 @@ class NetworkSettings(DnacBase):
             self
         """
 
+        self.all_reserved_pool_details = []
         self.get_have(config)
         self.log("Current State (have): {0}".format(self.have), "INFO")
         self.log("Requested State (want): {0}".format(self.want), "INFO")
@@ -2617,6 +2645,7 @@ class NetworkSettings(DnacBase):
             self
         """
 
+        self.all_reserved_pool_details = []
         self.get_have(config)
         self.log("Current State (have): {0}".format(self.have), "INFO")
         self.log("Desired State (want): {0}".format(self.want), "INFO")
