@@ -44,6 +44,9 @@ options:
       management_ip_address:
         description: IP address of the device as displayed on the inventory GUI of Cisco Catalyst Center
         type: str
+      site:
+        description: Name of the site to which the device is assigned
+        type: str
       mac_address:
         description: Mac address of the device as displayed on the inventory GUI of Cisco Catalyst Center
         type: str
@@ -110,6 +113,22 @@ EXAMPLES = r"""
           series: Cisco Catalyst 9300 Series Switches
           collection_status: Managed
           file_path: /home/admin/madhan_ansible/collections/ansible_collections/cisco/dnac/playbooks/new_tmp
+
+- name: Take backup of a 9300 wired device associated with site
+  cisco.dnac.device_configs_backup_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: True
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config:
+        - site: Global/USA/New York/BLDNYC
+
 """
 
 RETURN = r"""
@@ -214,6 +233,7 @@ class Device_configs_backup(DnacBase):
 
         device_configs_backup_spec = {
             'hostname': {'type': 'str', 'required': False},
+            'site': {'type': 'str', 'required': False},
             'management_ip_address': {'type': 'str', 'required': False},
             'mac_address': {'type': 'str', 'required': False},
             'serial_number': {'type': 'str', 'required': False},
@@ -255,6 +275,44 @@ class Device_configs_backup(DnacBase):
 
         self.log("Validated IP address collected for config collection is {0}".format(ip_address), "INFO")
 
+    def get_site_details(self, site_name_hierarchy):
+        """
+        Fetches the existance status of the site
+
+        Parameters:
+          - self: The instance of the class containing the 'config' attribute
+                  to be validated.
+          - site_name_hierarchy: Name of the site collected from the input.
+        Returns:
+          - site_exits: A boolean value indicating the existance of the site.
+        Example:
+            Post creation of the validated input, this method checks whther the site
+            exists in the Cisco Catalyst Center or not
+        """
+
+        site_exists = False
+        try:
+            response = self.dnac_apply['exec'](
+                family="sites",
+                function='get_site',
+                params={"name": site_name_hierarchy},
+                op_modifies=True
+            )
+        except Exception:
+            self.log("Exception occurred as \
+                site '{0}' was not found".format(self.want.get("site_name")), "CRITICAL")
+            self.module.fail_json(msg="Site not found", response=[])
+
+        if response:
+            self.log("Received site details\
+                for '{0}': {1}".format(site_name_hierarchy, str(response)), "DEBUG")
+            site = response.get("response")
+            if len(site) == 1:
+                site_exists = True
+                self.log("Site Name: {0} exists in the Cisco Catalyst Center".format(site_name_hierarchy), "INFO")
+
+        return site_exists
+
     def get_have(self):
         """
         Get the current device_configs_backup details
@@ -275,7 +333,7 @@ class Device_configs_backup(DnacBase):
 
     def get_device_ids_list(self):
         """
-        Fethces the list of device ids from various paramters passed in the playbook
+        Fetches the list of device ids from various paramters passed in the playbook
         Args:
             self: The instance of the class containing the 'config' attribute to be validated.
         Returns:
@@ -315,7 +373,7 @@ class Device_configs_backup(DnacBase):
                     is not possible due to collection status not being in Managed state".format(ip_address)
                 self.log(msg, "WARNING")
 
-            elif dev_info.get("family") != "Unified AP":
+            elif dev_info.get("family") == "Unified AP":
                 msg = "Device backup of device with IP address {0} \
                     is not possible due to device being an Unified AP".format(ip_address)
                 self.log(msg, "WARNING")
@@ -337,6 +395,74 @@ class Device_configs_backup(DnacBase):
         valid_device_count = len(device_ids)
         self.log("Collected device IDs: {0}".format(device_ids), "INFO")
         self.log("Backup of {0} devices out of {1} devices is possible".format(valid_device_count, original_valid_device_count), "INFO")
+        return device_ids
+
+    def get_site_devices(self):
+        """
+        Fetches the list of device ids when site is passed along with other parameters
+        Args:
+            self: The instance of the class containing the 'config' attribute to be validated.
+        Returns:
+            device_in_site: The list of device ids based on the parameters passed by the user,
+                present in the passed site
+        Example:
+            Stored paramters like management ip address/ family can be used to fetch the device ids
+            list present at the given site
+        """
+
+        site = self.validated_config[0].get("site")
+        device_ids = self.get_device_ids_list()
+        dev_in_site = []
+        for dev_id in device_ids:
+            dev_response = self.dnac_apply['exec'](
+                family="devices",
+                function='get_device_detail',
+                params={"search_by": dev_id,
+                        "identifier": "uuid"},
+                op_modifies=True
+            )
+            self.log("Response collected from the API 'get_device_detail' {0}".format(dev_response), "DEBUG")
+            dev_response = dev_response.get("response")
+            if dev_response.get("location") == site:
+                dev_in_site.append(dev_id)
+
+        if len(dev_in_site) == 0:
+            msg = "No devices found in the given site {0}".format(site)
+            self.log(msg, "CRITICAL")
+            self.module.fail_json(msg=msg)
+
+        return dev_in_site
+
+    def handle_only_site(self):
+        """
+        Fetches the list of device ids present at the site, when only site is passed as the parameter
+        Args:
+            self: The instance of the class containing the 'config' attribute to be validated.
+        Returns:
+            device_ids: The list of device ids present at the site passed by the user
+        Example:
+            Stored paramters like management ip address/ family can be used to fetch the device ids
+            list present at the given site
+        """
+        site = self.validated_config[0].get("site")
+        response = self.dnac_apply['exec'](
+            family="devices",
+            function='get_device_list',
+            op_modifies=True
+        )
+        self.log("Response collected from the API 'get_device_list' is {0}".format(str(response)), "DEBUG")
+        device_list = response.get("response")
+        self.log("Length of the device list fetched from the API 'get_device_list' is {0}".format(str(device_list)), "INFO")
+        if len(device_list):
+            msg = "No devices found in the inventory"
+            self.log(msg, "CRITICAL")
+            self.module.fail_json(msg=msg)
+
+        device_ids = []
+        for dev_info in device_list:
+            if dev_info.get("site") == site:
+                device_ids.append(dev_info)
+        self.log("Device IDs collected:{0}".format(device_ids), "INFO")
         return device_ids
 
     def password_generator(self):
@@ -400,10 +526,25 @@ class Device_configs_backup(DnacBase):
         """
 
         self.want = {}
+        device_params = self.validated_config[0]
+        site = device_params.get("site")
+        filtered_keys = {}
+        for key, value in device_params.items():
+            if key not in ['file_path', 'file_password']:
+                filtered_keys[key] = value
 
-        self.want["deviceId"] = self.get_device_ids_list()
-        if self.validated_config[0].get("file_password"):
-            password = self.validated_config[0].get("file_password")
+        if device_params.get("site") and self.get_site_details(site):
+            if len(filtered_keys) > 1:
+                self.want["deviceId"] = self.get_site_devices()
+            else:
+                self.want["deviceId"] = self.handle_only_site()
+        else:
+            self.want["deviceId"] = self.get_device_ids_list()
+
+        self.log("Device IDs passed is {0}".format(self.want["deviceId"]), "INFO")
+
+        if device_params.get("file_password"):
+            password = device_params.get("file_password")
             if self.validate_password(password=password) is True:
                 self.want["password"] = password
 
@@ -418,7 +559,7 @@ class Device_configs_backup(DnacBase):
             self.want["password"] = self.password_generator()
 
         self.msg = "Successfully collected all parameters from playbook " + \
-            "for comparison"
+            "for exceution"
         self.status = "success"
         self.log(self.msg, "INFO")
         return self
