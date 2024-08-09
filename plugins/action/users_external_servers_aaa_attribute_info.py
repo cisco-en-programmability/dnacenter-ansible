@@ -78,8 +78,8 @@ class ActionModule(ActionBase):
         dnac = DNACSDK(params=self._task.args)
 
         response = dnac.exec(
-            family="userand_roles",
-            function='get_a_a_a_attribute_api',
+            family="user_and_roles",
+            function='get_aaa_attribute_api',
             params=self.get_object(self._task.args),
         )
         self._result.update(dict(dnac_response=response))
