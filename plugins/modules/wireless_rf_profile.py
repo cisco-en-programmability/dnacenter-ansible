@@ -130,7 +130,7 @@ options:
       *non-custom RF profile cannot be deleted.
     type: str
 requirements:
-- dnacentersdk >= 2.7.1
+- dnacentersdk >= 2.7.2
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Wireless CreateOrUpdateRFProfile
