@@ -58,6 +58,7 @@ design_sites:
         longitude: -78.88105620286412
         country: United States
     site_type: building
+
   - site:
       building:
         name: BLD12
