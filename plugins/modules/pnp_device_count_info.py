@@ -74,7 +74,7 @@ options:
     - LastContact query parameter. Device Has Contacted lastContact > 0.
     type: bool
 requirements:
-- dnacentersdk >= 2.7.1
+- dnacentersdk >= 2.7.2
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Device Onboarding (PnP) GetDeviceCount
