@@ -363,6 +363,7 @@ class Site(DnacBase):
             will contain the validated configuration. If it fails, 'self.status' will be 'failed', and
             'self.msg' will describe the validation issues.
         """
+        self.log("Validating Input Parameters", "DEBUG")
 
         if not self.config:
             self.status = "success"
