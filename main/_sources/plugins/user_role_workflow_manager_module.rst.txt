@@ -42,7 +42,7 @@ cisco.dnac.user_role_workflow_manager module -- Resource module for managing use
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.17.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.17.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -83,7 +83,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.1
+- dnacentersdk \>= 2.7.2
 - python \>= 3.9.19
 
 
@@ -3804,7 +3804,7 @@ Notes
 -----
 
 .. note::
-   - SDK Methods used - user\_and\_roles.UserandRoles.get\_user\_ap\_i - user\_and\_roles.UserandRoles.add\_user\_ap\_i - user\_and\_roles.UserandRoles.update\_user\_ap\_i - user\_and\_roles.UserandRoles.delete\_user\_ap\_i
+   - SDK Methods used - user\_and\_roles.UserandRoles.get\_user\_api - user\_and\_roles.UserandRoles.add\_user\_api - user\_and\_roles.UserandRoles.update\_user\_api - user\_and\_roles.UserandRoles.delete\_user\_api
    - Paths used - get /dna/system/api/v1/user - post /dna/system/api/v1/user - put /dna/system/api/v1/user - delete /dna/system/api/v1/user/{userId}
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK

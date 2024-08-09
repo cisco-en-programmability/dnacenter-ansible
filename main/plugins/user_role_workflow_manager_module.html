@@ -578,7 +578,7 @@
 <h1>cisco.dnac.user_role_workflow_manager module -- Resource module for managing users and roles in Cisco Catalyst Center.<a class="headerlink" href="#cisco-dnac-user-role-workflow-manager-module-resource-module-for-managing-users-and-roles-in-cisco-catalyst-center" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.17.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.17.1).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-user-role-workflow-manager-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -606,7 +606,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-user-rol
 <span id="ansible-collections-cisco-dnac-user-role-workflow-manager-module-requirements"></span><h2><a class="toc-backref" href="#id380" role="doc-backlink">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
 <p>The below requirements are needed on the host that executes this module.</p>
 <ul class="simple">
-<li><p>dnacentersdk &gt;= 2.7.1</p></li>
+<li><p>dnacentersdk &gt;= 2.7.2</p></li>
 <li><p>python &gt;= 3.9.19</p></li>
 </ul>
 </section>
@@ -1656,7 +1656,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-user-rol
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <ul class="simple">
-<li><p>SDK Methods used - user_and_roles.UserandRoles.get_user_ap_i - user_and_roles.UserandRoles.add_user_ap_i - user_and_roles.UserandRoles.update_user_ap_i - user_and_roles.UserandRoles.delete_user_ap_i</p></li>
+<li><p>SDK Methods used - user_and_roles.UserandRoles.get_user_api - user_and_roles.UserandRoles.add_user_api - user_and_roles.UserandRoles.update_user_api - user_and_roles.UserandRoles.delete_user_api</p></li>
 <li><p>Paths used - get /dna/system/api/v1/user - post /dna/system/api/v1/user - put /dna/system/api/v1/user - delete /dna/system/api/v1/user/{userId}</p></li>
 <li><p>Does not support <code class="docutils literal notranslate"><span class="pre">check_mode</span></code></p></li>
 <li><p>The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK</p></li>
