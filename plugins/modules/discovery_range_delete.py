@@ -24,7 +24,7 @@ options:
     description: StartIndex path parameter. Starting index for the records.
     type: int
 requirements:
-- dnacentersdk >= 2.7.1
+- dnacentersdk >= 2.7.2
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Discovery DeleteDiscoveryBySpecifiedRange

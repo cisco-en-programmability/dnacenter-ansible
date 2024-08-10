@@ -23,7 +23,7 @@ options:
       fails with 'Template already exists' error.
     type: bool
 requirements:
-- dnacentersdk >= 2.7.1
+- dnacentersdk >= 2.7.2
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Configuration Templates ImportsTheProjectsProvided

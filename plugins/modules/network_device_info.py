@@ -190,7 +190,7 @@ options:
     - Limit query parameter. 1 <= limit <= 500 max. No. Of devices to be returned in the result.
     type: int
 requirements:
-- dnacentersdk >= 2.7.1
+- dnacentersdk >= 2.7.2
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Devices GetDeviceByID
