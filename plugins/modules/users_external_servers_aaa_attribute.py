@@ -27,7 +27,7 @@ options:
     description: Name of the custom AAA attribute.
     type: str
 requirements:
-- dnacentersdk >= 2.7.1
+- dnacentersdk >= 2.7.2
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for User and Roles AddAndUpdateAAAAttributeAPI
@@ -38,8 +38,8 @@ seealso:
   link: https://developer.cisco.com/docs/dna-center/#!delete-aaa-attribute-api
 notes:
   - SDK Method used are
-    userand_roles.UserandRoles.add_and_update_a_a_a_attribute_api,
-    userand_roles.UserandRoles.delete_a_a_a_attribute_api,
+    user_and_roles.UserandRoles.add_and_update_aaa_attribute_api,
+    user_and_roles.UserandRoles.delete_aaa_attribute_api,
 
   - Paths used are
     post /dna/system/api/v1/users/external-servers/aaa-attribute,

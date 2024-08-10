@@ -611,7 +611,7 @@ releases:
   6.6.2:
     release_date: "2022-12-19"
     changes:
-      release_summary: 
+      release_summary:
       bugfixes:
         - sda_fabric_border_device - fix Create example at EXAMPLES block
         - site_intent - fix Case_1 return example at RETURN block
@@ -669,7 +669,7 @@ releases:
         - wireless_accespoint_configuration - new module
         - wireless_accesspoint_configuration_summary_info - new module
         - device_interface_info - attributes `lastInputTime` and `lastOutputTime` were added.
-        - pnp_device_claim_to_site - attributes `removeInactive` and `hostname` were removed. 
+        - pnp_device_claim_to_site - attributes `removeInactive` and `hostname` were removed.
         - sda_fabric_border_device - attributes `routeDistributionProtocol` and `borderPriority` were added.
         - sda_fabric_control_plane_device attribute `routeDistributionProtocol` was added.
         - sda_fabric_edge_device - attribute `siteNameHierarchy` was added.
@@ -703,16 +703,16 @@ releases:
       changes:
         release_summary: Updated sanity test.
         minor_changes:
-        - Updated test/sanity and remove unnecessary
+          - Updated test/sanity and remove unnecessary
     6.7.5:
       release_date: "2023-09-25"
       changes:
         release_summary: Updated different function names.
         bugfixes:
-        - Updated from get_permissions_ap_i to get_permissions_api
-        - Updated from get_roles_ap_i to get_roles_api
-        - Updated from get_users_ap_i to get_users_api
-        - Updated from get_external_authentication_servers_ap_i to get_external_authentication_servers_api
+          - Updated from get_permissions_ap_i to get_permissions_api
+          - Updated from get_roles_ap_i to get_roles_api
+          - Updated from get_users_ap_i to get_users_api
+          - Updated from get_external_authentication_servers_ap_i to get_external_authentication_servers_api
     6.7.6:
       release_date: "2023-10-13"
       changes:
@@ -734,7 +734,7 @@ releases:
       changes:
         release_summary: Updating documentation and fixing swim issues.
         minor_changes:
-          - Fixed issues in Swim intent module. 
+          - Fixed issues in Swim intent module.
           - Updated docstring in site intent and template intent modules.
     6.8.2:
       release_date: "2023-12-04"
@@ -830,129 +830,135 @@ releases:
           - pnp_workflow_manager - Adding fix for Stackswitch getting changed to normal switch post editing the device's info.
           - pnp_intent - Adding fix for Stackswitch getting changed to normal switch post editing the device's info.
   6.13.0:
-      release_date: "2024-03-12"
-      changes:
-        release_summary: Changes the minimum supported version of Ansible to v2.14.0
-        minor_changes:
-          - Changes the minimum supported version from Ansible v2.9.10 to v2.14.0
+    release_date: "2024-03-12"
+    changes:
+      release_summary: Changes the minimum supported version of Ansible to v2.14.0
+      minor_changes:
+        - Changes the minimum supported version from Ansible v2.9.10 to v2.14.0
   6.13.1:
-      release_date: "2024-03-15"
-      changes:
-        release_summary: Enhancements in discovery, site, swim and inventory workflow manager modules.
-        minor_changes:
-          - Introduced sample playbooks for the discovery module.
-          - Resolved a 'NoneType' error in discovery module credentials.
-          - Corrected site creation issues in the site module when optional parameters are missing.
-          - Fixed management IP updates for devices on SNMP version v2.
-          - Addressed image un-tagging issues in inherited site settings.
-          - Provided documentation for EWLC templates in Cisco Catalyst Center version 2.3.7.x.
-          - Added attributes 'dnac_api_task_timeout' and 'dnac_task_poll_interval' in intent and workflow_manager modules.
-          - inventory_workflow_manager - Added attributes 'add_user_defined_field', 'update_interface_details', 'export_device_list' and 'admin_status'
-          - inventory_workflow_manager - Removed attributes 'provision_wireless_device', 'reprovision_wired_device'
+    release_date: "2024-03-15"
+    changes:
+      release_summary: Enhancements in discovery, site, swim and inventory workflow manager modules.
+      minor_changes:
+        - Introduced sample playbooks for the discovery module.
+        - Resolved a 'NoneType' error in discovery module credentials.
+        - Corrected site creation issues in the site module when optional parameters are missing.
+        - Fixed management IP updates for devices on SNMP version v2.
+        - Addressed image un-tagging issues in inherited site settings.
+        - Provided documentation for EWLC templates in Cisco Catalyst Center version 2.3.7.x.
+        - Added attributes 'dnac_api_task_timeout' and 'dnac_task_poll_interval' in intent and workflow_manager modules.
+        - inventory_workflow_manager - Added attributes 'add_user_defined_field', 'update_interface_details', 'export_device_list' and 'admin_status'
+        - inventory_workflow_manager - Removed attributes 'provision_wireless_device', 'reprovision_wired_device'
   6.13.2:
-      release_date: "2024-04-03"
-      changes:
-        release_summary: Enhancements in discovery, site, swim and inventory workflow manager modules.
-        minor_changes:
-          - Added the op_modifies=True when calling SDK APIs in the workflow manager modules.
-          - Added a method to validate IP addresses.
-          - Fixed a minor issue in the site workflow manager module.
-          - Updating galaxy.yml ansible.utils dependencies.
+    release_date: "2024-04-03"
+    changes:
+      release_summary: Enhancements in discovery, site, swim and inventory workflow manager modules.
+      minor_changes:
+        - Added the op_modifies=True when calling SDK APIs in the workflow manager modules.
+        - Added a method to validate IP addresses.
+        - Fixed a minor issue in the site workflow manager module.
+        - Updating galaxy.yml ansible.utils dependencies.
   6.13.3:
-      release_date: "2024-04-08"
-      changes:
-        release_summary: Enhancements in discovery, template, swim and inventory workflow manager modules.
-        minor_changes:
-          - Adding support to importing a template using JSON file
-          - Changes in discovery workflow manager modules  relating to different states of the discovery job
+    release_date: "2024-04-08"
+    changes:
+      release_summary: Enhancements in discovery, template, swim and inventory workflow manager modules.
+      minor_changes:
+        - Adding support to importing a template using JSON file
+        - Changes in discovery workflow manager modules  relating to different states of the discovery job
   6.14.0:
-      release_date: "2024-05-31"
-      changes:
-        release_summary: New Dna Center API version 2.3.7.6, and addition of Workflow Manager modules support for device configuration backups, events and notifications, ISE and RADIUS server integrations, and network compliance.
-        minor_changes:
-          - device_configs_backup_workflow_manager - New workflow manager module for device configuration backup functions.
-          - events_and_notifications_workflow_manager - New workflow manager for configuring various types of destinations(Webhook, Email, Syslog, SNMP, ITSM) to deliver event notifications.
-          - ise_radius_integration_workflow_manager - New workflow manager for Authentication and Policy Servers(ISE/AAA).
-          - network_compliance_workflow_manager - New workflow manager for Network Compliance module for managing network compliance tasks on reachable device(s).
-          - device_credential_workflow_manager - Updated the log messages.
-          - inventory_workflow_manager - Updated changes related to provisioning devices.
-          - provision_workflow_manager - Updated changes related to handle errors.
-          - site_workflow_manager - Updated changes in Site updation.
-          - network_settings_workflow_manager - Added attributes 'ipv4_global_pool_name'.
-          - template_workflow_manager - Removed attributes 'create_time', 'failure_policy', 'last_update_time', 'latest_version_time', 'parent_template_id', 'project_id', 'validation_errors', 'rollback_template_params' and 'rollback_template_content'.
-          - ise_radius_integration_workflow_manager - Removed the attributes 'port' and 'subscriber_name'. Added the attribute 'ise_integration_wait_time'.
-          - Changes in inventory and swim workflow manager modules.
-          - application_policy_application_set_count_info - new module
-          - application_policy_application_set_info - new module
-          - application_policy_application_set - new module
-          - applications_count_v2_info - new module
-          - applications_v2_info - new module
-          - applications_v2 - new module
-          - auth_token_create - new module
-          - authentication_policy_servers - new module
-          - device_reboot_apreboot - new module
-          - dna_event_snmp_config_info - new module
-          - event_snmp_config - new module
-          - event_webhook_read_info - new module
-          - flexible_report_content_info - new module
-          - flexible_report_execute - new module
-          - flexible_report_executions_info - new module
-          - flexible_report_schedule_info - new module
-          - flexible_report_schedule  - new module
-          - integration_settings_itsm_instances_info - new module
-          - integration_settings_status_info - new module
-          - ise_integration_status_info - new module
-          - lan_automation_sessions_info - new module
-          - lan_automation_update_device - new module
-          - lan_automation_update_v2 - new module
-          - lan_automation_update - new module
-          - lan_automation_v2 - new module
-          - network_device_user_defined_field_delete - new module
-          - users_external_authentication - new module
-          - users_external_servers_aaa_attribute - new module
+    release_date: "2024-05-31"
+    changes:
+      release_summary: New Dna Center API version 2.3.7.6, and addition of Workflow Manager modules support for device configuration backups, events and notifications, ISE and RADIUS server integrations, and network compliance.
+      minor_changes:
+        - device_configs_backup_workflow_manager - New workflow manager module for device configuration backup functions.
+        - events_and_notifications_workflow_manager - New workflow manager for configuring various types of destinations(Webhook, Email, Syslog, SNMP, ITSM) to deliver event notifications.
+        - ise_radius_integration_workflow_manager - New workflow manager for Authentication and Policy Servers(ISE/AAA).
+        - network_compliance_workflow_manager - New workflow manager for Network Compliance module for managing network compliance tasks on reachable device(s).
+        - device_credential_workflow_manager - Updated the log messages.
+        - inventory_workflow_manager - Updated changes related to provisioning devices.
+        - provision_workflow_manager - Updated changes related to handle errors.
+        - site_workflow_manager - Updated changes in Site updation.
+        - network_settings_workflow_manager - Added attributes 'ipv4_global_pool_name'.
+        - template_workflow_manager - Removed attributes 'create_time', 'failure_policy', 'last_update_time', 'latest_version_time', 'parent_template_id', 'project_id', 'validation_errors', 'rollback_template_params' and 'rollback_template_content'.
+        - ise_radius_integration_workflow_manager - Removed the attributes 'port' and 'subscriber_name'. Added the attribute 'ise_integration_wait_time'.
+        - Changes in inventory and swim workflow manager modules.
+        - application_policy_application_set_count_info - new module
+        - application_policy_application_set_info - new module
+        - application_policy_application_set - new module
+        - applications_count_v2_info - new module
+        - applications_v2_info - new module
+        - applications_v2 - new module
+        - auth_token_create - new module
+        - authentication_policy_servers - new module
+        - device_reboot_apreboot - new module
+        - dna_event_snmp_config_info - new module
+        - event_snmp_config - new module
+        - event_webhook_read_info - new module
+        - flexible_report_content_info - new module
+        - flexible_report_execute - new module
+        - flexible_report_executions_info - new module
+        - flexible_report_schedule_info - new module
+        - flexible_report_schedule  - new module
+        - integration_settings_itsm_instances_info - new module
+        - integration_settings_status_info - new module
+        - ise_integration_status_info - new module
+        - lan_automation_sessions_info - new module
+        - lan_automation_update_device - new module
+        - lan_automation_update_v2 - new module
+        - lan_automation_update - new module
+        - lan_automation_v2 - new module
+        - network_device_user_defined_field_delete - new module
+        - users_external_authentication - new module
+        - users_external_servers_aaa_attribute - new module
   6.15.0:
-      release_date: "2024-06-03"
-      changes:
-        release_summary: Fix module name.
-        minor_changes:
-          - Fix module name from network_device_config__info to configuration_archive_details_info.
+    release_date: "2024-06-03"
+    changes:
+      release_summary: Fix module name.
+      minor_changes:
+        - Fix module name from network_device_config__info to configuration_archive_details_info.
   6.16.0:
-      release_date: "2024-06-07"
-      changes:
-        release_summary: Code changes in workflow manager modules. 
-        minor_changes:
-          - Added example playbooks in device_provision_workflow.yml
-          - Added API to validate the server address
-          - Minor bug fixes in device_credential_workflow_manager.py module
-          - Checking SNMP versions in events_and_notifications_workflow_manager.py module
-          - Added new attribute 'ise_integration_wait_time' in ise_radius_integration_workflow_manager.py
-          - Added example playbooks in network_compliance_workflow_manager.py
-          - Added detailed documentation in network_settings_workflow_manager.py
-          - Added the code for creating/updating/deleting events subscription notification with specified destination and added the playbook and documentation with examples
-          - provision_workflow_manager.py - Added attribute 'provisioning'
-          - template_workflow_manager.py - Added attributes 'choices', 'failure_policy'
-          - events_and_notifications_workflow_manager.py - Added attributes 'webhook_event_notification', 'email_event_notification', 'syslog_event_notification'
+    release_date: "2024-06-07"
+    changes:
+      release_summary: Code changes in workflow manager modules.
+      minor_changes:
+        - Added example playbooks in device_provision_workflow.yml
+        - Added API to validate the server address
+        - Minor bug fixes in device_credential_workflow_manager.py module
+        - Checking SNMP versions in events_and_notifications_workflow_manager.py module
+        - Added new attribute 'ise_integration_wait_time' in ise_radius_integration_workflow_manager.py
+        - Added example playbooks in network_compliance_workflow_manager.py
+        - Added detailed documentation in network_settings_workflow_manager.py
+        - Added the code for creating/updating/deleting events subscription notification with specified destination and added the playbook and documentation with examples
+        - provision_workflow_manager.py - Added attribute 'provisioning'
+        - template_workflow_manager.py - Added attributes 'choices', 'failure_policy'
+        - events_and_notifications_workflow_manager.py - Added attributes 'webhook_event_notification', 'email_event_notification', 'syslog_event_notification'
   6.17.0:
-      release_date: "2024-07-30"
-      changes:
-        release_summary: Code changes in workflow manager modules. 
-        minor_changes:
-          - Added Circle CI support for integration testing.
-          - Adding pyzipper support in device_configs workflow manager module.
-          - Exporting export_device_details_limit in inventory workflow module.
-          - Adding run_compliance_batch_size support in network_compliance module.
-          - Changes in provision workflow manager module.
-          - Checking the device list in swim workflow manager module.
-          - UT and IT cases for worflow manager modules.
-          - Added 'user_role_workflow_manager' module to manage operations to create, update, and delete users and roles.
-          - Added 'rma_workflow_manager' module to manage RMA workflow.
-          - Added 'accesspoint_workflow_manager' module to manage access point configurations.
-          - discovery_intent.py: Changed attribute name 'desc' to 'description'.
-          - discovery_workflow_manager.py: Changed attribute name 'desc' to 'description'.
-          - events_and_notifications_worflow_manager.py: Changed attribute names from 'from_email', 'to_email', 'to send_email' and 'recipient_email'.
-          - inventory_intent.py: added attribute 'export_device_details_limit'.
-          - inventory_workflow_manager.py: added attribute 'export_device_details_limit'.
-          - ise_radius_integration_workflow_manager.py: changed the type of 'authentication_policy_server' from 'dict' to 'list'.
-          - network_compliance_workflow_manager.py: added attribute 'run_compliance_batch_size'.
-          - network_settings_workflow_manager.py: changed the type of network_management_details from 'dic' to 'list'.
-          - template_workflow_manager.py: added project_file and payload.
+    release_date: "2024-07-30"
+    changes:
+      release_summary: Code changes in workflow manager modules.
+      minor_changes:
+        - Added Circle CI support for integration testing.
+        - Adding pyzipper support in device_configs workflow manager module.
+        - Exporting export_device_details_limit in inventory workflow module.
+        - Adding run_compliance_batch_size support in network_compliance module.
+        - Changes in provision workflow manager module.
+        - Checking the device list in swim workflow manager module.
+        - UT and IT cases for worflow manager modules.
+        - Added 'user_role_workflow_manager' module to manage operations to create, update, and delete users and roles.
+        - Added 'rma_workflow_manager' module to manage RMA workflow.
+        - Added 'accesspoint_workflow_manager' module to manage access point configurations.
+        - discovery_intent.py: Changed attribute name 'desc' to 'description'.
+        - discovery_workflow_manager.py: Changed attribute name 'desc' to 'description'.
+        - events_and_notifications_worflow_manager.py: Changed attribute names from 'from_email', 'to_email', 'to send_email' and 'recipient_email'.
+        - inventory_intent.py: added attribute 'export_device_details_limit'.
+        - inventory_workflow_manager.py: added attribute 'export_device_details_limit'.
+        - ise_radius_integration_workflow_manager.py: changed the type of 'authentication_policy_server' from 'dict' to 'list'.
+        - network_compliance_workflow_manager.py: added attribute 'run_compliance_batch_size'.
+        - network_settings_workflow_manager.py: changed the type of network_management_details from 'dic' to 'list'.
+        - template_workflow_manager.py: added project_file and payload.
+  6.17.1:
+    release_date: "2024-08-09"
+    changes:
+      release_summary: Fix family name.
+      minor_changes:
+        - Fix family name from userand_roles to user_and_roles.
