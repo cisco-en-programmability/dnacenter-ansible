@@ -1,0 +1,164 @@
+---
+single_ip:
+  - discovery_name: Single IP Discovery
+    discovery_type: "SINGLE"
+    ip_address_list:
+      - 204.1.2.5
+    protocol_order: ssh
+    global_credentials:
+      cli_credentials_list:
+        - description: CLIa
+          username: cli-a
+      snmp_v3_credential_list:
+        - description: SNMPv3 Test a
+          username: admin
+    retry: 1
+    timeout: 1
+
+
+ip_range:
+  - discovery_name: Single Range Discovery 1
+    discovery_type: "RANGE"
+    ip_address_list:
+      - 204.1.2.1-204.1.2.5
+    ip_filter_list:
+      - 204.1.2.3
+    protocol_order: ssh
+    discovery_specific_credentials:
+      cli_credentials_list:
+        - username: cisco
+          password: Cisco#123
+          enable_password: Cisco#123
+      http_read_credential:
+        username: wlcaccess
+        password: Lablab#123
+        port: 443
+        secure: True
+      snmp_v2_read_credential:
+        desc: SNMPv2c Read
+        community: "j5aj#0z%"
+      snmp_v2_write_credential:
+        desc: SNMPv2c Write
+        community: "n2!y9k38"
+      snmp_v3_credential:
+        username: v3Public2
+        snmp_mode: AUTHPRIV
+        auth_type: SHA
+        auth_password: Lablab#1234
+        privacy_type: AES256
+        privacy_password: Lablab#1234
+    start_index: 1
+    records_to_return: 1000
+    snmp_version: v2
+    retry: 1
+    timeout: 2
+  
+#   # Single IP Discovery an already existing discovery. 
+#   # Test case - deleted and recreated when discovery with same name.
+#   - discovery_name: Single IP Discovery
+#     discovery_type: "RANGE"
+#     ip_address_list:
+#       - 204.1.2.3
+#     protocol_order: ssh
+#     global_cli_len: 3
+#     retry: 1
+#     timeout: 1
+
+
+multi_range:
+  - discovery_name: MultiRange Discovery
+    discovery_type: "MULTI RANGE"
+    ip_address_list:
+      - 204.1.2.1-204.1.2.5
+      - 204.192.3.40
+      - 204.192.4.200
+      - 204.1.2.6
+      - 204.1.2.7
+      - 204.1.2.8
+      - 204.1.2.9
+    ip_filter_list:
+      - 204.1.2.3
+    protocol_order: ssh
+    discovery_specific_credentials:
+      cli_credentials_list:
+        - username: cisco
+          password: Cisco#123
+          enable_password: Cisco#123
+      snmp_v3_credential:
+        username: v3Public2
+        snmp_mode: AUTHPRIV
+        auth_type: SHA
+        auth_password: Lablab#1234
+        privacy_type: AES256
+        privacy_password: Lablab#1234 
+    retry: 1
+    timeout: 1
+
+
+cdp:
+  - discovery_name: CDP Discovery
+    discovery_type: "CDP"
+    ip_address_list:
+      - 204.1.2.1
+    cdp_level: 1
+    protocol_order: ssh
+    discovery_specific_credentials:
+      cli_credentials_list:
+        - username: cisco
+          password: Cisco#123
+          enable_password: Cisco#123
+      snmp_v3_credential:
+        username: v3Public2
+        snmp_mode: AUTHPRIV
+        auth_type: SHA
+        auth_password: Lablab#1234
+        privacy_type: AES256
+        privacy_password: Lablab#1234
+    retry: 1
+    timeout: 1
+
+
+lldp:
+  - discovery_name: LLDP Discovery
+    discovery_type: "LLDP"
+    ip_address_list:
+      - 204.1.2.1
+    lldp_level: 16
+    protocol_order: ssh
+    discovery_specific_credentials:
+      cli_credentials_list:
+        - username: cisco
+          password: Cisco#123
+          enable_password: Cisco#123
+      snmp_v3_credential:
+        username: v3Public2
+        snmp_mode: AUTHPRIV
+        auth_type: SHA
+        auth_password: Lablab#1234
+        privacy_type: AES256
+        privacy_password: Lablab#1234 
+    retry: 1
+    timeout: 1
+
+
+cidr:
+  - discovery_name: CIDR Discovery
+    discovery_type: "CIDR"
+    ip_address_list:
+      - 204.1.2.0/24
+    prefix_length: 30
+    protocol_order: ssh
+    discovery_specific_credentials:
+      cli_credentials_list:
+        - username: cisco
+          password: Cisco#123
+          enable_password: Cisco#123
+      snmp_v3_credential:
+        username: v3Public2
+        snmp_mode: AUTHPRIV
+        auth_type: SHA
+        auth_password: Lablab#1234
+        privacy_type: AES256
+        privacy_password: Lablab#1234
+    retry: 1
+    timeout: 1

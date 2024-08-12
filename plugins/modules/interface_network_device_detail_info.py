@@ -28,7 +28,7 @@ options:
     - Name query parameter. Interface name.
     type: str
 requirements:
-- dnacentersdk >= 2.7.1
+- dnacentersdk >= 2.7.2
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Devices GetInterfaceDetailsByDeviceIdAndInterfaceName

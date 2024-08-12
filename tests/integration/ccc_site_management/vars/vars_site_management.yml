@@ -1,0 +1,464 @@
+---
+design_sites:
+  # USA-Test Site Hierarchy
+  - site:
+      area:
+        name: USA-Test
+        parent_name: Global
+    site_type: area
+  - site:
+      area:
+        name: SAN JOSE
+        parent_name: Global/USA-Test
+    site_type: area
+  - site:
+      area:
+        name: RTP
+        parent_name: Global/USA-Test
+    site_type: area
+  - site:
+      area:
+        name: BayAreaGuest
+        parent_name: Global/USA-Test
+    site_type: area
+  - site:
+      area:
+        name: New York
+        parent_name: Global/USA-Test
+    site_type: area
+  - site:
+      area:
+        name: SAN-FRANCISCO
+        parent_name: Global/USA-Test
+    site_type: area
+  - site:
+      area:
+        name: BERKELEY
+        parent_name: Global/USA-Test
+    site_type: area
+
+
+  - site:
+      building:
+        name: BLD10
+        parent_name: Global/USA-Test/RTP
+        address: Ev Chargers Bldg 10, 7200-10 Kit Creek Rd, Morrisville, North Carolina 27560, United States
+        latitude: 35.85992111421487
+        longitude: -78.8829258991226
+        country: United States
+    site_type: building
+
+  - site:
+      building:
+        name: BLD11
+        parent_name: Global/USA-Test/RTP
+        address: Cisco Systems, 7200 Kit Creek Rd, Morrisville, North Carolina 27560, United States
+        latitude: 35.86059627310624
+        longitude: -78.88105620286412
+        country: United States
+    site_type: building
+
+  - site:
+      building:
+        name: BLD12
+        parent_name: Global/USA-Test/RTP
+        address: Cisco Systems, 7200-12 Kit Creek Rd, Morrisville, North Carolina 27560, United States
+        latitude: 35.8611847591779
+        longitude: -78.88217248318003
+        country: United States
+    site_type: building
+
+  - site:
+      building:
+        name: BLD23
+        parent_name: Global/USA-Test/SAN JOSE
+        address: McCarthy Blvd, San Jose, California 95131, United States
+        latitude: 37.398188
+        longitude: -121.912974
+        country: United States
+    site_type: building
+
+  - site:
+      building:
+        name: BLD20
+        parent_name: Global/USA-Test/SAN JOSE
+        address: 725 Alder Drive, Milpitas, California 95035, United States
+        latitude: 37.415947
+        longitude: -121.916327
+        country: United States
+    site_type: building
+  - site:
+      building:
+        name: BLD_GB
+        parent_name: Global/USA-Test/BayAreaGuest
+        address: 725 Alder Drive, Milpitas, California 95035, United States
+        latitude: 37.415947
+        longitude: -121.916327
+        country: United States
+    site_type: building
+  - site:
+      building:
+        name: BLDNYC
+        parent_name: Global/USA-Test/New York
+        address: McCarthy Blvd, San Jose, California 95131, United States
+        latitude: 37.398188
+        longitude: -121.912974
+        country: United States
+    site_type: building
+  - site:
+      building:
+        name: BLD_SF
+        parent_name: Global/USA-Test/SAN-FRANCISCO
+        address: McCarthy Blvd, San Jose, California 95131, United States
+        latitude: 37.398188
+        longitude: -121.912974
+        country: United States
+    site_type: building
+  - site:
+      building:
+        name: BLD_SF1
+        parent_name: Global/USA-Test/SAN-FRANCISCO
+        address: McCarthy Blvd, San Jose, California 95131, United States
+        latitude: 37.398188
+        longitude: -121.912974
+        country: United States
+    site_type: building
+  - site:
+      building:
+        name: BLDBERK
+        parent_name: Global/USA-Test/BERKELEY
+        address: 725 Alder Drive, Milpitas, California 95035, United States
+        latitude: 37.415947
+        longitude: -121.916327
+        country: United States
+    site_type: building
+    
+  - site:
+      floor:
+        name: BLD10_FLOOR1
+        parent_name: Global/USA-Test/RTP/BLD10
+        rf_model: Cubes And Walled Offices
+        width: 100.00
+        length: 100.00
+        height: 10.00
+        floor_number: 1
+    site_type: floor
+  - site:
+      floor:
+        name: BLD10_FLOOR2
+        parent_name: Global/USA-Test/RTP/BLD10
+        rf_model: Cubes And Walled Offices
+        width: 100.00
+        length: 100.00
+        height: 10.00
+        floor_number: 2
+    site_type: floor
+  - site:
+      floor:
+        name: BLD10_FLOOR3
+        parent_name: Global/USA-Test/RTP/BLD10
+        rf_model: Cubes And Walled Offices
+        width: 100.00
+        length: 100.00
+        height: 10.00
+        floor_number: 3
+    site_type: floor
+  - site:
+      floor:
+        name: BLD11_FLOOR1
+        parent_name: Global/USA-Test/RTP/BLD11
+        rf_model: Cubes And Walled Offices
+        width: 100.00
+        length: 100.00
+        height: 10.00
+        floor_number: 1
+    site_type: floor
+  - site:
+      floor:
+        name: BLD11_FLOOR2
+        parent_name: Global/USA-Test/RTP/BLD11
+        rf_model: Cubes And Walled Offices
+        width: 100.00
+        length: 100.00
+        height: 10.00
+        floor_number: 2
+    site_type: floor
+  - site:
+      floor:
+        name: BLD11_FLOOR3
+        parent_name: Global/USA-Test/RTP/BLD11
+        rf_model: Cubes And Walled Offices
+        width: 100.00
+        length: 100.00
+        height: 10.00
+        floor_number: 3
+    site_type: floor
+  - site:
+      floor:
+        name: BLD12_FLOOR1
+        parent_name: Global/USA-Test/RTP/BLD12
+        rf_model: Cubes And Walled Offices
+        width: 100.00
+        length: 100.00
+        height: 10.00
+        floor_number: 1
+    site_type: floor
+  - site:
+      floor:
+        name: BLD12_FLOOR2
+        parent_name: Global/USA-Test/RTP/BLD12
+        rf_model: Cubes And Walled Offices
+        width: 100.00
+        length: 100.00
+        height: 10.00
+        floor_number: 2
+    site_type: floor
+  - site:
+      floor:
+        name: BLD12_FLOOR3
+        parent_name: Global/USA-Test/RTP/BLD12
+        rf_model: Cubes And Walled Offices
+        width: 100.00
+        length: 100.00
+        height: 10.00
+        floor_number: 3
+    site_type: floor
+  - site:
+      floor:
+        name: FLOOR1_LEVEL1
+        parent_name: Global/USA-Test/SAN JOSE/BLD23
+        rf_model: Cubes And Walled Offices
+        width: 100.00
+        length: 100.00
+        height: 10.00
+        floor_number: 1
+    site_type: floor
+  - site:
+      floor:
+        name: FLOOR1_LEVEL2
+        parent_name: Global/USA-Test/SAN JOSE/BLD23
+        rf_model: Cubes And Walled Offices
+        width: 100.00
+        length: 100.00
+        height: 10.00
+        floor_number: 1
+    site_type: floor
+  - site:
+      floor:
+        name: FLOOR1_LEVEL3
+        parent_name: Global/USA-Test/SAN JOSE/BLD23
+        rf_model: Cubes And Walled Offices
+        width: 100.00
+        length: 100.00
+        height: 10.00
+        floor_number: 1
+    site_type: floor
+  - site:
+      floor:
+        name: FLOOR1_LEVEL4
+        parent_name: Global/USA-Test/SAN JOSE/BLD23
+        rf_model: Cubes And Walled Offices
+        width: 100.00
+        length: 100.00
+        height: 10.00
+        floor_number: 1
+    site_type: floor
+  - site:
+      floor:
+        name: BLD20_FLOOR1
+        parent_name: Global/USA-Test/SAN JOSE/BLD20
+        rf_model: Cubes And Walled Offices
+        width: 100.00
+        length: 100.00
+        height: 10.00
+        floor_number: 1
+    site_type: floor
+  - site:
+      floor:
+        name: BLD20_FLOOR2
+        parent_name: Global/USA-Test/SAN JOSE/BLD20
+        rf_model: Cubes And Walled Offices
+        width: 100.00
+        length: 100.00
+        height: 10.00
+        floor_number: 2
+    site_type: floor
+  - site:
+      floor:
+        name: FLOOR1
+        parent_name: Global/USA-Test/New York/BLDNYC
+        rf_model: Cubes And Walled Offices
+        width: 100.00
+        length: 100.00
+        height: 10.00
+        floor_number: 1
+    site_type: floor
+  - site:
+      floor:
+        name: FLOOR2
+        parent_name: Global/USA-Test/New York/BLDNYC
+        rf_model: Cubes And Walled Offices
+        width: 100.00
+        length: 100.00
+        height: 10.00
+        floor_number: 2
+    site_type: floor
+  - site:
+      floor:
+        name: FLOOR1
+        parent_name: Global/USA-Test/SAN-FRANCISCO/BLD_SF
+        rf_model: Cubes And Walled Offices
+        width: 100.00
+        length: 100.00
+        height: 10.00
+        floor_number: 1
+    site_type: floor
+  - site:
+      floor:
+        name: FLOOR2
+        parent_name: Global/USA-Test/SAN-FRANCISCO/BLD_SF
+        rf_model: Cubes And Walled Offices
+        width: 100.00
+        length: 100.00
+        height: 10.00
+        floor_number: 2
+    site_type: floor
+  - site:
+      floor:
+        name: FLOOR1
+        parent_name: Global/USA-Test/SAN-FRANCISCO/BLD_SF1
+        rf_model: Cubes And Walled Offices
+        width: 100.00
+        length: 100.00
+        height: 10.00
+        floor_number: 1
+    site_type: floor
+  - site:
+      floor:
+        name: FLOOR2
+        parent_name: Global/USA-Test/SAN-FRANCISCO/BLD_SF1
+        rf_model: Cubes And Walled Offices
+        width: 100.00
+        length: 100.00
+        height: 10.00
+        floor_number: 2
+    site_type: floor
+  - site:
+      floor:
+        name: FLOOR1_LEVEL1
+        parent_name: Global/USA-Test/BERKELEY/BLDBERK
+        rf_model: Cubes And Walled Offices
+        width: 100.00
+        length: 100.00
+        height: 10.00
+        floor_number: 1
+    site_type: floor
+
+  #India-Test Site Hierarchy 
+  - site:
+      area:
+        name: India-Test
+        parent_name: Global
+    site_type: area
+  - site:
+      area:
+        name: Bangalore
+        parent_name: Global/India-Test
+    site_type: area
+  - site:
+      building:
+        name: Mantri Square
+        parent_name: Global/India-Test/Bangalore
+        address: Bengaluru, Karnataka, India
+        latitude: 12.969910
+        longitude: 77.597960
+        country: India
+    site_type: building
+  - site:
+      floor:
+        name: Floor1
+        parent_name: Global/India-Test/Bangalore/Mantri Square
+        rf_model: Cubes And Walled Offices
+        width: 100.00
+        length: 100.00
+        height: 10.00
+        floor_number: 1
+    site_type: floor
+  
+  #Mexico Site Hierarchy
+  - site:
+      area:
+        name: Mexico-Test
+        parent_name: Global
+    site_type: area
+
+  #Canada Site Hierarchy
+  - site:
+      area:
+        name: Canada-Test
+        parent_name: Global
+    site_type: area
+
+
+update_sites:
+  - site:
+      building:
+        name: BLD12
+        parent_name: Global/USA-Test/RTP
+        address: Cisco Systems, 7200-12 Kit Creek Rd, Morrisville, North Carolina 27560, United States
+        latitude: 38.8611847591779
+        longitude: 72.88217248318003
+        country: United States
+    site_type: building 
+  - site:
+      floor:
+        name: FLOOR1
+        parent_name: Global/USA-Test/SAN-FRANCISCO/BLD_SF
+        rf_model: Cubes And Walled Offices
+        width: 200.00
+        length: 200.00
+        height: 20.00
+        floor_number: 1
+    site_type: floor
+  - site:
+      building:
+        name: Mantri Square
+        parent_name: Global/India-Test/Bangalore
+        address: Bengaluru, Karnataka, India
+        latitude: 18.969910
+        longitude: 20.597960
+        country: India
+    site_type: building
+  - site:
+      floor:
+        name: Floor1
+        parent_name: Global/India-Test/Bangalore/Mantri Square
+        rf_model: Cubes And Walled Offices
+        width: 200.00
+        length: 200.00
+        height: 20.00
+        floor_number: 1
+    site_type: floor
+
+
+delete_sites:
+  - site:
+      area:
+        name: USA-Test
+        parent_name: Global
+    site_type: area
+  - site:
+      area:
+        name: India-Test
+        parent_name: Global
+    site_type: area
+  - site:
+      area:
+        name: Mexico-Test
+        parent_name: Global
+    site_type: area
+  - site:
+      area:
+        name: Canada-Test
+        parent_name: Global
+    site_type: area

@@ -298,7 +298,7 @@ options:
                 description: snmp_v3 Credential Id. Use Description or Id.
                 type: str
 requirements:
-- dnacentersdk >= 2.7.1
+- dnacentersdk >= 2.7.2
 - python >= 3.9
 seealso:
 - name: Cisco Catalyst Center documentation for Discovery CreateGlobalCredentialsV2
@@ -2487,7 +2487,8 @@ class DeviceCredential(DnacBase):
             self.module.fail_json(msg=self.msg, response=final_response)
         else:
             self.result['changed'] = changed_status
-            self.msg = "Global device credentials deleted successfully"
+            self.msg = "Global Device Credentials Deleted Successfully"
+            result_global_credential.get("Deletion").update({"msg": self.msg})
             self.log(str(self.msg), "INFO")
             self.status = "success"
 

@@ -1,0 +1,224 @@
+{
+    "playbook_config_valid": [
+      {
+        "faulty_device_ip_address": "204.1.2.9",
+        "replacement_device_ip_address": "204.1.2.10"
+      }
+    ],
+    "playbook_config_device_name": [
+      {
+        "faulty_device_name": "vRouter1.cisco.com",
+        "replacement_device_name": "Vrouter2"
+      }
+    ],
+    "playbook_config_serial_number": [
+      {
+        "faulty_device_serial": "FJC2327U0S2",
+        "replacement_device_serial": "FCW2225C020"
+      }
+    ],
+    "playbook_config_invalid_params": [
+      {
+        "faulty_device_ip_address": "204.1.2.9T",
+        "replacement_device_ip_address": "204.1.2.10"
+      }
+    ],
+    "playbook_config_device_not_found": [
+      {
+        "faulty_device_ip_address": "204.1.2.9",
+        "replacement_device_ip_address": "204.1.2.19"
+      }
+    ],
+    "playbook_invalid_config": [
+      {
+        "faulty_device_ip_address": "",
+        "replacement_device_ip_address": ""
+      }
+    ],
+    "playbook_config_faulty_device_not_found": [
+      {
+        "faulty_device_ip_address": "204.1.2.19",
+        "replacement_device_ip_address": "204.1.2.10"
+      }
+    ],
+    "playbook_invalid_serial": [
+      {
+        "faulty_device_serial_number": "FJC2327U0S2YZ",
+        "replacement_device_serial_number": "FCW2225C020"
+      }
+    ],
+    "playbook_config_exception": [
+      {
+      }
+    ],
+    "get_mark_device_exception":{
+        "message": "Exception occurred while marking device for replacement: "
+    },
+    "get_device_replacement_response":{
+        "message": "Replacement device '204.1.2.19' not found in Cisco Catalyst Center"
+    },
+    "get_faulty_device_exception":{
+        "message": "Faulty device '204.1.2.19' not found in Cisco Catalyst Center"
+    },
+    "get_valid_device_info_in_config":{
+         "message": "No valid device combination found in config. Provided values in config: {}"
+    },
+    "get_invalid_params_in_playbook":{
+        "message": "Invalid parameters in playbook config: 'faulty_device_ip_address: Invalid IP Address '204.1.2.9T' in playbook' "
+    },
+    "get_device_no_config":{
+        "message": "Invalid or missing 'want' dictionary"
+    },
+    "get_device_invalid_serial":{
+         "message": "Invalid parameters in playbook config: 'faulty_device_serial_number: Invalid Serial Number 'FJC2327U0S2YZ' in playbook.' "
+    },
+    "get_task_details_deploy_success_status":{
+         "message": "Device replacement completed successfully: RMA deploy workflow with workflowId fff0de41-4f7f-48bb-8cf4-14703a684009 is completed successfully."
+    },
+    "get_task_details_unmark_failure_status":{
+      "message": "Error while unmarking device for replacement: Task failed. | Unmarking result: Error while unmarking device for replacement: Task failed."
+    }, 
+    "get_task_details_unmark_success_status":{
+      "message": "Device replacement task failed: An error occurred during the operation |Unmarking result: Device(s) Unmarked For Replacement successfully."
+    }, 
+    "get_device_list_response_faulty": {
+        "response": [
+            {
+            "id": "c5c9215b-5c4a-4a9d-bfe5-9f18739a3b3e",
+            "serialNumber": "FJC2327U0S2",
+            "managementIpAddress": "204.1.2.9",
+            "hostname": "vRouter1.cisco.com",
+            "platformId": "C8000V"
+            }
+        ],
+        "version": "1.0"
+    },
+    "get_device_list_response_replacement": {
+      "response": [
+        {
+          "id": "f2a281a8-5bc4-4590-903b-17b28e567e8a",
+          "serialNumber": "FCW2225C020",
+          "managementIpAddress": "204.1.2.10",
+          "hostname": "Vrouter2",
+          "platformId": "C8000V"
+        }
+      ],
+      "version": "1.0"
+    },
+    "get_device_list_empty_response": {
+      "response": [],
+      "version": "1.0"
+    },
+    "mark_device_for_replacement_response": {
+      "response": {
+        "taskId": "0190bb9f-8b98-78ea-8538-aee954f1fd59",
+        "url": "/api/v1/task/0190bb9f-8b98-78ea-8538-aee954f1fd59"
+      },
+      "version": "1.0"
+    },
+    "get_task_details_mark_success": {
+        "response": {
+          "endTime": 1721134713963,
+          "version": 1721134713963,
+          "progress": "Device(s) Marked For Replacement successfully.",
+          "startTime": 1721134713752,
+          "serviceType": "NCRM",
+          "operationIdList": ["04e69310-d43f-4f7f-b681-5a9a62ae01a3"],
+          "isError": false,
+          "instanceTenantId": "6663114d388b29001399e46a",
+          "id": "0190bb9f-8b98-78ea-8538-aee954f1fd59"
+        },
+        "version": "1.0"
+    },
+    "get_task_details_failure": {
+      "response": {
+        "endTime": 1721134713963,
+        "version": 1721134713963,
+        "progress": "Task failed.",
+        "startTime": 1721134713752,
+        "isError": true,
+        "failureReason": "An error occurred during the operation",
+        "id": "0190bb9f-8b98-78ea-8538-aee954f1fd59"
+      },
+      "version": "1.0"
+    },
+    "unmark_device_for_replacement_response": {
+      "response": {
+        "taskId": "0190bb9f-8b98-78ea-8538-aee954f1fd60",
+        "url": "/api/v1/task/0190bb9f-8b98-78ea-8538-aee954f1fd60"
+      },
+      "version": "1.0"
+    },
+    "get_task_details_unmark_failure": {
+      "response": {
+        "endTime": 1721134713963,
+        "version": 1721134713963,
+        "progress": "Device(s) Unmarked For Replacement failed.",
+        "startTime": 1721134713752,
+        "isError": true,
+        "id": "0190bb9f-8b98-78ea-8538-aee954f1fd60"
+      },
+      "version": "1.0"
+     },
+     "get_task_details_unmark_success": {
+      "response": {
+        "endTime": 1721134713963,
+        "version": 1721134713963,
+        "progress": "Device(s) Unmarked For Replacement successfully.",
+        "startTime": 1721134713752,
+        "isError": false,
+        "id": "0190bb9f-8b98-78ea-8538-aee954f1fd60"
+      },
+      "version": "1.0"
+     },
+    "deploy_device_replacement_response": {
+      "response": {
+        "taskId": "0190bb9f-9164-7542-89ad-4b184bb66160",
+        "url": "/api/v1/task/0190bb9f-8b98-78ea-8538-aee954f1fd60"
+      },
+      "version": "1.0"
+    },
+    "get_task_details_deploy_in_progress": {
+      "response":  {
+        "version": 1721134716495,
+        "progress": "RMA deploy workflow with workflowId fff0de41-4f7f-48bb-8cf4-14703a684009 is triggered successfully.",
+        "startTime": 1721134715236,
+        "lastUpdate": 1721134716495,
+        "serviceType": "NCRM",
+        "operationIdList": [
+            "219a97c2-b94a-4d7a-ab24-919a940c757f"
+        ],
+        "isError": false,
+        "instanceTenantId": "6663114d388b29001399e46a",
+        "id": "0190bb9f-9164-7542-89ad-4b184bb66160"
+      }
+      },
+    "get_task_details_deploy_success": {
+      "response": {
+        "endTime": 1721135110338,
+        "progress": "RMA deploy workflow with workflowId fff0de41-4f7f-48bb-8cf4-14703a684009 is completed successfully.",
+        "startTime": 1721134715236,
+        "lastUpdate": 1721135040433,
+        "serviceType": "NCRM",
+        "operationIdList": [
+            "219a97c2-b94a-4d7a-ab24-919a940c757f"
+        ],
+        "isError": false,
+        "instanceTenantId": "6663114d388b29001399e46a",
+        "id": "0190bb9f-9164-7542-89ad-4b184bb66160"
+          },
+      "version": "1.0"
+    },
+    "get_task_details_replacement_failure": {
+      "response": {
+        "endTime": 1721134713963,
+        "version": 1721134713963,
+        "progress": "Device replacement failed.",
+        "startTime": 1721134713752,
+        "isError": true,
+        "failureReason": "Replacement process encountered an error",
+       "id": "0190bb9f-8b98-78ea-8538-aee954f1fd59"
+      },
+      "version": "1.0"
+    }
+}

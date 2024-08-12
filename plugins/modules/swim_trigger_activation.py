@@ -49,7 +49,7 @@ options:
       before schedule (Optional).
     type: bool
 requirements:
-- dnacentersdk >= 2.7.1
+- dnacentersdk >= 2.7.2
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Software Image Management (SWIM) TriggerSoftwareImageActivation

@@ -1,0 +1,286 @@
+---
+- debug: msg="Starting discovery management test"
+- debug: msg="Role Path {{ role_path }}"
+
+- block:
+  - name: Load vars and declare dnac vars
+    include_vars:
+      file: "{{ role_path }}/vars/vars_discovery_management.yml"
+      name: vars_map
+
+    vars:
+      dnac_login: &dnac_login
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        config_verify: True
+
+  - name: Clean up vars
+    include_vars:
+      file: "{{ role_path }}/vars/vars_misc.yml"
+      name: vars_map_delete
+
+  # - debug:
+  #     msg: "{{ vars_map.single_ip }}"
+  # - debug:
+  #     msg: "{{ vars_map.ip_range }}"
+  # - debug:
+  #     msg: "{{ vars_map.multi_range }}"
+  # - debug:
+  #     msg: "{{ vars_map.cdp }}"
+  # - debug:
+  #     msg: "{{ vars_map.lldp }}"
+  # - debug:
+  #     msg: "{{ vars_map.cidr }}"
+
+#############################################
+#            Pre Tests Clean Up             #
+#############################################
+
+  - name: Delete discoveries before test
+    cisco.dnac.discovery_workflow_manager:
+      <<: *dnac_login
+      state: deleted
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map_delete.delete_discoveries }}"
+
+#############################################
+#    Create Single IP Address Discovery     #
+#############################################
+
+  # - name: Discover a single IP Address
+  #   cisco.dnac.discovery_workflow_manager:
+  #     <<: *dnac_login
+  #     state: merged
+  #     config:
+  #       - "{{ item }}"
+  #   loop: "{{ vars_map.single_ip }}"
+  #   register: result_singleip_discovery
+
+  # # - name: Debug item
+  # #   debug:
+  # #     var: result_singleip_discovery
+
+  # - name: Check single IP discovery creation
+  #   assert:
+  #     that:
+  #       - result_singleip_discovery.changed == true
+  #       - "'Discovery Created Successfully' in result_singleip_discovery.results | map(attribute='msg') | list"
+  #   when: result_singleip_discovery is defined
+
+#############################################
+#     Create Range IP Address Discovery     #
+#############################################
+
+  # - name: Discover an IP Address Range
+  #   cisco.dnac.discovery_workflow_manager:
+  #     <<: *dnac_login
+  #     state: merged
+  #     config:
+  #       - "{{ item }}"
+  #   loop: "{{ vars_map.ip_range }}"
+  #   register: result_ip_range_discovery
+
+  # # - name: Debug item
+  # #   debug:
+  # #     var: result_ip_range_discovery
+
+  # - name: Check IP address range discovery creation
+  #   assert:
+  #     that:
+  #       - result_ip_range_discovery.changed == true
+  #       - "'Discovery Created Successfully' in result_ip_range_discovery.results | map(attribute='msg') | list"
+  #   when: result_ip_range_discovery is defined
+
+#############################################
+#  Create Multi Range IP Address Discovery  #
+#############################################
+
+  # - name: Discover Multi IP Address Ranges
+  #   cisco.dnac.discovery_workflow_manager:
+  #     <<: *dnac_login
+  #     state: merged
+  #     config:
+  #       - "{{ item }}"
+  #   loop: "{{ vars_map.multi_range }}"
+  #   register: result_multi_range_discovery
+
+  # - name: Debug item
+  #   debug:
+  #     var: result_multi_range_discovery
+
+  # - name: Check multi range IP address discovery creation
+  #   assert:
+  #     that:
+  #       - result_multi_range_discovery.changed == true
+  #       - "'Discovery Created Successfully' in result_multi_range_discovery.results | map(attribute='msg') | list"
+  #   when: result_multi_range_discovery is defined
+
+#############################################
+#        Create  Discovery using CDP        #
+#############################################
+
+  # - name: Discover using CDP 
+  #   cisco.dnac.discovery_workflow_manager:
+  #     <<: *dnac_login
+  #     state: merged
+  #     config:
+  #       - "{{ item }}"
+  #   loop: "{{ vars_map.cdp }}"
+  #   register: result_cdp_discovery
+
+  # # - name: Debug item
+  # #   debug:
+  # #     var: result_cdp_discovery
+
+  # - name: Check CDP discovery creation
+  #   assert:
+  #     that:
+  #       - result_cdp_discovery.changed == true
+  #       - "'Discovery Created Successfully' in result_cdp_discovery.results | map(attribute='msg') | list"
+  #   when: result_cdp_discovery is defined
+
+#############################################
+#       Create  Discovery using LLDP        #
+#############################################
+
+  # - name: Discover using LLDP
+  #   cisco.dnac.discovery_workflow_manager:
+  #     <<: *dnac_login
+  #     state: merged
+  #     config:
+  #       - "{{ item }}"
+  #   loop: "{{ vars_map.lldp }}"
+  #   register: result_lldp_discovery
+
+  # # - name: Debug item
+  # #   debug:
+  # #     var: result_lldp_discovery
+
+  # - name: Check LLDP discovery creation
+  #   assert:
+  #     that:
+  #       - result_lldp_discovery.changed == true
+  #       - "'Discovery Created Successfully' in result_lldp_discovery.results | map(attribute='msg') | list"
+  #   when: result_lldp_discovery is defined
+
+#############################################
+#       Create  Discovery using CIDR        #
+#############################################
+
+  # - name: Discover using CIDR 
+  #   cisco.dnac.discovery_workflow_manager:
+  #     <<: *dnac_login
+  #     state: merged
+  #     config:
+  #       - "{{ item }}"
+  #   loop: "{{ vars_map.cidr }}"
+  #   register: result_cidr_discovery
+
+  # # - name: Debug item
+  # #   debug:
+  # #     var: result_cidr_discovery
+
+  # - name: Check CIDR discovery creation
+  #   assert:
+  #     that:
+  #       - result_cidr_discovery.changed == true
+  #       - "'Discovery Created Successfully' in result_cidr_discovery.results | map(attribute='msg') | list"
+  #   when: result_cidr_discovery is defined
+
+#############################################
+#       Create  Multiple Discoveries        #
+#############################################
+
+  # - name: Add new item with "preferred_mgmt_ip_method"
+  #   set_fact:
+  #     vars_map_preferred_mgmt: {}
+
+  # - name: Add preferred_mgmt_ip_method to vars_map_preferred_mgmt
+  #   set_fact:
+  #     vars_map_preferred_mgmt: "{{ vars_map_preferred_mgmt | combine({item + '_preferred_mgmt': vars_map[item] | map('combine', {'preferred_mgmt_ip_method': 'UseLoopBack'}) | map('combine', {'discovery_name': vars_map[item][0]['discovery_name'] + ' - preferred_mgmt' }) | list}) }}"
+  #   loop: "{{ vars_map.keys() }}"
+  #   tags: multiple_discoveries
+
+  # - name: Set vars_map_multiple
+  #   set_fact:
+  #     vars_map_multiple: "{{ vars_map  | combine(vars_map_preferred_mgmt) }}"
+  #   tags: multiple_discoveries
+
+  # - name: Print the updated vars_map_multiple
+  #   debug:
+  #     var: vars_map_multiple
+  #   tags: multiple_discoveries
+
+  # - name: Create multiple Discoveries
+  #   cisco.dnac.discovery_workflow_manager:
+  #     <<: *dnac_login
+  #     state: merged
+  #     config:
+  #       - "{{ vars_map_multiple[item][0]  }}"
+  #   with_items: "{{ vars_map_multiple }}"
+  #   tags: multiple_discoveries
+  #   register: result_multiple_discoveries
+
+  # # - name: Debug item
+  # #   debug:
+  # #     var: result_multiple_discoveries
+  # #   when: result_multiple_discoveries is defined
+
+  # - name: Check if multiple discoveries were successfull
+  #   assert:
+  #     that:
+  #       - item.changed == true
+  #       - "'Discovery Created Successfully' in item.msg"
+  #   loop: "{{ result_multiple_discoveries.results }}"
+  #   when: result_multiple_discoveries is defined
+
+#############################################
+#         Delete Discovery by name          #
+#############################################
+
+  # - name: Delete all discovery
+  #   cisco.dnac.discovery_workflow_manager:
+  #     <<: *dnac_login
+  #     state: deleted
+  #     config:
+  #         - "{{ item }}"
+  #   loop: "{{ vars_map_delete.delete_discoveries }}"
+  #   register: result_delete_discoveries
+
+  # # - name: Debug item
+  # #   debug:
+  # #     var: item
+  # #   loop: "{{ result_delete_discoveries.results }}"
+
+  # - name: Check if discovery was successfully deleted
+  #   assert:
+  #     that:
+  #       - item.changed == true
+  #       - "'Successfully deleted discovery' in item.msg"
+  #   loop: "{{ result_delete_discoveries.results }}"
+  #   when: result_delete_discoveries is defined
+
+############################################
+#           Delete ALL Discoveries         #
+############################################
+
+  # - name: Delete all discoveries that were created
+  #   cisco.dnac.discovery_workflow_manager:
+  #     <<: *dnac_login
+  #     state: deleted
+  #     config:
+  #       - delete_all: True
+  #   register: result_delete_all
+
+  # - name: Debug item
+  #   debug:
+  #     var: result_delete_all
+  #   when: result_delete_all is defined
