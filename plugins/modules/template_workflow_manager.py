@@ -191,7 +191,7 @@ options:
                     type: list
                     elements: dict
                   required:
-                    description: Dictates whether the parameter is mandatory for template operations.
+                    description: Dictates whether the parameter is required for template operations.
                     type: bool
                   selection:
                     description: Contains options for parameter selection when a choice is available.
@@ -266,7 +266,7 @@ options:
               - VELOCITY
             type: str
           template_name:
-            description: Name of template. This field is mandatory to create a new template.
+            description: Name of template. This field is required to create a new template.
             type: str
           project_name:
             description: Title of the project within which the template is categorized and managed.
@@ -275,7 +275,7 @@ options:
             description: Narrative that elaborates on the purpose and scope of the project.
             type: str
           software_type:
-            description: Applicable device software type. This field is mandatory to create a new template.
+            description: Applicable device software type. This field is required to create a new template.
             choices:
               - IOS
               - IOS-XE
@@ -367,7 +367,7 @@ options:
                 type: list
                 elements: dict
               required:
-                description: Dictates whether the parameter is mandatory for template operations.
+                description: Dictates whether the parameter is required for template operations.
                 type: bool
               selection:
                 description: Contains options for parameter selection when a choice is available.
@@ -422,11 +422,28 @@ options:
             type: dict
             suboptions:
               do_version:
-                description: DoVersion query parameter. If this flag is true, creates a new
-                  version of the template with the imported contents, if the templates already
-                  exists. " If false and if template already exists, then operation
-                  fails with 'Template already exists' error.
+                description:
+                - Determines whether to create a new version of the project with the imported contents.
+                - If set to true and the project already exists, a new version will be created.
+                - If false, the operation will fail with a 'Project already exists' error if the project already exists.
                 type: bool
+              project_file:
+                description:
+                - Specifies the path to a JSON file that contains the import project configuration.
+                - If both 'project_file' and 'payload' are provided, the 'project_file' will be given priority.
+                type: str
+                version_added: 6.17.0
+              payload:
+                description:
+                - Directly imports configuration data into the system using the provided payload.
+                - Offers an alternative to 'project_file' for importing configurations without referencing an external file.
+                - Ignored if 'project_file' is also provided.
+                type: list
+                elements: dict
+                suboptions:
+                  name:
+                    description: Name of the project to be imported.
+                    type: str
           template:
             description: Import the templates.
             type: dict
@@ -588,7 +605,7 @@ options:
                             type: list
                             elements: dict
                           required:
-                            description: Dictates whether the parameter is mandatory for template operations.
+                            description: Dictates whether the parameter is required for template operations.
                             type: bool
                           selection:
                             description: Contains options for parameter selection when a choice is available.
@@ -663,7 +680,7 @@ options:
                       - VELOCITY
                     type: str
                   template_name:
-                    description: Name of template. This field is mandatory to create a new template.
+                    description: Name of template. This field is required to create a new template.
                     type: str
                   project_name:
                     description: Title of the project within which the template is categorized and managed.
@@ -672,7 +689,7 @@ options:
                     description: Narrative that elaborates on the purpose and scope of the project.
                     type: str
                   software_type:
-                    description: Applicable device software type. This field is mandatory to create a new template.
+                    description: Applicable device software type. This field is required to create a new template.
                     choices:
                       - IOS
                       - IOS-XE
@@ -764,7 +781,7 @@ options:
                         type: list
                         elements: dict
                       required:
-                        description: Dictates whether the parameter is mandatory for template operations.
+                        description: Dictates whether the parameter is required for template operations.
                         type: bool
                       selection:
                         description: Contains options for parameter selection when a choice is available.
@@ -794,7 +811,7 @@ options:
                 type: str
 
 requirements:
-- dnacentersdk >= 2.7.1
+- dnacentersdk >= 2.7.2
 - python >= 3.9
 notes:
   - SDK Method used are
@@ -1200,7 +1217,7 @@ class Template(DnacBase):
             if name is not None:
                 tags[i].update({"name": name})
             else:
-                self.msg = "name is mandatory in tags in location " + str(i)
+                self.msg = "name is required in tags in location " + str(i)
                 self.status = "failed"
                 return self.check_return_status()
 
@@ -1219,7 +1236,7 @@ class Template(DnacBase):
         """
 
         if device_types is None:
-            self.msg = "Mandatory parameter 'device_types' is required."
+            self.msg = "The parameter 'device_types' is required but not provided."
             self.status = "failed"
             return self.check_return_status()
 
@@ -1231,7 +1248,7 @@ class Template(DnacBase):
             if product_family is not None:
                 deviceTypes[i].update({"productFamily": product_family})
             else:
-                self.msg = "product_family is mandatory for deviceTypes"
+                self.msg = "The parameter 'product_family' is required for 'device_types' but not provided."
                 self.status = "failed"
                 return self.check_return_status()
 
@@ -1331,7 +1348,7 @@ class Template(DnacBase):
             if parameter_name is not None:
                 templateParams[i].update({"parameterName": parameter_name})
             else:
-                self.msg = "parameter_name is mandatory for the template_params."
+                self.msg = "The parameter 'parameter_name' is required for 'template_params' but not provided."
                 self.status = "failed"
                 return self.check_return_status()
 
@@ -1340,7 +1357,7 @@ class Template(DnacBase):
             if data_type is not None:
                 templateParams[i].update({"dataType": data_type})
             else:
-                self.msg = "dataType is mandatory for the template_params."
+                self.msg = "dataType is required for the template_params."
                 self.status = "failed"
                 return self.check_return_status()
             if data_type not in datatypes:
@@ -1368,14 +1385,14 @@ class Template(DnacBase):
                     if max_value is not None:
                         _range[j].update({"maxValue": max_value})
                     else:
-                        self.msg = "max_value is mandatory for range under template_params"
+                        self.msg = "The parameter 'max_value' is required for range under 'template_params' but not provided."
                         self.status = "failed"
                         return self.check_return_status()
                     min_value = value.get("min_value")
                     if min_value is not None:
                         _range[j].update({"minValue": min_value})
                     else:
-                        self.msg = "min_value is mandatory for range under template_params"
+                        self.msg = "The parameter 'min_value' is required for range under 'template_params' but not provided."
                         self.status = "failed"
                         return self.check_return_status()
                     j = j + 1
@@ -1466,7 +1483,7 @@ class Template(DnacBase):
 
             name = item.get("name")
             if name is None:
-                self.msg = "name is mandatory under containing templates"
+                self.msg = "The parameter 'name' is required under 'containing_templates' but not provided."
                 self.status = "failed"
                 return self.check_return_status()
 
@@ -1484,7 +1501,7 @@ class Template(DnacBase):
 
             language = item.get("language")
             if language is None:
-                self.msg = "language is mandatory under containing templates"
+                self.msg = "The parameter 'language' is required under 'containing_templates' but not provided."
                 self.status = "failed"
                 return self.check_return_status()
 
@@ -1498,7 +1515,7 @@ class Template(DnacBase):
 
             project_name = item.get("project_name")
             if project_name is None:
-                self.msg = "project_name is mandatory under containing templates"
+                self.msg = "The parameter 'project_name' is required under 'containing_templates' but not provided."
                 self.status = "failed"
                 return self.check_return_status()
 
@@ -1552,7 +1569,7 @@ class Template(DnacBase):
         }
         language = params.get("language")
         if not language:
-            self.msg = "Mandatory parameter 'language' is required."
+            self.msg = "The parameter 'language' is required but not provided."
             self.status = "failed"
             return self.check_return_status()
 
@@ -1567,7 +1584,7 @@ class Template(DnacBase):
 
         name = params.get("template_name")
         if not name:
-            self.msg = "Mandatory parameter 'template_name' is required."
+            self.msg = "The parameter 'template_name' is required but not provided."
             self.status = "failed"
             return self.check_return_status()
 
@@ -1575,7 +1592,7 @@ class Template(DnacBase):
 
         projectName = params.get("project_name")
         if not projectName:
-            self.msg = "Mandatory parameter 'project_name' is required."
+            self.msg = "The parameter 'project_name' is required but not provided."
             self.status = "failed"
             return self.check_return_status()
 
@@ -1583,7 +1600,7 @@ class Template(DnacBase):
 
         softwareType = params.get("software_type")
         if not softwareType:
-            self.msg = "Mandatory parameter 'software_type' is required."
+            self.msg = "The parameter 'software_type' is required but not provided."
             self.status = "failed"
             return self.check_return_status()
 
@@ -1755,7 +1772,7 @@ class Template(DnacBase):
         configuration_templates = config.get("configuration_templates")
         if configuration_templates:
             if not configuration_templates.get("project_name"):
-                self.msg = "Mandatory Parameter project_name not available"
+                self.msg = "The parameter 'project_name' is required but not provided."
                 self.status = "failed"
                 return self
             template_available = self.get_have_project(config)
@@ -1951,7 +1968,7 @@ class Template(DnacBase):
 
     def update_mandatory_parameters(self, template_params):
         """
-        Update parameters which are mandatory for creating a template.
+        Update parameters which are required for creating a template.
 
         Parameters:
             template_params (dict) - Template information.
@@ -2024,34 +2041,48 @@ class Template(DnacBase):
             self
         """
 
-        template_details = self.dnac._exec(
+        all_project_details = self.dnac._exec(
             family="configuration_templates",
             function='get_projects_details'
         )
+        all_project_details = all_project_details.get("response")
         for values in export_values:
             project_name = values.get("project_name")
             self.log("Project name for export template: {0}".format(project_name), "DEBUG")
-            template_details = template_details.get("response")
-            self.log("Template details: {0}".format(template_details), "DEBUG")
-            all_template_details = get_dict_result(template_details,
-                                                   "name",
-                                                   project_name)
-            self.log("Template details under the project name {0}: {1}"
-                     .format(project_name, all_template_details), "DEBUG")
-            all_template_details = all_template_details.get("templates")
+            self.log("Template details: {0}".format(all_project_details), "DEBUG")
+            project_details = get_dict_result(all_project_details,
+                                              "name",
+                                              project_name)
+            if not project_details:
+                self.msg = (
+                    "There are no projects with the given project name '{project_name}'."
+                    .format(project_name=project_name)
+                )
+                self.status = "failed"
+                return self
+
+            all_template_details = project_details.get("templates")
+            if not all_template_details:
+                self.msg = (
+                    "There are no templates associated with the given project name '{project_name}'."
+                    .format(project_name=project_name)
+                )
+                self.status = "failed"
+                return self
+
             self.log("Template details under the project name {0}: {1}"
                      .format(project_name, all_template_details), "DEBUG")
             template_name = values.get("template_name")
-            template_detail = get_dict_result(all_template_details,
-                                              "name",
-                                              template_name)
+            template_details = get_dict_result(all_template_details,
+                                               "name",
+                                               template_name)
             self.log("Template details with template name {0}: {1}"
-                     .format(template_name, template_detail), "DEBUG")
-            if template_detail is None:
-                self.msg = "Invalid project_name and template_name in export"
+                     .format(template_name, template_details), "DEBUG")
+            if template_details is None:
+                self.msg = "Invalid 'project_name' and 'template_name' in export templates."
                 self.status = "failed"
                 return self
-            self.export_template.append(template_detail.get("id"))
+            self.export_template.append(template_details.get("id"))
 
         self.msg = "Successfully collected the export template IDs"
         self.status = "success"
@@ -2223,18 +2254,42 @@ class Template(DnacBase):
             do_version = _import_project.get("do_version")
             if not do_version:
                 do_version = False
-            payload = None
-            if _import.get("project").get("payload"):
-                payload = _import.get("project").get("payload")
-            else:
-                self.msg = "Mandatory parameter payload is not found under import project"
+
+            payload = _import.get("project").get("payload")
+            project_file = _import.get("project").get("project_file")
+            if not (payload or project_file):
+                self.msg = "Required parameter 'payload' or 'project_file' is not found under import project"
                 self.status = "failed"
                 return self
+
             final_payload = []
-            for item in payload:
-                response = self.get_project_details(item.get("name"))
-                if response == []:
-                    final_payload.append(item)
+            if project_file:
+                is_path_exists = self.is_path_exists(project_file)
+                if not is_path_exists:
+                    self.msg = "Import project file path '{0}' does not exist.".format(project_file)
+                    self.status = "failed"
+                    return self
+
+                is_json = self.is_json(project_file)
+                if not is_json:
+                    self.msg = "Import project file '{0}' is not in JSON format".format(project_file)
+                    self.status = "failed"
+                    return self
+                try:
+                    with open(project_file, 'r') as file:
+                        json_data = file.read()
+                    json_project = json.loads(json_data)
+                    final_payload = json_project
+                except Exception as msg:
+                    self.msg = "An unexpected error occurred while processing the file '{0}': {1}".format(project_file, msg)
+                    self.status = "failed"
+                    return self
+            elif payload:
+                for item in payload:
+                    response = self.get_project_details(item.get("name"))
+                    if response == []:
+                        final_payload.append(item)
+
             if final_payload != []:
                 _import_project = {
                     "do_version": do_version,
@@ -2251,7 +2306,7 @@ class Template(DnacBase):
                     )
                     validation_string = "successfully imported project"
                     self.check_task_response_status(response, validation_string, "imports_the_projects_provided").check_return_status()
-                    self.result['response'][2].get("import").get("response").update({"importProject": validation_string})
+                    self.result['response'][2].get("import").get("response").update({"importProject": "Successfully imported the project(s)."})
             else:
                 self.msg = "Projects '{0}' already available.".format(payload)
                 self.result['response'][2].get("import").get("response").update({
@@ -2266,7 +2321,7 @@ class Template(DnacBase):
 
             project_name = _import_template.get("project_name")
             if not _import_template.get("project_name"):
-                self.msg = "Mandatory parameter project_name is not found under import template"
+                self.msg = "Required parameter project_name is not found under import template"
                 self.status = "failed"
                 return self
 
@@ -2279,7 +2334,7 @@ class Template(DnacBase):
             payload = _import_template.get("payload")
             template_file = _import_template.get("template_file")
             if not (payload or template_file):
-                self.msg = "Mandatory parameter 'payload' or 'template_file' is not found under import template"
+                self.msg = "Required parameter 'payload' or 'template_file' is not found under import template"
                 self.status = "failed"
                 return self
 

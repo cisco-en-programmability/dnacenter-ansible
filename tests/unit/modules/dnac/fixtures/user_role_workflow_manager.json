@@ -1,0 +1,1473 @@
+{
+    "playbook_config_user": {
+        "user_details": [{
+            "first_name": "ajith",
+            "last_name": "andrew",
+            "username": "ajithandrewj",
+            "email": "ajith.andrew@example.com",
+            "password": "Ajith@123",
+            "role_list": ["Super-Admin-Role"]
+        }]
+    },
+    "playbook_config_delete_existing_user": {
+        "user_details": [{
+            "first_name": "ajith",
+            "last_name": "andrew",
+            "email": "ajith.andrew@example.com",
+            "password": "Ajith@123",
+            "role_list": ["Super-Admin-Role"]
+        }]
+    },
+    "playbook_config_invalid_param_mandatory_field_not_present": {
+        "user_details": [{
+            "first_name": "ajith",
+            "last_name": "andrew",
+            "email": "ajith.andrew@example.com"
+        }]
+    },
+    "playbook_config_invalid_param_username_email_not_present": {
+        "user_details": [{
+            "first_name": "ajith",
+            "last_name": "andrew"
+        }]
+    },
+    "playbook_config_invalid_param_username_not_correct_formate": {
+        "user_details": [{
+            "first_name": "ajith ",
+            "last_name": "andrew ",
+            "username": "ajithandrewj ",
+            "email": "ajith.andrewexample.com",
+            "password": "Ajith123",
+            "role_list": ["Super-Admin-Role"]
+        }]
+    },
+    "playbook_config_invalid_param_firstname_not_correct_formate": {
+        "user_details": [{
+            "first_name": "ajith ",
+            "last_name": "andrew",
+            "username": "ajithandrewj",
+            "email": "ajith.andrew@example.com",
+            "password": "Ajith@123",
+            "role_list": ["Super-Admin-Role"]
+        }]
+    },
+    "playbook_config_invalid_param_lastname_not_correct_formate": {
+        "user_details": [{
+            "first_name": "ajith",
+            "last_name": "andrew ",
+            "username": "ajithandrewj",
+            "email": "ajith.andrew@example.com",
+            "password": "Ajith@123",
+            "role_list": ["Super-Admin-Role"]
+        }]
+    },
+    "playbook_config_invalid_param_email_not_correct_formate": {
+        "user_details": [{
+            "first_name": "ajith",
+            "last_name": "andrew",
+            "username": "ajithandrewj",
+            "email": "ajith.andrewexample.com",
+            "password": "Ajith@123",
+            "role_list": ["Super-Admin-Role"]
+        }]
+    },
+    "playbook_config_invalid_param_password_not_correct_formate": {
+        "user_details": [{
+            "first_name": "ajith",
+            "last_name": "andrew",
+            "username": "ajithandrewj",
+            "email": "ajith.andrew@example.com",
+            "password": "Ajith123",
+            "role_list": ["Super-Admin-Role"]
+        }]
+    },
+    "playbook_config_invalid_param_user_rolelist_not_type_list": {
+        "user_details": [{
+            "first_name": "ajith",
+            "last_name": "andrew",
+            "username": "ajithandrewj&",
+            "email": "ajith.andrew@example.com",
+            "password": "Ajith@123",
+            "role_list": "Super-Admin-Role"
+        }]
+    },
+    "playbook_config_user_invalid_param_rolelist_not_found": {
+        "user_details": [{
+            "first_name": "ajith",
+            "last_name": "andrew",
+            "username": "ajithandrewj",
+            "email": "ajith.andrew@example.com",
+            "password": "Ajith@123",
+            "role_list": ["Super-Admin-Roleee"]
+        }]
+    },
+    "create_get_user_response":{
+        "response": {
+            "users": [{
+                "firstName": "syed",
+                "lastName": "khadeer",
+                "authSource": "internal",
+                "passphraseUpdateTime": "1712759668555",
+                "roleList": [
+                    "6486ce97ff1f0d0c8be622f6"
+                ],
+                "userId": "6486ce98ff1f0d0c8be622f7",
+                "email": "syed@example.com",
+                "username": "syedkhadeer"
+            }]
+        }
+    },
+    "create_user_get_role_response":{
+        "response": {
+            "roles": [{
+                "resourceTypes": [
+                    {
+                        "operations": [
+                            "gRead",
+                            "gCreate",
+                            "gUpdate",
+                            "gRemove"
+                        ],
+                        "type": "Utilities.Search"
+                    }
+                ],
+                "meta": {
+                    "createdBy": "admin",
+                    "created": "1717390142690",
+                    "lastModified": "1717390238774"
+                },
+                "roleId": "6486ce97ff1f0d0c8be622f6",
+                "name": "SUPER-ADMIN-ROLE",
+                "description": "For LTTS Team",
+                "type": "CUSTOM"
+            }]
+        }
+    },
+    "create_user_response":{
+        "message": "User created successfully",
+        "userId": "6694f2696bfb96588e776b6a"
+    },
+    "update_needed_get_user_response":{
+        "response": {
+            "users": [{
+                "firstName": "ajith-b",
+                "lastName": "andrew-b",
+                "authSource": "internal",
+                "passphraseUpdateTime": "1712759668555",
+                "roleList": [
+                    "6486ce97ff1f0d0c8be62111"
+                ],
+                "userId": "6486ce98ff1f0d0c8be622f7",
+                "email": "ajith.andrew-b@example.com",
+                "username": "ajithandrewj"
+            }]
+        }
+    },
+    "update_user_needed_get_role_response":{
+        "response": {
+            "roles": [{
+                "resourceTypes": [
+                    {
+                        "operations": [
+                            "gRead",
+                            "gCreate",
+                            "gUpdate",
+                            "gRemove"
+                        ],
+                        "type": "Utilities.Search"
+                    }
+                ],
+                "meta": {
+                    "createdBy": "admin",
+                    "created": "1717390142690",
+                    "lastModified": "1717390238774"
+                },
+                "roleId": "6486ce97ff1f0d0c8be622f6",
+                "name": "SUPER-ADMIN-ROLE",
+                "description": "For LTTS Team",
+                "type": "CUSTOM"
+            }]
+        }
+    },
+    "update_needed_user_response":{
+        "message": "User updated successfully"
+    },
+    "update_not_needed_get_user_response":{
+        "response": {
+            "users": [{
+                "firstName": "ajith",
+                "lastName": "andrew",
+                "authSource": "internal",
+                "passphraseUpdateTime": "1712759668555",
+                "roleList": [
+                    "6486ce97ff1f0d0c8be622f6"
+                ],
+                "userId": "6486ce98ff1f0d0c8be622f7",
+                "email": "ajith.andrew@example.com",
+                "username": "ajithandrewj"
+            }]
+        }
+    },
+    "update_user_not_needed_get_role_response":{
+        "response": {
+            "roles": [{
+                "resourceTypes": [
+                    {
+                        "operations": [
+                            "gRead",
+                            "gCreate",
+                            "gUpdate",
+                            "gRemove"
+                        ],
+                        "type": "Utilities.Search"
+                    }
+                ],
+                "meta": {
+                    "createdBy": "admin",
+                    "created": "1717390142690",
+                    "lastModified": "1717390238774"
+                },
+                "roleId": "6486ce97ff1f0d0c8be622f6",
+                "name": "SUPER-ADMIN-ROLE",
+                "description": "For LTTS Team",
+                "type": "CUSTOM"
+            }]
+        }
+    },
+    "update_not_needed_user_response":{
+        "message": "User does not need any update"
+    },
+    "delete_existing_get_user_response":{
+        "response": {
+            "users": [{
+                "firstName": "ajith",
+                "lastName": "andrew",
+                "authSource": "internal",
+                "passphraseUpdateTime": "1712759668555",
+                "roleList": [
+                    "6486ce97ff1f0d0c8be622f6"
+                ],
+                "userId": "6486ce98ff1f0d0c8be622f7",
+                "email": "ajith.andrew@example.com",
+                "username": "ajithandrewj"
+            }]
+        }
+    },
+    "delete_existing_user_get_role_response":{
+        "response": {
+            "roles": [{
+                "resourceTypes": [
+                    {
+                        "operations": [
+                            "gRead",
+                            "gCreate",
+                            "gUpdate",
+                            "gRemove"
+                        ],
+                        "type": "Utilities.Search"
+                    }
+                ],
+                "meta": {
+                    "createdBy": "admin",
+                    "created": "1717390142690",
+                    "lastModified": "1717390238774"
+                },
+                "roleId": "6486ce97ff1f0d0c8be622f6",
+                "name": "SUPER-ADMIN-ROLE",
+                "description": "For LTTS Team",
+                "type": "CUSTOM"
+            }]
+        }
+    },
+    "delete_existing_user_response":{
+        "message": "Deleted user successfully"
+    },
+    "delete_non_existing_get_user_response":{
+        "response": {
+            "users": [{
+                "firstName": "syed",
+                "lastName": "khadeer",
+                "authSource": "internal",
+                "passphraseUpdateTime": "1712759668555",
+                "roleList": [
+                    "6486ce97ff1f0d0c8be622f6"
+                ],
+                "userId": "6486ce98ff1f0d0c8be622f7",
+                "email": "syed@example.com",
+                "username": "syedkhadeer"
+            }]
+        }
+    },
+    "delete_non_existing_user_get_role_response":{
+        "response": {
+            "roles": [{
+                "resourceTypes": [
+                    {
+                        "operations": [
+                            "gRead",
+                            "gCreate",
+                            "gUpdate",
+                            "gRemove"
+                        ],
+                        "type": "Utilities.Search"
+                    }
+                ],
+                "meta": {
+                    "createdBy": "admin",
+                    "created": "1717390142690",
+                    "lastModified": "1717390238774"
+                },
+                "roleId": "6486ce97ff1f0d0c8be622f6",
+                "name": "SUPER-ADMIN-ROLE",
+                "description": "For LTTS Team",
+                "type": "CUSTOM"
+            }]
+        }
+    },
+    "delete_non_existing_user_response":{
+        "message": "Please provide a valid 'username' or 'email' for user deletion"
+    },
+    "invalid_param_mandatory_field_not_present_get_user_response":{
+        "response": {
+            "users": [{
+                "firstName": "syed",
+                "lastName": "khadeer",
+                "authSource": "internal",
+                "passphraseUpdateTime": "1712759668555",
+                "roleList": [
+                    "6486ce97ff1f0d0c8be622f6"
+                ],
+                "userId": "6486ce98ff1f0d0c8be622f7",
+                "email": "syed@example.com",
+                "username": "syedkhadeer"
+            }]
+        }
+    },
+    "invalid_param_mandatory_field_not_present_get_role_response":{
+        "response": {
+            "roles": [{
+                "resourceTypes": [
+                    {
+                        "operations": [
+                            "gRead",
+                            "gCreate",
+                            "gUpdate",
+                            "gRemove"
+                        ],
+                        "type": "Utilities.Search"
+                    }
+                ],
+                "meta": {
+                    "createdBy": "admin",
+                    "created": "1717390142690",
+                    "lastModified": "1717390238774"
+                },
+                "roleId": "6486ce97ff1f0d0c8be622f6",
+                "name": "OBSERVER-ROLE",
+                "description": "For LTTS Team",
+                "type": "CUSTOM"
+            }]
+        }
+    },
+    "user_invalid_mandatory_field_not_present_param_responce":{
+        "message": "Mandatory field not present: An error occurred while creating the user"
+    },
+    "invalid_param_username_email_not_present_get_user_response":{
+        "response": {
+            "users": [{
+                "firstName": "syed",
+                "lastName": "khadeer",
+                "authSource": "internal",
+                "passphraseUpdateTime": "1712759668555",
+                "roleList": [
+                    "6486ce97ff1f0d0c8be622f6"
+                ],
+                "userId": "6486ce98ff1f0d0c8be622f7",
+                "email": "syed@example.com",
+                "username": "syedkhadeer"
+            }]
+        }
+    },
+    "invalid_param_username_email_not_present_get_role_response":{
+        "response": {
+            "roles": [{
+                "resourceTypes": [
+                    {
+                        "operations": [
+                            "gRead",
+                            "gCreate",
+                            "gUpdate",
+                            "gRemove"
+                        ],
+                        "type": "Utilities.Search"
+                    }
+                ],
+                "meta": {
+                    "createdBy": "admin",
+                    "created": "1717390142690",
+                    "lastModified": "1717390238774"
+                },
+                "roleId": "6486ce97ff1f0d0c8be622f6",
+                "name": "SUPER-ADMIN-ROLE",
+                "description": "For LTTS Team",
+                "type": "CUSTOM"
+            }]
+        }
+    },
+    "user_invalid_username_email_not_present_param_responce":{
+        "message": "Configuration params like 'username' or 'email' or 'role_name' is not available in the playbook"
+    },
+    "invalid_param_not_correct_formate_get_user_response":{
+        "response": {
+            "users": [{
+                "firstName": "syed",
+                "lastName": "khadeer",
+                "authSource": "internal",
+                "passphraseUpdateTime": "1712759668555",
+                "roleList": [
+                    "6486ce97ff1f0d0c8be622f6"
+                ],
+                "userId": "6486ce98ff1f0d0c8be622f7",
+                "email": "syed@example.com",
+                "username": "syedkhadeer"
+            }]
+        }
+    },
+    "invalid_param_not_correct_formate_get_role_response":{
+        "response": {
+            "roles": [{
+                "resourceTypes": [
+                    {
+                        "operations": [
+                            "gRead",
+                            "gCreate",
+                            "gUpdate",
+                            "gRemove"
+                        ],
+                        "type": "Utilities.Search"
+                    }
+                ],
+                "meta": {
+                    "createdBy": "admin",
+                    "created": "1717390142690",
+                    "lastModified": "1717390238774"
+                },
+                "roleId": "6486ce97ff1f0d0c8be622f6",
+                "name": "SUPER-ADMIN-ROLE",
+                "description": "For LTTS Team",
+                "type": "CUSTOM"
+            }]
+        }
+    },
+    "user_invalid_param_not_correct_formate_responce":{
+        "message": "Invalid parameters in playbook config: first_name: 'ajith ' must only contain letters, numbers, underscores and hyphens and should not contain spaces or other special characters., last_name: 'andrew ' must only contain letters, numbers, underscores and hyphens and should not contain spaces or other special characters., email: Invalid email format for 'email': ajith.andrewexample.com, password: 'Password' does not meet complexity requirements for password: Ajith123, username: 'ajithandrewj ' must only contain letters, numbers, underscores and hyphens and should not contain spaces or other special characters."
+    },
+    "user_invalid_param_not_type_list_response":{
+        "message": "Invalid parameter(s) found in playbook: Super-Admin-Role : is not a valid list"
+    },
+    "invalid_param_rolelist_not_found_get_user_response":{
+        "response": {
+            "users": [{
+                "firstName": "syed",
+                "lastName": "khadeer",
+                "authSource": "internal",
+                "passphraseUpdateTime": "1712759668555",
+                "roleList": [
+                    "6486ce97ff1f0d0c8be622f6"
+                ],
+                "userId": "6486ce98ff1f0d0c8be622f7",
+                "email": "syed@example.com",
+                "username": "syedkhadeer"
+            }]
+        }
+    },
+    "invalid_param_rolelist_not_found_get_role_response":{
+        "response": {
+            "roles": [{
+                "resourceTypes": [
+                    {
+                        "operations": [
+                            "gRead",
+                            "gCreate",
+                            "gUpdate",
+                            "gRemove"
+                        ],
+                        "type": "Utilities.Search"
+                    }
+                ],
+                "meta": {
+                    "createdBy": "admin",
+                    "created": "1717390142690",
+                    "lastModified": "1717390238774"
+                },
+                "roleId": "6486ce97ff1f0d0c8be622f6",
+                "name": "SUPER-ADMIN-ROLE",
+                "description": "For LTTS Team",
+                "type": "CUSTOM"
+            }]
+        }
+    },
+    "user_invalid_param_rolelist_not_found_responce":{
+        "message": "The role name in the user details role_list is not present in the Cisco Catalyst Center, Please provide a valid role name"
+    },
+    "invalid_param_update_rolelist_not_found_get_user_response":{
+        "response": {
+            "users": [{
+                "firstName": "ajith",
+                "lastName": "andrew",
+                "authSource": "internal",
+                "passphraseUpdateTime": "1712759668555",
+                "roleList": [
+                    "6486ce97ff1f0d0c8be622f6"
+                ],
+                "userId": "6486ce98ff1f0d0c8be622f7",
+                "email": "ajith.andrew@example.com",
+                "username": "ajithandrewj"
+            }]
+        }
+    },
+    "user_invalid_param_update_rolelist_not_found_responce":{
+        "message": "The role name in the user details role_list is not present in the Cisco Catalyst Center, Please provide a valid role name"
+    },
+    "playbook_config_role": {
+        "role_details": [{
+            "role_name": "Test_Role_1",
+            "description": "Default role creation",
+            "assurance": [
+            {
+                "overall": "write",
+                "monitoring_and_troubleshooting": "write",
+                "monitoring_settings": "write",
+                "troubleshooting_tools": "read"
+            }
+            ],
+            "network_analytics": [
+            {
+                "overall": "read",
+                "data_access": "read"
+            }
+            ],
+            "network_design": [
+            {
+                "overall": "write",
+                "advanced_network_settings": "write",
+                "image_repository": "write",
+                "network_hierarchy": "write",
+                "network_profiles": "read",
+                "network_settings": "read",
+                "virtual_network": "read"
+            }
+            ],
+            "network_provision": [
+            {
+                "overall": "write",
+                "compliance": "write",
+                "eox": "write",
+                "image_update": "read",
+                "inventory_management": [
+                {
+                    "overall": "write",
+                    "device_configuration": "write",
+                    "discovery": "read",
+                    "network_device": "write",
+                    "port_management": "read",
+                    "topology": "write"
+                }
+                ],
+                "license": "write",
+                "network_telemetry": "write",
+                "pnp": "read",
+                "provision": "read"
+            }
+            ],
+            "network_services": [
+            {
+                "overall": "write",
+                "app_hosting": "write",
+                "bonjour": "write",
+                "stealthwatch": "read",
+                "umbrella": "write"
+            }
+            ],
+            "platform": [
+            {
+                "overall": "write",
+                "apis": "write",
+                "bundles": "read",
+                "events": "read",
+                "reports": "write"
+            }
+            ],
+            "security": [
+            {
+                "overall": "write",
+                "group_based_policy": "read",
+                "ip_based_access_control": "read",
+                "security_advisories": "read"
+            }
+            ],
+            "system": [
+            {
+                "overall": "write",
+                "machine_reasoning": "read",
+                "system_management": "write"
+            }
+            ],
+            "utilities": [
+            {
+                "overall": "write",
+                "audit_log": "read",
+                "event_viewer": "read",
+                "network_reasoner": "write",
+                "remote_device_support": "write",
+                "scheduler": "write",
+                "search": "write"
+            }
+            ]
+        }]
+    },
+    "playbook_config_1_role": {
+        "role_details": [
+            {
+              "role_name": "Test_Role_1",
+              "assurance": [
+                {
+                  "overall": "deny",
+                  "monitoring_and_troubleshooting": null,
+                  "monitoring_settings": "write",
+                  "troubleshooting_tools": "read"
+                }
+              ],
+              "network_analytics": [
+                {
+                  "data_access": null
+                }
+              ],
+              "network_design": [
+                {
+                  "overall": "deny",
+                  "advanced_network_settings": "write",
+                  "image_repository": "write",
+                  "network_hierarchy": null,
+                  "network_profiles": "read",
+                  "network_settings": "deny",
+                  "virtual_network": "read"
+                }
+              ],
+              "network_provision": [
+                {
+                  "overall": "deny",
+                  "compliance": null,
+                  "eox": "write",
+                  "image_update": "read",
+                  "inventory_management": [
+                    {
+                      "overall": "write",
+                      "device_configuration": "write",
+                      "discovery": "read",
+                      "network_device": "write",
+                      "port_management": "read",
+                      "topology": null
+                    }
+                  ],
+                  "license": "write",
+                  "network_telemetry": "write",
+                  "pnp": "read",
+                  "provision": "deny"
+                }
+              ],
+              "network_services": [
+                {
+                  "overall": "write",
+                  "app_hosting": "write",
+                  "bonjour": "write",
+                  "stealthwatch": null,
+                  "umbrella": "write"
+                }
+              ],
+              "platform": [
+                {
+                  "overall": "write",
+                  "apis": "write",
+                  "bundles": "read",
+                  "events": "read",
+                  "reports": null
+                }
+              ],
+              "security": [
+                {
+                  "overall": "deny",
+                  "group_based_policy": "deny",
+                  "ip_based_access_control": "read",
+                  "security_advisories": null
+                }
+              ],
+              "system": [
+                {
+                  "overall": "write",
+                  "machine_reasoning": "read",
+                  "system_management": null
+                }
+              ],
+              "utilities": [
+                {
+                  "overall": "deny",
+                  "audit_log": "read",
+                  "event_viewer": "deny",
+                  "network_reasoner": "write",
+                  "remote_device_support": "write",
+                  "scheduler": "write",
+                  "search": null
+                }
+              ]
+            }
+          ]
+    },
+    "playbook_config_invalid_param_rolename_not_present": {
+        "role_details": [{
+            "description": "Default role creation"
+        }]
+    },
+    "playbook_config_invalid_param_role_not_type_list": {
+        "role_details": [{
+            "role_name": "Test_Role_1",
+            "description": "Default role creation",
+            "assurance":
+                {
+                "overall": "read"
+                }
+        }]
+    },
+    "playbook_config_invalid_param_with_all_permision_deny": {
+        "role_details": [{
+            "role_name": "Test_Role_1",
+            "description": "Default role creation",
+            "assurance": [
+            {
+                "overall": "deny"
+            }
+            ],
+            "network_analytics": [
+            {
+                "overall": "deny"
+            }
+            ],
+            "network_design": [
+            {
+                "overall": "deny"
+            }
+            ],
+            "network_provision": [
+            {
+                "overall": "deny",
+                "inventory_management": [
+                {
+                    "overall": "deny"
+                }
+                ]
+            }
+            ],
+            "network_services": [
+            {
+                "overall": "deny"
+            }
+            ],
+            "platform": [
+            {
+                "overall": "deny"
+            }
+            ],
+            "security": [
+            {
+                "overall": "deny"
+            }
+            ],
+            "system": [
+            {
+                "overall": "deny"
+            }
+            ],
+            "utilities": [
+            {
+                "overall": "deny"
+            }
+            ]
+        }]
+    },
+    "playbook_config_invalid_param_rolename_not_correct_formate": {
+        "role_details": [{
+            "role_name": "Test_Role_1 ",
+            "description": "Default role creation",
+            "assurance": [
+                {
+                "overall": "read"
+                }
+            ]
+        }]
+    },
+    "playbook_config_invalid_param_type_list_missing":{
+        "role_details": {
+            "role_name": "Test_Role_1 ",
+            "description": "Default role creation",
+            "assurance": [
+                {
+                "overall": "read"
+                }
+            ]
+        }
+    },
+    "playbook_config_invalid_param_role_invalid_permission":{
+        "role_details": [{
+            "role_name": "Test_Role_1",
+            "description": "Default role creation",
+            "assurance": [
+                {
+                "overall": "aaa"
+                }
+            ]
+        }]
+    },
+    "playbook_config_invalid_invalid_param_state":{
+        "role_details": [{
+            "role_name": "Test_Role_1",
+            "description": "Default role creation",
+            "assurance": [
+                {
+                "overall": "aaa"
+                }
+            ]
+        }]
+    },
+    "create_get_role_response":{
+        "response": {
+            "roles": [{
+                "resourceTypes": [
+                    {
+                        "operations": [
+                            "gRead",
+                            "gCreate",
+                            "gUpdate",
+                            "gRemove"
+                        ],
+                        "type": "Utilities.Search"
+                    }
+                ],
+                "meta": {
+                    "createdBy": "admin",
+                    "created": "1717390142690",
+                    "lastModified": "1717390238774"
+                },
+                "roleId": "6486ce97ff1f0d0c8be622f6",
+                "name": "SUPER-ADMIN-ROLE",
+                "description": "For LTTS Team",
+                "type": "CUSTOM"
+            }]
+        }
+    },
+    "create_role_response":{
+        "message": "Role created successfully",
+        "roleId": "6694f2696bfb96588e776b6a"
+    },
+    "create_1_get_role_response":{
+        "response": {
+            "roles": [{
+                "resourceTypes": [
+                    {
+                        "operations": [
+                            "gRead",
+                            "gCreate",
+                            "gUpdate",
+                            "gRemove"
+                        ],
+                        "type": "Utilities.Search"
+                    }
+                ],
+                "meta": {
+                    "createdBy": "admin",
+                    "created": "1717390142690",
+                    "lastModified": "1717390238774"
+                },
+                "roleId": "6486ce97ff1f0d0c8be622f6",
+                "name": "SUPER-ADMIN-ROLE",
+                "description": "For LTTS Team",
+                "type": "CUSTOM"
+            }]
+        }
+    },
+    "create_1_role_response":{
+        "message": "Role created successfully",
+        "roleId": "6694f2696bfb96588e776b6a"
+    },
+    "update_needed_get_role_response":{
+        "response": {
+            "roles": [{
+                "resourceTypes": [
+                    {
+                        "operations": [
+                            "gRead",
+                            "gCreate",
+                            "gUpdate",
+                            "gRemove"
+                        ],
+                        "type": "Utilities.Search"
+                    }
+                ],
+                "meta": {
+                    "createdBy": "admin",
+                    "created": "1717390142690",
+                    "lastModified": "1717390238774"
+                },
+                "roleId": "6486ce97ff1f0d0c8be622f6",
+                "name": "Test_Role_1",
+                "description": "For LTTS Team",
+                "type": "CUSTOM"
+            }]
+        }
+    },
+    "update_needed_role_response":{
+        "message": "Role Updated successfully",
+        "roleId": "6694f2696bfb96588e776b6a"
+    },
+    "update_not_needed_get_role_response":{
+        "response": {
+            "roles": [{
+                "resourceTypes": [
+                    {
+                        "operations": [
+                            "gRead",
+                            "gUpdate",
+                            "gCreate",
+                            "gRemove"
+                        ],
+                        "type": "Assurance.Monitoring and Troubleshooting"
+                    },
+                    {
+                        "operations": [
+                            "gRead",
+                            "gUpdate",
+                            "gCreate",
+                            "gRemove"
+                        ],
+                        "type": "Assurance.Monitoring Settings"
+                    },
+                    {
+                        "operations": [
+                            "gRead"
+                        ],
+                        "type": "Assurance.Troubleshooting Tools"
+                    },
+                    {
+                        "operations": [
+                            "gRead"
+                        ],
+                        "type": "Network Analytics.Data Access"
+                    },
+                    {
+                        "operations": [
+                            "gRead",
+                            "gUpdate",
+                            "gCreate",
+                            "gRemove"
+                        ],
+                        "type": "Network Design.Advanced Network Settings"
+                    },
+                    {
+                        "operations": [
+                            "gRead",
+                            "gUpdate",
+                            "gCreate",
+                            "gRemove"
+                        ],
+                        "type": "Network Design.Image Repository"
+                    },
+                    {
+                        "operations": [
+                            "gRead",
+                            "gUpdate",
+                            "gCreate",
+                            "gRemove"
+                        ],
+                        "type": "Network Design.Network Hierarchy"
+                    },
+                    {
+                        "operations": [
+                            "gRead"
+                        ],
+                        "type": "Network Design.Network Profiles"
+                    },
+                    {
+                        "operations": [
+                            "gRead"
+                        ],
+                        "type": "Network Design.Network Settings"
+                    },
+                    {
+                        "operations": [
+                            "gRead"
+                        ],
+                        "type": "Network Design.Virtual Network"
+                    },
+                    {
+                        "operations": [
+                            "gRead",
+                            "gUpdate",
+                            "gCreate",
+                            "gRemove"
+                        ],
+                        "type": "Network Provision.Compliance"
+                    },
+                    {
+                        "operations": [
+                            "gRead",
+                            "gUpdate",
+                            "gCreate",
+                            "gRemove"
+                        ],
+                        "type": "Network Provision.EoX"
+                    },
+                    {
+                        "operations": [
+                            "gRead"
+                        ],
+                        "type": "Network Provision.Image Update"
+                    },
+                    {
+                        "operations": [
+                            "gRead",
+                            "gUpdate",
+                            "gCreate",
+                            "gRemove"
+                        ],
+                        "type": "Network Provision.Inventory Management.Device Configuration"
+                    },
+                    {
+                        "operations": [
+                            "gRead"
+                        ],
+                        "type": "Network Provision.Inventory Management.Discovery"
+                    },
+                    {
+                        "operations": [
+                            "gRead",
+                            "gUpdate",
+                            "gCreate",
+                            "gRemove"
+                        ],
+                        "type": "Network Provision.Inventory Management.Network Device"
+                    },
+                    {
+                        "operations": [
+                            "gRead"
+                        ],
+                        "type": "Network Provision.Inventory Management.Port Management"
+                    },
+                    {
+                        "operations": [
+                            "gRead",
+                            "gUpdate",
+                            "gCreate",
+                            "gRemove"
+                        ],
+                        "type": "Network Provision.Inventory Management.Topology"
+                    },
+                    {
+                        "operations": [
+                            "gRead",
+                            "gUpdate",
+                            "gCreate",
+                            "gRemove"
+                        ],
+                        "type": "Network Provision.License"
+                    },
+                    {
+                        "operations": [
+                            "gRead",
+                            "gUpdate",
+                            "gCreate",
+                            "gRemove"
+                        ],
+                        "type": "Network Provision.Network Telemetry"
+                    },
+                    {
+                        "operations": [
+                            "gRead"
+                        ],
+                        "type": "Network Provision.PnP"
+                    },
+                    {
+                        "operations": [
+                            "gRead"
+                        ],
+                        "type": "Network Provision.Provision"
+                    },
+                    {
+                        "operations": [
+                            "gRead",
+                            "gUpdate",
+                            "gCreate",
+                            "gRemove"
+                        ],
+                        "type": "Network Services.App Hosting"
+                    },
+                    {
+                        "operations": [
+                            "gRead",
+                            "gUpdate",
+                            "gCreate",
+                            "gRemove"
+                        ],
+                        "type": "Network Services.Bonjour"
+                    },
+                    {
+                        "operations": [
+                            "gRead"
+                        ],
+                        "type": "Network Services.Stealthwatch"
+                    },
+                    {
+                        "operations": [
+                            "gRead",
+                            "gUpdate",
+                            "gCreate",
+                            "gRemove"
+                        ],
+                        "type": "Network Services.Umbrella"
+                    },
+                    {
+                        "operations": [
+                            "gRead",
+                            "gUpdate",
+                            "gCreate",
+                            "gRemove"
+                        ],
+                        "type": "Platform.APIs"
+                    },
+                    {
+                        "operations": [
+                            "gRead"
+                        ],
+                        "type": "Platform.Bundles"
+                    },
+                    {
+                        "operations": [
+                            "gRead"
+                        ],
+                        "type": "Platform.Events"
+                    },
+                    {
+                        "operations": [
+                            "gRead",
+                            "gUpdate",
+                            "gCreate",
+                            "gRemove"
+                        ],
+                        "type": "Platform.Reports"
+                    },
+                    {
+                        "operations": [
+                            "gRead"
+                        ],
+                        "type": "Security.Group-Based Policy"
+                    },
+                    {
+                        "operations": [
+                            "gRead"
+                        ],
+                        "type": "Security.IP Based Access Control"
+                    },
+                    {
+                        "operations": [
+                            "gRead"
+                        ],
+                        "type": "Security.Security Advisories"
+                    },
+                    {
+                        "operations": [
+                            "gRead"
+                        ],
+                        "type": "System.Machine Reasoning"
+                    },
+                    {
+                        "operations": [
+                            "gRead",
+                            "gUpdate",
+                            "gCreate",
+                            "gRemove"
+                        ],
+                        "type": "System.System Management"
+                    },
+                    {
+                        "operations": [
+                            "gRead",
+                            "gUpdate",
+                            "gCreate",
+                            "gRemove"
+                        ],
+                        "type": "Utilities.Scheduler"
+                    },
+                    {
+                        "operations": [
+                            "gRead"
+                        ],
+                        "type": "Utilities.Event Viewer"
+                    },
+                    {
+                        "operations": [
+                            "gRead",
+                            "gUpdate",
+                            "gCreate",
+                            "gRemove"
+                        ],
+                        "type": "Utilities.Network Reasoner"
+                    },
+                    {
+                        "operations": [
+                            "gRead",
+                            "gUpdate",
+                            "gCreate",
+                            "gRemove"
+                        ],
+                        "type": "Utilities.Search"
+                    },
+                    {
+                        "operations": [
+                            "gRead"
+                        ],
+                        "type": "Utilities.Audit Log"
+                    },
+                    {
+                        "operations": [
+                            "gRead",
+                            "gUpdate",
+                            "gCreate",
+                            "gRemove"
+                        ],
+                        "type": "Utilities.Remote Device Support"
+                    }
+                ],
+                "meta": {
+                    "createdBy": "admin",
+                    "created": "1721628945568",
+                    "lastModified": null
+                },
+                "roleId": "6486ce97ff1f0d0c8be622f6",
+                "name": "Test_Role_1",
+                "description": "Default role creation",
+                "type": "CUSTOM"
+            }]
+        }
+    },
+    "update_not_needed_role_response":{
+        "message": "Role does not need any update"
+    },
+    "delete_existing_get_role_response":{
+        "response": {
+            "roles": [{
+                "resourceTypes": [
+                    {
+                        "operations": [
+                            "gRead"
+                        ],
+                        "type": "Assurance"
+                        
+                    }
+                ],
+                "meta": {
+                    "createdBy": "admin",
+                    "created": "1717390142690",
+                    "lastModified": "1717390238774"
+                },
+                "roleId": "6486ce97ff1f0d0c8be622f6",
+                "name": "Test_Role_1",
+                "description": "For LTTS Team",
+                "type": "CUSTOM"
+            }]
+        }
+    },
+    "delete_existing_role_response":{
+        "message": "Role deleted successfully"
+    },
+    "delete_non_existing_get_role_response":{
+        "response": {
+            "roles": [{
+                "resourceTypes": [
+                    {
+                        "operations": [
+                            "gRead"
+                        ],
+                        "type": "Utilities"
+                        
+                    }
+                ],
+                "meta": {
+                    "createdBy": "admin",
+                    "created": "1717390142690",
+                    "lastModified": "1717390238774"
+                },
+                "roleId": "6486ce97ff1f0d0c8be622f7",
+                "name": "Test_Role_2",
+                "description": "For LTTS Team",
+                "type": "CUSTOM"
+            }]
+        }
+    },
+    "delete_non_existing_role_response":{
+        "message": "Please provide a valid role_name for role deletion"
+    },
+    "role_invalid_rolename_not_present_param_response":{
+        "message": "Configuration params like 'username' or 'email' or 'role_name' is not available in the playbook"
+    },
+    "role_invalid_param_not_type_list_response":{
+        "message": "Invalid parameter(s) found in playbook: {'overall': 'read'} : is not a valid list"
+    },
+    "role_param_with_all_permision_deny_get_role_responce":{
+        "response": {
+            "roles": [{
+                "resourceTypes": [
+                    {
+                        "operations": [
+                            "gRead"
+                        ],
+                        "type": "Utilities"
+                        
+                    }
+                ],
+                "meta": {
+                    "createdBy": "admin",
+                    "created": "1717390142690",
+                    "lastModified": "1717390238774"
+                },
+                "roleId": "6486ce97ff1f0d0c8be622f7",
+                "name": "Test_Role_2",
+                "description": "For LTTS Team",
+                "type": "CUSTOM"
+            }]
+        }
+    },
+    "role_param_with_all_permision_deny_responce":{
+        "message": "An error occurred while creating the role without access-level parameters and permissions"
+    },
+    "invalid_param_rolename_not_correct_formate_get_role_responce":{
+        "response": {
+            "roles": [{
+                "resourceTypes": [
+                    {
+                        "operations": [
+                            "gRead"
+                        ],
+                        "type": "Utilities"
+                        
+                    }
+                ],
+                "meta": {
+                    "createdBy": "admin",
+                    "created": "1717390142690",
+                    "lastModified": "1717390238774"
+                },
+                "roleId": "6486ce97ff1f0d0c8be622f7",
+                "name": "Test_Role_2",
+                "description": "For LTTS Team",
+                "type": "CUSTOM"
+            }]
+        }
+    },
+    "role_invalid_param_rolename_not_correct_formate_responce":{
+        "message": "Invalid parameters in playbook config: role_name: 'Test_Role_1 ' must only contain letters, numbers, underscores and hyphens and should not contain spaces or other special characters."
+    },
+    "invalid_param_type_list_missing_response":{
+        "message": "Configuration is not available in the playbook for validation or user/role details are not type list"
+    },
+    "invalid_param_invalid_permission_role_get_response":{
+        "response": {
+            "roles": [{
+                "resourceTypes": [
+                    {
+                        "operations": [
+                            "gRead"
+                        ],
+                        "type": "Utilities"
+                        
+                    }
+                ],
+                "meta": {
+                    "createdBy": "admin",
+                    "created": "1717390142690",
+                    "lastModified": "1717390238774"
+                },
+                "roleId": "6486ce97ff1f0d0c8be622f7",
+                "name": "Test_Role_2",
+                "description": "For LTTS Team",
+                "type": "CUSTOM"
+            }]
+        }
+    },
+    "invalid_param_invalid_permission_update_role_get_response":{
+        "response": {
+            "roles": [{
+                "resourceTypes": [
+                    {
+                        "operations": [
+                            "gRead"
+                        ],
+                        "type": "Utilities"
+                        
+                    }
+                ],
+                "meta": {
+                    "createdBy": "admin",
+                    "created": "1717390142690",
+                    "lastModified": "1717390238774"
+                },
+                "roleId": "6486ce97ff1f0d0c8be622f7",
+                "name": "Test_Role_1",
+                "description": "Default role creation",
+                "type": "CUSTOM"
+            }]
+        }
+    },
+    "invalid_param_role_invalid_permission_response":{
+        "message": "Invalid permission aaa for assurance resource overall"
+    },
+    "invalid_param_role_update_invalid_permission_response":{
+        "message": "Invalid permission aaa for assurance resource overall"
+    },
+    "playbook_config_for_creating_default_role": {
+            "role_details": [{
+                "role_name": "default_role",
+                "description": "Default role creation"
+            }]
+    },
+    "create_default_get_role_response":{
+        "response": {
+            "roles": [{
+                "resourceTypes": [
+                    {
+                        "operations": [
+                            "gRead",
+                            "gCreate",
+                            "gUpdate",
+                            "gRemove"
+                        ],
+                        "type": "Utilities.Search"
+                    }
+                ],
+                "meta": {
+                    "createdBy": "admin",
+                    "created": "1717390142690",
+                    "lastModified": "1717390238774"
+                },
+                "roleId": "6486ce97ff1f0d0c8be622f6",
+                "name": "SUPER-ADMIN-ROLE",
+                "description": "For LTTS Team",
+                "type": "CUSTOM"
+            }]
+        }
+    },
+    "create_default_role_response":{
+        "message": "Role created successfully",
+        "roleId": "6694f2696bfb96588e776b6e"
+    },
+    "invalid_param_state_responce":{
+        "message": "value of state must be one of: merged, deleted, got: mergeddd"
+    }
+}

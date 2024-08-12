@@ -32,7 +32,7 @@ options:
     description: SiteId path parameter. Site Id where device(s) needs to be assigned.
     type: str
 requirements:
-- dnacentersdk >= 2.7.1
+- dnacentersdk >= 2.7.2
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Sites AssignDevicesToSite

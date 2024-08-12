@@ -20,3 +20,5 @@ changelogs/.plugin-cache.yaml
 playbooks/credentials.yml
 playbooks/device_details.template
 .DS_Store
+test.yml
+test.yaml

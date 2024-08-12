@@ -182,6 +182,21 @@ EXAMPLES = r"""
           managed_ap_locations:
             - Global/USA/RTP/BLD11/BLD11_FLOOR1
 
+- name: Unprovision a device from a site
+  cisco.dnac.provision_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: True
+    state: deleted
+    config_verify: True
+    config:
+        - management_ip_address: 204.1.2.2
+
 """
 
 RETURN = r"""
@@ -261,7 +276,7 @@ class Provision(DnacBase):
         """
 
         if not self.config:
-            self.msg = "config not available in playbook for validattion"
+            self.msg = "config not available in playbook for validation"
             self.status = "success"
             return self
 
@@ -306,7 +321,7 @@ class Provision(DnacBase):
           - device_type: A string indicating the type of the
                        device (wired/wireless).
         Example:
-          Post creation of the validated input, we this method gets the
+          Post creation of the validated input, we use this method to get the
           type of the device.
         """
         try:
@@ -558,7 +573,7 @@ class Provision(DnacBase):
             )
         except Exception:
             self.log("Exception occurred as \
-                site '{0}' was not found".format(self.want.get("site_name")), "CRITICAL")
+                site '{0}' was not found".format(site_name_hierarchy), "CRITICAL")
             self.module.fail_json(msg="Site not found", response=[])
 
         if response:
@@ -615,7 +630,40 @@ class Provision(DnacBase):
 
         return (site_exists, site_id)
 
-    def get_site_assignment(self):
+    def is_device_assigned_to_site(self, uuid):
+        """
+        Checks if a device, specified by its UUID, is assigned to any site.
+
+        Parameters:
+          - self: The instance of the class containing the 'config' attribute
+                  to be validated.
+          - uuid (str): The UUID of the device to check for site assignment.
+        Returns:
+          - boolean:  True if the device is assigned to a site, False otherwise.
+
+        """
+
+        self.log("Checking site assignment for device with UUID: {0}".format(uuid), "INFO")
+        try:
+            site_response = self.dnac_apply['exec'](
+                family="devices",
+                function='get_device_detail',
+                params={"search_by": uuid ,
+                        "identifier": "uuid"},
+                op_modifies=True
+            )
+            self.log("Response collected from the API 'get_device_detail' {0}".format(site_response))
+            site_response = site_response.get("response")
+            if site_response.get("location"):
+                return True
+            else:
+                return False
+        except Exception as e:
+            msg = "Failed to find device with UUID {0} due to: {1}".format(uuid, e)
+            self.log(msg, "CRITICAL")
+            self.module.fail_json(msg=msg)
+
+    def get_site_assign(self):
         """
         Fetches the details of devices assigned to a site
 
@@ -630,9 +678,9 @@ class Provision(DnacBase):
         """
 
         site_name_hierarchy = self.validated_config[0].get("site_name_hierarchy")
-        site_exits, site_id = self.get_site_details(site_name_hierarchy=site_name_hierarchy)
+        site_exists, site_id = self.get_site_details(site_name_hierarchy=site_name_hierarchy)
         serial_number = self.get_serial_number()
-        if site_exits:
+        if site_exists:
             site_response = self.dnac_apply['exec'](
                 family="sites",
                 function='get_membership',
@@ -723,8 +771,8 @@ class Provision(DnacBase):
         ]
 
         if not (wireless_params[0].get("managedAPLocations") and isinstance(wireless_params[0].get("managedAPLocations"), list)):
-            msg = "Managed AP locations must be passed as a list of sites. For example, [Global/USA/RTP/BLD11/BLD11_FLOOR1,\
-                Global/USA/RTP/BLD11/BLD11_FLOOR2]"
+            msg = "Missing Managed AP Locations: Please specify the intended location(s) for the wireless device \
+                within the site hierarchy."
             self.log(msg, "CRITICAL")
             self.module.fail_json(msg=msg, response=[])
 
@@ -816,7 +864,7 @@ class Provision(DnacBase):
             )
             self.log("Wireless provisioning response collected from 'provision_update' API is: {0}".format(str(response)), "DEBUG")
             execution_id = response.get("executionId")
-            provision_info = self.get_execution_status_wireless(execution_id=execution_id)
+            self.get_execution_status_wireless(execution_id=execution_id)
             self.result["changed"] = True
             self.result['msg'] = "Wireless device with IP address {0} got re-provisioned successfully".format(self.validated_config[0]["management_ip_address"])
             self.result['diff'] = self.validated_config
@@ -872,7 +920,7 @@ class Provision(DnacBase):
                     )
                     self.log("Reprovisioning response collected from 're_provision_wired_device' API is: {0}".format(response), "DEBUG")
                     task_id = response.get("taskId")
-                    provision_info = self.get_task_status(task_id=task_id)
+                    self.get_task_status(task_id=task_id)
                     self.result["changed"] = True
                     self.result['msg'] = "Re-Provision done Successfully"
                     self.result['diff'] = self.validated_config
@@ -902,7 +950,8 @@ class Provision(DnacBase):
                         return self
 
                 else:
-                    if self.get_site_assignment() is True:
+                    uuid = self.get_device_id()
+                    if self.is_device_assigned_to_site(uuid) is True:
                         self.result["changed"] = False
                         self.result['msg'] = "Device is already assigned to the desired site"
                         self.result['diff'] = self.want
@@ -945,7 +994,7 @@ class Provision(DnacBase):
                 )
                 self.log("Wireless provisioning response collected from 'provision' API is: {0}".format(str(response)), "DEBUG")
                 execution_id = response.get("executionId")
-                provision_info = self.get_execution_status_wireless(execution_id=execution_id)
+                self.get_execution_status_wireless(execution_id=execution_id)
                 self.result["changed"] = True
                 self.result['msg'] = "Wireless device with IP {0} got provisioned successfully".format(self.validated_config[0]["management_ip_address"])
                 self.result['diff'] = self.validated_config
@@ -966,7 +1015,7 @@ class Provision(DnacBase):
             return self
 
         task_id = response.get("taskId")
-        provision_info = self.get_task_status(task_id=task_id)
+        self.get_task_status(task_id=task_id)
         self.result["changed"] = True
         self.result['msg'] = "Provision done Successfully"
         self.result['diff'] = self.validated_config
@@ -1056,8 +1105,9 @@ class Provision(DnacBase):
         device_type = self.want.get("device_type")
         provisioning = self.validated_config[0].get("provisioning")
         site_name_hierarchy = self.validated_config[0].get("site_name_hierarchy")
+        uuid = self.get_device_id()
         if provisioning is False:
-            if self.get_site_assignment() is True:
+            if self.is_device_assigned_to_site(uuid) is True:
                 self.log("Requested device is already added to the site {0}".format(site_name_hierarchy), "INFO")
             else:
                 self.log("Requested device is not added to the site {0}".format(site_name_hierarchy), "INFO")

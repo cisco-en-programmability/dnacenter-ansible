@@ -1,0 +1,226 @@
+---
+- debug: msg="Starting pnp management test"
+- debug: msg="Role Path {{ role_path }}"
+
+- block:
+  - name:  Load vars and declare dnac vars
+    include_vars:
+      file: "{{ role_path }}/vars/vars_pnp_management.yml"
+      name: vars_map
+    vars:
+      dnac_login: &dnac_login
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        config_verify: true
+
+  # - debug:
+  #     msg: "{{ vars_map.pnp_delete }}"
+  # - debug:
+  #     msg: "{{ vars_map.pnp_claim }}"
+  # - debug:
+  #     msg: "{{ vars_map.bulk }}"
+  # - debug:
+  #     msg: "{{ vars_map.delete_devices }}"
+
+#############################################
+#                Clean Up                   #
+#############################################
+
+  - name: Delete PnP devices
+    cisco.dnac.pnp_workflow_manager:
+      <<: *dnac_login
+      state: deleted
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.pnp_delete.delete }}"
+
+  - name: Delete PnP devices
+    cisco.dnac.pnp_workflow_manager:
+      <<: *dnac_login
+      state: deleted
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.bulk.add }}"
+
+  # - name: Delete device from Inventory
+  #   cisco.dnac.inventory_workflow_manager:
+  #     <<: *dnac_login
+  #     state: deleted
+  #     config:
+  #       - "{{ item }}"
+  #   loop: "{{ vars_map.delete_devices }}"
+
+#############################################
+#    Add device but not Claim PNP Device    #
+#############################################
+
+  - name: Adding devices but not claiming
+    cisco.dnac.pnp_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.pnp_delete.add }}"
+    register: result_add_device
+
+  # - name: Debug Adding devices but not claiming
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_add_device.results }}"
+  #   when: result_add_device is defined
+
+  - name: Assert adding devices but not claiming
+    assert:
+      that:
+        - item.changed == true
+        - "'Only Device Added Successfully' in item.msg"
+    loop: "{{ result_add_device.results }}"
+    when: result_add_device is defined
+
+#############################################
+#         Delete Unclaimed Devices          #
+#############################################
+
+  - name: Delete PnP devices
+    cisco.dnac.pnp_workflow_manager:
+      <<: *dnac_login
+      state: deleted
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.pnp_delete.delete }}"
+    register: result_delete_device
+
+  # - name: Debug delete unclaimed devices
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_delete_device.results }}"
+  #   when: result_delete_device is defined
+
+  - name: Assert deletion of unclaimed PnP devices
+    assert:
+      that:
+        - item.changed == true
+        - "'Deleted Successfully' in item.msg"
+    loop: "{{ result_delete_device.results }}"
+    when: result_delete_device is defined
+
+#############################################
+#  Bulk Add device but not Claim PNP Device #
+#############################################
+
+  - name: Bulk Adding devices but not claiming
+    cisco.dnac.pnp_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.bulk.add }}"
+    register: result_add_device
+
+  # - name: Debug Bulk Adding devices but not claiming
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_add_device.results }}"
+  #   when: result_add_device is defined
+
+  - name: Assert bulk adding devices but not claiming
+    assert:
+      that:
+        - item.changed == true
+        - "'imported successfully' in item.msg"
+    loop: "{{ result_add_device.results }}"
+    when: result_add_device is defined
+
+#############################################
+#       Bulk Delete Unclaimed Devices       #
+#############################################
+
+  - name: Delete Bulk Unclaimed PnP devices
+    cisco.dnac.pnp_workflow_manager:
+      <<: *dnac_login
+      state: deleted
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.bulk.add }}"
+    register: result_delete_device
+
+  # - name: Debug Bulk delete unclaimed devices
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_delete_device.results }}"
+  #   when: result_delete_device is defined
+
+  - name: Assert Bulk deletion of unclaimed PnP devices
+    assert:
+      that:
+        - item.changed == true
+        - "'Deleted Successfully' in item.msg"
+    loop: "{{ result_delete_device.results }}"
+    when: result_delete_device is defined
+
+#############################################
+#         Add and Claim PNP Device          #
+#############################################
+
+  # - name: Add and Claim PnP devices
+  #   cisco.dnac.pnp_workflow_manager:
+  #     <<: *dnac_login
+  #     state: merged
+  #     config:
+  #       - "{{ item }}"
+  #   loop: "{{ vars_map.pnp_claim.cat9k }}"
+  #   register: result_claim_device
+
+  # - name: Debug Add and Claim device
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_claim_device.results }}"
+  #   when: result_claim_device is defined
+
+  # - name: Assert Add and Claim device
+  #   assert:
+  #     that:
+  #       - item.changed == true
+  #       - "'Claimed Successfully' in item.msg"
+  #   loop: "{{ result_claim_device.results }}"
+  #   when: result_claim_device is defined
+  
+#############################################
+#      Pause to Complete Provisioning       #
+#############################################
+
+  # - name: Pause for 10 minutes
+  #   pause:
+  #     seconds: 600
+
+#############################################
+#               Delete Devices              #
+#############################################
+
+  # - name: Delete device
+  #   cisco.dnac.inventory_workflow_manager:
+  #     <<: *dnac_login
+  #     state: deleted
+  #     config:
+  #       - "{{ item }}"
+  #   loop: "{{ vars_map.delete_devices }}"
+  #   register: result_device_deleted
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_device_deleted.results }}"
+  #   when: result_device_deleted is defined
+
+  # - name: Assert device deletion success
+  #   assert:
+  #     that:
+  #       - result_device_deleted.changed == true
+  #   when: result_device_deleted is defined
