@@ -126,7 +126,7 @@ options:
     description: Value true to use DNAC certificate for Pxgrid. Default value is false.
     type: bool
 requirements:
-- dnacentersdk >= 2.7.1
+- dnacentersdk >= 2.7.2
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for System Settings AddAuthenticationAndPolicyServerAccessConfiguration

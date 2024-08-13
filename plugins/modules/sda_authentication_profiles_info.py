@@ -30,7 +30,7 @@ options:
       Note that 'No Authentication' is not a valid option for this parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.7.1
+- dnacentersdk >= 2.7.2
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for SDA GetAuthenticationProfiles

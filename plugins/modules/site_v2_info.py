@@ -42,7 +42,7 @@ options:
     - Limit query parameter. Number of sites to be listed. Default and max supported value is 500.
     type: str
 requirements:
-- dnacentersdk >= 2.7.1
+- dnacentersdk >= 2.7.2
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Sites GetSiteV2
