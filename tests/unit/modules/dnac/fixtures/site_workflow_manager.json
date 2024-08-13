@@ -418,19 +418,19 @@
               "response": [],
               "version": "1.0",
               "siteId": "45513959-fc87-4d15-af59-fba6ec5353b3",
-              "message": "Site doesn’t not have device member with given device family or serial number as input"
+              "message": "Site does not have device member with given device family or serial number as input"
             },
             {
               "response": [],
               "version": "1.0",
               "siteId": "484b0a4f-81c0-41c1-82eb-1ef0ffe99b60",
-              "message": "Site doesn’t not have device member with given device family or serial number as input"
+              "message": "Site does not have device member with given device family or serial number as input"
             },
             {
               "response": [],
               "version": "1.0",
               "siteId": "b8773b63-3652-4d39-a4ef-3c6a5aa657b0",
-              "message": "Site doesn’t not have device member with given device family or serial number as input"
+              "message": "Site does not have device member with given device family or serial number as input"
             }
           ]
         },
