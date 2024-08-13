@@ -85,7 +85,7 @@ class Roles(object):
         # NOTE: Does not have a get by name method or it is in another action
         try:
             items = self.dnac.exec(
-                family="userand_roles",
+                family="user_and_roles",
                 function="get_roles_api",
                 params=self.get_all_params(name=name),
             )
@@ -102,7 +102,7 @@ class Roles(object):
         # NOTE: Does not have a get by id method or it is in another action
         try:
             items = self.dnac.exec(
-                family="userand_roles",
+                family="user_and_roles",
                 function="get_roles_api",
                 params=self.get_all_params(id=id),
             )
@@ -156,7 +156,7 @@ class Roles(object):
 
     def create(self):
         result = self.dnac.exec(
-            family="userand_roles",
+            family="user_and_roles",
             function="add_role_api",
             params=self.create_params(),
             op_modifies=True,
@@ -168,7 +168,7 @@ class Roles(object):
         name = self.new_object.get("name")
         result = None
         result = self.dnac.exec(
-            family="userand_roles",
+            family="user_and_roles",
             function="update_role_api",
             params=self.update_all_params(),
             op_modifies=True,
@@ -189,7 +189,7 @@ class Roles(object):
             if id_:
                 self.new_object.update(dict(role_id=id_))
         result = self.dnac.exec(
-            family="userand_roles",
+            family="user_and_roles",
             function="delete_role_api",
             params=self.delete_by_id_params(),
         )

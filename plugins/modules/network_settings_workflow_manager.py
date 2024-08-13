@@ -379,7 +379,7 @@ options:
                     type: list
                 type: dict
 requirements:
-- dnacentersdk >= 2.7.1
+- dnacentersdk >= 2.7.2
 - python >= 3.9
 notes:
   - SDK Method used are
@@ -638,6 +638,7 @@ response_3:
 
 import copy
 import re
+import time
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
@@ -660,6 +661,7 @@ class NetworkSettings(DnacBase):
         self.global_pool_obj_params = self.get_obj_params("GlobalPool")
         self.reserve_pool_obj_params = self.get_obj_params("ReservePool")
         self.network_obj_params = self.get_obj_params("Network")
+        self.all_reserved_pool_details = {}
 
     def validate_input(self):
         """
@@ -1193,6 +1195,56 @@ class NetworkSettings(DnacBase):
         self.log("Formatted playbook network details: {0}".format(network_details), "DEBUG")
         return network_details
 
+    def get_reserved_ip_subpool(self, site_id):
+        """
+        Retrieve all the reserved IP subpool details from the Cisco Catalyst Center.
+
+        Parameters:
+            site_id (str) - The Site ID for which reserved pool details are requested.
+            self (object) - The current object details.
+
+        Returns:
+            self (object) - The current object with updated desired Fabric Transits information.
+        """
+
+        value = 1
+        self.all_reserved_pool_details.update({site_id: []})
+        start_time = time.time()
+        while True:
+            response = self.dnac._exec(
+                family="network_settings",
+                function="get_reserve_ip_subpool",
+                op_modifies=True,
+                params={
+                    "site_id": site_id,
+                    "offset": value
+                }
+            )
+            if not isinstance(response, dict):
+                self.msg = "Error in getting reserve pool - Response is not a dictionary"
+                self.log(self.msg, "CRITICAL")
+                self.status = "exited"
+                return self.check_return_status()
+
+            reserve_pool_details = response.get("response")
+            if not reserve_pool_details:
+                self.log("No subpools are reserved in the site with ID - '{0}'."
+                         .format(site_id), "DEBUG")
+                return self
+
+            self.all_reserved_pool_details.get(site_id).extend(reserve_pool_details)
+            value += 25
+            end_time = time.time()
+            if (end_time - start_time) >= self.max_timeout:
+                self.msg = (
+                    "Max timeout of {0} sec has reached for the API 'get_reserved_ip_subpool' status."
+                    .format(self.max_timeout)
+                )
+                self.status = "failed"
+                break
+
+        return self
+
     def global_pool_exists(self, name):
         """
         Check if the Global Pool with the given name exists
@@ -1273,43 +1325,21 @@ class NetworkSettings(DnacBase):
             self.status = "failed"
             return reserve_pool
 
-        value = 1
-        while True:
-            self.log(str(value))
-            response = self.dnac._exec(
-                family="network_settings",
-                function="get_reserve_ip_subpool",
-                op_modifies=True,
-                params={
-                    "site_id": site_id,
-                    "offset": value
-                }
-            )
-            if not isinstance(response, dict):
-                reserve_pool.update({"success": False})
-                self.msg = "Error in getting reserve pool - Response is not a dictionary"
-                self.log(self.msg, "CRITICAL")
-                self.status = "exited"
-                return self.check_return_status()
+        if not self.all_reserved_pool_details.get(site_id):
+            self.get_reserved_ip_subpool(site_id)
 
-            all_reserve_pool_details = response.get("response")
-            self.log(str(all_reserve_pool_details))
-            if not all_reserve_pool_details:
-                self.log("Reserved pool {0} does not exist in the site {1}"
-                         .format(name, site_name), "DEBUG")
-                return reserve_pool
+        if not self.all_reserved_pool_details.get(site_id):
+            self.log("Reserved pool {0} does not exist in the site {1}"
+                     .format(name, site_name), "DEBUG")
+            return reserve_pool
 
-            reserve_pool_details = get_dict_result(all_reserve_pool_details, "groupName", name)
-            self.log(str(reserve_pool_details))
-            if reserve_pool_details:
-                self.log("Reserve pool found with name '{0}' in the site '{1}': {2}"
-                         .format(name, site_name, reserve_pool_details), "INFO")
-                reserve_pool.update({"exists": True})
-                reserve_pool.update({"id": reserve_pool_details.get("id")})
-                reserve_pool.update({"details": self.get_reserve_pool_params(reserve_pool_details)})
-                break
-
-            value += 25
+        reserve_pool_details = get_dict_result(self.all_reserved_pool_details.get(site_id), "groupName", name)
+        if reserve_pool_details:
+            self.log("Reserve pool found with name '{0}' in the site '{1}': {2}"
+                     .format(name, site_name, reserve_pool_details), "INFO")
+            reserve_pool.update({"exists": True})
+            reserve_pool.update({"id": reserve_pool_details.get("id")})
+            reserve_pool.update({"details": self.get_reserve_pool_params(reserve_pool_details)})
 
         self.log("Reserved pool details: {0}".format(reserve_pool.get("details")), "DEBUG")
         self.log("Reserved pool id: {0}".format(reserve_pool.get("id")), "DEBUG")
@@ -2001,7 +2031,14 @@ class NetworkSettings(DnacBase):
                     return self
 
                 shared_secret = network_aaa.get("shared_secret")
-                if shared_secret:
+                if shared_secret is not None:
+                    if len(shared_secret) < 4:
+                        self.msg = (
+                            "The 'shared_secret' length in 'network_aaa' should be greater than or equal to 4."
+                        )
+                        self.status = "failed"
+                        return self
+
                     want_network_settings.get("network_aaa").update({
                         "sharedSecret": shared_secret
                     })
@@ -2068,12 +2105,29 @@ class NetworkSettings(DnacBase):
                     return self
 
                 shared_secret = client_and_endpoint_aaa.get("shared_secret")
-                if shared_secret:
+                if shared_secret is not None:
+                    if len(shared_secret) < 4:
+                        self.msg = (
+                            "The 'shared_secret' length in 'client_and_endpoint_aaa' should be greater than or equal to 4."
+                        )
+                        self.status = "failed"
+                        return self
+
                     want_network_settings.get("clientAndEndpoint_aaa").update({
                         "sharedSecret": shared_secret
                     })
             else:
                 del want_network_settings["clientAndEndpoint_aaa"]
+
+            network_aaa = want_network_settings.get("network_aaa")
+            client_and_endpoint_aaa = want_network_settings.get("clientAndEndpoint_aaa")
+            if network_aaa and client_and_endpoint_aaa and \
+                    network_aaa.get("sharedSecret") and \
+                    client_and_endpoint_aaa.get("sharedSecret") and \
+                    network_aaa.get("sharedSecret") != client_and_endpoint_aaa.get("sharedSecret"):
+                self.msg = "The 'shared_secret' of 'network_aaa' and 'client_and_endpoint_aaa' should be same."
+                self.status = "failed"
+                return self
 
             all_network_management_details.append(want_network)
             network_management_index += 1
@@ -2305,10 +2359,15 @@ class NetworkSettings(DnacBase):
             site_name = item.get("site_name")
             result_network = self.result.get("response")[2].get("network")
             result_network.get("response").update({site_name: {}})
+            have_network_details = self.have.get("network")[network_management_index].get("net_details")
+            want_network_details = self.want.get("wantNetwork")[network_management_index]
+            network_aaa = want_network_details.get("settings").get("network_aaa")
+            client_and_endpoint_aaa = want_network_details.get("settings").get("clientAndEndpoint_aaa")
 
             # Check update is required or not
-            if not self.requires_update(self.have.get("network")[network_management_index].get("net_details"),
-                                        self.want.get("wantNetwork")[network_management_index], self.network_obj_params):
+            if not (network_aaa.get("sharedSecret") or
+                    client_and_endpoint_aaa.get("sharedSecret") or
+                    self.requires_update(have_network_details, want_network_details, self.network_obj_params)):
 
                 self.log("Network in site '{0}' doesn't require an update.".format(site_name), "INFO")
                 result_network.get("response").get(site_name).update({
@@ -2506,6 +2565,7 @@ class NetworkSettings(DnacBase):
             self
         """
 
+        self.all_reserved_pool_details = {}
         self.get_have(config)
         self.log("Current State (have): {0}".format(self.have), "INFO")
         self.log("Requested State (want): {0}".format(self.want), "INFO")
@@ -2588,6 +2648,7 @@ class NetworkSettings(DnacBase):
             self
         """
 
+        self.all_reserved_pool_details = {}
         self.get_have(config)
         self.log("Current State (have): {0}".format(self.have), "INFO")
         self.log("Desired State (want): {0}".format(self.want), "INFO")
