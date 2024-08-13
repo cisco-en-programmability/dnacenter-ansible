@@ -661,7 +661,7 @@ class NetworkSettings(DnacBase):
         self.global_pool_obj_params = self.get_obj_params("GlobalPool")
         self.reserve_pool_obj_params = self.get_obj_params("ReservePool")
         self.network_obj_params = self.get_obj_params("Network")
-        self.all_reserved_pool_details = []
+        self.all_reserved_pool_details = {}
 
     def validate_input(self):
         """
@@ -1200,6 +1200,7 @@ class NetworkSettings(DnacBase):
         Retrieve all the reserved IP subpool details from the Cisco Catalyst Center.
 
         Parameters:
+            site_id (str) - The Site ID for which reserved pool details are requested.
             self (object) - The current object details.
 
         Returns:
@@ -1207,17 +1208,9 @@ class NetworkSettings(DnacBase):
         """
 
         value = 1
+        self.all_reserved_pool_details.update({site_id: []})
         start_time = time.time()
         while True:
-            end_time = time.time()
-            if (end_time - start_time) >= self.max_timeout:
-                self.msg = (
-                    "Max timeout of {0} sec has reached for the API 'get_reserved_ip_subpool' status."
-                    .format(self.max_timeout)
-                )
-                self.status = "failed"
-                break
-
             response = self.dnac._exec(
                 family="network_settings",
                 function="get_reserve_ip_subpool",
@@ -1239,8 +1232,16 @@ class NetworkSettings(DnacBase):
                          .format(site_id), "DEBUG")
                 return self
 
-            self.all_reserved_pool_details.extend(reserve_pool_details)
+            self.all_reserved_pool_details.get(site_id).extend(reserve_pool_details)
             value += 25
+            end_time = time.time()
+            if (end_time - start_time) >= self.max_timeout:
+                self.msg = (
+                    "Max timeout of {0} sec has reached for the API 'get_reserved_ip_subpool' status."
+                    .format(self.max_timeout)
+                )
+                self.status = "failed"
+                break
 
         return self
 
@@ -1324,13 +1325,15 @@ class NetworkSettings(DnacBase):
             self.status = "failed"
             return reserve_pool
 
-        self.get_reserved_ip_subpool(site_id)
-        if not self.all_reserved_pool_details:
+        if not self.all_reserved_pool_details.get(site_id):
+            self.get_reserved_ip_subpool(site_id)
+
+        if not self.all_reserved_pool_details.get(site_id):
             self.log("Reserved pool {0} does not exist in the site {1}"
                      .format(name, site_name), "DEBUG")
             return reserve_pool
 
-        reserve_pool_details = get_dict_result(self.all_reserved_pool_details, "groupName", name)
+        reserve_pool_details = get_dict_result(self.all_reserved_pool_details.get(site_id), "groupName", name)
         if reserve_pool_details:
             self.log("Reserve pool found with name '{0}' in the site '{1}': {2}"
                      .format(name, site_name, reserve_pool_details), "INFO")
@@ -2562,7 +2565,7 @@ class NetworkSettings(DnacBase):
             self
         """
 
-        self.all_reserved_pool_details = []
+        self.all_reserved_pool_details = {}
         self.get_have(config)
         self.log("Current State (have): {0}".format(self.have), "INFO")
         self.log("Requested State (want): {0}".format(self.want), "INFO")
@@ -2645,7 +2648,7 @@ class NetworkSettings(DnacBase):
             self
         """
 
-        self.all_reserved_pool_details = []
+        self.all_reserved_pool_details = {}
         self.get_have(config)
         self.log("Current State (have): {0}".format(self.have), "INFO")
         self.log("Desired State (want): {0}".format(self.want), "INFO")
