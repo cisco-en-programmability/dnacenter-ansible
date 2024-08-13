@@ -32,7 +32,7 @@ options:
       If no type is mentioned, All equipments are fetched for the device.
     type: str
 requirements:
-- dnacentersdk >= 2.7.1
+- dnacentersdk >= 2.7.2
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Devices GetTheDetailsOfPhysicalComponentsOfTheGivenDevice

@@ -40,10 +40,7 @@ argument_spec.update(dict(
     userId=dict(type="str"),
 ))
 
-required_if = [
-    ("state", "present", ["userId"], True),
-    ("state", "absent", ["userId"], True),
-]
+required_if = []
 required_one_of = []
 mutually_exclusive = []
 required_together = []
@@ -55,7 +52,7 @@ class User(object):
         self.new_object = dict(
             firstName=params.get("firstName"),
             lastName=params.get("lastName"),
-            username=params.get("username"),
+            username=(params.get("username")).lower(),
             password=params.get("password"),
             email=params.get("email"),
             roleList=params.get("roleList"),
@@ -66,7 +63,7 @@ class User(object):
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
         new_object_params['invoke_source'] = self.new_object.get('invokeSource') or \
-            self.new_object.get('invoke_source')
+            self.new_object.get('invoke_source') or 'external'
         new_object_params['auth_source'] = self.new_object.get('authSource') or \
             self.new_object.get('auth_source')
         return new_object_params
@@ -101,14 +98,16 @@ class User(object):
         # NOTE: Does not have a get by name method or it is in another action
         try:
             items = self.dnac.exec(
-                family="userand_roles",
+                family="user_and_roles",
                 function="get_users_api",
                 params=self.get_all_params(name=name),
             )
             if isinstance(items, dict):
                 if 'response' in items:
                     items = items.get('response')
-            result = get_dict_result(items, 'name', name)
+                    if 'users' in items:
+                        items = items.get('users')
+            result = get_dict_result(items, 'username', name)
         except Exception:
             result = None
         return result
@@ -118,14 +117,16 @@ class User(object):
         # NOTE: Does not have a get by id method or it is in another action
         try:
             items = self.dnac.exec(
-                family="userand_roles",
+                family="user_and_roles",
                 function="get_users_api",
                 params=self.get_all_params(id=id),
             )
             if isinstance(items, dict):
                 if 'response' in items:
                     items = items.get('response')
-            result = get_dict_result(items, 'id', id)
+                    if 'users' in items:
+                        items = items.get('users')
+            result = get_dict_result(items, 'userId', id)
         except Exception:
             result = None
         return result
@@ -136,7 +137,7 @@ class User(object):
         prev_obj = None
         o_id = self.new_object.get("id")
         o_id = o_id or self.new_object.get("user_id")
-        name = self.new_object.get("name")
+        name = self.new_object.get("username")
         if o_id:
             prev_obj = self.get_object_by_id(o_id)
             id_exists = prev_obj is not None and isinstance(prev_obj, dict)
@@ -151,6 +152,7 @@ class User(object):
             if _id:
                 self.new_object.update(dict(id=_id))
                 self.new_object.update(dict(user_id=_id))
+                self.new_object.update(dict(userId=_id))
         it_exists = prev_obj is not None and isinstance(prev_obj, dict)
         return (it_exists, prev_obj)
 
@@ -174,7 +176,7 @@ class User(object):
 
     def create(self):
         result = self.dnac.exec(
-            family="userand_roles",
+            family="user_and_roles",
             function="add_user_api",
             params=self.create_params(),
             op_modifies=True,
@@ -186,7 +188,7 @@ class User(object):
         name = self.new_object.get("name")
         result = None
         result = self.dnac.exec(
-            family="userand_roles",
+            family="user_and_roles",
             function="update_user_api",
             params=self.update_all_params(),
             op_modifies=True,
@@ -196,7 +198,7 @@ class User(object):
     def delete(self):
         id = self.new_object.get("id")
         id = id or self.new_object.get("user_id")
-        name = self.new_object.get("name")
+        name = self.new_object.get("username")
         result = None
         if not id:
             prev_obj_name = self.get_object_by_name(name)
@@ -207,7 +209,7 @@ class User(object):
             if id_:
                 self.new_object.update(dict(user_id=id_))
         result = self.dnac.exec(
-            family="userand_roles",
+            family="user_and_roles",
             function="delete_user_api",
             params=self.delete_by_id_params(),
         )

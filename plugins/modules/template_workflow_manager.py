@@ -811,7 +811,7 @@ options:
                 type: str
 
 requirements:
-- dnacentersdk >= 2.7.1
+- dnacentersdk >= 2.7.2
 - python >= 3.9
 notes:
   - SDK Method used are
@@ -2041,34 +2041,48 @@ class Template(DnacBase):
             self
         """
 
-        template_details = self.dnac._exec(
+        all_project_details = self.dnac._exec(
             family="configuration_templates",
             function='get_projects_details'
         )
+        all_project_details = all_project_details.get("response")
         for values in export_values:
             project_name = values.get("project_name")
             self.log("Project name for export template: {0}".format(project_name), "DEBUG")
-            template_details = template_details.get("response")
-            self.log("Template details: {0}".format(template_details), "DEBUG")
-            all_template_details = get_dict_result(template_details,
-                                                   "name",
-                                                   project_name)
-            self.log("Template details under the project name {0}: {1}"
-                     .format(project_name, all_template_details), "DEBUG")
-            all_template_details = all_template_details.get("templates")
+            self.log("Template details: {0}".format(all_project_details), "DEBUG")
+            project_details = get_dict_result(all_project_details,
+                                              "name",
+                                              project_name)
+            if not project_details:
+                self.msg = (
+                    "There are no projects with the given project name '{project_name}'."
+                    .format(project_name=project_name)
+                )
+                self.status = "failed"
+                return self
+
+            all_template_details = project_details.get("templates")
+            if not all_template_details:
+                self.msg = (
+                    "There are no templates associated with the given project name '{project_name}'."
+                    .format(project_name=project_name)
+                )
+                self.status = "failed"
+                return self
+
             self.log("Template details under the project name {0}: {1}"
                      .format(project_name, all_template_details), "DEBUG")
             template_name = values.get("template_name")
-            template_detail = get_dict_result(all_template_details,
-                                              "name",
-                                              template_name)
+            template_details = get_dict_result(all_template_details,
+                                               "name",
+                                               template_name)
             self.log("Template details with template name {0}: {1}"
-                     .format(template_name, template_detail), "DEBUG")
-            if template_detail is None:
-                self.msg = "Invalid project_name and template_name in export"
+                     .format(template_name, template_details), "DEBUG")
+            if template_details is None:
+                self.msg = "Invalid 'project_name' and 'template_name' in export templates."
                 self.status = "failed"
                 return self
-            self.export_template.append(template_detail.get("id"))
+            self.export_template.append(template_details.get("id"))
 
         self.msg = "Successfully collected the export template IDs"
         self.status = "success"
