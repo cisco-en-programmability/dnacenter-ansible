@@ -17,6 +17,7 @@ from unittest.mock import patch
 from ansible_collections.cisco.dnac.plugins.modules import swim_workflow_manager
 from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
 
+
 class TestswimWorkflowManager(TestDnacModule):
 
     module = swim_workflow_manager
@@ -37,7 +38,6 @@ class TestswimWorkflowManager(TestDnacModule):
     playbook_device_family_not_found = test_data.get("playbook_device_family_not_found")
     playbook_import_image_details_not_provided = test_data.get("playbook_import_image_details_not_provided")
     playbook_verify_merged = test_data.get("playbook_verify_merged")
-    
 
     def setUp(self):
         super(TestswimWorkflowManager, self).setUp()
@@ -108,17 +108,6 @@ class TestswimWorkflowManager(TestDnacModule):
                 self.test_data.get("get_golden_tag_status_of_an_image_1"),
                 self.test_data.get("untag_image_as_golden_and_load_on_device_responce")
             ]
-        elif "playbook_untag_image_as_golden_and_error_load_on_device" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
-                self.test_data.get("get_2_software_image_details"),
-                self.test_data.get("get_2_site"),
-                self.test_data.get("get_2_device_family_identifiers"),
-                self.test_data.get("get_software_image_details_1"),
-                self.test_data.get("get_2_golden_tag_status_of_an_image"),
-                self.test_data.get("remove_golden_tag_for_image"),
-                self.test_data.get("Task_details_error"),
-                self.test_data.get("untag_image_as_golden_and_load_on_device_error_responce")
-            ]
 
         elif "playbook_import_image_already_exist" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
@@ -165,10 +154,10 @@ class TestswimWorkflowManager(TestDnacModule):
                 self.test_data.get("get_membership_ps"),
                 self.test_data.get("get_device_uuids"),
                 self.test_data.get("get_device_uuids_1"),
-                self.test_data.get("get_device_list_ps_1"),   
+                self.test_data.get("get_device_list_ps_1"),
                 self.test_data.get("trigger_software_image_distribution_ps"),
-                self.test_data.get("get_device_list_ps_2"), 
-                self.test_data.get("trigger_software_image_distribution_ps_1"), 
+                self.test_data.get("get_device_list_ps_2"),
+                self.test_data.get("trigger_software_image_distribution_ps_1"),
                 self.test_data.get("get_device_list_ps_3"),
                 self.test_data.get("trigger_software_image_distribution_ps_2"),
                 self.test_data.get("get_device_list_ps_4"),
@@ -194,10 +183,10 @@ class TestswimWorkflowManager(TestDnacModule):
                 self.test_data.get("get_device_family_identifiers_golden_already_tagged"),
                 self.test_data.get("get_software_image_details_golden_already_tagged_3"),
                 self.test_data.get("get_golden_tag_status_of_an_image_golden_already_tagged"),
-                self.test_data.get("get_software_image_details_golden_already_tagged_4"),   
-                self.test_data.get("get_device_family_identifiers_golden_already_tagged_1"), 
-                self.test_data.get("get_software_image_details_golden_already_tagged_5"), 
-                self.test_data.get("get_software_image_details_golden_already_tagged_6"), 
+                self.test_data.get("get_software_image_details_golden_already_tagged_4"),
+                self.test_data.get("get_device_family_identifiers_golden_already_tagged_1"),
+                self.test_data.get("get_software_image_details_golden_already_tagged_5"),
+                self.test_data.get("get_software_image_details_golden_already_tagged_6"),
                 self.test_data.get("get_golden_tag_status_of_an_image_golden_already_tagged_2"),
                 self.test_data.get("image_golden_already_tagged_response"),
             ]
@@ -209,10 +198,10 @@ class TestswimWorkflowManager(TestDnacModule):
                 self.test_data.get("get_device_family_identifiers_golden_already_tagged"),
                 self.test_data.get("get_software_image_details_golden_already_tagged_3"),
                 self.test_data.get("get_golden_tag_status_of_an_image_golden_already_untagged"),
-                self.test_data.get("get_software_image_details_golden_already_tagged_4"),   
-                self.test_data.get("get_device_family_identifiers_golden_already_tagged_1"), 
-                self.test_data.get("get_software_image_details_golden_already_tagged_5"), 
-                self.test_data.get("get_software_image_details_golden_already_tagged_6"), 
+                self.test_data.get("get_software_image_details_golden_already_tagged_4"),
+                self.test_data.get("get_device_family_identifiers_golden_already_tagged_1"),
+                self.test_data.get("get_software_image_details_golden_already_tagged_5"),
+                self.test_data.get("get_software_image_details_golden_already_tagged_6"),
                 self.test_data.get("get_golden_tag_status_of_an_image_golden_already_untagged_1"),
                 self.test_data.get("image_golden_already_untagged_response"),
             ]
@@ -230,8 +219,8 @@ class TestswimWorkflowManager(TestDnacModule):
                 self.test_data.get("get_membership_failed_for_all_devices"),
                 self.test_data.get("get_device_list_failed_for_all_devices_1"),
                 self.test_data.get("distribution_params"),
-                # self.test_data.get("trigger_software_image_distribution_failed_for_all_devices"),
-                # self.test_data.get("Task_details_failed_for_all_devices"),
+                self.test_data.get("trigger_software_image_distribution_failed_for_all_devices"),
+                self.test_data.get("Task_details_failed_for_all_devices"),
                 self.test_data.get("distribution_failed_for_all_devices_response"),
             ]
         elif "playbook_image_details_distribution_not_provided" in self._testMethodName:
@@ -249,28 +238,10 @@ class TestswimWorkflowManager(TestDnacModule):
         elif "playbook_import_image_details_not_provided" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("import_image_details_not_provided_response"),]
-            
-        elif "playbook_verify_merged" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
-                self.test_data.get("get_software_image_details_verify_merged"),
-                self.test_data.get("get_software_image_details_verify_merged_1"),
-                self.test_data.get("get_software_image_details_verify_merged_2"),
-                self.test_data.get("get_software_image_details_verify_merged_3"),
-                self.test_data.get("get_site_verify_merged"),
-                self.test_data.get("get_device_family_identifiers_verify_merged"),
-                self.test_data.get("get_software_image_details_verify_merged_4"),
-                self.test_data.get("get_golden_tag_status_of_an_image_verify_merged"),
-                self.test_data.get("get_golden_tag_status_of_an_image_verify_merged_1"),
-                self.test_data.get("get_site_verify_merged_1"),
-                self.test_data.get("get_device_family_identifiers_verify_merged_1"),
-                self.test_data.get("get_software_image_details_verify_merged_5"),
-                self.test_data.get("get_golden_tag_status_of_an_image_verify_merged_2"),
-                self.test_data.get("verify_merged_response"),
-            ]
 
     def test_swim_workflow_manager_playbook_config_invalid_param_import_image_url_tag_golden_load(self):
         """
-        Test case for swim workflow manager when giving invalid param.
+        Test case for swim workflow manager when giving invalid param import image url tag golden load
         This test case checks the behavior of the swim workflow when giving invalid param in the specified Cisco Catalyst Center.
         """
         set_module_args(
@@ -284,7 +255,6 @@ class TestswimWorkflowManager(TestDnacModule):
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        print(result)
         self.assertEqual(
             result.get("msg"),
             "Activation for Image with Id '4a3cccfa-dc92-4fad-a7d3-c59876cbebe6' gets failed"
@@ -292,8 +262,8 @@ class TestswimWorkflowManager(TestDnacModule):
 
     def test_swim_workflow_manager_playbook_untag_image_as_golden_and_load_on_device(self):
         """
-        Test case for user role workflow manager when creating a user.
-        This test case checks the behavior of the user workflow when creating a new user in the specified Cisco Catalyst Center.
+        Test case for swim workflow manager when giving untag image as golden and load on device
+        This test case checks the behavior of the swim workflow when giving untag image as golden and load on device
         """
         set_module_args(
             dict(
@@ -309,34 +279,14 @@ class TestswimWorkflowManager(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get('msg'),
-            "Untagging of image  cat9k_iosxe.17.12.02.SPA.bin for site  LTTS for family Cisco Catalyst 9000 UADP 8 Port Virtual Switch  for device deviceTag ALL successful."
+            "Untagging of image  cat9k_iosxe.17.12.02.SPA.bin for site  LTTS for family Cisco \
+Catalyst 9000 UADP 8 Port Virtual Switch  for device deviceTag ALL successful."
         )
-    # def test_swim_workflow_manager_playbook_untag_image_as_golden_and_error_load_on_device(self):  ##############
-    #     """
-    #     Test case for user role workflow manager when creating a user.
-    #     This test case checks the behavior of the user workflow when creating a new user in the specified Cisco Catalyst Center.
-    #     """
-    #     set_module_args(
-    #         dict(
-    #             dnac_host="1.1.1.1",
-    #             dnac_username="dummy",
-    #             dnac_password="dummy",
-    #             dnac_log=True,
-    #             state="merged",
-    #             config=self.playbook_untag_image_as_golden_and_load_on_device
-    #         )
-    #     )
-    #     result = self.execute_module(changed=False, failed=True)
-    #     print(result)
-    #     self.assertEqual(
-    #         result.get('msg'),
-    #         "Untagging of image  cat9k_iosxe.17.12.02.SPA.bin for site  LTTS for family Cisco Catalyst 9000 UADP 8 Port Virtual Switch  for device deviceTag ALL successful."
-    #     )
 
     def test_swim_workflow_manager_playbook_import_image_already_exist(self):
         """
-        Test case for user role workflow manager when creating a user.
-        This test case checks the behavior of the user workflow when creating a new user in the specified Cisco Catalyst Center.
+        Test case for swim workflow manager when giving import image already exist
+        This test case checks the behavior of the swim workflow when giving import image already exist
         """
         set_module_args(
             dict(
@@ -349,305 +299,250 @@ class TestswimWorkflowManager(TestDnacModule):
             )
         )
         result = self.execute_module(changed=False, failed=False)
-        print(result)
         self.assertEqual(
             result.get('msg'),
             "Image 'cat9k_iosxe.17.12.02.SPA.bin' already exists in the Cisco Catalyst Center"
         )
 
     def test_swim_workflow_manager_playbook_site_not_exist(self):
-            """
-            Test case for user role workflow manager when creating a user.
-            This test case checks the behavior of the user workflow when creating a new user in the specified Cisco Catalyst Center.
-            """
-            set_module_args(
-                dict(
-                    dnac_host="1.1.1.1",
-                    dnac_username="dummy",
-                    dnac_password="dummy",
-                    dnac_log=True,
-                    state="merged",
-                    config_verify=True,
-                    config=self.playbook_site_not_exist
-                )
+        """
+        Test case for swim workflow manager when giving site not exist
+        This test case checks the behavior of the swim workflow when giving site not exist
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merged",
+                config_verify=True,
+                config=self.playbook_site_not_exist
             )
-            result = self.execute_module(changed=False, failed=True)
-            print(result)
-            self.assertEqual(
-                result.get('msg'),
-                "An exception occurred: Site 'Global/LTTS/FLOOR2' does not exist in the Cisco Catalyst Center"
-            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertEqual(
+            result.get('msg'),
+            "An exception occurred: Site 'Global/LTTS/FLOOR2' does not exist in the Cisco Catalyst Center"
+        )
+
     def test_swim_workflow_manager_playbook_swim_image_invalid(self):
-            """
-            Test case for user role workflow manager when creating a user.
-            This test case checks the behavior of the user workflow when creating a new user in the specified Cisco Catalyst Center.
-            """
-            set_module_args(
-                dict(
-                    dnac_host="1.1.1.1",
-                    dnac_username="dummy",
-                    dnac_password="dummy",
-                    dnac_log=True,
-                    state="merged",
-                    config_verify=True,
-                    config=self.playbook_swim_image_invalid
-                )
+        """
+        Test case for swim workflow manager when giving swim image invalid
+        This test case checks the behavior of the swim workflow when giving swim image invalid
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merged",
+                config_verify=True,
+                config=self.playbook_swim_image_invalid
             )
-            result = self.execute_module(changed=False, failed=True)
-            print(result)
-            self.assertEqual(
-                result.get('msg'),
-                "SWIM Image http://172.21.236.183/swim/V1712_2_CCO/cat9k_iosxe.17.12.02.SPA.bin seems to be invalid"
-            )
-    
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertEqual(
+            result.get('msg'),
+            "SWIM Image http://172.21.236.183/swim/V1712_2_CCO/cat9k_iosxe.17.12.02.SPA.bin seems to be invalid"
+        )
+
     def test_swim_workflow_manager_playbook_image_distribution_failed(self):
-            """
-            Test case for user role workflow manager when creating a user.
-            This test case checks the behavior of the user workflow when creating a new user in the specified Cisco Catalyst Center.
-            """
-            set_module_args(
-                dict(
-                    dnac_host="1.1.1.1",
-                    dnac_username="dummy",
-                    dnac_password="dummy",
-                    dnac_log=True,
-                    state="merged",
-                    config_verify=True,
-                    config=self.playbook_image_distribution_failed
-                )
+        """
+        Test case for swim workflow manager when giving image distribution failed
+        This test case checks the behavior of the swim workflow when giving image distribution failed
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merged",
+                config_verify=True,
+                config=self.playbook_image_distribution_failed
             )
-            result = self.execute_module(changed=False, failed=True)
-            print(result)
-            self.assertEqual(
-                result.get('msg'),
-                "Image with Id c383ee35-d20e-49f2-b51c-bfe499abbbaa Distribution Failed"
-            )
-    
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertEqual(
+            result.get('msg'),
+            "Image with Id c383ee35-d20e-49f2-b51c-bfe499abbbaa Distribution Failed"
+        )
+
     def test_swim_workflow_manager_playbook_image_distribution_partially_successfull(self):
-            """
-            Test case for user role workflow manager when creating a user.
-            This test case checks the behavior of the user workflow when creating a new user in the specified Cisco Catalyst Center.
-            """
-            set_module_args(
-                dict(
-                    dnac_host="1.1.1.1",
-                    dnac_username="dummy",
-                    dnac_password="dummy",
-                    dnac_log=True,
-                    state="merged",
-                    config_verify=True,
-                    config=self.playbook_image_distribution_partially_successfull
-                )
+        """
+        Test case for swim workflow manager when giving image distribution partially successfull
+        This test case checks the behavior of the swim workflow when giving image distribution partially successfull
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merged",
+                config_verify=True,
+                config=self.playbook_image_distribution_partially_successfull
             )
-            print(0)
-            result = self.execute_module(changed=False, failed=True)
-            print(1)
-            print(result)
-            print(2)
-            self.assertEqual(
-                result.get('msg'),
-                "Image with Id 'c383ee35-d20e-49f2-b51c-bfe499abbbaa' Distributed and partially successfull"
-            )
-    
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertEqual(
+            result.get('msg'),
+            "Image with Id 'c383ee35-d20e-49f2-b51c-bfe499abbbaa' Distributed and partially successfull"
+        )
+
     def test_swim_workflow_manager_playbook_swim_image_golden_already_tagged(self):
-            """
-            Test case for user role workflow manager when creating a user.
-            This test case checks the behavior of the user workflow when creating a new user in the specified Cisco Catalyst Center.
-            """
-            set_module_args(
-                dict(
-                    dnac_host="1.1.1.1",
-                    dnac_username="dummy",
-                    dnac_password="dummy",
-                    dnac_log=True,
-                    state="merged",
-                    config_verify=True,
-                    config=self.playbook_swim_image_golden_already_tagged
-                )
+        """
+        Test case for swim workflow manager when givingswim image golden already tagged
+        This test case checks the behavior of the swim workflow when giving swim image golden already tagged
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merged",
+                config_verify=True,
+                config=self.playbook_swim_image_golden_already_tagged
             )
-            print(0)
-            result = self.execute_module(changed=False, failed=False)
-            print(1)
-            print(result)
-            print(2)
-            self.assertEqual(
-                result.get('msg'),
-                "SWIM Image 'cat9k_iosxe.17.12.02.SPA.bin' already tagged as Golden image in Cisco Catalyst Center"
-            )
+        )
+        result = self.execute_module(changed=False, failed=False)
+        self.assertEqual(
+            result.get('msg'),
+            "SWIM Image 'cat9k_iosxe.17.12.02.SPA.bin' already tagged as Golden image in Cisco Catalyst Center"
+        )
+
     def test_swim_workflow_manager_playbook_swim_image_golden_already_untagged(self):
-            """
-            Test case for user role workflow manager when creating a user.
-            This test case checks the behavior of the user workflow when creating a new user in the specified Cisco Catalyst Center.
-            """
-            set_module_args(
-                dict(
-                    dnac_host="1.1.1.1",
-                    dnac_username="dummy",
-                    dnac_password="dummy",
-                    dnac_log=True,
-                    state="merged",
-                    config_verify=True,
-                    config=self.playbook_swim_image_golden_already_untagged
-                )
+        """
+        Test case for swim workflow manager when giving swim image golden already untagged
+        This test case checks the behavior of the swim workflow when giving swim image golden already untagged
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merged",
+                config_verify=True,
+                config=self.playbook_swim_image_golden_already_untagged
             )
-            print(0)
-            result = self.execute_module(changed=False, failed=False)
-            print(1)
-            print(result)
-            print(2)
-            self.assertEqual(
-                result.get('msg'),
-                "SWIM Image 'cat9k_iosxe.17.12.02.SPA.bin' already un-tagged from Golden image in Cisco Catalyst Center"
-            )
+        )
+        result = self.execute_module(changed=False, failed=False)
+        self.assertEqual(
+            result.get('msg'),
+            "SWIM Image 'cat9k_iosxe.17.12.02.SPA.bin' already un-tagged from Golden image in Cisco Catalyst Center"
+        )
+
     def test_swim_workflow_manager_playbook_swim_image_cant_found(self):
-            """
-            Test case for user role workflow manager when creating a user.
-            This test case checks the behavior of the user workflow when creating a new user in the specified Cisco Catalyst Center.
-            """
-            set_module_args(
-                dict(
-                    dnac_host="1.1.1.1",
-                    dnac_username="dummy",
-                    dnac_password="dummy",
-                    dnac_log=True,
-                    state="merged",
-                    config_verify=True,
-                    config=self.playbook_swim_image_cant_found
-                )
+        """
+        Test case for swim workflow manager when giving swim image cant found
+        This test case checks the behavior of the swim workflow when giving swim image cant found
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merged",
+                config_verify=True,
+                config=self.playbook_swim_image_cant_found
             )
-            print(0)
-            result = self.execute_module(changed=False, failed=True)
-            print(1)
-            print(result)
-            print(2)
-            self.assertEqual(
-                result.get('msg'),
-                "SWIM image 'cat9k_iosxe.17.12.022.SPA.bin' could not be found"
-            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertEqual(
+            result.get('msg'),
+            "SWIM image 'cat9k_iosxe.17.12.022.SPA.bin' could not be found"
+        )
 
     def test_swim_workflow_manager_playbook_distribution_failed_for_all_devices(self):
-            """
-            Test case for user role workflow manager when creating a user.
-            This test case checks the behavior of the user workflow when creating a new user in the specified Cisco Catalyst Center.
-            """
-            set_module_args(
-                dict(
-                    dnac_host="1.1.1.1",
-                    dnac_username="dummy",
-                    dnac_password="dummy",
-                    dnac_log=True,
-                    state="merged",
-                    config_verify=True,
-                    config=self.playbook_distribution_failed_for_all_devices
-                )
+        """
+        Test case for swim workflow manager when giving distribution failed for all devices
+        This test case checks the behavior of the swim workflow when giving distribution failed for all devices
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merged",
+                config_verify=True,
+                config=self.playbook_distribution_failed_for_all_devices
             )
-            print(0)
-            result = self.execute_module(changed=False, failed=True)
-            print(1)
-            print(result)
-            print(2)
-            self.assertEqual(
-                result.get('msg'),
-                "Image with Id c383ee35-d20e-49f2-b51c-bfe499abbbaa Distribution Failed for all devices"
-            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertEqual(
+            result.get('msg'),
+            "Image with Id c383ee35-d20e-49f2-b51c-bfe499abbbaa Distribution Failed for all devices"
+        )
+
     def test_swim_workflow_manager_playbook_image_details_distribution_not_provided(self):
-            """
-            Test case for user role workflow manager when creating a user.
-            This test case checks the behavior of the user workflow when creating a new user in the specified Cisco Catalyst Center.
-            """
-            set_module_args(
-                dict(
-                    dnac_host="1.1.1.1",
-                    dnac_username="dummy",
-                    dnac_password="dummy",
-                    dnac_log=True,
-                    state="merged",
-                    config_verify=True,
-                    config=self.playbook_image_details_distribution_not_provided
-                )
+        """
+        Test case for swim workflow manager when giving image details distribution not provided
+        This test case checks the behavior of the swim workflow when giving image details distribution not provided
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merged",
+                config_verify=True,
+                config=self.playbook_image_details_distribution_not_provided
             )
-            print(0)
-            result = self.execute_module(changed=False, failed=True)
-            print(1)
-            print(result)
-            print(2)
-            self.assertEqual(
-                result.get('msg'),
-                "Image details required for distribution have not been provided"
-            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertEqual(
+            result.get('msg'),
+            "Image details required for distribution have not been provided"
+        )
+
     def test_swim_workflow_manager_playbook_device_family_not_found(self):
-            """
-            Test case for user role workflow manager when creating a user.
-            This test case checks the behavior of the user workflow when creating a new user in the specified Cisco Catalyst Center.
-            """
-            set_module_args(
-                dict(
-                    dnac_host="1.1.1.1",
-                    dnac_username="dummy",
-                    dnac_password="dummy",
-                    dnac_log=True,
-                    state="merged",
-                    config_verify=True,
-                    config=self.playbook_device_family_not_found
-                )
+        """
+        Test case for swim workflow manager when giving device family not found
+        This test case checks the behavior of the swim workflow when giving device family not found
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merged",
+                config_verify=True,
+                config=self.playbook_device_family_not_found
             )
-            print(0)
-            result = self.execute_module(changed=False, failed=True)
-            print(1)
-            print(result)
-            print(2)
-            self.assertEqual(
-                result.get('msg'),
-                "Device Family: None not found"
-            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertEqual(
+            result.get('msg'),
+            "Device Family: None not found"
+        )
+
     def test_swim_workflow_manager_playbook_import_image_details_not_provided(self):
-            """
-            Test case for user role workflow manager when creating a user.
-            This test case checks the behavior of the user workflow when creating a new user in the specified Cisco Catalyst Center.
-            """
-            set_module_args(
-                dict(
-                    dnac_host="1.1.1.1",
-                    dnac_username="dummy",
-                    dnac_password="dummy",
-                    dnac_log=True,
-                    state="merged",
-                    config_verify=True,
-                    config=self.playbook_import_image_details_not_provided
-                )
+        """
+        Test case for swim workflow manager when giving import image details not provided
+        This test case checks the behavior of the swim workflow when giving import image details not provided
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merged",
+                config_verify=True,
+                config=self.playbook_import_image_details_not_provided
             )
-            print(0)
-            result = self.execute_module(changed=False, failed=True)
-            print(1)
-            print(result)
-            print(2)
-            self.assertEqual(
-                result.get('msg'),
-                "Error: Import image details are not provided in the playbook, or the Import Image API was not\n                 triggered successfully. Please ensure the necessary details are provided and verify the status of the Import Image process."
-            )
-    def test_swim_workflow_manager_playbook_verify_merged(self):
-            """
-            Test case for user role workflow manager when creating a user.
-            This test case checks the behavior of the user workflow when creating a new user in the specified Cisco Catalyst Center.
-            """
-            set_module_args(
-                dict(
-                    dnac_host="1.1.1.1",
-                    dnac_username="dummy",
-                    dnac_password="dummy",
-                    dnac_log=True,
-                    state="merged",
-                    config_verify=True,
-                    config=self.playbook_verify_merged
-                )
-            )
-            print("merged")
-            result = self.execute_module(changed=False, failed=True)
-            print(1)
-            print(result)
-            print(2)
-            self.assertEqual(
-                result.get('msg'),
-                "SWIM image 'cat9k_iosxe.17.12.02.SPA.bin' could not be found"
-            )
-    
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertEqual(
+            result.get('msg'),
+            "Error: Import image details are not provided in the playbook, or the Import Image API was not\n                 triggered successfully.\
+ Please ensure the necessary details are provided and verify the status of the Import Image process."
+        )
