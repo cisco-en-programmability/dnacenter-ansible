@@ -43,9 +43,10 @@ options:
         elements: dict
         suboptions:
           username:
-            description: The 'username' associated with the user account.
+            description: 
+              - The 'username' associated with the user account.
+              - Required for user create, update and delete operations.
             type: str
-            required: true
           first_name:
             description: The first name of the user.
             type: str
@@ -62,10 +63,9 @@ options:
             description:
               - The password for the user account, which must adhere to specified complexity requirements.
               - Must contain at least one special character, one capital letter, one lowercase letter,
-                and a minimum length of 15 characters.
+                and a minimum length of 8 characters.
               - Required for creating a new user account.
             type: str
-            required: true
           role_list:
             description:
               - A list of role names to be assigned to the user. If no role is specified, the default role will be "OBSERVER-ROLE".
@@ -76,7 +76,6 @@ options:
               - OBSERVER-ROLE grants view-only access, no configuration or control functions.
             type: list
             elements: str
-            required: true
       role_details:
         description: Manages the configuration details for roles.
         type: list
@@ -540,7 +539,7 @@ EXAMPLES = r"""
     config_verify: True
     dnac_api_task_timeout: 1000
     dnac_task_poll_interval: 1
-    state: merged
+    state: deleted
     config:
       user_details:
         username: "ajithandrewj"
@@ -695,7 +694,7 @@ EXAMPLES = r"""
     config_verify: True
     dnac_api_task_timeout: 1000
     dnac_task_poll_interval: 1
-    state: merged
+    state: deleted
     config:
       role_details:
         - rolename: "role_name"
@@ -864,6 +863,51 @@ class UserandRole(DnacBase):
         self.supported_states = ["merged", "deleted"]
         self.payload = module.params
         self.keymap = {}
+        self.versions = {
+            '2.3.5.3 - 2.3.7.6 functions': {
+                'user_and_roles': {
+                    'get_permissions': 'get_permissions_api',
+                    'get_roles': 'get_roles_api',
+                    'get_users': 'get_users_api',
+                    'add_user': 'add_user_api',
+                    'update_user': 'update_user_api',
+                    'get_external_authentication_servers': 'get_external_authentication_servers_api'
+                }
+            },
+            '2.3.7.6': {
+                'user_and_roles': {
+                    'add_role': 'add_role_api',
+                    'update_role': 'update_role_api',
+                    'delete_role': 'delete_role_api',
+                    'delete_user': 'delete_user_api',
+                    'get_external_authentication_setting': 'get_external_authentication_setting_api',
+                    'manage_external_authentication_setting': 'manage_external_authentication_setting_api',
+                    'add_and_update_a_a_a_attribute': 'add_and_update_a_a_a_attribute_api',
+                    'delete_a_a_a_attribute': 'delete_a_a_a_attribute_api',
+                    'get_a_a_a_attribute': 'get_a_a_a_attribute_api'
+                }
+            }
+        }
+        self.versions_functions_params = {
+            '2.3.5.3 - 2.3.7.6 function params': {
+                'user_and_roles': {
+                    'get_users': {"invoke_source": "external"},
+                    'add_user': {'email': None, 'firstName': None, 'lastName': None, 'password': "required", 'roleList': "required", 'username': "required"},
+                    'update_user': {'email': None, 'firstName': None, 'lastName': None, 'userId': "required", 'roleList': None, 'username': None},
+                    'get_external_authentication_servers': {"invoke_source": "external"}
+                }
+            },
+            '2.3.7.6': {
+                'user_and_roles': {
+                    'add_role': {'description': None, 'resourceTypes': None, 'role': "required"},
+                    'update_role': {'description': None, 'resourceTypes': None, 'roleId': "required"},
+                    'delete_role': {'role_id': "required"},
+                    'delete_user': {'user_id': "required"},
+                    'manage_external_authentication_setting': {'enable': None},
+                    'add_and_update_a_a_a_attribute': {'attributeName': None}
+                }
+            }
+        }
 
     def validate_input_yml(self, user_role_details):
         """
@@ -1101,6 +1145,71 @@ class UserandRole(DnacBase):
         self.log(self.msg, "INFO")
         self.status = "success"
         return self
+
+    def version_route(self, version, family, function_key, provided_params=None):
+        """
+        Retrieves function parameters and validates the provided provided_params for the specified version,
+        family, and function key.
+
+        Parameters:
+        - version (str): The API or system version.
+        - family (str): The function family within the version.
+        - function_key (str): The specific function to check.
+        - provided_params (dict): The input parameters to validate.
+
+        Returns:
+        A tuple with:
+            - version_dict (dict or None): The function definitions for the version, family, and key, or None if not found.
+            - payload (dict): Valid parameters from the provided_params.
+            - error (dict or str): An error message if validation fails, or "No Error" if successful.
+
+        Description:
+            - The function finds the function definition and parameters, then validates the provided_params.
+            - It returns an error message for missing or extra parameters or "No Error" if all is correct.
+        """
+        version_dict = None
+        function_parameters = None
+        missing_params = []
+        extra_params = []
+        payload = {}
+
+        if function_key in self.versions.get("2.3.5.3 - 2.3.7.6 functions", {}).get(family, {}):
+            version_dict = self.versions["2.3.5.3 - 2.3.7.6 functions"][family][function_key]
+        elif function_key in self.versions.get(version, {}).get(family, {}):
+            version_dict = self.versions[version][family][function_key]
+
+        if function_key in self.versions_functions_params.get("2.3.5.3 - 2.3.7.6 function params", {}).get(family, {}):
+            function_parameters = self.versions_functions_params['2.3.5.3 - 2.3.7.6 function params'][family][function_key]
+        elif function_key in self.versions_functions_params.get(version, {}).get(family, {}):
+            function_parameters = self.versions_functions_params[version][family][function_key]
+
+        if not version_dict and not function_parameters:
+            error_message = "The specified version '{0}' does not have the '{1}' functionality".format(version, function_key)
+            return None, None, {"error": error_message}
+
+        if function_parameters is not None and provided_params is not None:
+            for param_key, param_value in function_parameters.items():
+                if param_value == "required" and param_key not in provided_params:
+                    missing_params.append(param_key)
+                elif param_key in provided_params:
+                    payload[param_key] = provided_params[param_key]
+
+            for param_key in provided_params:
+                if param_key not in function_parameters:
+                    extra_params.append("{0}: {1}".format(param_key, provided_params[param_key]))
+
+            if missing_params:
+                error_message = "Missing required parameters: {0}".format(', '.join(missing_params))
+                return version_dict, payload, {"error": error_message}
+
+            if extra_params:
+                error_message = "In version '{0}' the parameter(s) in the playbook: '{1}' are not part of the '{2}' function parameters".format(
+                    version, ', '.join(extra_params), version_dict)
+                return version_dict, payload, {"error_message": error_message}
+        else:
+            return version_dict, function_parameters, {}
+
+        return version_dict, payload, {}
 
     def get_want(self, config):
         """
@@ -1400,28 +1509,24 @@ class UserandRole(DnacBase):
             - Logs the provided user parameters and the received API response.
             - Returns the API response from the "create_user" function.
         """
-        required_keys = ['username', 'password']
-        missing_keys = []
+        version = self.payload.get("dnac_version")
+        family_name = "user_and_roles"
+        function_key = "add_user"
+        self.log("Validating the specified version to get function and its params...", "DEBUG")
+        function_called, function_parameters, error_message = self.version_route(version, family_name, function_key, user_params)
 
-        self.log("Check if each required key is present in the user_params dictionary...", "DEBUG")
-        for key in required_keys:
-            if key not in user_params:
-                missing_keys.append(key)
+        if error_message:
+            return error_message
 
-        try:
-            self.log("Create user with user_info_params: {0}".format(str(user_params)), "DEBUG")
-            response = self.dnac._exec(
-                family="user_and_roles",
-                function="add_user_ap_i",
-                op_modifies=True,
-                params=user_params,
-            )
-            self.log("Received API response from create_user: {0}".format(str(response)), "DEBUG")
-            return response
-
-        except Exception:
-            error_message = "Mandatory parameter(s) {0} not present in the user details".format(", ".join(missing_keys))
-            return {"error": error_message}
+        self.log("Create user with function_parameters: {0}".format(str(function_parameters)), "DEBUG")
+        response = self.dnac._exec(
+            family=family_name,
+            function=function_called,
+            op_modifies=True,
+            params=function_parameters,
+        )
+        self.log("Received API response from create_user: {0}".format(str(response)), "DEBUG")
+        return response
 
     def create_role(self, role_params):
         """
@@ -1437,13 +1542,22 @@ class UserandRole(DnacBase):
             - Logs the provided role parameters and the received API response.
             - Returns the API response from the "create_role" function.
         """
+        version = self.payload.get("dnac_version")
+        family_name = "user_and_roles"
+        function_key = "add_role"
+        self.log("Validating the specified version to get function and its params...", "DEBUG")
+        function_called, function_parameters, error_message = self.version_route(version, family_name, function_key, role_params)
+
+        if error_message:
+            return error_message
+
         try:
-            self.log("Create role with role_info_params: {0}".format(str(role_params)), "DEBUG")
+            self.log("Create role with function_parameters: {0}".format(str(role_params)), "DEBUG")
             response = self.dnac._exec(
-                family="user_and_roles",
-                function="add_role_ap_i",
+                family=family_name,
+                function=function_called,
                 op_modifies=True,
-                params=role_params,
+                params=function_parameters,
             )
             self.log("Received API response from create_role: {0}".format(str(response)), "DEBUG")
             return response
@@ -1464,11 +1578,20 @@ class UserandRole(DnacBase):
               and "get_users_ap_i" function.
             - Logs the received API response and returns it.
         """
+        version = self.payload.get("dnac_version")
+        family_name = "user_and_roles"
+        function_key = "get_users"
+        self.log("Validating the specified version to get function and its params...", "DEBUG")
+        function_called, function_parameters, error_message = self.version_route(version, family_name, function_key)
+
+        if error_message:
+            return error_message
+
         response = self.dnac._exec(
-            family="user_and_roles",
-            function="get_users_ap_i",
+            family=family_name,
+            function=function_called,
             op_modifies=True,
-            params={"invoke_source": "external"},
+            params=function_parameters,
         )
         self.log("Received API response from get_users_api: {0}".format(str(response)), "DEBUG")
         return response
@@ -1485,9 +1608,18 @@ class UserandRole(DnacBase):
               and "get_roles_ap_i" function.
             - Logs the received API response and returns it.
         """
+        version = self.payload.get("dnac_version")
+        family_name = "user_and_roles"
+        function_key = "get_roles"
+        self.log("Validating the specified version to get function and its params...", "DEBUG")
+        function_called, function_parameters, error_message = self.version_route(version, family_name, function_key)
+
+        if error_message:
+            return error_message
+
         response = self.dnac._exec(
-            family="user_and_roles",
-            function="get_roles_ap_i",
+            family=family_name,
+            function=function_called,
             op_modifies=True,
         )
         self.log("Received API response from get_roles_api: {0}".format(str(response)), "DEBUG")
@@ -2375,12 +2507,21 @@ class UserandRole(DnacBase):
             - This method sends a request to update a user in Cisco Catalyst Center using the provided
             - user parameters. It logs the response and returns it.
         """
-        self.log("Updating user with parameters: {0}".format(user_params), "DEBUG")
+        version = self.payload.get("dnac_version")
+        family_name = "user_and_roles"
+        function_key = "update_user"
+        self.log("Validating the specified version to get function and its params...", "DEBUG")
+        function_called, function_parameters, error_message = self.version_route(version, family_name, function_key, user_params)
+
+        if error_message:
+            return error_message
+
+        self.log("Updating user with function_parameters: {0}".format(function_parameters), "DEBUG")
         response = self.dnac._exec(
-            family="user_and_roles",
-            function="update_user_ap_i",
+            family=family_name,
+            function=function_called,
             op_modifies=True,
-            params=user_params,
+            params=function_parameters,
         )
         self.log("Received API response from update_user: {0}".format(str(response)), "DEBUG")
         return response
@@ -2400,12 +2541,21 @@ class UserandRole(DnacBase):
               and the "update_role_ap_i" function. The method logs the received API response at the "DEBUG" level and
               finally returns the response.
         """
-        self.log("Update role with role_info_params: {0}".format(str(role_params)), "DEBUG")
+        version = self.payload.get("dnac_version")
+        family_name = "user_and_roles"
+        function_key = "update_role"
+        self.log("Validating the specified version to get function and its params...", "DEBUG")
+        function_called, function_parameters, error_message = self.version_route(version, family_name, function_key, role_params)
+
+        if error_message:
+            return error_message
+
+        self.log("Update role with function_parameters: {0}".format(str(function_parameters)), "DEBUG")
         response = self.dnac._exec(
-            family="user_and_roles",
-            function="update_role_ap_i",
+            family=family_name,
+            function=function_called,
             op_modifies=True,
-            params=role_params,
+            params=function_parameters,
         )
         self.log("Received API response from update_role: {0}".format(str(response)), "DEBUG")
 
@@ -2732,12 +2882,18 @@ class UserandRole(DnacBase):
                 task_response = self.delete_user(user_id_to_delete)
                 self.log("Task response {0}".format(str(task_response)), "INFO")
 
-                responses = {"users_operation": {"response": task_response}}
-                self.msg = responses
-                self.result["response"] = self.msg
-                self.result["changed"] = True
-                self.status = "success"
-                self.log(self.msg, "INFO")
+                if task_response and "error" not in task_response:
+                    responses = {"users_operation": {"response": task_response}}
+                    self.msg = responses
+                    self.result["response"] = self.msg
+                    self.result["changed"] = True
+                    self.status = "success"
+                    self.log(self.msg, "INFO")
+                    return self
+
+                self.msg = task_response
+                self.log(self.msg, "ERROR")
+                self.status = "failed"
                 return self
 
             self.msg = "Please provide a valid 'username' or 'email' for user deletion"
@@ -2758,12 +2914,21 @@ class UserandRole(DnacBase):
             - It logs the response and returns it.
             - The function uses the "user_and_roles" family and the "delete_user_ap_i" function from the Cisco Catalyst Center API.
         """
-        self.log("delete user with user_params: {0}".format(str(user_params)), "DEBUG")
+        version = self.payload.get("dnac_version")
+        family_name = "user_and_roles"
+        function_key = "delete_user"
+        self.log("Validating the specified version to get function and its params...", "DEBUG")
+        function_called, function_parameters, error_message = self.version_route(version, family_name, function_key, user_params)
+
+        if error_message:
+            return error_message
+
+        self.log("delete user with function_parameters: {0}".format(str(function_parameters)), "DEBUG")
         response = self.dnac._exec(
-            family="user_and_roles",
-            function="delete_user_ap_i",
+            family=family_name,
+            function=function_called,
             op_modifies=True,
-            params=user_params,
+            params=function_parameters,
         )
         self.log("Received API response from delete_user: {0}".format(str(response)), "DEBUG")
         return response
@@ -2781,13 +2946,23 @@ class UserandRole(DnacBase):
             - It logs the response and returns it.
             - The function uses the "user_and_roles" family and the "delete_role_ap_i" function from the Cisco Catalyst Center API.
         """
+        version = self.payload.get("dnac_version")
+        family_name = "user_and_roles"
+        function_key = "delete_role"
+        self.log("Validating the specified version to get function and its params...", "DEBUG")
+        self.log("rooooollllooooo {0}".format(role_params))
+        function_called, function_parameters, error_message = self.version_route(version, family_name, function_key, role_params)
+
+        if error_message:
+            return error_message
+
         try:
-            self.log("delete role with role_params: {0}".format(str(role_params)), "DEBUG")
+            self.log("delete role with function_parameters: {0}".format(str(function_parameters)), "DEBUG")
             response = self.dnac._exec(
-                family="user_and_roles",
-                function="delete_role_ap_i",
+                family=family_name,
+                function=function_called,
                 op_modifies=True,
-                params=role_params,
+                params=function_parameters,
             )
             self.log("Received API response from delete_role: {0}".format(str(response)), "DEBUG")
         except Exception:
@@ -2965,7 +3140,7 @@ def main():
                          "dnac_username": {"type": "str", "default": "admin", 'aliases': ['user']},
                          "dnac_password": {"type": "str", "no_log": True},
                          "dnac_verify": {"type": "bool", "default": "True"},
-                         "dnac_version": {"type": "str", "default": "2.2.3.3"},
+                         "dnac_version": {"type": "str", "default": "2.3.5.3"},
                          "dnac_debug": {"type": "bool", "default": False},
                          "dnac_log": {"type": "bool", "default": False},
                          "dnac_log_level": {"type": "str", "default": "WARNING"},

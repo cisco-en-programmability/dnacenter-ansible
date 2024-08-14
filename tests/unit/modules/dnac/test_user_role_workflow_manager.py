@@ -85,7 +85,7 @@ class TestDnacUserRoleWorkflowManager(TestDnacModule):
                 self.test_data.get("update_user_needed_get_role_response"),
                 self.test_data.get("update_needed_user_response")
             ]
-        if "user_update_not_needed" in self._testMethodName:
+        elif "user_update_not_needed" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("update_not_needed_get_user_response"),
                 self.test_data.get("update_user_not_needed_get_role_response"),
