@@ -9,6 +9,21 @@ parameters:
   run-setup:
     type: boolean
     default: true
+  continued:
+    type: boolean
+    default: false
+  GHA_Event:
+    type: string
+    default: ""
+  GHA_Actor:
+    type: string
+    default: ""
+  GHA_Action:
+    type: string
+    default: ""
+  GHA_Meta:
+    type: string
+    default: ""
   run-any:
     type: boolean
     default: false
@@ -61,7 +76,7 @@ jobs:
     parameters: 
       ansible_cisco_dnac_version:
         type: string
-        default: "6.9.0"
+        default: "6.17.0"
 
     #machine: true
     docker:
@@ -81,7 +96,7 @@ jobs:
     parameters: 
       ansible_cisco_dnac_version:
         type: string
-        default: "6.9.0"
+        default: "6.17.0"
 
     #machine: true
     docker:
@@ -260,7 +275,7 @@ jobs:
     parameters: 
       ansible_cisco_dnac_version:
         type: string
-        default: "6.9.0"
+        default: "6.17.0"
 
     #machine: true
     docker:
@@ -337,10 +352,60 @@ jobs:
                 command: |
                   python ${HOME}/static/pnp_script.py #TODO
 
+  main-pr:
+    parameters: 
+      ansible_cisco_dnac_version:
+        type: string
+        default: "6.17.0"
+    docker:
+      - image: maniator/gh:v2.49.2
+    resource_class: sledzikowy/dnacenter-ansible-minikube 
+    steps:
+      - run:
+          name: Clone repo to workspace
+          command: git clone --depth=1 -b $CIRCLE_BRANCH https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Create release pr to main
+          command: |
+            gh repo set-default $CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME
+            gh pr create --base main --head $CIRCLE_BRANCH --title "Release v<< parameters.ansible_cisco_dnac_version >>" --body "Release v<< parameters.ansible_cisco_dnac_version >>"
+
+  release-job:
+    parameters: 
+      ansible_cisco_dnac_version:
+        type: string
+        default: "6.17.0"
+    docker:
+      - image: python:3.8.10
+    resource_class: sledzikowy/dnacenter-ansible-minikube 
+    steps:
+      - run:
+          name: Clone repo to workspace
+          command: |
+            git clone --depth=1 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+            git fetch origin $CIRCLE_BRANCH:work
+            git checkout work
+      - restore_cache:
+          keys:
+            - collection-<< pipeline.git.revision >>
+      # - add_ssh_keys:
+      #     fingerprints:
+      #       - "KEY_FINGERPRINT"
+      - run:
+          echo create release
+          #git tag -a v<< parameters.ansible_cisco_dnac_version >> -m "Ansible DNACCollection Version v<< parameters.ansible_cisco_dnac_version >>"
+          #gh release create "v<< parameters.ansible_cisco_dnac_version >>" --title "DNAC Collection Version v<< parameters.ansible_cisco_dnac_version >>" --latest
+          #ansible-galaxy collection publish workspace/*.tar.gz --api-key=$GALAXYKEY
+
 workflows:  
   
   building:
-    when: << pipeline.parameters.run-setup >>
+    when:
+      and:
+        - or:
+          - equal: [ run-tests, << pipeline.parameters.GHA_Meta >> ]
+          - equal: [ true,  << pipeline.parameters.run-setup >> ]
+        - not: << pipeline.parameters.continued >>
     jobs:
       - pre
 
@@ -348,7 +413,7 @@ workflows:
           matrix:
             parameters:
               ansible_cisco_dnac_version:
-                - "6.9.0"
+                - "6.17.0"
           requires:
             - pre
 
@@ -405,8 +470,60 @@ workflows:
           matrix:
             parameters:
               ansible_cisco_dnac_version:
-                - "6.9.0"
+                - "6.17.0"
       # - post_pnp_testing:
       #     requires:
       #       - sanity-tests
  
+  release-candidate:
+    when:
+      or:
+        - equal: [ run-release-prep, << pipeline.parameters.GHA_Meta >> ]
+    jobs:
+      - build:
+          matrix:
+            parameters:
+              ansible_cisco_dnac_version:
+                - "6.17.0"
+      - addrole:
+          matrix:
+            parameters:
+              run-all:
+                - true   
+      - sanity-tests:
+          requires: 
+            - addrole
+            - build
+          context:
+            - dnac-servers
+          matrix:
+            parameters:
+              ansible_cisco_dnac_version:
+                - "6.17.0" 
+      - hold:
+          type: approval
+          requires: 
+            - sanity-tests
+      
+      - main-pr:
+          context:
+            - gh-token
+          requires:
+            - hold
+
+  release:
+    when:
+      or:
+        - equal: [ run-release, << pipeline.parameters.GHA_Meta >> ]
+    jobs:   
+      - build:
+          matrix:
+            parameters:
+              ansible_cisco_dnac_version:
+                - "6.17.0"
+      - release-job:
+          requires:
+              - build
+          context:
+            - gh-token
+            - galaxy-token
