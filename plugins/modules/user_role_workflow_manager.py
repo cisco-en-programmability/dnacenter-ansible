@@ -43,7 +43,7 @@ options:
         elements: dict
         suboptions:
           username:
-            description: 
+            description:
               - The 'username' associated with the user account.
               - Required for user create, update and delete operations.
             type: str
