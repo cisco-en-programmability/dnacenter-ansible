@@ -43,7 +43,9 @@ options:
         elements: dict
         suboptions:
           username:
-            description: The 'username' associated with the user account.
+            description:
+              - The 'username' associated with the user account.
+              - Required for user create, update and delete operations.
             type: str
           first_name:
             description: The first name of the user.
@@ -61,7 +63,7 @@ options:
             description:
               - The password for the user account, which must adhere to specified complexity requirements.
               - Must contain at least one special character, one capital letter, one lowercase letter,
-                and a minimum length of 15 characters.
+                and a minimum length of 8 characters.
               - Required for creating a new user account.
             type: str
           role_list:
@@ -537,7 +539,7 @@ EXAMPLES = r"""
     config_verify: True
     dnac_api_task_timeout: 1000
     dnac_task_poll_interval: 1
-    state: merged
+    state: deleted
     config:
       user_details:
         username: "ajithandrewj"
@@ -692,7 +694,7 @@ EXAMPLES = r"""
     config_verify: True
     dnac_api_task_timeout: 1000
     dnac_task_poll_interval: 1
-    state: merged
+    state: deleted
     config:
       role_details:
         - rolename: "role_name"
@@ -1397,6 +1399,14 @@ class UserandRole(DnacBase):
             - Logs the provided user parameters and the received API response.
             - Returns the API response from the "create_user" function.
         """
+        required_keys = ['username', 'password']
+        missing_keys = []
+
+        self.log("Check if each required key is present in the user_params dictionary...", "DEBUG")
+        for key in required_keys:
+            if key not in user_params:
+                missing_keys.append(key)
+
         try:
             self.log("Create user with user_info_params: {0}".format(str(user_params)), "DEBUG")
             response = self.dnac._exec(
@@ -1409,7 +1419,7 @@ class UserandRole(DnacBase):
             return response
 
         except Exception:
-            error_message = "Mandatory field not present: An error occurred while creating the user"
+            error_message = "Mandatory parameter(s) {0} not present in the user details".format(", ".join(missing_keys))
             return {"error": error_message}
 
     def create_role(self, role_params):
