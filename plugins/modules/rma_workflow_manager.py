@@ -888,7 +888,7 @@ class DeviceReplacement(DnacBase):
             - device_id (str or None): The ID of the device that is ready for replacement, or None if no such device is found.
 
         Description:
-            This method retrieves the ID of a device that is marked as "READY-FOR-REPLACEMENT" from Cisco Catalyst Center. 
+            This method retrieves the ID of a device that is marked as "READY-FOR-REPLACEMENT" from Cisco Catalyst Center.
             It performs the following steps:
             - Sends a request to Cisco Catalyst Center to get the list of devices with their replacement status.
             - Iterates through the list of devices and checks their replacement status.
@@ -905,7 +905,7 @@ class DeviceReplacement(DnacBase):
             if device.get("replacementStatus") == "READY-FOR-REPLACEMENT":
                 device_id = device.get("id")
         if device_id:
-          self.log("Device ID retrieved: {0}".format(device_id))
+            self.log("Device ID retrieved: {0}".format(device_id))
 
         return device_id
 
