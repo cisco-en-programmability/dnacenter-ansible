@@ -9,6 +9,21 @@ parameters:
   run-setup:
     type: boolean
     default: true
+  continued:
+    type: boolean
+    default: false
+  GHA_Event:
+    type: string
+    default: ""
+  GHA_Actor:
+    type: string
+    default: ""
+  GHA_Action:
+    type: string
+    default: ""
+  GHA_Meta:
+    type: string
+    default: ""
   run-any:
     type: boolean
     default: false
@@ -53,20 +68,18 @@ parameters:
     default: false
   run-networkcompliance:
     type: boolean
-    default: false    
+    default: false
+  ansible_cisco_dnac_version:
+    type: string
+    default: "6.17.0"
 
 jobs:
 
   pre:
-    parameters: 
-      ansible_cisco_dnac_version:
-        type: string
-        default: "6.9.0"
-
     #machine: true
     docker:
       - image: python:3.8.10
-    resource_class: madhansansel/dnacenter-ansible
+    resource_class: madhansansel/dnacenter-ansible 
 
     steps:
       - run:
@@ -77,16 +90,11 @@ jobs:
             echo "CIRCLE_PROJECT_REPONAME: $CIRCLE_PROJECT_REPONAME"
             echo "CIRCLE_PROJECT_BRANCHNAME: $CIRCLE_PROJECT_BRANCHNAME"
 
-  build: 
-    parameters: 
-      ansible_cisco_dnac_version:
-        type: string
-        default: "6.9.0"
-
+  build:
     #machine: true
     docker:
       - image: python:3.8.10
-    resource_class: madhansansel/dnacenter-ansible
+    resource_class: madhansansel/dnacenter-ansible 
     steps:
       - run:
           name: Debug information
@@ -120,7 +128,7 @@ jobs:
             # Install ansible, dnacentersdk
             pip install --upgrade pip
             pip install -r test-requirements.txt
-            # Build collection and store resulting tarball in directory $HOME/.cache/v<< parameters.ansible_cisco_dnac_version >>/collection-tarballs
+            # Build collection and store resulting tarball in directory $HOME/.cache/v<< pipeline.parameters.ansible_cisco_dnac_version >>/collection-tarballs
             ansible-galaxy collection build --force --output-path workspace/
       - save_cache:
           key: collection-<< pipeline.git.revision >>
@@ -132,10 +140,14 @@ jobs:
             - ~/.cache/pip
 
   addrole:
+    parameters: 
+      run-all:
+        type: boolean
+        default: false
     #machine: true
     docker:
       - image: python:3.8.10
-    resource_class: madhansansel/dnacenter-ansible
+    resource_class: madhansansel/dnacenter-ansible 
 
     steps:
       - run:
@@ -257,15 +269,10 @@ jobs:
           paths:
             - 'ccc_roles.yml'
   sanity-tests:
-    parameters: 
-      ansible_cisco_dnac_version:
-        type: string
-        default: "6.9.0"
-
     #machine: true
     docker:
       - image: python:3.8.10
-    resource_class: madhansansel/dnacenter-ansible
+    resource_class: madhansansel/dnacenter-ansible 
     parallelism: 4
     steps:
       - run:
@@ -327,7 +334,7 @@ jobs:
     #machine: true
     docker:
       - image: python:3.8.10
-    resource_class: madhansansel/dnacenter-ansible
+    resource_class: madhansansel/dnacenter-ansible 
 
     steps:
       - when:
@@ -337,18 +344,56 @@ jobs:
                 command: |
                   python ${HOME}/static/pnp_script.py #TODO
 
+  main-pr:
+    docker:
+      - image: maniator/gh:v2.49.2
+    resource_class: madhansansel/dnacenter-ansible 
+    steps:
+      - run:
+          name: Clone repo to workspace
+          command: git clone --depth=1 -b $CIRCLE_BRANCH https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Create release pr to main
+          command: |
+            gh repo set-default $CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME
+            gh pr create --base main --head $CIRCLE_BRANCH --title "Release v<< pipeline.parameters.ansible_cisco_dnac_version >>" --body "Release v<< pipeline.parameters.ansible_cisco_dnac_version >>"
+
+  release-job:
+    docker:
+      - image: python:3.8.10
+    resource_class: madhansansel/dnacenter-ansible 
+    steps:
+      - run:
+          name: Clone repo to workspace
+          command: |
+            git clone --depth=1 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+            git fetch origin $CIRCLE_BRANCH:work
+            git checkout work
+      - restore_cache:
+          keys:
+            - collection-<< pipeline.git.revision >>
+      # - add_ssh_keys:
+      #     fingerprints:
+      #       - "KEY_FINGERPRINT"
+      - run:
+          echo create release
+          #git tag -a v<< pipeline.parameters.ansible_cisco_dnac_version >> -m "Ansible DNACCollection Version v<< pipeline.parameters.ansible_cisco_dnac_version >>"
+          #gh release create "v<< pipeline.parameters.ansible_cisco_dnac_version >>" --title "DNAC Collection Version v<< pipeline.parameters.ansible_cisco_dnac_version >>" --latest
+          #ansible-galaxy collection publish workspace/*.tar.gz --api-key=$GALAXYKEY
+
 workflows:  
   
   building:
-    when: << pipeline.parameters.run-setup >>
+    when:
+      and:
+        - or:
+          - equal: [ run-tests, << pipeline.parameters.GHA_Meta >> ]
+#          - equal: [ true,  << pipeline.parameters.run-setup >> ]
+        - not: << pipeline.parameters.continued >>
     jobs:
       - pre
 
       - build:
-          matrix:
-            parameters:
-              ansible_cisco_dnac_version:
-                - "6.9.0"
           requires:
             - pre
 
@@ -359,6 +404,7 @@ workflows:
           config-path: .circleci/config.yml
           mapping: |
             .* run-setup false
+            .* continued true
 
             plugins/.* run-any true
             tests/integration/.* run-any true
@@ -402,11 +448,47 @@ workflows:
             - addrole
           context:
             - dnac-servers
-          matrix:
-            parameters:
-              ansible_cisco_dnac_version:
-                - "6.9.0"
       # - post_pnp_testing:
       #     requires:
       #       - sanity-tests
  
+  release-candidate:
+    when:
+      or:
+        - equal: [ run-release-prep, << pipeline.parameters.GHA_Meta >> ]
+    jobs:
+      - build
+      - addrole:
+          matrix:
+            parameters:
+              run-all:
+                - true   
+      - sanity-tests:
+          requires: 
+            - addrole
+            - build
+          context:
+            - dnac-servers
+      - hold:
+          type: approval
+          requires: 
+            - sanity-tests
+      
+      - main-pr:
+          context:
+            - gh-token
+          requires:
+            - hold
+
+  release:
+    when:
+      or:
+        - equal: [ run-release, << pipeline.parameters.GHA_Meta >> ]
+    jobs:   
+      - build
+      - release-job:
+          requires:
+              - build
+          context:
+            - gh-token
+            - galaxy-token
