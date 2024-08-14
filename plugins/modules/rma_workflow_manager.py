@@ -842,11 +842,13 @@ class DeviceReplacement(DnacBase):
             - Updates the status, msg, and result attributes based on the task result.
             - Handles any exceptions that occur during the process.
         """
+        self.log("Unmarking device for replacement...")
+        device_id = self.return_replacement_devices()
 
         import_params = dict(
             payload=[{
-                "faultyDeviceId": self.have.get("faulty_device_id"),
-                "replacementStatus": "MARKED-FOR-REPLACEMENT"
+                "id": device_id,
+                "replacementStatus": "NON-FAULTY"
             }],
         )
 
@@ -865,15 +867,47 @@ class DeviceReplacement(DnacBase):
                 "Error while unmarking device for replacement"
             )
             self.status = task_result["status"]
-            self.msg = task_result["msg"]
+            self.msg = "RMA failed to replace the device: {0}".format(task_result["msg"])
             if self.status == "success":
                 self.result['changed'] = True
 
-        except Exception as e:
+        except Exception:
             self.status = "failed"
-            self.msg = "Exception occurred while unmarking device for replacement: {0}".format(str(e))
+            self.msg = "RMA failed to replace the device: No device found for unmarking replacement"
             self.log(self.msg, "ERROR")
         return self
+
+    def return_replacement_devices(self):
+        """
+        Retrieves the ID of the device ready for replacement in Cisco Catalyst Center.
+
+        Parameters:
+            - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+
+        Returns:
+            - device_id (str or None): The ID of the device that is ready for replacement, or None if no such device is found.
+
+        Description:
+            This method retrieves the ID of a device that is marked as "READY-FOR-REPLACEMENT" from Cisco Catalyst Center. 
+            It performs the following steps:
+            - Sends a request to Cisco Catalyst Center to get the list of devices with their replacement status.
+            - Iterates through the list of devices and checks their replacement status.
+            - If a device is found with the status "READY-FOR-REPLACEMENT", its ID is extracted.
+            - The method returns the ID of the first device with the "READY-FOR-REPLACEMENT" status found, or None if no such device is present.
+        """
+        device_id = None
+        response = self.dnac._exec(
+            family="device_replacement",
+            function='return_replacement_devices_with_details'
+        )
+        devices = response.get("response", [])
+        for device in devices:
+            if device.get("replacementStatus") == "READY-FOR-REPLACEMENT":
+                device_id = device.get("id")
+        if device_id:
+          self.log("Device ID retrieved: {0}".format(device_id))
+
+        return device_id
 
     def check_rma_task_status(self, task_id, success_message, error_prefix):
         """
