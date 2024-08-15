@@ -445,10 +445,10 @@ requirements:
   - python >= 3.9.19
 notes:
   - SDK Methods used
-    - user_and_roles.UserandRoles.get_user_ap_i
-    - user_and_roles.UserandRoles.add_user_ap_i
-    - user_and_roles.UserandRoles.update_user_ap_i
-    - user_and_roles.UserandRoles.delete_user_ap_i
+    - user_and_roles.UserandRoles.get_user_api
+    - user_and_roles.UserandRoles.add_user_api
+    - user_and_roles.UserandRoles.update_user_api
+    - user_and_roles.UserandRoles.delete_user_api
   - Paths used
     - get /dna/system/api/v1/user
     - post /dna/system/api/v1/user
@@ -963,6 +963,33 @@ class UserandRole(DnacBase):
         if field_value and not regex.match(field_value):
             error_messages.append(error_message)
 
+    def validate_password(self, password, error_messages):
+        """
+        Validate password from password and append error message if it does not match the criteria.
+        """
+
+        if password:
+            password_is_valid = False
+            password_regex_msg = "Password must be 8 to 20 characters long and should contain characters from at \
+least three of the following classes: lowercase characters, uppercase characters, digits and special characters."
+
+            self.log(password_regex_msg, "DEBUG")
+            password_regexs = [
+                re.compile(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?!.*[\W_]).{8,20}$'),
+                re.compile(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_])(?!.*\d).{8,20}$'),
+                re.compile(r'^(?=.*[a-z])(?=.*\d)(?=.*[\W_])(?!.*[A-Z]).{8,20}$'),
+                re.compile(r'^(?=.*[A-Z])(?=.*\d)(?=.*[\W_])(?!.*[a-z]).{8,20}$'),
+                re.compile(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,20}$')
+            ]
+
+            for password_regex in password_regexs:
+                if password_regex.match(password):
+                    password_is_valid = True
+                    break
+
+            if not password_is_valid:
+                error_messages.append(password_regex_msg)
+
     def validate_role_parameters(self, role_key, params_list, role_config, role_param_map, error_messages):
         """
         Helper function to validate role parameters.
@@ -1073,14 +1100,9 @@ class UserandRole(DnacBase):
         email_regex = re.compile(r"[^@]+@[^@]+\.[^@]+")
         email = user_config.get("email")
         email_regex_msg = "email: Invalid email format for 'email': {0}".format(email)
-        if email:
-            self.validate_string_field(email, email_regex, email_regex_msg, error_messages)
+        self.validate_string_field(email, email_regex, email_regex_msg, error_messages)
 
-        password_regex = re.compile(r"^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$")
-        password = user_config.get("password")
-        password_regex_msg = "password: 'Password' does not meet complexity requirements for password: {0}".format(password)
-        if password:
-            self.validate_string_field(password, password_regex, password_regex_msg, error_messages)
+        self.validate_password(user_config.get("password"), error_messages)
 
         username = user_config.get("username")
         self.validate_string_field(username, regex_name_validation,
@@ -1323,9 +1345,9 @@ class UserandRole(DnacBase):
 
         Description:
             - Checks the existence of a user and retrieves user details in Cisco Catalyst Center
-              by querying the "get_users_ap_i" function in the "user_and_roles" family.
+              by querying the "get_users_api" function in the "user_and_roles" family.
             - Checks the existence of a role and retrieves role details in Cisco Catalyst Center
-              by querying the "get_roles_ap_i" function in the "user_and_roles" family.
+              by querying the "get_roles_api" function in the "user_and_roles" family.
             - Logs errors if required parameters are missing in the playbook config.
         """
         user_exists = False
@@ -1395,7 +1417,7 @@ class UserandRole(DnacBase):
             - response (dict): The API response from the "create_user" function.
         Description:
             - Sends a request to create a new user in Cisco Catalyst Center using the provided user parameters.
-            - Uses the "user_and_roles" family and "add_user_ap_i" function for the API call.
+            - Uses the "user_and_roles" family and "add_user_api" function for the API call.
             - Logs the provided user parameters and the received API response.
             - Returns the API response from the "create_user" function.
         """
@@ -1411,7 +1433,7 @@ class UserandRole(DnacBase):
             self.log("Create user with user_info_params: {0}".format(str(user_params)), "DEBUG")
             response = self.dnac._exec(
                 family="user_and_roles",
-                function="add_user_ap_i",
+                function="add_user_api",
                 op_modifies=True,
                 params=user_params,
             )
@@ -1432,7 +1454,7 @@ class UserandRole(DnacBase):
             - response (dict): The API response from the "create_role" function.
         Description:
             - Sends a request to create a new role in Cisco Catalyst Center using the provided role parameters.
-            - Utilizes the "user_and_roles" family and "add_role_ap_i" function for the API request.
+            - Utilizes the "user_and_roles" family and "add_role_api" function for the API request.
             - Logs the provided role parameters and the received API response.
             - Returns the API response from the "create_role" function.
         """
@@ -1440,7 +1462,7 @@ class UserandRole(DnacBase):
             self.log("Create role with role_info_params: {0}".format(str(role_params)), "DEBUG")
             response = self.dnac._exec(
                 family="user_and_roles",
-                function="add_role_ap_i",
+                function="add_role_api",
                 op_modifies=True,
                 params=role_params,
             )
@@ -1460,12 +1482,12 @@ class UserandRole(DnacBase):
             - response (dict): The API response from the "get_users_api" function.
         Description:
             - Sends a request to retrieve users from Cisco Catalyst Center using the "user_and_roles" family
-              and "get_users_ap_i" function.
+              and "get_users_api" function.
             - Logs the received API response and returns it.
         """
         response = self.dnac._exec(
             family="user_and_roles",
-            function="get_users_ap_i",
+            function="get_users_api",
             op_modifies=True,
             params={"invoke_source": "external"},
         )
@@ -1481,12 +1503,12 @@ class UserandRole(DnacBase):
             - response (dict): The API response from the "get_roles" function.
         Description:
             - Sends a request to retrieve roles from Cisco Catalyst Center using the "user_and_roles" family
-              and "get_roles_ap_i" function.
+              and "get_roles_api" function.
             - Logs the received API response and returns it.
         """
         response = self.dnac._exec(
             family="user_and_roles",
-            function="get_roles_ap_i",
+            function="get_roles_api",
             op_modifies=True,
         )
         self.log("Received API response from get_roles_api: {0}".format(str(response)), "DEBUG")
@@ -2377,7 +2399,7 @@ class UserandRole(DnacBase):
         self.log("Updating user with parameters: {0}".format(user_params), "DEBUG")
         response = self.dnac._exec(
             family="user_and_roles",
-            function="update_user_ap_i",
+            function="update_user_api",
             op_modifies=True,
             params=user_params,
         )
@@ -2396,13 +2418,13 @@ class UserandRole(DnacBase):
             - This method sends a request to update a role in Cisco Catalyst Center using the provided
               role parameters. It first logs the role parameters at the "DEBUG" level. Then it calls the"_exec" method
               of the "dnac" object to perform the API request. The API request is specified with the "user_and_roles" family
-              and the "update_role_ap_i" function. The method logs the received API response at the "DEBUG" level and
+              and the "update_role_api" function. The method logs the received API response at the "DEBUG" level and
               finally returns the response.
         """
         self.log("Update role with role_info_params: {0}".format(str(role_params)), "DEBUG")
         response = self.dnac._exec(
             family="user_and_roles",
-            function="update_role_ap_i",
+            function="update_role_api",
             op_modifies=True,
             params=role_params,
         )
@@ -2755,12 +2777,12 @@ class UserandRole(DnacBase):
         Description:
             - This method sends a request to delete a user in Cisco Catalyst Center using the provided user parameters.
             - It logs the response and returns it.
-            - The function uses the "user_and_roles" family and the "delete_user_ap_i" function from the Cisco Catalyst Center API.
+            - The function uses the "user_and_roles" family and the "delete_user_api" function from the Cisco Catalyst Center API.
         """
         self.log("delete user with user_params: {0}".format(str(user_params)), "DEBUG")
         response = self.dnac._exec(
             family="user_and_roles",
-            function="delete_user_ap_i",
+            function="delete_user_api",
             op_modifies=True,
             params=user_params,
         )
@@ -2778,13 +2800,13 @@ class UserandRole(DnacBase):
         Description:
             - This method sends a request to delete a role in Cisco Catalyst Center using the provided role parameters.
             - It logs the response and returns it.
-            - The function uses the "user_and_roles" family and the "delete_role_ap_i" function from the Cisco Catalyst Center API.
+            - The function uses the "user_and_roles" family and the "delete_role_api" function from the Cisco Catalyst Center API.
         """
         try:
             self.log("delete role with role_params: {0}".format(str(role_params)), "DEBUG")
             response = self.dnac._exec(
                 family="user_and_roles",
-                function="delete_role_ap_i",
+                function="delete_role_api",
                 op_modifies=True,
                 params=role_params,
             )
