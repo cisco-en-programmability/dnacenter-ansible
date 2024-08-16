@@ -977,8 +977,10 @@ class UserandRole(DnacBase):
               lowercase letters, uppercase letters, digits, and special characters.
         """
         is_valid_password = False
-        password_criteria_message = "Password must be 8 to 20 characters long and should contain characters from at \
-least three of the following classes: lowercase characters, uppercase characters, digits and special characters."
+        password_criteria_message = (
+            "Password must be 8 to 20 characters long and include characters from at least three of "
+            "the following classes: lowercase letters, uppercase letters, digits, and special characters."
+        )
 
         self.log(password_criteria_message, "DEBUG")
         password_regexs = [
@@ -1105,7 +1107,7 @@ least three of the following classes: lowercase characters, uppercase characters
         self.validate_string_field(last_name, regex_name_validation,
                                    "last_name: '{0}' {1}".format(last_name, regex_name_validation_msg), error_messages)
 
-        email_regex = re.compile(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,2}(?:\.[a-zA-Z]{2,2})*$")
+        email_regex = re.compile(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}(?:\.[a-zA-Z]{2,2})*$")
         email = user_config.get("email")
         email_regex_msg = "email: Invalid email format for 'email': {0}".format(email)
         self.validate_string_field(email, email_regex, email_regex_msg, error_messages)
