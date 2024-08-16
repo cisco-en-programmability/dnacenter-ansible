@@ -963,6 +963,43 @@ class UserandRole(DnacBase):
         if field_value and not regex.match(field_value):
             error_messages.append(error_message)
 
+    def validate_password(self, password, error_messages):
+        """
+        Validate the provided password and append an error message if it does not meet the criteria.
+        Args:
+            - password (str): The password to be validated. Must be a string.
+            - error_messages (list): A list where error messages are appended if the password does not meet the criteria.
+        Returns:
+            None: This function does not return a value, but it may append an error message to `error_messages` if the password is invalid.
+        Criteria:
+            - The password must be 8 to 20 characters long.
+            - The password must include characters from at least three of the following classes:
+              lowercase letters, uppercase letters, digits, and special characters.
+        """
+        is_valid_password = False
+        password_criteria_message = (
+            "Password must be 8 to 20 characters long and include characters from at least three of "
+            "the following classes: lowercase letters, uppercase letters, digits, and special characters."
+        )
+
+        self.log(password_criteria_message, "DEBUG")
+        password_regexs = [
+            re.compile(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?!.*[\W_]).{8,20}$'),
+            re.compile(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_])(?!.*\d).{8,20}$'),
+            re.compile(r'^(?=.*[a-z])(?=.*\d)(?=.*[\W_])(?!.*[A-Z]).{8,20}$'),
+            re.compile(r'^(?=.*[A-Z])(?=.*\d)(?=.*[\W_])(?!.*[a-z]).{8,20}$'),
+            re.compile(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,20}$')
+        ]
+
+        for password_regex in password_regexs:
+            if password_regex.match(password):
+                is_valid_password = True
+                break
+
+        if not is_valid_password:
+            self.log("Password validation failed: {0}".format(password_criteria_message), "DEBUG")
+            error_messages.append(password_criteria_message)
+
     def validate_role_parameters(self, role_key, params_list, role_config, role_param_map, error_messages):
         """
         Helper function to validate role parameters.
@@ -1070,17 +1107,15 @@ class UserandRole(DnacBase):
         self.validate_string_field(last_name, regex_name_validation,
                                    "last_name: '{0}' {1}".format(last_name, regex_name_validation_msg), error_messages)
 
-        email_regex = re.compile(r"[^@]+@[^@]+\.[^@]+")
+        email_regex = re.compile(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}(?:\.[a-zA-Z]{2,2})*$")
         email = user_config.get("email")
         email_regex_msg = "email: Invalid email format for 'email': {0}".format(email)
-        if email:
-            self.validate_string_field(email, email_regex, email_regex_msg, error_messages)
+        self.validate_string_field(email, email_regex, email_regex_msg, error_messages)
 
-        password_regex = re.compile(r"^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$")
         password = user_config.get("password")
-        password_regex_msg = "password: 'Password' does not meet complexity requirements for password: {0}".format(password)
+
         if password:
-            self.validate_string_field(password, password_regex, password_regex_msg, error_messages)
+            self.validate_password(password, error_messages)
 
         username = user_config.get("username")
         self.validate_string_field(username, regex_name_validation,
