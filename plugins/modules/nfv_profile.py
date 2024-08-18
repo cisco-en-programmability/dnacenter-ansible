@@ -13,6 +13,8 @@ description:
 - API to create network profile for different NFV topologies.
 - API to delete nfv network profile.
 - API to update a NFV Network profile.
+deprecated:
+  removed_in: '6.19.0'
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module

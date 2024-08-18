@@ -11,6 +11,8 @@ short_description: Resource module for Site Assign Device
 description:
 - Manage operation create of the resource Site Assign Device.
 - Assigns list of devices to a site.
+deprecated:
+  removed_in: '6.19.0'
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module

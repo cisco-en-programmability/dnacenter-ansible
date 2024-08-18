@@ -13,7 +13,7 @@ description:
 - >
    Allows retry of multiple failed ITSM event instances. The retry request payload can be given as a list of strings
    "instance1","instance2","instance3",.. A minimum of one instance Id is mandatory. The list of failed event
-   instance Ids can be retrieved using the 'Get Failed ITSM Events' API in the 'instanceId' attribute.
+   instance Ids can be retrieved using the 'Get Failed ITSM Events' API in the 'instanceId' attribute. 
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module

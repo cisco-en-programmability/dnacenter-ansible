@@ -11,6 +11,8 @@ short_description: Resource module for Nfv Provision Details
 description:
 - Manage operation create of the resource Nfv Provision Details.
 - Checks the provisioning detail of an ENCS device including log information.
+deprecated:
+  removed_in: '6.19.0'
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module

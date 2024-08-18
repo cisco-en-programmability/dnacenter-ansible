@@ -12,6 +12,8 @@ description:
 - Manage operations create and delete of the resource Sda Fabric.
 - Add SDA Fabric.
 - Delete SDA Fabric.
+deprecated:
+  removed_in: '6.19.0'
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module

@@ -11,6 +11,8 @@ short_description: Resource module for Syslog Config Update
 description:
 - Manage operation update of the resource Syslog Config Update.
 - Update Syslog Destination.
+deprecated:
+  removed_in: '6.19.0'
 version_added: '6.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module

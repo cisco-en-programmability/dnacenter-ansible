@@ -11,6 +11,8 @@ short_description: Resource module for Nfv Provision
 description:
 - Manage operation create of the resource Nfv Provision.
 - Design and Provision single/multi NFV device with given site/area/building/floor .
+deprecated:
+  removed_in: '6.19.0'
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
