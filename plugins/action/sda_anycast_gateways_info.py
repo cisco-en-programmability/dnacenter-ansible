@@ -30,9 +30,9 @@ argument_spec.update(dict(
     virtualNetworkName=dict(type="str"),
     ipPoolName=dict(type="str"),
     vlanName=dict(type="str"),
-    vlanId=dict(type="int"),
-    offset=dict(type="int"),
-    limit=dict(type="int"),
+    vlanId=dict(type="float"),
+    offset=dict(type="float"),
+    limit=dict(type="float"),
     headers=dict(type="dict"),
 ))
 

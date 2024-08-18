@@ -37,6 +37,7 @@ argument_spec.update(dict(
     vlanId=dict(type="str"),
     ipInterfaceName=dict(type="str"),
     sensorProfile=dict(type="str"),
+    hostname=dict(type="str"),
 ))
 
 required_if = []
@@ -86,6 +87,7 @@ class ActionModule(ActionBase):
             vlanId=params.get("vlanId"),
             ipInterfaceName=params.get("ipInterfaceName"),
             sensorProfile=params.get("sensorProfile"),
+            hostname=params.get("hostname"),
         )
         return new_object
 

@@ -120,7 +120,7 @@ class ActionModule(ActionBase):
         if not id:
             response = dnac.exec(
                 family="task",
-                function='get_tasks',
+                function='get_tasks2',
                 params=self.get_object(self._task.args),
             )
             self._result.update(dict(dnac_response=response))

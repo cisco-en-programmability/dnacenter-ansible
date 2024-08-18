@@ -118,8 +118,8 @@ class UsersExternalServersAaaAttribute(object):
 
     def create(self):
         result = self.dnac.exec(
-            family="user_and_roles",
-            function="add_and_update_aaa_attribute_api",
+            family="userand_roles",
+            function="add_and_update_a_a_a_attribute_api",
             params=self.create_params(),
             op_modifies=True,
         )
@@ -130,8 +130,8 @@ class UsersExternalServersAaaAttribute(object):
         name = self.new_object.get("name")
         result = None
         result = self.dnac.exec(
-            family="user_and_roles",
-            function="delete_aaa_attribute_api",
+            family="userand_roles",
+            function="delete_a_a_a_attribute_api",
             params=self.delete_all_params(),
         )
         return result

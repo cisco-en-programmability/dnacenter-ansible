@@ -81,7 +81,7 @@ class ActionModule(ActionBase):
 
         response = dnac.exec(
             family="licenses",
-            function='virtual_account_details2',
+            function='virtual_account_details',
             params=self.get_object(self._task.args),
         )
         self._result.update(dict(dnac_response=response))

@@ -23,6 +23,7 @@ from ansible_collections.cisco.dnac.plugins.plugin_utils.dnac import (
     get_dict_result,
 )
 from ansible_collections.cisco.dnac.plugins.plugin_utils.exceptions import (
+    InconsistentParameters,
     AnsibleSDAException,
 )
 
@@ -32,11 +33,15 @@ argument_spec = dnac_argument_spec()
 argument_spec.update(dict(
     state=dict(type="str", default="present", choices=["present", "absent"]),
     payload=dict(type="list"),
+    extranetPolicyName=dict(type="str"),
     id=dict(type="str"),
 ))
 
 required_if = [
+    ("state", "present", ["id"], True),
     ("state", "present", ["payload"], True),
+    ("state", "absent", ["id"], True),
+    ("state", "absent", ["payload"], True),
 ]
 required_one_of = []
 mutually_exclusive = []
@@ -48,6 +53,7 @@ class SdaExtranetPolicies(object):
         self.dnac = dnac
         self.new_object = dict(
             payload=params.get("payload"),
+            extranet_policy_name=params.get("extranetPolicyName"),
             id=params.get("id"),
         )
 
@@ -132,6 +138,7 @@ class SdaExtranetPolicies(object):
             ("fabricIds", "fabricIds"),
             ("providerVirtualNetworkName", "providerVirtualNetworkName"),
             ("subscriberVirtualNetworkNames", "subscriberVirtualNetworkNames"),
+            ("extranetPolicyName", "extranet_policy_name"),
             ("id", "id"),
         ]
         # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params

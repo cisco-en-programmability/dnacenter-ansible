@@ -23,6 +23,7 @@ from ansible_collections.cisco.dnac.plugins.plugin_utils.dnac import (
     get_dict_result,
 )
 from ansible_collections.cisco.dnac.plugins.plugin_utils.exceptions import (
+    InconsistentParameters,
     AnsibleSDAException,
 )
 
@@ -55,6 +56,8 @@ class SdaAuthenticationProfiles(object):
             self.new_object.get('fabric_id')
         new_object_params['authentication_profile_name'] = self.new_object.get('authenticationProfileName') or \
             self.new_object.get('authentication_profile_name')
+        new_object_params['offset'] = self.new_object.get('offset')
+        new_object_params['limit'] = self.new_object.get('limit')
         return new_object_params
 
     def update_all_params(self):
@@ -110,6 +113,7 @@ class SdaAuthenticationProfiles(object):
             ("dot1xToMabFallbackTimeout", "dot1xToMabFallbackTimeout"),
             ("wakeOnLan", "wakeOnLan"),
             ("numberOfHosts", "numberOfHosts"),
+            ("isBpduGuardEnabled", "isBpduGuardEnabled"),
         ]
         # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params
         # If any does not have eq params, it requires update

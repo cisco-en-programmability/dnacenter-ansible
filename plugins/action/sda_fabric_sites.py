@@ -23,6 +23,7 @@ from ansible_collections.cisco.dnac.plugins.plugin_utils.dnac import (
     get_dict_result,
 )
 from ansible_collections.cisco.dnac.plugins.plugin_utils.exceptions import (
+    InconsistentParameters,
     AnsibleSDAException,
 )
 
@@ -36,7 +37,10 @@ argument_spec.update(dict(
 ))
 
 required_if = [
+    ("state", "present", ["id"], True),
     ("state", "present", ["payload"], True),
+    ("state", "absent", ["id"], True),
+    ("state", "absent", ["payload"], True),
 ]
 required_one_of = []
 mutually_exclusive = []

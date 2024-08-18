@@ -40,7 +40,10 @@ argument_spec.update(dict(
     userId=dict(type="str"),
 ))
 
-required_if = []
+required_if = [
+    ("state", "present", ["userId"], True),
+    ("state", "absent", ["userId"], True),
+]
 required_one_of = []
 mutually_exclusive = []
 required_together = []
