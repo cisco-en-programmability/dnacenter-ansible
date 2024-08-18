@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: sda_port_assignments_info
+module: sda_portAssignments_info
 short_description: Information module for Sda Portassignments
 description:
 - Get all Sda Portassignments.
@@ -21,7 +21,7 @@ options:
     type: dict
   fabricId:
     description:
-    - FabricId query parameter. ID of the fabric this device belongs to.
+    - FabricId query parameter. ID of the fabric the device is assigned to.
     type: str
   networkDeviceId:
     description:
@@ -29,7 +29,7 @@ options:
     type: str
   interfaceName:
     description:
-    - InterfaceName query parameter. Interface Name of the port assignment.
+    - InterfaceName query parameter. Interface name of the port assignment.
     type: str
   dataVlanName:
     description:
@@ -48,7 +48,7 @@ options:
     - Limit query parameter. Maximum number of records to return.
     type: float
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for SDA GetPortAssignments
@@ -65,7 +65,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Get all Sda Portassignments
-  cisco.dnac.sda_port_assignments_info:
+  cisco.dnac.sda_portAssignments_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -101,7 +101,7 @@ dnac_response:
           "dataVlanName": "string",
           "voiceVlanName": "string",
           "authenticateTemplateName": "string",
-          "scalableGroupName": "string",
+          "securityGroupName": "string",
           "interfaceDescription": "string"
         }
       ],

@@ -48,7 +48,7 @@ options:
     - Search query parameter. Findd matches in name, description, eventId, type, category.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Event Management GetEventArtifacts
@@ -100,6 +100,8 @@ dnac_response:
         "description": "string",
         "domain": "string",
         "subDomain": "string",
+        "deprecationMessage": "string",
+        "deprecated": true,
         "tags": [
           "string"
         ],
@@ -127,10 +129,6 @@ dnac_response:
         "supportedConnectorTypes": [
           "string"
         ],
-        "configs": {
-          "isAlert": true,
-          "isACKnowledgeable": true
-        },
         "tenantId": "string"
       }
     ]

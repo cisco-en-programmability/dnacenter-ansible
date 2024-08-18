@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: sda_fabric_zones
+module: sda_fabricZones
 short_description: Resource module for Sda Fabriczones
 description:
 - Manage operations create, update and delete of the resource Sda Fabriczones.
@@ -19,7 +19,7 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   id:
-    description: Id path parameter. ID of the fabric zone to be deleted.
+    description: Id path parameter. ID of the fabric zone.
     type: str
   payload:
     description: Sda Fabric Zones's payload.
@@ -36,7 +36,7 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for SDA AddFabricZone
@@ -63,7 +63,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Update all
-  cisco.dnac.sda_fabric_zones:
+  cisco.dnac.sda_fabricZones:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -78,7 +78,7 @@ EXAMPLES = r"""
       siteId: string
 
 - name: Create
-  cisco.dnac.sda_fabric_zones:
+  cisco.dnac.sda_fabricZones:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -92,7 +92,7 @@ EXAMPLES = r"""
       siteId: string
 
 - name: Delete by id
-  cisco.dnac.sda_fabric_zones:
+  cisco.dnac.sda_fabricZones:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

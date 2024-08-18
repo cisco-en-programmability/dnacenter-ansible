@@ -61,7 +61,7 @@ options:
     type: bool
   tags:
     description:
-    - Tags query parameter. Filter template(s) based on tags.
+    - Tags query parameter. Filter template(s) based on tags. 
     elements: str
     type: list
   unCommitted:
@@ -89,7 +89,7 @@ options:
     - Limit query parameter. Limits number of results.
     type: int
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Configuration Templates GetTemplatesDetails

@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: sda_fabric_sites_info
+module: sda_fabricSites_info
 short_description: Information module for Sda Fabricsites
 description:
 - Get all Sda Fabricsites.
@@ -21,22 +21,22 @@ options:
     type: dict
   id:
     description:
-    - Id query parameter. ID of the fabric site to search for in the database.
+    - Id query parameter. ID of the fabric site.
     type: str
   siteId:
     description:
-    - SiteId query parameter. Get the fabric site associated with this network hierarchy.
+    - SiteId query parameter. ID of the network hierarchy associated with the fabric site.
     type: str
   offset:
     description:
     - Offset query parameter. Starting record for pagination.
-    type: int
+    type: float
   limit:
     description:
     - Limit query parameter. Maximum number of records to return.
-    type: int
+    type: float
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for SDA GetFabricSites
@@ -53,7 +53,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Get all Sda Fabricsites
-  cisco.dnac.sda_fabric_sites_info:
+  cisco.dnac.sda_fabricSites_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

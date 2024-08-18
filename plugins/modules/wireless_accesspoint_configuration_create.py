@@ -156,8 +156,8 @@ options:
         type: int
       channelWidth:
         description: Configure the channel width on the specified radio for an access
-          point for 20 MHz, set "3"; for 40 MHz, set "4"; for 80 MHz, set "5"; and for
-          160 MHz, set "6".
+          point for 20 MHz, set "3"; for 40 MHz, set "4"; for 80 MHz, set "5"; for 160
+          MHz, set "6", and for 320 MHz, set "7".
         type: int
       configureAdminStatus:
         description: To change the admin status on the specified radio for an access
@@ -231,7 +231,7 @@ options:
         type: str
     type: dict
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Wireless ConfigureAccessPointsV2

@@ -26,7 +26,7 @@ options:
     description: Name query parameter. Virtual Account Name.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Device Onboarding (PnP) DeregisterVirtualAccount
@@ -62,37 +62,25 @@ dnac_response:
   type: dict
   sample: >
     {
-      "virtualAccountId": "string",
-      "autoSyncPeriod": 0,
-      "syncResultStr": "string",
-      "profile": {
-        "proxy": true,
-        "makeDefault": true,
-        "port": 0,
-        "profileId": "string",
-        "name": "string",
-        "addressIpV4": "string",
-        "cert": "string",
-        "addressFqdn": "string"
-      },
-      "ccoUser": "string",
-      "syncResult": {
-        "syncList": [
-          {
-            "syncType": "string",
-            "deviceSnList": [
-              "string"
-            ]
-          }
-        ],
-        "syncMsg": "string"
-      },
-      "token": "string",
-      "syncStartTime": 0,
-      "lastSync": 0,
-      "tenantId": "string",
       "smartAccountId": "string",
+      "virtualAccountId": "string",
+      "lastSync": 0,
+      "ccoUser": "string",
       "expiry": 0,
-      "syncStatus": "string"
+      "autoSyncPeriod": 0,
+      "profile": {
+        "name": "string",
+        "profileId": "string",
+        "makeDefault": true,
+        "addressIpV4": "string",
+        "addressIpV6": "string",
+        "addressFqdn": "string",
+        "port": 0,
+        "cert": "string",
+        "proxy": true
+      },
+      "syncStatus": "string",
+      "syncStartTime": 0,
+      "tenantId": "string"
     }
 """

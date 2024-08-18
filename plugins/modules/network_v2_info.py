@@ -11,7 +11,7 @@ short_description: Information module for Network V2
 description:
 - Get all Network V2.
 - API to get SNMP, NTP, Network AAA, Client and Endpoint AAA, and/or DNS center server settings.
-version_added: '6.7.0'
+version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
 author: Rafael Campos (@racampos)
@@ -24,8 +24,8 @@ options:
     - SiteId query parameter. Site Id to get the network settings associated with the site.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
-- python >= 3.9
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Network Settings GetNetworkV2
   description: Complete reference of the GetNetworkV2 API.
@@ -54,7 +54,6 @@ EXAMPLES = r"""
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

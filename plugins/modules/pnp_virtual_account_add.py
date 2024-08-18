@@ -35,10 +35,14 @@ options:
     description: Pnp Virtual Account Add's profile.
     suboptions:
       addressFqdn:
-        description: Pnp Virtual Account Add's addressFqdn.
+        description: Required when cluster is configured with fully qualified domain
+          name (FQDN).
         type: str
       addressIpV4:
-        description: Pnp Virtual Account Add's addressIpV4.
+        description: Required when cluster is configured with IPv4.
+        type: str
+      addressIpV6:
+        description: Required when cluster is configured with IPv6.
         type: str
       cert:
         description: Pnp Virtual Account Add's cert.
@@ -82,25 +86,25 @@ options:
         type: str
     type: dict
   syncResultStr:
-    description: Pnp Virtual Account Add's syncResultStr.
+    description: Represent internal state and SHOULD not be used or relied upon. (Deprecated).
     type: str
   syncStartTime:
     description: Pnp Virtual Account Add's syncStartTime.
     type: int
   syncStatus:
-    description: Pnp Virtual Account Add's syncStatus.
+    description: Represent internal state and SHOULD not be used or relied upon. (Deprecated).
     type: str
   tenantId:
-    description: Pnp Virtual Account Add's tenantId.
+    description: Represent internal state and SHOULD not be used or relied upon. (Deprecated).
     type: str
   token:
-    description: Pnp Virtual Account Add's token.
+    description: Represent internal state and SHOULD not be used or relied upon. (Deprecated).
     type: str
   virtualAccountId:
     description: Pnp Virtual Account Add's virtualAccountId.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Device Onboarding (PnP) AddVirtualAccount
@@ -132,6 +136,7 @@ EXAMPLES = r"""
     profile:
       addressFqdn: string
       addressIpV4: string
+      addressIpV6: string
       cert: string
       makeDefault: true
       name: string
@@ -162,7 +167,6 @@ dnac_response:
     {
       "virtualAccountId": "string",
       "autoSyncPeriod": 0,
-      "syncResultStr": "string",
       "profile": {
         "proxy": true,
         "makeDefault": true,
@@ -174,18 +178,6 @@ dnac_response:
         "addressFqdn": "string"
       },
       "ccoUser": "string",
-      "syncResult": {
-        "syncList": [
-          {
-            "syncType": "string",
-            "deviceSnList": [
-              "string"
-            ]
-          }
-        ],
-        "syncMsg": "string"
-      },
-      "token": "string",
       "syncStartTime": 0,
       "lastSync": 0,
       "tenantId": "string",

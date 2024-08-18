@@ -10,7 +10,7 @@ module: authentication_import_certificate
 short_description: Resource module for Authentication Import Certificate
 description:
 - Manage operation create of the resource Authentication Import Certificate.
-- This method is used to upload a certificate.
+- This API enables a user to import a PEM certificate and its key for the controller and/or disaster recovery.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -20,17 +20,19 @@ options:
     description: Cert file absolute path.
     type: str
   listOfUsers:
-    description: ListOfUsers query parameter.
+    description: ListOfUsers query parameter. Specify whether the certificate will be
+      used for controller ("server"), disaster recovery ("ipsec") or both ("server,
+      ipsec"). If no value is provided, the default value taken will be "server".
     elements: str
     type: list
   pkFilePath:
     description: Pk file absolute path.
     type: str
   pkPassword:
-    description: PkPassword query parameter. Private Key Passsword.
+    description: PkPassword query parameter. Password for encrypted private key.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Authentication Management ImportCertificate

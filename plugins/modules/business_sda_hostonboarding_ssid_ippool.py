@@ -10,12 +10,8 @@ module: business_sda_hostonboarding_ssid_ippool
 short_description: Resource module for Business Sda Hostonboarding Ssid Ippool
 description:
 - Manage operations create and update of the resource Business Sda Hostonboarding Ssid Ippool.
-- >
-   Update SSID mapping to a VLAN. The request does not need to include all the SSIDs currently mapped to a VLAN; it
-   can include only the SSIDs that require update. Note ECA is not supported.
-- >
-   Update SSID mapping to a VLAN. The request does not need to include all the SSIDs currently mapped to a VLAN; it
-   can include only the SSIDs that require update. Note ECA is not supported.
+- Add SSID to IP Pool Mapping.
+- Update SSID to IP Pool Mapping.
 version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -35,7 +31,7 @@ options:
     description: VLAN Name.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Fabric Wireless AddSSIDToIPPoolMapping

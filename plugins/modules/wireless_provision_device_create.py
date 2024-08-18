@@ -10,7 +10,7 @@ module: wireless_provision_device_create
 short_description: Resource module for Wireless Provision Device Create
 description:
 - Manage operation create of the resource Wireless Provision Device Create.
-- Provision wireless devices.
+- Provision wireless device.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -55,7 +55,7 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Wireless Provision

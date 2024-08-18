@@ -21,22 +21,24 @@ options:
     type: dict
   floorId:
     description:
-    - FloorId path parameter. Floor Id.
+    - FloorId path parameter. The instance UUID of the floor hierarchy element.
     type: str
   limit:
     description:
-    - Limit query parameter.
+    - Limit query parameter. The page size limit for the response, e.g. Limit=100 will return a maximum of 100 records.
     type: float
   offset:
     description:
-    - Offset query parameter.
+    - >
+      Offset query parameter. The page offset for the response. E.g. If limit=100, offset=0 will return first 100
+      records, offset=1 will return next 100 records, etc.
     type: float
   radios:
     description:
-    - Radios query parameter. Inlcude planned radio details.
+    - Radios query parameter. Whether to include the planned radio details of the planned access points.
     type: bool
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Devices GetPlannedAccessPointsForFloor
@@ -87,9 +89,13 @@ dnac_response:
             "heirarchyName": "string",
             "source": "string",
             "createDate": 0,
-            "macaddress": {}
+            "macAddress": "string"
           },
-          "location": {},
+          "location": {
+            "altitude": 0,
+            "lattitude": 0,
+            "longtitude": 0
+          },
           "position": {
             "x": 0,
             "y": 0,
@@ -104,9 +110,10 @@ dnac_response:
                 "slotId": 0,
                 "ifTypeString": "string",
                 "ifTypeSubband": "string",
-                "channel": {},
-                "channelString": {},
-                "ifMode": "string"
+                "channel": 0,
+                "channelString": "string",
+                "ifMode": "string",
+                "txPowerLevel": 0
               },
               "antenna": {
                 "name": "string",

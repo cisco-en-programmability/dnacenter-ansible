@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: sda_fabric_devices_layer2_handoffs_ip_transits
+module: sda_fabricDevices_layer2Handoffs_ipTransits
 short_description: Resource module for Sda Fabricdevices Layer2handoffs Iptransits
 description:
 - Manage operations create, update and delete of the resource Sda Fabricdevices Layer2handoffs Iptransits.
@@ -24,7 +24,7 @@ options:
     type: str
   id:
     description: Id path parameter. ID of the layer 3 handoff with ip transit of a fabric
-      device to be deleted.
+      device.
     type: str
   networkDeviceId:
     description: NetworkDeviceId query parameter. Network device ID of the fabric device.
@@ -38,7 +38,7 @@ options:
           allocate IP address for the connection between the border node and peer.
         type: str
       fabricId:
-        description: ID of the fabric this device belongs to.
+        description: ID of the fabric this device is assigned to.
         type: str
       interfaceName:
         description: Interface name of the layer 3 handoff ip transit.
@@ -88,7 +88,7 @@ options:
         type: int
     type: list
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for SDA AddFabricDevicesLayer3HandoffsWithIpTransit
@@ -119,7 +119,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Create
-  cisco.dnac.sda_fabric_devices_layer2_handoffs_ip_transits:
+  cisco.dnac.sda_fabricDevices_layer2Handoffs_ipTransits:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -143,7 +143,7 @@ EXAMPLES = r"""
       vlanId: 0
 
 - name: Update all
-  cisco.dnac.sda_fabric_devices_layer2_handoffs_ip_transits:
+  cisco.dnac.sda_fabricDevices_layer2Handoffs_ipTransits:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -168,7 +168,7 @@ EXAMPLES = r"""
       vlanId: 0
 
 - name: Delete all
-  cisco.dnac.sda_fabric_devices_layer2_handoffs_ip_transits:
+  cisco.dnac.sda_fabricDevices_layer2Handoffs_ipTransits:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -181,7 +181,7 @@ EXAMPLES = r"""
     networkDeviceId: string
 
 - name: Delete by id
-  cisco.dnac.sda_fabric_devices_layer2_handoffs_ip_transits:
+  cisco.dnac.sda_fabricDevices_layer2Handoffs_ipTransits:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

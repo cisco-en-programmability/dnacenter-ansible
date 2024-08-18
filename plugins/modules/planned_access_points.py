@@ -32,50 +32,50 @@ options:
     description: Planned Access Points's attributes.
     suboptions:
       createDate:
-        description: Planned Access Points's createDate.
-        type: int
+        description: Created date of the planned access point.
+        type: float
       domain:
-        description: Planned Access Points's domain.
+        description: Service domain to which the planned access point belongs.
         type: str
       heirarchyName:
-        description: Planned Access Points's heirarchyName.
+        description: Hierarchy name of the planned access point.
         type: str
       id:
-        description: Planned Access Points's id.
+        description: Unique id of the planned access point.
         type: float
       instanceUuid:
-        description: Planned Access Points's instanceUuid.
+        description: Instance uuid of the planned access point.
         type: str
-      macaddress:
-        description: Planned Access Points's macaddress.
+      macAddress:
+        description: MAC address of the planned access point.
         type: str
       name:
-        description: Planned Access Points's name.
+        description: Display name of the planned access point.
         type: str
       source:
-        description: Planned Access Points's source.
+        description: Source of the data used to create the planned access point.
         type: str
       typeString:
-        description: Planned Access Points's typeString.
+        description: Type string representation of the planned access point.
         type: str
     type: dict
   floorId:
     description: FloorId path parameter. The instance UUID of the floor hierarchy element.
     type: str
   isSensor:
-    description: IsSensor flag.
+    description: Indicates that PAP is a sensor.
     type: bool
   location:
     description: Planned Access Points's location.
     suboptions:
       altitude:
-        description: Planned Access Points's altitude.
+        description: Altitude of the planned access point's location.
         type: float
       lattitude:
-        description: Planned Access Points's lattitude.
+        description: Latitude of the planned access point's location.
         type: float
       longtitude:
-        description: Planned Access Points's longtitude.
+        description: Longitude of the planned access point's location.
         type: float
     type: dict
   plannedAccessPointUuid:
@@ -86,17 +86,19 @@ options:
     description: Planned Access Points's position.
     suboptions:
       x:
-        description: Planned Access Points's x.
+        description: X-coordinate of the planned access point on the map, 0,0 point
+          being the top-left corner.
         type: float
       y:
-        description: Planned Access Points's y.
+        description: Y-coordinate of the planned access point on the map, 0,0 point
+          being the top-left corner.
         type: float
       z:
-        description: Planned Access Points's z.
+        description: Z-coordinate, or height, of the planned access point on the map.
         type: float
     type: dict
   radioCount:
-    description: Planned Access Points's radioCount.
+    description: Number of radios of the planned access point.
     type: int
   radios:
     description: Planned Access Points's radios.
@@ -106,58 +108,62 @@ options:
         description: Planned Access Points's antenna.
         suboptions:
           azimuthAngle:
-            description: Planned Access Points's azimuthAngle.
+            description: Azimuth angle of the antenna.
             type: float
           elevationAngle:
-            description: Planned Access Points's elevationAngle.
+            description: Elevation angle of the antenna.
             type: float
           gain:
-            description: Planned Access Points's gain.
+            description: Gain of the antenna.
             type: float
           mode:
-            description: Planned Access Points's mode.
+            description: Mode of the antenna associated with this radio.
             type: str
           name:
-            description: Planned Access Points's name.
+            description: Name of the antenna.
             type: str
           type:
-            description: Planned Access Points's type.
+            description: Type of the antenna associated with this radio.
             type: str
         type: dict
       attributes:
         description: Planned Access Points's attributes.
         suboptions:
           channel:
-            description: Planned Access Points's channel.
+            description: Channel in which this radio operates.
             type: float
           channelString:
-            description: Planned Access Points's channelString.
+            description: Channel string representation.
             type: str
           id:
-            description: Planned Access Points's id.
-            type: float
+            description: Id of the radio.
+            type: int
           ifMode:
-            description: Planned Access Points's ifMode.
+            description: IF mode of the radio.
             type: str
           ifTypeString:
-            description: Planned Access Points's ifTypeString.
+            description: String representation of native band.
             type: str
           ifTypeSubband:
-            description: Planned Access Points's ifTypeSubband.
+            description: Sub band of the radio.
             type: str
           instanceUuid:
-            description: Planned Access Points's instanceUuid.
+            description: Instance Uuid of the radio.
             type: str
           slotId:
-            description: Planned Access Points's slotId.
+            description: Slot number in which the radio resides in the parent access
+              point.
+            type: float
+          txPowerLevel:
+            description: Tx Power at which this radio operates (in dBm).
             type: float
         type: dict
       isSensor:
-        description: IsSensor flag.
+        description: Determines if it is sensor or not.
         type: bool
     type: list
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Devices CreatePlannedAccessPointForFloor
@@ -199,7 +205,7 @@ EXAMPLES = r"""
       heirarchyName: string
       id: 0
       instanceUuid: string
-      macaddress: string
+      macAddress: string
       name: string
       source: string
       typeString: string
@@ -231,6 +237,7 @@ EXAMPLES = r"""
         ifTypeSubband: string
         instanceUuid: string
         slotId: 0
+        txPowerLevel: 0
       isSensor: true
 
 - name: Create
@@ -249,7 +256,7 @@ EXAMPLES = r"""
       heirarchyName: string
       id: 0
       instanceUuid: string
-      macaddress: string
+      macAddress: string
       name: string
       source: string
       typeString: string
@@ -281,6 +288,7 @@ EXAMPLES = r"""
         ifTypeSubband: string
         instanceUuid: string
         slotId: 0
+        txPowerLevel: 0
       isSensor: true
 
 - name: Delete by id
@@ -304,10 +312,10 @@ dnac_response:
   type: dict
   sample: >
     {
+      "version": "string",
       "response": {
-        "taskId": "string",
-        "url": "string"
-      },
-      "version": "string"
+        "url": "string",
+        "taskId": "string"
+      }
     }
 """

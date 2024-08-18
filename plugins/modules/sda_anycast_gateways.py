@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: sda_anycast_gateways
+module: sda_anycastGateways
 short_description: Resource module for Sda Anycastgateways
 description:
 - Manage operations create, update and delete of the resource Sda Anycastgateways.
@@ -19,15 +19,15 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   id:
-    description: Id path parameter. ID of the anycast gateway to be deleted.
+    description: Id path parameter. ID of the anycast gateway.
     type: str
   payload:
     description: Sda Anycast Gateways's payload.
     elements: dict
     suboptions:
       fabricId:
-        description: ID of the fabric containing this anycast gateway. Updating anycast
-          gateways on fabric zones is not allowed--instead, update the corresponding
+        description: ID of the fabric this anycast gateway is assigned to. Updating
+          anycast gateways on fabric zones is not allowed--instead, update the corresponding
           anycast gateway on the fabric site and the updates will be applied on all
           applicable fabric zones (updating this field is not allowed).
         type: str
@@ -41,6 +41,10 @@ options:
       isCriticalPool:
         description: Enable/disable critical VLAN (not applicable to INFRA_VN; updating
           this field is not allowed).
+        type: bool
+      isGroupBasedPolicyEnforcementEnabled:
+        description: Enable/disable Group-Based Policy Enforcement (applicable only
+          to INFRA_VN; defaults to false).
         type: bool
       isIntraSubnetRoutingEnabled:
         description: Enable/disable Intra-Subnet Routing (not applicable to INFRA_VN;
@@ -58,14 +62,14 @@ options:
         type: bool
       isSupplicantBasedExtendedNodeOnboarding:
         description: Enable/disable Supplicant-Based Extended Node Onboarding (applicable
-          only to INFRA_VN; required when poolType is EXTENDED_NODE).
+          only to INFRA_VN requests; must not be null when poolType is EXTENDED_NODE).
         type: bool
       isWirelessPool:
         description: Enable/disable fabric-enabled wireless (not applicable to INFRA_VN).
         type: bool
       poolType:
-        description: The pool type of the anycast gateway (applicable only to INFRA_VN;
-          updating this field is not allowed).
+        description: The pool type of the anycast gateway (required for & applicable
+          only to INFRA_VN; updating this field is not allowed).
         type: str
       securityGroupName:
         description: Name of the associated Security Group (not applicable to INFRA_VN).
@@ -90,7 +94,7 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for SDA AddAnycastGateways
@@ -117,7 +121,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Update all
-  cisco.dnac.sda_anycast_gateways:
+  cisco.dnac.sda_anycastGateways:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -131,6 +135,7 @@ EXAMPLES = r"""
       id: string
       ipPoolName: string
       isCriticalPool: true
+      isGroupBasedPolicyEnforcementEnabled: true
       isIntraSubnetRoutingEnabled: true
       isIpDirectedBroadcast: true
       isLayer2FloodingEnabled: true
@@ -160,6 +165,7 @@ EXAMPLES = r"""
       fabricId: string
       ipPoolName: string
       isCriticalPool: true
+      isGroupBasedPolicyEnforcementEnabled: true
       isIntraSubnetRoutingEnabled: true
       isIpDirectedBroadcast: true
       isLayer2FloodingEnabled: true

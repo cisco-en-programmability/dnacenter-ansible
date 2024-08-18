@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: sda_provision_devices_info
+module: sda_provisionDevices_info
 short_description: Information module for Sda Provisiondevices
 description:
 - Get all Sda Provisiondevices.
@@ -40,7 +40,7 @@ options:
     - Limit query parameter. Maximum number of devices to return.
     type: float
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for SDA GetProvisionedDevices
@@ -57,7 +57,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Get all Sda Provisiondevices
-  cisco.dnac.sda_provision_devices_info:
+  cisco.dnac.sda_provisionDevices_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

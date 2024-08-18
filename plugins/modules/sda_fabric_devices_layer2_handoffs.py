@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: sda_fabric_devices_layer2_handoffs
+module: sda_fabricDevices_layer2Handoffs
 short_description: Resource module for Sda Fabricdevices Layer2handoffs
 description:
 - Manage operations create, update and delete of the resource Sda Fabricdevices Layer2handoffs.
@@ -36,7 +36,7 @@ options:
           VLAN range is 2-4094 except for reserved vlans (1, 1002-1005, 2046, 4094).
         type: int
       fabricId:
-        description: ID of the fabric this device belongs to.
+        description: ID of the fabric this device is assigned to.
         type: str
       interfaceName:
         description: Interface name of the layer 2 handoff. E.g., GigabitEthernet1/0/4.
@@ -50,7 +50,7 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for SDA AddFabricDevicesLayer2Handoffs
@@ -76,7 +76,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Delete all
-  cisco.dnac.sda_fabric_devices_layer2_handoffs:
+  cisco.dnac.sda_fabricDevices_layer2Handoffs:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -89,7 +89,7 @@ EXAMPLES = r"""
     networkDeviceId: string
 
 - name: Create
-  cisco.dnac.sda_fabric_devices_layer2_handoffs:
+  cisco.dnac.sda_fabricDevices_layer2Handoffs:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -106,7 +106,7 @@ EXAMPLES = r"""
       networkDeviceId: string
 
 - name: Delete by id
-  cisco.dnac.sda_fabric_devices_layer2_handoffs:
+  cisco.dnac.sda_fabricDevices_layer2Handoffs:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

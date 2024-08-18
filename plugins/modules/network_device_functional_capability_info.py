@@ -29,8 +29,8 @@ options:
     type: str
   functionName:
     description:
-    - FunctionName query parameter.
-    elements: str
+    - FunctionName query parameter. 
+    elements: dict
     type: list
   id:
     description:

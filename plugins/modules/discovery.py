@@ -35,10 +35,10 @@ options:
       Progress.
     type: str
   discoveryStatus:
-    description: Status of the discovery. Available options are active, inactive, edit.
+    description: Status of the discovery. Available options are Active, Inactive, Edit.
     type: str
   discoveryType:
-    description: Type of the discovery. 'SINGLE', 'RANGE', 'MULTI RANGE', 'CDP', 'LLDP',
+    description: Type of the discovery. 'Single', 'Range', 'Multi Range', 'CDP', 'LLDP',
       'CIDR'.
     type: str
   enablePasswordList:
@@ -220,7 +220,7 @@ options:
     description: Username of the devices to be discovered.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Discovery StartDiscovery

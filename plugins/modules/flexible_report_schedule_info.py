@@ -24,7 +24,7 @@ options:
     - ReportId path parameter. Id of the report.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Reports GetFlexibleReportScheduleByReportId
@@ -59,6 +59,8 @@ dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
-  sample:
-  - {}
+  sample: >
+    {
+      "schedule": {}
+    }
 """

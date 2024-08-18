@@ -44,15 +44,15 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Wireless APProvision
-  description: Complete reference of the APProvision API.
-  link: https://developer.cisco.com/docs/dna-center/#!a-p-provision
+- name: Cisco DNA Center documentation for Wireless APProvision2
+  description: Complete reference of the APProvision2 API.
+  link: https://developer.cisco.com/docs/dna-center/#!a-p-provision-2
 notes:
   - SDK Method used are
-    wireless.Wireless.ap_provision,
+    wireless.Wireless.ap_provision2,
 
   - Paths used are
     post /dna/intent/api/v1/wireless/ap-provision,

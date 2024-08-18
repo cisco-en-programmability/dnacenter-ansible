@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: sda_extranet_policies_info
+module: sda_extranetPolicies_info
 short_description: Information module for Sda Extranetpolicies
 description:
 - Get all Sda Extranetpolicies.
@@ -32,7 +32,7 @@ options:
     - Limit query parameter. Maximum number of records to return.
     type: float
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for SDA GetExtranetPolicies
@@ -49,7 +49,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Get all Sda Extranetpolicies
-  cisco.dnac.sda_extranet_policies_info:
+  cisco.dnac.sda_extranetPolicies_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

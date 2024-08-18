@@ -31,9 +31,6 @@ options:
       hostname:
         description: Hostname.
         type: str
-      isSudiRequired:
-        description: Is Sudi Required.
-        type: bool
       macAddress:
         description: Mac Address.
         type: str
@@ -110,12 +107,16 @@ options:
             elements: str
             type: list
         type: dict
+      sudiRequired:
+        description: Is Sudi Required.
+        type: bool
       userMicNumbers:
         description: User Mic Numbers.
         elements: str
         type: list
       userSudiSerialNos:
-        description: User Sudi Serial Nos.
+        description: List of Secure Unique Device Identifier (SUDI) serial numbers to
+          perform SUDI authorization, Required if sudiRequired is true.
         elements: str
         type: list
       workflowId:
@@ -129,7 +130,7 @@ options:
     description: Id.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Device Onboarding (PnP) AddDevice
@@ -170,7 +171,6 @@ EXAMPLES = r"""
       deviceSudiSerialNos:
       - string
       hostname: string
-      isSudiRequired: true
       macAddress: string
       pid: string
       serialNumber: string
@@ -196,6 +196,7 @@ EXAMPLES = r"""
         totalMemberCount: 0
         validLicenseLevels:
         - string
+      sudiRequired: true
       userMicNumbers:
       - string
       userSudiSerialNos:
@@ -219,8 +220,8 @@ EXAMPLES = r"""
       serialNumber: string
       stack: true
       sudiRequired: true
-      sudiSerialNos:
-      - {}
+      userSudiSerialNos:
+      - string
     id: string
 
 - name: Delete by id

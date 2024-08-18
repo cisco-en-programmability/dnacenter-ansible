@@ -10,7 +10,7 @@ module: wireless_enterprise_ssid_info
 short_description: Information module for Wireless Enterprise Ssid
 description:
 - Get all Wireless Enterprise Ssid.
-- Gets either one or all the enterprise SSID.
+- Get Enterprise SSID.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -26,7 +26,7 @@ options:
       enterprise SSIDs will be retrieved.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Wireless GetEnterpriseSSID

@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: sda_fabric_devices
+module: sda_fabricDevices
 short_description: Resource module for Sda Fabricdevices
 description:
 - Manage operations create, update and delete of the resource Sda Fabricdevices.
@@ -20,7 +20,8 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   deviceRoles:
-    description: DeviceRoles query parameter. Device roles of the fabric device.
+    description: DeviceRoles query parameter. Device roles of the fabric device. Allowed
+      values are CONTROL_PLANE_NODE, EDGE_NODE, BORDER_NODE, WIRELESS_CONTROLLER_NODE.
     type: str
   fabricId:
     description: FabricId query parameter. ID of the fabric this device belongs to.
@@ -75,12 +76,13 @@ options:
         type: dict
       deviceRoles:
         description: List of the roles of the fabric device. Allowed values are CONTROL_PLANE_NODE,
-          EDGE_NODE, BORDER_NODE. (updating this field is not allowed).
+          EDGE_NODE, BORDER_NODE, WIRELESS_CONTROLLER_NODE. (updating this field is
+          not allowed).
         elements: str
         type: list
       fabricId:
-        description: ID of the fabric site/zone of this fabric device. (updating this
-          field is not allowed).
+        description: ID of the fabric of this fabric device. (updating this field is
+          not allowed).
         type: str
       id:
         description: ID of the fabric device. (updating this field is not allowed).
@@ -91,15 +93,15 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for SDA AddFabricDevices
   description: Complete reference of the AddFabricDevices API.
   link: https://developer.cisco.com/docs/dna-center/#!add-fabric-devices
-- name: Cisco DNA Center documentation for SDA DeleteAFabricDeviceById
-  description: Complete reference of the DeleteAFabricDeviceById API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-a-fabric-device-by-id
+- name: Cisco DNA Center documentation for SDA DeleteFabricDeviceById
+  description: Complete reference of the DeleteFabricDeviceById API.
+  link: https://developer.cisco.com/docs/dna-center/#!delete-fabric-device-by-id
 - name: Cisco DNA Center documentation for SDA DeleteFabricDevices
   description: Complete reference of the DeleteFabricDevices API.
   link: https://developer.cisco.com/docs/dna-center/#!delete-fabric-devices
@@ -109,7 +111,7 @@ seealso:
 notes:
   - SDK Method used are
     sda.Sda.add_fabric_devices,
-    sda.Sda.delete_a_fabric_device_by_id,
+    sda.Sda.delete_fabric_device_by_id,
     sda.Sda.update_fabric_devices,
 
   - Paths used are
@@ -122,7 +124,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Update all
-  cisco.dnac.sda_fabric_devices:
+  cisco.dnac.sda_fabricDevices:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -148,7 +150,7 @@ EXAMPLES = r"""
       networkDeviceId: string
 
 - name: Delete all
-  cisco.dnac.sda_fabric_devices:
+  cisco.dnac.sda_fabricDevices:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -162,7 +164,7 @@ EXAMPLES = r"""
     networkDeviceId: string
 
 - name: Create
-  cisco.dnac.sda_fabric_devices:
+  cisco.dnac.sda_fabricDevices:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -187,7 +189,7 @@ EXAMPLES = r"""
       networkDeviceId: string
 
 - name: Delete by id
-  cisco.dnac.sda_fabric_devices:
+  cisco.dnac.sda_fabricDevices:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

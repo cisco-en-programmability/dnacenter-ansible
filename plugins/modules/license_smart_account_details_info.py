@@ -10,7 +10,7 @@ module: license_smart_account_details_info
 short_description: Information module for License Smart Account Details
 description:
 - Get all License Smart Account Details.
-- Get detail of all smart accounts.
+- Retrieve details of all smart accounts.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info

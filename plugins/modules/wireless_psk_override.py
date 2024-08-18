@@ -10,26 +10,31 @@ module: wireless_psk_override
 short_description: Resource module for Wireless Psk Override
 description:
 - Manage operation create of the resource Wireless Psk Override.
-- Update/override pass phrase of enterprise SSID.
+- Update/Override passphrase of SSID.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
-  passPhrase:
-    description: Pass phrase (create/update).
-    type: str
-  site:
-    description: Site name hierarchy (ex Global/aaa/zzz/...).
-    type: str
-  ssidName:
-    description: Enterprise SSID Name(already created/present).
-    type: str
-  wlanProfileName:
-    description: WLAN Profile Name.
-    type: str
+  payload:
+    description: Wireless Psk Override's payload.
+    elements: dict
+    suboptions:
+      passPhrase:
+        description: Pass phrase (create/update).
+        type: str
+      site:
+        description: Site name hierarchy (ex Global/aaa/zzz/...).
+        type: str
+      ssid:
+        description: Enterprise ssid name(already created/present).
+        type: str
+      wlanProfileName:
+        description: WLAN Profile Name.
+        type: str
+    type: list
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Wireless PSKOverride
@@ -54,10 +59,11 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    passPhrase: string
-    site: string
-    ssidName: string
-    wlanProfileName: string
+    payload:
+    - passPhrase: string
+      site: string
+      ssid: string
+      wlanProfileName: string
 
 """
 RETURN = r"""

@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: lan_automation_update_device
+module: lan_automation_updateDevice
 short_description: Resource module for Lan Automation Updatedevice
 description:
 - Manage operation update of the resource Lan Automation Updatedevice.
@@ -20,7 +20,7 @@ author: Rafael Campos (@racampos)
 options:
   feature:
     description: Feature query parameter. Feature ID for the update. Supported feature
-      IDs include LOOPBACK0_IPADDRESS_UPDATE, HOSTNAME_UPDATE, LINK_ADD, and LINK_DELETE.
+      IDs include LOOPBACK0_IPADDRESS_UPDATE, HOSTNAME_UPDATE, LINK_Add and LINK_DELETE.
     type: str
   hostnameUpdateDevices:
     description: Lan Automation Update Device's hostnameUpdateDevices.
@@ -66,7 +66,7 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for LAN Automation LANAutomationDeviceUpdate

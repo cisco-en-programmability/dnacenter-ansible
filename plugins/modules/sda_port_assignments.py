@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: sda_port_assignments
+module: sda_portAssignments
 short_description: Resource module for Sda Portassignments
 description:
 - Manage operations create, update and delete of the resource Sda Portassignments.
@@ -23,7 +23,7 @@ options:
     description: DataVlanName query parameter. Data VLAN name of the port assignment.
     type: str
   fabricId:
-    description: FabricId query parameter. ID of the fabric this device belongs to.
+    description: FabricId query parameter. ID of the fabric the device is assigned to.
     type: str
   id:
     description: Id path parameter. ID of the port assignment.
@@ -48,7 +48,7 @@ options:
         description: Data VLAN name of the port assignment.
         type: str
       fabricId:
-        description: ID of the fabric this device belongs to.
+        description: ID of the fabric the device is assigned to.
         type: str
       interfaceDescription:
         description: Interface description of the port assignment.
@@ -59,8 +59,8 @@ options:
       networkDeviceId:
         description: Network device ID of the port assignment.
         type: str
-      scalableGroupName:
-        description: Scalable group name of the port assignment.
+      securityGroupName:
+        description: Security group name of the port assignment.
         type: str
       voiceVlanName:
         description: Voice VLAN name of the port assignment.
@@ -70,7 +70,7 @@ options:
     description: VoiceVlanName query parameter. Voice VLAN name of the port assignment.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for SDA AddPortAssignments
@@ -101,7 +101,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Create
-  cisco.dnac.sda_port_assignments:
+  cisco.dnac.sda_portAssignments:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -118,11 +118,11 @@ EXAMPLES = r"""
       interfaceDescription: string
       interfaceName: string
       networkDeviceId: string
-      scalableGroupName: string
+      securityGroupName: string
       voiceVlanName: string
 
 - name: Update all
-  cisco.dnac.sda_port_assignments:
+  cisco.dnac.sda_portAssignments:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -144,7 +144,7 @@ EXAMPLES = r"""
       voiceVlanName: string
 
 - name: Delete all
-  cisco.dnac.sda_port_assignments:
+  cisco.dnac.sda_portAssignments:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -160,7 +160,7 @@ EXAMPLES = r"""
     voiceVlanName: string
 
 - name: Delete by id
-  cisco.dnac.sda_port_assignments:
+  cisco.dnac.sda_portAssignments:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

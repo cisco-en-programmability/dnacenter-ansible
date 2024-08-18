@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: sda_fabric_devices_count_info
+module: sda_fabricDevices_count_info
 short_description: Information module for Sda Fabricdevices Count
 description:
 - Get all Sda Fabricdevices Count.
@@ -29,10 +29,12 @@ options:
     type: str
   deviceRoles:
     description:
-    - DeviceRoles query parameter. Device roles of the fabric device.
+    - >
+      DeviceRoles query parameter. Device roles of the fabric device. Allowed values are CONTROL_PLANE_NODE,
+      EDGE_NODE, BORDER_NODE, WIRELESS_CONTROLLER_NODE, EXTENDED_NODE.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for SDA GetFabricDevicesCount
@@ -49,7 +51,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Get all Sda Fabricdevices Count
-  cisco.dnac.sda_fabric_devices_count_info:
+  cisco.dnac.sda_fabricDevices_count_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: sda_port_assignments_count_info
+module: sda_portAssignments_count_info
 short_description: Information module for Sda Portassignments Count
 description:
 - Get all Sda Portassignments Count.
@@ -21,7 +21,7 @@ options:
     type: dict
   fabricId:
     description:
-    - FabricId query parameter. ID of the fabric this device belongs to.
+    - FabricId query parameter. ID of the fabric the device is assigned to.
     type: str
   networkDeviceId:
     description:
@@ -40,7 +40,7 @@ options:
     - VoiceVlanName query parameter. Voice VLAN name of the port assignment.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for SDA GetPortAssignmentCount
@@ -57,7 +57,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Get all Sda Portassignments Count
-  cisco.dnac.sda_port_assignments_count_info:
+  cisco.dnac.sda_portAssignments_count_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

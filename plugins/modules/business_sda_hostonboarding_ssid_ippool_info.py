@@ -28,7 +28,7 @@ options:
     - SiteNameHierarchy query parameter. Site Name Heirarchy.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Fabric Wireless GetSSIDToIPPoolMapping

@@ -30,7 +30,7 @@ options:
     - Name query parameter. Comma-seperated name(s) used for search/filtering.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Devices GetAllUserDefinedFields

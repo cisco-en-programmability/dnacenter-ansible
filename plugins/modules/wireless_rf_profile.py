@@ -11,7 +11,7 @@ short_description: Resource module for Wireless Rf Profile
 description:
 - Manage operations create and delete of the resource Wireless Rf Profile.
 - Create or Update RF profile.
-- Delete RF profiles.
+- Delete RF profile.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -21,7 +21,7 @@ options:
     description: Channel Width.
     type: str
   defaultRfProfile:
-    description: Default Rf Profile.
+    description: Is Default Rf Profile.
     type: bool
   enableBrownField:
     description: Enable Brown Field.
@@ -45,84 +45,84 @@ options:
     description: Wireless Rf Profile's radioTypeAProperties.
     suboptions:
       dataRates:
-        description: Data Rates.
+        description: Data Rates (Default "6,9,12,18,24,36,48,54").
         type: str
       mandatoryDataRates:
-        description: Mandatory Data Rates.
+        description: Mandatory Data Rates (Default "6,12,24").
         type: str
       maxPowerLevel:
-        description: Max Power Level.
+        description: Max Power Level (Default 30).
         type: float
       minPowerLevel:
-        description: Rx Sop Threshold.
+        description: Rx Sop Threshold (Default -10).
         type: float
       parentProfile:
-        description: Parent Profile.
+        description: Parent Profile (Default CUSTOM).
         type: str
       powerThresholdV1:
-        description: Power Threshold V1.
+        description: Power Threshold V1 ( (Default -70).
         type: float
       radioChannels:
-        description: Radio Channels.
+        description: Radio Channels (Default "36,40,44,48,52,56,60,64,149,153,157,161").
         type: str
       rxSopThreshold:
-        description: Rx Sop Threshold.
+        description: Rx Sop Threshold (Default "AUTO").
         type: str
     type: dict
   radioTypeBProperties:
     description: Wireless Rf Profile's radioTypeBProperties.
     suboptions:
       dataRates:
-        description: Data Rates.
+        description: Data Rates (Default "9,11,12,18,24,36,48,54").
         type: str
       mandatoryDataRates:
-        description: Mandatory Data Rates.
+        description: Mandatory Data Rates (Default "12").
         type: str
       maxPowerLevel:
-        description: Max Power Level.
+        description: Max Power Level (Default 30).
         type: float
       minPowerLevel:
-        description: Min Power Level.
+        description: Min Power Level (Default -10).
         type: float
       parentProfile:
-        description: Parent Profile.
+        description: Parent Profile (Default CUSTOM).
         type: str
       powerThresholdV1:
-        description: Power Threshold V1.
+        description: Power Threshold V1 (Default -70).
         type: float
       radioChannels:
-        description: Radio Channels.
+        description: Radio Channels (Default "9,11,12,18,24,36,48,54").
         type: str
       rxSopThreshold:
-        description: Rx Sop Threshold.
+        description: Rx Sop Threshold (Default "AUTO").
         type: str
     type: dict
   radioTypeCProperties:
     description: Wireless Rf Profile's radioTypeCProperties.
     suboptions:
       dataRates:
-        description: Data Rates.
+        description: Data Rates (Default "6,9,12,18,24,36,48,54").
         type: str
       mandatoryDataRates:
-        description: Mandatory Data Rates.
+        description: Mandatory Data Rates (Default "6,12,24").
         type: str
       maxPowerLevel:
-        description: Max Power Level.
+        description: Max Power Level (Default 30).
         type: float
       minPowerLevel:
-        description: Min Power Level.
+        description: Min Power Level (Default -10).
         type: float
       parentProfile:
-        description: Parent Profile.
+        description: Parent Profile (Default CUSTOM).
         type: str
       powerThresholdV1:
-        description: Power Threshold V1.
+        description: Power Threshold V1 (Default -70).
         type: float
       radioChannels:
-        description: Radio Channels.
+        description: Radio Channels (Default "5,21,37,53,69,85,101,117,133,149,165,181,197,213,229").
         type: str
       rxSopThreshold:
-        description: Rx Sop Threshold.
+        description: Rx Sop Threshold (Default "AUTO").
         type: str
     type: dict
   rfProfileName:
@@ -130,7 +130,7 @@ options:
       *non-custom RF profile cannot be deleted.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Wireless CreateOrUpdateRFProfile

@@ -6,18 +6,22 @@
 
 DOCUMENTATION = r"""
 ---
-module: sda_extranet_policies
+module: sda_extranetPolicies
 short_description: Resource module for Sda Extranetpolicies
 description:
 - Manage operations create, update and delete of the resource Sda Extranetpolicies.
 - Adds an extranet policy based on user input.
 - Deletes an extranet policy based on id.
+- Deletes extranet policies based on user input.
 - Updates an extranet policy based on user input.
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
+  extranetPolicyName:
+    description: ExtranetPolicyName query parameter. Name of the extranet policy.
+    type: str
   id:
     description: Id path parameter. ID of the extranet policy.
     type: str
@@ -30,8 +34,7 @@ options:
           allowed).
         type: str
       fabricIds:
-        description: ID of the fabric sites/zones that associated with this extranet
-          policy.
+        description: IDs of the fabric sites associated with this extranet policy.
         elements: str
         type: list
       id:
@@ -48,12 +51,15 @@ options:
         type: list
     type: list
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for SDA AddExtranetPolicy
   description: Complete reference of the AddExtranetPolicy API.
   link: https://developer.cisco.com/docs/dna-center/#!add-extranet-policy
+- name: Cisco DNA Center documentation for SDA DeleteExtranetPolicies
+  description: Complete reference of the DeleteExtranetPolicies API.
+  link: https://developer.cisco.com/docs/dna-center/#!delete-extranet-policies
 - name: Cisco DNA Center documentation for SDA DeleteExtranetPolicyById
   description: Complete reference of the DeleteExtranetPolicyById API.
   link: https://developer.cisco.com/docs/dna-center/#!delete-extranet-policy-by-id
@@ -68,14 +74,27 @@ notes:
 
   - Paths used are
     post /dna/intent/api/v1/sda/extranetPolicies,
+    delete /dna/intent/api/v1/sda/extranetPolicies,
     delete /dna/intent/api/v1/sda/extranetPolicies/{id},
     put /dna/intent/api/v1/sda/extranetPolicies,
 
 """
 
 EXAMPLES = r"""
+- name: Delete all
+  cisco.dnac.sda_extranetPolicies:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    state: absent
+    extranetPolicyName: string
+
 - name: Update all
-  cisco.dnac.sda_extranet_policies:
+  cisco.dnac.sda_extranetPolicies:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -94,7 +113,7 @@ EXAMPLES = r"""
       - string
 
 - name: Create
-  cisco.dnac.sda_extranet_policies:
+  cisco.dnac.sda_extranetPolicies:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -112,7 +131,7 @@ EXAMPLES = r"""
       - string
 
 - name: Delete by id
-  cisco.dnac.sda_extranet_policies:
+  cisco.dnac.sda_extranetPolicies:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
