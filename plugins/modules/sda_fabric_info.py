@@ -11,6 +11,8 @@ short_description: Information module for Sda Fabric
 description:
 - Get all Sda Fabric.
 - Get SDA Fabric Info.
+deprecated:
+  removed_in: '6.19.0'
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info

@@ -11,6 +11,8 @@ short_description: Information module for Nfv Provision Detail
 description:
 - Get all Nfv Provision Detail.
 - Returns provisioning device information for the specified IP address.
+deprecated:
+  removed_in: '6.19.0'
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
