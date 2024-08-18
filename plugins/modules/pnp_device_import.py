@@ -36,9 +36,6 @@ options:
           hostname:
             description: Hostname.
             type: str
-          isSudiRequired:
-            description: Is Sudi Required.
-            type: bool
           macAddress:
             description: Mac Address.
             type: str
@@ -115,6 +112,9 @@ options:
                 elements: str
                 type: list
             type: dict
+          sudiRequired:
+            description: Is Sudi Required.
+            type: bool
           userMicNumbers:
             description: User Mic Numbers.
             elements: str
@@ -132,7 +132,7 @@ options:
         type: dict
     type: list
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Device Onboarding (PnP) ImportDevicesInBulk
@@ -164,7 +164,6 @@ EXAMPLES = r"""
         deviceSudiSerialNos:
         - string
         hostname: string
-        isSudiRequired: true
         macAddress: string
         pid: string
         serialNumber: string
@@ -190,6 +189,7 @@ EXAMPLES = r"""
           totalMemberCount: 0
           validLicenseLevels:
           - string
+        sudiRequired: true
         userMicNumbers:
         - string
         userSudiSerialNos:

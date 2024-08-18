@@ -28,7 +28,7 @@ options:
       as per UTF-8 encoding.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Wireless DeleteSSIDAndProvisionItToDevices

@@ -18,10 +18,12 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   authPassword:
-    description: Auth Password for SNMP.
+    description: Auth password for SNMPv3. Required if snmpMode is 'AUTHPRIV' or 'AUTHNOPRIV'.
+      Use 'NO!$DATA!$' if no change required.
     type: str
   authType:
-    description: SNMP auth protocol. 'SHA' or 'MD5'.
+    description: SNMPv3 auth protocol. 'SHA' or 'MD5'. Required if snmpMode is 'AUTHPRIV'
+      or 'AUTHNOPRIV'.
     type: str
   comments:
     description: Comments to identify the SNMPv3 credential.
@@ -30,31 +32,34 @@ options:
     description: Credential type to identify the application that uses the SNMPv3 credential.
     type: str
   description:
-    description: Description for Snmp V3 Credential.
+    description: Description for SNMPv3 Credential.
     type: str
   id:
-    description: Id of the SNMP V3 Credential in UUID format.
+    description: Id of the SNMPv3 Credential.
     type: str
   instanceTenantId:
-    description: Deprecated.
+    description: Deprecated. This attribute will be removed in a future release, should
+      not be used, and any value supplied will be ignored.
     type: str
   instanceUuid:
-    description: Deprecated.
+    description: Deprecated. This attribute will be removed in a future release, should
+      not be used, and any value supplied will be ignored.
     type: str
   privacyPassword:
-    description: Privacy Password for SNMP privacy.
+    description: Privacy password for SNMPv3 privacy. Required if snmpMode is 'AUTHPRIV'.
+      Use 'NO!$DATA!$' if no change required.
     type: str
   privacyType:
-    description: SNMP privacy protocol.
+    description: SNMPv3 privacy protocol. Required is snmpMode is 'AUTHPRIV'.
     type: str
   snmpMode:
-    description: Mode of SNMP. 'AUTHPRIV' or 'AUTHNOPRIV' or 'NOAUTHNOPRIV'.
+    description: Mode of SNMPv3. 'AUTHPRIV' or 'AUTHNOPRIV' or 'NOAUTHNOPRIV'.
     type: str
   username:
-    description: SNMP V3 Username.
+    description: SNMPv3 username.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Discovery CreateSNMPv3Credentials

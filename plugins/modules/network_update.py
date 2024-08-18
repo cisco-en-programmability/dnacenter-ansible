@@ -75,7 +75,7 @@ options:
             type: str
           port:
             description: Port for NetFlow Collector (eg; 443).
-            type: int
+            type: float
         type: dict
       network_aaa:
         description: Network Update's network_aaa.
@@ -131,8 +131,8 @@ options:
       is associated with the site.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
-- python >= 3.9
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Network Settings UpdateNetwork
   description: Complete reference of the UpdateNetwork API.
@@ -195,7 +195,6 @@ EXAMPLES = r"""
     siteId: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

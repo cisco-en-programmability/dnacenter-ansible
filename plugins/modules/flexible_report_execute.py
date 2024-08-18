@@ -20,7 +20,7 @@ options:
     description: ReportId path parameter. Id of the Report.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Reports ExecutingTheFlexibleReport
@@ -58,7 +58,7 @@ dnac_response:
       "executionId": "string",
       "startTime": 0,
       "endTime": 0,
-      "processStatus": {},
+      "processStatus": "string",
       "requestStatus": "string",
       "errors": [
         "string"

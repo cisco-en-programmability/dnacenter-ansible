@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: sda_fabric_devices_info
+module: sda_fabricDevices_info
 short_description: Information module for Sda Fabricdevices
 description:
 - Get all Sda Fabricdevices.
@@ -29,7 +29,9 @@ options:
     type: str
   deviceRoles:
     description:
-    - DeviceRoles query parameter. Device roles of the fabric device.
+    - >
+      DeviceRoles query parameter. Device roles of the fabric device. Allowed values are CONTROL_PLANE_NODE,
+      EDGE_NODE, BORDER_NODE, WIRELESS_CONTROLLER_NODE, EXTENDED_NODE.
     type: str
   offset:
     description:
@@ -40,7 +42,7 @@ options:
     - Limit query parameter. Maximum number of records to return.
     type: float
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for SDA GetFabricDevices
@@ -57,7 +59,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Get all Sda Fabricdevices
-  cisco.dnac.sda_fabric_devices_info:
+  cisco.dnac.sda_fabricDevices_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

@@ -26,7 +26,7 @@ options:
     - Timestamp query parameter. UTC timestamp of network health data in milliseconds.
     type: float
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Topology GetOverallNetworkHealth

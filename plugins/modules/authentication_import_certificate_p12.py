@@ -10,27 +10,29 @@ module: authentication_import_certificate_p12
 short_description: Resource module for Authentication Import Certificate P12
 description:
 - Manage operation create of the resource Authentication Import Certificate P12.
-- This method is used to upload a PKCS\#12 file.
+- This API enables a user to import a PKCS12 certificate bundle for the controller and/or disaster recovery.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   listOfUsers:
-    description: ListOfUsers query parameter.
+    description: ListOfUsers query parameter. Specify whether the certificate will be
+      used for controller ("server"), disaster recovery ("ipsec") or both ("server,
+      ipsec"). If no value is provided, the default value taken will be "server".
     elements: str
     type: list
   p12FilePath:
     description: P12 file absolute path.
     type: str
   p12Password:
-    description: P12Password query parameter. P12 Passsword.
+    description: P12Password query parameter. The password for PKCS12 certificate bundle.
     type: str
   pkPassword:
-    description: PkPassword query parameter. Private Key Passsword.
+    description: PkPassword query parameter. Password for encrypted private key.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Authentication Management ImportCertificateP12

@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: sda_fabric_devices_layer2_handoffs_sda_transits_count_info
+module: sda_fabricDevices_layer2Handoffs_sdaTransits_count_info
 short_description: Information module for Sda Fabricdevices Layer2handoffs Sdatransits Count
 description:
 - Get all Sda Fabricdevices Layer2handoffs Sdatransits Count.
@@ -28,7 +28,7 @@ options:
     - NetworkDeviceId query parameter. Network device ID of the fabric device.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for SDA GetFabricDevicesLayer3HandoffsWithSdaTransitCount
@@ -45,7 +45,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Get all Sda Fabricdevices Layer2handoffs Sdatransits Count
-  cisco.dnac.sda_fabric_devices_layer2_handoffs_sda_transits_count_info:
+  cisco.dnac.sda_fabricDevices_layer2Handoffs_sdaTransits_count_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

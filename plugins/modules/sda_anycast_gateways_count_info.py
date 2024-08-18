@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: sda_anycast_gateways_count_info
+module: sda_anycastGateways_count_info
 short_description: Information module for Sda Anycastgateways Count
 description:
 - Get all Sda Anycastgateways Count.
@@ -21,26 +21,28 @@ options:
     type: dict
   fabricId:
     description:
-    - FabricId query parameter. Only count anycast gateways within this fabric.
+    - FabricId query parameter. ID of the fabric the anycast gateway is assigned to.
     type: str
   virtualNetworkName:
     description:
-    - VirtualNetworkName query parameter. Only count anycast gateways associated with this virtual network.
+    - VirtualNetworkName query parameter. Name of the virtual network associated with the anycast gateways.
     type: str
   ipPoolName:
     description:
-    - IpPoolName query parameter. Only count anycast gateways associated with this IP pool.
+    - IpPoolName query parameter. Name of the IP pool associated with the anycast gateways.
     type: str
   vlanName:
     description:
-    - VlanName query parameter. Only count anycast gateways associated with this VLAN name.
+    - VlanName query parameter. VLAN name of the anycast gateways.
     type: str
   vlanId:
     description:
-    - VlanId query parameter. Only count anycast gateways associated with this VLAN ID.
-    type: int
+    - >
+      VlanId query parameter. VLAN ID of the anycast gateways. The allowed range for vlanId is 2-4093 except for
+      reserved VLANs 1002-1005, 2046, and 4094.
+    type: float
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for SDA GetAnycastGatewayCount
@@ -57,7 +59,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Get all Sda Anycastgateways Count
-  cisco.dnac.sda_anycast_gateways_count_info:
+  cisco.dnac.sda_anycastGateways_count_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

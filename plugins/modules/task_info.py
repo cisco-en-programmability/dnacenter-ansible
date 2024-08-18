@@ -82,19 +82,19 @@ options:
     - TaskId path parameter. UUID of the Task.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Task GetTaskById
   description: Complete reference of the GetTaskById API.
   link: https://developer.cisco.com/docs/dna-center/#!get-task-by-id
-- name: Cisco DNA Center documentation for Task GetTasks
-  description: Complete reference of the GetTasks API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-tasks
+- name: Cisco DNA Center documentation for Task GetTasks2
+  description: Complete reference of the GetTasks2 API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-tasks-2
 notes:
   - SDK Method used are
     task.Task.get_task_by_id,
-    task.Task.get_tasks,
+    task.Task.get_tasks2,
 
   - Paths used are
     get /dna/intent/api/v1/task,

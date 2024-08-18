@@ -11,7 +11,10 @@ short_description: Resource module for Network Device
 description:
 - Manage operations create, update and delete of the resource Network Device.
 - Adds the device with given credential.
-- Deletes the network device for the given Id.
+- >
+   This API allows any network device that is not currently provisioned to be removed from the inventory. Important
+   Devices currently provisioned cannot be deleted. To delete a provisioned device, the device must be first
+   deprovisioned.
 - >
    Update the credentials, management IP address of a given device or a set of devices in Catalyst Center and trigger
    an inventory sync.
@@ -21,75 +24,90 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   cleanConfig:
-    description: CleanConfig query parameter.
+    description: CleanConfig query parameter. Selecting the clean up configuration option
+      will attempt to remove device settings that were configured during the addition
+      of the device to the inventory and site assignment. Please note that this operation
+      is different from deprovisioning. It does not remove configurations that were
+      pushed during device provisioning.
     type: bool
     version_added: 4.0.0
   cliTransport:
-    description: CLI transport. Supported values telnet, ssh2.
+    description: CLI transport. Supported values telnet, ssh. Required if type is NETWORK_DEVICE.
     type: str
   computeDevice:
-    description: Compute Device or not. Options are TRUE / FALSE.
+    description: Compute Device or not. Options are true / false.
     type: bool
   enablePassword:
-    description: CLI enable password of the device.
+    description: CLI enable password of the device. Required if device is configured
+      to use enable password.
     type: str
   extendedDiscoveryInfo:
     description: This field holds that info as whether to add device with canned data
       or not. Supported values DISCOVER_WITH_CANNED_DATA.
     type: str
   httpPassword:
-    description: HTTP password of the device.
+    description: HTTP password of the device / API key for Meraki Dashboard. Required
+      if type is MERAKI_DASHBOARD or COMPUTE_DEVICE.
     type: str
   httpPort:
-    description: HTTP port of the device.
+    description: HTTP port of the device. Required if type is COMPUTE_DEVICE.
     type: str
   httpSecure:
-    description: Flag to select HTTP / HTTPS protocol. Options are TRUE / FALSE. TRUE
-      for HTTPS and FALSE for HTTP.
+    description: Flag to select HTTP / HTTPS protocol. Options are true / false. True
+      for HTTPS and false for HTTP. Default is true.
     type: bool
   httpUserName:
-    description: HTTP Username of the device.
+    description: HTTP Username of the device. Required if type is COMPUTE_DEVICE.
     type: str
   id:
     description: Id path parameter. Device ID.
     type: str
   ipAddress:
-    description: IP Address of the device.
+    description: IP Address of the device. Required if type is NETWORK_DEVICE, COMPUTE_DEVICE
+      or THIRD_PARTY_DEVICE.
     elements: str
     type: list
   merakiOrgId:
-    description: Selected meraki organization for which the devices needs to be imported.
+    description: Selected Meraki organization for which the devices needs to be imported.
+      Required if type is MERAKI_DASHBOARD.
     elements: str
     type: list
   netconfPort:
-    description: Netconf Port of the device.
+    description: Netconf Port of the device. CliTransport must be 'ssh' if netconf is
+      provided.
     type: str
   password:
-    description: CLI Password of the device.
+    description: CLI Password of the device. Required if type is NETWORK_DEVICE.
     type: str
   serialNumber:
-    description: Serial Number of the Device.
+    description: Serial Number of the Device. Required if extendedDiscoveryInfo is 'DISCOVER_WITH_CANNED_DATA'.
     type: str
   snmpAuthPassphrase:
-    description: SNMPV3 auth passphrase of the device.
+    description: SNMPv3 auth passphrase of the device. Required if snmpMode is authNoPriv
+      or authPriv.
     type: str
   snmpAuthProtocol:
-    description: SNMPV3 auth protocol. Supported values sha, md5.
+    description: SNMPv3 auth protocol. Supported values sha, md5. Required if snmpMode
+      is authNoPriv or authPriv.
     type: str
   snmpMode:
-    description: SNMPV3 mode. Supported values noAuthnoPriv, authNoPriv, authPriv.
+    description: SNMPv3 mode. Supported values noAuthnoPriv, authNoPriv, authPriv. Required
+      if snmpVersion is v3.
     type: str
   snmpPrivPassphrase:
-    description: SNMPV3 priv passphrase.
+    description: SNMPv3 priv passphrase. Required if snmpMode is authPriv.
     type: str
   snmpPrivProtocol:
-    description: SNMPV3 priv protocol. Supported values AES128.
+    description: SNMPv3 priv protocol. Supported values AES128. Required if snmpMode
+      is authPriv.
     type: str
   snmpROCommunity:
-    description: SNMP Read Community of the device.
+    description: SNMP Read Community of the device. If snmpVersion is v2, at least one
+      of snmpROCommunity and snmpRWCommunity is required.
     type: str
   snmpRWCommunity:
-    description: SNMP Write Community of the device.
+    description: SNMP Write Community of the device. If snmpVersion is v2, at least
+      one of snmpROCommunity and snmpRWCommunity is required.
     type: str
   snmpRetry:
     description: SNMP retry count. Max value supported is 3. Default is Global SNMP
@@ -100,13 +118,14 @@ options:
       SNMP timeout (if exists) or 5.
     type: int
   snmpUserName:
-    description: SNMPV3 user name of the device.
+    description: SNMPV3 user name of the device. Required if snmpVersion is v3.
     type: str
   snmpVersion:
-    description: SNMP version. Values supported v2, v3. Default is v2.
+    description: SNMP version. Values supported v2, v3. Required if type is NETWORK_DEVICE,
+      COMPUTE_DEVICE or THIRD_PARTY_DEVICE.
     type: str
   type:
-    description: Type of device being added.
+    description: Type of device being added. Default is NETWORK_DEVICE.
     type: str
   updateMgmtIPaddressList:
     description: Network Device's updateMgmtIPaddressList.
@@ -120,10 +139,10 @@ options:
         type: str
     type: list
   userName:
-    description: CLI user name of the device.
+    description: CLI user name of the device. Required if type is NETWORK_DEVICE.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Devices AddDevice2

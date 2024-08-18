@@ -24,7 +24,7 @@ options:
     - PolicyScope query parameter. Policy scope name.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Application Policy GetApplicationPolicy

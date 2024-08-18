@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: sda_fabric_devices_layer2_handoffs_sda_transits
+module: sda_fabricDevices_layer2Handoffs_sdaTransits
 short_description: Resource module for Sda Fabricdevices Layer2handoffs Sdatransits
 description:
 - Manage operations create, update and delete of the resource Sda Fabricdevices Layer2handoffs Sdatransits.
@@ -46,8 +46,8 @@ options:
           to other sites through sd-access.
         type: bool
       fabricId:
-        description: ID of the fabric this device belongs to. (updating this field is
-          not allowed).
+        description: ID of the fabric this device is assigned to. (updating this field
+          is not allowed).
         type: str
       isMulticastOverTransitEnabled:
         description: Set this true to configure native multicast over multiple sites
@@ -63,7 +63,7 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for SDA AddFabricDevicesLayer3HandoffsWithSdaTransit
@@ -90,7 +90,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Update all
-  cisco.dnac.sda_fabric_devices_layer2_handoffs_sda_transits:
+  cisco.dnac.sda_fabricDevices_layer2Handoffs_sdaTransits:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -109,7 +109,7 @@ EXAMPLES = r"""
       transitNetworkId: string
 
 - name: Delete all
-  cisco.dnac.sda_fabric_devices_layer2_handoffs_sda_transits:
+  cisco.dnac.sda_fabricDevices_layer2Handoffs_sdaTransits:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -122,7 +122,7 @@ EXAMPLES = r"""
     networkDeviceId: string
 
 - name: Create
-  cisco.dnac.sda_fabric_devices_layer2_handoffs_sda_transits:
+  cisco.dnac.sda_fabricDevices_layer2Handoffs_sdaTransits:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

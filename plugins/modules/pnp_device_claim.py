@@ -16,6 +16,9 @@ extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
+  authorizationNeeded:
+    description: Flag to enable/disable PnP device authorization. (true means enable).
+    type: bool
   configFileUrl:
     description: Pnp Device Claim's configFileUrl.
     type: str
@@ -77,7 +80,7 @@ options:
     description: Pnp Device Claim's workflowId.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Device Onboarding (PnP) ClaimDevice
@@ -102,6 +105,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
+    authorizationNeeded: true
     configFileUrl: string
     configId: string
     deviceClaimList:

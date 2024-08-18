@@ -44,6 +44,10 @@ options:
     description: For CatalystWLC/MobilityExpress.
     type: str
     version_added: 6.4.0
+  hostname:
+    description: Hostname to configure on Device.
+    type: str
+    version_added: 4.2.0
   imageInfo:
     description: Pnp Device Claim To Site's imageInfo.
     suboptions:
@@ -84,7 +88,7 @@ options:
     type: str
     version_added: 6.4.0
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Device Onboarding (PnP) ClaimADeviceToASite
@@ -116,6 +120,7 @@ EXAMPLES = r"""
         value: string
     deviceId: string
     gateway: string
+    hostname: string
     imageInfo:
       imageId: string
       skip: true

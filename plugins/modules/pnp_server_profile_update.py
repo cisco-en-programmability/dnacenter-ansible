@@ -25,10 +25,14 @@ options:
     description: Pnp Server Profile Update's profile.
     suboptions:
       addressFqdn:
-        description: Address Fqdn.
+        description: Required when cluster is configured with fully qualified domain
+          name (FQDN).
         type: str
       addressIpV4:
-        description: Address Ip V4.
+        description: Required when cluster is configured with IPv4.
+        type: str
+      addressIpV6:
+        description: Required when cluster is configured with IPv6.
         type: str
       cert:
         description: Cert.
@@ -56,7 +60,7 @@ options:
     description: Virtual Account Id.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Device Onboarding (PnP) UpdatePnPServerProfile
@@ -85,6 +89,7 @@ EXAMPLES = r"""
     profile:
       addressFqdn: string
       addressIpV4: string
+      addressIpV6: string
       cert: string
       makeDefault: true
       name: string

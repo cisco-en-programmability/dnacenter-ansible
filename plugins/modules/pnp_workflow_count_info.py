@@ -21,11 +21,11 @@ options:
     type: dict
   name:
     description:
-    - Name query parameter. Workflow Name.
-    elements: str
+    - Name query parameter. Workflow Name. 
+    elements: dict
     type: list
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Device Onboarding (PnP) GetWorkflowCount

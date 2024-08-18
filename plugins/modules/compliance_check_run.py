@@ -18,7 +18,7 @@ author: Rafael Campos (@racampos)
 options:
   categories:
     description: Category can have any value among 'INTENT'(mapped to compliance types
-      NETWORK_SETTINGS,NETWORK_PROFILE,WORKFLOW,FABRIC,APPLICATION_VISIBILITY), 'RUNNING_CONFIG'
+      NETWORK_SETTINGS,NETWORK_PROFILEWORKFLOW,FABRIC,APPLICATION_VISIBILITY), 'RUNNING_CONFIG'
       , 'IMAGE' , 'PSIRT' , 'EOX' , 'NETWORK_SETTINGS'.
     elements: str
     type: list
@@ -32,7 +32,7 @@ options:
       section .
     type: bool
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Compliance RunCompliance

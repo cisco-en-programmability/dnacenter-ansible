@@ -27,12 +27,10 @@ options:
     elements: str
     type: list
   basicServiceSetClientIdleTimeout:
-    description: Basic Service Set Client Idle Timeout (Default 300 if enableBasicServiceSetMaxIdle
-      is true, 0 otherwise).
+    description: Basic Service Set Client Idle Timeout.
     type: int
   clientExclusionTimeout:
-    description: Client Exclusion Timeout(Default 180 if enableClientExclusion is true,
-      0 otherwise).
+    description: Client Exclusion Timeout.
     type: int
   clientRateLimit:
     description: Client Rate Limit (in bits per second).
@@ -41,13 +39,13 @@ options:
     description: Coverage Hole Detection Enable.
     type: bool
   enableBasicServiceSetMaxIdle:
-    description: Enable Basic Service Set Max Idle (Default true).
+    description: Enable Basic Service Set Max Idle.
     type: bool
   enableBroadcastSSID:
     description: Enable Broadcase SSID.
     type: bool
   enableClientExclusion:
-    description: Enable Client Exclusion(Default true).
+    description: Enable Client Exclusion.
     type: bool
   enableDirectedMulticastService:
     description: Enable Directed Multicast Service.
@@ -62,7 +60,7 @@ options:
     description: Enable Neighbor List.
     type: bool
   enableSessionTimeOut:
-    description: Enable Session Timeout(Default true).
+    description: Enable Session Timeout.
     type: bool
   fastTransition:
     description: Fast Transition.
@@ -127,7 +125,7 @@ options:
     description: Security Level.
     type: str
   sessionTimeOut:
-    description: Session Time Out (Default 1800 if enableSessionTimeOut is true, 0 otherwise).
+    description: Session Time Out.
     type: int
   ssidName:
     description: SsidName path parameter. Enter the SSID name to be deleted.
@@ -136,7 +134,7 @@ options:
     description: Traffic Type Enum (voicedata or data ).
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Wireless CreateEnterpriseSSID

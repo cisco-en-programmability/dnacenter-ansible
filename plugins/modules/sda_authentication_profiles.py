@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: sda_authentication_profiles
+module: sda_authenticationProfiles
 short_description: Resource module for Sda Authenticationprofiles
 description:
 - Manage operation update of the resource Sda Authenticationprofiles.
@@ -31,11 +31,16 @@ options:
         description: 802.1x Timeout.
         type: int
       fabricId:
-        description: ID of the fabric site/zone (updating this field is not allowed).
+        description: ID of the fabric this authentication profile is assigned to (updating
+          this field is not allowed).
         type: str
       id:
         description: ID of the authentication profile (updating this field is not allowed).
         type: str
+      isBpduGuardEnabled:
+        description: Enable/disable BPDU Guard. Only applicable when authenticationProfileName
+          is set to "Closed Authentication" (defaults to true).
+        type: bool
       numberOfHosts:
         description: Number of Hosts.
         type: str
@@ -44,7 +49,7 @@ options:
         type: bool
     type: list
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for SDA UpdateAuthenticationProfile
@@ -61,7 +66,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Update all
-  cisco.dnac.sda_authentication_profiles:
+  cisco.dnac.sda_authenticationProfiles:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -76,6 +81,7 @@ EXAMPLES = r"""
       dot1xToMabFallbackTimeout: 0
       fabricId: string
       id: string
+      isBpduGuardEnabled: true
       numberOfHosts: string
       wakeOnLan: true
 

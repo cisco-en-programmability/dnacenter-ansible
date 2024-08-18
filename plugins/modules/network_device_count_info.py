@@ -29,23 +29,23 @@ options:
     type: str
   hostname:
     description:
-    - Hostname query parameter.
+    - Hostname query parameter. 
     elements: str
     type: list
   managementIpAddress:
     description:
-    - ManagementIpAddress query parameter.
+    - ManagementIpAddress query parameter. 
     elements: str
     type: list
   macAddress:
     description:
-    - MacAddress query parameter.
+    - MacAddress query parameter. 
     elements: str
     type: list
   locationName:
     description:
-    - LocationName query parameter.
-    elements: str
+    - LocationName query parameter. 
+    elements: dict
     type: list
 requirements:
 - dnacentersdk >= 2.7.2

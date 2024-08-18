@@ -27,7 +27,7 @@ options:
     suboptions:
       operations:
         description: List of operations allowed for the application. Possible values
-          are "gRead", "gWrite", "gUpdate", "gDelete", or some combination of these.
+          are "gRead", "gCreate", "gUpdate", "gRemove", or some combination of these.
         elements: str
         type: list
       type:
@@ -41,7 +41,7 @@ options:
     description: Id of the role.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for User and Roles AddRoleAPI
@@ -55,9 +55,9 @@ seealso:
   link: https://developer.cisco.com/docs/dna-center/#!update-role-api
 notes:
   - SDK Method used are
-    user_and_roles.UserandRoles.add_role_api,
-    user_and_roles.UserandRoles.delete_role_api,
-    user_and_roles.UserandRoles.update_role_api,
+    userand_roles.UserandRoles.add_role_api,
+    userand_roles.UserandRoles.delete_role_api,
+    userand_roles.UserandRoles.update_role_api,
 
   - Paths used are
     post /dna/system/api/v1/role,

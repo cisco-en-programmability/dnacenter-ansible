@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: sda_authentication_profiles_info
+module: sda_authenticationProfiles_info
 short_description: Information module for Sda Authenticationprofiles
 description:
 - Get all Sda Authenticationprofiles.
@@ -21,7 +21,7 @@ options:
     type: dict
   fabricId:
     description:
-    - FabricId query parameter. ID of the fabric whose authentication profiles are to be returned.
+    - FabricId query parameter. ID of the fabric the authentication profile is assigned to.
     type: str
   authenticationProfileName:
     description:
@@ -29,8 +29,16 @@ options:
       AuthenticationProfileName query parameter. Return only the authentication profiles with this specified name.
       Note that 'No Authentication' is not a valid option for this parameter.
     type: str
+  offset:
+    description:
+    - Offset query parameter. Starting record for pagination.
+    type: float
+  limit:
+    description:
+    - Limit query parameter. Maximum number of records to return.
+    type: float
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for SDA GetAuthenticationProfiles
@@ -47,7 +55,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Get all Sda Authenticationprofiles
-  cisco.dnac.sda_authentication_profiles_info:
+  cisco.dnac.sda_authenticationProfiles_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -58,6 +66,8 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     fabricId: string
     authenticationProfileName: string
+    offset: 0
+    limit: 0
   register: result
 
 """
@@ -76,7 +86,8 @@ dnac_response:
           "authenticationOrder": "string",
           "dot1xToMabFallbackTimeout": 0,
           "wakeOnLan": true,
-          "numberOfHosts": "string"
+          "numberOfHosts": "string",
+          "isBpduGuardEnabled": true
         }
       ],
       "version": "string"

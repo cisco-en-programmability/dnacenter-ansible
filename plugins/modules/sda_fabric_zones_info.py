@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: sda_fabric_zones_info
+module: sda_fabricZones_info
 short_description: Information module for Sda Fabriczones
 description:
 - Get all Sda Fabriczones.
@@ -21,22 +21,22 @@ options:
     type: dict
   id:
     description:
-    - Id query parameter. ID of the fabric zone to search for in the database.
+    - Id query parameter. ID of the fabric zone.
     type: str
   siteId:
     description:
-    - SiteId query parameter. Get the fabric zone associated with this network hierarchy.
+    - SiteId query parameter. ID of the network hierarchy associated with the fabric zone.
     type: str
   offset:
     description:
     - Offset query parameter. Starting record for pagination.
-    type: int
+    type: float
   limit:
     description:
     - Limit query parameter. Maximum number of records to return.
-    type: int
+    type: float
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for SDA GetFabricZones
@@ -53,7 +53,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Get all Sda Fabriczones
-  cisco.dnac.sda_fabric_zones_info:
+  cisco.dnac.sda_fabricZones_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: sda_fabric_sites
+module: sda_fabricSites
 short_description: Resource module for Sda Fabricsites
 description:
 - Manage operations create, update and delete of the resource Sda Fabricsites.
@@ -19,7 +19,7 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   id:
-    description: Id path parameter. ID of the fabric site to be deleted.
+    description: Id path parameter. ID of the fabric site.
     type: str
   payload:
     description: Sda Fabric Sites's payload.
@@ -37,7 +37,7 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for SDA AddFabricSite
@@ -64,7 +64,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Create
-  cisco.dnac.sda_fabric_sites:
+  cisco.dnac.sda_fabricSites:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -79,7 +79,7 @@ EXAMPLES = r"""
       siteId: string
 
 - name: Update all
-  cisco.dnac.sda_fabric_sites:
+  cisco.dnac.sda_fabricSites:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -95,7 +95,7 @@ EXAMPLES = r"""
       siteId: string
 
 - name: Delete by id
-  cisco.dnac.sda_fabric_sites:
+  cisco.dnac.sda_fabricSites:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

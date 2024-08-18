@@ -24,7 +24,7 @@ options:
     - VlanID path parameter. Vlan Name for e.g Vlan1, Vlan23 etc.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Topology GetTopologyDetails
@@ -95,8 +95,10 @@ dnac_response:
               "x": 0,
               "y": 0
             },
+            "connectedDeviceId": "string",
             "dataPathId": "string",
             "deviceType": "string",
+            "deviceSeries": "string",
             "family": "string",
             "fixed": true,
             "greyOut": true,

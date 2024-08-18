@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: sda_fabric_devices_layer2_handoffs_ip_transits_info
+module: sda_fabricDevices_layer2Handoffs_ipTransits_info
 short_description: Information module for Sda Fabricdevices Layer2handoffs Iptransits
 description:
 - Get all Sda Fabricdevices Layer2handoffs Iptransits.
@@ -36,7 +36,7 @@ options:
     - Limit query parameter. Maximum number of records to return.
     type: float
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for SDA GetFabricDevicesLayer3HandoffsWithIpTransit
@@ -53,7 +53,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Get all Sda Fabricdevices Layer2handoffs Iptransits
-  cisco.dnac.sda_fabric_devices_layer2_handoffs_ip_transits_info:
+  cisco.dnac.sda_fabricDevices_layer2Handoffs_ipTransits_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

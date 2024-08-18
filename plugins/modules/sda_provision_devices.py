@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: sda_provision_devices
+module: sda_provisionDevices
 short_description: Resource module for Sda Provisiondevices
 description:
 - Manage operations create, update and delete of the resource Sda Provisiondevices.
@@ -20,7 +20,7 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   id:
-    description: Id path parameter. ID of provisioned device.
+    description: Id path parameter. ID of the provisioned device.
     type: str
   networkDeviceId:
     description: NetworkDeviceId query parameter. ID of the network device.
@@ -40,7 +40,7 @@ options:
     description: SiteId query parameter. ID of the site hierarchy.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for SDA ProvisionDevices
@@ -71,7 +71,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Delete all
-  cisco.dnac.sda_provision_devices:
+  cisco.dnac.sda_provisionDevices:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -84,7 +84,7 @@ EXAMPLES = r"""
     siteId: string
 
 - name: Create
-  cisco.dnac.sda_provision_devices:
+  cisco.dnac.sda_provisionDevices:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -98,7 +98,7 @@ EXAMPLES = r"""
       siteId: string
 
 - name: Update all
-  cisco.dnac.sda_provision_devices:
+  cisco.dnac.sda_provisionDevices:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -113,7 +113,7 @@ EXAMPLES = r"""
       siteId: string
 
 - name: Delete by id
-  cisco.dnac.sda_provision_devices:
+  cisco.dnac.sda_provisionDevices:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

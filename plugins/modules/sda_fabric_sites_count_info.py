@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: sda_fabric_sites_count_info
+module: sda_fabricSites_count_info
 short_description: Information module for Sda Fabricsites Count
 description:
 - Get all Sda Fabricsites Count.
@@ -20,7 +20,7 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for SDA GetFabricSiteCount
@@ -37,7 +37,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Get all Sda Fabricsites Count
-  cisco.dnac.sda_fabric_sites_count_info:
+  cisco.dnac.sda_fabricSites_count_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

@@ -11,11 +11,10 @@ short_description: Resource module for Wireless Profile
 description:
 - Manage operations create, update and delete of the resource Wireless Profile.
 - Creates Wireless Network Profile on Cisco DNA Center and associates sites and SSIDs to it.
-- Delete the Wireless Profile from Cisco DNA Center whose name is provided.
+- Delete the Wireless Profile whose name is provided.
 - >
    Updates the wireless Network Profile with updated details provided. All sites to be present in the network profile
-   should be provided. This API has been deprecated. Please use the new endpoint URL
-   /dna/intent/api/v2/wireless/profile.
+   should be provided.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -52,8 +51,7 @@ options:
             description: Interface Name.
             type: str
           name:
-            description: Ssid Name is required if ssidDetails is passed in PayLoad for
-              mapping to the Network Profile.
+            description: Ssid Name.
             type: str
           policyProfileName:
             description: Policy Profile Name.
@@ -67,7 +65,7 @@ options:
     description: WirelessProfileName path parameter. Wireless Profile Name.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Wireless CreateWirelessProfile
