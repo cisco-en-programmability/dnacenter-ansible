@@ -79,7 +79,7 @@ class ActionModule(ActionBase):
 
         response = dnac.exec(
             family="wireless",
-            function='ap_provision',
+            function='ap_provision2',
             op_modifies=True,
             params=self.get_object(self._task.args),
         )

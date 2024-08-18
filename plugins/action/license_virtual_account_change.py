@@ -81,7 +81,7 @@ class ActionModule(ActionBase):
 
         response = dnac.exec(
             family="licenses",
-            function='change_virtual_account2',
+            function='change_virtual_account',
             op_modifies=True,
             params=self.get_object(self._task.args),
         )

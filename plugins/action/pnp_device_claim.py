@@ -34,6 +34,7 @@ argument_spec.update(dict(
     populateInventory=dict(type="bool"),
     projectId=dict(type="str"),
     workflowId=dict(type="str"),
+    authorizationNeeded=dict(type="bool"),
 ))
 
 required_if = []
@@ -80,6 +81,7 @@ class ActionModule(ActionBase):
             populateInventory=params.get("populateInventory"),
             projectId=params.get("projectId"),
             workflowId=params.get("workflowId"),
+            authorizationNeeded=params.get("authorizationNeeded"),
         )
         return new_object
 

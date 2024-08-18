@@ -79,7 +79,7 @@ class ActionModule(ActionBase):
 
         response = dnac.exec(
             family="licenses",
-            function='device_registration2',
+            function='device_registration',
             op_modifies=True,
             params=self.get_object(self._task.args),
         )

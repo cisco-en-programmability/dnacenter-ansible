@@ -99,7 +99,7 @@ class ActionModule(ActionBase):
 
         response = dnac.exec(
             family="licenses",
-            function='device_license_summary2',
+            function='device_license_summary',
             params=self.get_object(self._task.args),
         )
         self._result.update(dict(dnac_response=response))

@@ -22,6 +22,9 @@ from ansible_collections.cisco.dnac.plugins.plugin_utils.dnac import (
     dnac_compare_equality,
     get_dict_result,
 )
+from ansible_collections.cisco.dnac.plugins.plugin_utils.exceptions import (
+    InconsistentParameters,
+)
 
 # Get common arguments specification
 argument_spec = dnac_argument_spec()
@@ -32,7 +35,6 @@ argument_spec.update(dict(
     scalableGroupName=dict(type="str"),
     ssidNames=dict(type="list"),
     siteNameHierarchy=dict(type="str"),
-    headers=dict(type="dict"),
 ))
 
 required_if = [
@@ -52,7 +54,6 @@ class BusinessSdaHostonboardingSsidIppool(object):
             scalableGroupName=params.get("scalableGroupName"),
             ssidNames=params.get("ssidNames"),
             siteNameHierarchy=params.get("siteNameHierarchy"),
-            headers=params.get("headers"),
         )
 
     def get_all_params(self, name=None, id=None):

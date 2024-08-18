@@ -20,6 +20,7 @@ from ansible_collections.cisco.dnac.plugins.plugin_utils.dnac import (
     DNACSDK,
     dnac_argument_spec,
     dnac_compare_equality,
+    get_dict_result,
 )
 from ansible_collections.cisco.dnac.plugins.plugin_utils.exceptions import (
     InconsistentParameters,
@@ -35,7 +36,7 @@ argument_spec.update(dict(
 ))
 
 required_if = [
-    ("state", "present", ["profileDetails"], True),
+    ("state", "present", ["wirelessProfileName"], True),
     ("state", "absent", ["wirelessProfileName"], True),
 ]
 required_one_of = []

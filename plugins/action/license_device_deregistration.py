@@ -77,7 +77,7 @@ class ActionModule(ActionBase):
 
         response = dnac.exec(
             family="licenses",
-            function='device_deregistration2',
+            function='device_deregistration',
             op_modifies=True,
             params=self.get_object(self._task.args),
         )
