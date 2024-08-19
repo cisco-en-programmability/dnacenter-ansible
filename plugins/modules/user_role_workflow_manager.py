@@ -321,7 +321,7 @@ options:
               overall:
                 description: Provides the same choice for all sub-parameters.
                 choices: ["deny", "read", "write"]
-                default: "read"
+                default: "deny"
                 type: str
               apis:
                 description: Access Cisco Catalyst Center through REST APIs to drive value.
@@ -426,13 +426,13 @@ options:
               remote_device_support:
                 description: Allow Cisco support team to remotely troubleshoot any network devices managed by Cisco DNA Center.
                 choices: ["deny", "read", "write"]
-                default: "read"
+                default: "deny"
                 type: str
               scheduler:
                 description: Run, schedule, and monitor network tasks and activities such as deploying policies, provisioning,
                              or upgrading the network, integrated with other back-end services.
                 choices: ["deny", "read", "write"]
-                default: "read"
+                default: "write"
                 type: str
               search:
                 description: Search for various objects in Cisco Catalyst Center, including sites,
@@ -565,7 +565,7 @@ EXAMPLES = r"""
               monitoring_settings: "read"
               troubleshooting_tools: "deny"
           network_analytics:
-            data_access: "write"
+            - data_access: "write"
           network_design:
             - advanced_network_settings: "deny"
               image_repository: "deny"
@@ -1043,8 +1043,8 @@ class UserandRole(DnacBase):
         error_messages = []
 
         role_name = role_config.get("role_name")
-        role_name_regex = re.compile(r"^[A-Za-z0-9_-]+$")
-        role_name_regex_msg = "must only contain letters, numbers, underscores and hyphens and should not contain spaces or other special characters."
+        role_name_regex = re.compile(r"^[a-zA-Z0-9._-]{,25}$")
+        role_name_regex_msg = "Role names must be 0 to 25 characters long and should contain only letters, numbers, dots, underscore, and hyphen."
         self.validate_string_field(role_name, role_name_regex,
                                    "role_name: '{0}' {1}".format(role_name, role_name_regex_msg), error_messages)
 
@@ -1096,18 +1096,18 @@ class UserandRole(DnacBase):
         """
         self.log("Validating user configuration parameters...", "INFO")
         error_messages = []
-        regex_name_validation = re.compile(r"^[A-Za-z0-9_-]+$")
-        regex_name_validation_msg = "must only contain letters, numbers, underscores and hyphens and should not contain spaces or other special characters."
+        name_regex = re.compile(r"^[A-Za-z0-9@._-]{2,50}$")
+        name_regex_msg = "can have alphanumeric characters only and must be 2 to 50 characters long."
 
         first_name = user_config.get("first_name")
-        self.validate_string_field(first_name, regex_name_validation,
-                                   "first_name: '{0}' {1}".format(first_name, regex_name_validation_msg), error_messages)
+        self.validate_string_field(first_name, name_regex,
+                                   "first_name: First name '{0}' {1}".format(first_name, name_regex_msg), error_messages)
 
         last_name = user_config.get("last_name")
-        self.validate_string_field(last_name, regex_name_validation,
-                                   "last_name: '{0}' {1}".format(last_name, regex_name_validation_msg), error_messages)
+        self.validate_string_field(last_name, name_regex,
+                                   "last_name: Last name '{0}' {1}".format(last_name, name_regex_msg), error_messages)
 
-        email_regex = re.compile(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}(?:\.[a-zA-Z]{2,2})*$")
+        email_regex = re.compile(r"^[A-Za-z0-9!#$%^&*'?{}|./_+=-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}(?:\.[a-zA-Z]{2,3})*$")
         email = user_config.get("email")
         email_regex_msg = "email: Invalid email format for 'email': {0}".format(email)
         self.validate_string_field(email, email_regex, email_regex_msg, error_messages)
@@ -1117,9 +1117,11 @@ class UserandRole(DnacBase):
         if password:
             self.validate_password(password, error_messages)
 
+        username_regex = re.compile(r"^[A-Za-z0-9@._-]{3,50}$")
+        username_regex_msg = "The username cannot contain any special characters and must be 3 to 50 characters long."
         username = user_config.get("username")
-        self.validate_string_field(username, regex_name_validation,
-                                   "username: '{0}' {1}".format(username, regex_name_validation_msg), error_messages)
+        self.validate_string_field(username, username_regex,
+                                   "username: '{0}' {1}".format(username, username_regex_msg), error_messages)
 
         if user_config.get("role_list"):
             param_spec = dict(type="list", elements="str")
@@ -1239,7 +1241,7 @@ class UserandRole(DnacBase):
                     consolidated_data, update_required_param = self.role_requires_update(self.have["current_role_config"], desired_role)
 
                     if not consolidated_data:
-                        self.msg = "Role does not need any update"
+                        self.msg = "Role with role_name '{0}' already exist and the role does not need any update".format(self.have.get("role_name"))
                         self.log(self.msg, "INFO")
                         responses["role_operation"] = {"response": config}
                         self.result["response"] = self.msg
@@ -1274,7 +1276,7 @@ class UserandRole(DnacBase):
                 (consolidated_data, update_required_param) = self.user_requires_update(self.have["current_user_config"], self.have["current_role_id_config"])
 
                 if not consolidated_data:
-                    self.msg = "User does not need any update"
+                    self.msg = "User with username '{0}' already exist and the user does not need any update".format(self.have.get("username"))
                     self.log(self.msg, "INFO")
                     responses["role_operation"] = {"response": config}
                     self.result["response"] = self.msg
@@ -1442,6 +1444,10 @@ class UserandRole(DnacBase):
             if key not in user_params:
                 missing_keys.append(key)
 
+        if missing_keys:
+            error_message = "Mandatory parameter(s) {0} not present in the user details".format(", ".join(missing_keys))
+            return {"error": error_message}
+
         try:
             self.log("Create user with user_info_params: {0}".format(str(user_params)), "DEBUG")
             response = self.dnac._exec(
@@ -1454,7 +1460,8 @@ class UserandRole(DnacBase):
             return response
 
         except Exception:
-            error_message = "Mandatory parameter(s) {0} not present in the user details".format(", ".join(missing_keys))
+            error_message = "The catalyst center user '{0}' does not have the necessary permissions to create or update user through the API.".format(
+                self.payload.get("dnac_username"))
             return {"error": error_message}
 
     def create_role(self, role_params):
@@ -1483,7 +1490,8 @@ class UserandRole(DnacBase):
             return response
 
         except Exception:
-            error_message = "An error occurred while creating the role without access-level parameters and permissions"
+            error_message = "The catalyst center user '{0}' does not have the necessary permissions to create role through the API.".format(
+                self.payload.get("dnac_username"))
             return {"error": error_message}
 
     def get_user(self):
@@ -2434,16 +2442,21 @@ class UserandRole(DnacBase):
               and the "update_role_api" function. The method logs the received API response at the "DEBUG" level and
               finally returns the response.
         """
-        self.log("Update role with role_info_params: {0}".format(str(role_params)), "DEBUG")
-        response = self.dnac._exec(
-            family="user_and_roles",
-            function="update_role_api",
-            op_modifies=True,
-            params=role_params,
-        )
-        self.log("Received API response from update_role: {0}".format(str(response)), "DEBUG")
+        try:
+            self.log("Update role with role_info_params: {0}".format(str(role_params)), "DEBUG")
+            response = self.dnac._exec(
+                family="user_and_roles",
+                function="update_role_api",
+                op_modifies=True,
+                params=role_params,
+            )
+            self.log("Received API response from update_role: {0}".format(str(response)), "DEBUG")
+            return response
 
-        return response
+        except Exception:
+            error_message = "The catalyst center user '{0}' does not have the necessary permissions to update role through the API.".format(
+                self.payload.get("dnac_username"))
+            return {"error": error_message}
 
     def find_denied_permissions(self, config, parent_key=""):
         """
@@ -2774,7 +2787,8 @@ class UserandRole(DnacBase):
                 self.log(self.msg, "INFO")
                 return self
 
-            self.msg = "Please provide a valid 'username' or 'email' for user deletion"
+            self.msg = "Please provide a valid 'username' or 'email' for user deletion or The catalyst center user '{0}' does not have the \
+necessary permissions to delete user through the API.".format(self.payload.get("dnac_username"))
             self.log(self.msg, "ERROR")
             self.status = "failed"
             return self
@@ -2825,8 +2839,8 @@ class UserandRole(DnacBase):
             )
             self.log("Received API response from delete_role: {0}".format(str(response)), "DEBUG")
         except Exception:
-            error_message = "An error occurred while deleting the role. Check whether user(s) are assigned to this role \
-                {0}".format(str(self.have.get("role_name")))
+            error_message = "The catalyst center user '{0}' does not have the necessary permissions to delete role through the API or An error occurred while \
+deleting the role. Check whether user(s) are assigned to the role '{1}'".format(self.payload.get("dnac_username"), self.have.get("role_name"))
 
             return {"error": error_message}
 
