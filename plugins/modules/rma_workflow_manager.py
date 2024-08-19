@@ -868,8 +868,6 @@ class DeviceReplacement(DnacBase):
             )
             self.status = task_result["status"]
             self.msg = "RMA failed to replace the device: {0}".format(task_result["msg"])
-            if self.status == "success":
-                self.result['changed'] = True
 
         except Exception:
             self.status = "failed"
