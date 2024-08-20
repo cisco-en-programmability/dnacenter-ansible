@@ -1044,7 +1044,7 @@ class UserandRole(DnacBase):
 
         role_name = role_config.get("role_name")
         role_name_regex = re.compile(r"^[a-zA-Z0-9._-]{,25}$")
-        role_name_regex_msg = "Role names must be 0 to 25 characters long and should contain only letters, numbers, dots, underscore, and hyphen."
+        role_name_regex_msg = "Role names must be 1 to 25 characters long and should contain only letters, numbers, periods, underscores, and hyphens."
         self.validate_string_field(role_name, role_name_regex,
                                    "role_name: '{0}' {1}".format(role_name, role_name_regex_msg), error_messages)
 
@@ -1118,7 +1118,7 @@ class UserandRole(DnacBase):
             self.validate_password(password, error_messages)
 
         username_regex = re.compile(r"^[A-Za-z0-9@._-]{3,50}$")
-        username_regex_msg = "The username cannot contain any special characters and must be 3 to 50 characters long."
+        username_regex_msg = "The username must not contain any special characters and must be 3 to 50 characters long."
         username = user_config.get("username")
         self.validate_string_field(username, username_regex,
                                    "username: '{0}' {1}".format(username, username_regex_msg), error_messages)
@@ -1237,11 +1237,11 @@ class UserandRole(DnacBase):
                 desired_role = self.generate_role_payload(self.want, "update")
                 self.log("desired role with config {0}".format(str(desired_role)), "DEBUG")
 
-                if "error" not in desired_role:
+                if "error_message" not in desired_role:
                     consolidated_data, update_required_param = self.role_requires_update(self.have["current_role_config"], desired_role)
 
                     if not consolidated_data:
-                        self.msg = "Role with role_name '{0}' already exist and the role does not need any update".format(self.have.get("role_name"))
+                        self.msg = "Role with role_name '{0}' already exists and does not require an update.".format(self.have.get("role_name"))
                         self.log(self.msg, "INFO")
                         responses["role_operation"] = {"response": config}
                         self.result["response"] = self.msg
@@ -1257,7 +1257,7 @@ class UserandRole(DnacBase):
                 self.log("Creating role with config {0}".format(str(config)), "DEBUG")
                 role_info_params = self.generate_role_payload(self.want, "create")
 
-                if "error" not in role_info_params:
+                if "error_message" not in role_info_params:
                     filtered_data, overall_update_required = self.get_permissions(self.want, role_info_params, "create")
                     denied_permissions = self.find_denied_permissions(self.want)
                     denied_required, create_role_params = self.remove_denied_operations(filtered_data, denied_permissions)
@@ -1276,7 +1276,7 @@ class UserandRole(DnacBase):
                 (consolidated_data, update_required_param) = self.user_requires_update(self.have["current_user_config"], self.have["current_role_id_config"])
 
                 if not consolidated_data:
-                    self.msg = "User with username '{0}' already exist and the user does not need any update".format(self.have.get("username"))
+                    self.msg = "User with username '{0}' already exists and does not require an update.".format(self.have.get("username"))
                     self.log(self.msg, "INFO")
                     responses["role_operation"] = {"response": config}
                     self.result["response"] = self.msg
@@ -1291,7 +1291,7 @@ class UserandRole(DnacBase):
                     user_info_params = self.snake_to_camel_case(update_param)
                     task_response = self.update_user(user_info_params)
                 else:
-                    task_response = {"error": "The role name in the user details role_list is not present in the Cisco Catalyst Center,"
+                    task_response = {"error_message": "The role name in the user details role_list is not present in the Cisco Catalyst Center,"
                                      " Please provide a valid role name"}
             else:
                 # Create the user
@@ -1323,10 +1323,10 @@ class UserandRole(DnacBase):
                     user_info_params = self.snake_to_camel_case(user_details)
                     task_response = self.create_user(user_info_params)
                 else:
-                    task_response = {"error": "The role name in the user details role_list is not present in the Cisco Catalyst Center,"
+                    task_response = {"error_message": "The role name in the user details role_list is not present in the Cisco Catalyst Center,"
                                      " Please provide a valid role name"}
 
-        if task_response and "error" not in task_response:
+        if task_response and "error_message" not in task_response:
             self.log("Task respoonse {0}".format(str(task_response)), "INFO")
             responses["operation"] = {"response": task_response}
             self.msg = responses
@@ -1336,7 +1336,7 @@ class UserandRole(DnacBase):
             self.log(self.msg, "INFO")
             return self
 
-        self.msg = task_response.get("error")
+        self.msg = task_response.get("error_message")
         self.log(self.msg, "ERROR")
         self.status = "failed"
         return self
@@ -1445,8 +1445,8 @@ class UserandRole(DnacBase):
                 missing_keys.append(key)
 
         if missing_keys:
-            error_message = "Mandatory parameter(s) {0} not present in the user details".format(", ".join(missing_keys))
-            return {"error": error_message}
+            error_message = "Mandatory parameter(s) '{0}' not present in the user details.".format(", ".join(missing_keys))
+            return {"error_message": error_message}
 
         try:
             self.log("Create user with user_info_params: {0}".format(str(user_params)), "DEBUG")
@@ -1459,10 +1459,11 @@ class UserandRole(DnacBase):
             self.log("Received API response from create_user: {0}".format(str(response)), "DEBUG")
             return response
 
-        except Exception:
-            error_message = "The catalyst center user '{0}' does not have the necessary permissions to create or update user through the API.".format(
+        except Exception as e:
+            self.log("Unexpected error occurred: {0}".format(str(e)), "ERROR")
+            error_message = "The Catalyst Center user '{0}' does not have the necessary permissions to 'create or update' a user through the API.".format(
                 self.payload.get("dnac_username"))
-            return {"error": error_message}
+            return {"error_message": error_message}
 
     def create_role(self, role_params):
         """
@@ -1489,10 +1490,11 @@ class UserandRole(DnacBase):
             self.log("Received API response from create_role: {0}".format(str(response)), "DEBUG")
             return response
 
-        except Exception:
-            error_message = "The catalyst center user '{0}' does not have the necessary permissions to create role through the API.".format(
+        except Exception as e:
+            self.log("Unexpected error occurred: {0}".format(str(e)), "ERROR")
+            error_message = "The Catalyst Center user '{0}' does not have the necessary permissions to 'create a role' through the API.".format(
                 self.payload.get("dnac_username"))
-            return {"error": error_message}
+            return {"error_message": error_message}
 
     def get_user(self):
         """
@@ -1583,7 +1585,7 @@ class UserandRole(DnacBase):
                 if permission not in ["read", "write", "deny"]:
                     error_message = "Invalid permission {0} for assurance resource {1}".format(permission, resource_name)
                     self.log(error_message, "DEBUG")
-                    return {"error": error_message}
+                    return {"error_message": error_message}
 
                 if permission == "deny":
                     self.log("Skipping resource {0} because permission is 'deny'".format(resource_name), "DEBUG")
@@ -1647,7 +1649,7 @@ class UserandRole(DnacBase):
                 if permission not in ["read", "write", "deny"]:
                     error_message = "Invalid permission {0} for network analytics resource {1}".format(permission, resource_name)
                     self.log(error_message, "DEBUG")
-                    return {"error": error_message}
+                    return {"error_message": error_message}
 
                 if permission == "deny":
                     self.log("Skipping resource {0} because permission is 'deny'".format(resource_name), "DEBUG")
@@ -1708,7 +1710,7 @@ class UserandRole(DnacBase):
                 if permission not in ["read", "write", "deny"]:
                     error_message = "Invalid permission {0} for network design resource {1}".format(permission, resource_name)
                     self.log(error_message, "DEBUG")
-                    return {"error": error_message}
+                    return {"error_message": error_message}
 
                 if permission == "deny":
                     self.log("Skipping resource {0} because permission is 'deny'".format(resource_name), "DEBUG")
@@ -1767,7 +1769,7 @@ class UserandRole(DnacBase):
         if not isinstance(role_config["network_provision"], list):
             error_message = "The given network_provision is not in type: list"
             self.log(error_message, "DEBUG")
-            return {"error": error_message}
+            return {"error_message": error_message}
 
         for provision in role_config["network_provision"]:
             for resource_name, permission in provision.items():
@@ -1783,7 +1785,7 @@ class UserandRole(DnacBase):
                         if sub_permission not in ["read", "write", "deny"]:
                             error_message = "Invalid permission {0} for network provision for sub-resource {1}".format(sub_permission, sub_resource_name)
                             self.log(error_message, "DEBUG")
-                            return {"error": error_message}
+                            return {"error_message": error_message}
 
                         if sub_permission == "deny":
                             self.log("Skipping sub-resource {0} because permission is 'deny'".format(sub_resource_name), "DEBUG")
@@ -1819,7 +1821,7 @@ class UserandRole(DnacBase):
                     if permission not in ["read", "write", "deny"]:
                         error_message = "Invalid permission {0} for network provision resource {1}".format(permission, resource_name)
                         self.log(error_message, "DEBUG")
-                        return {"error": error_message}
+                        return {"error_message": error_message}
 
                     if permission == "deny":
                         self.log("Skipping resource {0} because permission is 'deny'".format(resource_name), "DEBUG")
@@ -1892,7 +1894,7 @@ class UserandRole(DnacBase):
                 if permission not in ["read", "write", "deny"]:
                     error_message = "Invalid permission {0} for network services resource {1}".format(permission, resource_name)
                     self.log(error_message, "DEBUG")
-                    return {"error": error_message}
+                    return {"error_message": error_message}
 
                 if permission == "deny":
                     self.log("Skipping resource {0} because permission is 'deny'".format(resource_name), "DEBUG")
@@ -1937,7 +1939,7 @@ class UserandRole(DnacBase):
                 if permission not in ["read", "write", "deny"]:
                     error_message = "Invalid permission {0} for platform resource {1}".format(permission, resource_name)
                     self.log(error_message, "DEBUG")
-                    return {"error": error_message}
+                    return {"error_message": error_message}
 
                 if permission == "deny":
                     self.log("Skipping resource {0} because permission is 'deny'".format(resource_name), "DEBUG")
@@ -2008,7 +2010,7 @@ class UserandRole(DnacBase):
                 if permission not in ["read", "write", "deny"]:
                     error_message = "Invalid permission {0} for security resource {1}".format(permission, resource_name)
                     self.log(error_message, "DEBUG")
-                    return {"error": error_message}
+                    return {"error_message": error_message}
 
                 if permission == "deny":
                     self.log("Skipping resource {0} because permission is 'deny'".format(resource_name), "DEBUG")
@@ -2079,7 +2081,7 @@ class UserandRole(DnacBase):
                 if permission not in ["read", "write", "deny"]:
                     error_message = "Invalid permission {0} for system resource {1}".format(permission, resource_name)
                     self.log(error_message, "DEBUG")
-                    return {"error": error_message}
+                    return {"error_message": error_message}
 
                 if permission == "deny":
                     self.log("Skipping resource {0} because permission is 'deny'".format(resource_name), "DEBUG")
@@ -2142,7 +2144,7 @@ class UserandRole(DnacBase):
                 if permission not in ["read", "write", "deny"]:
                     error_message = "Invalid permission {0} for utilities resource {1}".format(permission, resource_name)
                     self.log(error_message, "DEBUG")
-                    return {"error": error_message}
+                    return {"error_message": error_message}
 
                 if permission == "deny":
                     self.log("Skipping resource {0} because permission is 'deny'".format(resource_name), "DEBUG")
@@ -2443,7 +2445,7 @@ class UserandRole(DnacBase):
               finally returns the response.
         """
         try:
-            self.log("Update role with role_info_params: {0}".format(str(role_params)), "DEBUG")
+            self.log("Updating role with role_info_params: {0}".format(str(role_params)), "DEBUG")
             response = self.dnac._exec(
                 family="user_and_roles",
                 function="update_role_api",
@@ -2453,10 +2455,11 @@ class UserandRole(DnacBase):
             self.log("Received API response from update_role: {0}".format(str(response)), "DEBUG")
             return response
 
-        except Exception:
+        except Exception as e:
+            self.log("Unexpected error occurred: {0}".format(str(e)), "ERROR")
             error_message = "The catalyst center user '{0}' does not have the necessary permissions to update role through the API.".format(
                 self.payload.get("dnac_username"))
-            return {"error": error_message}
+            return {"error_message": error_message}
 
     def find_denied_permissions(self, config, parent_key=""):
         """
@@ -2749,7 +2752,7 @@ class UserandRole(DnacBase):
                 task_response = self.delete_role(role_id_to_delete)
                 self.log("Task response {0}".format(str(task_response)), "INFO")
 
-                if task_response and "error" not in task_response:
+                if task_response and "error_message" not in task_response:
                     responses = {"role_operation": {"response": task_response}}
                     self.msg = responses
                     self.result["response"] = self.msg
@@ -2787,8 +2790,11 @@ class UserandRole(DnacBase):
                 self.log(self.msg, "INFO")
                 return self
 
-            self.msg = "Please provide a valid 'username' or 'email' for user deletion or The catalyst center user '{0}' does not have the \
-necessary permissions to delete user through the API.".format(self.payload.get("dnac_username"))
+            self.msg = (
+                "Please provide a valid 'username' or 'email' for user deletion, or "
+                "The Catalyst Center user '{0}' does not have the necessary permissions "
+                "to delete a user through the API.".format(self.payload.get("dnac_username"))
+            )
             self.log(self.msg, "ERROR")
             self.status = "failed"
             return self
@@ -2838,11 +2844,15 @@ necessary permissions to delete user through the API.".format(self.payload.get("
                 params=role_params,
             )
             self.log("Received API response from delete_role: {0}".format(str(response)), "DEBUG")
-        except Exception:
-            error_message = "The catalyst center user '{0}' does not have the necessary permissions to delete role through the API or An error occurred while \
-deleting the role. Check whether user(s) are assigned to the role '{1}'".format(self.payload.get("dnac_username"), self.have.get("role_name"))
+        except Exception as e:
+            self.log("Unexpected error occurred: {0}".format(str(e)), "ERROR")
+            error_message = (
+                "The Catalyst Center user '{0}' does not have the necessary permissions to delete the role through the API, or "
+                "an error occurred while deleting the role. Check whether user(s) are assigned to the role '{1}'.".format(
+                    self.payload.get("dnac_username"), self.have.get("role_name"))
+            )
 
-            return {"error": error_message}
+            return {"error_message": error_message}
 
         return response
 
