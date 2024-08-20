@@ -326,6 +326,7 @@ jobs:
             export ANSIBLE_ROLES_PATH=$PWD/tests/integration
             cat ccc_roles.yml
             echo $(circleci tests glob "tests/integration/*")
+            env
             cat ccc_roles.yml | circleci tests run --command "xargs ./run_tests.sh" --split-by=timings --timings-type=name
 
           no_output_timeout: 120m
@@ -388,7 +389,7 @@ workflows:
       and:
         - or:
           - equal: [ run-tests, << pipeline.parameters.GHA_Meta >> ]
-#          - equal: [ true,  << pipeline.parameters.run-setup >> ]
+          - equal: [ true,  << pipeline.parameters.run-setup >> ]
         - not: << pipeline.parameters.continued >>
     jobs:
       - pre
