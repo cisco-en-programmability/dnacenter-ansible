@@ -450,9 +450,9 @@ class DeviceReplacement(DnacBase):
             ("faulty_device_name", "replacement_device_serial_number"),
             ("faulty_device_name", "replacement_device_name"),
             ("faulty_device_name", "replacement_device_ip_address"),
-            ("faulty_device_ip_address","replacement_device_ip_address"),
-            ("faulty_device_ip_address","replacement_device_name"),
-            ("faulty_device_ip_address","replacement_device_serial_number")
+            ("faulty_device_ip_address", "replacement_device_ip_address"),
+            ("faulty_device_ip_address", "replacement_device_name"),
+            ("faulty_device_ip_address", "replacement_device_serial_number")
         ]
 
         valid_identifier_found = False
