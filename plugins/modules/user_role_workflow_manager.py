@@ -1034,7 +1034,8 @@ class UserandRole(DnacBase):
         Identify and collect invalid parameters from a dictionary or list based on allowed parameters.
         Args:
             - params (dict): The dictionary of parameters to be checked. Nested dictionaries or lists are supported.
-            - mismatches (list): A list where invalid parameter names are appended. This list is used to collect all parameters that are not in 'allowed_params'.
+            - mismatches (list): A list where invalid parameter names are appended. This list is used to collect all
+              parameters that are not in 'allowed_params'.
         Returns:
             - mismatches (list): This function returns the 'mismatches' list containing the names of any parameters that are not in the 'allowed_params' set.
         Criteria:
@@ -1045,7 +1046,7 @@ class UserandRole(DnacBase):
             "monitoring_and_troubleshooting", "monitoring_settings", "troubleshooting_tools", "data_access", "advanced_network_settings",
             "image_repository", "network_hierarchy", "network_profiles", "network_settings", "virtual_network", "compliance",
             "eox", "image_update", "inventory_management", "license", "network_telemetry", "pnp", "provision", "device_configuration",
-            "discovery", "network_device", "port_management", "topology", "app_hosting", "bonjour", "stealthwatch", "umbrella", 
+            "discovery", "network_device", "port_management", "topology", "app_hosting", "bonjour", "stealthwatch", "umbrella",
             "apis", "bundles", "events", "reports", "group_based_policy", "ip_based_access_control", "security_advisories",
             "machine_reasoning", "system_management", "audit_log", "event_viewer", "network_reasoner", "remote_device_support",
             "scheduler", "search", 'role_name', 'description', 'assurance', 'network_analytics', 'network_design', 'network_provision',
