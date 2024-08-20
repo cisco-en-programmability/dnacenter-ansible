@@ -334,7 +334,7 @@ jobs:
             export no_proxy=""
             ssh $LOGS_MACHINE -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ~/id_ssh mkdir -p /var/www/html/madhan-logs/$CIRCLE_BUILD_NUM
             scp -i ~/id_ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null sanity_tests_logs_$CIRCLE_NODE_INDEX $LOGS_MACHINE:/var/www/html/madhan-logs/$CIRCLE_BUILD_NUM
-            echo "LOGS URL: http://$LOGS_VM_IP/madhan-logs/$CIRCLE_BUILD_NUM/sanity_tests_logs_$CIRCLE_NODE_INDEX"
+            echo "LOGS URL: http://10.195.243.37/madhan-logs/$CIRCLE_BUILD_NUM/sanity_tests_logs_$CIRCLE_NODE_INDEX"
             if [[ $(cat rc) != "0" ]]; then exit 1; fi
 
           no_output_timeout: 120m
