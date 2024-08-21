@@ -1101,8 +1101,12 @@ class UserandRole(DnacBase):
         self.validate_string_field(role_name, role_name_regex,
                                    "role_name: '{0}' {1}".format(role_name, role_name_regex_msg), error_messages)
 
-        if role_config.get("description"):
-            self.validate_string_parameter("description", role_config["description"], error_messages)
+        description = role_config["description"]
+        if description:
+            if len(description) > 1000:
+                error_messages.append("Role description exceeds the maximum length of 1000 characters.")
+            else:
+                self.validate_string_parameter("description", description, error_messages)
 
         role_param_map = {
             "assurance": ["overall", "monitoring_and_troubleshooting", "monitoring_settings", "troubleshooting_tools"],
