@@ -12,7 +12,7 @@ __author__ = ("Abinash Mishra, Rugvedi Kapse, Madhan Sankaranarayanan")
 DOCUMENTATION = r"""
 ---
 module: device_configs_backup_workflow_manager
-short_description: Resource module for device_configs_backup functions
+short_description: Device Configs Backup module for taking configuration backups of reachable devices in the Cisco Catalyst Center.
 description:
 - Manage operation related to taking the backup of running config, static config and vlan.dat.bat
 version_added: "6.14.0"
@@ -54,7 +54,7 @@ options:
         description:
                 - List of IP addresses of the devices for which configuration backups need to be taken.
                 - The IP addresses should be those displayed in the inventory GUI of the Cisco Catalyst Center,
-                specifically the management IP addresses of the devices.
+                  specifically the management IP addresses of the devices.
                 - For example - ["204.1.2.2", "204.1.2.5", "204.1.2.4"]
         type: str
       site_list:
@@ -69,7 +69,6 @@ options:
       mac_address_list:
         description:
                 - Specifies list of MAC addresses of the devices for which configuration backups are to be taken.
-                - For example - ["d4:ad:bd:c1:67:00", " 00:b6:70:32:b8:00", "0c:75:bd:42:c3:80", "90:88:55:07:59:00"]
         type: str
       serial_number_list:
         description:
@@ -601,7 +600,7 @@ class Device_configs_backup(DnacBase):
                                 skipped_devices += 1
                                 self.skipped_devices_list.append(item_dict["managementIpAddress"])
                                 msg = "Skipping device {0} in site {1} as its status is {2} or collectionStatus is {3} ".format(
-                                    item_dict["managementIpAddress"], site_name, item_dict["reachabilityStatus"],  item_dict["collectionStatus"])
+                                    item_dict["managementIpAddress"], site_name, item_dict["reachabilityStatus"], item_dict["collectionStatus"])
                                 self.log(msg, "WARNING")
             else:
                 # If unable to retrieve device information, log an error message
@@ -619,9 +618,6 @@ class Device_configs_backup(DnacBase):
         # Log a warning if no reachable devices are found
         if not mgmt_ip_to_instance_id_map:
             self.log("Reachable devices not found at Site: {0}".format(site_name), "WARNING")
-            #self.msg = "Reachable devices not found at Site: {0}".format(site_name)
-            #self.update_result("ok", False, self.msg, "INFO")
-            #self.check_return_status()
 
         return mgmt_ip_to_instance_id_map
 
@@ -632,7 +628,7 @@ class Device_configs_backup(DnacBase):
         Returns:
             dict: A dictionary mapping internal parameter names to their corresponding values from the config.
         Description:
-            This method takes a configuration dictionary containing various device filter criteria and maps them to the internal parameter 
+            This method takes a configuration dictionary containing various device filter criteria and maps them to the internal parameter
             names required by Cisco Catalyst Center.
             It returns a dictionary of these mapped parameters which can be used to query devices based on the provided filters.
         """
@@ -658,7 +654,6 @@ class Device_configs_backup(DnacBase):
 
         return get_device_list_params
 
-
     def get_device_ids_by_params(self, get_device_list_params):
         """Retrieves device IDs based on specified parameters from Cisco Catalyst Center.
         Parameters:
@@ -667,11 +662,11 @@ class Device_configs_backup(DnacBase):
             dict: A dictionary mapping management IP addresses to instance IDs of reachable devices that are not Unified APs.
         Description:
             This method queries Cisco Catalyst Center to retrieve device information based on the provided filter parameters.
-            It paginates through the results, filters out unreachable devices and Unified APs, and returns a dictionary of management IP addresses 
+            It paginates through the results, filters out unreachable devices and Unified APs, and returns a dictionary of management IP addresses
             mapped to their instance IDs.
             Logs detailed information about the number of devices processed, skipped, and the final list of devices available for configuration backup.
         """
-         # Initialize variables
+        # Initialize variables
         mgmt_ip_to_instance_id_map = {}
         total_devices = 0
         skipped_devices = 0
@@ -842,9 +837,11 @@ class Device_configs_backup(DnacBase):
 
         # Check if the password matches the defined pattern
         if not re.match(pattern, file_password):
-            msg = "Invalid input as Invalid password. Min password length is 8 and it should contain" + \
-                    "atleast one lower case letter, one uppercase letter, one digit and one special characters" + \
-                    "from -=\\\\\\\\;,./~!@#$%^&*()_+{}[]|:?"
+            msg = (
+                "Invalid input as invalid password. The minimum password length is 8 and it should contain "
+                "at least one lowercase letter, one uppercase letter, one digit, and one special character "
+                "from -=\\\\;,./~!@#$%^&*()_+{}[]|:?"
+            )
             self.log(msg, "CRITICAL")
             self.module.fail_json(msg=msg)
 
@@ -1072,12 +1069,12 @@ class Device_configs_backup(DnacBase):
             It logs the unzipping process and handles any exceptions that may occur during the extraction.
         """
         # Get the file path and file password from the configuration
-        file_path =  self.want.get("file_path")
+        file_path = self.want.get("file_path")
         file_password = self.want.get("file_password")
 
         # Convert the binary file data to a BytesIO object for processing
         zip_data = BytesIO(file_data)
-        self.log("ZIP data for Backup Config file collected is {1}".format(file_id, zip_data), "INFO")
+        self.log("Collected ZIP Data for file with ID: {0}".format(file_id), "INFO")
 
         # Create the directory path if it does not exist
         self.log("Creating directory path: {0}".format(file_path), "DEBUG")
