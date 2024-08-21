@@ -23,7 +23,7 @@ device_backup:
   - mac_address_list: ["90:88:55:8e:42:80", "90:88:55:07:59:00", "0c:75:bd:42:db:80", "0c:75:bd:42:c3:80", "00:b6:70:32:b8:00", "d4:ad:bd:c1:67:00", "cc:b6:c8:e2:29:0b"]
     file_path: backup
 
-  - serial_number_list: ["FJC2721271T", "FJC271924K0","FJC2335S09F", "FJB2334D06N", "FCW2225C020", "FJC2327U0S2", "FOX2639PAY7"]
+  - serial_number_list: ["FJC2721271T", "FJC271924K0", "FJC2335S09F", "FJB2334D06N", "FCW2225C020", "FJC2327U0S2", "FOX2639PAY7"]
     file_path: backup
 
   - family_list: ["Switches and Hubs"]
