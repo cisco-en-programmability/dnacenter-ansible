@@ -592,7 +592,7 @@ options:
     description: The sensor test template version (must be 2).
     type: int
 requirements:
-- dnacentersdk >= 2.7.1
+- dnacentersdk >= 2.7.2
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Sensors CreateSensorTestTemplate
