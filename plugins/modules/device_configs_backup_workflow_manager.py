@@ -632,7 +632,8 @@ class Device_configs_backup(DnacBase):
         Returns:
             dict: A dictionary mapping internal parameter names to their corresponding values from the config.
         Description:
-            This method takes a configuration dictionary containing various device filter criteria and maps them to the internal parameter names required by Cisco Catalyst Center.
+            This method takes a configuration dictionary containing various device filter criteria and maps them to the internal parameter 
+            names required by Cisco Catalyst Center.
             It returns a dictionary of these mapped parameters which can be used to query devices based on the provided filters.
         """
         # Initialize an empty dictionary to store the mapped parameters
@@ -777,22 +778,27 @@ class Device_configs_backup(DnacBase):
                 if site_exists:
                     site_mgmt_ip_to_instance_id_map = self.get_device_ids_from_site(site_name, site_id)
                     mgmt_ip_to_instance_id_map.update(site_mgmt_ip_to_instance_id_map)
-            self.log("Retrieved following  Device Id(s) of device(s): {0} from the provided site(s): {1}".format(site_mgmt_ip_to_instance_id_map, site_list), "DEBUG")
+            self.log("Retrieved following Device Id(s) of device(s): {0} from the provided site(s): {1}".format(
+                site_mgmt_ip_to_instance_id_map, site_list), "DEBUG")
 
             # Get additional device list parameters excluding site_list
             get_device_list_params = self.get_device_list_params(config)
             if get_device_list_params:
-                self.log("Attempting to get Device Id(s) of all device(s) using parameters(excluding site_list): {0}".format(get_device_list_params), "DEBUG")
+                self.log("Attempting to get Device Id(s) of all device(s) using parameters(excluding site_list): {0}".format(
+                    get_device_list_params), "DEBUG")
                 params_mgmt_ip_to_instance_id_map = self.get_device_ids_by_params(get_device_list_params)
                 mgmt_ip_to_instance_id_map.update(params_mgmt_ip_to_instance_id_map)
-                self.log("Retrieved following Device Id(s) of device(s): {0} from the provided parameters(excluding site_list).".format(mgmt_ip_to_instance_id_map), "DEBUG")
+                self.log("Retrieved following Device Id(s) of device(s): {0} from the provided parameters(excluding site_list).".format(
+                    mgmt_ip_to_instance_id_map), "DEBUG")
         else:
             # If no site_list is provided, use other parameters to get device IDs
             get_device_list_params = self.get_device_list_params(config)
-            self.log("Attempting to get Device Id(s) of all device(s) using parameters(excluding site_list): {0}".format(get_device_list_params), "DEBUG")
+            self.log("Attempting to get Device Id(s) of all device(s) using parameters(excluding site_list): {0}".format(
+                get_device_list_params), "DEBUG")
             params_mgmt_ip_to_instance_id_map = self.get_device_ids_by_params(get_device_list_params)
             mgmt_ip_to_instance_id_map.update(params_mgmt_ip_to_instance_id_map)
-            self.log("Retrieved following Device Id(s) of device(s): {0} from the provided parameters(excluding site_list).".format(mgmt_ip_to_instance_id_map), "DEBUG")
+            self.log("Retrieved following Device Id(s) of device(s): {0} from the provided parameters(excluding site_list).".format(
+                mgmt_ip_to_instance_id_map), "DEBUG")
 
         return mgmt_ip_to_instance_id_map
 
@@ -890,11 +896,13 @@ class Device_configs_backup(DnacBase):
         Creates parameters for exporting device configurations from Cisco Catalyst Center.
         Parameters:
             file_password (str): The password to secure the exported device configurations.
-            mgmt_ip_to_instance_id_map (dict): A dictionary mapping management IP addresses to instance IDs of devices.
+            mgmt_ip_to_instance_id_map (dict): A dictionary mapping management IP addresses
+            to instance IDs of devices.
         Returns:
             dict: A dictionary containing the device IDs and the file password for exporting device configurations.
         Description:
-            This method constructs a dictionary of parameters required to export device configurations from Cisco Catalyst Center.
+            This method constructs a dictionary of parameters required to export device configurations
+            from Cisco Catalyst Center.
             The parameters include a list of device IDs and a password to secure the exported configurations.
         """
         # Construct the parameters dictionary for exporting device configurations
@@ -909,12 +917,15 @@ class Device_configs_backup(DnacBase):
         """
         Exports device configurations from Cisco Catalyst Center using the provided parameters.
         Parameters:
-            export_device_configurations_params (dict): A dictionary containing parameters for the export operation, including device IDs and a file password.
+            export_device_configurations_params (dict): A dictionary containing parameters for the export operation,
+            including device IDs and a file password.
         Returns:
-            str or None: The task ID of the export operation if successful, or None if the operation failed or no response was received.
+            str or None: The task ID of the export operation if successful, or None if the operation failed
+            or no response was received.
         Description:
             This method initiates the export of device configurations from Cisco Catalyst Center using the provided parameters.
-            It logs detailed information about the process, including the response from the API call and the task ID of the export operation.
+            It logs detailed information about the process, including the response from the API call and the
+            task ID of the export operation.
             If an error occurs, it logs an error message, updates the result, and checks the return status.
         """
         try:
@@ -930,7 +941,8 @@ class Device_configs_backup(DnacBase):
             # Process the response if available
             if response["response"]:
                 self.result.update(dict(response=response["response"]))
-                self.log("Task Id for the 'export_device_configurations' task is {0}".format(response["response"].get("taskId")), "INFO")
+                self.log("Task Id for the 'export_device_configurations' task is {0}".format(
+                    response["response"].get("taskId")), "INFO")
                 # Return the task ID
                 return response["response"].get("taskId")
             else:
@@ -977,7 +989,8 @@ class Device_configs_backup(DnacBase):
 
         # Log the error if an exception occurs during the API call
         except Exception as e:
-            self.msg = "Error occurred while retrieving 'get_task_by_id' for Task {0} with Task id {1}. Error: {2}".format(task_name, task_id, str(e))
+            self.msg = "Error occurred while retrieving 'get_task_by_id' for Task {0} with Task id {1}. Error: {2}".format(
+                task_name, task_id, str(e))
             self.update_result("failed", False, self.msg, "ERROR")
             self.check_return_status()
 
@@ -1018,13 +1031,13 @@ class Device_configs_backup(DnacBase):
             tuple or None: A tuple containing the file ID and the file data if successful, or None if the download failed.
         Description:
             This method downloads a file from Cisco Catalyst Center using the provided URL, which contains the file ID.
-            It logs the download process and checks the response from the API call. If successful, it returns the file ID and file data.
+            It logs the download process and checks the response from the API call. If successful, it returns the file
+            ID and file data.
             If an error occurs, it logs an error message, updates the result, and checks the return status.
         """
         # Log the download URL for debugging purposes
         self.log("Downloading: {0}".format(additionalStatusURL), "INFO")
         file_id = additionalStatusURL.split("/")[-1]
-        file_path = self.want.get("file_path")
         try:
             response = self.dnac._exec(
                 family="file",
@@ -1054,7 +1067,8 @@ class Device_configs_backup(DnacBase):
         Returns:
             bool: True if the file is successfully unzipped, otherwise it logs an error and fails the module.
         Description:
-            This method takes the binary data of a downloaded file, unzips it using the provided file password, and stores the contents in the specified directory.
+            This method takes the binary data of a downloaded file, unzips it using the provided file password, and stores the
+            contents in the specified directory.
             It logs the unzipping process and handles any exceptions that may occur during the extraction.
         """
         # Get the file path and file password from the configuration
@@ -1090,7 +1104,8 @@ class Device_configs_backup(DnacBase):
             self: The instance of the class, potentially updated with task results.
         Description:
             This method repeatedly checks the status of a device configuration export task using the provided task ID.
-            It logs progress, handles errors, and performs additional tasks such as downloading and unzipping the file if the task completes successfully.
+            It logs progress, handles errors, and performs additional tasks such as downloading and unzipping the
+            file if the task completes successfully.
         """
         task_name = "Backup Device Configuration"
         start_time = time.time()
@@ -1140,7 +1155,8 @@ class Device_configs_backup(DnacBase):
                 result = True
                 break
 
-            self.log("The progress status is {0}, continue to check the status after 3 seconds. Putting into sleep for 3 seconds.".format(response.get("progress")), "INFO")
+            self.log("The progress status is {0}, continue to check the status after 3 seconds. Putting into sleep for 3 seconds.".format(
+                response.get("progress")), "INFO")
             time.sleep(3)
 
         # Perform additional tasks after breaking the loop
@@ -1159,10 +1175,15 @@ class Device_configs_backup(DnacBase):
             # Unzip the downloaded file
             download_status = self.unzip_data(file_id, downloaded_file)
             if download_status:
-                self.log("{0} task has been successfully performed on {1} device(s): {2}.".format(task_name, len(mgmt_ip_to_instance_id_map), list(mgmt_ip_to_instance_id_map.keys())), "INFO")
-                self.log("{0} task has been skipped for {1} device(s): {2}".format(task_name, len(self.skipped_devices_list), self.skipped_devices_list), "INFO")
-                self.msg = "{0} task has been successfully performed on {1} device(s) and skipped on {2} device(s). The backup configuration files can be found at: {3}".format(
-                    task_name, len(mgmt_ip_to_instance_id_map), len(self.skipped_devices_list), pathlib.Path(self.want.get("file_path")).resolve())
+                self.log("{0} task has been successfully performed on {1} device(s): {2}.".format(
+                    task_name, len(mgmt_ip_to_instance_id_map), list(mgmt_ip_to_instance_id_map.keys())), "INFO")
+                self.log("{0} task has been skipped for {1} device(s): {2}".format(
+                    task_name, len(self.skipped_devices_list), self.skipped_devices_list), "INFO")
+                self.msg = (
+                    "{0} task has been successfully performed on {1} device(s) and skipped on {2} device(s). "
+                    "The backup configuration files can be found at: {3}".format(
+                        task_name, len(mgmt_ip_to_instance_id_map), len(self.skipped_devices_list), pathlib.Path(self.want.get("file_path")).resolve())
+                )
                 self.update_result("success", True, self.msg, "INFO")
 
         return self
@@ -1203,7 +1224,8 @@ class Device_configs_backup(DnacBase):
             self.update_result("ok", False, self.msg, "INFO")
             return self
 
-        self.log("Based on provided parameters, retrieved Device Id(s) of {0} device(s): {1} ".format(len(mgmt_ip_to_instance_id_map), mgmt_ip_to_instance_id_map))
+        self.log("Based on provided parameters, retrieved Device Id(s) of {0} device(s): {1} ".format(
+            len(mgmt_ip_to_instance_id_map), mgmt_ip_to_instance_id_map))
 
         # Prepare the desired state (want)
         self.want["export_device_configurations_params"] = self.export_device_configurations_params(file_password, mgmt_ip_to_instance_id_map)
@@ -1267,10 +1289,12 @@ class Device_configs_backup(DnacBase):
 
         # Check if there are any files modified within the window
         if len(files_modified_within_window) > 0:
-            self.log("Verified the success of the Device Config Backup operation. Back up has been taken in the following files {0}".format(str(files_modified_within_window)), "INFO")
+            self.log("Verified the success of the Device Config Backup operation. Back up has been taken in the following files {0}".format(
+                str(files_modified_within_window)), "INFO")
             self.status = "success"
         else:
-            self.log("The Device Config Backup operation may not have been successful since back up files not found at path: {0}".format(abs_file_path), "WARNING")
+            self.log("The Device Config Backup operation may not have been successful since back up files not found at path: {0}".format(
+                abs_file_path), "WARNING")
 
         return self
 
