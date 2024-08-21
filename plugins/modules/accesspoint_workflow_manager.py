@@ -815,10 +815,10 @@ class Accesspoint(DnacBase):
             "tri_radio": ["9124AXE", "9130AXI", "9130AXE", "9178I"]
         }
         self.allowed_channel_no = {
-            "2.4ghz_radio": list(range(1, 12)),
+            "2.4ghz_radio": list(range(1, 15)),
             "5ghz_radio": (36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120,
                            124, 128, 132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173),
-            "xor_radio": list(range(1, 12))
+            "xor_radio": list(range(1, 15))
         }
 
     def validate_input_yml(self):
