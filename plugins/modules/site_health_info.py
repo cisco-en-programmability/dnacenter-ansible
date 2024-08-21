@@ -36,7 +36,7 @@ options:
     - Timestamp query parameter. Epoch time(in milliseconds) when the Site Hierarchy data is required.
     type: float
 requirements:
-- dnacentersdk >= 2.7.1
+- dnacentersdk >= 2.7.2
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Sites GetSiteHealth

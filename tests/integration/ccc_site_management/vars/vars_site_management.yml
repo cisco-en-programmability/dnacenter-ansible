@@ -38,7 +38,6 @@ design_sites:
     site_type: area
 
 
-
   - site:
       building:
         name: BLD10
@@ -58,6 +57,7 @@ design_sites:
         longitude: -78.88105620286412
         country: United States
     site_type: building
+
   - site:
       building:
         name: BLD12
@@ -67,6 +67,7 @@ design_sites:
         longitude: -78.88217248318003
         country: United States
     site_type: building
+
   - site:
       building:
         name: BLD23
@@ -76,6 +77,7 @@ design_sites:
         longitude: -121.912974
         country: United States
     site_type: building
+
   - site:
       building:
         name: BLD20

@@ -811,7 +811,7 @@ options:
                 type: str
 
 requirements:
-- dnacentersdk >= 2.7.1
+- dnacentersdk >= 2.7.2
 - python >= 3.9
 notes:
   - SDK Method used are
