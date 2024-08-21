@@ -64,7 +64,7 @@ options:
                 - For example - ["Global/USA/San Francisco/Building_2/floor_1", "Global/USA/New York/Building_3/floor_2"]
                 - Note - When additional parameters are provided along with the site_list, the operation is performed on all devices in the
                       specified site(s), and additionally on devices matching the additional criteria (excluding site_list).
-                      In other words, the operation is performed on: devices included in the site(s) + devices that match the additional criteria.
+                      In other words, the operation is performed on - devices included in the site(s) + devices that match the additional criteria.
         type: str
       mac_address_list:
         description:
