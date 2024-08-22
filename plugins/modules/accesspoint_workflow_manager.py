@@ -1345,8 +1345,8 @@ class Accesspoint(DnacBase):
 
         is_assigned_site_as_location = ap_config.get("is_assigned_site_as_location")
         if is_assigned_site_as_location and is_assigned_site_as_location not in ("Disabled", "Enabled"):
-            errormsg.append("is_assigned_site_as_location: Invalid value '{0}' for is_assigned_site_as_location in playbook. Must be either 'Disabled' or 'Enabled'."
-                            .format(is_assigned_site_as_location))
+            errormsg.append("is_assigned_site_as_location: Invalid value '{0}' for is_assigned_site_as_location in playbook.\
+                            Must be either 'Disabled' or 'Enabled'.".format(is_assigned_site_as_location))
 
         ap_mode = ap_config.get("ap_mode")
         if ap_mode and ap_mode not in ("Local", "Monitor", "Sniffer", "Bridge"):
