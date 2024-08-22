@@ -896,7 +896,7 @@ class UserandRole(DnacBase):
             self.status = "failed"
             return self
 
-        if "role_name" in user_role_details[0] and user_role_details[0].get("role_name") is not None:
+        if "role_details" in self.payload.get("config") and "role_name" in user_role_details[0] and user_role_details[0].get("role_name") is not None:
             role_details = {
                 "role_name": {"required": True, "type": "str"},
                 "description": {"required": False, "type": "str"},
@@ -924,7 +924,7 @@ class UserandRole(DnacBase):
             self.status = "success"
             return self
 
-        if "username" in user_role_details[0] or "email" in user_role_details[0]:
+        if "user_details" in self.payload.get("config") and "username" in user_role_details[0] or "email" in user_role_details[0]:
             if user_role_details[0].get("username") is not None or user_role_details[0].get("email") is not None:
                 user_details = {
                     "first_name": {"required": False, "type": "str"},
@@ -948,7 +948,11 @@ class UserandRole(DnacBase):
                 self.status = "success"
                 return self
 
-        self.msg = "Configuration params like 'username' or 'email' or 'role_name' is not available in the playbook"
+        self.msg = (
+            "'Configuration params like 'username' or 'email' or 'role_name' is not available in the playbook' or "
+            "'user_details key is not valid for role creation, updation or deletion' or "
+            "'role_details key is not valid for user creation, updation or deletion'"
+        )
         self.log(self.msg, "ERROR")
         self.status = "failed"
         return self
