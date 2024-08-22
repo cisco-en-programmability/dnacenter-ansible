@@ -1096,10 +1096,14 @@ class UserandRole(DnacBase):
 
         error_messages = []
         role_name = role_config.get("role_name")
-        role_name_regex = re.compile(r"^[a-zA-Z0-9._-]{,25}$")
+        role_name_regex = re.compile(r"^[a-zA-Z0-9._-]{1,25}$")
         role_name_regex_msg = "Role names must be 1 to 25 characters long and should contain only letters, numbers, periods, underscores, and hyphens."
-        self.validate_string_field(role_name, role_name_regex,
-                                   "role_name: '{0}' {1}".format(role_name, role_name_regex_msg), error_messages)
+
+        if role_name:
+            self.log("role_nameeee: '{0}'".format(role_name))
+            self.validate_string_field(role_name, role_name_regex, "role_name: '{0}' {1}".format(role_name, role_name_regex_msg), error_messages)
+        else:
+            error_messages.append(role_name_regex_msg)
 
         description = role_config["description"]
         if description:
@@ -1619,7 +1623,6 @@ class UserandRole(DnacBase):
             - role_operation (str): The operation type (e.g., "update").
             - unique_types (dict): A dictionary to store the unique resource types and their operations.
         """
-        self.log("role_paramsssssssss: {0}".format(role_config))
         entry_types = [
             "Assurance.Monitoring and Troubleshooting",
             "Assurance.Monitoring Settings",
