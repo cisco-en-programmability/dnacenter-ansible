@@ -275,6 +275,15 @@ jobs:
     resource_class: madhansansel/dnacenter-ansible 
     parallelism: 4
     steps:
+      - when:
+          condition: 
+            not: << pipeline.parameters.run-any >>
+          steps:
+            - run: 
+                name: Finish sanity tests as there is nothing to execute
+                command: |
+                  circleci-agent step halt
+
       - run:
           name: Debug information
           command: |
@@ -449,7 +458,10 @@ workflows:
             tests/integration/ccc_network_compliance_management/.* run-networkcompliance true
 
   testing:
-    when: << pipeline.parameters.run-any >>
+    when:
+      or:
+        - equal: [ true, << pipeline.parameters.run-any >> ]
+        - equal: [ true, << pipeline.parameters.continued >> ]
     jobs:
       - addrole    
       - sanity-tests:
