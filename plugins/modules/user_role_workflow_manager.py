@@ -1062,7 +1062,7 @@ class UserandRole(DnacBase):
         if isinstance(params, dict):
             for key, value in params.items():
                 if key not in allowed_params:
-                    self.log(f"Invalid parameter detected: {key}", "ERROR")
+                    self.log("Invalid parameter detected: {0}".format(key), "ERROR")
                     mismatches.append(key)
 
                 if isinstance(value, dict) or isinstance(value, list):
