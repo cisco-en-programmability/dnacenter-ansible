@@ -2379,7 +2379,7 @@ class Accesspoint(DnacBase):
         try:
             response = self.dnac._exec(
                 family="wireless",
-                function='configure_access_points_v1',
+                function='configure_access_points_v2',
                 op_modifies=True,
                 params={"payload": ap_config}
             )
