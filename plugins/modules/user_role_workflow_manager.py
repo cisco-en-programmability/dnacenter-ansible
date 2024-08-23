@@ -889,6 +889,7 @@ class UserandRole(DnacBase):
           - If the validation succeeds, this will allow to go next step, unless this will stop execution based on the fields.
         """
         self.log("Validating the Playbook Yaml File..", "INFO")
+        config = self.payload.get("config")
 
         if user_role_details is None or not isinstance(user_role_details, list):
             self.msg = "Configuration is not available in the playbook for validation or user/role details are not type list"
@@ -896,7 +897,7 @@ class UserandRole(DnacBase):
             self.status = "failed"
             return self
 
-        if "role_details" in self.payload.get("config") and "role_name" in user_role_details[0] and user_role_details[0].get("role_name") is not None:
+        if "role_details" in config and "role_name" in user_role_details[0] and user_role_details[0].get("role_name") is not None:
             role_details = {
                 "role_name": {"required": True, "type": "str"},
                 "description": {"required": False, "type": "str"},
@@ -924,7 +925,7 @@ class UserandRole(DnacBase):
             self.status = "success"
             return self
 
-        if "user_details" in self.payload.get("config") and "username" in user_role_details[0] or "email" in user_role_details[0]:
+        if "user_details" in config and "username" in user_role_details[0] or "email" in user_role_details[0]:
             if user_role_details[0].get("username") is not None or user_role_details[0].get("email") is not None:
                 user_details = {
                     "first_name": {"required": False, "type": "str"},
@@ -949,9 +950,9 @@ class UserandRole(DnacBase):
                 return self
 
         self.msg = (
-            "'Configuration params like 'username' or 'email' or 'role_name' is not available in the playbook' or "
-            "'user_details key is not valid for role creation, updation or deletion' or "
-            "'role_details key is not valid for user creation, updation or deletion'"
+            "'Configuration parameters such as 'username', 'email', or 'role_name' are missing from the playbook' or "
+            "'The 'user_details' key is invalid for role creation, updation, or deletion' or "
+            "'The 'role_details' key is invalid for user creation, updation, or deletion'"
         )
         self.log(self.msg, "ERROR")
         self.status = "failed"
@@ -1037,7 +1038,7 @@ class UserandRole(DnacBase):
         """
         Identify and collect invalid parameters from a dictionary or list based on allowed parameters.
         Args:
-            - params (dict): The dictionary of parameters to be checked. Nested dictionaries or lists are supported.
+            - params (dict | list): The dictionary or list of parameters to be checked. Nested dictionaries or lists are supported.
             - mismatches (list): A list where invalid parameter names are appended. This list is used to collect all
               parameters that are not in 'allowed_params'.
         Returns:
@@ -1056,11 +1057,12 @@ class UserandRole(DnacBase):
             "scheduler", "search", 'role_name', 'description', 'assurance', 'network_analytics', 'network_design', 'network_provision',
             'network_services', 'platform', 'security', 'system', 'utilities', 'overall'
         ]
-        self.log("Iterate through the params to find unknown parameters are present or not", "DEBUG")
+        self.log("Starting to iterate through params to identify unknown parameters.", "DEBUG")
 
         if isinstance(params, dict):
             for key, value in params.items():
                 if key not in allowed_params:
+                    self.log(f"Invalid parameter detected: {key}", "ERROR")
                     mismatches.append(key)
 
                 if isinstance(value, dict) or isinstance(value, list):
@@ -1068,6 +1070,9 @@ class UserandRole(DnacBase):
         elif isinstance(params, list):
             for item in params:
                 self.identify_invalid_params(item, mismatches)
+
+        if not mismatches:
+            self.log("No invalid parameters found.", "INFO")
 
         return mismatches
 
@@ -1104,7 +1109,6 @@ class UserandRole(DnacBase):
         role_name_regex_msg = "Role names must be 1 to 25 characters long and should contain only letters, numbers, periods, underscores, and hyphens."
 
         if role_name:
-            self.log("role_nameeee: '{0}'".format(role_name))
             self.validate_string_field(role_name, role_name_regex, "role_name: '{0}' {1}".format(role_name, role_name_regex_msg), error_messages)
         else:
             error_messages.append(role_name_regex_msg)
@@ -1347,7 +1351,7 @@ class UserandRole(DnacBase):
 
                 if update_required_param.get("role_list"):
                     if self.want["username"] not in self.have["current_user_config"]["username"]:
-                        task_response = {"error_message": "Username for an existing User cannot be updated."}
+                        task_response = {"error_message": "Username for an existing user cannot be updated."}
                     else:
                         user_in_have = self.have["current_user_config"]
                         update_param = update_required_param
@@ -3132,13 +3136,15 @@ class UserandRole(DnacBase):
             delete_role_msg = "Role(s) '{0}' deleted successfully from the Cisco Catalyst Center.".format("', '".join(self.deleted_role))
             result_msg_list.append(delete_role_msg)
 
-        if self.created_user or self.updated_user or self.deleted_user or self.created_role or self.updated_role or self.deleted_role:
+        if result_msg_list:
             self.result["changed"] = True
+            self.msg = " ".join(result_msg_list)
+        else:
+            self.msg = "No changes were made. No user or role actions were performed in Cisco Catalyst Center."
 
-        self.msg = " ".join(result_msg_list)
         self.log(self.msg, "INFO")
         self.result["response"] = self.msg
-
+        
         return self
 
     def snake_to_camel_case(self, data):
