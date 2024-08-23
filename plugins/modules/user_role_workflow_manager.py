@@ -3144,7 +3144,7 @@ class UserandRole(DnacBase):
 
         self.log(self.msg, "INFO")
         self.result["response"] = self.msg
-        
+
         return self
 
     def snake_to_camel_case(self, data):
