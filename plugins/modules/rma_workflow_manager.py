@@ -5,7 +5,7 @@
 
 from __future__ import absolute_import, division, print_function
 __metaclass__ = type
-__author__ = ("Trupti A Shetty, Mohamed Rafeek, Madhan Sankaranarayanan")
+__author__ = ("Trupti A Shetty, Ajith Andrew J, Mohamed Rafeek, Madhan Sankaranarayanan")
 
 
 DOCUMENTATION = r"""
@@ -42,6 +42,7 @@ extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
 author:
   - Trupti A Shetty (@TruptiAShetty)
+  - Ajith Andrew J (@ajithandrewj)
   - A Mohamed Rafeek (@mohamedrafeek)
   - Madhan Sankaranarayanan (@madhansansel)
 
@@ -311,6 +312,7 @@ class DeviceReplacement(DnacBase):
         self.supported_states = ["merged", "deleted", "replaced"]
         self.payload = module.params
         self.keymap = {}
+        self.faulty_device, self.replacement_device = [], []
 
     def pprint(self, jsondata):
         return json.dumps(jsondata, indent=4, separators=(',', ': '))
@@ -466,7 +468,7 @@ class DeviceReplacement(DnacBase):
                 valid_identifier_found = True
 
                 # Check if faulty device exists
-                faulty_device_id, faulty_device_serial_number = self.device_exists(faulty_identifier, faulty_key)
+                faulty_device_id, faulty_device_serial_number, faulty_device_name = self.device_exists(faulty_identifier, faulty_key)
                 if faulty_device_id is None or faulty_device_serial_number is None:
                     self.msg = "Faulty device '{0}' not found in Cisco Catalyst Center".format(faulty_identifier)
                     self.log(self.msg, "ERROR")
@@ -475,12 +477,13 @@ class DeviceReplacement(DnacBase):
 
                 have["faulty_device_id"] = faulty_device_id
                 have["faulty_device_serial_number"] = faulty_device_serial_number
+                have["faulty_device_name"] = faulty_device_name
                 have[faulty_key] = faulty_identifier
                 have["faulty_device_exists"] = True
                 self.log("Faulty device '{0}' found in Cisco Catalyst Center".format(faulty_identifier), "INFO")
 
                 # Check if replacement device exists
-                replacement_device_id, replacement_device_serial_number = self.device_exists(replacement_identifier, replacement_key)
+                replacement_device_id, replacement_device_serial_number, replacement_device_name = self.device_exists(replacement_identifier, replacement_key)
                 if replacement_device_id is None or replacement_device_serial_number is None:
                     self.msg = "Replacement device '{0}' not found in Cisco Catalyst Center".format(replacement_identifier)
                     self.log(self.msg, "ERROR")
@@ -489,6 +492,7 @@ class DeviceReplacement(DnacBase):
 
                 have["replacement_device_id"] = replacement_device_id
                 have["replacement_device_serial_number"] = replacement_device_serial_number
+                have["replacement_device_name"] = replacement_device_name
                 have[replacement_key] = replacement_identifier
                 have["replacement_device_exists"] = True
                 self.log("Replacement device '{0}' found in Cisco Catalyst Center".format(replacement_identifier), "INFO")
@@ -563,8 +567,9 @@ class DeviceReplacement(DnacBase):
                     device = response['response'][0]
                     device_id = device.get('id')
                     serial_number = device.get('serialNumber')
-                    if device_id and serial_number:
-                        return device_id, serial_number
+                    device_name = device.get('hostname')
+                    if device_id and serial_number and device_name:
+                        return device_id, serial_number, device_name
                     self.log("Device found but ID or serial number missing", "ERROR")
                 else:
                     self.log("Device not found in Cisco Catalyst Center", "ERROR")
@@ -626,6 +631,23 @@ class DeviceReplacement(DnacBase):
         self.status = "success"
         return self
 
+    def device_ready_for_replacement_check(self):
+        """
+        
+        """
+        response = self.dnac._exec(
+            family="device_replacement",
+            function='return_replacement_devices_with_details'
+        )
+        devices = response.get("response", [])
+
+        for device in devices:
+          if device.get("faultyDeviceSerialNumber") == self.have.get("faulty_device_serial_number"):
+            if device.get("replacementStatus") == "READY-FOR-REPLACEMENT":
+                self.log("The device '{0}' is already in the 'MARKED-FOR-REPLACEMENT' state.".format(device.get("faultyDeviceName")), "DEBUG")
+                return True
+        return False
+
     def mark_faulty_device_for_replacement(self):
         """
         Mark the faulty device for replacement in Cisco Catalyst Center.
@@ -643,36 +665,37 @@ class DeviceReplacement(DnacBase):
             - Updates the status, msg, and result attributes based on the task result.
             - Handles any exceptions that occur during the process.
         """
-
-        import_params = dict(
-            payload=[{
-                "faultyDeviceId": self.have.get("faulty_device_id"),
-                "replacementStatus": "MARKED-FOR-REPLACEMENT"
-            }],
-        )
-
-        try:
-            response = self.dnac._exec(
-                family="device_replacement",
-                function='mark_device_for_replacement',
-                params=import_params
+        is_ready_for_replacement = self.device_ready_for_replacement_check()
+        if not is_ready_for_replacement:
+            import_params = dict(
+                payload=[{
+                    "faultyDeviceId": self.have.get("faulty_device_id"),
+                    "replacementStatus": "MARKED-FOR-REPLACEMENT"
+                }],
             )
-            self.log("Received API response from 'mark_device_for_replacement': {0}".format(str(response)), "DEBUG")
-            task_id = response.get("response", {}).get("taskId")
-            task_result = self.check_rma_task_status(
-                task_id,
-                "Device marked for replacement successfully",
-                "Error while marking device for replacement"
-            )
-            self.status = task_result["status"]
-            self.msg = task_result["msg"]
-            if self.status == "success":
-                self.result['changed'] = True
 
-        except Exception as e:
-            self.status = "failed"
-            self.msg = "Exception occurred while marking device for replacement: {0}".format(str(e))
-            self.log(self.msg, "ERROR")
+            try:
+                response = self.dnac._exec(
+                    family="device_replacement",
+                    function='mark_device_for_replacement',
+                    params=import_params
+                )
+                self.log("Received API response from 'mark_device_for_replacement': {0}".format(str(response)), "DEBUG")
+                task_id = response.get("response", {}).get("taskId")
+                task_result = self.check_rma_task_status(
+                    task_id,
+                    "Device marked for replacement successfully",
+                    "Error while marking device for replacement"
+                )
+                self.status = task_result["status"]
+                self.msg = task_result["msg"]
+                if self.status == "success":
+                    self.result['changed'] = True
+
+            except Exception as e:
+                self.status = "failed"
+                self.msg = "Exception occurred while marking device for replacement: {0}".format(str(e))
+                self.log(self.msg, "ERROR")
 
         return self
 
@@ -752,6 +775,8 @@ class DeviceReplacement(DnacBase):
                 self.result['msg'] = self.msg
                 return self
 
+            self.faulty_device.append(self.have.get("faulty_device_name"))
+            self.replacement_device.append(self.have.get("replacement_device_name"))
             self.result['changed'] = True
             self.result['msg'] = self.msg
 
@@ -946,6 +971,31 @@ class DeviceReplacement(DnacBase):
             time.sleep(ccc_poll_interval)
             timeout_interval -= ccc_poll_interval
 
+    def update_rma_profile_messages(self):
+        """
+        
+        """
+        self.result["changed"] = False
+        result_msg_list = []
+
+        if self.faulty_device and self.replacement_device:
+            device_replacement_msg = (
+                "Device replacement was successfully completed for the faulty device(s) '{0}',"
+                " with the replacement device(s) '{1}'.".format("', '".join(self.faulty_device), "', '".join(self.replacement_device))
+            )
+            result_msg_list.append(device_replacement_msg)
+
+        if result_msg_list:
+            self.result["changed"] = True
+            self.msg = " ".join(result_msg_list)
+        else:
+            self.msg = "No changes were made. No RMA device replacement were performed in Cisco Catalyst Center."
+
+        self.log(self.msg, "INFO")
+        self.result["response"] = self.msg
+
+        return self
+
     def verify_diff_replaced(self, config):
         """
         Verify the device replacement status in Cisco Catalyst Center.
@@ -1039,6 +1089,8 @@ def main():
         ccc_device_replacement.get_diff_state_apply[state](config).check_return_status()
         if config_verify:
             ccc_device_replacement.verify_diff_state_apply[state](config).check_return_status()
+
+    ccc_device_replacement.update_rma_profile_messages().check_return_status()
 
     module.exit_json(**ccc_device_replacement.result)
 
