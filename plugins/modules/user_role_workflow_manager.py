@@ -575,6 +575,7 @@ EXAMPLES = r"""
               virtual_network: "read"
           network_provision:
             - compliance: "deny"
+              eox: "read"
               image_update: "write"
               inventory_management:
                 - device_configuration: "write"
@@ -607,6 +608,7 @@ EXAMPLES = r"""
             - audit_log: "read"
               event_viewer: "deny"
               network_reasoner: "write"
+              remote_device_support: "read"
               scheduler: "read"
               search: "write"
 
@@ -863,6 +865,9 @@ class UserandRole(DnacBase):
         self.supported_states = ["merged", "deleted"]
         self.payload = module.params
         self.keymap = {}
+        self.created_user, self.updated_user, self.no_update_user = [], [], []
+        self.created_role, self.updated_role, self.no_update_role = [], [], []
+        self.deleted_user, self.deleted_role = [], []
 
     def validate_input_yml(self, user_role_details):
         """
@@ -884,6 +889,7 @@ class UserandRole(DnacBase):
           - If the validation succeeds, this will allow to go next step, unless this will stop execution based on the fields.
         """
         self.log("Validating the Playbook Yaml File..", "INFO")
+        config = self.payload.get("config")
 
         if user_role_details is None or not isinstance(user_role_details, list):
             self.msg = "Configuration is not available in the playbook for validation or user/role details are not type list"
@@ -891,7 +897,7 @@ class UserandRole(DnacBase):
             self.status = "failed"
             return self
 
-        if "role_name" in user_role_details[0] and user_role_details[0].get("role_name") is not None:
+        if "role_details" in config and "role_name" in user_role_details[0] and user_role_details[0].get("role_name") is not None:
             role_details = {
                 "role_name": {"required": True, "type": "str"},
                 "description": {"required": False, "type": "str"},
@@ -919,7 +925,7 @@ class UserandRole(DnacBase):
             self.status = "success"
             return self
 
-        if "username" in user_role_details[0] or "email" in user_role_details[0]:
+        if "user_details" in config and "username" in user_role_details[0] or "email" in user_role_details[0]:
             if user_role_details[0].get("username") is not None or user_role_details[0].get("email") is not None:
                 user_details = {
                     "first_name": {"required": False, "type": "str"},
@@ -943,7 +949,11 @@ class UserandRole(DnacBase):
                 self.status = "success"
                 return self
 
-        self.msg = "Configuration params like 'username' or 'email' or 'role_name' is not available in the playbook"
+        self.msg = (
+            "'Configuration parameters such as 'username', 'email', or 'role_name' are missing from the playbook' or "
+            "'The 'user_details' key is invalid for role creation, updation, or deletion' or "
+            "'The 'role_details' key is invalid for user creation, updation, or deletion'"
+        )
         self.log(self.msg, "ERROR")
         self.status = "failed"
         return self
@@ -1024,6 +1034,48 @@ class UserandRole(DnacBase):
                                              "DEBUG")
                                     self.validate_string_parameter(param, inventory_management[param], error_messages)
 
+    def identify_invalid_params(self, params, mismatches):
+        """
+        Identify and collect invalid parameters from a dictionary or list based on allowed parameters.
+        Args:
+            - params (dict | list): The dictionary or list of parameters to be checked. Nested dictionaries or lists are supported.
+            - mismatches (list): A list where invalid parameter names are appended. This list is used to collect all
+              parameters that are not in 'allowed_params'.
+        Returns:
+            - mismatches (list): This function returns the 'mismatches' list containing the names of any parameters that are not in the 'allowed_params' set.
+        Criteria:
+            - Parameters in 'params' must be checked recursively if they are dictionaries or lists.
+            - Only parameters that are not in the 'allowed_params' set are appended to the 'mismatches' list.
+        """
+        allowed_params = [
+            "monitoring_and_troubleshooting", "monitoring_settings", "troubleshooting_tools", "data_access", "advanced_network_settings",
+            "image_repository", "network_hierarchy", "network_profiles", "network_settings", "virtual_network", "compliance",
+            "eox", "image_update", "inventory_management", "license", "network_telemetry", "pnp", "provision", "device_configuration",
+            "discovery", "network_device", "port_management", "topology", "app_hosting", "bonjour", "stealthwatch", "umbrella",
+            "apis", "bundles", "events", "reports", "group_based_policy", "ip_based_access_control", "security_advisories",
+            "machine_reasoning", "system_management", "audit_log", "event_viewer", "network_reasoner", "remote_device_support",
+            "scheduler", "search", 'role_name', 'description', 'assurance', 'network_analytics', 'network_design', 'network_provision',
+            'network_services', 'platform', 'security', 'system', 'utilities', 'overall'
+        ]
+        self.log("Starting to iterate through params to identify unknown parameters.", "DEBUG")
+
+        if isinstance(params, dict):
+            for key, value in params.items():
+                if key not in allowed_params:
+                    self.log("Invalid parameter detected: {0}".format(key), "ERROR")
+                    mismatches.append(key)
+
+                if isinstance(value, dict) or isinstance(value, list):
+                    self.identify_invalid_params(value, mismatches)
+        elif isinstance(params, list):
+            for item in params:
+                self.identify_invalid_params(item, mismatches)
+
+        if not mismatches:
+            self.log("No invalid parameters found.", "INFO")
+
+        return mismatches
+
     def valid_role_config_parameters(self, role_config):
         """
         Additional validation for the create role configuration payload.
@@ -1040,16 +1092,33 @@ class UserandRole(DnacBase):
             - If it fails, "self.status" will be "failed", and "self.msg" will describe the validation issues.
         """
         self.log("Validating role configuration parameters...", "INFO")
+
+        invalid_params = []
+        self.identify_invalid_params(role_config, invalid_params)
+
+        if invalid_params:
+            self.msg = "Invalid parameters in playbook config: Mismatched parameter(s) '{0}' in role '{1}'".format(
+                "', '".join(invalid_params), role_config.get("role_name"))
+            self.log(self.msg, "ERROR")
+            self.status = "failed"
+            return self
+
         error_messages = []
-
         role_name = role_config.get("role_name")
-        role_name_regex = re.compile(r"^[a-zA-Z0-9._-]{,25}$")
+        role_name_regex = re.compile(r"^[a-zA-Z0-9._-]{1,25}$")
         role_name_regex_msg = "Role names must be 1 to 25 characters long and should contain only letters, numbers, periods, underscores, and hyphens."
-        self.validate_string_field(role_name, role_name_regex,
-                                   "role_name: '{0}' {1}".format(role_name, role_name_regex_msg), error_messages)
 
-        if role_config.get("description"):
-            self.validate_string_parameter("description", role_config["description"], error_messages)
+        if role_name:
+            self.validate_string_field(role_name, role_name_regex, "role_name: '{0}' {1}".format(role_name, role_name_regex_msg), error_messages)
+        else:
+            error_messages.append(role_name_regex_msg)
+
+        description = role_config["description"]
+        if description:
+            if len(description) > 1000:
+                error_messages.append("Role description exceeds the maximum length of 1000 characters.")
+            else:
+                self.validate_string_parameter("description", description, error_messages)
 
         role_param_map = {
             "assurance": ["overall", "monitoring_and_troubleshooting", "monitoring_settings", "troubleshooting_tools"],
@@ -1106,11 +1175,6 @@ class UserandRole(DnacBase):
         last_name = user_config.get("last_name")
         self.validate_string_field(last_name, name_regex,
                                    "last_name: Last name '{0}' {1}".format(last_name, name_regex_msg), error_messages)
-
-        email_regex = re.compile(r"^[A-Za-z0-9!#$%^&*'?{}|./_+=-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}(?:\.[a-zA-Z]{2,3})*$")
-        email = user_config.get("email")
-        email_regex_msg = "email: Invalid email format for 'email': {0}".format(email)
-        self.validate_string_field(email, email_regex, email_regex_msg, error_messages)
 
         password = user_config.get("password")
 
@@ -1242,6 +1306,7 @@ class UserandRole(DnacBase):
 
                     if not consolidated_data:
                         self.msg = "Role with role_name '{0}' already exists and does not require an update.".format(self.have.get("role_name"))
+                        self.no_update_role.append(self.have.get("role_name"))
                         self.log(self.msg, "INFO")
                         responses["role_operation"] = {"response": config}
                         self.result["response"] = self.msg
@@ -1277,6 +1342,7 @@ class UserandRole(DnacBase):
 
                 if not consolidated_data:
                     self.msg = "User with username '{0}' already exists and does not require an update.".format(self.have.get("username"))
+                    self.no_update_user.append(self.have.get("username"))
                     self.log(self.msg, "INFO")
                     responses["role_operation"] = {"response": config}
                     self.result["response"] = self.msg
@@ -1284,12 +1350,14 @@ class UserandRole(DnacBase):
                     return self
 
                 if update_required_param.get("role_list"):
-                    user_in_have = self.have["current_user_config"]
-                    update_param = update_required_param
-                    update_param["username"] = user_in_have.get("username")
-                    update_param["user_id"] = user_in_have.get("user_id")
-                    user_info_params = self.snake_to_camel_case(update_param)
-                    task_response = self.update_user(user_info_params)
+                    if self.want["username"] not in self.have["current_user_config"]["username"]:
+                        task_response = {"error_message": "Username for an existing user cannot be updated."}
+                    else:
+                        user_in_have = self.have["current_user_config"]
+                        update_param = update_required_param
+                        update_param["user_id"] = user_in_have.get("user_id")
+                        user_info_params = self.snake_to_camel_case(update_param)
+                        task_response = self.update_user(user_info_params)
                 else:
                     task_response = {"error_message": "The role name in the user details role_list is not present in the Cisco Catalyst Center,"
                                      " Please provide a valid role name"}
@@ -1457,12 +1525,19 @@ class UserandRole(DnacBase):
                 params=user_params,
             )
             self.log("Received API response from create_user: {0}".format(str(response)), "DEBUG")
+            self.created_user.append(user_params.get("username"))
             return response
 
         except Exception as e:
             self.log("Unexpected error occurred: {0}".format(str(e)), "ERROR")
-            error_message = "The Catalyst Center user '{0}' does not have the necessary permissions to 'create or update' a user through the API.".format(
-                self.payload.get("dnac_username"))
+            if "[403]" in str(e):
+                error_message = (
+                    "The Catalyst Center user '{0}' does not have the necessary permissions to 'create or update' a user through the API.".format(
+                        self.payload.get("dnac_username"))
+                )
+            else:
+                error_message = "Invalid email format for email '{0}' under username '{1}'".format(user_params.get("email"), user_params.get("username"))
+
             return {"error_message": error_message}
 
     def create_role(self, role_params):
@@ -1488,6 +1563,7 @@ class UserandRole(DnacBase):
                 params=role_params,
             )
             self.log("Received API response from create_role: {0}".format(str(response)), "DEBUG")
+            self.created_role.append(role_params.get("role"))
             return response
 
         except Exception as e:
@@ -1583,7 +1659,8 @@ class UserandRole(DnacBase):
                 permission = permission.lower()
 
                 if permission not in ["read", "write", "deny"]:
-                    error_message = "Invalid permission {0} for assurance resource {1}".format(permission, resource_name)
+                    error_message = "Invalid permission '{0}' for assurance resource '{1}' under the role '{2}'".format(
+                        permission, resource_name, self.have.get("role_name"))
                     self.log(error_message, "DEBUG")
                     return {"error_message": error_message}
 
@@ -1647,7 +1724,8 @@ class UserandRole(DnacBase):
                 permission = permission.lower()
 
                 if permission not in ["read", "write", "deny"]:
-                    error_message = "Invalid permission {0} for network analytics resource {1}".format(permission, resource_name)
+                    error_message = "Invalid permission '{0}' for network analytics resource '{1}' under the role '{2}'".format(
+                        permission, resource_name, self.have.get("role_name"))
                     self.log(error_message, "DEBUG")
                     return {"error_message": error_message}
 
@@ -1708,7 +1786,8 @@ class UserandRole(DnacBase):
                 permission = permission.lower()
 
                 if permission not in ["read", "write", "deny"]:
-                    error_message = "Invalid permission {0} for network design resource {1}".format(permission, resource_name)
+                    error_message = "Invalid permission '{0}' for network design resource '{1}' under the role '{2}'".format(
+                        permission, resource_name, self.have.get("role_name"))
                     self.log(error_message, "DEBUG")
                     return {"error_message": error_message}
 
@@ -1783,7 +1862,8 @@ class UserandRole(DnacBase):
                         sub_permission = sub_permission.lower()
 
                         if sub_permission not in ["read", "write", "deny"]:
-                            error_message = "Invalid permission {0} for network provision for sub-resource {1}".format(sub_permission, sub_resource_name)
+                            error_message = "Invalid permission '{0}' for network provision for sub-resource '{1}' under the role '{2}'".format(
+                                sub_permission, sub_resource_name, self.have.get("role_name"))
                             self.log(error_message, "DEBUG")
                             return {"error_message": error_message}
 
@@ -1819,7 +1899,8 @@ class UserandRole(DnacBase):
                     permission = permission.lower()
 
                     if permission not in ["read", "write", "deny"]:
-                        error_message = "Invalid permission {0} for network provision resource {1}".format(permission, resource_name)
+                        error_message = "Invalid permission '{0}' for network provision resource '{1}' under the role '{2}'".format(
+                            permission, resource_name, self.have.get("role_name"))
                         self.log(error_message, "DEBUG")
                         return {"error_message": error_message}
 
@@ -1892,7 +1973,8 @@ class UserandRole(DnacBase):
                 permission = permission.lower()
 
                 if permission not in ["read", "write", "deny"]:
-                    error_message = "Invalid permission {0} for network services resource {1}".format(permission, resource_name)
+                    error_message = "Invalid permission '{0}' for network services resource '{1}' under the role '{2}'".format(
+                        permission, resource_name, self.have.get("role_name"))
                     self.log(error_message, "DEBUG")
                     return {"error_message": error_message}
 
@@ -1937,7 +2019,8 @@ class UserandRole(DnacBase):
                 permission = permission.lower()
 
                 if permission not in ["read", "write", "deny"]:
-                    error_message = "Invalid permission {0} for platform resource {1}".format(permission, resource_name)
+                    error_message = "Invalid permission '{0}' for platform resource '{1}' under the role '{2}'".format(
+                        permission, resource_name, self.have.get("role_name"))
                     self.log(error_message, "DEBUG")
                     return {"error_message": error_message}
 
@@ -2008,7 +2091,8 @@ class UserandRole(DnacBase):
                 permission = permission.lower()
 
                 if permission not in ["read", "write", "deny"]:
-                    error_message = "Invalid permission {0} for security resource {1}".format(permission, resource_name)
+                    error_message = "Invalid permission '{0}' for security resource '{1}' under the role '{2}'".format(
+                        permission, resource_name, self.have.get("role_name"))
                     self.log(error_message, "DEBUG")
                     return {"error_message": error_message}
 
@@ -2079,7 +2163,8 @@ class UserandRole(DnacBase):
                 permission = permission.lower()
 
                 if permission not in ["read", "write", "deny"]:
-                    error_message = "Invalid permission {0} for system resource {1}".format(permission, resource_name)
+                    error_message = "Invalid permission '{0}' for system resource '{1}' under the role '{2}'".format(
+                        permission, resource_name, self.have.get("role_name"))
                     self.log(error_message, "DEBUG")
                     return {"error_message": error_message}
 
@@ -2142,7 +2227,8 @@ class UserandRole(DnacBase):
                 permission = permission.lower()
 
                 if permission not in ["read", "write", "deny"]:
-                    error_message = "Invalid permission {0} for utilities resource {1}".format(permission, resource_name)
+                    error_message = "Invalid permission '{0}' for utilities resource '{1}' under the role '{2}'".format(
+                        permission, resource_name, self.have.get("role_name"))
                     self.log(error_message, "DEBUG")
                     return {"error_message": error_message}
 
@@ -2370,6 +2456,19 @@ class UserandRole(DnacBase):
         else:
             update_user_params["last_name"] = current_last_name
 
+        # Compare and update username
+        desired_username = self.want.get("username")
+        current_username = current_user.get("username")
+        if desired_username is not None:
+            if current_username != desired_username:
+                self.log("Username for an existing User cannot be updated from {0} to {1}.".format(current_username, desired_username), "DEBUG")
+                update_user_params["username"] = desired_username
+                update_needed = True
+            elif "username" not in update_user_params:
+                update_user_params["username"] = current_username
+        else:
+            update_user_params["username"] = current_username
+
         # Compare and update email
         desired_email = self.want.get("email")
         current_email = current_user.get("email")
@@ -2419,15 +2518,22 @@ class UserandRole(DnacBase):
             - This method sends a request to update a user in Cisco Catalyst Center using the provided
             - user parameters. It logs the response and returns it.
         """
-        self.log("Updating user with parameters: {0}".format(user_params), "DEBUG")
-        response = self.dnac._exec(
-            family="user_and_roles",
-            function="update_user_api",
-            op_modifies=True,
-            params=user_params,
-        )
-        self.log("Received API response from update_user: {0}".format(str(response)), "DEBUG")
-        return response
+        try:
+            self.log("Updating user with parameters: {0}".format(user_params), "DEBUG")
+            response = self.dnac._exec(
+                family="user_and_roles",
+                function="update_user_api",
+                op_modifies=True,
+                params=user_params,
+            )
+            self.log("Received API response from update_user: {0}".format(str(response)), "DEBUG")
+            self.updated_user.append(user_params.get("username"))
+            return response
+
+        except Exception as e:
+            self.log("Unexpected error occurred: {0}".format(str(e)), "ERROR")
+            error_message = "Invalid email format for email '{0}' under username '{1}'".format(user_params.get("email"), user_params.get("username"))
+            return {"error_message": error_message}
 
     def update_role(self, role_params):
         """
@@ -2453,6 +2559,7 @@ class UserandRole(DnacBase):
                 params=role_params,
             )
             self.log("Received API response from update_role: {0}".format(str(response)), "DEBUG")
+            self.updated_role.append(self.have.get("role_name"))
             return response
 
         except Exception as e:
@@ -2820,6 +2927,7 @@ class UserandRole(DnacBase):
             params=user_params,
         )
         self.log("Received API response from delete_user: {0}".format(str(response)), "DEBUG")
+        self.deleted_user.append(self.have.get("username"))
         return response
 
     def delete_role(self, role_params):
@@ -2844,17 +2952,21 @@ class UserandRole(DnacBase):
                 params=role_params,
             )
             self.log("Received API response from delete_role: {0}".format(str(response)), "DEBUG")
+            self.deleted_role.append(self.have.get("role_name"))
+            return response
+
         except Exception as e:
             self.log("Unexpected error occurred: {0}".format(str(e)), "ERROR")
-            error_message = (
-                "The Catalyst Center user '{0}' does not have the necessary permissions to delete the role through the API, or "
-                "an error occurred while deleting the role. Check whether user(s) are assigned to the role '{1}'.".format(
-                    self.payload.get("dnac_username"), self.have.get("role_name"))
-            )
+            if "[403]" in str(e):
+                error_message = (
+                    "The Catalyst Center user '{0}' does not have the necessary permissions to delete the role through the API.".format(
+                        self.payload.get("dnac_username"))
+                )
+            else:
+                error_message = "An error occurred while deleting the role. Check whether user(s) are assigned to the role '{0}'.".format(
+                    self.have.get("role_name"))
 
             return {"error_message": error_message}
-
-        return response
 
     def verify_diff_merged(self, config):
         """
@@ -2975,6 +3087,66 @@ class UserandRole(DnacBase):
 
         return self
 
+    def update_user_role_profile_messages(self):
+        """
+        Updates and logs messages based on the status of users and roles.
+        Args:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+        Returns:
+            self (object): Returns the current instance of the class with updated `result` and `msg` attributes.
+        Description:
+            This method aggregates status messages related to the creation, update, or deletion of users and roles.
+            It checks various instance variables (`create_user`, `update_user`, `no_update_user`, `delete_user`,
+            `create_role`, `update_role`, `no_update_role`, `delete_role`) to determine the status and generates
+            corresponding messages. The method also updates the `result["response"]` attribute with the concatenated status messages.
+        """
+
+        self.result["changed"] = False
+        result_msg_list = []
+
+        if self.created_user:
+            create_user_msg = "User(s) '{0}' created successfully in Cisco Catalyst Center.".format("', '".join(self.created_user))
+            result_msg_list.append(create_user_msg)
+
+        if self.updated_user:
+            update_user_msg = "User(s) '{0}' updated successfully in Cisco Catalyst Center.".format("', '".join(self.updated_user))
+            result_msg_list.append(update_user_msg)
+
+        if self.no_update_user:
+            no_update_user_msg = "User(s) '{0}' need no update in Cisco Catalyst Center.".format("', '".join(self.no_update_user))
+            result_msg_list.append(no_update_user_msg)
+
+        if self.deleted_user:
+            delete_user_msg = "User(s) '{0}' deleted successfully from the Cisco Catalyst Center.".format("', '".join(self.deleted_user))
+            result_msg_list.append(delete_user_msg)
+
+        if self.created_role:
+            create_role_msg = "Role(s) '{0}' created successfully in Cisco Catalyst Center.".format("', '".join(self.created_role))
+            result_msg_list.append(create_role_msg)
+
+        if self.updated_role:
+            update_role_msg = "Role(s) '{0}' updated successfully in Cisco Catalyst Center.".format("', '".join(self.updated_role))
+            result_msg_list.append(update_role_msg)
+
+        if self.no_update_role:
+            no_update_role_msg = "Role(s) '{0}' need no update in Cisco Catalyst Center.".format("', '".join(self.no_update_role))
+            result_msg_list.append(no_update_role_msg)
+
+        if self.deleted_role:
+            delete_role_msg = "Role(s) '{0}' deleted successfully from the Cisco Catalyst Center.".format("', '".join(self.deleted_role))
+            result_msg_list.append(delete_role_msg)
+
+        if result_msg_list:
+            self.result["changed"] = True
+            self.msg = " ".join(result_msg_list)
+        else:
+            self.msg = "No changes were made. No user or role actions were performed in Cisco Catalyst Center."
+
+        self.log(self.msg, "INFO")
+        self.result["response"] = self.msg
+
+        return self
+
     def snake_to_camel_case(self, data):
         """
         Convert keys from snake_case to camelCase in a given dictionary or list of dictionaries recursively.
@@ -3070,6 +3242,8 @@ def main():
 
             if config_verify:
                 ccc_user_role.verify_diff_state_apply[state](config).check_return_status()
+
+    ccc_user_role.update_user_role_profile_messages().check_return_status()
 
     module.exit_json(**ccc_user_role.result)
 

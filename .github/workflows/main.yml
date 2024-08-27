@@ -22,4 +22,4 @@ jobs:
           merge-method: rebase
           do-not-merge-labels: never-merge
 #          pull-request: ${{ github.event.inputs.pull-request }}
-          dry-run: true
+          dry-run: false
