@@ -275,6 +275,15 @@ jobs:
     resource_class: madhansansel/dnacenter-ansible 
     parallelism: 4
     steps:
+      - when:
+          condition: 
+            not: << pipeline.parameters.run-any >>
+          steps:
+            - run: 
+                name: Finish sanity tests as there is nothing to execute
+                command: |
+                  circleci-agent step halt
+
       - run:
           name: Debug information
           command: |
@@ -326,7 +335,16 @@ jobs:
             export ANSIBLE_ROLES_PATH=$PWD/tests/integration
             cat ccc_roles.yml
             echo $(circleci tests glob "tests/integration/*")
-            cat ccc_roles.yml | circleci tests run --command "xargs ./run_tests.sh" --split-by=timings --timings-type=name
+            echo -n 0 > rc
+            cat ccc_roles.yml | circleci tests run --command "xargs ./run_tests.sh" --split-by=timings --timings-type=name || echo -n $? > rc
+            echo ${LOGS_SSH_KEY} | base64 -d > ~/id_ssh
+            chmod 600 ~/id_ssh
+            export NO_PROXY=""
+            export no_proxy=""
+            ssh $LOGS_MACHINE -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ~/id_ssh mkdir -p /var/www/html/madhan-logs/$CIRCLE_BUILD_NUM
+            scp -i ~/id_ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null sanity_tests_logs_$CIRCLE_NODE_INDEX $LOGS_MACHINE:/var/www/html/madhan-logs/$CIRCLE_BUILD_NUM
+            echo "LOGS URL: http://10.195.243.37/madhan-logs/$CIRCLE_BUILD_NUM/sanity_tests_logs_$CIRCLE_NODE_INDEX"
+            if [[ $(cat rc) != "0" ]]; then exit 1; fi
 
           no_output_timeout: 120m
 
@@ -440,7 +458,10 @@ workflows:
             tests/integration/ccc_network_compliance_management/.* run-networkcompliance true
 
   testing:
-    when: << pipeline.parameters.run-any >>
+    when:
+      or:
+        - equal: [ true, << pipeline.parameters.run-any >> ]
+        - equal: [ true, << pipeline.parameters.continued >> ]
     jobs:
       - addrole    
       - sanity-tests:
@@ -448,6 +469,7 @@ workflows:
             - addrole
           context:
             - dnac-servers
+            - logs-vm
       # - post_pnp_testing:
       #     requires:
       #       - sanity-tests
