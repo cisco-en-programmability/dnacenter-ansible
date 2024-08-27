@@ -41,7 +41,7 @@ seealso:
   link: https://developer.cisco.com/docs/dna-center/#!retrieve-aaa-settings-for-a-site
 notes:
   - SDK Method used are
-    network_settings.NetworkSettings.retrieve_a_a_a_settings_for_a_site,
+    network_settings.NetworkSettings.retrieve_aaa_settings_for_a_site,
 
   - Paths used are
     get /dna/intent/api/v1/sites/{id}/aaaSettings,

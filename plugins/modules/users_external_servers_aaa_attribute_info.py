@@ -28,7 +28,7 @@ seealso:
   link: https://developer.cisco.com/docs/dna-center/#!get-aaa-attribute-api
 notes:
   - SDK Method used are
-    userand_roles.UserandRoles.get_a_a_a_attribute_api,
+    user_and_roles.UserandRoles.get_aaa_attribute_api,
 
   - Paths used are
     get /dna/system/api/v1/users/external-servers/aaa-attribute,
