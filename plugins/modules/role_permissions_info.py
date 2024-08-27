@@ -28,7 +28,7 @@ seealso:
   link: https://developer.cisco.com/docs/dna-center/#!get-permissions-api
 notes:
   - SDK Method used are
-    userand_roles.UserandRoles.get_permissions_api,
+    user_and_roles.UserandRoles.get_permissions_api,
 
   - Paths used are
     get /dna/system/api/v1/role/permissions,

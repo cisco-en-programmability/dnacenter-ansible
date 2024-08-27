@@ -114,7 +114,7 @@ class UsersExternalAuthentication(object):
 
     def create(self):
         result = self.dnac.exec(
-            family="userand_roles",
+            family="user_and_roles",
             function="manage_external_authentication_setting_api",
             params=self.create_params(),
             op_modifies=True,

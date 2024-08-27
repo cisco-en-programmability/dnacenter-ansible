@@ -74,7 +74,7 @@ seealso:
   link: https://developer.cisco.com/docs/dna-center/#!set-aaa-settings-for-a-site
 notes:
   - SDK Method used are
-    network_settings.NetworkSettings.set_a_a_a_settings_for_a_site,
+    network_settings.NetworkSettings.set_aaa_settings_for_a_site,
 
   - Paths used are
     put /dna/intent/api/v1/sites/{id}/aaaSettings,

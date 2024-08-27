@@ -83,7 +83,7 @@ class ActionModule(ActionBase):
 
         response = dnac.exec(
             family="network_settings",
-            function='retrieve_a_a_a_settings_for_a_site',
+            function='retrieve_aaa_settings_for_a_site',
             params=self.get_object(self._task.args),
         )
         self._result.update(dict(dnac_response=response))
