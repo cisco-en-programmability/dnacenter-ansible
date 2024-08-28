@@ -21,4 +21,4 @@ do
     echo "    - $role" >> ccc_test_roles.yml
 done
 
-ansible-playbook -i hosts ccc_test_roles.yml
+ansible-playbook -i hosts ccc_test_roles.yml > "sanity_tests_logs_$CIRCLE_NODE_INDEX"
