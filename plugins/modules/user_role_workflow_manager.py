@@ -848,6 +848,13 @@ response_11:
     }
 """
 
+try:
+    from cryptography.fernet import Fernet
+    HAS_FERNET = True
+except ImportError:
+    HAS_FERNET = False
+    Fernet = None
+
 import re
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
@@ -868,6 +875,7 @@ class UserandRole(DnacBase):
         self.created_user, self.updated_user, self.no_update_user = [], [], []
         self.created_role, self.updated_role, self.no_update_role = [], [], []
         self.deleted_user, self.deleted_role = [], []
+        self.key = self.generate_key()
 
     def validate_input_yml(self, user_role_details):
         """
@@ -926,6 +934,10 @@ class UserandRole(DnacBase):
             return self
 
         if "user_details" in config and "username" in user_role_details[0] or "email" in user_role_details[0]:
+            for user in user_role_details:
+                if 'password' in user:
+                    user['password'] = self.encrypt_password(user['password'], self.key)
+
             if user_role_details[0].get("username") is not None or user_role_details[0].get("email") is not None:
                 user_details = {
                     "first_name": {"required": False, "type": "str"},
@@ -972,6 +984,56 @@ class UserandRole(DnacBase):
         """
         if field_value and not regex.match(field_value):
             error_messages.append(error_message)
+
+    def generate_key(self):
+        """
+        Generate a new encryption key using Fernet.
+        Returns:
+            - key (bytes): A newly generated encryption key.
+        Criteria:
+            - This function should only be called if HAS_FERNET is True.
+        """
+        if HAS_FERNET:
+            return Fernet.generate_key()
+        else:
+            self.msg = "'pip install cryptography' library is not installed."
+            self.log(self.msg, "ERROR")
+            self.status = "failed"
+            return self
+
+    def encrypt_password(self, password, key):
+        """
+        Encrypt a plaintext password using the provided encryption key.
+        Args:
+            - password (str): The plaintext password to be encrypted.
+            - key (bytes): The encryption key used to encrypt the password.
+        Returns:
+            - encrypted_password (bytes): The encrypted password as bytes.
+        Criteria:
+            - This function should only be called if HAS_FERNET is True.
+            - The password should be encoded to bytes before encryption.
+        """
+        if HAS_FERNET:
+            fernet = Fernet(key)
+            encrypted_password = fernet.encrypt(password.encode())
+            return encrypted_password
+
+    def decrypt_password(self, encrypted_password, key):
+        """
+        Decrypt an encrypted password using the provided encryption key.
+        Args:
+            - encrypted_password (bytes): The encrypted password as bytes to be decrypted.
+            - key (bytes): The encryption key used to decrypt the password.
+        Returns:
+            - decrypted_password (str): The decrypted plaintext password.
+        Criteria:
+            - This function should only be called if HAS_FERNET is True.
+            - The encrypted password should be decoded from bytes after decryption.
+        """
+        if HAS_FERNET:
+            fernet = Fernet(key)
+            decrypted_password = fernet.decrypt(encrypted_password.encode()).decode()
+            return decrypted_password
 
     def validate_password(self, password, error_messages):
         """
@@ -1179,7 +1241,10 @@ class UserandRole(DnacBase):
         password = user_config.get("password")
 
         if password:
-            self.validate_password(password, error_messages)
+            user_config['password'] = self.decrypt_password(password, self.key)
+            plain_password = user_config.get("password")
+            self.validate_password(plain_password, error_messages)
+            user_config['password'] = self.encrypt_password(plain_password, self.key).decode()
 
         username_regex = re.compile(r"^[A-Za-z0-9@._-]{3,50}$")
         username_regex_msg = "The username must not contain any special characters and must be 3 to 50 characters long."
@@ -1504,6 +1569,8 @@ class UserandRole(DnacBase):
             - Logs the provided user parameters and the received API response.
             - Returns the API response from the "create_user" function.
         """
+        self.log("Create user with user_info_params: {0}".format(str(user_params)), "DEBUG")
+        user_params['password'] = self.decrypt_password(user_params['password'], self.key)
         required_keys = ['username', 'password']
         missing_keys = []
 
@@ -1517,7 +1584,6 @@ class UserandRole(DnacBase):
             return {"error_message": error_message}
 
         try:
-            self.log("Create user with user_info_params: {0}".format(str(user_params)), "DEBUG")
             response = self.dnac._exec(
                 family="user_and_roles",
                 function="add_user_api",
