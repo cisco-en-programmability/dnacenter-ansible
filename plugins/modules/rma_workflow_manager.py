@@ -544,22 +544,22 @@ class DeviceReplacement(DnacBase):
         Returns:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
         Description:
-            This method verifies that the faulty device and the replacement device belong to the same family and series, 
+            This method verifies that the faulty device and the replacement device belong to the same family and series,
             ensuring they are compatible for replacement. It also checks the network reachability of the replacement device.
-            If both checks pass, the method logs a success message and proceeds. If either check fails, it logs an error, 
+            If both checks pass, the method logs a success message and proceeds. If either check fails, it logs an error,
             updates the status to 'failed', and returns the instance for further handling in the RMA workflow.
         """
 
-        if (self.have["faulty_device_platform_id"] != self.have["replacement_device_platform_id"] and
-            self.have["faulty_device_family_name"] != self.have["replacement_device_family_name"] and
-            self.have["faulty_device_series_name"] != self.have["replacement_device_series_name"]):
-            self.msg = (
-                "The faulty device and the replacement device do not belong to the same platform, family and series."
-                " The faulty device and the replacement device should belong to the same platform"
-            )
-            self.log(self.msg, "ERROR")
-            self.status = "failed"
-            return self
+        if self.have["faulty_device_platform_id"] != self.have["replacement_device_platform_id"]:
+            if self.have["faulty_device_family_name"] != self.have["replacement_device_family_name"]:
+                if self.have["faulty_device_series_name"] != self.have["replacement_device_series_name"]:
+                    self.msg = (
+                        "The faulty device and the replacement device do not belong to the same platform, family and series."
+                        " The faulty device and the replacement device should belong to the same platform"
+                    )
+                    self.log(self.msg, "ERROR")
+                    self.status = "failed"
+                    return self
 
         self.log("The faulty device and the replacement device belong to the same platform, family and series.", "DEBUG")
 
@@ -689,15 +689,15 @@ class DeviceReplacement(DnacBase):
         Parameters:
             - self (object): An instance of the class that interacts with Cisco Catalyst Center and contains device details.
         Returns:
-            bool: 
+            bool:
                 - True if the faulty device is found and is in the "READY-FOR-REPLACEMENT" state.
                 - False if the faulty device is not found or is not in the "READY-FOR-REPLACEMENT" state.
         Description:
-            This method retrieves a list of devices marked for replacement from Cisco Catalyst Center 
-            using the `device_replacement` API. It iterates through the returned devices to find 
+            This method retrieves a list of devices marked for replacement from Cisco Catalyst Center
+            using the `device_replacement` API. It iterates through the returned devices to find
             the specified faulty device based on its serial number, which is stored in the `self.have` attribute.
-            If the faulty device is found and its status is "READY-FOR-REPLACEMENT", the method logs a debug message 
-            indicating that the device is already marked for replacement and returns `True`. 
+            If the faulty device is found and its status is "READY-FOR-REPLACEMENT", the method logs a debug message
+            indicating that the device is already marked for replacement and returns `True`.
             If the device is not in the "READY-FOR-REPLACEMENT" state or is not found, it returns `False`.
         """
         response = self.dnac._exec(
@@ -708,10 +708,10 @@ class DeviceReplacement(DnacBase):
         self.log("Received API response from 'return_replacement_devices_with_details': {0}".format(str(response)), "DEBUG")
 
         for device in devices:
-          if device.get("faultyDeviceSerialNumber") == self.have.get("faulty_device_serial_number"):
-            if device.get("replacementStatus") == "READY-FOR-REPLACEMENT":
-                self.log("The device '{0}' is already in the 'MARKED-FOR-REPLACEMENT' state.".format(device.get("faultyDeviceName")), "DEBUG")
-                return True
+            if device.get("faultyDeviceSerialNumber") == self.have.get("faulty_device_serial_number"):
+                if device.get("replacementStatus") == "READY-FOR-REPLACEMENT":
+                    self.log("The device '{0}' is already in the 'MARKED-FOR-REPLACEMENT' state.".format(device.get("faultyDeviceName")), "DEBUG")
+                    return True
         return False
 
     def mark_faulty_device_for_replacement(self):
@@ -1043,11 +1043,11 @@ class DeviceReplacement(DnacBase):
             self (object): The current instance of the class with updated `result` and `msg` attributes.
         Description:
             This method generates and updates status messages regarding the RMA (Return Material Authorization) device replacement process.
-            It checks if there are any faulty and replacement devices specified for replacement. If both are present, it constructs a 
+            It checks if there are any faulty and replacement devices specified for replacement. If both are present, it constructs a
             success message detailing the completion of the replacement process for the faulty device(s) with the corresponding replacement device(s).
             If no faulty or replacement devices are found, it sets a message indicating that no replacements were performed.
-            The method then updates the `result` attribute with the status of the operation (`changed` set to True if replacements occurred) 
-            and logs the final message using the appropriate log level. The constructed message is also stored in `result["response"]` 
+            The method then updates the `result` attribute with the status of the operation (`changed` set to True if replacements occurred)
+            and logs the final message using the appropriate log level. The constructed message is also stored in `result["response"]`
             for further reference.
         """
         self.result["changed"] = False
