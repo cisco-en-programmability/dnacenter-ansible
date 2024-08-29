@@ -875,7 +875,6 @@ class UserandRole(DnacBase):
         self.created_user, self.updated_user, self.no_update_user = [], [], []
         self.created_role, self.updated_role, self.no_update_role = [], [], []
         self.deleted_user, self.deleted_role = [], []
-        self.key = self.generate_key()
 
     def validate_input_yml(self, user_role_details):
         """
@@ -898,6 +897,15 @@ class UserandRole(DnacBase):
         """
         self.log("Validating the Playbook Yaml File..", "INFO")
         config = self.payload.get("config")
+        self.key = None
+
+        if HAS_FERNET:
+            self.key = self.generate_key()
+        else:
+            self.msg = "The 'cryptography' library is not installed. Please install it using 'pip install cryptography'."
+            self.log(self.msg, "ERROR")
+            self.status = "failed"
+            return self
 
         if user_role_details is None or not isinstance(user_role_details, list):
             self.msg = "Configuration is not available in the playbook for validation or user/role details are not type list"
@@ -993,13 +1001,7 @@ class UserandRole(DnacBase):
         Criteria:
             - This function should only be called if HAS_FERNET is True.
         """
-        if HAS_FERNET:
-            return Fernet.generate_key()
-        else:
-            self.msg = "'pip install cryptography' library is not installed."
-            self.log(self.msg, "ERROR")
-            self.status = "failed"
-            return self
+        return Fernet.generate_key()
 
     def encrypt_password(self, password, key):
         """
@@ -1013,10 +1015,9 @@ class UserandRole(DnacBase):
             - This function should only be called if HAS_FERNET is True.
             - The password should be encoded to bytes before encryption.
         """
-        if HAS_FERNET:
-            fernet = Fernet(key)
-            encrypted_password = fernet.encrypt(password.encode())
-            return encrypted_password
+        fernet = Fernet(key)
+        encrypted_password = fernet.encrypt(password.encode())
+        return encrypted_password
 
     def decrypt_password(self, encrypted_password, key):
         """
@@ -1030,10 +1031,9 @@ class UserandRole(DnacBase):
             - This function should only be called if HAS_FERNET is True.
             - The encrypted password should be decoded from bytes after decryption.
         """
-        if HAS_FERNET:
-            fernet = Fernet(key)
-            decrypted_password = fernet.decrypt(encrypted_password.encode()).decode()
-            return decrypted_password
+        fernet = Fernet(key)
+        decrypted_password = fernet.decrypt(encrypted_password.encode()).decode()
+        return decrypted_password
 
     def validate_password(self, password, error_messages):
         """
@@ -1240,11 +1240,16 @@ class UserandRole(DnacBase):
 
         password = user_config.get("password")
 
-        if password:
-            user_config['password'] = self.decrypt_password(password, self.key)
-            plain_password = user_config.get("password")
-            self.validate_password(plain_password, error_messages)
-            user_config['password'] = self.encrypt_password(plain_password, self.key).decode()
+        try:
+            if password:
+                user_config['password'] = self.decrypt_password(password, self.key)
+                plain_password = user_config.get("password")
+                self.validate_password(plain_password, error_messages)
+                user_config['password'] = self.encrypt_password(plain_password, self.key).decode()
+                self.log("Password decrypted, validated, and re-encrypted successfully.", "DEBUG")
+        except Exception as e:
+            self.msg = "Failed during password processing: {0}".format(str(e))
+            self.log(self.msg, "ERROR")
 
         username_regex = re.compile(r"^[A-Za-z0-9@._-]{3,50}$")
         username_regex_msg = "The username must not contain any special characters and must be 3 to 50 characters long."
@@ -1569,7 +1574,7 @@ class UserandRole(DnacBase):
             - Logs the provided user parameters and the received API response.
             - Returns the API response from the "create_user" function.
         """
-        self.log("Create user with user_info_params: {0}".format(str(user_params)), "DEBUG")
+        self.log("Create user with 'user_params' argument...", "DEBUG")
         user_params['password'] = self.decrypt_password(user_params['password'], self.key)
         required_keys = ['username', 'password']
         missing_keys = []
