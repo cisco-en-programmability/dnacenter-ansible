@@ -12,7 +12,7 @@ __author__ = ("Abhishek Maheshwari, Madhan Sankaranarayanan")
 DOCUMENTATION = r"""
 ---
 module: fabric_sites_zones_workflow_manager
-short_description:  Manage fabric site(s)/zone(s) and update the authentication profile template in Cisco Catalyst Center.
+short_description: Manage fabric site(s)/zone(s) and update the authentication profile template in Cisco Catalyst Center.
 description:
 - Creating fabric site(s) for the SDA operation in Cisco Catalyst Center.
 - Updating fabric site(s) for the SDA operation in Cisco Catalyst Center.
