@@ -445,8 +445,14 @@ class DeviceReplacement(DnacBase):
         config = self.want["config"]
         identifier_keys = [
             ("faulty_device_serial_number", "replacement_device_serial_number"),
+            ("faulty_device_serial_number", "replacement_device_name"),
+            ("faulty_device_serial_number", "replacement_device_ip_address"),
+            ("faulty_device_name", "replacement_device_serial_number"),
             ("faulty_device_name", "replacement_device_name"),
-            ("faulty_device_ip_address", "replacement_device_ip_address")
+            ("faulty_device_name", "replacement_device_ip_address"),
+            ("faulty_device_ip_address", "replacement_device_ip_address"),
+            ("faulty_device_ip_address", "replacement_device_name"),
+            ("faulty_device_ip_address", "replacement_device_serial_number")
         ]
 
         valid_identifier_found = False
@@ -842,11 +848,13 @@ class DeviceReplacement(DnacBase):
             - Updates the status, msg, and result attributes based on the task result.
             - Handles any exceptions that occur during the process.
         """
+        self.log("Unmarking device for replacement...")
+        device_id = self.get_ready_for_replacement_device_id()
 
         import_params = dict(
             payload=[{
-                "faultyDeviceId": self.have.get("faulty_device_id"),
-                "replacementStatus": "MARKED-FOR-REPLACEMENT"
+                "id": device_id,
+                "replacementStatus": "NON-FAULTY"
             }],
         )
 
@@ -865,15 +873,42 @@ class DeviceReplacement(DnacBase):
                 "Error while unmarking device for replacement"
             )
             self.status = task_result["status"]
-            self.msg = task_result["msg"]
-            if self.status == "success":
-                self.result['changed'] = True
+            self.msg = "RMA failed to replace the device: {0}".format(task_result["msg"])
 
-        except Exception as e:
+        except Exception:
             self.status = "failed"
-            self.msg = "Exception occurred while unmarking device for replacement: {0}".format(str(e))
+            self.msg = "RMA failed to replace the device: No device found for unmarking replacement"
             self.log(self.msg, "ERROR")
         return self
+
+    def get_ready_for_replacement_device_id(self):
+        """
+        Retrieves the ID of the first device marked as "READY-FOR-REPLACEMENT" in Cisco Catalyst Center.
+
+        Parameters:
+            - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+
+        Returns:
+            - device_id (str or None): The ID of the first device ready for replacement, or None if no such device is found.
+
+        Description:
+            - This method fetches a list of devices with their replacement status from Cisco Catalyst Center.
+            - It then checks for the first device with a "READY-FOR-REPLACEMENT" status and returns its ID.
+            - The method exits early if such a device is found.
+        """
+        response = self.dnac._exec(
+            family="device_replacement",
+            function='return_replacement_devices_with_details'
+        )
+        devices = response.get("response", [])
+        for device in devices:
+            if device.get("replacementStatus") == "READY-FOR-REPLACEMENT":
+                device_id = device.get("id")
+                self.log("Found ready-for-replacement device with ID: {0}".format(device_id))
+                return device_id
+
+        self.log("No devices found with status 'READY-FOR-REPLACEMENT'.")
+        return None
 
     def check_rma_task_status(self, task_id, success_message, error_prefix):
         """

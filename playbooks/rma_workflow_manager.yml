@@ -23,6 +23,6 @@
         timeout_interval: 100
         state: replaced
         config:
-           - faulty_device_ip_address: 204.1.2.9
-             replacement_device_ip_address: 204.1.2.10
+        - faulty_device_ip_address: 204.1.2.9
+          replacement_device_ip_address: 204.1.2.10
       register: result
