@@ -5,7 +5,7 @@
 
 from __future__ import absolute_import, division, print_function
 __metaclass__ = type
-__author__ = ("Trupti A Shetty, Ajith Andrew J, Mohamed Rafeek, Madhan Sankaranarayanan")
+__author__ = ("Trupti A Shetty, Mohamed Rafeek, Madhan Sankaranarayanan, Ajith Andrew J")
 
 
 DOCUMENTATION = r"""
@@ -42,9 +42,9 @@ extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
 author:
   - Trupti A Shetty (@TruptiAShetty)
-  - Ajith Andrew J (@ajithandrewj)
   - A Mohamed Rafeek (@mohamedrafeek)
   - Madhan Sankaranarayanan (@madhansansel)
+  - Ajith Andrew J (@ajithandrewj)
 
 options:
   config_verify:
@@ -705,12 +705,12 @@ class DeviceReplacement(DnacBase):
             function='return_replacement_devices_with_details'
         )
         devices = response.get("response", [])
-        self.log("Received API response from 'return_replacement_devices_with_details': {0}".format(str(response)), "DEBUG")
+        self.log("Received API response from 'return_replacement_devices_with_details': {0}".format(self.pprint(response)), "DEBUG")
 
         for device in devices:
             if device.get("faultyDeviceSerialNumber") == self.have.get("faulty_device_serial_number"):
                 if device.get("replacementStatus") == "READY-FOR-REPLACEMENT":
-                    self.log("The device '{0}' is already in the 'MARKED-FOR-REPLACEMENT' state.".format(device.get("faultyDeviceName")), "DEBUG")
+                    self.have["device_replacement_id"] = device.get("id")
                     return True
         return False
 
@@ -757,12 +757,15 @@ class DeviceReplacement(DnacBase):
                 self.msg = task_result["msg"]
                 if self.status == "success":
                     self.result['changed'] = True
+                self.device_ready_for_replacement_check()
+                return self
 
             except Exception as e:
                 self.status = "failed"
                 self.msg = "Exception occurred while marking device for replacement: {0}".format(str(e))
                 self.log(self.msg, "ERROR")
 
+        self.log("The device '{0}' is already in the 'MARKED-FOR-REPLACEMENT' state.".format(self.have.get("faulty_device_name")), "DEBUG")
         return self
 
     def get_diff_replaced(self, config):
@@ -848,7 +851,7 @@ class DeviceReplacement(DnacBase):
 
         except Exception as e:
             self.status = "failed"
-            error_msg = "Exception occurred during device replacement: {0}".format(str(e))
+            error_msg = "Exception occurred during device replacement "
             self.log(error_msg, "ERROR")
             # Attempt to unmark the device
             self.log("Attempting to unmark the device after exception", "INFO")
@@ -1105,7 +1108,7 @@ class DeviceReplacement(DnacBase):
             devices = response.get("response", [])
             replacement_status = None
             for device in devices:
-                if device.get("replacementDeviceSerialNumber") == replacement_device_serial:
+                if device.get("id") == self.have.get("device_replacement_id"):
                     replacement_status = device
             self.log("Replacement status: {0}".format(self.pprint(replacement_status)), "INFO")
         except Exception as e:
