@@ -563,7 +563,7 @@ class DeviceReplacement(DnacBase):
 
         self.log("The faulty device and the replacement device belong to the same platform, family and series.", "DEBUG")
 
-        if self.have["faulty_device_reachability_status"] != "Reachable":
+        if self.have["replacement_device_reachability_status"] != "Reachable":
             self.msg = "The replacement device is not reachable. Unable to proceed with the RMA device replacement."
             self.log(self.msg, "ERROR")
             self.status = "failed"
