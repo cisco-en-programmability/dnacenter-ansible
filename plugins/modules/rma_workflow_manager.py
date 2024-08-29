@@ -1094,11 +1094,7 @@ class DeviceReplacement(DnacBase):
             self.log("Replacement device serial number is missing", "WARNING")
             return self
 
-        import_params = dict(
-            payload={
-                "replacementDeviceSerialNumber": replacement_device_serial
-            }
-        )
+        import_params = {"replacementDeviceSerialNumber": replacement_device_serial}
 
         try:
             response = self.dnac._exec(
@@ -1162,9 +1158,9 @@ def main():
         ccc_device_replacement.get_have().check_return_status()
         ccc_device_replacement.rma_device_replacement_pre_check().check_return_status()
         ccc_device_replacement.mark_faulty_device_for_replacement().check_return_status()
-        # ccc_device_replacement.get_diff_state_apply[state](config).check_return_status()
-        # if config_verify:
-        #     ccc_device_replacement.verify_diff_state_apply[state](config).check_return_status()
+        ccc_device_replacement.get_diff_state_apply[state](config).check_return_status()
+        if config_verify:
+            ccc_device_replacement.verify_diff_state_apply[state](config).check_return_status()
 
     ccc_device_replacement.update_rma_profile_messages().check_return_status()
 
