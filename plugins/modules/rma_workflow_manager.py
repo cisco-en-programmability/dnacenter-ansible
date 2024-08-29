@@ -551,15 +551,13 @@ class DeviceReplacement(DnacBase):
         """
 
         if self.have["faulty_device_platform_id"] != self.have["replacement_device_platform_id"]:
-            if self.have["faulty_device_family_name"] != self.have["replacement_device_family_name"]:
-                if self.have["faulty_device_series_name"] != self.have["replacement_device_series_name"]:
-                    self.msg = (
-                        "The faulty device and the replacement device do not belong to the same platform, family and series."
-                        " The faulty device and the replacement device should belong to the same platform"
-                    )
-                    self.log(self.msg, "ERROR")
-                    self.status = "failed"
-                    return self
+            self.msg = (
+                "The faulty device and the replacement device do not belong to the same platform, family and series."
+                " These attributes must match for a valid replacement."
+            )
+            self.log(self.msg, "ERROR")
+            self.status = "failed"
+            return self
 
         self.log("The faulty device and the replacement device belong to the same platform, family and series.", "DEBUG")
 
@@ -569,7 +567,7 @@ class DeviceReplacement(DnacBase):
             self.status = "failed"
             return self
 
-        self.log("The replacement device is reachable.", "DEBUG")
+        self.log("The replacement device '{0}' is reachable.".format(self.have.get("replacement_device_name")), "DEBUG")
         return self
 
     def device_exists(self, identifier, identifier_type):
@@ -712,6 +710,7 @@ class DeviceReplacement(DnacBase):
                 if device.get("replacementStatus") == "READY-FOR-REPLACEMENT":
                     self.have["device_replacement_id"] = device.get("id")
                     return True
+
         return False
 
     def mark_faulty_device_for_replacement(self):
@@ -765,7 +764,7 @@ class DeviceReplacement(DnacBase):
                 self.msg = "Exception occurred while marking device for replacement: {0}".format(str(e))
                 self.log(self.msg, "ERROR")
 
-        self.log("The device '{0}' is already in the 'MARKED-FOR-REPLACEMENT' state.".format(self.have.get("faulty_device_name")), "DEBUG")
+        self.log("The device '{0}' is already in the 'READY-FOR-REPLACEMENT' state.".format(self.have.get("faulty_device_name")), "DEBUG")
         return self
 
     def get_diff_replaced(self, config):
