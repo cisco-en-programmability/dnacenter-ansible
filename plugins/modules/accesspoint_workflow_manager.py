@@ -1158,7 +1158,7 @@ class Accesspoint(DnacBase):
 
                 if task_details_response.get("endTime") is not None:
                     if task_details_response.get("isError") is True:
-                        self.result['changed'] = True if self.result['changed'] == True else False
+                        self.result['changed'] = True if self.result['changed'] is True else False
                         self.status = "failed"
                         self.msg = "Unable to get success response, hence AP config not updated"
                         self.log(self.msg, "ERROR")
@@ -1267,8 +1267,7 @@ class Accesspoint(DnacBase):
                 self.result['changed'] = True
 
                 ap_selected_fields = self.payload.get("config")[0].get("ap_selected_fields")
-                if ap_selected_fields is None or ap_selected_fields == "" or \
-                ap_selected_fields == "all":
+                if ap_selected_fields is None or ap_selected_fields == "" or ap_selected_fields == "all":
                     self.payload["access_point_details"] = self.payload["access_point_details"]
                 else:
                     self.payload["access_point_details"] = self.data_frame(
@@ -1277,7 +1276,7 @@ class Accesspoint(DnacBase):
                 ap_config_selected_fields =\
                     self.payload.get("config")[0].get("ap_config_selected_fields")
                 if ap_config_selected_fields is None or ap_config_selected_fields == "" \
-                or ap_config_selected_fields == "all":
+                   or ap_config_selected_fields == "all":
                     self.payload["access_point_config"] = self.payload["access_point_config"]
                 else:
                     self.payload["access_point_config"] = self.data_frame(
@@ -2254,7 +2253,7 @@ class Accesspoint(DnacBase):
                         else:
                             update_config[self.keymap[ctrl_name]] = self.want[ctrl_name]
                             update_config[self.keymap["primary_ip_address"]] = {}
-                            if self.want.get("primary_ip_address",{}).get("address"):
+                            if self.want.get("primary_ip_address", {}).get("address"):
                                 update_config[self.keymap["primary_ip_address"]]["address"] = \
                                     self.want["primary_ip_address"]["address"]
                             else:
@@ -2272,7 +2271,7 @@ class Accesspoint(DnacBase):
                             update_config[self.keymap["secondary_ip_address"]] = {}
                             if self.want.get("secondary_ip_address", {}).get("address"):
                                 update_config[self.keymap["secondary_ip_address"]]["address"] = \
-                                        self.want["secondary_ip_address"]["address"]
+                                    self.want["secondary_ip_address"]["address"]
                             else:
                                 update_config[self.keymap["secondary_ip_address"]]["address"] = "0.0.0.0"
                     elif ctrl_name == "tertiary_controller_name" and self.want.get(ctrl_name):
@@ -2285,7 +2284,7 @@ class Accesspoint(DnacBase):
                             update_config[self.keymap["tertiary_ip_address"]] = {}
                             if self.want.get("tertiary_ip_address", {}).get("address"):
                                 update_config[self.keymap["tertiary_ip_address"]]["address"] = \
-                                        self.want["tertiary_ip_address"]["address"]
+                                    self.want["tertiary_ip_address"]["address"]
                             else:
                                 update_config[self.keymap["tertiary_ip_address"]]["address"] = "0.0.0.0"
 
