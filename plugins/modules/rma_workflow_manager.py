@@ -468,41 +468,41 @@ class DeviceReplacement(DnacBase):
                 valid_identifier_found = True
 
                 # Check if faulty device exists
-                faulty_device_param = self.device_exists(faulty_identifier, faulty_key)
+                faulty_device_params = self.device_exists(faulty_identifier, faulty_key)
 
-                if not faulty_device_param:
+                if not faulty_device_params:
                     self.msg = "Faulty device '{0}' not found in Cisco Catalyst Center".format(faulty_identifier)
                     self.log(self.msg, "ERROR")
                     self.status = "failed"
                     return self
 
-                have["faulty_device_id"] = faulty_device_param.get("device_id")
-                have["faulty_device_serial_number"] = faulty_device_param.get("serial_number")
-                have["faulty_device_name"] = faulty_device_param.get("device_name")
-                have["faulty_device_family_name"] = faulty_device_param.get("family_name")
-                have["faulty_device_series_name"] = faulty_device_param.get("series_name")
-                have["faulty_device_reachability_status"] = faulty_device_param.get("reachability_status")
-                have["faulty_device_platform_id"] = faulty_device_param.get("platform_id")
+                have["faulty_device_id"] = faulty_device_params.get("device_id")
+                have["faulty_device_serial_number"] = faulty_device_params.get("serial_number")
+                have["faulty_device_name"] = faulty_device_params.get("device_name")
+                have["faulty_device_family_name"] = faulty_device_params.get("family_name")
+                have["faulty_device_series_name"] = faulty_device_params.get("series_name")
+                have["faulty_device_reachability_status"] = faulty_device_params.get("reachability_status")
+                have["faulty_device_platform_id"] = faulty_device_params.get("platform_id")
                 have[faulty_key] = faulty_identifier
                 have["faulty_device_exists"] = True
                 self.log("Faulty device '{0}' found in Cisco Catalyst Center".format(faulty_identifier), "INFO")
 
                 # Check if replacement device exists
-                replacement_device_param = self.device_exists(replacement_identifier, replacement_key)
+                replacement_device_params = self.device_exists(replacement_identifier, replacement_key)
 
-                if not replacement_device_param:
+                if not replacement_device_params:
                     self.msg = "Replacement device '{0}' not found in Cisco Catalyst Center".format(replacement_identifier)
                     self.log(self.msg, "ERROR")
                     self.status = "failed"
                     return self
 
-                have["replacement_device_id"] = replacement_device_param.get("device_id")
-                have["replacement_device_serial_number"] = replacement_device_param.get("serial_number")
-                have["replacement_device_name"] = replacement_device_param.get("device_name")
-                have["replacement_device_family_name"] = replacement_device_param.get("family_name")
-                have["replacement_device_series_name"] = replacement_device_param.get("series_name")
-                have["replacement_device_reachability_status"] = replacement_device_param.get("reachability_status")
-                have["replacement_device_platform_id"] = replacement_device_param.get("platform_id")
+                have["replacement_device_id"] = replacement_device_params.get("device_id")
+                have["replacement_device_serial_number"] = replacement_device_params.get("serial_number")
+                have["replacement_device_name"] = replacement_device_params.get("device_name")
+                have["replacement_device_family_name"] = replacement_device_params.get("family_name")
+                have["replacement_device_series_name"] = replacement_device_params.get("series_name")
+                have["replacement_device_reachability_status"] = replacement_device_params.get("reachability_status")
+                have["replacement_device_platform_id"] = replacement_device_params.get("platform_id")
                 have[replacement_key] = replacement_identifier
                 have["replacement_device_exists"] = True
                 self.log("Replacement device '{0}' found in Cisco Catalyst Center".format(replacement_identifier), "INFO")
