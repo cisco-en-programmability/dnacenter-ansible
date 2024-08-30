@@ -468,10 +468,9 @@ class DeviceReplacement(DnacBase):
                 valid_identifier_found = True
 
                 # Check if faulty device exists
-                (faulty_device_id, faulty_device_serial_number, faulty_device_name,
-                 faulty_device_family_name, faulty_device_series_name, faulty_device_reachability_status, faulty_device_platform_id) = self.device_exists(
-                     faulty_identifier, faulty_key)
-                if faulty_device_id is None or faulty_device_serial_number is None:
+                (faulty_device_id, faulty_device_serial_number, faulty_device_name, faulty_device_family_name, faulty_device_series_name,
+                 faulty_device_reachability_status, faulty_device_platform_id, error_message) = self.device_exists(faulty_identifier, faulty_key)
+                if error_message:
                     self.msg = "Faulty device '{0}' not found in Cisco Catalyst Center".format(faulty_identifier)
                     self.log(self.msg, "ERROR")
                     self.status = "failed"
@@ -490,9 +489,9 @@ class DeviceReplacement(DnacBase):
 
                 # Check if replacement device exists
                 (replacement_device_id, replacement_device_serial_number, replacement_device_name,
-                 replacement_device_family_name, replacement_device_series_name,
-                 replacement_device_reachability_status, replacement_device_platform_id) = self.device_exists(replacement_identifier, replacement_key)
-                if replacement_device_id is None or replacement_device_serial_number is None:
+                 replacement_device_family_name, replacement_device_series_name, replacement_device_reachability_status,
+                 replacement_device_platform_id, error_message) = self.device_exists(replacement_identifier, replacement_key)
+                if error_message:
                     self.msg = "Replacement device '{0}' not found in Cisco Catalyst Center".format(replacement_identifier)
                     self.log(self.msg, "ERROR")
                     self.status = "failed"
@@ -597,7 +596,7 @@ class DeviceReplacement(DnacBase):
             params["serialNumber"] = identifier
         else:
             self.log("Invalid identifier type provided", "ERROR")
-            return None, None
+            return None, None, None, None, None, None, None, {"Error"}
 
         try:
             response = self.dnac._exec(
@@ -619,7 +618,7 @@ class DeviceReplacement(DnacBase):
                     reachability_status = device.get('reachabilityStatus')
                     platform_id = device.get('platformId')
                     if device_id and serial_number and device_name and series_name and family_name and reachability_status and platform_id:
-                        return device_id, serial_number, device_name, series_name, family_name, reachability_status, platform_id
+                        return device_id, serial_number, device_name, series_name, family_name, reachability_status, platform_id, {}
                     self.log("Device found but ID or serial number missing", "ERROR")
                 else:
                     self.log("Device not found in Cisco Catalyst Center", "ERROR")
@@ -628,7 +627,7 @@ class DeviceReplacement(DnacBase):
         except Exception as e:
             self.log("Exception occurred while querying device: {0}".format(str(e)), "ERROR")
 
-        return None, None
+        return None, None, None, None, None, None, None, {"Error"}
 
     def validate_device_replacement_params(self):
         """
@@ -1160,7 +1159,7 @@ def main():
         ccc_device_replacement.get_have().check_return_status()
         ccc_device_replacement.rma_device_replacement_pre_check().check_return_status()
         ccc_device_replacement.mark_faulty_device_for_replacement().check_return_status()
-        ccc_device_replacement.get_diff_state_apply[state](config).check_return_status()
+        # ccc_device_replacement.get_diff_state_apply[state](config).check_return_status()
         if config_verify:
             ccc_device_replacement.verify_diff_state_apply[state](config).check_return_status()
 
