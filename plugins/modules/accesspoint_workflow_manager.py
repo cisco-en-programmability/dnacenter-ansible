@@ -2636,7 +2636,7 @@ def main():
         "dnac_log_append": {"type": 'bool', "default": True},
         'dnac_api_task_timeout': {'type': 'int', "default": 1200},
         'dnac_task_poll_interval': {'type': 'int', "default": 2},
-        'next_task_after_interval': {'type': 'int', "default": 30},
+        'next_task_after_interval': {'type': 'int', "default": 5},
         'config': {'required': True, 'type': 'list', 'elements': 'dict'},
         'validate_response_schema': {'type': 'bool', 'default': True},
         'state': {'default': 'merged', 'choices': ['merged', 'deleted']}
