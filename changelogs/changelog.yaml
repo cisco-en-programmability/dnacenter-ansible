@@ -962,3 +962,21 @@ releases:
       release_summary: Fix family name.
       minor_changes:
         - Fix family name from userand_roles to user_and_roles.
+  6.18.0:
+    release_date: "2024-08-30"
+    changes:
+      release_summary: Code changes in workflow manager modules.
+      minor_changes:
+        - Added 'fabric_sites_zones_workflow_manager.py' to manage fabric sites/zones and update the authentication profile template.
+        - Added 'sda_extranet_policies_workflow_manager' to provide SDA Extranet Policies for managing SDA Extranet Policy.
+        - Added Circle CI support for integration testing.
+        - Changes in inventory_workflow_manager to support maximum devices to resync, and resync timeout.
+        - Changes in network_settings_workflow_manager to support reserve ip subpools.
+        - Changes in provision_workflow_manager to support enhanced log messages.
+        - Changes in rma_workflow_manager module to support pre check for device replacement.
+        - Bug fixes in user_role_workflow_manager module.
+        - Changes in accesspoint_workflow_manager module.
+        - Changes in device_configs_backup_workflow_manager to support name of the site to which the device is assigned.
+        - inventory_workflow_manager.py: added attributes resync_device_count and resync_max_timeout
+        - accesspoint_workflow_manager.py: added attributes 'is_assigned_site_as_location', and other new attributes.
+        - device_configs_backup_workflow_manager.py. added attribute 'site'.
