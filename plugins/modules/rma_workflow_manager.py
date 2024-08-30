@@ -468,42 +468,41 @@ class DeviceReplacement(DnacBase):
                 valid_identifier_found = True
 
                 # Check if faulty device exists
-                (faulty_device_id, faulty_device_serial_number, faulty_device_name, faulty_device_family_name, faulty_device_series_name,
-                 faulty_device_reachability_status, faulty_device_platform_id, error_message) = self.device_exists(faulty_identifier, faulty_key)
-                if error_message:
+                faulty_device_param_dict = self.device_exists(faulty_identifier, faulty_key)
+
+                if not faulty_device_param_dict:
                     self.msg = "Faulty device '{0}' not found in Cisco Catalyst Center".format(faulty_identifier)
                     self.log(self.msg, "ERROR")
                     self.status = "failed"
                     return self
 
-                have["faulty_device_id"] = faulty_device_id
-                have["faulty_device_serial_number"] = faulty_device_serial_number
-                have["faulty_device_name"] = faulty_device_name
-                have["faulty_device_family_name"] = faulty_device_family_name
-                have["faulty_device_series_name"] = faulty_device_series_name
-                have["faulty_device_reachability_status"] = faulty_device_reachability_status
-                have["faulty_device_platform_id"] = faulty_device_platform_id
+                have["faulty_device_id"] = faulty_device_param_dict.get("device_id")
+                have["faulty_device_serial_number"] = faulty_device_param_dict.get("serial_number")
+                have["faulty_device_name"] = faulty_device_param_dict.get("device_name")
+                have["faulty_device_family_name"] = faulty_device_param_dict.get("family_name")
+                have["faulty_device_series_name"] = faulty_device_param_dict.get("series_name")
+                have["faulty_device_reachability_status"] = faulty_device_param_dict.get("reachability_status")
+                have["faulty_device_platform_id"] = faulty_device_param_dict.get("platform_id")
                 have[faulty_key] = faulty_identifier
                 have["faulty_device_exists"] = True
                 self.log("Faulty device '{0}' found in Cisco Catalyst Center".format(faulty_identifier), "INFO")
 
                 # Check if replacement device exists
-                (replacement_device_id, replacement_device_serial_number, replacement_device_name,
-                 replacement_device_family_name, replacement_device_series_name, replacement_device_reachability_status,
-                 replacement_device_platform_id, error_message) = self.device_exists(replacement_identifier, replacement_key)
-                if error_message:
+                replacement_device_param_dict = self.device_exists(replacement_identifier, replacement_key)
+
+                if not replacement_device_param_dict:
                     self.msg = "Replacement device '{0}' not found in Cisco Catalyst Center".format(replacement_identifier)
                     self.log(self.msg, "ERROR")
                     self.status = "failed"
                     return self
 
-                have["replacement_device_id"] = replacement_device_id
-                have["replacement_device_serial_number"] = replacement_device_serial_number
-                have["replacement_device_name"] = replacement_device_name
-                have["replacement_device_family_name"] = replacement_device_family_name
-                have["replacement_device_series_name"] = replacement_device_series_name
-                have["replacement_device_reachability_status"] = replacement_device_reachability_status
-                have["replacement_device_platform_id"] = replacement_device_platform_id
+                have["replacement_device_id"] = faulty_device_param_dict.get("device_id")
+                have["replacement_device_serial_number"] = faulty_device_param_dict.get("serial_number")
+                have["replacement_device_name"] = faulty_device_param_dict.get("device_name")
+                have["replacement_device_family_name"] = faulty_device_param_dict.get("family_name")
+                have["replacement_device_series_name"] = faulty_device_param_dict.get("series_name")
+                have["replacement_device_reachability_status"] = faulty_device_param_dict.get("reachability_status")
+                have["replacement_device_platform_id"] = faulty_device_param_dict.get("platform_id")
                 have[replacement_key] = replacement_identifier
                 have["replacement_device_exists"] = True
                 self.log("Replacement device '{0}' found in Cisco Catalyst Center".format(replacement_identifier), "INFO")
@@ -577,14 +576,15 @@ class DeviceReplacement(DnacBase):
             - identifier (str): The identifier of the device to check.
             - identifier_type (str): The type of identifier (name, ip_address, or serial_number).
         Returns:
-            - tuple: A tuple containing the device ID and serial number, or (None, None) if the device is not found or an error occurs.
+            - dict: A dict containing the device ID, serial number, device_name, series_name, family_name, reachability_status, platform_id if the device
+              is found or empty dict if device not found.
         Description:
             This method queries Cisco Catalyst Center to check if a specified device exists based on the provided identifier.
             It constructs the appropriate query parameters based on the identifier type (hostname, IP address, or serial number).
             The method then sends a request to Cisco Catalyst Center using the 'get_device_list' function.
             If the device is found and both ID and serial number are available, it returns these as a tuple.
             If the device is not found, lacks necessary information, or if an error occurs during the process,
-            it logs an appropriate error message and returns (None, None).
+            it logs an appropriate error message and returns empty dict.
             This method is used to verify the existence of both faulty and replacement devices in the RMA workflow.
         """
         params = {}
@@ -596,7 +596,7 @@ class DeviceReplacement(DnacBase):
             params["serialNumber"] = identifier
         else:
             self.log("Invalid identifier type provided", "ERROR")
-            return None, None, None, None, None, None, None, {"Error"}
+            return {}
 
         try:
             response = self.dnac._exec(
@@ -606,19 +606,21 @@ class DeviceReplacement(DnacBase):
                 params=params
             )
             self.log("Received API response from 'get_device_list': {0}".format(self.pprint(response)), "DEBUG")
+            device_param_list = {}
 
             if response and response.get('response'):
                 if len(response['response']) > 0:
                     device = response['response'][0]
-                    device_id = device.get('id')
-                    serial_number = device.get('serialNumber')
-                    device_name = device.get('hostname')
-                    series_name = device.get('series')
-                    family_name = device.get('family')
-                    reachability_status = device.get('reachabilityStatus')
-                    platform_id = device.get('platformId')
-                    if device_id and serial_number and device_name and series_name and family_name and reachability_status and platform_id:
-                        return device_id, serial_number, device_name, series_name, family_name, reachability_status, platform_id, {}
+                    device_param_list["device_id"] = device.get('id')
+                    device_param_list["serial_number"] = device.get('serialNumber')
+                    device_param_list["device_name"] = device.get('hostname')
+                    device_param_list["series_name"] = device.get('series')
+                    device_param_list["family_name"] = device.get('family')
+                    device_param_list["reachability_status"] = device.get('reachabilityStatus')
+                    device_param_list["platform_id"] = device.get('platformId')
+
+                    if device_param_list:
+                        return device_param_list
                     self.log("Device found but ID or serial number missing", "ERROR")
                 else:
                     self.log("Device not found in Cisco Catalyst Center", "ERROR")
@@ -627,7 +629,7 @@ class DeviceReplacement(DnacBase):
         except Exception as e:
             self.log("Exception occurred while querying device: {0}".format(str(e)), "ERROR")
 
-        return None, None, None, None, None, None, None, {"Error"}
+        return {}
 
     def validate_device_replacement_params(self):
         """
@@ -1159,7 +1161,7 @@ def main():
         ccc_device_replacement.get_have().check_return_status()
         ccc_device_replacement.rma_device_replacement_pre_check().check_return_status()
         ccc_device_replacement.mark_faulty_device_for_replacement().check_return_status()
-        # ccc_device_replacement.get_diff_state_apply[state](config).check_return_status()
+        ccc_device_replacement.get_diff_state_apply[state](config).check_return_status()
         if config_verify:
             ccc_device_replacement.verify_diff_state_apply[state](config).check_return_status()
 
