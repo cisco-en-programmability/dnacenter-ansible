@@ -15,6 +15,7 @@ jobs:
           path: github_ref
   automerge:
     runs-on: ubuntu-latest
+    permissions: write-all
     steps:
       - uses: reitermarkus/automerge@v2
         with:
