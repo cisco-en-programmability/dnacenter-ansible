@@ -581,6 +581,45 @@ class DnacBase():
         except socket.error:
             return False
 
+    def is_valid_ipv6(self, ip_address):
+        """
+        Validates an IPv6 address.
+
+        Parameters:
+            ip_address - String denoting the IPv6 address passed.
+
+        Returns:
+            bool - Returns true if the passed IP address value is correct or it returns
+            false if it is incorrect
+        """
+        pattern = re.compile(r"""
+            ^(([0-9a-fA-F]{1,4}:){7}([0-9a-fA-F]{1,4}|:))|
+            (([0-9a-fA-F]{1,4}:){1,7}:)|
+            (([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4})|
+            (([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2})|
+            (([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3})|
+            (([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4})|
+            (([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5})|
+            (([0-9a-fA-F]{1,4}:){1}(:[0-9a-fA-F]{1,4}){1,6})|
+            (:((:[0-9a-fA-F]{1,4}){1,7}|:))|
+            (fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,})|
+            (::(ffff(:0{1,4}){0,1}:){0,1}(([0-9]{1,3}\.){3}[0-9]{1,3}))|
+            (([0-9a-fA-F]{1,4}:){1,4}:(([0-9]{1,3}\.){3}[0-9]{1,3}))$
+            """, re.VERBOSE | re.IGNORECASE)
+        return pattern.match(ip_address) is not None
+
+    def pprint(self, jsondata):
+        """
+        Pretty prints JSON/dictionary data in a readable format.
+
+        Parameters:
+            jsondata (dict): Dictionary data to be printed.
+
+        Returns:
+            str: Formatted JSON string.
+        """
+        return json.dumps(jsondata, indent=4, separators=(',', ': '))
+
     def check_status_api_events(self, status_execution_id):
         """
         Checks the status of API events in Cisco Catalyst Center until completion or timeout.
