@@ -935,15 +935,15 @@ class UserandRole(DnacBase):
         if "user_details" in config and "username" in user_role_details[0] or "email" in user_role_details[0]:
             for user in user_role_details:
                 if 'password' in user:
-                    encrypt_password_responce = self.encrypt_password(user['password'], self.key.get("generate_key"))
+                    encrypt_password_response = self.encrypt_password(user['password'], self.key.get("generate_key"))
 
-                    if encrypt_password_responce and "error_message" in encrypt_password_responce:
-                        self.msg = encrypt_password_responce.get("error_message")
+                    if encrypt_password_response and "error_message" in encrypt_password_response:
+                        self.msg = encrypt_password_response.get("error_message")
                         self.log(self.msg, "ERROR")
                         self.status = "failed"
                         return self
 
-                    user["password"] = encrypt_password_responce.get("encrypt_password")
+                    user["password"] = encrypt_password_response.get("encrypt_password")
 
             if user_role_details[0].get("username") is not None or user_role_details[0].get("email") is not None:
                 user_details = {
@@ -1198,26 +1198,26 @@ class UserandRole(DnacBase):
         password = user_config.get("password")
 
         if password:
-            decrypt_password_responce = self.decrypt_password(password, self.key.get("generate_key"))
+            decrypt_password_response = self.decrypt_password(password, self.key.get("generate_key"))
 
-            if decrypt_password_responce and "error_message" in decrypt_password_responce:
-                self.msg = decrypt_password_responce.get("error_message")
+            if decrypt_password_response and "error_message" in decrypt_password_response:
+                self.msg = decrypt_password_response.get("error_message")
                 self.log(self.msg, "ERROR")
                 self.status = "failed"
                 return self
 
-            user_config['password'] = decrypt_password_responce.get("decrypt_password")
+            user_config['password'] = decrypt_password_response.get("decrypt_password")
             plain_password = user_config.get("password")
             self.validate_password(plain_password, error_messages)
-            encrypt_password_responce = self.encrypt_password(plain_password, self.key.get("generate_key"))
+            encrypt_password_response = self.encrypt_password(plain_password, self.key.get("generate_key"))
 
-            if encrypt_password_responce and "error_message" in encrypt_password_responce:
-                self.msg = encrypt_password_responce.get("error_message")
+            if encrypt_password_response and "error_message" in encrypt_password_response:
+                self.msg = encrypt_password_response.get("error_message")
                 self.log(self.msg, "ERROR")
                 self.status = "failed"
                 return self
 
-            user_config['password'] = encrypt_password_responce.get("encrypt_password").decode()
+            user_config['password'] = encrypt_password_response.get("encrypt_password").decode()
             self.log("Password decrypted, validated, and re-encrypted successfully.", "DEBUG")
 
         username_regex = re.compile(r"^[A-Za-z0-9@._-]{3,50}$")
@@ -1544,15 +1544,15 @@ class UserandRole(DnacBase):
             - Returns the API response from the "create_user" function.
         """
         self.log("Create user with 'user_params' argument...", "DEBUG")
-        decrypt_password_responce = self.decrypt_password(user_params['password'], self.key.get("generate_key"))
+        decrypt_password_response = self.decrypt_password(user_params['password'], self.key.get("generate_key"))
 
-        if decrypt_password_responce and "error_message" in decrypt_password_responce:
-            self.msg = decrypt_password_responce.get("error_message")
+        if decrypt_password_response and "error_message" in decrypt_password_response:
+            self.msg = decrypt_password_response.get("error_message")
             self.log(self.msg, "ERROR")
             self.status = "failed"
             return self
 
-        user_params['password'] = decrypt_password_responce.get("decrypt_password")
+        user_params['password'] = decrypt_password_response.get("decrypt_password")
         required_keys = ['username', 'password']
         missing_keys = []
 
