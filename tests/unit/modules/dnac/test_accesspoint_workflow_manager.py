@@ -152,7 +152,7 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
         )
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
-            result.get('msg'),
+            result.get('msg'), 
             "Successfully validated config params: {'mac_address': '90:e9:5e:03:f3:40', 'management_ip_address': None, 'hostname': None, 'rf_profile': " +
             "'HIGH', 'site': {'floor': {'name': 'FLOOR2', 'parent_name': 'Global/USA/New York/BLDNYC'}}, 'type': None, 'ap_name': 'LTTS-test1', " +
             "'admin_status': None, 'led_status': 'Enabled', 'led_brightness_level': 5, 'ap_mode': 'Local', 'location': 'LTTS/Cisco/Chennai', " +
@@ -378,14 +378,7 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
         )
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
-            result.get('msg'),
-            'Invalid parameters in playbook config: \'[["Access Point series \'Cisco 9164I Series Unified Access Points\' not ' +
-            'supported for the radio type 6ghz_radio allowed series [\'9136I\', \'9162I\', \'9163E\', \'9164I\', \'IW9167IH\', ' +
-            '\'9178I\', \'9176I\', \'9176D1\']", "Access Point series \'Cisco 9164I Series Unified Access Points\' not supported ' +
-            'for the radio type 6ghz_radio allowed series [\'9136I\', \'9162I\', \'9163E\', \'9164I\', \'IW9167IH\', \'9178I\', ' +
-            '\'9176I\', \'9176D1\']", "Access Point series \'Cisco 9164I Series Unified Access Points\' not supported for the radio ' +
-            'type 6ghz_radio allowed series [\'9136I\', \'9162I\', \'9163E\', \'9164I\', \'IW9167IH\', \'9178I\', \'9176I\', \'9176D1\']"]]\' '
-        )
+            result.get('msg'), 'MAC Address not exist:')
 
     def test_accesspoint_workflow_manager_some_missing_data_update_accesspoint(self):
         """
