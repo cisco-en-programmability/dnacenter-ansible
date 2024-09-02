@@ -589,8 +589,7 @@ class DnacBase():
             ip_address - String denoting the IPv6 address passed.
 
         Returns:
-            bool - Returns true if the passed IP address value is correct or it returns
-            false if it is incorrect
+            bool: True if the IPv6 address is valid, otherwise False
         """
         pattern = re.compile(r"""
             ^(([0-9a-fA-F]{1,4}:){7}([0-9a-fA-F]{1,4}|:))|
@@ -607,6 +606,48 @@ class DnacBase():
             (([0-9a-fA-F]{1,4}:){1,4}:(([0-9]{1,3}\.){3}[0-9]{1,3}))$
             """, re.VERBOSE | re.IGNORECASE)
         return pattern.match(ip_address) is not None
+
+    def map_config_key_to_api_param(self, keymap=any, data=any):
+        """
+        Converts keys in a dictionary from CamelCase to snake_case and creates a keymap.
+
+        Parameters:
+            keymap (dict): Already existing key map dictionary to add to or empty dict {}.
+            data (dict): Input data where keys need to be mapped using the key map.
+
+        Returns:
+            dict: A dictionary with the original keys as values and the converted snake_case
+                    keys as keys.
+
+        Example:
+            functions = Accesspoint(module)
+            keymap = functions.map_config_key_to_api_param(keymap, device_data)
+        """
+
+        if keymap is None:
+            keymap = {}
+
+        if isinstance(data, dict):
+            keymap.update(keymap)
+
+            for key, value in data.items():
+                new_key = re.sub(r'([a-z0-9])([A-Z])', r'\1_\2', key).lower()
+                keymap[new_key] = key
+
+                if isinstance(value, dict):
+                    self.map_config_key_to_api_param(keymap, value)
+                elif isinstance(value, list):
+
+                    for item in value:
+                        if isinstance(item, dict):
+                            self.map_config_key_to_api_param(keymap, item)
+
+        elif isinstance(data, list):
+            for item in data:
+                if isinstance(item, dict):
+                    self.map_config_key_to_api_param(keymap, item)
+
+        return keymap
 
     def pprint(self, jsondata):
         """
