@@ -859,7 +859,6 @@ response_2:
 
 import time
 import re
-import json
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
     validate_list_of_dicts,
@@ -1244,7 +1243,7 @@ class Accesspoint(DnacBase):
             for each_key in other_keys:
                 if each_key not in (self.keymap["mac_address"], self.keymap["radio_configurations"],
                                     self.keymap["is_assigned_site_as_location"],
-                                    self.keymap["primary_controller_name"], self.keymap["secondary_controller_name"], 
+                                    self.keymap["primary_controller_name"], self.keymap["secondary_controller_name"],
                                     self.keymap["tertiary_controller_name"], self.keymap["primary_ip_address"],
                                     self.keymap["secondary_ip_address"], self.keymap["tertiary_ip_address"],
                                     self.keymap["clean_air_si_2.4ghz"], self.keymap["clean_air_si_5ghz"],
