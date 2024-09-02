@@ -890,6 +890,13 @@ class UserandRole(DnacBase):
         """
         self.log("Validating the Playbook Yaml File..", "INFO")
         config = self.payload.get("config")
+        self.key = self.generate_key()
+
+        if self.key and "error_message" in self.key:
+            self.msg = self.key.get("error_message")
+            self.log(self.msg, "ERROR")
+            self.status = "failed"
+            return self
 
         if user_role_details is None or not isinstance(user_role_details, list):
             self.msg = "Configuration is not available in the playbook for validation or user/role details are not type list"
@@ -926,6 +933,18 @@ class UserandRole(DnacBase):
             return self
 
         if "user_details" in config and "username" in user_role_details[0] or "email" in user_role_details[0]:
+            for user in user_role_details:
+                if 'password' in user:
+                    encrypt_password_response = self.encrypt_password(user['password'], self.key.get("generate_key"))
+
+                    if encrypt_password_response and "error_message" in encrypt_password_response:
+                        self.msg = encrypt_password_response.get("error_message")
+                        self.log(self.msg, "ERROR")
+                        self.status = "failed"
+                        return self
+
+                    user["password"] = encrypt_password_response.get("encrypt_password")
+
             if user_role_details[0].get("username") is not None or user_role_details[0].get("email") is not None:
                 user_details = {
                     "first_name": {"required": False, "type": "str"},
@@ -1179,7 +1198,27 @@ class UserandRole(DnacBase):
         password = user_config.get("password")
 
         if password:
-            self.validate_password(password, error_messages)
+            decrypt_password_response = self.decrypt_password(password, self.key.get("generate_key"))
+
+            if decrypt_password_response and "error_message" in decrypt_password_response:
+                self.msg = decrypt_password_response.get("error_message")
+                self.log(self.msg, "ERROR")
+                self.status = "failed"
+                return self
+
+            user_config['password'] = decrypt_password_response.get("decrypt_password")
+            plain_password = user_config.get("password")
+            self.validate_password(plain_password, error_messages)
+            encrypt_password_response = self.encrypt_password(plain_password, self.key.get("generate_key"))
+
+            if encrypt_password_response and "error_message" in encrypt_password_response:
+                self.msg = encrypt_password_response.get("error_message")
+                self.log(self.msg, "ERROR")
+                self.status = "failed"
+                return self
+
+            user_config['password'] = encrypt_password_response.get("encrypt_password").decode()
+            self.log("Password decrypted, validated, and re-encrypted successfully.", "DEBUG")
 
         username_regex = re.compile(r"^[A-Za-z0-9@._-]{3,50}$")
         username_regex_msg = "The username must not contain any special characters and must be 3 to 50 characters long."
@@ -1504,6 +1543,16 @@ class UserandRole(DnacBase):
             - Logs the provided user parameters and the received API response.
             - Returns the API response from the "create_user" function.
         """
+        self.log("Create user with 'user_params' argument...", "DEBUG")
+        decrypt_password_response = self.decrypt_password(user_params['password'], self.key.get("generate_key"))
+
+        if decrypt_password_response and "error_message" in decrypt_password_response:
+            self.msg = decrypt_password_response.get("error_message")
+            self.log(self.msg, "ERROR")
+            self.status = "failed"
+            return self
+
+        user_params['password'] = decrypt_password_response.get("decrypt_password")
         required_keys = ['username', 'password']
         missing_keys = []
 
@@ -1517,7 +1566,6 @@ class UserandRole(DnacBase):
             return {"error_message": error_message}
 
         try:
-            self.log("Create user with user_info_params: {0}".format(str(user_params)), "DEBUG")
             response = self.dnac._exec(
                 family="user_and_roles",
                 function="add_user_api",
