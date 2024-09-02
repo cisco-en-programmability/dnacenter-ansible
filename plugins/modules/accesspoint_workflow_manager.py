@@ -66,8 +66,8 @@ options:
         required: True
       rf_profile:
         description: |
-          Radio Frequency (RF) profile name of the Access Point either "HIGH" or "LOW" or "TYPICAL"
-          or any created custom profile based on (RF) profile name For example, "HIGH".
+          Specifies the Radio Frequency (RF) profile name for the Access Point. It can be one of the standard profiles
+          "HIGH", "LOW", "TYPICAL", or a custom profile that has been created. For example, "HIGH".
         type: str
         required: False
       site:
@@ -1236,15 +1236,19 @@ class Accesspoint(DnacBase):
                     radio_key_list = list(each_radio.keys())
                     for each_key in radio_key_list:
                         if each_key not in ("antenna_name", "radioType", "unmatch", "cable_loss",
-                                            "radioRoleAssignment"):
+                                            self.keymap["radio_role_assignment"]):
                             unmatch_count += 1
 
             other_keys = list(require_update.keys())
+            self.log(other_keys, "INFO")
             for each_key in other_keys:
-                if each_key not in ("macAddress", "radioConfigurations", "isAssignedSiteAsLocation",
-                                    "primaryControllerName", "secondaryControllerName",
-                                    "tertiaryControllerName", "primaryIpAddress", "secondaryIpAddress",
-                                    "tertiaryIpAddress"):
+                if each_key not in (self.keymap["mac_address"], self.keymap["radio_configurations"],
+                                    self.keymap["is_assigned_site_as_location"],
+                                    self.keymap["primary_controller_name"], self.keymap["secondary_controller_name"], 
+                                    self.keymap["tertiary_controller_name"], self.keymap["primary_ip_address"],
+                                    self.keymap["secondary_ip_address"], self.keymap["tertiary_ip_address"],
+                                    self.keymap["clean_air_si_2.4ghz"], self.keymap["clean_air_si_5ghz"],
+                                    self.keymap["clean_air_si_6ghz"]):
                     unmatch_count += 1
 
         self.log("Unmatch count for the radio configuration : {0}".format(str(unmatch_count)), "INFO")
@@ -1318,9 +1322,14 @@ class Accesspoint(DnacBase):
             self.log('Validating radio type: {0}'.format(radio_type), "INFO")
             if ap_series is not None:
                 for series in self.allowed_series[radio_type]:
-                    pattern = r'\b{}\w+'.format(re.escape(series))
-                    compiled_pattern = re.compile(pattern)
-                    is_valid = compiled_pattern.search(self.payload["access_point_details"]["series"])
+                    compiled_pattern = [re.compile(r'\b{}\w+'.format(re.escape(series))),
+                                        re.compile(r'\b{}\b'.format(re.escape(series)))]
+                    is_valid = compiled_pattern[0].search(self.payload["access_point_details"]["series"])
+                    if is_valid:
+                        invalid_series = []
+                        break
+
+                    is_valid = compiled_pattern[1].search(self.payload["access_point_details"]["series"])
                     if is_valid:
                         invalid_series = []
                         break
@@ -1499,10 +1508,12 @@ class Accesspoint(DnacBase):
             errormsg.append("admin_status: Invalid value '{0}' for admin_status in playbook. Must be either 'Enabled' or 'Disabled'."
                             .format(admin_status))
 
-        radio_type_map = {"2.4ghz_radio": 1, "5ghz_radio": 2, "6ghz_radio": 6, "xor_radio": 3}
+        radio_type_map = {"2.4ghz_radio": 1, "5ghz_radio": 2, "6ghz_radio": 6,
+                          "xor_radio": 3, "tri_radio": 2}
         radio_config["radio_type"] = radio_type_map[radio_series]
         self.want[radio_series]["radio_type"] = radio_config["radio_type"]
         self.keymap["radio_type"] = "radioType"
+        radio_band = radio_config.get("radio_band")
 
         antenna_name = radio_config.get("antenna_name")
         if antenna_name:
@@ -1528,7 +1539,7 @@ class Accesspoint(DnacBase):
                 )
             else:
                 current_radio_role = self.check_current_radio_role_assignment(
-                    radio_series, self.have["current_ap_config"].get("radio_dtos" , []))
+                    radio_series, self.have["current_ap_config"].get("radio_dtos" , []), radio_band)
                 if self.want.get(radio_series).get("radio_role_assignment") != "Client-Serving" :
                     errormsg.append(
                         "channel_number: This configuration is only supported with Client-Serving Radio Role Assignment {0} "
@@ -1557,14 +1568,13 @@ class Accesspoint(DnacBase):
                 )
             else:
                 current_radio_role = self.check_current_radio_role_assignment(
-                    radio_series, self.have["current_ap_config"].get("radio_dtos", []))
+                    radio_series, self.have["current_ap_config"].get("radio_dtos", []), radio_band)
                 if self.want.get(radio_series).get("radio_role_assignment") != "Client-Serving" :
                     errormsg.append(
                         "powerlevel: This configuration is only supported with Client-Serving Radio Role Assignment {0} "
                         .format(current_radio_role)
                     )
 
-        radio_band = radio_config.get("radio_band")
         if radio_band and radio_band not in ("2.4 GHz", "5 GHz"):
             errormsg.append("radio_band: Invalid value '{0}' in playbook. Must be either '2.4 GHz' or '5 GHz'."
                             .format(radio_band))
@@ -1666,7 +1676,13 @@ class Accesspoint(DnacBase):
         self.keymap.update({
             "mac_address": "macAddress",
             "management_ip_address": "managementIpAddress",
-            "hostname": "hostname"
+            "hostname": "hostname",
+            "radio_configurations": "radioConfigurations",
+            "radio_type": "radioType",
+            "is_assigned_site_as_location": "isAssignedSiteAsLocation",
+            "clean_air_si_2.4ghz": "cleanAirSI24",
+            "clean_air_si_5ghz": "cleanAirSI5",
+            "clean_air_si_6ghz": "cleanAirSI6"
         })
 
         for key in ['mac_address', 'management_ip_address', 'hostname']:
@@ -2100,14 +2116,15 @@ class Accesspoint(DnacBase):
         available_key = {
             "_0": ("admin_status", "antenna_gain", "antenna_name", "radio_role_assignment",
                    "power_assignment_mode", "powerlevel", "channel_assignment_mode",
-                   "channel_number", "cable_loss", "antenna_cable_name", "radio_type"),
+                   "channel_number", "cable_loss", "antenna_cable_name", "radio_type",
+                   "radio_band"),
             "_1": ("admin_status", "antenna_gain", "antenna_name", "radio_role_assignment",
                    "power_assignment_mode", "powerlevel", "channel_assignment_mode",
                    "channel_number", "cable_loss", "antenna_cable_name", "channel_width",
-                   "radio_type"),
+                   "radio_type", "radio_band", "dual_radio_mode"),
             "_2": ("admin_status", "radio_role_assignment", "radio_type",
                    "power_assignment_mode", "powerlevel", "channel_assignment_mode",
-                   "channel_number", "channel_width"),
+                   "channel_number", "channel_width", "dual_radio_mode"),
             "_3": ("admin_status", "antenna_gain", "antenna_name", "radio_role_assignment",
                    "power_assignment_mode", "powerlevel", "channel_assignment_mode",
                    "channel_number", "cable_loss", "antenna_cable_name", "radio_band",
@@ -2207,7 +2224,7 @@ class Accesspoint(DnacBase):
                             elif each_key == "xor_radio" and each_radio["slot_id"] == 0:
                                 radio_data = self.compare_radio_config(each_radio,
                                                                        self.want[each_key])
-                            elif each_key == "tri_radio" and each_radio["slot_id"] == 4:
+                            elif each_key == "tri_radio" and each_radio.get("dual_radio_mode") is not None:
                                 radio_data = self.compare_radio_config(each_radio,
                                                                        self.want[each_key])
                         if radio_data.get("unmatch") != 0:
@@ -2550,48 +2567,6 @@ class Accesspoint(DnacBase):
         except Exception as e:
             self.log("Unable to filter fields: {0}".format(str(e)) , "ERROR")
             return None
-
-    def map_config_key_to_api_param(self, keymap=any, data=any):
-        """
-        Converts keys in a dictionary from CamelCase to snake_case and creates a keymap.
-
-        Parameters:
-            keymap (dict): Already existing key map dictionary to add to or empty dict {}.
-            data (dict): Input data where keys need to be mapped using the key map.
-
-        Returns:
-            dict: A dictionary with the original keys as values and the converted snake_case
-                    keys as keys.
-
-        Example:
-            functions = Accesspoint(module)
-            keymap = functions.map_config_key_to_api_param(keymap, device_data)
-        """
-
-        if keymap is None:
-            keymap = {}
-
-        if isinstance(data, dict):
-            keymap.update(keymap)
-
-            for key, value in data.items():
-                new_key = re.sub(r'([a-z0-9])([A-Z])', r'\1_\2', key).lower()
-                keymap[new_key] = key
-
-                if isinstance(value, dict):
-                    self.map_config_key_to_api_param(keymap, value)
-                elif isinstance(value, list):
-
-                    for item in value:
-                        if isinstance(item, dict):
-                            self.map_config_key_to_api_param(keymap, item)
-
-        elif isinstance(data, list):
-            for item in data:
-                if isinstance(item, dict):
-                    self.map_config_key_to_api_param(keymap, item)
-
-        return keymap
 
     def camel_to_snake_case(self, config):
         """
