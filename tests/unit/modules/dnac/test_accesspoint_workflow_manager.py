@@ -152,7 +152,7 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
         )
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
-            result.get('msg'), 
+            result.get('msg'),
             "Successfully validated config params: {'mac_address': '90:e9:5e:03:f3:40', 'management_ip_address': None, 'hostname': None, 'rf_profile': " +
             "'HIGH', 'site': {'floor': {'name': 'FLOOR2', 'parent_name': 'Global/USA/New York/BLDNYC'}}, 'type': None, 'ap_name': 'LTTS-test1', " +
             "'admin_status': None, 'led_status': 'Enabled', 'led_brightness_level': 5, 'ap_mode': 'Local', 'location': 'LTTS/Cisco/Chennai', " +
