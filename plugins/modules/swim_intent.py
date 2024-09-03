@@ -928,7 +928,7 @@ class DnacSwims(DnacBase):
             # check if given site exists, store siteid
             # if not then use global site
             site_name = tagging_details.get("site_name")
-            if site_name:
+            if site_name and site_name != "Global":
                 site_exists = False
                 (site_exists, site_id) = self.site_exists(site_name)
                 if site_exists:

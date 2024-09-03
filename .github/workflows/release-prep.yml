@@ -1,0 +1,17 @@
+# name: release-prep
+# on:
+#   push:
+#     branches:
+#       - '**-rc'
+      
+# jobs:
+#   trigger-circleci:
+#     runs-on: ubuntu-20.04
+#     steps:
+#       - name: Trigger CircleCI
+#         id: trigger-circle-ci
+#         uses: CircleCI-Public/trigger-circleci-pipeline-action@v1.2.0
+#         with:
+#           GHA_Meta: "run-release-prep"
+#         env:
+#           CCI_TOKEN: ${{ secrets.CCI_TOKEN }}
