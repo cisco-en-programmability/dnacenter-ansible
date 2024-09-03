@@ -678,7 +678,7 @@ EXAMPLES = r"""
       - snmp_destination:
           name: Snmp test
           description: "Updating snmp destination with snmp version v2."
-          server_address: "10.30.0.90"
+          server_address: "10.30.0.23"
           port: "25"
           snmp_version: "V2C"
           community: "public123"
@@ -740,7 +740,7 @@ EXAMPLES = r"""
           name: "Webhook Notification."
           description: "Notification for webhook events subscription"
           sites: ["Global/India", "Global/USA"]
-          events: ["AP Flap", "AP Reboot Crash"]
+          events: ["AP Flap", "AP Reboot Crash", "Device Updation"]
           destination: "Webhook Demo"
 
 - name: Updating Webhook Notification with the list of names of subscribed events in the system.

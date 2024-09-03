@@ -43,7 +43,9 @@ options:
         elements: dict
         suboptions:
           username:
-            description: The 'username' associated with the user account.
+            description:
+              - The 'username' associated with the user account.
+              - Required for user create, update and delete operations.
             type: str
           first_name:
             description: The first name of the user.
@@ -61,7 +63,7 @@ options:
             description:
               - The password for the user account, which must adhere to specified complexity requirements.
               - Must contain at least one special character, one capital letter, one lowercase letter,
-                and a minimum length of 15 characters.
+                and a minimum length of 8 characters.
               - Required for creating a new user account.
             type: str
           role_list:
@@ -319,7 +321,7 @@ options:
               overall:
                 description: Provides the same choice for all sub-parameters.
                 choices: ["deny", "read", "write"]
-                default: "read"
+                default: "deny"
                 type: str
               apis:
                 description: Access Cisco Catalyst Center through REST APIs to drive value.
@@ -424,13 +426,13 @@ options:
               remote_device_support:
                 description: Allow Cisco support team to remotely troubleshoot any network devices managed by Cisco DNA Center.
                 choices: ["deny", "read", "write"]
-                default: "read"
+                default: "deny"
                 type: str
               scheduler:
                 description: Run, schedule, and monitor network tasks and activities such as deploying policies, provisioning,
                              or upgrading the network, integrated with other back-end services.
                 choices: ["deny", "read", "write"]
-                default: "read"
+                default: "write"
                 type: str
               search:
                 description: Search for various objects in Cisco Catalyst Center, including sites,
@@ -537,7 +539,7 @@ EXAMPLES = r"""
     config_verify: True
     dnac_api_task_timeout: 1000
     dnac_task_poll_interval: 1
-    state: merged
+    state: deleted
     config:
       user_details:
         username: "ajithandrewj"
@@ -563,7 +565,7 @@ EXAMPLES = r"""
               monitoring_settings: "read"
               troubleshooting_tools: "deny"
           network_analytics:
-            data_access: "write"
+            - data_access: "write"
           network_design:
             - advanced_network_settings: "deny"
               image_repository: "deny"
@@ -573,6 +575,7 @@ EXAMPLES = r"""
               virtual_network: "read"
           network_provision:
             - compliance: "deny"
+              eox: "read"
               image_update: "write"
               inventory_management:
                 - device_configuration: "write"
@@ -605,6 +608,7 @@ EXAMPLES = r"""
             - audit_log: "read"
               event_viewer: "deny"
               network_reasoner: "write"
+              remote_device_support: "read"
               scheduler: "read"
               search: "write"
 
@@ -692,7 +696,7 @@ EXAMPLES = r"""
     config_verify: True
     dnac_api_task_timeout: 1000
     dnac_task_poll_interval: 1
-    state: merged
+    state: deleted
     config:
       role_details:
         - rolename: "role_name"
@@ -861,6 +865,9 @@ class UserandRole(DnacBase):
         self.supported_states = ["merged", "deleted"]
         self.payload = module.params
         self.keymap = {}
+        self.created_user, self.updated_user, self.no_update_user = [], [], []
+        self.created_role, self.updated_role, self.no_update_role = [], [], []
+        self.deleted_user, self.deleted_role = [], []
 
     def validate_input_yml(self, user_role_details):
         """
@@ -882,14 +889,22 @@ class UserandRole(DnacBase):
           - If the validation succeeds, this will allow to go next step, unless this will stop execution based on the fields.
         """
         self.log("Validating the Playbook Yaml File..", "INFO")
+        config = self.payload.get("config")
+        self.key = self.generate_key()
 
-        if user_role_details is None or isinstance(user_role_details, dict):
+        if self.key and "error_message" in self.key:
+            self.msg = self.key.get("error_message")
+            self.log(self.msg, "ERROR")
+            self.status = "failed"
+            return self
+
+        if user_role_details is None or not isinstance(user_role_details, list):
             self.msg = "Configuration is not available in the playbook for validation or user/role details are not type list"
             self.log(self.msg, "ERROR")
             self.status = "failed"
             return self
 
-        if "role_name" in user_role_details[0] and user_role_details[0].get("role_name") is not None:
+        if "role_details" in config and "role_name" in user_role_details[0] and user_role_details[0].get("role_name") is not None:
             role_details = {
                 "role_name": {"required": True, "type": "str"},
                 "description": {"required": False, "type": "str"},
@@ -917,7 +932,19 @@ class UserandRole(DnacBase):
             self.status = "success"
             return self
 
-        if "username" in user_role_details[0] or "email" in user_role_details[0]:
+        if "user_details" in config and "username" in user_role_details[0] or "email" in user_role_details[0]:
+            for user in user_role_details:
+                if 'password' in user:
+                    encrypt_password_response = self.encrypt_password(user['password'], self.key.get("generate_key"))
+
+                    if encrypt_password_response and "error_message" in encrypt_password_response:
+                        self.msg = encrypt_password_response.get("error_message")
+                        self.log(self.msg, "ERROR")
+                        self.status = "failed"
+                        return self
+
+                    user["password"] = encrypt_password_response.get("encrypt_password")
+
             if user_role_details[0].get("username") is not None or user_role_details[0].get("email") is not None:
                 user_details = {
                     "first_name": {"required": False, "type": "str"},
@@ -941,7 +968,11 @@ class UserandRole(DnacBase):
                 self.status = "success"
                 return self
 
-        self.msg = "Configuration params like 'username' or 'email' or 'role_name' is not available in the playbook"
+        self.msg = (
+            "'Configuration parameters such as 'username', 'email', or 'role_name' are missing from the playbook' or "
+            "'The 'user_details' key is invalid for role creation, updation, or deletion' or "
+            "'The 'role_details' key is invalid for user creation, updation, or deletion'"
+        )
         self.log(self.msg, "ERROR")
         self.status = "failed"
         return self
@@ -960,6 +991,43 @@ class UserandRole(DnacBase):
         """
         if field_value and not regex.match(field_value):
             error_messages.append(error_message)
+
+    def validate_password(self, password, error_messages):
+        """
+        Validate the provided password and append an error message if it does not meet the criteria.
+        Args:
+            - password (str): The password to be validated. Must be a string.
+            - error_messages (list): A list where error messages are appended if the password does not meet the criteria.
+        Returns:
+            None: This function does not return a value, but it may append an error message to `error_messages` if the password is invalid.
+        Criteria:
+            - The password must be 8 to 20 characters long.
+            - The password must include characters from at least three of the following classes:
+              lowercase letters, uppercase letters, digits, and special characters.
+        """
+        is_valid_password = False
+        password_criteria_message = (
+            "Password must be 8 to 20 characters long and include characters from at least three of "
+            "the following classes: lowercase letters, uppercase letters, digits, and special characters."
+        )
+
+        self.log(password_criteria_message, "DEBUG")
+        password_regexs = [
+            re.compile(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?!.*[\W_]).{8,20}$'),
+            re.compile(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_])(?!.*\d).{8,20}$'),
+            re.compile(r'^(?=.*[a-z])(?=.*\d)(?=.*[\W_])(?!.*[A-Z]).{8,20}$'),
+            re.compile(r'^(?=.*[A-Z])(?=.*\d)(?=.*[\W_])(?!.*[a-z]).{8,20}$'),
+            re.compile(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,20}$')
+        ]
+
+        for password_regex in password_regexs:
+            if password_regex.match(password):
+                is_valid_password = True
+                break
+
+        if not is_valid_password:
+            self.log("Password validation failed: {0}".format(password_criteria_message), "DEBUG")
+            error_messages.append(password_criteria_message)
 
     def validate_role_parameters(self, role_key, params_list, role_config, role_param_map, error_messages):
         """
@@ -985,6 +1053,48 @@ class UserandRole(DnacBase):
                                              "DEBUG")
                                     self.validate_string_parameter(param, inventory_management[param], error_messages)
 
+    def identify_invalid_params(self, params, mismatches):
+        """
+        Identify and collect invalid parameters from a dictionary or list based on allowed parameters.
+        Args:
+            - params (dict | list): The dictionary or list of parameters to be checked. Nested dictionaries or lists are supported.
+            - mismatches (list): A list where invalid parameter names are appended. This list is used to collect all
+              parameters that are not in 'allowed_params'.
+        Returns:
+            - mismatches (list): This function returns the 'mismatches' list containing the names of any parameters that are not in the 'allowed_params' set.
+        Criteria:
+            - Parameters in 'params' must be checked recursively if they are dictionaries or lists.
+            - Only parameters that are not in the 'allowed_params' set are appended to the 'mismatches' list.
+        """
+        allowed_params = [
+            "monitoring_and_troubleshooting", "monitoring_settings", "troubleshooting_tools", "data_access", "advanced_network_settings",
+            "image_repository", "network_hierarchy", "network_profiles", "network_settings", "virtual_network", "compliance",
+            "eox", "image_update", "inventory_management", "license", "network_telemetry", "pnp", "provision", "device_configuration",
+            "discovery", "network_device", "port_management", "topology", "app_hosting", "bonjour", "stealthwatch", "umbrella",
+            "apis", "bundles", "events", "reports", "group_based_policy", "ip_based_access_control", "security_advisories",
+            "machine_reasoning", "system_management", "audit_log", "event_viewer", "network_reasoner", "remote_device_support",
+            "scheduler", "search", 'role_name', 'description', 'assurance', 'network_analytics', 'network_design', 'network_provision',
+            'network_services', 'platform', 'security', 'system', 'utilities', 'overall'
+        ]
+        self.log("Starting to iterate through params to identify unknown parameters.", "DEBUG")
+
+        if isinstance(params, dict):
+            for key, value in params.items():
+                if key not in allowed_params:
+                    self.log("Invalid parameter detected: {0}".format(key), "ERROR")
+                    mismatches.append(key)
+
+                if isinstance(value, dict) or isinstance(value, list):
+                    self.identify_invalid_params(value, mismatches)
+        elif isinstance(params, list):
+            for item in params:
+                self.identify_invalid_params(item, mismatches)
+
+        if not mismatches:
+            self.log("No invalid parameters found.", "INFO")
+
+        return mismatches
+
     def valid_role_config_parameters(self, role_config):
         """
         Additional validation for the create role configuration payload.
@@ -1001,15 +1111,33 @@ class UserandRole(DnacBase):
             - If it fails, "self.status" will be "failed", and "self.msg" will describe the validation issues.
         """
         self.log("Validating role configuration parameters...", "INFO")
+
+        invalid_params = []
+        self.identify_invalid_params(role_config, invalid_params)
+
+        if invalid_params:
+            self.msg = "Invalid parameters in playbook config: Mismatched parameter(s) '{0}' in role '{1}'".format(
+                "', '".join(invalid_params), role_config.get("role_name"))
+            self.log(self.msg, "ERROR")
+            self.status = "failed"
+            return self
+
         error_messages = []
+        role_name = role_config.get("role_name")
+        role_name_regex = re.compile(r"^[a-zA-Z0-9._-]{1,25}$")
+        role_name_regex_msg = "Role names must be 1 to 25 characters long and should contain only letters, numbers, periods, underscores, and hyphens."
 
-        role_name_regex = re.compile(r"^[A-Za-z0-9_-]+$")
-        self.validate_string_field(role_config.get("role_name"), role_name_regex,
-                                   "Role name: 'role_name' must only contain letters, numbers, underscores,\
-                                   and hyphens and should not contain spaces or other special characters.", error_messages)
+        if role_name:
+            self.validate_string_field(role_name, role_name_regex, "role_name: '{0}' {1}".format(role_name, role_name_regex_msg), error_messages)
+        else:
+            error_messages.append(role_name_regex_msg)
 
-        if role_config.get("description"):
-            self.validate_string_parameter("description", role_config["description"], error_messages)
+        description = role_config["description"]
+        if description:
+            if len(description) > 1000:
+                error_messages.append("Role description exceeds the maximum length of 1000 characters.")
+            else:
+                self.validate_string_parameter("description", description, error_messages)
 
         role_param_map = {
             "assurance": ["overall", "monitoring_and_troubleshooting", "monitoring_settings", "troubleshooting_tools"],
@@ -1056,28 +1184,47 @@ class UserandRole(DnacBase):
         """
         self.log("Validating user configuration parameters...", "INFO")
         error_messages = []
+        name_regex = re.compile(r"^[A-Za-z0-9@._-]{2,50}$")
+        name_regex_msg = "can have alphanumeric characters only and must be 2 to 50 characters long."
 
-        first_name_regex = re.compile(r"^[A-Za-z0-9_-]+$")
-        self.validate_string_field(user_config.get("first_name"), first_name_regex, "first_name: 'first_name' must only contain letters, numbers, \
-                                   underscores, and hyphens and should not contain spaces or other special characters.", error_messages)
+        first_name = user_config.get("first_name")
+        self.validate_string_field(first_name, name_regex,
+                                   "first_name: First name '{0}' {1}".format(first_name, name_regex_msg), error_messages)
 
-        last_name_regex = re.compile(r"^[A-Za-z0-9_-]+$")
-        self.validate_string_field(user_config.get("last_name"), last_name_regex, "last_name: 'last_name' must only contain letters, numbers, \
-                                   underscores, and hyphens and should not contain spaces or other special characters.", error_messages)
+        last_name = user_config.get("last_name")
+        self.validate_string_field(last_name, name_regex,
+                                   "last_name: Last name '{0}' {1}".format(last_name, name_regex_msg), error_messages)
 
-        email_regex = re.compile(r"[^@]+@[^@]+\.[^@]+")
-        if user_config.get("email"):
-            self.validate_string_field(user_config.get("email"), email_regex,
-                                       "email: Invalid email format for 'email': {0}".format(user_config.get("email")), error_messages)
+        password = user_config.get("password")
 
-        password_regex = re.compile(r"^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$")
-        if user_config.get("password"):
-            self.validate_string_field(user_config.get("password"), password_regex, "password: 'Password' does not meet complexity requirements\
-                                       for password: {0}".format(user_config.get("email")), error_messages)
+        if password:
+            decrypt_password_response = self.decrypt_password(password, self.key.get("generate_key"))
 
-        username_regex = re.compile(r"^[A-Za-z0-9_-]+$")
-        self.validate_string_field(user_config.get("username"), username_regex, "username: 'Username' must only contain letters, numbers, \
-                                   underscores, and hyphens and should not contain spaces or other special characters.", error_messages)
+            if decrypt_password_response and "error_message" in decrypt_password_response:
+                self.msg = decrypt_password_response.get("error_message")
+                self.log(self.msg, "ERROR")
+                self.status = "failed"
+                return self
+
+            user_config['password'] = decrypt_password_response.get("decrypt_password")
+            plain_password = user_config.get("password")
+            self.validate_password(plain_password, error_messages)
+            encrypt_password_response = self.encrypt_password(plain_password, self.key.get("generate_key"))
+
+            if encrypt_password_response and "error_message" in encrypt_password_response:
+                self.msg = encrypt_password_response.get("error_message")
+                self.log(self.msg, "ERROR")
+                self.status = "failed"
+                return self
+
+            user_config['password'] = encrypt_password_response.get("encrypt_password").decode()
+            self.log("Password decrypted, validated, and re-encrypted successfully.", "DEBUG")
+
+        username_regex = re.compile(r"^[A-Za-z0-9@._-]{3,50}$")
+        username_regex_msg = "The username must not contain any special characters and must be 3 to 50 characters long."
+        username = user_config.get("username")
+        self.validate_string_field(username, username_regex,
+                                   "username: '{0}' {1}".format(username, username_regex_msg), error_messages)
 
         if user_config.get("role_list"):
             param_spec = dict(type="list", elements="str")
@@ -1193,11 +1340,12 @@ class UserandRole(DnacBase):
                 desired_role = self.generate_role_payload(self.want, "update")
                 self.log("desired role with config {0}".format(str(desired_role)), "DEBUG")
 
-                if "error" not in desired_role:
+                if "error_message" not in desired_role:
                     consolidated_data, update_required_param = self.role_requires_update(self.have["current_role_config"], desired_role)
 
                     if not consolidated_data:
-                        self.msg = "Role does not need any update"
+                        self.msg = "Role with role_name '{0}' already exists and does not require an update.".format(self.have.get("role_name"))
+                        self.no_update_role.append(self.have.get("role_name"))
                         self.log(self.msg, "INFO")
                         responses["role_operation"] = {"response": config}
                         self.result["response"] = self.msg
@@ -1213,7 +1361,7 @@ class UserandRole(DnacBase):
                 self.log("Creating role with config {0}".format(str(config)), "DEBUG")
                 role_info_params = self.generate_role_payload(self.want, "create")
 
-                if "error" not in role_info_params:
+                if "error_message" not in role_info_params:
                     filtered_data, overall_update_required = self.get_permissions(self.want, role_info_params, "create")
                     denied_permissions = self.find_denied_permissions(self.want)
                     denied_required, create_role_params = self.remove_denied_operations(filtered_data, denied_permissions)
@@ -1232,7 +1380,8 @@ class UserandRole(DnacBase):
                 (consolidated_data, update_required_param) = self.user_requires_update(self.have["current_user_config"], self.have["current_role_id_config"])
 
                 if not consolidated_data:
-                    self.msg = "User does not need any update"
+                    self.msg = "User with username '{0}' already exists and does not require an update.".format(self.have.get("username"))
+                    self.no_update_user.append(self.have.get("username"))
                     self.log(self.msg, "INFO")
                     responses["role_operation"] = {"response": config}
                     self.result["response"] = self.msg
@@ -1240,14 +1389,16 @@ class UserandRole(DnacBase):
                     return self
 
                 if update_required_param.get("role_list"):
-                    user_in_have = self.have["current_user_config"]
-                    update_param = update_required_param
-                    update_param["username"] = user_in_have.get("username")
-                    update_param["user_id"] = user_in_have.get("user_id")
-                    user_info_params = self.snake_to_camel_case(update_param)
-                    task_response = self.update_user(user_info_params)
+                    if self.want["username"] not in self.have["current_user_config"]["username"]:
+                        task_response = {"error_message": "Username for an existing user cannot be updated."}
+                    else:
+                        user_in_have = self.have["current_user_config"]
+                        update_param = update_required_param
+                        update_param["user_id"] = user_in_have.get("user_id")
+                        user_info_params = self.snake_to_camel_case(update_param)
+                        task_response = self.update_user(user_info_params)
                 else:
-                    task_response = {"error": "The role name in the user details role_list is not present in the Cisco Catalyst Center,"
+                    task_response = {"error_message": "The role name in the user details role_list is not present in the Cisco Catalyst Center,"
                                      " Please provide a valid role name"}
             else:
                 # Create the user
@@ -1279,10 +1430,10 @@ class UserandRole(DnacBase):
                     user_info_params = self.snake_to_camel_case(user_details)
                     task_response = self.create_user(user_info_params)
                 else:
-                    task_response = {"error": "The role name in the user details role_list is not present in the Cisco Catalyst Center,"
+                    task_response = {"error_message": "The role name in the user details role_list is not present in the Cisco Catalyst Center,"
                                      " Please provide a valid role name"}
 
-        if task_response and "error" not in task_response:
+        if task_response and "error_message" not in task_response:
             self.log("Task respoonse {0}".format(str(task_response)), "INFO")
             responses["operation"] = {"response": task_response}
             self.msg = responses
@@ -1292,7 +1443,7 @@ class UserandRole(DnacBase):
             self.log(self.msg, "INFO")
             return self
 
-        self.msg = task_response.get("error")
+        self.msg = task_response.get("error_message")
         self.log(self.msg, "ERROR")
         self.status = "failed"
         return self
@@ -1328,6 +1479,8 @@ class UserandRole(DnacBase):
         current_role_id = {}
 
         if "role_name" in input_config and input_config["role_name"] is not None:
+            self.log("Retrieving role details for role_name: {0}".format(str(input_config["role_name"])), "DEBUG")
+
             response_role = self.get_role()
             response_role = self.camel_to_snake_case(response_role)
             roles = response_role.get("response", {}).get("roles", [])
@@ -1337,9 +1490,13 @@ class UserandRole(DnacBase):
                     current_role_configuration = role
                     role_exists = True
 
+            self.log("Role retrieval result - role_exists: {0}, current_role_configuration: {1}".format(
+                str(role_exists), str(current_role_configuration)), "DEBUG")
             return role_exists, current_role_configuration
 
         if "username" in input_config or "email" in input_config:
+            self.log("Retrieving user details for username: {0}, email: {1}".format(
+                str(input_config.get("username")), str(input_config.get("email"))), "DEBUG")
             response_user = self.get_user()
             response_role = self.get_role()
             response_user = self.camel_to_snake_case(response_user)
@@ -1356,6 +1513,9 @@ class UserandRole(DnacBase):
                         current_user_configuration = user
                         user_exists = True
 
+            self.log("User retrieval result - user_exists: {0}, current_user_configuration: {1}".format(
+                str(user_exists), str(current_user_configuration)), "DEBUG")
+
             if input_config.get("role_list"):
                 for role_name in input_config["role_list"]:
                     for role in roles:
@@ -1366,6 +1526,7 @@ class UserandRole(DnacBase):
                     if role.get("name").lower() == "observer-role":
                         current_role_id[role.get("name").lower()] = role.get("role_id")
 
+            self.log("Role ID retrieval result - current_role_id: {0}".format(str(current_role_id)), "DEBUG")
             return user_exists, current_user_configuration, current_role_id
 
     def create_user(self, user_params):
@@ -1382,8 +1543,29 @@ class UserandRole(DnacBase):
             - Logs the provided user parameters and the received API response.
             - Returns the API response from the "create_user" function.
         """
+        self.log("Create user with 'user_params' argument...", "DEBUG")
+        decrypt_password_response = self.decrypt_password(user_params['password'], self.key.get("generate_key"))
+
+        if decrypt_password_response and "error_message" in decrypt_password_response:
+            self.msg = decrypt_password_response.get("error_message")
+            self.log(self.msg, "ERROR")
+            self.status = "failed"
+            return self
+
+        user_params['password'] = decrypt_password_response.get("decrypt_password")
+        required_keys = ['username', 'password']
+        missing_keys = []
+
+        self.log("Check if each required key is present in the user_params dictionary...", "DEBUG")
+        for key in required_keys:
+            if key not in user_params:
+                missing_keys.append(key)
+
+        if missing_keys:
+            error_message = "Mandatory parameter(s) '{0}' not present in the user details.".format(", ".join(missing_keys))
+            return {"error_message": error_message}
+
         try:
-            self.log("Create user with user_info_params: {0}".format(str(user_params)), "DEBUG")
             response = self.dnac._exec(
                 family="user_and_roles",
                 function="add_user_api",
@@ -1391,11 +1573,20 @@ class UserandRole(DnacBase):
                 params=user_params,
             )
             self.log("Received API response from create_user: {0}".format(str(response)), "DEBUG")
+            self.created_user.append(user_params.get("username"))
             return response
 
-        except Exception:
-            error_message = "Mandatory field not present: An error occurred while creating the user"
-            return {"error": error_message}
+        except Exception as e:
+            self.log("Unexpected error occurred: {0}".format(str(e)), "ERROR")
+            if "[403]" in str(e):
+                error_message = (
+                    "The Catalyst Center user '{0}' does not have the necessary permissions to 'create or update' a user through the API.".format(
+                        self.payload.get("dnac_username"))
+                )
+            else:
+                error_message = "Invalid email format for email '{0}' under username '{1}'".format(user_params.get("email"), user_params.get("username"))
+
+            return {"error_message": error_message}
 
     def create_role(self, role_params):
         """
@@ -1420,11 +1611,14 @@ class UserandRole(DnacBase):
                 params=role_params,
             )
             self.log("Received API response from create_role: {0}".format(str(response)), "DEBUG")
+            self.created_role.append(role_params.get("role"))
             return response
 
-        except Exception:
-            error_message = "An error occurred while creating the role without access-level parameters and permissions"
-            return {"error": error_message}
+        except Exception as e:
+            self.log("Unexpected error occurred: {0}".format(str(e)), "ERROR")
+            error_message = "The Catalyst Center user '{0}' does not have the necessary permissions to 'create a role' through the API.".format(
+                self.payload.get("dnac_username"))
+            return {"error_message": error_message}
 
     def get_user(self):
         """
@@ -1513,9 +1707,10 @@ class UserandRole(DnacBase):
                 permission = permission.lower()
 
                 if permission not in ["read", "write", "deny"]:
-                    error_message = "Invalid permission {0} for assurance resource {1}".format(permission, resource_name)
+                    error_message = "Invalid permission '{0}' for assurance resource '{1}' under the role '{2}'".format(
+                        permission, resource_name, self.have.get("role_name"))
                     self.log(error_message, "DEBUG")
-                    return {"error": error_message}
+                    return {"error_message": error_message}
 
                 if permission == "deny":
                     self.log("Skipping resource {0} because permission is 'deny'".format(resource_name), "DEBUG")
@@ -1577,9 +1772,10 @@ class UserandRole(DnacBase):
                 permission = permission.lower()
 
                 if permission not in ["read", "write", "deny"]:
-                    error_message = "Invalid permission {0} for network analytics resource {1}".format(permission, resource_name)
+                    error_message = "Invalid permission '{0}' for network analytics resource '{1}' under the role '{2}'".format(
+                        permission, resource_name, self.have.get("role_name"))
                     self.log(error_message, "DEBUG")
-                    return {"error": error_message}
+                    return {"error_message": error_message}
 
                 if permission == "deny":
                     self.log("Skipping resource {0} because permission is 'deny'".format(resource_name), "DEBUG")
@@ -1638,9 +1834,10 @@ class UserandRole(DnacBase):
                 permission = permission.lower()
 
                 if permission not in ["read", "write", "deny"]:
-                    error_message = "Invalid permission {0} for network design resource {1}".format(permission, resource_name)
+                    error_message = "Invalid permission '{0}' for network design resource '{1}' under the role '{2}'".format(
+                        permission, resource_name, self.have.get("role_name"))
                     self.log(error_message, "DEBUG")
-                    return {"error": error_message}
+                    return {"error_message": error_message}
 
                 if permission == "deny":
                     self.log("Skipping resource {0} because permission is 'deny'".format(resource_name), "DEBUG")
@@ -1699,7 +1896,7 @@ class UserandRole(DnacBase):
         if not isinstance(role_config["network_provision"], list):
             error_message = "The given network_provision is not in type: list"
             self.log(error_message, "DEBUG")
-            return {"error": error_message}
+            return {"error_message": error_message}
 
         for provision in role_config["network_provision"]:
             for resource_name, permission in provision.items():
@@ -1713,9 +1910,10 @@ class UserandRole(DnacBase):
                         sub_permission = sub_permission.lower()
 
                         if sub_permission not in ["read", "write", "deny"]:
-                            error_message = "Invalid permission {0} for network provision for sub-resource {1}".format(sub_permission, sub_resource_name)
+                            error_message = "Invalid permission '{0}' for network provision for sub-resource '{1}' under the role '{2}'".format(
+                                sub_permission, sub_resource_name, self.have.get("role_name"))
                             self.log(error_message, "DEBUG")
-                            return {"error": error_message}
+                            return {"error_message": error_message}
 
                         if sub_permission == "deny":
                             self.log("Skipping sub-resource {0} because permission is 'deny'".format(sub_resource_name), "DEBUG")
@@ -1749,9 +1947,10 @@ class UserandRole(DnacBase):
                     permission = permission.lower()
 
                     if permission not in ["read", "write", "deny"]:
-                        error_message = "Invalid permission {0} for network provision resource {1}".format(permission, resource_name)
+                        error_message = "Invalid permission '{0}' for network provision resource '{1}' under the role '{2}'".format(
+                            permission, resource_name, self.have.get("role_name"))
                         self.log(error_message, "DEBUG")
-                        return {"error": error_message}
+                        return {"error_message": error_message}
 
                     if permission == "deny":
                         self.log("Skipping resource {0} because permission is 'deny'".format(resource_name), "DEBUG")
@@ -1822,9 +2021,10 @@ class UserandRole(DnacBase):
                 permission = permission.lower()
 
                 if permission not in ["read", "write", "deny"]:
-                    error_message = "Invalid permission {0} for network services resource {1}".format(permission, resource_name)
+                    error_message = "Invalid permission '{0}' for network services resource '{1}' under the role '{2}'".format(
+                        permission, resource_name, self.have.get("role_name"))
                     self.log(error_message, "DEBUG")
-                    return {"error": error_message}
+                    return {"error_message": error_message}
 
                 if permission == "deny":
                     self.log("Skipping resource {0} because permission is 'deny'".format(resource_name), "DEBUG")
@@ -1867,9 +2067,10 @@ class UserandRole(DnacBase):
                 permission = permission.lower()
 
                 if permission not in ["read", "write", "deny"]:
-                    error_message = "Invalid permission {0} for platform resource {1}".format(permission, resource_name)
+                    error_message = "Invalid permission '{0}' for platform resource '{1}' under the role '{2}'".format(
+                        permission, resource_name, self.have.get("role_name"))
                     self.log(error_message, "DEBUG")
-                    return {"error": error_message}
+                    return {"error_message": error_message}
 
                 if permission == "deny":
                     self.log("Skipping resource {0} because permission is 'deny'".format(resource_name), "DEBUG")
@@ -1938,9 +2139,10 @@ class UserandRole(DnacBase):
                 permission = permission.lower()
 
                 if permission not in ["read", "write", "deny"]:
-                    error_message = "Invalid permission {0} for security resource {1}".format(permission, resource_name)
+                    error_message = "Invalid permission '{0}' for security resource '{1}' under the role '{2}'".format(
+                        permission, resource_name, self.have.get("role_name"))
                     self.log(error_message, "DEBUG")
-                    return {"error": error_message}
+                    return {"error_message": error_message}
 
                 if permission == "deny":
                     self.log("Skipping resource {0} because permission is 'deny'".format(resource_name), "DEBUG")
@@ -2009,9 +2211,10 @@ class UserandRole(DnacBase):
                 permission = permission.lower()
 
                 if permission not in ["read", "write", "deny"]:
-                    error_message = "Invalid permission {0} for system resource {1}".format(permission, resource_name)
+                    error_message = "Invalid permission '{0}' for system resource '{1}' under the role '{2}'".format(
+                        permission, resource_name, self.have.get("role_name"))
                     self.log(error_message, "DEBUG")
-                    return {"error": error_message}
+                    return {"error_message": error_message}
 
                 if permission == "deny":
                     self.log("Skipping resource {0} because permission is 'deny'".format(resource_name), "DEBUG")
@@ -2072,9 +2275,10 @@ class UserandRole(DnacBase):
                 permission = permission.lower()
 
                 if permission not in ["read", "write", "deny"]:
-                    error_message = "Invalid permission {0} for utilities resource {1}".format(permission, resource_name)
+                    error_message = "Invalid permission '{0}' for utilities resource '{1}' under the role '{2}'".format(
+                        permission, resource_name, self.have.get("role_name"))
                     self.log(error_message, "DEBUG")
-                    return {"error": error_message}
+                    return {"error_message": error_message}
 
                 if permission == "deny":
                     self.log("Skipping resource {0} because permission is 'deny'".format(resource_name), "DEBUG")
@@ -2228,7 +2432,7 @@ class UserandRole(DnacBase):
             if current_description != desired_description:
                 self.log("Updating description from {0} to {1}.".format(current_description, desired_description), "DEBUG")
                 update_role_params["description"] = desired_description
-                update_needed = True
+                update_required = True
             elif "description" not in update_role_params:
                 update_role_params["description"] = current_description
         else:
@@ -2300,6 +2504,19 @@ class UserandRole(DnacBase):
         else:
             update_user_params["last_name"] = current_last_name
 
+        # Compare and update username
+        desired_username = self.want.get("username")
+        current_username = current_user.get("username")
+        if desired_username is not None:
+            if current_username != desired_username:
+                self.log("Username for an existing User cannot be updated from {0} to {1}.".format(current_username, desired_username), "DEBUG")
+                update_user_params["username"] = desired_username
+                update_needed = True
+            elif "username" not in update_user_params:
+                update_user_params["username"] = current_username
+        else:
+            update_user_params["username"] = current_username
+
         # Compare and update email
         desired_email = self.want.get("email")
         current_email = current_user.get("email")
@@ -2349,15 +2566,22 @@ class UserandRole(DnacBase):
             - This method sends a request to update a user in Cisco Catalyst Center using the provided
             - user parameters. It logs the response and returns it.
         """
-        self.log("Updating user with parameters: {0}".format(user_params), "DEBUG")
-        response = self.dnac._exec(
-            family="user_and_roles",
-            function="update_user_api",
-            op_modifies=True,
-            params=user_params,
-        )
-        self.log("Received API response from update_user: {0}".format(str(response)), "DEBUG")
-        return response
+        try:
+            self.log("Updating user with parameters: {0}".format(user_params), "DEBUG")
+            response = self.dnac._exec(
+                family="user_and_roles",
+                function="update_user_api",
+                op_modifies=True,
+                params=user_params,
+            )
+            self.log("Received API response from update_user: {0}".format(str(response)), "DEBUG")
+            self.updated_user.append(user_params.get("username"))
+            return response
+
+        except Exception as e:
+            self.log("Unexpected error occurred: {0}".format(str(e)), "ERROR")
+            error_message = "Invalid email format for email '{0}' under username '{1}'".format(user_params.get("email"), user_params.get("username"))
+            return {"error_message": error_message}
 
     def update_role(self, role_params):
         """
@@ -2374,16 +2598,23 @@ class UserandRole(DnacBase):
               and the "update_role_api" function. The method logs the received API response at the "DEBUG" level and
               finally returns the response.
         """
-        self.log("Update role with role_info_params: {0}".format(str(role_params)), "DEBUG")
-        response = self.dnac._exec(
-            family="user_and_roles",
-            function="update_role_api",
-            op_modifies=True,
-            params=role_params,
-        )
-        self.log("Received API response from update_role: {0}".format(str(response)), "DEBUG")
+        try:
+            self.log("Updating role with role_info_params: {0}".format(str(role_params)), "DEBUG")
+            response = self.dnac._exec(
+                family="user_and_roles",
+                function="update_role_api",
+                op_modifies=True,
+                params=role_params,
+            )
+            self.log("Received API response from update_role: {0}".format(str(response)), "DEBUG")
+            self.updated_role.append(self.have.get("role_name"))
+            return response
 
-        return response
+        except Exception as e:
+            self.log("Unexpected error occurred: {0}".format(str(e)), "ERROR")
+            error_message = "The catalyst center user '{0}' does not have the necessary permissions to update role through the API.".format(
+                self.payload.get("dnac_username"))
+            return {"error_message": error_message}
 
     def find_denied_permissions(self, config, parent_key=""):
         """
@@ -2676,7 +2907,7 @@ class UserandRole(DnacBase):
                 task_response = self.delete_role(role_id_to_delete)
                 self.log("Task response {0}".format(str(task_response)), "INFO")
 
-                if task_response and "error" not in task_response:
+                if task_response and "error_message" not in task_response:
                     responses = {"role_operation": {"response": task_response}}
                     self.msg = responses
                     self.result["response"] = self.msg
@@ -2714,7 +2945,11 @@ class UserandRole(DnacBase):
                 self.log(self.msg, "INFO")
                 return self
 
-            self.msg = "Please provide a valid 'username' or 'email' for user deletion"
+            self.msg = (
+                "Please provide a valid 'username' or 'email' for user deletion, or "
+                "The Catalyst Center user '{0}' does not have the necessary permissions "
+                "to delete a user through the API.".format(self.payload.get("dnac_username"))
+            )
             self.log(self.msg, "ERROR")
             self.status = "failed"
             return self
@@ -2740,6 +2975,7 @@ class UserandRole(DnacBase):
             params=user_params,
         )
         self.log("Received API response from delete_user: {0}".format(str(response)), "DEBUG")
+        self.deleted_user.append(self.have.get("username"))
         return response
 
     def delete_role(self, role_params):
@@ -2764,13 +3000,21 @@ class UserandRole(DnacBase):
                 params=role_params,
             )
             self.log("Received API response from delete_role: {0}".format(str(response)), "DEBUG")
-        except Exception:
-            error_message = "An error occurred while deleting the role. Check whether user(s) are assigned to this role \
-                {0}".format(str(self.have.get("role_name")))
+            self.deleted_role.append(self.have.get("role_name"))
+            return response
 
-            return {"error": error_message}
+        except Exception as e:
+            self.log("Unexpected error occurred: {0}".format(str(e)), "ERROR")
+            if "[403]" in str(e):
+                error_message = (
+                    "The Catalyst Center user '{0}' does not have the necessary permissions to delete the role through the API.".format(
+                        self.payload.get("dnac_username"))
+                )
+            else:
+                error_message = "An error occurred while deleting the role. Check whether user(s) are assigned to the role '{0}'.".format(
+                    self.have.get("role_name"))
 
-        return response
+            return {"error_message": error_message}
 
     def verify_diff_merged(self, config):
         """
@@ -2891,6 +3135,66 @@ class UserandRole(DnacBase):
 
         return self
 
+    def update_user_role_profile_messages(self):
+        """
+        Updates and logs messages based on the status of users and roles.
+        Args:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+        Returns:
+            self (object): Returns the current instance of the class with updated `result` and `msg` attributes.
+        Description:
+            This method aggregates status messages related to the creation, update, or deletion of users and roles.
+            It checks various instance variables (`create_user`, `update_user`, `no_update_user`, `delete_user`,
+            `create_role`, `update_role`, `no_update_role`, `delete_role`) to determine the status and generates
+            corresponding messages. The method also updates the `result["response"]` attribute with the concatenated status messages.
+        """
+
+        self.result["changed"] = False
+        result_msg_list = []
+
+        if self.created_user:
+            create_user_msg = "User(s) '{0}' created successfully in Cisco Catalyst Center.".format("', '".join(self.created_user))
+            result_msg_list.append(create_user_msg)
+
+        if self.updated_user:
+            update_user_msg = "User(s) '{0}' updated successfully in Cisco Catalyst Center.".format("', '".join(self.updated_user))
+            result_msg_list.append(update_user_msg)
+
+        if self.no_update_user:
+            no_update_user_msg = "User(s) '{0}' need no update in Cisco Catalyst Center.".format("', '".join(self.no_update_user))
+            result_msg_list.append(no_update_user_msg)
+
+        if self.deleted_user:
+            delete_user_msg = "User(s) '{0}' deleted successfully from the Cisco Catalyst Center.".format("', '".join(self.deleted_user))
+            result_msg_list.append(delete_user_msg)
+
+        if self.created_role:
+            create_role_msg = "Role(s) '{0}' created successfully in Cisco Catalyst Center.".format("', '".join(self.created_role))
+            result_msg_list.append(create_role_msg)
+
+        if self.updated_role:
+            update_role_msg = "Role(s) '{0}' updated successfully in Cisco Catalyst Center.".format("', '".join(self.updated_role))
+            result_msg_list.append(update_role_msg)
+
+        if self.no_update_role:
+            no_update_role_msg = "Role(s) '{0}' need no update in Cisco Catalyst Center.".format("', '".join(self.no_update_role))
+            result_msg_list.append(no_update_role_msg)
+
+        if self.deleted_role:
+            delete_role_msg = "Role(s) '{0}' deleted successfully from the Cisco Catalyst Center.".format("', '".join(self.deleted_role))
+            result_msg_list.append(delete_role_msg)
+
+        if result_msg_list:
+            self.result["changed"] = True
+            self.msg = " ".join(result_msg_list)
+        else:
+            self.msg = "No changes were made. No user or role actions were performed in Cisco Catalyst Center."
+
+        self.log(self.msg, "INFO")
+        self.result["response"] = self.msg
+
+        return self
+
     def snake_to_camel_case(self, data):
         """
         Convert keys from snake_case to camelCase in a given dictionary or list of dictionaries recursively.
@@ -2986,6 +3290,8 @@ def main():
 
             if config_verify:
                 ccc_user_role.verify_diff_state_apply[state](config).check_return_status()
+
+    ccc_user_role.update_user_role_profile_messages().check_return_status()
 
     module.exit_json(**ccc_user_role.result)
 

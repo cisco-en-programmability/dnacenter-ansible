@@ -1,0 +1,30 @@
+---
+provision_accesspoint:
+  - mac_address: "34:5d:a8:3b:d8:e0"
+    rf_profile: "HIGH"
+    site:
+      floor:
+        name: "FLOOR1"
+        parent_name: "Global/USA/New York/BLDNYC"
+
+update_accesspoint_config:
+  - mac_address: "90:e9:5e:03:f3:40"
+    ap_name: "LTTS-test1"
+    led_status: "Enabled"
+    led_brightness_level: 3
+    ap_mode: "Local"
+    location: "LTTS/Cisco/Chennai"
+    failover_priority: "Low"
+    2.4ghz_radio:
+      admin_status: "Enabled"
+      antenna_name: "C-ANT9104-2.4GHz"
+      radio_role_assignment: "Client-Serving"
+      channel_number: 3
+      powerlevel: 3
+    5ghz_radio:
+      admin_status: "Enabled"
+      antenna_name: "AIR-ANT2513P4M-N-5GHz"
+      radio_role_assignment: "Client-Serving"
+      channel_number: 48
+      powerlevel: 3
+      channel_width: "20 MHz"
