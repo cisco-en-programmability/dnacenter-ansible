@@ -1,0 +1,22 @@
+name: integration-tests
+on:
+  workflow_run:
+    workflows:
+      - main
+jobs:
+  trigger-circleci:
+    runs-on: ubuntu-20.04
+    if: github.event.workflow_run.conclusion == 'success'
+    steps:
+        - uses: actions/download-artifact@v4
+          with:
+            name: github_ref-${{ github.event.workflow_run.id }}
+            run-id: ${{ github.event.workflow_run.id }}
+            github-token: ${{ secrets.GITHUB_TOKEN }}
+        - name: Trigger circleci
+          run: |
+             printf '{"branch": "%s" ,"parameters": {"GHA_Meta":"run-tests"}}' $(cat github_ref) > req_body
+             curl -X POST --location "https://circleci.com/api/v2/project/gh/madhansansel/dnacenter-ansible/pipeline" \
+                -H "Content-Type: application/json" \
+                -H "Circle-Token: ${{ secrets.CCI_TOKEN }}" \
+                -d "@req_body"
