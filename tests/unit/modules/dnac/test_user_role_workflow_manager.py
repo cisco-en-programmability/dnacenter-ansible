@@ -85,7 +85,7 @@ class TestDnacUserRoleWorkflowManager(TestDnacModule):
                 self.test_data.get("update_user_needed_get_role_response"),
                 self.test_data.get("update_needed_user_response")
             ]
-        if "user_update_not_needed" in self._testMethodName:
+        elif "user_update_not_needed" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("update_not_needed_get_user_response"),
                 self.test_data.get("update_user_not_needed_get_role_response"),
@@ -390,12 +390,12 @@ class TestDnacUserRoleWorkflowManager(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("msg"),
-            "Invalid parameters in playbook config: first_name: 'first_name' must only contain letters, \
-numbers,                                    underscores, and hyphens and should not contain spaces or other \
-special characters., last_name: 'last_name' must only contain letters, numbers,                                    underscores, \
+            "Invalid parameters in playbook config: first_name: 'ajith ' must only contain letters, \
+numbers, underscores and hyphens and should not contain spaces or other \
+special characters., last_name: 'andrew ' must only contain letters, numbers, underscores \
 and hyphens and should not contain spaces or other special characters., email: Invalid email format for 'email': ajith.andrewexample.com, \
-password: 'Password' does not meet complexity requirements                                       for password: \
-ajith.andrewexample.com, username: 'Username' must only contain letters, numbers,                                    underscores, \
+password: 'Password' does not meet complexity requirements for password: \
+Ajith123, username: 'ajithandrewj ' must only contain letters, numbers, underscores \
 and hyphens and should not contain spaces or other special characters."
         )
 
@@ -695,8 +695,8 @@ and hyphens and should not contain spaces or other special characters."
         print(result)
         self.assertEqual(
             result.get("msg"),
-            "Invalid parameters in playbook config: Role name: 'role_name' must only contain letters, numbers, underscores,\
-                                   and hyphens and should not contain spaces or other special characters."
+            "Invalid parameters in playbook config: role_name: 'Test_Role_1 ' must only contain letters, numbers, underscores \
+and hyphens and should not contain spaces or other special characters."
         )
 
     def test_user_role_workflow_manager_invalid_param_type_list_missing(self):
