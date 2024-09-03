@@ -197,6 +197,7 @@
 <li class="toctree-l4"><a class="reference internal" href="event_webhook_update_module.html">cisco.dnac.event_webhook_update module -- Resource module for Event Webhook Update</a></li>
 <li class="toctree-l4"><a class="reference internal" href="events_and_notifications_workflow_manager_module.html">cisco.dnac.events_and_notifications_workflow_manager module -- Configure various types of destinations to deliver event notifications from Cisco Catalyst Center Platform.</a></li>
 <li class="toctree-l4"><a class="reference internal" href="execute_suggested_actions_commands_module.html">cisco.dnac.execute_suggested_actions_commands module -- Resource module for Execute Suggested Actions Commands</a></li>
+<li class="toctree-l4"><a class="reference internal" href="fabric_sites_zones_workflow_manager_module.html">cisco.dnac.fabric_sites_zones_workflow_manager module -- Manage fabric site(s)/zone(s) and update the authentication profile template in Cisco Catalyst Center.</a></li>
 <li class="toctree-l4"><a class="reference internal" href="file_import_module.html">cisco.dnac.file_import module -- Resource module for File Import</a></li>
 <li class="toctree-l4"><a class="reference internal" href="file_info_module.html">cisco.dnac.file_info module -- Information module for File</a></li>
 <li class="toctree-l4"><a class="reference internal" href="file_namespace_files_info_module.html">cisco.dnac.file_namespace_files_info module -- Information module for File Namespace Files</a></li>
@@ -386,6 +387,7 @@
 <li class="toctree-l4"><a class="reference internal" href="sda_extranet_policies_module.html">cisco.dnac.sda_extranet_policies module -- Resource module for Sda Extranetpolicies</a></li>
 <li class="toctree-l4"><a class="reference internal" href="sda_extranet_policies_count_info_module.html">cisco.dnac.sda_extranet_policies_count_info module -- Information module for Sda Extranetpolicies Count</a></li>
 <li class="toctree-l4"><a class="reference internal" href="sda_extranet_policies_info_module.html">cisco.dnac.sda_extranet_policies_info module -- Information module for Sda Extranetpolicies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sda_extranet_policies_workflow_manager_module.html">cisco.dnac.sda_extranet_policies_workflow_manager module -- SDA Extranet Policies Module provides functionality for managing SDA Extranet Policy in Cisco Catalyst Center.</a></li>
 <li class="toctree-l4"><a class="reference internal" href="sda_fabric_module.html">cisco.dnac.sda_fabric module -- Resource module for Sda Fabric</a></li>
 <li class="toctree-l4"><a class="reference internal" href="sda_fabric_authentication_profile_module.html">cisco.dnac.sda_fabric_authentication_profile module -- Resource module for Sda Fabric Authentication Profile</a></li>
 <li class="toctree-l4"><a class="reference internal" href="sda_fabric_authentication_profile_info_module.html">cisco.dnac.sda_fabric_authentication_profile_info module -- Information module for Sda Fabric Authentication Profile</a></li>
@@ -578,7 +580,7 @@
 <h1>cisco.dnac.user_role_workflow_manager module -- Resource module for managing users and roles in Cisco Catalyst Center.<a class="headerlink" href="#cisco-dnac-user-role-workflow-manager-module-resource-module-for-managing-users-and-roles-in-cisco-catalyst-center" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.17.1).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.18.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-user-role-workflow-manager-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -1186,8 +1188,8 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-user-rol
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Provides the same choice for all sub-parameters.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id215"><span class="problematic" id="id216">:ansible-option-choices-entry:`&quot;deny&quot;`</span></a></p></li>
-<li><p><a href="#id217"><span class="problematic" id="id218">:ansible-option-choices-entry-default:`&quot;read&quot;`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id215"><span class="problematic" id="id216">:ansible-option-choices-entry-default:`&quot;deny&quot;`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id217"><span class="problematic" id="id218">:ansible-option-choices-entry:`&quot;read&quot;`</span></a></p></li>
 <li><p><a href="#id219"><span class="problematic" id="id220">:ansible-option-choices-entry:`&quot;write&quot;`</span></a></p></li>
 </ul>
 </div></td>
@@ -1390,8 +1392,8 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-user-rol
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Allow Cisco support team to remotely troubleshoot any network devices managed by Cisco DNA Center.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id297"><span class="problematic" id="id298">:ansible-option-choices-entry:`&quot;deny&quot;`</span></a></p></li>
-<li><p><a href="#id299"><span class="problematic" id="id300">:ansible-option-choices-entry-default:`&quot;read&quot;`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id297"><span class="problematic" id="id298">:ansible-option-choices-entry-default:`&quot;deny&quot;`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id299"><span class="problematic" id="id300">:ansible-option-choices-entry:`&quot;read&quot;`</span></a></p></li>
 <li><p><a href="#id301"><span class="problematic" id="id302">:ansible-option-choices-entry:`&quot;write&quot;`</span></a></p></li>
 </ul>
 </div></td>
@@ -1404,8 +1406,8 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-user-rol
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
 <li><p><a href="#id303"><span class="problematic" id="id304">:ansible-option-choices-entry:`&quot;deny&quot;`</span></a></p></li>
-<li><p><a href="#id305"><span class="problematic" id="id306">:ansible-option-choices-entry-default:`&quot;read&quot;`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><a href="#id307"><span class="problematic" id="id308">:ansible-option-choices-entry:`&quot;write&quot;`</span></a></p></li>
+<li><p><a href="#id305"><span class="problematic" id="id306">:ansible-option-choices-entry:`&quot;read&quot;`</span></a></p></li>
+<li><p><a href="#id307"><span class="problematic" id="id308">:ansible-option-choices-entry-default:`&quot;write&quot;`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
 </ul>
 </div></td>
 </tr>
@@ -1457,7 +1459,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-user-rol
 <a class="ansibleOptionLink" href="#parameter-config/user_details/password" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The password for the user account, which must adhere to specified complexity requirements.</p>
-<p>Must contain at least one special character, one capital letter, one lowercase letter, and a minimum length of 15 characters.</p>
+<p>Must contain at least one special character, one capital letter, one lowercase letter, and a minimum length of 8 characters.</p>
 <p>Required for creating a new user account.</p>
 </div></td>
 </tr>
@@ -1478,6 +1480,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-user-rol
 <a class="ansibleOptionLink" href="#parameter-config/user_details/username" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The 'username' associated with the user account.</p>
+<p>Required for user create, update and delete operations.</p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
@@ -1748,7 +1751,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-user-rol
 <span class="w">    </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
 <span class="w">    </span><span class="nt">dnac_api_task_timeout</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span>
 <span class="w">    </span><span class="nt">dnac_task_poll_interval</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
-<span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
+<span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deleted</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">user_details</span><span class="p">:</span>
 <span class="w">        </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ajithandrewj&quot;</span>
@@ -1774,7 +1777,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-user-rol
 <span class="w">              </span><span class="nt">monitoring_settings</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;read&quot;</span>
 <span class="w">              </span><span class="nt">troubleshooting_tools</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;deny&quot;</span>
 <span class="w">          </span><span class="nt">network_analytics</span><span class="p">:</span>
-<span class="w">            </span><span class="nt">data_access</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;write&quot;</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">data_access</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;write&quot;</span>
 <span class="w">          </span><span class="nt">network_design</span><span class="p">:</span>
 <span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">advanced_network_settings</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;deny&quot;</span>
 <span class="w">              </span><span class="nt">image_repository</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;deny&quot;</span>
@@ -1784,6 +1787,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-user-rol
 <span class="w">              </span><span class="nt">virtual_network</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;read&quot;</span>
 <span class="w">          </span><span class="nt">network_provision</span><span class="p">:</span>
 <span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">compliance</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;deny&quot;</span>
+<span class="w">              </span><span class="nt">eox</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;read&quot;</span>
 <span class="w">              </span><span class="nt">image_update</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;write&quot;</span>
 <span class="w">              </span><span class="nt">inventory_management</span><span class="p">:</span>
 <span class="w">                </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">device_configuration</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;write&quot;</span>
@@ -1816,6 +1820,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-user-rol
 <span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">audit_log</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;read&quot;</span>
 <span class="w">              </span><span class="nt">event_viewer</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;deny&quot;</span>
 <span class="w">              </span><span class="nt">network_reasoner</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;write&quot;</span>
+<span class="w">              </span><span class="nt">remote_device_support</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;read&quot;</span>
 <span class="w">              </span><span class="nt">scheduler</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;read&quot;</span>
 <span class="w">              </span><span class="nt">search</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;write&quot;</span>
 
@@ -1903,7 +1908,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-user-rol
 <span class="w">    </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
 <span class="w">    </span><span class="nt">dnac_api_task_timeout</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span>
 <span class="w">    </span><span class="nt">dnac_task_poll_interval</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
-<span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
+<span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deleted</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">role_details</span><span class="p">:</span>
 <span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">rolename</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;role_name&quot;</span>

@@ -42,7 +42,7 @@ cisco.dnac.device_configs_backup_workflow_manager module -- Resource module for 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.17.1).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.18.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -449,6 +449,40 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Specifies the series of the device(s) from the type, like Cisco Catalyst 9300 Series Switches
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/site"></div>
+
+      .. _ansible_collections.cisco.dnac.device_configs_backup_workflow_manager_module__parameter-config/site:
+
+      .. rst-class:: ansible-option-title
+
+      **site**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/site" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of the site to which the device is assigned
 
 
       .. raw:: html
@@ -1195,6 +1229,22 @@ Examples
               series: Cisco Catalyst 9300 Series Switches
               collection_status: Managed
               file_path: /home/admin/madhan_ansible/collections/ansible_collections/cisco/dnac/playbooks/new_tmp
+
+    - name: Take backup of a 9300 wired device associated with site
+      cisco.dnac.device_configs_backup_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: True
+        dnac_log_level: "{{dnac_log_level}}"
+        state: merged
+        config:
+            - site: Global/USA/New York/BLDNYC
+
 
 
 

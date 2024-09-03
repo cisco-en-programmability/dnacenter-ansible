@@ -6,7 +6,7 @@
 Cisco.Dnac
 ==========
 
-Collection version 6.17.1
+Collection version 6.18.0
 
 .. contents::
    :local:
@@ -35,6 +35,7 @@ Ansible Modules for Cisco DNA Center
 * Rangaprabhu Deenadayalu <radeenad@cisco.com>
 * Ajith Andrew J <jajandre@cisco.com>
 * Syed Khadeer Ahmed <syedkahm@cisco.com>
+* A Mohamed Rafeek <mabdulk2@cisco.com>
 
 **Supported ansible-core versions:**
 
@@ -207,6 +208,7 @@ Modules
 * :ref:`event_webhook_update module <ansible_collections.cisco.dnac.event_webhook_update_module>` -- Resource module for Event Webhook Update
 * :ref:`events_and_notifications_workflow_manager module <ansible_collections.cisco.dnac.events_and_notifications_workflow_manager_module>` -- Configure various types of destinations to deliver event notifications from Cisco Catalyst Center Platform.
 * :ref:`execute_suggested_actions_commands module <ansible_collections.cisco.dnac.execute_suggested_actions_commands_module>` -- Resource module for Execute Suggested Actions Commands
+* :ref:`fabric_sites_zones_workflow_manager module <ansible_collections.cisco.dnac.fabric_sites_zones_workflow_manager_module>` -- Manage fabric site(s)/zone(s) and update the authentication profile template in Cisco Catalyst Center.
 * :ref:`file_import module <ansible_collections.cisco.dnac.file_import_module>` -- Resource module for File Import
 * :ref:`file_info module <ansible_collections.cisco.dnac.file_info_module>` -- Information module for File
 * :ref:`file_namespace_files_info module <ansible_collections.cisco.dnac.file_namespace_files_info_module>` -- Information module for File Namespace Files
@@ -396,6 +398,7 @@ Modules
 * :ref:`sda_extranet_policies module <ansible_collections.cisco.dnac.sda_extranet_policies_module>` -- Resource module for Sda Extranetpolicies
 * :ref:`sda_extranet_policies_count_info module <ansible_collections.cisco.dnac.sda_extranet_policies_count_info_module>` -- Information module for Sda Extranetpolicies Count
 * :ref:`sda_extranet_policies_info module <ansible_collections.cisco.dnac.sda_extranet_policies_info_module>` -- Information module for Sda Extranetpolicies
+* :ref:`sda_extranet_policies_workflow_manager module <ansible_collections.cisco.dnac.sda_extranet_policies_workflow_manager_module>` -- SDA Extranet Policies Module provides functionality for managing SDA Extranet Policy in Cisco Catalyst Center.
 * :ref:`sda_fabric module <ansible_collections.cisco.dnac.sda_fabric_module>` -- Resource module for Sda Fabric
 * :ref:`sda_fabric_authentication_profile module <ansible_collections.cisco.dnac.sda_fabric_authentication_profile_module>` -- Resource module for Sda Fabric Authentication Profile
 * :ref:`sda_fabric_authentication_profile_info module <ansible_collections.cisco.dnac.sda_fabric_authentication_profile_info_module>` -- Information module for Sda Fabric Authentication Profile
@@ -701,6 +704,7 @@ Modules
     event_webhook_update_module
     events_and_notifications_workflow_manager_module
     execute_suggested_actions_commands_module
+    fabric_sites_zones_workflow_manager_module
     file_import_module
     file_info_module
     file_namespace_files_info_module
@@ -890,6 +894,7 @@ Modules
     sda_extranet_policies_module
     sda_extranet_policies_count_info_module
     sda_extranet_policies_info_module
+    sda_extranet_policies_workflow_manager_module
     sda_fabric_module
     sda_fabric_authentication_profile_module
     sda_fabric_authentication_profile_info_module

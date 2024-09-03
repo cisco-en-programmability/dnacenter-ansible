@@ -42,7 +42,7 @@ cisco.dnac.user_role_workflow_manager module -- Resource module for managing use
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.17.1).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.18.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -2065,8 +2065,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`"deny"`
-      - :ansible-option-choices-entry-default:`"read"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry-default:`"deny"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"read"`
       - :ansible-option-choices-entry:`"write"`
 
 
@@ -2781,8 +2781,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`"deny"`
-      - :ansible-option-choices-entry-default:`"read"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry-default:`"deny"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"read"`
       - :ansible-option-choices-entry:`"write"`
 
 
@@ -2825,8 +2825,8 @@ Parameters
       :ansible-option-choices:`Choices:`
 
       - :ansible-option-choices-entry:`"deny"`
-      - :ansible-option-choices-entry-default:`"read"` :ansible-option-choices-default-mark:`← (default)`
-      - :ansible-option-choices-entry:`"write"`
+      - :ansible-option-choices-entry:`"read"`
+      - :ansible-option-choices-entry-default:`"write"` :ansible-option-choices-default-mark:`← (default)`
 
 
       .. raw:: html
@@ -3047,7 +3047,7 @@ Parameters
 
       The password for the user account, which must adhere to specified complexity requirements.
 
-      Must contain at least one special character, one capital letter, one lowercase letter, and a minimum length of 15 characters.
+      Must contain at least one special character, one capital letter, one lowercase letter, and a minimum length of 8 characters.
 
       Required for creating a new user account.
 
@@ -3128,6 +3128,8 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       The 'username' associated with the user account.
+
+      Required for user create, update and delete operations.
 
 
       .. raw:: html
@@ -3903,7 +3905,7 @@ Examples
         config_verify: True
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
-        state: merged
+        state: deleted
         config:
           user_details:
             username: "ajithandrewj"
@@ -3929,7 +3931,7 @@ Examples
                   monitoring_settings: "read"
                   troubleshooting_tools: "deny"
               network_analytics:
-                data_access: "write"
+                - data_access: "write"
               network_design:
                 - advanced_network_settings: "deny"
                   image_repository: "deny"
@@ -3939,6 +3941,7 @@ Examples
                   virtual_network: "read"
               network_provision:
                 - compliance: "deny"
+                  eox: "read"
                   image_update: "write"
                   inventory_management:
                     - device_configuration: "write"
@@ -3971,6 +3974,7 @@ Examples
                 - audit_log: "read"
                   event_viewer: "deny"
                   network_reasoner: "write"
+                  remote_device_support: "read"
                   scheduler: "read"
                   search: "write"
 
@@ -4058,7 +4062,7 @@ Examples
         config_verify: True
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
-        state: merged
+        state: deleted
         config:
           role_details:
             - rolename: "role_name"
