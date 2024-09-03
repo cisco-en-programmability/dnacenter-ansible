@@ -151,9 +151,9 @@ options:
         required: False
         suboptions:
           address:
-              description: IP address of the primary wireless LAN controller. For example, '10.0.0.3'.
-              type: str
-              required: False
+            description: IP address of the primary wireless LAN controller. For example, '10.0.0.3'.
+            type: str
+            required: False
       secondary_controller_name:
         description: |
           Name or identifier of the secondary wireless LAN controller (WLC) managing the Access Point (AP).
@@ -166,9 +166,9 @@ options:
         required: False
         suboptions:
           address:
-              description: IP address of the primary wireless LAN controller. For example, '10.0.0.3'.
-              type: str
-              required: False
+            description: IP address of the primary wireless LAN controller. For example, '10.0.0.3'.
+            type: str
+            required: False
       tertiary_controller_name:
         description: |
           Name or identifier of the tertiary wireless LAN controller (WLC) managing the Access Point (AP).
@@ -181,9 +181,9 @@ options:
         required: False
         suboptions:
           address:
-              description: IP address of the primary wireless LAN controller. For example, '10.0.0.2'.
-              type: str
-              required: False
+            description: IP address of the primary wireless LAN controller. For example, '10.0.0.2'.
+            type: str
+            required: False
       2.4ghz_radio:
         description: Configuration options for the 2.4GHz radio interface.
         type: dict
