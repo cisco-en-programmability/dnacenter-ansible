@@ -197,6 +197,7 @@
 <li class="toctree-l4"><a class="reference internal" href="event_webhook_update_module.html">cisco.dnac.event_webhook_update module -- Resource module for Event Webhook Update</a></li>
 <li class="toctree-l4"><a class="reference internal" href="events_and_notifications_workflow_manager_module.html">cisco.dnac.events_and_notifications_workflow_manager module -- Configure various types of destinations to deliver event notifications from Cisco Catalyst Center Platform.</a></li>
 <li class="toctree-l4"><a class="reference internal" href="execute_suggested_actions_commands_module.html">cisco.dnac.execute_suggested_actions_commands module -- Resource module for Execute Suggested Actions Commands</a></li>
+<li class="toctree-l4"><a class="reference internal" href="fabric_sites_zones_workflow_manager_module.html">cisco.dnac.fabric_sites_zones_workflow_manager module -- Manage fabric site(s)/zone(s) and update the authentication profile template in Cisco Catalyst Center.</a></li>
 <li class="toctree-l4"><a class="reference internal" href="file_import_module.html">cisco.dnac.file_import module -- Resource module for File Import</a></li>
 <li class="toctree-l4"><a class="reference internal" href="file_info_module.html">cisco.dnac.file_info module -- Information module for File</a></li>
 <li class="toctree-l4"><a class="reference internal" href="file_namespace_files_info_module.html">cisco.dnac.file_namespace_files_info module -- Information module for File Namespace Files</a></li>
@@ -386,6 +387,7 @@
 <li class="toctree-l4"><a class="reference internal" href="sda_extranet_policies_module.html">cisco.dnac.sda_extranet_policies module -- Resource module for Sda Extranetpolicies</a></li>
 <li class="toctree-l4"><a class="reference internal" href="sda_extranet_policies_count_info_module.html">cisco.dnac.sda_extranet_policies_count_info module -- Information module for Sda Extranetpolicies Count</a></li>
 <li class="toctree-l4"><a class="reference internal" href="sda_extranet_policies_info_module.html">cisco.dnac.sda_extranet_policies_info module -- Information module for Sda Extranetpolicies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sda_extranet_policies_workflow_manager_module.html">cisco.dnac.sda_extranet_policies_workflow_manager module -- SDA Extranet Policies Module provides functionality for managing SDA Extranet Policy in Cisco Catalyst Center.</a></li>
 <li class="toctree-l4"><a class="reference internal" href="sda_fabric_module.html">cisco.dnac.sda_fabric module -- Resource module for Sda Fabric</a></li>
 <li class="toctree-l4"><a class="reference internal" href="sda_fabric_authentication_profile_module.html">cisco.dnac.sda_fabric_authentication_profile module -- Resource module for Sda Fabric Authentication Profile</a></li>
 <li class="toctree-l4"><a class="reference internal" href="sda_fabric_authentication_profile_info_module.html">cisco.dnac.sda_fabric_authentication_profile_info module -- Information module for Sda Fabric Authentication Profile</a></li>
@@ -578,7 +580,7 @@
 <h1>cisco.dnac.accesspoint_workflow_manager module -- Automates bulk AP configuration changes.<a class="headerlink" href="#cisco-dnac-accesspoint-workflow-manager-module-automates-bulk-ap-configuration-changes" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.17.1).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.18.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -630,13 +632,244 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-accesspo
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/admin_status"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-admin-status"><strong>admin_status</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/admin_status" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<div class="ansibleOptionAnchor" id="parameter-config/2.4ghz_radio"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-2-4ghz-radio"><strong>2.4ghz_radio</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/2.4ghz_radio" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Status of the AP configuration. Accepts &quot;Enabled&quot; or &quot;Disabled&quot;. (eg. &quot;Enabled&quot;)</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Configuration options for the 2.4GHz radio interface.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/2.4ghz_radio/admin_status"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-2-4ghz-radio-admin-status"><strong>admin_status</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/2.4ghz_radio/admin_status" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Administrative status for the 2.4GHz radio interface. For example, &quot;Enabled&quot;.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/2.4ghz_radio/antenna_cable_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-2-4ghz-radio-antenna-cable-name"><strong>antenna_cable_name</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/2.4ghz_radio/antenna_cable_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name or type of antenna cable used for the 2.4GHz radio interface. For example, &quot;other&quot;.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/2.4ghz_radio/antenna_gain"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-2-4ghz-radio-antenna-gain"><strong>antenna_gain</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/2.4ghz_radio/antenna_gain" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Specifies the antenna gain value in decibels (dB) for the 2.4GHz radio interface. For example, 4.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/2.4ghz_radio/antenna_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-2-4ghz-radio-antenna-name"><strong>antenna_name</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/2.4ghz_radio/antenna_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name or type of antenna used for the 2.4GHz radio interface. For example, &quot;other&quot;.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/2.4ghz_radio/cable_loss"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-2-4ghz-radio-cable-loss"><strong>cable_loss</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/2.4ghz_radio/cable_loss" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Cable loss in dB for the 2.4GHz radio interface. For example, 75.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/2.4ghz_radio/channel_assignment_mode"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-2-4ghz-radio-channel-assignment-mode"><strong>channel_assignment_mode</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/2.4ghz_radio/channel_assignment_mode" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Mode of channel assignment for the 2.4GHz radio interface. Accepts &quot;Global&quot; or &quot;Custom&quot;. For example, &quot;Custom&quot;.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/2.4ghz_radio/channel_number"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-2-4ghz-radio-channel-number"><strong>channel_number</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/2.4ghz_radio/channel_number" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Custom channel number configured for the 2.4GHz radio interface. For example, 6.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/2.4ghz_radio/power_assignment_mode"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-2-4ghz-radio-power-assignment-mode"><strong>power_assignment_mode</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/2.4ghz_radio/power_assignment_mode" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Mode of power assignment for the 2.4GHz radio interface. Accepts &quot;Global&quot; or &quot;Custom&quot;. For example, &quot;Custom&quot;.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/2.4ghz_radio/power_level"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-2-4ghz-radio-power-level"><strong>power_level</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/2.4ghz_radio/power_level" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Custom power level configured for the 2.4GHz radio interface. For example, 3.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/2.4ghz_radio/radio_role_assignment"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-2-4ghz-radio-radio-role-assignment"><strong>radio_role_assignment</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/2.4ghz_radio/radio_role_assignment" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Role assignment mode for the 2.4GHz radio interface. Accepts &quot;Auto&quot;, &quot;Client-serving&quot;, or &quot;Monitor&quot;. For example, Auto.</p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/5ghz_radio"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-5ghz-radio"><strong>5ghz_radio</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/5ghz_radio" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Configuration options for the 5GHz radio interface.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/5ghz_radio/admin_status"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-5ghz-radio-admin-status"><strong>admin_status</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/5ghz_radio/admin_status" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Administrative status for the 5GHz radio interface. For example, &quot;Enabled&quot;.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/5ghz_radio/antenna_cable_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-5ghz-radio-antenna-cable-name"><strong>antenna_cable_name</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/5ghz_radio/antenna_cable_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name or type of antenna cable used for the 5GHz radio interface. For example, &quot;other&quot;.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/5ghz_radio/antenna_gain"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-5ghz-radio-antenna-gain"><strong>antenna_gain</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/5ghz_radio/antenna_gain" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Antenna gain value in decibels (dB) for the 5GHz radio interface. For example, 5.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/5ghz_radio/antenna_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-5ghz-radio-antenna-name"><strong>antenna_name</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/5ghz_radio/antenna_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name or type of antenna used for the 5GHz radio interface. For example, &quot;other&quot;.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/5ghz_radio/cable_loss"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-5ghz-radio-cable-loss"><strong>cable_loss</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/5ghz_radio/cable_loss" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Cable loss in dB for the 5GHz radio interface. For example, 80.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/5ghz_radio/channel_assignment_mode"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-5ghz-radio-channel-assignment-mode"><strong>channel_assignment_mode</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/5ghz_radio/channel_assignment_mode" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Mode of channel assignment for the 5GHz radio interface. Accepts &quot;Global&quot; or &quot;Custom&quot;. For example, &quot;Custom&quot;.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/5ghz_radio/channel_number"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-5ghz-radio-channel-number"><strong>channel_number</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/5ghz_radio/channel_number" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Custom channel number configured for the 5GHz radio interface. For example, 36.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/5ghz_radio/power_assignment_mode"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-5ghz-radio-power-assignment-mode"><strong>power_assignment_mode</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/5ghz_radio/power_assignment_mode" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Mode of power assignment for the 5GHz radio interface. Accepts &quot;Global&quot; or &quot;Custom&quot;. For example, &quot;Custom&quot;.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/5ghz_radio/power_level"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-5ghz-radio-power-level"><strong>power_level</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/5ghz_radio/power_level" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Custom power level configured for the 5GHz radio interface. For example, 3.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/5ghz_radio/radio_role_assignment"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-5ghz-radio-radio-role-assignment"><strong>radio_role_assignment</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/5ghz_radio/radio_role_assignment" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Role assignment mode for the 5GHz radio interface. Accepts &quot;Auto&quot;, &quot;Client-serving&quot;, or &quot;Monitor&quot;. For example, &quot;Auto&quot;.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/6ghz_radio"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-6ghz-radio"><strong>6ghz_radio</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/6ghz_radio" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Configuration options for the 6GHz radio interface.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/6ghz_radio/admin_status"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-6ghz-radio-admin-status"><strong>admin_status</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/6ghz_radio/admin_status" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Administrative status for the 6GHz radio interface. For example, &quot;Enabled&quot;.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/6ghz_radio/antenna_cable_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-6ghz-radio-antenna-cable-name"><strong>antenna_cable_name</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/6ghz_radio/antenna_cable_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name or type of antenna cable used for the 6GHz radio interface. For example, &quot;other&quot;.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/6ghz_radio/antenna_gain"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-6ghz-radio-antenna-gain"><strong>antenna_gain</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/6ghz_radio/antenna_gain" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Antenna gain value in decibels (dB) for the 6GHz radio interface. For example, 4.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/6ghz_radio/antenna_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-6ghz-radio-antenna-name"><strong>antenna_name</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/6ghz_radio/antenna_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name or type of antenna used for the 6GHz radio interface. For example, &quot;other&quot;.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/6ghz_radio/cable_loss"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-6ghz-radio-cable-loss"><strong>cable_loss</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/6ghz_radio/cable_loss" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Cable loss in dB for the 6GHz radio interface. For example, 75.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/6ghz_radio/channel_assignment_mode"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-6ghz-radio-channel-assignment-mode"><strong>channel_assignment_mode</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/6ghz_radio/channel_assignment_mode" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Mode of channel assignment for the 6GHz radio interface. Accepts &quot;Global&quot; or &quot;Custom&quot;. For example, &quot;Custom&quot;.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/6ghz_radio/channel_number"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-6ghz-radio-channel-number"><strong>channel_number</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/6ghz_radio/channel_number" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Custom channel number configured for the 6GHz radio interface. For example, 6.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/6ghz_radio/power_assignment_mode"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-6ghz-radio-power-assignment-mode"><strong>power_assignment_mode</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/6ghz_radio/power_assignment_mode" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Mode of power assignment for the 6GHz radio interface. Accepts &quot;Global&quot; or &quot;Custom&quot;. For example, &quot;Custom&quot;.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/6ghz_radio/power_level"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-6ghz-radio-power-level"><strong>power_level</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/6ghz_radio/power_level" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Custom power level configured for the 6GHz radio interface. For example, 3.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/6ghz_radio/radio_role_assignment"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-6ghz-radio-radio-role-assignment"><strong>radio_role_assignment</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/6ghz_radio/radio_role_assignment" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Role assignment mode for the 6GHz radio interface. Accepts &quot;Auto&quot;, &quot;Client-serving&quot;, or &quot;Monitor&quot;.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/admin_status"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-admin-status"><strong>admin_status</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/admin_status" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Status of the AP configuration. Accepts &quot;Enabled&quot; or &quot;Disabled&quot;. For example, &quot;Enabled&quot;.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/ap_config_selected_fields"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-ap-config-selected-fields"><strong>ap_config_selected_fields</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/ap_config_selected_fields" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -646,86 +879,96 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-accesspo
 </dl>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/ap_mode"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-ap-mode"><strong>ap_mode</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/ap_mode" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
-<dt>Mode of operation for the Access Point (AP). Possible values include &quot;local/flexconnect&quot;,</dt><dd><p>&quot;monitor&quot;, &quot;sniffer&quot;, or &quot;Bridge/Flex+Bridge&quot;.(eg. &quot;Local&quot;)</p>
+<dt>Defines the mode of operation for the Access Point (AP). Possible values include &quot;Local&quot;,</dt><dd><p>&quot;Monitor&quot;, &quot;Sniffer&quot;, or &quot;Bridge&quot;. For example, &quot;Local&quot;.</p>
 </dd>
 </dl>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/ap_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-ap-name"><strong>ap_name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/ap_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Current AP name that needs to be changed along with the new AP name.(eg. &quot;Test2&quot;)</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Current AP name that needs to be changed along with the new AP name. For example, &quot;Test2&quot;.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/ap_selected_fields"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-ap-selected-fields"><strong>ap_selected_fields</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/ap_selected_fields" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>When enable the verify flag &quot;config_verify&quot; to see only the filter field of the AP details in the output. (eg. &quot;id,hostname,family,type,mac_address,management_ip_address,ap_ethernet_mac_address&quot;)</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/clean_air_si_2.4ghz"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-clean-air-si-2-4ghz"><strong>clean_air_si_2.4ghz</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/clean_air_si_2.4ghz" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
-<dt>Clean Air Spectrum Intelligence (SI) feature status for the 2.4GHz band. Indicates whether.(eg. &quot;Enabled&quot;)</dt><dd><p>Clean Air Spectrum Intelligence is enabled or disabled.</p>
-</dd>
-</dl>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/clean_air_si_5ghz"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-clean-air-si-5ghz"><strong>clean_air_si_5ghz</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/clean_air_si_5ghz" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
-<dt>Clean Air Spectrum Intelligence (SI) feature status for the 5GHz band. Indicates whether.(eg. &quot;Enabled&quot;)</dt><dd><p>Clean Air Spectrum Intelligence is enabled or disabled.</p>
+<dt>Clean Air Spectrum Intelligence (SI) feature status for the 2.4GHz band. Indicates whether. For example, &quot;Enabled&quot;.</dt><dd><p>Clean Air Spectrum Intelligence is enabled or disabled.</p>
 </dd>
 </dl>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/clean_air_si_6ghz"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-clean-air-si-6ghz"><strong>clean_air_si_6ghz</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/clean_air_si_6ghz" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<div class="ansibleOptionAnchor" id="parameter-config/clean_air_si_5ghz"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-clean-air-si-5ghz"><strong>clean_air_si_5ghz</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/clean_air_si_5ghz" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
-<dt>Clean Air Spectrum Intelligence (SI) feature status for the 6GHz band. Indicates whether.(eg. &quot;Enabled&quot;)</dt><dd><p>Clean Air Spectrum Intelligence is enabled or disabled.</p>
+<dt>Clean Air Spectrum Intelligence (SI) feature status for the 5GHz band. Indicates whether. For example, &quot;Enabled&quot;.</dt><dd><p>Clean Air Spectrum Intelligence is enabled or disabled.</p>
 </dd>
 </dl>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/clean_air_si_6ghz"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-clean-air-si-6ghz"><strong>clean_air_si_6ghz</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/clean_air_si_6ghz" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
+<dt>Clean Air Spectrum Intelligence (SI) feature status for the 6GHz band. Indicates whether. For example, &quot;Enabled&quot;.</dt><dd><p>Clean Air Spectrum Intelligence is enabled or disabled.</p>
+</dd>
+</dl>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/failover_priority"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-failover-priority"><strong>failover_priority</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/failover_priority" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Priority order for failover in AP configuration. Accepts &quot;Low&quot;, &quot;Medium&quot;, &quot;High&quot;, or &quot;Critical&quot;.</p>
 </div></td>
 </tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/is_assigned_site_as_location"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-is-assigned-site-as-location"><strong>is_assigned_site_as_location</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/is_assigned_site_as_location" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
+<dt>Configures whether the access point location is automatically set to the site assigned to the access point.</dt><dd><p>Accepts &quot;Enabled&quot; or &quot;Disabled&quot;. If set to &quot;Enabled&quot;, no additional location configuration is required.</p>
+</dd>
+</dl>
+</div></td>
+</tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/led_brightness_level"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-led-brightness-level"><strong>led_brightness_level</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/led_brightness_level" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Brightness level of the AP's LED. Accepts values from 1 to 8.(eg. 3)</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Brightness level of the AP's LED. Accepts values from 1 to 8. For example, 3.</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/led_status"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-led-status"><strong>led_status</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/led_status" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>State of the AP's LED. Accepts &quot;Enabled&quot; or &quot;Disabled&quot;.(eg. &quot;Enabled&quot;)</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>State of the AP's LED. Accepts &quot;Enabled&quot; or &quot;Disabled&quot;. For example, &quot;Enabled&quot;.</p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/location"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-location"><strong>location</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/location" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Location name of the AP. Provide this data if a change is required.(eg. &quot;Bangalore&quot;)</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Location name of the AP. Provide this data if a change is required. For example, &quot;Bangalore&quot;.</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -744,7 +987,7 @@ to identify the specific access point: mac_address, hostname, or management_ip_a
 <div class="ansibleOptionAnchor" id="parameter-config/primary_controller_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-primary-controller-name"><strong>primary_controller_name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/primary_controller_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name or identifier of the primary wireless LAN controller (WLC) managing the Access Point (AP).(eg. &quot;SJ-EWLC-1&quot;)</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name or identifier of the primary wireless LAN controller (WLC) managing the Access Point (AP). For example, &quot;SJ-EWLC-1&quot;.</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -758,527 +1001,289 @@ to identify the specific access point: mac_address, hostname, or management_ip_a
 <div class="ansibleOptionAnchor" id="parameter-config/primary_ip_address/address"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-primary-ip-address-address"><strong>address</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/primary_ip_address/address" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>IP address of the primary wireless LAN controller. (eg. '10.0.0.3')</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>IP address of the primary wireless LAN controller. For example, '10.0.0.3'.</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/radio_settings"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-radio-settings"><strong>radio_settings</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/radio_settings" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Configuration options for radio interfaces.</p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/radio_settings/2.4ghz_radio"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-radio-settings-2-4ghz-radio"><strong>2.4ghz_radio</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/radio_settings/2.4ghz_radio" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Configuration options for the 2.4GHz radio interface.</p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/radio_settings/2.4ghz_radio/admin_status"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-radio-settings-2-4ghz-radio-admin-status"><strong>admin_status</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/radio_settings/2.4ghz_radio/admin_status" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Administrative status for the 2.4GHz radio interface.(eg. 'Enabled')</p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/radio_settings/2.4ghz_radio/antenna_cable_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-radio-settings-2-4ghz-radio-antenna-cable-name"><strong>antenna_cable_name</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/radio_settings/2.4ghz_radio/antenna_cable_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name or type of antenna cable used for the 2.4GHz radio interface.(eg. &quot;other&quot;)</p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/radio_settings/2.4ghz_radio/antenna_gain"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-radio-settings-2-4ghz-radio-antenna-gain"><strong>antenna_gain</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/radio_settings/2.4ghz_radio/antenna_gain" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Antenna gain value in decibels (dB) for the 2.4GHz radio interface.(eg. 4)</p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/radio_settings/2.4ghz_radio/antenna_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-radio-settings-2-4ghz-radio-antenna-name"><strong>antenna_name</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/radio_settings/2.4ghz_radio/antenna_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name or type of antenna used for the 2.4GHz radio interface.(eg. &quot;other&quot;)</p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/radio_settings/2.4ghz_radio/cable_loss"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-radio-settings-2-4ghz-radio-cable-loss"><strong>cable_loss</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/radio_settings/2.4ghz_radio/cable_loss" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Cable loss in dB for the 2.4GHz radio interface.(eg. 75)</p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/radio_settings/2.4ghz_radio/channel_assignment_mode"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-radio-settings-2-4ghz-radio-channel-assignment-mode"><strong>channel_assignment_mode</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/radio_settings/2.4ghz_radio/channel_assignment_mode" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Mode of channel assignment for the 2.4GHz radio interface. Accepts &quot;Global&quot; or &quot;Custom&quot;.(eg. &quot;Custom&quot;)</p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/radio_settings/2.4ghz_radio/channel_number"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-radio-settings-2-4ghz-radio-channel-number"><strong>channel_number</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/radio_settings/2.4ghz_radio/channel_number" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Custom channel number configured for the 2.4GHz radio interface.(eg. 6)</p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/radio_settings/2.4ghz_radio/power_assignment_mode"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-radio-settings-2-4ghz-radio-power-assignment-mode"><strong>power_assignment_mode</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/radio_settings/2.4ghz_radio/power_assignment_mode" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Mode of power assignment for the 2.4GHz radio interface. Accepts &quot;Global&quot; or &quot;Custom&quot;.(eg. &quot;Custom&quot;)</p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/radio_settings/2.4ghz_radio/power_level"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-radio-settings-2-4ghz-radio-power-level"><strong>power_level</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/radio_settings/2.4ghz_radio/power_level" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Custom power level configured for the 2.4GHz radio interface. (eg. 3)</p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/radio_settings/2.4ghz_radio/radio_role_assignment"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-radio-settings-2-4ghz-radio-radio-role-assignment"><strong>radio_role_assignment</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/radio_settings/2.4ghz_radio/radio_role_assignment" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Role assignment mode for the 2.4GHz radio interface. Accepts &quot;Auto&quot;, &quot;Client-serving&quot;, or &quot;Monitor&quot;.(eg. &quot;Auto&quot;)</p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/radio_settings/5ghz_radio"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-radio-settings-5ghz-radio"><strong>5ghz_radio</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/radio_settings/5ghz_radio" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Configuration options for the 5GHz radio interface.</p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/radio_settings/5ghz_radio/admin_status"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-radio-settings-5ghz-radio-admin-status"><strong>admin_status</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/radio_settings/5ghz_radio/admin_status" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Administrative status for the 5GHz radio interface.(eg. &quot;Enabled&quot;)</p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/radio_settings/5ghz_radio/antenna_cable_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-radio-settings-5ghz-radio-antenna-cable-name"><strong>antenna_cable_name</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/radio_settings/5ghz_radio/antenna_cable_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name or type of antenna cable used for the 5GHz radio interface.(eg. other)</p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/radio_settings/5ghz_radio/antenna_gain"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-radio-settings-5ghz-radio-antenna-gain"><strong>antenna_gain</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/radio_settings/5ghz_radio/antenna_gain" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Antenna gain value in decibels (dB) for the 5GHz radio interface.(eg. 5)</p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/radio_settings/5ghz_radio/antenna_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-radio-settings-5ghz-radio-antenna-name"><strong>antenna_name</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/radio_settings/5ghz_radio/antenna_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name or type of antenna used for the 5GHz radio interface.(eg. other)</p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/radio_settings/5ghz_radio/cable_loss"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-radio-settings-5ghz-radio-cable-loss"><strong>cable_loss</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/radio_settings/5ghz_radio/cable_loss" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Cable loss in dB for the 5GHz radio interface. (eg. 80)</p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/radio_settings/5ghz_radio/channel_assignment_mode"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-radio-settings-5ghz-radio-channel-assignment-mode"><strong>channel_assignment_mode</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/radio_settings/5ghz_radio/channel_assignment_mode" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Mode of channel assignment for the 5GHz radio interface. Accepts &quot;Global&quot; or &quot;Custom&quot;.(eg. &quot;Custom&quot;)</p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/radio_settings/5ghz_radio/channel_number"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-radio-settings-5ghz-radio-channel-number"><strong>channel_number</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/radio_settings/5ghz_radio/channel_number" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Custom channel number configured for the 5GHz radio interface. (eg. 36)</p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/radio_settings/5ghz_radio/power_assignment_mode"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-radio-settings-5ghz-radio-power-assignment-mode"><strong>power_assignment_mode</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/radio_settings/5ghz_radio/power_assignment_mode" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Mode of power assignment for the 5GHz radio interface. Accepts &quot;Global&quot; or &quot;Custom&quot;.(eg. &quot;Custom&quot;)</p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/radio_settings/5ghz_radio/power_level"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-radio-settings-5ghz-radio-power-level"><strong>power_level</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/radio_settings/5ghz_radio/power_level" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Custom power level configured for the 5GHz radio interface. (eg. 3)</p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/radio_settings/5ghz_radio/radio_role_assignment"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-radio-settings-5ghz-radio-radio-role-assignment"><strong>radio_role_assignment</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/radio_settings/5ghz_radio/radio_role_assignment" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Role assignment mode for the 5GHz radio interface. Accepts &quot;Auto&quot;, &quot;Client-serving&quot;, or &quot;Monitor&quot;.(eg. Auto)</p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/radio_settings/6ghz_radio"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-radio-settings-6ghz-radio"><strong>6ghz_radio</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/radio_settings/6ghz_radio" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Configuration options for the 6GHz radio interface.</p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/radio_settings/6ghz_radio/admin_status"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-radio-settings-6ghz-radio-admin-status"><strong>admin_status</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/radio_settings/6ghz_radio/admin_status" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Administrative status for the 6GHz radio interface.(eg. &quot;Enabled&quot;)</p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/radio_settings/6ghz_radio/antenna_cable_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-radio-settings-6ghz-radio-antenna-cable-name"><strong>antenna_cable_name</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/radio_settings/6ghz_radio/antenna_cable_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name or type of antenna cable used for the 6GHz radio interface.(eg. &quot;other&quot;)</p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/radio_settings/6ghz_radio/antenna_gain"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-radio-settings-6ghz-radio-antenna-gain"><strong>antenna_gain</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/radio_settings/6ghz_radio/antenna_gain" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Antenna gain value in decibels (dB) for the 6GHz radio interface.(eg. 4)</p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/radio_settings/6ghz_radio/antenna_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-radio-settings-6ghz-radio-antenna-name"><strong>antenna_name</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/radio_settings/6ghz_radio/antenna_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name or type of antenna used for the 6GHz radio interface. (eg. other)</p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/radio_settings/6ghz_radio/cable_loss"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-radio-settings-6ghz-radio-cable-loss"><strong>cable_loss</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/radio_settings/6ghz_radio/cable_loss" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Cable loss in dB for the 6GHz radio interface. (eg. 75)</p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/radio_settings/6ghz_radio/channel_assignment_mode"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-radio-settings-6ghz-radio-channel-assignment-mode"><strong>channel_assignment_mode</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/radio_settings/6ghz_radio/channel_assignment_mode" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Mode of channel assignment for the 6GHz radio interface. Accepts &quot;Global&quot; or &quot;Custom&quot;.(eg. &quot;Custom&quot;)</p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/radio_settings/6ghz_radio/channel_number"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-radio-settings-6ghz-radio-channel-number"><strong>channel_number</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/radio_settings/6ghz_radio/channel_number" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Custom channel number configured for the 6GHz radio interface.(eg. 6)</p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/radio_settings/6ghz_radio/power_assignment_mode"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-radio-settings-6ghz-radio-power-assignment-mode"><strong>power_assignment_mode</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/radio_settings/6ghz_radio/power_assignment_mode" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Mode of power assignment for the 6GHz radio interface. Accepts &quot;Global&quot; or &quot;Custom&quot;. (eg. &quot;Custom&quot;)</p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/radio_settings/6ghz_radio/power_level"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-radio-settings-6ghz-radio-power-level"><strong>power_level</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/radio_settings/6ghz_radio/power_level" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Custom power level configured for the 6GHz radio interface.(eg. 3)</p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/radio_settings/6ghz_radio/radio_role_assignment"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-radio-settings-6ghz-radio-radio-role-assignment"><strong>radio_role_assignment</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/radio_settings/6ghz_radio/radio_role_assignment" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Role assignment mode for the 6GHz radio interface. Accepts &quot;Auto&quot;, &quot;Client-serving&quot;, or &quot;Monitor&quot;.</p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/radio_settings/tri_radio"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-radio-settings-tri-radio"><strong>tri_radio</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/radio_settings/tri_radio" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Configuration options for the tri radio interface.</p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/radio_settings/tri_radio/admin_status"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-radio-settings-tri-radio-admin-status"><strong>admin_status</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/radio_settings/tri_radio/admin_status" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Administrative status for the tri radio interface. (eg. Enabled)</p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/radio_settings/tri_radio/antenna_cable_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-radio-settings-tri-radio-antenna-cable-name"><strong>antenna_cable_name</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/radio_settings/tri_radio/antenna_cable_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name or type of antenna cable used for the tri radio interface. (eg. &quot;other&quot;)</p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/radio_settings/tri_radio/antenna_gain"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-radio-settings-tri-radio-antenna-gain"><strong>antenna_gain</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/radio_settings/tri_radio/antenna_gain" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Antenna gain value in decibels (dB) for the tri radio interface. (eg. 4)</p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/radio_settings/tri_radio/antenna_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-radio-settings-tri-radio-antenna-name"><strong>antenna_name</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/radio_settings/tri_radio/antenna_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name or type of antenna used for the tri radio interface.(eg. other)</p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/radio_settings/tri_radio/cable_loss"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-radio-settings-tri-radio-cable-loss"><strong>cable_loss</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/radio_settings/tri_radio/cable_loss" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Cable loss in dB for the tri radio interface. (eg. 75)</p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/radio_settings/tri_radio/channel_assignment_mode"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-radio-settings-tri-radio-channel-assignment-mode"><strong>channel_assignment_mode</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/radio_settings/tri_radio/channel_assignment_mode" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
-<dt>Mode of channel assignment for the tri radio interface. Accepts &quot;Global&quot; or &quot;Custom&quot;.</dt><dd><p>For tri Custom, it accepts values like 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128,
-132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173. (eg. Custom)</p>
-</dd>
-</dl>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/radio_settings/tri_radio/channel_number"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-radio-settings-tri-radio-channel-number"><strong>channel_number</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/radio_settings/tri_radio/channel_number" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Custom channel number configured for the tri radio interface. (eg. 6)</p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/radio_settings/tri_radio/channel_width"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-radio-settings-tri-radio-channel-width"><strong>channel_width</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/radio_settings/tri_radio/channel_width" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
-<dt>Width of the channel configured for the tri radio interface. Accepts values</dt><dd><p>&quot;20 MHz&quot;, &quot;40 MHz&quot;, &quot;80 MHz&quot;, or &quot;160 MHz&quot;. eg. 20 MHz</p>
-</dd>
-</dl>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/radio_settings/tri_radio/dual_radio_mode"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-radio-settings-tri-radio-dual-radio-mode"><strong>dual_radio_mode</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/radio_settings/tri_radio/dual_radio_mode" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
-<dt>Mode of operation configured for the tri radio interface. Specifies how the</dt><dd><p>access point (AP) manages its dual radio functionality. eg . Auto</p>
-</dd>
-</dl>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/radio_settings/tri_radio/power_assignment_mode"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-radio-settings-tri-radio-power-assignment-mode"><strong>power_assignment_mode</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/radio_settings/tri_radio/power_assignment_mode" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
-<dt>Mode of power assignment for the tri radio interface. Accepts &quot;Global&quot; or &quot;Custom&quot;.</dt><dd><p>In Custom, it accepts values 1 to 5.</p>
-</dd>
-</dl>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/radio_settings/tri_radio/power_level"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-radio-settings-tri-radio-power-level"><strong>power_level</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/radio_settings/tri_radio/power_level" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Custom power level configured for the tri radio interface.(eg. 3)</p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/radio_settings/tri_radio/radio_role_assignment"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-radio-settings-tri-radio-radio-role-assignment"><strong>radio_role_assignment</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/radio_settings/tri_radio/radio_role_assignment" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
-<dt>Role assignment mode for the tri radio interface. Accepts &quot;Auto&quot;, &quot;Client-serving&quot;, or &quot;Monitor&quot;.</dt><dd><p>If radio_role_assignment is &quot;client-serving&quot;, then only power-level and channel-level can be changed.</p>
-</dd>
-</dl>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/radio_settings/xor_radio"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-radio-settings-xor-radio"><strong>xor_radio</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/radio_settings/xor_radio" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Configuration options for the xor radio interface.</p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/radio_settings/xor_radio/admin_status"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-radio-settings-xor-radio-admin-status"><strong>admin_status</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/radio_settings/xor_radio/admin_status" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Administrative status for the xor radio interface. (eg. Enabled)</p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/radio_settings/xor_radio/antenna_cable_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-radio-settings-xor-radio-antenna-cable-name"><strong>antenna_cable_name</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/radio_settings/xor_radio/antenna_cable_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name or type of antenna cable used for the xor radio interface.(eg. other)</p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/radio_settings/xor_radio/antenna_gain"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-radio-settings-xor-radio-antenna-gain"><strong>antenna_gain</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/radio_settings/xor_radio/antenna_gain" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Antenna gain value in decibels (dB) for the xor radio interface.(eg. 4)</p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/radio_settings/xor_radio/antenna_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-radio-settings-xor-radio-antenna-name"><strong>antenna_name</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/radio_settings/xor_radio/antenna_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name or type of antenna used for the xor radio interface.(eg. other)</p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/radio_settings/xor_radio/cable_loss"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-radio-settings-xor-radio-cable-loss"><strong>cable_loss</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/radio_settings/xor_radio/cable_loss" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Cable loss in dB for the xor radio interface. (e.g 75)</p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/radio_settings/xor_radio/channel_assignment_mode"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-radio-settings-xor-radio-channel-assignment-mode"><strong>channel_assignment_mode</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/radio_settings/xor_radio/channel_assignment_mode" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
-<dt>Mode of channel assignment for the xor radio interface. Accepts &quot;Global&quot; or &quot;Custom&quot;.</dt><dd><p>For xor Custom, it accepts values like 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112,
-116, 120, 124, 128, 132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173. (eg. &quot;Custom&quot;)</p>
-</dd>
-</dl>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/radio_settings/xor_radio/channel_number"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-radio-settings-xor-radio-channel-number"><strong>channel_number</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/radio_settings/xor_radio/channel_number" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Custom channel number configured for the xor radio interface.(eg. 6)</p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/radio_settings/xor_radio/channel_width"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-radio-settings-xor-radio-channel-width"><strong>channel_width</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/radio_settings/xor_radio/channel_width" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
-<dt>Width of the channel configured for the xor radio interface. Accepts values</dt><dd><p>&quot;20 MHz&quot;, &quot;40 MHz&quot;, &quot;80 MHz&quot;, or &quot;160 MHz&quot;. (eg. 20 MHz)</p>
-</dd>
-</dl>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/radio_settings/xor_radio/power_assignment_mode"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-radio-settings-xor-radio-power-assignment-mode"><strong>power_assignment_mode</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/radio_settings/xor_radio/power_assignment_mode" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
-<dt>Mode of power assignment for the xor radio interface. Accepts &quot;Global&quot; or &quot;Custom&quot;.</dt><dd><p>In Custom, it accepts values 1 to 5.</p>
-</dd>
-</dl>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/radio_settings/xor_radio/power_level"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-radio-settings-xor-radio-power-level"><strong>power_level</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/radio_settings/xor_radio/power_level" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Custom power level configured for the xor radio interface. (eg. 3)</p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/radio_settings/xor_radio/radio_role_assignment"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-radio-settings-xor-radio-radio-role-assignment"><strong>radio_role_assignment</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/radio_settings/xor_radio/radio_role_assignment" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
-<dt>Role assignment mode for the xor radio interface. Accepts &quot;Auto&quot;, &quot;Client-serving&quot;, or &quot;Monitor&quot;.</dt><dd><p>If radio_role_assignment is &quot;client-serving&quot;, then only power-level and channel-level can be changed.
-(eg. Auto)</p>
-</dd>
-</dl>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/rf_profile"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-rf-profile"><strong>rf_profile</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/rf_profile" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Radio Frequency (RF) profile of the Access Point (e.g., 'HIGH').</p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/secondary_controller_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-secondary-controller-name"><strong>secondary_controller_name</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/secondary_controller_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name or identifier of the secondary wireless LAN controller (WLC) managing the Access Point (AP).(eg. &quot;Inherit from site/Clear&quot;)</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Radio Frequency (RF) profile of the Access Point. For example, &quot;HIGH&quot;.</p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/secondary_controller_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-secondary-controller-name"><strong>secondary_controller_name</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/secondary_controller_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name or identifier of the secondary wireless LAN controller (WLC) managing the Access Point (AP). For example, &quot;Inherit from site/Clear&quot;.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/secondary_ip_address"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-secondary-ip-address"><strong>secondary_ip_address</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/secondary_ip_address" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>IP address of the secondary wireless LAN controller (WLC) managing the Access Point (AP).</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/secondary_ip_address/address"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-secondary-ip-address-address"><strong>address</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/secondary_ip_address/address" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>IP address of the primary wireless LAN controller (eg. '10.0.0.3')</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>IP address of the primary wireless LAN controller. For example, '10.0.0.3'.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/site"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-site"><strong>site</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/site" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Current site details where the Access Point is located.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/site/floor"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-site-floor"><strong>floor</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/site/floor" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Floor details of the current site.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/site/floor/name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-site-floor-name"><strong>name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/site/floor/name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name of the floor.(eg. 'FLOOR1')</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name of the floor. For example, &quot;FLOOR1&quot;.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/site/floor/parent_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-site-floor-parent-name"><strong>parent_name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/site/floor/parent_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Parent name of the floor in the site hierarchy.(eg. 'Global/USA/New York/BLDNYC')</p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/tertiary_controller_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-tertiary-controller-name"><strong>tertiary_controller_name</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/tertiary_controller_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name or identifier of the tertiary wireless LAN controller (WLC) managing the Access Point (AP).(eg. &quot;Clear&quot;)</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Parent name of the floor in the site hierarchy. For example, &quot;Global/USA/New York/BLDNYC&quot;.</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/tertiary_controller_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-tertiary-controller-name"><strong>tertiary_controller_name</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/tertiary_controller_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name or identifier of the tertiary wireless LAN controller (WLC) managing the Access Point (AP). For example, &quot;Clear&quot;.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/tertiary_ip_address"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-tertiary-ip-address"><strong>tertiary_ip_address</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/tertiary_ip_address" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>IP address of the tertiary wireless LAN controller (WLC) managing the Access Point (AP).</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/tertiary_ip_address/address"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-tertiary-ip-address-address"><strong>address</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/tertiary_ip_address/address" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>IP address of the primary wireless LAN controller (eg. '10.0.0.2')</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>IP address of the primary wireless LAN controller. For example, '10.0.0.2'.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/tri_radio"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-tri-radio"><strong>tri_radio</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/tri_radio" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Configuration options for the tri radio interface.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/tri_radio/admin_status"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-tri-radio-admin-status"><strong>admin_status</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/tri_radio/admin_status" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Administrative status for the tri radio interface. For example, &quot;Enabled&quot;.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/tri_radio/antenna_cable_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-tri-radio-antenna-cable-name"><strong>antenna_cable_name</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/tri_radio/antenna_cable_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name or type of antenna cable used for the tri radio interface. For example, &quot;other&quot;.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/tri_radio/antenna_gain"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-tri-radio-antenna-gain"><strong>antenna_gain</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/tri_radio/antenna_gain" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Antenna gain value in decibels (dB) for the tri radio interface. For example, 4.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/tri_radio/antenna_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-tri-radio-antenna-name"><strong>antenna_name</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/tri_radio/antenna_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name or type of antenna used for the tri radio interface. For example, &quot;other&quot;.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/tri_radio/cable_loss"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-tri-radio-cable-loss"><strong>cable_loss</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/tri_radio/cable_loss" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Cable loss in dB for the tri radio interface. For example, 75.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/tri_radio/channel_assignment_mode"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-tri-radio-channel-assignment-mode"><strong>channel_assignment_mode</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/tri_radio/channel_assignment_mode" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
+<dt>Mode of channel assignment for the tri radio interface. Accepts &quot;Global&quot; or &quot;Custom&quot;.</dt><dd><p>For tri Custom, it accepts values like 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128,
+132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173. (eg. Custom)</p>
+</dd>
+</dl>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/tri_radio/channel_number"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-tri-radio-channel-number"><strong>channel_number</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/tri_radio/channel_number" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Custom channel number configured for the tri radio interface. For example, 6.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/tri_radio/channel_width"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-tri-radio-channel-width"><strong>channel_width</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/tri_radio/channel_width" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
+<dt>Width of the channel configured for the tri radio interface. Accepts values</dt><dd><p>&quot;20 MHz&quot;, &quot;40 MHz&quot;, &quot;80 MHz&quot;, or &quot;160 MHz&quot;. . For example, 20 MHz.</p>
+</dd>
+</dl>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/tri_radio/dual_radio_mode"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-tri-radio-dual-radio-mode"><strong>dual_radio_mode</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/tri_radio/dual_radio_mode" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
+<dt>Mode of operation configured for the tri radio interface. Specifies how the</dt><dd><p>access point (AP) manages its dual radio functionality. eg . Auto</p>
+</dd>
+</dl>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/tri_radio/power_assignment_mode"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-tri-radio-power-assignment-mode"><strong>power_assignment_mode</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/tri_radio/power_assignment_mode" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
+<dt>Mode of power assignment for the tri radio interface. Accepts &quot;Global&quot; or &quot;Custom&quot;.</dt><dd><p>In Custom, it accepts values 1 to 5.</p>
+</dd>
+</dl>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/tri_radio/power_level"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-tri-radio-power-level"><strong>power_level</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/tri_radio/power_level" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Custom power level configured for the tri radio interface. For example, 3.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/tri_radio/radio_role_assignment"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-tri-radio-radio-role-assignment"><strong>radio_role_assignment</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/tri_radio/radio_role_assignment" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
+<dt>Role assignment mode for the tri radio interface. Accepts &quot;Auto&quot;, &quot;Client-serving&quot;, or &quot;Monitor&quot;.</dt><dd><p>If radio_role_assignment is &quot;client-serving&quot;, then only power-level and channel-level can be changed.</p>
+</dd>
+</dl>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/xor_radio"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-xor-radio"><strong>xor_radio</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/xor_radio" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Configuration options for the xor radio interface.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/xor_radio/admin_status"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-xor-radio-admin-status"><strong>admin_status</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/xor_radio/admin_status" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Administrative status for the xor radio interface. For example, &quot;Enabled&quot;.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/xor_radio/antenna_cable_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-xor-radio-antenna-cable-name"><strong>antenna_cable_name</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/xor_radio/antenna_cable_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name or type of antenna cable used for the xor radio interface. For example, &quot;other&quot;.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/xor_radio/antenna_gain"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-xor-radio-antenna-gain"><strong>antenna_gain</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/xor_radio/antenna_gain" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Antenna gain value in decibels (dB) for the xor radio interface. For example, 4.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/xor_radio/antenna_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-xor-radio-antenna-name"><strong>antenna_name</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/xor_radio/antenna_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name or type of antenna used for the xor radio interface. For example, &quot;other&quot;.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/xor_radio/cable_loss"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-xor-radio-cable-loss"><strong>cable_loss</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/xor_radio/cable_loss" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Cable loss in dB for the xor radio interface. For example, 75.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/xor_radio/channel_assignment_mode"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-xor-radio-channel-assignment-mode"><strong>channel_assignment_mode</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/xor_radio/channel_assignment_mode" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
+<dt>Mode of channel assignment for the xor radio interface. Accepts &quot;Global&quot; or &quot;Custom&quot;.</dt><dd><p>For xor Custom, it accepts values like 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112,
+116, 120, 124, 128, 132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173. For example, &quot;Custom&quot;.</p>
+</dd>
+</dl>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/xor_radio/channel_number"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-xor-radio-channel-number"><strong>channel_number</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/xor_radio/channel_number" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Custom channel number configured for the xor radio interface. For example, 6.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/xor_radio/channel_width"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-xor-radio-channel-width"><strong>channel_width</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/xor_radio/channel_width" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
+<dt>Width of the channel configured for the xor radio interface. Accepts values</dt><dd><p>&quot;20 MHz&quot;, &quot;40 MHz&quot;, &quot;80 MHz&quot;, or &quot;160 MHz&quot;. For example, 20 MHz.</p>
+</dd>
+</dl>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/xor_radio/power_assignment_mode"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-xor-radio-power-assignment-mode"><strong>power_assignment_mode</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/xor_radio/power_assignment_mode" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
+<dt>Mode of power assignment for the xor radio interface. Accepts &quot;Global&quot; or &quot;Custom&quot;.</dt><dd><p>In Custom, it accepts values 1 to 5.</p>
+</dd>
+</dl>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/xor_radio/power_level"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-xor-radio-power-level"><strong>power_level</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/xor_radio/power_level" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Custom power level configured for the xor radio interface. For example, 3.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/xor_radio/radio_role_assignment"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-xor-radio-radio-role-assignment"><strong>radio_role_assignment</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/xor_radio/radio_role_assignment" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
+<dt>Role assignment mode for the xor radio interface. Accepts &quot;Auto&quot;, &quot;Client-serving&quot;, or &quot;Monitor&quot;.</dt><dd><p>If radio_role_assignment is &quot;client-serving&quot;, then only power-level and channel-level can be changed.
+For example, Auto.</p>
+</dd>
+</dl>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
@@ -1715,7 +1720,7 @@ to identify the specific access point: mac_address, hostname, or management_ip_a
 <span class="w">            </span><span class="nt">led_status</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Enabled&quot;</span>
 <span class="w">            </span><span class="nt">led_brightness_level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
 <span class="w">            </span><span class="nt">ap_mode</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Local&quot;</span>
-<span class="w">            </span><span class="nt">location</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;LTTS/Cisco/Chennai&quot;</span>
+<span class="w">            </span><span class="nt">is_assigned_site_as_location</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Enabled&quot;</span>
 <span class="w">            </span><span class="nt">failover_priority</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Low&quot;</span>
 <span class="w">            </span><span class="nt">2.4ghz_radio</span><span class="p">:</span>
 <span class="w">              </span><span class="nt">admin_status</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Enabled&quot;</span>

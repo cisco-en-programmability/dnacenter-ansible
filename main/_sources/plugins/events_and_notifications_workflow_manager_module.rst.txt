@@ -42,7 +42,7 @@ cisco.dnac.events_and_notifications_workflow_manager module -- Configure various
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.17.1).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.18.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -4325,7 +4325,7 @@ Examples
           - snmp_destination:
               name: Snmp test
               description: "Updating snmp destination with snmp version v2."
-              server_address: "10.30.0.90"
+              server_address: "10.30.0.23"
               port: "25"
               snmp_version: "V2C"
               community: "public123"
@@ -4387,7 +4387,7 @@ Examples
               name: "Webhook Notification."
               description: "Notification for webhook events subscription"
               sites: ["Global/India", "Global/USA"]
-              events: ["AP Flap", "AP Reboot Crash"]
+              events: ["AP Flap", "AP Reboot Crash", "Device Updation"]
               destination: "Webhook Demo"
 
     - name: Updating Webhook Notification with the list of names of subscribed events in the system.

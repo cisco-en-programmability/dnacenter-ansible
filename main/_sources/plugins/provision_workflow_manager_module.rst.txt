@@ -42,7 +42,7 @@ cisco.dnac.provision_workflow_manager module -- Resource module for provision re
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.17.1).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.18.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1288,6 +1288,21 @@ Examples
               management_ip_address: 204.192.12.201
               managed_ap_locations:
                 - Global/USA/RTP/BLD11/BLD11_FLOOR1
+
+    - name: Unprovision a device from a site
+      cisco.dnac.provision_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: True
+        state: deleted
+        config_verify: True
+        config:
+            - management_ip_address: 204.1.2.2
 
 
 

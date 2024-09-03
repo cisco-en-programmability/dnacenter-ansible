@@ -199,6 +199,7 @@
 <li class="toctree-l4"><a class="reference internal" href="event_webhook_update_module.html">cisco.dnac.event_webhook_update module -- Resource module for Event Webhook Update</a></li>
 <li class="toctree-l4"><a class="reference internal" href="events_and_notifications_workflow_manager_module.html">cisco.dnac.events_and_notifications_workflow_manager module -- Configure various types of destinations to deliver event notifications from Cisco Catalyst Center Platform.</a></li>
 <li class="toctree-l4"><a class="reference internal" href="execute_suggested_actions_commands_module.html">cisco.dnac.execute_suggested_actions_commands module -- Resource module for Execute Suggested Actions Commands</a></li>
+<li class="toctree-l4"><a class="reference internal" href="fabric_sites_zones_workflow_manager_module.html">cisco.dnac.fabric_sites_zones_workflow_manager module -- Manage fabric site(s)/zone(s) and update the authentication profile template in Cisco Catalyst Center.</a></li>
 <li class="toctree-l4"><a class="reference internal" href="file_import_module.html">cisco.dnac.file_import module -- Resource module for File Import</a></li>
 <li class="toctree-l4"><a class="reference internal" href="file_info_module.html">cisco.dnac.file_info module -- Information module for File</a></li>
 <li class="toctree-l4"><a class="reference internal" href="file_namespace_files_info_module.html">cisco.dnac.file_namespace_files_info module -- Information module for File Namespace Files</a></li>
@@ -388,6 +389,7 @@
 <li class="toctree-l4"><a class="reference internal" href="sda_extranet_policies_module.html">cisco.dnac.sda_extranet_policies module -- Resource module for Sda Extranetpolicies</a></li>
 <li class="toctree-l4"><a class="reference internal" href="sda_extranet_policies_count_info_module.html">cisco.dnac.sda_extranet_policies_count_info module -- Information module for Sda Extranetpolicies Count</a></li>
 <li class="toctree-l4"><a class="reference internal" href="sda_extranet_policies_info_module.html">cisco.dnac.sda_extranet_policies_info module -- Information module for Sda Extranetpolicies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sda_extranet_policies_workflow_manager_module.html">cisco.dnac.sda_extranet_policies_workflow_manager module -- SDA Extranet Policies Module provides functionality for managing SDA Extranet Policy in Cisco Catalyst Center.</a></li>
 <li class="toctree-l4"><a class="reference internal" href="sda_fabric_module.html">cisco.dnac.sda_fabric module -- Resource module for Sda Fabric</a></li>
 <li class="toctree-l4"><a class="reference internal" href="sda_fabric_authentication_profile_module.html">cisco.dnac.sda_fabric_authentication_profile module -- Resource module for Sda Fabric Authentication Profile</a></li>
 <li class="toctree-l4"><a class="reference internal" href="sda_fabric_authentication_profile_info_module.html">cisco.dnac.sda_fabric_authentication_profile_info module -- Information module for Sda Fabric Authentication Profile</a></li>
@@ -577,7 +579,7 @@
              
   <section id="cisco-dnac">
 <span id="plugins-in-cisco-dnac"></span><h1>Cisco.Dnac<a class="headerlink" href="#cisco-dnac" title="Permalink to this heading"></a></h1>
-<p>Collection version 6.17.1</p>
+<p>Collection version 6.18.0</p>
 <nav class="contents local" id="contents">
 <ul class="simple">
 <li><p><a class="reference internal" href="#description" id="id1">Description</a></p></li>
@@ -605,6 +607,7 @@
 <li><p>Rangaprabhu Deenadayalu &lt;<a class="reference external" href="mailto:radeenad&#37;&#52;&#48;cisco&#46;com">radeenad<span>&#64;</span>cisco<span>&#46;</span>com</a>&gt;</p></li>
 <li><p>Ajith Andrew J &lt;<a class="reference external" href="mailto:jajandre&#37;&#52;&#48;cisco&#46;com">jajandre<span>&#64;</span>cisco<span>&#46;</span>com</a>&gt;</p></li>
 <li><p>Syed Khadeer Ahmed &lt;<a class="reference external" href="mailto:syedkahm&#37;&#52;&#48;cisco&#46;com">syedkahm<span>&#64;</span>cisco<span>&#46;</span>com</a>&gt;</p></li>
+<li><p>A Mohamed Rafeek &lt;<a class="reference external" href="mailto:mabdulk2&#37;&#52;&#48;cisco&#46;com">mabdulk2<span>&#64;</span>cisco<span>&#46;</span>com</a>&gt;</p></li>
 </ul>
 <p><strong>Supported ansible-core versions:</strong></p>
 <ul class="simple">
@@ -767,6 +770,7 @@
 <li><p><a class="reference internal" href="event_webhook_update_module.html#ansible-collections-cisco-dnac-event-webhook-update-module"><span class="std std-ref">event_webhook_update module</span></a> -- Resource module for Event Webhook Update</p></li>
 <li><p><a class="reference internal" href="events_and_notifications_workflow_manager_module.html#ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module"><span class="std std-ref">events_and_notifications_workflow_manager module</span></a> -- Configure various types of destinations to deliver event notifications from Cisco Catalyst Center Platform.</p></li>
 <li><p><a class="reference internal" href="execute_suggested_actions_commands_module.html#ansible-collections-cisco-dnac-execute-suggested-actions-commands-module"><span class="std std-ref">execute_suggested_actions_commands module</span></a> -- Resource module for Execute Suggested Actions Commands</p></li>
+<li><p><a class="reference internal" href="fabric_sites_zones_workflow_manager_module.html#ansible-collections-cisco-dnac-fabric-sites-zones-workflow-manager-module"><span class="std std-ref">fabric_sites_zones_workflow_manager module</span></a> -- Manage fabric site(s)/zone(s) and update the authentication profile template in Cisco Catalyst Center.</p></li>
 <li><p><a class="reference internal" href="file_import_module.html#ansible-collections-cisco-dnac-file-import-module"><span class="std std-ref">file_import module</span></a> -- Resource module for File Import</p></li>
 <li><p><a class="reference internal" href="file_info_module.html#ansible-collections-cisco-dnac-file-info-module"><span class="std std-ref">file_info module</span></a> -- Information module for File</p></li>
 <li><p><a class="reference internal" href="file_namespace_files_info_module.html#ansible-collections-cisco-dnac-file-namespace-files-info-module"><span class="std std-ref">file_namespace_files_info module</span></a> -- Information module for File Namespace Files</p></li>
@@ -956,6 +960,7 @@
 <li><p><a class="reference internal" href="sda_extranet_policies_module.html#ansible-collections-cisco-dnac-sda-extranet-policies-module"><span class="std std-ref">sda_extranet_policies module</span></a> -- Resource module for Sda Extranetpolicies</p></li>
 <li><p><a class="reference internal" href="sda_extranet_policies_count_info_module.html#ansible-collections-cisco-dnac-sda-extranet-policies-count-info-module"><span class="std std-ref">sda_extranet_policies_count_info module</span></a> -- Information module for Sda Extranetpolicies Count</p></li>
 <li><p><a class="reference internal" href="sda_extranet_policies_info_module.html#ansible-collections-cisco-dnac-sda-extranet-policies-info-module"><span class="std std-ref">sda_extranet_policies_info module</span></a> -- Information module for Sda Extranetpolicies</p></li>
+<li><p><a class="reference internal" href="sda_extranet_policies_workflow_manager_module.html#ansible-collections-cisco-dnac-sda-extranet-policies-workflow-manager-module"><span class="std std-ref">sda_extranet_policies_workflow_manager module</span></a> -- SDA Extranet Policies Module provides functionality for managing SDA Extranet Policy in Cisco Catalyst Center.</p></li>
 <li><p><a class="reference internal" href="sda_fabric_module.html#ansible-collections-cisco-dnac-sda-fabric-module"><span class="std std-ref">sda_fabric module</span></a> -- Resource module for Sda Fabric</p></li>
 <li><p><a class="reference internal" href="sda_fabric_authentication_profile_module.html#ansible-collections-cisco-dnac-sda-fabric-authentication-profile-module"><span class="std std-ref">sda_fabric_authentication_profile module</span></a> -- Resource module for Sda Fabric Authentication Profile</p></li>
 <li><p><a class="reference internal" href="sda_fabric_authentication_profile_info_module.html#ansible-collections-cisco-dnac-sda-fabric-authentication-profile-info-module"><span class="std std-ref">sda_fabric_authentication_profile_info module</span></a> -- Information module for Sda Fabric Authentication Profile</p></li>

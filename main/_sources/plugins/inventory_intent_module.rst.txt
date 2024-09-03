@@ -42,7 +42,7 @@ cisco.dnac.inventory_intent module -- Resource module for Network Device
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.17.1).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.18.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1339,6 +1339,82 @@ Parameters
       - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
       - :ansible-option-choices-entry:`true`
 
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/resync_device_count"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_intent_module__parameter-config/resync_device_count:
+
+      .. rst-class:: ansible-option-title
+
+      **resync_device_count**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/resync_device_count" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the maximum number of devices to be resynced in the inventory. Ensure this count does not exceed 200, as attempting to resync more than 200 devices may cause the 'sync\_devices\_using\_forcesync' API to enter an infinite loop.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`200`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/resync_max_timeout"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_intent_module__parameter-config/resync_max_timeout:
+
+      .. rst-class:: ansible-option-title
+
+      **resync_max_timeout**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/resync_max_timeout" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Sets the maximum timeout for the device resync process in the inventory, in seconds. The default is 600 seconds, which helps prevent infinite loops.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`600`
 
       .. raw:: html
 
