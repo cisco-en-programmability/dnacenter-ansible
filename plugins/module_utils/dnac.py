@@ -607,13 +607,13 @@ class DnacBase():
             """, re.VERBOSE | re.IGNORECASE)
         return pattern.match(ip_address) is not None
 
-    def map_config_key_to_api_param(self, keymap=any, data=any):
+    def map_config_key_to_api_param(self, keymap=None, data=None):
         """
         Converts keys in a dictionary from CamelCase to snake_case and creates a keymap.
 
         Parameters:
             keymap (dict): Already existing key map dictionary to add to or empty dict {}.
-            data (dict): Input data where keys need to be mapped using the key map.
+            data (dict or list): Input data where keys need to be mapped using the key map.
 
         Returns:
             dict: A dictionary with the original keys as values and the converted snake_case
@@ -637,7 +637,6 @@ class DnacBase():
                 if isinstance(value, dict):
                     self.map_config_key_to_api_param(keymap, value)
                 elif isinstance(value, list):
-
                     for item in value:
                         if isinstance(item, dict):
                             self.map_config_key_to_api_param(keymap, item)
@@ -659,7 +658,10 @@ class DnacBase():
         Returns:
             str: Formatted JSON string.
         """
-        return json.dumps(jsondata, indent=4, separators=(',', ': '))
+        try:
+            return json.dumps(jsondata, indent=4, separators=(',', ': '))
+        except (TypeError, ValueError) as e:
+            raise TypeError("Invalid input for JSON serialization: {0}".format(str(e)))
 
     def check_status_api_events(self, status_execution_id):
         """

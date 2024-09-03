@@ -1229,12 +1229,12 @@ class Accesspoint(DnacBase):
         require_update = self.config_diff(self.have["current_ap_config"])
         self.log(self.pprint(require_update), "INFO")
         if require_update:
-            radio_list = require_update.get("radioConfigurations", [])
+            radio_list = require_update.get(self.keymap["radio_configurations"], [])
             if len(radio_list) > 0:
                 for each_radio in radio_list:
                     radio_key_list = list(each_radio.keys())
                     for each_key in radio_key_list:
-                        if each_key not in ("antenna_name", "radioType", "unmatch", "cable_loss",
+                        if each_key not in ("antenna_name", self.keymap["radio_type"], "unmatch", "cable_loss",
                                             self.keymap["radio_role_assignment"]):
                             unmatch_count += 1
 
@@ -1319,6 +1319,7 @@ class Accesspoint(DnacBase):
         for radio_type in self.radio_interface:
             ap_series = ap_config.get(radio_type)
             self.log('Validating radio type: {0}'.format(radio_type), "INFO")
+
             if ap_series is not None:
                 for series in self.allowed_series[radio_type]:
                     compiled_pattern = [re.compile(r'\b{}\w+'.format(re.escape(series))),
@@ -2153,7 +2154,7 @@ class Accesspoint(DnacBase):
                     temp_dtos[dto_key] = want_radio[dto_key]
                     self.log("Antenna cable name set to: {0}".format(want_radio[dto_key]), "INFO")
                 elif dto_key == "radio_type":
-                    temp_dtos["radioType"] = want_radio[dto_key]
+                    temp_dtos[self.keymap["radio_type"]] = want_radio[dto_key]
                     self.log("Radio type set to: {0}".format(want_radio[dto_key]), "INFO")
                 else:
                     if want_radio[dto_key] != current_radio[dto_key]:
