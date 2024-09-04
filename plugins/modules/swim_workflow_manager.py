@@ -651,10 +651,8 @@ class Swim(DnacBase):
 
         except Exception as e:
             self.status = "failed"
-            self.msg = (
-                        "'An exception occurred: Site '{0}' does not exist in the Cisco Catalyst Center' or 'In this version '{1}' "
-                        ", 'get_sites' is not supported'"
-            ).format(site_name, self.payload.get("dnac_version"))
+            self.msg = ("'An exception occurred: Site '{0}' does not exist in the Cisco Catalyst Center' or 'In this version '{1}' "
+                        ", 'get_sites' is not supported'").format(site_name, self.payload.get("dnac_version"))
             self.log(self.msg, "ERROR")
             self.check_return_status()
 
@@ -898,7 +896,6 @@ class Swim(DnacBase):
                         site_response_list.append(item_dict)
 
         if self.dnac_version >= self.version_2_3_7_6:
-            self.log("inside the version 2.3.7.6")
             try:
                 response = self.dnac._exec(
                     family="site_design",
@@ -913,12 +910,11 @@ class Swim(DnacBase):
                 return device_uuid_list
 
             response = response.get('response')
-            device_id_list, site_response_list = [],[]
-
+            device_id_list, site_response_list = [], []
 
             for device_id in response:
                 device_id_list.append(device_id.get("deviceId"))
-            
+
             try:
 
                 device_params = {}
@@ -943,7 +939,6 @@ class Swim(DnacBase):
                             op_modifies=True
                         )
                     offset = offset + 1
-                    self.log(device_list_response)
                     device_response = device_list_response.get('response')
                     if not device_response:
                         break
@@ -1338,15 +1333,11 @@ class Swim(DnacBase):
 
                 else:  # CCO import
                     image_name = images_to_import[0]
-                    self.log(image_name)
                     cco_image_id = self.get_cco_image_id(image_name)
                     import_params = {"id": cco_image_id}
                     import_function = 'download_the_software_image'
 
-                # Execute the import function
-                self.log("import_params")
-                self.log(import_params)
-                self.log(import_function)
+                self.log("importing with the import_params - {0}".format(import_params))
                 response = self.dnac._exec(
                     family="software_image_management_swim",
                     function=import_function,
@@ -1389,25 +1380,21 @@ class Swim(DnacBase):
 
                 self.result['response'] = task_details if task_details else response
 
-                # Fetch image_id for the imported image for further use
                 image_name = image_name.split('/')[-1]
                 image_id = self.get_image_id(image_name)
                 self.have["imported_image_id"] = image_id
 
-            # Final response handling
             imported_images_str = ", ".join(images_to_import)
             skipped_images_str = ", ".join(existing_images)
 
             if skipped_images_str and not imported_images_str:
-                # If all images are skipped
                 self.msg = "Image(s) {0} skipped as they already exist in Cisco Catalyst Center. No images were imported.".format(skipped_images_str)
             elif skipped_images_str and imported_images_str:
-                # If some images were skipped and others imported
-                self.msg = "Image(s) {0} skipped as they already exist Cisco Catalyst Center. Images {1} have been imported successfully.".format(skipped_images_str, imported_images_str)
+                self.msg = ("Image(s) {0} skipped as they already exist Cisco Catalyst Center. Images {1} have been imported"
+                            "successfully.").format(skipped_images_str, imported_images_str)
             else:
-                # If all images were imported
                 self.msg = "Image(s) {0} have been imported successfully in Cisco Catalyst Center.".format(imported_images_str)
-            
+
             self.result['msg'] = self.msg
             self.result['response'] = self.msg
             self.log(self.msg, "INFO")
