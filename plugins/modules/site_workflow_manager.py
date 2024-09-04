@@ -734,7 +734,7 @@ class Site(DnacBase):
                 
                     return (site_exists, current_site)
                 except Exception as e:
-                    self.log(f"Bulk site yml is not available: {str(e)}")
+                    self.log(f"Bulk operation is not available: {str(e)}")
             
                     name_hierarchy = self.want.get("site_name")
                     param = {"nameHierarchy": name_hierarchy}
