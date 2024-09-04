@@ -23,10 +23,11 @@
         dnac_task_poll_interval: 1
         config:
         - import_image_details:
-            type: "{{ item.type }}"
+            type: remote
             url_details:
-              payload:
-              - source_url: http://172.21.236.183/swim/V1712_2_CCO/cat9k_iosxe.17.12.02.SPA.bin
+                payload:
+                - source_url:
+                    - "http://172.21.236.183/swim/V1712_2_CCO/cat9k_iosxe.17.12.02.SPA.bin"
                 third_party: False
           tagging_details:
             image_name: cat9k_iosxe.17.12.02.SPA.bin

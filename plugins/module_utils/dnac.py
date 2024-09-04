@@ -7,6 +7,11 @@
 from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 try:
+    from cryptography.fernet import Fernet
+    HAS_FERNET = True
+except ImportError:
+    HAS_FERNET = False
+try:
     from dnacentersdk import api, exceptions
 except ImportError:
     DNAC_SDK_IS_INSTALLED = False
@@ -504,6 +509,89 @@ class DnacBase():
         except json.JSONDecodeError:
             pass
         return None
+    
+    def get_sites(self, site_name):
+        """
+        Retrieve site details from Cisco Catalyst Center based on the provided site name.
+        Args:
+            - site_name (str): The name or hierarchy of the site to be retrieved.
+        Returns:
+            - response (dict or None): The response from the API call, typically a dictionary containing site details.
+                                    Returns None if an error occurs or if the response is empty.
+        Criteria:
+            - This function uses the Cisco Catalyst Center SDK to execute the 'get_sites' function from the 'site_design' family.
+            - If the response is empty, a warning is logged.
+            - Any exceptions during the API call are caught, logged as errors, and the function returns None.
+        """
+        try:
+            response = self.dnac._exec(
+                family="site_design",
+                function='get_sites',
+                op_modifies=True,
+                params={"name_hierarchy": site_name},
+            )
+
+            if not response:
+                self.log("The response from 'get_sites' is empty.", "WARNING")
+
+            self.log("Received API response from 'get_sites': {0}".format(str(response)), "DEBUG")
+            return response
+
+        except Exception as e:
+            self.log(f"An error occurred: {str(e)}", "ERROR")
+            return None
+
+    def generate_key(self):
+        """
+        Generate a new encryption key using Fernet.
+        Returns:
+            - key (bytes): A newly generated encryption key.
+        Criteria:
+            - This function should only be called if HAS_FERNET is True.
+        """
+        if HAS_FERNET:
+            return {"generate_key": Fernet.generate_key()}
+        else:
+            error_message = "The 'cryptography' library is not installed. Please install it using 'pip install cryptography'."
+            return {"error_message": error_message}
+
+    def encrypt_password(self, password, key):
+        """
+        Encrypt a plaintext password using the provided encryption key.
+        Args:
+            - password (str): The plaintext password to be encrypted.
+            - key (bytes): The encryption key used to encrypt the password.
+        Returns:
+            - encrypted_password (bytes): The encrypted password as bytes.
+        Criteria:
+            - This function should only be called if HAS_FERNET is True.
+            - The password should be encoded to bytes before encryption.
+        """
+        try:
+            fernet = Fernet(key)
+            encrypted_password = fernet.encrypt(password.encode())
+            return {"encrypt_password": encrypted_password}
+        except Exception as e:
+            return {"error_message": "Exception occurred while encrypting password: {0}".format(e)}
+
+    def decrypt_password(self, encrypted_password, key):
+        """
+        Decrypt an encrypted password using the provided encryption key.
+        Args:
+            - encrypted_password (bytes): The encrypted password as bytes to be decrypted.
+            - key (bytes): The encryption key used to decrypt the password.
+        Returns:
+            - decrypted_password (str): The decrypted plaintext password.
+        Criteria:
+            - This function should only be called if HAS_FERNET is True.
+            - The encrypted password should be decoded from bytes after decryption.
+        """
+        try:
+            fernet = Fernet(key)
+            decrypted_password = fernet.decrypt(encrypted_password.encode()).decode()
+            return {"decrypt_password": decrypted_password}
+        except Exception as e:
+            return {"error_message": "Exception occurred while decrypting password: {0}".format(e)}
 
     def camel_to_snake_case(self, config):
         """
