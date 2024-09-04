@@ -52,4 +52,5 @@
 
       with_items: "{{ image_details }}"
       tags:
-        - swim  
+        - swim
+
