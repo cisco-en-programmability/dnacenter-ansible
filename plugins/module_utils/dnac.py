@@ -509,7 +509,7 @@ class DnacBase():
         except json.JSONDecodeError:
             pass
         return None
-    
+
     def get_sites(self, site_name):
         """
         Retrieve site details from Cisco Catalyst Center based on the provided site name.
