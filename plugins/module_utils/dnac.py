@@ -638,6 +638,88 @@ class DnacBase():
         except socket.error:
             return False
 
+    def is_valid_ipv6(self, ip_address):
+        """
+        Validates an IPv6 address.
+
+        Parameters:
+            ip_address - String denoting the IPv6 address passed.
+
+        Returns:
+            bool: True if the IPv6 address is valid, otherwise False
+        """
+        pattern = re.compile(r"""
+            ^(([0-9a-fA-F]{1,4}:){7}([0-9a-fA-F]{1,4}|:))|
+            (([0-9a-fA-F]{1,4}:){1,7}:)|
+            (([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4})|
+            (([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2})|
+            (([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3})|
+            (([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4})|
+            (([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5})|
+            (([0-9a-fA-F]{1,4}:){1}(:[0-9a-fA-F]{1,4}){1,6})|
+            (:((:[0-9a-fA-F]{1,4}){1,7}|:))|
+            (fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,})|
+            (::(ffff(:0{1,4}){0,1}:){0,1}(([0-9]{1,3}\.){3}[0-9]{1,3}))|
+            (([0-9a-fA-F]{1,4}:){1,4}:(([0-9]{1,3}\.){3}[0-9]{1,3}))$
+            """, re.VERBOSE | re.IGNORECASE)
+        return pattern.match(ip_address) is not None
+
+    def map_config_key_to_api_param(self, keymap=None, data=None):
+        """
+        Converts keys in a dictionary from CamelCase to snake_case and creates a keymap.
+
+        Parameters:
+            keymap (dict): Already existing key map dictionary to add to or empty dict {}.
+            data (dict or list): Input data where keys need to be mapped using the key map.
+
+        Returns:
+            dict: A dictionary with the original keys as values and the converted snake_case
+                    keys as keys.
+
+        Example:
+            functions = Accesspoint(module)
+            keymap = functions.map_config_key_to_api_param(keymap, device_data)
+        """
+
+        if keymap is None:
+            keymap = {}
+
+        if isinstance(data, dict):
+            keymap.update(keymap)
+
+            for key, value in data.items():
+                new_key = re.sub(r'([a-z0-9])([A-Z])', r'\1_\2', key).lower()
+                keymap[new_key] = key
+
+                if isinstance(value, dict):
+                    self.map_config_key_to_api_param(keymap, value)
+                elif isinstance(value, list):
+                    for item in value:
+                        if isinstance(item, dict):
+                            self.map_config_key_to_api_param(keymap, item)
+
+        elif isinstance(data, list):
+            for item in data:
+                if isinstance(item, dict):
+                    self.map_config_key_to_api_param(keymap, item)
+
+        return keymap
+
+    def pprint(self, jsondata):
+        """
+        Pretty prints JSON/dictionary data in a readable format.
+
+        Parameters:
+            jsondata (dict): Dictionary data to be printed.
+
+        Returns:
+            str: Formatted JSON string.
+        """
+        try:
+            return json.dumps(jsondata, indent=4, separators=(',', ': '))
+        except (TypeError, ValueError) as e:
+            raise TypeError("Invalid input for JSON serialization: {0}".format(str(e)))
+
     def check_status_api_events(self, status_execution_id):
         """
         Checks the status of API events in Cisco Catalyst Center until completion or timeout.
