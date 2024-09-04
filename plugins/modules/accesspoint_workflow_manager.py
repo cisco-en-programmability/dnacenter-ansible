@@ -1322,14 +1322,8 @@ class Accesspoint(DnacBase):
 
             if ap_series is not None:
                 for series in self.allowed_series[radio_type]:
-                    compiled_pattern = [re.compile(r'\b{}\w+'.format(re.escape(series))),
-                                        re.compile(r'\b{}\b'.format(re.escape(series)))]
-                    is_valid = compiled_pattern[0].search(self.payload["access_point_details"]["series"])
-                    if is_valid:
-                        invalid_series = []
-                        break
-
-                    is_valid = compiled_pattern[1].search(self.payload["access_point_details"]["series"])
+                    compiled_pattern = re.compile(r'\b{0}\w+|\b{0}\b'.format(re.escape(series)))
+                    is_valid = compiled_pattern.search(self.payload["access_point_details"]["series"])
                     if is_valid:
                         invalid_series = []
                         break
@@ -1338,7 +1332,7 @@ class Accesspoint(DnacBase):
                         invalid_entry = "Access Point series '{0}' not supported for the radio type {1} allowed series {2}".format(
                             self.payload["access_point_details"]["series"],
                             radio_type,
-                            str(self.allowed_series[radio_type])
+                            str(series)
                         )
                         self.log("Invalid series detected: {}".format(invalid_entry), "DEBUG")
                         invalid_series.append(invalid_entry)
