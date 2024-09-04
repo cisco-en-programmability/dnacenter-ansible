@@ -2199,7 +2199,6 @@ class Accesspoint(DnacBase):
                             update_config["apName"] = current_ap_config.get("ap_name")
                     elif each_key == "is_assigned_site_as_location":
                         update_config["isAssignedSiteAsLocation"] = self.want["is_assigned_site_as_location"]
-
                     elif each_key in ("2.4ghz_radio", "5ghz_radio", "6ghz_radio",
                                       "xor_radio", "tri_radio"):
                         current_radio_dtos = current_ap_config.get("radio_dtos")
