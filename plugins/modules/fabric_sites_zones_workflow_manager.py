@@ -58,7 +58,7 @@ options:
                 any fabric site/zone management operation.
             type: str
             required: True
-          site_type:
+          fabric_type:
             description: Specifies the type of site to be managed within the SDA environment. The acceptable values are 'fabric_site'
                 and 'fabric_zone'. The default value is 'fabric_site', indicating the configuration of a broader network area, whereas
                 'fabric_zone' typically refers to a more specific segment within the site.
@@ -182,7 +182,7 @@ EXAMPLES = r"""
     config:
       - fabric sites:
           site_name: "Global/Test_SDA/Bld1/Floor1"
-          site_type: "fabric_zone"
+          fabric_type: "fabric_zone"
           authentication_profile: "Closed Authentication"
 
 - name: Update fabric zone for sda with given name.
@@ -200,7 +200,7 @@ EXAMPLES = r"""
     config:
       - fabric sites:
           site_name: "Global/Test_SDA/Bld1/Floor1"
-          site_type: "fabric_zone"
+          fabric_type: "fabric_zone"
           authentication_profile: "Open Authentication"
 
 - name: Update/customise authentication profile template for fabric site/zone.
@@ -218,7 +218,7 @@ EXAMPLES = r"""
     config:
       - fabric_sites:
           site_name: "Global/Test_SDA/Bld1"
-          site_type: "fabric_zone"
+          fabric_type: "fabric_zone"
           authentication_profile: "Open Authentication"
           is_pub_sub_enabled: False
           update_authentication_profile:
@@ -258,7 +258,7 @@ EXAMPLES = r"""
     config:
       - fabric_sites:
           site_name: "Global/Test_SDA/Bld1/Floor1"
-          site_type: "fabric_zone"
+          fabric_type: "fabric_zone"
 
 """
 
@@ -321,7 +321,7 @@ class FabricSitesZones(DnacBase):
                 'type': 'list',
                 'elements': 'dict',
                 'site_name': {'type': 'str'},
-                'site_type': {'type': 'str', 'default': 'fabric_site'},
+                'fabric_type': {'type': 'str', 'default': 'fabric_site'},
                 'authentication_profile': {'type': 'str'},
                 'is_pub_sub_enabled': {'type': 'bool', 'default': False},
                 'update_authentication_profile': {
@@ -512,10 +512,10 @@ class FabricSitesZones(DnacBase):
 
         for site in fabric_sites:
             site_name = site.get("site_name")
-            site_type = site.get("site_type", "fabric_site")
+            fabric_type = site.get("fabric_type", "fabric_site")
             site_id = self.get_site_id(site_name)
 
-            if site_type == "fabric_site":
+            if fabric_type == "fabric_site":
                 site_detail = self.get_fabric_site_detail(site_name, site_id)
                 if site_detail:
                     self.log("Site detail for fabric site {0} collected successfully.".format(site_name), "DEBUG")
@@ -567,7 +567,7 @@ class FabricSitesZones(DnacBase):
 
             for site in fabric_sites:
                 site_name = site.get("site_name")
-                site_type = site.get("site_type", "fabric_site")
+                fabric_type = site.get("fabric_type", "fabric_site")
 
                 if not site_name:
                     self.status = "failed"
@@ -579,12 +579,12 @@ class FabricSitesZones(DnacBase):
                     self.result["response"] = self.msg
                     return self
 
-                if site_type not in ["fabric_site", "fabric_zone"]:
+                if fabric_type not in ["fabric_site", "fabric_zone"]:
                     self.status = "failed"
                     self.msg = (
-                        "Invalid site_type '{0}' provided. Please use 'fabric_site' or 'fabric_zone' for fabric site/zone operations"
+                        "Invalid fabric_type '{0}' provided. Please use 'fabric_site' or 'fabric_zone' for fabric site/zone operations"
                         " in Cisco Catalyst Center."
-                    ).format(site_type)
+                    ).format(fabric_type)
                     self.log(self.msg, "ERROR")
                     return self
 
@@ -1220,24 +1220,24 @@ class FabricSitesZones(DnacBase):
 
         return self
 
-    def delete_fabric_site_zone(self, fabric_id, site_name, site_type):
+    def delete_fabric_site_zone(self, fabric_id, site_name, fabric_type):
         """
         Deletes a fabric site or fabric zone from Cisco Catalyst Center.
         Args:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             fabric_id (str): The ID of the fabric site or fabric zone to be deleted.
             site_name (str): The name of the fabric site or fabric zone to be deleted.
-            site_type (str): The type of the entity to be deleted. Should be either "fabric_site" or "fabric_zone".
+            fabric_type (str): The type of the entity to be deleted. Should be either "fabric_site" or "fabric_zone".
         Returns:
             self (object): Returns the current instance of the class with updated status and message attributes.
         Description:
-            This method sends a request to delete a fabric site or fabric zone based on the provided `fabric_id` and `site_type`.
-            It determines the appropriate API function to call based on the `site_type`, either "delete_fabric_site_by_id" or
+            This method sends a request to delete a fabric site or fabric zone based on the provided `fabric_id` and `fabric_type`.
+            It determines the appropriate API function to call based on the `fabric_type`, either "delete_fabric_site_by_id" or
             "delete_fabric_zone_by_id". It returns the class instance for further processing or chaining.
         """
 
         try:
-            if site_type == "fabric_site":
+            if fabric_type == "fabric_site":
                 api_name = "delete_fabric_site_by_id"
                 type_name = "fabric site"
             else:
@@ -1284,7 +1284,7 @@ class FabricSitesZones(DnacBase):
 
                 if task_details.get("endTime") and "workflow_id" in task_details.get("data"):
                     self.status = "success"
-                    if site_type == "fabric_site":
+                    if fabric_type == "fabric_site":
                         self.delete_site.append(site_name)
                     else:
                         self.delete_zone.append(site_name)
@@ -1404,7 +1404,7 @@ class FabricSitesZones(DnacBase):
 
         for site in fabric_sites:
             site_name = site.get("site_name")
-            site_type = site.get("site_type", "fabric_site")
+            fabric_type = site.get("fabric_type", "fabric_site")
             site_id = self.get_site_id(site_name)
             auth_profile = site.get("authentication_profile")
 
@@ -1419,7 +1419,7 @@ class FabricSitesZones(DnacBase):
                 self.result["response"] = self.msg
                 return self
 
-            if site_type == "fabric_site":
+            if fabric_type == "fabric_site":
                 # Check whether site is already fabric or not.
                 if site_id not in self.have.get("fabric_sites_ids"):
                     # Create the fabric site in Cisco Catalyst Center
@@ -1474,7 +1474,7 @@ class FabricSitesZones(DnacBase):
                     return self
 
                 # With the given site id collect the fabric site/zone id
-                if site_type == "fabric_site":
+                if fabric_type == "fabric_site":
                     site_detail = self.get_fabric_site_detail(site_name, site_id)
                     fabric_id = site_detail.get("id")
                 else:
@@ -1526,7 +1526,7 @@ class FabricSitesZones(DnacBase):
             config (dict): A dictionary containing the configuration for fabric sites and zones. It may include:
                 - 'fabric_sites' - List of dictionaries, where each dictionary represents a fabric site or zone.
                     - 'site_name' - The name of the site or zone to be deleted.
-                    - 'site_type'- Type of the site or zone, either "fabric_site" or "fabric_zone". Defaults to "fabric_site".
+                    - 'fabric_type'- Type of the site or zone, either "fabric_site" or "fabric_zone". Defaults to "fabric_site".
         Returns:
             self (object): Returns the current instance of the class with updated attributes based on the deletion operations performed.
         Description:
@@ -1551,7 +1551,7 @@ class FabricSitesZones(DnacBase):
 
         for site in fabric_sites:
             site_name = site.get("site_name")
-            site_type = site.get("site_type", "fabric_site")
+            fabric_type = site.get("fabric_type", "fabric_site")
             if not site_name:
                 self.status = "failed"
                 self.msg = "Unable to delete fabric site/zone as required parameter 'site_name' is not given in the playbook."
@@ -1561,13 +1561,13 @@ class FabricSitesZones(DnacBase):
 
             site_id = self.get_site_id(site_name)
 
-            if site_type == "fabric_site":
+            if fabric_type == "fabric_site":
                 # Check whether fabric site is present in Cisco Catalyst Center.
                 if site_id in self.have.get("fabric_sites_ids"):
                     site_detail = self.get_fabric_site_detail(site_name, site_id)
                     fabric_id = site_detail.get("id")
                     # Delete the fabric site from the Cisco Catalyst Center
-                    self.delete_fabric_site_zone(fabric_id, site_name, site_type).check_return_status()
+                    self.delete_fabric_site_zone(fabric_id, site_name, fabric_type).check_return_status()
                 else:
                     self.status = "success"
                     self.absent_site.append(site_name)
@@ -1578,7 +1578,7 @@ class FabricSitesZones(DnacBase):
                     site_detail = self.get_fabric_zone_detail(site_name, site_id, )
                     fabric_id = site_detail.get("id")
                     # Delete the fabric zone from the Cisco Catalyst Center
-                    self.delete_fabric_site_zone(fabric_id, site_name, site_type).check_return_status()
+                    self.delete_fabric_site_zone(fabric_id, site_name, fabric_type).check_return_status()
                 else:
                     self.status = "success"
                     self.absent_zone.append(site_name)
@@ -1611,10 +1611,10 @@ class FabricSitesZones(DnacBase):
 
             for site in fabric_sites:
                 site_name = site.get("site_name")
-                site_type = site.get("site_type", "fabric_site")
+                fabric_type = site.get("fabric_type", "fabric_site")
                 site_id = self.get_site_id(site_name)
 
-                if site_type == "fabric_site":
+                if fabric_type == "fabric_site":
                     if site_id not in self.have.get("fabric_sites_ids"):
                         verify_site_list.append(site_name)
                     else:
@@ -1629,7 +1629,7 @@ class FabricSitesZones(DnacBase):
                 if site.get("update_authentication_profile"):
                     auth_flag = True
                     # With the given site id collect the fabric site/zone id
-                    if site_type == "fabric_site":
+                    if fabric_type == "fabric_site":
                         site_detail = self.get_fabric_site_detail(site_name, site_id)
                         fabric_id = site_detail.get("id")
                         auth_name_list.append(site_name)
@@ -1696,10 +1696,10 @@ class FabricSitesZones(DnacBase):
 
         for site in fabric_sites:
             site_name = site.get("site_name")
-            site_type = site.get("site_type", "fabric_site")
+            fabric_type = site.get("fabric_type", "fabric_site")
             site_id = self.get_site_id(site_name)
 
-            if site_type == "fabric_site":
+            if fabric_type == "fabric_site":
                 # Check whether fabric site is present in Cisco Catalyst Center.
                 if site_id in self.have.get("fabric_sites_ids"):
                     verify_site_list.append(site_name)
