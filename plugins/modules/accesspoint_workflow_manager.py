@@ -1328,14 +1328,13 @@ class Accesspoint(DnacBase):
                         invalid_series = []
                         break
 
-                    if not is_valid:
-                        invalid_entry = "Access Point series '{0}' not supported for the radio type {1} allowed series {2}".format(
-                            self.payload["access_point_details"]["series"],
-                            radio_type,
-                            str(series)
-                        )
-                        self.log("Invalid series detected: {}".format(invalid_entry), "DEBUG")
-                        invalid_series.append(invalid_entry)
+                    invalid_entry = "Access Point series '{0}' not supported for the radio type {1} allowed series {2}".format(
+                        self.payload["access_point_details"]["series"],
+                        radio_type,
+                        str(series)
+                    )
+                    self.log("Invalid series detected: {}".format(invalid_entry), "DEBUG")
+                    invalid_series.append(invalid_entry)
 
         self.log("Completed validation. Invalid series: {}".format(invalid_series), "INFO")
         return invalid_series
