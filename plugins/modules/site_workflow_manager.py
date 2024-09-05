@@ -126,7 +126,7 @@ options:
         type: list
         elements: dict
         suboptions:
-          parentNameHierarchy:
+          parent_name_hierarchy:
             description: Full hierarchical path of the parent site (e.g., "Global/japan/blossom").
             type: str
           name:
@@ -144,10 +144,10 @@ options:
           country:
             description: Country where the site is located (e.g., "japan").
             type: str
-          floorNumber:
+          floor_number:
             description: Floor number within the building (only applicable to floor types) (e.g., "1").
             type: int
-          rfModel:
+          rf_model:
             description: The RF model type for the floor (only applicable to floor types) (e.g., "Cubes And Walled Offices").
             type: str
           width:
@@ -159,7 +159,7 @@ options:
           height:
             description: Height of the floor in feet (only applicable to floor types) (e.g., "10").
             type: float
-          unitsOfMeasure:
+          units_of_measure:
             description: Units of measurement for the dimensions (only applicable to floor types) (e.g., "feet").
             type: str
           type:
