@@ -1014,8 +1014,11 @@ def validate_int(item, param_spec, param_name, invalid_params):
             "range_max": 100    # Optional: maximum allowed value
         }
     """
-
-    item = validation.check_type_int(item)
+    try:
+        item = validation.check_type_int(item)
+    except TypeError as e:
+        invalid_params.append("{0}: value: {1} {2}".format(param_name, item, str(e)))
+        return item
     min_value = 1
     if param_spec.get("range_min") is not None:
         min_value = param_spec.get("range_min")
@@ -1024,8 +1027,10 @@ def validate_int(item, param_spec, param_name, invalid_params):
             return item
         else:
             invalid_params.append(
-                "{0}:{1} : The item exceeds the allowed "
-                "range of max {2}".format(param_name, item, param_spec.get("range_max"))
+                "{0}: {1} : The item exceeds the allowed "
+                "range of min: {2} and max: {3}".format(param_name, item,
+                                                      param_spec.get("range_min"),
+                                                      param_spec.get("range_max"))
             )
     return item
 

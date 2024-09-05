@@ -371,7 +371,7 @@ options:
           power_assignment_mode:
             description: |
               Mode of power assignment for the xor radio interface. Accepts "Global" or "Custom".
-              In Custom, it accepts values 1 to 5.
+              In Custom, it accepts values 1 to 8.
             type: str
             required: False
           power_level:
@@ -429,7 +429,7 @@ options:
           power_assignment_mode:
             description: |
                 Mode of power assignment for the tri radio interface. Accepts "Global" or "Custom".
-                In Custom, it accepts values 1 to 5.
+                In Custom, it accepts values 1 to 8.
             type: str
             required: False
           power_level:
@@ -930,7 +930,7 @@ class Accesspoint(DnacBase):
             "ap_name": {"required": False, "type": "str"},
             "admin_status": {"required": False, "type": "str"},
             "led_status": {"required": False, "type": "str"},
-            "led_brightness_level": {"required": False, "type": "int"},
+            "led_brightness_level": {"required": False, "type": "int", "range_min": 1, "range_max": 8},
             "ap_mode": {"required": False, "type": "str"},
             "location": {"required": False, "type": "str"},
             "is_assigned_site_as_location": {"required": False, "type": "str"},
@@ -963,7 +963,7 @@ class Accesspoint(DnacBase):
             "channel_assignment_mode": {"required": False, "type": "str"},
             "channel_number": {"required": False, "type": "int"},
             "power_assignment_mode": {"required": False, "type": "str"},
-            "powerlevel": {"required": False, "type": "int"},
+            "powerlevel": {"required": False, "type": "int", "range_min": 1, "range_max": 8},
             "channel_width": {"required": False, "type": "str"},
             "radio_band": {"required": False, "type": "str"}
         }
