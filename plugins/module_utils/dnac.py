@@ -1027,10 +1027,8 @@ def validate_int(item, param_spec, param_name, invalid_params):
             return item
         else:
             invalid_params.append(
-                "{0}: {1} : The item exceeds the allowed "
-                "range of min: {2} and max: {3}".format(param_name, item,
-                                                      param_spec.get("range_min"),
-                                                      param_spec.get("range_max"))
+                "{0}: {1} : The item exceeds the allowed range of min: {2} and max: {3}".format(
+                    param_name, item, param_spec.get("range_min"), param_spec.get("range_max"))
             )
     return item
 
