@@ -301,6 +301,11 @@ jobs:
       - attach_workspace:
           at: roles-file
 
+      - run:
+          name: Finish sanity tests when roles file is empty
+          command: |
+            [ -s roles-file/ccc_roles.yml ] || circleci-agent step halt
+
       - restore_cache:
           keys:
             - collection-<< pipeline.git.revision >>
