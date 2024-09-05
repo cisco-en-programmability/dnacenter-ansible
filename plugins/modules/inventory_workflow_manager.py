@@ -186,14 +186,14 @@ options:
         type: bool
         default: False
       resync_device_count:
-        description: Specifies the number of devices to be resynced in the inventory. Ensure that this count does not exceed 200,
+        description: Specifies the maximum number of devices to be resynced in the inventory. Ensure this count does not exceed 200,
                 as attempting to resync more than 200 devices may cause the 'sync_devices_using_forcesync' API to enter an
                 infinite loop.
         type: int
         default: 200
       resync_max_timeout:
-        description: Sets the maximum timeout, in seconds, for the resync process of devices in the inventory to prevent an infinite
-                loop. The default value is set to 600 seconds.
+        description: Sets the maximum timeout for the device resync process in the inventory, in seconds. The default is 600 seconds,
+                which helps prevent infinite loops.
         type: int
         default: 600
       reboot_device:
@@ -1347,12 +1347,13 @@ class Inventory(DnacBase):
             return self
 
         device_ids = self.get_device_ids(input_device_ips)
+
         try:
             # Resync the device in a batch of 200 devices at a time in inventory by default
             start = 0
             resync_failed_for_all_device = False
             resync_device_count = self.config[0].get("resync_device_count", 200)
-            device_resync_list, resync_failed_devices = [], []
+            resync_successful_devices, resync_failed_devices = [], []
             force_sync = self.config[0].get("force_sync", False)
             resync_task_dict = {}
 
@@ -1388,9 +1389,8 @@ class Inventory(DnacBase):
                 start_time = time.time()
 
                 while (True):
-                    end_time = time.time()
 
-                    if (end_time - start_time) >= max_timeout:
+                    if (time.time() - start_time) >= max_timeout:
                         self.log("""Max timeout of {0} has reached for the task id '{1}' for the device(s) '{2}' to be resynced and unexpected
                                     task status so moving out to next task id""".format(max_timeout, task_id, device_list), "WARNING")
                         resync_failed_devices.extend(device_list)
@@ -1399,25 +1399,25 @@ class Inventory(DnacBase):
                     execution_details = self.get_task_details(task_id)
 
                     if 'Synced' in execution_details.get("progress"):
-                        device_resync_list.extend(device_list)
+                        resync_successful_devices.extend(device_list)
                         break
                     elif execution_details.get("isError"):
                         resync_failed_devices.extend(device_list)
                         break
                     time.sleep(self.params.get('dnac_task_poll_interval'))
 
-            if resync_failed_devices and device_resync_list:
+            if resync_failed_devices and resync_successful_devices:
                 self.msg = (
                     "Device(s) '{0}' have been successfully resynced in the inventory in Cisco Catalyst Center. "
-                    "And there were some device(s) '{1}' for which resync task not executed successfully."
-                ).format(device_resync_list, resync_failed_devices)
+                    "Some device(s) '{1}' failed."
+                ).format(resync_successful_devices, resync_failed_devices)
             elif resync_failed_devices:
                 resync_failed_for_all_device = True
                 self.msg = "Device resynced get failed for all given device(s) '{0}'.".format(resync_failed_devices)
             else:
                 self.msg = (
                     "Device(s) '{0}' have been successfully resynced in the inventory in Cisco Catalyst Center. "
-                ).format(device_resync_list)
+                ).format(resync_successful_devices)
 
             if resync_failed_for_all_device:
                 self.status = "failed"
