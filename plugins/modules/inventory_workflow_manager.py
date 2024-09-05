@@ -740,6 +740,9 @@ class Inventory(DnacBase):
     def __init__(self, module):
         super().__init__(module)
         self.supported_states = ["merged", "deleted"]
+        self.payload = module.params
+        self.dnac_version = int(self.payload.get("dnac_version").replace(".", ""))
+        self.version_2_3_5_3, self.version_2_3_7_6, self.version_2_2_3_3 = 2353, 2376, 2233
 
     def validate_input(self):
         """
@@ -1870,25 +1873,45 @@ class Inventory(DnacBase):
         """
 
         try:
-            site_type = None
-            response = self.dnac_apply['exec'](
-                family="sites",
-                function='get_site',
-                params={"name": site_name},
-            )
+            if self.dnac_version <= self.version_2_3_5_3:
+                site_type = None
+                response = self.dnac_apply['exec'](
+                    family="sites",
+                    function='get_site',
+                    params={"name": site_name},
+                )
 
-            if not response:
-                self.msg = "Site '{0}' not found".format(site_name)
-                self.log(self.msg, "INFO")
-                return site_type
+                if not response:
+                    self.msg = "Site '{0}' not found".format(site_name)
+                    self.log(self.msg, "INFO")
+                    return site_type
 
-            self.log("Received API response from 'get_site': {0}".format(str(response)), "DEBUG")
-            site = response.get("response")
-            site_additional_info = site[0].get("additionalInfo")
+                self.log("Received API response from 'get_site': {0}".format(str(response)), "DEBUG")
+                site = response.get("response")
+                site_additional_info = site[0].get("additionalInfo")
 
-            for item in site_additional_info:
-                if item["nameSpace"] == "Location":
-                    site_type = item.get("attributes").get("type")
+                for item in site_additional_info:
+                    if item["nameSpace"] == "Location":
+                        site_type = item.get("attributes").get("type")
+
+        except Exception as e:
+            self.msg = "Error while fetching the site '{0}' and the specified site was not found in Cisco Catalyst Center.".format(site_name)
+            self.log(self.msg, "ERROR")
+            self.module.fail_json(msg=self.msg, response=[self.msg])
+
+        try:
+            if self.dnac_version >= self.version_2_3_7_6:
+                site_type = None
+                response = self.get_sites(site_name)
+
+                if not response:
+                    self.msg = "Site '{0}' not found".format(site_name)
+                    self.log(self.msg, "INFO")
+                    return site_type
+
+                self.log("Received API response from 'get_sites': {0}".format(str(response)), "DEBUG")
+                site = response.get("response")  
+                site_type = site[0].get("type") 
 
         except Exception as e:
             self.msg = "Error while fetching the site '{0}' and the specified site was not found in Cisco Catalyst Center.".format(site_name)
@@ -2587,18 +2610,35 @@ class Inventory(DnacBase):
         """
 
         try:
-            flag = 3
-            response = self.dnac._exec(
-                family="sda",
-                function='get_provisioned_wired_device',
-                op_modifies=True,
-                params={"device_management_ip_address": device_ip}
-            )
+            if self.dnac_version <= self.version_2_3_5_3:
+                flag = 3
+                response = self.dnac._exec(
+                    family="sda",
+                    function='get_provisioned_wired_device',
+                    op_modifies=True,
+                    params={"device_management_ip_address": device_ip}
+                )
 
-            if response.get("status") == "success" and "retrieved successfully" in response.get("description"):
-                flag = 2
-                self.log("Wired device '{0}' already provisioned in the Cisco Catalyst Center.".format(device_ip), "INFO")
+                if response.get("status") == "success" and "retrieved successfully" in response.get("description"):
+                    flag = 2
+                    self.log("Wired device '{0}' already provisioned in the Cisco Catalyst Center.".format(device_ip), "INFO")
 
+            if self.dnac_version >= self.version_2_3_7_6:
+                flag = 3
+                device_ids = self.get_device_ids([device_ip])
+                device_id = device_ids[0]
+                response = self.dnac._exec(
+                    family="sda",
+                    function='get_provisioned_devices',
+                    op_modifies=True,
+                    params={"networkDeviceId": device_id}
+                )
+                response = response.get("response")
+
+                if response:
+                    flag = 2
+                    self.log("Wired device '{0}' already provisioned in the Cisco Catalyst Center.".format(device_ip), "INFO")
+            
         except Exception as e:
             if "not provisioned to any site" in str(e):
                 flag = 1
@@ -3588,41 +3628,69 @@ class Inventory(DnacBase):
                 continue
 
             try:
-                provision_params = {
-                    "device_management_ip_address": device_ip
-                }
-                prov_respone = self.dnac._exec(
-                    family="sda",
-                    function='get_provisioned_wired_device',
-                    op_modifies=True,
-                    params=provision_params,
-                )
-                self.log("Received API response from 'get_provisioned_wired_device': {0}".format(str(prov_respone)), "DEBUG")
-
-                if prov_respone.get("status") == "success":
-                    response = self.dnac._exec(
+                if self.dnac_version <= self.version_2_3_5_3:
+                    provision_params = {
+                        "device_management_ip_address": device_ip
+                    }
+                    prov_respone = self.dnac._exec(
                         family="sda",
-                        function='delete_provisioned_wired_device',
+                        function='get_provisioned_wired_device',
                         op_modifies=True,
                         params=provision_params,
                     )
-                    self.log("Received API response from 'delete_provisioned_wired_device': {0}".format(str(response)), "DEBUG")
-                    executionid = response.get("executionId")
+                    self.log("Received API response from 'get_provisioned_wired_device': {0}".format(str(prov_respone)), "DEBUG")
 
-                    while True:
-                        execution_details = self.get_execution_details(executionid)
-                        if execution_details.get("status") == "SUCCESS":
-                            self.result['changed'] = True
-                            self.msg = "Delete provisioned Wired Device '{0}' successfully from Cisco Catalyst Center".format(device_ip)
-                            self.log(self.msg, "INFO")
-                            self.result['response'] = self.msg
-                            self.result['msg'].append(self.msg)
-                            break
-                        elif execution_details.get("bapiError"):
-                            self.msg = execution_details.get("bapiError")
-                            self.result['msg'].append(self.msg)
-                            self.log(self.msg, "ERROR")
-                            break
+                    if prov_respone.get("status") == "success":
+                        response = self.dnac._exec(
+                            family="sda",
+                            function='delete_provisioned_wired_device',
+                            op_modifies=True,
+                            params=provision_params,
+                        )
+                        self.log("Received API response from 'delete_provisioned_wired_device': {0}".format(str(response)), "DEBUG")
+                        executionid = response.get("executionId")
+
+                        while True:
+                            execution_details = self.get_execution_details(executionid)
+                            if execution_details.get("status") == "SUCCESS":
+                                self.result['changed'] = True
+                                self.msg = "Delete provisioned Wired Device '{0}' successfully from Cisco Catalyst Center".format(device_ip)
+                                self.log(self.msg, "INFO")
+                                self.result['response'] = self.msg
+                                self.result['msg'].append(self.msg)
+                                break
+                            elif execution_details.get("bapiError"):
+                                self.msg = execution_details.get("bapiError")
+                                self.result['msg'].append(self.msg)
+                                self.log(self.msg, "ERROR")
+                                break
+
+                if self.dnac_version >= self.version_2_3_7_6:
+                    device_ids = self.get_device_ids([device_ip])
+                    device_id = device_ids[0]
+                    prov_respone = self.dnac._exec(
+                        family="sda",
+                        function='get_provisioned_devices',
+                        op_modifies=True,
+                        params={"networkDeviceId": device_id}
+                    )
+                    self.log("Received API response from 'get_provisioned_wired_device': {0}".format(str(prov_respone)), "DEBUG")
+
+                    if prov_respone.get("status") == "success":
+
+                        prov_respone = self.dnac._exec(
+                            family="sda",
+                            function='delete_provisioned_devices',
+                            op_modifies=True,
+                            params=provision_params,
+                        )
+                        self.log("Received API response from 'delete_provisioned_devices': {0}".format(str(prov_respone)), "DEBUG")
+                        response = response.get("response")
+
+
+
+
+
             except Exception as e:
                 device_id = self.get_device_ids([device_ip])
                 delete_params = {
