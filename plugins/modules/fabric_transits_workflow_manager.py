@@ -35,13 +35,14 @@ options:
     default: merged
   config:
     description:
-    - List of details of SDA fabric transits.
+    - A list of SDA fabric transit configurations.
+    - Each entry in the list represents a transit network configuration.
     type: list
     elements: dict
     required: true
     suboptions:
       sda_fabric_transits:
-        description: Reserved IP subpool details from the global pool.
+        description: SDA fabric transit configurations.
         type: list
         elements: dict
         suboptions:
@@ -53,7 +54,7 @@ options:
             type: str
           transit_type:
             description: Type of the fabric tranist.
-                IP_BASED_TRANSIT - Responsible for managing IP routing and ensuresdata flow
+                IP_BASED_TRANSIT - Responsible for managing IP routing and ensures data flow
                                    between various segments of the network.
                 SDA_LISP_PUB_SUB_TRANSIT - Facilitates the decoupling of location and identity
                                    information for devices, enabling dynamic routing.
@@ -66,11 +67,11 @@ options:
             description:
             - The configuration settings for IP based transit.
             - Required when the type is set to IP_BASED_TRANSIT.
-            - IP_BASED_TRANSIT is cannot be updated.
+            - IP_BASED_TRANSIT cannot be updated.
             type: dict
             suboptions:
               routing_protocol_name:
-                description: Defines the protocol for determining the best paths for data transmission between network.
+                description: Defines the protocol for determining the best paths for data transmission between networks.
                 type: str
                 default: BGP
                 choices: [BGP]
@@ -78,30 +79,30 @@ options:
                 description:
                 - Used by routing protocols like BGP to manage routing between different autonomous systems.
                 - Autonomous System Number (ANS) should be from 1 to 4294967295.
-                - The ANS should be unique for every IP Transits.
+                - The ASN should be unique for every IP-based transits.
                 - Required when the transit_type is set to IP_BASED_TRANSIT.
                 type: str
           sda_transit_settings:
             description:
-            - The configuration settings for IP based transit.
+            - The configuration settings for SDA-based transit.
             - Required when the transit_type is set to SDA_LISP_PUB_SUB_TRANSIT or SDA_LISP_BGP_TRANSIT.
             type: dict
             suboptions:
               is_multicast_over_transit_enabled:
                 description:
                 - Determines whether multicast traffic is permitted to traverse the transit network.
-                - Enabling it will allows distribution of data to multiple recipients across different network segments.
-                - Option available on when the transit_type is set to SDA_LISP_PUB_SUB_TRANSIT.
+                - Enabling this option allows the distribution of data to multiple recipients across different network segments.
+                - Available only when the transit type is set to SDA_LISP_PUB_SUB_TRANSIT.
                 type: bool
               control_plane_network_device_ips:
                 description:
                 - Specifies the IP addresses of the network devices that form the control plane.
                 - Required when the transit_type is set to either SDA_LISP_BGP_TRANSIT or SDA_LISP_PUB_SUB_TRANSIT.
-                - Atleast one control plane network devices is required.
-                - Atmost 2 control plane network devices are allowed when the transit_type is SDA_LISP_BGP_TRANSIT.
-                - Atmost 4 control plane network devices are allowed when the transit_type is SDA_LISP_PUB_SUB_TRANSIT.
-                - SDA_LISP_PUB_SUB_TRANSIT only supports devices with IOS XE 17.6 or later.
-                - The devices should present in the Fabric site or zone.
+                - Atleast one control plane network device is required.
+                - A maximum of 2 control plane network devices are allowed when the transit_type is SDA_LISP_BGP_TRANSIT.
+                - A maximum of 4 control plane network devices are allowed when the transit_type is SDA_LISP_PUB_SUB_TRANSIT.
+                - SDA_LISP_PUB_SUB_TRANSIT supports only devices with IOS XE 17.6 or later.
+                - The devices must be present in the Fabric site or zone.
                 type: list
                 elements: str
 
@@ -326,7 +327,7 @@ response_3:
     }
 """
 
-import time
+import copy
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
@@ -354,9 +355,9 @@ class FabricTransit(DnacBase):
         as defined in the 'temp_spec' dictionary.
 
         Parameters:
-            self (object) - The current object details.
+            self (object): The current object details.
         Returns:
-            self (object) - The current object with updated desired Fabric Transits information.
+            self (object): The current object with updated desired Fabric Transits information.
         Example:
             If the validation succeeds, 'self.status' will be 'success' and
             'self.validated_config' will contain the validated configuration.
@@ -416,9 +417,9 @@ class FabricTransit(DnacBase):
         using a specified schema for comparison.
 
         Parameters:
-            have (dict) - Current information from the Cisco Catalyst Center
+            have (dict): Current information from the Cisco Catalyst Center
                           of SDA fabric transits.
-            want (dict) - Users provided information from the playbook
+            want (dict): Users provided information from the playbook
             obj_params (list of tuples) - A list of parameter mappings specifying which
                                           Cisco Catalyst Center parameters (dnac_param) correspond to
                                           the user-provided parameters (ansible_param).
@@ -448,9 +449,9 @@ class FabricTransit(DnacBase):
         Get the required comparison obj_params value
 
         Parameters:
-            get_object (str) - identifier for the required obj_params
+            get_object (str): identifier for the required obj_params
         Returns:
-            obj_params (list) - obj_params value for comparison.
+            obj_params (list): obj_params value for comparison.
         Description:
             This function gets the object for the requires_update function.
             The obj_params will have the pattern to be compared.
@@ -470,15 +471,15 @@ class FabricTransit(DnacBase):
 
         return obj_params
 
-    def get_device_id_from_ip(self, network_device_ip):
+    def get_device_details_by_ip(self, device_ip):
         """
         Get the network device details from the IP address.
 
         Parameters:
-            network_device_ip (str) - Playbook fabric transits details containing name,
+            device_ip (str): Playbook fabric transits details containing name,
             type, IP transits and SDA transits details.
         Returns:
-            network_device_details - The network device details with the given IP address.
+            device_details (dict or None): The network device details with the given IP address.
         Description:
             This function calls the API to get the devices list based on the IP address.
             Returns the network device details.
@@ -488,22 +489,27 @@ class FabricTransit(DnacBase):
             family="devices",
             function="get_device_list",
             op_modifies=True,
-            params={"management_ip_address": network_device_ip}
+            params={"management_ip_address": device_ip}
         )
         if not isinstance(response, dict):
             self.log("Failed to retrieve the Authentication and Policy Server details - "
                      "Response is not a dictionary", "CRITICAL")
             return None
 
-        network_device_details = response.get("response")
-        return network_device_details
+        device_details = response.get("response")
+        if device_details:
+            self.log("Successfully retrieved device details for IP " + str(device_ip), "INFO")
+        else:
+            self.log("No device details found for IP " + str(device_ip), "WARNING")
 
-    def get_fabric_transit_params(self, fabric_transit_details):
+        return device_details
+
+    def format_fabric_transit_params(self, fabric_transit_details):
         """
         Process the fabric transit parameters retrieved from the Cisco Catalyst Center
 
         Parameters:
-            fabric_transit_details (dict) - The fabric transit details from the Cisco Catalyst Center
+            fabric_transit_details (dict): The fabric transit details from the Cisco Catalyst Center
         Returns:
             fabric_transit_info (dict): Processed fabric transit data in a format
             suitable for Cisco Catalyst Center configuration.
@@ -517,12 +523,15 @@ class FabricTransit(DnacBase):
         }
         ip_transit_settings = fabric_transit_details.get("ipTransitSettings")
         if ip_transit_settings:
+            self.log("IP Transit settings found and processed.", "INFO")
             fabric_transit_info.update({"ipTransitSettings": ip_transit_settings})
             return fabric_transit_info
 
         sda_transit_settings = fabric_transit_details.get("sdaTransitSettings")
         fabric_transit_info.update({"sdaTransitSettings": sda_transit_settings})
-        sorted(fabric_transit_info.get("sdaTransitSettings").get("controlPlaneNetworkDeviceIds"))
+        control_plane_devices = fabric_transit_info.get("sdaTransitSettings").get("controlPlaneNetworkDeviceIds")
+        if control_plane_devices:
+            sorted(control_plane_devices)
 
         return fabric_transit_info
 
@@ -531,7 +540,7 @@ class FabricTransit(DnacBase):
         Check if the SDA fabric transit with the given name exists
 
         Parameters:
-            name (str) - The name of the fabric transit to check for existence.
+            name (str): The name of the fabric transit to check for existence.
         Returns:
             dict - A dictionary containing information about the
                    SDA fabric transit's existence:
@@ -540,10 +549,10 @@ class FabricTransit(DnacBase):
                 - 'details' (dict or None): Details of the fabric transit if it exists else None.
         Description:
             Sets the existance, details and the id of the fabric tranist as None.
-            Call the API 'get_transit_networks' till we find the transit or there is no
-            other transit available in the Cisco Catalyst Center.
-            If none of the cases are hit, increament the offset by 500, since the API return
-            a maximum of 500 entries.
+            Calls the API 'get_transit_networks' until the transit is found or there are
+            no more transits available in the Cisco Catalyst Center.
+            If the transit is not found, the offset is incremented by 500, as the API returns
+            a maximum of 500 entries at a time.
         """
 
         transit_info = {
@@ -551,19 +560,19 @@ class FabricTransit(DnacBase):
             "details": None,
             "id": None
         }
-        value = 1
+        offset = 1
         while True:
             response = self.dnac._exec(
                 family="sda",
                 function="get_transit_networks",
                 op_modifies=True,
                 params={
-                    "offset": value
+                    "offset": offset
                 }
             )
             if not isinstance(response, dict):
                 self.msg = "Error in getting fabric transits - Response is not a dictionary"
-                self.log(self.msg, "CRITICAL")
+                self.log(self.msg, "ERROR")
                 self.status = "exited"
                 return self.check_return_status()
 
@@ -576,12 +585,14 @@ class FabricTransit(DnacBase):
             if fabric_transit_details:
                 self.log("Fabric transit found with name '{name}': {details}"
                          .format(name=name, details=fabric_transit_details), "INFO")
-                transit_info.update({"exists": True})
-                transit_info.update({"id": fabric_transit_details.get("id")})
-                transit_info.update({"details": self.get_fabric_transit_params(fabric_transit_details)})
+                transit_info.update({
+                    "exists": True,
+                    "id": fabric_transit_details.get("id"),
+                    "details": self.format_fabric_transit_params(fabric_transit_details)
+                })
                 break
 
-            value += 500
+            offset += 500
 
         self.log("SDA fabric transit details: {details}".format(details=transit_info.get("details")), "DEBUG")
         self.log("SDA fabric transit id: {id}".format(id=transit_info.get("id")), "DEBUG")
@@ -593,9 +604,9 @@ class FabricTransit(DnacBase):
         Catalyst Center based on the provided playbook details.
 
         Parameters:
-            fabric_transits (dict) - Playbook details containing fabric transits details.
+            fabric_transits (dict): Playbook details containing fabric transits details.
         Returns:
-            self - The current object with updated current Fabric Transits information.
+            self: The current object with updated current Fabric Transits information.
         Description:
             Sets the existance, details and the id of the fabric tranist as None.
             If the name is not available, return with a msg by setting the
@@ -613,6 +624,7 @@ class FabricTransit(DnacBase):
             name = item.get("name")
             if not name:
                 self.msg = "The required parameter 'name' in 'sda_fabric_transits' is missing."
+                self.log(self.msg, "ERROR")
                 self.status = "failed"
                 return self
 
@@ -635,9 +647,9 @@ class FabricTransit(DnacBase):
         Get the SDA fabric transits related information from Cisco Catalyst Center
 
         Parameters:
-            config (dict) - Playbook details containing fabric transits details.
+            config (dict): Playbook details containing fabric transits details.
         Returns:
-            self - The current object with updated fabric transits details.
+            self: The current object with updated fabric transits details.
         Description:
             Check the fabric_transits. If the name is not available, return with a msg by setting the
             self.status as 'failed' and return self.
@@ -654,9 +666,165 @@ class FabricTransit(DnacBase):
         self.get_have_fabric_transits(fabric_transits).check_return_status()
 
         self.log("Current State (have): {current_state}".format(current_state=self.have), "INFO")
-        self.msg = "Successfully retrieved the details from the Cisco Catalyst Center"
+        self.msg = "Successfully retrieved the SDA fabric transits details from the Cisco Catalyst Center."
         self.status = "success"
         return self
+
+    def handle_ip_transit_settings(self, item, fabric_transits_values, fabric_transit_index):
+        """
+        Handle the IP transit setting details.
+
+        Parameters:
+            item (dict): Playbook details containing fabric transits details.
+            fabric_transits_values (dict): Partially stored fabric transit details.
+            fabric_transit_index (int): Index which point the item in the fabric transit item in the config.
+        Returns:
+            fabric_transits_values (dict): Complete fabric transit details.
+        Description:
+            Check the basic cases and limits for all the parameters present in the SDA Fabric Transits.
+        """
+
+        fabric_transits_values.update({"ipTransitSettings": {}})
+        ip_transit_settings = fabric_transits_values.get("ipTransitSettings")
+        want_ip_transit_settings = item.get("ip_transit_settings")
+        if not want_ip_transit_settings:
+            self.msg = (
+                "The 'ip_transit_settings' is mandatory when the 'transit_type' is set to 'IP_BASED_TRANSIT'."
+            )
+            self.status = "failed"
+            return self.check_return_status()
+
+        routing_protocol_name = item.get("ip_transit_settings").get("routing_protocol_name")
+        routing_protocol_name_set = ("BGP")
+        if not routing_protocol_name:
+            routing_protocol_name = "BGP"
+
+        if routing_protocol_name not in routing_protocol_name_set:
+            self.msg = (
+                "The 'routing_protocol_name' under 'ip_transit_settings' should be in the list: {routing_protocol_name_set}"
+                .format(routing_protocol_name_set=routing_protocol_name_set)
+            )
+            self.status = "failed"
+            return self.check_return_status()
+
+        ip_transit_settings.update({"routingProtocolName": routing_protocol_name})
+        have_fabric_transit_details = self.have.get("fabric_transits")[fabric_transit_index] \
+                                               .get("details")
+        have_ip_transit_settings = None
+        if have_fabric_transit_details:
+            have_ip_transit_settings = self.have.get("fabric_transits")[fabric_transit_index] \
+                                                .get("details").get("ipTransitSettings")
+
+        autonomous_system_number = item.get("ip_transit_settings").get("autonomous_system_number")
+        if not autonomous_system_number:
+            self.msg = "The required parameter 'autonomous_system_number' in 'ip_transit_settings' is missing."
+            self.status = "failed"
+            return self.check_return_status()
+
+        try:
+            autonomous_system_number_int = int(autonomous_system_number)
+            if not 1 <= autonomous_system_number_int <= 4294967295:
+                self.msg = "The 'autonomous_system_number' should be from 1 to 4294967295."
+                self.status = "failed"
+                return self.check_return_status()
+        except ValueError:
+            self.msg = "The 'autonomous_system_number' should contain only digits 0-9."
+            self.status = "failed"
+            return self.check_return_status()
+
+        if have_ip_transit_settings:
+            have_autonomous_system_number = self.have.get("fabric_transits")[fabric_transit_index].get("details") \
+                                                     .get("ipTransitSettings").get("autonomousSystemNumber")
+            if not autonomous_system_number:
+                autonomous_system_number = have_autonomous_system_number
+            elif have_autonomous_system_number != str(autonomous_system_number):
+                self.msg = "The 'autonomous_system_number' in 'ip_transit_settings' cannot be updated."
+                self.status = "failed"
+                return self.check_return_status()
+
+        ip_transit_settings.update({"autonomousSystemNumber": str(autonomous_system_number)})
+
+        return fabric_transits_values
+
+    def handle_sda_transit_settings(self, item, fabric_transits_values, transit_type, fabric_transit_index):
+        """
+        Handle the SDA transit settings details.
+
+        Parameters:
+            item (dict): Playbook details containing fabric transits details.
+            fabric_transits_values (dict): Partially stored fabric transit details.
+            transit_type (str): Type of the fabric transit.
+            fabric_transit_index (int): Index which point the item in the fabric transit item in the config.
+        Returns:
+            fabric_transits_values (dict): Complete fabric transit details.
+        Description:
+            Check the basic cases and limits for all the parameters present in the SDA Fabric Transits.
+        """
+
+        fabric_transits_values.update({"sdaTransitSettings": {}})
+        have_sda_transit_settings = None
+        have_fabric_details = self.have.get("fabric_transits")[fabric_transit_index].get("details")
+        if have_fabric_details:
+            have_sda_transit_settings = have_fabric_details.get("sdaTransitSettings")
+
+        sda_transit_settings = fabric_transits_values.get("sdaTransitSettings")
+        want_sda_transit_settings = item.get("sda_transit_settings")
+        if want_sda_transit_settings:
+            if transit_type == "SDA_LISP_PUB_SUB_TRANSIT":
+                is_multicast_over_transit_enabled = item.get("sda_transit_settings").get("is_multicast_over_transit_enabled")
+                if is_multicast_over_transit_enabled is not None:
+                    sda_transit_settings.update({"isMulticastOverTransitEnabled": is_multicast_over_transit_enabled})
+                elif have_sda_transit_settings:
+                    sda_transit_settings.update({"isMulticastOverTransitEnabled": have_sda_transit_settings.get("isMulticastOverTransitEnabled")})
+                else:
+                    sda_transit_settings.update({"isMulticastOverTransitEnabled": False})
+
+            control_plane_network_device_ips = want_sda_transit_settings.get("control_plane_network_device_ips")
+            if have_sda_transit_settings and not control_plane_network_device_ips:
+                sda_transit_settings.update({"controlPlaneNetworkDeviceIds": sorted(have_sda_transit_settings.get("controlPlaneNetworkDeviceIds"))})
+            elif control_plane_network_device_ips:
+                length_of_control_plane_network_device_ips = len(control_plane_network_device_ips)
+                if transit_type == "SDA_LISP_BGP_TRANSIT":
+                    max_ips = 2
+                else:
+                    max_ips = 4
+                if transit_type == "SDA_LISP_BGP_TRANSIT" and length_of_control_plane_network_device_ips > max_ips:
+                    self.msg = "The 'control_plane_network_device_ips' should have a maximum of 2 IPs when the 'transit_type' is 'SDA_LISP_BGP_TRANSIT'."
+                    self.status = "failed"
+                    return self.check_return_status()
+                elif transit_type == "SDA_LISP_PUB_SUB_TRANSIT" and length_of_control_plane_network_device_ips > max_ips:
+                    self.msg = "The 'control_plane_network_device_ips' should have a maximum of 4 IPs when the 'transit_type' is 'SDA_LISP_PUB_SUB_TRANSIT'."
+                    self.status = "failed"
+                    return self.check_return_status()
+
+                control_plane_network_device_ids = []
+                for network_device_ip in control_plane_network_device_ips:
+                    network_device_details = self.get_device_details_by_ip(network_device_ip)
+                    if not network_device_details:
+                        self.msg = (
+                            "There is no network device in the Cisco Catalyst Center with the IP '{device_ip}'."
+                            .format(device_ip=network_device_ip)
+                        )
+                        self.status = "failed"
+                        return self.check_return_status()
+
+                    network_device_id = network_device_details[0].get("instanceUuid")
+                    control_plane_network_device_ids.append(network_device_id)
+                sda_transit_settings.update({"controlPlaneNetworkDeviceIds": sorted(control_plane_network_device_ids)})
+            else:
+                self.msg = "The parameter 'control_plane_network_device_ips' in 'sda_transit_settings' should not be empty."
+                self.status = "failed"
+                return self.check_return_status()
+
+        elif have_sda_transit_settings and not want_sda_transit_settings:
+            fabric_transits_values.update({"sdaTransitSettings": have_sda_transit_settings})
+            sorted(fabric_transits_values.get("sdaTransitSettings").get("controlPlaneNetworkDeviceIds"))
+        else:
+            self.msg = "The parameter 'sda_transit_settings' should not be empty."
+            self.status = "failed"
+            return self.check_return_status()
+
+        return fabric_transits_values
 
     def get_want_fabric_transits(self, fabric_transits):
         """
@@ -665,10 +833,10 @@ class FabricTransit(DnacBase):
         Check the return value of the API with check_return_status()
 
         Parameters:
-            fabric_transits (dict) - Playbook fabric transits details containing name,
+            fabric_transits (dict): Playbook fabric transits details containing name,
             transit_type, IP transits and SDA transits details.
         Returns:
-            self - The current object with updated desired Fabric Transits information.
+            self: The current object with updated desired Fabric Transits information.
         Description:
             Do all the validation which is done in the GUI and format the payload
             in such a way that we can pass it to the API.
@@ -686,10 +854,9 @@ class FabricTransit(DnacBase):
                 self.status = "failed"
                 return self
 
-            length_of_name = len(name)
-            if length_of_name > 32:
+            if len(name) > 32:
                 self.msg = "The length of the 'name' in 'sda_fabric_transits' should be less or equal to 32."
-                self.status = ""
+                self.status = "failed"
                 return self
 
             fabric_transits_values.update({"name": name})
@@ -699,20 +866,20 @@ class FabricTransit(DnacBase):
                 fabric_transit_index += 1
                 continue
 
-            type = item.get("transit_type")
+            transit_type = item.get("transit_type")
             transit_type_set = ("IP_BASED_TRANSIT", "SDA_LISP_PUB_SUB_TRANSIT", "SDA_LISP_BGP_TRANSIT")
             have_type = None
             fabric_transit_details = self.have.get("fabric_transits")[fabric_transit_index].get("details")
             if fabric_transit_details:
                 have_type = fabric_transit_details.get("type")
 
-            if not type:
+            if not transit_type:
                 if have_type:
-                    type = have_type
+                    transit_type = have_type
                 else:
-                    type = "IP_BASED_TRANSIT"
+                    transit_type = "IP_BASED_TRANSIT"
 
-            if type not in transit_type_set:
+            if transit_type not in transit_type_set:
                 self.msg = (
                     "The 'transit_type' under 'sda_fabric_transits' should be in the list: {transit_types}"
                     .format(transit_types=transit_type_set)
@@ -720,7 +887,7 @@ class FabricTransit(DnacBase):
                 self.status = "failed"
                 return self
 
-            if have_type and type != have_type:
+            if have_type and transit_type != have_type:
                 self.msg = (
                     "The parameter 'transit_type' under the SDA fabric transit '{name}' cannot be updated."
                     .format(name=name)
@@ -728,129 +895,16 @@ class FabricTransit(DnacBase):
                 self.status = "failed"
                 return self
 
-            fabric_transits_values.update({"type": type})
-            if type == "IP_BASED_TRANSIT":
-                fabric_transits_values.update({"ipTransitSettings": {}})
-                ip_transit_settings = fabric_transits_values.get("ipTransitSettings")
-                want_ip_transit_settings = item.get("ip_transit_settings")
-                if not want_ip_transit_settings:
-                    self.msg = (
-                        "The 'ip_transit_settings' is mandatory when the 'transit_type' is set to 'IP_BASED_TRANSIT'."
-                    )
-                    self.status = "failed"
-                    return self
-
-                routing_protocol_name = item.get("ip_transit_settings").get("routing_protocol_name")
-                routing_protocol_name_set = ("BGP")
-                if not routing_protocol_name:
-                    routing_protocol_name = "BGP"
-
-                if routing_protocol_name not in routing_protocol_name_set:
-                    self.msg = (
-                        "The 'routing_protocol_name' under 'ip_transit_settings' should be in the list: {transit_types}"
-                        .format(transit_types=transit_type_set)
-                    )
-                    self.status = "failed"
-                    return self
-
-                ip_transit_settings.update({"routingProtocolName": routing_protocol_name})
-                have_fabric_transit_details = self.have.get("fabric_transits")[fabric_transit_index] \
-                                                       .get("details")
-                have_ip_transit_settings = None
-                if have_fabric_transit_details:
-                    have_ip_transit_settings = self.have.get("fabric_transits")[fabric_transit_index] \
-                                                        .get("details").get("ipTransitSettings")
-
-                autonomous_system_number = item.get("ip_transit_settings").get("autonomous_system_number")
-                if autonomous_system_number:
-                    try:
-                        autonomous_system_number_int = int(autonomous_system_number)
-                        if autonomous_system_number_int < 1 or autonomous_system_number_int > 4294967295:
-                            self.msg = "The 'autonomous_system_number' should be from 1 to 4294967295."
-                            self.status = "failed"
-                            return self
-                    except ValueError:
-                        self.msg = "The 'autonomous_system_number' should contain only from 0-9."
-                        self.status = "failed"
-                        return self
-
-                if have_ip_transit_settings:
-                    have_autonomous_system_number = self.have.get("fabric_transits")[fabric_transit_index].get("details") \
-                                                             .get("ipTransitSettings").get("autonomousSystemNumber")
-                    if not autonomous_system_number:
-                        autonomous_system_number = have_autonomous_system_number
-                    else:
-                        if have_autonomous_system_number != str(autonomous_system_number):
-                            self.msg = "The 'autonomous_system_number' in 'ip_transit_settings' cannot be updated."
-                            self.status = "failed"
-                            return self
-
-                else:
-                    if not autonomous_system_number:
-                        self.msg = "The required parameter 'autonomous_system_number' in 'ip_transit_settings' is missing."
-                        self.status = "failed"
-                        return self
-
-                ip_transit_settings.update({"autonomousSystemNumber": str(autonomous_system_number)})
+            fabric_transits_values.update({"type": transit_type})
+            if transit_type == "IP_BASED_TRANSIT":
+                fabric_transits_values = copy.deepcopy(self.handle_ip_transit_settings(item,
+                                                                                       fabric_transits_values,
+                                                                                       fabric_transit_index))
             else:
-                fabric_transits_values.update({"sdaTransitSettings": {}})
-                have_sda_transit_settings = None
-                have_fabric_details = self.have.get("fabric_transits")[fabric_transit_index].get("details")
-                if have_fabric_details:
-                    have_sda_transit_settings = have_fabric_details.get("sdaTransitSettings")
-
-                sda_transit_settings = fabric_transits_values.get("sdaTransitSettings")
-                want_sda_transit_settings = item.get("sda_transit_settings")
-                if want_sda_transit_settings:
-                    if type == "SDA_LISP_PUB_SUB_TRANSIT":
-                        is_multicast_over_transit_enabled = item.get("sda_transit_settings").get("is_multicast_over_transit_enabled")
-                        if is_multicast_over_transit_enabled is not None:
-                            sda_transit_settings.update({"isMulticastOverTransitEnabled": is_multicast_over_transit_enabled})
-                        elif have_sda_transit_settings:
-                            sda_transit_settings.update({"isMulticastOverTransitEnabled": have_sda_transit_settings.get("isMulticastOverTransitEnabled")})
-                        else:
-                            sda_transit_settings.update({"isMulticastOverTransitEnabled": False})
-
-                    control_plane_network_device_ips = want_sda_transit_settings.get("control_plane_network_device_ips")
-                    if have_sda_transit_settings and not control_plane_network_device_ips:
-                        sda_transit_settings.update({"controlPlaneNetworkDeviceIds": sorted(have_sda_transit_settings.get("controlPlaneNetworkDeviceIds"))})
-                    elif control_plane_network_device_ips:
-                        length_of_control_plane_network_device_ips = len(control_plane_network_device_ips)
-                        if type == "SDA_LISP_BGP_TRANSIT" and length_of_control_plane_network_device_ips > 2:
-                            self.msg = "The 'control_plane_network_device_ips' should have a maximum of 2 IPs when the 'type' is 'SDA_LISP_BGP_TRANSIT'."
-                            self.status = "failed"
-                            return self
-                        elif type == "SDA_LISP_PUB_SUB_TRANSIT" and length_of_control_plane_network_device_ips > 4:
-                            self.msg = "The 'control_plane_network_device_ips' should have a maximum of 4 IPs when the 'type' is 'SDA_LISP_PUB_SUB_TRANSIT'."
-                            self.status = "failed"
-                            return self
-
-                        control_plane_network_device_ids = []
-                        for network_device_ip in control_plane_network_device_ips:
-                            network_device_details = self.get_device_id_from_ip(network_device_ip)
-                            if not network_device_details:
-                                self.msg = (
-                                    "There is no network device in the Cisco Catalyst Center with the IP '{device_ip}'."
-                                    .format(device_ip=network_device_ip)
-                                )
-                                self.status = "failed"
-                                return self
-
-                            network_device_id = network_device_details[0].get("instanceUuid")
-                            control_plane_network_device_ids.append(network_device_id)
-                        sda_transit_settings.update({"controlPlaneNetworkDeviceIds": sorted(control_plane_network_device_ids)})
-                    else:
-                        self.msg = "The parameter 'control_plane_network_device_ips' in 'sda_transit_settings' should not be empty."
-                        self.status = "failed"
-                        return self
-
-                elif have_sda_transit_settings and not want_sda_transit_settings:
-                    fabric_transits_values.update({"sdaTransitSettings": have_sda_transit_settings})
-                    sorted(fabric_transits_values.get("sdaTransitSettings").get("controlPlaneNetworkDeviceIds"))
-                else:
-                    self.msg = "The parameter 'sda_transit_settings' should not be empty."
-                    self.status = "failed"
-                    return self
+                fabric_transits_values = copy.deepcopy(self.handle_sda_transit_settings(item,
+                                                                                        fabric_transits_values,
+                                                                                        transit_type,
+                                                                                        fabric_transit_index))
 
             want_fabric_transits.append(fabric_transits_values)
             fabric_transit_index += 1
@@ -867,9 +921,9 @@ class FabricTransit(DnacBase):
         Get the SDA fabric transits related information from playbook.
 
         Parameters:
-            config (list of dict) - Playbook details
+            config (list of dict): Playbook details
         Returns:
-            self - The current object with updated fabric transits details.
+            self: The current object with updated fabric transits details.
         Description:
             Check the fabric_transits. If the name is not available, return with a msg by setting the
             self.status as 'failed' and return self.
@@ -890,136 +944,14 @@ class FabricTransit(DnacBase):
         self.status = "success"
         return self
 
-    def get_task_details_by_id(self, task_id):
-        """
-        Get the details of a specific task in Cisco Catalyst Center.
-
-        Args:
-            self (object): An instance of a class that provides access to Cisco Catalyst Center.
-            task_id (str): The unique identifier of the task for which you want to retrieve details.
-        Returns:
-            dict or None: A dictionary containing detailed information about the specified task,
-            or None if the task with the given task_id is not found.
-        Description:
-            Call the API 'get_task_details_by_id' to get the details along with the
-            failure reason. Return the details.
-        """
-
-        result = None
-        response = self.dnac._exec(
-            family="task",
-            function="get_task_details_by_id",
-            params={"id": task_id}
-        )
-        self.log('Task Details: {response}'.format(response=response), 'DEBUG')
-        if response and isinstance(response, dict):
-            result = response.get('response')
-
-        return result
-
-    def get_tasks_by_id(self, task_id):
-        """
-        Get the tasks of a task ID in Cisco Catalyst Center.
-
-        Args:
-            self (object): An instance of a class that provides access to Cisco Catalyst Center.
-            task_id (str): The unique identifier of the task for which you want to retrieve details.
-        Returns:
-            dict or None: A dictionary status information about the specified task,
-            or None if the task with the given task_id is not found.
-        Description:
-            Call the API 'get_tasks_by_id' to get the status of the task.
-            Return the details along with the status of the task.
-        """
-
-        result = None
-        response = self.dnac._exec(
-            family="task",
-            function="get_tasks_by_id",
-            params={"id": task_id}
-        )
-        self.log('Task Details: {response}'.format(response=response), 'DEBUG')
-        self.log("Retrieving task details by the API 'get_tasks_by_id' using task ID: {task_id}, Response: {response}"
-                 .format(task_id=task_id, response=response), "DEBUG")
-
-        if response and isinstance(response, dict):
-            result = response.get('response')
-
-        return result
-
-    def check_tasks_response_status(self, response, api_name):
-        """
-        Get the site id from the site name.
-
-        Parameters:
-            self - The current object details.
-            response (dict) - API response.
-            api_name (str) - API name.
-        Returns:
-            self (object) - The current object with updated desired Fabric Transits information.
-        Description:
-            Poll the function 'get_tasks_by_id' until it returns either 'SUCCESS' or 'FAILURE'
-            state or till it reaches the maximum timeout.
-            Log the task details and return self.
-        """
-
-        if not response:
-            self.msg = "response is empty"
-            self.status = "exited"
-            return self
-
-        if not isinstance(response, dict):
-            self.msg = "response is not a dictionary"
-            self.status = "exited"
-            return self
-
-        response = response.get("response")
-        if response.get("errorcode") is not None:
-            self.msg = response.get("response").get("detail")
-            self.status = "failed"
-            return self
-
-        task_id = response.get("taskId")
-        start_time = time.time()
-        while True:
-            end_time = time.time()
-            if (end_time - start_time) >= self.max_timeout:
-                self.msg = "Max timeout of {max_timeout} sec has reached for the task id '{task_id}'. " \
-                           .format(max_timeout=self.max_timeout, task_id=task_id) + \
-                           "Exiting the loop due to unexpected API '{api_name}' status.".format(api_name=api_name)
-                self.log(self.msg, "WARNING")
-                self.status = "failed"
-                break
-
-            task_details = self.get_tasks_by_id(task_id)
-            self.log('Getting tasks details from task ID {task_id}: {task_details}'
-                     .format(task_id=task_id, task_details=task_details), "DEBUG")
-
-            if task_details.get("status") == "FAILURE":
-                details = self.get_task_details_by_id(task_id)
-                self.msg = details.get("failureReason")
-                self.status = "failed"
-                break
-
-            elif task_details.get("status") == "SUCCESS":
-                self.result["changed"] = True
-                self.log("The task with task ID '{task_id}' is executed successfully."
-                         .format(task_id=task_id), "INFO")
-                break
-
-            self.log("Progress is {status} for task ID: {task_id}"
-                     .format(status=task_details.get('status'), task_id=task_id), "DEBUG")
-
-        return self
-
     def update_fabric_transits(self, fabric_transits):
         """
         Create/Update fabric transit in Cisco Catalyst Center with fields provided in playbook.
 
         Parameters:
-            fabric_transits (list of dict) - SDA fabric transit playbook details.
+            fabric_transits (list of dict): SDA fabric transit playbook details.
         Returns:
-            self (object) - The current object with updated desired Fabric Transits information.
+            self (object): The current object with updated desired Fabric Transits information.
         Description:
             Check if the fabric transit is present in the Cisco Catalys Center or not.
             If not, call the API 'add_transit_networks' to create the  fabric transit. Else, check for the update.
@@ -1061,17 +993,18 @@ class FabricTransit(DnacBase):
                 continue
 
             # Check update is required
+
             if want_fabric_transit.get("type") == "IP_BASED_TRANSIT" or \
                     not self.requires_update(have_fabric_transit.get("details").get("sdaTransitSettings"),
                                              want_fabric_transit.get("sdaTransitSettings"),
                                              self.fabric_transits_obj_params):
                 self.log("SDA fabric transit '{name}' doesn't require a update".format(name=name), "INFO")
                 result_fabric_transit.get("msg").update({
-                    name: "SDA fabric transit doesn't require a update"
+                    name: "SDA fabric transit doesn't require an update."
                 })
                 continue
 
-            self.log("SDA fabric transit '{name}' requires a update".format(name=name), "DEBUG")
+            self.log("Updating SDA fabric transit '{name}'.".format(name=name), "DEBUG")
 
             # Tranist Exists
             self.log("Current SDA fabric transit '{name}' details in Catalyst Center: {current_state}"
@@ -1079,7 +1012,6 @@ class FabricTransit(DnacBase):
             self.log("Desired SDA fabric transit '{name}' details: {requested_state}"
                      .format(name=name, requested_state=want_fabric_transit), "DEBUG")
             want_fabric_transit.update({"id": have_fabric_transit.get("id")})
-            self.log(str(want_fabric_transit))
             response = self.dnac._exec(
                 family="sda",
                 function="update_transit_networks",
@@ -1103,9 +1035,9 @@ class FabricTransit(DnacBase):
         Create or Update the SDA fabric transits in Cisco Catalyst Center based on the playbook details.
 
         Parameters:
-            config (list of dict) - Playbook details containing SDA fabric transits information.
+            config (list of dict): Playbook details containing SDA fabric transits information.
         Returns:
-            self (object) - The current object with updated desired Fabric Transits information.
+            self (object): The current object with updated desired Fabric Transits information.
         Description:
             If the 'sda_fabric_transits' is available in the playbook, call the function 'update_fabric_transits'.
             Else return self.
@@ -1122,9 +1054,9 @@ class FabricTransit(DnacBase):
         Delete fabric transit in Cisco Catalyst Center with fields provided in playbook.
 
         Parameters:
-            fabric_transits (list of dict) - SDA fabric transit playbook details.
+            fabric_transits (list of dict): SDA fabric transit playbook details.
         Returns:
-            self (object) - The current object with updated desired Fabric Transits information.
+            self (object): The current object with updated desired Fabric Transits information.
         Description:
             Check if the fabric transit is present in the Cisco Catalys Center or not.
             If not, set the result and return self.
@@ -1145,13 +1077,13 @@ class FabricTransit(DnacBase):
                 continue
 
             self.log("SDA fabric transit scheduled for deletion with the name '{name}'.".format(name=name), "INFO")
-            _id = have_fabric_transit.get("id")
-            self.log("SDA fabric transit '{name}' id: {id}".format(name=name, id=_id), "DEBUG")
+            transit_id = have_fabric_transit.get("id")
+            self.log("SDA fabric transit '{name}' id: {id}".format(name=name, id=transit_id), "DEBUG")
             response = self.dnac._exec(
                 family="sda",
                 function="delete_transit_network_by_id",
                 op_modifies=True,
-                params={"id": _id},
+                params={"id": transit_id},
             )
             self.check_tasks_response_status(response, "delete_transit_network_by_id").check_return_status()
             task_id = response.get("response").get("taskId")
@@ -1172,9 +1104,9 @@ class FabricTransit(DnacBase):
         Delete the SDA fabric transits in Cisco Catalyst Center based on the playbook details.
 
         Parameters:
-            config (list of dict) - Playbook details containing SDA fabric transits information.
+            config (list of dict): Playbook details containing SDA fabric transits information.
         Returns:
-            self (object) - The current object with updated desired Fabric Transits information.
+            self (object): The current object with updated desired Fabric Transits information.
         Description:
             If the 'sda_fabric_transits' is available in the playbook, call the function 'delete_fabric_transits'.
             Else return self.
@@ -1192,9 +1124,9 @@ class FabricTransit(DnacBase):
         when state is merged (Create/Update).
 
         Parameters:
-            config (dict) - Playbook details containing fabric transit configuration.
+            config (dict): Playbook details containing fabric transit configuration.
         Returns:
-            self (object) - The current object with updated desired Fabric Transits information.
+            self (object): The current object with updated desired Fabric Transits information.
         Description:
             If the 'sda_fabric_transits' is available in the playbook, collect the fabric transit information
             from the Cisco Catalyst Center.
@@ -1214,7 +1146,7 @@ class FabricTransit(DnacBase):
             self.log("Desired State of SDA fabric transits (want): {requested_details}"
                      .format(requested_details=want_fabric_transits), "DEBUG")
             fabric_transit_index = 0
-            for item in self.want.get("fabric_transits"):
+            for item in want_fabric_transits:
                 fabric_transit_details = have_fabric_transits[fabric_transit_index].get("details")
                 if not fabric_transit_details:
                     self.msg = (
@@ -1228,8 +1160,8 @@ class FabricTransit(DnacBase):
                     fabric_transit_index += 1
                     continue
 
-                self.log(str(fabric_transit_details.get("sdaTransitSettings")))
-                self.log(str(item.get("sdaTransitSettings")))
+                self.log("Current SDA Transit Settings: " + str(fabric_transit_details.get("sdaTransitSettings")))
+                self.log("Desired SDA Transit Settings: " + str(item.get("sdaTransitSettings")))
                 if self.requires_update(fabric_transit_details.get("sdaTransitSettings"),
                                         item.get("sdaTransitSettings"),
                                         self.fabric_transits_obj_params):
@@ -1252,9 +1184,9 @@ class FabricTransit(DnacBase):
         when state is deleted (delete).
 
         Parameters:
-            config (dict) - Playbook details containing fabric transit configuration.
+            config (dict): Playbook details containing fabric transit configuration.
         Returns:
-            self (object) - The current object with updated desired Fabric Transits information.
+            self (object): The current object with updated desired Fabric Transits information.
         Description:
             If the 'sda_fabric_transits' is available in the playbook, collect the fabric transit information
             from the Cisco Catalyst Center.
@@ -1265,7 +1197,8 @@ class FabricTransit(DnacBase):
         self.get_have(config)
         self.log("Current State (have): {current_state}".format(current_state=self.have), "INFO")
         self.log("Desired State (want): {requested_state}".format(requested_state=self.want), "INFO")
-        if config.get("sda_fabric_transits") is not None:
+        fabric_transits = config.get("sda_fabric_transits")
+        if fabric_transits is not None:
             fabric_transit_index = 0
             fabric_transit_details = self.have.get("fabric_transits")
             for item in fabric_transit_details:
@@ -1292,7 +1225,7 @@ class FabricTransit(DnacBase):
         Reset all neccessary attributes to default values
 
         Parameters:
-            self (object) - The current object details.
+            self (object): The current object details.
         Returns:
             None
         """
