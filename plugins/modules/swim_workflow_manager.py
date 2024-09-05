@@ -19,6 +19,8 @@ description:
   Supported image files extensions are bin, img, tar, smu, pie, aes, iso, ova, tar_gz and qcow2.
 - API to fetch a software image from local file system and upload it to Catalyst Center
   Supported image files extensions are bin, img, tar, smu, pie, aes, iso, ova, tar_gz and qcow2.
+- API to fetch a software image from Cisco Connection Online (CCO) and upload it to Catalyst Center
+  Can refer https://software.cisco.com/download/home for the image name to download
 - API to tag/untag image as golen for a given family of devices
 - API to distribute a software image on a given device. Software image must be imported successfully into
   Catalyst Center before it can be distributed.
@@ -160,6 +162,7 @@ options:
               image_name:
                 description: A mandatory parameter for importing a SWIM image via CCO. This parameter is required when your trying
                   to Initiates download of the software image from Cisco.com
+                type: dict
       tagging_details:
         description: Details for tagging or untagging an image as golden
         type: dict
@@ -1390,7 +1393,7 @@ class Swim(DnacBase):
                 self.msg = "Image(s) {0} skipped as they already exist in Cisco Catalyst Center. No images were imported.".format(skipped_images_str)
             elif skipped_images_str and imported_images_str:
                 self.msg = ("Image(s) {0} skipped as they already exist Cisco Catalyst Center. Images {1} have been imported"
-                            "successfully.").format(skipped_images_str, imported_images_str)
+                            " successfully.").format(skipped_images_str, imported_images_str)
             else:
                 self.msg = "Image(s) {0} have been imported successfully in Cisco Catalyst Center.".format(imported_images_str)
 
