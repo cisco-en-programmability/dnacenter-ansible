@@ -538,7 +538,7 @@ class DnacBase():
             return response
 
         except Exception as e:
-            self.log(f"An error occurred: {str(e)}", "ERROR")
+            self.log("An error occurred: {0}".format(e), "ERROR")
             return None
 
     def generate_key(self):
