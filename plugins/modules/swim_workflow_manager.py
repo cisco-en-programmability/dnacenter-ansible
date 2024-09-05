@@ -1272,7 +1272,6 @@ class Swim(DnacBase):
             # Code to check if the image(s) already exist in Catalyst Center
             existing_images, images_to_import = [], []
 
-            self.log(image_names)
             for image_name in image_names:
                 name = image_name.split('/')[-1]
                 self.log(name)
