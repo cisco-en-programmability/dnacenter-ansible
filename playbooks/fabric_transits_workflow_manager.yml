@@ -4,7 +4,7 @@
   gather_facts: no
   connection: local
   tasks:
-    - name: Create the SDA fabric transits with fabric_type as IP_BASED_TRANSIT
+    - name: Create the SDA fabric transits with transit_type as IP_BASED_TRANSIT
       cisco.dnac.fabric_transits_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
@@ -12,6 +12,7 @@
         dnac_password: "{{ dnac_password }}"
         dnac_verify: "{{ dnac_verify }}"
         dnac_debug: "{{ dnac_debug }}"
+        dnac_version: "{{ dnac_version }}"
         dnac_log: True
         dnac_log_level: DEBUG
         dnac_log_append: True
@@ -26,7 +27,7 @@
               routing_protocol_name: BGP # only bgp
               autonomous_system_number: 1234 # between 1 and 4294967295
 
-    - name: Create the SDA fabric transits with fabric_type as SDA_LISP_BGP_TRANSIT
+    - name: Create the SDA fabric transits with transit_type as SDA_LISP_BGP_TRANSIT
       cisco.dnac.fabric_transits_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
@@ -34,6 +35,7 @@
         dnac_password: "{{ dnac_password }}"
         dnac_verify: "{{ dnac_verify }}"
         dnac_debug: "{{ dnac_debug }}"
+        dnac_version: "{{ dnac_version }}"
         dnac_log: True
         dnac_log_level: DEBUG
         dnac_log_append: True
@@ -46,10 +48,10 @@
             transit_type: SDA_LISP_BGP_TRANSIT # IP_BASED_TRANSIT, SDA_LISP_PUB_SUB_TRANSIT, SDA_LISP_BGP_TRANSIT
             sda_transit_settings: # For SDA_LISP_BGP_TRANSIT and SDA_LISP_PUB_SUB_TRANSIT
               control_plane_network_device_ips: # 2 for SDA_LISP_BGP_TRANSIT and 4 for SDA_LISP_PUB_SUB_TRANSIT
-                - string
-                - string
+                - 10.0.0.1
+                - 10.0.0.2
 
-    - name: Create the SDA fabric transits with fabric_type as SDA_LISP_PUB_SUB_TRANSIT
+    - name: Create the SDA fabric transits with transit_type as SDA_LISP_PUB_SUB_TRANSIT
       cisco.dnac.fabric_transits_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
@@ -57,6 +59,7 @@
         dnac_password: "{{ dnac_password }}"
         dnac_verify: "{{ dnac_verify }}"
         dnac_debug: "{{ dnac_debug }}"
+        dnac_version: "{{ dnac_version }}"
         dnac_log: True
         dnac_log_level: DEBUG
         dnac_log_append: True
@@ -70,12 +73,12 @@
             sda_transit_settings: # For SDA_LISP_BGP_TRANSIT and SDA_LISP_PUB_SUB_TRANSIT
               is_multicast_over_transit_enabled: True # only for SDA_LISP_PUB_SUB_TRANSIT
               control_plane_network_device_ips: # 2 for SDA_LISP_BGP_TRANSIT and 4 for SDA_LISP_PUB_SUB_TRANSIT
-                - string
-                - string
-                - string
-                - string
+                - 11.0.0.1
+                - 11.0.0.2
+                - 11.0.0.3
+                - 11.0.0.4
 
-    - name: Update the SDA fabric transits with fabric_type as SDA_LISP_BGP_TRANSIT
+    - name: Update the SDA fabric transits with transit_type as SDA_LISP_BGP_TRANSIT
       cisco.dnac.fabric_transits_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
@@ -83,6 +86,7 @@
         dnac_password: "{{ dnac_password }}"
         dnac_verify: "{{ dnac_verify }}"
         dnac_debug: "{{ dnac_debug }}"
+        dnac_version: "{{ dnac_version }}"
         dnac_log: True
         dnac_log_level: DEBUG
         dnac_log_append: True
@@ -95,10 +99,10 @@
             transit_type: SDA_LISP_BGP_TRANSIT # IP_BASED_TRANSIT, SDA_LISP_PUB_SUB_TRANSIT, SDA_LISP_BGP_TRANSIT
             sda_transit_settings: # For SDA_LISP_BGP_TRANSIT and SDA_LISP_PUB_SUB_TRANSIT
               control_plane_network_device_ips: # 2 for SDA_LISP_BGP_TRANSIT and 4 for SDA_LISP_PUB_SUB_TRANSIT
-                - string1
-                - string1
+                - 10.0.0.3
+                - 10.0.0.4
 
-    - name: Update the SDA fabric transits with fabric_type as SDA_LISP_PUB_SUB_TRANSIT
+    - name: Update the SDA fabric transits with transit_type as SDA_LISP_PUB_SUB_TRANSIT
       cisco.dnac.fabric_transits_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
@@ -106,6 +110,7 @@
         dnac_password: "{{ dnac_password }}"
         dnac_verify: "{{ dnac_verify }}"
         dnac_debug: "{{ dnac_debug }}"
+        dnac_version: "{{ dnac_version }}"
         dnac_log: True
         dnac_log_level: DEBUG
         dnac_log_append: True
@@ -119,10 +124,10 @@
             sda_transit_settings: # For SDA_LISP_BGP_TRANSIT and SDA_LISP_PUB_SUB_TRANSIT
               is_multicast_over_transit_enabled: True # only for SDA_LISP_PUB_SUB_TRANSIT
               control_plane_network_device_ips: # 2 for SDA_LISP_BGP_TRANSIT and 4 for SDA_LISP_PUB_SUB_TRANSIT
-                - string1
-                - string1
-                - string1
-                - string1
+                - 11.0.0.5
+                - 11.0.0.6
+                - 11.0.0.7
+                - 11.0.0.8
 
     - name: Delete the SDA fabric transits
       cisco.dnac.fabric_transits_workflow_manager:
@@ -131,6 +136,7 @@
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
         dnac_verify: "{{ dnac_verify }}"
+        dnac_version: "{{ dnac_version }}"
         dnac_debug: "{{ dnac_debug }}"
         dnac_log: True
         dnac_log_level: DEBUG
