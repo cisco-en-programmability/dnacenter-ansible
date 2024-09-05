@@ -37,7 +37,8 @@ options:
             - At least one parameter from the suboptions must be provided in the config.
             - When providing multiple parameters at once (excluding "site_list"), all the filters will be applied together in an AND operation.
               This means that only the devices matching all the specified criteria will be included in the configuration backup operation.
-              For example, if both `hostname` and `device_type` are provided, only devices matching both the specified hostname and device type will be selected.
+              For example, if both `hostname` and `device_type` are provided, only devices matching both the specified hostname and device
+              type will be selected.
             - Note - Once all devices matching the parameters are retrieved, any device that is not reachable or is an Access Point (AP) will be skipped.
     type: list
     elements: dict
@@ -1223,7 +1224,7 @@ class Device_configs_backup(DnacBase):
         file_path = self.want.get("file_path")
         self.log("File Path: {0}".format(file_path))
         if file_path:
-          abs_file_path = pathlib.Path(file_path).resolve()
+            abs_file_path = pathlib.Path(file_path).resolve()
         self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
 
         # Define the time window in seconds to check for recently modified files
