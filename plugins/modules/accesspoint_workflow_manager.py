@@ -967,15 +967,12 @@ class Accesspoint(DnacBase):
             "channel_width": {"required": False, "type": "str"},
             "radio_band": {"required": False, "type": "str"}
         }
-        ap_list = self.payload.get("config")
-        ap_list = self.camel_to_snake_case(ap_list)
-        ap_list = self.update_site_type_key(ap_list)
+        ap_list = self.update_site_type_key(self.camel_to_snake_case(self.payload.get("config")))
 
         invalid_list_radio = []
         for each_ap in ap_list:
             for each_radio in ("2.4ghz_radio", "5ghz_radio", "6ghz_radio", "xor_radio", "tri_radio"):
                 radio_config = each_ap.get(each_radio)
-                valid_param_radio, invalid_params_radio = (None, None)
                 if radio_config:
                     valid_param_radio, invalid_params_radio = \
                         validate_list_of_dicts([radio_config], radio_config_spec)
@@ -2596,20 +2593,26 @@ class Accesspoint(DnacBase):
         Returns:
             dict: A dictionary containing the result of the access point update response.
         """
-        each_result = {"changed": self.result["changed"],
-                       "response": self.result["response"].get("accesspoints_verify"),
-                       "ap_update_msg": self.result["ap_update_msg"]}
+        each_result = {
+            "changed": self.result["changed"],
+            "response": self.result["response"].get("accesspoints_verify"),
+            "ap_update_msg": self.result["ap_update_msg"]
+        }
         self.payload["consolidated_result"].append(each_result)
         self.log("Each execution Result {0}".format(self.pprint(self.result)))
         self.result['changed'] = False
+
         for each_cosolidated in self.payload["consolidated_result"]:
             if each_cosolidated['changed']:
                 self.result['changed'] = True
                 break
+
         if self.result['changed']:
             self.status = "success"
+
         self.msg = self.pprint(self.payload["consolidated_result"])
         self.result['response'] = self.payload["consolidated_result"]
+        self.log("Consolidated Result: {0}".format(self.pprint(self.result)))
         return self
 
 
@@ -2659,7 +2662,10 @@ def main():
         ccc_network.get_diff_state_apply[state](config).check_return_status()
 
         if config_verify:
-            time.sleep(10)
+            waiting_time_to_verify = 10
+            ccc_network.log("Starting verify AP details after {0} seconds".format(
+                str(waiting_time_to_verify)), "INFO")
+            time.sleep(waiting_time_to_verify)
             ccc_network.verify_diff_state_apply[state](config).check_return_status()
             ccc_network.consolidate_output()
 
