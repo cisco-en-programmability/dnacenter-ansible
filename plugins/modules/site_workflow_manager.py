@@ -1066,6 +1066,7 @@ class Site(DnacBase):
             have["site_exists"] = site_exists
             if site_exists:
                 have["site_id"] = current_site.get("id")
+                have["parent_id"] = current_site.get("parentId")
                 have["current_site"] = current_site
 
         self.have = have
@@ -1190,10 +1191,7 @@ class Site(DnacBase):
         try:
             self.log("Updating floor with parameters: {0}".format(
                 site_params), "INFO")
-            parent_name = site_params.get("site", {}).get(
-                "floor", {}).get("parentName")
-            type = site_params.get("type")
-            (parent_id) = self.get_parent_id(parent_name)
+            parent_id = self.have.get("parent_id")
             site_params['site']['floor']['parentId'] = parent_id
             site_params['site']['floor']['unitsOfMeasure'] = "feet"
             self.log("Updated site_params with parent_id: {0}".format(
@@ -1250,10 +1248,7 @@ class Site(DnacBase):
         try:
             self.log("Updating building with parameters: {0}".format(
                 site_params), "INFO")
-            parent_name = site_params.get("site", {}).get(
-                "building", {}).get("parentName")
-            type = site_params.get("type")
-            (parent_id) = self.get_parent_id(parent_name)
+            parent_id = self.have.get("parent_id")
             site_params['site']['building']['parentId'] = parent_id
             self.log("Updated site_params with parent_id: {0}".format(
                 site_params), "INFO")
@@ -1292,9 +1287,7 @@ class Site(DnacBase):
         try:
             self.log("Updating area with parameters: {0}".format(
                 site_params), "INFO")
-            parent_name = site_params.get("site", {}).get(
-                "area", {}).get("parentName")
-            (parent_id) = self.get_parent_id(parent_name)
+            parent_id = self.have.get("parent_id")
             site_params['site']['area']['parentId'] = parent_id
             area_param = site_params.get('site', {}).get('area')
             site_id = self.have.get("site_id")
