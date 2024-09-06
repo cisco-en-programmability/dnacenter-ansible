@@ -889,6 +889,8 @@ class Accesspoint(DnacBase):
                            124, 128, 132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173),
             "xor_radio": list(range(1, 15))
         }
+        self.dnac_version = int(self.payload.get("dnac_version").replace(".", ""))
+        self.version_2_3_5_3, self.version_2_3_7_6 = 2353, 2376
 
     def validate_input_yml(self):
         """
@@ -1865,36 +1867,70 @@ class Accesspoint(DnacBase):
             site_name = parent_name + "/" + floor_name
             self.want["site_name"] = site_name
             try:
-                response = self.dnac._exec(
-                    family="sites",
-                    function='get_site',
-                    op_modifies=True,
-                    params={"name": site_name},
-                )
-                if response.get("response"):
-                    site = response["response"][0]
-                    self.log("Site response: {0}".format(self.pprint(site)), "INFO")
-                    location = get_dict_result(site.get("additionalInfo"), 'nameSpace', "Location")
-                    type_info = location.get("attributes", {}).get("type")
+                if self.dnac_version <= self.version_2_3_5_3:
+                    response = self.dnac._exec(
+                        family="sites",
+                        function='get_site',
+                        op_modifies=True,
+                        params={"name": site_name},
+                    )
+                    if response.get("response"):
+                        site = response["response"][0]
+                        self.log("Site response: {0}".format(self.pprint(site)), "INFO")
+                        location = get_dict_result(site.get("additionalInfo"), 'nameSpace', "Location")
+                        type_info = location.get("attributes", {}).get("type")
 
-                    if type_info == "floor":
-                        site_info = {
-                            "floor": {
-                                "name": site.get("name"),
-                                "parentName": site.get("siteNameHierarchy").split(
-                                    "/" + site.get("name"))[0]
+                        if type_info == "floor":
+                            site_info = {
+                                "floor": {
+                                    "name": site.get("name"),
+                                    "parentName": site.get("siteNameHierarchy").split(
+                                        "/" + site.get("name"))[0]
+                                }
                             }
-                        }
 
-                    current_site = {
-                        "type": type_info,
-                        "site": site_info,
-                        "site_id": site.get("id"),
-                        "site_name": site_info["floor"]["parentName"] + "/" + site_info["floor"]["name"]
-                    }
-                    self.log('Current site details: {0}'.format(str(current_site)), "INFO")
-                    self.log("Site '{0}' exists in Cisco Catalyst Center".format(site.get("name")), "INFO")
-                    site_exists = True
+                        current_site = {
+                            "type": type_info,
+                            "site": site_info,
+                            "site_id": site.get("id"),
+                            "site_name": site_info["floor"]["parentName"] + "/" + site_info["floor"]["name"]
+                        }
+                        self.log('Current site details: {0}'.format(str(current_site)), "INFO")
+                        self.log("Site '{0}' exists in Cisco Catalyst Center".format(site.get("name")), "INFO")
+                        site_exists = True
+
+                elif self.dnac_version >= self.version_2_3_7_6:
+                    response = self.dnac._exec(
+                        family="site_design",
+                        function='get_sites',
+                        op_modifies=True,
+                        params={"name": site_name},
+                    )
+                    if response.get("response"):
+                        site = response["response"][0]
+                        self.log("Site response: {0}".format(self.pprint(site)), "INFO")
+                        location = get_dict_result(site.get("additionalInfo"), 'nameSpace', "Location")
+                        type_info = location.get("attributes", {}).get("type")
+
+                        if type_info == "floor":
+                            site_info = {
+                                "floor": {
+                                    "name": site.get("name"),
+                                    "parentName": site.get("siteNameHierarchy").split(
+                                        "/" + site.get("name"))[0]
+                                }
+                            }
+
+                        current_site = {
+                            "type": type_info,
+                            "site": site_info,
+                            "site_id": site.get("id"),
+                            "site_name": site_info["floor"]["parentName"] + "/" + site_info["floor"]["name"]
+                        }
+                        self.log('Current site details: {0}'.format(str(current_site)), "INFO")
+                        self.log("Site '{0}' exists in Cisco Catalyst Center".format(site.get("name")), "INFO")
+                        site_exists = True
+
             except Exception as e:
                 msg = "The provided site name '{0}' is either invalid or not present in the \
                         Cisco Catalyst Center.".format(self.want.get("site_name"))
