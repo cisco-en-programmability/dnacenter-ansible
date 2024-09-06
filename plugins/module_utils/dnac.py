@@ -864,6 +864,134 @@ class DnacBase():
 
         return error_msg
 
+    def get_task_details_by_id(self, task_id):
+        """
+        Get the details of a specific task in Cisco Catalyst Center.
+
+        Args:
+            self (object): An instance of a class that provides access to Cisco Catalyst Center.
+            task_id (str): The unique identifier of the task for which you want to retrieve details.
+        Returns:
+            dict or None: A dictionary containing detailed information about the specified task,
+            or None if the task with the given task_id is not found.
+        Description:
+            Call the API 'get_task_details_by_id' to get the details along with the
+            failure reason. Return the details.
+        """
+
+        task_details = None
+        response = self.dnac._exec(
+            family="task",
+            function="get_task_details_by_id",
+            params={"id": task_id}
+        )
+        if not isinstance(response, dict):
+            self.log("Invalid response received when fetching task details for task ID: {}".format(task_id), "ERROR")
+            return task_details
+
+        task_details = response.get("response")
+        self.log("Task Details: {task_details}".format(task_details=task_details), "DEBUG")
+        return task_details
+
+    def get_tasks_by_id(self, task_id):
+        """
+        Get the tasks of a task ID in Cisco Catalyst Center.
+
+        Args:
+            self (object): An instance of a class that provides access to Cisco Catalyst Center.
+            task_id (str): The unique identifier of the task for which you want to retrieve details.
+        Returns:
+            dict or None: A dictionary status information about the specified task,
+            or None if the task with the given task_id is not found.
+        Description:
+            Call the API 'get_tasks_by_id' to get the status of the task.
+            Return the details along with the status of the task.
+        """
+
+        task_status = None
+        response = self.dnac._exec(
+            family="task",
+            function="get_tasks_by_id",
+            params={"id": task_id}
+        )
+        self.log('Task Details: {response}'.format(response=response), 'DEBUG')
+        self.log("Retrieving task details by the API 'get_tasks_by_id' using task ID: {task_id}, Response: {response}"
+                 .format(task_id=task_id, response=response), "DEBUG")
+
+        if not isinstance(response, dict):
+            self.log("Failed to retrieve task details for task ID: {}".format(task_id), "ERROR")
+            return task_status
+
+        task_status = response.get('response')
+        self.log("Task Status: {task_status}".format(task_status=task_status), "DEBUG")
+        return task_status
+
+    def check_tasks_response_status(self, response, api_name):
+        """
+        Get the site id from the site name.
+
+        Parameters:
+            self: The current object details.
+            response (dict): API response.
+            api_name (str): API name.
+        Returns:
+            self (object): The current object with updated desired Fabric Transits information.
+        Description:
+            Poll the function 'get_tasks_by_id' until it returns either 'SUCCESS' or 'FAILURE'
+            state or till it reaches the maximum timeout.
+            Log the task details and return self.
+        """
+
+        if not response:
+            self.msg = "response is empty"
+            self.status = "exited"
+            return self
+
+        if not isinstance(response, dict):
+            self.msg = "response is not a dictionary"
+            self.status = "exited"
+            return self
+
+        task_info = response.get("response")
+        if task_info.get("errorcode") is not None:
+            self.msg = response.get("response").get("detail")
+            self.status = "failed"
+            return self
+
+        task_id = task_info.get("taskId")
+        start_time = time.time()
+        while True:
+            elapsed_time = time.time() - start_time
+            if elapsed_time >= self.max_timeout:
+                self.msg = "Max timeout of {max_timeout} sec has reached for the task id '{task_id}'. " \
+                           .format(max_timeout=self.max_timeout, task_id=task_id) + \
+                           "Exiting the loop due to unexpected API '{api_name}' status.".format(api_name=api_name)
+                self.log(self.msg, "WARNING")
+                self.status = "failed"
+                break
+
+            task_details = self.get_tasks_by_id(task_id)
+            self.log('Getting tasks details from task ID {task_id}: {task_details}'
+                     .format(task_id=task_id, task_details=task_details), "DEBUG")
+
+            task_status = task_details.get("status")
+            if task_status == "FAILURE":
+                details = self.get_task_details_by_id(task_id)
+                self.msg = details.get("failureReason")
+                self.status = "failed"
+                break
+
+            elif task_status == "SUCCESS":
+                self.result["changed"] = True
+                self.log("The task with task ID '{task_id}' is executed successfully."
+                         .format(task_id=task_id), "INFO")
+                break
+
+            self.log("Progress is {status} for task ID: {task_id}"
+                     .format(status=task_status, task_id=task_id), "DEBUG")
+
+        return self
+
 
 def is_list_complex(x):
     return isinstance(x[0], dict) or isinstance(x[0], list)
@@ -992,7 +1120,7 @@ def validate_str(item, param_spec, param_name, invalid_params):
     return item
 
 
-def validate_int(item, param_spec, param_name, invalid_params):
+def validate_integer_within_range(item, param_spec, param_name, invalid_params):
     """
     This function checks that the input `item` is a valid integer and conforms to
     the constraints specified in `param_spec`. If the integer is not valid or does
@@ -1014,19 +1142,19 @@ def validate_int(item, param_spec, param_name, invalid_params):
             "range_max": 100    # Optional: maximum allowed value
         }
     """
+    try:
+        item = validation.check_type_int(item)
+    except TypeError as e:
+        invalid_params.append("{0}: value: {1} {2}".format(param_name, item, str(e)))
+        return item
 
-    item = validation.check_type_int(item)
-    min_value = 1
-    if param_spec.get("range_min") is not None:
-        min_value = param_spec.get("range_min")
-    if param_spec.get("range_max"):
-        if min_value <= item <= param_spec.get("range_max"):
-            return item
-        else:
-            invalid_params.append(
-                "{0}:{1} : The item exceeds the allowed "
-                "range of max {2}".format(param_name, item, param_spec.get("range_max"))
-            )
+    min_value = param_spec.get("range_min", 1)
+    if param_spec.get("range_max") and not (min_value <= item <= param_spec["range_max"]):
+        invalid_params.append(
+            "{0}: {1} : The item exceeds the allowed range of min: {2} and max: {3}".format(
+                param_name, item, param_spec.get("range_min"), param_spec.get("range_max"))
+        )
+
     return item
 
 
@@ -1152,7 +1280,7 @@ def validate_list_of_dicts(param_list, spec, module=None):
             data_type = spec[param].get("type")
             switch = {
                 "str": validate_str,
-                "int": validate_int,
+                "int": validate_integer_within_range,
                 "bool": validate_bool,
                 "list": validate_list,
                 "dict": validate_dict,
