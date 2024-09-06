@@ -60,7 +60,7 @@ options:
       site_list:
         description:
                 - Specifies a list of sites. The module takes a configuration backup of all devices located within the specified site(s).
-                - Each site should be a string value that represents the complete hierarchical path of the site.
+                - Each site should be represented as a string value that indicates the complete hierarchical path of the site.
                 - For example - ["Global/USA/San Francisco/Building_2/floor_1", "Global/USA/New York/Building_3/floor_2"]
                 - Note -  When additional parameters are provided along with `site_list`, the operation will include all devices in the specified site(s)
                           and any devices matching the additional criteria (excluding `site_list`).
