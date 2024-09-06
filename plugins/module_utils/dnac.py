@@ -1120,7 +1120,7 @@ def validate_str(item, param_spec, param_name, invalid_params):
     return item
 
 
-def validate_int(item, param_spec, param_name, invalid_params):
+def validate_integer_within_range(item, param_spec, param_name, invalid_params):
     """
     This function checks that the input `item` is a valid integer and conforms to
     the constraints specified in `param_spec`. If the integer is not valid or does
@@ -1142,19 +1142,19 @@ def validate_int(item, param_spec, param_name, invalid_params):
             "range_max": 100    # Optional: maximum allowed value
         }
     """
+    try:
+        item = validation.check_type_int(item)
+    except TypeError as e:
+        invalid_params.append("{0}: value: {1} {2}".format(param_name, item, str(e)))
+        return item
 
-    item = validation.check_type_int(item)
-    min_value = 1
-    if param_spec.get("range_min") is not None:
-        min_value = param_spec.get("range_min")
-    if param_spec.get("range_max"):
-        if min_value <= item <= param_spec.get("range_max"):
-            return item
-        else:
-            invalid_params.append(
-                "{0}:{1} : The item exceeds the allowed "
-                "range of max {2}".format(param_name, item, param_spec.get("range_max"))
-            )
+    min_value = param_spec.get("range_min", 1)
+    if param_spec.get("range_max") and not (min_value <= item <= param_spec["range_max"]):
+        invalid_params.append(
+            "{0}: {1} : The item exceeds the allowed range of min: {2} and max: {3}".format(
+                param_name, item, param_spec.get("range_min"), param_spec.get("range_max"))
+        )
+
     return item
 
 
@@ -1280,7 +1280,7 @@ def validate_list_of_dicts(param_list, spec, module=None):
             data_type = spec[param].get("type")
             switch = {
                 "str": validate_str,
-                "int": validate_int,
+                "int": validate_integer_within_range,
                 "bool": validate_bool,
                 "list": validate_list,
                 "dict": validate_dict,
