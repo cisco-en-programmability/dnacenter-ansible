@@ -1206,8 +1206,8 @@ class FabricTransit(DnacBase):
                 name = config.get("sda_fabric_transits")[fabric_transit_index].get("name")
                 if fabric_transit_exists:
                     self.msg = (
-                        "The SDA fabric transit config '{name}' is not applied to"
-                        " the Cisco Catalyst Center.".format(name=name)
+                        "The SDA fabric transit config '{name}' is still present in "
+                        "the Cisco Catalyst Center.".format(name=name)
                     )
                     self.status = "failed"
                     return self
