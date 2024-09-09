@@ -1058,6 +1058,7 @@ class Accesspoint(DnacBase):
             have["ap_exists"] = ap_exists
             have["current_ap_config"] = current_ap_config
             have["ip_address"] = self.payload["access_point_details"]["management_ip_address"]
+            have["device_id"] = self.payload["access_point_details"]["id"]
             have["wlc_provision_status"] = self.payload.get("wlc_provision_status")
             have["associated_wlc_ip"] = self.payload["access_point_details"]["associated_wlc_ip"]
             have["hostname"] = self.payload["access_point_details"]["hostname"]
@@ -1763,7 +1764,8 @@ class Accesspoint(DnacBase):
                     "site_exists": site_exists,
                     "current_site": current_site,
                     "site_changes": self.get_site_device(current_site["site_id"],
-                                                         current_configuration["mac_address"])
+                                                         current_configuration["mac_address"],
+                                                         site_exists, current_site, current_configuration)
                 })
                 provision_status, wlc_details = self.verify_ap_provision(
                     current_configuration["associated_wlc_ip"])
@@ -1903,19 +1905,18 @@ class Accesspoint(DnacBase):
                         family="site_design",
                         function='get_sites',
                         op_modifies=True,
-                        params={"name": site_name},
+                        params={"nameHierarchy": site_name},
                     )
                     if response.get("response"):
                         site = response["response"][0]
                         self.log("Site response: {0}".format(self.pprint(site)), "INFO")
-                        location = get_dict_result(site.get("additionalInfo"), 'nameSpace', "Location")
-                        type_info = location.get("attributes", {}).get("type")
+                        type_info = site.get("type")
 
                         if type_info == "floor":
                             site_info = {
                                 "floor": {
                                     "name": site.get("name"),
-                                    "parentName": site.get("siteNameHierarchy").split(
+                                    "parentName": site.get("nameHierarchy").split(
                                         "/" + site.get("name"))[0]
                                 }
                             }
@@ -1939,7 +1940,7 @@ class Accesspoint(DnacBase):
 
         return site_exists, current_site
 
-    def get_site_device(self, site_id, ap_mac_address):
+    def get_site_device(self, site_id, ap_mac_address, site_exist=None, current_site=None, current_config=None):
         """
         Fetches device information associated with a specific site and checks if a given AP
         MAC address is present.
@@ -1962,35 +1963,62 @@ class Accesspoint(DnacBase):
             not found or if an error occurs during the API call, it returns False.
         """
         try:
-            response = self.dnac._exec(
-                family="sites",
-                function="get_membership",
-                op_modifies=True,
-                params={"site_id": site_id}
-            )
-
-            if not response.get("device"):
-                self.log("No site information found : {sId},".format(sId=site_id), "INFO")
-                return False
-
-            device_mac_info = []
-            for device_info in response.get('device', []):
-                response_list = device_info.get('response', [])
-                for response_item in response_list:
-                    mac_address = response_item.get('macAddress')
-                    if mac_address:
-                        device_mac_info.append(mac_address)
-
-            if ap_mac_address in device_mac_info:
-                self.log(
-                    "Device with MAC address: {macAddress} found in site: {sId},"
-                    "Proceeding with ap_site updation."
-                    .format(macAddress=ap_mac_address, sId=site_id), "INFO"
+            if self.dnac_version <= self.version_2_3_5_3:
+                response = self.dnac._exec(
+                    family="sites",
+                    function="get_membership",
+                    op_modifies=True,
+                    params={"site_id": site_id}
                 )
-                return True
-            else:
-                self.log("No site information found : {sId},".format(sId=site_id), "INFO")
-                return False
+
+                if not response.get("device"):
+                    self.log("No site information found : {sId},".format(sId=site_id), "INFO")
+                    return False
+
+                device_mac_info = []
+                for device_info in response.get('device', []):
+                    response_list = device_info.get('response', [])
+                    for response_item in response_list:
+                        mac_address = response_item.get('macAddress')
+                        if mac_address:
+                            device_mac_info.append(mac_address)
+
+                if ap_mac_address in device_mac_info:
+                    self.log(
+                        "Device with MAC address: {macAddress} found in site: {sId},"
+                        "Proceeding with ap_site updation."
+                        .format(macAddress=ap_mac_address, sId=site_id), "INFO"
+                    )
+                    return True
+                else:
+                    self.log("No site information found : {sId},".format(sId=site_id), "INFO")
+                    return False
+
+            elif self.dnac_version >= self.version_2_3_7_6:
+                response = self.dnac._exec(
+                    family="site_design",
+                    function="get_site_assigned_network_device",
+                    op_modifies=True,
+                    params={"id": current_config.get("id")}
+                )
+                self.log("Site Device response: {0}".format(self.pprint(response)), "INFO")
+
+                if not response.get("response", {}).get("siteId"):
+                    self.log("No site information found : {0},".format(site_id), "INFO")
+                    return False
+
+                response = response.get("response")
+                if site_id == response.get("siteId") and response.get("deviceId") == current_config.get("id")\
+                   and response.get("siteNameHierarchy") == current_site.get("site_name")\
+                   and response.get("siteType") == current_site.get("type"):
+                    self.log(
+                        "Device with MAC address: {0} found in site: {1} Proceeding with ap_site updation."
+                        .format(ap_mac_address, site_id), "INFO"
+                    )
+                    return True
+                else:
+                    self.log("No site information found : {0},".format(site_id), "INFO")
+                    return False
 
         except Exception as e:
             self.log("Failed to execute the get_membership function '{}'\
@@ -2061,35 +2089,54 @@ class Accesspoint(DnacBase):
 
         provision_status = "failed"
         provision_details = None
+        provision_params = None
         try:
-            site_name_hierarchy = self.have.get("site_name_hierarchy")
             rf_profile = self.want.get("rf_profile")
-            host_name = self.have.get("hostname")
-            type_name = self.have.get("ap_type")
+            if self.dnac_version <= self.version_2_3_5_3:
+                site_name_hierarchy = self.have.get("site_name_hierarchy")
+                host_name = self.have.get("hostname")
+                type_name = self.have.get("ap_type")
 
-            if not site_name_hierarchy or not rf_profile or not host_name:
-                error_msg = ("Cannot provision device: Missing parameters - "
-                             "site_name_hierarchy: {0}, rf_profile: {1}, host_name: {2}"
-                             .format(site_name_hierarchy, rf_profile, host_name))
-                self.log(error_msg, "ERROR")
-                self.module.fail_json(msg=error_msg)
+                if not site_name_hierarchy or not rf_profile or not host_name:
+                    error_msg = ("Cannot provision device: Missing parameters - "
+                                "site_name_hierarchy: {0}, rf_profile: {1}, host_name: {2}"
+                                .format(site_name_hierarchy, rf_profile, host_name))
+                    self.log(error_msg, "ERROR")
+                    self.module.fail_json(msg=error_msg)
 
-            provision_params = [{
-                "rfProfile": rf_profile,
-                "deviceName": host_name,
-                "type": type_name,
-                "siteNameHierarchy": site_name_hierarchy
-            }]
+                provision_params = [{
+                    "rfProfile": rf_profile,
+                    "deviceName": host_name,
+                    "type": type_name,
+                    "siteNameHierarchy": site_name_hierarchy
+                }]
+
+            elif self.dnac_version >= self.version_2_3_7_6:
+                device_id = self.have.get("device_id")
+                site_id = self.have.get("site_id")
+
+                if not rf_profile or not device_id or not site_id:
+                    error_msg = ("Cannot provision device: Missing parameters - "
+                                "device_id: {0}, rf_profile: {1}, site_id: {2}"
+                                .format(device_id, rf_profile, site_id))
+                    self.log(error_msg, "ERROR")
+                    self.module.fail_json(msg=error_msg)
+
+                provision_params = {
+                    "rfProfileName": rf_profile,
+                    "networkDevices": [{"deviceId": device_id}],
+                    "siteId": site_id
+                }
+
             self.log('Current device details: {0}'.format(self.pprint(provision_params)), "INFO")
-
             response = self.dnac._exec(
-                family="wireless",
-                function='ap_provision',
-                op_modifies=True,
-                params={"payload": provision_params},
-            )
-
+                    family="wireless",
+                    function='ap_provision',
+                    op_modifies=True,
+                    params={"payload": provision_params},
+                )
             self.log('Response from ap_provision: {0}'.format(str(response)), "INFO")
+
             if response and isinstance(response, dict):
                 executionid = response.get("executionId")
                 resync_retry_count = self.payload.get("dnac_api_task_timeout", 100)
@@ -2116,6 +2163,7 @@ class Accesspoint(DnacBase):
         except Exception as e:
             error_msg = 'An error occurred during device provisioning: {0}'.format(str(e))
             self.log(error_msg, "ERROR")
+            self.msg = error_msg
             self.status = "failed"
 
         return provision_status, provision_details
