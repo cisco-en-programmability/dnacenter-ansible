@@ -20,7 +20,8 @@ description:
 - API to fetch a software image from local file system and upload it to Catalyst Center
   Supported image files extensions are bin, img, tar, smu, pie, aes, iso, ova, tar_gz and qcow2.
 - API to fetch a software image from Cisco Connection Online (CCO) and upload it to Catalyst Center
-  Can refer https://software.cisco.com/download/home for the image name to download
+  Can refer https://software.cisco.com/download/home for the suggested images in Cisco catalyst center to download
+  CCO functionality is available from DNAC version 2.3.7.6 onward.
 - API to tag/untag image as golen for a given family of devices
 - API to distribute a software image on a given device. Software image must be imported successfully into
   Catalyst Center before it can be distributed.
@@ -308,7 +309,7 @@ options:
               before schedule (optional).
             type: bool
 requirements:
-- dnacentersdk == 2.4.5
+- dnacentersdk == 2.7.3
 - python >= 3.9
 notes:
   - SDK Method used are
@@ -1283,7 +1284,6 @@ class Swim(DnacBase):
                     self.log("Image '{0}' already exists in Cisco Catalyst Center, skipping import.".format(name), "INFO")
                 else:
                     images_to_import.append(name)
-                self.log(existing_images)
 
             if existing_images:
                 self.log("Skipping import for existing images: {0}".format(", ".join(existing_images)), "INFO")
