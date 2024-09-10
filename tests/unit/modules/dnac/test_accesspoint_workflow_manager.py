@@ -378,14 +378,7 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
         )
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
-            result.get('msg'),
-            'Invalid parameters in playbook config: \'[["Access Point series \'Cisco 9164I Series Unified Access Points\' not ' +
-            'supported for the radio type 6ghz_radio allowed series [\'9136I\', \'9162I\', \'9163E\', \'9164I\', \'IW9167IH\', ' +
-            '\'9178I\', \'9176I\', \'9176D1\']", "Access Point series \'Cisco 9164I Series Unified Access Points\' not supported ' +
-            'for the radio type 6ghz_radio allowed series [\'9136I\', \'9162I\', \'9163E\', \'9164I\', \'IW9167IH\', \'9178I\', ' +
-            '\'9176I\', \'9176D1\']", "Access Point series \'Cisco 9164I Series Unified Access Points\' not supported for the radio ' +
-            'type 6ghz_radio allowed series [\'9136I\', \'9162I\', \'9163E\', \'9164I\', \'IW9167IH\', \'9178I\', \'9176I\', \'9176D1\']"]]\' '
-        )
+            result.get('msg'), 'MAC Address not exist:')
 
     def test_accesspoint_workflow_manager_some_missing_data_update_accesspoint(self):
         """

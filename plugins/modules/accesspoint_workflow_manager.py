@@ -65,7 +65,9 @@ options:
         type: str
         required: True
       rf_profile:
-        description: Radio Frequency (RF) profile of the Access Point (e.g., 'HIGH').
+        description: |
+          Specifies the Radio Frequency (RF) profile name for the Access Point. It can be one of the standard profiles
+          "HIGH", "LOW", "TYPICAL", or a custom profile that has been created. For example, "HIGH".
         type: str
         required: False
       site:
@@ -78,37 +80,43 @@ options:
             required: False
             suboptions:
               name:
-                description: Name of the floor.(eg. 'FLOOR1')
+                description: Name of the floor. For example, "FLOOR1".
                 type: str
                 required: False
               parent_name:
-                description: Parent name of the floor in the site hierarchy.(eg. 'Global/USA/New York/BLDNYC')
+                description: Parent name of the floor in the site hierarchy. For example, "Global/USA/New York/BLDNYC".
                 type: str
                 required: False
       ap_name:
-        description: Current AP name that needs to be changed along with the new AP name.(eg. "Test2")
+        description: Current AP name that needs to be changed along with the new AP name. For example, "Test2".
         type: str
         required: False
       admin_status:
-        description: Status of the AP configuration. Accepts "Enabled" or "Disabled". (eg. "Enabled")
+        description: Status of the AP configuration. Accepts "Enabled" or "Disabled". For example, "Enabled".
         type: str
         required: False
       led_status:
-        description: State of the AP's LED. Accepts "Enabled" or "Disabled".(eg. "Enabled")
+        description: State of the AP's LED. Accepts "Enabled" or "Disabled". For example, "Enabled".
         type: str
         required: False
       led_brightness_level:
-        description: Brightness level of the AP's LED. Accepts values from 1 to 8.(eg. 3)
+        description: Brightness level of the AP's LED. Accepts values from 1 to 8. For example, 3.
         type: int
         required: False
       ap_mode:
         description: |
-          Mode of operation for the Access Point (AP). Possible values include "local/flexconnect",
-          "monitor", "sniffer", or "Bridge/Flex+Bridge".(eg. "Local")
+          Defines the mode of operation for the Access Point (AP). Possible values include "Local",
+          "Monitor", "Sniffer", or "Bridge". For example, "Local".
         type: str
         required: False
       location:
-        description: Location name of the AP. Provide this data if a change is required.(eg. "Bangalore")
+        description: Location name of the AP. Provide this data if a change is required. For example, "Bangalore".
+        type: str
+        required: False
+      is_assigned_site_as_location:
+        description: |
+          Configures whether the access point location is automatically set to the site assigned to the access point.
+          Accepts "Enabled" or "Disabled". If set to "Enabled", no additional location configuration is required.
         type: str
         required: False
       failover_priority:
@@ -117,24 +125,24 @@ options:
         required: False
       clean_air_si_2.4ghz:
         description: |
-          Clean Air Spectrum Intelligence (SI) feature status for the 2.4GHz band. Indicates whether.(eg. "Enabled")
+          Clean Air Spectrum Intelligence (SI) feature status for the 2.4GHz band. Indicates whether. For example, "Enabled".
           Clean Air Spectrum Intelligence is enabled or disabled.
         type: str
         required: False
       clean_air_si_5ghz:
         description: |
-          Clean Air Spectrum Intelligence (SI) feature status for the 5GHz band. Indicates whether.(eg. "Enabled")
+          Clean Air Spectrum Intelligence (SI) feature status for the 5GHz band. Indicates whether. For example, "Enabled".
           Clean Air Spectrum Intelligence is enabled or disabled.
         type: str
         required: False
       clean_air_si_6ghz:
         description: |
-          Clean Air Spectrum Intelligence (SI) feature status for the 6GHz band. Indicates whether.(eg. "Enabled")
+          Clean Air Spectrum Intelligence (SI) feature status for the 6GHz band. Indicates whether. For example, "Enabled".
           Clean Air Spectrum Intelligence is enabled or disabled.
         type: str
         required: False
       primary_controller_name:
-        description: Name or identifier of the primary wireless LAN controller (WLC) managing the Access Point (AP).(eg. "SJ-EWLC-1")
+        description: Name or identifier of the primary wireless LAN controller (WLC) managing the Access Point (AP). For example, "SJ-EWLC-1".
         type: str
         required: False
       primary_ip_address:
@@ -143,11 +151,13 @@ options:
         required: False
         suboptions:
           address:
-              description: IP address of the primary wireless LAN controller. (eg. '10.0.0.3')
-              type: str
-              required: False
+            description: IP address of the primary wireless LAN controller. For example, '10.0.0.3'.
+            type: str
+            required: False
       secondary_controller_name:
-        description: Name or identifier of the secondary wireless LAN controller (WLC) managing the Access Point (AP).(eg. "Inherit from site/Clear")
+        description: |
+          Name or identifier of the secondary wireless LAN controller (WLC) managing the Access Point (AP).
+          For example, "Inherit from site / Clear".
         type: str
         required: False
       secondary_ip_address:
@@ -156,11 +166,13 @@ options:
         required: False
         suboptions:
           address:
-              description: IP address of the primary wireless LAN controller (eg. '10.0.0.3')
-              type: str
-              required: False
+            description: IP address of the primary wireless LAN controller. For example, '10.0.0.3'.
+            type: str
+            required: False
       tertiary_controller_name:
-        description: Name or identifier of the tertiary wireless LAN controller (WLC) managing the Access Point (AP).(eg. "Clear")
+        description: |
+          Name or identifier of the tertiary wireless LAN controller (WLC) managing the Access Point (AP).
+          For example, "Inherit from site / Clear".
         type: str
         required: False
       tertiary_ip_address:
@@ -169,272 +181,267 @@ options:
         required: False
         suboptions:
           address:
-              description: IP address of the primary wireless LAN controller (eg. '10.0.0.2')
-              type: str
-              required: False
-      radio_settings:
-        description: Configuration options for radio interfaces.
+            description: IP address of the primary wireless LAN controller. For example, '10.0.0.2'.
+            type: str
+            required: False
+      2.4ghz_radio:
+        description: Configuration options for the 2.4GHz radio interface.
         type: dict
         required: False
         suboptions:
-          2.4ghz_radio:
-            description: Configuration options for the 2.4GHz radio interface.
-            type: dict
+          admin_status:
+            description: Administrative status for the 2.4GHz radio interface. For example, "Enabled".
+            type: str
             required: False
-            suboptions:
-              admin_status:
-                description: Administrative status for the 2.4GHz radio interface.(eg. 'Enabled')
-                type: str
-                required: False
-              antenna_name:
-                description: Name or type of antenna used for the 2.4GHz radio interface.(eg. "other")
-                type: str
-                required: False
-              antenna_gain:
-                description: Antenna gain value in decibels (dB) for the 2.4GHz radio interface.(eg. 4)
-                type: int
-                required: False
-              radio_role_assignment:
-                description: Role assignment mode for the 2.4GHz radio interface. Accepts "Auto", "Client-serving", or "Monitor".(eg. "Auto")
-                type: str
-                required: False
-              cable_loss:
-                description: Cable loss in dB for the 2.4GHz radio interface.(eg. 75)
-                type: int
-                required: False
-              antenna_cable_name:
-                description: Name or type of antenna cable used for the 2.4GHz radio interface.(eg. "other")
-                type: str
-                required: False
-              channel_assignment_mode:
-                description: Mode of channel assignment for the 2.4GHz radio interface. Accepts "Global" or "Custom".(eg. "Custom")
-                type: str
-                required: False
-              channel_number:
-                description: Custom channel number configured for the 2.4GHz radio interface.(eg. 6)
-                type: int
-                required: False
-              power_assignment_mode:
-                description: Mode of power assignment for the 2.4GHz radio interface. Accepts "Global" or "Custom".(eg. "Custom")
-                type: str
-                required: False
-              power_level:
-                description: Custom power level configured for the 2.4GHz radio interface. (eg. 3)
-                type: int
-                required: False
-          5ghz_radio:
-            description: Configuration options for the 5GHz radio interface.
-            type: dict
+          antenna_name:
+            description: Name or type of antenna used for the 2.4GHz radio interface. For example, "other".
+            type: str
             required: False
-            suboptions:
-              admin_status:
-                description: Administrative status for the 5GHz radio interface.(eg. "Enabled")
-                type: str
-                required: False
-              antenna_name:
-                description: Name or type of antenna used for the 5GHz radio interface.(eg. other)
-                type: str
-                required: False
-              antenna_gain:
-                description: Antenna gain value in decibels (dB) for the 5GHz radio interface.(eg. 5)
-                type: int
-                required: False
-              radio_role_assignment:
-                description: Role assignment mode for the 5GHz radio interface. Accepts "Auto", "Client-serving", or "Monitor".(eg. Auto)
-                type: str
-                required: False
-              cable_loss:
-                description: Cable loss in dB for the 5GHz radio interface. (eg. 80)
-                type: int
-                required: False
-              antenna_cable_name:
-                description: Name or type of antenna cable used for the 5GHz radio interface.(eg. other)
-                type: str
-                required: False
-              channel_assignment_mode:
-                description: Mode of channel assignment for the 5GHz radio interface. Accepts "Global" or "Custom".(eg. "Custom")
-                type: str
-                required: False
-              channel_number:
-                description: Custom channel number configured for the 5GHz radio interface. (eg. 36)
-                type: int
-                required: False
-              power_assignment_mode:
-                description: Mode of power assignment for the 5GHz radio interface. Accepts "Global" or "Custom".(eg. "Custom")
-                type: str
-                required: False
-              power_level:
-                description: Custom power level configured for the 5GHz radio interface. (eg. 3)
-                type: int
-                required: False
-          6ghz_radio:
-            description: Configuration options for the 6GHz radio interface.
-            type: dict
+          antenna_gain:
+            description: Specifies the antenna gain value in decibels (dB) for the 2.4GHz radio interface. For example, 4.
+            type: int
             required: False
-            suboptions:
-              admin_status:
-                description: Administrative status for the 6GHz radio interface.(eg. "Enabled")
-                type: str
-                required: False
-              antenna_name:
-                description: Name or type of antenna used for the 6GHz radio interface. (eg. other)
-                type: str
-                required: False
-              antenna_gain:
-                description: Antenna gain value in decibels (dB) for the 6GHz radio interface.(eg. 4)
-                type: int
-                required: False
-              radio_role_assignment:
-                description: Role assignment mode for the 6GHz radio interface. Accepts "Auto", "Client-serving", or "Monitor".
-                type: str
-                required: False
-              cable_loss:
-                description: Cable loss in dB for the 6GHz radio interface. (eg. 75)
-                type: int
-                required: False
-              antenna_cable_name:
-                description: Name or type of antenna cable used for the 6GHz radio interface.(eg. "other")
-                type: str
-                required: False
-              channel_assignment_mode:
-                description: Mode of channel assignment for the 6GHz radio interface. Accepts "Global" or "Custom".(eg. "Custom")
-                type: str
-                required: False
-              channel_number:
-                description: Custom channel number configured for the 6GHz radio interface.(eg. 6)
-                type: int
-                required: False
-              power_assignment_mode:
-                description: Mode of power assignment for the 6GHz radio interface. Accepts "Global" or "Custom". (eg. "Custom")
-                type: str
-                required: False
-              power_level:
-                description: Custom power level configured for the 6GHz radio interface.(eg. 3)
-                type: int
-                required: False
-          xor_radio:
-            description: Configuration options for the xor radio interface.
-            type: dict
+          radio_role_assignment:
+            description: Role assignment mode for the 2.4GHz radio interface. Accepts "Auto", "Client-serving", or "Monitor". For example, Auto.
+            type: str
             required: False
-            suboptions:
-              admin_status:
-                description: Administrative status for the xor radio interface. (eg. Enabled)
-                type: str
-                required: False
-              antenna_name:
-                description: Name or type of antenna used for the xor radio interface.(eg. other)
-                type: str
-                required: False
-              antenna_gain:
-                description: Antenna gain value in decibels (dB) for the xor radio interface.(eg. 4)
-                type: int
-                required: False
-              radio_role_assignment:
-                description: |
-                  Role assignment mode for the xor radio interface. Accepts "Auto", "Client-serving", or "Monitor".
-                  If radio_role_assignment is "client-serving", then only power-level and channel-level can be changed.
-                  (eg. Auto)
-                type: str
-                required: False
-              cable_loss:
-                description: Cable loss in dB for the xor radio interface. (e.g 75)
-                type: int
-                required: False
-              antenna_cable_name:
-                description: Name or type of antenna cable used for the xor radio interface.(eg. other)
-                type: str
-                required: False
-              channel_assignment_mode:
-                description: |
-                  Mode of channel assignment for the xor radio interface. Accepts "Global" or "Custom".
-                  For xor Custom, it accepts values like 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112,
-                  116, 120, 124, 128, 132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173. (eg. "Custom")
-                type: str
-                required: False
-              channel_number:
-                description: Custom channel number configured for the xor radio interface.(eg. 6)
-                type: int
-                required: False
-              channel_width:
-                description: |
-                  Width of the channel configured for the xor radio interface. Accepts values
-                  "20 MHz", "40 MHz", "80 MHz", or "160 MHz". (eg. 20 MHz)
-                type: str
-                required: False
-              power_assignment_mode:
-                description: |
-                  Mode of power assignment for the xor radio interface. Accepts "Global" or "Custom".
-                  In Custom, it accepts values 1 to 5.
-                type: str
-                required: False
-              power_level:
-                description: Custom power level configured for the xor radio interface. (eg. 3)
-                type: int
-                required: False
-          tri_radio:
-            description: Configuration options for the tri radio interface.
-            type: dict
+          cable_loss:
+            description: Cable loss in dB for the 2.4GHz radio interface. For example, 75.
+            type: int
             required: False
-            suboptions:
-              admin_status:
-                description: Administrative status for the tri radio interface. (eg. Enabled)
-                type: str
-                required: False
-              antenna_name:
-                description: Name or type of antenna used for the tri radio interface.(eg. other)
-                type: str
-                required: False
-              antenna_gain:
-                description: Antenna gain value in decibels (dB) for the tri radio interface. (eg. 4)
-                type: int
-                required: False
-              radio_role_assignment:
-                description: |
-                  Role assignment mode for the tri radio interface. Accepts "Auto", "Client-serving", or "Monitor".
-                  If radio_role_assignment is "client-serving", then only power-level and channel-level can be changed.
-                type: str
-                required: False
-              cable_loss:
-                description: Cable loss in dB for the tri radio interface. (eg. 75)
-                type: int
-                required: False
-              antenna_cable_name:
-                description: Name or type of antenna cable used for the tri radio interface. (eg. "other")
-                type: str
-                required: False
-              channel_assignment_mode:
-                description: |
-                  Mode of channel assignment for the tri radio interface. Accepts "Global" or "Custom".
-                  For tri Custom, it accepts values like 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128,
-                  132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173. (eg. Custom)
-                type: str
-                required: False
-              channel_number:
-                description: Custom channel number configured for the tri radio interface. (eg. 6)
-                type: int
-                required: False
-              channel_width:
-                description: |
-                  Width of the channel configured for the tri radio interface. Accepts values
-                  "20 MHz", "40 MHz", "80 MHz", or "160 MHz". eg. 20 MHz
-                type: str
-                required: False
-              power_assignment_mode:
-                description: |
-                    Mode of power assignment for the tri radio interface. Accepts "Global" or "Custom".
-                    In Custom, it accepts values 1 to 5.
-                type: str
-                required: False
-              power_level:
-                description: Custom power level configured for the tri radio interface.(eg. 3)
-                type: int
-                required: False
-              dual_radio_mode:
-                description: |
-                  Mode of operation configured for the tri radio interface. Specifies how the
-                  access point (AP) manages its dual radio functionality. eg . Auto
-                type: str
-                required: False
+          antenna_cable_name:
+            description: Name or type of antenna cable used for the 2.4GHz radio interface. For example, "other".
+            type: str
+            required: False
+          channel_assignment_mode:
+            description: Mode of channel assignment for the 2.4GHz radio interface. Accepts "Global" or "Custom". For example, "Custom".
+            type: str
+            required: False
+          channel_number:
+            description: Custom channel number configured for the 2.4GHz radio interface. For example, 6.
+            type: int
+            required: False
+          power_assignment_mode:
+            description: Mode of power assignment for the 2.4GHz radio interface. Accepts "Global" or "Custom". For example, "Custom".
+            type: str
+            required: False
+          power_level:
+            description: Custom power level configured for the 2.4GHz radio interface. For example, 3.
+            type: int
+            required: False
+      5ghz_radio:
+        description: Configuration options for the 5GHz radio interface.
+        type: dict
+        required: False
+        suboptions:
+          admin_status:
+            description: Administrative status for the 5GHz radio interface. For example, "Enabled".
+            type: str
+            required: False
+          antenna_name:
+            description: Name or type of antenna used for the 5GHz radio interface. For example, "other".
+            type: str
+            required: False
+          antenna_gain:
+            description: Antenna gain value in decibels (dB) for the 5GHz radio interface. For example, 5.
+            type: int
+            required: False
+          radio_role_assignment:
+            description: Role assignment mode for the 5GHz radio interface. Accepts "Auto", "Client-serving", or "Monitor". For example, "Auto".
+            type: str
+            required: False
+          cable_loss:
+            description: Cable loss in dB for the 5GHz radio interface. For example, 80.
+            type: int
+            required: False
+          antenna_cable_name:
+            description: Name or type of antenna cable used for the 5GHz radio interface. For example, "other".
+            type: str
+            required: False
+          channel_assignment_mode:
+            description: Mode of channel assignment for the 5GHz radio interface. Accepts "Global" or "Custom". For example, "Custom".
+            type: str
+            required: False
+          channel_number:
+            description: Custom channel number configured for the 5GHz radio interface. For example, 36.
+            type: int
+            required: False
+          power_assignment_mode:
+            description: Mode of power assignment for the 5GHz radio interface. Accepts "Global" or "Custom". For example, "Custom".
+            type: str
+            required: False
+          power_level:
+            description: Custom power level configured for the 5GHz radio interface. For example, 3.
+            type: int
+            required: False
+      6ghz_radio:
+        description: Configuration options for the 6GHz radio interface.
+        type: dict
+        required: False
+        suboptions:
+          admin_status:
+            description: Administrative status for the 6GHz radio interface. For example, "Enabled".
+            type: str
+            required: False
+          antenna_name:
+            description: Name or type of antenna used for the 6GHz radio interface. For example, "other".
+            type: str
+            required: False
+          antenna_gain:
+            description: Antenna gain value in decibels (dB) for the 6GHz radio interface. For example, 4.
+            type: int
+            required: False
+          radio_role_assignment:
+            description: Role assignment mode for the 6GHz radio interface. Accepts "Auto", "Client-serving", or "Monitor".
+            type: str
+            required: False
+          cable_loss:
+            description: Cable loss in dB for the 6GHz radio interface. For example, 75.
+            type: int
+            required: False
+          antenna_cable_name:
+            description: Name or type of antenna cable used for the 6GHz radio interface. For example, "other".
+            type: str
+            required: False
+          channel_assignment_mode:
+            description: Mode of channel assignment for the 6GHz radio interface. Accepts "Global" or "Custom". For example, "Custom".
+            type: str
+            required: False
+          channel_number:
+            description: Custom channel number configured for the 6GHz radio interface. For example, 6.
+            type: int
+            required: False
+          power_assignment_mode:
+            description: Mode of power assignment for the 6GHz radio interface. Accepts "Global" or "Custom". For example, "Custom".
+            type: str
+            required: False
+          power_level:
+            description: Custom power level configured for the 6GHz radio interface. For example, 3.
+            type: int
+            required: False
+      xor_radio:
+        description: Configuration options for the xor radio interface.
+        type: dict
+        required: False
+        suboptions:
+          admin_status:
+            description: Administrative status for the xor radio interface. For example, "Enabled".
+            type: str
+            required: False
+          antenna_name:
+            description: Name or type of antenna used for the xor radio interface. For example, "other".
+            type: str
+            required: False
+          antenna_gain:
+            description: Antenna gain value in decibels (dB) for the xor radio interface. For example, 4.
+            type: int
+            required: False
+          radio_role_assignment:
+            description: |
+              Role assignment mode for the xor radio interface. Accepts "Auto", "Client-serving", or "Monitor".
+              If radio_role_assignment is "client-serving", then only power-level and channel-level can be changed.
+              For example, Auto.
+            type: str
+            required: False
+          cable_loss:
+            description: Cable loss in dB for the xor radio interface. For example, 75.
+            type: int
+            required: False
+          antenna_cable_name:
+            description: Name or type of antenna cable used for the xor radio interface. For example, "other".
+            type: str
+            required: False
+          channel_assignment_mode:
+            description: |
+              Mode of channel assignment for the xor radio interface. Accepts "Global" or "Custom".
+              For xor Custom, it accepts values like 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112,
+              116, 120, 124, 128, 132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173. For example, "Custom".
+            type: str
+            required: False
+          channel_number:
+            description: Custom channel number configured for the xor radio interface. For example, 6.
+            type: int
+            required: False
+          channel_width:
+            description: |
+              Width of the channel configured for the xor radio interface. Accepts values
+              "20 MHz", "40 MHz", "80 MHz", or "160 MHz". For example, 20 MHz.
+            type: str
+            required: False
+          power_assignment_mode:
+            description: |
+              Mode of power assignment for the xor radio interface. Accepts "Global" or "Custom".
+              In Custom, it accepts values 1 to 8.
+            type: str
+            required: False
+          power_level:
+            description: Custom power level configured for the xor radio interface. For example, 3.
+            type: int
+            required: False
+      tri_radio:
+        description: Configuration options for the tri radio interface.
+        type: dict
+        required: False
+        suboptions:
+          admin_status:
+            description: Administrative status for the tri radio interface. For example, "Enabled".
+            type: str
+            required: False
+          antenna_name:
+            description: Name or type of antenna used for the tri radio interface. For example, "other".
+            type: str
+            required: False
+          antenna_gain:
+            description: Antenna gain value in decibels (dB) for the tri radio interface. For example, 4.
+            type: int
+            required: False
+          radio_role_assignment:
+            description: |
+              Role assignment mode for the tri radio interface. Accepts "Auto", "Client-serving", or "Monitor".
+              If radio_role_assignment is "client-serving", then only power-level and channel-level can be changed.
+            type: str
+            required: False
+          cable_loss:
+            description: Cable loss in dB for the tri radio interface. For example, 75.
+            type: int
+            required: False
+          antenna_cable_name:
+            description: Name or type of antenna cable used for the tri radio interface. For example, "other".
+            type: str
+            required: False
+          channel_assignment_mode:
+            description: |
+              Mode of channel assignment for the tri radio interface. Accepts "Global" or "Custom".
+              For tri Custom, it accepts values like 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128,
+              132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173. (eg. Custom)
+            type: str
+            required: False
+          channel_number:
+            description: Custom channel number configured for the tri radio interface. For example, 6.
+            type: int
+            required: False
+          channel_width:
+            description: |
+              Width of the channel configured for the tri radio interface. Accepts values
+              "20 MHz", "40 MHz", "80 MHz", or "160 MHz". . For example, 20 MHz.
+            type: str
+            required: False
+          power_assignment_mode:
+            description: |
+                Mode of power assignment for the tri radio interface. Accepts "Global" or "Custom".
+                In Custom, it accepts values 1 to 8.
+            type: str
+            required: False
+          power_level:
+            description: Custom power level configured for the tri radio interface. For example, 3.
+            type: int
+            required: False
+          dual_radio_mode:
+            description: |
+              Mode of operation configured for the tri radio interface. Specifies how the
+              access point (AP) manages its dual radio functionality. eg . Auto
+            type: str
+            required: False
       ap_selected_fields:
         description: When enable the verify flag "config_verify" to see only the filter field of the AP details in the output.
           (eg. "id,hostname,family,type,mac_address,management_ip_address,ap_ethernet_mac_address")
@@ -646,7 +653,7 @@ EXAMPLES = r"""
       register: output_list
 
     - name: Provisioning and Re-provisiong Access Point Site details
-      cisco.dnac.accesspoint_movement:
+      cisco.dnac.accesspoint_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
@@ -666,6 +673,70 @@ EXAMPLES = r"""
                   floor:
                     name: "FLOOR1"
                     parent_name: "Global/USA/New York/BLDNYC"
+      register: output_list
+
+    - name: Updating Access Point Update / Controller Name
+      cisco.dnac.accesspoint_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: True
+        dnac_log_level: DEBUG
+        config_verify: True
+        state: merged
+        config:
+          - mac_address: a4:88:73:d4:d6:60
+            ap_name: "Cisco_Test_AP_T003"
+            admin_status: "Enabled"
+            led_status: "Enabled"
+            led_brightness_level: 1
+            ap_mode: "Local"
+            is_assigned_site_as_location: "Enabled"
+            failover_priority: "Low"
+            primary_controller_name: "NY-EWLC-1"
+            primary_ip_address:
+              address: "204.192.6.200"
+            secondary_controller_name: "NY-EWLC-20"
+            secondary_ip_address:
+              address: "fe80::202:b3ff:fe1e:8324"
+            tertiary_controller_name: "SJ-EWLC-20"
+            tertiary_ip_address:
+              address: "fe80::202:b3ff:fe1e:8325"
+      register: output_list
+
+    - name: Updating Access Point Update / remove tertiary_controller_name
+      cisco.dnac.accesspoint_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: True
+        dnac_log_level: DEBUG
+        config_verify: True
+        state: merged
+        config:
+          - mac_address: a4:88:73:d4:d6:60
+            ap_name: "Cisco_Test_AP_T003"
+            admin_status: "Enabled"
+            led_status: "Enabled"
+            led_brightness_level: 1
+            ap_mode: "Local"
+            is_assigned_site_as_location: "Enabled"
+            failover_priority: "Low"
+            primary_controller_name: "NY-EWLC-10"
+            primary_ip_address:
+              address: "fe80::202:b3ff:fe1e:8329"
+            secondary_controller_name: "NY-EWLC-20"
+            secondary_ip_address:
+              address: "fe80::202:b3ff:fe1e:8324"
+            tertiary_controller_name: "Inherit from site / Clear"
       register: output_list
 
     - name: Updating Access Point Site / Configuration details
@@ -693,7 +764,7 @@ EXAMPLES = r"""
             led_status: "Enabled"
             led_brightness_level: 5
             ap_mode: "Local"
-            location: "LTTS/Cisco/Chennai"
+            is_assigned_site_as_location: "Enabled"
             failover_priority: "Low"
             2.4ghz_radio:
               admin_status: "Enabled"
@@ -788,7 +859,6 @@ response_2:
 
 import time
 import re
-import json
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
     validate_list_of_dicts,
@@ -805,18 +875,20 @@ class Accesspoint(DnacBase):
         super().__init__(module)
         self.supported_states = ["merged"]
         self.payload = module.params
+        self.payload["consolidated_result"] = []
         self.keymap = {}
         self.radio_interface = ["6ghz_radio", "xor_radio", "tri_radio"]
         self.allowed_series = {
             "6ghz_radio": ["9136I", "9162I", "9163E", "9164I", "IW9167IH", "9178I", "9176I",
                            "9176D1"],
-            "xor_radio": ["2800", "3800", "4800", "9120", "9166"],
-            "tri_radio": ["9124AXE", "9130AXI", "9130AXE"]
+            "xor_radio": ["280", "380", "480", "9120", "9166", "IW9167EH", "IW9165E", "IW9165DH"],
+            "tri_radio": ["9124AXE", "9130AXI", "9130AXE", "9178I"]
         }
         self.allowed_channel_no = {
-            "2.4ghz_radio": list(range(1, 12)),
+            "2.4ghz_radio": list(range(1, 15)),
             "5ghz_radio": (36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120,
-                           124, 128, 132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173)
+                           124, 128, 132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173),
+            "xor_radio": list(range(1, 15))
         }
 
     def validate_input_yml(self):
@@ -848,9 +920,6 @@ class Accesspoint(DnacBase):
             self.log(self.msg, "ERROR")
             return self
 
-        ap_list = self.payload.get("config")
-        ap_list = self.camel_to_snake_case(ap_list)
-        ap_list = self.update_site_type_key(ap_list)
         accesspoint_spec = {
             "mac_address": {"required": False, "type": "str"},
             "management_ip_address": {"required": False, "type": "str"},
@@ -861,9 +930,10 @@ class Accesspoint(DnacBase):
             "ap_name": {"required": False, "type": "str"},
             "admin_status": {"required": False, "type": "str"},
             "led_status": {"required": False, "type": "str"},
-            "led_brightness_level": {"required": False, "type": "int"},
+            "led_brightness_level": {"required": False, "type": "int", "range_min": 1, "range_max": 8},
             "ap_mode": {"required": False, "type": "str"},
             "location": {"required": False, "type": "str"},
+            "is_assigned_site_as_location": {"required": False, "type": "str"},
             "failover_priority": {"required": False, "type": "str"},
             "primary_controller_name": {"required": False, "type": "str"},
             "primary_ip_address": {"required": False, "type": "dict"},
@@ -882,31 +952,32 @@ class Accesspoint(DnacBase):
             "ap_selected_fields": {"required": False, "type": "str"},
             "ap_config_selected_fields": {"required": False, "type": "str"}
         }
+        radio_config_spec = {
+            "admin_status": {"required": False, "type": "str"},
+            "dual_radio_mode": {"required": False, "type": "str"},
+            "antenna_name": {"required": False, "type": "str"},
+            "antenna_gain": {"required": False, "type": "int"},
+            "radio_role_assignment": {"required": False, "type": "str"},
+            "cable_loss": {"required": False, "type": "int"},
+            "antenna_cable_name": {"required": False, "type": "str"},
+            "channel_assignment_mode": {"required": False, "type": "str"},
+            "channel_number": {"required": False, "type": "int"},
+            "power_assignment_mode": {"required": False, "type": "str"},
+            "powerlevel": {"required": False, "type": "int", "range_min": 1, "range_max": 8},
+            "channel_width": {"required": False, "type": "str"},
+            "radio_band": {"required": False, "type": "str"}
+        }
+        ap_list = self.update_site_type_key(self.camel_to_snake_case(self.payload.get("config")))
 
         invalid_list_radio = []
-        for each_radio in ("2.4ghz_radio", "5ghz_radio", "6ghz_radio", "xor_radio", "tri_radio"):
-            radio_config = ap_list[0].get(each_radio)
-            valid_param_radio, invalid_params_radio = (None, None)
-            if radio_config:
-                radio_config_spec = {
-                    "admin_status": {"required": False, "type": "str"},
-                    "dual_radio_mode": {"required": False, "type": "str"},
-                    "antenna_name": {"required": False, "type": "str"},
-                    "antenna_gain": {"required": False, "type": "int"},
-                    "radio_role_assignment": {"required": False, "type": "str"},
-                    "cable_loss": {"required": False, "type": "int"},
-                    "antenna_cable_name": {"required": False, "type": "str"},
-                    "channel_assignment_mode": {"required": False, "type": "str"},
-                    "channel_number": {"required": False, "type": "int"},
-                    "power_assignment_mode": {"required": False, "type": "str"},
-                    "powerlevel": {"required": False, "type": "int"},
-                    "channel_width": {"required": False, "type": "str"},
-                    "radio_band": {"required": False, "type": "str"}
-                }
-                valid_param_radio, invalid_params_radio = \
-                    validate_list_of_dicts([radio_config], radio_config_spec)
-                if len(invalid_params_radio) > 0:
-                    invalid_list_radio.append(each_radio + str(invalid_params_radio))
+        for each_ap in ap_list:
+            for each_radio in ("2.4ghz_radio", "5ghz_radio", "6ghz_radio", "xor_radio", "tri_radio"):
+                radio_config = each_ap.get(each_radio)
+                if radio_config:
+                    valid_param_radio, invalid_params_radio = \
+                        validate_list_of_dicts([radio_config], radio_config_spec)
+                    if len(invalid_params_radio) > 0:
+                        invalid_list_radio.append(each_radio + str(invalid_params_radio))
 
         valid_param, invalid_params = validate_list_of_dicts(ap_list, accesspoint_spec)
 
@@ -920,7 +991,7 @@ class Accesspoint(DnacBase):
 
         self.validated_config = valid_param
         self.msg = "Successfully validated playbook config params:{0}".format(
-            self.pprint(valid_param[0]))
+            self.pprint(valid_param))
         self.log(self.msg, "INFO")
         self.status = "success"
         return self
@@ -1045,7 +1116,6 @@ class Accesspoint(DnacBase):
                         self.msg = "AP {0} provisioned successfully.".format(self.have['hostname'])
                         self.log(self.msg, "INFO")
                         responses["accesspoints_updates"].update({
-                            "provision_response": provision_details,
                             "provision_message": self.msg
                         })
             else:
@@ -1060,12 +1130,10 @@ class Accesspoint(DnacBase):
         self.log("Comparing current AP configuration with input data.", "INFO")
         consolidated_data = self.config_diff(self.have["current_ap_config"])
         if not consolidated_data:
-            self.msg = "AP - {0} does not need any update"\
-                .format(self.have.get("current_ap_config").get("ap_name"))
+            self.msg = "AP - {0} does not need any update".format(self.have.get("current_ap_config").get("ap_name"))
             self.log(self.msg, "INFO")
             del self.payload["access_point_details"]
             responses["accesspoints_updates"].update({
-                "ap_config_response": self.payload["access_point_config"],
                 "ap_config_message": self.msg
             })
             self.result['ap_update_msg'] = self.msg
@@ -1088,27 +1156,26 @@ class Accesspoint(DnacBase):
 
                 if task_details_response.get("endTime") is not None:
                     if task_details_response.get("isError") is True:
-                        self.result['changed'] = False
+                        self.result['changed'] = True if self.result['changed'] is True else False
                         self.status = "failed"
                         self.msg = "Unable to get success response, hence AP config not updated"
                         self.log(self.msg, "ERROR")
                         self.log("Task Details: {0} .".format(self.pprint(
                             task_details_response)), "ERROR")
                         responses["accesspoints_updates"] = {
-                            "ap_update_config_task_response": task_response,
                             "ap_update_config_task_details": task_details_response,
                             "ap_config_update_status": self.msg}
                         self.module.fail_json(msg=self.msg, response=responses)
                     else:
                         self.result['changed'] = True
+                        self.result["ap_update_status"] = True
                         self.log("Task Details: {0} .".format(self.pprint(
                             task_details_response)), "INFO")
-                        self.msg = "AP Configuration - {0} updated Successfully"\
-                            .format(self.have["current_ap_config"].get("ap_name"))
+                        self.msg = "AP Configuration - {0} updated Successfully".format(
+                            self.have["current_ap_config"].get("ap_name"))
                         self.log(self.msg, "INFO")
                         responses["accesspoints_updates"] = {
-                            "ap_update_config_task_response": task_response,
-                            "ap_update_config_task_details": task_details_response,
+                            "ap_update_config_task_details": task_details_response["id"],
                             "ap_config_update_status": self.msg
                         }
                         self.result['ap_update_msg'] = self.msg
@@ -1159,59 +1226,71 @@ class Accesspoint(DnacBase):
 
         unmatch_count = 0
         require_update = self.config_diff(self.have["current_ap_config"])
+        self.log(self.pprint(require_update), "INFO")
         if require_update:
-            radio_list = require_update.get("radioConfigurations")
+            radio_list = require_update.get(self.keymap["radio_configurations"], [])
             if len(radio_list) > 0:
                 for each_radio in radio_list:
                     radio_key_list = list(each_radio.keys())
                     for each_key in radio_key_list:
-                        if each_key not in ("antenna_name", "radioType", "unmatch", "cable_loss"):
+                        if each_key not in ("antenna_name", self.keymap["radio_type"], "unmatch", "cable_loss",
+                                            self.keymap["radio_role_assignment"]):
                             unmatch_count += 1
 
             other_keys = list(require_update.keys())
+            self.log(other_keys, "INFO")
             for each_key in other_keys:
-                if each_key not in ("macAddress", "radioConfigurations", "isAssignedSiteAsLocation"):
+                if each_key not in (self.keymap["mac_address"], self.keymap["radio_configurations"],
+                                    self.keymap["is_assigned_site_as_location"],
+                                    self.keymap["primary_controller_name"], self.keymap["secondary_controller_name"],
+                                    self.keymap["tertiary_controller_name"], self.keymap["primary_ip_address"],
+                                    self.keymap["secondary_ip_address"], self.keymap["tertiary_ip_address"],
+                                    self.keymap["clean_air_si_2.4ghz"], self.keymap["clean_air_si_5ghz"],
+                                    self.keymap["clean_air_si_6ghz"]):
                     unmatch_count += 1
 
         self.log("Unmatch count for the radio configuration : {0}".format(str(unmatch_count)), "INFO")
         self.log(str(require_update), "INFO")
         responses = {}
-        responses["accesspoints_verify"] = {"want": self.want,
-                                            "have": self.have}
+        responses["accesspoints_verify"] = {}
 
-        if unmatch_count < 1:
-            msg = "The update for AP Config '{0}' has been successfully verified.".format(ap_name)
-            self.log(msg, "INFO")
-            self.status = "success"
-
-            ap_selected_fields = self.payload.get("config")[0].get("ap_selected_fields")
-            if ap_selected_fields is None or ap_selected_fields == "" or \
-               ap_selected_fields == "all":
-                self.payload["access_point_details"] = self.payload["access_point_details"]
-            else:
-                self.payload["access_point_details"] = self.data_frame(
-                    ap_selected_fields, [self.payload["access_point_details"]])
-
-            ap_config_selected_fields =\
-                self.payload.get("config")[0].get("ap_config_selected_fields")
-            if ap_config_selected_fields is None or ap_config_selected_fields == "" \
-               or ap_config_selected_fields == "all":
-                self.payload["access_point_config"] = self.payload["access_point_config"]
-            else:
-                self.payload["access_point_config"] = self.data_frame(
-                    ap_config_selected_fields, [self.payload["access_point_config"]])
-            self.have["current_ap_config"] = self.payload["access_point_config"]
-
-            responses["accesspoints_verify"]["ap_config_update_status"] = msg
-        elif self.have.get("site_required_changes") is False:
+        if self.have.get("site_required_changes") is False:
             msg = "AP provision for the site '{0}' has been successfully verified."\
                 .format(self.want.get("site_name"))
             responses["accesspoints_verify"]["ap_provision_update_status"] = msg
-        else:
-            self.msg = "Configuration for AP '{0}' does not match the desired state."\
-                .format(ap_name)
-            self.log(self.msg, "DEBUG")
-            self.status = "failed"
+            self.result['changed'] = True
+
+        self.log("Unmatch count for the radio configuration : {0}".format(str(unmatch_count)), "INFO")
+        if self.result.get("ap_update_status") is True:
+            if unmatch_count < 1:
+                msg = "The update for AP Config '{0}' has been successfully verified.".format(ap_name)
+                self.log(msg, "INFO")
+                self.status = "success"
+                self.result['changed'] = True
+
+                ap_selected_fields = self.payload.get("config")[0].get("ap_selected_fields")
+                if ap_selected_fields is None or ap_selected_fields == "" or ap_selected_fields == "all":
+                    self.payload["access_point_details"] = self.payload["access_point_details"]
+                else:
+                    self.payload["access_point_details"] = self.data_frame(
+                        ap_selected_fields, [self.payload["access_point_details"]])
+
+                ap_config_selected_fields =\
+                    self.payload.get("config")[0].get("ap_config_selected_fields")
+                if ap_config_selected_fields is None or ap_config_selected_fields == "" \
+                   or ap_config_selected_fields == "all":
+                    self.payload["access_point_config"] = self.payload["access_point_config"]
+                else:
+                    self.payload["access_point_config"] = self.data_frame(
+                        ap_config_selected_fields, [self.payload["access_point_config"]])
+                self.have["current_ap_config"] = self.payload["access_point_config"]
+
+                responses["accesspoints_verify"]["ap_config_update_status"] = msg
+            else:
+                self.msg = "Configuration for AP '{0}' does not match the desired state."\
+                    .format(ap_name)
+                self.log(self.msg, "DEBUG")
+                self.status = "failed"
 
         self.result['response'] = responses
         return self
@@ -1239,22 +1318,22 @@ class Accesspoint(DnacBase):
         for radio_type in self.radio_interface:
             ap_series = ap_config.get(radio_type)
             self.log('Validating radio type: {0}'.format(radio_type), "INFO")
+
             if ap_series is not None:
                 for series in self.allowed_series[radio_type]:
-                    pattern = r'\b{}\b'.format(re.escape(series))
-                    compiled_pattern = re.compile(pattern)
+                    compiled_pattern = re.compile(r'\b{0}\w+|\b{0}\b'.format(re.escape(series)))
                     is_valid = compiled_pattern.search(self.payload["access_point_details"]["series"])
                     if is_valid:
+                        invalid_series = []
                         break
 
-                    if not is_valid:
-                        invalid_entry = "Access Point series '{0}' not supported for the radio type {1} allowed series {2}".format(
-                            self.payload["access_point_details"]["series"],
-                            radio_type,
-                            str(self.allowed_series[radio_type])
-                        )
-                        self.log("Invalid series detected: {}".format(invalid_entry), "DEBUG")
-                        invalid_series.append(invalid_entry)
+                    invalid_entry = "Access Point series '{0}' not supported for the radio type {1} allowed series {2}".format(
+                        self.payload["access_point_details"]["series"],
+                        radio_type,
+                        str(series)
+                    )
+                    self.log("Invalid series detected: {}".format(invalid_entry), "DEBUG")
+                    invalid_series.append(invalid_entry)
 
         self.log("Completed validation. Invalid series: {}".format(invalid_series), "INFO")
         return invalid_series
@@ -1324,6 +1403,11 @@ class Accesspoint(DnacBase):
             param_spec = dict(type="str", length_max=32)
             validate_str(ap_name, param_spec, "ap_name", errormsg)
 
+        admin_status = ap_config.get("admin_status")
+        if admin_status and admin_status not in ("Enabled", "Disabled"):
+            errormsg.append("admin_status: Invalid value '{0}' for admin_status in playbook. Must be either 'Enabled' or 'Disabled'."
+                            .format(admin_status))
+
         led_brightness_level = ap_config.get("led_brightness_level")
         if led_brightness_level and led_brightness_level not in range(1, 9):
             errormsg.append("led_brightness_level: Invalid LED Brightness level '{0}' in playbook."
@@ -1337,6 +1421,11 @@ class Accesspoint(DnacBase):
         if location:
             param_spec = dict(type="str", length_max=255)
             validate_str(location, param_spec, "location", errormsg)
+
+        is_assigned_site_as_location = ap_config.get("is_assigned_site_as_location")
+        if is_assigned_site_as_location and is_assigned_site_as_location not in ("Disabled", "Enabled"):
+            errormsg.append("is_assigned_site_as_location: Invalid value '{0}' for is_assigned_site_as_location in playbook.\
+                            Must be either 'Disabled' or 'Enabled'.".format(is_assigned_site_as_location))
 
         ap_mode = ap_config.get("ap_mode")
         if ap_mode and ap_mode not in ("Local", "Monitor", "Sniffer", "Bridge"):
@@ -1356,14 +1445,16 @@ class Accesspoint(DnacBase):
 
         # Validate Controller Names
         for ctrl_name in ["primary_controller_name", "secondary_controller_name", "tertiary_controller_name"]:
-            if ap_config.get(ctrl_name) == "":
-                errormsg.append("{0}: Invalid {0} in playbook. Please select one of: Inherit from site/Clear or Controller name."
+            controller = ap_config.get(ctrl_name)
+            if controller == "":
+                errormsg.append("{0}: Invalid {0} in playbook. Please select one of: Inherit from site / Clear or Controller name."
                                 .format(ap_config.get(ctrl_name)))
 
         # Validate controller IP Addresses
         for ip_address in ["primary_ip_address", "secondary_ip_address", "tertiary_ip_address"]:
             ap_config_ip_address = ap_config.get(ip_address)
-            if ap_config_ip_address and not self.is_valid_ipv4(ap_config_ip_address["address"]):
+            address = ap_config_ip_address.get("address") if ap_config_ip_address else None
+            if address and (not self.is_valid_ipv4(address) and not self.is_valid_ipv6(address)):
                 errormsg.append("{0}: Invalid {0} '{1}' in playbook".format(ip_address,
                                                                             ap_config_ip_address))
 
@@ -1409,10 +1500,12 @@ class Accesspoint(DnacBase):
             errormsg.append("admin_status: Invalid value '{0}' for admin_status in playbook. Must be either 'Enabled' or 'Disabled'."
                             .format(admin_status))
 
-        radio_type_map = {"2.4ghz_radio": 1, "5ghz_radio": 2, "6ghz_radio": 6, "xor_radio": 3}
+        radio_type_map = {"2.4ghz_radio": 1, "5ghz_radio": 2, "6ghz_radio": 6,
+                          "xor_radio": 3, "tri_radio": 2}
         radio_config["radio_type"] = radio_type_map[radio_series]
         self.want[radio_series]["radio_type"] = radio_config["radio_type"]
         self.keymap["radio_type"] = "radioType"
+        radio_band = radio_config.get("radio_band")
 
         antenna_name = radio_config.get("antenna_name")
         if antenna_name:
@@ -1438,7 +1531,7 @@ class Accesspoint(DnacBase):
                 )
             else:
                 current_radio_role = self.check_current_radio_role_assignment(
-                    radio_series, self.have["current_ap_config"].get("radio_dtos" , []))
+                    radio_series, self.have["current_ap_config"].get("radio_dtos" , []), radio_band)
                 if self.want.get(radio_series).get("radio_role_assignment") != "Client-Serving" :
                     errormsg.append(
                         "channel_number: This configuration is only supported with Client-Serving Radio Role Assignment {0} "
@@ -1467,14 +1560,13 @@ class Accesspoint(DnacBase):
                 )
             else:
                 current_radio_role = self.check_current_radio_role_assignment(
-                    radio_series, self.have["current_ap_config"].get("radio_dtos", []))
+                    radio_series, self.have["current_ap_config"].get("radio_dtos", []), radio_band)
                 if self.want.get(radio_series).get("radio_role_assignment") != "Client-Serving" :
                     errormsg.append(
                         "powerlevel: This configuration is only supported with Client-Serving Radio Role Assignment {0} "
                         .format(current_radio_role)
                     )
 
-        radio_band = radio_config.get("radio_band")
         if radio_band and radio_band not in ("2.4 GHz", "5 GHz"):
             errormsg.append("radio_band: Invalid value '{0}' in playbook. Must be either '2.4 GHz' or '5 GHz'."
                             .format(radio_band))
@@ -1530,6 +1622,12 @@ class Accesspoint(DnacBase):
                    (radio_band == "5 GHz" and slot_id == 1):
                     break
 
+            if radio_type == "tri_radio":
+                if (radio_band == "2.4 GHz" and slot_id == 0) or \
+                   (radio_band == "5 GHz" and slot_id == 1) or \
+                   (radio_band == "5 GHz" and slot_id == 2):
+                    break
+
         self.log('Completed checking radio role assignments. Role assignment: {0}, radio type: {1}, radio band: {2}'
                  .format(role_assignment, radio_type, radio_band), "INFO")
         return role_assignment
@@ -1570,7 +1668,13 @@ class Accesspoint(DnacBase):
         self.keymap.update({
             "mac_address": "macAddress",
             "management_ip_address": "managementIpAddress",
-            "hostname": "hostname"
+            "hostname": "hostname",
+            "radio_configurations": "radioConfigurations",
+            "radio_type": "radioType",
+            "is_assigned_site_as_location": "isAssignedSiteAsLocation",
+            "clean_air_si_2.4ghz": "cleanAirSI24",
+            "clean_air_si_5ghz": "cleanAirSI5",
+            "clean_air_si_6ghz": "cleanAirSI6"
         })
 
         for key in ['mac_address', 'management_ip_address', 'hostname']:
@@ -2004,14 +2108,15 @@ class Accesspoint(DnacBase):
         available_key = {
             "_0": ("admin_status", "antenna_gain", "antenna_name", "radio_role_assignment",
                    "power_assignment_mode", "powerlevel", "channel_assignment_mode",
-                   "channel_number", "cable_loss", "antenna_cable_name", "radio_type"),
+                   "channel_number", "cable_loss", "antenna_cable_name", "radio_type",
+                   "radio_band"),
             "_1": ("admin_status", "antenna_gain", "antenna_name", "radio_role_assignment",
                    "power_assignment_mode", "powerlevel", "channel_assignment_mode",
                    "channel_number", "cable_loss", "antenna_cable_name", "channel_width",
-                   "radio_type"),
+                   "radio_type", "radio_band", "dual_radio_mode"),
             "_2": ("admin_status", "radio_role_assignment", "radio_type",
                    "power_assignment_mode", "powerlevel", "channel_assignment_mode",
-                   "channel_number", "channel_width"),
+                   "channel_number", "channel_width", "dual_radio_mode"),
             "_3": ("admin_status", "antenna_gain", "antenna_name", "radio_role_assignment",
                    "power_assignment_mode", "powerlevel", "channel_assignment_mode",
                    "channel_number", "cable_loss", "antenna_cable_name", "radio_band",
@@ -2041,7 +2146,7 @@ class Accesspoint(DnacBase):
                     temp_dtos[dto_key] = want_radio[dto_key]
                     self.log("Antenna cable name set to: {0}".format(want_radio[dto_key]), "INFO")
                 elif dto_key == "radio_type":
-                    temp_dtos["radioType"] = want_radio[dto_key]
+                    temp_dtos[self.keymap["radio_type"]] = want_radio[dto_key]
                     self.log("Radio type set to: {0}".format(want_radio[dto_key]), "INFO")
                 else:
                     if want_radio[dto_key] != current_radio[dto_key]:
@@ -2091,12 +2196,8 @@ class Accesspoint(DnacBase):
                         if self.want["ap_name"] != current_ap_config.get("ap_name"):
                             update_config["apNameNew"] = self.want["ap_name"]
                             update_config["apName"] = current_ap_config.get("ap_name")
-                    elif each_key in ("primary_ip_address", "secondary_ip_address",
-                                      "tertiary_ip_address"):
-                        if current_ap_config.get(each_key) != self.want.get(each_key):
-                            update_config[self.keymap[each_key]] = {}
-                            update_config[self.keymap[each_key]]["address"] = \
-                                self.want[each_key]["address"]
+                    elif each_key == "is_assigned_site_as_location":
+                        update_config["isAssignedSiteAsLocation"] = self.want["is_assigned_site_as_location"]
                     elif each_key in ("2.4ghz_radio", "5ghz_radio", "6ghz_radio",
                                       "xor_radio", "tri_radio"):
                         current_radio_dtos = current_ap_config.get("radio_dtos")
@@ -2111,10 +2212,10 @@ class Accesspoint(DnacBase):
                             elif each_key == "6ghz_radio" and each_radio["slot_id"] == 2:
                                 radio_data = self.compare_radio_config(each_radio,
                                                                        self.want[each_key])
-                            elif each_key == "xor_radio" and each_radio["slot_id"] == 3:
+                            elif each_key == "xor_radio" and each_radio["slot_id"] == 0:
                                 radio_data = self.compare_radio_config(each_radio,
                                                                        self.want[each_key])
-                            elif each_key == "tri_radio" and each_radio["slot_id"] == 4:
+                            elif each_key == "tri_radio" and each_radio.get("dual_radio_mode") is not None:
                                 radio_data = self.compare_radio_config(each_radio,
                                                                        self.want[each_key])
                         if radio_data.get("unmatch") != 0:
@@ -2145,15 +2246,55 @@ class Accesspoint(DnacBase):
                         update_config.get("apNameNew") is None:
                     del update_config["apName"]
 
-                if self.want.get("primary_controller_name") == "Inherit from site/Clear":
-                    update_config[self.keymap["primary_ip_address"]] = {}
-                    update_config[self.keymap["primary_ip_address"]]["address"] = \
-                        self.payload["access_point_details"][0]["associated_wlc_ip"]
-                    update_config[self.keymap["primary_controller_name"]] = \
-                        self.want["primary_controller_name"]
-                    self.want["primary_ip_address"] = {}
-                    self.want["primary_ip_address"]["address"] = \
-                        self.payload["access_point_details"][0]["associated_wlc_ip"]
+                for ctrl_name in ["primary_controller_name", "secondary_controller_name", "tertiary_controller_name"]:
+                    if ctrl_name == "primary_controller_name" and self.want.get(ctrl_name):
+                        if self.want.get(ctrl_name) == "Inherit from site / Clear":
+                            update_config[self.keymap[ctrl_name]] = self.want.get(ctrl_name)
+                            update_config[self.keymap["primary_ip_address"]] = {}
+                            update_config[self.keymap["primary_ip_address"]]["address"] = "0.0.0.0"
+                            update_config[self.keymap["secondary_controller_name"]] = self.want.get(ctrl_name)
+                            update_config[self.keymap["secondary_ip_address"]] = {}
+                            update_config[self.keymap["secondary_ip_address"]]["address"] = "0.0.0.0"
+                            update_config[self.keymap["tertiary_controller_name"]] = self.want.get(ctrl_name)
+                            update_config[self.keymap["tertiary_ip_address"]] = {}
+                            update_config[self.keymap["tertiary_ip_address"]]["address"] = "0.0.0.0"
+                        else:
+                            update_config[self.keymap[ctrl_name]] = self.want[ctrl_name]
+                            update_config[self.keymap["primary_ip_address"]] = {}
+                            if self.want.get("primary_ip_address", {}).get("address"):
+                                update_config[self.keymap["primary_ip_address"]]["address"] = \
+                                    self.want["primary_ip_address"]["address"]
+                            else:
+                                update_config[self.keymap["primary_ip_address"]]["address"] = "0.0.0.0"
+                    elif ctrl_name == "secondary_controller_name" and self.want.get(ctrl_name):
+                        if self.want.get(ctrl_name) == "Inherit from site / Clear":
+                            update_config[self.keymap[ctrl_name]] = self.want.get(ctrl_name)
+                            update_config[self.keymap["secondary_ip_address"]] = {}
+                            update_config[self.keymap["secondary_ip_address"]]["address"] = "0.0.0.0"
+                            update_config[self.keymap["tertiary_controller_name"]] = self.want.get(ctrl_name)
+                            update_config[self.keymap["tertiary_ip_address"]] = {}
+                            update_config[self.keymap["tertiary_ip_address"]]["address"] = "0.0.0.0"
+                        else:
+                            update_config[self.keymap[ctrl_name]] = self.want[ctrl_name]
+                            update_config[self.keymap["secondary_ip_address"]] = {}
+                            if self.want.get("secondary_ip_address", {}).get("address"):
+                                update_config[self.keymap["secondary_ip_address"]]["address"] = \
+                                    self.want["secondary_ip_address"]["address"]
+                            else:
+                                update_config[self.keymap["secondary_ip_address"]]["address"] = "0.0.0.0"
+                    elif ctrl_name == "tertiary_controller_name" and self.want.get(ctrl_name):
+                        if self.want.get(ctrl_name) == "Inherit from site / Clear":
+                            update_config[self.keymap[ctrl_name]] = self.want.get(ctrl_name)
+                            update_config[self.keymap["tertiary_ip_address"]] = {}
+                            update_config[self.keymap["tertiary_ip_address"]]["address"] = "0.0.0.0"
+                        else:
+                            update_config[self.keymap[ctrl_name]] = self.want[ctrl_name]
+                            update_config[self.keymap["tertiary_ip_address"]] = {}
+                            if self.want.get("tertiary_ip_address", {}).get("address"):
+                                update_config[self.keymap["tertiary_ip_address"]]["address"] = \
+                                    self.want["tertiary_ip_address"]["address"]
+                            else:
+                                update_config[self.keymap["tertiary_ip_address"]]["address"] = "0.0.0.0"
 
                 if update_config:
                     update_config["macAddress"] = current_ap_config["eth_mac"]
@@ -2184,11 +2325,14 @@ class Accesspoint(DnacBase):
 
         self.log("Updating access point configuration information: {0}"
                  .format(ap_config["macAddress"]), "INFO")
-        ap_config["adminStatus"] = True
-        ap_config["configureAdminStatus"] = True
 
         ap_config["apList"] = []
         temp_dict = {}
+
+        if ap_config.get("adminStatus") is not None:
+            ap_config["configureAdminStatus"] = True
+            ap_config["adminStatus"] = True \
+                if ap_config["adminStatus"] == "Enabled" else False
 
         if ap_config.get(self.keymap["ap_name"]) is not None:
             temp_dict[self.keymap["ap_name"]] = ap_config.get(self.keymap["ap_name"])
@@ -2203,8 +2347,11 @@ class Accesspoint(DnacBase):
 
         if ap_config.get(self.keymap["location"]) is not None:
             ap_config["configureLocation"] = True
-        else:
-            ap_config["isAssignedSiteAsLocation"] = True
+
+        if ap_config.get("isAssignedSiteAsLocation") is not None:
+            ap_config["configureLocation"] = True
+            ap_config["isAssignedSiteAsLocation"] = True \
+                if ap_config["isAssignedSiteAsLocation"] == "Enabled" else False
 
         if ap_config.get(self.keymap["led_brightness_level"]) is not None:
             ap_config["configureLedBrightnessLevel"] = True
@@ -2265,8 +2412,10 @@ class Accesspoint(DnacBase):
             for each_radio in radio_config_list:
                 radio_dtos = {}
 
-                radio_dtos["configureAdminStatus"] = True
-                radio_dtos["adminStatus"] = True
+                if each_radio.get(self.keymap["admin_status"]) is not None:
+                    radio_dtos["configureAdminStatus"] = True
+                    radio_dtos[self.keymap["admin_status"]] = True \
+                        if each_radio[self.keymap["admin_status"]] == "Enabled" else False
 
                 if each_radio.get(self.keymap["channel_assignment_mode"]) is not None:
                     radio_dtos[self.keymap["channel_assignment_mode"]] = 1 \
@@ -2353,7 +2502,7 @@ class Accesspoint(DnacBase):
         try:
             response = self.dnac._exec(
                 family="wireless",
-                function='configure_access_points_v1',
+                function='configure_access_points_v2',
                 op_modifies=True,
                 params={"payload": ap_config}
             )
@@ -2410,60 +2559,6 @@ class Accesspoint(DnacBase):
             self.log("Unable to filter fields: {0}".format(str(e)) , "ERROR")
             return None
 
-    def map_config_key_to_api_param(self, keymap=any, data=any):
-        """
-        Converts keys in a dictionary from CamelCase to snake_case and creates a keymap.
-
-        Parameters:
-            keymap (dict): Already existing key map dictionary to add to or empty dict {}.
-            data (dict): Input data where keys need to be mapped using the key map.
-
-        Returns:
-            dict: A dictionary with the original keys as values and the converted snake_case
-                    keys as keys.
-
-        Example:
-            functions = Accesspoint(module)
-            keymap = functions.map_config_key_to_api_param(keymap, device_data)
-        """
-
-        if keymap is None:
-            keymap = {}
-
-        if isinstance(data, dict):
-            keymap.update(keymap)
-
-            for key, value in data.items():
-                new_key = re.sub(r'([a-z0-9])([A-Z])', r'\1_\2', key).lower()
-                keymap[new_key] = key
-
-                if isinstance(value, dict):
-                    self.map_config_key_to_api_param(keymap, value)
-                elif isinstance(value, list):
-
-                    for item in value:
-                        if isinstance(item, dict):
-                            self.map_config_key_to_api_param(keymap, item)
-
-        elif isinstance(data, list):
-            for item in data:
-                if isinstance(item, dict):
-                    self.map_config_key_to_api_param(keymap, item)
-
-        return keymap
-
-    def pprint(self, jsondata):
-        """
-        Pretty prints JSON/dictionary data in a readable format.
-
-        Parameters:
-            jsondata (dict): Dictionary data to be printed.
-
-        Returns:
-            str: Formatted JSON string.
-        """
-        return json.dumps(jsondata, indent=4, separators=(',', ': '))
-
     def camel_to_snake_case(self, config):
         """
         Convert camel case keys to snake case keys in the config.
@@ -2487,6 +2582,38 @@ class Accesspoint(DnacBase):
             return config
 
         return new_config
+
+    def consolidate_output(self):
+        """
+        Bulk access point changes collect each output update in the response.
+
+        Parameters:
+            self (dict): A dictionary used to collect the execution results.
+
+        Returns:
+            dict: A dictionary containing the result of the access point update response.
+        """
+        each_result = {
+            "changed": self.result["changed"],
+            "response": self.result["response"].get("accesspoints_verify"),
+            "ap_update_msg": self.result["ap_update_msg"]
+        }
+        self.payload["consolidated_result"].append(each_result)
+        self.log("Each execution Result {0}".format(self.pprint(self.result)))
+        self.result['changed'] = False
+
+        for each_cosolidated in self.payload["consolidated_result"]:
+            if each_cosolidated['changed']:
+                self.result['changed'] = True
+                break
+
+        if self.result['changed']:
+            self.status = "success"
+
+        self.msg = self.pprint(self.payload["consolidated_result"])
+        self.result['response'] = self.payload["consolidated_result"]
+        self.log("Consolidated Result: {0}".format(self.pprint(self.result)))
+        return self
 
 
 def main():
@@ -2535,8 +2662,12 @@ def main():
         ccc_network.get_diff_state_apply[state](config).check_return_status()
 
         if config_verify:
-            time.sleep(20)
+            waiting_time_to_verify = 10
+            ccc_network.log("Starting verify AP details after {0} seconds".format(
+                str(waiting_time_to_verify)), "INFO")
+            time.sleep(waiting_time_to_verify)
             ccc_network.verify_diff_state_apply[state](config).check_return_status()
+            ccc_network.consolidate_output()
 
     module.exit_json(**ccc_network.result)
 

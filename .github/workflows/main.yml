@@ -13,13 +13,3 @@ jobs:
         with:
           name: github_ref-${{ github.run_id }}
           path: github_ref
-  automerge:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: reitermarkus/automerge@v2
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          merge-method: rebase
-          do-not-merge-labels: never-merge
-#          pull-request: ${{ github.event.inputs.pull-request }}
-          dry-run: true
