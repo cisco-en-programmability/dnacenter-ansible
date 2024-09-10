@@ -1695,10 +1695,38 @@ class Inventory(DnacBase):
                 self.result['response'] = self.msg
                 return self
 
-            provision_wired_params = {
-                'deviceManagementIpAddress': device_ip,
-                'siteNameHierarchy': site_name
-            }
+            if self.dnac_version <= self.version_2_3_5_3:
+                provision_wired_params = {
+                    'deviceManagementIpAddress': device_ip,
+                    'siteNameHierarchy': site_name
+                }
+
+            elif self.dnac_version >= self.version_2_3_7_6:
+                try:
+                    response = self.get_sites(site_name)
+                    self.log("Received API response from 'get_sites': {0}".format(str(response)), "DEBUG")
+                    site = response.get("response")
+                    site_id = site[0].get("id")
+
+                except Exception as e:
+                    self.status = "failed"
+                    # self.msg =  ("'An exception occurred: Site '{0}' does not exist in the Cisco Catalyst Center' or 'In this version '{1}' "
+                    #            ", 'get_sites' is not supported'").format(site_name, self.payload.get("dnac_version"))
+                    self.log(self.msg, "ERROR")
+                    self.check_return_status()
+
+                device_ids = self.get_device_ids([device_ip])
+                device_id = device_ids[0]
+
+                assign_network_device_to_site = {
+                                'deviceIds': device_id,
+                                'siteId': site_id,
+                                }
+
+                provision_params = {
+                    "siteId": site_id,
+                    "networkDeviceId": device_id
+                    }
 
             # Check the provisioning status of device
             device_prov_status = self.get_provision_wired_device(device_ip)
@@ -1746,38 +1774,84 @@ class Inventory(DnacBase):
                             be performed.""".format(device_ip), "WARNING")
                 continue
 
-            try:
-                response = self.dnac._exec(
-                    family="sda",
-                    function='provision_wired_device',
-                    op_modifies=True,
-                    params=provision_wired_params,
-                )
+            if self.dnac_version <= self.version_2_3_5_3:
+                try:
+                    response = self.dnac._exec(
+                        family="sda",
+                        function='provision_wired_device',
+                        op_modifies=True,
+                        params=provision_wired_params,
+                    )
 
-                if response.get("status") == "failed":
-                    description = response.get("description")
-                    error_msg = "Cannot do Provisioning for device {0} beacuse of {1}".format(device_ip, description)
-                    self.log(error_msg, "ERROR")
-                    continue
+                    if response.get("status") == "failed":
+                        description = response.get("description")
+                        error_msg = "Cannot do Provisioning for device {0} beacuse of {1}".format(device_ip, description)
+                        self.log(error_msg, "ERROR")
+                        continue
 
-                task_id = response.get("taskId")
+                    task_id = response.get("taskId")
 
-                while True:
-                    execution_details = self.get_task_details(task_id)
-                    progress = execution_details.get("progress")
+                    while True:
+                        execution_details = self.get_task_details(task_id)
+                        progress = execution_details.get("progress")
 
-                    if 'TASK_PROVISION' in progress:
-                        self.handle_successful_provisioning(device_ip, execution_details, device_type)
-                        provision_count += 1
+                        if 'TASK_PROVISION' in progress:
+                            self.handle_successful_provisioning(device_ip, execution_details, device_type)
+                            provision_count += 1
+                            break
+                        elif execution_details.get("isError"):
+                            self.handle_failed_provisioning(device_ip, execution_details, device_type)
+                            break
+
+                except Exception as e:
+                    # Not returning from here as there might be possiblity that for some devices it comes into exception
+                    # but for others it gets provision successfully or If some devices are already provsioned
+                    self.handle_provisioning_exception(device_ip, e, device_type)
+
+            elif self.dnac_version >= self.version_2_3_7_6:
+                try:
+                    response = self.dnac._exec(
+                        family="site_design",
+                        function='assign_network_devices_to_a_site',
+                        op_modifies=True,
+                        params=assign_network_device_to_site,
+                    )
+                    task_id = response.get("taskId")
+
+                    while True: # touching code is required
+                        execution_details = self.get_task_details(task_id)
+                        progress = execution_details.get("progress")
                         break
-                    elif execution_details.get("isError"):
-                        self.handle_failed_provisioning(device_ip, execution_details, device_type)
-                        break
 
-            except Exception as e:
-                # Not returning from here as there might be possiblity that for some devices it comes into exception
-                # but for others it gets provision successfully or If some devices are already provsioned
-                self.handle_provisioning_exception(device_ip, e, device_type)
+                    response = self.dnac._exec(
+                        family="sda",
+                        function='provision_devices',
+                        op_modifies=True,
+                        params=provision_params,
+                    )
+
+                    if response.get("status") == "failed":
+                        description = response.get("description")
+                        error_msg = "Cannot do Provisioning for device {0} beacuse of {1}".format(device_ip, description)
+                        self.log(error_msg, "ERROR")
+                        continue
+                    task_id = response.get("taskId")
+
+                    while True:
+                        execution_details = self.get_task_details(task_id)
+                        progress = execution_details.get("progress")
+
+                        if 'TASK_PROVISION' in progress:
+                            self.handle_successful_provisioning(device_ip, execution_details, device_type)
+                            provision_count += 1
+                            break
+                        elif execution_details.get("isError"):
+                            self.handle_failed_provisioning(device_ip, execution_details, device_type)
+                            break
+
+                except:
+                    pass
+
 
         # Check If all the devices are already provsioned, return from here only
         if already_provision_count == total_devices_to_provisioned:
@@ -3682,13 +3756,10 @@ class Inventory(DnacBase):
                             family="sda",
                             function='delete_provisioned_devices',
                             op_modifies=True,
-                            params=provision_params,
+                            params={'networkDeviceId': device_id},
                         )
                         self.log("Received API response from 'delete_provisioned_devices': {0}".format(str(prov_respone)), "DEBUG")
                         response = response.get("response")
-
-
-
 
 
             except Exception as e:
