@@ -856,6 +856,7 @@ class Swim(DnacBase):
         """
 
         device_uuid_list = []
+        device_id_list, site_response_list = [], []
         if not site_name:
             site_name = "Global"
             self.log("Site name not specified; defaulting to 'Global' to fetch all devices under this category", "INFO")
@@ -893,7 +894,6 @@ class Swim(DnacBase):
             self.log("Received API response from 'get_membership': {0}".format(str(response)), "DEBUG")
             response = response.get("device")
 
-            site_response_list = []
             for item in response:
                 if item['response']:
                     for item_dict in item['response']:
@@ -908,16 +908,17 @@ class Swim(DnacBase):
                     params={"site_id": site_id},
                 )
                 self.log("Received API response from 'get_site_assigned_network_devices': {0}".format(str(response)), "DEBUG")
+                response = response.get('response')
+
+                if not response:
+                    self.log("No devices found for site '{0}'.". format(site_name), "WARNING")
+
+                for device_id in response:
+                    device_id_list.append(device_id.get("deviceId"))
 
             except Exception as e:
                 self.log("Unable to fetch the device(s) associated to the site '{0}' due to '{1}'".format(site_name, str(e)), "WARNING")
                 return device_uuid_list
-
-            response = response.get('response')
-            device_id_list, site_response_list = [], []
-
-            for device_id in response:
-                device_id_list.append(device_id.get("deviceId"))
 
             try:
 
@@ -955,7 +956,11 @@ class Swim(DnacBase):
             except Exception as e:
                 self.log("Unable to fetch the device(s) associated to the site '{0}' due to '{1}'".format(site_name, str(e)), "WARNING")
                 return device_uuid_list
-            self.log("family = 'get_site_assigned_network_devices' version 2.3.7.6")
+
+        self.device_ips = []
+        for item in site_response_list:
+            device_ip = item["managementIpAddress"]
+            self.device_ips.append(device_ip)
 
         if device_role.upper() == 'ALL':
             device_role = None
@@ -1219,7 +1224,13 @@ class Swim(DnacBase):
                 want["local_import_details"] = config.get("import_image_details").get("local_image_details")
             elif want["import_type"] == "cco":
                 if self.dnac_version >= self.version_2_3_7_6:
-                    want["cco_import_details"] = config.get("import_image_details").get("cco_image_details")
+                    cco_import_details = config.get("import_image_details", {}).get("cco_image_details")
+
+                    if cco_import_details is not None and cco_import_details.get("image_name") is not None:
+                        want["cco_import_details"] = cco_import_details
+                    else:
+                        self.log("CCO import details are missing from the provided configuration.", "ERROR")
+                        self.module.fail_json(msg="Missing CCO import details in the configuration.")
                 else:
                     self.log(
                         "In this version '{0}' CCO based importing is not supported."
@@ -1727,12 +1738,14 @@ class Swim(DnacBase):
 
         if device_distribution_count == 0:
             self.status = "failed"
-            self.msg = "Image with Id {0} Distribution Failed for all devices".format(image_id)
+            self.msg = "Image with Id {0} Distribution Failed for all devices '{1}'".format(image_id, "', '".join(self.device_ips))
+            self.result['response'] = self.msg
         elif device_distribution_count == len(device_uuid_list):
             self.result['changed'] = True
             self.status = "success"
             self.complete_successful_distribution = True
-            self.msg = "Image with Id {0} Distributed Successfully for all devices".format(image_id)
+            self.msg = "Image with Id {0} Distributed Successfully for all devices '{1}'".format(image_id, "', '".join(self.device_ips))
+            self.result['response'] = self.msg
         else:
             self.result['changed'] = True
             self.status = "success"
@@ -1860,12 +1873,12 @@ class Swim(DnacBase):
 
         if device_activation_count == 0:
             self.status = "failed"
-            self.msg = "Image with Id '{0}' activation failed for all devices".format(image_id)
+            self.msg = "Image with Id '{0}' activation failed for all devices '{1}'".format(image_id, "', '".join(self.device_ips))
         elif device_activation_count == len(device_uuid_list):
             self.result['changed'] = True
             self.status = "success"
             self.complete_successful_activation = True
-            self.msg = "Image with Id '{0}' activated successfully for all devices".format(image_id)
+            self.msg = "Image with Id '{0}' activated successfully for all devices '{1}'".format(image_id, "', '".join(self.device_ips))
         else:
             self.result['changed'] = True
             self.status = "success"
