@@ -2365,8 +2365,8 @@ class NetworkSettings(DnacBase):
             client_and_endpoint_aaa = want_network_details.get("settings").get("clientAndEndpoint_aaa")
 
             # Check update is required or not
-            if not (network_aaa.get("sharedSecret") or
-                    client_and_endpoint_aaa.get("sharedSecret") or
+            if not ((network_aaa and network_aaa.get("sharedSecret")) or
+                    (client_and_endpoint_aaa and client_and_endpoint_aaa.get("sharedSecret")) or
                     self.requires_update(have_network_details, want_network_details, self.network_obj_params)):
 
                 self.log("Network in site '{0}' doesn't require an update.".format(site_name), "INFO")
