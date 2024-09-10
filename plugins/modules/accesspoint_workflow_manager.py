@@ -371,7 +371,7 @@ options:
           power_assignment_mode:
             description: |
               Mode of power assignment for the xor radio interface. Accepts "Global" or "Custom".
-              In Custom, it accepts values 1 to 5.
+              In Custom, it accepts values 1 to 8.
             type: str
             required: False
           power_level:
@@ -429,7 +429,7 @@ options:
           power_assignment_mode:
             description: |
                 Mode of power assignment for the tri radio interface. Accepts "Global" or "Custom".
-                In Custom, it accepts values 1 to 5.
+                In Custom, it accepts values 1 to 8.
             type: str
             required: False
           power_level:
@@ -875,6 +875,7 @@ class Accesspoint(DnacBase):
         super().__init__(module)
         self.supported_states = ["merged"]
         self.payload = module.params
+        self.payload["consolidated_result"] = []
         self.keymap = {}
         self.radio_interface = ["6ghz_radio", "xor_radio", "tri_radio"]
         self.allowed_series = {
@@ -919,9 +920,6 @@ class Accesspoint(DnacBase):
             self.log(self.msg, "ERROR")
             return self
 
-        ap_list = self.payload.get("config")
-        ap_list = self.camel_to_snake_case(ap_list)
-        ap_list = self.update_site_type_key(ap_list)
         accesspoint_spec = {
             "mac_address": {"required": False, "type": "str"},
             "management_ip_address": {"required": False, "type": "str"},
@@ -932,7 +930,7 @@ class Accesspoint(DnacBase):
             "ap_name": {"required": False, "type": "str"},
             "admin_status": {"required": False, "type": "str"},
             "led_status": {"required": False, "type": "str"},
-            "led_brightness_level": {"required": False, "type": "int"},
+            "led_brightness_level": {"required": False, "type": "int", "range_min": 1, "range_max": 8},
             "ap_mode": {"required": False, "type": "str"},
             "location": {"required": False, "type": "str"},
             "is_assigned_site_as_location": {"required": False, "type": "str"},
@@ -954,31 +952,32 @@ class Accesspoint(DnacBase):
             "ap_selected_fields": {"required": False, "type": "str"},
             "ap_config_selected_fields": {"required": False, "type": "str"}
         }
+        radio_config_spec = {
+            "admin_status": {"required": False, "type": "str"},
+            "dual_radio_mode": {"required": False, "type": "str"},
+            "antenna_name": {"required": False, "type": "str"},
+            "antenna_gain": {"required": False, "type": "int"},
+            "radio_role_assignment": {"required": False, "type": "str"},
+            "cable_loss": {"required": False, "type": "int"},
+            "antenna_cable_name": {"required": False, "type": "str"},
+            "channel_assignment_mode": {"required": False, "type": "str"},
+            "channel_number": {"required": False, "type": "int"},
+            "power_assignment_mode": {"required": False, "type": "str"},
+            "powerlevel": {"required": False, "type": "int", "range_min": 1, "range_max": 8},
+            "channel_width": {"required": False, "type": "str"},
+            "radio_band": {"required": False, "type": "str"}
+        }
+        ap_list = self.update_site_type_key(self.camel_to_snake_case(self.payload.get("config")))
 
         invalid_list_radio = []
-        for each_radio in ("2.4ghz_radio", "5ghz_radio", "6ghz_radio", "xor_radio", "tri_radio"):
-            radio_config = ap_list[0].get(each_radio)
-            valid_param_radio, invalid_params_radio = (None, None)
-            if radio_config:
-                radio_config_spec = {
-                    "admin_status": {"required": False, "type": "str"},
-                    "dual_radio_mode": {"required": False, "type": "str"},
-                    "antenna_name": {"required": False, "type": "str"},
-                    "antenna_gain": {"required": False, "type": "int"},
-                    "radio_role_assignment": {"required": False, "type": "str"},
-                    "cable_loss": {"required": False, "type": "int"},
-                    "antenna_cable_name": {"required": False, "type": "str"},
-                    "channel_assignment_mode": {"required": False, "type": "str"},
-                    "channel_number": {"required": False, "type": "int"},
-                    "power_assignment_mode": {"required": False, "type": "str"},
-                    "powerlevel": {"required": False, "type": "int"},
-                    "channel_width": {"required": False, "type": "str"},
-                    "radio_band": {"required": False, "type": "str"}
-                }
-                valid_param_radio, invalid_params_radio = \
-                    validate_list_of_dicts([radio_config], radio_config_spec)
-                if len(invalid_params_radio) > 0:
-                    invalid_list_radio.append(each_radio + str(invalid_params_radio))
+        for each_ap in ap_list:
+            for each_radio in ("2.4ghz_radio", "5ghz_radio", "6ghz_radio", "xor_radio", "tri_radio"):
+                radio_config = each_ap.get(each_radio)
+                if radio_config:
+                    valid_param_radio, invalid_params_radio = \
+                        validate_list_of_dicts([radio_config], radio_config_spec)
+                    if len(invalid_params_radio) > 0:
+                        invalid_list_radio.append(each_radio + str(invalid_params_radio))
 
         valid_param, invalid_params = validate_list_of_dicts(ap_list, accesspoint_spec)
 
@@ -992,7 +991,7 @@ class Accesspoint(DnacBase):
 
         self.validated_config = valid_param
         self.msg = "Successfully validated playbook config params:{0}".format(
-            self.pprint(valid_param[0]))
+            self.pprint(valid_param))
         self.log(self.msg, "INFO")
         self.status = "success"
         return self
@@ -2584,6 +2583,38 @@ class Accesspoint(DnacBase):
 
         return new_config
 
+    def consolidate_output(self):
+        """
+        Bulk access point changes collect each output update in the response.
+
+        Parameters:
+            self (dict): A dictionary used to collect the execution results.
+
+        Returns:
+            dict: A dictionary containing the result of the access point update response.
+        """
+        each_result = {
+            "changed": self.result["changed"],
+            "response": self.result["response"].get("accesspoints_verify"),
+            "ap_update_msg": self.result["ap_update_msg"]
+        }
+        self.payload["consolidated_result"].append(each_result)
+        self.log("Each execution Result {0}".format(self.pprint(self.result)))
+        self.result['changed'] = False
+
+        for each_cosolidated in self.payload["consolidated_result"]:
+            if each_cosolidated['changed']:
+                self.result['changed'] = True
+                break
+
+        if self.result['changed']:
+            self.status = "success"
+
+        self.msg = self.pprint(self.payload["consolidated_result"])
+        self.result['response'] = self.payload["consolidated_result"]
+        self.log("Consolidated Result: {0}".format(self.pprint(self.result)))
+        return self
+
 
 def main():
     """ main entry point for module execution
@@ -2631,8 +2662,12 @@ def main():
         ccc_network.get_diff_state_apply[state](config).check_return_status()
 
         if config_verify:
-            time.sleep(20)
+            waiting_time_to_verify = 10
+            ccc_network.log("Starting verify AP details after {0} seconds".format(
+                str(waiting_time_to_verify)), "INFO")
+            time.sleep(waiting_time_to_verify)
             ccc_network.verify_diff_state_apply[state](config).check_return_status()
+            ccc_network.consolidate_output()
 
     module.exit_json(**ccc_network.result)
 
