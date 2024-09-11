@@ -1136,6 +1136,9 @@ class Accesspoint(DnacBase):
                 self.result['changed'] = False
                 responses["accesspoints_updates"].update({"provision_message": self.msg})
 
+        if not self.ap_update_required:
+            return self
+
         time.sleep(self.payload.get("next_task_after_interval"))
 
         self.log("Comparing current AP configuration with input data.", "INFO")
@@ -1147,8 +1150,7 @@ class Accesspoint(DnacBase):
             responses["accesspoints_updates"].update({
                 "ap_config_message": self.msg
             })
-            self.result['ap_update_msg'] = self.msg
-            self.result["changed"] = False
+            self.result["changed"] = True if self.result["changed"] else False
             self.result["response"] = responses
             return self
 
@@ -1198,6 +1200,23 @@ class Accesspoint(DnacBase):
         self.result["response"] = responses
         return self
 
+    def ap_update_required(self):
+        """
+        Check specified keys are there for AP updation.
+        """
+        required_keys_for_updates = [ "ap_name", "admin_status",
+            "led_status", "led_brightness_level", "ap_mode", "location",
+            "failover_priority", "clean_air_si_2.4ghz", "clean_air_si_5ghz", "clean_air_si_6ghz",
+            "primary_controller_name", "primary_ip_address", "secondary_controller_name", "address",
+            "secondary_ip_address", "tertiary_controller_name", "tertiary_ip_address", "2.4ghz_radio",
+            "antenna_name", "radio_role_assignment", "cable_loss", "antenna_cable_name",
+            "channel_assignment_mode", "channel_number", "power_assignment_mode", "powerlevel",
+            "antenna_gain", "channel_width", "5ghz_radio", "6ghz_radio",
+            "xor_radio", "radio_band", "tri_radio", "dual_radio_mode"]
+        want_key_list = self.want.keys()
+        common_keys = set(want_key_list).intersection(required_keys_for_updates)
+        return bool(common_keys)
+
     def verify_diff_merged(self, config):
         """
         Verify if configuration changes for an Access Point (AP) have been successfully applied
@@ -1232,7 +1251,7 @@ class Accesspoint(DnacBase):
 
         self.status = "success"
         self.msg = """The requested AP Config '{0}' is present in the Cisco Catalyst Center
-                    and its creation has been verified.""".format(ap_name)
+                    and its updation has been verified.""".format(ap_name)
         self.log(self.msg, "INFO")
 
         unmatch_count = 0
@@ -1945,7 +1964,7 @@ class Accesspoint(DnacBase):
             )
 
             if not response.get("device"):
-                self.log("No site information found : {sId},".format(sId=site_id), "INFO")
+                self.log("No device found in the site: {sId},".format(sId=site_id), "INFO")
                 return False
 
             device_mac_info = []
@@ -1964,7 +1983,7 @@ class Accesspoint(DnacBase):
                 )
                 return True
             else:
-                self.log("No site information found : {sId},".format(sId=site_id), "INFO")
+                self.log("Given device not found on the site: {sId},".format(sId=site_id), "INFO")
                 return False
 
         except Exception as e:
@@ -2033,8 +2052,6 @@ class Accesspoint(DnacBase):
             site name hierarchy, RF profile, hostname, and AP type. Logs details
             and handles
         """
-
-
         provision_status = "failed"
         provision_details = None
         site_name_hierarchy = self.have.get("site_name_hierarchy")
@@ -2065,16 +2082,17 @@ class Accesspoint(DnacBase):
                 params={"payload": provision_params},
             )
 
-            self.log('Response from ap_provision: {0}'.format(str(response)), "INFO")
+            self.log('Response from ap_provision: {0}'.format(self.pprint(response)), "INFO")
         except Exception as e:
-            error_msg = 'Unable to execute ap provisioning function: {0}'.format(str(e))
+            error_msg = 'An error occurred during device provisioning: {0}'.format(str(e))
             self.log(error_msg, "ERROR")
             self.status = "failed"
 
+        try:
             if response and isinstance(response, dict):
                 executionid = response.get("executionId")
-                resync_retry_count = self.payload.get("dnac_api_task_timeout", 100)
-                resync_retry_interval = self.payload.get("dnac_task_poll_interval", 5)
+                resync_retry_count = int(self.payload.get("dnac_api_task_timeout", 100))
+                resync_retry_interval = int(self.payload.get("dnac_task_poll_interval", 5))
 
                 while resync_retry_count:
                     execution_details = self.get_execution_details(executionid)
@@ -2084,9 +2102,9 @@ class Accesspoint(DnacBase):
                         provision_status = "SUCCESS"
                         provision_details = execution_details
                         break
-                    elif execution_details.get("bapiError"):
+                    elif execution_details.get("status") == "FAILURE":
                         self.module.fail_json(msg=execution_details.get("bapiError"),
-                                              response=execution_details)
+                                              response=str(execution_details))
                         break
 
                     time.sleep(resync_retry_interval)
@@ -2613,7 +2631,6 @@ class Accesspoint(DnacBase):
         each_result = {
             "changed": self.result["changed"],
             "response": self.result["response"].get("accesspoints_verify"),
-            "ap_update_msg": self.result["ap_update_msg"]
         }
         self.payload["consolidated_result"].append(each_result)
         self.log("Each execution Result {0}".format(self.pprint(self.result)))
@@ -2630,6 +2647,7 @@ class Accesspoint(DnacBase):
         self.msg = self.pprint(self.payload["consolidated_result"])
         self.result['response'] = self.payload["consolidated_result"]
         self.log("Consolidated Result: {0}".format(self.pprint(self.result)))
+
         return self
 
 
