@@ -927,11 +927,12 @@ class Inventory(DnacBase):
                         function='get_device_list',
                     )
                 offset = offset + 1
+                self.log(response)
                 response = response.get("response")
+                self.log(response)
                 if not response:
                     self.log("There are no device details received from 'get_device_list' API.", "INFO")
                     break
-
                 self.log("Received API response from 'get_device_list': {0}".format(str(response)), "DEBUG")
                 for ip in response:
                     device_ip = ip["managementIpAddress"]
@@ -1818,10 +1819,14 @@ class Inventory(DnacBase):
                     )
                     task_id = response.get("taskId")
 
-                    while True: # touching code is required
+                    while True: 
                         execution_details = self.get_task_details(task_id)
                         progress = execution_details.get("progress")
-                        break
+                        if "success" in progress:
+                            break
+                        elif execution_details.get("isError"):
+                            error_msg = "Assigning network device failed for the device {0} ".format(device_ip)
+                            self.log(error_msg, "ERROR")
 
                     response = self.dnac._exec(
                         family="sda",
@@ -1829,7 +1834,7 @@ class Inventory(DnacBase):
                         op_modifies=True,
                         params=provision_params,
                     )
-
+                    self.log(response)
                     if response.get("status") == "failed":
                         description = response.get("description")
                         error_msg = "Cannot do Provisioning for device {0} beacuse of {1}".format(device_ip, description)
@@ -3634,7 +3639,7 @@ class Inventory(DnacBase):
             also unprovsioned and removed wired provsion devices from the Inventory page and also delete
             the Global User Defined Field that are associated to the devices.
         """
-
+        self.log("inside deleted")
         device_to_delete = self.get_device_ips_from_config_priority()
         self.result['msg'] = []
 
@@ -3738,8 +3743,8 @@ class Inventory(DnacBase):
                                 self.result['msg'].append(self.msg)
                                 self.log(self.msg, "ERROR")
                                 break
-
-                if self.dnac_version >= self.version_2_3_7_6:
+                else:
+                    self.log("2.3.7.6")
                     device_ids = self.get_device_ids([device_ip])
                     device_id = device_ids[0]
                     prov_respone = self.dnac._exec(
@@ -3748,10 +3753,10 @@ class Inventory(DnacBase):
                         op_modifies=True,
                         params={"networkDeviceId": device_id}
                     )
-                    self.log("Received API response from 'get_provisioned_wired_device': {0}".format(str(prov_respone)), "DEBUG")
+                    self.log("sfdvfvvvdfdvdfvdfvdfvdvdvdtdttg")
+                    self.log("Received API response from 'get_provisioned_devices': {0}".format(str(prov_respone)), "DEBUG")
 
-                    if prov_respone.get("status") == "success":
-
+                    if prov_respone.get("response"):
                         prov_respone = self.dnac._exec(
                             family="sda",
                             function='delete_provisioned_devices',
@@ -3759,8 +3764,30 @@ class Inventory(DnacBase):
                             params={'networkDeviceId': device_id},
                         )
                         self.log("Received API response from 'delete_provisioned_devices': {0}".format(str(prov_respone)), "DEBUG")
-                        response = response.get("response")
+                        task_id = prov_respone.get("response").get("taskId")
 
+                        while True:
+                            execution_details = self.get_task_details(task_id)
+
+                            if 'success' in execution_details.get("progress"):
+                                self.status = "success"
+                                self.msg = "Provisioned device '{0}' was successfully deleted from Cisco Catalyst Center".format(device_ip)
+                                self.log(self.msg, "INFO")
+                                self.result['changed'] = True
+                                self.result['response'] = execution_details
+                                break
+                            elif execution_details.get("isError"):
+                                self.status = "failed"
+                                failure_reason = execution_details.get("failureReason")
+                                if failure_reason:
+                                    self.msg = "provisioned device '{0}' deletion get failed due to: {1}".format(device_ip, failure_reason)
+                                else:
+                                    self.msg = "provisioned device '{0}' deletion get failed.".format(device_ip)
+                                self.log(self.msg, "ERROR")
+                                self.result['response'] = self.msg
+                                break
+                    else:
+                        raise ValueError
 
             except Exception as e:
                 device_id = self.get_device_ids([device_ip])
