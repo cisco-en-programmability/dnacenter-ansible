@@ -533,12 +533,13 @@ class DnacBase():
 
             if not response:
                 self.log("The response from 'get_sites' is empty.", "WARNING")
+                return None
 
             self.log("Received API response from 'get_sites': {0}".format(str(response)), "DEBUG")
             return response
 
         except Exception as e:
-            self.log("An error occurred: {0}".format(e), "ERROR")
+            self.log("An error occurred in 'get_sites':{0}".format(e), "ERROR")
             return None
 
     def generate_key(self):
