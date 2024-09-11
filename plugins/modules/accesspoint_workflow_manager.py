@@ -1900,7 +1900,7 @@ class Accesspoint(DnacBase):
                         self.log("Site '{0}' exists in Cisco Catalyst Center".format(site.get("name")), "INFO")
                         site_exists = True
 
-                elif self.dnac_version >= self.version_2_3_7_6:
+                else:
                     response = self.dnac._exec(
                         family="site_design",
                         function='get_sites',
@@ -1994,7 +1994,7 @@ class Accesspoint(DnacBase):
                     self.log("No site information found : {sId},".format(sId=site_id), "INFO")
                     return False
 
-            elif self.dnac_version >= self.version_2_3_7_6:
+            else:
                 response = self.dnac._exec(
                     family="site_design",
                     function="get_site_assigned_network_device",
@@ -2070,6 +2070,62 @@ class Accesspoint(DnacBase):
 
         return provision_status, provision_details
 
+    def assign_device_to_site(self):
+        """
+        Assigning the site to
+        """
+
+        assign_network_device_to_site = {
+            'deviceIds': self.have.get("device_id"),
+            'siteId': self.have.get("site_id"),
+        }
+
+        try:
+            response = self.dnac._exec(
+                family="site_design",
+                function='assign_network_devices_to_a_site',
+                op_modifies=True,
+                params=assign_network_device_to_site
+            )
+
+            if response and isinstance(response, dict):
+                task_id = response.get("taskId")
+                resync_retry_count = self.payload.get("dnac_api_task_timeout")
+                resync_retry_interval = self.payload.get("dnac_task_poll_interval")
+
+                while resync_retry_count:
+                    task_details_response = self.get_task_details(task_id)
+                    self.log("Status of the task: {0} .".format(self.status), "INFO")
+                    responses = {}
+                    if task_details_response.get("endTime") is not None:
+                        if task_details_response.get("isError") is True:
+                            self.result['changed'] = True if self.result['changed'] is True else False
+                            self.status = "failed"
+                            self.msg = "Unable to get success response, hence AP site not updated"
+                            self.log(self.msg, "ERROR")
+                            self.log("Task Details: {0} .".format(self.pprint(
+                                task_details_response)), "ERROR")
+                            responses["accesspoints_updates"] = {
+                                "ap_assign_to_site_task_details": task_details_response,
+                                "ap_assign_to_site_status": self.msg}
+                            self.module.fail_json(msg=self.msg, response=responses)
+                        else:
+                            self.log("Task Details: {0} .".format(self.pprint(
+                                task_details_response)), "INFO")
+                            self.msg = "AP {0} Site - {1} updated Successfully".format(
+                                self.have["current_ap_config"].get("ap_name"), self.have.get("site_id"))
+                            self.log(self.msg, "INFO")
+                            return True
+                        break
+                    time.sleep(resync_retry_interval)
+                    resync_retry_count = resync_retry_count - 1
+        except Exception as e:
+            msg = "Unable to assign the site to the device:"
+            self.log(msg + str(e), "ERROR")
+            site_assgin_details = str(e)
+            self.status = "failed"
+            self.module.fail_json(msg=msg, response=site_assgin_details)
+
     def provision_device(self):
         """
         Provisions a device (AP) to a specific site.
@@ -2111,7 +2167,7 @@ class Accesspoint(DnacBase):
                     "siteNameHierarchy": site_name_hierarchy
                 }]
 
-            elif self.dnac_version >= self.version_2_3_7_6:
+            else:
                 device_id = self.have.get("device_id")
                 site_id = self.have.get("site_id")
 
@@ -2128,35 +2184,37 @@ class Accesspoint(DnacBase):
                     "siteId": site_id
                 }
 
-            self.log('Current device details: {0}'.format(self.pprint(provision_params)), "INFO")
-            response = self.dnac._exec(
-                    family="wireless",
-                    function='ap_provision',
-                    op_modifies=True,
-                    params={"payload": provision_params},
-                )
-            self.log('Response from ap_provision: {0}'.format(str(response)), "INFO")
+                site_assign_status = self.assign_device_to_site()
+                if site_assign_status:
+                    self.log('Current device details: {0}'.format(self.pprint(provision_params)), "INFO")
+                    response = self.dnac._exec(
+                            family="wireless",
+                            function='ap_provision',
+                            op_modifies=True,
+                            params={"payload": provision_params},
+                        )
+                    self.log('Response from ap_provision: {0}'.format(str(response)), "INFO")
 
-            if response and isinstance(response, dict):
-                executionid = response.get("executionId")
-                resync_retry_count = self.payload.get("dnac_api_task_timeout", 100)
-                resync_retry_interval = self.payload.get("dnac_task_poll_interval", 5)
+                    if response and isinstance(response, dict):
+                        executionid = response.get("executionId")
+                        resync_retry_count = self.payload.get("dnac_api_task_timeout", 100)
+                        resync_retry_interval = self.payload.get("dnac_task_poll_interval", 5)
 
-                while resync_retry_count:
-                    execution_details = self.get_execution_details(executionid)
-                    if execution_details.get("status") == "SUCCESS":
-                        self.result['changed'] = True
-                        self.result['response'] = execution_details
-                        provision_status = "SUCCESS"
-                        provision_details = execution_details
-                        break
-                    elif execution_details.get("bapiError"):
-                        self.module.fail_json(msg=execution_details.get("bapiError"),
-                                              response=execution_details)
-                        break
+                        while resync_retry_count:
+                            execution_details = self.get_execution_details(executionid)
+                            if execution_details.get("status") == "SUCCESS":
+                                self.result['changed'] = True
+                                self.result['response'] = execution_details
+                                provision_status = "SUCCESS"
+                                provision_details = execution_details
+                                break
+                            elif execution_details.get("bapiError"):
+                                self.module.fail_json(msg=execution_details.get("bapiError"),
+                                                    response=execution_details)
+                                break
 
-                    time.sleep(resync_retry_interval)
-                    resync_retry_count = resync_retry_count - 1
+                            time.sleep(resync_retry_interval)
+                            resync_retry_count = resync_retry_count - 1
 
             self.log("Provisioned device with host '{0}' to site '{1}' successfully.".format(
                 host_name, site_name_hierarchy), "INFO")
