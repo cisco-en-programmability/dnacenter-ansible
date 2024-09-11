@@ -1218,12 +1218,20 @@ class Swim(DnacBase):
         if config.get("import_image_details"):
             want["import_image"] = True
             want["import_type"] = config.get("import_image_details").get("type").lower()
-            if want["import_type"] == "remote":
-                want["url_import_details"] = config.get("import_image_details").get("url_details")
-            elif want["import_type"] == "local":
-                want["local_import_details"] = config.get("import_image_details").get("local_image_details")
-            elif want["import_type"] == "cco":
-                if self.dnac_version >= self.version_2_3_7_6:
+            if self.dnac_version < self.version_2_3_7_6:
+                if want["import_type"] == "remote":
+                    want["url_import_details"] = config.get("import_image_details").get("url_details")
+                elif want["import_type"] == "local":
+                    want["local_import_details"] = config.get("import_image_details").get("local_image_details")
+                else:
+                    self.log("The import type '{0}' provided is incorrect. Only 'local' or 'remote' is supported.".format(want["import_type"]), "CRITICAL")
+                    self.module.fail_json(msg="Incorrect import type. Supported Values: local or remote")
+            else:
+                if want["import_type"] == "remote":
+                    want["url_import_details"] = config.get("import_image_details").get("url_details")
+                elif want["import_type"] == "local":
+                    want["local_import_details"] = config.get("import_image_details").get("local_image_details")
+                elif want["import_type"] == "cco":
                     cco_import_details = config.get("import_image_details", {}).get("cco_image_details")
 
                     if cco_import_details is not None and cco_import_details.get("image_name") is not None:
@@ -1232,15 +1240,8 @@ class Swim(DnacBase):
                         self.log("CCO import details are missing from the provided configuration.", "ERROR")
                         self.module.fail_json(msg="Missing CCO import details in the configuration.")
                 else:
-                    self.log(
-                        "In this version '{0}' CCO based importing is not supported."
-                        " Only 'local' or 'remote' are supported.".format(self.payload.get("dnac_version")), "ERROR"
-                    )
-                    self.module.fail_json(msg="In this version '{0}' CCO based importing is not supported. Only 'local' or 'remote' are supported.".format(
-                        self.payload.get("dnac_version")))
-            else:
-                self.log("The import type '{0}' provided is incorrect. Only 'local', 'remote' or 'cco' are supported.".format(want["import_type"]), "CRITICAL")
-                self.module.fail_json(msg="Incorrect import type. Supported Values: local or remote")
+                    self.log("The import type '{0}' provided is incorrect. Only 'local' or 'remote' or 'CCO' is supported.".format(want["import_type"]), "CRITICAL")
+                    self.module.fail_json(msg="Incorrect import type. Only 'local' or 'remote' or 'CCO' is supported.")
 
         want["tagging_details"] = config.get("tagging_details")
         want["distribution_details"] = config.get("image_distribution_details")
