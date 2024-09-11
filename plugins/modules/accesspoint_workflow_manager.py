@@ -2076,10 +2076,11 @@ class Accesspoint(DnacBase):
         """
 
         assign_network_device_to_site = {
-            'deviceIds': self.have.get("device_id"),
+            'deviceIds': [self.have.get("device_id")],
             'siteId': self.have.get("site_id"),
         }
-
+        self.log("Assign device to site before update: {0} .".format(
+            assign_network_device_to_site), "INFO")
         try:
             response = self.dnac._exec(
                 family="site_design",
@@ -2087,11 +2088,12 @@ class Accesspoint(DnacBase):
                 op_modifies=True,
                 params=assign_network_device_to_site
             )
+            self.log("Response device to site: {0} .".format(response["response"]), "INFO")
 
             if response and isinstance(response, dict):
-                task_id = response.get("taskId")
-                resync_retry_count = self.payload.get("dnac_api_task_timeout")
-                resync_retry_interval = self.payload.get("dnac_task_poll_interval")
+                task_id = response.get("response", {}).get("taskId")
+                resync_retry_count = int(self.payload.get("dnac_api_task_timeout"))
+                resync_retry_interval = int(self.payload.get("dnac_task_poll_interval"))
 
                 while resync_retry_count:
                     task_details_response = self.get_task_details(task_id)
@@ -2148,11 +2150,13 @@ class Accesspoint(DnacBase):
         provision_params = None
         try:
             rf_profile = self.want.get("rf_profile")
-            if self.dnac_version <= self.version_2_3_5_3:
-                site_name_hierarchy = self.have.get("site_name_hierarchy")
-                host_name = self.have.get("hostname")
-                type_name = self.have.get("ap_type")
+            site_name_hierarchy = self.have.get("site_name_hierarchy")
+            host_name = self.have.get("hostname")
+            type_name = self.have.get("ap_type")
+            device_id = self.have.get("device_id")
+            site_id = self.have.get("site_id")
 
+            if self.dnac_version <= self.version_2_3_5_3:
                 if not site_name_hierarchy or not rf_profile or not host_name:
                     error_msg = ("Cannot provision device: Missing parameters - "
                                 "site_name_hierarchy: {0}, rf_profile: {1}, host_name: {2}"
@@ -2167,10 +2171,36 @@ class Accesspoint(DnacBase):
                     "siteNameHierarchy": site_name_hierarchy
                 }]
 
-            else:
-                device_id = self.have.get("device_id")
-                site_id = self.have.get("site_id")
+                self.log('Before AP provision: {0}'.format(self.pprint(provision_params)), "INFO")
+                response = self.dnac._exec(
+                        family="wireless",
+                        function='ap_provision',
+                        op_modifies=True,
+                        params={"payload": provision_params},
+                    )
+                self.log('Response from ap_provision: {0}'.format(str(response.get("response"))), "INFO")
 
+                if response and isinstance(response, dict):
+                    executionid = response.get("executionId")
+                    resync_retry_count = int(self.payload.get("dnac_api_task_timeout", 100))
+                    resync_retry_interval = int(self.payload.get("dnac_task_poll_interval", 5))
+
+                    while resync_retry_count:
+                        execution_details = self.get_execution_details(executionid)
+                        if execution_details.get("status") == "SUCCESS":
+                            self.result['changed'] = True
+                            self.result['response'] = execution_details
+                            provision_status = "SUCCESS"
+                            provision_details = execution_details
+                            break
+                        elif execution_details.get("bapiError"):
+                            self.module.fail_json(msg=execution_details.get("bapiError"),
+                                                response=execution_details)
+                            break
+
+                        time.sleep(resync_retry_interval)
+                        resync_retry_count = resync_retry_count - 1
+            else:
                 if not rf_profile or not device_id or not site_id:
                     error_msg = ("Cannot provision device: Missing parameters - "
                                 "device_id: {0}, rf_profile: {1}, site_id: {2}"
@@ -2193,26 +2223,44 @@ class Accesspoint(DnacBase):
                             op_modifies=True,
                             params={"payload": provision_params},
                         )
-                    self.log('Response from ap_provision: {0}'.format(str(response)), "INFO")
+                    self.log('Response from ap_provision: {0}'.format(str(response.get("response"))), "INFO")
 
                     if response and isinstance(response, dict):
-                        executionid = response.get("executionId")
-                        resync_retry_count = self.payload.get("dnac_api_task_timeout", 100)
-                        resync_retry_interval = self.payload.get("dnac_task_poll_interval", 5)
+                        task_id = response.get("response", {}).get("taskId")
+                        resync_retry_count = int(self.payload.get("dnac_api_task_timeout"))
+                        resync_retry_interval = int(self.payload.get("dnac_task_poll_interval"))
 
                         while resync_retry_count:
-                            execution_details = self.get_execution_details(executionid)
-                            if execution_details.get("status") == "SUCCESS":
-                                self.result['changed'] = True
-                                self.result['response'] = execution_details
-                                provision_status = "SUCCESS"
-                                provision_details = execution_details
-                                break
-                            elif execution_details.get("bapiError"):
-                                self.module.fail_json(msg=execution_details.get("bapiError"),
-                                                    response=execution_details)
-                                break
-
+                            task_details_response = self.get_task_details(task_id)
+                            self.log("Status of the task: {0} .".format(self.status), "INFO")
+                            responses = {}
+                            if task_details_response.get("endTime") is not None:
+                                if task_details_response.get("isError") is True:
+                                    self.result['changed'] = True if self.result['changed'] is True else False
+                                    self.status = "failed"
+                                    self.msg = "Unable to get success response, hence not provisioned"
+                                    self.log(self.msg, "ERROR")
+                                    self.log("Task Details: {0} .".format(self.pprint(
+                                        task_details_response)), "ERROR")
+                                    responses["accesspoints_updates"] = {
+                                        "ap_provision_task_details": {
+                                            "error_code": task_details_response.get("errorCode"),
+                                            "failure_reason": task_details_response.get("failureReason"),
+                                            "is_error": task_details_response.get("isError")
+                                        },
+                                        "ap_provision_status": self.msg}
+                                    self.module.fail_json(msg=self.msg, response=responses)
+                                else:
+                                    self.log("Task Details: {0} .".format(self.pprint(
+                                        task_details_response)), "INFO")
+                                    self.msg = "AP {0} provisioned Successfully".format(
+                                        self.have["current_ap_config"].get("ap_name"))
+                                    self.log(self.msg, "INFO")
+                                    self.result['changed'] = True
+                                    self.result['response'] = self.msg
+                                    provision_status = "SUCCESS"
+                                    provision_details = task_details_response
+                                    break
                             time.sleep(resync_retry_interval)
                             resync_retry_count = resync_retry_count - 1
 
