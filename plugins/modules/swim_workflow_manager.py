@@ -55,7 +55,8 @@ options:
         type: dict
         suboptions:
           type:
-            description: Specifies the import source, supporting local file import (local) or remote url import (remote) or Cisco Connection Online (CCO)
+            description: Specifies the source of the image import. Supported values are 'local' for local file import, 
+                'remote' for remote URL import, or 'CCO' for import from Cisco Connection Online.
             type: str
           local_image_details:
             description: Details of the local path of the image to be imported.
@@ -157,12 +158,12 @@ options:
                 description: ScheduleOrigin query parameter. Originator of this call (optional).
                 type: str
           cco_image_details:
-            description: Details of the image needed to import from the cisco.com
+            description: Details of the image needed to import from cisco.com
             type: dict
             suboptions:
               image_name:
-                description: A mandatory parameter for importing a SWIM image via CCO. This parameter is required when your trying
-                  to Initiates download of the software image from Cisco.com
+                description: A mandatory parameter for importing a SWIM image via Cisco.com. 
+                    This parameter is required to initiate the download of the software image from Cisco.com.
                 type: dict
       tagging_details:
         description: Details for tagging or untagging an image as golden
@@ -635,18 +636,7 @@ class Swim(DnacBase):
                     site = response.get("response")
                     site_id = site[0].get("id")
                     site_exists = True
-
-        except Exception as e:
-            self.status = "failed"
-            self.msg = (
-                "'An exception occurred: Site '{0}' does not exist in the Cisco Catalyst Center' or 'In this version '{1}'"
-                ", 'get_site' is not supported'".format(site_name, self.payload.get("dnac_version"))
-            )
-            self.log(self.msg, "ERROR")
-            self.check_return_status()
-
-        try:
-            if self.dnac_version >= self.version_2_3_7_6:
+            else:
                 response = self.get_sites(site_name)
                 self.log("Received API response from 'get_sites': {0}".format(str(response)), "DEBUG")
                 site = response.get("response")
@@ -655,8 +645,8 @@ class Swim(DnacBase):
 
         except Exception as e:
             self.status = "failed"
-            self.msg = ("'An exception occurred: Site '{0}' does not exist in the Cisco Catalyst Center' or 'In this version '{1}' "
-                        ", 'get_sites' is not supported'").format(site_name, self.payload.get("dnac_version"))
+            self.msg = ("'An exception occurred: Site '{0}' does not exist in the Cisco Catalyst Center".format(site_name))
+            self.result['response'] = self.msg
             self.log(self.msg, "ERROR")
             self.check_return_status()
 
@@ -727,6 +717,13 @@ class Swim(DnacBase):
         self.log("Received API response from 'returns_list_of_software_images': {0}".format(response), "DEBUG")
         response = response.get("response")
 
+        if not response or not isinstance(response, list):
+            self.log("The API response from 'returns_list_of_software_images' is empty or invalid.", "ERROR")
+            self.status = "failed"
+            self.msg = "Unable to retrieve the list of software images from Cisco.com."
+            self.result['response'] = self.msg
+            self.check_return_status()
+
         for image in response:
             if cco_image_name == image.get("name"):
                 image_id = image.get("id")
@@ -734,7 +731,7 @@ class Swim(DnacBase):
                     return image_id
 
         self.status = "failed"
-        self.msg = "Image with name '{0}' not be found in cisco.com".format(cco_image_name)
+        self.msg = "Image with name '{0}' not found on Cisco.com".format(cco_image_name)
         self.result['response'] = self.msg
         self.log(self.msg, "ERROR")
         self.check_return_status()
@@ -898,8 +895,7 @@ class Swim(DnacBase):
                 if item['response']:
                     for item_dict in item['response']:
                         site_response_list.append(item_dict)
-
-        if self.dnac_version >= self.version_2_3_7_6:
+        else:
             try:
                 response = self.dnac._exec(
                     family="site_design",
@@ -913,15 +909,14 @@ class Swim(DnacBase):
                 if not response:
                     self.log("No devices found for site '{0}'.". format(site_name), "WARNING")
 
-                for device_id in response:
-                    device_id_list.append(device_id.get("deviceId"))
-
             except Exception as e:
                 self.log("Unable to fetch the device(s) associated to the site '{0}' due to '{1}'".format(site_name, str(e)), "WARNING")
                 return device_uuid_list
 
-            try:
+            for device_id in response:
+                device_id_list.append(device_id.get("deviceId"))
 
+            try:
                 device_params = {}
                 offset = 0
                 limit = self.get_device_details_limit()
@@ -1276,13 +1271,13 @@ class Swim(DnacBase):
             self.log("image_type - {0}".format(import_type))
 
             if import_type == "remote":
-                image_names = self.want.get("url_import_details").get("payload")[0].get("source_url")
+                image_names = self.want.get("url_import_details", {}).get("payload", [])[0].get("source_url", [])
                 self.log("Image(s) '{0}' to be imported in Cisco Catalyst Center".format(image_names), "INFO")
             elif import_type == "local":
-                image_names = [self.want.get("local_import_details").get("file_path")]
+                image_names = [self.want.get("local_import_details", {}).get("file_path", "")]
                 self.log("Image '{0}' to be imported in Cisco Catalyst Center".format(image_names[0]), "INFO")
             else:  # CCO import
-                image_names = [self.want.get("cco_import_details").get("image_name")]
+                image_names = [self.want.get("cco_import_details", {}).get("image_name", "")]
                 self.log("Image '{0}' to be imported in Cisco Catalyst Center".format(image_names[0]), "INFO")
 
             # Code to check if the image(s) already exist in Catalyst Center
