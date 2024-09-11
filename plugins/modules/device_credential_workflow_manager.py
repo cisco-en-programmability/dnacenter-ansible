@@ -2817,7 +2817,7 @@ class DeviceCredential(DnacBase):
             site_response - The response from the API call.
         """
         self.log(
-            "Checking assigned devices for site with ID: {site_id}", "DEBUG")
+            "Checking assigned devices for site with ID: {0}".format(site_id), "DEBUG")
         site_assigned_network_devices_response = self.dnac._exec(
             family="site_design",
             function="get_site_assigned_network_devices",
@@ -2842,14 +2842,14 @@ class DeviceCredential(DnacBase):
             site_credential_response - The device credential settings for the specified site.
         """
         self.log(
-            "Retrieving device credential settings for site ID: {site_id}", "DEBUG")
+            "Retrieving device credential settings for site ID: {0}".format(site_id), "DEBUG")
         credential_settings = self.dnac._exec(
             family="network_settings",
             function='get_device_credential_settings_for_a_site',
             params={"id": site_id}
         )
 
-        self.log(f"Received API response: {credential_settings}", "DEBUG")
+        self.log("Received API response: {0}".format(credential_settings), "DEBUG")
         site_credential_response = credential_settings.get("response")
         self.log("Device credential settings details: {0}".format(
             site_credential_response), "DEBUG")
