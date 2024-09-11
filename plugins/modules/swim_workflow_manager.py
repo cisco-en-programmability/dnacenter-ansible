@@ -1361,7 +1361,15 @@ class Swim(DnacBase):
                 # Monitor the task progress
                 while True:
                     task_details = self.get_task_details(task_id)
-                    if task_details and "completed successfully" in task_details.get("progress", "").lower():
+
+                    if not task_details:
+                        self.msg = "Failed to retrieve task details."
+                        self.log(self.msg, "ERROR")
+                        self.result['response'] = "No task details found."
+                        self.status = "failed"
+                        return self  
+
+                    if "completed successfully" in task_details.get("progress", "").lower():
                         if images_to_import:
                             images_to_import_str = ", ".join(images_to_import)
 
@@ -1372,7 +1380,7 @@ class Swim(DnacBase):
                             self.log(self.msg, "INFO")
                             break
 
-                    if task_details and task_details.get("isError"):
+                    if task_details.get("isError"):
                         if "already exists" in task_details.get("failureReason", ""):
                             self.msg = "SWIM Image {0} already exists in the Cisco Catalyst Center".format(image_name.split('/')[-1])
                             self.result['msg'] = self.msg
@@ -1385,9 +1393,8 @@ class Swim(DnacBase):
                             self.msg = task_details.get("failureReason", "SWIM Image {0} seems to be invalid".format(image_name))
                             self.log(self.msg, "WARNING")
                             self.result['response'] = self.msg
-                            return self
+                            return self  
 
-                self.result['response'] = task_details if task_details else response
 
                 image_name = image_name.split('/')[-1]
                 image_id = self.get_image_id(image_name)
@@ -1396,13 +1403,20 @@ class Swim(DnacBase):
             imported_images_str = ", ".join(images_to_import)
             skipped_images_str = ", ".join(existing_images)
 
-            if skipped_images_str and not imported_images_str:
-                self.msg = "Image(s) {0} skipped as they already exist in Cisco Catalyst Center. No images were imported.".format(skipped_images_str)
-            elif skipped_images_str and imported_images_str:
-                self.msg = ("Image(s) {0} skipped as they already exist Cisco Catalyst Center. Images {1} have been imported"
-                            " successfully.").format(skipped_images_str, imported_images_str)
+            messages = []
+
+            if skipped_images_str:
+                if imported_images_str:
+                    messages.append("Image(s) {0} were skipped as they already exist in Cisco Catalyst Center.".format(skipped_images_str))
+                    messages.append("Images {0} have been imported successfully.".format(imported_images_str))
+                else:
+                    messages.append("Image(s) {0} were skipped as they already exist in Cisco Catalyst Center. No new images were imported.".format(skipped_images_str))
+            elif imported_images_str:
+                messages.append("Image(s) {0} have been imported successfully into Cisco Catalyst Center.".format(imported_images_str))
             else:
-                self.msg = "Image(s) {0} have been imported successfully in Cisco Catalyst Center.".format(imported_images_str)
+                messages.append("No images were imported.")
+
+            self.msg = " ".join(messages)
 
             self.result['msg'] = self.msg
             self.result['response'] = self.msg
@@ -1412,8 +1426,10 @@ class Swim(DnacBase):
 
         except Exception as e:
             self.status = "failed"
-            self.msg = """Error: Import image details are not provided in the playbook, or the Import Image API was not
-                triggered successfully. Please ensure the necessary details are provided and verify the status of the Import Image process."""
+            self.msg = (
+                "Error: Import image details are missing from the playbook or the Import Image API was not "
+                "triggered successfully. Please ensure that all necessary details are provided and verify the "
+                "status of the Import Image process. Details: {0}".format(str(e)))
             self.log(self.msg, "ERROR")
             self.result['response'] = self.msg
 
@@ -1944,12 +1960,12 @@ class Swim(DnacBase):
 
         # Code to check if the image already exists in Catalyst Center
         if image_exist:
-            self.status = "success"
-            self.msg = "The requested Image '{0}' imported in the Cisco Catalyst Center and Image presence has been verified.".format(name)
-            self.log(self.msg, "INFO")
+                self.status = "success"
+                self.msg = "The requested image '{0}' has been imported into the Cisco Catalyst Center and its presence has been verified.".format(name)
+                self.log(self.msg, "INFO")
         else:
-            self.log("""The playbook input for SWIM Image '{0}' does not align with the Cisco Catalyst Center, indicating that image
-                        may not have imported successfully.""".format(name), "INFO")
+            self.log("The playbook input for SWIM image '{0}' does not align with the Cisco Catalyst Center," 
+                     "indicating that the image may not have been imported successfully.".format(name), "INFO")
 
         return self
 
