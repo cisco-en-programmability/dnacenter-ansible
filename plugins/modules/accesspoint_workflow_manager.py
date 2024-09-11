@@ -142,7 +142,9 @@ options:
         type: str
         required: False
       primary_controller_name:
-        description: Name or identifier of the primary wireless LAN controller (WLC) managing the Access Point (AP). For example, "SJ-EWLC-1".
+        description: |
+          Name or identifier of the primary wireless LAN controller (WLC) managing the Access Point (AP).
+          For example, "SJ-EWLC-1".
         type: str
         required: False
       primary_ip_address:
@@ -157,7 +159,8 @@ options:
       secondary_controller_name:
         description: |
           Name or identifier of the secondary wireless LAN controller (WLC) managing the Access Point (AP).
-          For example, "Inherit from site / Clear".
+          If user intends to modify only primary controller, then secondary and tertiary controller name
+          should be set to "Inherit from site / Clear".
         type: str
         required: False
       secondary_ip_address:
@@ -172,7 +175,8 @@ options:
       tertiary_controller_name:
         description: |
           Name or identifier of the tertiary wireless LAN controller (WLC) managing the Access Point (AP).
-          For example, "Inherit from site / Clear".
+          If user intends to modify only primary controller, then secondary and tertiary controller name
+          should be set to "Inherit from site / Clear".
         type: str
         required: False
       tertiary_ip_address:
@@ -343,6 +347,12 @@ options:
               For example, Auto.
             type: str
             required: False
+          radio_band:
+            description: |
+              Radio band should be enabled if the radio role assignment is set to 'Client-serving' mode.
+              Accepts '2.4 GHz' or '5 GHz'.
+            type: str
+            required: False
           cable_loss:
             description: Cable loss in dB for the xor radio interface. For example, 75.
             type: int
@@ -354,7 +364,8 @@ options:
           channel_assignment_mode:
             description: |
               Mode of channel assignment for the xor radio interface. Accepts "Global" or "Custom".
-              For xor Custom, it accepts values like 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112,
+              If radio_band selected as '2.4 GHz' then xor Custom, it accepts values like from 1 to 14
+              For '5 GHz' xor Custom, it accepts values like 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112,
               116, 120, 124, 128, 132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173. For example, "Custom".
             type: str
             required: False
@@ -2023,29 +2034,30 @@ class Accesspoint(DnacBase):
             and handles
         """
 
+
         provision_status = "failed"
         provision_details = None
+        site_name_hierarchy = self.have.get("site_name_hierarchy")
+        rf_profile = self.want.get("rf_profile")
+        host_name = self.have.get("hostname")
+        type_name = self.have.get("ap_type")
+
+        if not site_name_hierarchy or not rf_profile or not host_name:
+            error_msg = ("Cannot provision device: Missing parameters - "
+                            "site_name_hierarchy: {0}, rf_profile: {1}, host_name: {2}"
+                            .format(site_name_hierarchy, rf_profile, host_name))
+            self.log(error_msg, "ERROR")
+            self.module.fail_json(msg=error_msg)
+
+        provision_params = [{
+            "rfProfile": rf_profile,
+            "deviceName": host_name,
+            "type": type_name,
+            "siteNameHierarchy": site_name_hierarchy
+        }]
+        self.log('Current device details: {0}'.format(self.pprint(provision_params)), "INFO")
+
         try:
-            site_name_hierarchy = self.have.get("site_name_hierarchy")
-            rf_profile = self.want.get("rf_profile")
-            host_name = self.have.get("hostname")
-            type_name = self.have.get("ap_type")
-
-            if not site_name_hierarchy or not rf_profile or not host_name:
-                error_msg = ("Cannot provision device: Missing parameters - "
-                             "site_name_hierarchy: {0}, rf_profile: {1}, host_name: {2}"
-                             .format(site_name_hierarchy, rf_profile, host_name))
-                self.log(error_msg, "ERROR")
-                self.module.fail_json(msg=error_msg)
-
-            provision_params = [{
-                "rfProfile": rf_profile,
-                "deviceName": host_name,
-                "type": type_name,
-                "siteNameHierarchy": site_name_hierarchy
-            }]
-            self.log('Current device details: {0}'.format(self.pprint(provision_params)), "INFO")
-
             response = self.dnac._exec(
                 family="wireless",
                 function='ap_provision',
@@ -2054,6 +2066,11 @@ class Accesspoint(DnacBase):
             )
 
             self.log('Response from ap_provision: {0}'.format(str(response)), "INFO")
+        except Exception as e:
+            error_msg = 'Unable to execute ap provisioning function: {0}'.format(str(e))
+            self.log(error_msg, "ERROR")
+            self.status = "failed"
+
             if response and isinstance(response, dict):
                 executionid = response.get("executionId")
                 resync_retry_count = self.payload.get("dnac_api_task_timeout", 100)
