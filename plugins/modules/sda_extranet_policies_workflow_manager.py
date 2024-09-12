@@ -104,7 +104,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: True
+    dnac_log: true
     state: merged
     config:
       - extranet_policy_name: "test_extranet_policy_1"
@@ -121,7 +121,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: True
+    dnac_log: true
     state: merged
     config:
       - extranet_policy_name: "test_extranet_policy_1"
@@ -139,7 +139,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: True
+    dnac_log: true
     state: merged
     config:
       - extranet_policy_name: "test_extranet_policy_1"
@@ -156,7 +156,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: True
+    dnac_log: true
     state: merged
     config:
       - extranet_policy_name: "test_extranet_policy_1"
@@ -174,7 +174,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: True
+    dnac_log: true
     state: deleted
     config:
       - extranet_policy_name: "test_extranet_policy_1"
