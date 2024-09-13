@@ -551,9 +551,6 @@ class Swim(DnacBase):
     def __init__(self, module):
         super().__init__(module)
         self.supported_states = ["merged"]
-        self.payload = module.params
-        self.dnac_version = int(self.payload.get("dnac_version").replace(".", ""))
-        self.version_2_3_5_3, self.version_2_3_7_6, self.version_2_2_3_3 = 2353, 2376, 2233
 
     def validate_input(self):
         """
@@ -645,7 +642,7 @@ class Swim(DnacBase):
 
         except Exception as e:
             self.status = "failed"
-            self.msg = ("'An exception occurred: Site '{0}' does not exist in the Cisco Catalyst Center".format(site_name))
+            self.msg = ("An exception occurred: Site '{0}' does not exist in the Cisco Catalyst Center".format(site_name))
             self.result['response'] = self.msg
             self.log(self.msg, "ERROR")
             self.check_return_status()
@@ -708,33 +705,34 @@ class Swim(DnacBase):
             image ID is returned. If no matching image is found, or if the image ID is not present
             in the response, the function logs an error message and raises an exception.
         """
+        try:
+            response = self.dnac._exec(
+                family="software_image_management_swim",
+                function='returns_list_of_software_images',
+                op_modifies=True,
+            )
+            self.log("Received API response from 'returns_list_of_software_images': {0}".format(response), "DEBUG")
+            response = response.get("response")
 
-        response = self.dnac._exec(
-            family="software_image_management_swim",
-            function='returns_list_of_software_images',
-            op_modifies=True,
-        )
-        self.log("Received API response from 'returns_list_of_software_images': {0}".format(response), "DEBUG")
-        response = response.get("response")
+            if not response or not isinstance(response, list):
+                self.log("The API response from 'returns_list_of_software_images' is empty or invalid.", "ERROR")
+                self.status = "failed"
+                self.msg = "Unable to retrieve the list of software images from Cisco.com."
+                self.result['response'] = self.msg
+                self.check_return_status()
 
-        if not response or not isinstance(response, list):
-            self.log("The API response from 'returns_list_of_software_images' is empty or invalid.", "ERROR")
+            for image in response:
+                if cco_image_name == image.get("name"):
+                    image_id = image.get("id")
+                    if image_id:
+                        return image_id
+            raise Exception
+        except:
             self.status = "failed"
-            self.msg = "Unable to retrieve the list of software images from Cisco.com."
+            self.msg = "Image with name '{0}' not found on Cisco.com".format(cco_image_name)
             self.result['response'] = self.msg
+            self.log(self.msg, "ERROR")
             self.check_return_status()
-
-        for image in response:
-            if cco_image_name == image.get("name"):
-                image_id = image.get("id")
-                if image_id:
-                    return image_id
-
-        self.status = "failed"
-        self.msg = "Image with name '{0}' not found on Cisco.com".format(cco_image_name)
-        self.result['response'] = self.msg
-        self.log(self.msg, "ERROR")
-        self.check_return_status()
 
     def get_image_name_from_id(self, image_id):
         """
@@ -939,6 +937,7 @@ class Swim(DnacBase):
                             op_modifies=True
                         )
                     offset = offset + 1
+                    self.log("Received API response from 'device_list_response': {0}".format(str(device_list_response)), "DEBUG")
                     device_response = device_list_response.get('response')
                     if not device_response:
                         break
@@ -988,6 +987,7 @@ class Swim(DnacBase):
                         op_modifies=True,
                         params=device_params,
                     )
+                self.log("Received API response from 'device_list_response': {0}".format(str(device_list_response)), "DEBUG")
                 offset = offset + 1
                 device_response = device_list_response.get('response')
 
@@ -1210,23 +1210,25 @@ class Swim(DnacBase):
         """
 
         want = {}
-        if config.get("import_image_details"):
+        import_image_details = config.get("import_image_details",{})
+        if import_image_details:
             want["import_image"] = True
-            want["import_type"] = config.get("import_image_details").get("type").lower()
+            want["import_type"] = import_image_details.get("type").lower()
+            import_type = want["import_type"]
             if self.dnac_version < self.version_2_3_7_6:
-                if want["import_type"] == "remote":
-                    want["url_import_details"] = config.get("import_image_details").get("url_details")
-                elif want["import_type"] == "local":
-                    want["local_import_details"] = config.get("import_image_details").get("local_image_details")
+                if import_type == "remote":
+                    want["url_import_details"] = import_image_details.get("url_details")
+                elif import_type == "local":
+                    want["local_import_details"] = import_image_details.get("local_image_details")
                 else:
-                    self.log("The import type '{0}' provided is incorrect. Only 'local' or 'remote' is supported.".format(want["import_type"]), "CRITICAL")
+                    self.log("The import type '{0}' provided is incorrect. Only 'local' or 'remote' is supported.".format(import_type), "CRITICAL")
                     self.module.fail_json(msg="Incorrect import type. Supported Values: local or remote")
             else:
-                if want["import_type"] == "remote":
-                    want["url_import_details"] = config.get("import_image_details").get("url_details")
-                elif want["import_type"] == "local":
-                    want["local_import_details"] = config.get("import_image_details").get("local_image_details")
-                elif want["import_type"] == "cco":
+                if import_type == "remote":
+                    want["url_import_details"] = import_image_details.get("url_details")
+                elif import_type == "local":
+                    want["local_import_details"] = import_image_details.get("local_image_details")
+                elif import_type == "cco":
                     cco_import_details = config.get("import_image_details", {}).get("cco_image_details")
 
                     if cco_import_details is not None and cco_import_details.get("image_name") is not None:
@@ -1235,7 +1237,7 @@ class Swim(DnacBase):
                         self.log("CCO import details are missing from the provided configuration.", "ERROR")
                         self.module.fail_json(msg="Missing CCO import details in the configuration.")
                 else:
-                    self.log("The import type '{0}' provided is incorrect. Only 'local' or 'remote' or 'CCO' is supported.".format(want["import_type"]), "CRITICAL")
+                    self.log("The import type '{0}' provided is incorrect. Only 'local' or 'remote' or 'CCO' is supported.".format(import_type), "CRITICAL")
                     self.module.fail_json(msg="Incorrect import type. Only 'local' or 'remote' or 'CCO' is supported.")
 
         want["tagging_details"] = config.get("tagging_details")
@@ -1718,6 +1720,7 @@ class Swim(DnacBase):
             self.status = "success"
             self.msg = "The SWIM image distribution task could not proceed because no eligible devices were found"
             self.result['msg'] = self.msg
+            self.result['response'] = self.msg
             self.log(self.msg, "WARNING")
             return self
 
@@ -1945,17 +1948,18 @@ class Swim(DnacBase):
         """
 
         if import_type == "remote":
-            image_names = self.want.get("url_import_details").get("payload")[0].get("source_url")
+            image_names = self.want.get("url_import_details", {}).get("payload", [{}])[0].get("source_url", [])
         elif import_type == "local":
-            image_name = self.want.get("local_import_details").get("file_path")
+            image_names = self.want.get("local_import_details", {}).get("file_path")
         else:
-            image_name = self.want.get("cco_import_details").get("image_name")
+            image_names = self.want.get("cco_import_details", {}).get("image_name")
+
         if import_type == "remote":
             for image_name in image_names:
                 name = image_name.split('/')[-1]
                 image_exist = self.is_image_exist(name)
         else:
-            name = image_name.split('/')[-1]
+            name = image_names.split('/')[-1]
             image_exist = self.is_image_exist(name)
 
         # Code to check if the image already exists in Catalyst Center

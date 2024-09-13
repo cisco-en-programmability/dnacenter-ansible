@@ -74,6 +74,9 @@ class DnacBase():
                                         }
         self.dnac_log = dnac_params.get("dnac_log")
         self.max_timeout = self.params.get('dnac_api_task_timeout')
+        self.payload = module.params
+        self.dnac_version = int(self.payload.get("dnac_version").replace(".", ""))
+        self.version_2_3_5_3, self.version_2_3_7_6, self.version_2_2_3_3 = 2353, 2376, 2233
 
         if self.dnac_log and not DnacBase.__is_log_init:
             self.dnac_log_level = dnac_params.get("dnac_log_level") or 'WARNING'
