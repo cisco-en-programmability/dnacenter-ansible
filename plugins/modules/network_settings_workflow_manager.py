@@ -101,7 +101,8 @@ options:
 
       reserve_pool_details:
         description: Reserved IP subpool details from the global pool.
-        type: dict
+        type: list
+        elements: dict
         suboptions:
           site_name:
             description: >
