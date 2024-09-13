@@ -2866,7 +2866,7 @@ class DeviceCredential(DnacBase):
             for credential_id in valid_sync_cred_ids:
                 param = {"deviceCredentialId": credential_id,
                          "siteId": site_id}
-                self.log("Credential {0} to be synced with {1} site id." .format(credential_id, site_id),"INFO")
+                self.log("Credential {0} to be synced with {1} site id." .format(credential_id, site_id), "INFO")
                 final_response.append(copy.deepcopy(param))
                 response = self.dnac._exec(
                     family="network_settings",
