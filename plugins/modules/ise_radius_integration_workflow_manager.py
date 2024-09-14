@@ -1461,6 +1461,7 @@ class IseRadiusIntegration(DnacBase):
                 result_auth_server.get("msg").update({
                     ipAddress: "Authentication and Policy Server not found."
                 })
+                auth_server_index += 1
                 self.msg = "Authentication and Policy Server not found."
                 self.status = "success"
                 continue
