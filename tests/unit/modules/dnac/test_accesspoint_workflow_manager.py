@@ -163,7 +163,7 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
             "Successfully validated config params: {'mac_address': '90:e9:5e:03:f3:40', 'management_ip_address': None, 'hostname': None, 'rf_profile': " +
             "'HIGH', 'site': {'floor': {'name': 'FLOOR2', 'parent_name': 'Global/USA/New York/BLDNYC'}}, 'type': None, 'ap_name': 'LTTS-test1', " +
             "'admin_status': None, 'led_status': 'Enabled', 'led_brightness_level': 5, 'ap_mode': 'Local', 'location': 'LTTS/Cisco/Chennai', " +
-            "'is_assigned_site_as_location': 'Enabled', "+
+            "'is_assigned_site_as_location': 'Enabled', " +
             "'failover_priority': 'Low', 'primary_controller_name': 'Inherit from site / Clear', 'primary_ip_address': None, " +
             "'secondary_controller_name': 'NY-EWLC-20', " +
             "'secondary_ip_address': None, 'tertiary_controller_name': 'Inherit from site / Clear', 'tertiary_ip_address': None, " +
