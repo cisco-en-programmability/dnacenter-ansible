@@ -37,7 +37,6 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
     playbook_config_update_some_missing_data = test_data.get("playbook_config_update_some_missing_data")
     playbook_config_update_some_error_data = test_data.get("playbook_config_update_some_error_data")
 
-
     def setUp(self):
         super(TestDnacAccesspointWorkflow, self).setUp()
 
@@ -143,9 +142,9 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
 
     def test_accesspoint_workflow_manager_update_accesspoint_series_error(self):
         """
-        Test case for user role workflow manager when creating a user.
+        Test case for access point workfollow manager and positive test verify ap update
 
-        This test case checks the behavior of the user workflow when creating a new user in the specified Cisco Catalyst Center.
+        This test case checks the behavior of the update access point data in the specified Cisco Catalyst Center.
         """
         set_module_args(
             dict(
@@ -165,8 +164,10 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
             "'HIGH', 'site': {'floor': {'name': 'FLOOR2', 'parent_name': 'Global/USA/New York/BLDNYC'}}, 'type': None, 'ap_name': 'LTTS-test1', " +
             "'admin_status': None, 'led_status': 'Enabled', 'led_brightness_level': 5, 'ap_mode': 'Local', 'location': 'LTTS/Cisco/Chennai', " +
             "'is_assigned_site_as_location': 'Enabled', "+
-            "'failover_priority': 'Low', 'primary_controller_name': 'Inherit from site / Clear', 'primary_ip_address': None, 'secondary_controller_name': 'NY-EWLC-20', " +
-            "'secondary_ip_address': None, 'tertiary_controller_name': 'Inherit from site / Clear', 'tertiary_ip_address': None, 'clean_air_si_2.4ghz': 'Enabled', " +
+            "'failover_priority': 'Low', 'primary_controller_name': 'Inherit from site / Clear', 'primary_ip_address': None, " +
+            "'secondary_controller_name': 'NY-EWLC-20', " +
+            "'secondary_ip_address': None, 'tertiary_controller_name': 'Inherit from site / Clear', 'tertiary_ip_address': None, " +
+            "'clean_air_si_2.4ghz': 'Enabled', " +
             "'clean_air_si_5ghz': 'Enabled', 'clean_air_si_6ghz': 'Disabled', '2.4ghz_radio': {'admin_status': 'Enabled', 'antenna_name': " +
             "'C-ANT9104-2.4GHz', 'radio_role_assignment': 'Client-Serving', 'channel_number': 2, 'powerlevel': 2, 'radio_type': 1}, '5ghz_radio': " +
             "{'admin_status': 'Enabled', 'antenna_name': 'AIR-ANT2513P4M-N-5GHz', 'radio_role_assignment': 'Client-Serving', 'channel_number': 44, " +
@@ -177,9 +178,9 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
 
     def test_accesspoint_workflow_manager_task_error_update_accesspoint(self):
         """
-        Test case for user role workflow manager when creating a user.
+        Test case for access point workfollow manager and negative test verify ap update.
 
-        This test case checks the behavior of the user workflow when creating a new user in the specified Cisco Catalyst Center.
+        This test case checks the behavior of the nagative test case of update in the specified Cisco Catalyst Center.
         """
         set_module_args(
             dict(
@@ -200,9 +201,9 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
 
     def test_accesspoint_workflow_manager_task_no_error_update_accesspoint(self):
         """
-        Test case for user role workflow manager when creating a user.
+        Test case for access point workfollow manager update access point data.
 
-        This test case checks the behavior of the user workflow when creating a new user in the specified Cisco Catalyst Center.
+        This test case checks the behavior of the access point workflow when update success in the specified Cisco Catalyst Center.
         """
         set_module_args(
             dict(
@@ -222,9 +223,9 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
 
     def test_accesspoint_workflow_manager_missing_rf_profile(self):
         """
-        Test case for user role workflow manager when creating a user.
+        Test case for access point workfollow manager to check rf profile.
 
-        This test case checks the behavior of the user workflow when creating a new user in the specified Cisco Catalyst Center.
+        This test case checks the behavior of the access point workflow when provision ap in the specified Cisco Catalyst Center.
         """
         set_module_args(
             dict(
@@ -244,9 +245,9 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
 
     def test_accesspoint_workflow_manager_already_provision_device(self):
         """
-        Test case for user role workflow manager when creating a user.
+        Test case for access point workfollow manager if already provisioned.
 
-        This test case checks the behavior of the user workflow when creating a new user in the specified Cisco Catalyst Center.
+        This test case checks the behavior of the access point workflow when already provisioned in the specified Cisco Catalyst Center.
         """
         set_module_args(
             dict(
@@ -266,9 +267,9 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
 
     def test_accesspoint_workflow_manager_provision_device(self):
         """
-        Test case for user role workflow manager when creating a user.
+        Test case for access point workfollow manager provision device.
 
-        This test case checks the behavior of the user workflow when creating a new user in the specified Cisco Catalyst Center.
+        This test case checks the behavior of the access point workflow when provisioned in the specified Cisco Catalyst Center.
         """
         set_module_args(
             dict(
@@ -287,6 +288,11 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
         )
 
     def test_invalid_site_exists(self):
+        """
+        Test case for access point workfollow manager check site exists.
+
+        This test case checks the behavior of the access point workflow when site exist in the specified Cisco Catalyst Center.
+        """
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -301,10 +307,16 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get('msg'),
-            "The provided site name 'Global/USA/New York/BLDNYC/FLOOR1' is either invalid or not present in the                         Cisco Catalyst Center."
+            "The provided site name 'Global/USA/New York/BLDNYC/FLOOR1' is either invalid or not " +
+            "present in the                         Cisco Catalyst Center."
         )
 
     def test_invalid_get_site_device(self):
+        """
+        Test case for access point workfollow manager get device details from site
+
+        This test case checks the behavior of the access point workflow when check the devices in the site on the specified Cisco Catalyst Center.
+        """
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -348,9 +360,9 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
 
     def test_accesspoint_workflow_manager_Failure_provision_device(self):
         """
-        Test case for user role workflow manager when creating a user.
+        Test case for access point workfollow manager failure provision device.
 
-        This test case checks the behavior of the user workflow when creating a new user in the specified Cisco Catalyst Center.
+        This test case checks the behavior of the access point workflow when failed provision in the specified Cisco Catalyst Center.
         """
         set_module_args(
             dict(
@@ -370,9 +382,9 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
 
     def test_accesspoint_workflow_manager_check_verify_diff_merged(self):
         """
-        Test case for user role workflow manager when creating a user.
+        Test case for access point workfollow manager verify access point updates.
 
-        This test case checks the behavior of the user workflow when creating a new user in the specified Cisco Catalyst Center.
+        This test case checks the behavior of the access point workflow when verify data in the specified Cisco Catalyst Center.
         """
         set_module_args(
             dict(
@@ -391,9 +403,9 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
 
     def test_accesspoint_workflow_manager_some_error_data_update_accesspoint(self):
         """
-        Test case for user role workflow manager when creating a user.
+        Test case for access point workfollow manager negative case.
 
-        This test case checks the behavior of the user workflow when creating a new user in the specified Cisco Catalyst Center.
+        This test case checks the behavior of the access point workflow when wrong data passed in the specified Cisco Catalyst Center.
         """
         set_module_args(
             dict(
@@ -410,24 +422,24 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
         self.maxDiff = None
         self.assertEqual(
             result.get('msg'),
-            'Invalid parameters in playbook config: \'["management_ip_address: Invalid Management IP '+
-            'Address \'204.192.12.201dsd\'                            in playbook.", \'name: Invalid type or length > 32 characters in '+
-            'playbook.\', \'parent_name: Invalid type or length > 64 characters in playbook.\', "led_status: Invalid LED Status \'Enableddd\' in '+
-            'playbook.", "ap_mode: Invalid value \'Monitorw\' for ap_mode in playbook. Must be one of: Local, Monitor, Sniffer or '+
-            'Bridge.", "failover_priority: Invalid value \'Lossw\' for failover_priority in playbook. Must be one of: Low, Medium, High or '+
-            'Critical.", "clean_air_si_2.4ghz: Invalid value \'Disableds\' in playbook. Must be '+
-            'either \'Enabled\' or \'Disabled\'.", "clean_air_si_5ghz: Invalid value \'Disableds\' in playbook. Must be '+
-            'either \'Enabled\' or \'Disabled\'.", "clean_air_si_6ghz: Invalid value \'Enableds\' in playbook. Must be '+
-            'either \'Enabled\' or \'Disabled\'.", "primary_ip_address: Invalid primary_ip_address \'{\'address\': \'204.192.4.20dfasd0\'}\' in '+
-            'playbook", "secondary_ip_address: Invalid secondary_ip_address \'{\'address\': \'204.192.4.20dfasd0\'}\' in '+
+            'Invalid parameters in playbook config: \'["management_ip_address: Invalid Management IP ' +
+            'Address \'204.192.12.201dsd\'                            in playbook.", \'name: Invalid type or length > 32 characters in ' +
+            'playbook.\', \'parent_name: Invalid type or length > 64 characters in playbook.\', "led_status: Invalid LED Status \'Enableddd\' in ' +
+            'playbook.", "ap_mode: Invalid value \'Monitorw\' for ap_mode in playbook. Must be one of: Local, Monitor, Sniffer or ' +
+            'Bridge.", "failover_priority: Invalid value \'Lossw\' for failover_priority in playbook. Must be one of: Low, Medium, High or ' +
+            'Critical.", "clean_air_si_2.4ghz: Invalid value \'Disableds\' in playbook. Must be ' +
+            'either \'Enabled\' or \'Disabled\'.", "clean_air_si_5ghz: Invalid value \'Disableds\' in playbook. Must be ' +
+            'either \'Enabled\' or \'Disabled\'.", "clean_air_si_6ghz: Invalid value \'Enableds\' in playbook. Must be ' +
+            'either \'Enabled\' or \'Disabled\'.", "primary_ip_address: Invalid primary_ip_address \'{\'address\': \'204.192.4.20dfasd0\'}\' in ' +
+            'playbook", "secondary_ip_address: Invalid secondary_ip_address \'{\'address\': \'204.192.4.20dfasd0\'}\' in ' +
             'playbook", "tertiary_ip_address: Invalid tertiary_ip_address \'{\'address\': \'204.192.4.20dfasd0\'}\' in playbook"]\' '
         )
 
     def test_accesspoint_workflow_manager_some_missing_data_update_accesspoint(self):
         """
-        Test case for user role workflow manager when creating a user.
+        Test case for access point workfollow manager update all data with error.
 
-        This test case checks the behavior of the user workflow when creating a new user in the specified Cisco Catalyst Center.
+        This test case checks the behavior of the access point workflow when wrong data update in the specified Cisco Catalyst Center.
         """
         set_module_args(
             dict(
@@ -474,9 +486,14 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
             'playbook", "channel_assignment_mode: Invalid value \'any\' for Channel Assignment Mode in playbook. Must be either \'Global\' or \'Custom\'.", ' +
             '"radio_role_assignment: Invalid value \'Client-Serving\'. Hence, AP mode is not Local. Kindly change the AP mode to Local then ' +
             'change the radio_role_assignment to Auto."]\' '
-            )
+        )
 
     def test_invalid_wlc_device(self):
+        """
+        Test case for access point workfollow manager check invalid wireless controller.
+
+        This test case checks the behavior of the access point workflow of invalid wlc specified Cisco Catalyst Center.
+        """
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -489,7 +506,6 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        print(result)
         self.assertEqual(
             result.get('msg'),
             "Wireles controller is not provisioned:"
