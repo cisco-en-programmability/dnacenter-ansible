@@ -16,40 +16,50 @@
             "ap_selected_fields": "id,hostname,family,type,mac_address,management_ip_address,ap_ethernet_mac_address",
             "ap_config_selected_fields": "mac_address,eth_mac,ap_name,led_brightness_level,led_status,location,radioDTOs",
             "ap_name": "LTTS-test1",
-            "led_status": "Enabled",
+            "admin_status": "Disabled",
+            "led_status": "Disabled",
             "led_brightness_level": 5,
-            "ap_mode": "Local",
+            "is_assigned_site_as_location": "Enabled",
+            "ap_mode": "Sniffer",
             "location": "LTTS/Cisco/Chennai",
-            "failover_priority": "Low",
+            "failover_priority": "High",
             "clean_air_si_2.4ghz": "Disabled",
             "clean_air_si_5ghz": "Disabled",
             "clean_air_si_6ghz": "Enabled",
-            "primary_controller_name": "Inherit from site/Clear",
-            "secondary_controller_name": "Testing2",
+            "primary_controller_name": "SJ-EWLC-2",
+            "secondary_controller_name": "Inherit from site / Clear",
             "primary_ip_address":{
                 "address": "204.192.4.200"
             },
+            "tertiary_controller_name": "Inherit from site / Clear",
             "2.4ghz_radio": {
                 "admin_status": "Enabled",
                 "antenna_name": "C-ANT9104-2.4GHz",
                 "radio_role_assignment": "Client-Serving",
                 "channel_number": 2,
+                "power_assignment_mode": "Global",
+                "channel_width": "40 MHz",
                 "powerlevel": 2
             },
             "5ghz_radio": {
                 "admin_status": "Enabled",
                 "antenna_name": "AIR-ANT2513P4M-N-5GHz",
                 "radio_role_assignment": "Client-Serving",
+                "power_assignment_mode": "Custom",
+                "antenna_cable_name": "nothing",
                 "channel_number": 44,
                 "powerlevel": 2,
-                "channel_width": "20 MHz"
+                "cable_loss": 13,
+                "antenna_gain": 1,
+                "radio_band": "5 Ghz",
+                "channel_width": "80 MHz"
             },
             "6ghz_radio": {
                 "admin_status": "Enabled",
                 "antenna_name": "AIR-ANT2513P4M-N-5GHz",
                 "radio_role_assignment": "Client-Serving",
                 "channel_number": 44,
-                "powerlevel": 2,
+                "power_assignment_mode": "Global",
                 "channel_width": "20 MHz"
             }
         }
@@ -73,10 +83,14 @@
             "led_brightness_level": 5,
             "ap_mode": "Local",
             "location": "LTTS/Cisco/Chennai",
+            "is_assigned_site_as_location": "Enabled",
             "failover_priority": "Low",
             "clean_air_si_2.4ghz": "Enabled",
             "clean_air_si_5ghz": "Enabled",
             "clean_air_si_6ghz": "Disabled",
+            "primary_controller_name": "Inherit from site / Clear",
+            "secondary_controller_name": "NY-EWLC-20",
+            "tertiary_controller_name": "Inherit from site / Clear",
             "2.4ghz_radio": {
                 "admin_status": "Enabled",
                 "antenna_name": "C-ANT9104-2.4GHz",
@@ -105,10 +119,17 @@
             "led_status": "Enabled",
             "led_brightness_level": 5,
             "location": "LTTS/Cisco/Chennai",
+            "is_assigned_site_as_location": "Enabled",
             "failover_priority": "Low",
             "clean_air_si_2.4ghz": "Enabled",
             "clean_air_si_5ghz": "Enabled",
             "clean_air_si_6ghz": "Disabled",
+            "primary_controller_name": "NY-EWLC-1",
+            "primary_ip_address": {"address": "204.192.6.200"},
+            "secondary_controller_name": "NY-EWLC-20",
+            "secondary_ip_address": {"address": "fe80::202:b3ff:fe1e:8324"},
+            "tertiary_controller_name": "SJ-EWLC-20",
+            "tertiary_ip_address": {"address": "fe80::202:b3ff:fe1e:8325"},
             "2.4ghz_radio": {
                 "admin_status": "Enabled",
                 "antenna_name": "C-ANT9104-2.4GHz",
@@ -422,6 +443,17 @@
     ]
     },
 
+    "ap_verify_response": {
+        "response": [
+                {
+                    "changed": true,
+                    "response": {
+                        "ap_config_update_status": "The update for AP Config 'Cisco_Test_AP_TT2' has been successfully verified."
+                    }
+                }
+            ]
+    },
+
     "verify_get_device_info":{
         "name": "NY-EWLC-1.cisco.local",
         "roles": [
@@ -476,7 +508,7 @@
             "role": "ACCESS",
             "roleSource": "AUTO",
             "serialNumber": "FCW2203N6H1",
-            "series": "Cisco 3800I Series Unified Access Points",
+            "series": "Cisco 9130 Series Unified Access Points",
             "snmpContact": "",
             "snmpLocation": "default location",
             "softwareType": null,
@@ -719,7 +751,7 @@
             },
             "ap_name": "LTTS-test2",
             "led_status": "Enableddd",
-            "led_brightness_level": 10,
+            "led_brightness_level": 7,
             "ap_mode": "Monitorw",
             "location": 1,
             "failover_priority": "Lossw",
@@ -740,8 +772,8 @@
                 "radio_role_assignment": "any",
                 "power_assignment_mode": "any",
                 "channel_number": 22,
-                "channel_width": 50,
-                "powerlevel": 23,
+                "channel_width": 5,
+                "powerlevel": 2,
                 "radio_band": 2
             },
             "xor_radio": {
@@ -751,6 +783,38 @@
                 "radio_role_assignment": "Client-Serving",
                 "channel_number": 2
             }
+        }
+    ],
+
+    "playbook_config_update_some_error_data": [
+        {
+            "mac_address": "90:e9:5e:03:f3:40",
+            "management_ip_address": "204.192.12.201dsd",
+            "ap_selected_fields": "id,hostname,family,type,mac_address,management_ip_address,ap_ethernet_mac_address",
+            "ap_config_selected_fields": "mac_address,eth_mac,ap_name,led_brightness_level,led_status,location,radioDTOs",
+            "rf_profile": "HIGH",
+            "family":"Unified AP",
+            "site": {
+                "floor": {
+                    "name": "FLOOR2FLOOR2FLOOR2FLOOR2FLOOR2FLOOR2FLOO",
+                    "parent_name": "Global/USA/New York/BLDNYCGlobal/USA/New York/BLDNYCGlobal/USA/iikk"
+                }
+            },
+            "ap_name": "LTTS-test2",
+            "led_status": "Enableddd",
+            "led_brightness_level": 7,
+            "ap_mode": "Monitorw",
+            "location": 1,
+            "failover_priority": "Lossw",
+            "clean_air_si_2.4ghz": "Disableds",
+            "clean_air_si_5ghz": "Disableds",
+            "clean_air_si_6ghz": "Enableds",
+            "primary_ip_address": {
+				"address": "204.192.4.20dfasd0" },
+            "secondary_ip_address": {
+				"address": "204.192.4.20dfasd0" },
+            "tertiary_ip_address": {
+				"address": "204.192.4.20dfasd0" }
         }
     ]
 }
