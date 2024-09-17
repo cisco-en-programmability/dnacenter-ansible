@@ -55,7 +55,7 @@ options:
         type: dict
         suboptions:
           type:
-            description: Specifies the source of the image import. Supported values are 'local' for local file import, 
+            description: Specifies the source of the image import. Supported values are 'local' for local file import,
                 'remote' for remote URL import, or 'CCO' for import from Cisco Connection Online.
             type: str
           local_image_details:
@@ -162,7 +162,7 @@ options:
             type: dict
             suboptions:
               image_name:
-                description: A mandatory parameter for importing a SWIM image via Cisco.com. 
+                description: A mandatory parameter for importing a SWIM image via Cisco.com.
                     This parameter is required to initiate the download of the software image from Cisco.com.
                 type: dict
       tagging_details:
@@ -727,7 +727,7 @@ class Swim(DnacBase):
                     if image_id:
                         return image_id
             raise Exception
-        except:
+        except Exception as e:
             self.status = "failed"
             self.msg = "Image with name '{0}' not found on Cisco.com".format(cco_image_name)
             self.result['response'] = self.msg
@@ -1210,7 +1210,7 @@ class Swim(DnacBase):
         """
 
         want = {}
-        import_image_details = config.get("import_image_details",{})
+        import_image_details = config.get("import_image_details", {})
         if import_image_details:
             want["import_image"] = True
             want["import_type"] = import_image_details.get("type").lower()
@@ -1369,7 +1369,7 @@ class Swim(DnacBase):
                         self.log(self.msg, "ERROR")
                         self.result['response'] = "No task details found."
                         self.status = "failed"
-                        return self  
+                        return self
 
                     if "completed successfully" in task_details.get("progress", "").lower():
                         if images_to_import:
@@ -1395,8 +1395,7 @@ class Swim(DnacBase):
                             self.msg = task_details.get("failureReason", "SWIM Image {0} seems to be invalid".format(image_name))
                             self.log(self.msg, "WARNING")
                             self.result['response'] = self.msg
-                            return self  
-
+                            return self
 
                 image_name = image_name.split('/')[-1]
                 image_id = self.get_image_id(image_name)
@@ -1412,7 +1411,8 @@ class Swim(DnacBase):
                     messages.append("Image(s) {0} were skipped as they already exist in Cisco Catalyst Center.".format(skipped_images_str))
                     messages.append("Images {0} have been imported successfully.".format(imported_images_str))
                 else:
-                    messages.append("Image(s) {0} were skipped as they already exist in Cisco Catalyst Center. No new images were imported.".format(skipped_images_str))
+                    messages.append("Image(s) {0} were skipped as they already exist in Cisco Catalyst Center."
+                                    "No new images were imported.".format(skipped_images_str))
             elif imported_images_str:
                 messages.append("Image(s) {0} have been imported successfully into Cisco Catalyst Center.".format(imported_images_str))
             else:
@@ -1968,11 +1968,11 @@ class Swim(DnacBase):
         imported_images = ", ".join(names_of_images)
 
         if image_exist:
-                self.status = "success"
-                self.msg = "The requested image '{0}' has been imported into the Cisco Catalyst Center and its presence has been verified.".format(imported_images)
-                self.log(self.msg, "INFO")
+            self.status = "success"
+            self.msg = "The requested image '{0}' has been imported into the Cisco Catalyst Center and its presence has been verified.".format(imported_images)
+            self.log(self.msg, "INFO")
         else:
-            self.log("The playbook input for SWIM image '{0}' does not align with the Cisco Catalyst Center," 
+            self.log("The playbook input for SWIM image '{0}' does not align with the Cisco Catalyst Center,"
                      "indicating that the image may not have been imported successfully.".format(name), "INFO")
 
         return self
