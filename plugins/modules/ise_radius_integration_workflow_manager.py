@@ -219,12 +219,16 @@ notes:
     system_settings.SystemSettings.edit_authentication_and_policy_server_access_configuration,
     system_settings.SystemSettings.accept_cisco_ise_server_certificate_for_cisco_ise_server_integration,
     system_settings.SystemSettings.delete_authentication_and_policy_server_access_configuration,
+    system_settings.SystemSettings.get_authentication_and_policy_servers,
+    system_settings.SystemSettings.cisco_ise_server_integration_status,
 
   - Paths used are
     post /dna/intent/api/v1/authentication-policy-servers,
     put /dna/intent/api/v1/authentication-policy-servers/${id},
     put /dna/intent/api/v1/integrate-ise/${id},
     delete /dna/intent/api/v1/authentication-policy-servers/${id}
+    get /dna/intent/api/v1/authentication-policy-servers
+    get /dna/intent/api/v1/ise-integration-status
 
 """
 
@@ -596,7 +600,8 @@ class IseRadiusIntegration(DnacBase):
             "retries": str(auth_server_info.get("retries")),
             "role": auth_server_info.get("role"),
             "timeoutSeconds": str(auth_server_info.get("timeoutSeconds")),
-            "encryptionScheme": auth_server_info.get("encryptionScheme")
+            "encryptionScheme": auth_server_info.get("encryptionScheme"),
+            "state": auth_server_info.get("state")
         }
         self.log("Formated Authentication and Policy Server details: {0}"
                  .format(auth_server), "DEBUG")
@@ -653,7 +658,7 @@ class IseRadiusIntegration(DnacBase):
         self.log("Authentication and Policy Server details: {0}"
                  .format(auth_server_details), "DEBUG")
         if not auth_server_details:
-            self.log("Global pool {0} does not exist".format(ipAddress), "INFO")
+            self.log("Authentication and Policy Server {0} does not exist".format(ipAddress), "INFO")
             return AuthServer
 
         AuthServer.update({"exists": True})
@@ -1129,6 +1134,49 @@ class IseRadiusIntegration(DnacBase):
         self.status = "success"
         return self
 
+    def check_cisco_ise_server_integration_status(self, ip_address):
+        """
+        Check whether the Cisco ISE server is ready for the accepting the user authentication certificate.
+
+        Parameters:
+            ip_address (str) - The IP address of the Cisco ISE server.
+            self - The current object with updated desired Authentication Policy Server information.
+
+        Returns:
+            self - The current object with updated desired Authentication Policy Server information.
+        """
+
+        start_time = time.time()
+        while True:
+            try:
+                cisco_ise_status = self.dnac._exec(
+                    family="system_settings",
+                    function="cisco_ise_server_integration_status",
+                    op_modifies=True,
+                )
+            except Exception as msg:
+                self.msg = (
+                    "Exception occurred while checking the status of the Cisco ISE server with IP address '{ip}'."
+                    .format(ip=ip_address)
+                )
+
+            overall_status = cisco_ise_status.get("overallStatus")
+            statuses = ["WAITING_USER_INPUT", "COMPLETE"]
+            if overall_status in statuses:
+                self.log("The status of the Cisco ISE server is '{status}'".format(status=overall_status))
+                break
+
+            time.sleep(1)
+            end_time = time.time()
+            if (end_time - start_time) >= 10:
+                self.msg = (
+                    "The DNAC took more than 10 seconds to accept the PxGrid certificate of the Cisco ISE server with ."
+                )
+                self.status = "failed"
+                break
+
+        return self
+
     def accept_cisco_ise_server_certificate(self, ipAddress, trusted_server):
         """
         Accept the Cisco ISE server certificate in Cisco Catalyst
@@ -1173,6 +1221,7 @@ class IseRadiusIntegration(DnacBase):
             self.log("Exception occurred while accepting the certificate of {0}: {1}"
                      .format(ipAddress, msg))
             return None
+
         return
 
     def check_auth_server_response_status(self, response, validation_string_set, api_name):
@@ -1306,7 +1355,7 @@ class IseRadiusIntegration(DnacBase):
                     function=function_name,
                     params=auth_server_params,
                 )
-                validation_string_set = ("successfully created aaa settings", "operation sucessful")
+                validation_string_set = ("successfully created aaa settings", "operation successful")
                 self.check_auth_server_response_status(response, validation_string_set, function_name)
                 if self.status == "failed":
                     self.log(self.msg, "ERROR")
@@ -1314,6 +1363,7 @@ class IseRadiusIntegration(DnacBase):
 
                 if is_ise_server:
                     trusted_server = self.want.get("trusted_server")
+                    self.check_cisco_ise_server_integration_status(ip_address)
                     self.accept_cisco_ise_server_certificate(ip_address, trusted_server)
                     ise_integration_wait_time = self.want.get("ise_integration_wait_time")
                     time.sleep(ise_integration_wait_time)
@@ -1397,7 +1447,7 @@ class IseRadiusIntegration(DnacBase):
                 function=function_name,
                 params=auth_server_params,
             )
-            validation_string_set = ("successfully updated aaa settings", "operation sucessful")
+            validation_string_set = ("successfully updated aaa settings", "operation successful")
             self.check_auth_server_response_status(response, validation_string_set, function_name)
             if self.status == "failed":
                 self.log(self.msg, "ERROR")
@@ -1405,11 +1455,21 @@ class IseRadiusIntegration(DnacBase):
 
             trusted_server = self.want.get("trusted_server")
             trusted_server_msg = ""
-            if trusted_server is True:
+            state = self.have.get("authenticationPolicyServer")[auth_server_index].get("details").get("state")
+            if state != "ACTIVE":
+                self.check_cisco_ise_server_integration_status(ip_address)
                 self.accept_cisco_ise_server_certificate(ip_address, trusted_server)
                 ise_integration_wait_time = self.want.get("ise_integration_wait_time")
                 time.sleep(ise_integration_wait_time)
-            else:
+
+            ise_details = self.dnac._exec(
+                family="system_settings",
+                function='get_authentication_and_policy_servers',
+                params={"is_ise_enabled": True}
+            )
+            ise_details = ise_details.get("response")
+            state = ise_details[0].get("state")
+            if state == "FAILED":
                 trusted_server_msg = " But the server is not trusted."
 
             self.log("Authentication and Policy Server '{0}' updated successfully"
