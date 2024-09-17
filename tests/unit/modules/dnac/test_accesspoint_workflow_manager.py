@@ -35,6 +35,7 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
     playbook_invalid_config_provision = test_data.get("playbook_invalid_config_provision")
     get_device_detail_all_data = test_data.get("get_device_detail_all_data")
     playbook_config_update_some_missing_data = test_data.get("playbook_config_update_some_missing_data")
+    playbook_config_update_some_error_data = test_data.get("playbook_config_update_some_error_data")
 
     def setUp(self):
         super(TestDnacAccesspointWorkflow, self).setUp()
@@ -87,6 +88,7 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
                 self.test_data.get("get_accesspoint_config"),
                 self.test_data.get("provision_ap_response"),
                 self.test_data.get("ap_update_response"),
+                self.test_data.get("ap_task_status"),
                 self.test_data.get("ap_task_status")
             ]
         elif "task_error_update_accesspoint" in self._testMethodName:
@@ -101,15 +103,18 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
                 self.test_data.get("get_device_detail_all_data"),
                 self.test_data.get("get_accesspoint_config"),
                 self.test_data.get("ap_update_response"),
-                self.test_data.get("ap_task_status")
+                self.test_data.get("ap_task_status"),
+                self.test_data.get("ap_verify_response")
             ]
         elif "update_accesspoint" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_device_detail_all_data"),
                 self.test_data.get("get_accesspoint_config"),
                 self.test_data.get("ap_update_response"),
-                self.test_data.get("ap_task_status")
+                self.test_data.get("ap_task_status"),
+                self.test_data.get("ap_verify_response")
             ]
+
         elif "site_exists" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_site_exist_response"),
@@ -125,6 +130,7 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
                 self.test_data.get("ap_update_response"),
                 self.test_data.get("ap_task_status"),
                 self.test_data.get("ap_update_status"),
+                self.test_data.get("ap_verify_response"),
             ]
         elif "invalid_wlc_device" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
@@ -136,9 +142,9 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
 
     def test_accesspoint_workflow_manager_update_accesspoint_series_error(self):
         """
-        Test case for user role workflow manager when creating a user.
+        Test case for access point workfollow manager and positive test verify ap update
 
-        This test case checks the behavior of the user workflow when creating a new user in the specified Cisco Catalyst Center.
+        This test case checks the behavior of the update access point data in the specified Cisco Catalyst Center.
         """
         set_module_args(
             dict(
@@ -147,6 +153,7 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="merged",
+                config_verify=True,
                 config=self.playbook_config_series_error
             )
         )
@@ -156,8 +163,11 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
             "Successfully validated config params: {'mac_address': '90:e9:5e:03:f3:40', 'management_ip_address': None, 'hostname': None, 'rf_profile': " +
             "'HIGH', 'site': {'floor': {'name': 'FLOOR2', 'parent_name': 'Global/USA/New York/BLDNYC'}}, 'type': None, 'ap_name': 'LTTS-test1', " +
             "'admin_status': None, 'led_status': 'Enabled', 'led_brightness_level': 5, 'ap_mode': 'Local', 'location': 'LTTS/Cisco/Chennai', " +
-            "'failover_priority': 'Low', 'primary_controller_name': None, 'primary_ip_address': None, 'secondary_controller_name': None, " +
-            "'secondary_ip_address': None, 'tertiary_controller_name': None, 'tertiary_ip_address': None, 'clean_air_si_2.4ghz': 'Enabled', " +
+            "'is_assigned_site_as_location': 'Enabled', " +
+            "'failover_priority': 'Low', 'primary_controller_name': 'Inherit from site / Clear', 'primary_ip_address': None, " +
+            "'secondary_controller_name': 'NY-EWLC-20', " +
+            "'secondary_ip_address': None, 'tertiary_controller_name': 'Inherit from site / Clear', 'tertiary_ip_address': None, " +
+            "'clean_air_si_2.4ghz': 'Enabled', " +
             "'clean_air_si_5ghz': 'Enabled', 'clean_air_si_6ghz': 'Disabled', '2.4ghz_radio': {'admin_status': 'Enabled', 'antenna_name': " +
             "'C-ANT9104-2.4GHz', 'radio_role_assignment': 'Client-Serving', 'channel_number': 2, 'powerlevel': 2, 'radio_type': 1}, '5ghz_radio': " +
             "{'admin_status': 'Enabled', 'antenna_name': 'AIR-ANT2513P4M-N-5GHz', 'radio_role_assignment': 'Client-Serving', 'channel_number': 44, " +
@@ -168,9 +178,9 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
 
     def test_accesspoint_workflow_manager_task_error_update_accesspoint(self):
         """
-        Test case for user role workflow manager when creating a user.
+        Test case for access point workfollow manager and negative test verify ap update.
 
-        This test case checks the behavior of the user workflow when creating a new user in the specified Cisco Catalyst Center.
+        This test case checks the behavior of the nagative test case of update in the specified Cisco Catalyst Center.
         """
         set_module_args(
             dict(
@@ -179,6 +189,7 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="merged",
+                config_verify=True,
                 config=self.playbook_config
             )
         )
@@ -190,9 +201,9 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
 
     def test_accesspoint_workflow_manager_task_no_error_update_accesspoint(self):
         """
-        Test case for user role workflow manager when creating a user.
+        Test case for access point workfollow manager update access point data.
 
-        This test case checks the behavior of the user workflow when creating a new user in the specified Cisco Catalyst Center.
+        This test case checks the behavior of the access point workflow when update success in the specified Cisco Catalyst Center.
         """
         set_module_args(
             dict(
@@ -212,9 +223,9 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
 
     def test_accesspoint_workflow_manager_missing_rf_profile(self):
         """
-        Test case for user role workflow manager when creating a user.
+        Test case for access point workfollow manager to check rf profile.
 
-        This test case checks the behavior of the user workflow when creating a new user in the specified Cisco Catalyst Center.
+        This test case checks the behavior of the access point workflow when provision ap in the specified Cisco Catalyst Center.
         """
         set_module_args(
             dict(
@@ -234,9 +245,9 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
 
     def test_accesspoint_workflow_manager_already_provision_device(self):
         """
-        Test case for user role workflow manager when creating a user.
+        Test case for access point workfollow manager if already provisioned.
 
-        This test case checks the behavior of the user workflow when creating a new user in the specified Cisco Catalyst Center.
+        This test case checks the behavior of the access point workflow when already provisioned in the specified Cisco Catalyst Center.
         """
         set_module_args(
             dict(
@@ -250,15 +261,15 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
         )
         result = self.execute_module(changed=False, failed=False)
         self.assertEqual(
-            result.get('ap_update_msg'),
+            result.get('response').get('accesspoints_updates').get('ap_config_message'),
             "AP - NY-AP1-9130AXE does not need any update"
         )
 
     def test_accesspoint_workflow_manager_provision_device(self):
         """
-        Test case for user role workflow manager when creating a user.
+        Test case for access point workfollow manager provision device.
 
-        This test case checks the behavior of the user workflow when creating a new user in the specified Cisco Catalyst Center.
+        This test case checks the behavior of the access point workflow when provisioned in the specified Cisco Catalyst Center.
         """
         set_module_args(
             dict(
@@ -270,13 +281,18 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
                 config=self.playbook_config_provision
             )
         )
-        result = self.execute_module(changed=False, failed=False)
+        result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
             result.get('response').get('accesspoints_updates').get('provision_message'),
             "AP NFW-AP2-3802I provisioned successfully."
         )
 
     def test_invalid_site_exists(self):
+        """
+        Test case for access point workfollow manager check site exists.
+
+        This test case checks the behavior of the access point workflow when site exist in the specified Cisco Catalyst Center.
+        """
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -291,10 +307,16 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get('msg'),
-            "The provided site name 'Global/USA/New York/BLDNYC/FLOOR1' is either invalid or not present in the                         Cisco Catalyst Center."
+            "The provided site name 'Global/USA/New York/BLDNYC/FLOOR1' is either invalid or not " +
+            "present in the                         Cisco Catalyst Center."
         )
 
     def test_invalid_get_site_device(self):
+        """
+        Test case for access point workfollow manager get device details from site
+
+        This test case checks the behavior of the access point workflow when check the devices in the site on the specified Cisco Catalyst Center.
+        """
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -338,9 +360,9 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
 
     def test_accesspoint_workflow_manager_Failure_provision_device(self):
         """
-        Test case for user role workflow manager when creating a user.
+        Test case for access point workfollow manager failure provision device.
 
-        This test case checks the behavior of the user workflow when creating a new user in the specified Cisco Catalyst Center.
+        This test case checks the behavior of the access point workflow when failed provision in the specified Cisco Catalyst Center.
         """
         set_module_args(
             dict(
@@ -355,15 +377,14 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
             result.get('msg'),
-            # result.get('ap_update_msg'),
-            "AP - NY-AP1-9130AXE does not need any update"
+            "Cannot provision device: Missing parameters - site_name_hierarchy: Global/USA/New York/BLDNYC/FLOOR1, rf_profile: None, host_name: NFW-AP2-3802I"
         )
 
     def test_accesspoint_workflow_manager_check_verify_diff_merged(self):
         """
-        Test case for user role workflow manager when creating a user.
+        Test case for access point workfollow manager verify access point updates.
 
-        This test case checks the behavior of the user workflow when creating a new user in the specified Cisco Catalyst Center.
+        This test case checks the behavior of the access point workflow when verify data in the specified Cisco Catalyst Center.
         """
         set_module_args(
             dict(
@@ -380,11 +401,11 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
         self.assertEqual(
             result.get('msg'), 'MAC Address not exist:')
 
-    def test_accesspoint_workflow_manager_some_missing_data_update_accesspoint(self):
+    def test_accesspoint_workflow_manager_some_error_data_update_accesspoint(self):
         """
-        Test case for user role workflow manager when creating a user.
+        Test case for access point workfollow manager negative case.
 
-        This test case checks the behavior of the user workflow when creating a new user in the specified Cisco Catalyst Center.
+        This test case checks the behavior of the access point workflow when wrong data passed in the specified Cisco Catalyst Center.
         """
         set_module_args(
             dict(
@@ -393,6 +414,41 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="merged",
+                config_verify=True,
+                config=self.playbook_config_update_some_error_data
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.maxDiff = None
+        self.assertEqual(
+            result.get('msg'),
+            'Invalid parameters in playbook config: \'["management_ip_address: Invalid Management IP ' +
+            'Address \'204.192.12.201dsd\'                            in playbook.", \'name: Invalid type or length > 32 characters in ' +
+            'playbook.\', \'parent_name: Invalid type or length > 64 characters in playbook.\', "led_status: Invalid LED Status \'Enableddd\' in ' +
+            'playbook.", "ap_mode: Invalid value \'Monitorw\' for ap_mode in playbook. Must be one of: Local, Monitor, Sniffer or ' +
+            'Bridge.", "failover_priority: Invalid value \'Lossw\' for failover_priority in playbook. Must be one of: Low, Medium, High or ' +
+            'Critical.", "clean_air_si_2.4ghz: Invalid value \'Disableds\' in playbook. Must be ' +
+            'either \'Enabled\' or \'Disabled\'.", "clean_air_si_5ghz: Invalid value \'Disableds\' in playbook. Must be ' +
+            'either \'Enabled\' or \'Disabled\'.", "clean_air_si_6ghz: Invalid value \'Enableds\' in playbook. Must be ' +
+            'either \'Enabled\' or \'Disabled\'.", "primary_ip_address: Invalid primary_ip_address \'{\'address\': \'204.192.4.20dfasd0\'}\' in ' +
+            'playbook", "secondary_ip_address: Invalid secondary_ip_address \'{\'address\': \'204.192.4.20dfasd0\'}\' in ' +
+            'playbook", "tertiary_ip_address: Invalid tertiary_ip_address \'{\'address\': \'204.192.4.20dfasd0\'}\' in playbook"]\' '
+        )
+
+    def test_accesspoint_workflow_manager_some_missing_data_update_accesspoint(self):
+        """
+        Test case for access point workfollow manager update all data with error.
+
+        This test case checks the behavior of the access point workflow when wrong data update in the specified Cisco Catalyst Center.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merged",
+                config_verify=True,
                 config=self.playbook_config_update_some_missing_data
             )
         )
@@ -400,37 +456,44 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
         self.assertEqual(
             result.get('msg'),
             'Invalid parameters in playbook config: \'[["Access Point series \'Cisco 9164I Series Unified Access Points\' not supported ' +
-            'for the radio type xor_radio allowed series [\'2800\', \'3800\', \'4800\', \'9120\', \'9166\']", "Access Point series \'Cisco ' +
-            '9164I Series Unified Access Points\' not supported for the radio type xor_radio allowed series [\'2800\', \'3800\', \'4800\', ' +
-            '\'9120\', \'9166\']", "Access Point series \'Cisco 9164I Series Unified Access Points\' not supported for the radio type ' +
-            'xor_radio allowed series [\'2800\', \'3800\', \'4800\', \'9120\', \'9166\']", "Access Point series \'Cisco 9164I Series Unified ' +
-            'Access Points\' not supported for the radio type xor_radio allowed series [\'2800\', \'3800\', \'4800\', \'9120\', \'9166\']", "Access ' +
-            'Point series \'Cisco 9164I Series Unified Access Points\' not supported for the radio type xor_radio allowed series [\'2800\', \'3800\', ' +
-            '\'4800\', \'9120\', \'9166\']"], "management_ip_address: Invalid Management IP Address \'204.192.12.201dsd\'                            in ' +
-            'playbook.", \'name: Invalid type or length > 32 characters in playbook.\', \'parent_name: Invalid type or length > 64 characters in ' +
-            'playbook.\', "led_brightness_level: Invalid LED Brightness level \'10\' in playbook.", "led_status: Invalid LED Status \'Enableddd\' in ' +
-            'playbook.", "ap_mode: Invalid value \'Monitorw\' for ap_mode in playbook. Must be one of: Local, Monitor, Sniffer or Bridge.", ' +
-            '"failover_priority: Invalid value \'Lossw\' for failover_priority in playbook. Must be one of: Low, Medium, High or Critical.", ' +
-            '"clean_air_si_2.4ghz: Invalid value \'Disableds\' in playbook. Must be either \'Enabled\' or \'Disabled\'.", "clean_air_si_5ghz: ' +
-            'Invalid value \'Disableds\' in playbook. Must be either \'Enabled\' or \'Disabled\'.", "clean_air_si_6ghz: Invalid value \'Enableds\' ' +
-            'in playbook. Must be either \'Enabled\' or \'Disabled\'.", "primary_ip_address: Invalid primary_ip_address \'{\'address\': ' +
-            '\'204.192.4.20dfasd0\'}\' in playbook", "secondary_ip_address: Invalid secondary_ip_address \'{\'address\': \'204.192.4.20dfasd0\'}\' ' +
-            'in playbook", "tertiary_ip_address: Invalid tertiary_ip_address \'{\'address\': \'204.192.4.20dfasd0\'}\' in playbook", \'Radio Params ' +
-            'cannot be changed when AP mode is in None.\', "admin_status: Invalid value \'Enabledsds\' for admin_status in playbook. Must be ' +
+            'for the radio type xor_radio allowed series 280", "Access Point series \'Cisco 9164I Series Unified Access Points\' not supported ' +
+            'for the radio type xor_radio allowed series 380", "Access Point series \'Cisco 9164I Series Unified Access Points\' not supported ' +
+            'for the radio type xor_radio allowed series 480", "Access Point series \'Cisco 9164I Series Unified Access Points\' not supported ' +
+            'for the radio type xor_radio allowed series 9120", "Access Point series \'Cisco 9164I Series Unified Access Points\' not supported ' +
+            'for the radio type xor_radio allowed series 9166", "Access Point series \'Cisco 9164I Series Unified Access Points\' not supported ' +
+            'for the radio type xor_radio allowed series IW9167EH", "Access Point series \'Cisco 9164I Series Unified Access Points\' not supported ' +
+            'for the radio type xor_radio allowed series IW9165E", "Access Point series \'Cisco 9164I Series Unified Access Points\' not supported ' +
+            'for the radio type xor_radio allowed series IW9165DH"], "management_ip_address: Invalid Management IP ' +
+            'Address \'204.192.12.201dsd\'                            in playbook.", \'name: Invalid type or length > 32 characters in ' +
+            'playbook.\', \'parent_name: Invalid type or length > 64 characters in playbook.\', "led_status: Invalid LED Status \'Enableddd\' in ' +
+            'playbook.", "ap_mode: Invalid value \'Monitorw\' for ap_mode in playbook. Must be one of: Local, Monitor, Sniffer or ' +
+            'Bridge.", "failover_priority: Invalid value \'Lossw\' for failover_priority in playbook. Must be one of: Low, Medium, High or ' +
+            'Critical.", "clean_air_si_2.4ghz: Invalid value \'Disableds\' in playbook. Must be ' +
+            'either \'Enabled\' or \'Disabled\'.", "clean_air_si_5ghz: Invalid value \'Disableds\' in playbook. Must be ' +
+            'either \'Enabled\' or \'Disabled\'.", "clean_air_si_6ghz: Invalid value \'Enableds\' in playbook. Must be ' +
+            'either \'Enabled\' or \'Disabled\'.", "primary_ip_address: Invalid primary_ip_address \'{\'address\': \'204.192.4.20dfasd0\'}\' in ' +
+            'playbook", "secondary_ip_address: Invalid secondary_ip_address \'{\'address\': \'204.192.4.20dfasd0\'}\' in playbook", "tertiary_ip_address: ' +
+            'Invalid tertiary_ip_address \'{\'address\': \'204.192.4.20dfasd0\'}\' in playbook", \'Radio Params cannot be changed when AP mode is in ' +
+            'None.\', "admin_status: Invalid value \'Enabledsds\' for admin_status in playbook. Must be ' +
             'either \'Enabled\' or \'Disabled\'.", "channel_assignment_mode: Invalid value \'any\' for Channel Assignment Mode in playbook. Must be ' +
             'either \'Global\' or \'Custom\'.", "channel_number: Invalid value \'22\' for Channel Number in playbook. Must be one of: ' +
-            '[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].", "channel_width: Invalid value \'50\' for Channel width in playbook. Must be one of: \'20 MHz\', ' +
-            '\'40 MHz\', \'80 MHz\', or \'160 MHz\'.", "power_assignment_mode: Invalid value \'any\' for Power assignment mode in playbook. Must be ' +
-            'either \'Global\' or \'Custom\'.", "powerlevel: Invalid Power level \'23\' in playbook. Must be between 1 to 8.", "radio_band: ' +
-            'Invalid value \'2\' in playbook. Must be either \'2.4 GHz\' or \'5 GHz\'.", "radio_role_assignment: Invalid value \'any\' for radio ' +
-            'role assignment in playbook. Must be one of: \'Auto\', \'Monitor\' or \'Client-Serving\'.", \'Radio Params cannot be changed when AP mode ' +
-            'is in None.\', "admin_status: Invalid value \'Enabledsds\' for admin_status in playbook. Must be either \'Enabled\' or \'Disabled\'.", ' +
-            '"antenna_gain: Invalid \'15\' in playbook", "channel_assignment_mode: Invalid value \'any\' for Channel Assignment Mode in playbook. Must ' +
-            'be either \'Global\' or \'Custom\'.", "radio_role_assignment: Invalid value \'Client-Serving\'. Hence, AP mode is not Local. Kindly change ' +
-            'the AP mode to Local then change the radio_role_assignment to Auto."]\' '
+            '[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14].", "channel_width: Invalid value \'5\' for Channel width in playbook. Must be one ' +
+            'of: \'20 MHz\', \'40 MHz\', \'80 MHz\', or \'160 MHz\'.", "power_assignment_mode: Invalid value \'any\' for Power assignment mode in ' +
+            'playbook. Must be either \'Global\' or \'Custom\'.", \'powerlevel: This configuration is only supported with Client-Serving Radio Role ' +
+            'Assignment None \', "radio_role_assignment: Invalid value \'any\' for radio role assignment in playbook. Must be one ' +
+            'of: \'Auto\', \'Monitor\' or \'Client-Serving\'.", \'Radio Params cannot be changed when AP mode is in None.\', "admin_status: ' +
+            'Invalid value \'Enabledsds\' for admin_status in playbook. Must be either \'Enabled\' or \'Disabled\'.", "antenna_gain: Invalid \'15\' in ' +
+            'playbook", "channel_assignment_mode: Invalid value \'any\' for Channel Assignment Mode in playbook. Must be either \'Global\' or \'Custom\'.", ' +
+            '"radio_role_assignment: Invalid value \'Client-Serving\'. Hence, AP mode is not Local. Kindly change the AP mode to Local then ' +
+            'change the radio_role_assignment to Auto."]\' '
         )
 
     def test_invalid_wlc_device(self):
+        """
+        Test case for access point workfollow manager check invalid wireless controller.
+
+        This test case checks the behavior of the access point workflow of invalid wlc specified Cisco Catalyst Center.
+        """
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -438,11 +501,11 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="merged",
+                config_verify=True,
                 config=self.playbook_config_provision
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        print(result)
         self.assertEqual(
             result.get('msg'),
             "Wireles controller is not provisioned:"
