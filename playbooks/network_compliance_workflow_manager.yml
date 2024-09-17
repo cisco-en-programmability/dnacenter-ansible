@@ -1,7 +1,7 @@
 ---
 - name: Testing
   hosts: dnac_servers
-  gather_facts: no
+  gather_facts: false
 
   vars_files:
     - "credentials.yml"
@@ -17,22 +17,22 @@
       dnac_debug: "{{ dnac_debug }}"
       dnac_log: true
       dnac_log_level: INFO
-      dnac_log_append: False
+      dnac_log_append: false
       config_verify: true
 
   tasks:
-    - name: Run Compliance check using IP address list (run_compliance by default is True)
+    - name: Run Compliance check using IP address list (run_compliance by default is true)
       cisco.dnac.network_compliance_workflow_manager:
         <<: *dnac_login
         config:
-        - ip_address_list: ['204.1.2.2', '204.1.2.5', '204.1.2.4']
+          - ip_address_list: ['204.1.2.2', '204.1.2.5', '204.1.2.4']
 
     - name: Run Compliance check using IP address list
       cisco.dnac.network_compliance_workflow_manager:
         <<: *dnac_login
         config:
-        - ip_address_list: ['204.1.2.2', '204.1.2.5', '204.1.2.4']
-          run_compliance: True
+          - ip_address_list: ['204.1.2.2', '204.1.2.5', '204.1.2.4']
+            run_compliance: true
 
 
     - name: Run Compliance check using Site
@@ -40,7 +40,7 @@
         <<: *dnac_login
         config:
           - site: "Global"
-            run_compliance: True
+            run_compliance: true
 
 
     - name: Run Compliance check using both IP address list and Site
@@ -49,7 +49,7 @@
         config:
           - ip_address_list: ['204.1.2.2', '204.1.2.5', '204.1.2.4']
             site_name: "Global/USA/San Francisco/Building_1/floor_1"
-            run_compliance: True
+            run_compliance: true
 
 
     - name: Run Compliance check with specific categories using IP address list
@@ -60,7 +60,7 @@
             run_compliance_categories: ['INTENT', 'RUNNING_CONFIG', 'IMAGE', 'PSIRT']
 
 
-    - name: Run Compliance check with specific categories using Site 
+    - name: Run Compliance check with specific categories using Site
       cisco.dnac.network_compliance_workflow_manager:
         <<: *dnac_login
         config:
@@ -82,17 +82,17 @@
         <<: *dnac_login
         config:
           - ip_address_list: ['204.1.2.2', '204.1.2.5', '204.1.2.4']
-            run_compliance: False
-            sync_device_config: True
+            run_compliance: false
+            sync_device_config: true
 
 
-    - name: Sync Device Configuration using Site 
+    - name: Sync Device Configuration using Site
       cisco.dnac.network_compliance_workflow_manager:
         <<: *dnac_login
         config:
           - site_name: "Global/USA/San Francisco/Building_1/floor_1"
-            run_compliance: False
-            sync_device_config: True
+            run_compliance: false
+            sync_device_config: true
 
 
     - name: Sync Device Configuration using both IP address list and Site
@@ -101,8 +101,8 @@
         config:
           - ip_address_list: ['204.1.2.2', '204.1.2.5', '204.1.2.4']
             site_name: "Global/USA/San Francisco/Building_1/floor_1"
-            run_compliance: False
-            sync_device_config: True
+            run_compliance: false
+            sync_device_config: true
 
 
     - name: Run Compliance and Sync Device Configuration with IP address list
@@ -110,8 +110,8 @@
         <<: *dnac_login
         config:
           - ip_address_list: ['204.1.2.2', '204.1.2.5', '204.1.2.4']
-            run_compliance: True
-            sync_device_config: True
+            run_compliance: true
+            sync_device_config: true
 
 
     - name: Run Compliance and Sync Device Configuration with Site
@@ -119,8 +119,8 @@
         <<: *dnac_login
         config:
           - site_name: "Global/USA/San Francisco/Building_1/floor_1"
-            run_compliance: True
-            sync_device_config: True
+            run_compliance: true
+            sync_device_config: true
 
 
     - name: Run Compliance with specific categories and Sync Device Configuration with IP address list
@@ -129,7 +129,7 @@
         config:
           - ip_address_list: ['204.1.2.2', '204.1.2.5', '204.1.2.4']
             run_compliance_categories: ['INTENT', 'RUNNING_CONFIG', 'IMAGE', 'PSIRT']
-            sync_device_config: True
+            sync_device_config: true
 
 
     - name: Run Compliance with specific categories and Sync Device Configuration with Site
@@ -138,7 +138,7 @@
         config:
           - site_name: "Global/USA/San Francisco/Building_1/floor_1"
             run_compliance_categories: ['INTENT', 'RUNNING_CONFIG', 'IMAGE', 'PSIRT']
-            sync_device_config: True
+            sync_device_config: true
 
 
     - name: Run Compliance and Sync Device Configuration using both IP address list and Site
@@ -147,5 +147,5 @@
         config:
           - ip_address_list: ['204.1.2.2', '204.1.2.5', '204.1.2.4']
             site_name: "Global/USA/San Francisco/Building_1/floor_1"
-            run_compliance: True
-            sync_device_config: True
+            run_compliance: true
+            sync_device_config: true
