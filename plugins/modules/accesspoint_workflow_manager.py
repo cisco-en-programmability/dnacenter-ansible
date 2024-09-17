@@ -1003,8 +1003,7 @@ class Accesspoint(DnacBase):
             return self
 
         self.validated_config = valid_param
-        self.msg = "Successfully validated playbook config params:{0}".format(
-            self.pprint(valid_param))
+        self.msg = "Successfully validated playbook config params:{0}".format(self.pprint(valid_param))
         self.log(self.msg, "INFO")
         self.status = "success"
         return self
