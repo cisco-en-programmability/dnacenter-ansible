@@ -1946,6 +1946,7 @@ class Swim(DnacBase):
             If the image exists, the status is set to 'success', and a success message is logged.
             If the image does not exist, a warning message is logged indicating a potential import failure.
         """
+        names_of_images = []
 
         if import_type == "remote":
             image_names = self.want.get("url_import_details", {}).get("payload", [{}])[0].get("source_url", [])
@@ -1958,14 +1959,17 @@ class Swim(DnacBase):
             for image_name in image_names:
                 name = image_name.split('/')[-1]
                 image_exist = self.is_image_exist(name)
+                names_of_images.append(name)
         else:
             name = image_names.split('/')[-1]
             image_exist = self.is_image_exist(name)
+            names_of_images.append(name)
 
-        # Code to check if the image already exists in Catalyst Center
+        imported_images = ", ".join(names_of_images)
+
         if image_exist:
                 self.status = "success"
-                self.msg = "The requested image '{0}' has been imported into the Cisco Catalyst Center and its presence has been verified.".format(name)
+                self.msg = "The requested image '{0}' has been imported into the Cisco Catalyst Center and its presence has been verified.".format(imported_images)
                 self.log(self.msg, "INFO")
         else:
             self.log("The playbook input for SWIM image '{0}' does not align with the Cisco Catalyst Center," 

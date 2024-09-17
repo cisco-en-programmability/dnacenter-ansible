@@ -4,13 +4,9 @@ image_details:
       type: "remote"
       url_details:
         payload:
-        - source_url: http://172.21.236.183/swim/V1712_2_CCO/cat9k_iosxe.17.12.02.SPA.bin
-          third_party: False
-  - import_image_details:
-      type: "remote"
-      url_details:
-        payload:
-        - source_url: http://10.197.156.28/stda/abimishr/cat9k_iosxe.17.12.01.SPA.bin
+        - source_url: 
+            - http://172.21.236.183/swim/V177_1_CCO/cat9k_iosxe.17.07.01.SPA.bin
+            - http://10.197.156.28/stda/abimishr/cat9k_iosxe.17.12.01.SPA.bin
           third_party: False
 
 
@@ -25,7 +21,7 @@ image_golden_tagging_details:
 
 image_distributation_details:
   - image_distribution_details:
-      image_name: "cat9k_lite_iosxe.17.12.01.SPA.bin"
+      image_name: "cat9k_iosxe.17.12.01.SPA.bin"
       site_name: "Global/ITest_Swim_Area/ITest_Swim_Building/ITest_Swim_Floor1"
       device_role: "DISTRIBUTION"
       device_family_name: "Switches and Hubs"
@@ -35,9 +31,9 @@ image_activation_details:
   - image_activation_details:
       image_name: "cat9k_iosxe.17.12.02.SPA.bin"
       site_name: "Global/ITest_Swim_Area/ITest_Swim_Building/ITest_Swim_Floor1"
-      device_role: "DISTRIBUTION"
+      device_role: ALL
       device_family_name: "Switches and Hubs"
-      device_series_name: "Cisco Catalyst 9300 Series Switches"
+      device_series_name: "Cisco Catalyst 9300"
       scehdule_validate: False
       distribute_if_needed: True
 

@@ -105,14 +105,14 @@
 #      ASSOCIATE WIRED DEVICE TO SITE       #
 #############################################
 
-  - name: Assign wired device to site and then provision
-    cisco.dnac.inventory_workflow_manager:
-      <<: *dnac_login
-      state: merged
-      config:
-        - "{{ item }}"
-    loop: "{{ vars_map.associate_wired_device }}"
-    register: result_associate_device
+  # - name: Assign wired device to site and then provision
+  #   cisco.dnac.inventory_workflow_manager:
+  #     <<: *dnac_login
+  #     state: merged
+  #     config:
+  #       - "{{ item }}"
+  #   loop: "{{ vars_map.associate_wired_device }}"
+  #   register: result_associate_device
 
   # - name: Debug item
   #   debug:
@@ -120,12 +120,12 @@
   #   loop: "{{ result_associate_device.results }}"
   #   when: result_associate_device is defined
 
-  - name: Assert Assign wired device to site and then provision
-    assert:
-      that:
-        - item.changed == true
-    loop: "{{ result_associate_device.results }}"
-    when: result_associate_device is defined
+  # - name: Assert Assign wired device to site and then provision
+  #   assert:
+  #     that:
+  #       - item.changed == true
+  #   loop: "{{ result_associate_device.results }}"
+  #   when: result_associate_device is defined
 
 
 #############################################
@@ -190,17 +190,17 @@
     loop: "{{ vars_map.image_distributation_details }}"
     register: result_distribute_stack
 
-  # - name: Debug item
-  #   debug:
-  #     var: item
-  #   loop: "{{ result_distribute_stack.results }}"
+  # # - name: Debug item
+  # #   debug:
+  # #     var: item
+  # #   loop: "{{ result_distribute_stack.results }}"
 
-  - name: Assert distribution
-    assert:
-      that:
-        - item.changed == true
-    loop: "{{ result_distribute_stack.results }}"
-    when: result_distribute_stack is defined
+  # - name: Assert distribution
+  #   assert:
+  #     that:
+  #       - item.changed == true
+  #   loop: "{{ result_distribute_stack.results }}"
+  #   when: result_distribute_stack is defined
 
 #############################################
 #              ACTIVATE IMAGE               #

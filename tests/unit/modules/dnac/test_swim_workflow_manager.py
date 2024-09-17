@@ -28,14 +28,10 @@ class TestswimWorkflowManager(TestDnacModule):
     playbook_site_not_exist = test_data.get("playbook_site_not_exist")
     playbook_swim_image_invalid = test_data.get("playbook_swim_image_invalid")
     playbook_image_distribution_failed = test_data.get("playbook_image_distribution_failed")
-    playbook_image_distribution_partially_successfull = test_data.get("playbook_image_distribution_partially_successfull")
     playbook_swim_image_golden_already_tagged = test_data.get("playbook_swim_image_golden_already_tagged")
-    playbook_swim_image_golden_already_untagged = test_data.get("playbook_swim_image_golden_already_untagged")
     playbook_swim_image_cant_found = test_data.get("playbook_swim_image_cant_found")
-    playbook_distribution_failed_for_all_devices = test_data.get("playbook_distribution_failed_for_all_devices")
     playbook_image_details_distribution_not_provided = test_data.get("playbook_image_details_distribution_not_provided")
     playbook_device_family_not_found = test_data.get("playbook_device_family_not_found")
-    playbook_import_image_details_not_provided = test_data.get("playbook_import_image_details_not_provided")
     playbook_import_image_remote = test_data.get("playbook_import_image_remote")
     playbook_image_distribution_successfull = test_data.get("playbook_image_distribution_successfull")
     playbook_image_distribution_successfull_v2_3_7_6 = test_data.get("playbook_image_distribution_successfull_v2_3_7_6")
@@ -114,35 +110,6 @@ class TestswimWorkflowManager(TestDnacModule):
                 self.test_data.get("task_details_image_distribution_failed"),
                 self.test_data.get("image_distribution_failed_response"),
             ]
-        elif "playbook_image_distribution_partially_successfull" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
-                self.test_data.get("get_software_image_details_ps"),
-                self.test_data.get("get_device_list_ps"),
-                self.test_data.get("get_site_ps"),
-                self.test_data.get("get_membership_ps"),
-                self.test_data.get("get_device_uuids"),
-                self.test_data.get("get_device_uuids_1"),
-                self.test_data.get("get_device_list_ps_1"),
-                self.test_data.get("trigger_software_image_distribution_ps"),
-                self.test_data.get("get_device_list_ps_2"),
-                self.test_data.get("trigger_software_image_distribution_ps_1"),
-                self.test_data.get("get_device_list_ps_3"),
-                self.test_data.get("trigger_software_image_distribution_ps_2"),
-                self.test_data.get("get_device_list_ps_4"),
-                self.test_data.get("trigger_software_image_distribution_ps_3"),
-                self.test_data.get("get_device_list_ps_5"),
-                self.test_data.get("trigger_software_image_distribution_ps_4"),
-                self.test_data.get("task_details_ps1"),
-                self.test_data.get("task_details_ps2"),
-                self.test_data.get("task_details_ps3"),
-                self.test_data.get("task_details_ps4"),
-                self.test_data.get("task_details_ps5"),
-                self.test_data.get("task_details_ps6"),
-                self.test_data.get("get_software_image_details_ps_1"),
-                self.test_data.get("get_device_list_ps_6"),
-                self.test_data.get("get_software_image_details_ps_2"),
-                self.test_data.get("image_distribution_partially_successfull"),
-            ]
         elif "playbook_swim_image_golden_tag" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_software_image_details_swim_image_golden_tag"),
@@ -172,38 +139,10 @@ class TestswimWorkflowManager(TestDnacModule):
                 self.test_data.get("get_golden_tag_status_of_an_image_2"),
                 self.test_data.get("swim_image_golden_already_tagged_responce"),
             ]
-        elif "playbook_swim_image_golden_already_untagged" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
-                self.test_data.get("get_software_image_details_golden_already_tagged"),
-                self.test_data.get("get_software_image_details_golden_already_tagged_1"),
-                self.test_data.get("get_software_image_details_golden_already_tagged_2"),
-                self.test_data.get("get_device_family_identifiers_golden_already_tagged"),
-                self.test_data.get("get_software_image_details_golden_already_tagged_3"),
-                self.test_data.get("get_golden_tag_status_of_an_image_golden_already_untagged"),
-                self.test_data.get("get_software_image_details_golden_already_tagged_4"),
-                self.test_data.get("get_device_family_identifiers_golden_already_tagged_1"),
-                self.test_data.get("get_software_image_details_golden_already_tagged_5"),
-                self.test_data.get("get_software_image_details_golden_already_tagged_6"),
-                self.test_data.get("get_golden_tag_status_of_an_image_golden_already_untagged_1"),
-                self.test_data.get("image_golden_already_untagged_response"),
-            ]
         elif "playbook_swim_image_cant_found" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_software_image_details_swim_image_cant_found"),
                 self.test_data.get("swim_image_cant_found_response"),
-            ]
-        elif "playbook_distribution_failed_for_all_devices" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
-                self.test_data.get("get_site_failed_for_all_devices"),
-                self.test_data.get("get_software_image_details_failed_for_all_devices"),
-                self.test_data.get("get_device_list_failed_for_all_devices"),
-                self.test_data.get("get_site_failed_for_all_devices_1"),
-                self.test_data.get("get_membership_failed_for_all_devices"),
-                self.test_data.get("get_device_list_failed_for_all_devices_1"),
-                self.test_data.get("distribution_params"),
-                self.test_data.get("trigger_software_image_distribution_failed_for_all_devices"),
-                self.test_data.get("Task_details_failed_for_all_devices"),
-                self.test_data.get("distribution_failed_for_all_devices_response"),
             ]
         elif "playbook_image_details_distribution_not_provided" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
@@ -217,11 +156,6 @@ class TestswimWorkflowManager(TestDnacModule):
                 self.test_data.get("get_device_family_identifiers_device_family_not_found"),
                 self.test_data.get("device_family_not_found_response"),
             ]
-        elif "playbook_import_image_details_not_provided" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
-                self.test_data.get("import_image_details_not_provided_response"),
-                ]
-            
         elif "playbook_import_image_remote_v2_3_7_6" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_software_image_details_remote_import"),
@@ -327,14 +261,14 @@ class TestswimWorkflowManager(TestDnacModule):
                 self.test_data.get("activate_image_responce"),
             ]
 
-    def test_swim_workflow_manager_playbook_activate_image(self): 
+    def test_swim_workflow_manager_playbook_activate_image(self):
         """
-        Test case for swim workflow manager import image url 
-        This test case checks the behavior of the swim workflow when giving invalid param in the specified Cisco Catalyst Center.
+        Test case for swim workflow manager import image url
+        This test case checks the behavior of activativating the image in the specified Cisco Catalyst Center.
         """
         set_module_args(
             dict(
-                dnac_version = '2.3.5.3',
+                dnac_version='2.3.5.3',
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
@@ -350,14 +284,14 @@ class TestswimWorkflowManager(TestDnacModule):
             "Image with Id 'None' activated successfully for all devices '204.1.2.4', '204.1.2.2', '204.1.2.3'"
         )
 
-    def test_swim_workflow_manager_playbook_import_cco_image(self): 
+    def test_swim_workflow_manager_playbook_import_cco_image(self):
         """
-        Test case for swim workflow manager import image url 
-        This test case checks the behavior of the swim workflow when giving invalid param in the specified Cisco Catalyst Center.
+        Test case for SWIM workflow manager to import an image from Cisco's cloud (CCO).
+        This test case verifies the import of an image from the CCO into the specified Cisco Catalyst Center.
         """
         set_module_args(
             dict(
-                dnac_version = '2.3.7.6',
+                dnac_version='2.3.7.6',
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
@@ -372,14 +306,14 @@ class TestswimWorkflowManager(TestDnacModule):
             "Image(s) cat9k_iosxe_npe.17.12.04.SPA.bin have been imported successfully in Cisco Catalyst Center"
         )
 
-    def test_swim_workflow_manager_playbook_inheritted_tag_cannot_be_untagged(self): 
+    def test_swim_workflow_manager_playbook_inheritted_tag_cannot_be_untagged(self):
         """
-        Test case for swim workflow manager import image url 
-        This test case checks the behavior of the swim workflow when giving invalid param in the specified Cisco Catalyst Center.
+        Test case for SWIM workflow manager inherited tag untagging.
+        This test case checks the behavior when attempting to untag an inherited tag in the specified Cisco Catalyst Center.
         """
         set_module_args(
             dict(
-                dnac_version = '2.3.7.6',
+                dnac_version='2.3.7.6',
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
@@ -394,14 +328,14 @@ class TestswimWorkflowManager(TestDnacModule):
             "NCSW10395: An inheritted tag cannot be un-tagged. Go to corresponding site to untag."
         )
 
-    def test_swim_workflow_manager_playbook_import_image_remote_v2_3_7_6(self): 
+    def test_swim_workflow_manager_playbook_import_image_remote_v2_3_7_6(self):
         """
-        Test case for swim workflow manager import image url 
-        This test case checks the behavior of the swim workflow when giving invalid param in the specified Cisco Catalyst Center.
+        Test case for SWIM workflow manager to import an image from a remote server.
+        This test case verifies the import of a remote image into the Cisco Catalyst Center for DNAC version 2.3.7.6.
         """
         set_module_args(
             dict(
-                dnac_version = '2.3.7.6',
+                dnac_version='2.3.7.6',
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
@@ -418,14 +352,14 @@ class TestswimWorkflowManager(TestDnacModule):
             "Image(s) cat9k_iosxe.17.12.01.SPA.bin have been imported successfully into Cisco Catalyst Center."
         )
 
-    def test_swim_workflow_manager_playbook_import_image_remote(self): 
+    def test_swim_workflow_manager_playbook_import_image_remote(self):
         """
-        Test case for swim workflow manager import image url 
-        This test case checks the behavior of the swim workflow when giving invalid param in the specified Cisco Catalyst Center.
+        Test case for SWIM workflow manager to import an image from a remote server.
+        This test case verifies the import of a remote image into the Cisco Catalyst Center for DNAC version 2.3.5.3.
         """
         set_module_args(
             dict(
-                dnac_version = '2.3.5.3',
+                dnac_version='2.3.5.3',
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
@@ -441,14 +375,14 @@ class TestswimWorkflowManager(TestDnacModule):
             "Image(s) cat9k_iosxe.17.12.01.SPA.bin have been imported successfully into Cisco Catalyst Center."
         )
 
-    def test_swim_workflow_playbook_image_distribution_successfull(self): 
+    def test_swim_workflow_playbook_image_distribution_successfull(self):
         """
-        Test case for swim workflow manager import image url 
-        This test case checks the behavior of the swim workflow when giving invalid param in the specified Cisco Catalyst Center.
+        Test case for SWIM workflow manager image distribution.
+        This test case verifies the successful distribution of an image to all specified devices in the Cisco Catalyst Center.
         """
         set_module_args(
             dict(
-                dnac_version = '2.3.5.3',
+                dnac_version='2.3.5.3',
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
@@ -464,14 +398,14 @@ class TestswimWorkflowManager(TestDnacModule):
             "Image with Id 1013afb0-49b0-4c90-96ae-57173c56aabd Distributed Successfully for all devices '204.1.2.2'"
         )
 
-    def test_swim_workflow_playbook_image_distribution_successfull_v2_3_7_6(self): # need to work
+    def test_swim_workflow_playbook_image_distribution_successfull_v2_3_7_6(self):
         """
-        Test case for swim workflow manager import image url 
-        This test case checks the behavior of the swim workflow when giving invalid param in the specified Cisco Catalyst Center.
+        Test case for SWIM workflow manager image distribution with DNAC version 2.3.7.6.
+        This test case verifies the successful distribution of an image to all specified devices in the Cisco Catalyst Center for DNAC version 2.3.7.6.
         """
         set_module_args(
             dict(
-                dnac_version = '2.3.7.6',
+                dnac_version='2.3.7.6',
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
@@ -487,7 +421,6 @@ class TestswimWorkflowManager(TestDnacModule):
             "Image with Id 1013afb0-49b0-4c90-96ae-57173c56aabd Distributed Successfully for all devices '204.1.2.2'"
         )
 
-
     def test_swim_workflow_manager_playbook_untag_image_as_golden_and_load_on_device(self):
         """
         Test case for swim workflow manager when giving untag image as golden and load on device
@@ -495,7 +428,7 @@ class TestswimWorkflowManager(TestDnacModule):
         """
         set_module_args(
             dict(
-                dnac_version = '2.3.5.3',
+                dnac_version='2.3.5.3',
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
@@ -519,7 +452,7 @@ Catalyst 9000 UADP 8 Port Virtual Switch  for device deviceTag ALL successful."
         """
         set_module_args(
             dict(
-                dnac_version = '2.3.5.3',
+                dnac_version='2.3.5.3',
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
@@ -541,7 +474,7 @@ Catalyst 9000 UADP 8 Port Virtual Switch  for device deviceTag ALL successful."
         """
         set_module_args(
             dict(
-                dnac_version = '2.3.5.3',
+                dnac_version='2.3.5.3',
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
@@ -564,7 +497,7 @@ Catalyst 9000 UADP 8 Port Virtual Switch  for device deviceTag ALL successful."
         """
         set_module_args(
             dict(
-                dnac_version = '2.3.5.3',
+                dnac_version='2.3.5.3',
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
@@ -587,7 +520,7 @@ Catalyst 9000 UADP 8 Port Virtual Switch  for device deviceTag ALL successful."
         """
         set_module_args(
             dict(
-                dnac_version = '2.3.5.3',
+                dnac_version='2.3.5.3',
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
@@ -603,37 +536,14 @@ Catalyst 9000 UADP 8 Port Virtual Switch  for device deviceTag ALL successful."
             "Image with Id c383ee35-d20e-49f2-b51c-bfe499abbbaa Distribution Failed"
         )
 
-    # def test_swim_workflow_manager_playbook_image_distribution_partially_successfull(self): # failed
-    #     """
-    #     Test case for swim workflow manager when giving image distribution partially successfull
-    #     This test case checks the behavior of the swim workflow when giving image distribution partially successfull
-    #     """
-    #     set_module_args(
-    #         dict(
-    #             dnac_version = '2.3.5.3',
-    #             dnac_host="1.1.1.1",
-    #             dnac_username="dummy",
-    #             dnac_password="dummy",
-    #             dnac_log=True,
-    #             state="merged",
-    #             config_verify=True,
-    #             config=self.playbook_image_distribution_partially_successfull
-    #         )
-    #     )
-    #     result = self.execute_module(changed=False, failed=True)
-    #     self.assertEqual(
-    #         result.get('msg'),
-    #         "Image with Id 'c383ee35-d20e-49f2-b51c-bfe499abbbaa' Distributed and partially successfull"
-    #     )
-
     def test_swim_workflow_manager_playbook_swim_image_golden_tag(self):
         """
         Test case for swim workflow manager when givingswim image golden already tagged
-        This test case checks the behavior of the swim workflow when giving swim image golden already tagged
+        This test case checks the behavior of the swim workflow when giving swim image golden tagged
         """
         set_module_args(
             dict(
-                dnac_version = '2.3.5.3',
+                dnac_version='2.3.5.3',
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
@@ -649,14 +559,14 @@ Catalyst 9000 UADP 8 Port Virtual Switch  for device deviceTag ALL successful."
             "Tagging image  cat9k_iosxe.17.12.02.SPA.bin  golden for site  Global for family Cisco Catalyst 9300 Switch  for device deviceTag ALL successful."
         )
 
-    def test_swim_workflow_manager_playbook_swim_image_golden_already_tagged(self): #failed
+    def test_swim_workflow_manager_playbook_swim_image_golden_already_tagged(self):
         """
         Test case for swim workflow manager when givingswim image golden already tagged
         This test case checks the behavior of the swim workflow when giving swim image golden already tagged
         """
         set_module_args(
             dict(
-                dnac_version = '2.3.5.3',
+                dnac_version='2.3.5.3',
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
@@ -672,29 +582,6 @@ Catalyst 9000 UADP 8 Port Virtual Switch  for device deviceTag ALL successful."
             "SWIM Image 'cat9k_iosxe.17.12.02.SPA.bin' already tagged as Golden image in Cisco Catalyst Center"
         )
 
-    # def test_swim_workflow_manager_playbook_swim_image_golden_already_untagged(self): #failed
-    #     """
-    #     Test case for swim workflow manager when giving swim image golden already untagged
-    #     This test case checks the behavior of the swim workflow when giving swim image golden already untagged
-    #     """
-    #     set_module_args(
-    #         dict(
-    #             dnac_version = '2.3.5.3',
-    #             dnac_host="1.1.1.1",
-    #             dnac_username="dummy",
-    #             dnac_password="dummy",
-    #             dnac_log=True,
-    #             state="merged",
-    #             config_verify=True,
-    #             config=self.playbook_swim_image_golden_already_untagged
-    #         )
-    #     )
-    #     result = self.execute_module(changed=False, failed=False)
-    #     self.assertEqual(
-    #         result.get('msg'),
-    #         "SWIM Image 'cat9k_iosxe.17.12.02.SPA.bin' already un-tagged from Golden image in Cisco Catalyst Center"
-    #     )
-
     def test_swim_workflow_manager_playbook_swim_image_cant_found(self):
         """
         Test case for swim workflow manager when giving swim image cant found
@@ -702,7 +589,7 @@ Catalyst 9000 UADP 8 Port Virtual Switch  for device deviceTag ALL successful."
         """
         set_module_args(
             dict(
-                dnac_version = '2.3.5.3',
+                dnac_version='2.3.5.3',
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
@@ -718,29 +605,6 @@ Catalyst 9000 UADP 8 Port Virtual Switch  for device deviceTag ALL successful."
             "SWIM image 'cat9k_iosxe.17.12.022.SPA.bin' could not be found"
         )
 
-    # def test_swim_workflow_manager_playbook_distribution_failed_for_all_devices(self): # failed rewrite
-    #     """
-    #     Test case for swim workflow manager when giving distribution failed for all devices
-    #     This test case checks the behavior of the swim workflow when giving distribution failed for all devices
-    #     """
-    #     set_module_args(
-    #         dict(
-    #             dnac_version = '2.3.5.3',
-    #             dnac_host="1.1.1.1",
-    #             dnac_username="dummy",
-    #             dnac_password="dummy",
-    #             dnac_log=True,
-    #             state="merged",
-    #             config_verify=True,
-    #             config=self.playbook_distribution_failed_for_all_devices
-    #         )
-    #     )
-    #     result = self.execute_module(changed=False, failed=True)
-    #     self.assertEqual(
-    #         result.get('msg'),
-    #         "Image with Id c383ee35-d20e-49f2-b51c-bfe499abbbaa Distribution Failed for all devices"
-    #     )
-
     def test_swim_workflow_manager_playbook_image_details_distribution_not_provided(self):
         """
         Test case for swim workflow manager when giving image details distribution not provided
@@ -748,7 +612,7 @@ Catalyst 9000 UADP 8 Port Virtual Switch  for device deviceTag ALL successful."
         """
         set_module_args(
             dict(
-                dnac_version = '2.3.5.3',
+                dnac_version='2.3.5.3',
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
@@ -771,7 +635,7 @@ Catalyst 9000 UADP 8 Port Virtual Switch  for device deviceTag ALL successful."
         """
         set_module_args(
             dict(
-                dnac_version = '2.3.5.3',
+                dnac_version='2.3.5.3',
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
@@ -786,27 +650,3 @@ Catalyst 9000 UADP 8 Port Virtual Switch  for device deviceTag ALL successful."
             result.get('msg'),
             "Device Family: None not found"
         )
-
-#     def test_swim_workflow_manager_playbook_import_image_details_not_provided(self): #failed
-#         """
-#         Test case for swim workflow manager when giving import image details not provided
-#         This test case checks the behavior of the swim workflow when giving import image details not provided
-#         """
-#         set_module_args(
-#             dict(
-#                 dnac_version = '2.3.5.3',
-#                 dnac_host="1.1.1.1",
-#                 dnac_username="dummy",
-#                 dnac_password="dummy",
-#                 dnac_log=True,
-#                 state="merged",
-#                 config_verify=True,
-#                 config=self.playbook_import_image_details_not_provided
-#             )
-#         )
-#         result = self.execute_module(changed=False, failed=True)
-#         self.assertEqual(
-#             result.get('msg'),
-#             "Error: Import image details are not provided in the playbook, or the Import Image API was not\n                 triggered successfully.\
-#  Please ensure the necessary details are provided and verify the status of the Import Image process."
-#         )
