@@ -1,7 +1,7 @@
 ---
 - name: Testing
   hosts: dnac_servers
-  gather_facts: no
+  gather_facts: false
 
   vars_files:
     - "credentials.yml"
@@ -17,7 +17,7 @@
       dnac_debug: "{{ dnac_debug }}"
       dnac_log: true
       dnac_log_level: INFO
-      dnac_log_append: False
+      dnac_log_append: false
       config_verify: true
 
   tasks:
