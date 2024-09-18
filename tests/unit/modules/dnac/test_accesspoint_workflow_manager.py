@@ -478,7 +478,8 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
             'either \'Enabled\' or \'Disabled\'.", "channel_assignment_mode: Invalid value \'any\' for Channel Assignment Mode in playbook. Must be ' +
             'either \'Global\' or \'Custom\'.", "channel_number: Invalid value \'22\' for Channel Number in playbook. Must be one of: ' +
             '[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14].", "channel_width: Invalid value \'5\' for Channel width in playbook. Must be one ' +
-            'of: \'20 MHz\', \'40 MHz\', \'80 MHz\', \'160 MHz\', or \'320 MHz\'.", "power_assignment_mode: Invalid value \'any\' for Power assignment mode in ' +
+            'of: \'20 MHz\', \'40 MHz\', \'80 MHz\', \'160 MHz\', or \'320 MHz\'.", "power_assignment_mode: Invalid ' +
+            'value \'any\' for Power assignment mode in ' +
             'playbook. Must be either \'Global\' or \'Custom\'.", \'powerlevel: This configuration is only supported with Client-Serving Radio Role ' +
             'Assignment None \', "radio_role_assignment: Invalid value \'any\' for radio role assignment in playbook. Must be one ' +
             'of: \'Auto\', \'Monitor\' or \'Client-Serving\'.", \'Radio Params cannot be changed when AP mode is in None.\', "admin_status: ' +
