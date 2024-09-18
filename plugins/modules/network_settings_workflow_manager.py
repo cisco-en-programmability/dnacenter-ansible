@@ -42,7 +42,7 @@ options:
     required: true
     suboptions:
       global_pool_details:
-        description: Manages IPv4 and IPv6 IP pools in the global level.
+        description: Manages IPv4 and IPv6 pools in the global level.
         type: dict
         suboptions:
           settings:
@@ -101,7 +101,8 @@ options:
 
       reserve_pool_details:
         description: Reserved IP subpool details from the global pool.
-        type: dict
+        type: list
+        elements: dict
         suboptions:
           site_name:
             description: >
