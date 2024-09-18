@@ -58,7 +58,7 @@
                 "admin_status": "Enabled",
                 "antenna_name": "AIR-ANT2513P4M-N-5GHz",
                 "radio_role_assignment": "Client-Serving",
-                "channel_number": 44,
+                "channel_number": 1,
                 "power_assignment_mode": "Global",
                 "channel_width": "20 MHz"
             }

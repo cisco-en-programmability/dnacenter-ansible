@@ -342,15 +342,16 @@ options:
             required: False
           radio_role_assignment:
             description: |
-              Role assignment mode for the xor radio interface. Accepts "Auto", "Client-serving", or "Monitor".
-              If radio_role_assignment is "client-serving", then only power-level and channel-level can be changed.
-              For example, Auto.
+              Role assignment mode for the XOR radio interface. Accepts "Auto," "Client-serving," or "Monitor."
+              If `radio_role_assignment` is set to "Client-serving," only the power level and channel number can be changed.
+              Additionally, if the 5 GHz band is selected in the radio band, the power level cannot be modified.
+              For example: "Auto".
             type: str
             required: False
           radio_band:
             description: |
               Radio band should be enabled if the radio role assignment is set to 'Client-serving' mode.
-              Accepts '2.4 GHz' or '5 GHz'.
+              Accepts '2.4 GHz' or '5 GHz' or '6 GHz'.
             type: str
             required: False
           cable_loss:
@@ -367,6 +368,9 @@ options:
               If the radio band is selected as '2.4 GHz' with "Custom", it accepts values from 1 to 14.
               For '5 GHz' with "Custom", it accepts values such as 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112,
               116, 120, 124, 128, 132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173.
+              For '6 GHz' with "Custom", it accepts values such as 1, 5, 9, 13, 17, 21, 25, 29, 33, 37, 41, 45, 49, 53,
+              57, 61, 65, 69, 73, 77, 81, 85, 89, 93, 97, 101, 105, 109, 113, 117, 121, 125, 129, 133, 137, 141, 145,
+              149, 153, 157, 161, 165, 169, 173, 177, 181, 185, 189, 193, 197, 201, 205, 209, 213, 217, 221, 225, 229, 233.
               For example, "Custom".
             type: str
             required: False
@@ -377,13 +381,13 @@ options:
           channel_width:
             description: |
               Width of the channel configured for the xor radio interface. Accepts values
-              "20 MHz", "40 MHz", "80 MHz", or "160 MHz". For example, 20 MHz.
+              "20 MHz", "40 MHz", "80 MHz", "160 MHz" or "320 MHz". For example, 20 MHz.
             type: str
             required: False
           power_assignment_mode:
             description: |
-              Mode of power assignment for the xor radio interface. Accepts "Global" or "Custom".
-              In Custom, it accepts values 1 to 8.
+              Mode of power assignment for the XOR radio interface. Accepts "Global" or "Custom."
+              In "Custom" mode, it accepts values from 1 to 8. This option is not available for the 5 GHz radio band.
             type: str
             required: False
           power_level:
@@ -435,7 +439,7 @@ options:
           channel_width:
             description: |
               Width of the channel configured for the tri radio interface. Accepts values
-              "20 MHz", "40 MHz", "80 MHz", or "160 MHz". . For example, 20 MHz.
+              "20 MHz", "40 MHz", "80 MHz", "160 MHz", or "320 MHz". . For example, 20 MHz.
             type: str
             required: False
           power_assignment_mode:
@@ -467,7 +471,7 @@ options:
         required: False
 
 requirements:
-  - dnacentersdk >= 2.4.5
+  - dnacentersdk >= 2.7.2
   - python >= 3.8
 
 seealso:
@@ -792,10 +796,52 @@ EXAMPLES = r"""
               powerlevel: 2
               channel_width: "40 MHz"
       register: output_list
+
+    - name: Updating Access Point Site / Configuration details
+      cisco.dnac.accesspoint_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: True
+        dnac_log_level: DEBUG
+        config_verify: True
+        state: merged
+        config:
+          - mac_address: 6c:d6:e3:75:5a:e0
+            ap_name: "LTTS_Test_9120_T2"
+            admin_status: "Enabled"
+            led_status: "Enabled"
+            led_brightness_level: 2
+            ap_mode: "Local"
+            is_assigned_site_as_location: "Enabled"
+            failover_priority: "Low"
+            primary_controller_name: "NY-IAC-EWLC.cisco.local"
+            primary_ip_address:
+              address: "204.192.6.200"
+            secondary_controller_name: "Inherit from site / Clear"
+            tertiary_controller_name: "Inherit from site / Clear"
+            xor_radio:
+              admin_status: "Enabled"
+              radio_role_assignment: "Client-Serving"
+              channel_number: 4
+              radio_band: "2.4 GHz"
+              channel_width: "40 MHz"
+            5ghz_radio:
+              admin_status: "Enabled"
+              antenna_name: "AIR-ANT2513P4M-N-5GHz"
+              radio_role_assignment: "Client-Serving"
+              channel_number: 40
+              powerlevel: 2
+              channel_width: "80 MHz"
+      register: output_list
 """
 
 RETURN = r"""
-#Case_1: Modification of the AP details updated and Rebooted Access Point
+#Case_1: Modification of the Access Point configuration updated details
 response_1:
   description: >
     A list of dictionaries containing details about the AP updates and verification
@@ -804,44 +850,12 @@ response_1:
   type: dict
   sample: |
     {
-        "response": [
-            {
-                "accesspoints_updates": {
-                    "response": {
-                        "macAdress": "34:5d:a8:0e:20:b4",
-                        "response": {
-                            "taskId": "2ce139fa-1d58-4739-a6ad-b735b97e4dfe",
-                            "url": "/api/v1/task/2ce139fa-1d58-4739-a6ad-b735b97e4dfe"
-                        }
-                    }
+        "response": [{
+                "changed": true,
+                "response": {
+                    "ap_config_update_status": "The update for AP Config 'Cisco_Test_9120_T1' has been successfully verified."
                 }
-            },
-            {
-                "accesspoints_verify": {
-                    "have": [
-                        {
-                            "ap_name": "NFW-AP1-9130AXE",
-                            "eth_mac": "34:5d:a8:0e:20:b4",
-                            "led_brightness_level": 2,
-                            "led_status": "Enabled",
-                            "location": "LTTS-Bangalore",
-                            "mac_address": "90:e9:5e:03:f3:40"
-                        }
-                    ],
-                    "message": "The update for AP Config 'NFW-AP1-9130AXE' has been successfully verified.",
-                    "want": {
-                        "ap_name": "LTTS-Test1",
-                        "ap_name_new": "NFW-AP1-9130AXE",
-                        "hostname": null,
-                        "led_brightness_level": 2,
-                        "led_status": "Enabled",
-                        "location": "LTTS-Bangalore",
-                        "mac_address": "90:e9:5e:03:f3:40",
-                        "management_ip_address": null
-                    }
-                }
-            }
-        ]
+        }]
     }
 
 #Case-2: Provisioning and Re-Provisioning of Accesspoint
@@ -899,7 +913,8 @@ class Accesspoint(DnacBase):
         self.allowed_channel_no = {
             "2.4ghz_radio": list(range(1, 15)),
             "5ghz_radio": (36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120,
-                           124, 128, 132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173)
+                           124, 128, 132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173),
+            "6ghz_radio": list(range(1, 234, 4))
         }
 
     def validate_input_yml(self):
@@ -1556,7 +1571,7 @@ class Accesspoint(DnacBase):
         channel_number = radio_config.get("channel_number")
         if channel_number:
             if radio_series == "xor_radio" and self.want.get(radio_series).get("radio_role_assignment") == "Client-Serving"\
-               and radio_band in ["2.4 GHz", "5 GHz"]:
+               and radio_band in ["2.4 GHz", "5 GHz", "6 GHz"]:
                 if radio_band == "2.4 GHz" and channel_number not in self.allowed_channel_no.get("2.4ghz_radio"):
                     errormsg.append(
                         "channel_number: Invalid value '{0}' for Channel Number in playbook. Must be one of: {1}."
@@ -1565,6 +1580,10 @@ class Accesspoint(DnacBase):
                     errormsg.append(
                         "channel_number: Invalid value '{0}' for Channel Number in playbook. Must be one of: {1}."
                         .format(channel_number, str(self.allowed_channel_no["5ghz_radio"])))
+                elif radio_band == "6 GHz" and channel_number not in self.allowed_channel_no.get("6ghz_radio"):
+                    errormsg.append(
+                        "channel_number: Invalid value '{0}' for Channel Number in playbook. Must be one of: {1}."
+                        .format(channel_number, str(self.allowed_channel_no["6ghz_radio"])))
             elif self.allowed_channel_no.get(radio_series) is not None and channel_number not in self.allowed_channel_no.get(radio_series):
                 errormsg.append(
                     "channel_number: Invalid value '{0}' for Channel Number in playbook. Must be one of: {1}."
@@ -1580,10 +1599,10 @@ class Accesspoint(DnacBase):
                     )
 
         channel_width = radio_config.get("channel_width")
-        if channel_width and channel_width not in ("20 MHz", "40 MHz", "80 MHz", "160 MHz"):
+        if channel_width and channel_width not in ("20 MHz", "40 MHz", "80 MHz", "160 MHz", "320 MHz"):
             errormsg.append(
                 "channel_width: Invalid value '{0}' for Channel width in playbook. "
-                "Must be one of: '20 MHz', '40 MHz', '80 MHz', or '160 MHz'."
+                "Must be one of: '20 MHz', '40 MHz', '80 MHz', '160 MHz', or '320 MHz'."
                 .format(channel_width)
             )
 
@@ -1609,9 +1628,9 @@ class Accesspoint(DnacBase):
                     )
 
         radio_role_assignment = radio_config.get("radio_role_assignment")
-        if radio_role_assignment == "Client-Serving" and radio_band and radio_band not in ("2.4 GHz", "5 GHz")\
+        if radio_role_assignment == "Client-Serving" and radio_band and radio_band not in ("2.4 GHz", "5 GHz", "6 GHz")\
            and radio_series == "xor_radio":
-            errormsg.append("radio_band: Invalid value '{0}' in playbook. Must be either '2.4 GHz' or '5 GHz'."
+            errormsg.append("radio_band: Invalid value '{0}' in playbook. Must be either '2.4 GHz' or '5 GHz' or '6 GHz'."
                             .format(radio_band))
 
         if radio_role_assignment:
@@ -1661,7 +1680,8 @@ class Accesspoint(DnacBase):
 
             if radio_type == "xor_radio":
                 if (radio_band == "2.4 GHz" and slot_id == 0) or \
-                   (radio_band == "5 GHz" and slot_id == 0):
+                   (radio_band == "5 GHz" and slot_id == 2) or \
+                   (radio_band == "6 GHz" and slot_id == 2):
                     break
 
             if radio_type == "tri_radio":
@@ -2162,7 +2182,7 @@ class Accesspoint(DnacBase):
                    "radio_type", "radio_band", "dual_radio_mode"),
             "_2": ("admin_status", "radio_role_assignment", "radio_type",
                    "power_assignment_mode", "powerlevel", "channel_assignment_mode",
-                   "channel_number", "channel_width", "dual_radio_mode"),
+                   "channel_number", "channel_width", "dual_radio_mode", "radio_band"),
             "_3": ("admin_status", "antenna_gain", "antenna_name", "radio_role_assignment",
                    "power_assignment_mode", "powerlevel", "channel_assignment_mode",
                    "channel_number", "cable_loss", "antenna_cable_name", "radio_band",
@@ -2487,8 +2507,10 @@ class Accesspoint(DnacBase):
                         radio_dtos[self.keymap["channel_width"]] = 4
                     elif each_radio.get(self.keymap["channel_width"]) == "80 MHz":
                         radio_dtos[self.keymap["channel_width"]] = 5
-                    else:
+                    elif each_radio.get(self.keymap["channel_width"]) == "160 MHz":
                         radio_dtos[self.keymap["channel_width"]] = 6
+                    else:
+                        radio_dtos[self.keymap["channel_width"]] = 7
                     radio_dtos["configureChannelWidth"] = True
 
                 if each_radio.get(self.keymap["power_assignment_mode"]) is not None:
