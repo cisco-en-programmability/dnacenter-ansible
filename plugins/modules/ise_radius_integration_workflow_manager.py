@@ -1134,7 +1134,7 @@ class IseRadiusIntegration(DnacBase):
         self.status = "success"
         return self
 
-    def check_cisco_ise_server_integration_status(self, ip_address):
+    def check_ise_server_integration_status(self, ip_address):
         """
         Check whether the Cisco ISE server is ready for the accepting the user authentication certificate.
 
@@ -1166,14 +1166,15 @@ class IseRadiusIntegration(DnacBase):
                 self.log("The status of the Cisco ISE server is '{status}'".format(status=overall_status))
                 break
 
-            time.sleep(1)
-            end_time = time.time()
-            if (end_time - start_time) >= 10:
+            if (time.time() - start_time) >= 10:
                 self.msg = (
-                    "The DNAC took more than 10 seconds to accept the PxGrid certificate of the Cisco ISE server with ."
+                    "The Cisco Catalyst Center took more than 10 seconds to accept "
+                    "the PxGrid certificate of the Cisco ISE server with ."
                 )
                 self.status = "failed"
                 break
+
+            time.sleep(1)
 
         return self
 
@@ -1363,7 +1364,7 @@ class IseRadiusIntegration(DnacBase):
 
                 if is_ise_server:
                     trusted_server = self.want.get("trusted_server")
-                    self.check_cisco_ise_server_integration_status(ip_address)
+                    self.check_ise_server_integration_status(ip_address)
                     self.accept_cisco_ise_server_certificate(ip_address, trusted_server)
                     ise_integration_wait_time = self.want.get("ise_integration_wait_time")
                     time.sleep(ise_integration_wait_time)
@@ -1457,7 +1458,7 @@ class IseRadiusIntegration(DnacBase):
             trusted_server_msg = ""
             state = self.have.get("authenticationPolicyServer")[auth_server_index].get("details").get("state")
             if state != "ACTIVE":
-                self.check_cisco_ise_server_integration_status(ip_address)
+                self.check_ise_server_integration_status(ip_address)
                 self.accept_cisco_ise_server_certificate(ip_address, trusted_server)
                 ise_integration_wait_time = self.want.get("ise_integration_wait_time")
                 time.sleep(ise_integration_wait_time)
@@ -1467,8 +1468,33 @@ class IseRadiusIntegration(DnacBase):
                 function='get_authentication_and_policy_servers',
                 params={"is_ise_enabled": True}
             )
+            if not ise_details:
+                self.msg = (
+                    "The response from the API 'get_authentication_and_policy_servers' is empty."
+                )
+                self.log(self.msg, "CRITICAL")
+                self.status = "failed"
+                return self
+
             ise_details = ise_details.get("response")
+            if not isinstance(ise_details, list):
+                self.msg = (
+                    "The response from the API 'get_authentication_and_policy_servers' "
+                    "is not a dictionary."
+                )
+                self.log(self.msg, "CRITICAL")
+                self.status = "failed"
+                return self
+
             state = ise_details[0].get("state")
+            if not state:
+                self.msg = (
+                    "The parameter 'state' is not available in the ISE details response "
+                    "from the API 'get_authentication_and_policy_servers'."
+                )
+                self.status = "failed"
+                return self
+
             if state == "FAILED":
                 trusted_server_msg = " But the server is not trusted."
 
