@@ -253,6 +253,10 @@ class Provision(DnacBase):
     """
     def __init__(self, module):
         super().__init__(module)
+        self.payload = module.params
+        self.dnac_version = int(self.payload.get("dnac_version").replace(".", ""))
+        self.version_2_3_5_3, self.version_2_3_7_6, self.version_2_2_3_3 = 2353, 2376, 2233
+
 
     def validate_input(self, state=None):
 
@@ -549,84 +553,105 @@ class Provision(DnacBase):
         self.result.update(dict(assignment_task=response))
         return result
 
-    def get_site_type(self, site_name_hierarchy=None):
+    def get_site_type(self, site_name):
         """
-        Fetches the type of site
-
+        Get the type of a site in Cisco Catalyst Center.
         Parameters:
-          - self: The instance of the class containing the 'config' attribute
-                  to be validated.
-          - site_name_hierarchy: Name of the site collected from the input.
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            site_name (str): The name of the site for which to retrieve the type.
         Returns:
-          - site_type: A string indicating the type of the site (area/building/floor).
-        Example:
-          Post creation of the validated input, this method gets the
-          type of the site.
+            site_type (str or None): The type of the specified site, or None if the site is not found.
+        Description:
+            This function queries Cisco Catalyst Center to retrieve the type of a specified site. It uses the
+            get_site API with the provided site name, extracts the site type from the response, and returns it.
+            If the specified site is not found, the function returns None, and an appropriate log message is generated.
         """
 
         try:
-            response = self.dnac_apply['exec'](
-                family="sites",
-                function='get_site',
-                params={"name": site_name_hierarchy},
-                op_modifies=True
-            )
-        except Exception:
-            self.log("Exception occurred as \
-                site '{0}' was not found".format(site_name_hierarchy), "CRITICAL")
-            self.module.fail_json(msg="Site not found", response=[])
+            if self.dnac_version <= self.version_2_3_5_3:
+                site_type = None
+                response = self.dnac_apply['exec'](
+                    family="sites",
+                    function='get_site',
+                    params={"name": site_name},
+                )
 
-        if response:
-            self.log("Received site details\
-                for '{0}': {1}".format(site_name_hierarchy, str(response)), "DEBUG")
-            site = response.get("response")
-            site_additional_info = site[0].get("additionalInfo")
-            for item in site_additional_info:
-                if item["nameSpace"] == "Location":
-                    site_type = item.get("attributes").get("type")
-                    self.log("Site type for site name '{1}' : {0}".format(site_type, site_name_hierarchy), "INFO")
+                if not response:
+                    self.msg = "Site '{0}' not found".format(site_name)
+                    self.log(self.msg, "INFO")
+                    return site_type
+
+                self.log("Received API response from 'get_site': {0}".format(str(response)), "DEBUG")
+                site = response.get("response")
+                site_additional_info = site[0].get("additionalInfo")
+
+                for item in site_additional_info:
+                    if item["nameSpace"] == "Location":
+                        site_type = item.get("attributes").get("type")
+            else:
+                site_type = None
+                response = self.get_sites(site_name)
+
+                if not response:
+                    self.msg = "Site '{0}' not found".format(site_name)
+                    self.log(self.msg, "INFO")
+                    return site_type
+
+                self.log("Received API response from 'get_sites': {0}".format(str(response)), "DEBUG")
+                site = response.get("response")  
+                site_type = site[0].get("type") 
+
+        except Exception as e:
+            self.msg = "Error while fetching the site '{0}' and the specified site was not found in Cisco Catalyst Center.".format(site_name)
+            self.log(self.msg, "ERROR")
+            self.module.fail_json(msg=self.msg, response=[self.msg])
 
         return site_type
 
-    def get_site_details(self, site_name_hierarchy=None):
+    def get_site_details(self, site_name):
         """
-        Fetches the id and existance of the site
-
         Parameters:
-          - self: The instance of the class containing the 'config' attribute
-                  to be validated.
-          - site_name_hierarchy: Name of the site collected from the input.
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
         Returns:
-          - site_id: A string indicating the id of the site.
-          - site_exits: A boolean value indicating the existance of the site.
-        Example:
-          Post creation of the validated input, this method gets the
-          id of the site.
+            tuple: A tuple containing two values:
+            - site_exists (bool): A boolean indicating whether the site exists (True) or not (False).
+            - site_id (str or None): The ID of the site if it exists, or None if the site is not found.
+        Description:
+            This method checks the existence of a site in the Catalyst Center. If the site is found,it sets 'site_exists' to True,
+            retrieves the site's ID, and returns both values in a tuple. If the site does not exist, 'site_exists' is set
+            to False, and 'site_id' is None. If an exception occurs during the site lookup, an exception is raised.
         """
 
         site_exists = False
         site_id = None
-        try:
-            response = self.dnac_apply['exec'](
-                family="sites",
-                function='get_site',
-                params={"name": site_name_hierarchy},
-                op_modifies=True
-            )
-        except Exception:
-            self.log("Exception occurred as \
-                site '{0}' was not found".format(self.want.get("site_name")), "CRITICAL")
-            self.module.fail_json(msg="Site not found", response=[])
+        response = None
 
-        if response:
-            self.log("Received site details\
-                for '{0}': {1}".format(site_name_hierarchy, str(response)), "DEBUG")
-            site = response.get("response")
-            site_additional_info = site[0].get("additionalInfo")
-            if len(site) == 1:
+        try:
+            if self.dnac_version <= self.version_2_3_5_3:
+                response = self.dnac._exec(
+                    family="sites",
+                    function='get_site',
+                    op_modifies=True,
+                    params={"name": site_name},
+                )
+                if response:
+                    self.log("Received API response from 'get_site': {0}".format(str(response)), "DEBUG")
+                    site = response.get("response")
+                    site_id = site[0].get("id")
+                    site_exists = True
+            else:
+                response = self.get_sites(site_name)
+                self.log("Received API response from 'get_sites': {0}".format(str(response)), "DEBUG")
+                site = response.get("response")
                 site_id = site[0].get("id")
                 site_exists = True
-                self.log("Site Name: {1}, Site ID: {0}".format(site_id, site_name_hierarchy), "INFO")
+
+        except Exception as e:
+            self.status = "failed"
+            self.msg = ("An exception occurred: Site '{0}' does not exist in the Cisco Catalyst Center".format(site_name))
+            self.result['response'] = self.msg
+            self.log(self.msg, "ERROR")
+            self.check_return_status()
 
         return (site_exists, site_id)
 
