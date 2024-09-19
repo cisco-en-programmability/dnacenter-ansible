@@ -1440,13 +1440,14 @@ class DNACSDK(object):
                         break
 
                     bapi_error = execution_details.get("bapiError")
-                    if bapi_error and RATE_LIMIT_MESSAGE in bapi_error:
-                        self.logger.warning("!!!!! %s !!!!!", RATE_LIMIT_MESSAGE)
-                        time.sleep(RATE_LIMIT_RETRY_AFTER)
-                        return self._exec(
-                            family_name, function_name, params, op_modifies, **kwargs
-                        )
-                    elif bapi_error:
+                    if bapi_error:
+                        if RATE_LIMIT_MESSAGE in bapi_error:
+                            self.logger.warning("!!!!! %s !!!!!", RATE_LIMIT_MESSAGE)
+                            time.sleep(RATE_LIMIT_RETRY_AFTER)
+                            return self._exec(
+                                family_name, function_name, params, op_modifies, **kwargs
+                            )
+
                         self.logger.debug(bapi_error)
                         break
 
