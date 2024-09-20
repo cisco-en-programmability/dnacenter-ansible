@@ -622,19 +622,18 @@ class Swim(DnacBase):
 
         try:
             if self.dnac_version <= self.version_2_3_5_3:
-                response = self.dnac._exec(
-                    family="sites",
-                    function='get_site',
-                    op_modifies=True,
-                    params={"name": site_name},
-                )
-                if response:
-                    self.log("Received API response from 'get_site': {0}".format(str(response)), "DEBUG")
-                    site = response.get("response")
-                    site_id = site[0].get("id")
-                    site_exists = True
+                response = self.get_site_v1(site_name)
+                if response is None:
+                    raise ValueError
+                self.log("Received API response from 'get_site': {0}".format(str(response)), "DEBUG")
+                site = response.get("response")
+                site_id = site[0].get("id")
+                site_exists = True
+
             else:
-                response = self.get_sites(site_name)
+                response = self.get_sites_v2(site_name)
+                if response is None:
+                    raise ValueError
                 self.log("Received API response from 'get_sites': {0}".format(str(response)), "DEBUG")
                 site = response.get("response")
                 site_id = site[0].get("id")
@@ -642,12 +641,13 @@ class Swim(DnacBase):
 
         except Exception as e:
             self.status = "failed"
-            self.msg = ("An exception occurred: Site '{0}' does not exist in the Cisco Catalyst Center".format(site_name))
+            self.msg = ("An exception occurred: Site '{0}' does not exist in the Cisco Catalyst Center.".format(site_name))
             self.result['response'] = self.msg
             self.log(self.msg, "ERROR")
             self.check_return_status()
 
         return (site_exists, site_id)
+
 
     def get_image_id(self, name):
         """

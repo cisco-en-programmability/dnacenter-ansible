@@ -513,7 +513,39 @@ class DnacBase():
             pass
         return None
 
-    def get_sites(self, site_name):
+    def get_site_v1(self, site_name):
+        """
+        Retrieve site details from Cisco Catalyst Center based on the provided site name.
+        Args:
+            - site_name (str): The name or hierarchy of the site to be retrieved.
+        Returns:
+            - response (dict or None): The response from the API call, typically a dictionary containing site details.
+                                    Returns None if an error occurs or if the response is empty.
+        Criteria:
+            - This function uses the Cisco Catalyst Center SDK to execute the 'get_sites' function from the 'site_design' family.
+            - If the response is empty, a warning is logged.
+            - Any exceptions during the API call are caught, logged as errors, and the function returns None.
+        """
+        try:
+            response = self.dnac._exec(
+                family="sites",
+                function='get_site',
+                op_modifies=True,
+                params={"name": site_name},
+            )
+
+            if not response:
+                self.log("The response from 'get_site' is empty.", "WARNING")
+                return None
+
+            self.log("Received API response from 'get_site': {0}".format(str(response)), "DEBUG")
+            return response
+
+        except Exception as e:
+            self.log("An error occurred in 'get_site':{0}".format(e), "ERROR")
+            return None
+
+    def get_sites_v2(self, site_name):
         """
         Retrieve site details from Cisco Catalyst Center based on the provided site name.
         Args:
