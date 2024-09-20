@@ -159,8 +159,8 @@ options:
       secondary_controller_name:
         description: |
           Name or identifier of the secondary wireless LAN controller (WLC) managing the Access Point (AP).
-          If user intends to modify only primary controller, then secondary and tertiary controller name
-          should be set to "Inherit from site / Clear".
+          To modify only the primary controller, set the secondary and tertiary controller names
+          to "Inherit from site / Clear".
         type: str
         required: False
       secondary_ip_address:
@@ -175,8 +175,8 @@ options:
       tertiary_controller_name:
         description: |
           Name or identifier of the tertiary wireless LAN controller (WLC) managing the Access Point (AP).
-          If user intends to modify only primary controller, then secondary and tertiary controller name
-          should be set to "Inherit from site / Clear".
+          To modify only the primary controller, set the secondary and tertiary controller names
+          to "Inherit from site / Clear".
         type: str
         required: False
       tertiary_ip_address:
@@ -251,7 +251,8 @@ options:
             type: int
             required: False
           radio_role_assignment:
-            description: Role assignment mode for the 5GHz radio interface. Accepts "Auto", "Client-serving", or "Monitor". For example, "Auto".
+            description: Role assignment mode for the 5GHz radio interface. Accepts "Auto", "Client-serving",
+            or "Monitor". For example, "Auto".
             type: str
             required: False
           cable_loss:
@@ -324,28 +325,28 @@ options:
             type: int
             required: False
       xor_radio:
-        description: Configuration options for the xor radio interface.
+        description: Configuration options for the XOR radio interface.
         type: dict
         required: False
         suboptions:
           admin_status:
-            description: Administrative status for the xor radio interface. For example, "Enabled".
+            description: Administrative status for the XOR radio interface. For example, "Enabled".
             type: str
             required: False
           antenna_name:
-            description: Name or type of antenna used for the xor radio interface. For example, "other".
+            description: Name or type of antenna used for the XOR radio interface. For example, "other".
             type: str
             required: False
           antenna_gain:
-            description: Antenna gain value in decibels (dB) for the xor radio interface. For example, 4.
+            description: Antenna gain value in decibels (dB) for the XOR radio interface. For example, 4.
             type: int
             required: False
           radio_role_assignment:
             description: |
-              Role assignment mode for the XOR radio interface. Accepts "Auto," "Client-serving," or "Monitor."
-              If `radio_role_assignment` is set to "Client-serving," only the power level and channel number can be changed.
+              Role assignment mode for the XOR radio interface. Accepts "Auto", "Client-serving", or "Monitor"
+              If "radio_role_assignment" is set to "Client-serving" only the power level and channel number can be changed.
               Additionally, if the 5 GHz band is selected in the radio band, the power level cannot be modified.
-              For example: "Auto".
+              For example, "Auto".
             type: str
             required: False
           radio_band:
@@ -355,106 +356,106 @@ options:
             type: str
             required: False
           cable_loss:
-            description: Cable loss in dB for the xor radio interface. For example, 75.
+            description: Cable loss in dB for the XOR radio interface. For example, 75.
             type: int
             required: False
           antenna_cable_name:
-            description: Name or type of antenna cable used for the xor radio interface. For example, "other".
+            description: Name or type of antenna cable used for the XOR radio interface. For example, "other".
             type: str
             required: False
           channel_assignment_mode:
             description: |
               Mode of channel assignment for the XOR radio interface. Accepts "Global" or "Custom".
-              If the radio band is selected as "2.4 GHz" with "Custom", it accepts values from 1 to 14.
-              For "5 GHz" with "Custom", it accepts values such as 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112,
-              116, 120, 124, 128, 132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173.
-              For "6 GHz" with "Custom", it accepts values such as 1, 5, 9, 13, 17, 21, 25, 29, 33, 37, 41, 45, 49, 53,
-              57, 61, 65, 69, 73, 77, 81, 85, 89, 93, 97, 101, 105, 109, 113, 117, 121, 125, 129, 133, 137, 141, 145,
-              149, 153, 157, 161, 165, 169, 173, 177, 181, 185, 189, 193, 197, 201, 205, 209, 213, 217, 221, 225, 229, 233.
-              For example, "Custom".
+              - For "Custom" mode and a radio band of "2.4 GHz", valid values are from 1 to 14.
+              - For "Custom" mode and a radio band of "5 GHz", valid values include 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120,
+              124, 128, 132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173.
+              - For "Custom" mode and a radio band of "6 GHz", valid values include 1, 5, 9, 13, 17, 21, 25, 29, 33, 37, 41, 45, 49, 53, 57, 61, 65, 69,
+              73, 77, 81, 85, 89, 93, 97, 101, 105, 109, 113, 117, 121, 125, 129, 133, 137, 141, 145, 149, 153, 157, 161, 165, 169, 173, 177, 181, 185,
+              189, 193, 197, 201, 205, 209, 213, 217, 221, 225, 229, 233.
+              For Example, "Custom".
             type: str
             required: False
           channel_number:
-            description: Custom channel number configured for the xor radio interface. For example, 6.
+            description: Custom channel number configured for the XOR radio interface. For example, 6.
             type: int
             required: False
           channel_width:
             description: |
-              Width of the channel configured for the xor radio interface. Accepts values
+              Width of the channel configured for the XOR radio interface. Accepts values
               "20 MHz", "40 MHz", "80 MHz", "160 MHz" or "320 MHz". For example, 20 MHz.
             type: str
             required: False
           power_assignment_mode:
             description: |
               Mode of power assignment for the XOR radio interface. Accepts "Global" or "Custom."
-              In "Custom" mode, it accepts values from 1 to 8. This option is not available for the 5 GHz radio band.
+              In "Custom" mode, valid values range from 1 to 8.
             type: str
             required: False
           power_level:
-            description: Custom power level configured for the xor radio interface. For example, 3.
+            description: Custom power level configured for the XOR radio interface. For example, 3.
             type: int
             required: False
       tri_radio:
-        description: Configuration options for the tri radio interface.
+        description: Configuration options for the TRI radio interface.
         type: dict
         required: False
         suboptions:
           admin_status:
-            description: Administrative status for the tri radio interface. For example, "Enabled".
+            description: Administrative status for the TRI radio interface. For example, "Enabled".
             type: str
             required: False
           antenna_name:
-            description: Name or type of antenna used for the tri radio interface. For example, "other".
+            description: Name or type of antenna used for the TRI radio interface. For example, "other".
             type: str
             required: False
           antenna_gain:
-            description: Antenna gain value in decibels (dB) for the tri radio interface. For example, 4.
+            description: Antenna gain value in decibels (dB) for the TRI radio interface. For example, 4.
             type: int
             required: False
           radio_role_assignment:
             description: |
-              Role assignment mode for the tri radio interface. Accepts "Auto", "Client-serving", or "Monitor".
+              Role assignment mode for the TRI radio interface. Accepts "Auto", "Client-serving", or "Monitor".
               If radio_role_assignment is "client-serving", then only power-level and channel-level can be changed.
             type: str
             required: False
           cable_loss:
-            description: Cable loss in dB for the tri radio interface. For example, 75.
+            description: Cable loss in dB for the TRI radio interface. For example, 75.
             type: int
             required: False
           antenna_cable_name:
-            description: Name or type of antenna cable used for the tri radio interface. For example, "other".
+            description: Name or type of antenna cable used for the TRI radio interface. For example, "other".
             type: str
             required: False
           channel_assignment_mode:
             description: |
-              Mode of channel assignment for the tri radio interface. Accepts "Global" or "Custom".
-              For tri Custom, it accepts values like 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128,
+              Mode of channel assignment for the TRI radio interface. Accepts "Global" or "Custom".
+              For Custom, it accepts values like 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128,
               132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173. (eg. Custom)
             type: str
             required: False
           channel_number:
-            description: Custom channel number configured for the tri radio interface. For example, 6.
+            description: Custom channel number configured for the TRI radio interface. For example, 6.
             type: int
             required: False
           channel_width:
             description: |
-              Width of the channel configured for the tri radio interface. Accepts values
+              Width of the channel configured for the TRI radio interface. Accepts values
               "20 MHz", "40 MHz", "80 MHz", "160 MHz", or "320 MHz". . For example, 20 MHz.
             type: str
             required: False
           power_assignment_mode:
             description: |
-                Mode of power assignment for the tri radio interface. Accepts "Global" or "Custom".
+                Mode of power assignment for the TRI radio interface. Accepts "Global" or "Custom".
                 In Custom, it accepts values 1 to 8.
             type: str
             required: False
           power_level:
-            description: Custom power level configured for the tri radio interface. For example, 3.
+            description: Custom power level configured for the TRI radio interface. For example, 3.
             type: int
             required: False
           dual_radio_mode:
             description: |
-              Mode of operation configured for the tri radio interface. Specifies how the
+              Mode of operation configured for the TRI radio interface. Specifies how the
               access point (AP) manages its dual radio functionality. eg . Auto
             type: str
             required: False
@@ -888,7 +889,7 @@ EXAMPLES = r"""
 """
 
 RETURN = r"""
-#Case_1: Modification of the Access Point configuration updated details
+#Case 1: Updating Access Point Configuration Details
 response_1:
   description: >
     A list of dictionaries containing details about the AP updates and verification
@@ -1264,7 +1265,10 @@ class Accesspoint(DnacBase):
 
     def ap_update_required(self):
         """
-        Check specified keys are there for AP updation.
+        Check if the necessary keys are present in the configuration for AP updates.
+
+        Returns:
+            bool: True if any of the required keys for AP update are present, False otherwise.
         """
         required_keys_for_updates = [
             "ap_name", "admin_status",
@@ -1278,8 +1282,8 @@ class Accesspoint(DnacBase):
             "xor_radio", "radio_band", "tri_radio", "dual_radio_mode"
         ]
         want_key_list = self.want.keys()
-        common_keys = set(want_key_list).intersection(required_keys_for_updates)
-        return bool(common_keys)
+        has_required_keys = bool(set(want_key_list).intersection(required_keys_for_updates))
+        return has_required_keys
 
     def verify_diff_merged(self, config):
         """
@@ -2138,7 +2142,7 @@ class Accesspoint(DnacBase):
         host_name = self.have.get("hostname")
         type_name = self.have.get("ap_type")
 
-        if not site_name_hierarchy or not rf_profile or not host_name:
+        if not all([site_name_hierarchy, rf_profile, host_name]):
             error_msg = ("Cannot provision device: Missing parameters - site_name_hierarchy: {0}, rf_profile: {1}, host_name: {2}"
                          .format(site_name_hierarchy, rf_profile, host_name))
             self.log(error_msg, "ERROR")
