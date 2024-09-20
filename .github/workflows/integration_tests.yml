@@ -16,7 +16,7 @@ jobs:
         - name: Trigger circleci
           run: |
              printf '{"branch": "%s" ,"parameters": {"GHA_Meta":"run-tests"}}' $(cat github_ref) > req_body
-             curl -X POST --location "https://circleci.com/api/v2/project/gh/madhansansel/dnacenter-ansible/pipeline" \
+             curl -X POST --location "https://circleci.com/api/v2/project/gh/${{ github.repository }}/pipeline" \
                 -H "Content-Type: application/json" \
                 -H "Circle-Token: ${{ secrets.CCI_TOKEN }}" \
                 -d "@req_body"
