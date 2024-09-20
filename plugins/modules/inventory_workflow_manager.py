@@ -1684,115 +1684,75 @@ class Inventory(DnacBase):
         total_devices_to_provisioned = len(provision_wired_list)
         device_ip_list = []
         provision_count, already_provision_count = 0, 0
+        if self.dnac_version <= self.version_2_3_5_3:
+            for prov_dict in provision_wired_list:
+                managed_flag = False
+                device_ip = prov_dict['device_ip']
+                device_ip_list.append(device_ip)
+                site_name = prov_dict['site_name']
+                device_type = "Wired"
+                resync_retry_count = prov_dict.get("resync_retry_count", 200)
+                # This resync retry interval will be in seconds which will check device status at given interval
+                resync_retry_interval = prov_dict.get("resync_retry_interval", 2)
 
+                if not site_name or not device_ip:
+                    self.status = "failed"
+                    self.msg = "Site and Device IP are required for Provisioning of Wired Devices."
+                    self.log(self.msg, "ERROR")
+                    self.result['response'] = self.msg
+                    return self
 
-        for prov_dict in provision_wired_list:
-            self.log(1)
-            managed_flag = False
-            device_ip = prov_dict['device_ip']
-            device_ip_list.append(device_ip)
-            site_name = prov_dict['site_name']
-            device_type = "Wired"
-            resync_retry_count = prov_dict.get("resync_retry_count", 200)
-            # This resync retry interval will be in seconds which will check device status at given interval
-            resync_retry_interval = prov_dict.get("resync_retry_interval", 2)
-
-            if not site_name or not device_ip:
-                self.status = "failed"
-                self.msg = "Site and Device IP are required for Provisioning of Wired Devices."
-                self.log(self.msg, "ERROR")
-                self.result['response'] = self.msg
-                return self
-
-            if self.dnac_version <= self.version_2_3_5_3:
                 provision_wired_params = {
                     'deviceManagementIpAddress': device_ip,
                     'siteNameHierarchy': site_name
                 }
 
-            elif self.dnac_version >= self.version_2_3_7_6:
-                try:
-                    response = self.get_sites(site_name)
-                    self.log("Received API response from 'get_sites': {0}".format(str(response)), "DEBUG")
-                    site = response.get("response")
-                    site_id = site[0].get("id")
-
-                except Exception as e:
-                    self.log("inside exception")
-                    self.log(e)
+                # Check the provisioning status of device
+                device_prov_status = self.get_provision_wired_device(device_ip)
+                if device_prov_status == 2:
+                    self.status = "success"
+                    already_provision_count += 1
+                    self.result['changed'] = False
+                    self.msg = "Device '{0}' is already provisioned in the Cisco Catalyst Center".format(device_ip)
+                    self.log(self.msg, "INFO")
+                    continue
+                if device_prov_status == 3:
                     self.status = "failed"
-                    self.msg =  ("'An exception occurred: Site '{0}' does not exist in the Cisco Catalyst Center' or 'In this version '{1}' "
-                               ", 'get_sites' is not supported'").format(site_name, self.payload.get("dnac_version"))
-                    self.log(self.msg, "ERROR")
-                    self.check_return_status()
+                    error_msg = "Cannot do Provisioning for device {0}.".format(device_ip)
+                    self.log(error_msg, "ERROR")
+                    continue
 
-                device_ids = self.get_device_ids([device_ip])
-                device_id = device_ids[0]
-                self.log(device_id)
-                assign_network_device_to_site = {
-                                'deviceIds': [device_id],
-                                'siteId': site_id,
-                                }
-                self.log(assign_network_device_to_site)
-                provision_params = [{
-                    "siteId": site_id,
-                    "networkDeviceId": device_id
-                    }]
-                self.log(provision_params)
+                # Check till device comes into managed state
+                while resync_retry_count:
+                    response = self.get_device_response(device_ip)
+                    self.log("Device is in {0} state waiting for Managed State.".format(response['managementState']), "DEBUG")
 
-            # Check the provisioning status of device
-            device_prov_status = self.get_provision_wired_device(device_ip)
-            self.log("device_prov_status")
-            self.log(device_prov_status)
-            if device_prov_status == 2:
-                self.status = "success"
-                already_provision_count += 1
-                self.result['changed'] = False
-                self.device_already_provisioned.append(device_ip)
-                devices = self.device_already_provisioned
-                self.msg = "Device '{0}' is already provisioned in the Cisco Catalyst Center".format(devices)
-                self.log(self.msg, "INFO")
-                continue
-            if device_prov_status == 3:
-                self.status = "failed"
-                error_msg = "Cannot do Provisioning for device {0}.".format(device_ip)
-                self.log(error_msg, "ERROR")
-                # continue
+                    if (
+                        response.get('managementState') == "Managed"
+                        and response.get('collectionStatus') == "Managed"
+                        and response.get("hostname")
+                    ):
+                        msg = """Device '{0}' comes to managed state and ready for provisioning with the resync_retry_count
+                            '{1}' left having resync interval of {2} seconds""".format(device_ip, resync_retry_count, resync_retry_interval)
+                        self.log(msg, "INFO")
+                        managed_flag = True
+                        break
+                    if response.get('collectionStatus') == "Partial Collection Failure" or response.get('collectionStatus') == "Could Not Synchronize":
+                        device_status = response.get('collectionStatus')
+                        msg = """Device '{0}' comes to '{1}' state and never goes for provisioning with the resync_retry_count
+                            '{2}' left having resync interval of {3} seconds""".format(device_ip, device_status, resync_retry_count, resync_retry_interval)
+                        self.log(msg, "INFO")
+                        managed_flag = False
+                        break
 
-            # Check till device comes into managed state
-            while resync_retry_count:
-                self.log("inside while loop")
-                response = self.get_device_response(device_ip)
-                self.log(response)
-                self.log("Device is in {0} state waiting for Managed State.".format(response['managementState']), "DEBUG")
+                    time.sleep(resync_retry_interval)
+                    resync_retry_count = resync_retry_count - 1
 
-                if (
-                    response.get('managementState') == "Managed"
-                    and response.get('collectionStatus') == "Managed"
-                    and response.get("hostname")
-                ):
-                    msg = """Device '{0}' comes to managed state and ready for provisioning with the resync_retry_count
-                        '{1}' left having resync interval of {2} seconds""".format(device_ip, resync_retry_count, resync_retry_interval)
-                    self.log(msg, "INFO")
-                    managed_flag = True
-                    break
-                if response.get('collectionStatus') == "Partial Collection Failure" or response.get('collectionStatus') == "Could Not Synchronize":
-                    device_status = response.get('collectionStatus')
-                    msg = """Device '{0}' comes to '{1}' state and never goes for provisioning with the resync_retry_count
-                        '{2}' left having resync interval of {3} seconds""".format(device_ip, device_status, resync_retry_count, resync_retry_interval)
-                    self.log(msg, "INFO")
-                    managed_flag = False
-                    break
+                if not managed_flag:
+                    self.log("""Device {0} is not transitioning to the managed state, so provisioning operation cannot
+                                be performed.""".format(device_ip), "WARNING")
+                    continue
 
-                time.sleep(resync_retry_interval)
-                resync_retry_count = resync_retry_count - 1
-
-            if not managed_flag:
-                self.log("""Device {0} is not transitioning to the managed state, so provisioning operation cannot
-                            be performed.""".format(device_ip), "WARNING")
-                continue
-
-            if self.dnac_version <= self.version_2_3_5_3:
                 try:
                     response = self.dnac._exec(
                         family="sda",
@@ -1803,7 +1763,7 @@ class Inventory(DnacBase):
 
                     if response.get("status") == "failed":
                         description = response.get("description")
-                        error_msg = "Cannot do Provisioning for device {0} beacuse of {1}".format(device_ip, description)
+                        error_msg = "Cannot do Provisioning for device {0} because of {1}".format(device_ip, description)
                         self.log(error_msg, "ERROR")
                         continue
 
@@ -1823,69 +1783,173 @@ class Inventory(DnacBase):
 
                 except Exception as e:
                     # Not returning from here as there might be possiblity that for some devices it comes into exception
-                    # but for others it gets provision successfully or If some devices are already provsioned
+                    # but for others it gets provision successfully or If some devices are already provisioned
                     self.handle_provisioning_exception(device_ip, e, device_type)
-
-            elif self.dnac_version >= self.version_2_3_7_6:
-                self.log("inside version 2.3.7.6")
-                try:
-                    self.log(assign_network_device_to_site)
-                    response = self.dnac._exec(
-                        family="site_design",
-                        function='assign_network_devices_to_a_site',
-                        op_modifies=True,
-                        params=assign_network_device_to_site,
-                    )
-                    self.log("Received API response from 'assign_network_devices_to_a_site': {0}".format(str(response)), "DEBUG")
-                    task_id = response.get("response").get("taskId")
-                    self.log(task_id)
-                    while True: 
-                        execution_details = self.get_task_details(task_id)
-                        progress = execution_details.get("progress")
-                        if "success" in progress:
-                            break
-                        elif execution_details.get("isError"):
-                            error_msg = "Assigning network device failed for the device {0} ".format(device_ip)
-                            self.log(error_msg, "ERROR")
-
-                    self.log(provision_params)
-                    response = self.dnac._exec(
-                        family="sda",
-                        function='provision_devices',
-                        op_modifies=True,
-                        params={"payload": provision_params},
-                    )
-                    self.log("Received API response from 'provision_devices': {0}".format(str(response)), "DEBUG")
-                    task_id = response.get("response").get("taskId")
-
-                    while True:
-                        execution_details = self.get_task_details(task_id)
-                        progress = execution_details.get("progress")
-                        data = execution_details.get("data")
-
-                        if 'processcfs_complete=true' in data:
-                            self.handle_successful_provisioning(device_ip, execution_details, device_type)
-                            provision_count += 1
-                            break
-                        elif execution_details.get("isError"):
-                            self.handle_failed_provisioning(device_ip, execution_details, device_type)
-                            break
-
-                except:
-                    self.log("exception")
-
-
-        # Check If all the devices are already provsioned, return from here only
-        if already_provision_count == total_devices_to_provisioned:
-            self.handle_all_already_provisioned(device_ip_list, device_type)
-        elif provision_count == total_devices_to_provisioned:
-            self.handle_all_provisioned(device_type)
-        elif provision_count == 0:
-            self.handle_all_failed_provision(device_type)
         else:
-            self.handle_partially_provisioned(provision_count, device_type)
+            for prov_dict in provision_wired_list:
+                device_ip = prov_dict['device_ip']
+                device_ip_list.append(device_ip)
+                site_name = prov_dict['site_name']
+                device_type = "Wired"
+                is_provision = prov_dict.get("provision")
+                resync_retry_count = prov_dict.get("resync_retry_count", 200)
+                # This resync retry interval will be in seconds which will check device status at given interval
+                resync_retry_interval = prov_dict.get("resync_retry_interval", 2)
+
+                device_ids = self.get_device_ids([device_ip])
+                device_id = device_ids[0]
+
+                try:
+                    response = self.get_sites(site_name)
+                    self.log("Received API response from 'get_sites': {0}".format(str(response)), "DEBUG")
+                    site = response.get("response")
+                    site_id = site[0].get("id")
+
+                except Exception as e:
+                    self.status = "failed"
+                    self.msg = ("An exception occurred: Site '{0}' does not exist in the Cisco Catalyst Center").format(site_name)
+                    self.log(self.msg, "ERROR")
+                    self.check_return_status()
+
+                assign_network_device_to_site = {
+                    'deviceIds': [device_id],
+                    'siteId': site_id,
+                }
+
+                provision_params = [{
+                    "siteId": site_id,
+                    "networkDeviceId": device_id
+                }]
+
+                if not site_name or not device_ip:
+                    self.status = "failed"
+                    self.msg = "Site and Device IP are required for Provisioning of Wired Devices."
+                    self.log(self.msg, "ERROR")
+                    self.result['response'] = self.msg
+                    return self
+
+                # Check till device comes into managed state
+                while resync_retry_count:
+                    response = self.get_device_response(device_ip)
+                    self.log("Device is in {0} state waiting for Managed State.".format(response['managementState']), "DEBUG")
+
+                    if (
+                        response.get('managementState') == "Managed"
+                        and response.get('collectionStatus') == "Managed"
+                        and response.get("hostname")
+                    ):
+                        msg = """Device '{0}' comes to managed state and ready for provisioning with the resync_retry_count
+                            '{1}' left having resync interval of {2} seconds""".format(device_ip, resync_retry_count, resync_retry_interval)
+                        self.log(msg, "INFO")
+                        managed_flag = True
+                        break
+                    if response.get('collectionStatus') == "Partial Collection Failure" or response.get('collectionStatus') == "Could Not Synchronize":
+                        device_status = response.get('collectionStatus')
+                        msg = """Device '{0}' comes to '{1}' state and never goes for provisioning with the resync_retry_count
+                            '{2}' left having resync interval of {3} seconds""".format(device_ip, device_status, resync_retry_count, resync_retry_interval)
+                        self.log(msg, "INFO")
+                        managed_flag = False
+                        break
+
+                    time.sleep(resync_retry_interval)
+                    resync_retry_count = resync_retry_count - 1
+
+                if not managed_flag:
+                    self.log("""Device {0} is not transitioning to the managed state, so provisioning operation cannot
+                                be performed.""".format(device_ip), "WARNING")
+                    continue
+
+
+                # device provision or not
+                response = self.dnac._exec(
+                    family="sda",
+                    function='get_provisioned_devices',
+                    op_modifies=True,
+                    params={"networkDeviceId": device_id},
+                )
+                get_provision_response = response.get("response")
+
+                # If the response has anything, then it should go for reprovision 
+                if get_provision_response:
+                    self.log("{0} Device {1} is already provisioned !!".format(device_type, device_ip), "INFO")
+                    self.status = "success"
+                    already_provision_count += 1
+                    self.result['changed'] = False
+                    self.msg = "Device '{0}' is already provisioned in the Cisco Catalyst Center".format(device_ip)
+                    self.log(self.msg, "INFO")
+
+                else:
+                    if is_provision:
+                        self.assign_device_to_site(device_ip, assign_network_device_to_site)
+
+                        try:
+                            self.log(provision_params)
+                            response = self.dnac._exec(
+                                family="sda",
+                                function='provision_devices',
+                                op_modifies=True,
+                                params={"payload": provision_params},
+                            )
+                            self.log("Received API response from 'provision_devices': {0}".format(str(response)), "DEBUG")
+                            task_id = response.get("response").get("taskId")
+
+                            while True:
+                                execution_details = self.get_task_details(task_id)
+                                progress = execution_details.get("progress")
+                                data = execution_details.get("data")
+
+                                if 'processcfs_complete=true' in data:
+                                    self.handle_successful_provisioning(device_ip, execution_details, device_type)
+                                    provision_count += 1
+                                    break
+                                elif execution_details.get("isError"):
+                                    self.handle_failed_provisioning(device_ip, execution_details, device_type)
+                                    break
+
+                        except Exception as e:
+                            self.log("Exception occurred during provisioning: {0}".format(str(e)), "ERROR")
+                    else:
+                        self.assign_device_to_site(device_ip, assign_network_device_to_site)
+
+            # Check if all the devices are already provisioned, return from here only
+            if already_provision_count == total_devices_to_provisioned:
+                self.handle_all_already_provisioned(device_ip_list, device_type)
+            elif provision_count == total_devices_to_provisioned:
+                self.handle_all_provisioned(device_type)
+            elif provision_count == 0:
+                self.handle_all_failed_provision(device_type)
+            else:
+                self.handle_partially_provisioned(provision_count, device_type)
 
         return self
+
+    # Added function
+    def assign_device_to_site(self, device_ip, assign_network_device_to_site):
+        try:
+            self.log(assign_network_device_to_site)
+            response = self.dnac._exec(
+                family="site_design",
+                function='assign_network_devices_to_a_site',
+                op_modifies=True,
+                params=assign_network_device_to_site,
+            )
+            self.log("Received API response from 'assign_network_devices_to_a_site': {0}".format(str(response)), "DEBUG")
+            task_id = response.get("response").get("taskId")
+            self.log(task_id)
+
+            while True:
+                execution_details = self.get_task_details(task_id)
+                progress = execution_details.get("progress")
+
+                if "success" in progress:
+                    self.log("Assigning site for the device {0} was successful... ".format(device_ip))
+                    break
+                elif execution_details.get("isError"):
+                    error_msg = "Assigning site failed for the device {0} ".format(device_ip)
+                    self.log(error_msg, "ERROR")
+                    break
+        except Exception as e:
+            self.log("An exception occurred while assigning device {0}: {1}".format(device_ip, str(e)), "ERROR")
 
     def get_wireless_param(self, prov_dict):
         """
@@ -2454,8 +2518,11 @@ class Inventory(DnacBase):
                         if device_ip:
                             device_ips.append(device_ip)
             except Exception as e:
-                error_message = "Exception occurred while fetching device from Cisco Catalyst Center - {0}".format(str(e))
-                self.log(error_message, "ERROR")
+                self.status = "failed"
+                self.msg = "Exception occurred while fetching device from Cisco Catalyst Center - {0}".format(str(e))
+                self.result['response'] = self.msg
+                self.log(self.msg, "ERROR")
+                self.check_return_status()
 
         return device_ips
 
@@ -2492,14 +2559,15 @@ class Inventory(DnacBase):
                 self.status = "success"
                 interface_id = response["id"]
                 self.log("""Successfully fetched interface ID ({0}) by using device id {1} and interface name {2}."""
-                         .format(interface_id, device_id, interface_name), "INFO")
+                            .format(interface_id, device_id, interface_name), "INFO")
                 return response
 
         except Exception as e:
             self.status = "failed"
             self.msg = "Failed to retrieve interface ID for interface({0}) from Cisco Catalyst Center: {1}".format(interface_name, str(e))
+            self.result['response'] = self.msg
             self.log(self.msg, "ERROR")
-            return self
+            self.check_return_status()
 
     def get_interface_from_ip(self, device_ip):
         """
@@ -3126,6 +3194,44 @@ class Inventory(DnacBase):
 
         return self
 
+    def site_exists(self, site_name):
+        """
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+        Returns:
+            tuple: A tuple containing two values:
+            - site_exists (bool): A boolean indicating whether the site exists (True) or not (False).
+            - site_id (str or None): The ID of the site if it exists, or None if the site is not found.
+        Description:
+            This method checks the existence of a site in the Catalyst Center. If the site is found,it sets 'site_exists' to True,
+            retrieves the site's ID, and returns both values in a tuple. If the site does not exist, 'site_exists' is set
+            to False, and 'site_id' is None. If an exception occurs during the site lookup, an exception is raised.
+        """
+
+        site_exists = False
+        site_id = None
+        response = None
+
+        try:
+            response = self.dnac._exec(
+                family="sites",
+                function='get_site',
+                op_modifies=True,
+                params={"name": site_name},
+            )
+            if response:
+                self.log("Received API response from 'get_site': {0}".format(str(response)), "DEBUG")
+                site = response.get("response")
+                site_id = site[0].get("id")
+                site_exists = True
+
+        except Exception as e:
+            self.status = "failed"
+            msg = ("An exception occurred: Site '{0}' does not exist in the Cisco Catalyst Center".format(site_name))
+            self.log(msg, "ERROR")
+
+        return (site_exists, site_id)
+
     def get_diff_merged(self, config):
         """
         Merge and process differences between existing devices and desired device configuration in Cisco Catalyst Center.
@@ -3152,12 +3258,29 @@ class Inventory(DnacBase):
 
         if self.config[0].get('provision_wired_device'):
             provision_wired_list = self.config[0]['provision_wired_device']
-            device_not_available = []
+            device_not_available, site_not_available = [], []
 
             for prov_dict in provision_wired_list:
                 device_ip = prov_dict['device_ip']
+                site_name = prov_dict['site_name']
+
+                site_exist,_ = self.site_exists(site_name)
+                if site_exist == True:
+                    continue
+                else:
+                    site_not_available.append(site_name)
+
                 if device_ip not in self.have.get("device_in_ccc"):
                     device_not_available.append(device_ip)
+            site_not_available_str = ', '.join(site_not_available)
+            if device_not_available and site_not_available:
+                self.status = "failed"
+                self.msg = ("Unable to Provision Wired Device(s) because the device(s) listed: {0} and the site(s) listed: {1} are not present in the "
+                            "Cisco Catalyst Center.").format(device_not_available, site_not_available_str)
+                self.result['response'] = self.msg
+                self.log(self.msg, "ERROR")
+                return self
+            
             if device_not_available:
                 self.status = "failed"
                 self.msg = """Unable to Provision Wired Device(s) because the device(s) listed: {0} are not present in the
@@ -3165,6 +3288,14 @@ class Inventory(DnacBase):
                 self.result['response'] = self.msg
                 self.log(self.msg, "ERROR")
                 return self
+
+            if site_not_available:
+                self.status = "failed"
+                self.msg = """Unable to Provision Wired Device(s) because the site(s) listed: {0} are not present in the
+                            Cisco Catalyst Center.""".format(str(site_not_available))
+                self.result['response'] = self.msg
+                self.log(self.msg, "ERROR")
+            return self
 
         if self.config[0].get('update_mgmt_ipaddresslist'):
             device_ip = self.config[0].get('update_mgmt_ipaddresslist')[0].get('existMgmtIpAddress')
