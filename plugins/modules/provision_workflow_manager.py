@@ -145,17 +145,8 @@ EXAMPLES = r"""
     dnac_log: True
     state: merged
     config:
-    - provision_wired_device:
-        - device_ip: "1.1.1.1"
-          site_name: "Global/USA/San Francisco/BGL_18/floor_pnp"
-          resync_retry_count: 200
-          resync_retry_interval: 2
-          provisioning: True
-        - device_ip: "2.2.2.2"
-          site_name: "Global/USA/San Francisco/BGL_18/floor_test"
-          resync_retry_count: 200
-          resync_retry_interval: 2
-          provisioning: True
+        - site_name_hierarchy: Global/USA/San Francisco/BGL_18
+          management_ip_address: 204.192.3.40
 
 - name: Assign a wired device to a site
   cisco.dnac.provision_workflow_manager:
@@ -169,19 +160,8 @@ EXAMPLES = r"""
     dnac_log: True
     state: merged
     config:
-        # - site_name_hierarchy: Global/USA/San Francisco/BGL_18
-        #   management_ip_address: 204.192.3.40
-        #   provisioning: False
-    - provision_wired_device:
-        - device_ip: "1.1.1.1"
-          site_name: "Global/USA/San Francisco/BGL_18/floor_pnp"
-          resync_retry_count: 200
-          resync_retry_interval: 2
-          provisioning: False
-        - device_ip: "2.2.2.2"
-          site_name: "Global/USA/San Francisco/BGL_18/floor_test"
-          resync_retry_count: 200
-          resync_retry_interval: 2
+        - site_name_hierarchy: Global/USA/San Francisco/BGL_18
+          management_ip_address: 204.192.3.40
           provisioning: False
 
 - name: Provision a wireless device to a site
@@ -273,73 +253,61 @@ class Provision(DnacBase):
     """
     def __init__(self, module):
         super().__init__(module)
-        self.supported_states = ["merged", "deleted"]
-        self.payload = module.params
-        self.dnac_version = int(self.payload.get("dnac_version").replace(".", ""))
-        self.version_2_3_5_3, self.version_2_3_7_6, self.version_2_2_3_3 = 2353, 2376, 2233
 
+    def validate_input(self, state=None):
 
-    def validate_input(self):
         """
         Validate the fields provided in the playbook.
         Checks the configuration provided in the playbook against a predefined specification
         to ensure it adheres to the expected structure and data types.
-        Parameters:
+        Args:
             self: The instance of the class containing the 'config' attribute to be validated.
         Returns:
             The method returns an instance of the class with updated attributes:
                 - self.msg: A message describing the validation result.
                 - self.status: The status of the validation (either 'success' or 'failed').
-                - self.validated_config: If successful, a validated version of the 'config' parameter.
+                - self.validated_config: If successful, a validated version of the
+                  'config' parameter.
         Example:
             To use this method, create an instance of the class and call 'validate_input' on it.
-            If the validation succeeds, 'self.status' will be 'success' and 'self.validated_config'
-            will contain the validated configuration. If it fails, 'self.status' will be 'failed', and
-            'self.msg' will describe the validation issues.
+            If the validation succeeds, 'self.status' will be 'success' and
+            'self.validated_config' will contain the validated configuration. If it fails,
+            'self.status' will be 'failed', and 'self.msg' will describe the validation issues.
         """
 
-        temp_spec = {
-            'provision_wired_device': {
-                'type': 'list',
-                'elements': 'dict',
-                'device_ip': {'type': 'str'},
-                'site_name': {'type': 'str'},
-                'resync_retry_count': {'default': 200, 'type': 'int'},
-                'resync_retry_interval': {'default': 2, 'type': 'int'},
-                "provisioning": {'type':'bool'}
-            },
-            'provision_wireless_device': {
-                'type': 'list',
-                'elements': 'dict',
-                'device_ip': {'type': 'str'},
-                'site_name': {'type': 'str'},
-                'resync_retry_count': {'default': 200, 'type': 'int'},
-                'resync_retry_interval': {'default': 2, 'type': 'int'},
-                "managed_ap_locations": {'type': 'list', 'element': 'str'},
-                'dynamic_interfaces': {'type': 'list', 'element': 'dict'}
-            }
-        }
-
-        # Validate device params
-        valid_temp, invalid_params = validate_list_of_dicts(
-            self.config, temp_spec
-        )
-
-        if invalid_params:
-            self.msg = "Invalid parameters in playbook: {0}".format(invalid_params)
-            self.log(self.msg, "ERROR")
-            self.status = "failed"
-            self.result['response'] = self.msg
+        if not self.config:
+            self.msg = "config not available in playbook for validation"
+            self.status = "success"
             return self
 
-        self.validated_config = valid_temp
-        self.msg = "Successfully validated playbook configuration parameters using 'validate_input': {0}".format(str(valid_temp))
-        self.log(self.msg, "INFO")
+        provision_spec = {
+            "management_ip_address": {'type': 'str', 'required': True},
+            "site_name_hierarchy": {'type': 'str', 'required': False},
+            "managed_ap_locations": {'type': 'list', 'required': False,
+                                     'elements': 'str'},
+            "dynamic_interfaces": {'type': 'list', 'required': False,
+                                   'elements': 'dict'},
+            "provisioning": {'type': 'bool', 'required': False, "default": True}
+        }
+        if state == "merged":
+            provision_spec["site_name_hierarchy"] = {'type': 'str', 'required': True}
+
+        # Validate provision params
+        valid_provision, invalid_params = validate_list_of_dicts(
+            self.config, provision_spec
+        )
+        if invalid_params:
+            self.msg = "Invalid parameters in playbook: {0}".format(
+                "\n".join(invalid_params))
+            self.log(str(self.msg), "ERROR")
+            self.status = "failed"
+            return self
+
+        self.validated_config = valid_provision
+        self.msg = "Successfully validated playbook configuration parameters using 'validate_input': {0}".format(str(valid_provision))
+        self.log(str(self.msg), "INFO")
         self.status = "success"
-
         return self
-
-
 
     def get_dev_type(self):
         """
@@ -450,7 +418,7 @@ class Provision(DnacBase):
 
         return serial_number
 
-    def get_tasks_status(self, task_id):
+    def get_task_status(self, task_id=None):
         """
         Fetches the status of the task once any provision API is called
 
@@ -467,86 +435,32 @@ class Provision(DnacBase):
 
         """
         result = False
-        params = {"id": task_id}
+        params = {"task_id": task_id}
         while True:
-            get_tasks_response = self.dnac_apply['exec'](
+            response = self.dnac_apply['exec'](
                 family="task",
-                function='get_tasks_by_id',
+                function='get_task_by_id',
                 params=params,
                 op_modifies=True
             )
-            self.log("Response collected from 'get_tasks_by_id' API is {0}".format(str(get_tasks_response)), "DEBUG")
-            get_tasks_response = get_tasks_response.get("response")
-
-            get_task_details_response = self.dnac_apply['exec'](
-                family="task",
-                function='get_task_details_by_id',
-                params=params,
-                op_modifies=True
-            )
-            self.log("Response collected from 'get_tasks_by_id' API is {0}".format(str(get_task_details_response)), "DEBUG")
-            get_task_details_response = get_task_details_response.get("response")
-
-            self.log("Task status for the task id {0} is {1}".format(str(task_id), str(get_tasks_response.get("status"))), "INFO")
-
-            if get_tasks_response.get("status") == "FAILURE":
+            self.log("Response collected from 'get_task_by_id' API is {0}".format(str(response)), "DEBUG")
+            response = response.response
+            self.log("Task status for the task id {0} is {1}".format(str(task_id), str(response.get("progress"))), "INFO")
+            if response.get('isError') or re.search(
+                'failed', response.get('progress'), flags=re.IGNORECASE
+            ):
                 msg = 'Provision task with id {0} has not completed - Reason: {1}'.format(
-                    task_id, get_task_details_response.get("failureReason"))
+                    task_id, response.get("failureReason"))
                 self.module.fail_json(msg=msg)
                 return False
 
-            if get_task_details_response.get('progress') in ["TASK_PROVISION", "TASK_MODIFY_PUT"] and get_tasks_response.get("status") == "SUCCESS":
+            if response.get('progress') in ["TASK_PROVISION", "TASK_MODIFY_PUT"] and response.get("isError") is False:
                 result = True
                 break
 
             time.sleep(3)
-        self.result.update(dict(provision_task=get_tasks_response))
+        self.result.update(dict(provision_task=response))
         return result
-
-
-    # def get_task_status(self, task_id=None):
-    #     """
-    #     Fetches the status of the task once any provision API is called
-
-    #     Parameters:
-    #       - self: The instance of the class containing the 'config' attribute
-    #               to be validated.
-    #       - task_id: Task_id of the provisioning task.
-    #     Returns:
-    #       The method returns the status of the task_id used to track provisioning.
-    #       Returns True if task is not failed otheriwse returns False.
-    #     Example:
-    #       Post creation of the provision task, this method fetheches the task
-    #       status.
-
-    #     """
-    #     result = False
-    #     params = {"task_id": task_id}
-    #     while True:
-    #         response = self.dnac_apply['exec'](
-    #             family="task",
-    #             function='get_task_by_id',
-    #             params=params,
-    #             op_modifies=True
-    #         )
-    #         self.log("Response collected from 'get_task_by_id' API is {0}".format(str(response)), "DEBUG")
-    #         response = response.response
-    #         self.log("Task status for the task id {0} is {1}".format(str(task_id), str(response.get("progress"))), "INFO")
-    #         if response.get('isError') or re.search(
-    #             'failed', response.get('progress'), flags=re.IGNORECASE
-    #         ):
-    #             msg = 'Provision task with id {0} has not completed - Reason: {1}'.format(
-    #                 task_id, response.get("failureReason"))
-    #             self.module.fail_json(msg=msg)
-    #             return False
-
-    #         if response.get('progress') in ["TASK_PROVISION", "TASK_MODIFY_PUT"] and response.get("isError") is False:
-    #             result = True
-    #             break
-
-    #         time.sleep(3)
-    #     self.result.update(dict(provision_task=response))
-    #     return result
 
     def get_execution_status_site(self, execution_id=None):
         """
@@ -635,105 +549,84 @@ class Provision(DnacBase):
         self.result.update(dict(assignment_task=response))
         return result
 
-    def get_site_type(self, site_name):
+    def get_site_type(self, site_name_hierarchy=None):
         """
-        Get the type of a site in Cisco Catalyst Center.
+        Fetches the type of site
+
         Parameters:
-            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-            site_name (str): The name of the site for which to retrieve the type.
+          - self: The instance of the class containing the 'config' attribute
+                  to be validated.
+          - site_name_hierarchy: Name of the site collected from the input.
         Returns:
-            site_type (str or None): The type of the specified site, or None if the site is not found.
-        Description:
-            This function queries Cisco Catalyst Center to retrieve the type of a specified site. It uses the
-            get_site API with the provided site name, extracts the site type from the response, and returns it.
-            If the specified site is not found, the function returns None, and an appropriate log message is generated.
+          - site_type: A string indicating the type of the site (area/building/floor).
+        Example:
+          Post creation of the validated input, this method gets the
+          type of the site.
         """
 
         try:
-            if self.dnac_version <= self.version_2_3_5_3:
-                site_type = None
-                response = self.dnac_apply['exec'](
-                    family="sites",
-                    function='get_site',
-                    params={"name": site_name},
-                )
+            response = self.dnac_apply['exec'](
+                family="sites",
+                function='get_site',
+                params={"name": site_name_hierarchy},
+                op_modifies=True
+            )
+        except Exception:
+            self.log("Exception occurred as \
+                site '{0}' was not found".format(site_name_hierarchy), "CRITICAL")
+            self.module.fail_json(msg="Site not found", response=[])
 
-                if not response:
-                    self.msg = "Site '{0}' not found".format(site_name)
-                    self.log(self.msg, "INFO")
-                    return site_type
-
-                self.log("Received API response from 'get_site': {0}".format(str(response)), "DEBUG")
-                site = response.get("response")
-                site_additional_info = site[0].get("additionalInfo")
-
-                for item in site_additional_info:
-                    if item["nameSpace"] == "Location":
-                        site_type = item.get("attributes").get("type")
-            else:
-                site_type = None
-                response = self.get_sites(site_name)
-
-                if not response:
-                    self.msg = "Site '{0}' not found".format(site_name)
-                    self.log(self.msg, "INFO")
-                    return site_type
-
-                self.log("Received API response from 'get_sites': {0}".format(str(response)), "DEBUG")
-                site = response.get("response")  
-                site_type = site[0].get("type") 
-
-        except Exception as e:
-            self.msg = "Error while fetching the site '{0}' and the specified site was not found in Cisco Catalyst Center.".format(site_name)
-            self.log(self.msg, "ERROR")
-            self.module.fail_json(msg=self.msg, response=[self.msg])
+        if response:
+            self.log("Received site details\
+                for '{0}': {1}".format(site_name_hierarchy, str(response)), "DEBUG")
+            site = response.get("response")
+            site_additional_info = site[0].get("additionalInfo")
+            for item in site_additional_info:
+                if item["nameSpace"] == "Location":
+                    site_type = item.get("attributes").get("type")
+                    self.log("Site type for site name '{1}' : {0}".format(site_type, site_name_hierarchy), "INFO")
 
         return site_type
 
-    def get_site_details(self, site_name):
+    def get_site_details(self, site_name_hierarchy=None):
         """
+        Fetches the id and existance of the site
+
         Parameters:
-            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+          - self: The instance of the class containing the 'config' attribute
+                  to be validated.
+          - site_name_hierarchy: Name of the site collected from the input.
         Returns:
-            tuple: A tuple containing two values:
-            - site_exists (bool): A boolean indicating whether the site exists (True) or not (False).
-            - site_id (str or None): The ID of the site if it exists, or None if the site is not found.
-        Description:
-            This method checks the existence of a site in the Catalyst Center. If the site is found,it sets 'site_exists' to True,
-            retrieves the site's ID, and returns both values in a tuple. If the site does not exist, 'site_exists' is set
-            to False, and 'site_id' is None. If an exception occurs during the site lookup, an exception is raised.
+          - site_id: A string indicating the id of the site.
+          - site_exits: A boolean value indicating the existance of the site.
+        Example:
+          Post creation of the validated input, this method gets the
+          id of the site.
         """
 
         site_exists = False
         site_id = None
-        response = None
-
         try:
-            if self.dnac_version <= self.version_2_3_5_3:
-                response = self.dnac._exec(
-                    family="sites",
-                    function='get_site',
-                    op_modifies=True,
-                    params={"name": site_name},
-                )
-                if response:
-                    self.log("Received API response from 'get_site': {0}".format(str(response)), "DEBUG")
-                    site = response.get("response")
-                    site_id = site[0].get("id")
-                    site_exists = True
-            else:
-                response = self.get_sites(site_name)
-                self.log("Received API response from 'get_sites': {0}".format(str(response)), "DEBUG")
-                site = response.get("response")
+            response = self.dnac_apply['exec'](
+                family="sites",
+                function='get_site',
+                params={"name": site_name_hierarchy},
+                op_modifies=True
+            )
+        except Exception:
+            self.log("Exception occurred as \
+                site '{0}' was not found".format(self.want.get("site_name")), "CRITICAL")
+            self.module.fail_json(msg="Site not found", response=[])
+
+        if response:
+            self.log("Received site details\
+                for '{0}': {1}".format(site_name_hierarchy, str(response)), "DEBUG")
+            site = response.get("response")
+            site_additional_info = site[0].get("additionalInfo")
+            if len(site) == 1:
                 site_id = site[0].get("id")
                 site_exists = True
-
-        except Exception as e:
-            self.status = "failed"
-            self.msg = ("An exception occurred: Site '{0}' does not exist in the Cisco Catalyst Center".format(site_name))
-            self.result['response'] = self.msg
-            self.log(self.msg, "ERROR")
-            self.check_return_status()
+                self.log("Site Name: {1}, Site ID: {0}".format(site_id, site_name_hierarchy), "INFO")
 
         return (site_exists, site_id)
 
@@ -826,7 +719,7 @@ class Provision(DnacBase):
 
         site_name = self.validated_config[0].get("site_name_hierarchy")
 
-        (site_exits, site_id) = self.get_site_details(site_name)
+        (site_exits, site_id) = self.get_site_details(site_name_hierarchy=site_name)
 
         if site_exits is False:
             msg = "Site {0} doesn't exist".format(site_name)
@@ -1002,109 +895,95 @@ class Provision(DnacBase):
 
         device_type = self.want.get("device_type")
         if device_type == "wired":
-            if self.dnac_version >= self.version_2_3_5_3:
-                try:
-                    status_response = self.dnac_apply['exec'](
-                        family="sda",
-                        function="get_provisioned_wired_device",
-                        op_modifies=True,
-                        params={
-                            "device_management_ip_address": self.validated_config[0]["management_ip_address"]
-                        },
-                    )
-                except Exception:
-                    status_response = {}
-                self.log("Wired device's status Response collected from 'get_provisioned_wired_device' API is:{0}".format(str(status_response)), "DEBUG")
-                status = status_response.get("status")
-                self.log("The provisioned status of the wired device is {0}".format(status), "INFO")
+            try:
+                status_response = self.dnac_apply['exec'](
+                    family="sda",
+                    function="get_provisioned_wired_device",
+                    op_modifies=True,
+                    params={
+                        "device_management_ip_address": self.validated_config[0]["management_ip_address"]
+                    },
+                )
+            except Exception:
+                status_response = {}
+            self.log("Wired device's status Response collected from 'get_provisioned_wired_device' API is:{0}".format(str(status_response)), "DEBUG")
+            status = status_response.get("status")
+            self.log("The provisioned status of the wired device is {0}".format(status), "INFO")
 
-                if status == "success":
+            if status == "success":
+                try:
+                    response = self.dnac_apply['exec'](
+                        family="sda",
+                        function="re_provision_wired_device",
+                        op_modifies=True,
+                        params=self.want["prov_params"],
+                    )
+                    self.log("Reprovisioning response collected from 're_provision_wired_device' API is: {0}".format(response), "DEBUG")
+                    task_id = response.get("taskId")
+                    self.get_task_status(task_id=task_id)
+                    self.result["changed"] = True
+                    self.result['msg'] = "Re-Provision done Successfully"
+                    self.result['diff'] = self.validated_config
+                    self.result['response'] = task_id
+                    self.log(self.result['msg'], "INFO")
+                    return self
+
+                except Exception as e:
+                    self.msg = "Error in re-provisioning due to {0}".format(str(e))
+                    self.log(self.msg, "ERROR")
+                    self.status = "failed"
+                    return self
+            else:
+                if self.validated_config[0].get("provisioning") is True:
                     try:
                         response = self.dnac_apply['exec'](
                             family="sda",
-                            function="re_provision_wired_device",
+                            function="provision_wired_device",
                             op_modifies=True,
                             params=self.want["prov_params"],
                         )
-                        self.log("Reprovisioning response collected from 're_provision_wired_device' API is: {0}".format(response), "DEBUG")
-                        task_id = response.get("taskId")
-                        self.get_task_status(task_id=task_id)
-                        self.result["changed"] = True
-                        self.result['msg'] = "Re-Provision done Successfully"
-                        self.result['diff'] = self.validated_config
-                        self.result['response'] = task_id
-                        self.log(self.result['msg'], "INFO")
-                        return self
-
+                        self.log("Provisioning response collected from 'provision_wired_device' API is: {0}".format(response), "DEBUG")
                     except Exception as e:
-                        self.msg = "Error in re-provisioning due to {0}".format(str(e))
+                        self.msg = "Error in provisioning due to {0}".format(str(e))
                         self.log(self.msg, "ERROR")
                         self.status = "failed"
                         return self
+
                 else:
-                    if self.validated_config[0].get("provisioning") is True:
-                        try:
-                            response = self.dnac_apply['exec'](
-                                family="sda",
-                                function="provision_wired_device",
-                                op_modifies=True,
-                                params=self.want["prov_params"],
-                            )
-                            self.log("Provisioning response collected from 'provision_wired_device' API is: {0}".format(response), "DEBUG")
-                        except Exception as e:
-                            self.msg = "Error in provisioning due to {0}".format(str(e))
-                            self.log(self.msg, "ERROR")
-                            self.status = "failed"
-                            return self
+                    uuid = self.get_device_id()
+                    if self.is_device_assigned_to_site(uuid) is True:
+                        self.result["changed"] = False
+                        self.result['msg'] = "Device is already assigned to the desired site"
+                        self.result['diff'] = self.want
+                        self.result['response'] = self.want.get("prov_params").get("site_id")
+                        self.log(self.result['msg'], "INFO")
+                        return self
 
-                    else:
-                        uuid = self.get_device_id()
-                        if self.is_device_assigned_to_site(uuid) is True:
-                            self.result["changed"] = False
-                            self.result['msg'] = "Device is already assigned to the desired site"
-                            self.result['diff'] = self.want
-                            self.result['response'] = self.want.get("prov_params").get("site_id")
-                            self.log(self.result['msg'], "INFO")
-                            return self
+                    try:
+                        response = self.dnac_apply['exec'](
+                            family="sites",
+                            function="assign_devices_to_site",
+                            op_modifies=True,
+                            params={
+                                "site_id": self.want.get("prov_params").get("site_id"),
+                                "payload": self.want.get("prov_params")
+                            },
+                        )
+                        self.log("Assignment response collected from 'assign_devices_to_site' API is: {0}".format(response), "DEBUG")
+                        execution_id = response.get("executionId")
+                        assignment_info = self.get_execution_status_site(execution_id=execution_id)
+                        self.result["changed"] = True
+                        self.result['msg'] = "Site assignment done successfully"
+                        self.result['diff'] = self.validated_config
+                        self.result['response'] = execution_id
+                        self.log(self.result['msg'], "INFO")
+                        return self
+                    except Exception as e:
+                        self.msg = "Error in site assignment due to {0}".format(str(e))
+                        self.log(self.msg, "ERROR")
+                        self.status = "failed"
+                        return self
 
-                        try:
-                            response = self.dnac_apply['exec'](
-                                family="sites",
-                                function="assign_devices_to_site",
-                                op_modifies=True,
-                                params={
-                                    "site_id": self.want.get("prov_params").get("site_id"),
-                                    "payload": self.want.get("prov_params")
-                                },
-                            )
-                            self.log("Assignment response collected from 'assign_devices_to_site' API is: {0}".format(response), "DEBUG")
-                            execution_id = response.get("executionId")
-                            assignment_info = self.get_execution_status_site(execution_id=execution_id)
-                            self.result["changed"] = True
-                            self.result['msg'] = "Site assignment done successfully"
-                            self.result['diff'] = self.validated_config
-                            self.result['response'] = execution_id
-                            self.log(self.result['msg'], "INFO")
-                            return self
-                        except Exception as e:
-                            self.msg = "Error in site assignment due to {0}".format(str(e))
-                            self.log(self.msg, "ERROR")
-                            self.status = "failed"
-                            return self
-            else:
-                device_id = self.get_device_id()
-                assign_network_device_to_site = {
-                                'deviceIds': [device_id],
-                                'siteId': self.want.get("prov_params").get("site_id"),
-                                }
-
-                response = self.dnac._exec(
-                    family="site_design",
-                    function='assign_network_devices_to_a_site',
-                    op_modifies=True,
-                    params=assign_network_device_to_site,
-                )
-                pass
         elif device_type == "wireless":
             try:
                 response = self.dnac_apply['exec'](
