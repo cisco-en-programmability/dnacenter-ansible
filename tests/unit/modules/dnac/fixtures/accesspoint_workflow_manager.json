@@ -779,7 +779,7 @@
             "xor_radio": {
                 "admin_status": "Enabledsds",
                 "channel_assignment_mode": "any",
-                "antenna_gain": 15,
+                "antenna_gain": 41,
                 "radio_role_assignment": "Client-Serving",
                 "channel_number": 2
             }

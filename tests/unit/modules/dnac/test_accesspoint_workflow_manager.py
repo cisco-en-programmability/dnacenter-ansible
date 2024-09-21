@@ -483,7 +483,7 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
             'playbook. Must be either \'Global\' or \'Custom\'.", \'powerlevel: This configuration is only supported with Client-Serving Radio Role ' +
             'Assignment None \', "radio_role_assignment: Invalid value \'any\' for radio role assignment in playbook. Must be one ' +
             'of: \'Auto\', \'Monitor\' or \'Client-Serving\'.", \'Radio Params cannot be changed when AP mode is in None.\', "admin_status: ' +
-            'Invalid value \'Enabledsds\' for admin_status in playbook. Must be either \'Enabled\' or \'Disabled\'.", "antenna_gain: Invalid \'15\' in ' +
+            'Invalid value \'Enabledsds\' for admin_status in playbook. Must be either \'Enabled\' or \'Disabled\'.", "antenna_gain: Invalid \'41\' in ' +
             'playbook", "channel_assignment_mode: Invalid value \'any\' for Channel Assignment Mode in playbook. Must be either \'Global\' or \'Custom\'.", ' +
             '"radio_role_assignment: Invalid value \'Client-Serving\'. Hence, AP mode is not Local. Kindly change the AP mode to Local then ' +
             'change the radio_role_assignment to Auto."]\' '
