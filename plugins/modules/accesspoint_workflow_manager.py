@@ -202,7 +202,9 @@ options:
             type: str
             required: False
           antenna_gain:
-            description: Specifies the antenna gain value in decibels (dB) for the 2.4GHz radio interface. For example, 4.
+            description: |
+              Specifies the antenna gain value in decibels (dB) for the 2.4GHz radio interface, valid values range
+              from 0 to 40. For example, 4.
             type: int
             required: False
           radio_role_assignment:
@@ -247,12 +249,15 @@ options:
             type: str
             required: False
           antenna_gain:
-            description: Antenna gain value in decibels (dB) for the 5GHz radio interface. For example, 5.
+            description: |
+              Antenna gain value in decibels (dB) for the 5GHz radio interface, valid values range
+              from 0 to 40. For example, 5.
             type: int
             required: False
           radio_role_assignment:
-            description: Role assignment mode for the 5GHz radio interface. Accepts "Auto", "Client-serving",
-            or "Monitor". For example, "Auto".
+            description: |
+              Role assignment mode for the 5GHz radio interface. Accepts "Auto", "Client-serving",
+              or "Monitor". For example, "Auto".
             type: str
             required: False
           cable_loss:
@@ -293,7 +298,9 @@ options:
             type: str
             required: False
           antenna_gain:
-            description: Antenna gain value in decibels (dB) for the 6GHz radio interface. For example, 4.
+            description: |
+              Antenna gain value in decibels (dB) for the 6GHz radio interface, valid values range
+              from 0 to 40. For example, 4.
             type: int
             required: False
           radio_role_assignment:
@@ -338,7 +345,9 @@ options:
             type: str
             required: False
           antenna_gain:
-            description: Antenna gain value in decibels (dB) for the XOR radio interface. For example, 4.
+            description: |
+              Antenna gain value in decibels (dB) for the XOR radio interface, valid values range
+              from 0 to 40. For example, 4.
             type: int
             required: False
           radio_role_assignment:
@@ -409,7 +418,9 @@ options:
             type: str
             required: False
           antenna_gain:
-            description: Antenna gain value in decibels (dB) for the TRI radio interface. For example, 4.
+            description: |
+              Antenna gain value in decibels (dB) for the TRI radio interface, valid values range
+              from 0 to 40. For example, 6.
             type: int
             required: False
           radio_role_assignment:
@@ -1611,7 +1622,7 @@ class Accesspoint(DnacBase):
             validate_str(antenna_name, param_spec, "antenna_name", errormsg)
 
         antenna_gain = radio_config.get("antenna_gain")
-        if antenna_gain and antenna_gain not in range(1, 10):
+        if antenna_gain and antenna_gain not in range(0, 41):
             errormsg.append("antenna_gain: Invalid '{0}' in playbook".format(antenna_gain))
 
         channel_assignment_mode = radio_config.get("channel_assignment_mode")
@@ -2610,7 +2621,7 @@ class Accesspoint(DnacBase):
 
                 if each_radio.get(self.keymap["antenna_gain"]) is not None:
                     if each_radio.get(self.keymap["antenna_gain"]) is not None and \
-                            each_radio.get(self.keymap["antenna_gain"]) > 0:
+                            each_radio.get(self.keymap["antenna_gain"]) >= 0:
                         radio_dtos[self.keymap["antenna_gain"]] = \
                             each_radio.get(self.keymap["antenna_gain"])
                         radio_dtos["antennaPatternName"] = "other"
