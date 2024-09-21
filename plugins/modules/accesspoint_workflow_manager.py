@@ -376,12 +376,18 @@ options:
             description: |
               Mode of channel assignment for the XOR radio interface. Accepts "Global" or "Custom".
               - For "Custom" mode and a radio band of "2.4 GHz", valid values are from 1 to 14.
-              - For "Custom" mode and a radio band of "5 GHz", valid values include 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120,
-              124, 128, 132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173.
-              - For "Custom" mode and a radio band of "6 GHz", valid values include 1, 5, 9, 13, 17, 21, 25, 29, 33, 37, 41, 45, 49, 53, 57, 61, 65, 69,
-              73, 77, 81, 85, 89, 93, 97, 101, 105, 109, 113, 117, 121, 125, 129, 133, 137, 141, 145, 149, 153, 157, 161, 165, 169, 173, 177, 181, 185,
-              189, 193, 197, 201, 205, 209, 213, 217, 221, 225, 229, 233.
-              For Example, "Custom".
+              - For "Custom" mode and a radio band of "5 GHz", valid values are
+                36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108,
+                112, 116, 120, 124, 128, 132, 136, 140, 144,
+                149, 153, 157, 161, 165, 169, 173.
+              - For "Custom" mode and a radio band of "6 GHz", valid values are
+                1, 5, 9, 13, 17, 21, 25, 29, 33, 37, 41, 45, 49,
+                53, 57, 61, 65, 69, 73, 77, 81, 85, 89, 93, 97,
+                101, 105, 109, 113, 117, 121, 125, 129, 133, 137,
+                141, 145, 149, 153, 157, 161, 165, 169, 173, 177,
+                181, 185, 189, 193, 197, 201, 205, 209, 213, 217,
+                221, 225, 229, 233.
+              For example, "Custom".
             type: str
             required: False
           channel_number:
