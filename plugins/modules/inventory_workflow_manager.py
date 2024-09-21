@@ -744,6 +744,7 @@ class Inventory(DnacBase):
         self.dnac_version = int(self.payload.get("dnac_version").replace(".", ""))
         self.version_2_3_5_3, self.version_2_3_7_6, self.version_2_2_3_3 = 2353, 2376, 2233
         self.device_already_provisioned, self.provisioned_device, self.device_lists, self.devices_already_present = [], [], [], []
+        self.deleted_devices, self.provisioned_device_deleted = [], [] 
 
     def validate_input(self):
         """
@@ -1685,6 +1686,7 @@ class Inventory(DnacBase):
         device_ip_list = []
         provision_count, already_provision_count = 0, 0
         if self.dnac_version <= self.version_2_3_5_3:
+            self.log("inside 2.3.5.3")
             for prov_dict in provision_wired_list:
                 managed_flag = False
                 device_ip = prov_dict['device_ip']
@@ -1714,6 +1716,7 @@ class Inventory(DnacBase):
                     already_provision_count += 1
                     self.result['changed'] = False
                     self.msg = "Device '{0}' is already provisioned in the Cisco Catalyst Center".format(device_ip)
+                    self.device_already_provisioned.append(device_ip)
                     self.log(self.msg, "INFO")
                     continue
                 if device_prov_status == 3:
@@ -1786,24 +1789,34 @@ class Inventory(DnacBase):
                     # but for others it gets provision successfully or If some devices are already provisioned
                     self.handle_provisioning_exception(device_ip, e, device_type)
         else:
+            self.log("inside 2.3.7.6")
             for prov_dict in provision_wired_list:
+                self.log("inside for loop")
                 device_ip = prov_dict['device_ip']
                 device_ip_list.append(device_ip)
                 site_name = prov_dict['site_name']
                 device_type = "Wired"
-                is_provision = prov_dict.get("provision")
                 resync_retry_count = prov_dict.get("resync_retry_count", 200)
                 # This resync retry interval will be in seconds which will check device status at given interval
                 resync_retry_interval = prov_dict.get("resync_retry_interval", 2)
 
+                if not site_name or not device_ip:
+                    self.status = "failed"
+                    self.msg = "Site and Device IP are required for Provisioning of Wired Devices."
+                    self.log(self.msg, "ERROR")
+                    self.result['response'] = self.msg
+                    return self
+
                 device_ids = self.get_device_ids([device_ip])
                 device_id = device_ids[0]
+                self.log(device_id)
 
                 try:
                     response = self.get_sites(site_name)
                     self.log("Received API response from 'get_sites': {0}".format(str(response)), "DEBUG")
                     site = response.get("response")
                     site_id = site[0].get("id")
+                    self.log(site_id)
 
                 except Exception as e:
                     self.status = "failed"
@@ -1820,13 +1833,6 @@ class Inventory(DnacBase):
                     "siteId": site_id,
                     "networkDeviceId": device_id
                 }]
-
-                if not site_name or not device_ip:
-                    self.status = "failed"
-                    self.msg = "Site and Device IP are required for Provisioning of Wired Devices."
-                    self.log(self.msg, "ERROR")
-                    self.result['response'] = self.msg
-                    return self
 
                 # Check till device comes into managed state
                 while resync_retry_count:
@@ -1868,6 +1874,7 @@ class Inventory(DnacBase):
                     params={"networkDeviceId": device_id},
                 )
                 get_provision_response = response.get("response")
+                self.log(response)
 
                 # If the response has anything, then it should go for reprovision 
                 if get_provision_response:
@@ -1876,50 +1883,48 @@ class Inventory(DnacBase):
                     already_provision_count += 1
                     self.result['changed'] = False
                     self.msg = "Device '{0}' is already provisioned in the Cisco Catalyst Center".format(device_ip)
+                    self.device_already_provisioned.append(device_ip)
                     self.log(self.msg, "INFO")
 
                 else:
-                    if is_provision:
-                        self.assign_device_to_site(device_ip, assign_network_device_to_site)
+                    self.assign_device_to_site(device_ip, assign_network_device_to_site)
 
-                        try:
-                            self.log(provision_params)
-                            response = self.dnac._exec(
-                                family="sda",
-                                function='provision_devices',
-                                op_modifies=True,
-                                params={"payload": provision_params},
-                            )
-                            self.log("Received API response from 'provision_devices': {0}".format(str(response)), "DEBUG")
-                            task_id = response.get("response").get("taskId")
+                    try:
+                        self.log(provision_params)
+                        response = self.dnac._exec(
+                            family="sda",
+                            function='provision_devices',
+                            op_modifies=True,
+                            params={"payload": provision_params},
+                        )
+                        self.log("Received API response from 'provision_devices': {0}".format(str(response)), "DEBUG")
+                        task_id = response.get("response").get("taskId")
 
-                            while True:
-                                execution_details = self.get_task_details(task_id)
-                                progress = execution_details.get("progress")
-                                data = execution_details.get("data")
+                        while True:
+                            execution_details = self.get_task_details(task_id)
+                            progress = execution_details.get("progress")
+                            data = execution_details.get("data")
 
-                                if 'processcfs_complete=true' in data:
-                                    self.handle_successful_provisioning(device_ip, execution_details, device_type)
-                                    provision_count += 1
-                                    break
-                                elif execution_details.get("isError"):
-                                    self.handle_failed_provisioning(device_ip, execution_details, device_type)
-                                    break
+                            if 'processcfs_complete=true' in data:
+                                self.handle_successful_provisioning(device_ip, execution_details, device_type)
+                                provision_count += 1
+                                break
+                            elif execution_details.get("isError"):
+                                self.handle_failed_provisioning(device_ip, execution_details, device_type)
+                                break
 
-                        except Exception as e:
-                            self.log("Exception occurred during provisioning: {0}".format(str(e)), "ERROR")
-                    else:
-                        self.assign_device_to_site(device_ip, assign_network_device_to_site)
+                    except Exception as e:
+                        self.log("Exception occurred during provisioning: {0}".format(str(e)), "ERROR")
 
-            # Check if all the devices are already provisioned, return from here only
-            if already_provision_count == total_devices_to_provisioned:
-                self.handle_all_already_provisioned(device_ip_list, device_type)
-            elif provision_count == total_devices_to_provisioned:
-                self.handle_all_provisioned(device_type)
-            elif provision_count == 0:
-                self.handle_all_failed_provision(device_type)
-            else:
-                self.handle_partially_provisioned(provision_count, device_type)
+        # Check if all the devices are already provisioned, return from here only
+        if already_provision_count == total_devices_to_provisioned:
+            self.handle_all_already_provisioned(device_ip_list, device_type)
+        elif provision_count == total_devices_to_provisioned:
+            self.handle_all_provisioned(device_type)
+        elif provision_count == 0:
+            self.handle_all_failed_provision(device_type)
+        else:
+            self.handle_partially_provisioned(provision_count, device_type)
 
         return self
 
@@ -3213,24 +3218,30 @@ class Inventory(DnacBase):
         response = None
 
         try:
-            response = self.dnac._exec(
-                family="sites",
-                function='get_site',
-                op_modifies=True,
-                params={"name": site_name},
-            )
-            if response:
-                self.log("Received API response from 'get_site': {0}".format(str(response)), "DEBUG")
-                site = response.get("response")
-                site_id = site[0].get("id")
-                site_exists = True
+            if self.dnac_version <= self.version_2_3_5_3:
+                response = self.dnac._exec(
+                    family="sites",
+                    function='get_site',
+                    op_modifies=True,
+                    params={"name": site_name},
+                )
+                if response:
+                    self.log("Received API response from 'get_site': {0}".format(str(response)), "DEBUG")
+                    site = response.get("response")
+                    site_exists = True
+            else:
+                response = self.get_sites(site_name)
+                if response.get("response"):
+                    self.log("Received API response from 'get_sites': {0}".format(str(response)), "DEBUG")
+                    site = response.get("response")
+                    site_exists = True
+                else:
+                    raise ValueError
 
         except Exception as e:
-            self.status = "failed"
-            msg = ("An exception occurred: Site '{0}' does not exist in the Cisco Catalyst Center".format(site_name))
-            self.log(msg, "ERROR")
+            return False
 
-        return (site_exists, site_id)
+        return (site_exists)
 
     def get_diff_merged(self, config):
         """
@@ -3257,30 +3268,24 @@ class Inventory(DnacBase):
             config['http_port'] = self.config[0].get("http_port", "443")
 
         if self.config[0].get('provision_wired_device'):
+            
             provision_wired_list = self.config[0]['provision_wired_device']
-            device_not_available, site_not_available = [], []
+
+            device_not_available = []
 
             for prov_dict in provision_wired_list:
                 device_ip = prov_dict['device_ip']
                 site_name = prov_dict['site_name']
-
-                site_exist,_ = self.site_exists(site_name)
-                if site_exist == True:
-                    continue
-                else:
-                    site_not_available.append(site_name)
-
+                site_exist = self.site_exists(site_name)
+                if not site_exist:
+                    self.status = "failed"
+                    self.msg = """Unable to Provision Wired Device(s) because the site(s) listed: {0} are not present in the
+                                Cisco Catalyst Center.""".format(str(site_name))
+                    self.result['response'] = self.msg
+                    self.log(self.msg, "ERROR")
+                    return self
                 if device_ip not in self.have.get("device_in_ccc"):
                     device_not_available.append(device_ip)
-            site_not_available_str = ', '.join(site_not_available)
-            if device_not_available and site_not_available:
-                self.status = "failed"
-                self.msg = ("Unable to Provision Wired Device(s) because the device(s) listed: {0} and the site(s) listed: {1} are not present in the "
-                            "Cisco Catalyst Center.").format(device_not_available, site_not_available_str)
-                self.result['response'] = self.msg
-                self.log(self.msg, "ERROR")
-                return self
-            
             if device_not_available:
                 self.status = "failed"
                 self.msg = """Unable to Provision Wired Device(s) because the device(s) listed: {0} are not present in the
@@ -3288,14 +3293,6 @@ class Inventory(DnacBase):
                 self.result['response'] = self.msg
                 self.log(self.msg, "ERROR")
                 return self
-
-            if site_not_available:
-                self.status = "failed"
-                self.msg = """Unable to Provision Wired Device(s) because the site(s) listed: {0} are not present in the
-                            Cisco Catalyst Center.""".format(str(site_not_available))
-                self.result['response'] = self.msg
-                self.log(self.msg, "ERROR")
-            return self
 
         if self.config[0].get('update_mgmt_ipaddresslist'):
             device_ip = self.config[0].get('update_mgmt_ipaddresslist')[0].get('existMgmtIpAddress')
@@ -3345,7 +3342,6 @@ class Inventory(DnacBase):
                 return self
 
         if not config['ip_address_list']:
-            self.devices_already_present.append(self.have['devices_in_playbook'])
             self.msg = "Devices '{0}' already present in Cisco Catalyst Center".format(self.have['devices_in_playbook'])
             self.log(self.msg, "INFO")
             self.result['changed'] = False
@@ -3416,13 +3412,12 @@ class Inventory(DnacBase):
                             self.result['response'] = execution_details
 
                             if len(devices_to_add) > 0:
-                                self.device_lists.append(devices_to_add)
                                 self.result['changed'] = True
                                 self.msg = "Device(s) '{0}' added to Cisco Catalyst Center".format(str(devices_to_add))
                                 self.log(self.msg, "INFO")
+                                self.result['msg'] = self.msg
                                 self.result['response'] = self.msg
                                 break
-                            self.devices_already_present.append(str(self.config[0].get("ip_address_list")))
                             self.msg = "Device(s) '{0}' already present in Cisco Catalyst Center".format(str(self.config[0].get("ip_address_list")))
                             self.log(self.msg, "INFO")
                             self.result['msg'] = self.msg
@@ -3888,6 +3883,7 @@ class Inventory(DnacBase):
                             if execution_details.get("status") == "SUCCESS":
                                 self.result['changed'] = True
                                 self.msg = "Delete provisioned Wired Device '{0}' successfully from Cisco Catalyst Center".format(device_ip)
+                                self.provisioned_device_deleted.append(device_ip)
                                 self.log(self.msg, "INFO")
                                 self.result['response'] = self.msg
                                 self.result['msg'].append(self.msg)
@@ -3924,6 +3920,7 @@ class Inventory(DnacBase):
                             if 'success' in execution_details.get("progress"):
                                 self.status = "success"
                                 self.msg = "Provisioned device '{0}' was successfully deleted from Cisco Catalyst Center".format(device_ip)
+                                self.provisioned_device_deleted.append(device_ip)
                                 self.log(self.msg, "INFO")
                                 self.result['changed'] = True
                                 self.result['response'] = execution_details
@@ -3963,6 +3960,7 @@ class Inventory(DnacBase):
                         if 'success' in execution_details.get("progress"):
                             self.status = "success"
                             self.msg = "Device '{0}' was successfully deleted from Cisco Catalyst Center".format(device_ip)
+                            self.deleted_devices.append(device_ip)
                             self.log(self.msg, "INFO")
                             self.result['changed'] = True
                             self.result['response'] = execution_details
@@ -4002,7 +4000,7 @@ class Inventory(DnacBase):
             - Verifies the creation of a global User Defined Field (UDF) and logs the status.
             - Verifies the provisioning of wired devices and logs the status.
         """
-
+        self.log("verify starts here verify diff merged")
         self.get_have(config)
         self.log("Current State (have): {0}".format(str(self.have)), "INFO")
         self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
@@ -4197,6 +4195,15 @@ class Inventory(DnacBase):
                     flat_devices.append(ip)
             devices_already_present = "device(s) '{0}' already present in Cisco Catalyst Center.".format("', '".join(flat_devices))
             result_msg_list.append(devices_already_present)
+
+        if self.provisioned_device_deleted:
+            provisioned_device_deleted = "provisioned device(s) '{0}' successfully deleted in Cisco Catalyst Center.".format("', '".join(self.provisioned_device_deleted))
+            result_msg_list_1.append(provisioned_device_deleted)
+
+        if self.deleted_devices:
+            deleted_devices = "device(s) '{0}' successfully deleted in Cisco Catalyst Center".format("', '".join(self.deleted_devices))
+            result_msg_list_1.append(deleted_devices)
+
 
         if result_msg_list:
             self.msg = " ".join(result_msg_list)
