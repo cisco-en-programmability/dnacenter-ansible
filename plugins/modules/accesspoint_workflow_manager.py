@@ -56,12 +56,25 @@ options:
     elements: dict
     required: True
     suboptions:
+      hostname:
+        description: |
+          The hostname used to identify the device. If the hostname is known,
+          it must be provided and cannot be modified. At least one of the following parameters is required
+          to identify the specific access point: hostname, mac_address or management_ip_address.
+        type: str
+        required: True
       mac_address:
         description: |
           The MAC address used to identify the device. If the MAC address is known,
           it must be provided and cannot be modified. At least one of the following parameters is required
           to identify the specific access point: mac_address, hostname, or management_ip_address.
-          (eg 90:e9:5e:03:f3:40)
+        type: str
+        required: True
+      management_ip_address:
+        description: |
+          The Management IP Address used to identify the device. If the Management IP Address is known,
+          it must be provided and cannot be modified. At least one of the following parameters is required
+          to identify the specific access point: hostname, mac_address or management_ip_address.
         type: str
         required: True
       rf_profile:
