@@ -60,14 +60,21 @@ options:
         description: |
           The MAC address used to identify the device. If the MAC address is known,
           it must be provided and cannot be modified. At least one of the following parameters is required
-          to identify the specific access point: mac_address or management_ip_address.
+          to identify the specific access point: mac_address, hostname or management_ip_address.
         type: str
         required: True
       management_ip_address:
         description: |
           The Management IP Address used to identify the device. If the Management IP Address is known,
           it must be provided and cannot be modified. At least one of the following parameters is required
-          to identify the specific access point: mac_address or management_ip_address.
+          to identify the specific access point: mac_address, hostname or management_ip_address.
+        type: str
+        required: True
+      hostname:
+        description: |
+          The hostname used to identify the device. If the hostname is known,
+          it must be provided and cannot be modified. At least one of the following parameters is required
+          to identify the specific access point: mac_address, hostname or management_ip_address.
         type: str
         required: True
       rf_profile:
@@ -210,7 +217,7 @@ options:
           antenna_gain:
             description: |
               Specifies the antenna gain value in decibels (dB) for the 2.4GHz radio interface, valid values range
-              from 0 to 40. For example, 4.
+              from 0 to 40. For example, 10.
             type: int
             required: False
           radio_role_assignment:
@@ -218,7 +225,9 @@ options:
             type: str
             required: False
           cable_loss:
-            description: Cable loss in dB for the 2.4GHz radio interface. For example, 75.
+            description: |
+              Cable loss in dB for the 2.4GHz radio interface. Valid values range from 0 to 40.
+              This value should be less than the antenna gain value. For example: 2.
             type: int
             required: False
           antenna_cable_name:
@@ -267,7 +276,9 @@ options:
             type: str
             required: False
           cable_loss:
-            description: Cable loss in dB for the 5GHz radio interface. For example, 80.
+            description: |
+              Cable loss in dB for the 5GHz radio interface. Valid values range from 0 to 40.
+              This value should be less than the antenna gain value. For example: 3.
             type: int
             required: False
           antenna_cable_name:
@@ -306,7 +317,7 @@ options:
           antenna_gain:
             description: |
               Antenna gain value in decibels (dB) for the 6GHz radio interface, valid values range
-              from 0 to 40. For example, 4.
+              from 0 to 40. For example, 30.
             type: int
             required: False
           radio_role_assignment:
@@ -314,7 +325,9 @@ options:
             type: str
             required: False
           cable_loss:
-            description: Cable loss in dB for the 6GHz radio interface. For example, 75.
+            description: |
+              Cable loss in dB for the 6GHz radio interface. Valid values range from 0 to 40.
+              This value should be less than the antenna gain value. For example: 10.
             type: int
             required: False
           antenna_cable_name:
@@ -353,7 +366,7 @@ options:
           antenna_gain:
             description: |
               Antenna gain value in decibels (dB) for the XOR radio interface, valid values range
-              from 0 to 40. For example, 4.
+              from 0 to 40. For example, 14.
             type: int
             required: False
           radio_role_assignment:
@@ -371,7 +384,9 @@ options:
             type: str
             required: False
           cable_loss:
-            description: Cable loss in dB for the XOR radio interface. For example, 75.
+            description: |
+              Cable loss in dB for the XOR radio interface. Valid values range from 0 to 40.
+              This value should be less than the antenna gain value. For example: 5.
             type: int
             required: False
           antenna_cable_name:
@@ -432,7 +447,7 @@ options:
           antenna_gain:
             description: |
               Antenna gain value in decibels (dB) for the TRI radio interface, valid values range
-              from 0 to 40. For example, 6.
+              from 0 to 40. For example, 16.
             type: int
             required: False
           radio_role_assignment:
@@ -442,7 +457,9 @@ options:
             type: str
             required: False
           cable_loss:
-            description: Cable loss in dB for the TRI radio interface. For example, 75.
+            description: |
+              Cable loss in dB for the TRI radio interface. Valid values range from 0 to 40.
+              This value should be less than the antenna gain value. For example: 6.
             type: int
             required: False
           antenna_cable_name:
@@ -1637,6 +1654,13 @@ class Accesspoint(DnacBase):
         if antenna_gain and antenna_gain not in range(0, 41):
             errormsg.append("antenna_gain: Invalid '{0}' in playbook".format(antenna_gain))
 
+        cable_loss = radio_config.get("cable_loss")
+        if cable_loss and cable_loss not in range(0, 41):
+            errormsg.append("cable_loss: Invalid '{0}' in playbook".format(cable_loss))
+        elif cable_loss and antenna_gain and cable_loss >= antenna_gain:
+            errormsg.append("cable_loss: Invalid '{0}' in playbook. Must be lesser than antenna_gain: {1} in playbook".
+                            format(cable_loss, antenna_gain))
+
         channel_assignment_mode = radio_config.get("channel_assignment_mode")
         if channel_assignment_mode and channel_assignment_mode not in ("Global", "Custom"):
             errormsg.append("channel_assignment_mode: Invalid value '{0}' for Channel Assignment Mode in playbook. Must be either 'Global' or 'Custom'."
@@ -2280,7 +2304,9 @@ class Accesspoint(DnacBase):
                     unmatch_count = unmatch_count + 1
                     self.log("Antenna name unmatched: {0}".format(want_radio[dto_key]), "INFO")
                 elif dto_key == "cable_loss":
-                    temp_dtos[dto_key] = want_radio[dto_key]
+                    actual_gain = int(want_radio.get("antenna_gain", 0)) - int(want_radio[dto_key])
+                    if current_radio.get(self.keymap["antenna_gain"]) != actual_gain:
+                        temp_dtos[dto_key] = want_radio[dto_key]
                     self.log("Cable loss set to: {0}".format(want_radio[dto_key]), "INFO")
                 elif dto_key == "antenna_cable_name":
                     temp_dtos[dto_key] = want_radio[dto_key]
