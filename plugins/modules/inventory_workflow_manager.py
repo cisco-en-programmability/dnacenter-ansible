@@ -747,6 +747,7 @@ class Inventory(DnacBase):
         self.version_2_3_5_3, self.version_2_3_7_6, self.version_2_2_3_3 = 2353, 2376, 2233
         self.device_already_provisioned, self.provisioned_device, self.device_lists, self.devices_already_present = [], [], [], []
         self.deleted_devices, self.provisioned_device_deleted, self.no_device_to_delete = [], [], []
+        self.response_list = []
 
     def validate_input(self):
         """
@@ -2917,8 +2918,7 @@ class Inventory(DnacBase):
         """
 
         # Call the Get interface details by device IP API and fetch the interface Id
-        is_update_occurred = False
-        response_list = []
+        is_update_occurred = False   
         for device_ip in device_to_update:
             interface_params = self.config[0].get('update_interface_details')
             interface_names_list = interface_params.get('interface_name')
@@ -2948,8 +2948,6 @@ class Inventory(DnacBase):
                         if response.get('role').upper() != "ACCESS":
                             self.msg = "The action to clear the MAC Address table is only supported for devices with the ACCESS role."
                             self.log(self.msg, "WARNING")
-                            response_list.append(self.msg)
-                            self.result['changed'] = False
                         else:
                             deploy_mode = interface_params.get('deployment_mode', 'Deploy')
                             self.clear_mac_address(interface_id, deploy_mode, interface_name).check_return_status()
@@ -2981,7 +2979,7 @@ class Inventory(DnacBase):
                         self.msg = """Interface details for the given interface '{0}' are already updated in the Cisco Catalyst Center for the
                                      device '{1}'.""".format(interface_name, device_ip)
                         self.log(self.msg, "INFO")
-                        response_list.append(self.msg)
+                        self.response_list.append(self.msg)
                         continue
 
                     update_interface_params = {
@@ -3015,7 +3013,7 @@ class Inventory(DnacBase):
                                 self.status = "success"
                                 is_update_occurred = True
                                 self.msg = "Successfully updated the Interface Details for device '{0}'.".format(device_ip)
-                                response_list.append(self.msg)
+                                self.response_list.append(self.msg)
                                 self.log(self.msg, "INFO")
                                 break
                             elif execution_details.get("isError"):
@@ -3036,11 +3034,9 @@ class Inventory(DnacBase):
                     self.result['changed'] = False
                     self.msg = "Port actions are only supported on user facing/access ports as it's not allowed or No Updation required"
                     self.log(self.msg, "INFO")
-                    response_list.append(self.msg)
+                    self.response_list.append(self.msg)
 
         self.result['changed'] = is_update_occurred
-        self.result['response'] = response_list
-
         return self
 
     def check_managementip_execution_response(self, response, device_ip, new_mgmt_ipaddress):
@@ -4220,6 +4216,9 @@ class Inventory(DnacBase):
             deleted_devices = "device(s) '{0}' is not present in Cisco Catalyst Center so can't perform delete operation".format("', '".join(self.no_device_to_delete))
             result_msg_list.append(deleted_devices)
 
+        if self.response_list:
+            response_list_for_update = "{0}".format(", ".join(self.response_list))
+            result_msg_list_1.append(response_list_for_update)
 
         if result_msg_list:
             self.msg = " ".join(result_msg_list)
