@@ -1652,11 +1652,13 @@ class Accesspoint(DnacBase):
 
         antenna_gain = radio_config.get("antenna_gain")
         if antenna_gain and antenna_gain not in range(0, 41):
-            errormsg.append("antenna_gain: Invalid '{0}' in playbook".format(antenna_gain))
+            errormsg.append("antenna_gain: Invalid '{0}' in playbook, allowed range of min: 0 and max: 40"
+                            .format(antenna_gain))
 
         cable_loss = radio_config.get("cable_loss")
         if cable_loss and cable_loss not in range(0, 41):
-            errormsg.append("cable_loss: Invalid '{0}' in playbook".format(cable_loss))
+            errormsg.append("cable_loss: Invalid '{0}' in playbook, allowed range of min: 0 and max: 40"
+                            .format(cable_loss))
         elif cable_loss and antenna_gain and cable_loss >= antenna_gain:
             errormsg.append("cable_loss: Invalid '{0}' in playbook. Must be lesser than antenna_gain: {1} in playbook".
                             format(cable_loss, antenna_gain))
