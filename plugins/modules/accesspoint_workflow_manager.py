@@ -56,13 +56,6 @@ options:
     elements: dict
     required: True
     suboptions:
-      hostname:
-        description: |
-          The hostname used to identify the device. If the hostname is known,
-          it must be provided and cannot be modified. At least one of the following parameters is required
-          to identify the specific access point: hostname, mac_address or management_ip_address.
-        type: str
-        required: True
       mac_address:
         description: |
           The MAC address used to identify the device. If the MAC address is known,
