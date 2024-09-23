@@ -88,5 +88,5 @@ class TestDnacInventoryWorkflow(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get('msg'),
-            "Device(s) '['60.1.1.1', '50.1.1.1']' added to Cisco Catalyst Center"
+            "device(s) '60.1.1.1', '50.1.1.1' added successfully in Cisco Catalyst Center."
         )

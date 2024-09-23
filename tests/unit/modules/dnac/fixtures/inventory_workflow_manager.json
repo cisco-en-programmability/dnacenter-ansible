@@ -10,7 +10,7 @@
   "get_device_list_add_device_5": {"response": [], "version": "1.0"},
 
   "add_device_response" :{
-    "message": "Device(s) '['60.1.1.1', '50.1.1.1']' added to Cisco Catalyst Center"} 
+    "message": "device(s) '60.1.1.1', '50.1.1.1' added successfully in Cisco Catalyst Center."} 
 
 
 }
