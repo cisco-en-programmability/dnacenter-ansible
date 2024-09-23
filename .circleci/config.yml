@@ -1,3 +1,4 @@
+---
 version: 2.1
 
 setup: << pipeline.parameters.run-setup >>
@@ -76,25 +77,23 @@ parameters:
 jobs:
 
   pre:
-    #machine: true
     docker:
       - image: python:3.8.10
-    resource_class: madhansansel/dnacenter-ansible 
+    resource_class: madhansansel/dnacenter-ansible
 
     steps:
       - run:
           name: Debug information for pre
           command: |
-            set -x 
+            set -x
             echo "REPO_URL: $REPO_URL"
             echo "CIRCLE_PROJECT_REPONAME: $CIRCLE_PROJECT_REPONAME"
             echo "CIRCLE_PROJECT_BRANCHNAME: $CIRCLE_PROJECT_BRANCHNAME"
 
   build:
-    #machine: true
     docker:
       - image: python:3.8.10
-    resource_class: madhansansel/dnacenter-ansible 
+    resource_class: madhansansel/dnacenter-ansible
     steps:
       - run:
           name: Debug information
@@ -140,14 +139,13 @@ jobs:
             - ~/.cache/pip
 
   addrole:
-    parameters: 
+    parameters:
       run-all:
         type: boolean
         default: false
-    #machine: true
     docker:
       - image: python:3.8.10
-    resource_class: madhansansel/dnacenter-ansible 
+    resource_class: madhansansel/dnacenter-ansible
 
     steps:
       - run:
@@ -156,106 +154,106 @@ jobs:
             mkdir -p roles-file
             touch roles-file/ccc_roles.yml
       - when:
-          condition: 
-            or: [ << pipeline.parameters.run-site >>, << pipeline.parameters.run-all >> ]
+          condition:
+            or: [<< pipeline.parameters.run-site >>, << pipeline.parameters.run-all >>]
           steps:
-            - run: 
+            - run:
                 command: |
                   echo "ccc_site_management" >> roles-file/ccc_roles.yml
 
       - when:
           condition:
-            or: [ << pipeline.parameters.run-devicecredential >>, << pipeline.parameters.run-all >> ]
+            or: [<< pipeline.parameters.run-devicecredential >>, << pipeline.parameters.run-all >>]
           steps:
-            - run: 
+            - run:
                 command: |
                   echo "ccc_device_credential_management" >> roles-file/ccc_roles.yml
 
       - when:
           condition:
-            or: [ << pipeline.parameters.run-discovery >>, << pipeline.parameters.run-all >> ]
+            or: [<< pipeline.parameters.run-discovery >>, << pipeline.parameters.run-all >>]
           steps:
-            - run: 
+            - run:
                 command: |
                   echo "ccc_discovery_management" >> roles-file/ccc_roles.yml
 
       - when:
           condition:
-            or: [ << pipeline.parameters.run-inventory >>, << pipeline.parameters.run-all >> ]
+            or: [<< pipeline.parameters.run-inventory >>, << pipeline.parameters.run-all >>]
           steps:
-            - run: 
+            - run:
                 command: |
                   echo "ccc_inventory_management" >> roles-file/ccc_roles.yml
 
       - when:
           condition:
-            or: [ << pipeline.parameters.run-swim >>, << pipeline.parameters.run-all >> ]
+            or: [<< pipeline.parameters.run-swim >>, << pipeline.parameters.run-all >>]
           steps:
-            - run: 
+            - run:
                 command: |
                   echo "ccc_swim_management" >> roles-file/ccc_roles.yml
 
       # - when:
       #     condition:
-      #       or: [ << pipeline.parameters.run-networksettings >>, << pipeline.parameters.run-all >> ]
+      #       or: [<< pipeline.parameters.run-networksettings >>, << pipeline.parameters.run-all >>]
       #     steps:
-      #       - run: 
+      #       - run:
       #           command: |
       #             echo "ccc_network_settings_management" >> roles-file/ccc_roles.yml
 
       # - when:
       #     condition:
-      #       or: [ << pipeline.parameters.run-serverintegrations >>, << pipeline.parameters.run-all >> ]
+      #       or: [<< pipeline.parameters.run-serverintegrations >>, << pipeline.parameters.run-all >>]
       #     steps:
-      #       - run: 
+      #       - run:
       #           command: |
       #             echo "ccc_aaa_server_management" >> roles-file/ccc_roles.yml
 
       # - when:
       #     condition:
-      #       or: [ << pipeline.parameters.run-template >>, << pipeline.parameters.run-all >> ]
+      #       or: [<< pipeline.parameters.run-template >>, << pipeline.parameters.run-all >>]
       #     steps:
-      #       - run: 
+      #       - run:
       #           command: |
       #             echo "ccc_template_management" >> roles-file/ccc_roles.yml
 
       # - when:
       #     condition:
-      #       or: [ << pipeline.parameters.run-eventsandnotif >>, << pipeline.parameters.run-all >> ]
+      #       or: [<< pipeline.parameters.run-eventsandnotif >>, << pipeline.parameters.run-all >>]
       #     steps:
-      #       - run: 
+      #       - run:
       #           command: |
       #             echo "ccc_events_and_notification_management" >> roles-file/ccc_roles.yml
 
       # - when:
       #     condition:
-      #       or: [ << pipeline.parameters.run-configbackups >>, << pipeline.parameters.run-all >> ]
+      #       or: [<< pipeline.parameters.run-configbackups >>, << pipeline.parameters.run-all >>]
       #     steps:
-      #       - run: 
+      #       - run:
       #           command: |
       #             echo "ccc_configbackups" >> roles-file/ccc_roles.yml
 
       # - when:
       #     condition:
-      #       or: [ << pipeline.parameters.run-provision >>, << pipeline.parameters.run-all >> ]
+      #       or: [<< pipeline.parameters.run-provision >>, << pipeline.parameters.run-all >>]
       #     steps:
-      #       - run: 
+      #       - run:
       #           command: |
       #             echo "ccc_provision" >> roles-file/ccc_roles.yml
 
       # - when:
       #     condition:
-      #       or: [ << pipeline.parameters.run-networkcompliance >>, << pipeline.parameters.run-all >> ]
+      #       or: [<< pipeline.parameters.run-networkcompliance >>, << pipeline.parameters.run-all >>]
       #     steps:
-      #       - run: 
+      #       - run:
       #           command: |
       #             echo "ccc_network_compliance_management" >> roles-file/ccc_roles.yml
 
       - when:
           condition:
-            or: [ << pipeline.parameters.run-pnp >>, << pipeline.parameters.run-all >> ]
+            or: [<< pipeline.parameters.run-pnp >>, << pipeline.parameters.run-all >>]
           steps:
-            - run: 
+            - run:
                 command: |
                   echo "ccc_pnp_management" >> roles-file/ccc_roles.yml
 
@@ -269,17 +267,16 @@ jobs:
           paths:
             - 'ccc_roles.yml'
   sanity-tests:
-    #machine: true
     docker:
       - image: python:3.8.10
-    resource_class: madhansansel/dnacenter-ansible 
+    resource_class: madhansansel/dnacenter-ansible
     parallelism: 4
     steps:
       - when:
-          condition: 
+          condition:
             not: << pipeline.parameters.run-any >>
           steps:
-            - run: 
+            - run:
                 name: Finish sanity tests as there is nothing to execute
                 command: |
                   circleci-agent step halt
@@ -301,6 +298,11 @@ jobs:
       - attach_workspace:
           at: roles-file
 
+      - run:
+          name: Finish sanity tests when roles file is empty
+          command: |
+            [ -s roles-file/ccc_roles.yml ] || circleci-agent step halt
+
       - restore_cache:
           keys:
             - collection-<< pipeline.git.revision >>
@@ -318,7 +320,7 @@ jobs:
           name: Install the collection tarball
           command: |
             python --version
-            ansible --version  
+            ansible --version
             ansible-galaxy collection install --force workspace/*.tar.gz
       - run:
           name: Copy static files
@@ -349,23 +351,22 @@ jobs:
           no_output_timeout: 120m
 
   post_pnp_testing:
-    #machine: true
     docker:
       - image: python:3.8.10
-    resource_class: madhansansel/dnacenter-ansible 
+    resource_class: madhansansel/dnacenter-ansible
 
     steps:
       - when:
           condition: << pipeline.parameters.run-pnp >>
           steps:
-            - run: 
+            - run:
                 command: |
                   python ${HOME}/static/pnp_script.py #TODO
 
   main-pr:
     docker:
       - image: maniator/gh:v2.49.2
-    resource_class: madhansansel/dnacenter-ansible 
+    resource_class: madhansansel/dnacenter-ansible
     steps:
       - run:
           name: Clone repo to workspace
@@ -379,7 +380,7 @@ jobs:
   release-job:
     docker:
       - image: python:3.8.10
-    resource_class: madhansansel/dnacenter-ansible 
+    resource_class: madhansansel/dnacenter-ansible
     steps:
       - run:
           name: Clone repo to workspace
@@ -395,18 +396,18 @@ jobs:
       #       - "KEY_FINGERPRINT"
       - run:
           echo create release
-          #git tag -a v<< pipeline.parameters.ansible_cisco_dnac_version >> -m "Ansible DNACCollection Version v<< pipeline.parameters.ansible_cisco_dnac_version >>"
-          #gh release create "v<< pipeline.parameters.ansible_cisco_dnac_version >>" --title "DNAC Collection Version v<< pipeline.parameters.ansible_cisco_dnac_version >>" --latest
-          #ansible-galaxy collection publish workspace/*.tar.gz --api-key=$GALAXYKEY
+          # git tag -a v<< pipeline.parameters.ansible_cisco_dnac_version >> -m "Ansible DNACCollection Version v<< pipeline.parameters.ansible_cisco_dnac_version >>"
+          # gh release create "v<< pipeline.parameters.ansible_cisco_dnac_version >>" --title "DNAC Collection Version v<< pipeline.parameters.ansible_cisco_dnac_version >>" --latest
+          # ansible-galaxy collection publish workspace/*.tar.gz --api-key=$GALAXYKEY
 
-workflows:  
-  
+workflows:
+
   building:
     when:
       and:
         - or:
-          - equal: [ run-tests, << pipeline.parameters.GHA_Meta >> ]
-#          - equal: [ true,  << pipeline.parameters.run-setup >> ]
+        - equal: [run-tests, << pipeline.parameters.GHA_Meta >>]
+        # - equal: [true, << pipeline.parameters.run-setup >>]
         - not: << pipeline.parameters.continued >>
     jobs:
       - pre
@@ -442,8 +443,8 @@ workflows:
             plugins/modules/device_configs_backup_workflow_manager.py run-configbackups true
             plugins/modules/provision_workflow_manager.py run-provision true
             plugins/modules/network_compliance_workflow_manager.py run-networkcompliance true
-            
-            tests/integration/ccc_site_management/.* run-site true    
+
+            tests/integration/ccc_site_management/.* run-site true
             tests/integration/ccc_device_credential_management/.* run-devicecredential true
             tests/integration/ccc_discovery_management/.* run-discovery true
             tests/integration/ccc_inventory_management/.* run-inventory true
@@ -453,49 +454,50 @@ workflows:
             tests/integration/ccc_aaa_server_management/.* run-serverintegrations true
             tests/integration/ccc_template_management/.* run-template true
             tests/integration/ccc_events_and_notification_management/.* run-eventsandnotif true
-            # tests/integration/? run-configbackups true
+            # tests/integration/ccc_device_configs_backup_management/.* run-configbackups true
             # tests/integration/? run-provision true
             tests/integration/ccc_network_compliance_management/.* run-networkcompliance true
 
   testing:
     when:
       or:
-        - equal: [ true, << pipeline.parameters.run-any >> ]
-        - equal: [ true, << pipeline.parameters.continued >> ]
+        - equal: [true, << pipeline.parameters.run-any >>]
+        - equal: [true, << pipeline.parameters.continued >>]
     jobs:
-      - addrole    
+      - addrole
       - sanity-tests:
-          requires: 
+          requires:
             - addrole
           context:
             - dnac-servers
             - logs-vm
-      # - post_pnp_testing:
-      #     requires:
-      #       - sanity-tests
- 
+
+            # - post_pnp_testing:
+            #     requires:
+            #       - sanity-tests
+
   release-candidate:
     when:
       or:
-        - equal: [ run-release-prep, << pipeline.parameters.GHA_Meta >> ]
+        - equal: [run-release-prep, << pipeline.parameters.GHA_Meta >>]
     jobs:
       - build
       - addrole:
           matrix:
             parameters:
               run-all:
-                - true   
+                - true
       - sanity-tests:
-          requires: 
+          requires:
             - addrole
             - build
           context:
             - dnac-servers
       - hold:
           type: approval
-          requires: 
+          requires:
             - sanity-tests
-      
+
       - main-pr:
           context:
             - gh-token
@@ -505,12 +507,12 @@ workflows:
   release:
     when:
       or:
-        - equal: [ run-release, << pipeline.parameters.GHA_Meta >> ]
-    jobs:   
+        - equal: [run-release, << pipeline.parameters.GHA_Meta >>]
+    jobs:
       - build
       - release-job:
           requires:
-              - build
+            - build
           context:
             - gh-token
             - galaxy-token
