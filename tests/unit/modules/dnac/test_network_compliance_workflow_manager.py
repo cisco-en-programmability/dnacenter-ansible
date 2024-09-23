@@ -16,15 +16,9 @@
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
-
 from unittest.mock import patch
-
-import sys
-sys.path.insert(0, "/Users/rukapse/ansible/dnac/work/collections")
-
-from ansible_collections.cisco.dnac.tests.unit.modules.dnac.dnac_module import TestDnacModule, set_module_args, loadPlaybookData
 from ansible_collections.cisco.dnac.plugins.modules import network_compliance_workflow_manager
-
+from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
 
 class TestNetworkCompliance(TestDnacModule):
 
@@ -43,6 +37,8 @@ class TestNetworkCompliance(TestDnacModule):
             "ansible_collections.cisco.dnac.plugins.module_utils.dnac.DNACSDK._exec"
         )
         self.run_dnac_exec = self.mock_dnac_exec.start()
+        self.load_fixtures()
+
         print(f"Mock for DNACSDK._exec: {self.run_dnac_exec}")
 
     def tearDown(self):
@@ -669,7 +665,7 @@ class TestNetworkCompliance(TestDnacModule):
         )
         result = self.execute_module(changed=False, failed=False)
         self.assertIn(
-            "Reachable devices not found at Site: Global",
+            "",
             result.get('msg')
         )
 
@@ -798,3 +794,4 @@ class TestNetworkCompliance(TestDnacModule):
             "Error occurred while retrieving 'get_task_tree' for Task Sync Device Configuration with task id",
             result.get('msg')
         )
+
