@@ -58,23 +58,26 @@ options:
     suboptions:
       mac_address:
         description: |
-          The MAC address used to identify the device. If the MAC address is known,
-          it must be provided and cannot be modified. At least one of the following parameters is required
-          to identify the specific access point: mac_address, hostname or management_ip_address.
+          To identify the specific access point, at least one of the following parameters is required.
+          - mac_address
+          - hostname
+          - management_ip_address
         type: str
         required: True
       management_ip_address:
         description: |
-          The Management IP Address used to identify the device. If the Management IP Address is known,
-          it must be provided and cannot be modified. At least one of the following parameters is required
-          to identify the specific access point: mac_address, hostname or management_ip_address.
+          To identify the specific access point, at least one of the following parameters is required.
+          - mac_address
+          - hostname
+          - management_ip_address
         type: str
         required: True
       hostname:
         description: |
-          The hostname used to identify the device. If the hostname is known,
-          it must be provided and cannot be modified. At least one of the following parameters is required
-          to identify the specific access point: mac_address, hostname or management_ip_address.
+          To identify the specific access point, at least one of the following parameters is required.
+          - mac_address
+          - hostname
+          - management_ip_address
         type: str
         required: True
       rf_profile:
@@ -226,8 +229,8 @@ options:
             required: False
           cable_loss:
             description: |
-              Cable loss in dB for the 2.4GHz radio interface. Valid values range from 0 to 40.
-              This value should be less than the antenna gain value. For example: 2.
+              Cable loss in dB for the 2.4GHz radio interface. Valid values are from 0 to 40.
+              This value must be less than the antenna gain. For example, 2.
             type: int
             required: False
           antenna_cable_name:
@@ -277,8 +280,8 @@ options:
             required: False
           cable_loss:
             description: |
-              Cable loss in dB for the 5GHz radio interface. Valid values range from 0 to 40.
-              This value should be less than the antenna gain value. For example: 3.
+              Cable loss in dB for the 5GHz radio interface. Valid values are from 0 to 40.
+              This value must be less than the antenna gain. For example, 3.
             type: int
             required: False
           antenna_cable_name:
@@ -326,8 +329,8 @@ options:
             required: False
           cable_loss:
             description: |
-              Cable loss in dB for the 6GHz radio interface. Valid values range from 0 to 40.
-              This value should be less than the antenna gain value. For example: 10.
+              Cable loss in dB for the 6GHz radio interface. Valid values are from 0 to 40.
+              This value must be less than the antenna gain. For example, 10.
             type: int
             required: False
           antenna_cable_name:
@@ -385,8 +388,8 @@ options:
             required: False
           cable_loss:
             description: |
-              Cable loss in dB for the XOR radio interface. Valid values range from 0 to 40.
-              This value should be less than the antenna gain value. For example: 5.
+              Cable loss in dB for the XOR radio interface. Valid values are from 0 to 40.
+              This value must be less than the antenna gain. For example, 5.
             type: int
             required: False
           antenna_cable_name:
@@ -458,8 +461,8 @@ options:
             required: False
           cable_loss:
             description: |
-              Cable loss in dB for the TRI radio interface. Valid values range from 0 to 40.
-              This value should be less than the antenna gain value. For example: 6.
+              Cable loss in dB for the TRI radio interface. Valid values are from 0 to 40.
+              This value must be less than the antenna gain. For example, 6.
             type: int
             required: False
           antenna_cable_name:
@@ -1656,12 +1659,12 @@ class Accesspoint(DnacBase):
                             .format(antenna_gain))
 
         cable_loss = radio_config.get("cable_loss")
-        if cable_loss and cable_loss not in range(0, 41):
-            errormsg.append("cable_loss: Invalid '{0}' in playbook, allowed range of min: 0 and max: 40"
-                            .format(cable_loss))
-        elif cable_loss and antenna_gain and cable_loss >= antenna_gain:
-            errormsg.append("cable_loss: Invalid '{0}' in playbook. Must be lesser than antenna_gain: {1} in playbook".
-                            format(cable_loss, antenna_gain))
+        if cable_loss:
+            if not 0 <= cable_loss <= 40:
+                errormsg.append("cable_loss: Invalid '{0}' in playbook. Must be between 0 and 40.".format(cable_loss))
+            elif antenna_gain and cable_loss >= antenna_gain:
+                errormsg.append("cable_loss: Invalid '{0}' in playbook. Must be less than antenna_gain: {1}."
+                                .format(cable_loss, antenna_gain))
 
         channel_assignment_mode = radio_config.get("channel_assignment_mode")
         if channel_assignment_mode and channel_assignment_mode not in ("Global", "Custom"):
@@ -2306,9 +2309,11 @@ class Accesspoint(DnacBase):
                     unmatch_count = unmatch_count + 1
                     self.log("Antenna name unmatched: {0}".format(want_radio[dto_key]), "INFO")
                 elif dto_key == "cable_loss":
-                    actual_gain = int(want_radio.get("antenna_gain", 0)) - int(want_radio[dto_key])
+                    cable_loss = int(want_radio[dto_key])
+                    antenna_gain = int(want_radio.get("antenna_gain", 0))
+                    actual_gain = antenna_gain - cable_loss
                     if current_radio.get(self.keymap["antenna_gain"]) != actual_gain:
-                        temp_dtos[dto_key] = want_radio[dto_key]
+                        temp_dtos[dto_key] = cable_loss
                     self.log("Cable loss set to: {0}".format(want_radio[dto_key]), "INFO")
                 elif dto_key == "antenna_cable_name":
                     temp_dtos[dto_key] = want_radio[dto_key]
