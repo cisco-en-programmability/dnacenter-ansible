@@ -64,7 +64,7 @@ options:
           - management_ip_address
         type: str
         required: True
-      management_ip_address:
+      hostname:
         description: |
           To identify the specific access point, at least one of the following parameters is required.
           - mac_address
@@ -72,7 +72,7 @@ options:
           - management_ip_address
         type: str
         required: True
-      hostname:
+      management_ip_address:
         description: |
           To identify the specific access point, at least one of the following parameters is required.
           - mac_address
