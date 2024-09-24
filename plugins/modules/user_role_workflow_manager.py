@@ -3296,6 +3296,18 @@ class UserandRole(DnacBase):
             return camel_case_data
 
     def process_config_details(self, config_type, state):
+        """
+        Process and apply configuration changes based on a given configuration type and desired state.
+
+        Parameters:
+            - config_type (str): The configuration type to be processed, found in the "config" section of the payload.
+            - state (str): The target state for the configuration (e.g., "present" or "absent").
+
+        Description:
+            - This method first checks if the `config_type` exists in the payload and validates its configuration.
+            - For each validated configuration, it resets internal values, retrieves the desired (want) and current (have) states, and applies the necessary changes based on the `state`.
+            - If `config_verify` is enabled, it verifies that the changes have been correctly applied.
+        """
         if config_type in self.payload.get("config"):
             self.validate_input_yml(self.payload.get("config").get(config_type)).check_return_status()
             config_verify = self.payload.get("config_verify")
