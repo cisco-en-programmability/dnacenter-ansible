@@ -21,6 +21,7 @@ extends_documentation_fragment:
 author: Abinash Mishra (@abimishr)
         Rugvedi Kapse (@rukapse)
         Madhan Sankaranarayanan (@madhansansel)
+        Sonali Deepthi Kesali (@skesali)
 options:
   config_verify:
     description: Set to True to verify the Cisco Catalyst Center config after applying the playbook config.
@@ -113,17 +114,19 @@ options:
                     - one special characters from -=\\\\\\\\;,./~!@$%^&*()_+{}[]|:?"
         type: str
 requirements:
-  - dnacentersdk == 2.6.10
+  - dnacentersdk == 2.9.2
   - python >= 3.5
 
 notes:
   - SDK Methods used are
     sites.Sites.get_site
+    Site_design.Site_design.get_sites
     sites.Sites.get_membership
+    site_design.Site_design.get_site_assigned_network_devices
     devices.Devices.get_device_list
+    devices.Devices.get_device_by_id
     configuration_archive.ConfigurationsArchive.export_device_configurations
     file.Files.download_a_file_by_fileid
-    task.Task.get_task_by_id
 
   - Paths used are
     get /dna/intent/api/v1/site
@@ -131,8 +134,9 @@ notes:
     get /dna/intent/api/v1/network-device
     post /dna/intent/api/v1/network-device-archive/cleartext
     get /dna/intent/api/v1/file/${fileId}
-    get /dna/intent/api/v1/task/${taskId}
-
+    get /dna/intent/api/v1/networkDevices/assignedToSite
+    get /dna/intent/api/v1/sites
+    get /dna/intent/api/v1/network-device/${id}
 """
 
 EXAMPLES = r"""
@@ -538,81 +542,6 @@ class Device_configs_backup(DnacBase):
 
         return (site_exists, site_id)
 
-    # def get_device_ids_from_site(self, site_name, site_id):
-    #     """
-    #     Retrieves device IDs from a specified site in Cisco Catalyst Center.
-    #     Parameters:
-    #         site_name (str): The name of the site.
-    #         site_id (str): The ID of the site.
-    #     Returns:
-    #         dict: A dictionary mapping management IP addresses to instance UUIDs of reachable devices that are not Unified APs.
-    #     Description:
-    #         This method queries Cisco Catalyst Center to retrieve device information associated with the provided site ID.
-    #         It filters out unreachable devices and Unified APs, returning a dictionary of management IP addresses mapped to their instance UUIDs.
-    #         Logs detailed information about the number of devices processed and skipped.
-    #     """
-    #     mgmt_ip_to_instance_id_map = {}
-    #     processed_device_count = 0
-    #     skipped_device_count = 0
-
-    #     # Parameters for the site membership API call
-    #     site_params = {
-    #         "site_id": site_id,
-    #     }
-
-    #     # Attempt to retrieve device information associated with the site
-    #     try:
-    #         response = self.dnac._exec(
-    #             family="sites",
-    #             function="get_membership",
-    #             op_modifies=True,
-    #             params=site_params,
-    #         )
-    #         self.log("Response received post 'get_membership' API Call: {0} ".format(str(response)), "DEBUG")
-
-    #         # Process the response if available
-    #         if response:
-    #             response = response["device"]
-    #             # Iterate over the devices in the site membership
-    #             for item in response:
-    #                 if item["response"]:
-    #                     for item_dict in item["response"]:
-    #                         processed_device_count += 1
-    #                         # Check if the device is reachable
-    #                         if item_dict["reachabilityStatus"] == "Reachable" and item_dict["collectionStatus"] == "Managed":
-    #                             if item_dict["family"] != "Unified AP":
-    #                                 mgmt_ip_to_instance_id_map[item_dict["managementIpAddress"]] = item_dict["instanceUuid"]
-    #                             else:
-    #                                 skipped_device_count += 1
-    #                                 self.skipped_devices_list.append(item_dict["managementIpAddress"])
-    #                                 msg = "Skipping device {0} in site {1} as its family is {2}".format(
-    #                                     item_dict["managementIpAddress"], site_name, item_dict["family"])
-    #                                 self.log(msg, "INFO")
-    #                         else:
-    #                             skipped_device_count += 1
-    #                             self.skipped_devices_list.append(item_dict["managementIpAddress"])
-    #                             msg = "Skipping device {0} in site {1} as its status is {2} or collectionStatus is {3} ".format(
-    #                                 item_dict["managementIpAddress"], site_name, item_dict["reachabilityStatus"], item_dict["collectionStatus"])
-    #                             self.log(msg, "WARNING")
-    #         else:
-    #             # If unable to retrieve device information, log an error message
-    #             self.log("No response received from API call 'get_membership' to get membership information for site. {0}".format(site_name), "ERROR")
-
-    #         # Log the total number of devices processed and skipped
-    #         self.log("Total number of devices processed: {0}".format(processed_device_count), "INFO")
-    #         self.log("Number of devices skipped due to being unreachable or APs: {0}".format(skipped_device_count), "INFO")
-    #         self.log("Filtered devices available for configuration backup: {0}".format(mgmt_ip_to_instance_id_map), "INFO")
-
-    #     except Exception as e:
-    #         # Log an error message if any exception occurs during the process
-    #         self.log("Unable to fetch the device(s) associated to the site '{0}' due to {1}".format(site_name, str(e)), "ERROR")
-
-    #     # Log a warning if no reachable devices are found
-    #     if not mgmt_ip_to_instance_id_map:
-    #         self.log("Reachable devices not found at Site: {0}".format(site_name), "WARNING")
-
-    #     return mgmt_ip_to_instance_id_map
-
     def get_device_ids_from_site(self, site_name, site_id):
         """
         Retrieves the management IP addresses and their corresponding instance UUIDs of devices associated with a specific site in Cisco Catalyst Center.
@@ -636,9 +565,7 @@ class Device_configs_backup(DnacBase):
             "site_id": site_id,
         }
 
-        # Attempt to retrieve device information associated with the site
         try:
-            # Determine the API call based on the DNAC version
             if self.dnac_version <= self.version_2_3_5_3:
                 response = self.dnac._exec(
                     family="sites",
@@ -693,7 +620,6 @@ class Device_configs_backup(DnacBase):
             self.module.exit_json(**self.result)
 
         return mgmt_ip_to_instance_id_map
-
 
     def get_device_list_params(self, config):
         """
