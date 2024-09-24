@@ -50,7 +50,7 @@
                 "channel_number": 44,
                 "powerlevel": 2,
                 "cable_loss": 13,
-                "antenna_gain": 1,
+                "antenna_gain": 19,
                 "radio_band": "5 Ghz",
                 "channel_width": "80 MHz"
             },
@@ -58,7 +58,7 @@
                 "admin_status": "Enabled",
                 "antenna_name": "AIR-ANT2513P4M-N-5GHz",
                 "radio_role_assignment": "Client-Serving",
-                "channel_number": 44,
+                "channel_number": 1,
                 "power_assignment_mode": "Global",
                 "channel_width": "20 MHz"
             }
@@ -779,7 +779,7 @@
             "xor_radio": {
                 "admin_status": "Enabledsds",
                 "channel_assignment_mode": "any",
-                "antenna_gain": 15,
+                "antenna_gain": 41,
                 "radio_role_assignment": "Client-Serving",
                 "channel_number": 2
             }
