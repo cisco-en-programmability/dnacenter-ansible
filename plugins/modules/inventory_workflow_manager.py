@@ -747,7 +747,7 @@ class Inventory(DnacBase):
         self.version_2_3_5_3, self.version_2_3_7_6, self.version_2_2_3_3 = 2353, 2376, 2233
         self.device_already_provisioned, self.provisioned_device, self.device_lists, self.devices_already_present = [], [], [], []
         self.deleted_devices, self.provisioned_device_deleted, self.no_device_to_delete = [], [], []
-        self.response_list = []
+        self.response_list, self.role_updated_list, self.device_role_name= [], [], []
 
     def validate_input(self):
         """
@@ -1730,7 +1730,7 @@ class Inventory(DnacBase):
                 # Check till device comes into managed state
                 while resync_retry_count:
                     response = self.get_device_response(device_ip)
-                    self.log("Device is in {0} state waiting for Managed State.".format(response['managementState']), "DEBUG")
+                    self.log("Device is in {0} state waiting for Managed State.".format(response.get('managementState')), "DEBUG")
 
                     if (
                         response.get('managementState') == "Managed"
@@ -1841,7 +1841,7 @@ class Inventory(DnacBase):
                 # Check till device comes into managed state
                 while resync_retry_count:
                     response = self.get_device_response(device_ip)
-                    self.log("Device is in {0} state waiting for Managed State.".format(response['managementState']), "DEBUG")
+                    self.log("Device is in {0} state waiting for Managed State.".format(response.get('managementState')), "DEBUG")
 
                     if (
                         response.get('managementState') == "Managed"
@@ -2128,7 +2128,7 @@ class Inventory(DnacBase):
                 # Check till device comes into managed state
                 while resync_retry_count:
                     response = self.get_device_response(device_ip)
-                    self.log("Device is in {0} state waiting for Managed State.".format(response['managementState']), "DEBUG")
+                    self.log("Device is in {0} state waiting for Managed State.".format(response.get('managementState')), "DEBUG")
 
                     if (
                         response.get('managementState') == "Managed"
@@ -2948,6 +2948,8 @@ class Inventory(DnacBase):
                         if response.get('role').upper() != "ACCESS":
                             self.msg = "The action to clear the MAC Address table is only supported for devices with the ACCESS role."
                             self.log(self.msg, "WARNING")
+                            #self.response_list.append(self.msg)
+                            #self.result['changed'] = False
                         else:
                             deploy_mode = interface_params.get('deployment_mode', 'Deploy')
                             self.clear_mac_address(interface_id, deploy_mode, interface_name).check_return_status()
@@ -3037,6 +3039,8 @@ class Inventory(DnacBase):
                     self.response_list.append(self.msg)
 
         self.result['changed'] = is_update_occurred
+        #self.result['response'] = self.response_list
+
         return self
 
     def check_managementip_execution_response(self, response, device_ip, new_mgmt_ipaddress):
@@ -3284,8 +3288,8 @@ class Inventory(DnacBase):
                 site_exist = self.site_exists(site_name)
                 if not site_exist:
                     self.status = "failed"
-                    self.msg = """Unable to Provision Wired Device(s) because the site(s) listed: {0} are not present in the
-                                Cisco Catalyst Center.""".format(str(site_name))
+                    self.msg = ("Unable to Provision Wired Device(s) because the site(s) listed: '{0}' are not present in the"
+                                "Cisco Catalyst Center.").format(str(site_name))
                     self.result['response'] = self.msg
                     self.log(self.msg, "ERROR")
                     return self
@@ -3449,8 +3453,8 @@ class Inventory(DnacBase):
         if self.config[0].get('role'):
             devices_to_update_role = self.get_device_ips_from_config_priority()
             device_role = self.config[0].get('role')
+            self.device_role_name.append(device_role)
             role_update_count = 0
-            role_updated_list = []
             for device_ip in devices_to_update_role:
                 device_id = self.get_device_ids([device_ip])
 
@@ -3497,7 +3501,7 @@ class Inventory(DnacBase):
                             if 'successfully' in progress or 'succesfully' in progress:
                                 self.status = "success"
                                 self.log("Device '{0}' role updated successfully to '{1}'".format(device_ip, device_role), "INFO")
-                                role_updated_list.append(device_ip)
+                                self.role_updated_list.append(device_ip)
                                 break
                             elif execution_details.get("isError"):
                                 self.status = "failed"
@@ -3522,11 +3526,13 @@ class Inventory(DnacBase):
                 self.log(self.msg, "INFO")
                 self.result['response'] = self.msg
 
-            if role_updated_list:
+            if self.role_updated_list:
                 self.status = "success"
                 self.result['changed'] = True
-                self.msg = "Device(s) '{0}' role updated successfully to '{1}'".format(str(role_updated_list), device_role)
-                self.result['response'] = self.msg
+                self.msg = "Device(s) '{0}' role updated successfully to '{1}'".format(self.role_updated_list, device_role)
+                #self.result['response'] = self.msg
+                self.result['msg']=self.msg
+                self.result["response"] = self.msg
                 self.log(self.msg, "INFO")
 
         if credential_update:
@@ -4219,6 +4225,10 @@ class Inventory(DnacBase):
         if self.response_list:
             response_list_for_update = "{0}".format(", ".join(self.response_list))
             result_msg_list_1.append(response_list_for_update)
+
+        if self.role_updated_list:
+            role_updated_list = "Device(s) '{0}' role updated successfully to '{1}'".format(self.role_updated_list, self.device_role_name)
+            result_msg_list_1.append(role_updated_list)
 
         if result_msg_list:
             self.msg = " ".join(result_msg_list)
