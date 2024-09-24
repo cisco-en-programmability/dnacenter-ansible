@@ -81,9 +81,12 @@ class DnacBase():
         # To add a new version, simply update the 'dnac_versions' dictionary with the new version string as the key
         # and the corresponding version number as the value.
         self.dnac_versions = {
-            "2.2.3.3": 2233,
             "2.3.5.3": 2353,
-            "2.3.7.6": 2376}
+            "2.3.7.6": 2376,
+            "2.2.3.3": 2233
+            # Add new versions here, e.g., "2.4.0.0": 2400
+        }
+
         # Dynamically create variables based on dictionary keys
         for version_key, version_value in self.dnac_versions.items():
             setattr(self, "version_" + version_key.replace(".", "_"), version_value)
