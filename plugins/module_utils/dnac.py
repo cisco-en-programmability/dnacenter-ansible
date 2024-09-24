@@ -543,17 +543,22 @@ class DnacBase():
 
     def get_site_id(self, site_name):
         """
-        Retrieve site details from Cisco Catalyst Center based on the provided site name.
+        Retrieve the site ID and check if the site exists in Cisco Catalyst Center based on the provided site name.
+
         Args:
             - site_name (str): The name or hierarchy of the site to be retrieved.
+
         Returns:
-            - response (dict or None): The response from the API call, typically a dictionary containing site details.
-                                    Returns None if an error occurs or if the response is empty.
+            - tuple (bool, str or None): A tuple containing:
+                1. A boolean indicating whether the site exists (True if found, False otherwise).
+                2. The site ID (str) if the site exists, or None if the site does not exist or an error occurs.
+
         Criteria:
-            - This function uses the Cisco Catalyst Center SDK to execute the 'get_sites' function from the 'site_design' family.
-            - If the response is empty, a warning is logged.
-            - Any exceptions during the API call are caught, logged as errors, and the function returns None.
+            - This function calls `get_site()` to retrieve site details from the Cisco Catalyst Center SDK.
+            - If the site exists, its ID is extracted from the response and returned.
+            - If the site does not exist or if an error occurs, an error message is logged, and the function returns a status of 'failed'.
         """
+
         try:
             response = self.get_site(site_name)
             if response is None:
