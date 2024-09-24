@@ -12,20 +12,18 @@ __author__ = ("Madhan Sankaranarayanan, Rishita Chowdhary, Abhishek Maheshwari, 
 DOCUMENTATION = r"""
 ---
 module: swim_workflow_manager
-short_description: workflow_manager module for SWIM related functions
+short_description: Module to manage SWIM (Software Image Management) operations in Cisco Catalyst Center
 description:
-- Manage operation related to image importation, distribution, activation and tagging image as golden
-- API to fetch a software image from remote file system using URL for HTTP/FTP and upload it to Catalyst Center.
-  Supported image files extensions are bin, img, tar, smu, pie, aes, iso, ova, tar_gz and qcow2.
-- API to fetch a software image from local file system and upload it to Catalyst Center
-  Supported image files extensions are bin, img, tar, smu, pie, aes, iso, ova, tar_gz and qcow2.
-- API to fetch a software image from Cisco Connection Online (CCO) and upload it to Catalyst Center
-  Can refer https://software.cisco.com/download/home for the suggested images in Cisco catalyst center to download
-  CCO functionality is available from DNAC version 2.3.7.6 onward.
-- API to tag/untag image as golen for a given family of devices
-- API to distribute a software image on a given device. Software image must be imported successfully into
-  Catalyst Center before it can be distributed.
-- API to activate a software image on a given device. Software image must be present in the device flash.
+- Manages operations for image importation, distribution, activation, and tagging images as golden.
+- Provides an API to fetch a software image from a remote file system via HTTP/FTP and upload it to Catalyst Center.
+  Supported file extensions - bin, img, tar, smu, pie, aes, iso, ova, tar.gz, qcow2.
+- Provides an API to fetch a software image from a local file system and upload it to Catalyst Center.
+  Supported file extensions - bin, img, tar, smu, pie, aes, iso, ova, tar.gz, qcow2.
+- Provides an API to fetch a software image from Cisco Connection Online (CCO) and upload it to Catalyst Center.
+  Refer to https://software.cisco.com/download/home for suggested images in Cisco Catalyst Center.
+  CCO functionality is available starting from Cisco Catalyst version 2.3.7.6.
+- Provides an API to tag or untag an image as golden for a given family of devices.
+- Provides an API to distribute a software image to a device. The software image must be imported into Catalyst Center before it can be distributed.
 version_added: '6.6.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
@@ -158,12 +156,18 @@ options:
                 description: ScheduleOrigin query parameter. Originator of this call (optional).
                 type: str
           cco_image_details:
-            description: Details of the image needed to import from cisco.com
+            description:
+              - Parameters related to importing a software image from Cisco Connection Online (CCO) into Catalyst Center.
+              - This API fetches the specified image from CCO and uploads it to Catalyst Center.
+              - Supported from Cisco Catalyst Center version 2.3.7.6 onward.
+              - Refer to the Cisco software download portal (https://software.cisco.com/download/home) for recommended images.
             type: dict
             suboptions:
               image_name:
-                description: A mandatory parameter for importing a SWIM image via Cisco.com.
-                    This parameter is required to initiate the download of the software image from Cisco.com.
+                description:
+                  - The name of the software image to be imported from Cisco.com.
+                  - This is a mandatory parameter and must be provided to initiate the download from CCO.
+
                 type: dict
       tagging_details:
         description: Details for tagging or untagging an image as golden
@@ -621,23 +625,13 @@ class Swim(DnacBase):
         response = None
 
         try:
-            if self.dnac_version <= self.version_2_3_5_3:
-                response = self.get_site_v1(site_name)
-                if response is None:
-                    raise ValueError
-                self.log("Received API response from 'get_site': {0}".format(str(response)), "DEBUG")
-                site = response.get("response")
-                site_id = site[0].get("id")
-                site_exists = True
-
-            else:
-                response = self.get_sites_v2(site_name)
-                if response is None:
-                    raise ValueError
-                self.log("Received API response from 'get_sites': {0}".format(str(response)), "DEBUG")
-                site = response.get("response")
-                site_id = site[0].get("id")
-                site_exists = True
+            response = self.get_site(site_name)
+            if response is None:
+                raise ValueError
+            self.log("Received API response from 'get_site': {0}".format(str(response)), "DEBUG")
+            site = response.get("response")
+            site_id = site[0].get("id")
+            site_exists = True
 
         except Exception as e:
             self.status = "failed"
@@ -647,7 +641,6 @@ class Swim(DnacBase):
             self.check_return_status()
 
         return (site_exists, site_id)
-
 
     def get_image_id(self, name):
         """
