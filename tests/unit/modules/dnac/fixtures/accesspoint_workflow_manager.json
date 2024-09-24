@@ -50,7 +50,7 @@
                 "channel_number": 44,
                 "powerlevel": 2,
                 "cable_loss": 13,
-                "antenna_gain": 1,
+                "antenna_gain": 19,
                 "radio_band": "5 Ghz",
                 "channel_width": "80 MHz"
             },
