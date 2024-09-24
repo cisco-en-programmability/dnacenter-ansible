@@ -4016,7 +4016,6 @@ class Inventory(DnacBase):
             - Verifies the provisioning of wired devices and logs the status.
         """
         self.log("verify starts here verify diff merged")
-        self.get_have(config)
         self.log("Current State (have): {0}".format(str(self.have)), "INFO")
         self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
 
