@@ -879,7 +879,7 @@ class DnacBase():
             Call the API 'get_task_details_by_id' to get the details along with the
             failure reason. Return the details.
         """
-
+        # Need to handle exception
         task_details = None
         response = self.dnac._exec(
             family="task",
@@ -908,7 +908,7 @@ class DnacBase():
             Call the API 'get_tasks_by_id' to get the status of the task.
             Return the details along with the status of the task.
         """
-
+        # Need to handle exception
         task_status = None
         response = self.dnac._exec(
             family="task",
@@ -1013,6 +1013,7 @@ class DnacBase():
         self.result["status"] = status
         self.result["msg"] = msg
         self.result["changed"] = changed
+        self.result["response"] = msg
 
         # Log the message at the specified log level
         self.log(msg, log_level)
@@ -1055,14 +1056,9 @@ class DnacBase():
         """
         # If the elapsed time exceeds the timeo.,ut period
         if time.time() - start_time > self.params.get("dnac_api_task_timeout"):
-            if response.get("data"):
-                # If there is data in the response, include it in the error message
-                self.msg = "Task {0} with task id {1} has not completed within the timeout period. Task Status: {2} ".format(
-                    task_name, task_id, response.get("data"))
-            else:
-                # If there is no data in the response, generate a generic error message
-                self.msg = "Task {0} with task id {1} has not completed within the timeout period.".format(
-                    task_name, task_id)
+            # If there is no data in the response, generate a generic error message
+            self.msg = "Task {0} with task id {1} has not completed within the timeout period.".format(
+                task_name, task_id)
 
             # Update the result with failure status and log the error message
             self.update_result("failed", False, self.msg, "ERROR")
@@ -1111,7 +1107,7 @@ class DnacBase():
             )
             self.fail_and_exit(self.msg)
 
-    def get_task_status_from_taskid(self, **kwargs):
+    def get_task_status_from_tasks_by_id(self, **kwargs):
         """
         Retrieves and monitors the status of a task by its task ID.
 
@@ -1151,13 +1147,19 @@ class DnacBase():
             # Handle error if task execution encounters an error
             if response.get("status") == "FAILURE" and response.get("endTime"):
                 get_task_details_response = self.get_task_details_by_id(task_id)
-                failure_reason = get_task_details_response.get("failureReason", "Unknown reason")
-                self.msg = (
-                    "An error occurred while performing {0} task for params: {1}. "
-                    "The operation failed due to the following reason: {2}".format(
-                        task_name, params, failure_reason
+                failure_reason = get_task_details_response.get("failureReason")
+                if failure_reason:
+                    self.msg = (
+                        "An error occurred while performing {0} task for params: {1}. "
+                        "The operation failed due to the following reason: {2}".format(
+                            task_name, params, failure_reason
+                        )
                     )
-                )
+                else:
+                    self.msg = (
+                        "Failed to execute {0} task with task_id: {1} "
+                        "in the Cisco Catalyst Center".format(task_name, task_id)
+                    )    
                 self.update_result("failed", False, self.msg, "ERROR")
                 break
 
@@ -1166,7 +1168,7 @@ class DnacBase():
                 self.msg = msg
                 self.update_result("success", True, self.msg, "INFO")
                 break
-            time.sleep(3)
+            time.sleep(self.params.get("dnac_task_poll_interval"))
         return self
 
 
