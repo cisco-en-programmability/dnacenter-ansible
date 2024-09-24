@@ -184,7 +184,7 @@ options:
             units_of_measure:
                 description: Units of measurement for the dimensions of the site (e.g., "feet").
                 type: str
-        site_type:
+        Bulk_operation:
             description: Specifies the type of site (e.g., "bulk"). This field categorizes the site based on its creation method.
             type: str
 requirements:
