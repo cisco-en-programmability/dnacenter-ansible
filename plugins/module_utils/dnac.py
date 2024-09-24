@@ -513,7 +513,7 @@ class DnacBase():
             pass
         return None
 
-    def get_site_v1(self, site_name):
+    def get_site_id(self, site_name):
         """
         Retrieve site details from Cisco Catalyst Center based on the provided site name.
         Args:
@@ -526,26 +526,48 @@ class DnacBase():
             - If the response is empty, a warning is logged.
             - Any exceptions during the API call are caught, logged as errors, and the function returns None.
         """
-        try:
-            response = self.dnac._exec(
-                family="sites",
-                function='get_site',
-                op_modifies=True,
-                params={"name": site_name},
-            )
 
-            if not response:
-                self.log("The response from 'get_site' is empty.", "WARNING")
+        if self.dnac_version <= self.version_2_3_5_3:
+            try:
+                response = self.dnac._exec(
+                    family="sites",
+                    function='get_site',
+                    op_modifies=True,
+                    params={"name": site_name},
+                )
+
+                if response is None:
+                    raise ValueError
+                self.log("Received API response from 'get_site': {0}".format(str(response)), "DEBUG")
+                site = response.get("response")
+                site_id = site[0].get("id")
+                return site_id
+
+            except Exception as e:
+                self.log("An error occurred in 'get_site':{0}".format(e), "ERROR")
                 return None
 
-            self.log("Received API response from 'get_site': {0}".format(str(response)), "DEBUG")
-            return response
+        else:
+            try:
+                response = self.dnac._exec(
+                    family="site_design",
+                    function='get_sites',
+                    op_modifies=True,
+                    params={"name_hierarchy": site_name},
+                )
 
-        except Exception as e:
-            self.log("An error occurred in 'get_site':{0}".format(e), "ERROR")
-            return None
+                if response is None:
+                    raise ValueError
+                self.log("Received API response from 'get_site': {0}".format(str(response)), "DEBUG")
+                site = response.get("response")
+                site_id = site[0].get("id")
+                return site_id
 
-    def get_sites_v2(self, site_name):
+            except Exception as e:
+                self.log("An error occurred in 'get_sites':{0}".format(e), "ERROR")
+                return None
+
+    def get_site(self, site_name):
         """
         Retrieve site details from Cisco Catalyst Center based on the provided site name.
         Args:
@@ -558,24 +580,46 @@ class DnacBase():
             - If the response is empty, a warning is logged.
             - Any exceptions during the API call are caught, logged as errors, and the function returns None.
         """
-        try:
-            response = self.dnac._exec(
-                family="site_design",
-                function='get_sites',
-                op_modifies=True,
-                params={"name_hierarchy": site_name},
-            )
 
-            if not response:
-                self.log("The response from 'get_sites' is empty.", "WARNING")
+        if self.dnac_version <= self.version_2_3_5_3:
+            try:
+                response = self.dnac._exec(
+                    family="sites",
+                    function='get_site',
+                    op_modifies=True,
+                    params={"name": site_name},
+                )
+
+                if not response:
+                    self.log("The response from 'get_site' is empty.", "WARNING")
+                    return None
+
+                self.log("Received API response from 'get_site': {0}".format(str(response)), "DEBUG")
+                return response
+
+            except Exception as e:
+                self.log("An error occurred in 'get_site':{0}".format(e), "ERROR")
                 return None
 
-            self.log("Received API response from 'get_sites': {0}".format(str(response)), "DEBUG")
-            return response
+        else:
+            try:
+                response = self.dnac._exec(
+                    family="site_design",
+                    function='get_sites',
+                    op_modifies=True,
+                    params={"name_hierarchy": site_name},
+                )
 
-        except Exception as e:
-            self.log("An error occurred in 'get_sites':{0}".format(e), "ERROR")
-            return None
+                if not response:
+                    self.log("The response from 'get_sites' is empty.", "WARNING")
+                    return None
+
+                self.log("Received API response from 'get_sites': {0}".format(str(response)), "DEBUG")
+                return response
+
+            except Exception as e:
+                self.log("An error occurred in 'get_sites':{0}".format(e), "ERROR")
+                return None
 
     def generate_key(self):
         """
