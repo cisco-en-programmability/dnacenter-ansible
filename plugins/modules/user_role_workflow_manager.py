@@ -3305,7 +3305,8 @@ class UserandRole(DnacBase):
 
         Description:
             - This method first checks if the `config_type` exists in the payload and validates its configuration.
-            - For each validated configuration, it resets internal values, retrieves the desired (want) and current (have) states, and applies the necessary changes based on the `state`.
+            - For each validated configuration, it resets internal values, retrieves the desired (want) and current (have) states,
+              and applies the necessary changes based on the `state`.
             - If `config_verify` is enabled, it verifies that the changes have been correctly applied.
         """
         if config_type in self.payload.get("config"):
