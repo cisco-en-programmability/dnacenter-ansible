@@ -545,43 +545,21 @@ class NetworkCompliance(DnacBase):
         site_exists = False
         site_id = None
         response = None
+
         try:
-            if self.dnac_version <= self.version_2_3_5_3:
-                response = self.dnac._exec(
-                    family="sites",
-                    function="get_site",
-                    op_modifies=True,
-                    params={"name": site_name},
-                )
-                self.log("Response received post 'get_site' API call: {0}".format(str(response)), "DEBUG")
-            elif self.dnac_version >= self.version_2_3_7_6:
-                response = self.dnac._exec(
-                    family="site_design",
-                    function="get_sites",
-                    op_modifies=True,
-                    params={"nameHierarchy": site_name},
-                )
-                self.log("Response received post 'get_sites' API call: {0}".format(str(response)), "DEBUG")
-            else:
-                self.log("Unsupported DNAC version for 'site_exists' function. Version: {0}".format(self.dnac_version), "ERROR")
-                self.module.fail_json(msg="Unsupported DNAC version: {0}".format(self.dnac_version))
-            if response:
-                site = response.get("response")
-                if site:
-                    site_id = site[0].get("id")
-                    site_exists = True
-                else:
-                    self.log("No site found with the name '{0}'.".format(site_name), "ERROR")
-            else:
-                self.log("No response received from the API call.", "ERROR")
+            response = self.get_site(site_name)
+            if response is None:
+                raise ValueError
+            site = response.get("response")
+            site_id = site[0].get("id")
+            site_exists = True
 
         except Exception as e:
-            self.log("An error occurred while retrieving site details for Site '{0}': {1}".format(site_name, str(e)), "ERROR")
-
-        if not site_exists:
-            msg = "An error occurred while retrieving site details for Site '{0}'. Please verify that the site exists.".format(site_name)
-            self.log(msg, "ERROR")
-            self.module.fail_json(msg=msg)
+            self.status = "failed"
+            self.msg = ("An exception occurred: Site '{0}' does not exist in the Cisco Catalyst Center.".format(site_name))
+            self.result['response'] = self.msg
+            self.log(self.msg, "ERROR")
+            self.check_return_status()
 
         return (site_exists, site_id)
 
