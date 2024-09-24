@@ -37,6 +37,7 @@ import socket
 import time
 import traceback
 
+
 class DnacBase():
 
     """Class contains members which can be reused for all intent modules"""
@@ -1111,6 +1112,22 @@ class DnacBase():
             self.fail_and_exit(self.msg)
 
     def get_task_status_from_taskid(self, **kwargs):
+        """
+        Retrieves and monitors the status of a task by its task ID.
+
+        This function continuously checks the status of a specified task using its task ID.
+        If the task completes successfully, it updates the message and status accordingly.
+        If the task fails or times out, it handles the error and updates the status and message.
+
+        Parameters:
+        - task_id (str): The unique identifier of the task to monitor.
+        - task_name (str): The name of the task being monitored.
+        - params (dict): Additional parameters related to the task.
+        - msg (str): The success message to set if the task completes successfully.
+
+        Returns:
+        - self: The instance of the class with updated status and message.
+        """
         task_id = kwargs.get('task_id')
         task_name = kwargs.get('task_name')
         params = kwargs.get('params')
@@ -1151,6 +1168,7 @@ class DnacBase():
                 break
             time.sleep(3)
         return self
+
 
 def is_list_complex(x):
     return isinstance(x[0], dict) or isinstance(x[0], list)
