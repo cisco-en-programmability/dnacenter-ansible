@@ -1191,12 +1191,12 @@ class NetworkCompliance(DnacBase):
                 if response:
                     response = response["response"]
                 else:
-                    self.log("No response received from the 'get_task_by_id' API call.", "CRITICAL")
+                    self.log("No response received from the 'get_task_details_by_id' API call.", "CRITICAL")
                 return response
 
             # Log the error if an exception occurs during the API call
             except Exception as e:
-                self.msg = "Error occurred while retrieving 'get_task_by_id' for Task {0} with Task id {1}. Error: {2}".format(task_name, task_id, str(e))
+                self.msg = "Error occurred while retrieving 'get_task_by_id' or 'get_task_deatils_by_id' for Task {0} with Task id {1}. Error: {2}".format(task_name, task_id, str(e))
                 self.update_result("failed", False, self.msg, "ERROR")
                 self.check_return_status()
 
