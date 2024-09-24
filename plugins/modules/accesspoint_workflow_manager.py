@@ -58,6 +58,7 @@ options:
     suboptions:
       mac_address:
         description: |
+          The MAC address used to identify the device. If provided, it cannot be modified.
           To identify the specific access point, at least one of the following parameters is required.
           - mac_address
           - hostname
@@ -66,6 +67,7 @@ options:
         required: True
       hostname:
         description: |
+          The Host Name used to identify the device. If provided, it cannot be modified.
           To identify the specific access point, at least one of the following parameters is required.
           - mac_address
           - hostname
@@ -74,6 +76,7 @@ options:
         required: True
       management_ip_address:
         description: |
+          The Management IP Address used to identify the device. If provided, it cannot be modified.
           To identify the specific access point, at least one of the following parameters is required.
           - mac_address
           - hostname
