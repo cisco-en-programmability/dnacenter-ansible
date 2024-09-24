@@ -35,7 +35,7 @@ import inspect
 import re
 import socket
 import time
-
+import traceback
 
 class DnacBase():
 
@@ -928,7 +928,7 @@ class DnacBase():
 
     def check_tasks_response_status(self, response, api_name):
         """
-        Get the site id from the site name.
+        Get the task response status from taskId
 
         Parameters:
             self: The current object details.
@@ -992,6 +992,165 @@ class DnacBase():
 
         return self
 
+    def update_result(self, status, changed, msg, log_level, data=None):
+        """
+        Update the result of the operation with the provided status, message, and log level.
+        Parameters:
+            - status (str): The status of the operation ("success" or "failed").
+            - changed (bool): Indicates whether the operation caused changes.
+            - msg (str): The message describing the result of the operation.
+            - log_level (str): The log level at which the message should be logged ("INFO", "ERROR", "CRITICAL", etc.).
+            - data (dict, optional): Additional data related to the operation result.
+        Returns:
+            self (object): An instance of the class.
+        Note:
+            - If the status is "failed", the "failed" key in the result dictionary will be set to True.
+            - If data is provided, it will be included in the result dictionary.
+        """
+        # Update the result attributes with the provided values
+        self.status = status
+        self.result["status"] = status
+        self.result["msg"] = msg
+        self.result["changed"] = changed
+
+        # Log the message at the specified log level
+        self.log(msg, log_level)
+
+        # If the status is "failed", set the "failed" key to True
+        if status == "failed":
+            self.result["failed"] = True
+
+        # If additional data is provided, include it in the result dictionary
+        if data:
+            self.result["data"] = data
+
+        return self
+
+    def fail_and_exit(self, msg):
+        """Helper method to update the result as failed and exit."""
+        self.update_result("failed", False, msg, "ERROR")
+        self.check_return_status()
+
+    def log_traceback(self):
+        """
+        Logs the full traceback of the current exception.
+        """
+        # Capture the full traceback
+        full_traceback = traceback.format_exc()
+        
+        # Log the traceback
+        self.log("Traceback: {0}".format(full_traceback), "DEBUG")
+
+    def exit_while_loop(self, start_time, task_id, task_name, response):
+        """
+        Check if the elapsed time exceeds the specified timeout period and exit the while loop if it does.
+        Parameters:
+            - start_time (float): The time when the while loop started.
+            - task_id (str): ID of the task being monitored.
+            - task_name (str): Name of the task being monitored.
+            - response (dict): Response received from the task status check.
+        Returns:
+            bool: True if the elapsed time exceeds the timeout period, False otherwise.
+        """
+        # If the elapsed time exceeds the timeo.,ut period
+        if time.time() - start_time > self.params.get("dnac_api_task_timeout"):
+            if response.get("data"):
+                # If there is data in the response, include it in the error message
+                self.msg = "Task {0} with task id {1} has not completed within the timeout period. Task Status: {2} ".format(
+                    task_name, task_id, response.get("data"))
+            else:
+                # If there is no data in the response, generate a generic error message
+                self.msg = "Task {0} with task id {1} has not completed within the timeout period.".format(
+                    task_name, task_id)
+
+            # Update the result with failure status and log the error message
+            self.update_result("failed", False, self.msg, "ERROR")
+            return True
+
+        return False
+
+    def get_taskid_post_api_call(self, api_family, api_function, api_parameters):
+        """
+        Executes the specified API call with given parameters and logs responses.
+
+        Parameters:
+            api_family (str): The API family (e.g., "sda").
+            api_function (str): The API function (e.g., "add_port_assignments").
+            api_parameters (dict): The parameters for the API call.
+        """
+        try:
+            self.log("Entered {0} method".format(api_function), "DEBUG")
+
+            # Execute the API call
+            response = self.dnac._exec(
+                family=api_family,
+                function=api_function,
+                op_modifies=True,
+                params=api_parameters,
+            )
+            self.log("Response received post {0} - '{1}' API call: {2}".format(api_family, api_function, str(response)), "DEBUG")
+
+            # Process the response if available
+            response_data = response.get("response")
+            if response_data:
+                self.result.update(dict(response=response_data))
+                task_id = response_data.get("taskId")
+                self.log("Task Id for the {0} - '{1}' task is {2}".format(api_family, api_function, task_id), "INFO")
+                return task_id
+            else:
+                self.log("No response received from the {0} - '{1}' API call.".format(api_family, api_function), "WARNING")
+                return None
+
+        except Exception as e:
+            # Log an error message and fail if an exception occurs
+            self.log_traceback()
+            self.msg = (
+                "An error occurred while executing API call {0} - {1}. "
+                "Parameters: {2}. Error: {3}.".format(api_family, api_function, api_parameters, str(e))
+            )
+            self.fail_and_exit(self.msg)
+
+    def get_task_status_from_taskid(self, **kwargs):
+        task_id = kwargs.get('task_id')
+        task_name = kwargs.get('task_name')
+        params = kwargs.get('params')
+        msg = kwargs.get('msg')
+
+        start_time = time.time()
+
+        while True:
+            response = self.get_tasks_by_id(task_id)
+
+            # Check if response is returned
+            if not response:
+                self.msg = "Error retrieving task status for {0} with task_id {1}".format(task_name, task_id)
+                self.update_result("failed", False, self.msg, "ERROR")
+                break
+
+            # Check if the elapsed time exceeds the timeout
+            if self.exit_while_loop(start_time, task_id, task_name, response):
+                break
+
+            # Handle error if task execution encounters an error
+            if response.get("status") == "FAILURE" and response.get("endTime"):
+                get_task_details_response = self.get_task_details_by_id(task_id)
+                failure_reason = get_task_details_response.get("failureReason", "Unknown reason")
+                self.msg = (
+                    "An error occurred while performing {0} task for params: {1}. "
+                    "The operation failed due to the following reason: {2}".format(
+                        task_name, params, failure_reason
+                    )
+                )
+                self.update_result("failed", False, self.msg, "ERROR")
+                break
+
+            # Check if task completed successfully based on progress_string
+            if response.get("status") == "SUCCESS" and response.get("endTime"):
+                self.msg = msg
+                self.update_result("success", True, self.msg, "INFO")
+                break
+            time.sleep(3)
+        return self
 
 def is_list_complex(x):
     return isinstance(x[0], dict) or isinstance(x[0], list)
