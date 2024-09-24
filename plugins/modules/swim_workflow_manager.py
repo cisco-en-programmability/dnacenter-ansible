@@ -1890,7 +1890,8 @@ class Swim(DnacBase):
             self.result['changed'] = True
             self.status = "success"
             self.partial_successful_activation = True
-            self.msg = "Image with Id '{0}' activated and partially successful.".format(image_id)
+            self.msg = ("Image with ID '{0}' was activated, but only partially successful. The image activation failed for the "
+                        "following device(s): {1}.").format(image_id, "', '".join(device_ips_list))
             self.log("For Device(s) {0} Image activation gets Failed".format(str(device_ips_list)), "CRITICAL")
 
         self.result['msg'] = self.msg
