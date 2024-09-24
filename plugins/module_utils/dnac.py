@@ -74,9 +74,20 @@ class DnacBase():
                                         }
         self.dnac_log = dnac_params.get("dnac_log")
         self.max_timeout = self.params.get('dnac_api_task_timeout')
+
         self.payload = module.params
         self.dnac_version = int(self.payload.get("dnac_version").replace(".", ""))
-        self.version_2_3_5_3, self.version_2_3_7_6, self.version_2_2_3_3 = 2353, 2376, 2233
+        # Dictionary to store multiple versions for easy maintenance and scalability
+        # To add a new version, simply update the 'dnac_versions' dictionary with the new version string as the key 
+        # and the corresponding version number as the value.
+        self.dnac_versions = {
+            "2.2.3.3": 2233,
+            "2.3.5.3": 2353,
+            "2.3.7.6": 2376
+            }
+        # Dynamically create variables based on dictionary keys
+        for version_key, version_value in self.dnac_versions.items():
+            setattr(self, "version_" + version_key.replace(".", "_"), version_value)
 
         if self.dnac_log and not DnacBase.__is_log_init:
             self.dnac_log_level = dnac_params.get("dnac_log_level") or 'WARNING'
@@ -543,46 +554,23 @@ class DnacBase():
             - If the response is empty, a warning is logged.
             - Any exceptions during the API call are caught, logged as errors, and the function returns None.
         """
+        try:
+            response = self.get_site(site_name)
+            if response is None:
+                raise ValueError
+            self.log("Received API response from 'get_site': {0}".format(str(response)), "DEBUG")
+            site = response.get("response")
+            site_id = site[0].get("id")
+            site_exists = True
 
-        if self.dnac_version <= self.version_2_3_5_3:
-            try:
-                response = self.dnac._exec(
-                    family="sites",
-                    function='get_site',
-                    op_modifies=True,
-                    params={"name": site_name},
-                )
+        except Exception as e:
+            self.status = "failed"
+            self.msg = ("An exception occurred: Site '{0}' does not exist in the Cisco Catalyst Center.".format(site_name))
+            self.result['response'] = self.msg
+            self.log(self.msg, "ERROR")
+            self.check_return_status()
 
-                if response is None:
-                    raise ValueError
-                self.log("Received API response from 'get_site': {0}".format(str(response)), "DEBUG")
-                site = response.get("response")
-                site_id = site[0].get("id")
-                return site_id
-
-            except Exception as e:
-                self.log("An error occurred in 'get_site':{0}".format(e), "ERROR")
-                return None
-
-        else:
-            try:
-                response = self.dnac._exec(
-                    family="site_design",
-                    function='get_sites',
-                    op_modifies=True,
-                    params={"name_hierarchy": site_name},
-                )
-
-                if response is None:
-                    raise ValueError
-                self.log("Received API response from 'get_site': {0}".format(str(response)), "DEBUG")
-                site = response.get("response")
-                site_id = site[0].get("id")
-                return site_id
-
-            except Exception as e:
-                self.log("An error occurred in 'get_sites':{0}".format(e), "ERROR")
-                return None
+        return (site_exists, site_id)
 
     def get_site(self, site_name):
         """

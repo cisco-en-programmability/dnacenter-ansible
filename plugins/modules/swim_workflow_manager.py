@@ -628,7 +628,6 @@ class Swim(DnacBase):
             response = self.get_site(site_name)
             if response is None:
                 raise ValueError
-            self.log("Received API response from 'get_site': {0}".format(str(response)), "DEBUG")
             site = response.get("response")
             site_id = site[0].get("id")
             site_exists = True
