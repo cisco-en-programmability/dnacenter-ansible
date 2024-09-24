@@ -75,6 +75,22 @@ class DnacBase():
         self.dnac_log = dnac_params.get("dnac_log")
         self.max_timeout = self.params.get('dnac_api_task_timeout')
 
+        self.payload = module.params
+        self.dnac_version = int(self.payload.get("dnac_version").replace(".", ""))
+        # Dictionary to store multiple versions for easy maintenance and scalability
+        # To add a new version, simply update the 'dnac_versions' dictionary with the new version string as the key
+        # and the corresponding version number as the value.
+        self.dnac_versions = {
+            "2.3.5.3": 2353,
+            "2.3.7.6": 2376,
+            "2.2.3.3": 2233
+            # Add new versions here, e.g., "2.4.0.0": 2400
+        }
+
+        # Dynamically create variables based on dictionary keys
+        for version_key, version_value in self.dnac_versions.items():
+            setattr(self, "version_" + version_key.replace(".", "_"), version_value)
+
         if self.dnac_log and not DnacBase.__is_log_init:
             self.dnac_log_level = dnac_params.get("dnac_log_level") or 'WARNING'
             self.dnac_log_level = self.dnac_log_level.upper()
@@ -235,7 +251,12 @@ class DnacBase():
         """API to check the return status value and exit/fail the module"""
 
         # self.log("status: {0}, msg:{1}".format(self.status, self.msg), frameIncrement=1)
-        self.log("status: {0}, msg: {1}".format(self.status, self.msg), "DEBUG")
+        frame = inspect.currentframe().f_back
+        line_no = frame.f_lineno
+        self.log(
+            "Line No: {line_no} status: {status}, msg: {msg}"
+            .format(line_no=line_no, status=self.status, msg=self.msg), "DEBUG"
+        )
         if "failed" in self.status:
             self.module.fail_json(msg=self.msg, response=self.result.get('response', []))
         elif "exited" in self.status:
@@ -364,13 +385,19 @@ class DnacBase():
         """
 
         if not response:
-            self.msg = "response is empty"
-            self.status = "exited"
+            self.msg = (
+                "The response from the API '{api_name}' is empty."
+                .format(api_name=api_name)
+            )
+            self.status = "failed"
             return self
 
         if not isinstance(response, dict):
-            self.msg = "response is not a dictionary"
-            self.status = "exited"
+            self.msg = (
+                "The response from the API '{api_name}' is not a dictionary."
+                .format(api_name=api_name)
+            )
+            self.status = "failed"
             return self
 
         response = response.get("response")
@@ -456,12 +483,18 @@ class DnacBase():
         """
 
         if not response:
-            self.msg = "response is empty"
+            self.msg = (
+                "The response from the API '{api_name}' is empty."
+                .format(api_name=api_name)
+            )
             self.status = "failed"
             return self
 
         if not isinstance(response, dict):
-            self.msg = "response is not a dictionary"
+            self.msg = (
+                "The response from the API '{api_name}' is not a dictionary."
+                .format(api_name=api_name)
+            )
             self.status = "failed"
             return self
 
@@ -510,7 +543,43 @@ class DnacBase():
             pass
         return None
 
-    def get_sites(self, site_name):
+    def get_site_id(self, site_name):
+        """
+        Retrieve the site ID and check if the site exists in Cisco Catalyst Center based on the provided site name.
+
+        Args:
+            - site_name (str): The name or hierarchy of the site to be retrieved.
+
+        Returns:
+            - tuple (bool, str or None): A tuple containing:
+                1. A boolean indicating whether the site exists (True if found, False otherwise).
+                2. The site ID (str) if the site exists, or None if the site does not exist or an error occurs.
+
+        Criteria:
+            - This function calls `get_site()` to retrieve site details from the Cisco Catalyst Center SDK.
+            - If the site exists, its ID is extracted from the response and returned.
+            - If the site does not exist or if an error occurs, an error message is logged, and the function returns a status of 'failed'.
+        """
+
+        try:
+            response = self.get_site(site_name)
+            if response is None:
+                raise ValueError
+            self.log("Received API response from 'get_site': {0}".format(str(response)), "DEBUG")
+            site = response.get("response")
+            site_id = site[0].get("id")
+            site_exists = True
+
+        except Exception as e:
+            self.status = "failed"
+            self.msg = ("An exception occurred: Site '{0}' does not exist in the Cisco Catalyst Center.".format(site_name))
+            self.result['response'] = self.msg
+            self.log(self.msg, "ERROR")
+            self.check_return_status()
+
+        return (site_exists, site_id)
+
+    def get_site(self, site_name):
         """
         Retrieve site details from Cisco Catalyst Center based on the provided site name.
         Args:
@@ -523,24 +592,46 @@ class DnacBase():
             - If the response is empty, a warning is logged.
             - Any exceptions during the API call are caught, logged as errors, and the function returns None.
         """
-        try:
-            response = self.dnac._exec(
-                family="site_design",
-                function='get_sites',
-                op_modifies=True,
-                params={"name_hierarchy": site_name},
-            )
 
-            if not response:
-                self.log("The response from 'get_sites' is empty.", "WARNING")
+        if self.dnac_version <= self.version_2_3_5_3:
+            try:
+                response = self.dnac._exec(
+                    family="sites",
+                    function='get_site',
+                    op_modifies=True,
+                    params={"name": site_name},
+                )
+
+                if not response:
+                    self.log("The response from 'get_site' is empty.", "WARNING")
+                    return None
+
+                self.log("Received API response from 'get_site': {0}".format(str(response)), "DEBUG")
+                return response
+
+            except Exception as e:
+                self.log("An error occurred in 'get_site':{0}".format(e), "ERROR")
                 return None
 
-            self.log("Received API response from 'get_sites': {0}".format(str(response)), "DEBUG")
-            return response
+        else:
+            try:
+                response = self.dnac._exec(
+                    family="site_design",
+                    function='get_sites',
+                    op_modifies=True,
+                    params={"name_hierarchy": site_name},
+                )
 
-        except Exception as e:
-            self.log("An error occurred in 'get_sites':{0}".format(e), "ERROR")
-            return None
+                if not response:
+                    self.log("The response from 'get_sites' is empty.", "WARNING")
+                    return None
+
+                self.log("Received API response from 'get_sites': {0}".format(str(response)), "DEBUG")
+                return response
+
+            except Exception as e:
+                self.log("An error occurred in 'get_sites':{0}".format(e), "ERROR")
+                return None
 
     def generate_key(self):
         """
@@ -1455,12 +1546,16 @@ class DNACSDK(object):
                         break
 
                     bapi_error = execution_details.get("bapiError")
-                    if bapi_error and RATE_LIMIT_MESSAGE in bapi_error:
-                        self.logger.warning("!!!!! %s !!!!!", RATE_LIMIT_MESSAGE)
-                        time.sleep(RATE_LIMIT_RETRY_AFTER)
-                        return self._exec(
-                            family_name, function_name, params, op_modifies, **kwargs
-                        )
+                    if bapi_error:
+                        if RATE_LIMIT_MESSAGE in bapi_error:
+                            self.logger.warning("!!!!! %s !!!!!", RATE_LIMIT_MESSAGE)
+                            time.sleep(RATE_LIMIT_RETRY_AFTER)
+                            return self._exec(
+                                family_name, function_name, params, op_modifies, **kwargs
+                            )
+
+                        self.logger.debug(bapi_error)
+                        break
 
         except exceptions.dnacentersdkException as e:
             self.fail_json(
