@@ -993,15 +993,15 @@ class DnacBase():
 
         return self
 
-    def update_result(self, status, changed, msg, log_level, data=None):
+    def set_operation_result(self, operation_status, is_changed, status_message, log_level, additional_info=None):
         """
         Update the result of the operation with the provided status, message, and log level.
         Parameters:
-            - status (str): The status of the operation ("success" or "failed").
-            - changed (bool): Indicates whether the operation caused changes.
-            - msg (str): The message describing the result of the operation.
+            - operation_status (str): The status of the operation ("success" or "failed").
+            - is_changed (bool): Indicates whether the operation caused changes.
+            - status_message (str): The message describing the result of the operation.
             - log_level (str): The log level at which the message should be logged ("INFO", "ERROR", "CRITICAL", etc.).
-            - data (dict, optional): Additional data related to the operation result.
+            - additional_info (dict, optional): Additional data related to the operation result.
         Returns:
             self (object): An instance of the class.
         Note:
@@ -1009,28 +1009,24 @@ class DnacBase():
             - If data is provided, it will be included in the result dictionary.
         """
         # Update the result attributes with the provided values
-        self.status = status
-        self.result["status"] = status
-        self.result["msg"] = msg
-        self.result["changed"] = changed
-        self.result["response"] = msg
+        self.status = operation_status
+        self.result.update({
+            "status": operation_status,
+            "msg": status_message,
+            "response": status_message,
+            "changed": is_changed,
+            "failed": operation_status == "failed",
+            "data": additional_info or {}  # Include additional_info if provided, else an empty dictionary
+        })
 
         # Log the message at the specified log level
-        self.log(msg, log_level)
-
-        # If the status is "failed", set the "failed" key to True
-        if status == "failed":
-            self.result["failed"] = True
-
-        # If additional data is provided, include it in the result dictionary
-        if data:
-            self.result["data"] = data
+        self.log(status_message, log_level)
 
         return self
 
     def fail_and_exit(self, msg):
         """Helper method to update the result as failed and exit."""
-        self.update_result("failed", False, msg, "ERROR")
+        self.set_operation_result("failed", False, msg, "ERROR")
         self.check_return_status()
 
     def log_traceback(self):
@@ -1043,25 +1039,24 @@ class DnacBase():
         # Log the traceback
         self.log("Traceback: {0}".format(full_traceback), "DEBUG")
 
-    def exit_while_loop(self, start_time, task_id, task_name, response):
+    def check_timeout_and_exit(self, loop_start_time, task_id, task_name):
         """
         Check if the elapsed time exceeds the specified timeout period and exit the while loop if it does.
         Parameters:
-            - start_time (float): The time when the while loop started.
+            - loop_start_time (float): The time when the while loop started.
             - task_id (str): ID of the task being monitored.
             - task_name (str): Name of the task being monitored.
-            - response (dict): Response received from the task status check.
         Returns:
             bool: True if the elapsed time exceeds the timeout period, False otherwise.
         """
-        # If the elapsed time exceeds the timeo.,ut period
-        if time.time() - start_time > self.params.get("dnac_api_task_timeout"):
-            # If there is no data in the response, generate a generic error message
-            self.msg = "Task {0} with task id {1} has not completed within the timeout period.".format(
-                task_name, task_id)
+        # If the elapsed time exceeds the timeout period
+        elapsed_time = time.time() - loop_start_time
+        if elapsed_time > self.params.get("dnac_api_task_timeout"):
+            self.msg = "Task {0} with task id {1} has not completed within the timeout period of {2} seconds.".format(
+                task_name, task_id, int(elapsed_time))
 
             # Update the result with failure status and log the error message
-            self.update_result("failed", False, self.msg, "ERROR")
+            self.set_operation_result("failed", False, self.msg, "ERROR")
             return True
 
         return False
@@ -1085,29 +1080,38 @@ class DnacBase():
                 op_modifies=True,
                 params=api_parameters,
             )
-            self.log("Response received post {0} - '{1}' API call: {2}".format(api_family, api_function, str(response)), "DEBUG")
+            self.log("Response received from API call to Function: '{0}' from Family: '{1}' is Response: {2}".format(api_function, api_family, str(response)), "DEBUG")
 
             # Process the response if available
             response_data = response.get("response")
-            if response_data:
-                self.result.update(dict(response=response_data))
-                task_id = response_data.get("taskId")
-                self.log("Task Id for the {0} - '{1}' task is {2}".format(api_family, api_function, task_id), "INFO")
-                return task_id
-            else:
-                self.log("No response received from the {0} - '{1}' API call.".format(api_family, api_function), "WARNING")
+            if not response_data:
+                self.log(
+                    "No response received from API call to Function: '{0}' from Family: '{1}'.".format(
+                        api_function, api_family
+                    ), "WARNING"
+                )
                 return None
+
+            # Update result and extract task ID
+            self.result.update(dict(response=response_data))
+            task_id = response_data.get("taskId")
+            self.log(
+                "Task ID received from API call to Function: '{0}' from Family: '{1}', Task ID: {2}".format(
+                    api_function, api_family, task_id
+                ), "INFO"
+            )
+            return task_id
 
         except Exception as e:
             # Log an error message and fail if an exception occurs
             self.log_traceback()
             self.msg = (
-                "An error occurred while executing API call {0} - {1}. "
-                "Parameters: {2}. Error: {3}.".format(api_family, api_function, api_parameters, str(e))
+                "An error occurred while executing API call to Function: '{0}' from Family: '{1}'. "
+                "Parameters: {2}. Exception: {3}.".format(api_function, api_family, api_parameters, str(e))
             )
             self.fail_and_exit(self.msg)
 
-    def get_task_status_from_tasks_by_id(self, **kwargs):
+    def get_task_status_from_tasks_by_id(self, task_id, task_name, task_params, success_msg):
         """
         Retrieves and monitors the status of a task by its task ID.
 
@@ -1118,56 +1122,46 @@ class DnacBase():
         Parameters:
         - task_id (str): The unique identifier of the task to monitor.
         - task_name (str): The name of the task being monitored.
-        - params (dict): Additional parameters related to the task.
-        - msg (str): The success message to set if the task completes successfully.
+        - task_params (dict): Additional parameters related to the task.
+        - success_msg (str): The success message to set if the task completes successfully.
 
         Returns:
         - self: The instance of the class with updated status and message.
         """
-        task_id = kwargs.get('task_id')
-        task_name = kwargs.get('task_name')
-        params = kwargs.get('params')
-        msg = kwargs.get('msg')
-
-        start_time = time.time()
+        loop_start_time = time.time()
 
         while True:
             response = self.get_tasks_by_id(task_id)
 
             # Check if response is returned
             if not response:
-                self.msg = "Error retrieving task status for {0} with task_id {1}".format(task_name, task_id)
-                self.update_result("failed", False, self.msg, "ERROR")
+                self.msg = "Error retrieving task status for '{0}' with task_id '{1}'".format(task_name, task_id)
+                self.set_operation_result("failed", False, self.msg, "ERROR")
                 break
+
+            status = response.get("status")
+            end_time = response.get("endTime")
 
             # Check if the elapsed time exceeds the timeout
-            if self.exit_while_loop(start_time, task_id, task_name, response):
+            if self.check_timeout_and_exit(loop_start_time, task_id, task_name):
                 break
 
-            # Handle error if task execution encounters an error
-            if response.get("status") == "FAILURE" and response.get("endTime"):
-                get_task_details_response = self.get_task_details_by_id(task_id)
-                failure_reason = get_task_details_response.get("failureReason")
-                if failure_reason:
+            # Check if the task has completed (either success or failure)
+            if end_time:
+                if status == "FAILURE":
+                    get_task_details_response = self.get_task_details_by_id(task_id)
+                    failure_reason = get_task_details_response.get("failureReason", "Unknown reason")
                     self.msg = (
-                        "An error occurred while performing {0} task for params: {1}. "
-                        "The operation failed due to the following reason: {2}".format(
-                            task_name, params, failure_reason
-                        )
+                        "Task {0} failed with Task ID: {1} for parameters: {2}. "
+                        "Failure reason: {3}".format(task_name, task_id, task_params, failure_reason)
                     )
-                else:
-                    self.msg = (
-                        "Failed to execute {0} task with task_id: {1} "
-                        "in the Cisco Catalyst Center".format(task_name, task_id)
-                    )    
-                self.update_result("failed", False, self.msg, "ERROR")
-                break
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    break
+                elif status == "SUCCESS":
+                    self.msg = success_msg
+                    self.set_operation_result("success", True, self.msg, "INFO")
+                    break
 
-            # Check if task completed successfully based on progress_string
-            if response.get("status") == "SUCCESS" and response.get("endTime"):
-                self.msg = msg
-                self.update_result("success", True, self.msg, "INFO")
-                break
             time.sleep(self.params.get("dnac_task_poll_interval"))
         return self
 
@@ -1283,7 +1277,7 @@ def validate_str(item, param_spec, param_name, invalid_params):
     Example `param_spec`:
         {
             "type": "str",
-            "length_max": 255  # Optional: maximum allowed length
+            "length_max": 255 # Optional: maximum allowed length
         }
     """
 
