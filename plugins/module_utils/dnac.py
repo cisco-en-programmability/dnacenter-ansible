@@ -235,7 +235,12 @@ class DnacBase():
         """API to check the return status value and exit/fail the module"""
 
         # self.log("status: {0}, msg:{1}".format(self.status, self.msg), frameIncrement=1)
-        self.log("status: {0}, msg: {1}".format(self.status, self.msg), "DEBUG")
+        frame = inspect.currentframe().f_back
+        line_no = frame.f_lineno
+        self.log(
+            "Line No: {line_no} status: {status}, msg: {msg}"
+            .format(line_no=line_no, status=self.status, msg=self.msg), "DEBUG"
+        )
         if "failed" in self.status:
             self.module.fail_json(msg=self.msg, response=self.result.get('response', []))
         elif "exited" in self.status:
@@ -364,13 +369,19 @@ class DnacBase():
         """
 
         if not response:
-            self.msg = "response is empty"
-            self.status = "exited"
+            self.msg = (
+                "The response from the API '{api_name}' is empty."
+                .format(api_name=api_name)
+            )
+            self.status = "failed"
             return self
 
         if not isinstance(response, dict):
-            self.msg = "response is not a dictionary"
-            self.status = "exited"
+            self.msg = (
+                "The response from the API '{api_name}' is not a dictionary."
+                .format(api_name=api_name)
+            )
+            self.status = "failed"
             return self
 
         response = response.get("response")
@@ -456,12 +467,18 @@ class DnacBase():
         """
 
         if not response:
-            self.msg = "response is empty"
+            self.msg = (
+                "The response from the API '{api_name}' is empty."
+                .format(api_name=api_name)
+            )
             self.status = "failed"
             return self
 
         if not isinstance(response, dict):
-            self.msg = "response is not a dictionary"
+            self.msg = (
+                "The response from the API '{api_name}' is not a dictionary."
+                .format(api_name=api_name)
+            )
             self.status = "failed"
             return self
 
@@ -1423,12 +1440,16 @@ class DNACSDK(object):
                         break
 
                     bapi_error = execution_details.get("bapiError")
-                    if bapi_error and RATE_LIMIT_MESSAGE in bapi_error:
-                        self.logger.warning("!!!!! %s !!!!!", RATE_LIMIT_MESSAGE)
-                        time.sleep(RATE_LIMIT_RETRY_AFTER)
-                        return self._exec(
-                            family_name, function_name, params, op_modifies, **kwargs
-                        )
+                    if bapi_error:
+                        if RATE_LIMIT_MESSAGE in bapi_error:
+                            self.logger.warning("!!!!! %s !!!!!", RATE_LIMIT_MESSAGE)
+                            time.sleep(RATE_LIMIT_RETRY_AFTER)
+                            return self._exec(
+                                family_name, function_name, params, op_modifies, **kwargs
+                            )
+
+                        self.logger.debug(bapi_error)
+                        break
 
         except exceptions.dnacentersdkException as e:
             self.fail_json(
