@@ -1035,7 +1035,7 @@ class DnacBase():
         """
         # Capture the full traceback
         full_traceback = traceback.format_exc()
-        
+
         # Log the traceback
         self.log("Traceback: {0}".format(full_traceback), "DEBUG")
 
@@ -1080,8 +1080,12 @@ class DnacBase():
                 op_modifies=True,
                 params=api_parameters,
             )
-            self.log("Response received from API call to Function: '{0}' from Family: '{1}' is Response: {2}".format(api_function, api_family, str(response)), "DEBUG")
-
+            self.log(
+                "Response received from API call to Function: '{0}' from Family: '{1}' is Response: {2}".format(
+                    api_function, api_family, str(response)
+                ),
+                "DEBUG"
+            )
             # Process the response if available
             response_data = response.get("response")
             if not response_data:
