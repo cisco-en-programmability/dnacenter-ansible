@@ -1356,7 +1356,7 @@ class IseRadiusIntegration(DnacBase):
                     function=function_name,
                     params=auth_server_params,
                 )
-                if self.dnac_version >= self.get_ccc_version_as_int_from_string("2.3.7.9"):
+                if self.get_ccc_version_as_integer() >= self.get_ccc_version_as_int_from_string("2.3.7.9"):
                     validation_string_set = ("successfully created aaa settings", "operation successful")
                 else:
                     validation_string_set = ("successfully created aaa settings", "operation sucessful")
@@ -1452,7 +1452,7 @@ class IseRadiusIntegration(DnacBase):
                 function=function_name,
                 params=auth_server_params,
             )
-            if self.dnac_version >= self.get_ccc_version_as_int_from_string("2.3.7.9"):
+            if self.get_ccc_version_as_integer() >= self.get_ccc_version_as_int_from_string("2.3.7.9"):
                 validation_string_set = ("successfully updated aaa settings", "operation successful")
             else:
                 validation_string_set = ("successfully updated aaa settings", "operation sucessful")
