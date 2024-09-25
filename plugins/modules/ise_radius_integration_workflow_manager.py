@@ -1356,7 +1356,11 @@ class IseRadiusIntegration(DnacBase):
                     function=function_name,
                     params=auth_server_params,
                 )
-                validation_string_set = ("successfully created aaa settings", "operation successful")
+                if self.get_ccc_version_as_integer() >= self.get_ccc_version_as_int_from_str("2.3.7.9"):
+                    validation_string_set = ("successfully created aaa settings", "operation successful")
+                else:
+                    validation_string_set = ("successfully created aaa settings", "operation sucessful")
+
                 self.check_auth_server_response_status(response, validation_string_set, function_name)
                 if self.status == "failed":
                     self.log(self.msg, "ERROR")
@@ -1448,7 +1452,11 @@ class IseRadiusIntegration(DnacBase):
                 function=function_name,
                 params=auth_server_params,
             )
-            validation_string_set = ("successfully updated aaa settings", "operation successful")
+            if self.get_ccc_version_as_integer() >= self.get_ccc_version_as_int_from_str("2.3.7.9"):
+                validation_string_set = ("successfully updated aaa settings", "operation successful")
+            else:
+                validation_string_set = ("successfully updated aaa settings", "operation sucessful")
+
             self.check_auth_server_response_status(response, validation_string_set, function_name)
             if self.status == "failed":
                 self.log(self.msg, "ERROR")
@@ -1729,6 +1737,15 @@ def main():
     # Create an AnsibleModule object with argument specifications
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=False)
     ccc_ise_radius = IseRadiusIntegration(module)
+    if ccc_ise_radius.get_ccc_version_as_integer() <= ccc_ise_radius.get_ccc_version_as_int_from_str("2.3.5.3"):
+        ccc_ise_radius.msg = (
+            "The provided Catalyst Center Version {ccc_version} does not support this workflow. "
+            "This workflow support starts from Catalyst Center Release {supported_version} onwards."
+            .format(ccc_version=ccc_ise_radius.get_ccc_version_as_string(), supported_version="2.3.5.3")
+        )
+        ccc_ise_radius.status = "failed"
+        ccc_ise_radius.check_return_status()
+
     state = ccc_ise_radius.params.get("state")
     config_verify = ccc_ise_radius.params.get("config_verify")
     if state not in ccc_ise_radius.supported_states:
