@@ -517,14 +517,14 @@ options:
         type: str
         required: False
       reboot_ap:
-        description: Reboot single or multiple access point given by the MAC Address list.
+        description: Reboot one or more access points identified by the MAC Address list.
         type: list
         required: False
         suboptions:
           mac_address:
             description: |
-              The MAC address used to identify the device. If provided, it cannot be modified.
-              To identify the specific access point, at least one of the following parameters is required.
+              The MAC address used to identify the device. Once provided, it cannot be modified.
+              To identify the specific access point, at least one of the following parameters is required:
               - mac_address
               - hostname
               - management_ip_address
@@ -2163,8 +2163,8 @@ class Accesspoint(DnacBase):
                         "site_id": site.get("id"),
                         "site_name": site_info["floor"]["parentName"] + "/" + site_info["floor"]["name"]
                     }
-                    self.log('Current site details: {0}'.format(str(current_site)), "INFO")
-                    self.log("Site '{0}' exists in Cisco Catalyst Center".format(site.get("name")), "INFO")
+                    self.log("Current site details: {0}".format(str(current_site)), "INFO")
+                    self.log("Site {0} exists in Cisco Catalyst Center".format(site.get("name")), "INFO")
                     site_exists = True
             except Exception as e:
                 msg = "The provided site name '{0}' is either invalid or not present in the \
