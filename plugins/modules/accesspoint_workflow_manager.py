@@ -3129,16 +3129,15 @@ def main():
     ccc_network.validate_input_yml().check_return_status()
     config_verify = ccc_network.params.get("config_verify")
 
-    if ccc_network.validated_config[0].get("reboot_ap") is not None:
-        ap_list = ast.literal_eval(ccc_network.validated_config[0].get("reboot_ap"))
-        if len(ap_list) > 0:
-            ccc_network.log("Reboot AP List: {0}".format(ccc_network.pprint(ap_list)), "INFO")
-            eth_mac_list = []
-            for each_ap in ap_list:
-                ap_exist, ap_details = ccc_network.get_accesspoint_details(each_ap)
-                eth_mac_list.append(ap_details.get("ap_ethernet_mac_address"))
-            ccc_network.reboot_accesspoint(eth_mac_list)
-            module.exit_json(**ccc_network.result)
+    reboot_list = ccc_network.validated_config[0].get("reboot_ap")
+    if reboot_list is not None and len(ast.literal_eval(reboot_list)) > 0:
+        ap_list = ast.literal_eval(reboot_list)
+        eth_mac_list = []
+        for each_ap in ap_list:
+            ap_exist, ap_details = ccc_network.get_accesspoint_details(each_ap)
+            eth_mac_list.append(ap_details.get("ap_ethernet_mac_address"))
+        ccc_network.reboot_accesspoint(eth_mac_list)
+        module.exit_json(**ccc_network.result)
 
     for config in ccc_network.validated_config:
         ccc_network.reset_values()
