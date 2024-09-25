@@ -44,7 +44,7 @@ class TestDnacInventoryWorkflow(TestDnacModule):
     playbook_provision_device = test_data.get("playbook_provision_device")
     playbook_del_provisioned_device_2353 = test_data.get("playbook_del_provisioned_device_2353")
     playbook_prov_device_2353 = test_data.get("playbook_prov_device_2353")
-    
+
     def setUp(self):
         super(TestDnacInventoryWorkflow, self).setUp()
 
@@ -65,7 +65,7 @@ class TestDnacInventoryWorkflow(TestDnacModule):
     def load_fixtures(self, response=None, device=""):
         """
         Load fixtures for user.
-        """ 
+        """
         if "playbook_add_device" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_device_list_add_device"),
@@ -75,8 +75,7 @@ class TestDnacInventoryWorkflow(TestDnacModule):
                 self.test_data.get("TaskDetails_add_device_end"),
                 self.test_data.get("get_device_list_add_device_3"),
                 self.test_data.get("get_device_list_add_device_5"),
-                self.test_data.get("add_device_response"),
-                ]
+                self.test_data.get("add_device_response"), ]
         elif "playbook_delete_a_device" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_device_list1_seema"),
@@ -89,16 +88,14 @@ class TestDnacInventoryWorkflow(TestDnacModule):
                 self.test_data.get("Task_Details2_seema"),
                 self.test_data.get("get_device_list5_seema"),
                 self.test_data.get("get_device_list6_seema"),
-                self.test_data.get("delete_device_response1_seema"),
-                ]
+                self.test_data.get("delete_device_response1_seema"),]
         elif "playbook_add_existing_devices" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_device_list1_existing_devices"),
                 self.test_data.get("get_device_list2_existing_devices"),
                 self.test_data.get("get_device_list3_existing_devices"),
                 self.test_data.get("get_device_list4_existing_devices"),
-                self.test_data.get("add_existing_devices_response"),
-                ]
+                self.test_data.get("add_existing_devices_response"),]
         elif "playbook_add_udf" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_device_list1_add_udf"),
@@ -112,14 +109,12 @@ class TestDnacInventoryWorkflow(TestDnacModule):
                 self.test_data.get("get_device_list5_add_udf"),
                 self.test_data.get("get_device_list6_add_udf"),
                 self.test_data.get("get_all_user_defined_fields2"),
-                self.test_data.get("add_udf_response"),
-                ]
+                self.test_data.get("add_udf_response"),]
         elif "playbook_provision_failed_for_site" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_device_list1_provision_failed_for_site"),
                 self.test_data.get("get_device_list2_provision_failed_for_site"),
-                self.test_data.get("povisioning_failed_response"),
-                ]
+                self.test_data.get("povisioning_failed_response"),]
         elif "playbook_delete_provisioned_device" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_device_list1_delete_provisioned_device"),
@@ -131,8 +126,7 @@ class TestDnacInventoryWorkflow(TestDnacModule):
                 self.test_data.get("Task_Details2_delete_provisioned_device"),
                 self.test_data.get("get_device_list4_delete_provisioned_device"),
                 self.test_data.get("get_device_list5_delete_provisioned_device"),
-                self.test_data.get("delete_provisioned_response"),
-                ]
+                self.test_data.get("delete_provisioned_response"),]
         elif "playbook_update_interface_details" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_device_list1_update_interface"),
@@ -147,8 +141,7 @@ class TestDnacInventoryWorkflow(TestDnacModule):
                 self.test_data.get("get_device_list6_update_interface"),
                 self.test_data.get("get_device_list7_update_interface"),
                 self.test_data.get("get_interface_details2_update_interface"),
-                self.test_data.get("update_interface_details_response"),
-                ]
+                self.test_data.get("update_interface_details_response"),]
         elif "playbook_update_role" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_device_list1_update_role"),
@@ -160,14 +153,12 @@ class TestDnacInventoryWorkflow(TestDnacModule):
                 self.test_data.get("get_device_list5_update_role"),
                 self.test_data.get("get_device_list6_update_role"),
                 self.test_data.get("get_device_list7_update_role"),
-                self.test_data.get("update_role_response"),
-                ]
+                self.test_data.get("update_role_response"),]
         elif "playbook_missing_mand_params" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_device_list1_missing_mand_params"),
                 self.test_data.get("get_device_list2_missing_mand_params"),
-                self.test_data.get("response_missing_uname_pwd_in_adding_device"),
-                ]
+                self.test_data.get("response_missing_uname_pwd_in_adding_device"),]
         elif "playbook_delete_device_udf" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_device_list1_delete_device_udf"),
@@ -180,8 +171,7 @@ class TestDnacInventoryWorkflow(TestDnacModule):
                 self.test_data.get("Task_Details2_delete_device_udf"),
                 self.test_data.get("get_device_list5_delete_device_udf"),
                 self.test_data.get("get_device_list6_delete_device_udf"),
-                self.test_data.get("delete_device_udf_response"),
-                ]
+                self.test_data.get("delete_device_udf_response"),]
         elif "playbook_update_mgmt_ip" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_device_list1_update_mgmt_ip"),
@@ -200,8 +190,7 @@ class TestDnacInventoryWorkflow(TestDnacModule):
                 self.test_data.get("Task_Details3_update_mgmt_ip"),
                 self.test_data.get("Task_Details4_update_mgmt_ip"),
                 self.test_data.get("download_a_file_by_fileid2_update_mgmt_ip"),
-                self.test_data.get("response_update_mgmt_ipaddress"),
-                ]
+                self.test_data.get("response_update_mgmt_ipaddress"),]
         elif "playbook_provision_device" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_device_list1_provision_device"),
@@ -222,8 +211,7 @@ class TestDnacInventoryWorkflow(TestDnacModule):
                 self.test_data.get("get_device_list6_provision_device"),
                 self.test_data.get("get_device_list7_provision_device"),
                 self.test_data.get("get_provision_devices2_provision_device"),
-                self.test_data.get("provisioned_success_response"),
-                ]
+                self.test_data.get("provisioned_success_response"),]
         elif "playbook_del_provisioned_device_2353" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_device_list1_del_prov_dev2353"),
@@ -233,8 +221,7 @@ class TestDnacInventoryWorkflow(TestDnacModule):
                 self.test_data.get("get_execution_details_device_del_prov_dev2353"),
                 self.test_data.get("get_device_list3_del_prov_dev2353"),
                 self.test_data.get("get_device_list4_del_prov_dev2353"),
-                self.test_data.get("response_del_provisioned_device_2353"),
-                ]
+                self.test_data.get("response_del_provisioned_device_2353"),]
         elif "playbook_prov_device_2353" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_device_list1_prov_device_2353"),
@@ -246,11 +233,8 @@ class TestDnacInventoryWorkflow(TestDnacModule):
                 self.test_data.get("get_device_list4_prov_device_2353"),
                 self.test_data.get("get_device_list5_prov_device_2353"),
                 self.test_data.get("get_provisioned_wired_devices_prov_device_2353"),
-                self.test_data.get("prov_device_2353_response"),
-                ]
-            
+                self.test_data.get("prov_device_2353_response"),]
 
-    
     def test_inventory_workflow_manager_playbook_add_device(self):
         """
         Test case for add device with full crendentials.
@@ -264,8 +248,8 @@ class TestDnacInventoryWorkflow(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="merged",
-                config_verify = True,
-                config = self.playbook_add_device
+                config_verify=True,
+                config=self.playbook_add_device
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -289,8 +273,8 @@ class TestDnacInventoryWorkflow(TestDnacModule):
                 dnac_log=True,
                 dnac_version="2.3.5.3",
                 state="merged",
-                config_verify = True,
-                config = self.playbook_add_existing_devices
+                config_verify=True,
+                config=self.playbook_add_existing_devices
             )
         )
         result = self.execute_module(changed=False, failed=False)
@@ -313,8 +297,8 @@ class TestDnacInventoryWorkflow(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="merged",
-                config_verify = True,
-                config = self.playbook_add_udf
+                config_verify=True,
+                config=self.playbook_add_udf
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -338,8 +322,8 @@ class TestDnacInventoryWorkflow(TestDnacModule):
                 dnac_log=True,
                 dnac_version="2.3.7.6",
                 state="deleted",
-                config_verify = True,
-                config = self.playbook_delete_a_device
+                config_verify=True,
+                config=self.playbook_delete_a_device
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -363,17 +347,16 @@ class TestDnacInventoryWorkflow(TestDnacModule):
                 dnac_log=True,
                 dnac_version="2.3.7.6",
                 state="deleted",
-                config_verify = True,
-                config = self.playbook_delete_provisioned_device
+                config_verify=True,
+                config=self.playbook_delete_provisioned_device
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(result)
         self.assertEqual(
             result.get('msg'),
-            "provisioned device(s) '204.1.2.4' successfully deleted in Cisco Catalyst Center."   
+            "provisioned device(s) '204.1.2.4' successfully deleted in Cisco Catalyst Center."
         )
-        
 
     def test_inventory_workflow_manager_playbook_provision_failed_for_site(self):
         """
@@ -388,8 +371,8 @@ class TestDnacInventoryWorkflow(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="merged",
-                config_verify = True,
-                config = self.playbook_provision_failed_for_site
+                config_verify=True,
+                config=self.playbook_provision_failed_for_site
             )
         )
         result = self.execute_module(changed=False, failed=True)
@@ -397,7 +380,6 @@ class TestDnacInventoryWorkflow(TestDnacModule):
         self.assertEqual(
             result.get('msg'),
             "Wired Device Provisioning failed for all devices"
-            #"Unable to Provision Wired Device(s) because the site(s) listed: Global/Chennai/LTTS/FLOOR1 are not present in the\n                                Cisco Catalyst Center."
         )
 
     def test_inventory_workflow_manager_playbook_update_interface_details(self):
@@ -414,8 +396,8 @@ class TestDnacInventoryWorkflow(TestDnacModule):
                 dnac_log=True,
                 dnac_version="2.3.7.6",
                 state="merged",
-                config_verify = True,
-                config = self.playbook_update_interface_details
+                config_verify=True,
+                config=self.playbook_update_interface_details
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -439,8 +421,8 @@ class TestDnacInventoryWorkflow(TestDnacModule):
                 dnac_log=True,
                 dnac_version="2.3.7.6",
                 state="merged",
-                config_verify = True,
-                config = self.playbook_update_role
+                config_verify=True,
+                config=self.playbook_update_role
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -464,8 +446,8 @@ class TestDnacInventoryWorkflow(TestDnacModule):
                 dnac_log=True,
                 dnac_version="2.3.7.6",
                 state="merged",
-                config_verify = True,
-                config = self.playbook_missing_mand_params
+                config_verify=True,
+                config=self.playbook_missing_mand_params
             )
         )
         result = self.execute_module(changed=False, failed=True)
@@ -489,8 +471,8 @@ class TestDnacInventoryWorkflow(TestDnacModule):
                 dnac_log=True,
                 dnac_version="2.3.7.6",
                 state="deleted",
-                config_verify = True,
-                config = self.playbook_delete_device_udf
+                config_verify=True,
+                config=self.playbook_delete_device_udf
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -514,8 +496,8 @@ class TestDnacInventoryWorkflow(TestDnacModule):
                 dnac_log=True,
                 dnac_version="2.3.7.6",
                 state="merged",
-                config_verify = True,
-                config = self.playbook_update_mgmt_ip
+                config_verify=True,
+                config=self.playbook_update_mgmt_ip
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -539,8 +521,8 @@ class TestDnacInventoryWorkflow(TestDnacModule):
                 dnac_log=True,
                 dnac_version="2.3.7.6",
                 state="merged",
-                config_verify = True,
-                config = self.playbook_provision_device
+                config_verify=True,
+                config=self.playbook_provision_device
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -564,8 +546,8 @@ class TestDnacInventoryWorkflow(TestDnacModule):
                 dnac_log=True,
                 dnac_version="2.3.5.3",
                 state="deleted",
-                config_verify = True,
-                config = self.playbook_del_provisioned_device_2353
+                config_verify=True,
+                config=self.playbook_del_provisioned_device_2353
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -589,8 +571,8 @@ class TestDnacInventoryWorkflow(TestDnacModule):
                 dnac_log=True,
                 dnac_version="2.3.5.3",
                 state="merged",
-                config_verify = True,
-                config = self.playbook_prov_device_2353
+                config_verify=True,
+                config=self.playbook_prov_device_2353
             )
         )
         result = self.execute_module(changed=True, failed=False)

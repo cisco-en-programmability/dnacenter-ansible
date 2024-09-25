@@ -742,12 +742,9 @@ class Inventory(DnacBase):
     def __init__(self, module):
         super().__init__(module)
         self.supported_states = ["merged", "deleted"]
-        self.payload = module.params
-        self.dnac_version = int(self.payload.get("dnac_version").replace(".", ""))
-        self.version_2_3_5_3, self.version_2_3_7_6, self.version_2_2_3_3 = 2353, 2376, 2233
         self.device_already_provisioned, self.provisioned_device, self.device_lists, self.devices_already_present = [], [], [], []
         self.deleted_devices, self.provisioned_device_deleted, self.no_device_to_delete = [], [], []
-        self.response_list, self.role_updated_list, self.device_role_name= [], [], []
+        self.response_list, self.role_updated_list, self.device_role_name = [], [], []
 
     def validate_input(self):
         """
@@ -1868,8 +1865,6 @@ class Inventory(DnacBase):
                     self.log("""Device {0} is not transitioning to the managed state, so provisioning operation cannot
                                 be performed.""".format(device_ip), "WARNING")
                     continue
-
-
                 # device provision or not
                 response = self.dnac._exec(
                     family="sda",
@@ -1881,7 +1876,7 @@ class Inventory(DnacBase):
                 get_provision_response = response.get("response")
                 self.log(response)
 
-                # If the response has anything, then it should go for reprovision 
+                # If the response has anything, then it should go for reprovision
                 if get_provision_response:
                     self.log("{0} Device {1} is already provisioned !!".format(device_type, device_ip), "INFO")
                     self.status = "success"
@@ -2085,8 +2080,8 @@ class Inventory(DnacBase):
                     return site_type
 
                 self.log("Received API response from 'get_sites': {0}".format(str(response)), "DEBUG")
-                site = response.get("response")  
-                site_type = site[0].get("type") 
+                site = response.get("response")
+                site_type = site[0].get("type")
 
         except Exception as e:
             self.msg = "Error while fetching the site '{0}' and the specified site was not found in Cisco Catalyst Center.".format(site_name)
@@ -2180,7 +2175,6 @@ class Inventory(DnacBase):
 
                     if 'TASK_PROVISION' in progress:
                         self.handle_successful_provisioning(device_ip, execution_details, device_type)
-        
                         provision_count += 1
                         break
                     elif execution_details.get("isError"):
@@ -2573,8 +2567,8 @@ class Inventory(DnacBase):
             if response:
                 self.status = "success"
                 interface_id = response["id"]
-                self.log("""Successfully fetched interface ID ({0}) by using device id {1} and interface name {2}."""
-                            .format(interface_id, device_id, interface_name), "INFO")
+                self.log("Successfully fetched interface ID ({0}) by using device id {1} and interface name {2}."
+                         .format(interface_id, device_id, interface_name), "INFO")
                 return response
 
         except Exception as e:
@@ -2821,7 +2815,6 @@ class Inventory(DnacBase):
                 if response:
                     flag = 2
                     self.log("Wired device '{0}' already provisioned in the Cisco Catalyst Center.".format(device_ip), "INFO")
-            
         except Exception as e:
             if "not provisioned to any site" in str(e):
                 flag = 1
@@ -2919,7 +2912,7 @@ class Inventory(DnacBase):
         """
 
         # Call the Get interface details by device IP API and fetch the interface Id
-        is_update_occurred = False   
+        is_update_occurred = False
         for device_ip in device_to_update:
             interface_params = self.config[0].get('update_interface_details')
             interface_names_list = interface_params.get('interface_name')
@@ -2949,8 +2942,7 @@ class Inventory(DnacBase):
                         if response.get('role').upper() != "ACCESS":
                             self.msg = "The action to clear the MAC Address table is only supported for devices with the ACCESS role."
                             self.log(self.msg, "WARNING")
-                            #self.response_list.append(self.msg)
-                            #self.result['changed'] = False
+
                         else:
                             deploy_mode = interface_params.get('deployment_mode', 'Deploy')
                             self.clear_mac_address(interface_id, deploy_mode, interface_name).check_return_status()
@@ -3040,7 +3032,6 @@ class Inventory(DnacBase):
                     self.response_list.append(self.msg)
 
         self.result['changed'] = is_update_occurred
-        #self.result['response'] = self.response_list
 
         return self
 
@@ -3263,7 +3254,7 @@ class Inventory(DnacBase):
             config['http_port'] = self.config[0].get("http_port", "443")
 
         if self.config[0].get('provision_wired_device'):
-            
+
             provision_wired_list = self.config[0]['provision_wired_device']
 
             device_not_available = []
@@ -3516,8 +3507,7 @@ class Inventory(DnacBase):
                 self.status = "success"
                 self.result['changed'] = True
                 self.msg = "Device(s) '{0}' role updated successfully to '{1}'".format(self.role_updated_list, device_role)
-                #self.result['response'] = self.msg
-                self.result['msg']=self.msg
+                self.result['msg'] = self.msg
                 self.result["response"] = self.msg
                 self.log(self.msg, "INFO")
 
@@ -4196,7 +4186,8 @@ class Inventory(DnacBase):
             result_msg_list.append(devices_already_present)
 
         if self.provisioned_device_deleted:
-            provisioned_device_deleted = "provisioned device(s) '{0}' successfully deleted in Cisco Catalyst Center.".format("', '".join(self.provisioned_device_deleted))
+            provisioned_device_deleted = ("provisioned device(s) '{0}' successfully deleted in Cisco Catalyst"
+                                          "Center.").format("', '".join(self.provisioned_device_deleted))
             result_msg_list_1.append(provisioned_device_deleted)
 
         if self.deleted_devices:
@@ -4204,7 +4195,8 @@ class Inventory(DnacBase):
             result_msg_list_1.append(deleted_devices)
 
         if self.no_device_to_delete:
-            deleted_devices = "device(s) '{0}' is not present in Cisco Catalyst Center so can't perform delete operation".format("', '".join(self.no_device_to_delete))
+            deleted_devices = ("device(s) '{0}' is not present in Cisco Catalyst Center so can't perform delete"
+                               "operation").format("', '".join(self.no_device_to_delete))
             result_msg_list.append(deleted_devices)
 
         if self.response_list:
@@ -4228,10 +4220,11 @@ class Inventory(DnacBase):
 
         self.log(self.msg, "INFO")
 
-        self.result['msg']=self.msg
+        self.result['msg'] = self.msg
         self.result["response"] = self.msg
 
         return self
+
 
 def main():
     """ main entry point for module execution
@@ -4272,14 +4265,13 @@ def main():
 
     for config in ccc_device.validated_config:
         ccc_device.reset_values()
-        ccc_device.get_want(config).check_return_status()   
+        ccc_device.get_want(config).check_return_status()
         ccc_device.get_have(config).check_return_status()
         ccc_device.get_diff_state_apply[state](config).check_return_status()
         if config_verify:
             ccc_device.verify_diff_state_apply[state](config).check_return_status()
 
     ccc_device.update_inventory_profile_messages().check_return_status()
-
 
     module.exit_json(**ccc_device.result)
 
