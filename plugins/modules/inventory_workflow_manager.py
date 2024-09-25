@@ -1816,8 +1816,8 @@ class Inventory(DnacBase):
                 self.log(device_id)
 
                 try:
-                    response = self.get_sites(site_name)
-                    self.log("Received API response from 'get_sites': {0}".format(str(response)), "DEBUG")
+                    response = self.get_site(site_name)
+                    self.log("Received API response from 'get_site': {0}".format(str(response)), "DEBUG")
                     site = response.get("response")
                     site_id = site[0].get("id")
                     self.log(site_id)
@@ -1892,6 +1892,7 @@ class Inventory(DnacBase):
                     self.log(self.msg, "INFO")
 
                 else:
+                    time.sleep(10)
                     self.assign_device_to_site(device_ip, assign_network_device_to_site)
 
                     try:
@@ -3223,34 +3224,19 @@ class Inventory(DnacBase):
         """
 
         site_exists = False
-        site_id = None
         response = None
 
         try:
-            if self.dnac_version <= self.version_2_3_5_3:
-                response = self.dnac._exec(
-                    family="sites",
-                    function='get_site',
-                    op_modifies=True,
-                    params={"name": site_name},
-                )
-                if response:
-                    self.log("Received API response from 'get_site': {0}".format(str(response)), "DEBUG")
-                    site = response.get("response")
-                    site_exists = True
+            response = self.get_site(site_name)
+            if response.get("response"):
+                site_exists = True
             else:
-                response = self.get_sites(site_name)
-                if response.get("response"):
-                    self.log("Received API response from 'get_sites': {0}".format(str(response)), "DEBUG")
-                    site = response.get("response")
-                    site_exists = True
-                else:
-                    raise ValueError
+                raise ValueError
 
         except Exception as e:
             return False
 
-        return (site_exists)
+        return site_exists
 
     def get_diff_merged(self, config):
         """
