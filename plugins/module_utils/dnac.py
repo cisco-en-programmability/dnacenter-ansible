@@ -78,6 +78,8 @@ class DnacBase():
 
         self.payload = module.params
         self.dnac_version = int(self.payload.get("dnac_version").replace(".", ""))
+        self.dnac_version_in_integer = int(self.payload.get("dnac_version").replace(".", ""))
+        self.dnac_version_in_string = self.payload.get("dnac_version")
         # Dictionary to store multiple versions for easy maintenance and scalability
         # To add a new version, simply update the 'dnac_versions' dictionary with the new version string as the key
         # and the corresponding version number as the value.
@@ -115,13 +117,13 @@ class DnacBase():
         self.supported_states = ["merged", "deleted", "replaced", "overridden", "gathered", "rendered", "parsed"]
         self.result = {"changed": False, "diff": [], "response": [], "warnings": []}
 
+    def get_ccc_version_as_string(self):
+        return self.dnac_version_in_string
+
+    def get_ccc_version_as_integer(self):
+        return self.dnac_version_in_integer
+
     @abstractmethod
-    def get_dnac_version(self):
-        return self.payload.get("dnac_version")
-
-    def get_dnac_version_int(self):
-        return int(self.payload.get("dnac_version").replace(".", ""))
-
     def validate_input(self):
         if not self.config:
             self.msg = "config not available in playbook for validation"
