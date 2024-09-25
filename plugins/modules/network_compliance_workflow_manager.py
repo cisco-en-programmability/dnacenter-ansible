@@ -371,11 +371,6 @@ class NetworkCompliance(DnacBase):
           The method does not return a value.
         """
         super().__init__(module)
-        self.payload = module.params
-        self.keymap = {}
-        self.dnac_version = int(self.payload.get(
-            "dnac_version").replace(".", ""))
-        self.version_2_3_5_3, self.version_2_3_7_6 = 2353, 2376
 
     def validate_input(self):
         """
@@ -524,45 +519,6 @@ class NetworkCompliance(DnacBase):
 
         return run_compliance_params
 
-    def site_exists(self, site_name):
-        """
-        Checks the existence of a site in Cisco Catalyst Center.
-
-        Parameters:
-            site_name (str): The name of the site to be checked.
-
-        Returns:
-            tuple: A tuple containing two values:
-                - site_exists (bool): Indicates whether the site exists (True) or not (False).
-                - site_id (str or None): The ID of the site if it exists, or None if the site is not found.
-
-        Description:
-            This method queries Cisco Catalyst Center to determine if a site with the provided name exists.
-            If the site is found, it sets "site_exists" to True and retrieves the site's ID.
-            If the site does not exist, "site_exists" is set to False, and "site_id" is None.
-            If an exception occurs during the site lookup, an error message is logged, and the module fails.
-        """
-        site_exists = False
-        site_id = None
-        response = None
-
-        try:
-            response = self.get_site(site_name)
-            if response is None:
-                raise ValueError
-            site = response.get("response")
-            site_id = site[0].get("id")
-            site_exists = True
-
-        except Exception as e:
-            self.status = "failed"
-            self.msg = ("An exception occurred: Site '{0}' does not exist in the Cisco Catalyst Center.".format(site_name))
-            self.result['response'] = self.msg
-            self.log(self.msg, "ERROR")
-            self.check_return_status()
-
-        return (site_exists, site_id)
-
     def get_device_ids_from_ip(self, ip_address_list):
         """
         Retrieves the device IDs based on the provided list of IP addresses from Cisco Catalyst Center.
@@ -621,96 +577,6 @@ class NetworkCompliance(DnacBase):
 
         return mgmt_ip_to_instance_id_map
 
-    def get_device_ids_from_site(self, site_name, site_id):
-        """
-        Retrieves the management IP addresses and their corresponding instance UUIDs of devices associated with a specific site in Cisco Catalyst Center.
-
-        Parameters:
-            site_name (str): The name of the site whose devices' information is to be retrieved.
-            site_id (str): The unique identifier of the site.
-
-        Returns:
-            dict: A dictionary mapping management IP addresses to their instance UUIDs.
-
-        Description:
-            This method queries Cisco Catalyst Center to fetch the list of devices associated with the provided site.
-            It then extracts the management IP addresses and their instance UUIDs from the response.
-            Devices that are not reachable are logged as critical errors, and the function fails.
-            If no reachable devices are found for the specified site, it logs an error message and fails.
-        """
-        mgmt_ip_to_instance_id_map = {}
-
-        site_params = {
-            "site_id": site_id,
-        }
-
-        try:
-            if self.dnac_version <= self.version_2_3_5_3:
-                response = self.dnac._exec(
-                    family="sites",
-                    function="get_membership",
-                    op_modifies=True,
-                    params=site_params,
-                )
-                self.log("Response received post 'get_membership' API Call: {0}".format(str(response)), "DEBUG")
-
-                if response:
-                    devices = response.get("device", [])
-                    for item in devices:
-                        if "response" in item:
-                            for item_dict in item["response"]:
-                                if item_dict["reachabilityStatus"] == "Reachable":
-                                    if item_dict["family"] != "Unified AP":
-                                        mgmt_ip_to_instance_id_map[item_dict["managementIpAddress"]] = item_dict["instanceUuid"]
-                                    else:
-                                        msg = "Skipping device {0} in site {1} as its family is {2}".format(
-                                            item_dict["managementIpAddress"], site_name, item_dict["family"]
-                                        )
-                                        self.log(msg, "INFO")
-                                else:
-                                    msg = "Skipping device {0} in site {1} as its status is {2}".format(
-                                        item_dict["managementIpAddress"], site_name, item_dict["reachabilityStatus"]
-                                    )
-                                    self.log(msg, "WARNING")
-
-            else:
-                response = self.dnac._exec(
-                    family="site_design",
-                    function="get_site_assigned_network_devices",
-                    op_modifies=True,
-                    params=site_params,
-                )
-
-                self.log("Received API response from 'get_site_assigned_network_devices': {0}".format(str(response)), "DEBUG")
-                site_response = response.get("response", [])
-
-                if site_response:
-                    for device in site_response:
-                        device_id = device.get("deviceId")
-                        self.log(device_id)
-                        if device_id:
-                            device_response = self.dnac._exec(
-                                family="devices",
-                                function="get_device_by_id",
-                                op_modifies=True,
-                                params={"id": device_id}
-                            )
-                            management_ip = device_response.get("response", {}).get("managementIpAddress")
-                            self.log(management_ip)
-                            if management_ip:
-                                mgmt_ip_to_instance_id_map[management_ip] = device_id
-                            else:
-                                self.log(f"Management IP not found for device ID: {device_id}", "WARNING")
-
-        except Exception as e:
-            self.log("Unable to fetch the device(s) associated with the site '{0}' due to {1}".format(site_name, str(e)), "ERROR")
-        if not mgmt_ip_to_instance_id_map:
-            self.msg = "No reachable devices found at Site: {0}".format(site_name)
-            self.update_result("ok", False, self.msg, "INFO")
-            self.module.exit_json(**self.result)
-
-        return mgmt_ip_to_instance_id_map
-
     def get_device_id_list(self, ip_address_list, site_name):
         """
         Get the list of unique device IDs for a specified list of management IP addresses or devices associated with a site
@@ -729,10 +595,10 @@ class NetworkCompliance(DnacBase):
 
         # Check if both site name and IP address list are provided
         if site_name:
-            (site_exists, site_id) = self.site_exists(site_name)
+            (site_exists, site_id) = self.get_site_id(site_name)
             if site_exists:
                 # Retrieve device IDs associated with devices in the site
-                site_mgmt_ip_to_instance_id_map = self.get_device_ids_from_site(site_name, site_id)
+                site_mgmt_ip_to_instance_id_map = self.get_device_ip_from_device_id(site_id)
                 mgmt_ip_to_instance_id_map.update(site_mgmt_ip_to_instance_id_map)
 
         if ip_address_list:
@@ -1120,107 +986,6 @@ class NetworkCompliance(DnacBase):
             self.update_result("failed", False, self.msg, "ERROR")
             self.check_return_status()
 
-    def get_task_status(self, task_id, task_name):
-        """
-        Retrieve the status of a task by its ID.
-        Parameters:
-            - task_id (str): The ID of the task whose status is to be retrieved.
-            - task_name (str): The name of the task.
-        Returns:
-            response (dict): The response containing the status of the task.
-        Note:
-            This method makes an API call to retrieve the task status and logs the status information.
-            If an error occurs during the API call, it will be caught and logged.
-        """
-        # Make an API call to retrieve the task tree
-        if self.dnac_version <= self.version_2_3_5_3:
-            try:
-                response = self.dnac_apply["exec"](
-                    family="task",
-                    function="get_task_by_id",
-                    params=dict(task_id=task_id),
-                    op_modifies=True,
-                )
-                self.log("Response received post 'get_task_by_id' API Call for the Task {0} with Task id {1} "
-                         "is {2}".format(task_name, str(task_id), str(response)), "DEBUG")
-                if response:
-                    response = response["response"]
-                else:
-                    self.log("No response received from the 'get_task_by_id' API call.", "CRITICAL")
-                return response
-
-            # Log the error if an exception occurs during the API call
-            except Exception as e:
-                self.msg = "Error occurred while retrieving 'get_task_by_id' for Task {0} with Task id {1}. Error: {2}".format(task_name, task_id, str(e))
-                self.update_result("failed", False, self.msg, "ERROR")
-                self.check_return_status()
-
-        else:
-            self.dnac_version >= self.version_2_3_7_6
-            try:
-                response = self.dnac_apply["exec"](
-                    family="task",
-                    function="get_task_details_by_id",
-                    params=dict(id=task_id),
-                    op_modifies=True,
-                )
-                self.log("Response received post 'get_task_details_by_id' API Call for the Task {0} with Task id {1} "
-                         "is {2}".format(task_name, str(task_id), str(response)), "DEBUG")
-                if response:
-                    response = response["response"]
-                else:
-                    self.log("No response received from the 'get_task_details_by_id' API call.", "CRITICAL")
-                return response
-
-            # Log the error if an exception occurs during the API call
-            except Exception as e:
-                self.msg = "Error occurred while retrieving 'get_task_by_id' or 'get_task_details_by_id' for Task {0} with Task id {1}. Error: {2}".format(task_name, task_id, str(e))
-                self.update_result("failed", False, self.msg, "ERROR")
-                self.check_return_status()
-
-    def get_task_tree(self, task_id, task_name):
-        """
-        Retrieve the tree of a task by its ID.
-        Parameters:
-            - task_id (str): The ID of the task whose status is to be retrieved.
-            - task_name (str): The name of the task.
-        Returns:
-            response (dict): The response containing the status of the task.
-        Note:
-            This method makes an API call to retrieve the task status and logs the status information.
-            If an error occurs during the API call, it will be caught and logged.
-        """
-
-        try:
-            if self.dnac_version <= self.version_2_3_5_3:
-                response = self.dnac_apply["exec"](
-                    family="task",
-                    function="get_task_tree",
-                    params=dict(task_id=task_id),
-                    op_modifies=True,
-                )
-                self.log("Response received post 'get_task_tree' API call for the Task {0} with Task id {1} "
-                         "is {2}".format(task_name, str(task_id), str(response)), "DEBUG")
-            else:
-                self.dnac_version >= self.version_2_3_7_6
-                response = self.dnac_apply["exec"](
-                    family="task",
-                    function="get_tasks",
-                    params=dict(task_id=task_id),
-                    op_modifies=True,
-                )
-                self.log("Response received post 'get_tasks' API call for the Task {0} with Task id {1} "
-                         "is {2}".format(task_name, str(task_id), str(response)), "DEBUG")
-            if response:
-                response = response["response"]
-            else:
-                self.log("No response received from the 'get_task_tree' API call.", "CRITICAL")
-            return response
-        except Exception as e:
-            self.msg = "Error occurred while retrieving 'get_task_tree' for Task {0} with task id {1}: {2}".format(task_name, task_id, str(e))
-            self.update_result("failed", False, self.msg, "ERROR")
-            self.check_return_status()
-
     def update_result(self, status, changed, msg, log_level, data=None):
         """
         Update the result of the operation with the provided status, message, and log level.
@@ -1328,7 +1093,7 @@ class NetworkCompliance(DnacBase):
         start_time = time.time()
 
         while True:
-            response = self.get_task_status(task_id, task_name)
+            response = self.get_task_status_from_taskid(task_id, task_name)
 
             # Check if response returned
             if not response:
@@ -1525,7 +1290,7 @@ class NetworkCompliance(DnacBase):
             success_devices = []
             failed_devices = []
 
-            response = self.get_task_tree(task_id, task_name)
+            response = self.check_task_tree_response(task_id, task_name)
 
             # Check if response returned
             if not response:
