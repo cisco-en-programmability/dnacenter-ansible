@@ -980,3 +980,25 @@ releases:
         - inventory_workflow_manager.py: added attributes resync_device_count and resync_max_timeout
         - accesspoint_workflow_manager.py: added attributes 'is_assigned_site_as_location', and other new attributes.
         - device_configs_backup_workflow_manager.py. added attribute 'site'.
+  6.19.0:
+    release_date: "2024-09-25"
+    changes:
+      release_summary: Code changes in workflow manager modules.
+      minor_changes:
+        - Added 'fabric_transits_workflow_manager.py' to perform operations on SDA fabric transits.
+        - Changes in ise_radius_integration_workflow_manager module to check ise certification status.
+        - Setting dnac versions and compare for version based routing.
+        - Minor bug fixes in network_compliance_workflow_manager module.
+        - Changes in network_settings_workflow_manager module to support exception handling.
+        - Changes in rma_workflow_manager module. 
+        - Changes in sda_extranet_policies_workflow_manager module. 
+        - Changes in swim_workflow_manager module to support CCO image.
+        - Adding  support to update  password  in user_role_workflow_manager module.
+        - Unit test automation for worflow_manager modules.
+        - access_point_workflow_manager module.py: added attributes 'hostname' and 'management_ip_address'.
+        - device_configs_backup_workflow_manager.py: added attributes 'hostname_list' and 'ip_address_list', 'site_list', 'mac_address_list', 'serial_number_list'.
+        - device_configs_backup_workflow_manager.py: removed attributes 'hostname', 'ip_address', 'site', 'mac_address' and 'serial_number'.
+        - fabric_sites_zones_workflow_manager.py: added attribute 'fabric_type'. 
+        - fabric_sites_zones_workflow_manager.py: removed attribute 'site_type'. 
+        - swim_workflow_manager.py: added attribute 'cco_image_details'.
+        - user_role_workflow_manager: added attribute 'password_update'.
