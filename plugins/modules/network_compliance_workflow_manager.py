@@ -534,7 +534,6 @@ class NetworkCompliance(DnacBase):
         """
         mgmt_ip_to_instance_id_map = {}
 
-        # Iterate through the provided list of IP addresses
         for device_ip in ip_address_list:
             try:
                 # Query Cisco Catalyst Center for device information using the IP address
