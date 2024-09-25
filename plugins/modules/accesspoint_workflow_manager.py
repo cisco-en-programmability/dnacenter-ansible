@@ -1601,7 +1601,7 @@ class Accesspoint(DnacBase):
                     mac_address))
 
         management_ip_address = ap_config.get("management_ip_address")
-        if management_ip_address and (not self.is_valid_ipv4(management_ip_address) and \
+        if management_ip_address and (not self.is_valid_ipv4(management_ip_address) and
                                       not self.is_valid_ipv6(management_ip_address)):
             errormsg.append("management_ip_address: Invalid Management IP Address '{0}'\
                             in playbook.".format(management_ip_address))
@@ -1623,7 +1623,7 @@ class Accesspoint(DnacBase):
                             mac_address))
 
                 management_ip_address = each_ap.get("management_ip_address")
-                if management_ip_address and (not self.is_valid_ipv4(management_ip_address) and \
+                if management_ip_address and (not self.is_valid_ipv4(management_ip_address) and
                                               not self.is_valid_ipv6(management_ip_address)):
                     errormsg.append("management_ip_address: Invalid Management IP Address '{0}'\
                                     in playbook.".format(management_ip_address))
