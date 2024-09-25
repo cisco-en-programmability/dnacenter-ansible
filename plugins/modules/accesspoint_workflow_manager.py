@@ -743,13 +743,12 @@ EXAMPLES = r"""
         config_verify: True
         state: merged
         config:
-              - ap_type: "Unified AP"
-                mac_address:  90:e9:5e:03:f3:40
-                rf_profile: "HIGH"
-                site:
-                  floor:
-                    name: "FLOOR1"
-                    parent_name: "Global/USA/New York/BLDNYC"
+          - mac_address:  90:e9:5e:03:f3:40
+            rf_profile: "HIGH"
+            site:
+                floor:
+                name: "FLOOR1"
+                parent_name: "Global/USA/New York/BLDNYC"
       register: output_list
 
     - name: Updating Access Point Update / Controller Name
@@ -965,6 +964,25 @@ EXAMPLES = r"""
             - mac_address: 6c:d6:e3:75:5a:e0
             - mac_address: e4:38:7e:42:bc:00
       register: output_list
+
+    - name: Reboot single or multiple access point by hostname
+      cisco.dnac.accesspoint_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: True
+        dnac_log_level: DEBUG
+        config_verify: True
+        state: merged
+        config:
+          - reboot_ap:
+            - hostname: "cisco_Test_9166_T3"
+            - hostname: "cisco_Test_9120_T1"
+      register: output_list
 """
 
 RETURN = r"""
@@ -988,30 +1006,57 @@ response_1:
 #Case-2: Provisioning and Re-Provisioning of Accesspoint
 response_2:
   description: >
-    A dictionary with activation details as returned by the Catalyst Center Python SDK
+    A dictionary with provision status returned by the Catalyst Center Python SDK
+  returned: always
+  type: dict
+  sample: |
+    {
+        "response": [
+        {
+            "changed": true,
+            "response": {
+                "ap_provision_update_status": "AP provision for the site 'Global/Chennai/LTTS/FLOOR1' has been successfully verified."
+            }
+        }]
+    }
+
+#Case-3: Reboot single or multiple Accesspoint task
+response_3:
+  description: >
+    A dictionary with reboot status of AP returned by the Catalyst Center Python SDK
   returned: always
   type: dict
   sample: |
     {
         "response": {
-                        {
-                            "bapiKey": "d897-19b8-47aa-a9c4",
-                            "bapiName": "AP Provision",
-                            "bapiExecutionId": "97d5edd5-d5db-40d8-9ab6-f15dc4a5cc30",
-                            "startTime": "Wed Jul 03 18:37:24 UTC 2024",
-                            "startTimeEpoch": 1720031844919,
-                            "endTimeEpoch": 0,
-                            "timeDuration": 0,
-                            "status": "IN_PROGRESS",
-                            "runtimeInstanceId": "DNACP_Runtime_3f8f258c-9f7a-4511-b361-592ee9e0c4d2"
-                        }
+            "accesspoints_updates": {
+                "ap_reboot_status": "AP ['6c:d6:e3:69:49:b4', '68:49:92:75:0f:d0'] Rebooted Successfully",
+                "ap_reboot_task_details": {
+                    "reboot_api_response": {
+                        "apList": [
+                            {
+                                "apName": "LTTS_Test_9120_T2",
+                                "failureReason": null,
+                                "rebootStatus": "Success"
+                            },
+                            {
+                                "apName": "LTTS_Test_9166_T3",
+                                "failureReason": null,
+                                "rebootStatus": "Success"
+                            }
+                        ],
+                        "wlcIP": "204.192.6.200"
                     }
+                }
+            }
+        }
     }
 """
 
 
-import time, ast
+import time
 import re
+import ast
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
     validate_list_of_dicts,
@@ -1043,8 +1088,6 @@ class Accesspoint(DnacBase):
                            124, 128, 132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173),
             "6ghz_radio": list(range(1, 234, 4))
         }
-        #self.dnac_version = int(self.payload.get("dnac_version").replace(".", ""))
-        #self.version_2_3_5_3, self.version_2_3_7_6 = 2353, 2376
 
     def validate_input_yml(self):
         """
@@ -1558,13 +1601,37 @@ class Accesspoint(DnacBase):
                     mac_address))
 
         management_ip_address = ap_config.get("management_ip_address")
-        if management_ip_address and not self.is_valid_ipv4(management_ip_address):
+        if management_ip_address and (not self.is_valid_ipv4(management_ip_address) and \
+                                      not self.is_valid_ipv6(management_ip_address)):
             errormsg.append("management_ip_address: Invalid Management IP Address '{0}'\
                             in playbook.".format(management_ip_address))
 
         if ap_config.get("rf_profile"):
             param_spec = dict(type="str", length_max=32)
             validate_str(ap_config["rf_profile"], param_spec, "rf_profile", errormsg)
+
+        reboot_ap = ap_config.get("reboot_ap")
+        if reboot_ap and len(ast.literal_eval(reboot_ap)) > 0:
+            ap_list = ast.literal_eval(reboot_ap)
+
+            for each_ap in ap_list:
+                mac_address = each_ap.get("mac_address")
+                if mac_address:
+                    mac_regex = re.compile(r'^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$')
+                    if not mac_regex.match(mac_address):
+                        errormsg.append("mac_address: Invalid MAC Address '{0}' in playbook.".format(
+                            mac_address))
+
+                management_ip_address = each_ap.get("management_ip_address")
+                if management_ip_address and (not self.is_valid_ipv4(management_ip_address) and \
+                                              not self.is_valid_ipv6(management_ip_address)):
+                    errormsg.append("management_ip_address: Invalid Management IP Address '{0}'\
+                                    in playbook.".format(management_ip_address))
+
+                hostname = each_ap.get("hostname")
+                if hostname:
+                    param_spec = dict(type="str", length_max=32)
+                    validate_str(hostname, param_spec, "hostname", errormsg)
 
         site = ap_config.get("site")
         if site:
@@ -2091,11 +2158,11 @@ class Accesspoint(DnacBase):
                         }
 
                     current_site = {
-                            "type": type_info,
-                            "site": site_info,
-                            "site_id": site.get("id"),
-                            "site_name": site_info["floor"]["parentName"] + "/" + site_info["floor"]["name"]
-                        }
+                        "type": type_info,
+                        "site": site_info,
+                        "site_id": site.get("id"),
+                        "site_name": site_info["floor"]["parentName"] + "/" + site_info["floor"]["name"]
+                    }
                     self.log('Current site details: {0}'.format(str(current_site)), "INFO")
                     self.log("Site '{0}' exists in Cisco Catalyst Center".format(site.get("name")), "INFO")
                     site_exists = True
@@ -2131,65 +2198,17 @@ class Accesspoint(DnacBase):
             not found or if an error occurs during the API call, it returns False.
         """
         try:
-            if self.dnac_version <= self.dnac_versions["2.3.5.3"]:
-                response = self.dnac._exec(
-                    family="sites",
-                    function="get_membership",
-                    op_modifies=True,
-                    params={"site_id": site_id}
-                )
-
-                if not response.get("device"):
-                    self.log("No device found in the site: {sId},".format(sId=site_id), "INFO")
-                    return False
-
-                device_mac_info = []
-                for device_info in response.get('device', []):
-                    response_list = device_info.get('response', [])
-                    for response_item in response_list:
-                        mac_address = response_item.get('macAddress')
-                        if mac_address:
-                            device_mac_info.append(mac_address)
-
-                if ap_mac_address in device_mac_info:
-                    self.log(
-                        "Device with MAC address: {macAddress} found in site: {sId},"
-                        "Proceeding with ap_site updation."
-                        .format(macAddress=ap_mac_address, sId=site_id), "INFO"
-                    )
-                    return True
-                else:
-                    self.log("Given device not found on the site: {sId},".format(sId=site_id), "INFO")
-                    return False
-
+            device_list = self.get_device_ids_from_site(site_id)
+            if current_config.get("id") is not None and current_config.get("id") in device_list:
+                self.log("Device with MAC address: {0} found in site: {1} Proceeding with ap_site updation."
+                         .format(ap_mac_address, site_id), "INFO")
+                return True
             else:
-                response = self.dnac._exec(
-                    family="site_design",
-                    function="get_site_assigned_network_device",
-                    op_modifies=True,
-                    params={"id": current_config.get("id")}
-                )
-                self.log("Site Device response: {0}".format(self.pprint(response)), "INFO")
-
-                if not response.get("response", {}).get("siteId"):
-                    self.log("No site information found : {0},".format(site_id), "INFO")
-                    return False
-
-                response = response.get("response")
-                if site_id == response.get("siteId") and response.get("deviceId") == current_config.get("id")\
-                   and response.get("siteNameHierarchy") == current_site.get("site_name")\
-                   and response.get("siteType") == current_site.get("type"):
-                    self.log(
-                        "Device with MAC address: {0} found in site: {1} Proceeding with ap_site updation."
-                        .format(ap_mac_address, site_id), "INFO"
-                    )
-                    return True
-                else:
-                    self.log("No site information found : {0},".format(site_id), "INFO")
-                    return False
+                self.log("Given device not found on the site: {sId},".format(sId=site_id), "INFO")
+                return False
 
         except Exception as e:
-            self.log("Failed to execute the get_membership function '{}'\
+            self.log("Failed to execute the get_device_ids_from_site function '{}'\
                       Error: {}".format(site_id, str(e)), "ERROR")
             return False
 
@@ -2335,8 +2354,8 @@ class Accesspoint(DnacBase):
             if self.dnac_version <= self.dnac_versions["2.3.5.3"]:
                 if not site_name_hierarchy or not rf_profile or not host_name:
                     error_msg = ("Cannot provision device: Missing parameters - "
-                                "site_name_hierarchy: {0}, rf_profile: {1}, host_name: {2}"
-                                .format(site_name_hierarchy, rf_profile, host_name))
+                                 "site_name_hierarchy: {0}, rf_profile: {1}, host_name: {2}"
+                                 .format(site_name_hierarchy, rf_profile, host_name))
                     self.log(error_msg, "ERROR")
                     self.module.fail_json(msg=error_msg)
 
@@ -2371,7 +2390,7 @@ class Accesspoint(DnacBase):
                             break
                         elif execution_details.get("bapiError"):
                             self.module.fail_json(msg=execution_details.get("bapiError"),
-                                                response=execution_details)
+                                                  response=execution_details)
                             break
 
                         time.sleep(resync_retry_interval)
@@ -2379,8 +2398,8 @@ class Accesspoint(DnacBase):
             else:
                 if not rf_profile or not device_id or not site_id:
                     error_msg = ("Cannot provision device: Missing parameters - "
-                                "device_id: {0}, rf_profile: {1}, site_id: {2}"
-                                .format(device_id, rf_profile, site_id))
+                                 "device_id: {0}, rf_profile: {1}, site_id: {2}"
+                                 .format(device_id, rf_profile, site_id))
                     self.log(error_msg, "ERROR")
                     self.module.fail_json(msg=error_msg)
 
@@ -2394,11 +2413,11 @@ class Accesspoint(DnacBase):
                 if site_assign_status:
                     self.log('Current device details: {0}'.format(self.pprint(provision_params)), "INFO")
                     response = self.dnac._exec(
-                            family="wireless",
-                            function='ap_provision',
-                            op_modifies=True,
-                            params={"payload": provision_params},
-                        )
+                        family="wireless",
+                        function='ap_provision',
+                        op_modifies=True,
+                        params={"payload": provision_params},
+                    )
                     self.log('Response from ap_provision: {0}'.format(str(response.get("response"))), "INFO")
 
                     if response and isinstance(response, dict):
@@ -2937,30 +2956,6 @@ class Accesspoint(DnacBase):
             self.log("Unable to filter fields: {0}".format(str(e)) , "ERROR")
             return None
 
-    def camel_to_snake_case(self, config):
-        """
-        Convert camel case keys to snake case keys in the config.
-
-        Parameters:
-            config (dict or list): Configuration data to be transformed.
-
-        Returns:
-            dict or list: Updated config with snake_case keys.
-        """
-
-        if isinstance(config, dict):
-            new_config = {}
-            for key, value in config.items():
-                new_key = re.sub(r'([a-z0-9])([A-Z])', r'\1_\2', key).lower()
-                new_value = self.camel_to_snake_case(value)
-                new_config[new_key] = new_value
-        elif isinstance(config, list):
-            return [self.camel_to_snake_case(item) for item in config]
-        else:
-            return config
-
-        return new_config
-
     def consolidate_output(self):
         """
         Bulk access point changes collect each output update in the response.
@@ -3007,11 +3002,11 @@ class Accesspoint(DnacBase):
         try:
             self.log('Rebooting the list of APs: {0}'.format(self.pprint(ap_list)), "INFO")
             response = self.dnac._exec(
-                    family="wireless",
-                    function='reboot_access_points',
-                    op_modifies=True,
-                    params={"apMacAddresses": ap_list},
-                )
+                family="wireless",
+                function='reboot_access_points',
+                op_modifies=True,
+                params={"apMacAddresses": ap_list},
+            )
             self.log("Response from reboot_access_points: {0}".format(str(response.get("response"))), "INFO")
 
             if response and isinstance(response, dict):
@@ -3037,7 +3032,7 @@ class Accesspoint(DnacBase):
                                     "error_code": task_details_response.get("errorCode"),
                                     "failure_reason": task_details_response.get("failureReason"),
                                     "is_error": task_details_response.get("isError"),
-                                    "reboot_api_response": reboot_status
+                                    "reboot_api_response": reboot_status["apList"]
                                 },
                                 "ap_reboot_status": self.msg}
                             self.module.fail_json(msg=self.msg, response=responses)
@@ -3048,7 +3043,7 @@ class Accesspoint(DnacBase):
                             reboot_status = self.accesspoint_reboot_status(task_id)
                             responses["accesspoints_updates"] = {
                                 "ap_reboot_task_details": {
-                                    "reboot_api_response": reboot_status
+                                    "reboot_api_response": reboot_status["apList"]
                                 },
                                 "ap_reboot_status": self.msg}
                             self.result['changed'] = True
@@ -3093,6 +3088,7 @@ class Accesspoint(DnacBase):
             self.log(error_msg, "ERROR")
             self.msg = error_msg
             self.status = "failed"
+
 
 def main():
     """ main entry point for module execution
@@ -3159,6 +3155,7 @@ def main():
             ccc_network.consolidate_output()
 
     module.exit_json(**ccc_network.result)
+
 
 if __name__ == "__main__":
     main()
