@@ -123,6 +123,9 @@ class DnacBase():
     def get_ccc_version_as_integer(self):
         return self.dnac_version_in_integer
 
+    def get_ccc_version_as_int_from_string(self, dnac_version):
+        return self.dnac_versions.get(dnac_version)
+
     @abstractmethod
     def validate_input(self):
         if not self.config:
