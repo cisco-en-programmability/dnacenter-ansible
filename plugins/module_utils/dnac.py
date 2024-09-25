@@ -78,13 +78,18 @@ class DnacBase():
 
         self.payload = module.params
         self.dnac_version = int(self.payload.get("dnac_version").replace(".", ""))
+        self.dnac_version_in_integer = int(self.payload.get("dnac_version").replace(".", ""))
+        self.dnac_version_in_string = self.payload.get("dnac_version")
         # Dictionary to store multiple versions for easy maintenance and scalability
         # To add a new version, simply update the 'dnac_versions' dictionary with the new version string as the key
         # and the corresponding version number as the value.
         self.dnac_versions = {
+            "2.2.2.3": 2223,
+            "2.2.3.3": 2233,
+            "2.3.3.0": 2330,
             "2.3.5.3": 2353,
             "2.3.7.6": 2376,
-            "2.2.3.3": 2233
+            "2.3.7.9": 2379,
             # Add new versions here, e.g., "2.4.0.0": 2400
         }
 
@@ -111,6 +116,15 @@ class DnacBase():
         self.log('Cisco Catalyst Center parameters: {0}'.format(dnac_params), "DEBUG")
         self.supported_states = ["merged", "deleted", "replaced", "overridden", "gathered", "rendered", "parsed"]
         self.result = {"changed": False, "diff": [], "response": [], "warnings": []}
+
+    def get_ccc_version_as_string(self):
+        return self.dnac_version_in_string
+
+    def get_ccc_version_as_integer(self):
+        return self.dnac_version_in_integer
+
+    def get_ccc_version_as_int_from_str(self, dnac_version):
+        return self.dnac_versions.get(dnac_version)
 
     @abstractmethod
     def validate_input(self):
