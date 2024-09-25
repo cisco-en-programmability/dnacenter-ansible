@@ -298,8 +298,6 @@ class Provision(DnacBase):
         valid_provision, invalid_params = validate_list_of_dicts(
             self.config, provision_spec
         )
-        self.log("self.config")
-        self.log(self.config)
         if invalid_params:
             self.msg = "Invalid parameters in playbook: {0}".format(
                 "\n".join(invalid_params))
@@ -308,8 +306,6 @@ class Provision(DnacBase):
             return self
 
         self.validated_config = valid_provision
-        self.log("self.validated_config")
-        self.log(self.validated_config)
         self.msg = "Successfully validated playbook configuration parameters using 'validate_input': {0}".format(str(valid_provision))
         self.log(str(self.msg), "INFO")
         self.status = "success"
