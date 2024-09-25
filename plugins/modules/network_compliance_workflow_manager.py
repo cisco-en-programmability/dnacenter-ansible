@@ -572,7 +572,7 @@ class NetworkCompliance(DnacBase):
         if not mgmt_ip_to_instance_id_map:
             ip_address_list_str = ", ".join(ip_address_list)
             self.msg = "No reachable devices found among the provided IP addresses: {0}".format(ip_address_list_str)
-            self.update_result("ok", False, self.msg, "INFO")
+            self.set_operation_result("ok", False, self.msg, "INFO")
             self.module.exit_json(**self.result)
 
         return mgmt_ip_to_instance_id_map
@@ -741,7 +741,7 @@ class NetworkCompliance(DnacBase):
             sync_required, self.msg, categorized_devices = self.is_sync_required(response, mgmt_ip_to_instance_id_map)
             self.log("Is Sync Requied: {0} -- Message: {1}".format(sync_required, self.msg), "DEBUG")
             if not sync_required:
-                self.update_result("ok", False, self.msg, "INFO")
+                self.set_operation_result("ok", False, self.msg, "INFO")
                 self.module.exit_json(**self.result)
 
             # Get the device IDs of devices in the "OTHER" category and "COMPLIANT" category
@@ -843,7 +843,7 @@ class NetworkCompliance(DnacBase):
         if not final_response:
             device_list_str = ", ".join(device_list)
             self.msg = "No Compliance Details found for the devices: {0}".format(device_list_str)
-            self.update_result("failed", False, self.msg, "ERROR")
+            self.set_operation_result("failed", False, self.msg, "ERROR")
             self.check_return_status()
 
         return final_response
@@ -883,7 +883,7 @@ class NetworkCompliance(DnacBase):
             # Handle any exceptions that occur during the API call
             self.msg = ("An error occurred while retrieving Compliance Details for device:{0} using 'compliance_details_of_device' API call"
                         ". Error: {1}".format(device_ip, str(e)))
-            self.update_result("failed", False, self.msg, "ERROR")
+            self.set_operation_result("failed", False, self.msg, "ERROR")
             self.check_return_status()
 
     def run_compliance(self, run_compliance_params, batch_size):
@@ -902,7 +902,7 @@ class NetworkCompliance(DnacBase):
         device_uuids = run_compliance_params.get("deviceUuids")
         if not device_uuids:
             self.msg = "No device UUIDs were found for the execution of the compliance operation."
-            self.update_result("ok", False, self.msg, "INFO")
+            self.set_operation_result("ok", False, self.msg, "INFO")
             self.module.exit_json(**self.result)
 
         batches_dict = {}
@@ -983,70 +983,8 @@ class NetworkCompliance(DnacBase):
             self.msg = (
                 "Error occurred while synchronizing device configuration for parameters - {0}. "
                 "Error: {1}".format(sync_device_config_params, str(e)))
-            self.update_result("failed", False, self.msg, "ERROR")
+            self.set_operation_result("failed", False, self.msg, "ERROR")
             self.check_return_status()
-
-    def update_result(self, status, changed, msg, log_level, data=None):
-        """
-        Update the result of the operation with the provided status, message, and log level.
-        Parameters:
-            - status (str): The status of the operation ("success" or "failed").
-            - changed (bool): Indicates whether the operation caused changes.
-            - msg (str): The message describing the result of the operation.
-            - log_level (str): The log level at which the message should be logged ("INFO", "ERROR", "CRITICAL", etc.).
-            - data (dict, optional): Additional data related to the operation result.
-        Returns:
-            self (object): An instance of the class.
-        Note:
-            - If the status is "failed", the "failed" key in the result dictionary will be set to True.
-            - If data is provided, it will be included in the result dictionary.
-        """
-        # Update the result attributes with the provided values
-        self.status = status
-        self.result["status"] = status
-        self.result["msg"] = msg
-        self.result["changed"] = changed
-
-        # Log the message at the specified log level
-        self.log(msg, log_level)
-
-        # If the status is "failed", set the "failed" key to True
-        if status == "failed":
-            self.result["failed"] = True
-
-        # If additional data is provided, include it in the result dictionary
-        if data:
-            self.result["data"] = data
-
-        return self
-
-    def exit_while_loop(self, start_time, task_id, task_name, response):
-        """
-        Check if the elapsed time exceeds the specified timeout period and exit the while loop if it does.
-        Parameters:
-            - start_time (float): The time when the while loop started.
-            - task_id (str): ID of the task being monitored.
-            - task_name (str): Name of the task being monitored.
-            - response (dict): Response received from the task status check.
-        Returns:
-            bool: True if the elapsed time exceeds the timeout period, False otherwise.
-        """
-        # If the elapsed time exceeds the timeout period
-        if time.time() - start_time > self.params.get("dnac_api_task_timeout"):
-            if response.get("data"):
-                # If there is data in the response, include it in the error message
-                self.msg = "Task {0} with task id {1} has not completed within the timeout period. Task Status: {2} ".format(
-                    task_name, task_id, response.get("data"))
-            else:
-                # If there is no data in the response, generate a generic error message
-                self.msg = "Task {0} with task id {1} has not completed within the timeout period.".format(
-                    task_name, task_id)
-
-            # Update the result with failure status and log the error message
-            self.update_result("failed", False, self.msg, "ERROR")
-            return True
-
-        return False
 
     def handle_error(self, task_name, mgmt_ip_to_instance_id_map, failure_reason=None):
         """
@@ -1069,7 +1007,7 @@ class NetworkCompliance(DnacBase):
                 task_name, ip_address_list_str)
 
         # Update the result with failure status and log the error message
-        self.update_result("failed", False, self.msg, "ERROR")
+        self.set_operation_result("failed", False, self.msg, "ERROR")
 
         return self
 
@@ -1093,7 +1031,7 @@ class NetworkCompliance(DnacBase):
         start_time = time.time()
 
         while True:
-            response = self.get_task_status_from_taskid(task_id, task_name)
+            response = self.get_task_status_from_tasks_by_id(task_id, task_name)
 
             # Check if response returned
             if not response:
@@ -1263,10 +1201,10 @@ class NetworkCompliance(DnacBase):
             successful_devices_params["deviceUuids"] = successful_devices
             compliance_report = self.get_compliance_report(successful_devices_params, mgmt_ip_to_instance_id_map)
             self.log("Compliance Report: {0}".format(compliance_report), "INFO")
-            self.update_result("success", True, self.msg, "INFO", compliance_report)
+            self.set_operation_result("success", True, self.msg, "INFO", compliance_report)
         else:
             self.msg = "Failed to {0} on the following device(s): {1}".format(task_name, unsuccessful_ips_str)
-            self.update_result("failed", False, self.msg, "CRITICAL")
+            self.set_operation_result("failed", False, self.msg, "CRITICAL")
 
         return self
 
@@ -1295,11 +1233,11 @@ class NetworkCompliance(DnacBase):
             # Check if response returned
             if not response:
                 self.msg = "Error retrieving Task Tree for the task_name {0} task_id {1}".format(task_name, task_id)
-                self.update_result("failed", False, self.msg, "ERROR")
+                self.set_operation_result("failed", False, self.msg, "ERROR")
                 break
 
             # Check if the elapsed time exceeds the timeout
-            if self.exit_while_loop(start_time, task_id, task_name, response):
+            if self.check_timeout_and_exit(start_time, task_id, task_name, response):
                 break
 
             # Handle error if task execution encounters an error
@@ -1331,16 +1269,16 @@ class NetworkCompliance(DnacBase):
             total_devices = len(sync_device_config_params["deviceId"])
             if len(success_devices) == total_devices:
                 self.msg = "{0} has completed successfully on {1} device(s): {2}".format(task_name, len(success_devices), success_devices_str)
-                self.update_result("success", True, self.msg, "INFO")
+                self.set_operation_result("success", True, self.msg, "INFO")
                 break
             elif failed_devices and len(failed_devices) + len(success_devices) == total_devices:
                 self.msg = "{0} task has failed on {1} device(s): {2} and succeeded on {3} device(s): {4}".format(
                     task_name, len(failed_devices), failed_devices_str, len(success_devices), success_devices_str)
-                self.update_result("failed", True, self.msg, "CRITICAL")
+                self.set_operation_result("failed", True, self.msg, "CRITICAL")
                 break
             elif len(failed_devices) == total_devices:
                 self.msg = "{0} task has failed on {1} device(s): {2}".format(task_name, len(failed_devices), failed_devices_str)
-                self.update_result("failed", False, self.msg, "CRITICAL")
+                self.set_operation_result("failed", False, self.msg, "CRITICAL")
                 break
 
         return self
@@ -1376,7 +1314,7 @@ class NetworkCompliance(DnacBase):
 
                 if not result_task_id:
                     self.msg = "An error occurred while retrieving the task_id of the {0} operation.".format(action_func.__name__)
-                    self.update_result("failed", False, self.msg, "CRITICAL")
+                    self.set_operation_result("failed", False, self.msg, "CRITICAL")
                 else:
                     status_func(result_task_id, self.want.get("mgmt_ip_to_instance_id_map")).check_return_status()
 
