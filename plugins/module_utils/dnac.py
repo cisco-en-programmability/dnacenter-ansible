@@ -1041,8 +1041,8 @@ class DnacBase():
             Return the details along with the status of the task.
         """
 
+        task_status = None
         try:
-            task_status = None
             response = self.dnac._exec(
                 family="task",
                 function="get_tasks_by_id",
