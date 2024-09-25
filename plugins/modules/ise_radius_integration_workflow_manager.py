@@ -1356,7 +1356,7 @@ class IseRadiusIntegration(DnacBase):
                     function=function_name,
                     params=auth_server_params,
                 )
-                if self.dnac_version >= self.version_2_3_7_9:
+                if self.dnac_version >= self.get_ccc_version_as_int_from_string("2.3.7.9"):
                     validation_string_set = ("successfully created aaa settings", "operation successful")
                 else:
                     validation_string_set = ("successfully created aaa settings", "operation sucessful")
@@ -1452,7 +1452,7 @@ class IseRadiusIntegration(DnacBase):
                 function=function_name,
                 params=auth_server_params,
             )
-            if self.dnac_version >= self.version_2_3_7_9:
+            if self.dnac_version >= self.get_ccc_version_as_int_from_string("2.3.7.9"):
                 validation_string_set = ("successfully updated aaa settings", "operation successful")
             else:
                 validation_string_set = ("successfully updated aaa settings", "operation sucessful")
@@ -1737,7 +1737,7 @@ def main():
     # Create an AnsibleModule object with argument specifications
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=False)
     ccc_ise_radius = IseRadiusIntegration(module)
-    if ccc_ise_radius.get_ccc_version_as_integer() <= ccc_ise_radius.version_2_3_5_3:
+    if ccc_ise_radius.get_ccc_version_as_integer() <= ccc_ise_radius.get_ccc_version_as_int_from_string("2.3.5.3"):
         ccc_ise_radius.msg = (
             "The provided Catalyst Center Version {ccc_version} does not support this workflow. "
             "This workflow support starts from Catalyst Center Release {supported_version} onwards."
