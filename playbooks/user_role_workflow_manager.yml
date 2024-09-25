@@ -23,50 +23,15 @@
         state: merged
         config:
           user_details:
-            - first_name: "ajith"
-              last_name: "andrew"
-              username: "ajithandrewj"
-              email: "ajith.andrew@example.com"
-              password: "Ajith@123"
-              role_list: ["Super-Admin-role"]
-            - first_name: "syed"
-              last_name: "khadeer"
-              username: "syedkhadeer"
-              email: "syedkhadeer@example.com"
-              password: "Syedkhadeer@123"
+            - username: ajithandrewj
+              first_name: ajith
+              last_name: Andrew
+              email: ajith@gmail.com
+              password: Example@0101
+              password_update: True
+              role_list:
+                - Test_role_1
           role_details:
-            - role_name: "Test_Role_1"
-              description: "Default role creation"
+            - role_name: Test_role_1
               assurance:
-                - overall: "read"
-                  troubleshooting_tools: "write"
-              network_analytics:
-                - overall: "deny"
-            - role_name: "Test_Role_2"
-              description: "Default role creation"
-              network_design:
-                - overall: "deny"
-                  image_repository: "read"
-              network_provision:
-                - overall: "read"
-                  eox: "write"
-                  image_update: "read"
-                  inventory_management:
-                    - overall: "write"
-                      port_management: "read"
-              network_services:
-                - overall: "deny"
-                  bonjour: "Write"
-              platform:
-                - overall: "deny"
-                  bundles: "read"
-              security:
-                - overall: "deny"
-                  ip_based_access_control: "read"
-                  security_advisories: "write"
-              system:
-                - overall: "deny"
-                  machine_reasoning: "write"
-              utilities: 
-                - overall: "deny"
-                  audit_log: "read"
+                - overall: write
