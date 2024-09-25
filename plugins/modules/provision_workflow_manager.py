@@ -6,7 +6,7 @@
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
-__author__ = ("Abinash Mishra, Madhan Sankaranarayanan")
+__author__ = ("Abinash Mishra, Madhan Sankaranarayanan, Syed Khadeer Ahmed, Ajith Andrew J")
 
 DOCUMENTATION = r"""
 ---
@@ -21,6 +21,8 @@ extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
 author: Abinash Mishra (@abimishr)
         Madhan Sankaranarayanan (@madhansansel)
+        Syed Khadeer Ahmed(@syed-khadeerahmed)
+        Ajith Andrew J (@ajithandrewj)
 options:
   config_verify:
     description: Set to True to verify the Cisco Catalyst Center config after applying the playbook config.
