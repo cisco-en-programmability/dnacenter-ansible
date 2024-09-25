@@ -82,7 +82,9 @@ class DnacBase():
         # To add a new version, simply update the 'dnac_versions' dictionary with the new version string as the key
         # and the corresponding version number as the value.
         self.dnac_versions = {
+            "2.2.2.3": 2223,
             "2.2.3.3": 2233,
+            "2.3.3.0": 2330,
             "2.3.5.3": 2353,
             "2.3.7.6": 2376,
             "2.3.7.9": 2379,
@@ -114,6 +116,12 @@ class DnacBase():
         self.result = {"changed": False, "diff": [], "response": [], "warnings": []}
 
     @abstractmethod
+    def get_dnac_version(self):
+        return self.payload.get("dnac_version")
+
+    def get_dnac_version_int(self):
+        return int(self.payload.get("dnac_version").replace(".", ""))
+
     def validate_input(self):
         if not self.config:
             self.msg = "config not available in playbook for validation"
