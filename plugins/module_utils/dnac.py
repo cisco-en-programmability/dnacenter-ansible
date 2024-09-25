@@ -1016,19 +1016,28 @@ class DnacBase():
             Call the API 'get_task_details_by_id' to get the details along with the
             failure reason. Return the details.
         """
-        # Need to handle exception
-        task_details = None
-        response = self.dnac._exec(
-            family="task",
-            function="get_task_details_by_id",
-            params={"id": task_id}
-        )
-        if not isinstance(response, dict):
-            self.log("Invalid response received when fetching task details for task ID: {}".format(task_id), "ERROR")
-            return task_details
 
-        task_details = response.get("response")
-        self.log("Task Details: {task_details}".format(task_details=task_details), "DEBUG")
+        task_details = None
+        try:
+            response = self.dnac._exec(
+                family="task",
+                function="get_task_details_by_id",
+                params={"id": task_id}
+            )
+            if not isinstance(response, dict):
+                self.log("Invalid response received when fetching task details for task ID: {}".format(task_id), "ERROR")
+                return task_details
+
+            task_details = response.get("response")
+            self.log("Task Details: {task_details}".format(task_details=task_details), "DEBUG")
+        except Exception as e:
+            # Log an error message and fail if an exception occurs
+            self.log_traceback()
+            self.msg = (
+                "An error occurred while executing API call to Function: 'get_task_details_by_id' "
+                "due to the the following exception: {0}.".format(str(e))
+            )
+            self.fail_and_exit(self.msg)
         return task_details
 
     def get_tasks_by_id(self, task_id):
@@ -1045,23 +1054,32 @@ class DnacBase():
             Call the API 'get_tasks_by_id' to get the status of the task.
             Return the details along with the status of the task.
         """
-        # Need to handle exception
+
         task_status = None
-        response = self.dnac._exec(
-            family="task",
-            function="get_tasks_by_id",
-            params={"id": task_id}
-        )
-        self.log('Task Details: {response}'.format(response=response), 'DEBUG')
-        self.log("Retrieving task details by the API 'get_tasks_by_id' using task ID: {task_id}, Response: {response}"
-                 .format(task_id=task_id, response=response), "DEBUG")
+        try:
+            response = self.dnac._exec(
+                family="task",
+                function="get_tasks_by_id",
+                params={"id": task_id}
+            )
+            self.log('Task Details: {response}'.format(response=response), 'DEBUG')
+            self.log("Retrieving task details by the API 'get_tasks_by_id' using task ID: {task_id}, Response: {response}"
+                     .format(task_id=task_id, response=response), "DEBUG")
 
-        if not isinstance(response, dict):
-            self.log("Failed to retrieve task details for task ID: {}".format(task_id), "ERROR")
-            return task_status
+            if not isinstance(response, dict):
+                self.log("Failed to retrieve task details for task ID: {}".format(task_id), "ERROR")
+                return task_status
 
-        task_status = response.get('response')
-        self.log("Task Status: {task_status}".format(task_status=task_status), "DEBUG")
+            task_status = response.get('response')
+            self.log("Task Status: {task_status}".format(task_status=task_status), "DEBUG")
+        except Exception as e:
+            # Log an error message and fail if an exception occurs
+            self.log_traceback()
+            self.msg = (
+                "An error occurred while executing API call to Function: 'get_tasks_by_id' "
+                "due to the the following exception: {0}.".format(str(e))
+            )
+            self.fail_and_exit(self.msg)
         return task_status
 
     def check_tasks_response_status(self, response, api_name):
@@ -1209,6 +1227,7 @@ class DnacBase():
         """
         try:
             self.log("Entered {0} method".format(api_function), "DEBUG")
+            self.log("Requested payload for the the function: '{0}' is: '{1}'".format(api_function, api_parameters), "INFO")
 
             # Execute the API call
             response = self.dnac._exec(
@@ -1254,7 +1273,7 @@ class DnacBase():
             )
             self.fail_and_exit(self.msg)
 
-    def get_task_status_from_tasks_by_id(self, task_id, task_name, task_params, success_msg):
+    def get_task_status_from_tasks_by_id(self, task_id, task_name, success_msg):
         """
         Retrieves and monitors the status of a task by its task ID.
 
@@ -1265,7 +1284,6 @@ class DnacBase():
         Parameters:
         - task_id (str): The unique identifier of the task to monitor.
         - task_name (str): The name of the task being monitored.
-        - task_params (dict): Additional parameters related to the task.
         - success_msg (str): The success message to set if the task completes successfully.
 
         Returns:
@@ -1293,11 +1311,16 @@ class DnacBase():
             if end_time:
                 if status == "FAILURE":
                     get_task_details_response = self.get_task_details_by_id(task_id)
-                    failure_reason = get_task_details_response.get("failureReason", "Unknown reason")
-                    self.msg = (
-                        "Task {0} failed with Task ID: {1} for parameters: {2}. "
-                        "Failure reason: {3}".format(task_name, task_id, task_params, failure_reason)
-                    )
+                    failure_reason = get_task_details_response.get("failureReason")
+                    if failure_reason:
+                        self.msg = (
+                            "Failed to execute the task {0} with Task ID: {1}."
+                            "Failure reason: {2}".format(task_name, task_id, failure_reason)
+                        )
+                    else:
+                        self.msg = (
+                            "Failed to execute the task {0} with Task ID: {1}.".format(task_name, task_id)
+                        ).format(task_name, task_id)
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     break
                 elif status == "SUCCESS":
