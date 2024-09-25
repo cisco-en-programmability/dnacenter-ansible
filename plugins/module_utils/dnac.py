@@ -35,6 +35,7 @@ import inspect
 import re
 import socket
 import time
+import traceback
 
 
 class DnacBase():
@@ -74,6 +75,22 @@ class DnacBase():
                                         }
         self.dnac_log = dnac_params.get("dnac_log")
         self.max_timeout = self.params.get('dnac_api_task_timeout')
+
+        self.payload = module.params
+        self.dnac_version = int(self.payload.get("dnac_version").replace(".", ""))
+        # Dictionary to store multiple versions for easy maintenance and scalability
+        # To add a new version, simply update the 'dnac_versions' dictionary with the new version string as the key
+        # and the corresponding version number as the value.
+        self.dnac_versions = {
+            "2.3.5.3": 2353,
+            "2.3.7.6": 2376,
+            "2.2.3.3": 2233
+            # Add new versions here, e.g., "2.4.0.0": 2400
+        }
+
+        # Dynamically create variables based on dictionary keys
+        for version_key, version_value in self.dnac_versions.items():
+            setattr(self, "version_" + version_key.replace(".", "_"), version_value)
 
         if self.dnac_log and not DnacBase.__is_log_init:
             self.dnac_log_level = dnac_params.get("dnac_log_level") or 'WARNING'
@@ -527,6 +544,96 @@ class DnacBase():
             pass
         return None
 
+    def get_site_id(self, site_name):
+        """
+        Retrieve the site ID and check if the site exists in Cisco Catalyst Center based on the provided site name.
+
+        Args:
+            - site_name (str): The name or hierarchy of the site to be retrieved.
+
+        Returns:
+            - tuple (bool, str or None): A tuple containing:
+                1. A boolean indicating whether the site exists (True if found, False otherwise).
+                2. The site ID (str) if the site exists, or None if the site does not exist or an error occurs.
+
+        Criteria:
+            - This function calls `get_site()` to retrieve site details from the Cisco Catalyst Center SDK.
+            - If the site exists, its ID is extracted from the response and returned.
+            - If the site does not exist or if an error occurs, an error message is logged, and the function returns a status of 'failed'.
+        """
+
+        try:
+            response = self.get_site(site_name)
+            if response is None:
+                raise ValueError
+            self.log("Received API response from 'get_site': {0}".format(str(response)), "DEBUG")
+            site = response.get("response")
+            site_id = site[0].get("id")
+            site_exists = True
+
+        except Exception as e:
+            self.status = "failed"
+            self.msg = ("An exception occurred: Site '{0}' does not exist in the Cisco Catalyst Center.".format(site_name))
+            self.result['response'] = self.msg
+            self.log(self.msg, "ERROR")
+            self.check_return_status()
+
+        return (site_exists, site_id)
+
+    def get_site(self, site_name):
+        """
+        Retrieve site details from Cisco Catalyst Center based on the provided site name.
+        Args:
+            - site_name (str): The name or hierarchy of the site to be retrieved.
+        Returns:
+            - response (dict or None): The response from the API call, typically a dictionary containing site details.
+                                    Returns None if an error occurs or if the response is empty.
+        Criteria:
+            - This function uses the Cisco Catalyst Center SDK to execute the 'get_sites' function from the 'site_design' family.
+            - If the response is empty, a warning is logged.
+            - Any exceptions during the API call are caught, logged as errors, and the function returns None.
+        """
+
+        if self.dnac_version <= self.version_2_3_5_3:
+            try:
+                response = self.dnac._exec(
+                    family="sites",
+                    function='get_site',
+                    op_modifies=True,
+                    params={"name": site_name},
+                )
+
+                if not response:
+                    self.log("The response from 'get_site' is empty.", "WARNING")
+                    return None
+
+                self.log("Received API response from 'get_site': {0}".format(str(response)), "DEBUG")
+                return response
+
+            except Exception as e:
+                self.log("An error occurred in 'get_site':{0}".format(e), "ERROR")
+                return None
+
+        else:
+            try:
+                response = self.dnac._exec(
+                    family="site_design",
+                    function='get_sites',
+                    op_modifies=True,
+                    params={"name_hierarchy": site_name},
+                )
+
+                if not response:
+                    self.log("The response from 'get_sites' is empty.", "WARNING")
+                    return None
+
+                self.log("Received API response from 'get_sites': {0}".format(str(response)), "DEBUG")
+                return response
+
+            except Exception as e:
+                self.log("An error occurred in 'get_sites':{0}".format(e), "ERROR")
+                return None
+
     def generate_key(self):
         """
         Generate a new encryption key using Fernet.
@@ -895,7 +1002,7 @@ class DnacBase():
             Call the API 'get_task_details_by_id' to get the details along with the
             failure reason. Return the details.
         """
-
+        # Need to handle exception
         task_details = None
         response = self.dnac._exec(
             family="task",
@@ -924,7 +1031,7 @@ class DnacBase():
             Call the API 'get_tasks_by_id' to get the status of the task.
             Return the details along with the status of the task.
         """
-
+        # Need to handle exception
         task_status = None
         response = self.dnac._exec(
             family="task",
@@ -945,7 +1052,7 @@ class DnacBase():
 
     def check_tasks_response_status(self, response, api_name):
         """
-        Get the site id from the site name.
+        Get the task response status from taskId
 
         Parameters:
             self: The current object details.
@@ -1007,6 +1114,184 @@ class DnacBase():
             self.log("Progress is {status} for task ID: {task_id}"
                      .format(status=task_status, task_id=task_id), "DEBUG")
 
+        return self
+
+    def set_operation_result(self, operation_status, is_changed, status_message, log_level, additional_info=None):
+        """
+        Update the result of the operation with the provided status, message, and log level.
+        Parameters:
+            - operation_status (str): The status of the operation ("success" or "failed").
+            - is_changed (bool): Indicates whether the operation caused changes.
+            - status_message (str): The message describing the result of the operation.
+            - log_level (str): The log level at which the message should be logged ("INFO", "ERROR", "CRITICAL", etc.).
+            - additional_info (dict, optional): Additional data related to the operation result.
+        Returns:
+            self (object): An instance of the class.
+        Note:
+            - If the status is "failed", the "failed" key in the result dictionary will be set to True.
+            - If data is provided, it will be included in the result dictionary.
+        """
+        # Update the result attributes with the provided values
+        self.status = operation_status
+        self.result.update({
+            "status": operation_status,
+            "msg": status_message,
+            "response": status_message,
+            "changed": is_changed,
+            "failed": operation_status == "failed",
+            "data": additional_info or {}  # Include additional_info if provided, else an empty dictionary
+        })
+
+        # Log the message at the specified log level
+        self.log(status_message, log_level)
+
+        return self
+
+    def fail_and_exit(self, msg):
+        """Helper method to update the result as failed and exit."""
+        self.set_operation_result("failed", False, msg, "ERROR")
+        self.check_return_status()
+
+    def log_traceback(self):
+        """
+        Logs the full traceback of the current exception.
+        """
+        # Capture the full traceback
+        full_traceback = traceback.format_exc()
+
+        # Log the traceback
+        self.log("Traceback: {0}".format(full_traceback), "DEBUG")
+
+    def check_timeout_and_exit(self, loop_start_time, task_id, task_name):
+        """
+        Check if the elapsed time exceeds the specified timeout period and exit the while loop if it does.
+        Parameters:
+            - loop_start_time (float): The time when the while loop started.
+            - task_id (str): ID of the task being monitored.
+            - task_name (str): Name of the task being monitored.
+        Returns:
+            bool: True if the elapsed time exceeds the timeout period, False otherwise.
+        """
+        # If the elapsed time exceeds the timeout period
+        elapsed_time = time.time() - loop_start_time
+        if elapsed_time > self.params.get("dnac_api_task_timeout"):
+            self.msg = "Task {0} with task id {1} has not completed within the timeout period of {2} seconds.".format(
+                task_name, task_id, int(elapsed_time))
+
+            # Update the result with failure status and log the error message
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return True
+
+        return False
+
+    def get_taskid_post_api_call(self, api_family, api_function, api_parameters):
+        """
+        Executes the specified API call with given parameters and logs responses.
+
+        Parameters:
+            api_family (str): The API family (e.g., "sda").
+            api_function (str): The API function (e.g., "add_port_assignments").
+            api_parameters (dict): The parameters for the API call.
+        """
+        try:
+            self.log("Entered {0} method".format(api_function), "DEBUG")
+
+            # Execute the API call
+            response = self.dnac._exec(
+                family=api_family,
+                function=api_function,
+                op_modifies=True,
+                params=api_parameters,
+            )
+
+            self.log(
+                "Response received from API call to Function: '{0}' from Family: '{1}' is Response: {2}".format(
+                    api_function, api_family, str(response)
+                ),
+                "DEBUG"
+            )
+
+            # Process the response if available
+            response_data = response.get("response")
+            if not response_data:
+                self.log(
+                    "No response received from API call to Function: '{0}' from Family: '{1}'.".format(
+                        api_function, api_family
+                    ), "WARNING"
+                )
+                return None
+
+            # Update result and extract task ID
+            self.result.update(dict(response=response_data))
+            task_id = response_data.get("taskId")
+            self.log(
+                "Task ID received from API call to Function: '{0}' from Family: '{1}', Task ID: {2}".format(
+                    api_function, api_family, task_id
+                ), "INFO"
+            )
+            return task_id
+
+        except Exception as e:
+            # Log an error message and fail if an exception occurs
+            self.log_traceback()
+            self.msg = (
+                "An error occurred while executing API call to Function: '{0}' from Family: '{1}'. "
+                "Parameters: {2}. Exception: {3}.".format(api_function, api_family, api_parameters, str(e))
+            )
+            self.fail_and_exit(self.msg)
+
+    def get_task_status_from_tasks_by_id(self, task_id, task_name, task_params, success_msg):
+        """
+        Retrieves and monitors the status of a task by its task ID.
+
+        This function continuously checks the status of a specified task using its task ID.
+        If the task completes successfully, it updates the message and status accordingly.
+        If the task fails or times out, it handles the error and updates the status and message.
+
+        Parameters:
+        - task_id (str): The unique identifier of the task to monitor.
+        - task_name (str): The name of the task being monitored.
+        - task_params (dict): Additional parameters related to the task.
+        - success_msg (str): The success message to set if the task completes successfully.
+
+        Returns:
+        - self: The instance of the class with updated status and message.
+        """
+        loop_start_time = time.time()
+
+        while True:
+            response = self.get_tasks_by_id(task_id)
+
+            # Check if response is returned
+            if not response:
+                self.msg = "Error retrieving task status for '{0}' with task_id '{1}'".format(task_name, task_id)
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                break
+
+            status = response.get("status")
+            end_time = response.get("endTime")
+
+            # Check if the elapsed time exceeds the timeout
+            if self.check_timeout_and_exit(loop_start_time, task_id, task_name):
+                break
+
+            # Check if the task has completed (either success or failure)
+            if end_time:
+                if status == "FAILURE":
+                    get_task_details_response = self.get_task_details_by_id(task_id)
+                    failure_reason = get_task_details_response.get("failureReason", "Unknown reason")
+                    self.msg = (
+                        "Task {0} failed with Task ID: {1} for parameters: {2}. "
+                        "Failure reason: {3}".format(task_name, task_id, task_params, failure_reason)
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    break
+                elif status == "SUCCESS":
+                    self.msg = success_msg
+                    self.set_operation_result("success", True, self.msg, "INFO")
+                    break
+
+            time.sleep(self.params.get("dnac_task_poll_interval"))
         return self
 
 
@@ -1121,7 +1406,7 @@ def validate_str(item, param_spec, param_name, invalid_params):
     Example `param_spec`:
         {
             "type": "str",
-            "length_max": 255  # Optional: maximum allowed length
+            "length_max": 255 # Optional: maximum allowed length
         }
     """
 

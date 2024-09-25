@@ -66,6 +66,14 @@ options:
                 and a minimum length of 8 characters.
               - Required for creating a new user account.
             type: str
+          password_update:
+            description:
+              - Indicates whether the password should be updated.
+              - Set to `true` to trigger a password update.
+              - Required if a password change is necessary; must be explicitly set to `true` to initiate the update process.
+              - If no update is needed, omit this parameter or set it to `false`.
+              - Ensure this parameter is correctly set to avoid unnecessary updates or errors.
+            type: str
           role_list:
             description:
               - A list of role names to be assigned to the user. If no role is specified, the default role will be "OBSERVER-ROLE".
@@ -479,7 +487,7 @@ EXAMPLES = r"""
           first_name: "ajith"
           last_name: "andrew"
           email: "ajith.andrew@example.com"
-          password: "Ajith@123"
+          password: "Example@0101"
           role_list: ["SUPER-ADMIN-ROLE"]
 
 - name: Update a user for first name, last name, email, and role list
@@ -524,6 +532,27 @@ EXAMPLES = r"""
       user_details:
         - username: "ajithandrewj"
           role_list: ["NETWORK-ADMIN-ROLE"]
+
+- name: Update the user password
+  cisco.dnac.user_role_workflow_manager:
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log: True
+    dnac_log_level: DEBUG
+    config_verify: True
+    dnac_api_task_timeout: 1000
+    dnac_task_poll_interval: 1
+    state: merged
+    config:
+      user_details:
+        - username: "ajithandrewj"
+          password: "Example@010101"
+          password_update: True
 
 - name: Delete a user using username or email address
   cisco.dnac.user_role_workflow_manager:
@@ -951,10 +980,19 @@ class UserandRole(DnacBase):
                     "last_name": {"required": False, "type": "str"},
                     "email": {"required": False, "type": "str"},
                     "password": {"required": False, "type": "str"},
+                    "password_update": {"required": False, "type": "bool"},
                     "username": {"required": False, "type": "str"},
                     "role_list": {"required": False, "type": "list", "elements": "str"},
                 }
-                valid_param, invalid_param = validate_list_of_dicts(user_role_details, user_details)
+
+                try:
+                    valid_param, invalid_param = validate_list_of_dicts(user_role_details, user_details)
+                except Exception as e:
+                    self.log("Unexpected error occurred: {0}".format(str(e)), "ERROR")
+                    self.msg = "{0}.".format(str(e).split('.', maxsplit=1)[0])
+                    self.log(self.msg, "ERROR")
+                    self.status = "failed"
+                    return self
 
                 if invalid_param:
                     self.msg = "Invalid parameter(s) found in playbook: {0}".format(", ".join(invalid_param))
@@ -1379,27 +1417,45 @@ class UserandRole(DnacBase):
                 self.valid_user_config_parameters(config).check_return_status()
                 (consolidated_data, update_required_param) = self.user_requires_update(self.have["current_user_config"], self.have["current_role_id_config"])
 
-                if not consolidated_data:
-                    self.msg = "User with username '{0}' already exists and does not require an update.".format(self.have.get("username"))
-                    self.no_update_user.append(self.have.get("username"))
-                    self.log(self.msg, "INFO")
-                    responses["role_operation"] = {"response": config}
-                    self.result["response"] = self.msg
-                    self.status = "success"
-                    return self
-
-                if update_required_param.get("role_list"):
-                    if self.want["username"] not in self.have["current_user_config"]["username"]:
-                        task_response = {"error_message": "Username for an existing user cannot be updated."}
+                if self.want.get("password_update"):
+                    if update_required_param.get("role_list"):
+                        if self.want["username"] not in self.have["current_user_config"]["username"]:
+                            task_response = {"error_message": "Username for an existing user cannot be updated."}
+                        else:
+                            self.get_diff_deleted(self.want)
+                            update_required_param["password"] = self.want.get("password")
+                            user_info_params = self.snake_to_camel_case(update_required_param)
+                            task_response = self.create_user(user_info_params)
                     else:
-                        user_in_have = self.have["current_user_config"]
-                        update_param = update_required_param
-                        update_param["user_id"] = user_in_have.get("user_id")
-                        user_info_params = self.snake_to_camel_case(update_param)
-                        task_response = self.update_user(user_info_params)
+                        task_response = {
+                            "error_message": "The role name in the 'role_list' of user details is not present in the Cisco Catalyst Center. "
+                                             "Please provide a valid role name."
+                        }
                 else:
-                    task_response = {"error_message": "The role name in the user details role_list is not present in the Cisco Catalyst Center,"
-                                     " Please provide a valid role name"}
+                    if not consolidated_data:
+                        username = self.have.get("username")
+                        self.msg = "User with username '{0}' already exists and does not require an update.".format(username)
+                        self.no_update_user.append(username)
+                        self.log(self.msg, "INFO")
+                        responses["role_operation"] = {"response": config}
+                        self.result["response"] = self.msg
+                        self.status = "success"
+                        return self
+
+                    if update_required_param.get("role_list"):
+                        if self.want["username"] not in self.have["current_user_config"]["username"]:
+                            task_response = {"error_message": "Username for an existing user cannot be updated."}
+                        else:
+                            user_in_have = self.have["current_user_config"]
+                            update_param = update_required_param
+                            update_param["user_id"] = user_in_have.get("user_id")
+                            user_info_params = self.snake_to_camel_case(update_param)
+                            task_response = self.update_user(user_info_params)
+                    else:
+                        task_response = {
+                            "error_message": "The role name in the user details 'role_list' is not present in the Cisco Catalyst Center. "
+                                             "Please provide a valid role name."
+                        }
             else:
                 # Create the user
                 self.valid_user_config_parameters(config).check_return_status()
@@ -3152,8 +3208,13 @@ class UserandRole(DnacBase):
         self.result["changed"] = False
         result_msg_list = []
 
+        if self.want.get("password_update") is not True:
+            update_action = "created"
+        else:
+            update_action = "updated"
+
         if self.created_user:
-            create_user_msg = "User(s) '{0}' created successfully in Cisco Catalyst Center.".format("', '".join(self.created_user))
+            create_user_msg = "User(s) '{0}' {1} successfully in Cisco Catalyst Center.".format("', '".join(self.created_user), update_action)
             result_msg_list.append(create_user_msg)
 
         if self.updated_user:
@@ -3164,9 +3225,10 @@ class UserandRole(DnacBase):
             no_update_user_msg = "User(s) '{0}' need no update in Cisco Catalyst Center.".format("', '".join(self.no_update_user))
             result_msg_list.append(no_update_user_msg)
 
-        if self.deleted_user:
-            delete_user_msg = "User(s) '{0}' deleted successfully from the Cisco Catalyst Center.".format("', '".join(self.deleted_user))
-            result_msg_list.append(delete_user_msg)
+        if self.payload.get("state") == "deleted":
+            if self.deleted_user:
+                delete_user_msg = "User(s) '{0}' deleted successfully from the Cisco Catalyst Center.".format("', '".join(self.deleted_user))
+                result_msg_list.append(delete_user_msg)
 
         if self.created_role:
             create_role_msg = "Role(s) '{0}' created successfully in Cisco Catalyst Center.".format("', '".join(self.created_role))
@@ -3233,6 +3295,33 @@ class UserandRole(DnacBase):
 
             return camel_case_data
 
+    def process_config_details(self, config_type, state):
+        """
+        Process and apply configuration changes based on a given configuration type and desired state.
+
+        Parameters:
+            - config_type (str): The configuration type to be processed, found in the "config" section of the payload.
+            - state (str): The target state for the configuration (e.g., "present" or "absent").
+
+        Description:
+            - This method first checks if the `config_type` exists in the payload and validates its configuration.
+            - For each validated configuration, it resets internal values, retrieves the desired (want) and current (have) states,
+              and applies the necessary changes based on the `state`.
+            - If `config_verify` is enabled, it verifies that the changes have been correctly applied.
+        """
+        if config_type in self.payload.get("config"):
+            self.validate_input_yml(self.payload.get("config").get(config_type)).check_return_status()
+            config_verify = self.payload.get("config_verify")
+
+            for config in self.validated_config:
+                self.reset_values()
+                self.get_want(config).check_return_status()
+                self.get_have(config).check_return_status()
+                self.get_diff_state_apply[state](config).check_return_status()
+
+                if config_verify:
+                    self.verify_diff_state_apply[state](config).check_return_status()
+
 
 def main():
     """ main entry point for module execution
@@ -3265,31 +3354,12 @@ def main():
     ccc_user_role = UserandRole(module)
     state = ccc_user_role.params.get("state")
 
-    if "role_details" in ccc_user_role.params.get("config"):
-        ccc_user_role.validate_input_yml(ccc_user_role.params.get("config").get("role_details")).check_return_status()
-        config_verify = ccc_user_role.params.get("config_verify")
-
-        for config in ccc_user_role.validated_config:
-            ccc_user_role.reset_values()
-            ccc_user_role.get_want(config).check_return_status()
-            ccc_user_role.get_have(config).check_return_status()
-            ccc_user_role.get_diff_state_apply[state](config).check_return_status()
-
-            if config_verify:
-                ccc_user_role.verify_diff_state_apply[state](config).check_return_status()
-
-    if "user_details" in ccc_user_role.params.get("config"):
-        ccc_user_role.validate_input_yml(ccc_user_role.params.get("config").get("user_details")).check_return_status()
-        config_verify = ccc_user_role.params.get("config_verify")
-
-        for config in ccc_user_role.validated_config:
-            ccc_user_role.reset_values()
-            ccc_user_role.get_want(config).check_return_status()
-            ccc_user_role.get_have(config).check_return_status()
-            ccc_user_role.get_diff_state_apply[state](config).check_return_status()
-
-            if config_verify:
-                ccc_user_role.verify_diff_state_apply[state](config).check_return_status()
+    if state == "merged":
+        ccc_user_role.process_config_details("role_details", state)
+        ccc_user_role.process_config_details("user_details", state)
+    else:
+        ccc_user_role.process_config_details("user_details", state)
+        ccc_user_role.process_config_details("role_details", state)
 
     ccc_user_role.update_user_role_profile_messages().check_return_status()
 

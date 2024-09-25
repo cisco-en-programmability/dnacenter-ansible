@@ -344,7 +344,8 @@ jobs:
             export NO_PROXY=""
             export no_proxy=""
             ssh $LOGS_MACHINE -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ~/id_ssh mkdir -p /var/www/html/madhan-logs/$CIRCLE_BUILD_NUM
-            scp -i ~/id_ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null sanity_tests_logs_$CIRCLE_NODE_INDEX $LOGS_MACHINE:/var/www/html/madhan-logs/$CIRCLE_BUILD_NUM
+            scp -i ~/id_ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+              sanity_tests_logs_$CIRCLE_NODE_INDEX $LOGS_MACHINE:/var/www/html/madhan-logs/$CIRCLE_BUILD_NUM
             echo "LOGS URL: http://10.195.243.37/madhan-logs/$CIRCLE_BUILD_NUM/sanity_tests_logs_$CIRCLE_NODE_INDEX"
             if [[ $(cat rc) != "0" ]]; then exit 1; fi
 
@@ -375,7 +376,11 @@ jobs:
           name: Create release pr to main
           command: |
             gh repo set-default $CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME
-            gh pr create --base main --head $CIRCLE_BRANCH --title "Release v<< pipeline.parameters.ansible_cisco_dnac_version >>" --body "Release v<< pipeline.parameters.ansible_cisco_dnac_version >>"
+            gh pr create \
+              --base main \
+              --head $CIRCLE_BRANCH \
+              --title "Release v<< pipeline.parameters.ansible_cisco_dnac_version >>" \
+              --body "Release v<< pipeline.parameters.ansible_cisco_dnac_version >>"
 
   release-job:
     docker:
@@ -396,8 +401,12 @@ jobs:
       #       - "KEY_FINGERPRINT"
       - run:
           echo create release
-          # git tag -a v<< pipeline.parameters.ansible_cisco_dnac_version >> -m "Ansible DNACCollection Version v<< pipeline.parameters.ansible_cisco_dnac_version >>"
-          # gh release create "v<< pipeline.parameters.ansible_cisco_dnac_version >>" --title "DNAC Collection Version v<< pipeline.parameters.ansible_cisco_dnac_version >>" --latest
+          # git tag \
+          #  -a v<< pipeline.parameters.ansible_cisco_dnac_version >> \
+          #  -m "Ansible DNACCollection Version v<< pipeline.parameters.ansible_cisco_dnac_version >>"
+          # gh release create "v<< pipeline.parameters.ansible_cisco_dnac_version >>" \
+          #    --title "DNAC Collection Version v<< pipeline.parameters.ansible_cisco_dnac_version >>" \
+          #    --latest
           # ansible-galaxy collection publish workspace/*.tar.gz --api-key=$GALAXYKEY
 
 workflows:
