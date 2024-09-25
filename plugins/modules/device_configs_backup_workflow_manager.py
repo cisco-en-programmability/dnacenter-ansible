@@ -501,41 +501,41 @@ class Device_configs_backup(DnacBase):
 
         return self
 
-    # def validate_site_exists(self, site_name):
-    #     """
-    #     Checks the existence of a site in Cisco Catalyst Center.
-    #     Parameters:
-    #         site_name (str): The name of the site to be checked.
-    #     Returns:
-    #         tuple: A tuple containing two values:
-    #         - site_exists (bool): Indicates whether the site exists (True) or not (False).
-    #         - site_id (str or None): The ID of the site if it exists, or None if the site is not found.
-    #     Description:
-    #         This method queries Cisco Catalyst Center to determine if a site with the provided name exists.
-    #         If the site is found, it sets "site_exists" to True and retrieves the sites ID.
-    #         If the site does not exist, "site_exists" is set to False, and "site_id" is None.
-    #         If an exception occurs during the site lookup, an error message is logged, and the module fails.
-    #     """
-    #     site_exists = False
-    #     site_id = None
-    #     response = None
+    def validate_site_exists(self, site_name):
+        """
+        Checks the existence of a site in Cisco Catalyst Center.
+        Parameters:
+            site_name (str): The name of the site to be checked.
+        Returns:
+            tuple: A tuple containing two values:
+            - site_exists (bool): Indicates whether the site exists (True) or not (False).
+            - site_id (str or None): The ID of the site if it exists, or None if the site is not found.
+        Description:
+            This method queries Cisco Catalyst Center to determine if a site with the provided name exists.
+            If the site is found, it sets "site_exists" to True and retrieves the sites ID.
+            If the site does not exist, "site_exists" is set to False, and "site_id" is None.
+            If an exception occurs during the site lookup, an error message is logged, and the module fails.
+        """
+        site_exists = False
+        site_id = None
+        response = None
 
-    #     try:
-    #         response = self.get_site(site_name)
-    #         if response is None:
-    #             raise ValueError
-    #         site = response.get("response")
-    #         site_id = site[0].get("id")
-    #         site_exists = True
+        try:
+            response = self.get_site(site_name)
+            if response is None:
+                raise ValueError
+            site = response.get("response")
+            site_id = site[0].get("id")
+            site_exists = True
 
-    #     except Exception as e:
-    #         self.status = "failed"
-    #         self.msg = ("An exception occurred: Site '{0}' does not exist in the Cisco Catalyst Center.".format(site_name))
-    #         self.result['response'] = self.msg
-    #         self.log(self.msg, "ERROR")
-    #         self.check_return_status()
+        except Exception as e:
+            self.status = "failed"
+            self.msg = ("An exception occurred: Site '{0}' does not exist in the Cisco Catalyst Center.".format(site_name))
+            self.result['response'] = self.msg
+            self.log(self.msg, "ERROR")
+            self.check_return_status()
 
-    #     return (site_exists, site_id)
+        return (site_exists, site_id)
 
     # def get_device_ids_from_site(self, site_name, site_id):
     #     """
@@ -568,7 +568,8 @@ class Device_configs_backup(DnacBase):
     #                 op_modifies=True,
     #                 params=site_params,
     #             )
-    #             self.log("Response received post 'get_membership' API Call: {0}".format(str(response)), "DEBUG")
+    #             self.log(response)
+    #             self.log("Response received post 'get_membership' API Call: {0}".format(str(self.pprint(response))), "DEBUG")
 
     #             devices = response.get("device", [])
     #             for item in devices:
@@ -766,7 +767,7 @@ class Device_configs_backup(DnacBase):
             for site_name in unique_sites:
                 (site_exists, site_id) = self.get_site_id(site_name)
                 if site_exists:
-                    site_mgmt_ip_to_instance_id_map = self.get_device_ids_from_site(site_name, site_id)
+                    site_mgmt_ip_to_instance_id_map = self.get_device_ip_from_device_id(site_id)
                     self.log("Retrieved following Device Id(s) of device(s): {0} from the provided site: {1}".format(
                         site_mgmt_ip_to_instance_id_map, site_name), "DEBUG")
                     mgmt_ip_to_instance_id_map.update(site_mgmt_ip_to_instance_id_map)
