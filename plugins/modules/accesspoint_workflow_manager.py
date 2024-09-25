@@ -518,7 +518,7 @@ options:
         required: False
       reboot_ap:
         description: Reboot one or more access points identified by the MAC Address list.
-        type: list
+        type: str
         required: False
         suboptions:
           mac_address:
