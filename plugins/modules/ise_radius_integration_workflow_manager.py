@@ -1737,11 +1737,11 @@ def main():
     # Create an AnsibleModule object with argument specifications
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=False)
     ccc_ise_radius = IseRadiusIntegration(module)
-    if ccc_ise_radius.get_dnac_version_int() <= ccc_ise_radius.version_2_3_5_3:
+    if ccc_ise_radius.get_ccc_version_as_integer() <= ccc_ise_radius.version_2_3_5_3:
         ccc_ise_radius.msg = (
             "The provided Catalyst Center Version {ccc_version} does not support this workflow. "
             "This workflow support starts from Catalyst Center Release {supported_version} onwards."
-            .format(ccc_version=ccc_ise_radius.get_dnac_version(), supported_version="2.3.5.3")
+            .format(ccc_version=ccc_ise_radius.get_ccc_version_as_string(), supported_version="2.3.5.3")
         )
         ccc_ise_radius.status = "failed"
         ccc_ise_radius.check_return_status()
