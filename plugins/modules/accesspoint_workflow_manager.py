@@ -516,6 +516,20 @@ options:
           (eg. "mac_address,eth_mac,ap_name,led_brightness_level,led_status,location,radioDTOs")
         type: str
         required: False
+      reboot_ap:
+        description: Reboot single or multiple access point given by the MAC Address list.
+        type: list
+        required: False
+        suboptions:
+          mac_address:
+            description: |
+              The MAC address used to identify the device. If provided, it cannot be modified.
+              To identify the specific access point, at least one of the following parameters is required.
+              - mac_address
+              - hostname
+              - management_ip_address
+            type: str
+            required: True
 
 requirements:
   - dnacentersdk >= 2.7.2
@@ -932,6 +946,25 @@ EXAMPLES = r"""
               radio_band: "6 GHz"
               channel_width: "40 MHz"
       register: output_list
+
+    - name: Reboot single or multiple access point
+      cisco.dnac.accesspoint_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: True
+        dnac_log_level: DEBUG
+        config_verify: True
+        state: merged
+        config:
+          - reboot_ap:
+            - mac_address: 6c:d6:e3:75:5a:e0
+            - mac_address: e4:38:7e:42:bc:00
+      register: output_list
 """
 
 RETURN = r"""
@@ -977,7 +1010,7 @@ response_2:
 """
 
 
-import time
+import time, ast
 import re
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
@@ -1010,8 +1043,8 @@ class Accesspoint(DnacBase):
                            124, 128, 132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173),
             "6ghz_radio": list(range(1, 234, 4))
         }
-        self.dnac_version = int(self.payload.get("dnac_version").replace(".", ""))
-        self.version_2_3_5_3, self.version_2_3_7_6 = 2353, 2376
+        #self.dnac_version = int(self.payload.get("dnac_version").replace(".", ""))
+        #self.version_2_3_5_3, self.version_2_3_7_6 = 2353, 2376
 
     def validate_input_yml(self):
         """
@@ -1071,6 +1104,7 @@ class Accesspoint(DnacBase):
             "6ghz_radio": {"required": False, "type": "dict"},
             "xor_radio": {"required": False, "type": "dict"},
             "tri_radio": {"required": False, "type": "dict"},
+            "reboot_ap": {"required": False, "type": "str"},
             "ap_selected_fields": {"required": False, "type": "str"},
             "ap_config_selected_fields": {"required": False, "type": "str"}
         }
@@ -2035,69 +2069,36 @@ class Accesspoint(DnacBase):
             site_name = parent_name + "/" + floor_name
             self.want["site_name"] = site_name
             try:
-                if self.dnac_version <= self.version_2_3_5_3:
-                    response = self.dnac._exec(
-                        family="sites",
-                        function='get_site',
-                        op_modifies=True,
-                        params={"name": site_name},
-                    )
-                    if response.get("response"):
-                        site = response["response"][0]
-                        self.log("Site response: {0}".format(self.pprint(site)), "INFO")
+                response = self.get_site(site_name)
+                if response.get("response"):
+                    site = response["response"][0]
+                    self.log("Site response: {0}".format(self.pprint(site)), "INFO")
+
+                    if self.dnac_version <= self.dnac_versions["2.3.5.3"]:
                         location = get_dict_result(site.get("additionalInfo"), 'nameSpace', "Location")
                         type_info = location.get("attributes", {}).get("type")
-
-                        if type_info == "floor":
-                            site_info = {
-                                "floor": {
-                                    "name": site.get("name"),
-                                    "parentName": site.get("siteNameHierarchy").split(
-                                        "/" + site.get("name"))[0]
-                                }
-                            }
-
-                        current_site = {
-                            "type": type_info,
-                            "site": site_info,
-                            "site_id": site.get("id"),
-                            "site_name": site_info["floor"]["parentName"] + "/" + site_info["floor"]["name"]
-                        }
-                        self.log('Current site details: {0}'.format(str(current_site)), "INFO")
-                        self.log("Site '{0}' exists in Cisco Catalyst Center".format(site.get("name")), "INFO")
-                        site_exists = True
-
-                else:
-                    response = self.dnac._exec(
-                        family="site_design",
-                        function='get_sites',
-                        op_modifies=True,
-                        params={"nameHierarchy": site_name},
-                    )
-                    if response.get("response"):
-                        site = response["response"][0]
-                        self.log("Site response: {0}".format(self.pprint(site)), "INFO")
+                        parent_name = site.get("siteNameHierarchy").split("/" + site.get("name"))[0]
+                    else:
                         type_info = site.get("type")
+                        parent_name = site.get("nameHierarchy").split("/" + site.get("name"))[0]
 
-                        if type_info == "floor":
-                            site_info = {
-                                "floor": {
-                                    "name": site.get("name"),
-                                    "parentName": site.get("nameHierarchy").split(
-                                        "/" + site.get("name"))[0]
-                                }
+                    if type_info == "floor":
+                        site_info = {
+                            "floor": {
+                                "name": site.get("name"),
+                                "parentName": parent_name
                             }
+                        }
 
-                        current_site = {
+                    current_site = {
                             "type": type_info,
                             "site": site_info,
                             "site_id": site.get("id"),
                             "site_name": site_info["floor"]["parentName"] + "/" + site_info["floor"]["name"]
                         }
-                        self.log('Current site details: {0}'.format(str(current_site)), "INFO")
-                        self.log("Site '{0}' exists in Cisco Catalyst Center".format(site.get("name")), "INFO")
-                        site_exists = True
-
+                    self.log('Current site details: {0}'.format(str(current_site)), "INFO")
+                    self.log("Site '{0}' exists in Cisco Catalyst Center".format(site.get("name")), "INFO")
+                    site_exists = True
             except Exception as e:
                 msg = "The provided site name '{0}' is either invalid or not present in the \
                         Cisco Catalyst Center.".format(self.want.get("site_name"))
@@ -2130,7 +2131,7 @@ class Accesspoint(DnacBase):
             not found or if an error occurs during the API call, it returns False.
         """
         try:
-            if self.dnac_version <= self.version_2_3_5_3:
+            if self.dnac_version <= self.dnac_versions["2.3.5.3"]:
                 response = self.dnac._exec(
                     family="sites",
                     function="get_membership",
@@ -2239,9 +2240,18 @@ class Accesspoint(DnacBase):
 
     def assign_device_to_site(self):
         """
-        Assigning the site to
-        """
+        Assign the Device to the Site
 
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+
+        Returns:
+            bool: True if The device assign to the site, otherwise False.
+
+        Description:
+            Checks if the specified AP assigned to the site returns "True", otherwise logs an error
+            and returns "failed" with error details.
+        """
         assign_network_device_to_site = {
             'deviceIds': [self.have.get("device_id")],
             'siteId': self.have.get("site_id"),
@@ -2322,7 +2332,7 @@ class Accesspoint(DnacBase):
         site_id = self.have.get("site_id")
 
         try:
-            if self.dnac_version <= self.version_2_3_5_3:
+            if self.dnac_version <= self.dnac_versions["2.3.5.3"]:
                 if not site_name_hierarchy or not rf_profile or not host_name:
                     error_msg = ("Cannot provision device: Missing parameters - "
                                 "site_name_hierarchy: {0}, rf_profile: {1}, host_name: {2}"
@@ -2983,6 +2993,106 @@ class Accesspoint(DnacBase):
 
         return self
 
+    def reboot_accesspoint(self, ap_list):
+        """
+        Reboot accesspoint used to reboot single or bulk aps to reboot and get the response.
+
+        Parameters:
+            self (dict): A dictionary used to collect the execution results.
+            ap_list (dict): A list containing the list of Access point Mac Address.
+
+        Returns:
+            dict: A dictionary containing the result of the access point reboot response.
+        """
+        try:
+            self.log('Rebooting the list of APs: {0}'.format(self.pprint(ap_list)), "INFO")
+            response = self.dnac._exec(
+                    family="wireless",
+                    function='reboot_access_points',
+                    op_modifies=True,
+                    params={"apMacAddresses": ap_list},
+                )
+            self.log("Response from reboot_access_points: {0}".format(str(response.get("response"))), "INFO")
+
+            if response and isinstance(response, dict):
+                task_id = response.get("response", {}).get("taskId")
+                resync_retry_count = int(self.payload.get("dnac_api_task_timeout"))
+                resync_retry_interval = int(self.payload.get("dnac_task_poll_interval"))
+
+                while resync_retry_count:
+                    task_details_response = self.get_task_details(task_id)
+                    self.log("Status of the reboot task: {0} .".format(self.status), "INFO")
+                    responses = {}
+                    if task_details_response.get("endTime") is not None:
+                        if task_details_response.get("isError") is True:
+                            self.result['changed'] = True if self.result['changed'] is True else False
+                            self.status = "failed"
+                            self.msg = "Unable to get success response, hence APs are not rebooted"
+                            self.log(self.msg, "ERROR")
+                            self.log("Reboot Task Details: {0} .".format(self.pprint(
+                                task_details_response)), "ERROR")
+                            reboot_status = self.accesspoint_reboot_status(task_id)
+                            responses["accesspoints_updates"] = {
+                                "ap_reboot_task_details": {
+                                    "error_code": task_details_response.get("errorCode"),
+                                    "failure_reason": task_details_response.get("failureReason"),
+                                    "is_error": task_details_response.get("isError"),
+                                    "reboot_api_response": reboot_status
+                                },
+                                "ap_reboot_status": self.msg}
+                            self.module.fail_json(msg=self.msg, response=responses)
+                        else:
+                            self.log("Reboot Task Details: {0} .".format(self.pprint(
+                                task_details_response)), "INFO")
+                            self.msg = "AP {0} Rebooted Successfully".format(str(ap_list))
+                            reboot_status = self.accesspoint_reboot_status(task_id)
+                            responses["accesspoints_updates"] = {
+                                "ap_reboot_task_details": {
+                                    "reboot_api_response": reboot_status
+                                },
+                                "ap_reboot_status": self.msg}
+                            self.result['changed'] = True
+                            self.result['response'] = responses
+                            break
+                    time.sleep(resync_retry_interval)
+                    resync_retry_count = resync_retry_count - 1
+
+            self.log("Given APs are rebooted '{0}' task: '{1}' .".format(
+                str(ap_list), self.pprint(task_details_response)), "INFO")
+            return self
+        except Exception as e:
+            error_msg = 'An error occurred during access point reboot: {0}'.format(str(e))
+            self.log(error_msg, "ERROR")
+            self.msg = error_msg
+            self.status = "failed"
+
+    def accesspoint_reboot_status(self, task_id):
+        """
+        Get the reboot status of the accesspoint using by the task id.
+
+        Parameters:
+            self (dict): A dictionary used to collect the execution results.
+            task_id (string): A sting containing the task id generated from reboot task.
+
+        Returns:
+            dict: A dictionary containing the result of the access point reboot status.
+        """
+        try:
+            response = self.dnac._exec(
+                family="wireless",
+                function='get_access_point_reboot_task_result',
+                op_modifies=True,
+                params={"parentTaskId": task_id},
+            )
+            self.log("Response from ap reboot status: {0}".format(self.pprint(response)), "INFO")
+            if response and isinstance(response[0], dict):
+                return response[0]
+
+        except Exception as e:
+            error_msg = 'An error occurred during access point reboot status: {0}'.format(str(e))
+            self.log(error_msg, "ERROR")
+            self.msg = error_msg
+            self.status = "failed"
 
 def main():
     """ main entry point for module execution
@@ -3023,6 +3133,17 @@ def main():
     ccc_network.validate_input_yml().check_return_status()
     config_verify = ccc_network.params.get("config_verify")
 
+    if ccc_network.validated_config[0].get("reboot_ap") is not None:
+        ap_list = ast.literal_eval(ccc_network.validated_config[0].get("reboot_ap"))
+        if len(ap_list) > 0:
+            ccc_network.log("Reboot AP List: {0}".format(ccc_network.pprint(ap_list)), "INFO")
+            eth_mac_list = []
+            for each_ap in ap_list:
+                ap_exist, ap_details = ccc_network.get_accesspoint_details(each_ap)
+                eth_mac_list.append(ap_details.get("ap_ethernet_mac_address"))
+            ccc_network.reboot_accesspoint(eth_mac_list)
+            module.exit_json(**ccc_network.result)
+
     for config in ccc_network.validated_config:
         ccc_network.reset_values()
         ccc_network.get_want(config).check_return_status()
@@ -3038,7 +3159,6 @@ def main():
             ccc_network.consolidate_output()
 
     module.exit_json(**ccc_network.result)
-
 
 if __name__ == "__main__":
     main()
