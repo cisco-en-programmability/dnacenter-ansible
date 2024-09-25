@@ -434,9 +434,6 @@ class IseRadiusIntegration(DnacBase):
         self.authentication_policy_server_obj_params = \
             self.get_obj_params("authenticationPolicyServer")
         self.validation_string = ""
-        self.payload = module.params
-        self.dnac_version = int(self.payload.get("dnac_version").replace(".", ""))
-        self.version_2_3_7_9 = 2379
 
     def validate_input(self):
         """
@@ -1741,8 +1738,8 @@ def main():
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=False)
     ccc_ise_radius = IseRadiusIntegration(module)
     dnac_version = ccc_ise_radius.params.get("dnac_version")
-    int_dnac_version = int(dnac_version.replace(".", ""))
-    if int_dnac_version <= 2356:
+    dnac_version_int = int(dnac_version.replace(".", ""))
+    if dnac_version_int <= 2356:
         ccc_ise_radius.msg = (
             "The provided Catalyst Center Version {ccc_version} does not support this workflow. "
             "This workflow support starts from Catalyst Center Release {supported_version} onwards."
