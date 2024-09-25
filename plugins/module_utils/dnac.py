@@ -1003,8 +1003,8 @@ class DnacBase():
             failure reason. Return the details.
         """
 
+        task_details = None
         try:
-            task_details = None
             response = self.dnac._exec(
                 family="task",
                 function="get_task_details_by_id",
