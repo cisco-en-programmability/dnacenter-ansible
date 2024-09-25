@@ -398,11 +398,6 @@ class Device_configs_backup(DnacBase):
     def __init__(self, module):
         super().__init__(module)
         self.skipped_devices_list = []
-        self.payload = module.params
-        self.keymap = {}
-        self.dnac_version = int(self.payload.get(
-            "dnac_version").replace(".", ""))
-        self.version_2_3_5_3, self.version_2_3_7_6 = 2353, 2376
 
     def validate_input(self):
         """
@@ -506,120 +501,120 @@ class Device_configs_backup(DnacBase):
 
         return self
 
-    def validate_site_exists(self, site_name):
-        """
-        Checks the existence of a site in Cisco Catalyst Center.
-        Parameters:
-            site_name (str): The name of the site to be checked.
-        Returns:
-            tuple: A tuple containing two values:
-            - site_exists (bool): Indicates whether the site exists (True) or not (False).
-            - site_id (str or None): The ID of the site if it exists, or None if the site is not found.
-        Description:
-            This method queries Cisco Catalyst Center to determine if a site with the provided name exists.
-            If the site is found, it sets "site_exists" to True and retrieves the sites ID.
-            If the site does not exist, "site_exists" is set to False, and "site_id" is None.
-            If an exception occurs during the site lookup, an error message is logged, and the module fails.
-        """
-        site_exists = False
-        site_id = None
-        response = None
+    # def validate_site_exists(self, site_name):
+    #     """
+    #     Checks the existence of a site in Cisco Catalyst Center.
+    #     Parameters:
+    #         site_name (str): The name of the site to be checked.
+    #     Returns:
+    #         tuple: A tuple containing two values:
+    #         - site_exists (bool): Indicates whether the site exists (True) or not (False).
+    #         - site_id (str or None): The ID of the site if it exists, or None if the site is not found.
+    #     Description:
+    #         This method queries Cisco Catalyst Center to determine if a site with the provided name exists.
+    #         If the site is found, it sets "site_exists" to True and retrieves the sites ID.
+    #         If the site does not exist, "site_exists" is set to False, and "site_id" is None.
+    #         If an exception occurs during the site lookup, an error message is logged, and the module fails.
+    #     """
+    #     site_exists = False
+    #     site_id = None
+    #     response = None
 
-        try:
-            response = self.get_site(site_name)
-            if response is None:
-                raise ValueError
-            site = response.get("response")
-            site_id = site[0].get("id")
-            site_exists = True
+    #     try:
+    #         response = self.get_site(site_name)
+    #         if response is None:
+    #             raise ValueError
+    #         site = response.get("response")
+    #         site_id = site[0].get("id")
+    #         site_exists = True
 
-        except Exception as e:
-            self.status = "failed"
-            self.msg = ("An exception occurred: Site '{0}' does not exist in the Cisco Catalyst Center.".format(site_name))
-            self.result['response'] = self.msg
-            self.log(self.msg, "ERROR")
-            self.check_return_status()
+    #     except Exception as e:
+    #         self.status = "failed"
+    #         self.msg = ("An exception occurred: Site '{0}' does not exist in the Cisco Catalyst Center.".format(site_name))
+    #         self.result['response'] = self.msg
+    #         self.log(self.msg, "ERROR")
+    #         self.check_return_status()
 
-        return (site_exists, site_id)
+    #     return (site_exists, site_id)
 
-    def get_device_ids_from_site(self, site_name, site_id):
-        """
-        Retrieves the management IP addresses and their corresponding instance UUIDs of devices associated with a specific site in Cisco Catalyst Center.
+    # def get_device_ids_from_site(self, site_name, site_id):
+    #     """
+    #     Retrieves the management IP addresses and their corresponding instance UUIDs of devices associated with a specific site in Cisco Catalyst Center.
 
-        Parameters:
-            site_name (str): The name of the site whose devices' information is to be retrieved.
-            site_id (str): The unique identifier of the site.
+    #     Parameters:
+    #         site_name (str): The name of the site whose devices' information is to be retrieved.
+    #         site_id (str): The unique identifier of the site.
 
-        Returns:
-            dict: A dictionary mapping management IP addresses to their instance UUIDs.
+    #     Returns:
+    #         dict: A dictionary mapping management IP addresses to their instance UUIDs.
 
-        Description:
-            This method queries Cisco Catalyst Center to fetch the list of devices associated with the provided site.
-            It then extracts the management IP addresses and their instance UUIDs from the response.
-            Devices that are not reachable are logged as critical errors, and the function fails.
-            If no reachable devices are found for the specified site, it logs an error message and fails.
-        """
-        mgmt_ip_to_instance_id_map = {}
+    #     Description:
+    #         This method queries Cisco Catalyst Center to fetch the list of devices associated with the provided site.
+    #         It then extracts the management IP addresses and their instance UUIDs from the response.
+    #         Devices that are not reachable are logged as critical errors, and the function fails.
+    #         If no reachable devices are found for the specified site, it logs an error message and fails.
+    #     """
+    #     mgmt_ip_to_instance_id_map = {}
 
-        site_params = {
-            "site_id": site_id,
-        }
+    #     site_params = {
+    #         "site_id": site_id,
+    #     }
 
-        try:
-            if self.dnac_version <= self.version_2_3_5_3:
-                response = self.dnac._exec(
-                    family="sites",
-                    function="get_membership",
-                    op_modifies=True,
-                    params=site_params,
-                )
-                self.log("Response received post 'get_membership' API Call: {0}".format(str(response)), "DEBUG")
+    #     try:
+    #         if self.dnac_version <= self.version_2_3_5_3:
+    #             response = self.dnac._exec(
+    #                 family="sites",
+    #                 function="get_membership",
+    #                 op_modifies=True,
+    #                 params=site_params,
+    #             )
+    #             self.log("Response received post 'get_membership' API Call: {0}".format(str(response)), "DEBUG")
 
-                devices = response.get("device", [])
-                for item in devices:
-                    for item_dict in item.get("response", []):
-                        if item_dict["reachabilityStatus"] == "Reachable" and item_dict["family"] != "Unified AP":
-                            mgmt_ip_to_instance_id_map[item_dict["managementIpAddress"]] = item_dict["instanceUuid"]
-                        else:
-                            msg = "Skipping device {0} in site {1} as its status is {2}".format(
-                                item_dict["managementIpAddress"], site_name, item_dict.get("reachabilityStatus", "Unknown")
-                            )
-                            self.log(msg, "INFO" if item_dict["family"] == "Unified AP" else "WARNING")
+    #             devices = response.get("device", [])
+    #             for item in devices:
+    #                 for item_dict in item.get("response", []):
+    #                     if item_dict["reachabilityStatus"] == "Reachable" and item_dict["family"] != "Unified AP":
+    #                         mgmt_ip_to_instance_id_map[item_dict["managementIpAddress"]] = item_dict["instanceUuid"]
+    #                     else:
+    #                         msg = "Skipping device {0} in site {1} as its status is {2}".format(
+    #                             item_dict["managementIpAddress"], site_name, item_dict.get("reachabilityStatus", "Unknown")
+    #                         )
+    #                         self.log(msg, "INFO" if item_dict["family"] == "Unified AP" else "WARNING")
 
-            else:
-                response = self.dnac._exec(
-                    family="site_design",
-                    function="get_site_assigned_network_devices",
-                    op_modifies=True,
-                    params=site_params,
-                )
+    #         else:
+    #             response = self.dnac._exec(
+    #                 family="site_design",
+    #                 function="get_site_assigned_network_devices",
+    #                 op_modifies=True,
+    #                 params=site_params,
+    #             )
 
-                self.log("Received API response from 'get_site_assigned_network_devices': {0}".format(str(response)), "DEBUG")
-                for device in response.get("response", []):
-                    device_id = device.get("deviceId")
-                    if device_id:
-                        device_response = self.dnac._exec(
-                            family="devices",
-                            function="get_device_by_id",
-                            op_modifies=True,
-                            params={"id": device_id}
-                        )
+    #             self.log("Received API response from 'get_site_assigned_network_devices': {0}".format(str(response)), "DEBUG")
+    #             for device in response.get("response", []):
+    #                 device_id = device.get("deviceId")
+    #                 if device_id:
+    #                     device_response = self.dnac._exec(
+    #                         family="devices",
+    #                         function="get_device_by_id",
+    #                         op_modifies=True,
+    #                         params={"id": device_id}
+    #                     )
 
-                        management_ip = device_response.get("response", {}).get("managementIpAddress")
-                        if management_ip:
-                            mgmt_ip_to_instance_id_map[management_ip] = device_id
-                        else:
-                            self.log(f"Management IP not found for device ID: {device_id}", "WARNING")
+    #                     management_ip = device_response.get("response", {}).get("managementIpAddress")
+    #                     if management_ip:
+    #                         mgmt_ip_to_instance_id_map[management_ip] = device_id
+    #                     else:
+    #                         self.log(f"Management IP not found for device ID: {device_id}", "WARNING")
 
-        except Exception as e:
-            self.log("Unable to fetch the device(s) associated with the site '{0}' due to {1}".format(site_name, str(e)), "ERROR")
+    #     except Exception as e:
+    #         self.log("Unable to fetch the device(s) associated with the site '{0}' due to {1}".format(site_name, str(e)), "ERROR")
 
-        if not mgmt_ip_to_instance_id_map:
-            self.msg = "No reachable devices found at Site: {0}".format(site_name)
-            self.update_result("ok", False, self.msg, "INFO")
-            self.module.exit_json(**self.result)
+    #     if not mgmt_ip_to_instance_id_map:
+    #         self.msg = "No reachable devices found at Site: {0}".format(site_name)
+    #         self.update_result("ok", False, self.msg, "INFO")
+    #         self.module.exit_json(**self.result)
 
-        return mgmt_ip_to_instance_id_map
+    #     return mgmt_ip_to_instance_id_map
 
     def get_device_list_params(self, config):
         """
@@ -769,7 +764,7 @@ class Device_configs_backup(DnacBase):
 
             # Retrieve device IDs for each site in the unique_sites set
             for site_name in unique_sites:
-                (site_exists, site_id) = self.validate_site_exists(site_name)
+                (site_exists, site_id) = self.get_site_id(site_name)
                 if site_exists:
                     site_mgmt_ip_to_instance_id_map = self.get_device_ids_from_site(site_name, site_id)
                     self.log("Retrieved following Device Id(s) of device(s): {0} from the provided site: {1}".format(
