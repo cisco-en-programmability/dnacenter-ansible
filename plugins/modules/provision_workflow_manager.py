@@ -829,8 +829,6 @@ class Provision(DnacBase):
             self.want["prov_params"] = self.get_wired_params()
         elif self.want["device_type"] == "wireless":
             self.want["prov_params"] = self.get_wireless_params()
-            # self.log("self.want['prov_params']")
-            # self.log(self.want["prov_params"])
         else:
             self.log("Passed devices are neither wired or wireless devices", "WARNING")
 
@@ -939,7 +937,7 @@ class Provision(DnacBase):
                         return self
                 else:
                     self.msg = ("Cannot assign a provisioned device to the site. "
-                                    "Unprovision the device and then try assigning it to the site.")
+                                "Unprovision the device and then try assigning it to the site.")
                     self.log(self.msg, "ERROR")
                     self.status = "failed"
                     return self
