@@ -52,6 +52,15 @@ options:
             type: bool
             required: false
             default: true
+        force_provisioning:
+            description:
+                - Determines whether to force reprovisioning of a device.
+                - Applicable only for wired devices.
+                - Set to 'true' to enforce reprovisioning, even if the device is already provisioned.
+                - Set to 'false' to skip provisioning for devices that are already provisioned.
+            type: bool
+            required: false
+            default: false
         site_name_hierarchy:
             description: Name of site where the device needs to be added.
             type: str
@@ -289,7 +298,8 @@ class Provision(DnacBase):
                                      'elements': 'str'},
             "dynamic_interfaces": {'type': 'list', 'required': False,
                                    'elements': 'dict'},
-            "provisioning": {'type': 'bool', 'required': False, "default": True}
+            "provisioning": {'type': 'bool', 'required': False, "default": True},
+            "force_provisioning": {'type': 'bool', 'required': False, "default": False}
         }
         if state == "merged":
             provision_spec["site_name_hierarchy"] = {'type': 'str', 'required': True}
@@ -456,7 +466,11 @@ class Provision(DnacBase):
                 self.module.fail_json(msg=msg)
                 return False
 
-            if response.get('progress') in ["TASK_PROVISION", "TASK_MODIFY_PUT"] and response.get("isError") is False:
+            if (
+                response.get('progress') in ["TASK_PROVISION", "TASK_MODIFY_PUT"]
+                and response.get("isError") is False
+            ) or "deleted successfully" in response.get('progress'):
+
                 result = True
                 break
 
@@ -590,41 +604,6 @@ class Provision(DnacBase):
 
         return site_type
 
-    def get_site_details(self, site_name_hierarchy=None):
-        """
-        Parameters:
-            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-        Returns:
-            tuple: A tuple containing two values:
-            - site_exists (bool): A boolean indicating whether the site exists (True) or not (False).
-            - site_id (str or None): The ID of the site if it exists, or None if the site is not found.
-        Description:
-            This method checks the existence of a site in the Catalyst Center. If the site is found,it sets 'site_exists' to True,
-            retrieves the site's ID, and returns both values in a tuple. If the site does not exist, 'site_exists' is set
-            to False, and 'site_id' is None. If an exception occurs during the site lookup, an exception is raised.
-        """
-
-        site_exists = False
-        site_id = None
-        response = None
-
-        try:
-            response = self.get_site(site_name_hierarchy)
-            if response is None:
-                raise ValueError
-            site = response.get("response")
-            site_id = site[0].get("id")
-            site_exists = True
-
-        except Exception as e:
-            self.status = "failed"
-            self.msg = ("An exception occurred: Site '{0}' does not exist in the Cisco Catalyst Center.".format(site_name_hierarchy))
-            self.result['response'] = self.msg
-            self.log(self.msg, "ERROR")
-            self.check_return_status()
-
-        return (site_exists, site_id)
-
     def is_device_assigned_to_site(self, uuid):
         """
         Checks if a device, specified by its UUID, is assigned to any site.
@@ -673,7 +652,7 @@ class Provision(DnacBase):
         """
 
         site_name_hierarchy = self.validated_config.get("site_name_hierarchy")
-        site_exists, site_id = self.get_site_details(site_name_hierarchy=site_name_hierarchy)
+        site_exists, site_id = self.get_site_id(site_name_hierarchy)
         serial_number = self.get_serial_number()
         if site_exists:
             site_response = self.dnac_apply['exec'](
@@ -715,7 +694,7 @@ class Provision(DnacBase):
         self.log(self.validated_config)
         site_name = self.validated_config.get("site_name_hierarchy")
 
-        (site_exits, site_id) = self.get_site_details(site_name_hierarchy=site_name)
+        (site_exits, site_id) = self.get_site_id(site_name)
 
         if site_exits is False:
             msg = "Site {0} doesn't exist".format(site_name)
@@ -908,35 +887,45 @@ class Provision(DnacBase):
             self.log("The provisioned status of the wired device is {0}".format(status), "INFO")
 
             if status == "success":
-                if self.validated_config.get("provisioning") is True:
-                    try:
-                        response = self.dnac_apply['exec'](
-                            family="sda",
-                            function="re_provision_wired_device",
-                            op_modifies=True,
-                            params=self.want["prov_params"],
-                        )
-                        self.log("Reprovisioning response collected from 're_provision_wired_device' API is: {0}".format(response), "DEBUG")
-                        task_id = response.get("taskId")
-                        self.get_task_status(task_id=task_id)
-                        self.result["changed"] = True
-                        self.result['msg'] = "Re-Provision done Successfully"
-                        self.result['diff'] = self.validated_config
-                        self.result['response'] = task_id
-                        self.log(self.result['msg'], "INFO")
-                        return self
+                if self.validated_config.get("force_provisioning") is True:
+                    if self.validated_config.get("provisioning") is True:
+                        try:
+                            response = self.dnac_apply['exec'](
+                                family="sda",
+                                function="re_provision_wired_device",
+                                op_modifies=True,
+                                params=self.want["prov_params"],
+                            )
+                            self.log("Reprovisioning response collected from 're_provision_wired_device' API is: {0}".format(response), "DEBUG")
+                            task_id = response.get("taskId")
+                            self.get_task_status(task_id=task_id)
+                            self.result["changed"] = True
+                            self.result['msg'] = "Re-Provision done Successfully"
+                            self.result['diff'] = self.validated_config
+                            self.result['response'] = task_id
+                            self.log(self.result['msg'], "INFO")
+                            return self
 
-                    except Exception as e:
-                        self.msg = "Error in re-provisioning due to {0}".format(str(e))
+                        except Exception as e:
+                            self.msg = "Error in re-provisioning due to {0}".format(str(e))
+                            self.log(self.msg, "ERROR")
+                            self.status = "failed"
+                            return self
+                    else:
+                        self.msg = ("Cannot assign a provisioned device to the site. "
+                                    "Unprovision the device and then try assigning it to the site.")
                         self.log(self.msg, "ERROR")
                         self.status = "failed"
                         return self
                 else:
-                    self.msg = ("Cannot assign a provisioned device to the site. "
-                                "Unprovision the device and then try assigning it to the site.")
-                    self.log(self.msg, "ERROR")
-                    self.status = "failed"
+                    self.result["changed"] = False
+                    msg = "Device '{0}' is already provisioned.".format(self.validated_config.get("management_ip_address"))
+                    self.result['msg'] = msg
+                    self.result['diff'] = self.want
+                    self.result['response'] = msg
+                    self.log(msg, "INFO")
                     return self
+
             else:
                 if self.validated_config.get("provisioning") is True:
                     try:
