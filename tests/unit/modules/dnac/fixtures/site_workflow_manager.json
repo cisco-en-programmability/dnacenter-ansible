@@ -1133,19 +1133,19 @@
           "response": [],
           "version": "1.0",
           "siteId": "392613a2-beeb-4ea8-b07a-4132c953dd4a",
-          "message": "Site doesn’t not have device member with given device family or serial number as input"
+          "message": "Site does not have device member with given device family or serial number as input"
       },
       {
           "response": [],
           "version": "1.0",
           "siteId": "4e361618-ab97-495e-9b55-bd3d1e971823",
-          "message": "Site doesn’t not have device member with given device family or serial number as input"
+          "message": "Site doesn not have device member with given device family or serial number as input"
       },
       {
           "response": [],
           "version": "1.0",
           "siteId": "0ba743ac-4762-459b-94bf-3414f9373835",
-          "message": "Site doesn’t not have device member with given device family or serial number as input"
+          "message": "Site doesn not have device member with given device family or serial number as input"
       }
   ]
 },
@@ -1344,7 +1344,7 @@
       "response": [],
       "version": "1.0",
       "siteId": "dc467c88-26a7-4483-9139-4f905dff6b87",
-      "message": "Site doesn’t not have device member with given device family or serial number as input"
+      "message": "Site doesn not have device member with given device family or serial number as input"
     }
   ]
 },
@@ -1408,7 +1408,7 @@
       "response": [],
       "version": "1.0",
       "siteId": "c687b9d9-a095-44f6-891d-438ec0b5d6f3",
-      "message": "Site doesn’t not have device member with given device family or serial number as input"
+      "message": "Site does not have device member with given device family or serial number as input"
     }
   ]
 },
@@ -1468,7 +1468,7 @@
       "response": [],
       "version": "1.0",
       "siteId": "5a422684-4302-4366-9318-26d85e1133fc",
-      "message": "Site doesn’t not have device member with given device family or serial number as input"
+      "message": "Site does not have device member with given device family or serial number as input"
     }
   ]
 },
