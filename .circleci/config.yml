@@ -79,7 +79,7 @@ jobs:
   pre:
     docker:
       - image: python:3.8.10
-    resource_class: cisco-en-programmability/dnacenter-ansible
+    resource_class: cisco-en-programmability/catalyst-center-ansible-runner-main
 
     steps:
       - run:
@@ -93,7 +93,7 @@ jobs:
   build:
     docker:
       - image: python:3.8.10
-    resource_class: cisco-en-programmability/dnacenter-ansible
+    resource_class: cisco-en-programmability/catalyst-center-ansible-runner-main
     steps:
       - run:
           name: Debug information
@@ -145,7 +145,7 @@ jobs:
         default: false
     docker:
       - image: python:3.8.10
-    resource_class: cisco-en-programmability/dnacenter-ansible
+    resource_class: cisco-en-programmability/catalyst-center-ansible-runner-main
 
     steps:
       - run:
@@ -269,7 +269,7 @@ jobs:
   sanity-tests:
     docker:
       - image: python:3.8.10
-    resource_class: cisco-en-programmability/dnacenter-ansible
+    resource_class: cisco-en-programmability/catalyst-center-ansible-runner-main
     parallelism: 4
     steps:
       - when:
@@ -353,7 +353,7 @@ jobs:
   post_pnp_testing:
     docker:
       - image: python:3.8.10
-    resource_class: cisco-en-programmability/dnacenter-ansible
+    resource_class: cisco-en-programmability/catalyst-center-ansible-runner-main
 
     steps:
       - when:
@@ -366,7 +366,7 @@ jobs:
   main-pr:
     docker:
       - image: maniator/gh:v2.49.2
-    resource_class: cisco-en-programmability/dnacenter-ansible
+    resource_class: cisco-en-programmability/catalyst-center-ansible-runner-main
     steps:
       - run:
           name: Clone repo to workspace
@@ -380,7 +380,7 @@ jobs:
   release-job:
     docker:
       - image: python:3.8.10
-    resource_class: cisco-en-programmability/dnacenter-ansible
+    resource_class: cisco-en-programmability/catalyst-center-ansible-runner-main
     steps:
       - run:
           name: Clone repo to workspace
