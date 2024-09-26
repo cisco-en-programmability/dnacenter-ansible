@@ -1,0 +1,10 @@
+---
+extends: default
+rules:
+  line-length:
+    max: 160
+ignore:
+  - tests
+  - changelogs/changelog.yaml
+  - playbooks
+level: warning
