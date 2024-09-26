@@ -794,4 +794,3 @@ class TestNetworkCompliance(TestDnacModule):
             "Error occurred while retrieving 'get_task_tree' for Task Sync Device Configuration with task id",
             result.get('msg')
         )
-
