@@ -746,7 +746,7 @@ EXAMPLES = r"""
           - mac_address:  90:e9:5e:03:f3:40
             rf_profile: "HIGH"
             site:
-                floor:
+              floor:
                 name: "FLOOR1"
                 parent_name: "Global/USA/New York/BLDNYC"
       register: output_list
@@ -1351,7 +1351,7 @@ class Accesspoint(DnacBase):
             resync_retry_count = self.payload.get("dnac_api_task_timeout")
             resync_retry_interval = self.payload.get("dnac_task_poll_interval")
             while resync_retry_count:
-                task_details_response = self.get_task_details(
+                task_details_response = self.get_tasks_by_id(
                     task_response["response"]["taskId"])
                 self.log("Status of the task: {0} .".format(self.status), "INFO")
 
@@ -2292,7 +2292,7 @@ class Accesspoint(DnacBase):
                 resync_retry_interval = int(self.payload.get("dnac_task_poll_interval"))
 
                 while resync_retry_count:
-                    task_details_response = self.get_task_details(task_id)
+                    task_details_response = self.get_tasks_by_id(task_id)
                     self.log("Status of the task: {0} .".format(self.status), "INFO")
                     responses = {}
                     if task_details_response.get("endTime") is not None:
@@ -2426,7 +2426,7 @@ class Accesspoint(DnacBase):
                         resync_retry_interval = int(self.payload.get("dnac_task_poll_interval"))
 
                         while resync_retry_count:
-                            task_details_response = self.get_task_details(task_id)
+                            task_details_response = self.get_tasks_by_id(task_id)
                             self.log("Status of the task: {0} .".format(self.status), "INFO")
                             responses = {}
                             if task_details_response.get("endTime") is not None:
@@ -3015,7 +3015,7 @@ class Accesspoint(DnacBase):
                 resync_retry_interval = int(self.payload.get("dnac_task_poll_interval"))
 
                 while resync_retry_count:
-                    task_details_response = self.get_task_details(task_id)
+                    task_details_response = self.get_tasks_by_id(task_id)
                     self.log("Status of the reboot task: {0} .".format(self.status), "INFO")
                     responses = {}
                     if task_details_response.get("endTime") is not None:
