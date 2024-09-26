@@ -159,6 +159,22 @@ EXAMPLES = r"""
         - site_name_hierarchy: Global/USA/San Francisco/BGL_18
           management_ip_address: 204.192.3.40
 
+- name: Re-Provision a wired device to a site forcefully
+  cisco.dnac.provision_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: True
+    state: merged
+    config:
+        - site_name_hierarchy: Global/USA/San Francisco/BGL_18
+          management_ip_address: 204.192.3.40
+          force_provisioning: True
+
 - name: Assign a wired device to a site
   cisco.dnac.provision_workflow_manager:
     dnac_host: "{{dnac_host}}"
