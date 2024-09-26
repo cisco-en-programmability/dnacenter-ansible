@@ -857,8 +857,6 @@ class NetworkSettings(DnacBase):
         requested_obj = want
         self.log("Current State (have): {0}".format(current_obj), "DEBUG")
         self.log("Desired State (want): {0}".format(requested_obj), "DEBUG")
-        if "wiredDataCollection" in requested_obj:
-            requested_obj.pop("wiredDataCollection", None)
 
         return any(not dnac_compare_equality(current_obj.get(dnac_param),
                                              requested_obj.get(ansible_param))
@@ -1458,10 +1456,20 @@ class NetworkSettings(DnacBase):
             network_aaa, client_and_endpoint_aaa = self.get_aaa_settings_for_site(site_id)
 
             # Prepare the network details for Cisco Catalyst Center configuration
-            if not wired_data_collection:
-                wired_data_collection = {}
-            if not wireless_telemetry:
-                wireless_telemetry = {}
+            if not network_aaa:
+                network_aaa = {
+                    "serverType": "",
+                    "primaryServerIp": "",
+                    "secondaryServerIp": "",
+                    "protocol": ""
+                }
+            if not network_aaa:
+                client_and_endpoint_aaa = {
+                    "serverType": "",
+                    "primaryServerIp": "",
+                    "secondaryServerIp": "",
+                    "protocol": ""
+                }
 
             network_details = {
                 "settings": {
@@ -1506,6 +1514,14 @@ class NetworkSettings(DnacBase):
                 if len(dns_servers) > 1:
                     network_settings.get("dnsServer").update({
                         "secondaryIpAddress": dns_details.get("dnsServers")[1]})
+            else:
+                network_settings.update({
+                    "dnsServer": {
+                        "domainName": "",
+                        "primaryIpAddress": "",
+                        "secondaryIpAddress": ""
+                    }
+                })
 
             if ntpserver_details is not None:
                 network_settings.update({"ntpServer": ntpserver_details})
@@ -1546,6 +1562,8 @@ class NetworkSettings(DnacBase):
 
             if messageoftheday_details is not None:
                 network_settings.update({"messageOfTheday": messageoftheday_details})
+            else:
+                network_settings.update({"messageOfTheday": ""})
 
             self.log("Formatted playbook network details: {0}".format(network_details), "DEBUG")
 
@@ -1673,7 +1691,7 @@ class NetworkSettings(DnacBase):
             "id": None,
             "success": True
         }
-        site_id = self.get_site_id(site_name)
+        site_exist, site_id = self.get_site_id(site_name)
         self.log("Site ID for the site name {0}: {1}".format(site_name, site_id), "DEBUG")
         if not site_id:
             reserve_pool.update({"success": False})
@@ -2977,7 +2995,7 @@ class NetworkSettings(DnacBase):
                      .format(name, self.want.get("wantReserve")[reserve_pool_index].get("ipv4GlobalPool")), "DEBUG")
             site_name = item.get("site_name")
             reserve_params = self.want.get("wantReserve")[reserve_pool_index]
-            site_id = self.get_site_id(site_name)
+            site_exist, site_id = self.get_site_id(site_name)
             reserve_params.update({"site_id": site_id})
             if not self.have.get("reservePool")[reserve_pool_index].get("exists"):
                 self.log("Desired reserved pool '{0}' details (want): {1}"
@@ -3194,6 +3212,7 @@ class NetworkSettings(DnacBase):
             "syslogs": syslogs,
             "applicationVisibility": netflow
         }
+        self.log(param)
         try:
             response = self.dnac._exec(
                 family="network_settings",
@@ -3255,8 +3274,7 @@ class NetworkSettings(DnacBase):
         Returns:
             Response (dict) - The response after updating the AAA settings.
         """
-        self.log(network_aaa)
-        self.log(clientAndEndpoint_aaa)
+        self.log({"id": site_id, "aaaNetwork": network_aaa, "aaaClient": clientAndEndpoint_aaa})
         try:
             response = self.dnac._exec(
                 family="network_settings",
@@ -3403,6 +3421,10 @@ class NetworkSettings(DnacBase):
                     self.log("Received API response of 'set_a_a_a_settings_for_a_site': {0}".format(response), "DEBUG")
                     validation_string = "desired common settings operation successful"
                     self.check_task_response_status(response, validation_string, "set_a_a_a_settings_for_a_site").check_return_status()
+                elif net_params.get("settings").get("network_aaa") or net_params.get("settings").get("clientAndEndpoint_aaa"):
+                    self.msg = "The 'network_aaa' and 'clientAndEndpoint_aaa' both fields are required for AAA server updation."
+                    self.status = "failed"
+                    return self
 
             self.log("Network under the site '{0}' has been changed successfully".format(site_name), "INFO")
             result_network.get("msg") \
