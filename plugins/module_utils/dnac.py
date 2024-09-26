@@ -557,7 +557,7 @@ class DnacBase():
         except json.JSONDecodeError:
             pass
         return None
-    
+
     def get_device_ip_from_device_id(self, site_id):
         """
         Retrieve the management IP addresses and their corresponding instance UUIDs of devices associated with a specific site in Cisco Catalyst Center.
@@ -611,7 +611,7 @@ class DnacBase():
             site_id (str): The unique identifier of the site.
 
         Returns:
-            list: A list of device IDs associated with the site. 
+            list: A list of device IDs associated with the site.
                 Returns an empty list if no devices are found or if an error occurs.
         """
 
@@ -1329,7 +1329,7 @@ class DnacBase():
         try:
 
             self.log("Requested payload for the the function: '{0}' is: '{1}'".format(api_function, api_parameters), "INFO")
-            
+
             # Execute the API call
             response = self.dnac._exec(
                 family=api_family,
@@ -1373,7 +1373,6 @@ class DnacBase():
                 "Parameters: {2}. Exception: {3}.".format(api_function, api_family, api_parameters, str(e))
             )
             self.fail_and_exit(self.msg)
-
 
     def get_task_status_from_tasks_by_id(self, task_id, task_name, success_msg):
         """
