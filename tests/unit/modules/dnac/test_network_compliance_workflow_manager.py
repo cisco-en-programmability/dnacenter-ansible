@@ -20,6 +20,7 @@ from unittest.mock import patch
 from ansible_collections.cisco.dnac.plugins.modules import network_compliance_workflow_manager
 from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
 
+
 class TestNetworkCompliance(TestDnacModule):
 
     module = network_compliance_workflow_manager
