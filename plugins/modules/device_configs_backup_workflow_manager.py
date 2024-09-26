@@ -801,7 +801,7 @@ class Device_configs_backup(DnacBase):
             )
             self.set_operation_result("failed", False, self.msg, "ERROR")
             self.check_return_status()
-        
+
     def exit_while_loop(self, start_time, task_id, task_name, response):
         """
         Check if the elapsed time exceeds the specified timeout period and exit the while loop if it does.
@@ -829,7 +829,6 @@ class Device_configs_backup(DnacBase):
             return True
 
         return False
-
 
     def download_file(self, additional_status_url=None):
         """
