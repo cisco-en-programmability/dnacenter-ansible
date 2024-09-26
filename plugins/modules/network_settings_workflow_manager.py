@@ -1257,7 +1257,7 @@ class NetworkSettings(DnacBase):
             suitable for Cisco Catalyst Center configuration, or None
             if the response is not a dictionary or there was an error.
         """
-        if self.dnac_version <= self.version_2_3_5_3:
+        if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
             response = self.dnac._exec(
                 family="network_settings",
                 function='get_network_v2',
@@ -2238,7 +2238,7 @@ class NetworkSettings(DnacBase):
             want_network_settings = want_network.get("settings")
             self.log("Current state (have): {0}".format(self.have), "DEBUG")
 
-            if self.dnac_version <= self.version_2_3_5_3:
+            if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
                 if item.get("dhcp_server") is not None:
                     want_network_settings.update({
                         "dhcpServer": item.get("dhcp_server")
@@ -3336,7 +3336,7 @@ class NetworkSettings(DnacBase):
             net_params = copy.deepcopy(self.want.get("wantNetwork")[network_management_index])
             net_params.update({"site_id": self.have.get("network")[network_management_index].get("site_id")})
             self.log(net_params)
-            if self.dnac_version <= self.version_2_3_5_3:
+            if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
                 try:
                     response = self.dnac._exec(
                         family="network_settings",
