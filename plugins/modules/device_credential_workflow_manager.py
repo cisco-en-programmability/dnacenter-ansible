@@ -822,10 +822,6 @@ class DeviceCredential(DnacBase):
                 "applyCredential": {}
             }
         ]
-        self.payload = module.params
-        self.dnac_version = int(self.payload.get(
-            "dnac_version").replace(".", ""))
-        self.version_2_3_5_3, self.version_2_3_7_6 = 2353, 2376
 
     def validate_input(self):
         """
@@ -997,55 +993,6 @@ class DeviceCredential(DnacBase):
         self.msg = "Successfully validated input from the playbook"
         self.status = "success"
         return self
-
-    def get_site_id(self, site_name):
-        """
-        Get the site id from the site name.
-        Use check_return_status() to check for failure
-
-        Parameters:
-            site_name (str) - Site name
-
-        Returns:
-            str or None - The Site Id if found, or None if not found or error
-        """
-
-        try:
-            if self.dnac_version <= self.version_2_3_5_3:
-                response = self.dnac._exec(
-                    family="sites",
-                    function='get_site',
-                    op_modifies=True,
-                    params={"name": site_name},
-                )
-                self.log("Received API response from 'get_site': {0}".format(response), "DEBUG")
-            else:
-                response = self.dnac._exec(
-                    family="site_design",
-                    function='get_sites',
-                    op_modifies=True,
-                    params={"name_hierarchy": site_name},
-                )
-                self.log("Received API response from 'get_sites': {0}".format(response), "DEBUG")
-
-            if not response:
-                self.log("Failed to retrieve the site ID for the site name: {0}"
-                         .format(site_name), "ERROR")
-                return None
-
-            response = response.get("response")
-            if not response:
-                self.log("The site with the name '{0}' is not valid".format(site_name), "ERROR")
-                return None
-
-            _id = response[0].get("id")
-            self.log("Site ID for the site name {0}: {1}".format(site_name, _id), "INFO")
-        except Exception as e:
-            self.log("Exception occurred while getting site_id from the site_name: {0}"
-                     .format(e), "CRITICAL")
-            return None
-
-        return _id
 
     def get_global_credentials_params(self):
         """
@@ -2112,7 +2059,7 @@ class DeviceCredential(DnacBase):
 
         site_ids = []
         for site_name in site_names:
-            current_site_id = self.get_site_id(site_name)
+            site_exists, current_site_id = self.get_site_id(site_name)
             if not current_site_id:
                 self.msg = "The site_name '{0}' is invalid in 'assign_credentials_to_site'".format(site_name)
                 self.status = "failed"
@@ -2150,7 +2097,7 @@ class DeviceCredential(DnacBase):
                         self.msg = "The username and description of the CLI credential are invalid"
                         self.status = "failed"
                         return self
-                if self.dnac_version <= self.version_2_3_5_3:
+                if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
                     want.get("assign_credentials").update({"cliId": cliDetail.get("id")})
                 else:
                     want.get("assign_credentials").update({
@@ -2184,7 +2131,7 @@ class DeviceCredential(DnacBase):
                         self.msg = "The username and description for the snmp_v2c_read credential are invalid."
                         self.status = "failed"
                         return self
-                if self.dnac_version <= self.version_2_3_5_3:
+                if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
                     want.get("assign_credentials").update({"snmpV2ReadId": snmpV2cReadDetail.get("id")})
                 else:
                     want.get("assign_credentials").update({
@@ -2218,7 +2165,7 @@ class DeviceCredential(DnacBase):
                         self.msg = "The username and description of the snmp_v2c_write credential are invalid."
                         self.status = "failed"
                         return self
-                if self.dnac_version <= self.version_2_3_5_3:
+                if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
                     want.get("assign_credentials").update({"snmpV2WriteId": snmpV2cWriteDetail.get("id")})
                 else:
                     want.get("assign_credentials").update({
@@ -2254,7 +2201,7 @@ class DeviceCredential(DnacBase):
                         self.msg = "The description and username for the httpRead credential are invalid."
                         self.status = "failed"
                         return self
-                if self.dnac_version <= self.version_2_3_5_3:
+                if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
                     want.get("assign_credentials").update({"httpRead": httpReadDetail.get("id")})
                 else:
                     want.get("assign_credentials").update({
@@ -2290,7 +2237,7 @@ class DeviceCredential(DnacBase):
                         self.msg = "The description and username for the httpWrite credential are invalid."
                         self.status = "failed"
                         return self
-                if self.dnac_version <= self.version_2_3_5_3:
+                if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
                     want.get("assign_credentials").update({"httpWrite": httpWriteDetail.get("id")})
                 else:
                     want.get("assign_credentials").update({
@@ -2324,7 +2271,7 @@ class DeviceCredential(DnacBase):
                         self.msg = "The username and description for the snmp_v2c_write credential are invalid."
                         self.status = "failed"
                         return self
-                if self.dnac_version <= self.version_2_3_5_3:
+                if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
                     want.get("assign_credentials").update({"snmpV3Id": snmpV3Detail.get("id")})
                 else:
                     want.get("assign_credentials").update({
@@ -2358,7 +2305,7 @@ class DeviceCredential(DnacBase):
             self.msg = "The 'site_name' is required parameter for 'apply_credentials_to_site'"
             self.status = "failed"
             return self
-        want["apply_credentials"]["site_id"] = self.get_site_id(site_name[0])
+        site_exist, want["apply_credentials"]["site_id"] = self.get_site_id(site_name[0])
         global_credentials = self.get_global_credentials_params()
         cli_credential = ApplyCredentials.get("cli_credential")
         if cli_credential:
@@ -2667,7 +2614,7 @@ class DeviceCredential(DnacBase):
 
         site_ids = self.want.get("site_id")
         for site_id in site_ids:
-            if self.dnac_version <= self.version_2_3_5_3:
+            if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
                 credential_params.update({"site_id": site_id})
                 final_response.append(copy.deepcopy(credential_params))
                 response = self.dnac._exec(
@@ -2876,7 +2823,7 @@ class DeviceCredential(DnacBase):
                 result_apply_credential.update({
                     "Applied Credentials": {
                         "response": final_response,
-                        "msg": "Provided credentials category is/are already synced."
+                        "msg": "Either the provided credentials are already synchronized or they are not assigned to the device."
                     }
                 })
                 self.msg = (
