@@ -1604,7 +1604,7 @@ class UserandRole(DnacBase):
         if user_params.get('password'):
             decrypt_password_response = self.decrypt_password(user_params['password'], self.key.get("generate_key"))
 
-            if decrypt_password_response and "error_message" in decrypt_password_response:
+            if "error_message" in decrypt_password_response:
                 self.msg = decrypt_password_response.get("error_message")
                 self.log(self.msg, "ERROR")
                 self.status = "failed"
