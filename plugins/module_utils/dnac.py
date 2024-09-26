@@ -695,8 +695,10 @@ class DnacBase():
         """
         try:
             fernet = Fernet(key)
-            decrypted_password = fernet.decrypt(encrypted_password.encode()).decode()
+            decrypted_password = fernet.decrypt(encrypted_password).decode()
             return {"decrypt_password": decrypted_password}
+        except Exception.InvalidToken:
+            return {"error_message": "Invalid decryption token."}
         except Exception as e:
             return {"error_message": "Exception occurred while decrypting password: {0}".format(e)}
 
