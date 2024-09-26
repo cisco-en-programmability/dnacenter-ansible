@@ -422,8 +422,8 @@ workflows:
     when:
       and:
         - or:
-            - equal: [run-tests, << pipeline.parameters.GHA_Meta >>]
-            # - equal: [true, << pipeline.parameters.run-setup >>]
+            #- equal: [run-tests, << pipeline.parameters.GHA_Meta >>]
+            - equal: [true, << pipeline.parameters.run-setup >>]
             - not: << pipeline.parameters.continued >>
     jobs:
       - pre
