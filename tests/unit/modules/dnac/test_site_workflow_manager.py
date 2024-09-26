@@ -20,14 +20,15 @@ from unittest.mock import patch
 from ansible_collections.cisco.dnac.plugins.modules import site_workflow_manager
 from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
 
+
 class TestDnacSiteWorkflow(TestDnacModule):
 
     module = site_workflow_manager
     test_data = loadPlaybookData("site_workflow_manager")
     playbook_config_bulk_site = test_data.get("playbook_config_bulk_site")
     playbook_config_site = test_data.get("playbook_config_site")
-    playbook_config_update_site  = test_data.get("playbook_config_update_site" )
-    playbook_config_update_a_site  = test_data.get("playbook_config_update_a_site" )
+    playbook_config_update_site = test_data.get("playbook_config_update_site")
+    playbook_config_update_a_site = test_data.get("playbook_config_update_a_site")
     playbook_config_invalid_param = test_data.get("playbook_config_invalid_param")
     playbook_config_empty = test_data.get("playbook_config_empty")
     playbook_config_invalid_bulk_site = test_data.get("playbook_config_invalid_bulk_site")
@@ -62,7 +63,6 @@ class TestDnacSiteWorkflow(TestDnacModule):
             self.run_dnac_exec.side_effect = [
                 # self.test_data.get(""),
             ]
-
 
         elif "create_bulk_site" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
@@ -109,7 +109,6 @@ class TestDnacSiteWorkflow(TestDnacModule):
         elif "update_site" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 Exception(),
-                # Exception(),
                 self.test_data.get("get_site_area_update"),
                 Exception(),
                 Exception(),
@@ -124,24 +123,6 @@ class TestDnacSiteWorkflow(TestDnacModule):
                 self.test_data.get("get_site_updated_floor"),
             ]
 
-        # elif "update_a_site" in self._testMethodName:
-        #     self.run_dnac_exec.side_effect = [
-        #         # Exception(),
-        #         Exception(),
-        #         self.test_data.get("get_site_area_a_update"),
-                
-        #         self.test_data.get("get_site_building_a_update"),
-        #         Exception(),
-        #         Exception(),
-        #         self.test_data.get("update_a_site_building_response"),
-        #         self.test_data.get("update_a_site_building_response_details" ),
-        #         Exception(),
-        #         Exception(),
-        #         self.test_data.get("get_site_floor_a_update" ),
-        #         self.test_data.get("update_a_site_floor_response"),
-        #         self.test_data.get("update_a_site_floor_response_details"),
-        #     ]
-
         elif "update_a_site" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 Exception(),
@@ -152,29 +133,10 @@ class TestDnacSiteWorkflow(TestDnacModule):
                 Exception(),
                 Exception(),
                 self.test_data.get("new_update_site_floor"),
-                self.test_data.get("new_update_floor_response" ),
-                self.test_data.get("new_update_floor_response_details" ),
+                self.test_data.get("new_update_floor_response"),
+                self.test_data.get("new_update_floor_response_details"),
                 self.test_data.get("new_update_site_floor"),
-                
             ]
-
-        # elif "update_a_site" in self._testMethodName:
-        #     self.run_dnac_exec.side_effect = [
-        #         Exception(),
-        #         Exception(),
-        #         self.test_data.get("new_update_site_floor"),
-        #         self.test_data.get("new_update_floor_response" ),
-        #         self.test_data.get("new_update_floor_response_details" ),
-        #         Exception(),
-        #         self.test_data.get("new_update_site_floor"),
-        #         Exception(),
-        #         Exception(),
-        #         self.test_data.get("new_update_site_area"),
-        #         Exception(),
-        #         Exception(),
-        #         self.test_data.get("new_update_site_building"),
-                
-        #     ]
 
         elif "delete_a_site" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
@@ -191,19 +153,8 @@ class TestDnacSiteWorkflow(TestDnacModule):
                 self.test_data.get("get_site_area_a_delete"),
                 self.test_data.get("delete_an_area_response"),
                 self.test_data.get("delete_an_area_response_details"),
-               
             ]
-        # elif "delete_site" in self._testMethodName:
-        #     self.run_dnac_exec.side_effect = [
-        #         self.test_data.get("get_site_area"),
-        #         self.test_data.get("get_membership"),
-        #         self.test_data.get("get_single_floor_deletion_response"),
-        #         self.test_data.get("delete_site_execution_detail"),
-        #         self.test_data.get("get_single_building_deletion_response"),
-        #         self.test_data.get("delete_site_execution_detail2"),
-        #         self.test_data.get("get_single_area_deletion_response"),
-        #         self.test_data.get("delete_site_execution_detail3"),
-        #     ]
+
         elif "delete_site" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 Exception(),
@@ -226,19 +177,14 @@ class TestDnacSiteWorkflow(TestDnacModule):
                 self.test_data.get("new_area_delete_response_details"),
             ]
 
-        
-
         elif "verify_diff" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 Exception(),
                 self.test_data.get("get_site_create_area"),
-                # self.test_data.get("get_site_create_area"),
                 Exception(),
                 self.test_data.get("get_site_create_building"),
-                # self.test_data.get("get_site_create_building"),
                 Exception(),
                 self.test_data.get("get_site_create_floor"),
-                # self.test_data.get("get_site_create_floor"),
             ]
 
     def test_Site_workflow_manager_create_bulk_site(self):
@@ -252,7 +198,7 @@ class TestDnacSiteWorkflow(TestDnacModule):
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
-                dnac_version = "2.3.7.6",
+                dnac_version="2.3.7.6",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_bulk_site
@@ -275,7 +221,7 @@ class TestDnacSiteWorkflow(TestDnacModule):
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
-                dnac_version = "2.3.5.3",
+                dnac_version="2.3.5.3",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_site
@@ -300,7 +246,7 @@ class TestDnacSiteWorkflow(TestDnacModule):
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
-                dnac_version = "2.3.7.6",
+                dnac_version="2.3.7.6",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_invalid_param
@@ -324,7 +270,7 @@ class TestDnacSiteWorkflow(TestDnacModule):
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
-                dnac_version = "2.3.7.6",
+                dnac_version="2.3.7.6",
                 dnac_log=True,
                 state="merged",
                 config=self.test_data.get("playbook_config_invalid_param")
@@ -346,7 +292,7 @@ class TestDnacSiteWorkflow(TestDnacModule):
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
-                dnac_version = "2.3.7.6",
+                dnac_version="2.3.7.6",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_empty
@@ -359,7 +305,6 @@ class TestDnacSiteWorkflow(TestDnacModule):
             "Unable to delete site(s) '[]' as it's not found in Cisco Catalyst Center."
         )
 
-
     def test_Site_workflow_manager_create_site_bulk_invalid(self):
         """
         Test case for site workflow manager when creating a site.
@@ -371,7 +316,7 @@ class TestDnacSiteWorkflow(TestDnacModule):
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
-                dnac_version = "2.3.7.6",
+                dnac_version="2.3.7.6",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_site
@@ -382,7 +327,7 @@ class TestDnacSiteWorkflow(TestDnacModule):
             result.get('msg'),
             "This version : '2.3.7.6' given yaml format is not applicable to create a site' "
         )
-    
+
     def test_Site_workflow_manager_verify_diff_merged_site(self):
         """
         Test case for verify parameters in site workflow manager after applying merged state.
@@ -406,6 +351,7 @@ class TestDnacSiteWorkflow(TestDnacModule):
             "Site(s) '['Global/Mysore', 'Global/Mysore/Mod-x', 'Global/Mysore/Mod-x/Mezzanine']'" +
             " not needs any update in Cisco Catalyst Center."
         )
+
     def test_Site_workflow_manager_delete_a_site(self):
         """
         Test case for site workflow manager when creating a site.
@@ -417,7 +363,7 @@ class TestDnacSiteWorkflow(TestDnacModule):
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
-                dnac_version = "2.3.7.6",
+                dnac_version="2.3.7.6",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_delete
@@ -426,9 +372,9 @@ class TestDnacSiteWorkflow(TestDnacModule):
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
             result.get('msg'),
-            # "The site '{0}' and its child sites have been deleted successfully"
             "This version : '2.3.7.6' given yaml format is not applicable to create a site' "
         )
+
     def test_Site_workflow_manager_delete_site(self):
         """
         Test case for site workflow manager when creating a site.
@@ -440,7 +386,7 @@ class TestDnacSiteWorkflow(TestDnacModule):
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
-                dnac_version = "2.3.5.3",
+                dnac_version="2.3.5.3",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_site
@@ -463,7 +409,7 @@ class TestDnacSiteWorkflow(TestDnacModule):
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
-                dnac_version = "2.3.5.3",
+                dnac_version="2.3.5.3",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_update_site
@@ -489,7 +435,7 @@ class TestDnacSiteWorkflow(TestDnacModule):
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
-                dnac_version = "2.3.7.6",
+                dnac_version="2.3.7.6",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_update_site
