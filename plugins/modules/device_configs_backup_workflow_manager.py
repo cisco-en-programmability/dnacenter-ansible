@@ -467,76 +467,6 @@ class Device_configs_backup(DnacBase):
         self.status = "success"
         return self
 
-    def update_result(self, status, changed, msg, log_level, data=None):
-        """
-        Update the result of the operation with the provided status, message, and log level.
-        Parameters:
-            - status (str): The status of the operation ("success" or "failed").
-            - changed (bool): Indicates whether the operation caused changes.
-            - msg (str): The message describing the result of the operation.
-            - log_level (str): The log level at which the message should be logged ("INFO", "ERROR", "CRITICAL", etc.).
-            - data (dict, optional): Additional data related to the operation result.
-        Returns:
-            self (object): An instance of the class.
-        Note:
-            - If the status is "failed", the "failed" key in the result dictionary will be set to True.
-            - If data is provided, it will be included in the result dictionary.
-        """
-        # Update the result attributes with the provided values
-        self.status = status
-        self.result["status"] = status
-        self.result["msg"] = msg
-        self.result["changed"] = changed
-
-        # Log the message at the specified log level
-        self.log(msg, log_level)
-
-        # If the status is "failed", set the "failed" key to True
-        if status == "failed":
-            self.result["failed"] = True
-
-        # If additional data is provided, include it in the result dictionary
-        if data:
-            self.result["data"] = data
-
-        return self
-
-    def validate_site_exists(self, site_name):
-        """
-        Checks the existence of a site in Cisco Catalyst Center.
-        Parameters:
-            site_name (str): The name of the site to be checked.
-        Returns:
-            tuple: A tuple containing two values:
-            - site_exists (bool): Indicates whether the site exists (True) or not (False).
-            - site_id (str or None): The ID of the site if it exists, or None if the site is not found.
-        Description:
-            This method queries Cisco Catalyst Center to determine if a site with the provided name exists.
-            If the site is found, it sets "site_exists" to True and retrieves the sites ID.
-            If the site does not exist, "site_exists" is set to False, and "site_id" is None.
-            If an exception occurs during the site lookup, an error message is logged, and the module fails.
-        """
-        site_exists = False
-        site_id = None
-        response = None
-
-        try:
-            response = self.get_site(site_name)
-            if response is None:
-                raise ValueError
-            site = response.get("response")
-            site_id = site[0].get("id")
-            site_exists = True
-
-        except Exception as e:
-            self.status = "failed"
-            self.msg = ("An exception occurred: Site '{0}' does not exist in the Cisco Catalyst Center.".format(site_name))
-            self.result['response'] = self.msg
-            self.log(self.msg, "ERROR")
-            self.check_return_status()
-
-        return (site_exists, site_id)
-
     def get_device_list_params(self, config):
         """
         Generates a dictionary of device parameters for querying Cisco Catalyst Center.
@@ -841,6 +771,7 @@ class Device_configs_backup(DnacBase):
             task ID of the export operation.
             If an error occurs, it logs an error message, updates the result, and checks the return status.
         """
+        task_id = self.get_taskid_post_api_call("configuration_archive", "export_device_configurations", export_device_configurations_params)
         try:
             # Make an API call to export device configurations
             response = self.dnac._exec(
@@ -868,9 +799,9 @@ class Device_configs_backup(DnacBase):
                 "An error occurred while Exporting Device Configurations from the Cisco Catalyst Center. "
                 "export_device_configurations_params: {0}  Error: {1}".format(export_device_configurations_params, str(e))
             )
-            self.update_result("failed", False, self.msg, "ERROR")
+            self.set_operation_result("failed", False, self.msg, "ERROR")
             self.check_return_status()
-
+        
     def exit_while_loop(self, start_time, task_id, task_name, response):
         """
         Check if the elapsed time exceeds the specified timeout period and exit the while loop if it does.
@@ -898,6 +829,7 @@ class Device_configs_backup(DnacBase):
             return True
 
         return False
+
 
     def download_file(self, additional_status_url=None):
         """
@@ -932,7 +864,7 @@ class Device_configs_backup(DnacBase):
             return None
         except Exception as e:
             self.msg = "The Backup Config file with File ID: {0} could not be downloaded due to the following error: {1}".format(file_id, e)
-            self.update_result("failed", False, self.msg, "ERROR")
+            self.set_operation_result("failed", False, self.msg, "ERROR")
             self.check_return_status()
 
     def unzip_data(self, file_id, file_data):
@@ -969,7 +901,7 @@ class Device_configs_backup(DnacBase):
             return True
         except Exception as e:
             self.msg = "Error in unzipping Backup Config file with file ID: {0}. Error: {1}".format(file_id, e)
-            self.update_result("failed", False, self.msg, "ERROR")
+            self.set_operation_result("failed", False, self.msg, "ERROR")
             self.check_return_status()
 
     def get_export_device_config_task_status(self, task_id):
@@ -994,7 +926,7 @@ class Device_configs_backup(DnacBase):
             # Check if response returned
             if not response:
                 self.msg = "Error retrieving Task status for the task_name {0} task_id {1}".format(task_name, task_id)
-                self.update_result("failed", False, self.msg, "ERROR")
+                self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
             # Check if the elapsed time exceeds the timeout
@@ -1010,7 +942,7 @@ class Device_configs_backup(DnacBase):
                         task_name, self.want.get("export_device_configurations_params"), failure_reason
                     )
                 )
-                self.update_result("failed", False, self.msg, "ERROR")
+                self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
             # Check if task completed successfully and exit the loop
@@ -1031,7 +963,7 @@ class Device_configs_backup(DnacBase):
         self.log("Retrived file data for file ID: {0}.".format(file_id), "DEBUG")
         if not downloaded_file:
             self.msg = "Error downloading Device Config Backup file(s) with file ID: {0}. ".format(file_id)
-            self.update_result("Failed", True, self.msg, "CRITICAL")
+            self.set_operation_result("Failed", True, self.msg, "CRITICAL")
             return self
 
         # Unzip the downloaded file
@@ -1046,10 +978,10 @@ class Device_configs_backup(DnacBase):
                 "The backup configuration files can be found at: {3}".format(
                     task_name, len(mgmt_ip_to_instance_id_map), len(self.skipped_devices_list), pathlib.Path(self.want.get("file_path")).resolve())
             )
-            self.update_result("success", True, self.msg, "INFO")
+            self.set_operation_result("success", True, self.msg, "INFO")
         else:
             self.msg = "Error unzipping Device Config Backup file(s) with file ID: {0}. ".format(file_id)
-            self.update_result("failed", False, self.msg, "ERROR")
+            self.set_operation_result("failed", False, self.msg, "ERROR")
 
         return self
 
@@ -1087,7 +1019,7 @@ class Device_configs_backup(DnacBase):
         self.log("Retrived the Device ID list based on the provided parameters: {0}".format(mgmt_ip_to_instance_id_map), "DEBUG")
         if not mgmt_ip_to_instance_id_map:
             self.msg = "No reachable devices found among the provided parameters: {0}".format(config)
-            self.update_result("failed", False, self.msg, "WARNING")
+            self.set_operation_result("failed", False, self.msg, "WARNING")
             return self
 
         self.log("Based on provided parameters, retrieved Device Id(s) of {0} device(s): {1} ".format(
@@ -1162,7 +1094,7 @@ class Device_configs_backup(DnacBase):
                 "The Device Config Backup operation may not have been successful since the backup files "
                 "were not found at the specified path. Error: {0}".format(str(e))
             )
-            self.update_result("failed", False, self.msg, "ERROR")
+            self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
 
         # Check if there are any files modified within the window
