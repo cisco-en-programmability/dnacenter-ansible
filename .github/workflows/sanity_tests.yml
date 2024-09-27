@@ -1,14 +1,13 @@
 name: CI
 on:
   push:
-    branches: [ main ]
-  pull_request:
+    branches: [main]
   schedule:
     - cron: '0 6 * * *'
   workflow_dispatch:
 env:
   NAMESPACE: cisco
-  COLLECTION_NAME: dnac 
+  COLLECTION_NAME: dnac
 jobs:
   # https://docs.ansible.com/ansible/latest/reference_appendices/release_and_maintenance.html#ansible-core-support-matrix
   # 2.14 supports Python 3.9-3.11
@@ -44,3 +43,7 @@ jobs:
       - name: Run sanity tests
         run: ansible-test sanity --docker -v --color
         working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
+      - name: Install yamllint
+        run: pip install --user yamllint
+      - name: Rum yamllint
+        run: yamllint -c .yamllint.yml .

@@ -79,7 +79,7 @@ jobs:
   pre:
     docker:
       - image: python:3.8.10
-    resource_class: cisco-en-programmability/dnacenter-ansible
+    resource_class: cisco-en-programmability/catalyst-center-ansible-runner-main
 
     steps:
       - run:
@@ -93,7 +93,7 @@ jobs:
   build:
     docker:
       - image: python:3.8.10
-    resource_class: cisco-en-programmability/dnacenter-ansible
+    resource_class: cisco-en-programmability/catalyst-center-ansible-runner-main
     steps:
       - run:
           name: Debug information
@@ -145,7 +145,7 @@ jobs:
         default: false
     docker:
       - image: python:3.8.10
-    resource_class: cisco-en-programmability/dnacenter-ansible
+    resource_class: cisco-en-programmability/catalyst-center-ansible-runner-main
 
     steps:
       - run:
@@ -269,7 +269,7 @@ jobs:
   sanity-tests:
     docker:
       - image: python:3.8.10
-    resource_class: cisco-en-programmability/dnacenter-ansible
+    resource_class: cisco-en-programmability/catalyst-center-ansible-runner-main
     parallelism: 4
     steps:
       - when:
@@ -343,9 +343,17 @@ jobs:
             chmod 600 ~/id_ssh
             export NO_PROXY=""
             export no_proxy=""
-            ssh $LOGS_MACHINE -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ~/id_ssh mkdir -p /var/www/html/madhan-logs/$CIRCLE_BUILD_NUM
-            scp -i ~/id_ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null sanity_tests_logs_$CIRCLE_NODE_INDEX $LOGS_MACHINE:/var/www/html/madhan-logs/$CIRCLE_BUILD_NUM
-            echo "LOGS URL: http://10.195.243.37/madhan-logs/$CIRCLE_BUILD_NUM/sanity_tests_logs_$CIRCLE_NODE_INDEX"
+            ssh $LOGS_MACHINE \
+              -o StrictHostKeyChecking=no \
+              -o UserKnownHostsFile=/dev/null \
+              -i ~/id_ssh \
+              mkdir -p /var/www/html/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/$CIRCLE_BUILD_NUM
+            scp \
+              -i ~/id_ssh \
+              -o StrictHostKeyChecking=no \
+              -o UserKnownHostsFile=/dev/null \
+              sanity_tests_logs_$CIRCLE_NODE_INDEX.log $LOGS_MACHINE:/var/www/html/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/$CIRCLE_BUILD_NUM
+            echo "LOGS URL: http://10.195.243.37/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/$CIRCLE_BUILD_NUM/sanity_tests_logs_$CIRCLE_NODE_INDEX.log"
             if [[ $(cat rc) != "0" ]]; then exit 1; fi
 
           no_output_timeout: 120m
@@ -353,7 +361,7 @@ jobs:
   post_pnp_testing:
     docker:
       - image: python:3.8.10
-    resource_class: cisco-en-programmability/dnacenter-ansible
+    resource_class: cisco-en-programmability/catalyst-center-ansible-runner-main
 
     steps:
       - when:
@@ -366,7 +374,7 @@ jobs:
   main-pr:
     docker:
       - image: maniator/gh:v2.49.2
-    resource_class: cisco-en-programmability/dnacenter-ansible
+    resource_class: cisco-en-programmability/catalyst-center-ansible-runner-main
     steps:
       - run:
           name: Clone repo to workspace
@@ -375,12 +383,16 @@ jobs:
           name: Create release pr to main
           command: |
             gh repo set-default $CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME
-            gh pr create --base main --head $CIRCLE_BRANCH --title "Release v<< pipeline.parameters.ansible_cisco_dnac_version >>" --body "Release v<< pipeline.parameters.ansible_cisco_dnac_version >>"
+            gh pr create \
+              --base main \
+              --head $CIRCLE_BRANCH \
+              --title "Release v<< pipeline.parameters.ansible_cisco_dnac_version >>" \
+              --body "Release v<< pipeline.parameters.ansible_cisco_dnac_version >>"
 
   release-job:
     docker:
       - image: python:3.8.10
-    resource_class: cisco-en-programmability/dnacenter-ansible
+    resource_class: cisco-en-programmability/catalyst-center-ansible-runner-main
     steps:
       - run:
           name: Clone repo to workspace
@@ -396,8 +408,12 @@ jobs:
       #       - "KEY_FINGERPRINT"
       - run:
           echo create release
-          # git tag -a v<< pipeline.parameters.ansible_cisco_dnac_version >> -m "Ansible DNACCollection Version v<< pipeline.parameters.ansible_cisco_dnac_version >>"
-          # gh release create "v<< pipeline.parameters.ansible_cisco_dnac_version >>" --title "DNAC Collection Version v<< pipeline.parameters.ansible_cisco_dnac_version >>" --latest
+          # git tag \
+          #   -a v<< pipeline.parameters.ansible_cisco_dnac_version >> \
+          #   -m "Ansible DNACCollection Version v<< pipeline.parameters.ansible_cisco_dnac_version >>"
+          # gh release create "v<< pipeline.parameters.ansible_cisco_dnac_version >>" \
+          #   --title "DNAC Collection Version v<< pipeline.parameters.ansible_cisco_dnac_version >>" \
+          #   --latest
           # ansible-galaxy collection publish workspace/*.tar.gz --api-key=$GALAXYKEY
 
 workflows:
@@ -406,9 +422,9 @@ workflows:
     when:
       and:
         - or:
-          - equal: [run-tests, << pipeline.parameters.GHA_Meta >>]
-          # - equal: [true, << pipeline.parameters.run-setup >>]
-          - not: << pipeline.parameters.continued >>
+            - equal: [run-tests, << pipeline.parameters.GHA_Meta >>]
+            # - equal: [true, << pipeline.parameters.run-setup >>]
+        - not: << pipeline.parameters.continued >>
     jobs:
       - pre
 
