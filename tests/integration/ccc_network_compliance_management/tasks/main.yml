@@ -13,7 +13,7 @@
 - set_fact:
     test_cases:
       files: "{{ ccc_cases.files }}"
-  tags: sanity 
+  tags: sanity
 
 - debug:
     msg: "Test Cases: {{ test_cases }}"
@@ -21,7 +21,7 @@
 - name: set test_items
   set_fact:
     test_items: "{{ test_cases.files | map(attribute='path') | list }}"
-  tags: sanity 
+  tags: sanity
 
 - debug:
     msg: "Test Items: {{ test_items }}"
@@ -31,4 +31,4 @@
   loop: "{{ test_items }}"
   loop_control:
     loop_var: test_case_to_run
-  tags: sanity 
+  tags: sanity
