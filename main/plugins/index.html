@@ -117,7 +117,7 @@
 <li class="toctree-l4"><a class="reference internal" href="configuration_template_version_create_module.html">cisco.dnac.configuration_template_version_create module -- Resource module for Configuration Template Version Create</a></li>
 <li class="toctree-l4"><a class="reference internal" href="configuration_template_version_info_module.html">cisco.dnac.configuration_template_version_info module -- Information module for Configuration Template Version</a></li>
 <li class="toctree-l4"><a class="reference internal" href="credential_to_site_by_siteid_create_v2_module.html">cisco.dnac.credential_to_site_by_siteid_create_v2 module -- Resource module for Credential To Site By Siteid Create V2</a></li>
-<li class="toctree-l4"><a class="reference internal" href="device_configs_backup_workflow_manager_module.html">cisco.dnac.device_configs_backup_workflow_manager module -- Resource module for device_configs_backup functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="device_configs_backup_workflow_manager_module.html">cisco.dnac.device_configs_backup_workflow_manager module -- Device Configs Backup module for taking configuration backups of reachable devices in the Cisco Catalyst Center.</a></li>
 <li class="toctree-l4"><a class="reference internal" href="device_configurations_export_module.html">cisco.dnac.device_configurations_export module -- Resource module for Device Configurations Export</a></li>
 <li class="toctree-l4"><a class="reference internal" href="device_credential_create_module.html">cisco.dnac.device_credential_create module -- Resource module for Device Credential Create</a></li>
 <li class="toctree-l4"><a class="reference internal" href="device_credential_delete_module.html">cisco.dnac.device_credential_delete module -- Resource module for Device Credential Delete</a></li>
@@ -200,6 +200,7 @@
 <li class="toctree-l4"><a class="reference internal" href="events_and_notifications_workflow_manager_module.html">cisco.dnac.events_and_notifications_workflow_manager module -- Configure various types of destinations to deliver event notifications from Cisco Catalyst Center Platform.</a></li>
 <li class="toctree-l4"><a class="reference internal" href="execute_suggested_actions_commands_module.html">cisco.dnac.execute_suggested_actions_commands module -- Resource module for Execute Suggested Actions Commands</a></li>
 <li class="toctree-l4"><a class="reference internal" href="fabric_sites_zones_workflow_manager_module.html">cisco.dnac.fabric_sites_zones_workflow_manager module -- Manage fabric site(s)/zone(s) and update the authentication profile template in Cisco Catalyst Center.</a></li>
+<li class="toctree-l4"><a class="reference internal" href="fabric_transits_workflow_manager_module.html">cisco.dnac.fabric_transits_workflow_manager module -- Resource module for SDA fabric transits</a></li>
 <li class="toctree-l4"><a class="reference internal" href="file_import_module.html">cisco.dnac.file_import module -- Resource module for File Import</a></li>
 <li class="toctree-l4"><a class="reference internal" href="file_info_module.html">cisco.dnac.file_info module -- Information module for File</a></li>
 <li class="toctree-l4"><a class="reference internal" href="file_namespace_files_info_module.html">cisco.dnac.file_namespace_files_info module -- Information module for File Namespace Files</a></li>
@@ -484,7 +485,7 @@
 <li class="toctree-l4"><a class="reference internal" href="swim_intent_module.html">cisco.dnac.swim_intent module -- Intent module for SWIM related functions</a></li>
 <li class="toctree-l4"><a class="reference internal" href="swim_trigger_activation_module.html">cisco.dnac.swim_trigger_activation module -- Resource module for Swim Trigger Activation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="swim_trigger_distribution_module.html">cisco.dnac.swim_trigger_distribution module -- Resource module for Swim Trigger Distribution</a></li>
-<li class="toctree-l4"><a class="reference internal" href="swim_workflow_manager_module.html">cisco.dnac.swim_workflow_manager module -- workflow_manager module for SWIM related functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="swim_workflow_manager_module.html">cisco.dnac.swim_workflow_manager module -- Module to manage SWIM (Software Image Management) operations in Cisco Catalyst Center</a></li>
 <li class="toctree-l4"><a class="reference internal" href="syslog_config_create_module.html">cisco.dnac.syslog_config_create module -- Resource module for Syslog Config Create</a></li>
 <li class="toctree-l4"><a class="reference internal" href="syslog_config_update_module.html">cisco.dnac.syslog_config_update module -- Resource module for Syslog Config Update</a></li>
 <li class="toctree-l4"><a class="reference internal" href="system_health_count_info_module.html">cisco.dnac.system_health_count_info module -- Information module for System Health Count</a></li>
@@ -579,7 +580,7 @@
              
   <section id="cisco-dnac">
 <span id="plugins-in-cisco-dnac"></span><h1>Cisco.Dnac<a class="headerlink" href="#cisco-dnac" title="Permalink to this heading"></a></h1>
-<p>Collection version 6.18.0</p>
+<p>Collection version 6.19.0</p>
 <nav class="contents local" id="contents">
 <ul class="simple">
 <li><p><a class="reference internal" href="#description" id="id1">Description</a></p></li>
@@ -597,6 +598,7 @@
 <li><p>Bryan Vargas &lt;<a class="reference external" href="mailto:bvargas&#37;&#52;&#48;altus&#46;cr">bvargas<span>&#64;</span>altus<span>&#46;</span>cr</a>&gt;</p></li>
 <li><p>Francisco Muñoz &lt;<a class="reference external" href="mailto:fmunoz&#37;&#52;&#48;altus&#46;cr">fmunoz<span>&#64;</span>altus<span>&#46;</span>cr</a>&gt;</p></li>
 <li><p>Madhan Sankaranarayanan &lt;<a class="reference external" href="mailto:madsanka&#37;&#52;&#48;cisco&#46;com">madsanka<span>&#64;</span>cisco<span>&#46;</span>com</a>&gt;</p></li>
+<li><p>Pawan Singh &lt;<a class="reference external" href="mailto:pawansi&#37;&#52;&#48;cisco&#46;com">pawansi<span>&#64;</span>cisco<span>&#46;</span>com</a>&gt;</p></li>
 <li><p>Rishita Chowdhary (&#64;rishitachowdhary)</p></li>
 <li><p>Muthu Rakesh Babu &lt;<a class="reference external" href="mailto:mutbabu&#37;&#52;&#48;cisco&#46;com">mutbabu<span>&#64;</span>cisco<span>&#46;</span>com</a>&gt;</p></li>
 <li><p>Akash Bhaskaran &lt;<a class="reference external" href="mailto:akabhask&#37;&#52;&#48;cisco&#46;com">akabhask<span>&#64;</span>cisco<span>&#46;</span>com</a>&gt;</p></li>
@@ -608,6 +610,9 @@
 <li><p>Ajith Andrew J &lt;<a class="reference external" href="mailto:jajandre&#37;&#52;&#48;cisco&#46;com">jajandre<span>&#64;</span>cisco<span>&#46;</span>com</a>&gt;</p></li>
 <li><p>Syed Khadeer Ahmed &lt;<a class="reference external" href="mailto:syedkahm&#37;&#52;&#48;cisco&#46;com">syedkahm<span>&#64;</span>cisco<span>&#46;</span>com</a>&gt;</p></li>
 <li><p>A Mohamed Rafeek &lt;<a class="reference external" href="mailto:mabdulk2&#37;&#52;&#48;cisco&#46;com">mabdulk2<span>&#64;</span>cisco<span>&#46;</span>com</a>&gt;</p></li>
+<li><p>Trupti A Shetty &lt;<a class="reference external" href="mailto:trashett&#37;&#52;&#48;cisco&#46;com">trashett<span>&#64;</span>cisco<span>&#46;</span>com</a>&gt;</p></li>
+<li><p>Sonali Deepthi Kesali &lt;<a class="reference external" href="mailto:skesali&#37;&#52;&#48;cisco&#46;com">skesali<span>&#64;</span>cisco<span>&#46;</span>com</a>&gt;</p></li>
+<li><p>Megha Kandari &lt;<a class="reference external" href="mailto:mekandar&#37;&#52;&#48;cisco&#46;com">mekandar<span>&#64;</span>cisco<span>&#46;</span>com</a>&gt;</p></li>
 </ul>
 <p><strong>Supported ansible-core versions:</strong></p>
 <ul class="simple">
@@ -688,7 +693,7 @@
 <li><p><a class="reference internal" href="configuration_template_version_create_module.html#ansible-collections-cisco-dnac-configuration-template-version-create-module"><span class="std std-ref">configuration_template_version_create module</span></a> -- Resource module for Configuration Template Version Create</p></li>
 <li><p><a class="reference internal" href="configuration_template_version_info_module.html#ansible-collections-cisco-dnac-configuration-template-version-info-module"><span class="std std-ref">configuration_template_version_info module</span></a> -- Information module for Configuration Template Version</p></li>
 <li><p><a class="reference internal" href="credential_to_site_by_siteid_create_v2_module.html#ansible-collections-cisco-dnac-credential-to-site-by-siteid-create-v2-module"><span class="std std-ref">credential_to_site_by_siteid_create_v2 module</span></a> -- Resource module for Credential To Site By Siteid Create V2</p></li>
-<li><p><a class="reference internal" href="device_configs_backup_workflow_manager_module.html#ansible-collections-cisco-dnac-device-configs-backup-workflow-manager-module"><span class="std std-ref">device_configs_backup_workflow_manager module</span></a> -- Resource module for device_configs_backup functions</p></li>
+<li><p><a class="reference internal" href="device_configs_backup_workflow_manager_module.html#ansible-collections-cisco-dnac-device-configs-backup-workflow-manager-module"><span class="std std-ref">device_configs_backup_workflow_manager module</span></a> -- Device Configs Backup module for taking configuration backups of reachable devices in the Cisco Catalyst Center.</p></li>
 <li><p><a class="reference internal" href="device_configurations_export_module.html#ansible-collections-cisco-dnac-device-configurations-export-module"><span class="std std-ref">device_configurations_export module</span></a> -- Resource module for Device Configurations Export</p></li>
 <li><p><a class="reference internal" href="device_credential_create_module.html#ansible-collections-cisco-dnac-device-credential-create-module"><span class="std std-ref">device_credential_create module</span></a> -- Resource module for Device Credential Create</p></li>
 <li><p><a class="reference internal" href="device_credential_delete_module.html#ansible-collections-cisco-dnac-device-credential-delete-module"><span class="std std-ref">device_credential_delete module</span></a> -- Resource module for Device Credential Delete</p></li>
@@ -771,6 +776,7 @@
 <li><p><a class="reference internal" href="events_and_notifications_workflow_manager_module.html#ansible-collections-cisco-dnac-events-and-notifications-workflow-manager-module"><span class="std std-ref">events_and_notifications_workflow_manager module</span></a> -- Configure various types of destinations to deliver event notifications from Cisco Catalyst Center Platform.</p></li>
 <li><p><a class="reference internal" href="execute_suggested_actions_commands_module.html#ansible-collections-cisco-dnac-execute-suggested-actions-commands-module"><span class="std std-ref">execute_suggested_actions_commands module</span></a> -- Resource module for Execute Suggested Actions Commands</p></li>
 <li><p><a class="reference internal" href="fabric_sites_zones_workflow_manager_module.html#ansible-collections-cisco-dnac-fabric-sites-zones-workflow-manager-module"><span class="std std-ref">fabric_sites_zones_workflow_manager module</span></a> -- Manage fabric site(s)/zone(s) and update the authentication profile template in Cisco Catalyst Center.</p></li>
+<li><p><a class="reference internal" href="fabric_transits_workflow_manager_module.html#ansible-collections-cisco-dnac-fabric-transits-workflow-manager-module"><span class="std std-ref">fabric_transits_workflow_manager module</span></a> -- Resource module for SDA fabric transits</p></li>
 <li><p><a class="reference internal" href="file_import_module.html#ansible-collections-cisco-dnac-file-import-module"><span class="std std-ref">file_import module</span></a> -- Resource module for File Import</p></li>
 <li><p><a class="reference internal" href="file_info_module.html#ansible-collections-cisco-dnac-file-info-module"><span class="std std-ref">file_info module</span></a> -- Information module for File</p></li>
 <li><p><a class="reference internal" href="file_namespace_files_info_module.html#ansible-collections-cisco-dnac-file-namespace-files-info-module"><span class="std std-ref">file_namespace_files_info module</span></a> -- Information module for File Namespace Files</p></li>
@@ -1055,7 +1061,7 @@
 <li><p><a class="reference internal" href="swim_intent_module.html#ansible-collections-cisco-dnac-swim-intent-module"><span class="std std-ref">swim_intent module</span></a> -- Intent module for SWIM related functions</p></li>
 <li><p><a class="reference internal" href="swim_trigger_activation_module.html#ansible-collections-cisco-dnac-swim-trigger-activation-module"><span class="std std-ref">swim_trigger_activation module</span></a> -- Resource module for Swim Trigger Activation</p></li>
 <li><p><a class="reference internal" href="swim_trigger_distribution_module.html#ansible-collections-cisco-dnac-swim-trigger-distribution-module"><span class="std std-ref">swim_trigger_distribution module</span></a> -- Resource module for Swim Trigger Distribution</p></li>
-<li><p><a class="reference internal" href="swim_workflow_manager_module.html#ansible-collections-cisco-dnac-swim-workflow-manager-module"><span class="std std-ref">swim_workflow_manager module</span></a> -- workflow_manager module for SWIM related functions</p></li>
+<li><p><a class="reference internal" href="swim_workflow_manager_module.html#ansible-collections-cisco-dnac-swim-workflow-manager-module"><span class="std std-ref">swim_workflow_manager module</span></a> -- Module to manage SWIM (Software Image Management) operations in Cisco Catalyst Center</p></li>
 <li><p><a class="reference internal" href="syslog_config_create_module.html#ansible-collections-cisco-dnac-syslog-config-create-module"><span class="std std-ref">syslog_config_create module</span></a> -- Resource module for Syslog Config Create</p></li>
 <li><p><a class="reference internal" href="syslog_config_update_module.html#ansible-collections-cisco-dnac-syslog-config-update-module"><span class="std std-ref">syslog_config_update module</span></a> -- Resource module for Syslog Config Update</p></li>
 <li><p><a class="reference internal" href="system_health_count_info_module.html#ansible-collections-cisco-dnac-system-health-count-info-module"><span class="std std-ref">system_health_count_info module</span></a> -- Information module for System Health Count</p></li>

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>cisco.dnac.swim_workflow_manager module -- workflow_manager module for SWIM related functions &mdash; DNACenterAnsibleActions  documentation</title>
+  <title>cisco.dnac.swim_workflow_manager module -- Module to manage SWIM (Software Image Management) operations in Cisco Catalyst Center &mdash; DNACenterAnsibleActions  documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css" />
       <link rel="stylesheet" type="text/css" href="../_static/ansible-basic-sphinx-ext.css" />
@@ -115,7 +115,7 @@
 <li class="toctree-l4"><a class="reference internal" href="configuration_template_version_create_module.html">cisco.dnac.configuration_template_version_create module -- Resource module for Configuration Template Version Create</a></li>
 <li class="toctree-l4"><a class="reference internal" href="configuration_template_version_info_module.html">cisco.dnac.configuration_template_version_info module -- Information module for Configuration Template Version</a></li>
 <li class="toctree-l4"><a class="reference internal" href="credential_to_site_by_siteid_create_v2_module.html">cisco.dnac.credential_to_site_by_siteid_create_v2 module -- Resource module for Credential To Site By Siteid Create V2</a></li>
-<li class="toctree-l4"><a class="reference internal" href="device_configs_backup_workflow_manager_module.html">cisco.dnac.device_configs_backup_workflow_manager module -- Resource module for device_configs_backup functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="device_configs_backup_workflow_manager_module.html">cisco.dnac.device_configs_backup_workflow_manager module -- Device Configs Backup module for taking configuration backups of reachable devices in the Cisco Catalyst Center.</a></li>
 <li class="toctree-l4"><a class="reference internal" href="device_configurations_export_module.html">cisco.dnac.device_configurations_export module -- Resource module for Device Configurations Export</a></li>
 <li class="toctree-l4"><a class="reference internal" href="device_credential_create_module.html">cisco.dnac.device_credential_create module -- Resource module for Device Credential Create</a></li>
 <li class="toctree-l4"><a class="reference internal" href="device_credential_delete_module.html">cisco.dnac.device_credential_delete module -- Resource module for Device Credential Delete</a></li>
@@ -198,6 +198,7 @@
 <li class="toctree-l4"><a class="reference internal" href="events_and_notifications_workflow_manager_module.html">cisco.dnac.events_and_notifications_workflow_manager module -- Configure various types of destinations to deliver event notifications from Cisco Catalyst Center Platform.</a></li>
 <li class="toctree-l4"><a class="reference internal" href="execute_suggested_actions_commands_module.html">cisco.dnac.execute_suggested_actions_commands module -- Resource module for Execute Suggested Actions Commands</a></li>
 <li class="toctree-l4"><a class="reference internal" href="fabric_sites_zones_workflow_manager_module.html">cisco.dnac.fabric_sites_zones_workflow_manager module -- Manage fabric site(s)/zone(s) and update the authentication profile template in Cisco Catalyst Center.</a></li>
+<li class="toctree-l4"><a class="reference internal" href="fabric_transits_workflow_manager_module.html">cisco.dnac.fabric_transits_workflow_manager module -- Resource module for SDA fabric transits</a></li>
 <li class="toctree-l4"><a class="reference internal" href="file_import_module.html">cisco.dnac.file_import module -- Resource module for File Import</a></li>
 <li class="toctree-l4"><a class="reference internal" href="file_info_module.html">cisco.dnac.file_info module -- Information module for File</a></li>
 <li class="toctree-l4"><a class="reference internal" href="file_namespace_files_info_module.html">cisco.dnac.file_namespace_files_info module -- Information module for File Namespace Files</a></li>
@@ -482,7 +483,7 @@
 <li class="toctree-l4"><a class="reference internal" href="swim_intent_module.html">cisco.dnac.swim_intent module -- Intent module for SWIM related functions</a></li>
 <li class="toctree-l4"><a class="reference internal" href="swim_trigger_activation_module.html">cisco.dnac.swim_trigger_activation module -- Resource module for Swim Trigger Activation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="swim_trigger_distribution_module.html">cisco.dnac.swim_trigger_distribution module -- Resource module for Swim Trigger Distribution</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">cisco.dnac.swim_workflow_manager module -- workflow_manager module for SWIM related functions</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">cisco.dnac.swim_workflow_manager module -- Module to manage SWIM (Software Image Management) operations in Cisco Catalyst Center</a></li>
 <li class="toctree-l4"><a class="reference internal" href="syslog_config_create_module.html">cisco.dnac.syslog_config_create module -- Resource module for Syslog Config Create</a></li>
 <li class="toctree-l4"><a class="reference internal" href="syslog_config_update_module.html">cisco.dnac.syslog_config_update module -- Resource module for Syslog Config Update</a></li>
 <li class="toctree-l4"><a class="reference internal" href="system_health_count_info_module.html">cisco.dnac.system_health_count_info module -- Information module for System Health Count</a></li>
@@ -566,7 +567,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">Cisco.Dnac</a></li>
-      <li class="breadcrumb-item active">cisco.dnac.swim_workflow_manager module -- workflow_manager module for SWIM related functions</li>
+      <li class="breadcrumb-item active">cisco.dnac.swim_workflow_manager module -- Module to manage SWIM (Software Image Management) operations in Cisco Catalyst Center</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/plugins/swim_workflow_manager_module.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -576,11 +577,11 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <span class="target" id="ansible-collections-cisco-dnac-swim-workflow-manager-module"></span><section id="cisco-dnac-swim-workflow-manager-module-workflow-manager-module-for-swim-related-functions">
-<h1>cisco.dnac.swim_workflow_manager module -- workflow_manager module for SWIM related functions<a class="headerlink" href="#cisco-dnac-swim-workflow-manager-module-workflow-manager-module-for-swim-related-functions" title="Permalink to this heading"></a></h1>
+  <span class="target" id="ansible-collections-cisco-dnac-swim-workflow-manager-module"></span><section id="cisco-dnac-swim-workflow-manager-module-module-to-manage-swim-software-image-management-operations-in-cisco-catalyst-center">
+<h1>cisco.dnac.swim_workflow_manager module -- Module to manage SWIM (Software Image Management) operations in Cisco Catalyst Center<a class="headerlink" href="#cisco-dnac-swim-workflow-manager-module-module-to-manage-swim-software-image-management-operations-in-cisco-catalyst-center" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.18.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.19.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-swim-workflow-manager-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -600,19 +601,19 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-swim-wor
 <section id="synopsis">
 <h2><a class="toc-backref" href="#id67" role="doc-backlink">Synopsis</a><a class="headerlink" href="#synopsis" title="Permalink to this heading"></a></h2>
 <ul class="simple">
-<li><p>Manage operation related to image importation, distribution, activation and tagging image as golden</p></li>
-<li><p>API to fetch a software image from remote file system using URL for HTTP/FTP and upload it to Catalyst Center. Supported image files extensions are bin, img, tar, smu, pie, aes, iso, ova, tar_gz and qcow2.</p></li>
-<li><p>API to fetch a software image from local file system and upload it to Catalyst Center Supported image files extensions are bin, img, tar, smu, pie, aes, iso, ova, tar_gz and qcow2.</p></li>
-<li><p>API to tag/untag image as golen for a given family of devices</p></li>
-<li><p>API to distribute a software image on a given device. Software image must be imported successfully into Catalyst Center before it can be distributed.</p></li>
-<li><p>API to activate a software image on a given device. Software image must be present in the device flash.</p></li>
+<li><p>Manages operations for image importation, distribution, activation, and tagging images as golden.</p></li>
+<li><p>Provides an API to fetch a software image from a remote file system via HTTP/FTP and upload it to Catalyst Center. Supported file extensions - bin, img, tar, smu, pie, aes, iso, ova, tar.gz, qcow2.</p></li>
+<li><p>Provides an API to fetch a software image from a local file system and upload it to Catalyst Center. Supported file extensions - bin, img, tar, smu, pie, aes, iso, ova, tar.gz, qcow2.</p></li>
+<li><p>Provides an API to fetch a software image from Cisco Connection Online (CCO) and upload it to Catalyst Center. Refer to <a class="reference external" href="https://software.cisco.com/download/home">https://software.cisco.com/download/home</a> for suggested images in Cisco Catalyst Center. CCO functionality is available starting from Cisco Catalyst version 2.3.7.6.</p></li>
+<li><p>Provides an API to tag or untag an image as golden for a given family of devices.</p></li>
+<li><p>Provides an API to distribute a software image to a device. The software image must be imported into Catalyst Center before it can be distributed.</p></li>
 </ul>
 </section>
 <section id="requirements">
 <span id="ansible-collections-cisco-dnac-swim-workflow-manager-module-requirements"></span><h2><a class="toc-backref" href="#id68" role="doc-backlink">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
 <p>The below requirements are needed on the host that executes this module.</p>
 <ul class="simple">
-<li><p>dnacentersdk == 2.4.5</p></li>
+<li><p>dnacentersdk == 2.7.3</p></li>
 <li><p>python &gt;= 3.9</p></li>
 </ul>
 </section>
@@ -825,6 +826,24 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-swim-wor
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/import_image_details/cco_image_details"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-workflow-manager-module-parameter-config-import-image-details-cco-image-details"><strong>cco_image_details</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/import_image_details/cco_image_details" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Parameters related to importing a software image from Cisco Connection Online (CCO) into Catalyst Center.</p>
+<p>This API fetches the specified image from CCO and uploads it to Catalyst Center.</p>
+<p>Supported from Cisco Catalyst Center version 2.3.7.6 onward.</p>
+<p>Refer to the Cisco software download portal (<a class="reference external" href="https://software.cisco.com/download/home">https://software.cisco.com/download/home</a>) for recommended images.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/import_image_details/cco_image_details/image_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-workflow-manager-module-parameter-config-import-image-details-cco-image-details-image-name"><strong>image_name</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/import_image_details/cco_image_details/image_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The name of the software image to be imported from Cisco.com.</p>
+<p>This is a mandatory parameter and must be provided to initiate the download from CCO.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/import_image_details/local_image_details"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-workflow-manager-module-parameter-config-import-image-details-local-image-details"><strong>local_image_details</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/import_image_details/local_image_details" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
@@ -875,7 +894,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-swim-wor
 <div class="ansibleOptionAnchor" id="parameter-config/import_image_details/type"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-workflow-manager-module-parameter-config-import-image-details-type"><strong>type</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/import_image_details/type" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Specifies the import source, supporting local file import (local) or remote url import (remote).</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Specifies the source of the image import. Supported values are 'local' for local file import, 'remote' for remote URL import, or 'CCO' for import from Cisco Connection Online.</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -920,7 +939,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-swim-wor
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/import_image_details/url_details/payload/source_url"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-workflow-manager-module-parameter-config-import-image-details-url-details-payload-source-url"><strong>source_url</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/import_image_details/url_details/payload/source_url" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<a class="ansibleOptionLink" href="#parameter-config/import_image_details/url_details/payload/source_url" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>A mandatory parameter for importing a SWIM image via a remote URL. This parameter is required when using a URL to import an image..(For example, <a class="reference external" href="http:/">http:/</a>/{host}/swim/cat9k_isoxe.16.12.10s.SPA.bin, <a class="reference external" href="ftp://user">ftp://user</a>:<a class="reference external" href="mailto:password&#37;&#52;&#48;{host}/swim/cat9k_isoxe&#46;16&#46;12&#46;10s&#46;SPA&#46;iso">password<span>&#64;</span>{host}/swim/cat9k_isoxe<span>&#46;</span>16<span>&#46;</span>12<span>&#46;</span>10s<span>&#46;</span>SPA<span>&#46;</span>iso</a>)</p>
 </div></td>
@@ -1202,7 +1221,8 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-swim-wor
 <span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">remote</span>
 <span class="w">        </span><span class="nt">url_details</span><span class="p">:</span>
 <span class="w">          </span><span class="nt">payload</span><span class="p">:</span>
-<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">source_url</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;http://10.10.10.10/stda/cat9k_iosxe.17.12.01.SPA.bin&quot;</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">source_url</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;http://10.10.10.10/stda/cat9k_iosxe.17.12.01.SPA.bin&quot;</span>
 <span class="w">            </span><span class="nt">is_third_party</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
 <span class="w">      </span><span class="nt">tagging_details</span><span class="p">:</span>
 <span class="w">        </span><span class="nt">image_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cat9k_iosxe.17.12.01.SPA.bin</span>
@@ -1243,6 +1263,44 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-swim-wor
 <span class="w">        </span><span class="nt">device_image_family_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Cisco Catalyst 9300 Switch</span>
 <span class="w">        </span><span class="nt">site_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/USA/San Francisco/BGL_18</span>
 <span class="w">        </span><span class="nt">tagging</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Import bulk images from URL</span>
+<span class="w">  </span><span class="nt">cisco.dnac.swim_workflow_manager</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_password</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_verify</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_port</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_log_level</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+<span class="w">    </span><span class="nt">config</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">import_image_details</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">remote</span>
+<span class="w">        </span><span class="nt">url_details</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">payload</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">source_url</span><span class="p">:</span>
+<span class="w">                </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;http://10.10.10.10/stda/cat9k_iosxe.17.12.01.SPA.bin&quot;</span>
+<span class="w">                </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;http://10.10.10.10/stda/cat9k_iosxe.17.12.02.SPA.bin&quot;</span>
+<span class="w">            </span><span class="nt">third_party</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
+
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Import images from CCO (cisco.com)</span>
+<span class="w">  </span><span class="nt">cisco.dnac.swim_workflow_manager</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_password</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_verify</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_port</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_log_level</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+<span class="w">    </span><span class="nt">config</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">import_image_details</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CCO</span>
+<span class="w">        </span><span class="nt">cco_image_details</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">image_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cat9k_iosxe.17.06.06a.SPA.bin</span>
 
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Tag the given image as golden and load it on device</span>
 <span class="w">  </span><span class="nt">cisco.dnac.swim_workflow_manager</span><span class="p">:</span>
@@ -1349,7 +1407,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-swim-wor
 <section id="authors">
 <h3>Authors<a class="headerlink" href="#authors" title="Permalink to this heading"></a></h3>
 <ul class="simple">
-<li><p>Madhan Sankaranarayanan (&#64;madhansansel) Rishita Chowdhary (&#64;rishitachowdhary) Abhishek Maheshwari (&#64;abmahesh)</p></li>
+<li><p>Madhan Sankaranarayanan (&#64;madhansansel) Rishita Chowdhary (&#64;rishitachowdhary) Abhishek Maheshwari (&#64;abmahesh) Syed Khadeer Ahmed (&#64;syed-khadeerahmed) Ajith Andrew J (&#64;ajithandrewj)</p></li>
 </ul>
 </section>
 <section id="collection-links">

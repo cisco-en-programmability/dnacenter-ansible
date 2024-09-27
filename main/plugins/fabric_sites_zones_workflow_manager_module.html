@@ -23,7 +23,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="cisco.dnac.file_import module -- Resource module for File Import" href="file_import_module.html" />
+    <link rel="next" title="cisco.dnac.fabric_transits_workflow_manager module -- Resource module for SDA fabric transits" href="fabric_transits_workflow_manager_module.html" />
     <link rel="prev" title="cisco.dnac.execute_suggested_actions_commands module -- Resource module for Execute Suggested Actions Commands" href="execute_suggested_actions_commands_module.html" /> 
 </head>
 
@@ -115,7 +115,7 @@
 <li class="toctree-l4"><a class="reference internal" href="configuration_template_version_create_module.html">cisco.dnac.configuration_template_version_create module -- Resource module for Configuration Template Version Create</a></li>
 <li class="toctree-l4"><a class="reference internal" href="configuration_template_version_info_module.html">cisco.dnac.configuration_template_version_info module -- Information module for Configuration Template Version</a></li>
 <li class="toctree-l4"><a class="reference internal" href="credential_to_site_by_siteid_create_v2_module.html">cisco.dnac.credential_to_site_by_siteid_create_v2 module -- Resource module for Credential To Site By Siteid Create V2</a></li>
-<li class="toctree-l4"><a class="reference internal" href="device_configs_backup_workflow_manager_module.html">cisco.dnac.device_configs_backup_workflow_manager module -- Resource module for device_configs_backup functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="device_configs_backup_workflow_manager_module.html">cisco.dnac.device_configs_backup_workflow_manager module -- Device Configs Backup module for taking configuration backups of reachable devices in the Cisco Catalyst Center.</a></li>
 <li class="toctree-l4"><a class="reference internal" href="device_configurations_export_module.html">cisco.dnac.device_configurations_export module -- Resource module for Device Configurations Export</a></li>
 <li class="toctree-l4"><a class="reference internal" href="device_credential_create_module.html">cisco.dnac.device_credential_create module -- Resource module for Device Credential Create</a></li>
 <li class="toctree-l4"><a class="reference internal" href="device_credential_delete_module.html">cisco.dnac.device_credential_delete module -- Resource module for Device Credential Delete</a></li>
@@ -198,6 +198,7 @@
 <li class="toctree-l4"><a class="reference internal" href="events_and_notifications_workflow_manager_module.html">cisco.dnac.events_and_notifications_workflow_manager module -- Configure various types of destinations to deliver event notifications from Cisco Catalyst Center Platform.</a></li>
 <li class="toctree-l4"><a class="reference internal" href="execute_suggested_actions_commands_module.html">cisco.dnac.execute_suggested_actions_commands module -- Resource module for Execute Suggested Actions Commands</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">cisco.dnac.fabric_sites_zones_workflow_manager module -- Manage fabric site(s)/zone(s) and update the authentication profile template in Cisco Catalyst Center.</a></li>
+<li class="toctree-l4"><a class="reference internal" href="fabric_transits_workflow_manager_module.html">cisco.dnac.fabric_transits_workflow_manager module -- Resource module for SDA fabric transits</a></li>
 <li class="toctree-l4"><a class="reference internal" href="file_import_module.html">cisco.dnac.file_import module -- Resource module for File Import</a></li>
 <li class="toctree-l4"><a class="reference internal" href="file_info_module.html">cisco.dnac.file_info module -- Information module for File</a></li>
 <li class="toctree-l4"><a class="reference internal" href="file_namespace_files_info_module.html">cisco.dnac.file_namespace_files_info module -- Information module for File Namespace Files</a></li>
@@ -482,7 +483,7 @@
 <li class="toctree-l4"><a class="reference internal" href="swim_intent_module.html">cisco.dnac.swim_intent module -- Intent module for SWIM related functions</a></li>
 <li class="toctree-l4"><a class="reference internal" href="swim_trigger_activation_module.html">cisco.dnac.swim_trigger_activation module -- Resource module for Swim Trigger Activation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="swim_trigger_distribution_module.html">cisco.dnac.swim_trigger_distribution module -- Resource module for Swim Trigger Distribution</a></li>
-<li class="toctree-l4"><a class="reference internal" href="swim_workflow_manager_module.html">cisco.dnac.swim_workflow_manager module -- workflow_manager module for SWIM related functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="swim_workflow_manager_module.html">cisco.dnac.swim_workflow_manager module -- Module to manage SWIM (Software Image Management) operations in Cisco Catalyst Center</a></li>
 <li class="toctree-l4"><a class="reference internal" href="syslog_config_create_module.html">cisco.dnac.syslog_config_create module -- Resource module for Syslog Config Create</a></li>
 <li class="toctree-l4"><a class="reference internal" href="syslog_config_update_module.html">cisco.dnac.syslog_config_update module -- Resource module for Syslog Config Update</a></li>
 <li class="toctree-l4"><a class="reference internal" href="system_health_count_info_module.html">cisco.dnac.system_health_count_info module -- Information module for System Health Count</a></li>
@@ -580,7 +581,7 @@
 <h1>cisco.dnac.fabric_sites_zones_workflow_manager module -- Manage fabric site(s)/zone(s) and update the authentication profile template in Cisco Catalyst Center.<a class="headerlink" href="#cisco-dnac-fabric-sites-zones-workflow-manager-module-manage-fabric-site-s-zone-s-and-update-the-authentication-profile-template-in-cisco-catalyst-center" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.18.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.19.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-fabric-sites-zones-workflow-manager-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -648,6 +649,13 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-fabric-s
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/fabric_sites/fabric_type"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-fabric-sites-zones-workflow-manager-module-parameter-config-fabric-sites-fabric-type"><strong>fabric_type</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/fabric_sites/fabric_type" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Specifies the type of site to be managed within the SDA environment. The acceptable values are 'fabric_site' and 'fabric_zone'. The default value is 'fabric_site', indicating the configuration of a broader network area, whereas 'fabric_zone' typically refers to a more specific segment within the site.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/fabric_sites/is_pub_sub_enabled"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-fabric-sites-zones-workflow-manager-module-parameter-config-fabric-sites-is-pub-sub-enabled"><strong>is_pub_sub_enabled</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/fabric_sites/is_pub_sub_enabled" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -659,18 +667,11 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-fabric-s
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/fabric_sites/site_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-fabric-sites-zones-workflow-manager-module-parameter-config-fabric-sites-site-name"><strong>site_name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/fabric_sites/site_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>This name uniquely identifies the site for operations such as creating, updating, or deleting fabric sites or zones, as well as for updating the authentication profile template. This parameter is mandatory for any fabric site/zone management operation.</p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/fabric_sites/site_type"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-fabric-sites-zones-workflow-manager-module-parameter-config-fabric-sites-site-type"><strong>site_type</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/fabric_sites/site_type" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Specifies the type of site to be managed within the SDA environment. The acceptable values are 'fabric_site' and 'fabric_zone'. The default value is 'fabric_site', indicating the configuration of a broader network area, whereas 'fabric_zone' typically refers to a more specific segment within the site.</p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -962,7 +963,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-fabric-s
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fabric sites</span><span class="p">:</span>
 <span class="w">          </span><span class="nt">site_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/Test_SDA/Bld1/Floor1&quot;</span>
-<span class="w">          </span><span class="nt">site_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fabric_zone&quot;</span>
+<span class="w">          </span><span class="nt">fabric_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fabric_zone&quot;</span>
 <span class="w">          </span><span class="nt">authentication_profile</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Closed</span><span class="nv"> </span><span class="s">Authentication&quot;</span>
 
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Update fabric zone for sda with given name.</span>
@@ -980,7 +981,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-fabric-s
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fabric sites</span><span class="p">:</span>
 <span class="w">          </span><span class="nt">site_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/Test_SDA/Bld1/Floor1&quot;</span>
-<span class="w">          </span><span class="nt">site_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fabric_zone&quot;</span>
+<span class="w">          </span><span class="nt">fabric_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fabric_zone&quot;</span>
 <span class="w">          </span><span class="nt">authentication_profile</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Open</span><span class="nv"> </span><span class="s">Authentication&quot;</span>
 
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Update/customise authentication profile template for fabric site/zone.</span>
@@ -998,7 +999,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-fabric-s
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fabric_sites</span><span class="p">:</span>
 <span class="w">          </span><span class="nt">site_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/Test_SDA/Bld1&quot;</span>
-<span class="w">          </span><span class="nt">site_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fabric_zone&quot;</span>
+<span class="w">          </span><span class="nt">fabric_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fabric_zone&quot;</span>
 <span class="w">          </span><span class="nt">authentication_profile</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Open</span><span class="nv"> </span><span class="s">Authentication&quot;</span>
 <span class="w">          </span><span class="nt">is_pub_sub_enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
 <span class="w">          </span><span class="nt">update_authentication_profile</span><span class="p">:</span>
@@ -1038,7 +1039,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-fabric-s
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fabric_sites</span><span class="p">:</span>
 <span class="w">          </span><span class="nt">site_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/Test_SDA/Bld1/Floor1&quot;</span>
-<span class="w">          </span><span class="nt">site_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fabric_zone&quot;</span>
+<span class="w">          </span><span class="nt">fabric_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fabric_zone&quot;</span>
 </pre></div>
 </div>
 </section>
@@ -1083,7 +1084,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-fabric-s
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="execute_suggested_actions_commands_module.html" class="btn btn-neutral float-left" title="cisco.dnac.execute_suggested_actions_commands module -- Resource module for Execute Suggested Actions Commands" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="file_import_module.html" class="btn btn-neutral float-right" title="cisco.dnac.file_import module -- Resource module for File Import" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="fabric_transits_workflow_manager_module.html" class="btn btn-neutral float-right" title="cisco.dnac.fabric_transits_workflow_manager module -- Resource module for SDA fabric transits" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

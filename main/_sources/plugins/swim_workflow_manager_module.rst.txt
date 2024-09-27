@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.swim_workflow_manager module -- workflow\_manager module for SWIM related functions
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.swim_workflow_manager module -- Module to manage SWIM (Software Image Management) operations in Cisco Catalyst Center
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.18.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.19.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,12 +68,12 @@ Synopsis
 
 .. Description
 
-- Manage operation related to image importation, distribution, activation and tagging image as golden
-- API to fetch a software image from remote file system using URL for HTTP/FTP and upload it to Catalyst Center. Supported image files extensions are bin, img, tar, smu, pie, aes, iso, ova, tar\_gz and qcow2.
-- API to fetch a software image from local file system and upload it to Catalyst Center Supported image files extensions are bin, img, tar, smu, pie, aes, iso, ova, tar\_gz and qcow2.
-- API to tag/untag image as golen for a given family of devices
-- API to distribute a software image on a given device. Software image must be imported successfully into Catalyst Center before it can be distributed.
-- API to activate a software image on a given device. Software image must be present in the device flash.
+- Manages operations for image importation, distribution, activation, and tagging images as golden.
+- Provides an API to fetch a software image from a remote file system via HTTP/FTP and upload it to Catalyst Center. Supported file extensions - bin, img, tar, smu, pie, aes, iso, ova, tar.gz, qcow2.
+- Provides an API to fetch a software image from a local file system and upload it to Catalyst Center. Supported file extensions - bin, img, tar, smu, pie, aes, iso, ova, tar.gz, qcow2.
+- Provides an API to fetch a software image from Cisco Connection Online (CCO) and upload it to Catalyst Center. Refer to https://software.cisco.com/download/home for suggested images in Cisco Catalyst Center. CCO functionality is available starting from Cisco Catalyst version 2.3.7.6.
+- Provides an API to tag or untag an image as golden for a given family of devices.
+- Provides an API to distribute a software image to a device. The software image must be imported into Catalyst Center before it can be distributed.
 
 
 .. Aliases
@@ -87,7 +87,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk == 2.4.5
+- dnacentersdk == 2.7.3
 - python \>= 3.9
 
 
@@ -1029,6 +1029,83 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import_image_details/cco_image_details"></div>
+
+      .. _ansible_collections.cisco.dnac.swim_workflow_manager_module__parameter-config/import_image_details/cco_image_details:
+
+      .. rst-class:: ansible-option-title
+
+      **cco_image_details**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import_image_details/cco_image_details" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Parameters related to importing a software image from Cisco Connection Online (CCO) into Catalyst Center.
+
+      This API fetches the specified image from CCO and uploads it to Catalyst Center.
+
+      Supported from Cisco Catalyst Center version 2.3.7.6 onward.
+
+      Refer to the Cisco software download portal (https://software.cisco.com/download/home) for recommended images.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import_image_details/cco_image_details/image_name"></div>
+
+      .. _ansible_collections.cisco.dnac.swim_workflow_manager_module__parameter-config/import_image_details/cco_image_details/image_name:
+
+      .. rst-class:: ansible-option-title
+
+      **image_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import_image_details/cco_image_details/image_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The name of the software image to be imported from Cisco.com.
+
+      This is a mandatory parameter and must be provided to initiate the download from CCO.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/import_image_details/local_image_details"></div>
 
       .. _ansible_collections.cisco.dnac.swim_workflow_manager_module__parameter-config/import_image_details/local_image_details:
@@ -1266,7 +1343,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Specifies the import source, supporting local file import (local) or remote url import (remote).
+      Specifies the source of the image import. Supported values are 'local' for local file import, 'remote' for remote URL import, or 'CCO' for import from Cisco Connection Online.
 
 
       .. raw:: html
@@ -1468,7 +1545,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
 
       .. raw:: html
 
@@ -2539,7 +2616,8 @@ Examples
             type: remote
             url_details:
               payload:
-              - source_url: "http://10.10.10.10/stda/cat9k_iosxe.17.12.01.SPA.bin"
+              - source_url:
+                - "http://10.10.10.10/stda/cat9k_iosxe.17.12.01.SPA.bin"
                 is_third_party: False
           tagging_details:
             image_name: cat9k_iosxe.17.12.01.SPA.bin
@@ -2580,6 +2658,44 @@ Examples
             device_image_family_name: Cisco Catalyst 9300 Switch
             site_name: Global/USA/San Francisco/BGL_18
             tagging: True
+
+    - name: Import bulk images from URL
+      cisco.dnac.swim_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log_level: "{{dnac_log_level}}"
+        dnac_log: True
+        config:
+        - import_image_details:
+            type: remote
+            url_details:
+                payload:
+                - source_url:
+                    - "http://10.10.10.10/stda/cat9k_iosxe.17.12.01.SPA.bin"
+                    - "http://10.10.10.10/stda/cat9k_iosxe.17.12.02.SPA.bin"
+                third_party: False
+
+    - name: Import images from CCO (cisco.com)
+      cisco.dnac.swim_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log_level: "{{dnac_log_level}}"
+        dnac_log: True
+        config:
+        - import_image_details:
+            type: CCO
+            cco_image_details:
+                image_name: cat9k_iosxe.17.06.06a.SPA.bin
 
     - name: Tag the given image as golden and load it on device
       cisco.dnac.swim_workflow_manager:
@@ -2737,7 +2853,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Madhan Sankaranarayanan (@madhansansel) Rishita Chowdhary (@rishitachowdhary) Abhishek Maheshwari (@abmahesh)
+- Madhan Sankaranarayanan (@madhansansel) Rishita Chowdhary (@rishitachowdhary) Abhishek Maheshwari (@abmahesh) Syed Khadeer Ahmed (@syed-khadeerahmed) Ajith Andrew J (@ajithandrewj)
 
 
 

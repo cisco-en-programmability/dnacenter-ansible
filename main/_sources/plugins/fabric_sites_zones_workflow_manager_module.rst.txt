@@ -42,7 +42,7 @@ cisco.dnac.fabric_sites_zones_workflow_manager module -- Manage fabric site(s)/z
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.18.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.19.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -216,6 +216,40 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_sites/fabric_type"></div>
+
+      .. _ansible_collections.cisco.dnac.fabric_sites_zones_workflow_manager_module__parameter-config/fabric_sites/fabric_type:
+
+      .. rst-class:: ansible-option-title
+
+      **fabric_type**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_sites/fabric_type" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the type of site to be managed within the SDA environment. The acceptable values are 'fabric\_site' and 'fabric\_zone'. The default value is 'fabric\_site', indicating the configuration of a broader network area, whereas 'fabric\_zone' typically refers to a more specific segment within the site.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/fabric_sites/is_pub_sub_enabled"></div>
 
       .. _ansible_collections.cisco.dnac.fabric_sites_zones_workflow_manager_module__parameter-config/fabric_sites/is_pub_sub_enabled:
@@ -283,40 +317,6 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       This name uniquely identifies the site for operations such as creating, updating, or deleting fabric sites or zones, as well as for updating the authentication profile template. This parameter is mandatory for any fabric site/zone management operation.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/fabric_sites/site_type"></div>
-
-      .. _ansible_collections.cisco.dnac.fabric_sites_zones_workflow_manager_module__parameter-config/fabric_sites/site_type:
-
-      .. rst-class:: ansible-option-title
-
-      **site_type**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/fabric_sites/site_type" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string` / :ansible-option-required:`required`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Specifies the type of site to be managed within the SDA environment. The acceptable values are 'fabric\_site' and 'fabric\_zone'. The default value is 'fabric\_site', indicating the configuration of a broader network area, whereas 'fabric\_zone' typically refers to a more specific segment within the site.
 
 
       .. raw:: html
@@ -1282,7 +1282,7 @@ Examples
         config:
           - fabric sites:
               site_name: "Global/Test_SDA/Bld1/Floor1"
-              site_type: "fabric_zone"
+              fabric_type: "fabric_zone"
               authentication_profile: "Closed Authentication"
 
     - name: Update fabric zone for sda with given name.
@@ -1300,7 +1300,7 @@ Examples
         config:
           - fabric sites:
               site_name: "Global/Test_SDA/Bld1/Floor1"
-              site_type: "fabric_zone"
+              fabric_type: "fabric_zone"
               authentication_profile: "Open Authentication"
 
     - name: Update/customise authentication profile template for fabric site/zone.
@@ -1318,7 +1318,7 @@ Examples
         config:
           - fabric_sites:
               site_name: "Global/Test_SDA/Bld1"
-              site_type: "fabric_zone"
+              fabric_type: "fabric_zone"
               authentication_profile: "Open Authentication"
               is_pub_sub_enabled: False
               update_authentication_profile:
@@ -1358,7 +1358,7 @@ Examples
         config:
           - fabric_sites:
               site_name: "Global/Test_SDA/Bld1/Floor1"
-              site_type: "fabric_zone"
+              fabric_type: "fabric_zone"
 
 
 

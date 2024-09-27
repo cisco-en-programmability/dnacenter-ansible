@@ -42,7 +42,7 @@ cisco.dnac.accesspoint_workflow_manager module -- Automates bulk AP configuratio
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.18.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.19.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -85,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.4.5
+- dnacentersdk \>= 2.7.2
 - python \>= 3.8
 
 
@@ -271,7 +271,9 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Specifies the antenna gain value in decibels (dB) for the 2.4GHz radio interface. For example, 4.
+      Specifies the antenna gain value in decibels (dB) for the 2.4GHz radio interface, valid values range
+          from 0 to 40. For example, 10.
+          
 
 
       .. raw:: html
@@ -339,7 +341,9 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Cable loss in dB for the 2.4GHz radio interface. For example, 75.
+      Cable loss in dB for the 2.4GHz radio interface. Valid values are from 0 to 40.
+          This value must be less than the antenna gain. For example, 2.
+          
 
 
       .. raw:: html
@@ -646,7 +650,9 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Antenna gain value in decibels (dB) for the 5GHz radio interface. For example, 5.
+      Antenna gain value in decibels (dB) for the 5GHz radio interface, valid values range
+          from 0 to 40. For example, 5.
+          
 
 
       .. raw:: html
@@ -714,7 +720,9 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Cable loss in dB for the 5GHz radio interface. For example, 80.
+      Cable loss in dB for the 5GHz radio interface. Valid values are from 0 to 40.
+          This value must be less than the antenna gain. For example, 3.
+          
 
 
       .. raw:: html
@@ -884,7 +892,9 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Role assignment mode for the 5GHz radio interface. Accepts "Auto", "Client-serving", or "Monitor". For example, "Auto".
+      Role assignment mode for the 5GHz radio interface. Accepts "Auto", "Client-serving",
+          or "Monitor". For example, "Auto".
+          
 
 
       .. raw:: html
@@ -1021,7 +1031,9 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Antenna gain value in decibels (dB) for the 6GHz radio interface. For example, 4.
+      Antenna gain value in decibels (dB) for the 6GHz radio interface, valid values range
+          from 0 to 40. For example, 30.
+          
 
 
       .. raw:: html
@@ -1089,7 +1101,9 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Cable loss in dB for the 6GHz radio interface. For example, 75.
+      Cable loss in dB for the 6GHz radio interface. Valid values are from 0 to 40.
+          This value must be less than the antenna gain. For example, 10.
+          
 
 
       .. raw:: html
@@ -1586,6 +1600,45 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/hostname"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/hostname:
+
+      .. rst-class:: ansible-option-title
+
+      **hostname**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/hostname" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The Host Name used to identify the device. If provided, it cannot be modified.
+          To identify the specific access point, at least one of the following parameters is required.
+          - mac\_address
+          - hostname
+          - management\_ip\_address
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/is_assigned_site_as_location"></div>
 
       .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/is_assigned_site_as_location:
@@ -1748,10 +1801,50 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The MAC address used to identify the device. If the MAC address is known,
-          it must be provided and cannot be modified. At least one of the following parameters is required
-          to identify the specific access point: mac\_address, hostname, or management\_ip\_address.
-          (eg 90:e9:5e:03:f3:40)
+      The MAC address used to identify the device. If provided, it cannot be modified.
+          To identify the specific access point, at least one of the following parameters is required.
+          - mac\_address
+          - hostname
+          - management\_ip\_address
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/management_ip_address"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/management_ip_address:
+
+      .. rst-class:: ansible-option-title
+
+      **management_ip_address**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/management_ip_address" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The Management IP Address used to identify the device. If provided, it cannot be modified.
+          To identify the specific access point, at least one of the following parameters is required.
+          - mac\_address
+          - hostname
+          - management\_ip\_address
           
 
 
@@ -1786,7 +1879,9 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Name or identifier of the primary wireless LAN controller (WLC) managing the Access Point (AP). For example, "SJ-EWLC-1".
+      Name or identifier of the primary wireless LAN controller (WLC) managing the Access Point (AP).
+          For example, "SJ-EWLC-1".
+          
 
 
       .. raw:: html
@@ -1854,7 +1949,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      IP address of the primary wireless LAN controller. For example, '10.0.0.3'.
+      IP address of the primary wireless LAN controller. For example, "10.0.0.3".
 
 
       .. raw:: html
@@ -1889,7 +1984,9 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Radio Frequency (RF) profile of the Access Point. For example, "HIGH".
+      Specifies the Radio Frequency (RF) profile name for the Access Point. It can be one of the standard profiles
+          "HIGH", "LOW", "TYPICAL", or a custom profile that has been created. For example, "HIGH".
+          
 
 
       .. raw:: html
@@ -1923,7 +2020,10 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Name or identifier of the secondary wireless LAN controller (WLC) managing the Access Point (AP). For example, "Inherit from site/Clear".
+      Name or identifier of the secondary wireless LAN controller (WLC) managing the Access Point (AP).
+          To modify only the primary controller, set the secondary and tertiary controller names
+          to "Inherit from site / Clear".
+          
 
 
       .. raw:: html
@@ -1991,7 +2091,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      IP address of the primary wireless LAN controller. For example, '10.0.0.3'.
+      IP address of the primary wireless LAN controller. For example, "10.0.0.3".
 
 
       .. raw:: html
@@ -2164,7 +2264,10 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Name or identifier of the tertiary wireless LAN controller (WLC) managing the Access Point (AP). For example, "Clear".
+      Name or identifier of the tertiary wireless LAN controller (WLC) managing the Access Point (AP).
+          To modify only the primary controller, set the secondary and tertiary controller names
+          to "Inherit from site / Clear".
+          
 
 
       .. raw:: html
@@ -2232,7 +2335,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      IP address of the primary wireless LAN controller. For example, '10.0.0.2'.
+      IP address of the primary wireless LAN controller. For example, "10.0.0.2".
 
 
       .. raw:: html
@@ -2267,7 +2370,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Configuration options for the tri radio interface.
+      Configuration options for the TRI radio interface.
 
 
       .. raw:: html
@@ -2301,7 +2404,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Administrative status for the tri radio interface. For example, "Enabled".
+      Administrative status for the TRI radio interface. For example, "Enabled".
 
 
       .. raw:: html
@@ -2335,7 +2438,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Name or type of antenna cable used for the tri radio interface. For example, "other".
+      Name or type of antenna cable used for the TRI radio interface. For example, "other".
 
 
       .. raw:: html
@@ -2369,7 +2472,9 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Antenna gain value in decibels (dB) for the tri radio interface. For example, 4.
+      Antenna gain value in decibels (dB) for the TRI radio interface, valid values range
+          from 0 to 40. For example, 16.
+          
 
 
       .. raw:: html
@@ -2403,7 +2508,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Name or type of antenna used for the tri radio interface. For example, "other".
+      Name or type of antenna used for the TRI radio interface. For example, "other".
 
 
       .. raw:: html
@@ -2437,7 +2542,9 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Cable loss in dB for the tri radio interface. For example, 75.
+      Cable loss in dB for the TRI radio interface. Valid values are from 0 to 40.
+          This value must be less than the antenna gain. For example, 6.
+          
 
 
       .. raw:: html
@@ -2471,8 +2578,8 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Mode of channel assignment for the tri radio interface. Accepts "Global" or "Custom".
-          For tri Custom, it accepts values like 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128,
+      Mode of channel assignment for the TRI radio interface. Accepts "Global" or "Custom".
+          For Custom, it accepts values like 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128,
           132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173. (eg. Custom)
           
 
@@ -2508,7 +2615,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Custom channel number configured for the tri radio interface. For example, 6.
+      Custom channel number configured for the TRI radio interface. For example, 6.
 
 
       .. raw:: html
@@ -2542,8 +2649,8 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Width of the channel configured for the tri radio interface. Accepts values
-          "20 MHz", "40 MHz", "80 MHz", or "160 MHz". . For example, 20 MHz.
+      Width of the channel configured for the TRI radio interface. Accepts values
+          "20 MHz", "40 MHz", "80 MHz", "160 MHz", or "320 MHz". . For example, 20 MHz.
           
 
 
@@ -2578,7 +2685,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Mode of operation configured for the tri radio interface. Specifies how the
+      Mode of operation configured for the TRI radio interface. Specifies how the
           access point (AP) manages its dual radio functionality. eg . Auto
           
 
@@ -2614,8 +2721,8 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Mode of power assignment for the tri radio interface. Accepts "Global" or "Custom".
-          In Custom, it accepts values 1 to 5.
+      Mode of power assignment for the TRI radio interface. Accepts "Global" or "Custom".
+          In Custom, it accepts values 1 to 8.
           
 
 
@@ -2650,7 +2757,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Custom power level configured for the tri radio interface. For example, 3.
+      Custom power level configured for the TRI radio interface. For example, 3.
 
 
       .. raw:: html
@@ -2684,7 +2791,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Role assignment mode for the tri radio interface. Accepts "Auto", "Client-serving", or "Monitor".
+      Role assignment mode for the TRI radio interface. Accepts "Auto", "Client-serving", or "Monitor".
           If radio\_role\_assignment is "client-serving", then only power-level and channel-level can be changed.
           
 
@@ -2721,7 +2828,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Configuration options for the xor radio interface.
+      Configuration options for the XOR radio interface.
 
 
       .. raw:: html
@@ -2755,7 +2862,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Administrative status for the xor radio interface. For example, "Enabled".
+      Administrative status for the XOR radio interface. For example, "Enabled".
 
 
       .. raw:: html
@@ -2789,7 +2896,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Name or type of antenna cable used for the xor radio interface. For example, "other".
+      Name or type of antenna cable used for the XOR radio interface. For example, "other".
 
 
       .. raw:: html
@@ -2823,7 +2930,9 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Antenna gain value in decibels (dB) for the xor radio interface. For example, 4.
+      Antenna gain value in decibels (dB) for the XOR radio interface, valid values range
+          from 0 to 40. For example, 14.
+          
 
 
       .. raw:: html
@@ -2857,7 +2966,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Name or type of antenna used for the xor radio interface. For example, "other".
+      Name or type of antenna used for the XOR radio interface. For example, "other".
 
 
       .. raw:: html
@@ -2891,7 +3000,9 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Cable loss in dB for the xor radio interface. For example, 75.
+      Cable loss in dB for the XOR radio interface. Valid values are from 0 to 40.
+          This value must be less than the antenna gain. For example, 5.
+          
 
 
       .. raw:: html
@@ -2925,9 +3036,20 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Mode of channel assignment for the xor radio interface. Accepts "Global" or "Custom".
-          For xor Custom, it accepts values like 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112,
-          116, 120, 124, 128, 132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173. For example, "Custom".
+      Mode of channel assignment for the XOR radio interface. Accepts "Global" or "Custom".
+          - For "Custom" mode and a radio band of "2.4 GHz", valid values are from 1 to 14.
+          - For "Custom" mode and a radio band of "5 GHz", valid values are
+            36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108,
+            112, 116, 120, 124, 128, 132, 136, 140, 144,
+            149, 153, 157, 161, 165, 169, 173.
+          - For "Custom" mode and a radio band of "6 GHz", valid values are
+            1, 5, 9, 13, 17, 21, 25, 29, 33, 37, 41, 45, 49,
+            53, 57, 61, 65, 69, 73, 77, 81, 85, 89, 93, 97,
+            101, 105, 109, 113, 117, 121, 125, 129, 133, 137,
+            141, 145, 149, 153, 157, 161, 165, 169, 173, 177,
+            181, 185, 189, 193, 197, 201, 205, 209, 213, 217,
+            221, 225, 229, 233.
+          For example, "Custom".
           
 
 
@@ -2962,7 +3084,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Custom channel number configured for the xor radio interface. For example, 6.
+      Custom channel number configured for the XOR radio interface. For example, 6.
 
 
       .. raw:: html
@@ -2996,8 +3118,8 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Width of the channel configured for the xor radio interface. Accepts values
-          "20 MHz", "40 MHz", "80 MHz", or "160 MHz". For example, 20 MHz.
+      Width of the channel configured for the XOR radio interface. Accepts values
+          "20 MHz", "40 MHz", "80 MHz", "160 MHz" or "320 MHz". For example, 20 MHz.
           
 
 
@@ -3032,8 +3154,8 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Mode of power assignment for the xor radio interface. Accepts "Global" or "Custom".
-          In Custom, it accepts values 1 to 5.
+      Mode of power assignment for the XOR radio interface. Accepts "Global" or "Custom."
+          In "Custom" mode, valid values range from 1 to 8.
           
 
 
@@ -3068,7 +3190,43 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Custom power level configured for the xor radio interface. For example, 3.
+      Custom power level configured for the XOR radio interface. For example, 3.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/xor_radio/radio_band"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/xor_radio/radio_band:
+
+      .. rst-class:: ansible-option-title
+
+      **radio_band**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/xor_radio/radio_band" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Radio band should be enabled if the radio role assignment is set to "Client-serving" mode.
+          Accepts "2.4 GHz" or "5 GHz" or "6 GHz".
+          
 
 
       .. raw:: html
@@ -3102,9 +3260,10 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Role assignment mode for the xor radio interface. Accepts "Auto", "Client-serving", or "Monitor".
-          If radio\_role\_assignment is "client-serving", then only power-level and channel-level can be changed.
-          For example, Auto.
+      Role assignment mode for the XOR radio interface. Accepts "Auto", "Client-serving", or "Monitor"
+          If "radio\_role\_assignment" is set to "Client-serving" only the power level and channel number can be changed.
+          Additionally, if the 5 GHz band is selected in the radio band, the power level cannot be modified.
+          For example, "Auto".
           
 
 
@@ -4027,7 +4186,7 @@ Examples
           register: output_list
 
         - name: Provisioning and Re-provisiong Access Point Site details
-          cisco.dnac.accesspoint_movement:
+          cisco.dnac.accesspoint_workflow_manager:
             dnac_host: "{{ dnac_host }}"
             dnac_username: "{{ dnac_username }}"
             dnac_password: "{{ dnac_password }}"
@@ -4047,6 +4206,70 @@ Examples
                       floor:
                         name: "FLOOR1"
                         parent_name: "Global/USA/New York/BLDNYC"
+          register: output_list
+
+        - name: Updating Access Point Update / Controller Name
+          cisco.dnac.accesspoint_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: True
+            dnac_log_level: DEBUG
+            config_verify: True
+            state: merged
+            config:
+              - mac_address: a4:88:73:d4:d6:60
+                ap_name: "Cisco_Test_AP_T003"
+                admin_status: "Enabled"
+                led_status: "Enabled"
+                led_brightness_level: 1
+                ap_mode: "Local"
+                is_assigned_site_as_location: "Enabled"
+                failover_priority: "Low"
+                primary_controller_name: "NY-EWLC-1"
+                primary_ip_address:
+                  address: "204.192.6.200"
+                secondary_controller_name: "NY-EWLC-20"
+                secondary_ip_address:
+                  address: "fe80::202:b3ff:fe1e:8324"
+                tertiary_controller_name: "SJ-EWLC-20"
+                tertiary_ip_address:
+                  address: "fe80::202:b3ff:fe1e:8325"
+          register: output_list
+
+        - name: Updating Access Point Update / remove tertiary_controller_name
+          cisco.dnac.accesspoint_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: True
+            dnac_log_level: DEBUG
+            config_verify: True
+            state: merged
+            config:
+              - mac_address: a4:88:73:d4:d6:60
+                ap_name: "Cisco_Test_AP_T003"
+                admin_status: "Enabled"
+                led_status: "Enabled"
+                led_brightness_level: 1
+                ap_mode: "Local"
+                is_assigned_site_as_location: "Enabled"
+                failover_priority: "Low"
+                primary_controller_name: "NY-EWLC-10"
+                primary_ip_address:
+                  address: "fe80::202:b3ff:fe1e:8329"
+                secondary_controller_name: "NY-EWLC-20"
+                secondary_ip_address:
+                  address: "fe80::202:b3ff:fe1e:8324"
+                tertiary_controller_name: "Inherit from site / Clear"
           register: output_list
 
         - name: Updating Access Point Site / Configuration details
@@ -4088,6 +4311,95 @@ Examples
                   radio_role_assignment: "Client-Serving"
                   channel_number: 36
                   powerlevel: 2
+                  channel_width: "40 MHz"
+          register: output_list
+
+        - name: Updating Access Point Site / Configuration details
+          cisco.dnac.accesspoint_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: True
+            dnac_log_level: DEBUG
+            config_verify: True
+            state: merged
+            config:
+              - mac_address: 6c:d6:e3:75:5a:e0
+                ap_name: "LTTS_Test_9120_T2"
+                admin_status: "Enabled"
+                led_status: "Enabled"
+                led_brightness_level: 2
+                ap_mode: "Local"
+                is_assigned_site_as_location: "Enabled"
+                failover_priority: "Low"
+                primary_controller_name: "NY-IAC-EWLC.cisco.local"
+                primary_ip_address:
+                  address: "204.192.6.200"
+                secondary_controller_name: "Inherit from site / Clear"
+                tertiary_controller_name: "Inherit from site / Clear"
+                xor_radio:
+                  admin_status: "Enabled"
+                  radio_role_assignment: "Client-Serving"
+                  channel_number: 4
+                  radio_band: "2.4 GHz"
+                  channel_width: "40 MHz"
+                5ghz_radio:
+                  admin_status: "Enabled"
+                  antenna_name: "AIR-ANT2513P4M-N-5GHz"
+                  radio_role_assignment: "Client-Serving"
+                  channel_number: 40
+                  powerlevel: 2
+                  channel_width: "80 MHz"
+          register: output_list
+
+        - name: Updating Access Point Configuration
+          cisco.dnac.accesspoint_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: True
+            dnac_log_level: DEBUG
+            config_verify: True
+            state: merged
+            config:
+              - mac_address: e4:38:7e:42:bc:00
+                ap_name: "LTTS_Test_9166_T3"
+                admin_status: "Enabled"
+                led_status: "Enabled"
+                led_brightness_level: 3
+                ap_mode: "Local"
+                is_assigned_site_as_location: "Enabled"
+                failover_priority: "Low"
+                primary_controller_name: "NY-IAC-EWLC"
+                primary_ip_address:
+                  address: "204.192.6.200"
+                secondary_controller_name: "Inherit from site / Clear"
+                tertiary_controller_name: "Inherit from site / Clear"
+                2.4ghz_radio:
+                  admin_status: "Enabled"
+                  radio_role_assignment: "Client-Serving"
+                  channel_number: 3
+                  powerlevel: 3
+                5ghz_radio:
+                  admin_status: "Enabled"
+                  radio_role_assignment: "Client-Serving"
+                  channel_number: 44
+                  powerlevel: 3
+                  channel_width: "20 MHz"
+                xor_radio:
+                  admin_status: "Enabled"
+                  radio_role_assignment: "Client-Serving"
+                  channel_number: 1
+                  powerlevel: 3
+                  radio_band: "6 GHz"
                   channel_width: "40 MHz"
           register: output_list
 
@@ -4151,7 +4463,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"accesspoints\_updates": {"response": {"macAdress": "34:5d:a8:0e:20:b4", "response": {"taskId": "2ce139fa-1d58-4739-a6ad-b735b97e4dfe", "url": "/api/v1/task/2ce139fa-1d58-4739-a6ad-b735b97e4dfe"}}}}, {"accesspoints\_verify": {"have": [{"ap\_name": "NFW-AP1-9130AXE", "eth\_mac": "34:5d:a8:0e:20:b4", "led\_brightness\_level": 2, "led\_status": "Enabled", "location": "LTTS-Bangalore", "mac\_address": "90:e9:5e:03:f3:40"}], "message": "The update for AP Config 'NFW-AP1-9130AXE' has been successfully verified.", "want": {"ap\_name": "LTTS-Test1", "ap\_name\_new": "NFW-AP1-9130AXE", "hostname": null, "led\_brightness\_level": 2, "led\_status": "Enabled", "location": "LTTS-Bangalore", "mac\_address": "90:e9:5e:03:f3:40", "management\_ip\_address": null}}}]}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"changed": true, "response": {"ap\_config\_update\_status": "The update for AP Config Cisco\_Test\_9120\_T1 has been successfully verified."}}]}`
 
 
       .. raw:: html
@@ -4197,7 +4509,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"{\\n    \\"response\\": {\\n                    {\\n                        'bapiKey': 'd897-19b8-47aa-a9c4',\\n                        'bapiName': 'AP Provision',\\n                        'bapiExecutionId': '97d5edd5-d5db-40d8-9ab6-f15dc4a5cc30',\\n                        'startTime': 'Wed Jul 03 18:37:24 UTC 2024',\\n                        'startTimeEpoch': 1720031844919,\\n                        'endTimeEpoch': 0,\\n                        'timeDuration': 0,\\n                        'status': 'IN\_PROGRESS',\\n                        'runtimeInstanceId': 'DNACP\_Runtime\_3f8f258c-9f7a-4511-b361-592ee9e0c4d2'\\n                    }\\n                }\\n}\\n"`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"{\\n    \\"response\\": {\\n                    {\\n                        \\"bapiKey\\": \\"d897-19b8-47aa-a9c4\\",\\n                        \\"bapiName\\": \\"AP Provision\\",\\n                        \\"bapiExecutionId\\": \\"97d5edd5-d5db-40d8-9ab6-f15dc4a5cc30\\",\\n                        \\"startTime\\": \\"Wed Jul 03 18:37:24 UTC 2024\\",\\n                        \\"startTimeEpoch\\": 1720031844919,\\n                        \\"endTimeEpoch\\": 0,\\n                        \\"timeDuration\\": 0,\\n                        \\"status\\": \\"IN\_PROGRESS\\",\\n                        \\"runtimeInstanceId\\": \\"DNACP\_Runtime\_3f8f258c-9f7a-4511-b361-592ee9e0c4d2\\"\\n                    }\\n                }\\n}\\n"`
 
 
       .. raw:: html
