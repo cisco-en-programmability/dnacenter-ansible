@@ -115,7 +115,7 @@
 <li class="toctree-l4"><a class="reference internal" href="configuration_template_version_create_module.html">cisco.dnac.configuration_template_version_create module -- Resource module for Configuration Template Version Create</a></li>
 <li class="toctree-l4"><a class="reference internal" href="configuration_template_version_info_module.html">cisco.dnac.configuration_template_version_info module -- Information module for Configuration Template Version</a></li>
 <li class="toctree-l4"><a class="reference internal" href="credential_to_site_by_siteid_create_v2_module.html">cisco.dnac.credential_to_site_by_siteid_create_v2 module -- Resource module for Credential To Site By Siteid Create V2</a></li>
-<li class="toctree-l4"><a class="reference internal" href="device_configs_backup_workflow_manager_module.html">cisco.dnac.device_configs_backup_workflow_manager module -- Resource module for device_configs_backup functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="device_configs_backup_workflow_manager_module.html">cisco.dnac.device_configs_backup_workflow_manager module -- Device Configs Backup module for taking configuration backups of reachable devices in the Cisco Catalyst Center.</a></li>
 <li class="toctree-l4"><a class="reference internal" href="device_configurations_export_module.html">cisco.dnac.device_configurations_export module -- Resource module for Device Configurations Export</a></li>
 <li class="toctree-l4"><a class="reference internal" href="device_credential_create_module.html">cisco.dnac.device_credential_create module -- Resource module for Device Credential Create</a></li>
 <li class="toctree-l4"><a class="reference internal" href="device_credential_delete_module.html">cisco.dnac.device_credential_delete module -- Resource module for Device Credential Delete</a></li>
@@ -198,6 +198,7 @@
 <li class="toctree-l4"><a class="reference internal" href="events_and_notifications_workflow_manager_module.html">cisco.dnac.events_and_notifications_workflow_manager module -- Configure various types of destinations to deliver event notifications from Cisco Catalyst Center Platform.</a></li>
 <li class="toctree-l4"><a class="reference internal" href="execute_suggested_actions_commands_module.html">cisco.dnac.execute_suggested_actions_commands module -- Resource module for Execute Suggested Actions Commands</a></li>
 <li class="toctree-l4"><a class="reference internal" href="fabric_sites_zones_workflow_manager_module.html">cisco.dnac.fabric_sites_zones_workflow_manager module -- Manage fabric site(s)/zone(s) and update the authentication profile template in Cisco Catalyst Center.</a></li>
+<li class="toctree-l4"><a class="reference internal" href="fabric_transits_workflow_manager_module.html">cisco.dnac.fabric_transits_workflow_manager module -- Resource module for SDA fabric transits</a></li>
 <li class="toctree-l4"><a class="reference internal" href="file_import_module.html">cisco.dnac.file_import module -- Resource module for File Import</a></li>
 <li class="toctree-l4"><a class="reference internal" href="file_info_module.html">cisco.dnac.file_info module -- Information module for File</a></li>
 <li class="toctree-l4"><a class="reference internal" href="file_namespace_files_info_module.html">cisco.dnac.file_namespace_files_info module -- Information module for File Namespace Files</a></li>
@@ -482,7 +483,7 @@
 <li class="toctree-l4"><a class="reference internal" href="swim_intent_module.html">cisco.dnac.swim_intent module -- Intent module for SWIM related functions</a></li>
 <li class="toctree-l4"><a class="reference internal" href="swim_trigger_activation_module.html">cisco.dnac.swim_trigger_activation module -- Resource module for Swim Trigger Activation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="swim_trigger_distribution_module.html">cisco.dnac.swim_trigger_distribution module -- Resource module for Swim Trigger Distribution</a></li>
-<li class="toctree-l4"><a class="reference internal" href="swim_workflow_manager_module.html">cisco.dnac.swim_workflow_manager module -- workflow_manager module for SWIM related functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="swim_workflow_manager_module.html">cisco.dnac.swim_workflow_manager module -- Module to manage SWIM (Software Image Management) operations in Cisco Catalyst Center</a></li>
 <li class="toctree-l4"><a class="reference internal" href="syslog_config_create_module.html">cisco.dnac.syslog_config_create module -- Resource module for Syslog Config Create</a></li>
 <li class="toctree-l4"><a class="reference internal" href="syslog_config_update_module.html">cisco.dnac.syslog_config_update module -- Resource module for Syslog Config Update</a></li>
 <li class="toctree-l4"><a class="reference internal" href="system_health_count_info_module.html">cisco.dnac.system_health_count_info module -- Information module for System Health Count</a></li>
@@ -580,7 +581,7 @@
 <h1>cisco.dnac.accesspoint_workflow_manager module -- Automates bulk AP configuration changes.<a class="headerlink" href="#cisco-dnac-accesspoint-workflow-manager-module-automates-bulk-ap-configuration-changes" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.18.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.19.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -611,7 +612,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-accesspo
 <span id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-requirements"></span><h2><a class="toc-backref" href="#id50" role="doc-backlink">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
 <p>The below requirements are needed on the host that executes this module.</p>
 <ul class="simple">
-<li><p>dnacentersdk &gt;= 2.4.5</p></li>
+<li><p>dnacentersdk &gt;= 2.7.2</p></li>
 <li><p>python &gt;= 3.8</p></li>
 </ul>
 </section>
@@ -656,7 +657,10 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-accesspo
 <div class="ansibleOptionAnchor" id="parameter-config/2.4ghz_radio/antenna_gain"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-2-4ghz-radio-antenna-gain"><strong>antenna_gain</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/2.4ghz_radio/antenna_gain" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Specifies the antenna gain value in decibels (dB) for the 2.4GHz radio interface. For example, 4.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
+<dt>Specifies the antenna gain value in decibels (dB) for the 2.4GHz radio interface, valid values range</dt><dd><p>from 0 to 40. For example, 10.</p>
+</dd>
+</dl>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -670,7 +674,10 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-accesspo
 <div class="ansibleOptionAnchor" id="parameter-config/2.4ghz_radio/cable_loss"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-2-4ghz-radio-cable-loss"><strong>cable_loss</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/2.4ghz_radio/cable_loss" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Cable loss in dB for the 2.4GHz radio interface. For example, 75.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
+<dt>Cable loss in dB for the 2.4GHz radio interface. Valid values are from 0 to 40.</dt><dd><p>This value must be less than the antenna gain. For example, 2.</p>
+</dd>
+</dl>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -733,7 +740,10 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-accesspo
 <div class="ansibleOptionAnchor" id="parameter-config/5ghz_radio/antenna_gain"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-5ghz-radio-antenna-gain"><strong>antenna_gain</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/5ghz_radio/antenna_gain" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Antenna gain value in decibels (dB) for the 5GHz radio interface. For example, 5.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
+<dt>Antenna gain value in decibels (dB) for the 5GHz radio interface, valid values range</dt><dd><p>from 0 to 40. For example, 5.</p>
+</dd>
+</dl>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -747,7 +757,10 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-accesspo
 <div class="ansibleOptionAnchor" id="parameter-config/5ghz_radio/cable_loss"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-5ghz-radio-cable-loss"><strong>cable_loss</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/5ghz_radio/cable_loss" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Cable loss in dB for the 5GHz radio interface. For example, 80.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
+<dt>Cable loss in dB for the 5GHz radio interface. Valid values are from 0 to 40.</dt><dd><p>This value must be less than the antenna gain. For example, 3.</p>
+</dd>
+</dl>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -782,7 +795,10 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-accesspo
 <div class="ansibleOptionAnchor" id="parameter-config/5ghz_radio/radio_role_assignment"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-5ghz-radio-radio-role-assignment"><strong>radio_role_assignment</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/5ghz_radio/radio_role_assignment" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Role assignment mode for the 5GHz radio interface. Accepts &quot;Auto&quot;, &quot;Client-serving&quot;, or &quot;Monitor&quot;. For example, &quot;Auto&quot;.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
+<dt>Role assignment mode for the 5GHz radio interface. Accepts &quot;Auto&quot;, &quot;Client-serving&quot;,</dt><dd><p>or &quot;Monitor&quot;. For example, &quot;Auto&quot;.</p>
+</dd>
+</dl>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -810,7 +826,10 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-accesspo
 <div class="ansibleOptionAnchor" id="parameter-config/6ghz_radio/antenna_gain"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-6ghz-radio-antenna-gain"><strong>antenna_gain</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/6ghz_radio/antenna_gain" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Antenna gain value in decibels (dB) for the 6GHz radio interface. For example, 4.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
+<dt>Antenna gain value in decibels (dB) for the 6GHz radio interface, valid values range</dt><dd><p>from 0 to 40. For example, 30.</p>
+</dd>
+</dl>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -824,7 +843,10 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-accesspo
 <div class="ansibleOptionAnchor" id="parameter-config/6ghz_radio/cable_loss"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-6ghz-radio-cable-loss"><strong>cable_loss</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/6ghz_radio/cable_loss" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Cable loss in dB for the 6GHz radio interface. For example, 75.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
+<dt>Cable loss in dB for the 6GHz radio interface. Valid values are from 0 to 40.</dt><dd><p>This value must be less than the antenna gain. For example, 10.</p>
+</dd>
+</dl>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -941,6 +963,19 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-accesspo
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/hostname"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-hostname"><strong>hostname</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/hostname" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
+<dt>The Host Name used to identify the device. If provided, it cannot be modified.</dt><dd><p>To identify the specific access point, at least one of the following parameters is required.
+- mac_address
+- hostname
+- management_ip_address</p>
+</dd>
+</dl>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/is_assigned_site_as_location"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-is-assigned-site-as-location"><strong>is_assigned_site_as_location</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/is_assigned_site_as_location" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -950,35 +985,49 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-accesspo
 </dl>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/led_brightness_level"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-led-brightness-level"><strong>led_brightness_level</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/led_brightness_level" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Brightness level of the AP's LED. Accepts values from 1 to 8. For example, 3.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/led_status"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-led-status"><strong>led_status</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/led_status" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>State of the AP's LED. Accepts &quot;Enabled&quot; or &quot;Disabled&quot;. For example, &quot;Enabled&quot;.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/location"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-location"><strong>location</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/location" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Location name of the AP. Provide this data if a change is required. For example, &quot;Bangalore&quot;.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/mac_address"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-mac-address"><strong>mac_address</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/mac_address" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
-<dt>The MAC address used to identify the device. If the MAC address is known,</dt><dd><p>it must be provided and cannot be modified. At least one of the following parameters is required
-to identify the specific access point: mac_address, hostname, or management_ip_address.
-(eg 90:e9:5e:03:f3:40)</p>
+<dt>The MAC address used to identify the device. If provided, it cannot be modified.</dt><dd><p>To identify the specific access point, at least one of the following parameters is required.
+- mac_address
+- hostname
+- management_ip_address</p>
+</dd>
+</dl>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/management_ip_address"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-management-ip-address"><strong>management_ip_address</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/management_ip_address" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
+<dt>The Management IP Address used to identify the device. If provided, it cannot be modified.</dt><dd><p>To identify the specific access point, at least one of the following parameters is required.
+- mac_address
+- hostname
+- management_ip_address</p>
 </dd>
 </dl>
 </div></td>
@@ -987,7 +1036,10 @@ to identify the specific access point: mac_address, hostname, or management_ip_a
 <div class="ansibleOptionAnchor" id="parameter-config/primary_controller_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-primary-controller-name"><strong>primary_controller_name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/primary_controller_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name or identifier of the primary wireless LAN controller (WLC) managing the Access Point (AP). For example, &quot;SJ-EWLC-1&quot;.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
+<dt>Name or identifier of the primary wireless LAN controller (WLC) managing the Access Point (AP).</dt><dd><p>For example, &quot;SJ-EWLC-1&quot;.</p>
+</dd>
+</dl>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -1001,21 +1053,28 @@ to identify the specific access point: mac_address, hostname, or management_ip_a
 <div class="ansibleOptionAnchor" id="parameter-config/primary_ip_address/address"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-primary-ip-address-address"><strong>address</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/primary_ip_address/address" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>IP address of the primary wireless LAN controller. For example, '10.0.0.3'.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>IP address of the primary wireless LAN controller. For example, &quot;10.0.0.3&quot;.</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/rf_profile"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-rf-profile"><strong>rf_profile</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/rf_profile" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Radio Frequency (RF) profile of the Access Point. For example, &quot;HIGH&quot;.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
+<dt>Specifies the Radio Frequency (RF) profile name for the Access Point. It can be one of the standard profiles</dt><dd><p>&quot;HIGH&quot;, &quot;LOW&quot;, &quot;TYPICAL&quot;, or a custom profile that has been created. For example, &quot;HIGH&quot;.</p>
+</dd>
+</dl>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/secondary_controller_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-secondary-controller-name"><strong>secondary_controller_name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/secondary_controller_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name or identifier of the secondary wireless LAN controller (WLC) managing the Access Point (AP). For example, &quot;Inherit from site/Clear&quot;.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
+<dt>Name or identifier of the secondary wireless LAN controller (WLC) managing the Access Point (AP).</dt><dd><p>To modify only the primary controller, set the secondary and tertiary controller names
+to &quot;Inherit from site / Clear&quot;.</p>
+</dd>
+</dl>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -1029,7 +1088,7 @@ to identify the specific access point: mac_address, hostname, or management_ip_a
 <div class="ansibleOptionAnchor" id="parameter-config/secondary_ip_address/address"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-secondary-ip-address-address"><strong>address</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/secondary_ip_address/address" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>IP address of the primary wireless LAN controller. For example, '10.0.0.3'.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>IP address of the primary wireless LAN controller. For example, &quot;10.0.0.3&quot;.</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -1064,7 +1123,11 @@ to identify the specific access point: mac_address, hostname, or management_ip_a
 <div class="ansibleOptionAnchor" id="parameter-config/tertiary_controller_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-tertiary-controller-name"><strong>tertiary_controller_name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/tertiary_controller_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name or identifier of the tertiary wireless LAN controller (WLC) managing the Access Point (AP). For example, &quot;Clear&quot;.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
+<dt>Name or identifier of the tertiary wireless LAN controller (WLC) managing the Access Point (AP).</dt><dd><p>To modify only the primary controller, set the secondary and tertiary controller names
+to &quot;Inherit from site / Clear&quot;.</p>
+</dd>
+</dl>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -1078,49 +1141,55 @@ to identify the specific access point: mac_address, hostname, or management_ip_a
 <div class="ansibleOptionAnchor" id="parameter-config/tertiary_ip_address/address"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-tertiary-ip-address-address"><strong>address</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/tertiary_ip_address/address" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>IP address of the primary wireless LAN controller. For example, '10.0.0.2'.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>IP address of the primary wireless LAN controller. For example, &quot;10.0.0.2&quot;.</p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/tri_radio"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-tri-radio"><strong>tri_radio</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/tri_radio" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Configuration options for the tri radio interface.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Configuration options for the TRI radio interface.</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/tri_radio/admin_status"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-tri-radio-admin-status"><strong>admin_status</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/tri_radio/admin_status" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Administrative status for the tri radio interface. For example, &quot;Enabled&quot;.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Administrative status for the TRI radio interface. For example, &quot;Enabled&quot;.</p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/tri_radio/antenna_cable_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-tri-radio-antenna-cable-name"><strong>antenna_cable_name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/tri_radio/antenna_cable_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name or type of antenna cable used for the tri radio interface. For example, &quot;other&quot;.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name or type of antenna cable used for the TRI radio interface. For example, &quot;other&quot;.</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/tri_radio/antenna_gain"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-tri-radio-antenna-gain"><strong>antenna_gain</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/tri_radio/antenna_gain" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Antenna gain value in decibels (dB) for the tri radio interface. For example, 4.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
+<dt>Antenna gain value in decibels (dB) for the TRI radio interface, valid values range</dt><dd><p>from 0 to 40. For example, 16.</p>
+</dd>
+</dl>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/tri_radio/antenna_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-tri-radio-antenna-name"><strong>antenna_name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/tri_radio/antenna_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name or type of antenna used for the tri radio interface. For example, &quot;other&quot;.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name or type of antenna used for the TRI radio interface. For example, &quot;other&quot;.</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/tri_radio/cable_loss"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-tri-radio-cable-loss"><strong>cable_loss</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/tri_radio/cable_loss" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Cable loss in dB for the tri radio interface. For example, 75.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
+<dt>Cable loss in dB for the TRI radio interface. Valid values are from 0 to 40.</dt><dd><p>This value must be less than the antenna gain. For example, 6.</p>
+</dd>
+</dl>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -1128,7 +1197,7 @@ to identify the specific access point: mac_address, hostname, or management_ip_a
 <a class="ansibleOptionLink" href="#parameter-config/tri_radio/channel_assignment_mode" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
-<dt>Mode of channel assignment for the tri radio interface. Accepts &quot;Global&quot; or &quot;Custom&quot;.</dt><dd><p>For tri Custom, it accepts values like 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128,
+<dt>Mode of channel assignment for the TRI radio interface. Accepts &quot;Global&quot; or &quot;Custom&quot;.</dt><dd><p>For Custom, it accepts values like 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128,
 132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173. (eg. Custom)</p>
 </dd>
 </dl>
@@ -1138,7 +1207,7 @@ to identify the specific access point: mac_address, hostname, or management_ip_a
 <div class="ansibleOptionAnchor" id="parameter-config/tri_radio/channel_number"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-tri-radio-channel-number"><strong>channel_number</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/tri_radio/channel_number" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Custom channel number configured for the tri radio interface. For example, 6.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Custom channel number configured for the TRI radio interface. For example, 6.</p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -1146,7 +1215,7 @@ to identify the specific access point: mac_address, hostname, or management_ip_a
 <a class="ansibleOptionLink" href="#parameter-config/tri_radio/channel_width" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
-<dt>Width of the channel configured for the tri radio interface. Accepts values</dt><dd><p>&quot;20 MHz&quot;, &quot;40 MHz&quot;, &quot;80 MHz&quot;, or &quot;160 MHz&quot;. . For example, 20 MHz.</p>
+<dt>Width of the channel configured for the TRI radio interface. Accepts values</dt><dd><p>&quot;20 MHz&quot;, &quot;40 MHz&quot;, &quot;80 MHz&quot;, &quot;160 MHz&quot;, or &quot;320 MHz&quot;. . For example, 20 MHz.</p>
 </dd>
 </dl>
 </div></td>
@@ -1156,7 +1225,7 @@ to identify the specific access point: mac_address, hostname, or management_ip_a
 <a class="ansibleOptionLink" href="#parameter-config/tri_radio/dual_radio_mode" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
-<dt>Mode of operation configured for the tri radio interface. Specifies how the</dt><dd><p>access point (AP) manages its dual radio functionality. eg . Auto</p>
+<dt>Mode of operation configured for the TRI radio interface. Specifies how the</dt><dd><p>access point (AP) manages its dual radio functionality. eg . Auto</p>
 </dd>
 </dl>
 </div></td>
@@ -1166,7 +1235,7 @@ to identify the specific access point: mac_address, hostname, or management_ip_a
 <a class="ansibleOptionLink" href="#parameter-config/tri_radio/power_assignment_mode" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
-<dt>Mode of power assignment for the tri radio interface. Accepts &quot;Global&quot; or &quot;Custom&quot;.</dt><dd><p>In Custom, it accepts values 1 to 5.</p>
+<dt>Mode of power assignment for the TRI radio interface. Accepts &quot;Global&quot; or &quot;Custom&quot;.</dt><dd><p>In Custom, it accepts values 1 to 8.</p>
 </dd>
 </dl>
 </div></td>
@@ -1175,7 +1244,7 @@ to identify the specific access point: mac_address, hostname, or management_ip_a
 <div class="ansibleOptionAnchor" id="parameter-config/tri_radio/power_level"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-tri-radio-power-level"><strong>power_level</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/tri_radio/power_level" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Custom power level configured for the tri radio interface. For example, 3.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Custom power level configured for the TRI radio interface. For example, 3.</p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -1183,7 +1252,7 @@ to identify the specific access point: mac_address, hostname, or management_ip_a
 <a class="ansibleOptionLink" href="#parameter-config/tri_radio/radio_role_assignment" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
-<dt>Role assignment mode for the tri radio interface. Accepts &quot;Auto&quot;, &quot;Client-serving&quot;, or &quot;Monitor&quot;.</dt><dd><p>If radio_role_assignment is &quot;client-serving&quot;, then only power-level and channel-level can be changed.</p>
+<dt>Role assignment mode for the TRI radio interface. Accepts &quot;Auto&quot;, &quot;Client-serving&quot;, or &quot;Monitor&quot;.</dt><dd><p>If radio_role_assignment is &quot;client-serving&quot;, then only power-level and channel-level can be changed.</p>
 </dd>
 </dl>
 </div></td>
@@ -1192,51 +1261,70 @@ to identify the specific access point: mac_address, hostname, or management_ip_a
 <div class="ansibleOptionAnchor" id="parameter-config/xor_radio"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-xor-radio"><strong>xor_radio</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/xor_radio" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Configuration options for the xor radio interface.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Configuration options for the XOR radio interface.</p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/xor_radio/admin_status"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-xor-radio-admin-status"><strong>admin_status</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/xor_radio/admin_status" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Administrative status for the xor radio interface. For example, &quot;Enabled&quot;.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Administrative status for the XOR radio interface. For example, &quot;Enabled&quot;.</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/xor_radio/antenna_cable_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-xor-radio-antenna-cable-name"><strong>antenna_cable_name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/xor_radio/antenna_cable_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name or type of antenna cable used for the xor radio interface. For example, &quot;other&quot;.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name or type of antenna cable used for the XOR radio interface. For example, &quot;other&quot;.</p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/xor_radio/antenna_gain"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-xor-radio-antenna-gain"><strong>antenna_gain</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/xor_radio/antenna_gain" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Antenna gain value in decibels (dB) for the xor radio interface. For example, 4.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
+<dt>Antenna gain value in decibels (dB) for the XOR radio interface, valid values range</dt><dd><p>from 0 to 40. For example, 14.</p>
+</dd>
+</dl>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/xor_radio/antenna_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-xor-radio-antenna-name"><strong>antenna_name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/xor_radio/antenna_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name or type of antenna used for the xor radio interface. For example, &quot;other&quot;.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name or type of antenna used for the XOR radio interface. For example, &quot;other&quot;.</p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/xor_radio/cable_loss"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-xor-radio-cable-loss"><strong>cable_loss</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/xor_radio/cable_loss" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Cable loss in dB for the xor radio interface. For example, 75.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
+<dt>Cable loss in dB for the XOR radio interface. Valid values are from 0 to 40.</dt><dd><p>This value must be less than the antenna gain. For example, 5.</p>
+</dd>
+</dl>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/xor_radio/channel_assignment_mode"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-xor-radio-channel-assignment-mode"><strong>channel_assignment_mode</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/xor_radio/channel_assignment_mode" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
-<dt>Mode of channel assignment for the xor radio interface. Accepts &quot;Global&quot; or &quot;Custom&quot;.</dt><dd><p>For xor Custom, it accepts values like 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112,
-116, 120, 124, 128, 132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173. For example, &quot;Custom&quot;.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl>
+<dt>Mode of channel assignment for the XOR radio interface. Accepts &quot;Global&quot; or &quot;Custom&quot;.</dt><dd><ul class="simple">
+<li><p>For &quot;Custom&quot; mode and a radio band of &quot;2.4 GHz&quot;, valid values are from 1 to 14.</p></li>
+<li><p>For &quot;Custom&quot; mode and a radio band of &quot;5 GHz&quot;, valid values are
+36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108,
+112, 116, 120, 124, 128, 132, 136, 140, 144,
+149, 153, 157, 161, 165, 169, 173.</p></li>
+<li><p>For &quot;Custom&quot; mode and a radio band of &quot;6 GHz&quot;, valid values are
+1, 5, 9, 13, 17, 21, 25, 29, 33, 37, 41, 45, 49,
+53, 57, 61, 65, 69, 73, 77, 81, 85, 89, 93, 97,
+101, 105, 109, 113, 117, 121, 125, 129, 133, 137,
+141, 145, 149, 153, 157, 161, 165, 169, 173, 177,
+181, 185, 189, 193, 197, 201, 205, 209, 213, 217,
+221, 225, 229, 233.</p></li>
+</ul>
+<p>For example, &quot;Custom&quot;.</p>
 </dd>
 </dl>
 </div></td>
@@ -1245,7 +1333,7 @@ to identify the specific access point: mac_address, hostname, or management_ip_a
 <div class="ansibleOptionAnchor" id="parameter-config/xor_radio/channel_number"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-xor-radio-channel-number"><strong>channel_number</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/xor_radio/channel_number" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Custom channel number configured for the xor radio interface. For example, 6.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Custom channel number configured for the XOR radio interface. For example, 6.</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -1253,7 +1341,7 @@ to identify the specific access point: mac_address, hostname, or management_ip_a
 <a class="ansibleOptionLink" href="#parameter-config/xor_radio/channel_width" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
-<dt>Width of the channel configured for the xor radio interface. Accepts values</dt><dd><p>&quot;20 MHz&quot;, &quot;40 MHz&quot;, &quot;80 MHz&quot;, or &quot;160 MHz&quot;. For example, 20 MHz.</p>
+<dt>Width of the channel configured for the XOR radio interface. Accepts values</dt><dd><p>&quot;20 MHz&quot;, &quot;40 MHz&quot;, &quot;80 MHz&quot;, &quot;160 MHz&quot; or &quot;320 MHz&quot;. For example, 20 MHz.</p>
 </dd>
 </dl>
 </div></td>
@@ -1263,7 +1351,7 @@ to identify the specific access point: mac_address, hostname, or management_ip_a
 <a class="ansibleOptionLink" href="#parameter-config/xor_radio/power_assignment_mode" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
-<dt>Mode of power assignment for the xor radio interface. Accepts &quot;Global&quot; or &quot;Custom&quot;.</dt><dd><p>In Custom, it accepts values 1 to 5.</p>
+<dt>Mode of power assignment for the XOR radio interface. Accepts &quot;Global&quot; or &quot;Custom.&quot;</dt><dd><p>In &quot;Custom&quot; mode, valid values range from 1 to 8.</p>
 </dd>
 </dl>
 </div></td>
@@ -1272,21 +1360,32 @@ to identify the specific access point: mac_address, hostname, or management_ip_a
 <div class="ansibleOptionAnchor" id="parameter-config/xor_radio/power_level"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-xor-radio-power-level"><strong>power_level</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/xor_radio/power_level" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Custom power level configured for the xor radio interface. For example, 3.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Custom power level configured for the XOR radio interface. For example, 3.</p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/xor_radio/radio_role_assignment"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-xor-radio-radio-role-assignment"><strong>radio_role_assignment</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/xor_radio/radio_role_assignment" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<div class="ansibleOptionAnchor" id="parameter-config/xor_radio/radio_band"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-xor-radio-radio-band"><strong>radio_band</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/xor_radio/radio_band" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
-<dt>Role assignment mode for the xor radio interface. Accepts &quot;Auto&quot;, &quot;Client-serving&quot;, or &quot;Monitor&quot;.</dt><dd><p>If radio_role_assignment is &quot;client-serving&quot;, then only power-level and channel-level can be changed.
-For example, Auto.</p>
+<dt>Radio band should be enabled if the radio role assignment is set to &quot;Client-serving&quot; mode.</dt><dd><p>Accepts &quot;2.4 GHz&quot; or &quot;5 GHz&quot; or &quot;6 GHz&quot;.</p>
 </dd>
 </dl>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/xor_radio/radio_role_assignment"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-xor-radio-radio-role-assignment"><strong>radio_role_assignment</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/xor_radio/radio_role_assignment" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
+<dt>Role assignment mode for the XOR radio interface. Accepts &quot;Auto&quot;, &quot;Client-serving&quot;, or &quot;Monitor&quot;</dt><dd><p>If &quot;radio_role_assignment&quot; is set to &quot;Client-serving&quot; only the power level and channel number can be changed.
+Additionally, if the 5 GHz band is selected in the radio band, the power level cannot be modified.
+For example, &quot;Auto&quot;.</p>
+</dd>
+</dl>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config_verify"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-verify"><strong>config_verify</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config_verify" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -1298,7 +1397,7 @@ For example, Auto.</p>
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_api_task_timeout"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-dnac-api-task-timeout"><strong>dnac_api_task_timeout</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_api_task_timeout" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
@@ -1306,7 +1405,7 @@ For example, Auto.</p>
 <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id5"><span class="problematic" id="id6">:ansible-option-default:`1200`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-dnac-debug"><strong>dnac_debug</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -1318,14 +1417,14 @@ For example, Auto.</p>
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-dnac-host"><strong>dnac_host</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>The hostname of the Cisco Catalyst Center.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_log"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-dnac-log"><strong>dnac_log</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_log" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -1342,7 +1441,7 @@ For example, Auto.</p>
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_log_append"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-dnac-log-append"><strong>dnac_log_append</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_log_append" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -1354,7 +1453,7 @@ For example, Auto.</p>
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_log_file_path"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-dnac-log-file-path"><strong>dnac_log_file_path</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_log_file_path" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -1364,7 +1463,7 @@ For example, Auto.</p>
 <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id19"><span class="problematic" id="id20">:ansible-option-default:`&quot;dnac.log&quot;`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_log_level"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-dnac-log-level"><strong>dnac_log_level</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_log_level" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -1377,14 +1476,14 @@ For example, Auto.</p>
 <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id21"><span class="problematic" id="id22">:ansible-option-default:`&quot;WARNING&quot;`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-dnac-password"><strong>dnac_password</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>The password for authentication at the Cisco Catalyst Center.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-dnac-port"><strong>dnac_port</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -1392,7 +1491,7 @@ For example, Auto.</p>
 <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id23"><span class="problematic" id="id24">:ansible-option-default:`&quot;443&quot;`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_task_poll_interval"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-dnac-task-poll-interval"><strong>dnac_task_poll_interval</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_task_poll_interval" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
@@ -1400,7 +1499,7 @@ For example, Auto.</p>
 <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id25"><span class="problematic" id="id26">:ansible-option-default:`2`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
 <div class="ansibleOptionAnchor" id="parameter-user"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-user"><span id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-dnac-username"></span><strong>dnac_username</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-aliases">aliases: user</span></p>
@@ -1410,7 +1509,7 @@ For example, Auto.</p>
 <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id27"><span class="problematic" id="id28">:ansible-option-default:`&quot;admin&quot;`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-dnac-verify"><strong>dnac_verify</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -1422,7 +1521,7 @@ For example, Auto.</p>
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-dnac-version"><strong>dnac_version</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -1430,7 +1529,7 @@ For example, Auto.</p>
 <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id33"><span class="problematic" id="id34">:ansible-option-default:`&quot;2.2.3.3&quot;`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-next_task_after_interval"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-next-task-after-interval"><strong>next_task_after_interval</strong></p>
 <a class="ansibleOptionLink" href="#parameter-next_task_after_interval" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
@@ -1438,7 +1537,7 @@ For example, Auto.</p>
 <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id35"><span class="problematic" id="id36">:ansible-option-default:`5`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-state"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-state"><strong>state</strong></p>
 <a class="ansibleOptionLink" href="#parameter-state" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -1450,7 +1549,7 @@ For example, Auto.</p>
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-validate-response-schema"><strong>validate_response_schema</strong></p>
 <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -1673,7 +1772,7 @@ For example, Auto.</p>
 <span class="w">      </span><span class="nt">register</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">output_list</span>
 
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Provisioning and Re-provisiong Access Point Site details</span>
-<span class="w">      </span><span class="nt">cisco.dnac.accesspoint_movement</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">cisco.dnac.accesspoint_workflow_manager</span><span class="p">:</span>
 <span class="w">        </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_host</span> <span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">        </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_username</span> <span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">        </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_password</span> <span class="cp">}}</span><span class="s">&quot;</span>
@@ -1693,6 +1792,70 @@ For example, Auto.</p>
 <span class="w">                  </span><span class="nt">floor</span><span class="p">:</span>
 <span class="w">                    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;FLOOR1&quot;</span>
 <span class="w">                    </span><span class="nt">parent_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/USA/New</span><span class="nv"> </span><span class="s">York/BLDNYC&quot;</span>
+<span class="w">      </span><span class="nt">register</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">output_list</span>
+
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Updating Access Point Update / Controller Name</span>
+<span class="w">      </span><span class="nt">cisco.dnac.accesspoint_workflow_manager</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_host</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_username</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_password</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_verify</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_port</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_version</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_debug</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+<span class="w">        </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DEBUG</span>
+<span class="w">        </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+<span class="w">        </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
+<span class="w">        </span><span class="nt">config</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">mac_address</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">a4:88:73:d4:d6:60</span>
+<span class="w">            </span><span class="nt">ap_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Cisco_Test_AP_T003&quot;</span>
+<span class="w">            </span><span class="nt">admin_status</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Enabled&quot;</span>
+<span class="w">            </span><span class="nt">led_status</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Enabled&quot;</span>
+<span class="w">            </span><span class="nt">led_brightness_level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">            </span><span class="nt">ap_mode</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Local&quot;</span>
+<span class="w">            </span><span class="nt">is_assigned_site_as_location</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Enabled&quot;</span>
+<span class="w">            </span><span class="nt">failover_priority</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Low&quot;</span>
+<span class="w">            </span><span class="nt">primary_controller_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;NY-EWLC-1&quot;</span>
+<span class="w">            </span><span class="nt">primary_ip_address</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">address</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;204.192.6.200&quot;</span>
+<span class="w">            </span><span class="nt">secondary_controller_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;NY-EWLC-20&quot;</span>
+<span class="w">            </span><span class="nt">secondary_ip_address</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">address</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fe80::202:b3ff:fe1e:8324&quot;</span>
+<span class="w">            </span><span class="nt">tertiary_controller_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;SJ-EWLC-20&quot;</span>
+<span class="w">            </span><span class="nt">tertiary_ip_address</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">address</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fe80::202:b3ff:fe1e:8325&quot;</span>
+<span class="w">      </span><span class="nt">register</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">output_list</span>
+
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Updating Access Point Update / remove tertiary_controller_name</span>
+<span class="w">      </span><span class="nt">cisco.dnac.accesspoint_workflow_manager</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_host</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_username</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_password</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_verify</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_port</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_version</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_debug</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+<span class="w">        </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DEBUG</span>
+<span class="w">        </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+<span class="w">        </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
+<span class="w">        </span><span class="nt">config</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">mac_address</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">a4:88:73:d4:d6:60</span>
+<span class="w">            </span><span class="nt">ap_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Cisco_Test_AP_T003&quot;</span>
+<span class="w">            </span><span class="nt">admin_status</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Enabled&quot;</span>
+<span class="w">            </span><span class="nt">led_status</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Enabled&quot;</span>
+<span class="w">            </span><span class="nt">led_brightness_level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">            </span><span class="nt">ap_mode</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Local&quot;</span>
+<span class="w">            </span><span class="nt">is_assigned_site_as_location</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Enabled&quot;</span>
+<span class="w">            </span><span class="nt">failover_priority</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Low&quot;</span>
+<span class="w">            </span><span class="nt">primary_controller_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;NY-EWLC-10&quot;</span>
+<span class="w">            </span><span class="nt">primary_ip_address</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">address</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fe80::202:b3ff:fe1e:8329&quot;</span>
+<span class="w">            </span><span class="nt">secondary_controller_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;NY-EWLC-20&quot;</span>
+<span class="w">            </span><span class="nt">secondary_ip_address</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">address</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fe80::202:b3ff:fe1e:8324&quot;</span>
+<span class="w">            </span><span class="nt">tertiary_controller_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Inherit</span><span class="nv"> </span><span class="s">from</span><span class="nv"> </span><span class="s">site</span><span class="nv"> </span><span class="s">/</span><span class="nv"> </span><span class="s">Clear&quot;</span>
 <span class="w">      </span><span class="nt">register</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">output_list</span>
 
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Updating Access Point Site / Configuration details</span>
@@ -1736,6 +1899,95 @@ For example, Auto.</p>
 <span class="w">              </span><span class="nt">powerlevel</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
 <span class="w">              </span><span class="nt">channel_width</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;40</span><span class="nv"> </span><span class="s">MHz&quot;</span>
 <span class="w">      </span><span class="nt">register</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">output_list</span>
+
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Updating Access Point Site / Configuration details</span>
+<span class="w">      </span><span class="nt">cisco.dnac.accesspoint_workflow_manager</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_host</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_username</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_password</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_verify</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_port</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_version</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_debug</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+<span class="w">        </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DEBUG</span>
+<span class="w">        </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+<span class="w">        </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
+<span class="w">        </span><span class="nt">config</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">mac_address</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">6c:d6:e3:75:5a:e0</span>
+<span class="w">            </span><span class="nt">ap_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;LTTS_Test_9120_T2&quot;</span>
+<span class="w">            </span><span class="nt">admin_status</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Enabled&quot;</span>
+<span class="w">            </span><span class="nt">led_status</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Enabled&quot;</span>
+<span class="w">            </span><span class="nt">led_brightness_level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+<span class="w">            </span><span class="nt">ap_mode</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Local&quot;</span>
+<span class="w">            </span><span class="nt">is_assigned_site_as_location</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Enabled&quot;</span>
+<span class="w">            </span><span class="nt">failover_priority</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Low&quot;</span>
+<span class="w">            </span><span class="nt">primary_controller_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;NY-IAC-EWLC.cisco.local&quot;</span>
+<span class="w">            </span><span class="nt">primary_ip_address</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">address</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;204.192.6.200&quot;</span>
+<span class="w">            </span><span class="nt">secondary_controller_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Inherit</span><span class="nv"> </span><span class="s">from</span><span class="nv"> </span><span class="s">site</span><span class="nv"> </span><span class="s">/</span><span class="nv"> </span><span class="s">Clear&quot;</span>
+<span class="w">            </span><span class="nt">tertiary_controller_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Inherit</span><span class="nv"> </span><span class="s">from</span><span class="nv"> </span><span class="s">site</span><span class="nv"> </span><span class="s">/</span><span class="nv"> </span><span class="s">Clear&quot;</span>
+<span class="w">            </span><span class="nt">xor_radio</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">admin_status</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Enabled&quot;</span>
+<span class="w">              </span><span class="nt">radio_role_assignment</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Client-Serving&quot;</span>
+<span class="w">              </span><span class="nt">channel_number</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4</span>
+<span class="w">              </span><span class="nt">radio_band</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2.4</span><span class="nv"> </span><span class="s">GHz&quot;</span>
+<span class="w">              </span><span class="nt">channel_width</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;40</span><span class="nv"> </span><span class="s">MHz&quot;</span>
+<span class="w">            </span><span class="nt">5ghz_radio</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">admin_status</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Enabled&quot;</span>
+<span class="w">              </span><span class="nt">antenna_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;AIR-ANT2513P4M-N-5GHz&quot;</span>
+<span class="w">              </span><span class="nt">radio_role_assignment</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Client-Serving&quot;</span>
+<span class="w">              </span><span class="nt">channel_number</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">40</span>
+<span class="w">              </span><span class="nt">powerlevel</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+<span class="w">              </span><span class="nt">channel_width</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;80</span><span class="nv"> </span><span class="s">MHz&quot;</span>
+<span class="w">      </span><span class="nt">register</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">output_list</span>
+
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Updating Access Point Configuration</span>
+<span class="w">      </span><span class="nt">cisco.dnac.accesspoint_workflow_manager</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_host</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_username</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_password</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_verify</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_port</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_version</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_debug</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+<span class="w">        </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DEBUG</span>
+<span class="w">        </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+<span class="w">        </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
+<span class="w">        </span><span class="nt">config</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">mac_address</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">e4:38:7e:42:bc:00</span>
+<span class="w">            </span><span class="nt">ap_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;LTTS_Test_9166_T3&quot;</span>
+<span class="w">            </span><span class="nt">admin_status</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Enabled&quot;</span>
+<span class="w">            </span><span class="nt">led_status</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Enabled&quot;</span>
+<span class="w">            </span><span class="nt">led_brightness_level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+<span class="w">            </span><span class="nt">ap_mode</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Local&quot;</span>
+<span class="w">            </span><span class="nt">is_assigned_site_as_location</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Enabled&quot;</span>
+<span class="w">            </span><span class="nt">failover_priority</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Low&quot;</span>
+<span class="w">            </span><span class="nt">primary_controller_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;NY-IAC-EWLC&quot;</span>
+<span class="w">            </span><span class="nt">primary_ip_address</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">address</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;204.192.6.200&quot;</span>
+<span class="w">            </span><span class="nt">secondary_controller_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Inherit</span><span class="nv"> </span><span class="s">from</span><span class="nv"> </span><span class="s">site</span><span class="nv"> </span><span class="s">/</span><span class="nv"> </span><span class="s">Clear&quot;</span>
+<span class="w">            </span><span class="nt">tertiary_controller_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Inherit</span><span class="nv"> </span><span class="s">from</span><span class="nv"> </span><span class="s">site</span><span class="nv"> </span><span class="s">/</span><span class="nv"> </span><span class="s">Clear&quot;</span>
+<span class="w">            </span><span class="nt">2.4ghz_radio</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">admin_status</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Enabled&quot;</span>
+<span class="w">              </span><span class="nt">radio_role_assignment</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Client-Serving&quot;</span>
+<span class="w">              </span><span class="nt">channel_number</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+<span class="w">              </span><span class="nt">powerlevel</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+<span class="w">            </span><span class="nt">5ghz_radio</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">admin_status</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Enabled&quot;</span>
+<span class="w">              </span><span class="nt">radio_role_assignment</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Client-Serving&quot;</span>
+<span class="w">              </span><span class="nt">channel_number</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">44</span>
+<span class="w">              </span><span class="nt">powerlevel</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+<span class="w">              </span><span class="nt">channel_width</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;20</span><span class="nv"> </span><span class="s">MHz&quot;</span>
+<span class="w">            </span><span class="nt">xor_radio</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">admin_status</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Enabled&quot;</span>
+<span class="w">              </span><span class="nt">radio_role_assignment</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Client-Serving&quot;</span>
+<span class="w">              </span><span class="nt">channel_number</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">              </span><span class="nt">powerlevel</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+<span class="w">              </span><span class="nt">radio_band</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;6</span><span class="nv"> </span><span class="s">GHz&quot;</span>
+<span class="w">              </span><span class="nt">channel_width</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;40</span><span class="nv"> </span><span class="s">MHz&quot;</span>
+<span class="w">      </span><span class="nt">register</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">output_list</span>
 </pre></div>
 </div>
 </section>
@@ -1755,7 +2007,7 @@ For example, Auto.</p>
 </div></td>
 <td><div class="ansible-option-cell"><p>A list of dictionaries containing details about the AP updates and verification results, as returned by the Catalyst Center Python SDK</p>
 <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> always</p>
-<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id45"><span class="problematic" id="id46">:ansible-rv-sample-value:`{&quot;response&quot;: [{&quot;accesspoints\_updates&quot;: {&quot;response&quot;: {&quot;macAdress&quot;: &quot;34:5d:a8:0e:20:b4&quot;, &quot;response&quot;: {&quot;taskId&quot;: &quot;2ce139fa-1d58-4739-a6ad-b735b97e4dfe&quot;, &quot;url&quot;: &quot;/api/v1/task/2ce139fa-1d58-4739-a6ad-b735b97e4dfe&quot;}}}}, {&quot;accesspoints\_verify&quot;: {&quot;have&quot;: [{&quot;ap\_name&quot;: &quot;NFW-AP1-9130AXE&quot;, &quot;eth\_mac&quot;: &quot;34:5d:a8:0e:20:b4&quot;, &quot;led\_brightness\_level&quot;: 2, &quot;led\_status&quot;: &quot;Enabled&quot;, &quot;location&quot;: &quot;LTTS-Bangalore&quot;, &quot;mac\_address&quot;: &quot;90:e9:5e:03:f3:40&quot;}], &quot;message&quot;: &quot;The update for AP Config 'NFW-AP1-9130AXE' has been successfully verified.&quot;, &quot;want&quot;: {&quot;ap\_name&quot;: &quot;LTTS-Test1&quot;, &quot;ap\_name\_new&quot;: &quot;NFW-AP1-9130AXE&quot;, &quot;hostname&quot;: null, &quot;led\_brightness\_level&quot;: 2, &quot;led\_status&quot;: &quot;Enabled&quot;, &quot;location&quot;: &quot;LTTS-Bangalore&quot;, &quot;mac\_address&quot;: &quot;90:e9:5e:03:f3:40&quot;, &quot;management\_ip\_address&quot;: null}}}]}`</span></a></p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id45"><span class="problematic" id="id46">:ansible-rv-sample-value:`{&quot;response&quot;: [{&quot;changed&quot;: true, &quot;response&quot;: {&quot;ap\_config\_update\_status&quot;: &quot;The update for AP Config Cisco\_Test\_9120\_T1 has been successfully verified.&quot;}}]}`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
@@ -1764,7 +2016,7 @@ For example, Auto.</p>
 </div></td>
 <td><div class="ansible-option-cell"><p>A dictionary with activation details as returned by the Catalyst Center Python SDK</p>
 <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> always</p>
-<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id47"><span class="problematic" id="id48">:ansible-rv-sample-value:`&quot;{\\n    \\&quot;response\\&quot;: {\\n                    {\\n                        'bapiKey': 'd897-19b8-47aa-a9c4',\\n                        'bapiName': 'AP Provision',\\n                        'bapiExecutionId': '97d5edd5-d5db-40d8-9ab6-f15dc4a5cc30',\\n                        'startTime': 'Wed Jul 03 18:37:24 UTC 2024',\\n                        'startTimeEpoch': 1720031844919,\\n                        'endTimeEpoch': 0,\\n                        'timeDuration': 0,\\n                        'status': 'IN\_PROGRESS',\\n                        'runtimeInstanceId': 'DNACP\_Runtime\_3f8f258c-9f7a-4511-b361-592ee9e0c4d2'\\n                    }\\n                }\\n}\\n&quot;`</span></a></p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id47"><span class="problematic" id="id48">:ansible-rv-sample-value:`&quot;{\\n    \\&quot;response\\&quot;: {\\n                    {\\n                        \\&quot;bapiKey\\&quot;: \\&quot;d897-19b8-47aa-a9c4\\&quot;,\\n                        \\&quot;bapiName\\&quot;: \\&quot;AP Provision\\&quot;,\\n                        \\&quot;bapiExecutionId\\&quot;: \\&quot;97d5edd5-d5db-40d8-9ab6-f15dc4a5cc30\\&quot;,\\n                        \\&quot;startTime\\&quot;: \\&quot;Wed Jul 03 18:37:24 UTC 2024\\&quot;,\\n                        \\&quot;startTimeEpoch\\&quot;: 1720031844919,\\n                        \\&quot;endTimeEpoch\\&quot;: 0,\\n                        \\&quot;timeDuration\\&quot;: 0,\\n                        \\&quot;status\\&quot;: \\&quot;IN\_PROGRESS\\&quot;,\\n                        \\&quot;runtimeInstanceId\\&quot;: \\&quot;DNACP\_Runtime\_3f8f258c-9f7a-4511-b361-592ee9e0c4d2\\&quot;\\n                    }\\n                }\\n}\\n&quot;`</span></a></p>
 </div></td>
 </tr>
 </tbody>

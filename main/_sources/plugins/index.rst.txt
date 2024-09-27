@@ -6,7 +6,7 @@
 Cisco.Dnac
 ==========
 
-Collection version 6.18.0
+Collection version 6.19.0
 
 .. contents::
    :local:
@@ -25,6 +25,7 @@ Ansible Modules for Cisco DNA Center
 * Bryan Vargas <bvargas@altus.cr>
 * Francisco Muñoz <fmunoz@altus.cr>
 * Madhan Sankaranarayanan <madsanka@cisco.com>
+* Pawan Singh <pawansi@cisco.com>
 * Rishita Chowdhary (@rishitachowdhary)
 * Muthu Rakesh Babu <mutbabu@cisco.com>
 * Akash Bhaskaran <akabhask@cisco.com>
@@ -36,6 +37,9 @@ Ansible Modules for Cisco DNA Center
 * Ajith Andrew J <jajandre@cisco.com>
 * Syed Khadeer Ahmed <syedkahm@cisco.com>
 * A Mohamed Rafeek <mabdulk2@cisco.com>
+* Trupti A Shetty <trashett@cisco.com>
+* Sonali Deepthi Kesali <skesali@cisco.com>
+* Megha Kandari <mekandar@cisco.com>
 
 **Supported ansible-core versions:**
 
@@ -126,7 +130,7 @@ Modules
 * :ref:`configuration_template_version_create module <ansible_collections.cisco.dnac.configuration_template_version_create_module>` -- Resource module for Configuration Template Version Create
 * :ref:`configuration_template_version_info module <ansible_collections.cisco.dnac.configuration_template_version_info_module>` -- Information module for Configuration Template Version
 * :ref:`credential_to_site_by_siteid_create_v2 module <ansible_collections.cisco.dnac.credential_to_site_by_siteid_create_v2_module>` -- Resource module for Credential To Site By Siteid Create V2
-* :ref:`device_configs_backup_workflow_manager module <ansible_collections.cisco.dnac.device_configs_backup_workflow_manager_module>` -- Resource module for device\_configs\_backup functions
+* :ref:`device_configs_backup_workflow_manager module <ansible_collections.cisco.dnac.device_configs_backup_workflow_manager_module>` -- Device Configs Backup module for taking configuration backups of reachable devices in the Cisco Catalyst Center.
 * :ref:`device_configurations_export module <ansible_collections.cisco.dnac.device_configurations_export_module>` -- Resource module for Device Configurations Export
 * :ref:`device_credential_create module <ansible_collections.cisco.dnac.device_credential_create_module>` -- Resource module for Device Credential Create
 * :ref:`device_credential_delete module <ansible_collections.cisco.dnac.device_credential_delete_module>` -- Resource module for Device Credential Delete
@@ -209,6 +213,7 @@ Modules
 * :ref:`events_and_notifications_workflow_manager module <ansible_collections.cisco.dnac.events_and_notifications_workflow_manager_module>` -- Configure various types of destinations to deliver event notifications from Cisco Catalyst Center Platform.
 * :ref:`execute_suggested_actions_commands module <ansible_collections.cisco.dnac.execute_suggested_actions_commands_module>` -- Resource module for Execute Suggested Actions Commands
 * :ref:`fabric_sites_zones_workflow_manager module <ansible_collections.cisco.dnac.fabric_sites_zones_workflow_manager_module>` -- Manage fabric site(s)/zone(s) and update the authentication profile template in Cisco Catalyst Center.
+* :ref:`fabric_transits_workflow_manager module <ansible_collections.cisco.dnac.fabric_transits_workflow_manager_module>` -- Resource module for SDA fabric transits
 * :ref:`file_import module <ansible_collections.cisco.dnac.file_import_module>` -- Resource module for File Import
 * :ref:`file_info module <ansible_collections.cisco.dnac.file_info_module>` -- Information module for File
 * :ref:`file_namespace_files_info module <ansible_collections.cisco.dnac.file_namespace_files_info_module>` -- Information module for File Namespace Files
@@ -493,7 +498,7 @@ Modules
 * :ref:`swim_intent module <ansible_collections.cisco.dnac.swim_intent_module>` -- Intent module for SWIM related functions
 * :ref:`swim_trigger_activation module <ansible_collections.cisco.dnac.swim_trigger_activation_module>` -- Resource module for Swim Trigger Activation
 * :ref:`swim_trigger_distribution module <ansible_collections.cisco.dnac.swim_trigger_distribution_module>` -- Resource module for Swim Trigger Distribution
-* :ref:`swim_workflow_manager module <ansible_collections.cisco.dnac.swim_workflow_manager_module>` -- workflow\_manager module for SWIM related functions
+* :ref:`swim_workflow_manager module <ansible_collections.cisco.dnac.swim_workflow_manager_module>` -- Module to manage SWIM (Software Image Management) operations in Cisco Catalyst Center
 * :ref:`syslog_config_create module <ansible_collections.cisco.dnac.syslog_config_create_module>` -- Resource module for Syslog Config Create
 * :ref:`syslog_config_update module <ansible_collections.cisco.dnac.syslog_config_update_module>` -- Resource module for Syslog Config Update
 * :ref:`system_health_count_info module <ansible_collections.cisco.dnac.system_health_count_info_module>` -- Information module for System Health Count
@@ -705,6 +710,7 @@ Modules
     events_and_notifications_workflow_manager_module
     execute_suggested_actions_commands_module
     fabric_sites_zones_workflow_manager_module
+    fabric_transits_workflow_manager_module
     file_import_module
     file_info_module
     file_namespace_files_info_module
