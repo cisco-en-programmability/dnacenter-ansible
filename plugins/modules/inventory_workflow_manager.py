@@ -2007,7 +2007,7 @@ class Inventory(DnacBase):
             time.sleep(retry_interval)
 
         # If maximum retries reached, task did not complete in time
-        self.log(f"Task {task_id} for device '{device_ip}' timed out after {max_retries * retry_interval} seconds.", "WARNING")
+        self.log("Task {0} for device '{1}' timed out after {2} seconds.".format(task_id, device_ip, max_retries * retry_interval), "WARNING")
         return False
 
     def handle_final_provisioning_result(self, total_devices, provision_count, already_provisioned_count, device_ip_list, device_type):
