@@ -45,5 +45,5 @@ jobs:
         working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
       - name: Install yamllint
         run: pip install --user yamllint
-      - name: Rum yamllint
+      - name: Run yamllint
         run: yamllint -c .yamllint.yml .

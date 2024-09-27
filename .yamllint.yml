@@ -9,9 +9,8 @@ level: warning
 rules:
   line-length:
     max: 160
-  indentation: 
     level: warning
-  line-length:
+  indentation: 
     level: warning
   trailing-spaces:
     level: warning
