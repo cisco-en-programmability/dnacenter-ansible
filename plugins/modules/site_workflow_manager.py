@@ -70,9 +70,11 @@ options:
                 type: str
               latitude:
                 description: Geographical latitude coordinate of the building. For example, use 37.338 for a location in San Jose, California.
+                    Valid values range from -90.0 to +90.0 degrees.
                 type: float
               longitude:
                 description: Geographical longitude coordinate of the building. For example, use -121.832 for a location in San Jose, California.
+                    Valid values range from -180.0 to +180.0 degrees.
                 type: float
               name:
                 description: Name of the building (e.g., "Building1").
@@ -94,97 +96,34 @@ options:
                 description: Name of the floor (e.g., "Floor-1").
                 type: str
               parent_name:
-                description: Hierarchical parent path of the floor, indicating its location within the site (e.g., "Global/USA/San Francisco/BGL_18").
+                description: Hierarchical parent path of the floor, indicating its location within the site (e.g.,
+                    "Global/USA/San Francisco/BGL_18").
                 type: str
               rf_model:
                 description: The RF (Radio Frequency) model type for the floor, which is essential for simulating and optimizing wireless
-                  network coverage. Select from the following allowed values, which describe different environmental signal propagation
-                  characteristics.
-                  Type of floor (allowed values are 'Cubes And Walled Offices', 'Drywall Office Only', 'Indoor High Ceiling',
-                  'Outdoor Open Space').
-                  Cubes And Walled Offices - This RF model typically represents indoor areas with cubicles or walled offices, where
-                      radio signals may experience attenuation due to walls and obstacles.
-                  Drywall Office Only - This RF model indicates an environment with drywall partitions, commonly found in office spaces,
-                      which may have moderate signal attenuation.
-                  Indoor High Ceiling - This RF model is suitable for indoor spaces with high ceilings, such as auditoriums or atriums,
-                      where signal propagation may differ due to the height of the ceiling.
-                  Outdoor Open Space - This RF model is used for outdoor areas with open spaces, where signal propagation is less obstructed
-                      and may follow different patterns compared to indoor environments.
+                    network coverage. Select from the following allowed values, which describe different environmental signal propagation
+                    characteristics.
+                    Type of floor (allowed values are 'Cubes And Walled Offices', 'Drywall Office Only', 'Indoor High Ceiling',
+                    'Outdoor Open Space').
+                    Cubes And Walled Offices - This RF model typically represents indoor areas with cubicles or walled offices, where
+                        radio signals may experience attenuation due to walls and obstacles.
+                    Drywall Office Only - This RF model indicates an environment with drywall partitions, commonly found in office spaces,
+                        which may have moderate signal attenuation.
+                    Indoor High Ceiling - This RF model is suitable for indoor spaces with high ceilings, such as auditoriums or atriums,
+                        where signal propagation may differ due to the height of the ceiling.
+                    Outdoor Open Space - This RF model is used for outdoor areas with open spaces, where signal propagation is less obstructed
+                        and may follow different patterns compared to indoor environments.
                 type: str
               width:
                 description: Width of the floor in feet (e.g., 100.22).
                 type: float
               floor_number:
                 description: Floor number within the building site (e.g., 5). This value can only be specified during the creation of the
-                  floor and cannot be modified afterward.
+                    floor and cannot be modified afterward.
                 type: int
-    site:
-      description: Contains details about the site being managed, including areas, buildings, and floors. This is the main configuration container.
-      type: dict
-      suboptions:
-        area:
-          description: Configuration details for creating area within a site. An area is a high-level component in the site hierarchy.
-          type: dict
-          suboptions:
-            name:
-              description: Name of the area to be created or managed (e.g., "Area1"). This is a unique identifier for the area within its parent.
-              type: str
-            parent_name_hierarchy:
-              description: The full name of the parent under which the area will be created (e.g., "Global/USA").
-              type: str
-
-        building:
-          description: Configuration details required for creating a building within a site. A building is a mid-level component in the site hierarchy.
-          type: dict
-          suboptions:
-            address:
-              description: Physical address of the building to be created or managed (e.g., "123 Main St.").
-              type: str
-            latitude:
-              description: Geographical latitude coordinate of the building (e.g., 37.338). This specifies the location on the globe.
-              type: float
-            longitude:
-              description: Geographical longitude coordinate of the building (e.g., -121.832). This specifies the location on the globe.
-              type: float
-            name:
-              description: Name of the building (e.g., "Building1"). This is the unique identifier for the building within its parent site.
-              type: str
-            parent_name:
-              description: Hierarchical parent path of the building, indicating its location within the site structure (e.g., "Global/USA/San Francisco").
-              type: str
-
-        floor:
-          description: Configuration details required for creating a floor within a building. A floor is the lowest level in the site hierarchy.
-          type: dict
-          suboptions:
-            height:
-              description: Height of the floor in feet (e.g., 15.23). This defines the vertical dimension of the floor.
-              type: float
-            length:
-              description: Length of the floor in feet (e.g., 100.11). This defines the horizontal dimension of the floor.
-              type: float
-            name:
-              description: Name of the floor (e.g., "Floor-1"). This is the unique identifier for the floor within the building.
-              type: str
-            parent_name:
-              description: Hierarchical parent path of the floor, indicating its location within the site (e.g., "Global/USA/San Francisco/BGL_18").
-              type: str
-            rf_model:
-              description: The RF model type for the floor (e.g., 'Cubes And Walled Offices').
-              type: str
-            width:
-              description: Width of the floor in feet (e.g., 100.22). This value defines the horizontal dimension of the floor.
-              type: float
-            floor_number:
-              description: Floor number within the building (e.g., 5). This number uniquely identifies the floor level.
-              type: int
-            units_of_measure:
-              description: Units of measurement for the dimensions of the site (e.g., "feet").
-              type: str
-  Bulk_operation:
-    description: Specifies the type of site (e.g., "bulk"). This field categorizes the site based on its creation method.
-    type: str
-
+              bulk_operation:
+                description: Specifies the type of site (e.g., "bulk"). This field categorizes the site based on its creation method.
+                type: str
 requirements:
 - dnacentersdk == 2.9.2
 - python >= 3.9
@@ -360,7 +299,7 @@ EXAMPLES = r"""
               rf_model: 'Cubes And Walled Offices'
               floor_number: 3
               units_of_measure: 'feet'
-        site_type: bulk
+        bulk_operation: bulk
 """
 
 RETURN = r"""
@@ -632,7 +571,7 @@ class Site(DnacBase):
         current_site = {}
         response = None
         if self.get_ccc_version_as_integer() <= self.version_2_3_5_3:
-            response = self.get_site(self.want.get("site_name"))
+            response = self.get_site_id(self.want.get("site_name"))
             if response:
                 response = response.get("response")
                 self.log("Received API response from 'get_site': {0}".format(
@@ -655,7 +594,7 @@ class Site(DnacBase):
                     all_sites_info = []
                     for name in name_list:
                         param = {"name": name}
-                        response_data = self.get_site(param)
+                        response_data = self.get_site_id(param)
                         if not response_data:
                             self.log("No site information found for name: {0}".format(name), "WARNING")
                             return (site_exists, current_site)
@@ -680,7 +619,7 @@ class Site(DnacBase):
                 self.log("Bulk operation is not available due to : {0}".format(str(e)), "WARNING")
                 name_hierarchy = self.want.get("site_name")
                 param = {"nameHierarchy": name_hierarchy}
-                response = self.get_site(name_hierarchy)
+                response = self.get_site_id(name_hierarchy)
                 response = response.get("response")
                 if not response:
                     self.log("No site information found for name hierarchy: {0}".format(name_hierarchy), "WARNING")
@@ -959,7 +898,7 @@ class Site(DnacBase):
             updated_site = self.have.get('current_site', {}).get('site', {}).get(type)
             # requested_site = self.want['site_params']['site'][type]
             self.log(self.pprint(self.want))
-            requested_site = self.want['site_params']['site'].get(type)
+            requested_site = self.want.get('site_params', {}).get('site', {}).get(type)
 
         if self.get_ccc_version_as_integer() >= self.version_2_3_7_6:
             type = self.have.get("current_site").get("type")
@@ -970,8 +909,7 @@ class Site(DnacBase):
             requested_site = self.want.get('site_params', {}).get('site', {}).get(type)
 
         self.log("Current Site type: {0}".format(str(updated_site)), "INFO")
-        self.log("Requested Site type: {0}".format(
-            str(requested_site)), "INFO")
+        self.log("Requested Site type: {0}".format(str(requested_site)), "INFO")
 
         if type == "building":
             return not self.is_building_updated(updated_site, requested_site)
@@ -1511,13 +1449,8 @@ class Site(DnacBase):
                         str(response)), "DEBUG")
                     site_created = True
                 except Exception as e:
-                    self.log("Unexpected error occurred: {0}".format(
-                        str(e)), "ERROR")
                     error_message = (
-                        "The Catalyst Center user '{0}' does not have the necessary permissions to 'create or update' "
-                        "a Site through the API.".format(self.payload.get("dnac_username"))
-                        if "[403]" in str(e)
-                        else "Invalid site params '{0}' in request body".format(site_params))
+                        "Unexpected error occurred: {0}".format(str(e)), "ERROR")
                     return {"error_message": error_message}
                 if (site_created or site_updated) and response and isinstance(response, dict):
                     executionid = response.get("executionId")
@@ -1556,7 +1489,7 @@ class Site(DnacBase):
             self.updated_site_list.append(site_name)
             self.log("Site - {0} Updated Successfully".format(site_name), "INFO")
         else:
-            site_exists, current_site = self.site_exists()
+            site_exists = self.site_exists()
             if site_exists:
                 self.created_site_list.append(site_name)
                 self.log("Site '{0}' created successfully".format(site_name), "INFO")
