@@ -4218,7 +4218,7 @@ class Inventory(DnacBase):
             time.sleep(retry_interval)
 
         # If maximum retries reached, task did not complete in time
-        self.log(f"Execution ID '{executionid}' for device '{device_ip}' timed out after {max_retries * retry_interval} seconds.", "WARNING")
+        self.log("Execution ID '{0}' for device '{1}' timed out after {2} seconds.".format(executionid, device_ip, max_retries * retry_interval), "WARNING")
         return False
 
     def handle_task_response(self, device_ip, response):
