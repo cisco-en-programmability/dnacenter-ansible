@@ -1,9 +1,10 @@
 name: CI Devel
 on:
   workflow_dispatch:
+  pull_request:
 env:
   NAMESPACE: cisco
-  COLLECTION_NAME: dnac 
+  COLLECTION_NAME: dnac
 jobs:
   sanity:
     name: Sanity (Ⓐ${{ matrix.ansible }})
@@ -30,3 +31,7 @@ jobs:
       - name: Run sanity tests
         run: ansible-test sanity --docker -v --color
         working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
+      - name: Install yamllint
+        run: pip install --user yamllint
+      - name: Rum yamllint
+        run: yamllint -c .yamllint.yml .
