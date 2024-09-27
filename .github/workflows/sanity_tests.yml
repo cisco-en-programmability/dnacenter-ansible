@@ -47,3 +47,4 @@ jobs:
         run: pip install --user yamllint
       - name: Run yamllint
         run: yamllint -c .yamllint.yml .
+        working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
