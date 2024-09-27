@@ -1555,8 +1555,8 @@ class Inventory(DnacBase):
         self.status = "success"
         self.result['changed'] = True
         self.log("{0} Device {1} provisioned successfully!!".format(device_type, device_ip), "INFO")
-        devices = self.provisioned_device
         self.provisioned_device.append(device_ip)
+        devices = self.provisioned_device
         self.msg = "{0} Device(s) {1} provisioned successfully!!".format(device_type, devices)
         self.result['response'] = self.msg
 
@@ -1629,7 +1629,9 @@ class Inventory(DnacBase):
 
         self.status = "success"
         self.result['changed'] = True
-        self.log("All {0} Devices provisioned successfully!!".format(device_type), "INFO")
+        self.msg = ("All {0} Devices provisioned successfully!!".format(device_type), "INFO")
+        self.log(self.msg, "INFO")
+        self.result['response'] = self.msg
 
     def handle_all_failed_provision(self, device_type):
         """
@@ -1669,273 +1671,393 @@ class Inventory(DnacBase):
 
     def provisioned_wired_device(self):
         """
-        Provision wired devices in Cisco Catalyst Center.
+        Main function to provision wired devices in Cisco Catalyst Center.
         Parameters:
-            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            None
         Returns:
-            self (object): An instance of the class with updated result, status, and log.
+            bool: True if the provisioning is successful, False otherwise.
+            str: A message indicating the result of the provisioning process.
         Description:
-            This function provisions wired devices in Cisco Catalyst Center based on the configuration provided.
-            It retrieves the site name and IP addresses of the devices from the list of configuration,
-            attempts to provision each device with site, and monitors the provisioning process.
+            This method handles the provisioning of wired devices within the Cisco
+            Catalyst Center. It manages the necessary configurations and ensures
+            that the devices are set up correctly. Any errors encountered during
+            the provisioning process will be logged, and a corresponding message
+            will be returned to inform the user of the outcome.
         """
 
         provision_wired_list = self.config[0]['provision_wired_device']
-        total_devices_to_provisioned = len(provision_wired_list)
+        total_devices = len(provision_wired_list)
         device_ip_list = []
-        provision_count, already_provision_count = 0, 0
-        if self.dnac_version <= self.version_2_3_5_3:
-            self.log("inside 2.3.5.3")
-            for prov_dict in provision_wired_list:
-                managed_flag = False
-                device_ip = prov_dict['device_ip']
-                device_ip_list.append(device_ip)
-                site_name = prov_dict['site_name']
-                device_type = "Wired"
-                resync_retry_count = prov_dict.get("resync_retry_count", 200)
-                # This resync retry interval will be in seconds which will check device status at given interval
-                resync_retry_interval = prov_dict.get("resync_retry_interval", 2)
+        self.provision_count, self.already_provisioned_count = 0, 0
 
-                if not site_name or not device_ip:
-                    self.status = "failed"
-                    self.msg = "Site and Device IP are required for Provisioning of Wired Devices."
-                    self.log(self.msg, "ERROR")
-                    self.result['response'] = self.msg
-                    return self
+        for device_info in provision_wired_list:
+            device_ip = device_info['device_ip']
+            site_name = device_info['site_name']
+            device_ip_list.append(device_ip)
+            device_type = "Wired"
+            resync_retry_count = device_info.get("resync_retry_count", 200)
+            resync_retry_interval = device_info.get("resync_retry_interval", 2)
 
-                provision_wired_params = {
-                    'deviceManagementIpAddress': device_ip,
-                    'siteNameHierarchy': site_name
-                }
+            # Validate site and device IP
+            if not site_name or not device_ip:
+                self.status = "failed"
+                self.msg = "Site and Device IP are required for Provisioning of Wired Devices."
+                self.log(self.msg, "ERROR")
+                self.result['response'] = self.msg
+                return self
 
-                # Check the provisioning status of device
-                device_prov_status = self.get_provision_wired_device(device_ip)
-                if device_prov_status == 2:
-                    self.status = "success"
-                    already_provision_count += 1
-                    self.result['changed'] = False
-                    self.msg = "Device '{0}' is already provisioned in the Cisco Catalyst Center".format(device_ip)
-                    self.device_already_provisioned.append(device_ip)
-                    self.log(self.msg, "INFO")
+            if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
+                self.log("Processing with Catalyst version <= 2.3.5.3", "DEBUG")
+                device_status = self.get_provision_wired_device(device_ip)
+
+                if device_status == 2:  # Already provisioned
+                    self.log_device_already_provisioned(device_ip)
                     continue
-                if device_prov_status == 3:
-                    self.status = "failed"
-                    error_msg = "Cannot do Provisioning for device {0}.".format(device_ip)
-                    self.log(error_msg, "ERROR")
+                elif device_status == 3:  # Error in provisioning
+                    self.log_device_provision_error(device_ip)
                     continue
 
-                # Check till device comes into managed state
-                while resync_retry_count:
-                    response = self.get_device_response(device_ip)
-                    self.log("Device is in {0} state waiting for Managed State.".format(response.get('managementState')), "DEBUG")
+            # Check if device reaches managed state
+            managed_flag = self.wait_for_device_managed_state(device_ip, resync_retry_count, resync_retry_interval)
+            if not managed_flag:
+                self.log_device_not_managed(device_ip)
+                continue
 
-                    if (
-                        response.get('managementState') == "Managed"
-                        and response.get('collectionStatus') == "Managed"
-                        and response.get("hostname")
-                    ):
-                        msg = """Device '{0}' comes to managed state and ready for provisioning with the resync_retry_count
-                            '{1}' left having resync interval of {2} seconds""".format(device_ip, resync_retry_count, resync_retry_interval)
-                        self.log(msg, "INFO")
-                        managed_flag = True
-                        break
-                    if response.get('collectionStatus') == "Partial Collection Failure" or response.get('collectionStatus') == "Could Not Synchronize":
-                        device_status = response.get('collectionStatus')
-                        msg = """Device '{0}' comes to '{1}' state and never goes for provisioning with the resync_retry_count
-                            '{2}' left having resync interval of {3} seconds""".format(device_ip, device_status, resync_retry_count, resync_retry_interval)
-                        self.log(msg, "INFO")
-                        managed_flag = False
-                        break
+            if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
+                self.provision_device_v1(device_ip, site_name, device_type)
+            else:
+                self.provision_device_v2(device_ip, site_name)
 
-                    time.sleep(resync_retry_interval)
-                    resync_retry_count = resync_retry_count - 1
+        # Handle final provisioning results
+        self.handle_final_provisioning_result(total_devices, self.provision_count, self.already_provisioned_count, device_ip_list, device_type)
+        return self
+    # Helper Functions
 
-                if not managed_flag:
-                    self.log("""Device {0} is not transitioning to the managed state, so provisioning operation cannot
-                                be performed.""".format(device_ip), "WARNING")
-                    continue
+    def validate_site_and_device(self, device_ip, site_name):
+        """
+        Validate the specified site and device in the Cisco Catalyst Center.
+        Parameters:
+            device_ip (str): The IP address of the device to validate.
+            site_name (str): The name of the site associated with the device.
+        Returns:
+            bool: True if the device and site are valid, False otherwise.
+            str: A message indicating the validation result.
+        Description:
+            This method checks the existence and correctness of the provided
+            device IP address and site name within the Cisco Catalyst Center.
+            It ensures that the device is registered and correctly associated
+            with the specified site. Any validation errors will be reported
+            with an appropriate message.
+        """
 
-                try:
-                    response = self.dnac._exec(
-                        family="sda",
-                        function='provision_wired_device',
-                        op_modifies=True,
-                        params=provision_wired_params,
-                    )
-                    self.log("Received API response from 'provision_wired_device': {0}".format(str(response)), "DEBUG")
+        if not site_name or not device_ip:
+            self.status = "failed"
+            self.msg = "Site and Device IP are required for Provisioning of Wired Devices."
+            self.log(self.msg, "ERROR")
+            self.result['response'] = self.msg
+            return False
+        return True
 
-                    if response.get("status") == "failed":
-                        description = response.get("description")
-                        error_msg = "Cannot do Provisioning for device {0} because of {1}".format(device_ip, description)
-                        self.log(error_msg, "ERROR")
-                        continue
+    def get_device_id(self, device_ip):
+        """
+        Retrieve the device ID for the specified device IP.
+        Parameters:
+            device_ip (str): The IP address of the device.
+        Returns:
+            str: The device ID if found, None otherwise.
+        Description:
+            This method queries the Cisco Catalyst Center for the device ID
+            associated with the given IP address. If the device is found,
+            its ID is returned; otherwise, None is returned.
+        """
 
-                    task_id = response.get("taskId")
+        device_ids = self.get_device_ids([device_ip])
+        return device_ids[0]
 
-                    while True:
-                        execution_details = self.get_task_details(task_id)
-                        progress = execution_details.get("progress")
+    def log_device_already_provisioned(self, device_ip):
+        """
+        Logs a message indicating that the device is already provisioned.
+        Parameters:
+            device_ip (str): The IP address of the already provisioned device.
+        Returns:
+            None
+        Description:
+            This method logs an informational message stating that the device
+            with the specified IP address has already been provisioned. It
+            helps in tracking the provisioning status of devices in the Cisco
+            Catalyst Center.
+        """
+        self.status = "success"
+        self.already_provisioned_count += 1
+        self.result['changed'] = False
+        self.msg = "Device '{0}' is already provisioned in the Cisco Catalyst Center.".format(device_ip)
+        self.device_already_provisioned.append(device_ip)
+        self.log(self.msg, "INFO")
 
-                        if 'TASK_PROVISION' in progress:
-                            self.handle_successful_provisioning(device_ip, execution_details, device_type)
-                            provision_count += 1
-                            break
-                        elif execution_details.get("isError"):
-                            self.handle_failed_provisioning(device_ip, execution_details, device_type)
-                            break
+    def log_device_provision_error(self, device_ip):
+        """
+        Logs an error message for device provisioning failures.
+        Parameters:
+            device_ip (str): The IP address of the device that failed to provision.
+        Returns:
+            None
+        Description:
+            This method logs an error message indicating that the provisioning
+            of the device with the specified IP address has failed. It is useful
+            for tracking and diagnosing issues during the provisioning process.
+        """
 
-                except Exception as e:
-                    # Not returning from here as there might be possiblity that for some devices it comes into exception
-                    # but for others it gets provision successfully or If some devices are already provisioned
-                    self.handle_provisioning_exception(device_ip, e, device_type)
+        self.status = "failed"
+        error_msg = "Cannot do Provisioning for device {0}.".format(device_ip)
+        self.log(error_msg, "ERROR")
+
+    def wait_for_device_managed_state(self, device_ip, retry_count, retry_interval):
+        """
+        Waits for the device to reach a managed state.
+        Parameters:
+            device_ip (str): The IP address of the device to check.
+            retry_count (int): The number of times to retry checking the device state.
+            retry_interval (int): The interval in seconds between retries.
+        Returns:
+            bool: True if the device reaches a managed state, False otherwise.
+        Description:
+            This method polls the device at the specified IP address to determine
+            if it has reached a managed state. It retries the check a specified
+            number of times, waiting a set interval between each attempt.
+            If the device reaches a managed state within the allowed retries,
+            it returns True; otherwise, it returns False.
+        """
+
+        while retry_count > 0:
+            response = self.get_device_response(device_ip)
+            self.log("Device is in {0} state, waiting for Managed State.".format(response.get('managementState')), "DEBUG")
+
+            if response.get('managementState') == "Managed" and response.get('collectionStatus') == "Managed":
+                msg = "Device '{0}' reached Managed state with {1} retries left.".format(device_ip, retry_count)
+                self.log(msg, "INFO")
+                return True
+
+            elif response.get('collectionStatus') in ["Partial Collection Failure", "Could Not Synchronize"]:
+                msg = "Device '{0}' reached '{1}' state. Retries left: {2}.".format(device_ip, response.get('collectionStatus'), retry_count)
+                self.log(msg, "INFO")
+                return False
+
+            time.sleep(retry_interval)
+            retry_count -= 1
+
+        self.log("Device '{0}' did not transition to the Managed state within the retry limit.".format(device_ip), "WARNING")
+        return False
+
+    def log_device_not_managed(self, device_ip):
+        """
+        Logs a message indicating that the device is not managed.
+        Parameters:
+            device_ip (str): The IP address of the device that is not managed.
+        Returns:
+            None
+        Description:
+            This method logs an informational message stating that the device
+            with the specified IP address is not currently being managed.
+            This is useful for tracking devices that are outside the management scope
+            in the Cisco Catalyst Center.
+        """
+
+        self.log("Device {0} is not transitioning to the managed state, so provisioning operation cannot be performed.".format(device_ip), "WARNING")
+
+    def provision_device_v1(self, device_ip, site_name, device_type):
+        """
+        Provisions a device for versions <= 2.3.5.6.
+        Parameters:
+            device_ip (str): The IP address of the device to provision.
+            site_name (str): The name of the site where the device will be provisioned.
+            device_type (str): The type of device being provisioned.
+        Returns:
+            bool: True if provisioning is successful, False otherwise.
+        Description:
+            This method provisions a device with the specified IP address,
+            site name, and device type for software versions 2.3.5.6 or earlier.
+            It handles the necessary configurations and returns a success status.
+        """
+
+        provision_params = {'deviceManagementIpAddress': device_ip, 'siteNameHierarchy': site_name}
+        try:
+            response = self.dnac._exec(family="sda", function='provision_wired_device', op_modifies=True, params=provision_params)
+            self.log("Received API response from 'provision_wired_device': {}".format(response), "DEBUG")
+
+            task_id = response.get("taskId")
+            self.log(task_id)
+            if self.monitor_provisioning_task(task_id, site_name, "Wired"):
+                self.provision_count += 1
+                self.provisioned_device.append(device_ip)
+
+        except Exception as e:
+            self.handle_provisioning_exception(device_ip, e, device_type)
+
+    def provision_device_v2(self, device_ip, site_name):
+        """
+        Provisions a device for versions > 2.3.5.6.
+        Parameters:
+            device_ip (str): The IP address of the device to provision.
+            site_name (str): The name of the site where the device will be provisioned.
+        Returns:
+            bool: True if provisioning is successful, False otherwise.
+        Description:
+            This method provisions a device with the specified IP address
+            and site name for software versions greater than 2.3.5.6.
+            It performs the necessary configurations and returns a success status.
+        """
+        try:
+            site_exist, site_id = self.get_site_id(site_name)
+            device_id = self.get_device_id(device_ip)
+
+            assign_params = {'deviceIds': [device_id], 'siteId': site_id}
+            provision_params = [{"siteId": site_id, "networkDeviceId": device_id}]
+            is_device_provisioned = self.is_device_provisioned(device_id)
+            if not is_device_provisioned:
+                self.assign_device_to_site(device_ip, assign_params)
+                self.provision_device(site_name, provision_params)
+                self.provisioned_device.append(device_ip)
+            else:
+                self.log_device_already_provisioned(device_ip)
+        except Exception as e:
+            self.handle_provisioning_exception(device_ip, e, "Wired")
+
+    def is_device_provisioned(self, device_id):
+        """
+        Checks if a device is provisioned.
+        Parameters:
+            device_id (str): The ID of the device to check.
+        Returns:
+            bool: True if the device is provisioned, False otherwise.
+        Description:
+            This method checks the provisioning status of the device with the
+            specified device ID. It queries the Cisco Catalyst Center to determine
+            if the device is currently provisioned and returns the appropriate
+            status.
+        """
+
+        response = self.dnac._exec(family="sda", function='get_provisioned_devices', params={"networkDeviceId": device_id})
+        response = response.get('response')
+        if response:
+            self.log("API response from 'get_provisioned_devices': {0}".format(response), "DEBUG")
+            return True
         else:
-            self.log("inside 2.3.7.6")
-            for prov_dict in provision_wired_list:
-                managed_flag = False
-                self.log("inside for loop")
-                device_ip = prov_dict['device_ip']
-                device_ip_list.append(device_ip)
-                site_name = prov_dict['site_name']
-                device_type = "Wired"
-                resync_retry_count = prov_dict.get("resync_retry_count", 200)
-                # This resync retry interval will be in seconds which will check device status at given interval
-                resync_retry_interval = prov_dict.get("resync_retry_interval", 2)
+            return False
 
-                if not site_name or not device_ip:
-                    self.status = "failed"
-                    self.msg = "Site and Device IP are required for Provisioning of Wired Devices."
-                    self.log(self.msg, "ERROR")
-                    self.result['response'] = self.msg
-                    return self
+    def provision_device(self, site_name, provision_params):
+        """
+        Provisions a device for versions > 2.3.5.3.
+        Parameters:
+            site_name (str): The name of the site where the device will be provisioned.
+            provision_params (dict): A dictionary containing provisioning parameters.
+        Returns:
+            bool: True if provisioning is successful, False otherwise.
+        Description:
+            This method provisions a device at the specified site using the
+            given provisioning parameters for software versions greater than 2.3.5.3.
+            It handles all necessary configurations and returns a success status.
+        """
 
-                device_ids = self.get_device_ids([device_ip])
-                device_id = device_ids[0]
-                self.log(device_id)
+        try:
+            response = self.dnac._exec(family="sda", function='provision_devices', op_modifies=True, params={"payload": provision_params})
+            self.log("Received API response from 'provision_devices': {0}".format(str(response)), "DEBUG")
+            task_id = response.get("response").get("taskId")
+            if self.monitor_provisioning_task(task_id, site_name, "Wired"):
+                self.provision_count += 1
+        except Exception as e:
+            self.log("Exception occurred during provisioning: {0}".format(str(e)), "ERROR")
 
-                try:
-                    response = self.get_site(site_name)
-                    self.log("Received API response from 'get_site': {0}".format(str(response)), "DEBUG")
-                    site = response.get("response")
-                    site_id = site[0].get("id")
-                    self.log(site_id)
+    def monitor_provisioning_task(self, task_id, device_ip, device_type):
+        """
+        Monitor the provisioning task until it completes, fails, or times out.
 
-                except Exception as e:
-                    self.status = "failed"
-                    self.msg = ("An exception occurred: Site '{0}' does not exist in the Cisco Catalyst Center").format(site_name)
-                    self.log(self.msg, "ERROR")
-                    self.check_return_status()
+        Parameters:
+            task_id (str): The ID of the provisioning task to monitor.
+            device_ip (str): The IP address of the device being provisioned.
+            device_type (str): The type of the device (e.g., "Wired", "Wireless").
 
-                assign_network_device_to_site = {
-                    'deviceIds': [device_id],
-                    'siteId': site_id,
-                }
+        Returns:
+            bool: True if the task completed successfully, False if it failed or timed out.
+        """
+        max_retries = 100
+        retry_interval = 5
 
-                provision_params = [{
-                    "siteId": site_id,
-                    "networkDeviceId": device_id
-                }]
+        for retry in range(max_retries):
+            try:
+                self.log("task_id")
+                self.log(task_id)
+                response = self.get_tasks_by_id(task_id)
+                self.log("Task status for task {0}: {1}".format(task_id, response), "DEBUG")
 
-                # Check till device comes into managed state
-                while resync_retry_count:
-                    response = self.get_device_response(device_ip)
-                    self.log("Device is in {0} state waiting for Managed State.".format(response.get('managementState')), "DEBUG")
+                task_status = response.get('status')
 
-                    if (
-                        response.get('managementState') == "Managed"
-                        and response.get('collectionStatus') == "Managed"
-                        and response.get("hostname")
-                    ):
-                        msg = """Device '{0}' comes to managed state and ready for provisioning with the resync_retry_count
-                            '{1}' left having resync interval of {2} seconds""".format(device_ip, resync_retry_count, resync_retry_interval)
-                        self.log(msg, "INFO")
-                        managed_flag = True
-                        break
-                    if response.get('collectionStatus') == "Partial Collection Failure" or response.get('collectionStatus') == "Could Not Synchronize":
-                        device_status = response.get('collectionStatus')
-                        msg = """Device '{0}' comes to '{1}' state and never goes for provisioning with the resync_retry_count
-                            '{2}' left having resync interval of {3} seconds""".format(device_ip, device_status, resync_retry_count, resync_retry_interval)
-                        self.log(msg, "INFO")
-                        managed_flag = False
-                        break
+                if task_status == 'SUCCESS':
+                    self.log("{0} Device '{1}' provisioning completed successfully.".format(device_type, device_ip), "INFO")
+                    return True
 
-                    time.sleep(resync_retry_interval)
-                    resync_retry_count = resync_retry_count - 1
+                if task_status == 'FAILURE':
+                    self.log("{0} Device '{1}' provisioning failed: {2}".format(device_type, device_ip, task_status), "ERROR")
+                    return False
 
-                if not managed_flag:
-                    self.log("""Device {0} is not transitioning to the managed state, so provisioning operation cannot
-                                be performed.""".format(device_ip), "WARNING")
-                    continue
-                # device provision or not
-                response = self.dnac._exec(
-                    family="sda",
-                    function='get_provisioned_devices',
-                    op_modifies=True,
-                    params={"networkDeviceId": device_id},
-                )
-                self.log("Received API response from 'get_provisioned_devices': {0}".format(str(response)), "DEBUG")
-                get_provision_response = response.get("response")
-                self.log(response)
+            except Exception as e:
+                self.log("Error occurred while monitoring task {0}: {1}".format(task_id, str(e)), "ERROR")
+                return False
 
-                # If the response has anything, then it should go for reprovision
-                if get_provision_response:
-                    self.log("{0} Device {1} is already provisioned !!".format(device_type, device_ip), "INFO")
-                    self.status = "success"
-                    already_provision_count += 1
-                    self.result['changed'] = False
-                    self.msg = "Device '{0}' is already provisioned in the Cisco Catalyst Center".format(device_ip)
-                    self.device_already_provisioned.append(device_ip)
-                    self.log(self.msg, "INFO")
+            # Wait before retrying
+            time.sleep(retry_interval)
 
-                else:
-                    time.sleep(10)
-                    self.assign_device_to_site(device_ip, assign_network_device_to_site)
+        # If maximum retries reached, task did not complete in time
+        self.log(f"Task {task_id} for device '{device_ip}' timed out after {max_retries * retry_interval} seconds.", "WARNING")
+        return False
 
-                    try:
-                        self.log(provision_params)
-                        response = self.dnac._exec(
-                            family="sda",
-                            function='provision_devices',
-                            op_modifies=True,
-                            params={"payload": provision_params},
-                        )
-                        self.log("Received API response from 'provision_devices': {0}".format(str(response)), "DEBUG")
-                        task_id = response.get("response").get("taskId")
+    def handle_final_provisioning_result(self, total_devices, provision_count, already_provisioned_count, device_ip_list, device_type):
+        """
+        Handles the final results of the provisioning process.
+        Parameters:
+            total_devices (int): The total number of devices intended for provisioning.
+            provision_count (int): The number of devices successfully provisioned.
+            already_provisioned_count (int): The number of devices that were already provisioned.
+            device_ip_list (list): A list of IP addresses of the devices processed.
+            device_type (str): The type of device being provisioned.
+        Returns:
+            None
+        Description:
+            This method processes the final results of the provisioning task,
+            including logging the total number of devices, the count of successfully
+            provisioned devices, and those that were already provisioned. It helps
+            in summarizing the provisioning operation for reporting purposes.
+        """
 
-                        while True:
-                            execution_details = self.get_task_details(task_id)
-                            # progress = execution_details.get("progress")
-                            data = execution_details.get("data")
-                            self.log(execution_details)
-                            # self.log(progress)
-                            self.log(data)
-
-                            if 'processcfs_complete=true' in data:
-                                self.handle_successful_provisioning(device_ip, execution_details, device_type)
-                                provision_count += 1
-                                break
-                            elif execution_details.get("isError"):
-                                self.handle_failed_provisioning(device_ip, execution_details, device_type)
-                                break
-
-                    except Exception as e:
-                        self.log("Exception occurred during provisioning: {0}".format(str(e)), "ERROR")
-
-        # Check if all the devices are already provisioned, return from here only
-        if already_provision_count == total_devices_to_provisioned:
+        if already_provisioned_count == total_devices:
             self.handle_all_already_provisioned(device_ip_list, device_type)
-        elif provision_count == total_devices_to_provisioned:
+        elif provision_count == total_devices:
             self.handle_all_provisioned(device_type)
         elif provision_count == 0:
             self.handle_all_failed_provision(device_type)
         else:
             self.handle_partially_provisioned(provision_count, device_type)
 
-        return self
-
-    # Added function
     def assign_device_to_site(self, device_ip, assign_network_device_to_site):
+        """
+        Assign a network device to a specified site in Cisco Catalyst Center.
+
+        Parameters:
+            device_ip (str): The IP address of the device to be assigned to the site.
+            assign_network_device_to_site (dict): A dictionary containing the necessary parameters to assign
+                the device to a site, including the device IDs and site ID.
+        Returns:
+            None
+        Description:
+            This function assigns a network device to a site using the Cisco DNA Center API. It logs the process
+            and monitors the assignment task until it completes. If the assignment is successful, it logs a
+            success message; otherwise, it logs an error message.
+
+            The function handles any exceptions that may occur during the API call or while checking the task status
+            to ensure that the application can manage errors gracefully.
+        """
+        time.sleep(10)
         try:
-            self.log(assign_network_device_to_site)
+            self.log("Assigning device with IP {0} to site. Request data: {1}".format(device_ip, assign_network_device_to_site))
             response = self.dnac._exec(
                 family="site_design",
                 function='assign_network_devices_to_a_site',
@@ -1944,19 +2066,29 @@ class Inventory(DnacBase):
             )
             self.log("Received API response from 'assign_network_devices_to_a_site': {0}".format(str(response)), "DEBUG")
             task_id = response.get("response").get("taskId")
-            self.log(task_id)
+            if not task_id:
+                self.log("No taskId found in the response for device IP {0}".format(device_ip), "ERROR")
+                return False
 
-            while True:
+            self.log("Task ID for assigning device to site: {0}".format(task_id), "DEBUG")
+            retry_limit = 25.
+            retry_count = 0.
+            while retry_count < retry_limit:
                 execution_details = self.get_task_details(task_id)
-                progress = execution_details.get("progress")
+                progress = execution_details.get("progress", "")
+                is_error = execution_details.get("isError", False)
 
                 if "success" in progress:
-                    self.log("Assigning site for the device {0} was successful... ".format(device_ip))
-                    break
-                elif execution_details.get("isError"):
-                    error_msg = "Assigning site failed for the device {0} ".format(device_ip)
+                    self.log("Successfully assigned site to the device {0}".format(device_ip))
+                    return True
+                elif is_error:
+                    error_msg = "Assigning site failed for device {0}. Error details: {1}".format(device_ip, execution_details)
                     self.log(error_msg, "ERROR")
-                    break
+                    return False
+
+                # Wait before retrying to check the task status again
+                time.sleep(5)
+                retry_count += 1
         except Exception as e:
             self.log("An exception occurred while assigning device {0}: {1}".format(device_ip, str(e)), "ERROR")
 
@@ -2042,13 +2174,9 @@ class Inventory(DnacBase):
         """
 
         try:
-            if self.dnac_version <= self.version_2_3_5_3:
+            if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
                 site_type = None
-                response = self.dnac_apply['exec'](
-                    family="sites",
-                    function='get_site',
-                    params={"name": site_name},
-                )
+                response = response = self.get_site(site_name)
 
                 self.log("Received API response from 'get_site': {0}".format(str(response)), "DEBUG")
 
@@ -2070,9 +2198,9 @@ class Inventory(DnacBase):
             self.module.fail_json(msg=self.msg, response=[self.msg])
 
         try:
-            if self.dnac_version >= self.version_2_3_7_6:
+            if self.get_ccc_version_as_integer() >= self.get_ccc_version_as_int_from_str("2.3.7.6"):
                 site_type = None
-                response = self.get_sites(site_name)
+                response = self.get_site(site_name)
 
                 if not response:
                     self.msg = "Site '{0}' not found".format(site_name)
@@ -2785,8 +2913,8 @@ class Inventory(DnacBase):
         """
 
         try:
-            if self.dnac_version <= self.version_2_3_5_3:
-                flag = 3
+            flag = 3
+            if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
                 response = self.dnac._exec(
                     family="sda",
                     function='get_provisioned_wired_device',
@@ -2797,13 +2925,12 @@ class Inventory(DnacBase):
                 if response.get("status") == "success" and "retrieved successfully" in response.get("description"):
                     flag = 2
                     self.log("Wired device '{0}' already provisioned in the Cisco Catalyst Center.".format(device_ip), "INFO")
-
-            if self.dnac_version >= self.version_2_3_7_6:
-                flag = 3
+            else:
                 device_ids = self.get_device_ids([device_ip])
                 device_id = device_ids[0]
-                self.log("device_id")
-                self.log(device_id)
+                self.log("Device ID for IP {0}: {1}".format(device_ip, device_id), "DEBUG")
+                if not device_ids:
+                    self.log("No device ID found for IP {0}".format(device_ip), "ERROR")
                 response = self.dnac._exec(
                     family="sda",
                     function='get_provisioned_devices',
@@ -3200,35 +3327,6 @@ class Inventory(DnacBase):
 
         return self
 
-    def site_exists(self, site_name):
-        """
-        Parameters:
-            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-        Returns:
-            tuple: A tuple containing two values:
-            - site_exists (bool): A boolean indicating whether the site exists (True) or not (False).
-            - site_id (str or None): The ID of the site if it exists, or None if the site is not found.
-        Description:
-            This method checks the existence of a site in the Catalyst Center. If the site is found,it sets 'site_exists' to True,
-            retrieves the site's ID, and returns both values in a tuple. If the site does not exist, 'site_exists' is set
-            to False, and 'site_id' is None. If an exception occurs during the site lookup, an exception is raised.
-        """
-
-        site_exists = False
-        response = None
-
-        try:
-            response = self.get_site(site_name)
-            if response.get("response"):
-                site_exists = True
-            else:
-                raise ValueError
-
-        except Exception as e:
-            return False
-
-        return site_exists
-
     def get_diff_merged(self, config):
         """
         Merge and process differences between existing devices and desired device configuration in Cisco Catalyst Center.
@@ -3262,7 +3360,7 @@ class Inventory(DnacBase):
             for prov_dict in provision_wired_list:
                 device_ip = prov_dict['device_ip']
                 site_name = prov_dict['site_name']
-                site_exist = self.site_exists(site_name)
+                site_exist , site_id = self.get_site_id(site_name)
                 if not site_exist:
                     self.status = "failed"
                     self.msg = ("Unable to Provision Wired Device(s) because the site(s) listed: '{0}' are not present in the"
@@ -3322,6 +3420,18 @@ class Inventory(DnacBase):
             if not device_exist:
                 self.msg = """Unable to edit device credentials/details because the device(s) listed: {0} are not present in the
                             Cisco Catalyst Center.""".format(str(device_to_update))
+                self.status = "failed"
+                self.result['response'] = self.msg
+                self.log(self.msg, "ERROR")
+                return self
+
+        if device_reboot:
+            device_to_update = self.get_device_ips_from_config_priority()
+            device_exist = self.is_device_exist_for_update(device_to_update)
+
+            if not device_exist:
+                self.msg = ("Unable to reboot device because the device(s) listed: {0} are not present in the"
+                            " Cisco Catalyst Center.").format(str(device_to_update))
                 self.status = "failed"
                 self.result['response'] = self.msg
                 self.log(self.msg, "ERROR")
@@ -3767,208 +3877,376 @@ class Inventory(DnacBase):
 
     def get_diff_deleted(self, config):
         """
-        Delete devices in Cisco Catalyst Center based on device IP Address.
+        Main function to delete devices in Cisco Catalyst Center based on device IP address.
         Parameters:
-            self (object): An instance of a class used for interacting with Cisco Catalyst Center
-            config (dict): A dictionary containing the list of device IP addresses to be deleted.
+            config (dict): The configuration settings for the deletion process.
         Returns:
-            object: An instance of the class with updated results and status based on the deletion operation.
+            bool: True if deletion is successful, False otherwise.
         Description:
-            This function is responsible for removing devices from the Cisco Catalyst Center inventory and
-            also unprovsioned and removed wired provsion devices from the Inventory page and also delete
-            the Global User Defined Field that are associated to the devices.
+            This method compares the provided configuration against the current
+            devices in the Cisco Catalyst Center and deletes devices based on
+            their IP addresses. It returns a success status indicating whether
+            the deletion process was completed successfully.
         """
+
         self.log("inside deleted")
         device_to_delete = self.get_device_ips_from_config_priority()
         self.result['msg'] = []
 
+        # Handle Global User Defined Fields (UDF) Deletion
         if self.config[0].get('add_user_defined_field'):
-            udf_field_list = self.config[0].get('add_user_defined_field')
-            for udf in udf_field_list:
-                field_name = udf.get('name')
-                udf_id = self.get_udf_id(field_name)
+            return self.delete_user_defined_fields()
 
-                if udf_id is None:
-                    self.status = "success"
-                    self.msg = "Global UDF '{0}' is not present in Cisco Catalyst Center".format(field_name)
-                    self.log(self.msg, "INFO")
-                    self.result['changed'] = False
-                    self.result['msg'] = self.msg
-                    return self
-
-                try:
-                    response = self.dnac._exec(
-                        family="devices",
-                        function='delete_user_defined_field',
-                        op_modifies=True,
-                        params={"id": udf_id},
-                    )
-                    self.log("Received API response from 'delete_user_defined_field': {0}".format(str(response)), "DEBUG")
-                    if response and isinstance(response, dict):
-                        task_id = response.get('response').get('taskId')
-
-                        while True:
-                            execution_details = self.get_task_details(task_id)
-
-                            if 'success' in execution_details.get("progress"):
-                                self.status = "success"
-                                self.msg = "Global UDF '{0}' deleted successfully from Cisco Catalyst Center".format(field_name)
-                                self.log(self.msg, "INFO")
-                                self.result['changed'] = True
-                                self.result['response'] = execution_details
-                                break
-                            elif execution_details.get("isError"):
-                                self.status = "failed"
-                                failure_reason = execution_details.get("failureReason")
-                                if failure_reason:
-                                    self.msg = "Failed to delete Global User Defined Field(UDF) due to: {0}".format(failure_reason)
-                                else:
-                                    self.msg = "Global UDF deletion get failed."
-                                self.log(self.msg, "ERROR")
-                                self.result['response'] = self.msg
-                                break
-
-                except Exception as e:
-                    error_message = "Error while deleting Global UDF from Cisco Catalyst Center: {0}".format(str(e))
-                    self.log(error_message, "ERROR")
-                    raise Exception(error_message)
-
-            return self
-
+        # Loop over devices to delete them
         for device_ip in device_to_delete:
             if device_ip not in self.have.get("device_in_ccc"):
-                self.status = "success"
-                self.result['changed'] = False
-                self.msg = "Device '{0}' is not present in Cisco Catalyst Center so can't perform delete operation".format(device_ip)
-                self.no_device_to_delete.append(device_ip)
-                self.result['msg'].append(self.msg)
-                self.result['response'] = self.msg
-                self.log(self.msg, "INFO")
+                self.handle_device_not_found(device_ip)
                 continue
 
             try:
-                if self.dnac_version <= self.version_2_3_5_3:
-                    provision_params = {
-                        "device_management_ip_address": device_ip
-                    }
-                    prov_respone = self.dnac._exec(
-                        family="sda",
-                        function='get_provisioned_wired_device',
-                        op_modifies=True,
-                        params=provision_params,
-                    )
-                    self.log("Received API response from 'get_provisioned_wired_device': {0}".format(str(prov_respone)), "DEBUG")
-
-                    if prov_respone.get("status") == "success":
-                        response = self.dnac._exec(
-                            family="sda",
-                            function='delete_provisioned_wired_device',
-                            op_modifies=True,
-                            params=provision_params,
-                        )
-                        self.log("Received API response from 'delete_provisioned_wired_device': {0}".format(str(response)), "DEBUG")
-                        executionid = response.get("executionId")
-
-                        while True:
-                            execution_details = self.get_execution_details(executionid)
-                            if execution_details.get("status") == "SUCCESS":
-                                self.result['changed'] = True
-                                self.msg = "Delete provisioned Wired Device '{0}' successfully from Cisco Catalyst Center".format(device_ip)
-                                self.provisioned_device_deleted.append(device_ip)
-                                self.log(self.msg, "INFO")
-                                self.result['response'] = self.msg
-                                self.result['msg'].append(self.msg)
-                                break
-                            elif execution_details.get("bapiError"):
-                                self.msg = execution_details.get("bapiError")
-                                self.result['msg'].append(self.msg)
-                                self.log(self.msg, "ERROR")
-                                break
+                if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
+                    self.delete_provisioned_device_v1(device_ip)
                 else:
-                    device_ids = self.get_device_ids([device_ip])
-                    device_id = device_ids[0]
-                    prov_respone = self.dnac._exec(
-                        family="sda",
-                        function='get_provisioned_devices',
-                        op_modifies=True,
-                        params={"networkDeviceId": device_id}
-                    )
-                    self.log("Received API response from 'get_provisioned_devices': {0}".format(str(prov_respone)), "DEBUG")
-
-                    if prov_respone.get("response"):
-                        prov_respone = self.dnac._exec(
-                            family="sda",
-                            function='delete_provisioned_devices',
-                            op_modifies=True,
-                            params={'networkDeviceId': device_id},
-                        )
-                        self.log("Received API response from 'delete_provisioned_devices': {0}".format(str(prov_respone)), "DEBUG")
-                        task_id = prov_respone.get("response").get("taskId")
-
-                        while True:
-                            execution_details = self.get_task_details(task_id)
-
-                            if 'success' in execution_details.get("progress"):
-                                self.status = "success"
-                                self.msg = "Provisioned device '{0}' was successfully deleted from Cisco Catalyst Center".format(device_ip)
-                                self.provisioned_device_deleted.append(device_ip)
-                                self.log(self.msg, "INFO")
-                                self.result['changed'] = True
-                                self.result['response'] = execution_details
-                                break
-                            elif execution_details.get("isError"):
-                                self.status = "failed"
-                                failure_reason = execution_details.get("failureReason")
-                                if failure_reason:
-                                    self.msg = "provisioned device '{0}' deletion get failed due to: {1}".format(device_ip, failure_reason)
-                                else:
-                                    self.msg = "provisioned device '{0}' deletion get failed.".format(device_ip)
-                                self.log(self.msg, "ERROR")
-                                self.result['response'] = self.msg
-                                break
-                    else:
-                        raise ValueError
-
+                    self.delete_provisioned_device_v2(device_ip)
             except Exception as e:
-                device_id = self.get_device_ids([device_ip])
-                delete_params = {
-                    "id": device_id[0],
-                    "clean_config": self.config[0].get("clean_config", False)
-                }
+                self.handle_device_deletion_exception(device_ip, e)
+
+        return self
+
+    def delete_user_defined_fields(self):
+        """
+        Deletes User Defined Fields (UDF) in Cisco Catalyst Center.
+        Returns:
+            bool: True if deletion is successful, False otherwise.
+        Description:
+            This method removes user-defined fields from the Cisco Catalyst Center.
+            It ensures that any custom fields that are no longer needed are
+            deleted to maintain a clean and organized configuration.
+        """
+
+        udf_field_list = self.config[0].get('add_user_defined_field')
+        for udf in udf_field_list:
+            field_name = udf.get('name')
+            udf_id = self.get_udf_id(field_name)
+
+            if udf_id is None:
+                self.status = "success"
+                self.msg = "Global UDF '{0}' is not present in Cisco Catalyst Center".format(field_name)
+                self.log(self.msg, "INFO")
+                self.result['changed'] = False
+                self.result['msg'] = self.msg
+                return self
+
+            try:
+                # Execute API call to delete UDF
                 response = self.dnac._exec(
                     family="devices",
-                    function='delete_device_by_id',
+                    function='delete_user_defined_field',
                     op_modifies=True,
-                    params=delete_params,
+                    params={"id": udf_id},
                 )
-                self.log("Received API response from 'deleted_device_by_id': {0}".format(str(response)), "DEBUG")
+                self.log("Received API response from 'delete_user_defined_field': {0}".format(str(response)), "DEBUG")
+
+                # Check for task ID in the response and monitor its progress
                 if response and isinstance(response, dict):
-                    task_id = response.get('response').get('taskId')
+                    task_id = response.get('response', {}).get('taskId')
 
                     while True:
                         execution_details = self.get_task_details(task_id)
 
+                        # If the task is successful, update status and log the result
                         if 'success' in execution_details.get("progress"):
                             self.status = "success"
-                            self.msg = "Device '{0}' was successfully deleted from Cisco Catalyst Center".format(device_ip)
-                            self.deleted_devices.append(device_ip)
+                            self.msg = "Global UDF '{0}' deleted successfully from Cisco Catalyst Center".format(field_name)
                             self.log(self.msg, "INFO")
                             self.result['changed'] = True
                             self.result['response'] = execution_details
                             break
+                        # If there's an error, log and handle it
                         elif execution_details.get("isError"):
                             self.status = "failed"
                             failure_reason = execution_details.get("failureReason")
                             if failure_reason:
-                                self.msg = "Device '{0}' deletion get failed due to: {1}".format(device_ip, failure_reason)
+                                self.msg = "Failed to delete Global User Defined Field (UDF) '{0}' due to: {1}".format(field_name, failure_reason)
                             else:
-                                self.msg = "Device '{0}' deletion get failed.".format(device_ip)
+                                self.msg = "Global UDF '{0}' deletion failed.".format(field_name)
                             self.log(self.msg, "ERROR")
                             self.result['response'] = self.msg
                             break
-                    self.result['msg'].append(self.msg)
+                else:
+                    raise ValueError("Invalid response received for UDF deletion.")
+
+            except Exception as e:
+                # Handle any exceptions and log the error
+                self.handle_udf_deletion_exception(field_name, e)
 
         return self
+
+    def handle_udf_deletion_exception(self, field_name, exception):
+        """
+        Handles exceptions during UDF deletion and logs the error.
+
+        Parameters:
+            field_name (str): The name of the UDF that was being deleted.
+            exception (Exception): The exception that was raised.
+        Returns:
+            None
+        Description:
+            This method logs the error message related to the exception that occurred
+            during the deletion of the specified User Defined Field (UDF). It captures
+            the relevant details of the exception and provides a clear log for
+            diagnosing issues in the UDF deletion process.
+        """
+
+        error_message = "Error while deleting Global UDF '{0}' from Cisco Catalyst Center: {1}".format(field_name, str(exception))
+        self.log(error_message, "ERROR")
+        self.status = "failed"
+        self.msg = error_message
+        self.result['response'] = error_message
+        raise Exception(error_message)
+
+    def delete_provisioned_device_v1(self, device_ip):
+        """
+        Deletes provisioned devices for versions <= 2.3.5.3.
+
+        Parameters:
+            device_ip (str): The IP address of the device to be deleted.
+        Returns:
+            bool: True if deletion is successful, False otherwise.
+        Description:
+            This method deletes a provisioned device with the specified IP address
+            for software versions 2.3.5.3 or earlier. It performs the necessary
+            validations and API calls to ensure the device is removed from the
+            Cisco Catalyst Center.
+        """
+
+        provision_params = {"device_management_ip_address": device_ip}
+        prov_respone = self.dnac._exec(
+            family="sda",
+            function='get_provisioned_wired_device',
+            op_modifies=True,
+            params=provision_params,
+        )
+        self.log("Received API response from 'get_provisioned_wired_device': {0}".format(str(prov_respone)), "DEBUG")
+
+        if prov_respone.get("status") == "success":
+            response = self.dnac._exec(
+                family="sda",
+                function='delete_provisioned_wired_device',
+                op_modifies=True,
+                params=provision_params,
+            )
+            is_deleted = self.handle_provisioned_device_deletion_response(device_ip, response)
+            if is_deleted is True:
+                self.provisioned_device_deleted.append(device_ip)
+
+    def delete_provisioned_device_v2(self, device_ip):
+        """
+        Deletes provisioned devices for versions > 2.3.5.3.
+
+        Parameters:
+            device_ip (str): The IP address of the device to be deleted.
+        Returns:
+            bool: True if deletion is successful, False otherwise.
+        Description:
+            This method deletes a provisioned device with the specified IP address
+            for software versions greater than 2.3.5.3. It ensures that the device
+            is properly removed from the Cisco Catalyst Center, handling any
+            required validations and API interactions.
+        """
+
+        device_ids = self.get_device_ids([device_ip])
+        device_id = device_ids[0]
+        prov_respone = self.dnac._exec(
+            family="sda",
+            function='get_provisioned_devices',
+            op_modifies=True,
+            params={"networkDeviceId": device_id}
+        )
+        self.log("Received API response from 'get_provisioned_devices': {0}".format(str(prov_respone)), "DEBUG")
+
+        if prov_respone.get("response"):
+            response = self.dnac._exec(
+                family="sda",
+                function='delete_provisioned_devices',
+                op_modifies=True,
+                params={'networkDeviceId': device_id},
+            )
+            self.log("Received API response from 'delete_provisioned_devices': {0}".format(str(response)), "DEBUG")
+            task_id = response.get("response").get("taskId")
+            is_deleted = self.monitor_deleted_provisioning_task(task_id, device_ip)
+            if is_deleted is True:
+                self.provisioned_device_deleted.append(device_ip)
+
+    def monitor_deleted_provisioning_task(self, task_id, device_ip):
+        """
+        Monitor the provisioning task until it completes, fails, or times out.
+
+        Parameters:
+            task_id (str): The ID of the provisioning task to monitor.
+            device_ip (str): The IP address of the device being provisioned.
+            device_type (str): The type of the device (e.g., "Wired", "Wireless").
+
+        Returns:
+            bool: True if the task completed successfully, False if it failed or timed out.
+        """
+        max_retries = 100
+        retry_interval = 5
+
+        for retry in range(max_retries):
+            try:
+                self.log("task_id")
+                self.log(task_id)
+                response = self.get_tasks_by_id(task_id)
+                self.log("Task status for task {0}: {1}".format(task_id, response), "DEBUG")
+
+                task_status = response.get('status')
+
+                if task_status == 'SUCCESS':
+                    self.log("Provisioned device(s) '{0}' successfully deleted in Cisco Catalyst".format(device_ip), "INFO")
+                    return True
+
+                if task_status == 'FAILURE':
+                    self.log("Failed to provisioned device(s) '{0}' successfully deleted in Cisco Catalyst".format(device_ip), "INFO")
+                    return False
+
+            except Exception as e:
+                self.log("Error occurred while monitoring task {0}: {1}".format(task_id, str(e)), "ERROR")
+                return False
+
+            # Wait before retrying
+            time.sleep(retry_interval)
+
+        # If maximum retries reached, task did not complete in time
+        self.log("Task {0} for device '{1}' timed out after {2} seconds.".format(task_id, device_ip, max_retries * retry_interval), "WARNING")
+        return False
+
+    def handle_device_not_found(self, device_ip):
+        """
+        Handles the case where the device is not found in Cisco Catalyst Center.
+
+        Parameters:
+            device_ip (str): The IP address of the device that was not found.
+        Returns:
+            None
+        Description:
+            This method logs a message indicating that the specified device IP address
+            could not be found in the Cisco Catalyst Center. It helps in diagnosing
+            provisioning issues and ensures appropriate handling of the error scenario.
+        """
+
+        self.status = "success"
+        self.result['changed'] = False
+        self.msg = "Device '{0}' is not present in Cisco Catalyst Center so can't perform delete operation".format(device_ip)
+        self.no_device_to_delete.append(device_ip)
+        self.result['msg'].append(self.msg)
+        self.result['response'] = self.msg
+        self.log(self.msg, "INFO")
+
+    def handle_device_deletion_exception(self, device_ip, e):
+        """
+        Handles exceptions that occur during the deletion of a device.
+
+        Parameters:
+            device_ip (str): The IP address of the device that is being deleted.
+            e (Exception): The exception that was raised during the deletion process.
+        Returns:
+            None
+        Description:
+            This method logs an error message related to the exception that occurred
+            during the deletion of the specified device. It captures relevant details
+            of the exception to aid in troubleshooting and ensures proper logging of
+            the error scenario.
+        """
+
+        device_id = self.get_device_ids([device_ip])
+        delete_params = {
+            "id": device_id[0],
+            "clean_config": self.config[0].get("clean_config", False)
+        }
+        response = self.dnac._exec(
+            family="devices",
+            function='delete_device_by_id',
+            op_modifies=True,
+            params=delete_params,
+        )
+        self.log("Received API response from 'deleted_device_by_id': {0}".format(str(response)), "DEBUG")
+        self.handle_task_response(device_ip, response)
+
+    def handle_provisioned_device_deletion_response(self, device_ip, response):
+        """
+        Handles the response of a provisioned device deletion.
+
+        Parameters:
+            device_ip (str): The IP address of the device being deleted.
+            response (dict): The API response after initiating the device deletion.
+
+        Returns:
+            bool: True if the device deletion task completed successfully, False if it failed or timed out.
+        """
+        executionid = response.get("executionId")
+
+        if not executionid:
+            self.log("No execution ID found in the response for device '{0}'".format(device_ip), "ERROR")
+            return False
+
+        max_retries = 100
+        retry_interval = 5
+
+        for retry in range(max_retries):
+            try:
+                execution_details = self.get_execution_details(executionid)
+
+                if execution_details.get("status") == "SUCCESS":
+                    self.result['changed'] = True
+                    self.msg = "Deleted provisioned Wired Device '{0}' successfully from Cisco Catalyst Center.".format(device_ip)
+                    self.log(self.msg, "INFO")
+                    self.result['response'] = self.msg
+                    self.result['msg'].append(self.msg)
+                    return True
+
+                if execution_details.get("bapiError"):
+                    self.msg = execution_details.get("bapiError")
+                    self.result['msg'].append(self.msg)
+                    self.log(self.msg, "ERROR")
+                    return False
+
+            except Exception as e:
+                self.log("Error occurred while retrieving execution details for device '{0}': '{1}'".format(device_ip, str(e)))
+                return False
+
+            time.sleep(retry_interval)
+
+        # If maximum retries reached, task did not complete in time
+        self.log(f"Execution ID '{executionid}' for device '{device_ip}' timed out after {max_retries * retry_interval} seconds.", "WARNING")
+        return False
+
+    def handle_task_response(self, device_ip, response):
+        """
+        Handles task response after initiating a device deletion.
+        """
+        task_id = response.get('response').get('taskId')
+
+        while True:
+            execution_details = self.get_task_details(task_id)
+            if 'success' in execution_details.get("progress"):
+                self.status = "success"
+                self.msg = "Device '{0}' was successfully deleted from Cisco Catalyst Center".format(device_ip)
+                self.deleted_devices.append(device_ip)
+                self.log(self.msg, "INFO")
+                self.result['changed'] = True
+                self.result['response'] = execution_details
+                break
+            elif execution_details.get("isError"):
+                failure_reason = execution_details.get("failureReason")
+                if failure_reason:
+                    self.msg = "Device '{0}' deletion get failed due to: {1}".format(device_ip, failure_reason)
+                else:
+                    self.msg = "Device '{0}' deletion get failed.".format(device_ip)
+                self.log(self.msg, "ERROR")
+                self.result['response'] = self.msg
+                break
+        self.result['msg'].append(self.msg)
 
     def verify_diff_merged(self, config):
         """
@@ -4187,7 +4465,7 @@ class Inventory(DnacBase):
 
         if self.provisioned_device_deleted:
             provisioned_device_deleted = ("provisioned device(s) '{0}' successfully deleted in Cisco Catalyst"
-                                          "Center.").format("', '".join(self.provisioned_device_deleted))
+                                          " Center.").format("', '".join(self.provisioned_device_deleted))
             result_msg_list_1.append(provisioned_device_deleted)
 
         if self.deleted_devices:
@@ -4196,7 +4474,7 @@ class Inventory(DnacBase):
 
         if self.no_device_to_delete:
             deleted_devices = ("device(s) '{0}' is not present in Cisco Catalyst Center so can't perform delete"
-                               "operation").format("', '".join(self.no_device_to_delete))
+                               " operation").format("', '".join(self.no_device_to_delete))
             result_msg_list.append(deleted_devices)
 
         if self.response_list:
@@ -4207,14 +4485,14 @@ class Inventory(DnacBase):
             role_updated_list = "Device(s) '{0}' role updated successfully to '{1}'".format(self.role_updated_list, self.device_role_name)
             result_msg_list_1.append(role_updated_list)
 
-        if result_msg_list:
+        if result_msg_list and result_msg_list_1:
+            self.result["changed"] = True
+            self.msg = "{0}, {1}".format(" ".join(result_msg_list), " ".join(result_msg_list_1))
+        elif result_msg_list:
             self.msg = " ".join(result_msg_list)
         elif result_msg_list_1:
             self.result["changed"] = True
             self.msg = " ".join(result_msg_list_1)
-        elif result_msg_list and result_msg_list_1:
-            self.result["changed"] = True
-            self.msg = "{0}, {1}".format(" ".join(result_msg_list), " ".join(result_msg_list_1))
         else:
             self.msg = "No changes were made. No inventory actions were performed in Cisco Catalyst Center."
 
