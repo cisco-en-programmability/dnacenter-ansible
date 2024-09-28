@@ -25,9 +25,9 @@ author: Abinash Mishra (@abimishr)
         Ajith Andrew J (@ajithandrewj)
 options:
   config_verify:
-    description: Set to True to verify the Cisco Catalyst Center config after applying the playbook config.
+    description: Set to true to verify the Cisco Catalyst Center config after applying the playbook config.
     type: bool
-    default: False
+    default: false
   state:
     description: The state of Cisco Catalyst Center after module completion.
     type: str
@@ -47,14 +47,15 @@ options:
         provisioning:
             description:
                 - Specifies whether the user intends to perform site assignment only or full provisioning for a wired device.
-                - Set to 'False' to carry out site assignment only.
-                - Set to 'True' to proceed with provisioning to a site.
+                - Set to 'false' to carry out site assignment only.
+                - Set to 'true' to proceed with provisioning to a site.
             type: bool
             required: false
             default: true
         force_provisioning:
             description:
                 - Determines whether to force reprovisioning of a device.
+                - Note that reprovisioning cannot change the device's site assignment.
                 - Applicable only for wired devices.
                 - Set to 'true' to enforce reprovisioning, even if the device is already provisioned.
                 - Set to 'false' to skip provisioning for devices that are already provisioned.
@@ -64,6 +65,7 @@ options:
         site_name_hierarchy:
             description: Name of site where the device needs to be added.
             type: str
+            required: true
         managed_ap_locations:
             description:
                 - Location of the sites allocated for the APs.
@@ -131,7 +133,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    dnac_log: True
+    dnac_log: true
     state: merged
     config:
         - site_name_hierarchy: Global/USA/San Francisco/BGL_18
@@ -153,7 +155,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    dnac_log: True
+    dnac_log: true
     state: merged
     config:
         - site_name_hierarchy: Global/USA/San Francisco/BGL_18
@@ -168,12 +170,12 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    dnac_log: True
+    dnac_log: true
     state: merged
     config:
         - site_name_hierarchy: Global/USA/San Francisco/BGL_18
           management_ip_address: 204.192.3.40
-          force_provisioning: True
+          force_provisioning: true
 
 - name: Assign a wired device to a site
   cisco.dnac.provision_workflow_manager:
@@ -184,12 +186,12 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    dnac_log: True
+    dnac_log: true
     state: merged
     config:
         - site_name_hierarchy: Global/USA/San Francisco/BGL_18
           management_ip_address: 204.192.3.40
-          provisioning: False
+          provisioning: false
 
 - name: Provision a wireless device to a site
   cisco.dnac.provision_workflow_manager:
@@ -200,9 +202,9 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    dnac_log: True
+    dnac_log: true
     state: merged
-    config_verify: True
+    config_verify: true
     config:
         - site_name_hierarchy: Global/USA/RTP/BLD11
           management_ip_address: 204.192.12.201
@@ -218,9 +220,9 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    dnac_log: True
+    dnac_log: true
     state: deleted
-    config_verify: True
+    config_verify: true
     config:
         - management_ip_address: 204.1.2.2
 
