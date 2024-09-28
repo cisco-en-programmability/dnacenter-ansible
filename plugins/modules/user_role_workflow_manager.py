@@ -1600,15 +1600,18 @@ class UserandRole(DnacBase):
             - Returns the API response from the "create_user" function.
         """
         self.log("Create user with 'user_params' argument...", "DEBUG")
-        decrypt_password_response = self.decrypt_password(user_params['password'], self.key.get("generate_key"))
 
-        if decrypt_password_response and "error_message" in decrypt_password_response:
-            self.msg = decrypt_password_response.get("error_message")
-            self.log(self.msg, "ERROR")
-            self.status = "failed"
-            return self
+        if user_params.get('password'):
+            decrypt_password_response = self.decrypt_password(user_params['password'], self.key.get("generate_key"))
 
-        user_params['password'] = decrypt_password_response.get("decrypt_password")
+            if "error_message" in decrypt_password_response:
+                self.msg = decrypt_password_response.get("error_message")
+                self.log(self.msg, "ERROR")
+                self.status = "failed"
+                return self
+
+            user_params['password'] = decrypt_password_response.get("decrypt_password")
+
         required_keys = ['username', 'password']
         missing_keys = []
 
