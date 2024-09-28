@@ -55,7 +55,7 @@ options:
         force_provisioning:
             description:
                 - Determines whether to force reprovisioning of a device.
-                - Note that reprovisioning cannot change the device's site assignment.
+                - Note Can't re-provision a device to a different site.
                 - Applicable only for wired devices.
                 - Set to 'true' to enforce reprovisioning, even if the device is already provisioned.
                 - Set to 'false' to skip provisioning for devices that are already provisioned.
@@ -906,43 +906,42 @@ class Provision(DnacBase):
             self.log("The provisioned status of the wired device is {0}".format(status), "INFO")
 
             if status == "success":
-                if to_force_provisioning is True:
-                    if to_provisioning is True:
-                        try:
-                            response = self.dnac_apply['exec'](
-                                family="sda",
-                                function="re_provision_wired_device",
-                                op_modifies=True,
-                                params=self.want["prov_params"],
-                            )
-                            self.log("Reprovisioning response collected from 're_provision_wired_device' API is: {0}".format(response), "DEBUG")
-                            task_id = response.get("taskId")
-                            self.get_task_status(task_id=task_id)
-                            self.result["changed"] = True
-                            self.result['msg'] = "Re-Provision done Successfully"
-                            self.result['diff'] = self.validated_config
-                            self.result['response'] = task_id
-                            self.log(self.result['msg'], "INFO")
-                            return self
-
-                        except Exception as e:
-                            self.msg = "Error in re-provisioning due to {0}".format(str(e))
-                            self.log(self.msg, "ERROR")
-                            self.status = "failed"
-                            return self
-                    else:
-                        self.msg = ("Cannot assign a provisioned device to the site. "
-                                    "Unprovision the device and then try assigning it to the site.")
-                        self.log(self.msg, "ERROR")
-                        self.status = "failed"
-                        return self
-                else:
+                if to_force_provisioning is False:
                     self.result["changed"] = False
                     msg = "Device '{0}' is already provisioned.".format(self.validated_config.get("management_ip_address"))
                     self.result['msg'] = msg
                     self.result['diff'] = self.want
                     self.result['response'] = msg
                     self.log(msg, "INFO")
+                    return self
+                if to_provisioning is False:
+                    self.msg = ("Cannot assign a provisioned device to the site. "
+                                "Unprovision the device and then try assigning it to the site.")
+                    self.log(self.msg, "ERROR")
+                    self.status = "failed"
+                    return self
+
+                try:
+                    response = self.dnac_apply['exec'](
+                        family="sda",
+                        function="re_provision_wired_device",
+                        op_modifies=True,
+                        params=self.want["prov_params"],
+                    )
+                    self.log("Reprovisioning response collected from 're_provision_wired_device' API is: {0}".format(response), "DEBUG")
+                    task_id = response.get("taskId")
+                    self.get_task_status(task_id=task_id)
+                    self.result["changed"] = True
+                    self.result['msg'] = "Re-Provision done Successfully"
+                    self.result['diff'] = self.validated_config
+                    self.result['response'] = task_id
+                    self.log(self.result['msg'], "INFO")
+                    return self
+
+                except Exception as e:
+                    self.msg = "Error in re-provisioning due to {0}".format(str(e))
+                    self.log(self.msg, "ERROR")
+                    self.status = "failed"
                     return self
 
             if to_provisioning is True:
