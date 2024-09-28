@@ -14,9 +14,9 @@
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        dnac_log: True
+        dnac_log: true
         dnac_log_level: DEBUG
-        config_verify: True
+        config_verify: true
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
         state: merged
