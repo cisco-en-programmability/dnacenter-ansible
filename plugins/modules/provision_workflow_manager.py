@@ -708,8 +708,7 @@ class Provision(DnacBase):
           paramters and stores it for further processing and calling the
           parameters in other APIs.
         """
-        self.log("self.validated_config")
-        self.log(self.validated_config)
+
         site_name = self.validated_config.get("site_name_hierarchy")
 
         (site_exits, site_id) = self.get_site_id(site_name)
@@ -946,56 +945,55 @@ class Provision(DnacBase):
                     self.log(msg, "INFO")
                     return self
 
+            if to_provisioning is True:
+                try:
+                    response = self.dnac_apply['exec'](
+                        family="sda",
+                        function="provision_wired_device",
+                        op_modifies=True,
+                        params=self.want["prov_params"],
+                    )
+                    self.log("Provisioning response collected from 'provision_wired_device' API is: {0}".format(response), "DEBUG")
+                except Exception as e:
+                    self.msg = "Error in provisioning due to {0}".format(str(e))
+                    self.log(self.msg, "ERROR")
+                    self.status = "failed"
+                    return self
+
             else:
-                if to_provisioning is True:
-                    try:
-                        response = self.dnac_apply['exec'](
-                            family="sda",
-                            function="provision_wired_device",
-                            op_modifies=True,
-                            params=self.want["prov_params"],
-                        )
-                        self.log("Provisioning response collected from 'provision_wired_device' API is: {0}".format(response), "DEBUG")
-                    except Exception as e:
-                        self.msg = "Error in provisioning due to {0}".format(str(e))
-                        self.log(self.msg, "ERROR")
-                        self.status = "failed"
-                        return self
+                uuid = self.get_device_id()
+                if self.is_device_assigned_to_site(uuid) is True:
+                    self.result["changed"] = False
+                    self.result['msg'] = "Device is already assigned to the desired site"
+                    self.result['diff'] = self.want
+                    self.result['response'] = self.want.get("prov_params").get("site_id")
+                    self.log(self.result['msg'], "INFO")
+                    return self
 
-                else:
-                    uuid = self.get_device_id()
-                    if self.is_device_assigned_to_site(uuid) is True:
-                        self.result["changed"] = False
-                        self.result['msg'] = "Device is already assigned to the desired site"
-                        self.result['diff'] = self.want
-                        self.result['response'] = self.want.get("prov_params").get("site_id")
-                        self.log(self.result['msg'], "INFO")
-                        return self
-
-                    try:
-                        response = self.dnac_apply['exec'](
-                            family="sites",
-                            function="assign_devices_to_site",
-                            op_modifies=True,
-                            params={
-                                "site_id": self.want.get("prov_params").get("site_id"),
-                                "payload": self.want.get("prov_params")
-                            },
-                        )
-                        self.log("Assignment response collected from 'assign_devices_to_site' API is: {0}".format(response), "DEBUG")
-                        execution_id = response.get("executionId")
-                        assignment_info = self.get_execution_status_site(execution_id=execution_id)
-                        self.result["changed"] = True
-                        self.result['msg'] = "Site assignment done successfully"
-                        self.result['diff'] = self.validated_config
-                        self.result['response'] = execution_id
-                        self.log(self.result['msg'], "INFO")
-                        return self
-                    except Exception as e:
-                        self.msg = "Error in site assignment due to {0}".format(str(e))
-                        self.log(self.msg, "ERROR")
-                        self.status = "failed"
-                        return self
+                try:
+                    response = self.dnac_apply['exec'](
+                        family="sites",
+                        function="assign_devices_to_site",
+                        op_modifies=True,
+                        params={
+                            "site_id": self.want.get("prov_params").get("site_id"),
+                            "payload": self.want.get("prov_params")
+                        },
+                    )
+                    self.log("Assignment response collected from 'assign_devices_to_site' API is: {0}".format(response), "DEBUG")
+                    execution_id = response.get("executionId")
+                    assignment_info = self.get_execution_status_site(execution_id=execution_id)
+                    self.result["changed"] = True
+                    self.result['msg'] = "Site assignment done successfully"
+                    self.result['diff'] = self.validated_config
+                    self.result['response'] = execution_id
+                    self.log(self.result['msg'], "INFO")
+                    return self
+                except Exception as e:
+                    self.msg = "Error in site assignment due to {0}".format(str(e))
+                    self.log(self.msg, "ERROR")
+                    self.status = "failed"
+                    return self
 
         elif device_type == "wireless":
             try:
