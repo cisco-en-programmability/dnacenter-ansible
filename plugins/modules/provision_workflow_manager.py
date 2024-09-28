@@ -55,7 +55,8 @@ options:
         force_provisioning:
             description:
                 - Determines whether to force reprovisioning of a device.
-                - Note Can't re-provision a device to a different site.
+                - A device cannot be re-provisioned to a different site.
+                - The 'provisioning' option should not be set to 'false' for 'force_provisioning' to take effect.
                 - Applicable only for wired devices.
                 - Set to 'true' to enforce reprovisioning, even if the device is already provisioned.
                 - Set to 'false' to skip provisioning for devices that are already provisioned.
@@ -63,7 +64,7 @@ options:
             required: false
             default: false
         site_name_hierarchy:
-            description: Name of site where the device needs to be added.
+            description: Name of the site where the device will be added. This parameter is required for provisioning the device and assigning it to a site.
             type: str
             required: true
         managed_ap_locations:
@@ -321,6 +322,17 @@ class Provision(DnacBase):
         }
         if state == "merged":
             provision_spec["site_name_hierarchy"] = {'type': 'str', 'required': True}
+            missing_params = []
+            for config_item in self.config:
+                if "site_name_hierarchy" not in config_item or config_item["site_name_hierarchy"] is None:
+                    missing_params.append("site_name_hierarchy")
+                if "management_ip_address" not in config_item or config_item["management_ip_address"] is None:
+                    missing_params.append("management_ip_address")
+
+            if missing_params:
+                self.msg = f"Missing or invalid required parameter(s): {', '.join(missing_params)}"
+                self.status = "failed"
+                return self
 
         # Validate provision params
         valid_provision, invalid_params = validate_list_of_dicts(
@@ -873,165 +885,264 @@ class Provision(DnacBase):
 
     def get_diff_merged(self):
         """
-        Add to provision database
+        Process and merge device provisioning differences.
+
         Args:
             self: An instance of a class used for interacting with Cisco Catalyst Center.
+
         Returns:
-            object: An instance of the class with updated results and status
-            based on the processing of differences.
+            self: An instance of the class with updated results and status based on
+            the processing of device provisioning differences.
+
         Description:
-            The function processes the differences and, depending on the
-            changes required, it may add, update,or resynchronize devices in
-            Cisco Catalyst Center. The updated results and status are stored in the
-            class instance for further use.
+            This function identifies differences in device provisioning parameters and
+            processes them accordingly. It handles wired and wireless devices by checking
+            their current provisioning status and determining the necessary actions—whether
+            to provision, reprovision, or assign devices to a site. The function logs the
+            outcomes of these operations and updates the instance with the results, status,
+            and relevant task IDs. If any errors occur during processing, they are logged,
+            and the status is updated to reflect the failure.
         """
 
         device_type = self.want.get("device_type")
         to_force_provisioning = self.validated_config.get("force_provisioning")
         to_provisioning = self.validated_config.get("provisioning")
+        self.device_ip = self.validated_config["management_ip_address"]
+        self.site_name = self.validated_config["site_name_hierarchy"]
+
         if device_type == "wired":
-            try:
-                status_response = self.dnac_apply['exec'](
-                    family="sda",
-                    function="get_provisioned_wired_device",
-                    op_modifies=True,
-                    params={
-                        "device_management_ip_address": self.validated_config.get("management_ip_address")
-                    },
-                )
-            except Exception:
-                status_response = {}
-            self.log("Wired device's status Response collected from 'get_provisioned_wired_device' API is:{0}".format(str(status_response)), "DEBUG")
-            status = status_response.get("status")
-            self.log("The provisioned status of the wired device is {0}".format(status), "INFO")
+            self.provision_wired_device(to_provisioning, to_force_provisioning)
+        else:
+            self.provision_wireless_device()
+        return self
 
-            if status == "success":
-                if to_force_provisioning is False:
-                    self.result["changed"] = False
-                    msg = "Device '{0}' is already provisioned.".format(self.validated_config.get("management_ip_address"))
-                    self.result['msg'] = msg
-                    self.result['diff'] = self.want
-                    self.result['response'] = msg
-                    self.log(msg, "INFO")
-                    return self
-                if to_provisioning is False:
-                    self.msg = ("Cannot assign a provisioned device to the site. "
-                                "Unprovision the device and then try assigning it to the site.")
-                    self.log(self.msg, "ERROR")
-                    self.status = "failed"
-                    return self
+    def provision_wired_device(self, to_provisioning, to_force_provisioning):
+        """
+        Handle wired device provisioning.
 
-                try:
-                    response = self.dnac_apply['exec'](
-                        family="sda",
-                        function="re_provision_wired_device",
-                        op_modifies=True,
-                        params=self.want["prov_params"],
-                    )
-                    self.log("Reprovisioning response collected from 're_provision_wired_device' API is: {0}".format(response), "DEBUG")
-                    task_id = response.get("taskId")
-                    self.get_task_status(task_id=task_id)
-                    self.result["changed"] = True
-                    self.result['msg'] = "Re-Provision done Successfully"
-                    self.result['diff'] = self.validated_config
-                    self.result['response'] = task_id
-                    self.log(self.result['msg'], "INFO")
-                    return self
+        Args:
+            self: An instance of a class used for interacting with Cisco Catalyst Center.
+            to_provisioning (bool): Indicates if the device should be provisioned.
+            to_force_provisioning (bool): Indicates if the device should be forcefully reprovisioned.
 
-                except Exception as e:
-                    self.msg = "Error in re-provisioning due to {0}".format(str(e))
-                    self.log(self.msg, "ERROR")
-                    self.status = "failed"
-                    return self
+        Returns:
+            self: An instance of the class with updated results and status based on
+            the provisioning operation.
 
-            if to_provisioning is True:
-                try:
-                    response = self.dnac_apply['exec'](
-                        family="sda",
-                        function="provision_wired_device",
-                        op_modifies=True,
-                        params=self.want["prov_params"],
-                    )
-                    self.log("Provisioning response collected from 'provision_wired_device' API is: {0}".format(response), "DEBUG")
-                except Exception as e:
-                    self.msg = "Error in provisioning due to {0}".format(str(e))
-                    self.log(self.msg, "ERROR")
-                    self.status = "failed"
-                    return self
+        Description:
+            This function manages the provisioning of a wired device in Cisco Catalyst Center.
+            It checks the current provisioning status of the device and, based on the flags
+            `to_provisioning` and `to_force_provisioning`, decides whether to provision, reprovision,
+            or skip the process. The function sends appropriate API requests, logs the outcomes,
+            and updates the instance with provisioning status, task details, and any changes made.
+            In case of errors, it logs them and sets the status to 'failed'.
+        """
 
-            else:
-                uuid = self.get_device_id()
-                if self.is_device_assigned_to_site(uuid) is True:
-                    self.result["changed"] = False
-                    self.result['msg'] = "Device is already assigned to the desired site"
-                    self.result['diff'] = self.want
-                    self.result['response'] = self.want.get("prov_params").get("site_id")
-                    self.log(self.result['msg'], "INFO")
-                    return self
+        try:
+            status_response = self.dnac_apply['exec'](
+                family="sda",
+                function="get_provisioned_wired_device",
+                op_modifies=True,
+                params={
+                    "device_management_ip_address": self.validated_config.get("management_ip_address")
+                },
+            )
+        except Exception:
+            status_response = {}
 
-                try:
-                    response = self.dnac_apply['exec'](
-                        family="sites",
-                        function="assign_devices_to_site",
-                        op_modifies=True,
-                        params={
-                            "site_id": self.want.get("prov_params").get("site_id"),
-                            "payload": self.want.get("prov_params")
-                        },
-                    )
-                    self.log("Assignment response collected from 'assign_devices_to_site' API is: {0}".format(response), "DEBUG")
-                    execution_id = response.get("executionId")
-                    assignment_info = self.get_execution_status_site(execution_id=execution_id)
-                    self.result["changed"] = True
-                    self.result['msg'] = "Site assignment done successfully"
-                    self.result['diff'] = self.validated_config
-                    self.result['response'] = execution_id
-                    self.log(self.result['msg'], "INFO")
-                    return self
-                except Exception as e:
-                    self.msg = "Error in site assignment due to {0}".format(str(e))
-                    self.log(self.msg, "ERROR")
-                    self.status = "failed"
-                    return self
+        status = status_response.get("status")
+        self.log("The provisioned status of the wired device is {0}".format(status), "INFO")
 
-        elif device_type == "wireless":
-            try:
-                response = self.dnac_apply['exec'](
-                    family="wireless",
-                    function="provision",
-                    op_modifies=True,
-                    params={"payload": self.want.get("prov_params")}
-                )
-                self.log("Wireless provisioning response collected from 'provision' API is: {0}".format(str(response)), "DEBUG")
-                execution_id = response.get("executionId")
-                self.get_execution_status_wireless(execution_id=execution_id)
-                self.result["changed"] = True
-                self.result['msg'] = "Wireless device with IP {0} got provisioned successfully".format(self.validated_config["management_ip_address"])
-                self.result['diff'] = self.validated_config
-                self.result['response'] = execution_id
-                self.log(self.result['msg'], "INFO")
+        if status == "success":
+            if not to_force_provisioning:
+                self.result["changed"] = False
+                msg = "Device '{0}' is already provisioned.".format(self.validated_config.get("management_ip_address"))
+                self.result['msg'] = msg
+                self.result['response'] = msg
+                self.log(msg, "INFO")
                 return self
-            except Exception as e:
-                self.log("Parameters are {0}".format(self.want))
-                self.msg = "Error in wireless provisioning of {0} due to {1}".format(self.validated_config["management_ip_address"], e)
+
+            if not to_provisioning:
+                self.msg = ("Cannot assign a provisioned device to the site. "
+                            "The device is already provisioned. "
+                            "To re-provision the device, ensure that both 'provisioning' and 'force_provisioning' are set to 'true'. "
+                            "Alternatively, unprovision the device and try again.")
                 self.log(self.msg, "ERROR")
                 self.status = "failed"
                 return self
 
-        else:
-            self.result['msg'] = "Passed device is neither wired nor wireless"
-            self.log(self.result['msg'], "ERROR")
-            self.result['response'] = self.want.get("prov_params")
+            self.reprovision_wired_device()
             return self
 
-        task_id = response.get("taskId")
-        self.get_task_status(task_id=task_id)
-        self.result["changed"] = True
-        self.result['msg'] = "Provision done Successfully"
-        self.result['diff'] = self.validated_config
-        self.result['response'] = task_id
-        self.log(self.result['msg'], "INFO")
+        # Provision if status is not success
+        if not to_provisioning:
+            self.assign_device_to_site()
+        else:
+            self.initialize_wired_provisioning()
+
         return self
+
+    def reprovision_wired_device(self):
+        """
+        Reprovision a wired device.
+
+        Args:
+            self: An instance of a class used for interacting with Cisco Catalyst Center.
+
+        Returns:
+            self: An instance of the class with updated results and status after the
+            wired device has been reprovisioned.
+
+        Description:
+            This function handles the reprovisioning of a wired device in Cisco Catalyst Center.
+            It sends an API request to the 're_provision_wired_device' endpoint using the device's
+            provisioning parameters. The function tracks the task status and updates the class instance
+            with the reprovisioning status, task ID, and other relevant details. If an error occurs during
+            the reprovisioning process, it logs the error and adjusts the status accordingly.
+        """
+
+        try:
+            response = self.dnac_apply['exec'](
+                family="sda",
+                function="re_provision_wired_device",
+                op_modifies=True,
+                params=self.want["prov_params"],
+            )
+            self.log(self.want["prov_params"])
+            task_id = response.get("taskId")
+            self.get_task_status(task_id=task_id)
+            self.result["changed"] = True
+            self.result['msg'] = "Re-Provision for device '{0}' done successfully".format(self.device_ip)
+            self.result['diff'] = self.validated_config
+            self.result['response'] = task_id
+            self.log(self.result['msg'], "INFO")
+        except Exception as e:
+            self.msg = "Error in re-provisioning device '{0}' due to {1}".format(self.device_ip, str(e))
+            self.log(self.msg, "ERROR")
+            self.status = "failed"
+
+    def initialize_wired_provisioning(self):
+        """
+        Provision a wired device.
+
+        Args:
+            self: An instance of a class used for interacting with Cisco Catalyst Center.
+
+        Returns:
+            self: An instance of the class with updated results and status after the wired
+            device has been provisioned.
+
+        Description:
+            This function handles the provisioning of a wired device in Cisco Catalyst Center.
+            It sends an API request to the 'provision_wired_device' endpoint with the required
+            parameters. If provisioning is successful, the class instance is updated with the
+            provisioning status, task ID, and execution details. In case of any errors during
+            provisioning, it logs the error and updates the status accordingly.
+        """
+
+        try:
+            response = self.dnac_apply['exec'](
+                family="sda",
+                function="provision_wired_device",
+                op_modifies=True,
+                params=self.want["prov_params"],
+            )
+            task_id = response.get("taskId")
+            self.get_task_status(task_id=task_id)
+            self.result["changed"] = True
+            self.result['msg'] = "Provisioning of the device '{0}' completed successfully.".format(self.device_ip)
+            self.result['response'] = task_id
+            self.log(self.result['msg'], "INFO")
+        except Exception as e:
+            self.msg = "Error in provisioning device '{0}' due to {1}".format(self.device_ip, str(e))
+            self.log(self.msg, "ERROR")
+            self.status = "failed"
+
+    def assign_device_to_site(self):
+        """
+        Assign a device to a site.
+
+        Args:
+            self: An instance of a class used for interacting with Cisco Catalyst Center.
+
+        Returns:
+            self: An instance of the class with updated results and status after the device
+            has been assigned to the specified site.
+
+        Description:
+            This function assigns a device to a specific site in Cisco Catalyst Center.
+            It sends an API request to the 'assign_devices_to_site' endpoint with the required
+            site ID and device information. If the assignment is successful, it logs the
+            status and updates the class instance with the execution details. In case of failure,
+            it logs the error and updates the status accordingly.
+        """
+
+        uuid = self.get_device_id()
+        if self.is_device_assigned_to_site(uuid) is True:
+            self.result["changed"] = False
+            self.result['msg'] = "Device '{0}' is already assigned to the desired site".format(self.device_ip)
+            self.result['response'] = self.want.get("prov_params").get("site_id")
+            self.log(self.result['msg'], "INFO")
+            return self
+        try:
+            response = self.dnac_apply['exec'](
+                family="sites",
+                function="assign_devices_to_site",
+                op_modifies=True,
+                params={
+                    "site_id": self.want.get("prov_params").get("site_id"),
+                    "payload": self.want.get("prov_params")
+                },
+            )
+            execution_id = response.get("executionId")
+            self.get_execution_status_site(execution_id=execution_id)
+            self.result["changed"] = True
+            self.msg = "Successfully assigned site {1} to device {0}.".format(self.device_ip, self.site_name)
+            self.result['msg'] = self.msg
+            self.result['response'] = execution_id
+            self.log(self.result['msg'], "INFO")
+        except Exception as e:
+            self.msg = "Error in site assignment: {0}".format(str(e))
+            self.log(self.msg, "ERROR")
+            self.status = "failed"
+
+    def provision_wireless_device(self):
+        """
+        Provision a wireless device.
+
+        Args:
+            self: An instance of a class used for interacting with Cisco Catalyst Center.
+            want (dict): A dictionary containing the provisioning parameters for the wireless device.
+
+        Returns:
+            self: An instance of the class with updated results and status based on
+            the provisioning operation.
+
+        Description:
+            This function is responsible for provisioning a wireless device in Cisco Catalyst Center.
+            It sends a request using the 'provision' API and handles the execution status.
+            If an error occurs during the provisioning process, it logs the error and updates
+            the instance status accordingly.
+        """
+
+        try:
+            response = self.dnac_apply['exec'](
+                family="wireless",
+                function="provision",
+                op_modifies=True,
+                params={"payload": self.want.get("prov_params")}
+            )
+            execution_id = response.get("executionId")
+            self.get_execution_status_wireless(execution_id=execution_id)
+            self.result["changed"] = True
+            self.result['msg'] = "Wireless device provisioned successfully"
+            self.result['diff'] = self.validated_config
+            self.result['response'] = execution_id
+            self.log(self.result['msg'], "INFO")
+        except Exception as e:
+            self.msg = "Error in wireless provisioning: {0}".format(str(e))
+            self.log(self.msg, "ERROR")
+            self.status = "failed"
 
     def get_diff_deleted(self):
         """
