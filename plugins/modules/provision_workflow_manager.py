@@ -330,7 +330,7 @@ class Provision(DnacBase):
                     missing_params.append("management_ip_address")
 
             if missing_params:
-                self.msg = f"Missing or invalid required parameter(s): {', '.join(missing_params)}"
+                self.msg = "Missing or invalid required parameter(s): {0}".format(', '.join(missing_params))
                 self.status = "failed"
                 return self
 
