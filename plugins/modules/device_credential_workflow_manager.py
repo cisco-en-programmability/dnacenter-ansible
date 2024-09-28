@@ -484,7 +484,7 @@ EXAMPLES = r"""
           password: '12345'
           enable_password: '12345'
         snmp_v2c_read:
-         - description: SNMPv2c Read1
+        - description: SNMPv2c Read1
           read_community: '123456'
         - description: SNMPv2c Read2
           read_community: '123456'
@@ -2302,7 +2302,7 @@ class DeviceCredential(DnacBase):
             self.msg = "The 'site_name' is required parameter for 'apply_credentials_to_site'"
             self.status = "failed"
             return self
-        
+
         site_exist, want["apply_credentials"]["site_id"] = self.get_site_id(site_name[0])
         global_credentials = self.get_global_credentials_params()
         cli_credential = ApplyCredentials.get("cli_credential")
@@ -2334,7 +2334,7 @@ class DeviceCredential(DnacBase):
                         self.msg = "The username and description of the CLI credential are invalid"
                         self.status = "failed"
                         return self
-                    
+
                 want["apply_credentials"]["cliId"] = cliDetail.get("id")
 
         snmp_v2c_read = ApplyCredentials.get("snmp_v2c_read")
@@ -2364,7 +2364,7 @@ class DeviceCredential(DnacBase):
                         self.msg = "The username and description for the snmp_v2c_read credential are invalid."
                         self.status = "failed"
                         return self
-                    
+
                 want["apply_credentials"]["snmpV2ReadId"] = snmpV2cReadDetail.get(
                     "id")
 
@@ -2395,7 +2395,7 @@ class DeviceCredential(DnacBase):
                         self.msg = "The username and description of the snmp_v2c_write credential are invalid."
                         self.status = "failed"
                         return self
-                    
+
                 want["apply_credentials"]["snmpV2WriteId"] = snmpV2cWriteDetail.get(
                     "id")
 
@@ -2426,7 +2426,7 @@ class DeviceCredential(DnacBase):
                         self.msg = "The username and description for the snmp_v2c_write credential are invalid."
                         self.status = "failed"
                         return self
-                    
+
                 want["apply_credentials"]["snmpV3Id"] = snmpV3Detail.get("id")
 
         self.log("Desired State (want): {0}".format(want), "INFO")
@@ -2700,7 +2700,7 @@ class DeviceCredential(DnacBase):
         """
         self.log(
             "Checking assigned devices for site with ID: {0}".format(site_id), "DEBUG"
-            )
+        )
         site_assigned_network_devices_response = self.dnac._exec(
             family="site_design",
             function="get_site_assigned_network_devices",
@@ -2817,7 +2817,7 @@ class DeviceCredential(DnacBase):
                     invalid_sync_cred_ids.append(id)
 
             self.log("Credential IDs {0} not assigned to site, so Sync not possible."
-                      .format(invalid_sync_cred_ids), "INFO")
+                     .format(invalid_sync_cred_ids), "INFO")
 
             if not valid_sync_cred_ids:
                 result_apply_credential.update({
@@ -2866,7 +2866,7 @@ class DeviceCredential(DnacBase):
         else:
             self.msg = (
                 "Cisco Catalyst Center version '{0}' doesn't support apply credentials to site feature."
-                 .format(self.payload.get("dnac_version")), "ERROR"
+                .format(self.payload.get("dnac_version")), "ERROR"
             )
             self.log(self.msg, "CRITICAL")
             self.status = "failed"
