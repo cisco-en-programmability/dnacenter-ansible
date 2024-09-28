@@ -1463,7 +1463,7 @@ class NetworkSettings(DnacBase):
                     "secondaryServerIp": "",
                     "protocol": ""
                 }
-            if not network_aaa:
+            if not client_and_endpoint_aaa:
                 client_and_endpoint_aaa = {
                     "serverType": "",
                     "primaryServerIp": "",
@@ -1475,8 +1475,8 @@ class NetworkSettings(DnacBase):
                 "settings": {
                     "network_aaa" : network_aaa,
                     "clientAndEndpoint_aaa": client_and_endpoint_aaa,
-                    "wiredDataCollection": wired_data_collection,
-                    "wirelessTelemetry": wireless_telemetry
+                    "wired_data_collection": wired_data_collection,
+                    "wireless_telemetry": wireless_telemetry
                 }
             }
             network_settings = network_details.get("settings")
@@ -2592,7 +2592,7 @@ class NetworkSettings(DnacBase):
                     if netflow_collector.get("collector_type") == "Telemetry_broker_or_UDP_director" \
                         and (netflow_collector.get("ip_address") is None
                              or netflow_collector.get("port") is None):
-                        self.msg = "The 'ip_address' and 'port' for 'TelemetryBrokerOrUDPDirector' is mandatory."
+                        self.msg = "The 'ip_address' and 'port' for 'Telemetry_broker_or_UDP_director' is mandatory."
                         self.status = "failed"
                         return self
 
@@ -2617,19 +2617,19 @@ class NetworkSettings(DnacBase):
                         })
 
                     want_network_settings.update({
-                        "wiredDataCollection": {},
-                        "wirelessTelemetry": {}
+                        "wired_data_collection": {},
+                        "wireless_telemetry": {}
                     })
 
                     wired_data_collection = item.get("wired_data_collection")
                     if wired_data_collection is not None:
                         if wired_data_collection.get("enable_wired_data_collection") is not None and \
                            wired_data_collection.get("enable_wired_data_collection") is True:
-                            want_network_settings.get("wiredDataCollection").update({
+                            want_network_settings.get("wired_data_collection").update({
                                 "enableWiredDataCollection": True
                             })
                         else:
-                            want_network_settings.get("wiredDataCollection").update({
+                            want_network_settings.get("wired_data_collection").update({
                                 "enableWiredDataCollection": False
                             })
                     else:
@@ -2641,15 +2641,15 @@ class NetworkSettings(DnacBase):
                     if wireless_telemetry is not None:
                         if wired_data_collection.get("enable_wireless_telemetry") is not None and \
                            wired_data_collection.get("enable_wireless_telemetry") is True:
-                            want_network_settings.get("wirelessTelemetry").update({
+                            want_network_settings.get("wireless_telemetry").update({
                                 "enableWirelessTelemetry": True
                             })
                         else:
-                            want_network_settings.get("wirelessTelemetry").update({
+                            want_network_settings.get("wireless_telemetry").update({
                                 "enableWirelessTelemetry": False
                             })
                     else:
-                        want_network_settings.get("wirelessTelemetry").update({
+                        want_network_settings.get("wireless_telemetry").update({
                             "enableWirelessTelemetry": False
                         })
                 else:
@@ -3199,26 +3199,19 @@ class NetworkSettings(DnacBase):
             Response (dict) - The response after updating the telemetry settings.
         """
 
-        wiredDataCollection = telemetry_settings.get("wiredDataCollection")
-        wirelessTelemetry = telemetry_settings.get("wirelessTelemetry")
-        snmpTraps = telemetry_settings.get("snmpServer")
-        syslogs = telemetry_settings.get("syslogServer")
-        netflow = telemetry_settings.get("netflowcollector")
-        param = {
-            "id": site_id,
-            "wiredDataCollection": wiredDataCollection,
-            "wirelessTelemetry": wirelessTelemetry,
-            "snmpTraps": snmpTraps,
-            "syslogs": syslogs,
-            "applicationVisibility": netflow
-        }
-        self.log(param)
         try:
             response = self.dnac._exec(
                 family="network_settings",
                 function='set_telemetry_settings_for_a_site',
                 op_modifies=True,
-                params=param
+                params={
+                    "id": site_id,
+                    "wiredDataCollection": telemetry_settings.get("wired_data_collection"),
+                    "wirelessTelemetry": telemetry_settings.get("wireless_telemetry"),
+                    "snmpTraps": telemetry_settings.get("snmp_server"),
+                    "syslogs": telemetry_settings.get("syslog_server"),
+                    "applicationVisibility": telemetry_settings.get("netflowcollector")
+                }
             )
             self.log("Telemetry settings updated for site {0}: {1}".format(site_id, telemetry_settings), "DEBUG")
         except Exception as msg:
@@ -3399,15 +3392,15 @@ class NetworkSettings(DnacBase):
                     net_params.get("settings", {}).get("snmpServer"),
                     net_params.get("settings", {}).get("syslogServer"),
                     net_params.get("settings", {}).get("netflowcollector"),
-                    net_params.get("settings", {}).get("wiredDataCollection"),
-                    net_params.get("settings", {}).get("wirelessTelemetry")
+                    net_params.get("settings", {}).get("wired_data_collection"),
+                    net_params.get("settings", {}).get("wireless_telemetry")
                 ]):
                     telemetry_settings = {
-                        "snmpServer": net_params.get("settings").get("snmpServer"),
-                        "syslogServer": net_params.get("settings").get("syslogServer"),
+                        "snmp_server": net_params.get("settings").get("snmpServer"),
+                        "syslog_server": net_params.get("settings").get("syslogServer"),
                         "netflowcollector": net_params.get("settings").get("netflowcollector"),
-                        "wiredDataCollection": net_params.get("settings").get("wiredDataCollection"),
-                        "wirelessTelemetry": net_params.get("settings").get("wirelessTelemetry")
+                        "wired_data_collection": net_params.get("settings").get("wired_data_collection"),
+                        "wireless_telemetry": net_params.get("settings").get("wireless_telemetry")
                     }
                     response = self.update_telemetry_settings_for_site(site_id, telemetry_settings)
                     self.log("Received API response of 'set_telemetry_settings_for_a_site': {0}".format(response), "DEBUG")
