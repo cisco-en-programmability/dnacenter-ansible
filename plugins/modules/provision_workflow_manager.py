@@ -886,6 +886,8 @@ class Provision(DnacBase):
         """
 
         device_type = self.want.get("device_type")
+        to_force_provisioning = self.validated_config.get("force_provisioning")
+        to_provisioning = self.validated_config.get("provisioning")
         if device_type == "wired":
             try:
                 status_response = self.dnac_apply['exec'](
@@ -903,8 +905,8 @@ class Provision(DnacBase):
             self.log("The provisioned status of the wired device is {0}".format(status), "INFO")
 
             if status == "success":
-                if self.validated_config.get("force_provisioning") is True:
-                    if self.validated_config.get("provisioning") is True:
+                if to_force_provisioning is True:
+                    if to_provisioning is True:
                         try:
                             response = self.dnac_apply['exec'](
                                 family="sda",
@@ -943,7 +945,7 @@ class Provision(DnacBase):
                     return self
 
             else:
-                if self.validated_config.get("provisioning") is True:
+                if to_provisioning is True:
                     try:
                         response = self.dnac_apply['exec'](
                             family="sda",
