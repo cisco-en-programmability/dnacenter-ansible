@@ -7,7 +7,7 @@
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
-__author__ = ("Abinash Mishra, Rugvedi Kapse, Madhan Sankaranarayanan")
+__author__ = ("Abinash Mishra, Rugvedi Kapse, Madhan Sankaranarayanan, Sonali Deepthi Kesali")
 
 DOCUMENTATION = r"""
 ---
@@ -21,6 +21,7 @@ extends_documentation_fragment:
 author: Abinash Mishra (@abimishr)
         Rugvedi Kapse (@rukapse)
         Madhan Sankaranarayanan (@madhansansel)
+        Sonali Deepthi Kesali (@skesali)
 options:
   config_verify:
     description: Set to True to verify the Cisco Catalyst Center config after applying the playbook config.
@@ -113,17 +114,19 @@ options:
                     - one special characters from -=\\\\\\\\;,./~!@$%^&*()_+{}[]|:?"
         type: str
 requirements:
-  - dnacentersdk == 2.6.10
+  - dnacentersdk == 2.9.2
   - python >= 3.5
 
 notes:
   - SDK Methods used are
     sites.Sites.get_site
+    Site_design.Site_design.get_sites
     sites.Sites.get_membership
+    site_design.Site_design.get_site_assigned_network_devices
     devices.Devices.get_device_list
+    devices.Devices.get_device_by_id
     configuration_archive.ConfigurationsArchive.export_device_configurations
     file.Files.download_a_file_by_fileid
-    task.Task.get_task_by_id
 
   - Paths used are
     get /dna/intent/api/v1/site
@@ -131,8 +134,9 @@ notes:
     get /dna/intent/api/v1/network-device
     post /dna/intent/api/v1/network-device-archive/cleartext
     get /dna/intent/api/v1/file/${fileId}
-    get /dna/intent/api/v1/task/${taskId}
-
+    get /dna/intent/api/v1/networkDevices/assignedToSite
+    get /dna/intent/api/v1/sites
+    get /dna/intent/api/v1/network-device/${id}
 """
 
 EXAMPLES = r"""
@@ -463,163 +467,6 @@ class Device_configs_backup(DnacBase):
         self.status = "success"
         return self
 
-    def update_result(self, status, changed, msg, log_level, data=None):
-        """
-        Update the result of the operation with the provided status, message, and log level.
-        Parameters:
-            - status (str): The status of the operation ("success" or "failed").
-            - changed (bool): Indicates whether the operation caused changes.
-            - msg (str): The message describing the result of the operation.
-            - log_level (str): The log level at which the message should be logged ("INFO", "ERROR", "CRITICAL", etc.).
-            - data (dict, optional): Additional data related to the operation result.
-        Returns:
-            self (object): An instance of the class.
-        Note:
-            - If the status is "failed", the "failed" key in the result dictionary will be set to True.
-            - If data is provided, it will be included in the result dictionary.
-        """
-        # Update the result attributes with the provided values
-        self.status = status
-        self.result["status"] = status
-        self.result["msg"] = msg
-        self.result["changed"] = changed
-
-        # Log the message at the specified log level
-        self.log(msg, log_level)
-
-        # If the status is "failed", set the "failed" key to True
-        if status == "failed":
-            self.result["failed"] = True
-
-        # If additional data is provided, include it in the result dictionary
-        if data:
-            self.result["data"] = data
-
-        return self
-
-    def validate_site_exists(self, site_name):
-        """
-        Checks the existence of a site in Cisco Catalyst Center.
-        Parameters:
-            site_name (str): The name of the site to be checked.
-        Returns:
-            tuple: A tuple containing two values:
-            - site_exists (bool): Indicates whether the site exists (True) or not (False).
-            - site_id (str or None): The ID of the site if it exists, or None if the site is not found.
-        Description:
-            This method queries Cisco Catalyst Center to determine if a site with the provided name exists.
-            If the site is found, it sets "site_exists" to True and retrieves the sites ID.
-            If the site does not exist, "site_exists" is set to False, and "site_id" is None.
-            If an exception occurs during the site lookup, an error message is logged, and the module fails.
-        """
-        site_exists = False
-        site_id = None
-
-        # Attempt to retrieve site information from Catalyst Center
-        try:
-            response = self.dnac._exec(
-                family="sites",
-                function="get_site",
-                op_modifies=True,
-                params={"name": site_name},
-            )
-            self.log("Response received post 'get_site' API call: {0}".format(str(response)), "DEBUG")
-            response = response.get("response")
-
-            # Process the response if available
-            if response:
-                site_id = response[0].get("id")
-                site_exists = True
-            else:
-                self.log("No response received from the 'get_site' API call.", "WARNING")
-
-        except Exception as e:
-            # Log an error message and fail if an exception occurs
-            self.log("An error occurred while retrieving site details for Site '{0}' using 'get_site' API call: {1}".format(site_name, str(e)), "ERROR")
-
-        # Update result if the site does not exist
-        if not site_exists:
-            self.msg = "An error occurred while retrieving site details for Site '{0}'. Please verify that the site exists.".format(site_name)
-            self.update_result("failed", False, self.msg, "ERROR")
-            self.check_return_status()
-
-        return (site_exists, site_id)
-
-    def get_device_ids_from_site(self, site_name, site_id):
-        """
-        Retrieves device IDs from a specified site in Cisco Catalyst Center.
-        Parameters:
-            site_name (str): The name of the site.
-            site_id (str): The ID of the site.
-        Returns:
-            dict: A dictionary mapping management IP addresses to instance UUIDs of reachable devices that are not Unified APs.
-        Description:
-            This method queries Cisco Catalyst Center to retrieve device information associated with the provided site ID.
-            It filters out unreachable devices and Unified APs, returning a dictionary of management IP addresses mapped to their instance UUIDs.
-            Logs detailed information about the number of devices processed and skipped.
-        """
-        mgmt_ip_to_instance_id_map = {}
-        processed_device_count = 0
-        skipped_device_count = 0
-
-        # Parameters for the site membership API call
-        site_params = {
-            "site_id": site_id,
-        }
-
-        # Attempt to retrieve device information associated with the site
-        try:
-            response = self.dnac._exec(
-                family="sites",
-                function="get_membership",
-                op_modifies=True,
-                params=site_params,
-            )
-            self.log("Response received post 'get_membership' API Call: {0} ".format(str(response)), "DEBUG")
-
-            # Process the response if available
-            if response:
-                response = response["device"]
-                # Iterate over the devices in the site membership
-                for item in response:
-                    if item["response"]:
-                        for item_dict in item["response"]:
-                            processed_device_count += 1
-                            # Check if the device is reachable
-                            if item_dict["reachabilityStatus"] == "Reachable" and item_dict["collectionStatus"] == "Managed":
-                                if item_dict["family"] != "Unified AP":
-                                    mgmt_ip_to_instance_id_map[item_dict["managementIpAddress"]] = item_dict["instanceUuid"]
-                                else:
-                                    skipped_device_count += 1
-                                    self.skipped_devices_list.append(item_dict["managementIpAddress"])
-                                    msg = "Skipping device {0} in site {1} as its family is {2}".format(
-                                        item_dict["managementIpAddress"], site_name, item_dict["family"])
-                                    self.log(msg, "INFO")
-                            else:
-                                skipped_device_count += 1
-                                self.skipped_devices_list.append(item_dict["managementIpAddress"])
-                                msg = "Skipping device {0} in site {1} as its status is {2} or collectionStatus is {3} ".format(
-                                    item_dict["managementIpAddress"], site_name, item_dict["reachabilityStatus"], item_dict["collectionStatus"])
-                                self.log(msg, "WARNING")
-            else:
-                # If unable to retrieve device information, log an error message
-                self.log("No response received from API call 'get_membership' to get membership information for site. {0}".format(site_name), "ERROR")
-
-            # Log the total number of devices processed and skipped
-            self.log("Total number of devices processed: {0}".format(processed_device_count), "INFO")
-            self.log("Number of devices skipped due to being unreachable or APs: {0}".format(skipped_device_count), "INFO")
-            self.log("Filtered devices available for configuration backup: {0}".format(mgmt_ip_to_instance_id_map), "INFO")
-
-        except Exception as e:
-            # Log an error message if any exception occurs during the process
-            self.log("Unable to fetch the device(s) associated to the site '{0}' due to {1}".format(site_name, str(e)), "ERROR")
-
-        # Log a warning if no reachable devices are found
-        if not mgmt_ip_to_instance_id_map:
-            self.log("Reachable devices not found at Site: {0}".format(site_name), "WARNING")
-
-        return mgmt_ip_to_instance_id_map
-
     def get_device_list_params(self, config):
         """
         Generates a dictionary of device parameters for querying Cisco Catalyst Center.
@@ -768,9 +615,9 @@ class Device_configs_backup(DnacBase):
 
             # Retrieve device IDs for each site in the unique_sites set
             for site_name in unique_sites:
-                (site_exists, site_id) = self.validate_site_exists(site_name)
+                (site_exists, site_id) = self.get_site_id(site_name)
                 if site_exists:
-                    site_mgmt_ip_to_instance_id_map = self.get_device_ids_from_site(site_name, site_id)
+                    site_mgmt_ip_to_instance_id_map = self.get_device_ip_from_device_id(site_id)
                     self.log("Retrieved following Device Id(s) of device(s): {0} from the provided site: {1}".format(
                         site_mgmt_ip_to_instance_id_map, site_name), "DEBUG")
                     mgmt_ip_to_instance_id_map.update(site_mgmt_ip_to_instance_id_map)
@@ -924,6 +771,7 @@ class Device_configs_backup(DnacBase):
             task ID of the export operation.
             If an error occurs, it logs an error message, updates the result, and checks the return status.
         """
+        task_id = self.get_taskid_post_api_call("configuration_archive", "export_device_configurations", export_device_configurations_params)
         try:
             # Make an API call to export device configurations
             response = self.dnac._exec(
@@ -951,7 +799,7 @@ class Device_configs_backup(DnacBase):
                 "An error occurred while Exporting Device Configurations from the Cisco Catalyst Center. "
                 "export_device_configurations_params: {0}  Error: {1}".format(export_device_configurations_params, str(e))
             )
-            self.update_result("failed", False, self.msg, "ERROR")
+            self.set_operation_result("failed", False, self.msg, "ERROR")
             self.check_return_status()
 
     def exit_while_loop(self, start_time, task_id, task_name, response):
@@ -1015,7 +863,7 @@ class Device_configs_backup(DnacBase):
             return None
         except Exception as e:
             self.msg = "The Backup Config file with File ID: {0} could not be downloaded due to the following error: {1}".format(file_id, e)
-            self.update_result("failed", False, self.msg, "ERROR")
+            self.set_operation_result("failed", False, self.msg, "ERROR")
             self.check_return_status()
 
     def unzip_data(self, file_id, file_data):
@@ -1052,7 +900,7 @@ class Device_configs_backup(DnacBase):
             return True
         except Exception as e:
             self.msg = "Error in unzipping Backup Config file with file ID: {0}. Error: {1}".format(file_id, e)
-            self.update_result("failed", False, self.msg, "ERROR")
+            self.set_operation_result("failed", False, self.msg, "ERROR")
             self.check_return_status()
 
     def get_export_device_config_task_status(self, task_id):
@@ -1077,7 +925,7 @@ class Device_configs_backup(DnacBase):
             # Check if response returned
             if not response:
                 self.msg = "Error retrieving Task status for the task_name {0} task_id {1}".format(task_name, task_id)
-                self.update_result("failed", False, self.msg, "ERROR")
+                self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
             # Check if the elapsed time exceeds the timeout
@@ -1093,7 +941,7 @@ class Device_configs_backup(DnacBase):
                         task_name, self.want.get("export_device_configurations_params"), failure_reason
                     )
                 )
-                self.update_result("failed", False, self.msg, "ERROR")
+                self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
             # Check if task completed successfully and exit the loop
@@ -1114,7 +962,7 @@ class Device_configs_backup(DnacBase):
         self.log("Retrived file data for file ID: {0}.".format(file_id), "DEBUG")
         if not downloaded_file:
             self.msg = "Error downloading Device Config Backup file(s) with file ID: {0}. ".format(file_id)
-            self.update_result("Failed", True, self.msg, "CRITICAL")
+            self.set_operation_result("Failed", True, self.msg, "CRITICAL")
             return self
 
         # Unzip the downloaded file
@@ -1129,10 +977,10 @@ class Device_configs_backup(DnacBase):
                 "The backup configuration files can be found at: {3}".format(
                     task_name, len(mgmt_ip_to_instance_id_map), len(self.skipped_devices_list), pathlib.Path(self.want.get("file_path")).resolve())
             )
-            self.update_result("success", True, self.msg, "INFO")
+            self.set_operation_result("success", True, self.msg, "INFO")
         else:
             self.msg = "Error unzipping Device Config Backup file(s) with file ID: {0}. ".format(file_id)
-            self.update_result("failed", False, self.msg, "ERROR")
+            self.set_operation_result("failed", False, self.msg, "ERROR")
 
         return self
 
@@ -1170,7 +1018,7 @@ class Device_configs_backup(DnacBase):
         self.log("Retrived the Device ID list based on the provided parameters: {0}".format(mgmt_ip_to_instance_id_map), "DEBUG")
         if not mgmt_ip_to_instance_id_map:
             self.msg = "No reachable devices found among the provided parameters: {0}".format(config)
-            self.update_result("failed", False, self.msg, "WARNING")
+            self.set_operation_result("failed", False, self.msg, "WARNING")
             return self
 
         self.log("Based on provided parameters, retrieved Device Id(s) of {0} device(s): {1} ".format(
@@ -1245,7 +1093,7 @@ class Device_configs_backup(DnacBase):
                 "The Device Config Backup operation may not have been successful since the backup files "
                 "were not found at the specified path. Error: {0}".format(str(e))
             )
-            self.update_result("failed", False, self.msg, "ERROR")
+            self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
 
         # Check if there are any files modified within the window
