@@ -914,6 +914,7 @@ class Provision(DnacBase):
             self.provision_wired_device(to_provisioning, to_force_provisioning)
         else:
             self.provision_wireless_device()
+
         return self
 
     def provision_wired_device(self, to_provisioning, to_force_provisioning):
@@ -939,7 +940,7 @@ class Provision(DnacBase):
         """
 
         try:
-            status_response = self.dnac_apply['exec'](
+            response = self.dnac_apply['exec'](
                 family="sda",
                 function="get_provisioned_wired_device",
                 op_modifies=True,
@@ -947,10 +948,16 @@ class Provision(DnacBase):
                     "device_management_ip_address": self.validated_config.get("management_ip_address")
                 },
             )
-        except Exception:
-            status_response = {}
+            self.log("Received API response from 'get_provisioned_wired_device': {0}".format(response), "DEBUG")
 
-        status = status_response.get("status")
+        except Exception as e:
+            self.msg = "Error in get_provisioned_wired_device device '{0}' due to {1}".format(self.device_ip, str(e))
+            self.log(self.msg, "ERROR")
+            self.result['response'] = self.msg
+            self.status = "failed"
+            self.check_return_status()
+
+        status = response.get("status")
         self.log("The provisioned status of the wired device is {0}".format(status), "INFO")
 
         if status == "success":
@@ -1016,10 +1023,13 @@ class Provision(DnacBase):
             self.result['diff'] = self.validated_config
             self.result['response'] = task_id
             self.log(self.result['msg'], "INFO")
+            return self
         except Exception as e:
             self.msg = "Error in re-provisioning device '{0}' due to {1}".format(self.device_ip, str(e))
             self.log(self.msg, "ERROR")
+            self.result['response'] = self.msg
             self.status = "failed"
+            self.check_return_status()
 
     def initialize_wired_provisioning(self):
         """
@@ -1053,10 +1063,13 @@ class Provision(DnacBase):
             self.result['msg'] = "Provisioning of the device '{0}' completed successfully.".format(self.device_ip)
             self.result['response'] = task_id
             self.log(self.result['msg'], "INFO")
+            return self
         except Exception as e:
             self.msg = "Error in provisioning device '{0}' due to {1}".format(self.device_ip, str(e))
             self.log(self.msg, "ERROR")
             self.status = "failed"
+            self.result['response'] = self.msg
+            self.check_return_status()
 
     def assign_device_to_site(self):
         """
@@ -1101,10 +1114,13 @@ class Provision(DnacBase):
             self.result['msg'] = self.msg
             self.result['response'] = execution_id
             self.log(self.result['msg'], "INFO")
+            return self
         except Exception as e:
             self.msg = "Error in site assignment: {0}".format(str(e))
             self.log(self.msg, "ERROR")
             self.status = "failed"
+            self.result['response'] = self.msg
+            self.check_return_status()
 
     def provision_wireless_device(self):
         """
@@ -1139,10 +1155,13 @@ class Provision(DnacBase):
             self.result['diff'] = self.validated_config
             self.result['response'] = execution_id
             self.log(self.result['msg'], "INFO")
+            return self
         except Exception as e:
             self.msg = "Error in wireless provisioning: {0}".format(str(e))
             self.log(self.msg, "ERROR")
             self.status = "failed"
+            self.result['response'] = self.msg
+            self.check_return_status()
 
     def get_diff_deleted(self):
         """
