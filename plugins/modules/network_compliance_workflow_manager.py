@@ -1028,36 +1028,42 @@ class NetworkCompliance(DnacBase):
         """
         task_name = "Run Compliance Check"
         start_time = time.time()
+        success_msg = "Task is success"
 
         while True:
-            response = self.get_task_status_from_tasks_by_id(task_id, task_name)
+            # Retrieve task status
+            response = self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
 
-            # Check if response returned
-            if not response:
+            # Check if response exists and is a dictionary
+            if not response or not isinstance(response, dict):
                 msg = "Error retrieving Task status for {0} with Task Id: {1}".format(task_name, task_id)
                 return {task_id: {"msg": msg, "status": None}}
 
-            # Check if the elapsed time exceeds the timeout
-            if time.time() - start_time > self.params.get("dnac_api_task_timeout"):
+            # Check for timeout
+            if time.time() - start_time > self.params.get("dnac_api_task_timeout", 600):
                 msg = "Task {0} with task id {1} has not completed within the timeout period.".format(task_name, task_id)
                 return {task_id: {"msg": msg, "status": "Timedout"}}
 
-            # Handle error if task execution encounters an error
+            # Handle task errors
             if response.get("isError"):
-                msg = "Task {0} with task id {1} has encountered an Error: {2}".format(task_name, task_id, response.get("failureReason"))
+                failure_reason = response.get("failureReason", "Unknown reason")
+                msg = "Task {0} with task id {1} encountered an Error: {2}".format(task_name, task_id, failure_reason)
                 return {task_id: {"msg": msg, "status": "Error"}}
 
-            # Check if task completed successfully
-            if not response.get("isError") and "success" in response.get("progress").lower():
+            # Task successful
+            if not response.get("isError") and "success" in response.get("progress", "").lower():
                 device_ids_str = ", ".join(device_ids)
                 msg = "{0} has completed successfully on device(s): {1}".format(task_name, device_ids_str)
                 return {task_id: {"msg": msg, "status": "Success"}}
 
-            # Check if task failed
-            if "failed" in response.get("progress").lower():
+            # Task failed
+            if "failed" in response.get("progress", "").lower():
                 device_ids_str = ", ".join(device_ids)
                 msg = "Failed to {0} on the following device(s): {1}".format(task_name, device_ids_str)
                 return {task_id: {"msg": msg, "status": "Failed"}}
+
+            # Optional: sleep to avoid hammering the API
+            time.sleep(5)
 
     def get_batches_result(self, batches_dict):
         """
