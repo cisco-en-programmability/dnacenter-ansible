@@ -516,20 +516,33 @@ options:
           (eg. "mac_address,eth_mac,ap_name,led_brightness_level,led_status,location,radioDTOs")
         type: str
         required: False
-      reboot_ap:
-        description: Reboot one or more access points identified by the MAC Address list.
-        type: str
+      reboot_aps:
+        description: Reboot one or more access points (APs) identified by their MAC addresses, hostnames, or management IP addresses.
+        type: dict
         required: False
         suboptions:
-          mac_address:
+          mac_addresses:
             description: |
-              The MAC address used to identify the device. Once provided, it cannot be modified.
-              To identify the specific access point, at least one of the following parameters is required:
-              - mac_address
-              - hostname
-              - management_ip_address
-            type: str
+                A list of MAC addresses to identify the access points to be rebooted.
+                At least one of the following parameters is required to identify the APs:
+                - mac_addresses
+                - hostnames
+                - management_ip_addresses
+            type: list
+            elements: str
             required: True
+          hostnames:
+            description: |
+                A list of hostnames used to identify the access points for rebooting.
+            type: list
+            elements: str
+            required: False
+          management_ip_addresses:
+            description: |
+                A list of management IP addresses used to identify the access points for rebooting.
+            type: list
+            elements: str
+            required: False
 
 requirements:
   - dnacentersdk >= 2.7.2
@@ -960,9 +973,10 @@ EXAMPLES = r"""
         config_verify: True
         state: merged
         config:
-          - reboot_ap:
-            - mac_address: 6c:d6:e3:75:5a:e0
-            - mac_address: e4:38:7e:42:bc:00
+          - reboot_aps:
+              mac_addresses:
+                - "6c:d6:e3:75:5a:e0"
+                - "e4:38:7e:42:bc:00"
       register: output_list
 
     - name: Reboot single or multiple access point by hostname
@@ -979,9 +993,10 @@ EXAMPLES = r"""
         config_verify: True
         state: merged
         config:
-          - reboot_ap:
-            - hostname: "cisco_Test_9166_T3"
-            - hostname: "cisco_Test_9120_T1"
+          - reboot_aps:
+              hostnames:
+                - "cisco_Test_9166_T3"
+                - "cisco_Test_9120_T1"
       register: output_list
 """
 
@@ -1056,7 +1071,6 @@ response_3:
 
 import time
 import re
-import ast
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
     validate_list_of_dicts,
@@ -1147,7 +1161,7 @@ class Accesspoint(DnacBase):
             "6ghz_radio": {"required": False, "type": "dict"},
             "xor_radio": {"required": False, "type": "dict"},
             "tri_radio": {"required": False, "type": "dict"},
-            "reboot_ap": {"required": False, "type": "str"},
+            "reboot_aps": {"required": False, "type": "dict"},
             "ap_selected_fields": {"required": False, "type": "str"},
             "ap_config_selected_fields": {"required": False, "type": "str"}
         }
@@ -1464,7 +1478,7 @@ class Accesspoint(DnacBase):
             self.log(other_keys, "INFO")
             for each_key in other_keys:
                 if each_key not in (self.keymap["mac_address"], self.keymap["radio_configurations"],
-                                    self.keymap["is_assigned_site_as_location"],
+                                    self.keymap["is_assigned_site_as_location"], "macAddress",
                                     self.keymap["primary_controller_name"], self.keymap["secondary_controller_name"],
                                     self.keymap["tertiary_controller_name"], self.keymap["primary_ip_address"],
                                     self.keymap["secondary_ip_address"], self.keymap["tertiary_ip_address"],
@@ -1610,28 +1624,25 @@ class Accesspoint(DnacBase):
             param_spec = dict(type="str", length_max=32)
             validate_str(ap_config["rf_profile"], param_spec, "rf_profile", errormsg)
 
-        reboot_ap = ap_config.get("reboot_ap")
-        if reboot_ap and len(ast.literal_eval(reboot_ap)) > 0:
-            ap_list = ast.literal_eval(reboot_ap)
+        reboot_aps = ap_config.get("reboot_aps")
+        if reboot_aps is not None:
+            ap_indentity = list(reboot_aps.keys())[0]
+            if ap_indentity and ap_indentity in self.keymap and len(reboot_aps.get(ap_indentity)) > 0:
+                for each_ap in reboot_aps[ap_indentity]:
+                    if ap_indentity == "mac_addresses":
+                        mac_regex = re.compile(r'^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$')
+                        if not mac_regex.match(each_ap):
+                            errormsg.append("mac_addresses: Invalid MAC Address '{0}' in playbook.".format(
+                                str(each_ap)))
 
-            for each_ap in ap_list:
-                mac_address = each_ap.get("mac_address")
-                if mac_address:
-                    mac_regex = re.compile(r'^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$')
-                    if not mac_regex.match(mac_address):
-                        errormsg.append("mac_address: Invalid MAC Address '{0}' in playbook.".format(
-                            mac_address))
+                    if ap_indentity == "management_ip_addresses" and (not self.is_valid_ipv4(each_ap) and
+                                                                      not self.is_valid_ipv6(each_ap)):
+                        errormsg.append("management_ip_addresses: Invalid Management IP Address '{0}' in playbook."
+                                        .format(str(each_ap)))
 
-                management_ip_address = each_ap.get("management_ip_address")
-                if management_ip_address and (not self.is_valid_ipv4(management_ip_address) and
-                                              not self.is_valid_ipv6(management_ip_address)):
-                    errormsg.append("management_ip_address: Invalid Management IP Address '{0}'\
-                                    in playbook.".format(management_ip_address))
-
-                hostname = each_ap.get("hostname")
-                if hostname:
-                    param_spec = dict(type="str", length_max=32)
-                    validate_str(hostname, param_spec, "hostname", errormsg)
+                    if ap_indentity == "hostnames":
+                        param_spec = dict(type="str", length_max=32)
+                        validate_str(each_ap, param_spec, "hostnames", errormsg)
 
         site = ap_config.get("site")
         if site:
@@ -1714,9 +1725,9 @@ class Accesspoint(DnacBase):
         for radio_series in ["2.4ghz_radio", "5ghz_radio", "6ghz_radio", "xor_radio", "tri_radio"]:
             radio_config = ap_config.get(radio_series)
             if radio_config:
-                if self.have["current_ap_config"].get("ap_mode") not in ("Local/FlexConnect", "Local"):
+                if ap_config.get("ap_mode") not in ("Local/FlexConnect", "Local"):
                     errormsg.append("Radio Params cannot be changed when AP mode is in {0}."
-                                    .format(self.have["current_ap_config"].get("ap_mode")))
+                                    .format(ap_config.get("ap_mode")))
                 self.validate_radio_parameters(radio_config, radio_series, errormsg)
 
         if len(errormsg) > 0:
@@ -1850,7 +1861,7 @@ class Accesspoint(DnacBase):
                     .format(radio_role_assignment)
                 )
             else:
-                if self.have["current_ap_config"].get("ap_mode") not in ("Local/FlexConnect", "Local"):
+                if self.want.get("ap_mode") not in ("Local/FlexConnect", "Local"):
                     errormsg.append(
                         "radio_role_assignment: Invalid value '{0}'. Hence, AP mode is not Local. "
                         "Kindly change the AP mode to Local then change the radio_role_assignment to Auto."
@@ -1975,7 +1986,7 @@ class Accesspoint(DnacBase):
         except Exception as e:
             self.msg = "The provided device '{0}' is either invalid or not present in the \
                      Cisco Catalyst Center.".format(str(input_param))
-            self.log(msg + str(e), "WARNING")
+            self.log(self.msg + str(e), "WARNING")
 
         if not accesspoint_exists:
             self.msg = "The provided device '{0}' is either invalid or not present in the \
@@ -2296,7 +2307,14 @@ class Accesspoint(DnacBase):
                     self.log("Status of the task: {0} .".format(self.status), "INFO")
                     responses = {}
                     if task_details_response.get("endTime") is not None:
-                        if task_details_response.get("isError") is True:
+                        if task_details_response.get("status") == "SUCCESS":
+                            self.log("Task Details: {0} .".format(self.pprint(
+                                task_details_response)), "INFO")
+                            self.msg = "AP {0} Site - {1} updated Successfully".format(
+                                self.have["current_ap_config"].get("ap_name"), self.have.get("site_id"))
+                            self.log(self.msg, "INFO")
+                            return True
+                        else:
                             self.result['changed'] = True if self.result['changed'] is True else False
                             self.status = "failed"
                             self.msg = "Unable to get success response, hence AP site not updated"
@@ -2307,13 +2325,6 @@ class Accesspoint(DnacBase):
                                 "ap_assign_to_site_task_details": task_details_response,
                                 "ap_assign_to_site_status": self.msg}
                             self.module.fail_json(msg=self.msg, response=responses)
-                        else:
-                            self.log("Task Details: {0} .".format(self.pprint(
-                                task_details_response)), "INFO")
-                            self.msg = "AP {0} Site - {1} updated Successfully".format(
-                                self.have["current_ap_config"].get("ap_name"), self.have.get("site_id"))
-                            self.log(self.msg, "INFO")
-                            return True
                         break
                     time.sleep(resync_retry_interval)
                     resync_retry_count = resync_retry_count - 1
@@ -2430,7 +2441,18 @@ class Accesspoint(DnacBase):
                             self.log("Status of the task: {0} .".format(self.status), "INFO")
                             responses = {}
                             if task_details_response.get("endTime") is not None:
-                                if task_details_response.get("isError") is True:
+                                if task_details_response.get("status") == "SUCCESS":
+                                    self.log("Task Details: {0} .".format(self.pprint(
+                                        task_details_response)), "INFO")
+                                    self.msg = "AP {0} provisioned Successfully".format(
+                                        self.have["current_ap_config"].get("ap_name"))
+                                    self.log(self.msg, "INFO")
+                                    self.result['changed'] = True
+                                    self.result['response'] = self.msg
+                                    provision_status = "SUCCESS"
+                                    provision_details = task_details_response
+                                    break
+                                else:
                                     self.result['changed'] = True if self.result['changed'] is True else False
                                     self.status = "failed"
                                     self.msg = "Unable to get success response, hence not provisioned"
@@ -2445,17 +2467,6 @@ class Accesspoint(DnacBase):
                                         },
                                         "ap_provision_status": self.msg}
                                     self.module.fail_json(msg=self.msg, response=responses)
-                                else:
-                                    self.log("Task Details: {0} .".format(self.pprint(
-                                        task_details_response)), "INFO")
-                                    self.msg = "AP {0} provisioned Successfully".format(
-                                        self.have["current_ap_config"].get("ap_name"))
-                                    self.log(self.msg, "INFO")
-                                    self.result['changed'] = True
-                                    self.result['response'] = self.msg
-                                    provision_status = "SUCCESS"
-                                    provision_details = task_details_response
-                                    break
                             time.sleep(resync_retry_interval)
                             resync_retry_count = resync_retry_count - 1
 
@@ -3019,24 +3030,7 @@ class Accesspoint(DnacBase):
                     self.log("Status of the reboot task: {0} .".format(self.status), "INFO")
                     responses = {}
                     if task_details_response.get("endTime") is not None:
-                        if task_details_response.get("isError") is True:
-                            self.result['changed'] = True if self.result['changed'] is True else False
-                            self.status = "failed"
-                            self.msg = "Unable to get success response, hence APs are not rebooted"
-                            self.log(self.msg, "ERROR")
-                            self.log("Reboot Task Details: {0} .".format(self.pprint(
-                                task_details_response)), "ERROR")
-                            reboot_status = self.accesspoint_reboot_status(task_id)
-                            responses["accesspoints_updates"] = {
-                                "ap_reboot_task_details": {
-                                    "error_code": task_details_response.get("errorCode"),
-                                    "failure_reason": task_details_response.get("failureReason"),
-                                    "is_error": task_details_response.get("isError"),
-                                    "reboot_api_response": reboot_status["apList"]
-                                },
-                                "ap_reboot_status": self.msg}
-                            self.module.fail_json(msg=self.msg, response=responses)
-                        else:
+                        if task_details_response.get("status") == "SUCCESS":
                             self.log("Reboot Task Details: {0} .".format(self.pprint(
                                 task_details_response)), "INFO")
                             self.msg = "AP {0} Rebooted Successfully".format(str(ap_list))
@@ -3049,6 +3043,21 @@ class Accesspoint(DnacBase):
                             self.result['changed'] = True
                             self.result['response'] = responses
                             break
+                        else:
+                            self.result['changed'] = True if self.result['changed'] is True else False
+                            self.status = "failed"
+                            self.msg = "Unable to get success response, hence APs are not rebooted"
+                            self.log(self.msg, "ERROR")
+                            self.log("Reboot Task Details: {0} .".format(self.pprint(
+                                task_details_response)), "ERROR")
+                            reboot_status = self.accesspoint_reboot_status(task_id)
+                            responses["accesspoints_updates"] = {
+                                "ap_reboot_task_details": {
+                                    "status": task_details_response.get("status"),
+                                    "reboot_api_response": reboot_status["apList"]
+                                },
+                                "ap_reboot_status": self.msg}
+                            self.module.fail_json(msg=self.msg, response=responses)
                     time.sleep(resync_retry_interval)
                     resync_retry_count = resync_retry_count - 1
 
@@ -3129,15 +3138,22 @@ def main():
     ccc_network.validate_input_yml().check_return_status()
     config_verify = ccc_network.params.get("config_verify")
 
-    reboot_list = ccc_network.validated_config[0].get("reboot_ap")
-    if reboot_list is not None and len(ast.literal_eval(reboot_list)) > 0:
-        ap_list = ast.literal_eval(reboot_list)
-        eth_mac_list = []
-        for each_ap in ap_list:
-            ap_exist, ap_details = ccc_network.get_accesspoint_details(each_ap)
-            eth_mac_list.append(ap_details.get("ap_ethernet_mac_address"))
-        ccc_network.reboot_accesspoint(eth_mac_list)
-        module.exit_json(**ccc_network.result)
+    reboot_list = ccc_network.validated_config[0].get("reboot_aps")
+    if reboot_list is not None:
+        ccc_network.keymap = {"mac_addresses": "mac_address",
+                              "hostnames": "hostname",
+                              "management_ip_addresses": "management_ip_address"}
+        ccc_network.validate_ap_config_parameters(ccc_network.validated_config[0]).check_return_status()
+        ap_indentity = list(reboot_list.keys())[0]
+        if ap_indentity and ap_indentity in ccc_network.keymap and len(reboot_list.get(ap_indentity)) > 0:
+            eth_mac_list = []
+            for each_ap in reboot_list[ap_indentity]:
+                ap_indentity_param = {ccc_network.keymap[ap_indentity]: each_ap}
+                ccc_network.log("Reboot AP: {0}".format(str(ap_indentity_param)), "INFO")
+                ap_exist, ap_details = ccc_network.get_accesspoint_details(ap_indentity_param)
+                eth_mac_list.append(ap_details.get("ap_ethernet_mac_address"))
+            ccc_network.reboot_accesspoint(eth_mac_list)
+            module.exit_json(**ccc_network.result)
 
     for config in ccc_network.validated_config:
         ccc_network.reset_values()
