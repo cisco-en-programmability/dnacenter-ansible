@@ -2704,7 +2704,7 @@ class DeviceCredential(DnacBase):
         site_assigned_network_devices_response = self.dnac._exec(
             family="site_design",
             function="get_site_assigned_network_devices",
-            op_modifies=True,
+            op_modifies=False,
             params={"site_id": site_id},
         )
         self.log("Received API response from 'get_site_assigned_network_devices': {0}"
