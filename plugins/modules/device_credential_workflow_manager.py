@@ -2752,7 +2752,7 @@ class DeviceCredential(DnacBase):
             self - The current object with updated Global Device Credential information.
 
         """
-        if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
+        if self.get_ccc_version_as_integer() >= self.get_ccc_version_as_int_from_str("2.3.7.6"):
             result_apply_credential = self.result.get(
                 "response")[0].get("applyCredential")
             credential_params = self.want.get("apply_credentials")
