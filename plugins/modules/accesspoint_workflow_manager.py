@@ -124,8 +124,7 @@ options:
         required: False
       ap_mode:
         description: |
-          Defines the mode of operation for the Access Point (AP). Possible values include "Local",
-          "Monitor", "Sniffer", or "Bridge". For example, "Local".
+          Defines the mode of operation for the Access Point (AP). Possible values include "Local", "Monitor", "Sniffer", or "Bridge". For example, "Local".
         type: str
         required: False
       location:
