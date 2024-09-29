@@ -348,8 +348,9 @@ options:
                     type: bool
                 type: dict
               wired_data_collection:
-                description: Enables or disables the collection of data from wired network devices for telemetry and monitoring purposes.
-                    Applicable from sdk version 2.3.7.6 onwards.
+                description:
+                - Enables or disables the collection of data from wired network devices for telemetry and monitoring purposes.
+                - Applicable from Cisco Catalyst Center version 2.3.7.6 onwards.
                 suboptions:
                     enable_wired_data_collection:
                       description: Enable or disable wired data collection.
@@ -357,30 +358,34 @@ options:
                       default: false
                 type: dict
               wireless_telemetry:
-                description: Enables or disables the collection of telemetry data from wireless network devices for performance monitoring and analysis.
-                    Applicable from sdk version 2.3.7.6 onwards.
+                description:
+                - Enables or disables the collection of telemetry data from wireless network devices for performance monitoring and analysis.
+                - Applicable from Cisco Catalyst Center version 2.3.7.6 onwards.
                 suboptions:
-                    enable_wired_data_telemetry:
+                    enable_wireless_telemetry:
                       description: Enable or disable wireless telemetry.
                       type: bool
                       default: false
                 type: dict
               netflow_collector:
-                description: Netflow collector details under a specific site.
+                description: NetFlow collector configuration for a specific site.
                 suboptions:
                   collector_type:
-                    description: Type of NetFlow collector (eg Telemetry_broker_or_UDP_director). Applicable from sdk version 2.3.7.6 onwards.
+                    description:
+                    - Type of NetFlow collector.
+                    - Supported values include 'Builtin' and 'Telemetry_broker_or_UDP_director'.
+                    - Applicable from Cisco Catalyst Center version 2.3.7.6 onwards.
                     type: str
                     choices: [Builtin, Telemetry_broker_or_UDP_director]
                     default: Builtin
                   ip_address:
-                    description: IP Address for NetFlow collector (eg 3.3.3.1).
+                    description: IP Address for NetFlow collector. For example, 3.3.3.1.
                     type: str
                   port:
-                    description: Port for NetFlow Collector (eg; 443).
+                    description: Port number used by the NetFlow collector. For example, 443.
                     type: int
                   enable_on_wired_access_devices:
-                    description: Enable or disable wired access device. Applicable from sdk version 2.3.7.6 onwards.
+                    description: Enable or disable wired access device. Applicable from Cisco Catalyst Center version 2.3.7.6 onwards..
                     type: bool
                     default: false
                 type: dict
@@ -429,7 +434,6 @@ notes:
     put /dna/intent/api/v2/network/{siteId},
 
 """
-
 EXAMPLES = r"""
 - name: Create global pool
   cisco.dnac.network_settings_workflow_manager:
@@ -1023,30 +1027,38 @@ class NetworkSettings(DnacBase):
         self.log("Formatted reserve pool details: {0}".format(reserve_pool), "DEBUG")
         return reserve_pool
 
-    def get_dhcp_settings_for_site(self, site_id):
+    def get_dhcp_settings_for_site(self, site_name, site_id):
         """
         Retrieve the DHCP settings for a specified site from Cisco Catalyst Center.
 
         Parameters:
             self - The current object details.
+            site_name (str): The name of the site to retrieve DHCP settings for.
             site_id (str) - The ID of the site to retrieve DHCP settings for.
 
         Returns:
             dhcp_details (dict) - DHCP settings details for the specified site.
         """
+        self.log("Attempting to retrieve DHCP settings for site '{0}' (ID: {1})".format(site_name, site_id), "INFO")
 
         try:
             dhcp_response = self.dnac._exec(
                 family="network_settings",
                 function='retrieve_d_h_c_p_settings_for_a_site',
-                op_modifies=True,
+                op_modifies=False,
                 params={"id": site_id}
             )
-            dhcp_details = dhcp_response.get("response").get("dhcp")
-            self.log("DHCP settings details for site {0}: {1}".format(site_id, dhcp_details), "DEBUG")
-        except Exception as msg:
+            # Extract DHCP details
+            dhcp_details = dhcp_response.get("response", {}).get("dhcp")
+
+            if not dhcp_response:
+                self.log("No DHCP settings found for site '{0}' (ID: {1})".format(site_name, site_id), "WARNING")
+                return None
+
+            self.log("Successfully retrieved DNS settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, dhcp_response), "DEBUG")
+        except Exception as e:
             self.msg = (
-                "Exception occurred while getting DHCP settings for site {0}: {1}".format(site_id, msg)
+                "Exception occurred while getting DHCP settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, str(e))
             )
             self.log(self.msg, "CRITICAL")
             self.status = "failed"
@@ -1054,30 +1066,38 @@ class NetworkSettings(DnacBase):
 
         return dhcp_details
 
-    def get_dns_settings_for_site(self, site_id):
+    def get_dns_settings_for_site(self, site_name, site_id):
         """
         Retrieve the DNS settings for a specified site from Cisco Catalyst Center.
 
         Parameters:
             self - The current object details.
-            site_id (str) - The ID of the site to retrieve DNS settings for.
+            site_name (str): The name of the site to retrieve DNS settings for.
+            site_id (str): The ID of the site to retrieve DNS settings for.
 
         Returns:
-            dns_details (dict) - DNS settings details for the specified site.
+            dns_details (dict): DNS settings details for the specified site.
         """
+        self.log("Attempting to retrieve DNS settings for site '{0}' (ID: {1})".format(site_name, site_id), "INFO")
 
         try:
             dns_response = self.dnac._exec(
                 family="network_settings",
                 function='retrieve_d_n_s_settings_for_a_site',
-                op_modifies=True,
+                op_modifies=False,
                 params={"id": site_id}
             )
-            dns_details = dns_response.get("response").get("dns")
-            self.log("DNS settings details for site {0}: {1}".format(site_id, dns_details), "DEBUG")
-        except Exception as msg:
+            # Extract DNS details
+            dns_details = dns_response.get("response", {}).get("dns")
+
+            if not dns_details:
+                self.log("No DNS settings found for site '{0}' (ID: {1})".format(site_name, site_id), "WARNING")
+                return None
+
+            self.log("Successfully retrieved DNS settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, dns_details), "DEBUG")
+        except Exception as e:
             self.msg = (
-                "Exception occurred while getting DNS settings for site {0}: {1}".format(site_id, msg)
+                "Exception occurred while getting DNS settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, str(e))
             )
             self.log(self.msg, "CRITICAL")
             self.status = "failed"
@@ -1085,30 +1105,38 @@ class NetworkSettings(DnacBase):
 
         return dns_details
 
-    def get_telemetry_settings_for_site(self, site_id):
+    def get_telemetry_settings_for_site(self, site_name, site_id):
         """
         Retrieve the telemetry settings for a specified site from Cisco Catalyst Center.
 
         Parameters:
             self - The current object details.
-            site_id (str) - The ID of the site to retrieve telemetry settings for.
+            site_name (str): The name of the site to retrieve telemetry settings for.
+            site_id (str): The ID of the site to retrieve telemetry settings for.
 
         Returns:
-            telemetry_details (dict) - Telemetry settings details for the specified site.
+            telemetry_details (dict): Telemetry settings details for the specified site.
         """
+        self.log("Attempting to retrieve telemetry settings for site ID: {0}".format(site_id), "INFO")
 
         try:
             telemetry_response = self.dnac._exec(
                 family="network_settings",
                 function='retrieve_telemetry_settings_for_a_site',
-                op_modifies=True,
+                op_modifies=False,
                 params={"id": site_id}
             )
-            telemetry_details = telemetry_response.get("response")
-            self.log("Telemetry settings details for site {0}: {1}".format(site_id, telemetry_details), "DEBUG")
-        except Exception as msg:
+            # Extract telemetry details
+            telemetry_details = telemetry_response.get("response", {})
+
+            if not telemetry_details:
+                self.log("No telemetry settings found for site '{0}' (ID: {1})".format(site_name, site_id), "WARNING")
+                return None
+
+            self.log("Successfully retrieved telemetry settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, telemetry_details), "DEBUG")
+        except Exception as e:
             self.msg = (
-                "Exception occurred while getting telemetry settings for site {0}: {1}".format(site_id, msg)
+                "Exception occurred while getting telemetry settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, str(e))
             )
             self.log(self.msg, "CRITICAL")
             self.status = "failed"
@@ -1116,30 +1144,38 @@ class NetworkSettings(DnacBase):
 
         return telemetry_details
 
-    def get_ntp_settings_for_site(self, site_id):
+    def get_ntp_settings_for_site(self, site_name, site_id):
         """
         Retrieve the NTP server settings for a specified site from Cisco Catalyst Center.
 
         Parameters:
             self - The current object details.
-            site_id (str) - The ID of the site to retrieve NTP server settings for.
+            site_name (str): The name of the site to retrieve NTP server settings for.
+            site_id (str): The ID of the site to retrieve NTP server settings for.
 
         Returns:
-            ntpserver_details (dict) - NTP server settings details for the specified site.
+            ntpserver_details (dict): NTP server settings details for the specified site.
         """
+        self.log("Attempting to retrieve NTP server settings for site '{0}' (ID: {1})".format(site_name, site_id), "INFO")
 
         try:
             ntpserver_response = self.dnac._exec(
                 family="network_settings",
                 function='retrieve_n_t_p_settings_for_a_site',
-                op_modifies=True,
+                op_modifies=False,
                 params={"id": site_id}
             )
-            ntpserver_details = ntpserver_response.get("response").get("ntp")
-            self.log("NTP server settings details for site {0}: {1}".format(site_id, ntpserver_details), "DEBUG")
-        except Exception as msg:
+            # Extract NTP server details
+            ntpserver_details = ntpserver_response.get("response", {}).get("ntp")
+
+            if not ntpserver_details:
+                self.log("No NTP server settings found for site '{0}' (ID: {1})".format(site_name, site_id), "WARNING")
+                return None
+
+            self.log("Successfully retrieved NTP server settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, ntpserver_details), "DEBUG")
+        except Exception as e:
             self.msg = (
-                "Exception occurred while getting NTP server settings for site {0}: {1}".format(site_id, msg)
+                "Exception occurred while getting NTP server settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, str(e))
             )
             self.log(self.msg, "CRITICAL")
             self.status = "failed"
@@ -1147,30 +1183,38 @@ class NetworkSettings(DnacBase):
 
         return ntpserver_details
 
-    def get_time_zone_settings_for_site(self, site_id):
+    def get_time_zone_settings_for_site(self, site_name, site_id):
         """
         Retrieve the time zone settings for a specified site from Cisco Catalyst Center.
 
         Parameters:
             self - The current object details.
-            site_id (str) - The ID of the site to retrieve time zone settings for.
+            site_name (str): The name of the site to retrieve time zone settings for.
+            site_id (str): The ID of the site to retrieve time zone settings for.
 
         Returns:
-            timezone_details (dict) - Time zone settings details for the specified site.
+            timezone_details (dict): Time zone settings details for the specified site.
         """
+        self.log("Attempting to retrieve time zone settings for site '{0}' (ID: {1})".format(site_name, site_id), "INFO")
 
         try:
             timezone_response = self.dnac._exec(
                 family="network_settings",
                 function='retrieve_time_zone_settings_for_a_site',
-                op_modifies=True,
+                op_modifies=False,
                 params={"id": site_id}
             )
-            timezone_details = timezone_response.get("response").get("timeZone")
-            self.log("Time zone settings details for site {0}: {1}".format(site_id, timezone_details), "DEBUG")
-        except Exception as msg:
+            # Extract time zone details
+            timezone_details = timezone_response.get("response", {}).get("timeZone")
+
+            if not timezone_details:
+                self.log("No time zone settings found for site '{0}' (ID: {1})".format(site_name, site_id), "WARNING")
+                return None
+
+            self.log("Successfully retrieved time zone settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, timezone_details), "DEBUG")
+        except Exception as e:
             self.msg = (
-                "Exception occurred while getting time zone settings for site {0}: {1}".format(site_id, msg)
+                "Exception occurred while getting time zone settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, str(e))
             )
             self.log(self.msg, "CRITICAL")
             self.status = "failed"
@@ -1178,30 +1222,39 @@ class NetworkSettings(DnacBase):
 
         return timezone_details
 
-    def get_banner_settings_for_site(self, site_id):
+    def get_banner_settings_for_site(self, site_name, site_id):
         """
         Retrieve the Message of the Day (banner) settings for a specified site from Cisco Catalyst Center.
 
         Parameters:
             self - The current object details.
-            site_id (str) - The ID of the site to retrieve banner settings for.
+            site_name (str): The name of the site to retrieve banner settings for.
+            site_id (str): The ID of the site to retrieve banner settings for.
 
         Returns:
-            messageoftheday_details (dict) - Banner (Message of the Day) settings details for the specified site.
+            messageoftheday_details (dict): Banner (Message of the Day) settings details for the specified site.
         """
+        self.log("Attempting to retrieve banner (Message of the Day) settings for site '{0}' (ID: {1})".format(site_name, site_id), "INFO")
 
         try:
             banner_response = self.dnac._exec(
                 family="network_settings",
                 function='retrieve_banner_settings_for_a_site',
-                op_modifies=True,
+                op_modifies=False,
                 params={"id": site_id}
             )
-            messageoftheday_details = banner_response.get("response").get("banner")
-            self.log("Banner (Message of the Day) settings for site {0}: {1}".format(site_id, messageoftheday_details), "DEBUG")
-        except Exception as msg:
+            # Extract banner (Message of the Day) details
+            messageoftheday_details = banner_response.get("response", {}).get("banner")
+
+            if not messageoftheday_details:
+                self.log("No banner (Message of the Day) settings found for site '{0}' (ID: {1})".format(site_name, site_id), "WARNING")
+                return None
+
+            self.log("Successfully retrieved banner (Message of the Day) settings for site '{0}' (ID: {1}): {2}"
+                     .format(site_name, site_id, messageoftheday_details), "DEBUG")
+        except Exception as e:
             self.msg = (
-                "Exception occurred while getting banner settings for site {0}: {1}".format(site_id, msg)
+                "Exception occurred while getting banner settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, str(e))
             )
             self.log(self.msg, "CRITICAL")
             self.status = "failed"
@@ -1209,34 +1262,42 @@ class NetworkSettings(DnacBase):
 
         return messageoftheday_details
 
-    def get_aaa_settings_for_site(self, site_id):
+    def get_aaa_settings_for_site(self, site_name, site_id):
         """
         Retrieve the AAA (Authentication, Authorization, and Accounting) settings for a specified site from Cisco Catalyst Center.
 
         Parameters:
             self - The current object details.
-            site_id (str) - The ID of the site to retrieve AAA settings for.
+            site_name (str): The name of the site to retrieve AAA settings for.
+            site_id (str): The ID of the site to retrieve AAA settings for.
 
         Returns:
-            network_aaa (dict) - AAA network settings details for the specified site.
-            client_and_endpoint_aaa (dict) - AAA client and endpoint settings details for the specified site.
+            network_aaa (dict): AAA network settings details for the specified site.
+            client_and_endpoint_aaa (dict): AAA client and endpoint settings details for the specified site.
         """
+        self.log("Attempting to retrieve AAA settings for site '{0}' (ID: {1})".format(site_name, site_id), "INFO")
 
         try:
             aaa_network_response = self.dnac._exec(
                 family="network_settings",
                 function='retrieve_a_a_a_settings_for_a_site',
-                op_modifies=True,
+                op_modifies=False,
                 params={"id": site_id}
             )
-            network_aaa = aaa_network_response.get("response").get("aaaNetwork")
-            client_and_endpoint_aaa = aaa_network_response.get("response").get("aaaClient")
+            # Extract AAA network and client/endpoint settings
+            network_aaa = aaa_network_response.get("response", {}).get("aaaNetwork")
+            client_and_endpoint_aaa = aaa_network_response.get("response", {}).get("aaaClient")
 
-            self.log("AAA Network settings for site {0}: {1}".format(site_id, network_aaa), "DEBUG")
-            self.log("AAA Client and Endpoint settings for site {0}: {1}".format(site_id, client_and_endpoint_aaa), "DEBUG")
-        except Exception as msg:
+            if not network_aaa or not client_and_endpoint_aaa:
+                self.log("No AAA settings found for site '{0}' (ID: {1})".format(site_name, site_id), "WARNING")
+                return None, None
+
+            self.log("Successfully retrieved AAA Network settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, network_aaa), "DEBUG")
+            self.log("Successfully retrieved AAA Client and Endpoint settings for site '{0}' (ID: {1}): {2}"
+                     .format(site_name, site_id, client_and_endpoint_aaa), "DEBUG")
+        except Exception as e:
             self.msg = (
-                "Exception occurred while getting AAA settings for site {0}: {1}".format(site_id, msg)
+                "Exception occurred while getting AAA settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, str(e))
             )
             self.log(self.msg, "CRITICAL")
             self.status = "failed"
@@ -1244,7 +1305,7 @@ class NetworkSettings(DnacBase):
 
         return network_aaa, client_and_endpoint_aaa
 
-    def get_network_params(self, site_id):
+    def get_network_params(self, site_name, site_id):
         """
         Process the Network parameters from the playbook
         for Network configuration in Cisco Catalyst Center
@@ -1261,7 +1322,7 @@ class NetworkSettings(DnacBase):
             response = self.dnac._exec(
                 family="network_settings",
                 function='get_network_v2',
-                op_modifies=True,
+                op_modifies=False,
                 params={"site_id": site_id}
             )
             self.log("Received API response from 'get_network_v2': {0}".format(response), "DEBUG")
@@ -1442,18 +1503,18 @@ class NetworkSettings(DnacBase):
 
             self.log("Formatted playbook network details: {0}".format(network_details), "DEBUG")
         else:
-            dhcp_details = self.get_dhcp_settings_for_site(site_id)
-            dns_details = self.get_dns_settings_for_site(site_id)
-            telemetry_details = self.get_telemetry_settings_for_site(site_id)
+            dhcp_details = self.get_dhcp_settings_for_site(site_name, site_id)
+            dns_details = self.get_dns_settings_for_site(site_name, site_id)
+            telemetry_details = self.get_telemetry_settings_for_site(site_name, site_id)
             wired_data_collection = telemetry_details.get("wiredDataCollection")
             wireless_telemetry = telemetry_details.get("wirelessTelemetry")
             netflow_details = telemetry_details.get("applicationVisibility")
             snmp_details = telemetry_details.get("snmpTraps")
             syslog_details = telemetry_details.get("syslogs")
-            ntpserver_details = self.get_ntp_settings_for_site(site_id)
-            timezone_details = self.get_time_zone_settings_for_site(site_id)
-            messageoftheday_details = self.get_banner_settings_for_site(site_id)
-            network_aaa, client_and_endpoint_aaa = self.get_aaa_settings_for_site(site_id)
+            ntpserver_details = self.get_ntp_settings_for_site(site_name, site_id)
+            timezone_details = self.get_time_zone_settings_for_site(site_name, site_id)
+            messageoftheday_details = self.get_banner_settings_for_site(site_name, site_id)
+            network_aaa, client_and_endpoint_aaa = self.get_aaa_settings_for_site(site_name, site_id)
 
             # Prepare the network details for Cisco Catalyst Center configuration
             if not network_aaa:
@@ -1906,8 +1967,9 @@ class NetworkSettings(DnacBase):
                 self.status = "failed"
                 return self
 
+            network["site_name"] = site_name
             network["site_id"] = site_id
-            network["net_details"] = self.get_network_params(site_id)
+            network["net_details"] = self.get_network_params(site_name, site_id)
             self.log("Network details from the Catalyst Center for site '{0}': {1}".format(site_name, network), "DEBUG")
             all_network_management_details.append(network)
 
@@ -3049,7 +3111,7 @@ class NetworkSettings(DnacBase):
         self.log("Updated reserved IP subpool successfully", "INFO")
         return
 
-    def update_dhcp_settings_for_site(self, site_id, dhcp_settings):
+    def update_dhcp_settings_for_site(self, site_name, site_id, dhcp_settings):
         """
         Update the DHCP settings for a specified site in Cisco Catalyst Center.
 
@@ -3061,6 +3123,7 @@ class NetworkSettings(DnacBase):
         Returns:
             Response (dict) - The response after updating the DHCP settings.
         """
+        self.log("Attempting to update DHCP settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, dhcp_settings), "INFO")
 
         try:
             response = self.dnac._exec(
@@ -3069,10 +3132,10 @@ class NetworkSettings(DnacBase):
                 op_modifies=True,
                 params={"id": site_id, "dhcp": dhcp_settings},
             )
-            self.log("DHCP settings updated for site {0}: {1}".format(site_id, dhcp_settings), "DEBUG")
-        except Exception as msg:
+            self.log("DHCP settings updated for for site '{0}' (ID: {1}): {2}".format(site_name, site_id, dhcp_settings), "DEBUG")
+        except Exception as e:
             self.msg = (
-                "Exception occurred while updating DHCP settings for site {0}: {1}".format(site_id, msg)
+                "Exception occurred while updating DHCP settings for site {0}: {1}".format(site_id, str(e))
             )
             self.log(self.msg, "CRITICAL")
             self.status = "failed"
@@ -3080,30 +3143,32 @@ class NetworkSettings(DnacBase):
 
         return response
 
-    def update_ntp_settings_for_site(self, site_id, ntp_settings):
+    def update_ntp_settings_for_site(self, site_name, site_id, ntp_settings):
         """
         Update the NTP server settings for a specified site in Cisco Catalyst Center.
 
         Parameters:
             self - The current object details.
-            site_id (str) - The ID of the site to update the NTP settings.
-            ntp_settings (dict) - The NTP server settings to be applied.
+            site_name (str): The name of the site to update the NTP settings.
+            site_id (str): The ID of the site to update the NTP settings.
+            ntp_settings (dict): The NTP server settings to be applied.
 
         Returns:
-            Response (dict) - The response after updating the NTP settings.
+            Response (dict): The response after updating the NTP settings.
         """
+        self.log("Attempting to update NTP settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, ntp_settings), "INFO")
 
         try:
             response = self.dnac._exec(
                 family="network_settings",
-                function='set_n_t_p_settings_for_a_site',
+                function="set_n_t_p_settings_for_a_site",
                 op_modifies=True,
                 params={"id": site_id, "ntp": ntp_settings},
             )
-            self.log("NTP settings updated for site {0}: {1}".format(site_id, ntp_settings), "DEBUG")
-        except Exception as msg:
+            self.log("NTP settings updated for site '{0}' (ID: {1}): {2}".format(site_name, site_id, ntp_settings), "DEBUG")
+        except Exception as e:
             self.msg = (
-                "Exception occurred while updating NTP settings for site {0}: {1}".format(site_id, msg)
+                "Exception occurred while updating NTP settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, str(e))
             )
             self.log(self.msg, "CRITICAL")
             self.status = "failed"
@@ -3111,30 +3176,32 @@ class NetworkSettings(DnacBase):
 
         return response
 
-    def update_time_zone_settings_for_site(self, site_id, time_zone_settings):
+    def update_time_zone_settings_for_site(self, site_name, site_id, time_zone_settings):
         """
         Update the time zone settings for a specified site in Cisco Catalyst Center.
 
         Parameters:
             self - The current object details.
-            site_id (str) - The ID of the site to update the time zone settings.
-            time_zone_settings (dict) - The time zone settings to be applied.
+            site_name (str): The name of the site to update the time zone settings.
+            site_id (str): The ID of the site to update the time zone settings.
+            time_zone_settings (dict): The time zone settings to be applied.
 
         Returns:
-            Response (dict) - The response after updating the time zone settings.
+            Response (dict): The response after updating the time zone settings.
         """
+        self.log("Attempting to update time zone settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, time_zone_settings), "INFO")
 
         try:
             response = self.dnac._exec(
                 family="network_settings",
-                function='set_time_zone_for_a_site',
+                function="set_time_zone_for_a_site",
                 op_modifies=True,
                 params={"id": site_id, "timeZone": time_zone_settings}
             )
-            self.log("Time zone settings updated for site {0}: {1}".format(site_id, time_zone_settings), "DEBUG")
-        except Exception as msg:
+            self.log("Time zone settings updated for site '{0}' (ID: {1}): {2}".format(site_name, site_id, time_zone_settings), "DEBUG")
+        except Exception as e:
             self.msg = (
-                "Exception occurred while updating time zone settings for site {0}: {1}".format(site_id, msg)
+                "Exception occurred while updating time zone settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, str(e))
             )
             self.log(self.msg, "CRITICAL")
             self.status = "failed"
@@ -3142,19 +3209,21 @@ class NetworkSettings(DnacBase):
 
         return response
 
-    def update_dns_settings_for_site(self, site_id, dns_settings):
+    def update_dns_settings_for_site(self, site_name, site_id, dns_settings):
         """
         Update the DNS settings for a specified site in Cisco Catalyst Center.
 
         Parameters:
             self - The current object details.
-            site_id (str) - The ID of the site to update the DNS settings.
-            dns_settings (dict) - The DNS settings to be applied.
+            site_name (str): The name of the site to update the DNS settings.
+            site_id (str): The ID of the site to update the DNS settings.
+            dns_settings (dict): The DNS settings to be applied.
 
         Returns:
-            Response (dict) - The response after updating the DNS settings.
+            Response (dict): The response after updating the DNS settings.
         """
-        self.log(dns_settings)
+        self.log("Attempting to update DNS settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, dns_settings), "INFO")
+
         dns_params = {}
         if dns_settings.get("domainName"):
             dns_params["domainName"] = dns_settings.get("domainName")
@@ -3163,6 +3232,7 @@ class NetworkSettings(DnacBase):
             dns_params["dnsServers"] = []
         primary_ip = dns_settings.get("primaryIpAddress")
         secondary_ip = dns_settings.get("secondaryIpAddress")
+
         if primary_ip:
             dns_params["dnsServers"].append(primary_ip)
         if secondary_ip:
@@ -3175,10 +3245,10 @@ class NetworkSettings(DnacBase):
                 op_modifies=True,
                 params={"id": site_id, "dns": dns_params},
             )
-            self.log("DNS settings updated for site {0}: {1}".format(site_id, dns_settings), "DEBUG")
-        except Exception as msg:
+            self.log("DNS settings updated for site '{0}' (ID: {1}): {2}".format(site_name, site_id, dns_settings), "DEBUG")
+        except Exception as e:
             self.msg = (
-                "Exception occurred while updating DNS settings for site {0}: {1}".format(site_id, msg)
+                "Exception occurred while updating DNS settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, str(e))
             )
             self.log(self.msg, "CRITICAL")
             self.status = "failed"
@@ -3186,18 +3256,20 @@ class NetworkSettings(DnacBase):
 
         return response
 
-    def update_telemetry_settings_for_site(self, site_id, telemetry_settings):
+    def update_telemetry_settings_for_site(self, site_name, site_id, telemetry_settings):
         """
         Update the telemetry settings for a specified site in Cisco Catalyst Center.
 
         Parameters:
             self - The current object details.
-            site_id (str) - The ID of the site to update the telemetry settings.
-            telemetry_settings (dict) - The telemetry settings to be applied.
+            site_name (str): The name of the site to update the telemetry settings.
+            site_id (str): The ID of the site to update the telemetry settings.
+            telemetry_settings (dict): The telemetry settings to be applied.
 
         Returns:
-            Response (dict) - The response after updating the telemetry settings.
+            Response (dict): The response after updating the telemetry settings.
         """
+        self.log("Attempting to update telemetry settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, telemetry_settings), "INFO")
 
         try:
             response = self.dnac._exec(
@@ -3213,10 +3285,10 @@ class NetworkSettings(DnacBase):
                     "applicationVisibility": telemetry_settings.get("netflowcollector")
                 }
             )
-            self.log("Telemetry settings updated for site {0}: {1}".format(site_id, telemetry_settings), "DEBUG")
-        except Exception as msg:
+            self.log("Telemetry settings updated for site '{0}' (ID: {1}): {2}".format(site_name, site_id, telemetry_settings), "DEBUG")
+        except Exception as e:
             self.msg = (
-                "Exception occurred while updating telemetry settings for site {0}: {1}".format(site_id, msg)
+                "Exception occurred while updating telemetry settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, str(e))
             )
             self.log(self.msg, "CRITICAL")
             self.status = "failed"
@@ -3224,18 +3296,20 @@ class NetworkSettings(DnacBase):
 
         return response
 
-    def update_banner_settings_for_site(self, site_id, banner_settings):
+    def update_banner_settings_for_site(self, site_name, site_id, banner_settings):
         """
         Update the banner (Message of the Day) settings for a specified site in Cisco Catalyst Center.
 
         Parameters:
             self - The current object details.
-            site_id (str) - The ID of the site to update the banner settings.
-            banner_settings (dict) - The banner settings to be applied.
+            site_name (str): The name of the site to update the banner settings.
+            site_id (str): The ID of the site to update the banner settings.
+            banner_settings (dict): The banner settings to be applied.
 
         Returns:
-            Response (dict) - The response after updating the banner settings.
+            Response (dict): The response after updating the banner settings.
         """
+        self.log("Attempting to update banner settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, banner_settings), "INFO")
 
         try:
             response = self.dnac._exec(
@@ -3244,10 +3318,10 @@ class NetworkSettings(DnacBase):
                 op_modifies=True,
                 params={"id": site_id, "banner": banner_settings},
             )
-            self.log("Banner settings updated for site {0}: {1}".format(site_id, banner_settings), "DEBUG")
-        except Exception as msg:
+            self.log("Banner settings updated for site '{0}' (ID: {1}): {2}".format(site_name, site_id, banner_settings), "DEBUG")
+        except Exception as e:
             self.msg = (
-                "Exception occurred while updating banner settings for site {0}: {1}".format(site_id, msg)
+                "Exception occurred while updating banner settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, str(e))
             )
             self.log(self.msg, "CRITICAL")
             self.status = "failed"
@@ -3255,19 +3329,23 @@ class NetworkSettings(DnacBase):
 
         return response
 
-    def update_aaa_settings_for_site(self, site_id, network_aaa, clientAndEndpoint_aaa):
+    def update_aaa_settings_for_site(self, site_name, site_id, network_aaa, clientAndEndpoint_aaa):
         """
         Update the AAA (Authentication, Authorization, and Accounting) settings for a specified site in Cisco Catalyst Center.
 
         Parameters:
             self - The current object details.
-            site_id (str) - The ID of the site to update the AAA settings.
-            aaa_settings (dict) - The AAA settings to be applied.
+            site_name (str): The name of the site to update the AAA settings.
+            site_id (str): The ID of the site to update the AAA settings.
+            network_aaa (dict): The AAA network settings to be applied.
+            clientAndEndpoint_aaa (dict): The AAA client and endpoint settings to be applied.
 
         Returns:
-            Response (dict) - The response after updating the AAA settings.
+            Response (dict): The response after updating the AAA settings.
         """
-        self.log({"id": site_id, "aaaNetwork": network_aaa, "aaaClient": clientAndEndpoint_aaa})
+        self.log("Attempting to update AAA settings for site '{0}' (ID: {1})".format(site_name, site_id), "INFO")
+        self.log({"id": site_id, "aaaNetwork": network_aaa, "aaaClient": clientAndEndpoint_aaa}, "DEBUG")
+
         try:
             response = self.dnac._exec(
                 family="network_settings",
@@ -3275,10 +3353,11 @@ class NetworkSettings(DnacBase):
                 op_modifies=True,
                 params={"id": site_id, "aaaNetwork": network_aaa, "aaaClient": clientAndEndpoint_aaa},
             )
-            self.log("AAA settings updated for site {0}: {1} {2} ".format(site_id, network_aaa, clientAndEndpoint_aaa), "DEBUG")
-        except Exception as msg:
+            self.log("AAA settings updated for site '{0}' (ID: {1}): Network AAA: {2}, Client and Endpoint AAA: {3}"
+                     .format(site_name, site_id, network_aaa, clientAndEndpoint_aaa), "DEBUG")
+        except Exception as e:
             self.msg = (
-                "Exception occurred while updating AAA settings for site {0}: {1}".format(site_id, msg)
+                "Exception occurred while updating AAA settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, str(e))
             )
             self.log(self.msg, "CRITICAL")
             self.status = "failed"
@@ -3352,38 +3431,39 @@ class NetworkSettings(DnacBase):
                     return self
             else:
                 site_id = net_params.get("site_id")
+                site_name = self.have.get("network")[network_management_index].get("site_name")
 
                 if net_params.get("settings").get("dhcpServer"):
                     dhcp_settings = net_params.get("settings").get("dhcpServer")
-                    response = self.update_dhcp_settings_for_site(site_id, dhcp_settings)
+                    response = self.update_dhcp_settings_for_site(site_name, site_id, dhcp_settings)
                     self.log("Received API response of 'set_dhcp_settings_for_a_site': {0}".format(response), "DEBUG")
                     validation_string = "desired common settings operation successful"
                     self.check_task_response_status(response, validation_string, "set_dhcp_settings_for_a_site").check_return_status()
 
                 if net_params.get("settings").get("ntpServer"):
                     ntp_settings = net_params.get("settings").get("ntpServer")
-                    response = self.update_ntp_settings_for_site(site_id, ntp_settings)
+                    response = self.update_ntp_settings_for_site(site_name, site_id, ntp_settings)
                     self.log("Received API response of 'set_n_t_p_settings_for_a_site': {0}".format(response), "DEBUG")
                     validation_string = "desired common settings operation successful"
                     self.check_task_response_status(response, validation_string, "set_n_t_p_settings_for_a_site").check_return_status()
 
                 if net_params.get("settings").get("timezone"):
                     time_zone_settings = net_params.get("settings").get("timezone")
-                    response = self.update_time_zone_settings_for_site(site_id, time_zone_settings)
+                    response = self.update_time_zone_settings_for_site(site_name, site_id, time_zone_settings)
                     self.log("Received API response of 'set_time_zone_for_a_site': {0}".format(response), "DEBUG")
                     validation_string = "desired common settings operation successful"
                     self.check_task_response_status(response, validation_string, "set_time_zone_for_a_site").check_return_status()
 
                 if net_params.get("settings").get("dnsServer"):
                     dns_settings = net_params.get("settings").get("dnsServer")
-                    response = self.update_dns_settings_for_site(site_id, dns_settings)
+                    response = self.update_dns_settings_for_site(site_name, site_id, dns_settings)
                     self.log("Received API response of 'set_d_n_s_settings_for_a_site': {0}".format(response), "DEBUG")
                     validation_string = "desired common settings operation successful"
                     self.check_task_response_status(response, validation_string, "set_d_n_s_settings_for_a_site").check_return_status()
 
                 if net_params.get("settings").get("messageOfTheday"):
                     banner_settings = net_params.get("settings").get("messageOfTheday")
-                    response = self.update_banner_settings_for_site(site_id, banner_settings)
+                    response = self.update_banner_settings_for_site(site_name, site_id, banner_settings)
                     self.log("Received API response of 'set_banner_settings_for_a_site': {0}".format(response), "DEBUG")
                     validation_string = "desired common settings operation successful"
                     self.check_task_response_status(response, validation_string, "set_banner_settings_for_a_site").check_return_status()
@@ -3402,7 +3482,7 @@ class NetworkSettings(DnacBase):
                         "wired_data_collection": net_params.get("settings").get("wired_data_collection"),
                         "wireless_telemetry": net_params.get("settings").get("wireless_telemetry")
                     }
-                    response = self.update_telemetry_settings_for_site(site_id, telemetry_settings)
+                    response = self.update_telemetry_settings_for_site(site_name, site_id, telemetry_settings)
                     self.log("Received API response of 'set_telemetry_settings_for_a_site': {0}".format(response), "DEBUG")
                     validation_string = "desired common settings operation successful"
                     self.check_task_response_status(response, validation_string, "set_telemetry_settings_for_a_site").check_return_status()
@@ -3410,7 +3490,7 @@ class NetworkSettings(DnacBase):
                 if net_params.get("settings").get("network_aaa") and net_params.get("settings").get("clientAndEndpoint_aaa"):
                     network_aaa = net_params.get("settings").get("network_aaa")
                     clientAndEndpoint_aaa = net_params.get("settings").get("clientAndEndpoint_aaa")
-                    response = self.update_aaa_settings_for_site(site_id, network_aaa, clientAndEndpoint_aaa)
+                    response = self.update_aaa_settings_for_site(site_name, site_id, network_aaa, clientAndEndpoint_aaa)
                     self.log("Received API response of 'set_a_a_a_settings_for_a_site': {0}".format(response), "DEBUG")
                     validation_string = "desired common settings operation successful"
                     self.check_task_response_status(response, validation_string, "set_a_a_a_settings_for_a_site").check_return_status()
