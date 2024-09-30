@@ -558,6 +558,41 @@ class DnacBase():
             pass
         return None
 
+    def get_site_type(self, site_name):
+        """
+        Get the type of a site in Cisco Catalyst Center.
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            site_name (str): The name of the site for which to retrieve the type.
+        Returns:
+            site_type (str or None): The type of the specified site, or None if the site is not found.
+        Description:
+            This function queries Cisco Catalyst Center to retrieve the type of a specified site. It uses the
+            get_site API with the provided site name, extracts the site type from the response, and returns it.
+            If the specified site is not found, the function returns None, and an appropriate log message is generated.
+        """
+
+        try:
+            response = self.get_site(site_name)
+            if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
+                site = response.get("response")
+                site_additional_info = site[0].get("additionalInfo")
+
+                for item in site_additional_info:
+                    if item["nameSpace"] == "Location":
+                        site_type = item.get("attributes").get("type")
+            else:
+                self.log("Received API response from 'get_sites': {0}".format(str(response)), "DEBUG")
+                site = response.get("response")
+                site_type = site[0].get("type")
+
+        except Exception as e:
+            self.msg = "Error while fetching the site '{0}' and the specified site was not found in Cisco Catalyst Center.".format(site_name)
+            self.log(self.msg, "ERROR")
+            self.module.fail_json(msg=self.msg, response=[self.msg])
+
+        return site_type
+
     def get_site_id(self, site_name):
         """
         Retrieve the site ID and check if the site exists in Cisco Catalyst Center based on the provided site name.
