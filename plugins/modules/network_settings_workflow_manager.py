@@ -1314,12 +1314,12 @@ class NetworkSettings(DnacBase):
             site_id (str) - The Site ID for which network parameters are requested
 
         Returns:
-            None
+            network_details: Processed Network data in a format suitable for configuration according to cisco catalyst center version.
         """
         if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
             return self.get_network_params_v1(site_name, site_id)
-        else:
-            return self.get_network_params_v2(site_name, site_id)
+
+        return self.get_network_params_v2(site_name, site_id)
 
     def get_network_params_v1(self, site_name, site_id):
         """
@@ -1330,7 +1330,7 @@ class NetworkSettings(DnacBase):
             site_id (str) - The Site ID
 
         Returns:
-            dict or None: Processed Network data in a format suitable for configuration, or None on error.
+            network_details: Processed Network data in a format suitable for configuration, or None on error.
         """
         self.log("Attempting to retrieve network configuration details for site '{0}' (ID: {1})".format(site_name, site_id), "INFO")
 
@@ -1534,7 +1534,7 @@ class NetworkSettings(DnacBase):
             site_id (str) - The Site ID
 
         Returns:
-            dict or None: Processed Network data in a format suitable for configuration, or None on error.
+            network_details: Processed Network data in a format suitable for configuration, or None on error.
         """
 
         dhcp_details = self.get_dhcp_settings_for_site(site_name, site_id)
@@ -1672,7 +1672,7 @@ class NetworkSettings(DnacBase):
             self (object) - The current object details.
 
         Returns:
-            self (object) - The current object with updated desired Fabric Transits information.
+            self (object) - The current object with updated desired reserved support information.
         """
 
         value = 1
@@ -2947,7 +2947,7 @@ class NetworkSettings(DnacBase):
             config (list of dict) - Playbook details
 
         Returns:
-            None
+            self: The current object of global pool, reserve pool, network servers.
         """
 
         if config.get("global_pool_details"):
@@ -2975,7 +2975,7 @@ class NetworkSettings(DnacBase):
             global_pool (list of dict) - Global Pool playbook details
 
         Returns:
-            None
+            self: The current object of global pool.
         """
 
         create_global_pool = []
@@ -3060,7 +3060,7 @@ class NetworkSettings(DnacBase):
                     result_global_pool.get("msg").update({name: "Global Pool Updated Successfully"})
 
         self.log("Global pool configuration operations completed successfully.", "INFO")
-        return
+        return self
 
     def update_reserve_pool(self, reserve_pool):
         """
@@ -3072,7 +3072,7 @@ class NetworkSettings(DnacBase):
             reserve_pool (list of dict) - Playbook details containing Reserve Pool information.
 
         Returns:
-            None
+            self: The current object of reserve pool.
         """
 
         reserve_pool_index = -1
@@ -3142,7 +3142,7 @@ class NetworkSettings(DnacBase):
                 .update({name: "Reserved Ip Subpool updated successfully."})
 
         self.log("Updated reserved IP subpool successfully", "INFO")
-        return
+        return self
 
     def update_dhcp_settings_for_site(self, site_name, site_id, dhcp_settings):
         """
@@ -3407,7 +3407,7 @@ class NetworkSettings(DnacBase):
             network_management (list of dict) - Playbook details containing Network Management information.
 
         Returns:
-            None
+            self: The current object of updated network servers.
         """
         network_management_index = 0
         for item in network_management:
@@ -3538,7 +3538,7 @@ class NetworkSettings(DnacBase):
                 .update({"Network Details": self.want.get("wantNetwork")[network_management_index].get("settings")})
             network_management_index += 1
 
-        return
+        return self
 
     def get_diff_merged(self, config):
         """
