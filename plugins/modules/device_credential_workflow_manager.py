@@ -19,7 +19,8 @@ description:
 - API to update global device credentials.
 - API to delete global device credentials.
 - API to assign the device credential to the site.
-- API to sync the device credential to the site. Sync functionality will be applicable for DNAC version 2.3.7.6 onwards.
+- API to sync the device credential to the site. Sync functionality is applicable for Catalyst Center version 2.3.7.6 and later.
+
 version_added: '6.7.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
@@ -226,6 +227,9 @@ options:
         description: Assign Device Credentials to Site.
         type: dict
         suboptions:
+          Sync:
+            description: Sync Device Credentials to Site devices. Applicable for Catalyst Center version 2.3.7.6 and later.
+            type: bool
           cli_credential:
             description: CLI Credential.
             type: dict
@@ -299,57 +303,7 @@ options:
               id:
                 description: snmp_v3 Credential Id. Use Description or Id.
                 type: str
-      apply_credentials_to_site:
-        description: Apply Device Credentials to Site.
-        type: dict
-        suboptions:
-          cli_credential:
-            description: CLI Credential.
-            type: dict
-            suboptions:
-              description:
-                description: CLI Credential Description.
-                type: str
-              username:
-                description: CLI Credential Username.
-                type: str
-              id:
-                description: CLI Credential Id. Use (Description, Username) or Id.
-                type: str
-          site_name:
-            description: Site Name to apply credential.
-            type: list
-            elements: str
-          snmp_v2c_read:
-            description: SNMPv2c Read Credential
-            type: dict
-            suboptions:
-              description:
-                description: SNMPv2c Read Credential Description.
-                type: str
-              id:
-                description: SNMPv2c Read Credential Id. Use Description or Id.
-                type: str
-          snmp_v2c_write:
-            description: SNMPv2c Write Credential
-            type: dict
-            suboptions:
-              description:
-                description: SNMPv2c Write Credential Description.
-                type: str
-              id:
-                description: SNMPv2c Write Credential Id. Use Description or Id.
-                type: str
-          snmp_v3:
-            description: snmp_v3 Credential
-            type: dict
-            suboptions:
-              description:
-                description: snmp_v3 Credential Description.
-                type: str
-              id:
-                description: snmp_v3 Credential Id. Use Description or Id.
-                type: str
+
 requirements:
 - dnacentersdk >= 2.7.2
 - python >= 3.9
@@ -445,20 +399,24 @@ EXAMPLES = r"""
           password: '12345'
           port: 443
       assign_credentials_to_site:
+        Sync: True
         cli_credential:
-          id: '1b3777a0-09c2-488b-a64c-6f3c441e343'
+            description: CLI6
+            username: cli6
         snmp_v2c_read:
-          id: S'07c3c5fc-35e6-4c83-bdcb-6322d4bf7103'
+            description: SNMPv2c Read1
         snmp_v2c_write:
-          id: '9900b521-0dfb-4bd1-b044-d31037c8def3'
+            description: SNMPv2c Write1
         snmp_v3:
-          id:'4d3fd6ca-8b01-4a41-9f77-d411a49c2830'
+            description: snmpV31
         https_read:
-          id: '4d3fd6ca-8b01-4a41-9f77-d411a34c2834'
+            description: HTTP Read1
+            username: HTTP_Read1
         https_write:
-           id:'4d3fd6ca-8b01-4a41-9f77-d411a34c2988'
+            description: HTTP Write1
+            username: HTTP_Write1
         site_name:
-        - Global/USA
+            - Global/USA
 
   - name: Create Multiple Credentials.
     cisco.dnac.device_credential_workflow_manager:
@@ -546,15 +504,12 @@ EXAMPLES = r"""
           username: cli1
           password: '12345'
           enable_password: '12345'
-          id: '1b3777a0-09c2-488b-a64c-6f3c441e343'
         snmp_v2c_read:
         - description: SNMPv2c Read1
           read_community: '123456'
-          id: '07c3c5fc-35e6-4c83-bdcb-6322d4bf7103'
         snmp_v2c_write:
         - description: SNMPv2c Write1
           write_community: '123456'
-          id: '9900b521-0dfb-4bd1-b044-d31037c8def3'
         snmp_v3:
         - auth_password: '12345678'
           auth_type: SHA
@@ -563,19 +518,16 @@ EXAMPLES = r"""
           privacy_type: AES128
           username: snmpV31
           description: snmpV31
-          id: '4d3fd6ca-8b01-4a41-9f77-d411a49c2830'
         https_read:
         - description: HTTP Read1
           username: HTTP Read1
           password: '12345'
           port: 443
-          id: '4d3fd6ca-8b01-4a41-9f77-d411a34c2834'
         https_write:
         - description: HTTP_Write1
           username: HTTP_Write1
           password: '12345'
           port: 443
-          id: '4d3fd6ca-8b01-4a41-9f77-d411a34c2688'
 
   - name: Update multiple global device credentials using id
     cisco.dnac.device_credential_workflow_manager:
@@ -596,26 +548,20 @@ EXAMPLES = r"""
           username: cli1
           password: '12345'
           enable_password: '12345'
-          id: '1b3777a0-09c2-488b-a64c-6f3c441e343'
         - description: CLI2
           username: cli2
           password: '12345'
           enable_password: '12345'
-          id: '1d3777a0-09c2-488b-a64c-6f3c441e368'
         snmp_v2c_read:
         - description: SNMPv2c Read1
           read_community: '123456'
-          id: '07c3c5fc-35e6-4c83-bdcb-6322d4bf7103'
         - description: SNMPv2c Read2
           read_community: '123458'
-          id: '08c3c5fc-35e6-4c83-bdcb-6322d4bf7200'
         snmp_v2c_write:
         - description: SNMPv2c write1
           write_community: '123456'
-          id: '07c3c5fc-35e6-4c83-bdcb-6322d4bf7400'
         - description: SNMPv2c Write1
           write_community: '123466'
-          id: '9900b521-0dfb-4bd1-b044-d31037c8def3'
         snmp_v3:
         - auth_password: '12345678'
           auth_type: SHA
@@ -624,7 +570,6 @@ EXAMPLES = r"""
           privacy_type: AES128
           username: snmpV31
           description: snmpV31
-          id: '4d3fd6ca-8b01-4a41-9f77-d411a49c2830'
         - auth_password: '12345678'
           auth_type: SHA
           snmp_mode: AUTHPRIV
@@ -632,29 +577,24 @@ EXAMPLES = r"""
           privacy_type: AES128
           username: snmpV32
           description: snmpV32
-          id: '4d3fd6ca-8b01-4a41-9f77-d411a49c2300'
         https_read:
         - description: HTTP Read1
           username: HTTP Read1
           password: '12345'
           port: 443
-          id: '4d3fd6ca-8b01-4a41-9f77-d411a34c2500'
         - description: HTTP Read2
           username: HTTP Read2
           password: '12345'
           port: 443
-          id: '4d3fd6ca-8b01-4a41-9f77-d411a34c2834'
         https_write:
         - description: HTTP_Write1
           username: HTTP_Write1
           password: '12345'
           port: 443
-          id: '4d3fd6ca-8b01-4a41-9f77-d411a34c2834'
         - description: HTTP_Write2
           username: HTTP_Write2
           password: '12345'
           port: 443
-          id: '4f3fd6ca-8b01-4a41-9f77-d411a34c2804'
 
   - name: Update global device credential name/description using old name and description.
     cisco.dnac.device_credential_workflow_manager:
@@ -675,15 +615,12 @@ EXAMPLES = r"""
           username: cli1
           password: '12345'
           enable_password: '12345'
-          id: '1b3777a0-09c2-488b-a64c-6f3c441e343'
         snmp_v2c_read:
         - description: SNMPv2c Read1
           read_community: '123456'
-          id: '07c3c5fc-35e6-4c83-bdcb-6322d4bf7103'
         snmp_v2c_write:
         - description: SNMPv2c write1
           write_community: '123456'
-          id: '07c3c5fc-35e6-4c83-bdcb-6322d4bf7400'
         snmp_v3:
         - auth_password: '12345678'
           auth_type: SHA
@@ -692,19 +629,16 @@ EXAMPLES = r"""
           privacy_type: AES128
           username: snmpV31
           description: snmpV31
-          id: '4d3fd6ca-8b01-4a41-9f77-d411a49c2830'
         https_read:
         - description: HTTP Read1
           username: HTTP Read1
           password: '12345'
           port: 443
-          id: '4d3fd6ca-8b01-4a41-9f77-d411a34c2500'
         https_write:
         - description: HTTP_Write1
           username: HTTP_Write1
           password: '12345'
           port: 443
-          id: '4d3fd6ca-8b01-4a41-9f77-d411a34c2834'
 
   - name: Assign Credentials to sites using old description and username.
     cisco.dnac.device_credential_workflow_manager:
@@ -720,6 +654,7 @@ EXAMPLES = r"""
     config_verify: True
     config:
     - assign_credentials_to_site:
+        Sync: True
         cli_credential:
             description: CLI6
             username: cli6
@@ -735,33 +670,6 @@ EXAMPLES = r"""
         https_write:
             description: HTTP Write1
             username: HTTP_Write1
-        site_name:
-            - Global/USA
-
-  - name: Sync global device credentials to a site.
-    cisco.dnac.device_credential_workflow_manager:
-    dnac_host: "{{ dnac_host }}"
-    dnac_port: "{{ dnac_port }}"
-    dnac_username: "{{ dnac_username }}"
-    dnac_password: "{{ dnac_password }}"
-    dnac_verify: "{{ dnac_verify }}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{ dnac_debug }}"
-    dnac_log_level: "{{ dnac_log_level }}"
-    dnac_log: True
-    state: merged
-    config_verify: True
-    config:
-    - apply_credentials_to_site:
-        cli_credential:
-            description: CLI7
-            username: cli7
-        snmp_v2c_read:
-            description: SNMPv2c Read2
-        snmp_v2c_write:
-            description: SNMPv2c Write1
-        snmp_v3:
-          description: snmpV31
         site_name:
             - Global/USA
 
@@ -2048,6 +1956,7 @@ class DeviceCredential(DnacBase):
         want = {
             "assign_credentials": {}
         }
+        current_ccc_version_as_int = self.get_ccc_version_as_integer()
         site_names = AssignCredentials.get("site_name")
         if not site_names:
             self.msg = "The 'site_name' is required parameter for 'assign_credentials_to_site'"
@@ -2094,7 +2003,7 @@ class DeviceCredential(DnacBase):
                         self.msg = "The username and description of the CLI credential are invalid"
                         self.status = "failed"
                         return self
-                if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
+                if current_ccc_version_as_int <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
                     want.get("assign_credentials").update({"cliId": cliDetail.get("id")})
                 else:
                     want.get("assign_credentials").update({
@@ -2128,7 +2037,7 @@ class DeviceCredential(DnacBase):
                         self.msg = "The username and description for the snmp_v2c_read credential are invalid."
                         self.status = "failed"
                         return self
-                if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
+                if current_ccc_version_as_int <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
                     want.get("assign_credentials").update({"snmpV2ReadId": snmpV2cReadDetail.get("id")})
                 else:
                     want.get("assign_credentials").update({
@@ -2162,7 +2071,7 @@ class DeviceCredential(DnacBase):
                         self.msg = "The username and description of the snmp_v2c_write credential are invalid."
                         self.status = "failed"
                         return self
-                if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
+                if current_ccc_version_as_int <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
                     want.get("assign_credentials").update({"snmpV2WriteId": snmpV2cWriteDetail.get("id")})
                 else:
                     want.get("assign_credentials").update({
@@ -2198,7 +2107,7 @@ class DeviceCredential(DnacBase):
                         self.msg = "The description and username for the httpRead credential are invalid."
                         self.status = "failed"
                         return self
-                if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
+                if current_ccc_version_as_int <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
                     want.get("assign_credentials").update({"httpRead": httpReadDetail.get("id")})
                 else:
                     want.get("assign_credentials").update({
@@ -2234,7 +2143,7 @@ class DeviceCredential(DnacBase):
                         self.msg = "The description and username for the httpWrite credential are invalid."
                         self.status = "failed"
                         return self
-                if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
+                if current_ccc_version_as_int <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
                     want.get("assign_credentials").update({"httpWrite": httpWriteDetail.get("id")})
                 else:
                     want.get("assign_credentials").update({
@@ -2268,7 +2177,7 @@ class DeviceCredential(DnacBase):
                         self.msg = "The username and description for the snmp_v2c_write credential are invalid."
                         self.status = "failed"
                         return self
-                if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
+                if current_ccc_version_as_int <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
                     want.get("assign_credentials").update({"snmpV3Id": snmpV3Detail.get("id")})
                 else:
                     want.get("assign_credentials").update({
@@ -2458,8 +2367,10 @@ class DeviceCredential(DnacBase):
             AssignCredentials = config.get("assign_credentials_to_site")
             self.get_want_assign_credentials(AssignCredentials).check_return_status()
 
-        if config.get("apply_credentials_to_site"):
-            ApplyCredentials = config.get("apply_credentials_to_site")
+        if config.get("assign_credentials_to_site") and config.get("assign_credentials_to_site").get("Sync") is True:
+            config["assign_credentials_to_site"].pop("https_read", None)
+            config["assign_credentials_to_site"].pop("https_write", None)
+            ApplyCredentials = config.get("assign_credentials_to_site")
             self.get_want_apply_credentials(ApplyCredentials).check_return_status()
 
         self.log("Desired State (want): {0}".format(self.want), "INFO")
@@ -2896,7 +2807,7 @@ class DeviceCredential(DnacBase):
         if config.get("assign_credentials_to_site") is not None:
             self.assign_credentials_to_site().check_return_status()
 
-        if config.get("apply_credentials_to_site") is not None:
+        if config.get("assign_credentials_to_site") is not None and config.get("assign_credentials_to_site").get("Sync") is True:
             self.apply_credentials_to_site().check_return_status()
 
         return self
