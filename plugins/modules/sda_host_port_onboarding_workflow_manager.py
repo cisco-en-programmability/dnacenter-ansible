@@ -37,9 +37,9 @@ options:
     choices: [ merged, deleted ]
     default: merged
   config:
-    description: 
+    description:
             - A list containing detailed configurations for Adding/Updating/Deleting port assignment(s) or port channel(s)
-              of Network Devices in SD-Access Fabric roles in Cisco Catalyst Center. 
+              of Network Devices in SD-Access Fabric roles in Cisco Catalyst Center.
     type: list
     elements: dict
     required: True
@@ -69,44 +69,44 @@ options:
             - A list containing configuration details for adding, updating, or deleting port assignment(s) in Cisco Catalyst Center.
             - The "interface_name" and "connected_device_type" fields are required for add and update port assignment(s) operations.
             - For the update port channel(s) operation, the parameters that can be updated include "data_vlan_name",
-              "avoice_vlan_name", "authentication_template_name" and "interface_description".
-            - For delete port assignment(s) operation, the valid parameters are "interface_name," "data_vlan_name," and "voice_vlan_name." 
+              "voice_vlan_name", "authentication_template_name" and "interface_description".
+            - For delete port assignment(s) operation, the valid parameters are "interface_name," "data_vlan_name," and "voice_vlan_name".
               If all three parameters are provided, only port assignments that match all specified criteria are deleted (i.e., AND filtering is applied).
         type: list
         elements: dict
         suboptions:
-          interface_name: 
+          interface_name:
             description:
                 - Specifies the name of the port or interface on the fabric device where port assignment operations need to be performed.
-                - This parameter is required for adding or updating port assignments
+                - This parameter is required for adding or updating port assignments.
                 - For example - "GigabitEthernet2/1/1"
             type: str
           connected_device_type:
             description:
                 - Specifies the type of access device that needs to be onboarded on the specified interface.
-                - Valid options for Connected Device Types are: "USER_DEVICE", "ACCESS_POINT", and "TRUNKING_DEVICE".
-                - TRUNKING_DEVICE - Configures the interface as a trunk port. No additional parameters are required for this Connected Device Type. 
-                                    The "authentication_template_name", if provided, must be set to "No Authentication" when configuring a "TRUNKING_DEVICE". 
+                - Valid options for Connected Device Types are - "USER_DEVICE", "ACCESS_POINT", and "TRUNKING_DEVICE".
+                - TRUNKING_DEVICE - Configures the interface as a trunk port. No additional parameters are required for this Connected Device Type.
+                                    The "authentication_template_name", if provided, must be set to "No Authentication" when configuring a "TRUNKING_DEVICE".
                                     Optionally, a description for the port can be provided.
-                - ACCESS_POINT - Configures the port for connecting an access point. The "data_vlan_name" parameter is required when configuring "ACCESS_POINT" 
-                                 devices in port assignments. 
+                - ACCESS_POINT - Configures the port for connecting an access point. The "data_vlan_name" parameter is required when configuring "ACCESS_POINT"
+                                 devices in port assignments.
                                  Optionally, the "authentication_template_name" and "interface_description" can also be specified.
-                - USER_DEVICE - Configures the port to connect to a host device, such as an IP phone, computer, or laptop. 
-                                At least one VLAN ("data_vlan_name" or "voice_vlan_name") is required when configuring a "USER_DEVICE". 
+                - USER_DEVICE - Configures the port to connect to a host device, such as an IP phone, computer, or laptop.
+                                At least one VLAN ("data_vlan_name" or "voice_vlan_name") is required when configuring a "USER_DEVICE".
                                 Optional parameters include "security_group_name", "authentication_template_name", and "interface_description".
                 - Note - The "connected_device_type" cannot be updated from "TRUNK" to "EXTENDED_NODE" unless the protocol configured is PAGP.
-
             type: str
             choices: [ USER_DEVICE, ACCESS_POINT, TRUNKING_DEVICE ]
           data_vlan_name:
             description:
-                - Specifies the Data VLAN name/IP address pool to be assigned to the port. 
+                - Specifies the Data VLAN name/IP address pool to be assigned to the port.
                 - This parameter is required when the connected_device_type is set to ACCESS_POINT.
+                - At least one VLAN ("data_vlan_name" or "voice_vlan_name") is required when configuring a "USER_DEVICE".
             type: str
           voice_vlan_name:
             description:
-                - Specifies the Voice VLAN name/IP address pool to be assigned to the port. 
-                - 
+                - Specifies the Voice VLAN name/IP address pool to be assigned to the port.
+                - At least one VLAN ("data_vlan_name" or "voice_vlan_name") is required when configuring a "USER_DEVICE".
             type: str
           security_group_name:
             description:
@@ -156,10 +156,10 @@ options:
             choices: [ TRUNK, EXTENDED_NODE ]
           protocol:
             description:
-                - Specifies the appropriate protocol for the specific Connected Device Type to be configured on the port channel. 
+                - Specifies the appropriate protocol for the specific Connected Device Type to be configured on the port channel.
                 - Valid options are "ON", "LACP", and "PAGP".
                 - By default, the protocol is "ON" for "connected_device_type" - "EXTENDED_NODE".
-                - By default, the protocol is "LACP" for "connected_device_type" - "TRUNK"
+                - By default, the protocol is "LACP" for "connected_device_type" - "TRUNK".
                 - Protocol field cannot be updated after the initial configuration.
                 - The "connected_device_type" cannot be updated from "TRUNK" to "EXTENDED_NODE" unless the protocol configured is PAGP.
             type: str
@@ -170,7 +170,7 @@ options:
             type: str
           port_channel_name:
             description:
-                - Specifies the name of an existing port channel in the SD-Access Fabric that needs to be deleted. 
+                - Specifies the name of an existing port channel in the SD-Access Fabric that needs to be deleted.
                 - This parameter is applicable only for delete port channel operations.
             type: str
 
@@ -179,7 +179,6 @@ requirements:
 - python >= 3.9
 
 notes:
-  - 
   - SDK Methods used are
     - devices.Devices.get_device_list
     - sda.SDA.get_device_info
@@ -694,7 +693,7 @@ class SDAHostPortOnboarding(DnacBase):
                 - self.status: The status of the validation (either "success" or "failed").
         Description:
             This method checks if the provided `authentication_template_name` is among the valid authentication
-            templates for the interface. If the template name is invalid, it logs an error message and sets the 
+            templates for the interface. If the template name is invalid, it logs an error message and sets the
             validation status to "failed". If the template name is valid, it logs a success message.
         """
         # List of valid authentication template names
@@ -777,12 +776,12 @@ class SDAHostPortOnboarding(DnacBase):
         voice_vlan_name = port_assignment.get("voice_vlan_name")
 
         valid_params = {
-            "interface_name", 
-            "connected_device_type", 
-            "authentication_template_name", 
-            "data_vlan_name", 
-            "voice_vlan_name", 
-            "security_group_name", 
+            "interface_name",
+            "connected_device_type",
+            "authentication_template_name",
+            "data_vlan_name",
+            "voice_vlan_name",
+            "security_group_name",
             "interface_description"
         }
         provided_params = set(port_assignment.keys())
@@ -869,7 +868,7 @@ class SDAHostPortOnboarding(DnacBase):
             This method validates the device-specific parameters for different types of connected devices in a port assignment.
             It first validates the 'authentication_template_name' if provided. Then, based on the 'connected_device_type',
             it calls the appropriate validation method for 'TRUNKING_DEVICE', 'USER_DEVICE', or 'ACCESS_POINT'.
-            If any parameter is invalid, it logs an error message and sets the validation status to "failed". 
+            If any parameter is invalid, it logs an error message and sets the validation status to "failed".
             If all parameters are valid, it logs a success message.
         """
         # Retrieve required parameters from the port_assignment dictionary
@@ -904,8 +903,8 @@ class SDAHostPortOnboarding(DnacBase):
                 - self.status: The status of the validation (either "success" or "failed").
         Description:
             This method checks if the required parameters 'interface_names_list' and 'connected_device_type' are present
-            in the port channel details. If any required parameter is missing, it logs an error message and sets the 
-            validation status to "failed". If all required parameters are present, the method proceeds without logging 
+            in the port channel details. If any required parameter is missing, it logs an error message and sets the
+            validation status to "failed". If all required parameters are present, the method proceeds without logging
             an error message.
         """
         # Check for missing parameters by comparing required_params with the keys in port_channel
@@ -928,7 +927,7 @@ class SDAHostPortOnboarding(DnacBase):
                 - self.status: The status of the validation (either "success" or "failed").
         Description:
             This method checks if the 'connected_device_type' in the port channel details is among the valid types
-            'TRUNK' and 'EXTENDED_NODE'. If the device type is invalid, it logs an error message and sets the 
+            'TRUNK' and 'EXTENDED_NODE'. If the device type is invalid, it logs an error message and sets the
             validation status to "failed". If the device type is valid, the method proceeds without logging an error message.
         """
         # Check if the connected_device_type is provided and not in the list of valid types
@@ -986,16 +985,16 @@ class SDAHostPortOnboarding(DnacBase):
         """
         Validates the interface names list for a given port channel configuration.
         Args:
-            port_channel (dict): Dictionary containing port channel configuration details including 
+            port_channel (dict): Dictionary containing port channel configuration details including
                                  'interface_names_list', 'protocol', and 'connected_device_type'.
         Returns:
             None: This method does not return a value. It updates the instance attributes:
                 - self.msg: A message describing the validation result.
                 - self.status: The status of the validation (either "success" or "failed").
         Description:
-            This method checks if the number of interfaces in 'interface_names_list' does not exceed the protocol-specific 
-            limits for the given 'protocol'. If the protocol is 'PAGP' or 'ON', the maximum allowed interfaces are 8. If the 
-            protocol is 'LACP', the maximum allowed interfaces are 16. If the limits are exceeded, it logs an error message 
+            This method checks if the number of interfaces in 'interface_names_list' does not exceed the protocol-specific
+            limits for the given 'protocol'. If the protocol is 'PAGP' or 'ON', the maximum allowed interfaces are 8. If the
+            protocol is 'LACP', the maximum allowed interfaces are 16. If the limits are exceeded, it logs an error message
             and sets the validation status to "failed".
         """
         interface_names_list = port_channel.get("interface_names_list")
@@ -1026,8 +1025,8 @@ class SDAHostPortOnboarding(DnacBase):
                 - self.msg: A message describing the validation result.
                 - self.status: The status of the validation (either "success" or "failed").
         Description:
-            This method checks if only the allowed parameters ('interface_name', 'data_vlan_name', 'voice_vlan_name') are 
-            present in the provided interface dictionary. If unsupported parameters are found, it logs an error message and 
+            This method checks if only the allowed parameters ('interface_name', 'data_vlan_name', 'voice_vlan_name') are
+            present in the provided interface dictionary. If unsupported parameters are found, it logs an error message and
             sets the validation status to "failed". If all parameters are valid, the method logs a success message.
         """
         # Define allowed parameters
@@ -1060,8 +1059,8 @@ class SDAHostPortOnboarding(DnacBase):
                 - self.msg: A message describing the validation result.
                 - self.status: The status of the validation (either "success" or "failed").
         Description:
-            This method checks if only the allowed parameters ('port_channel_name', 'connected_device_type') are present in 
-            the provided port channel dictionary. If unsupported parameters are found, it logs an error message and sets the 
+            This method checks if only the allowed parameters ('port_channel_name', 'connected_device_type') are present in
+            the provided port channel dictionary. If unsupported parameters are found, it logs an error message and sets the
             validation status to "failed". If all parameters are valid, the method logs a success message.
         """
         # Define allowed parameters
@@ -1089,7 +1088,7 @@ class SDAHostPortOnboarding(DnacBase):
         """
         Validates the configuration parameters based on the specified state.
         Args:
-            config (dict): Dictionary containing the configuration details, including 'ip_address', 'hostname', 
+            config (dict): Dictionary containing the configuration details, including 'ip_address', 'hostname',
                            'port_assignment_details', and 'port_channel_details'.
             state (str): The state of the configuration, either 'merged' or 'deleted'.
         Returns:
@@ -1097,9 +1096,9 @@ class SDAHostPortOnboarding(DnacBase):
                 - self.msg: A message describing the validation result.
                 - self.status: The status of the validation (either "success" or "failed").
         Description:
-            This method performs validation on the configuration parameters. For the 'merged' state, it validates required 
-            port assignment and port channel parameters, connected device types, device-specific parameters, protocols, and 
-            interface names list. For the 'deleted' state, it validates the parameters for deletion in port assignments and 
+            This method performs validation on the configuration parameters. For the 'merged' state, it validates required
+            port assignment and port channel parameters, connected device types, device-specific parameters, protocols, and
+            interface names list. For the 'deleted' state, it validates the parameters for deletion in port assignments and
             port channels. If any validation fails, it logs an error message and sets the validation status to "failed".
         """
         ip_address = config.get("ip_address")
@@ -1233,7 +1232,7 @@ class SDAHostPortOnboarding(DnacBase):
         Description:
             This method attempts to retrieve the site information from Cisco Catalyst Center for a given device
             using its IP address. It calls the SDA 'get_device_info' API and processes the response to extract
-            the site name hierarchy. If an error occurs or no site name is found, it logs an error message and 
+            the site name hierarchy. If an error occurs or no site name is found, it logs an error message and
             sets the validation status to "failed".
         """
         # Attempt to retrieve site information from Catalyst Center
@@ -1332,7 +1331,7 @@ class SDAHostPortOnboarding(DnacBase):
         site_name = self.get_device_info_from_sda_fabric(list(mgmt_ip_to_instance_id_map.keys())[0])
 
         # Get siteId of the Site the device is part of
-        site_exists, site_id  = self.get_site_id(site_name)
+        site_exists, site_id = self.get_site_id(site_name)
 
         # Get fabricId of the site
         fabric_id = self.get_fabric_sites(site_name, site_id)
@@ -1349,7 +1348,7 @@ class SDAHostPortOnboarding(DnacBase):
             dict: A dictionary containing the parameters 'fabric_id' and 'network_device_id'.
         Description:
             This method creates a dictionary with 'fabric_id' and 'network_device_id' parameters required
-            for retrieving port assignments. It logs the generated parameters for debugging purposes and 
+            for retrieving port assignments. It logs the generated parameters for debugging purposes and
             returns the dictionary.
         """
         # Create dictionary with required parameters
@@ -1444,7 +1443,6 @@ class SDAHostPortOnboarding(DnacBase):
         update_port_assignments = []
         no_update_port_assignments = []
 
-
         # Convert the requested_port_assignment_details to a dictionary for quick lookup
         requested_ports_dict = {port['interface_name']: port for port in requested_port_assignment_details}
 
@@ -1529,7 +1527,7 @@ class SDAHostPortOnboarding(DnacBase):
         if total_ports_processed == len(requested_port_assignment_details):
             self.log("Match in total counts: Processed={0}, Requested={1}.".format(total_ports_processed, len(requested_port_assignment_details)), "DEBUG")
         else:
-            self.log("Mismatch in total counts: Processed={0}, Requested={1}.".format(total_ports_processed,len(requested_port_assignment_details) ), "ERROR")
+            self.log("Mismatch in total counts: Processed={0}, Requested={1}.".format(total_ports_processed, len(requested_port_assignment_details)), "ERROR")
 
         # Return the categorized port assignments
         return create_port_assignments, update_port_assignments, no_update_port_assignments
@@ -1544,7 +1542,7 @@ class SDAHostPortOnboarding(DnacBase):
             dict: A dictionary containing the parameters 'fabric_id' and 'network_device_id'.
         Description:
             This method creates a dictionary with 'fabric_id' and 'network_device_id' parameters required
-            for retrieving port channels. It logs the generated parameters for debugging purposes and 
+            for retrieving port channels. It logs the generated parameters for debugging purposes and
             returns the dictionary.
         """
         # Create a dictionary with the required parameters
@@ -1648,7 +1646,7 @@ class SDAHostPortOnboarding(DnacBase):
                 interface_params["authenticateTemplateName"] = "No Authentication"
             interface_params_list.append(interface_params)
 
-        add_port_assignments_params =  {"payload": interface_params_list}
+        add_port_assignments_params = {"payload": interface_params_list}
 
         self.log("add_port_assignments_params: {0}".format(add_port_assignments_params), "DEBUG")
 
@@ -1695,7 +1693,7 @@ class SDAHostPortOnboarding(DnacBase):
 
             interface_params_list.append(interface_params)
 
-        update_port_assignments_params =  {"payload": interface_params_list}
+        update_port_assignments_params = {"payload": interface_params_list}
 
         self.log("update_port_assignments_params: {0}".format(update_port_assignments_params), "DEBUG")
 
@@ -1769,7 +1767,7 @@ class SDAHostPortOnboarding(DnacBase):
 
         # Define the comparison fields within the function
         comparison_fields = [
-            #("interfaceNames", "interface_names_list"),
+            # ("interfaceNames", "interface_names_list"),
             ("connectedDeviceType", "connected_device_type"),
             ("protocol", "protocol"),
             ("description", "port_channel_description")
@@ -1915,7 +1913,6 @@ class SDAHostPortOnboarding(DnacBase):
             connected_device_type = port_channel.get("connected_device_type")
             port_channel_description = port_channel.get("port_channel_description")
 
-
             # Construct the parameters for each port channel
             port_channel_params = {
                 "fabricId": self.have.get("fabric_id"),
@@ -1932,7 +1929,7 @@ class SDAHostPortOnboarding(DnacBase):
             port_channels_params_list.append(port_channel_params)
 
         # Create the final payload for adding port channels
-        add_port_channels_params =  {"payload": port_channels_params_list}
+        add_port_channels_params = {"payload": port_channels_params_list}
 
         self.log("add_port_channels_params: {0}".format(add_port_channels_params), "DEBUG")
 
@@ -1976,7 +1973,7 @@ class SDAHostPortOnboarding(DnacBase):
             port_channels_params_list.append(port_channel_params)
 
         # Create the final payload for updating port channels
-        update_port_channels_params =  {"payload": port_channels_params_list}
+        update_port_channels_params = {"payload": port_channels_params_list}
 
         self.log("update_port_channels_params: {0}".format(update_port_channels_params), "DEBUG")
 
@@ -2195,7 +2192,6 @@ class SDAHostPortOnboarding(DnacBase):
         """
         task_name = "Update Port Assignment(s) Task"
         msg = {}
-
 
         # Retrieve the parameters for update port assignments
         update_port_assignments_params = self.want["update_port_assignments_params"]
@@ -2499,7 +2495,6 @@ class SDAHostPortOnboarding(DnacBase):
         get_port_channels_params = self.get_port_channels_params(network_device_id, fabric_id)
         have["get_port_channels_params"] = get_port_channels_params
 
-
         if state == "merged":
             if port_assignment_details:
                 # Compare and categorize port assignments
@@ -2697,22 +2692,22 @@ class SDAHostPortOnboarding(DnacBase):
 
     def verify_diff_merged(self):
         """
-        Verifies the success of merged operations for port assignments and port channels by comparing 
+        Verifies the success of merged operations for port assignments and port channels by comparing
         the current state with the desired state.
         Args:
             None
         Returns:
-            self: Returns the instance after performing verification on port assignments and 
+            self: Returns the instance after performing verification on port assignments and
             port channels.
         Description:
-            This method verifies the success of operations that add or update port assignments 
-            and port channels in the Cisco Catalyst Center. It compares the current port assignments 
-            and port channels with the desired configuration passed through self.want and checks if 
-            the requested changes have been applied. For port assignments, it retrieves the current 
-            state, compares interface names, and verifies that the add or update operation was 
-            successful by checking if the interface names exist or match. Similarly, for port channels, 
-            it fetches the existing port channels and verifies that the requested port channels were 
-            added or updated as expected. If mismatches are found during the verification process, 
+            This method verifies the success of operations that add or update port assignments
+            and port channels in the Cisco Catalyst Center. It compares the current port assignments
+            and port channels with the desired configuration passed through self.want and checks if
+            the requested changes have been applied. For port assignments, it retrieves the current
+            state, compares interface names, and verifies that the add or update operation was
+            successful by checking if the interface names exist or match. Similarly, for port channels,
+            it fetches the existing port channels and verifies that the requested port channels were
+            added or updated as expected. If mismatches are found during the verification process,
             warnings are logged to indicate potential issues with the operations.
         """
         # Retrieve parameters for add and update operations from the desired state (self.want)
@@ -2952,6 +2947,7 @@ class SDAHostPortOnboarding(DnacBase):
                 )
 
         return self
+
 
 def main():
     """ main entry point for module execution
