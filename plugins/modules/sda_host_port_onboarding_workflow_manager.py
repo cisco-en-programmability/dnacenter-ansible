@@ -11,7 +11,7 @@ __author__ = ("Rugvedi Kapse, Madhan Sankaranarayanan")
 
 DOCUMENTATION = r"""
 ---
-module: sda_host_onboarding_workflow_manager
+module: sda_host_port_onboarding_workflow_manager
 short_description: SDA Host Onboarding Module provides functionality for managing host onboarding in SD-Access Fabric in Cisco Catalyst Center.
 description:
 - Manage host onboarding operations such as adding, updating, and deleting port assignments and port channels of Network Devices in SD-Access Fabric.
