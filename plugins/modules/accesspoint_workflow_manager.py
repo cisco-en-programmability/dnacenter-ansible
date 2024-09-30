@@ -2392,7 +2392,7 @@ class Accesspoint(DnacBase):
         try:
             if self.dnac_version <= self.dnac_versions["2.3.5.3"]:
                 response = self.access_point_provision_old(rf_profile, hostname,
-                                                          type_name, site_name_hierarchy)
+                                                           type_name, site_name_hierarchy)
                 if response and isinstance(response, dict):
                     executionid = response.get("executionId")
                     resync_retry_count = int(self.payload.get("dnac_api_task_timeout", 100))
