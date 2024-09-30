@@ -124,7 +124,6 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
                 self.test_data.get("ap_task_error_status")
             ]
 
-
     def test_accesspoint_workflow_manager_provision_device(self):
         """
         Test case for access point workfollow manager provision and update device.
@@ -138,7 +137,7 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="merged",
-                dnac_version = "2.3.7.6",
+                dnac_version="2.3.7.6",
                 config_verify=True,
                 config=self.playbook_config_complete
             )
@@ -162,7 +161,7 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="merged",
-                dnac_version = "2.3.7.6",
+                dnac_version="2.3.7.6",
                 config=self.playbook_config_provision
             )
         )
@@ -187,7 +186,7 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
                 dnac_log=True,
                 state="merged",
                 config_verify=True,
-                dnac_version = "2.3.7.6",
+                dnac_version="2.3.7.6",
                 config=self.playbook_config_update_some_error_data
             )
         )
@@ -213,7 +212,7 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
                 dnac_log=True,
                 state="merged",
                 config_verify=True,
-                dnac_version = "2.3.7.6",
+                dnac_version="2.3.7.6",
                 config=self.playbook_config_update_some_missing_data
             )
         )
@@ -269,7 +268,7 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="merged",
-                dnac_version = "2.3.7.6",
+                dnac_version="2.3.7.6",
                 config=self.reboot_accesspoint
             )
         )
@@ -293,7 +292,7 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="merged",
-                dnac_version = "2.3.5.3",
+                dnac_version="2.3.5.3",
                 config_verify=True,
                 config=self.playbook_config_provision_old_version
             )
@@ -319,7 +318,7 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
                 dnac_log=True,
                 state="merged",
                 config_verify=True,
-                dnac_version = "2.3.7.6",
+                dnac_version="2.3.7.6",
                 config=self.playbook_config
             )
         )
@@ -342,7 +341,7 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="merged",
-                dnac_version = "2.3.7.6",
+                dnac_version="2.3.7.6",
                 config=self.playbook_config_provision
             )
         )
@@ -368,7 +367,7 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="deleted",
-                dnac_version = "2.3.7.6",
+                dnac_version="2.3.7.6",
                 config=self.playbook_config
             )
         )
@@ -391,7 +390,7 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="merged",
-                dnac_version = "2.3.7.6",
+                dnac_version="2.3.7.6",
                 config=self.get_membership_empty
             )
         )
