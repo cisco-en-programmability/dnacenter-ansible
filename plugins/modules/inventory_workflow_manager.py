@@ -1672,8 +1672,9 @@ class Inventory(DnacBase):
         """
         Main function to provision wired devices in Cisco Catalyst Center.
         Parameters:
-            None
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
         Returns:
+            self (object): An instance of the class with updated result, status, and log.
             bool: True if the provisioning is successful, False otherwise.
             str: A message indicating the result of the provisioning process.
         Description:
@@ -1696,14 +1697,6 @@ class Inventory(DnacBase):
             device_type = "Wired"
             resync_retry_count = device_info.get("resync_retry_count", 200)
             resync_retry_interval = device_info.get("resync_retry_interval", 2)
-
-            # Validate site and device IP
-            if not site_name or not device_ip:
-                self.status = "failed"
-                self.msg = "Site and Device IP are required for Provisioning of Wired Devices."
-                self.log(self.msg, "ERROR")
-                self.result['response'] = self.msg
-                return self
 
             if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
                 self.log("Processing with Catalyst version <= 2.3.5.3", "DEBUG")
@@ -2298,6 +2291,22 @@ class Inventory(DnacBase):
             provision_wired_list = self.config[0].get('provision_wired_device')
 
             for prov_dict in provision_wired_list:
+                device_ip = prov_dict.get('device_ip')
+                site_name = prov_dict.get('site_name')
+
+                missing_params = []
+                if not site_name:
+                    missing_params.append("site_name")
+                if not device_ip:
+                    missing_params.append("device_ip")
+
+                if missing_params:
+                    self.status = "failed"
+                    self.msg = "Missing parameters: '{0}'. Site and Device IP are required for Provisioning of Wired Devices.".format(", ".join(missing_params))
+                    self.log(self.msg, "ERROR")
+                    self.result['response'] = self.msg
+                    return self
+
                 device_ip_address = prov_dict['device_ip']
                 if device_ip_address not in want_device:
                     devices_in_playbook.append(device_ip_address)
@@ -3302,7 +3311,6 @@ class Inventory(DnacBase):
 
         if not config['ip_address_list']:
             self.msg = "Devices '{0}' already present in Cisco Catalyst Center".format(self.have['devices_in_playbook'])
-            self.devices_already_present.append(self.have["want_device"])
             self.log(self.msg, "INFO")
             self.result['changed'] = False
             self.result['response'] = self.msg
@@ -3745,7 +3753,7 @@ class Inventory(DnacBase):
         Parameters:
             config (dict): The configuration settings for the deletion process.
         Returns:
-            bool: True if deletion is successful, False otherwise.
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
         Description:
             This method compares the provided configuration against the current
             devices in the Cisco Catalyst Center and deletes devices based on
@@ -3770,7 +3778,7 @@ class Inventory(DnacBase):
             is_device_provisioned = self.is_device_provisioned(device_id)
             if not is_device_provisioned:
                 self.handle_device_deletion(device_ip)
-                return self
+                continue
 
             if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
                 self.delete_provisioned_device_v1(device_ip)
