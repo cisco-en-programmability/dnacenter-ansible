@@ -96,7 +96,7 @@ options:
                                 Optional parameters include "security_group_name", "authentication_template_name", and "interface_description".
                 - Note - The "connected_device_type" cannot be updated from "TRUNK" to "EXTENDED_NODE" unless the protocol configured is PAGP.
             type: str
-            choices: [ USER_DEVICE, ACCESS_POINT, TRUNKING_DEVICE ]
+            choices: [ "USER_DEVICE", "ACCESS_POINT", "TRUNKING_DEVICE" ]
           data_vlan_name:
             description:
                 - Specifies the Data VLAN name/IP address pool to be assigned to the port.
@@ -122,7 +122,7 @@ options:
                 - Security/scalable groups are only supported with the "No Authentication" profile.
             type: str
             required: True
-            choices: [ No Authentication, Open Authentication, Closed Authentication, Low Impact ]
+            choices: [ "No Authentication", "Open Authentication", "Closed Authentication", "Low Impact" ]
           interface_description:
             description:
                 - A Interface description of the port assignment.
@@ -153,7 +153,7 @@ options:
                 - To create a port channel with a fabric edge node or extended node on one side, and a third-party device or server
                   port on the other side, choose "TRUNK".
             type: str
-            choices: [ TRUNK, EXTENDED_NODE ]
+            choices: [ "TRUNK", "EXTENDED_NODE" ]
           protocol:
             description:
                 - Specifies the appropriate protocol for the specific Connected Device Type to be configured on the port channel.
@@ -163,7 +163,7 @@ options:
                 - Protocol field cannot be updated after the initial configuration.
                 - The "connected_device_type" cannot be updated from "TRUNK" to "EXTENDED_NODE" unless the protocol configured is PAGP.
             type: str
-            choices: [ ON, LACP, PAGP ]
+            choices: [ "ON", "LACP", "PAGP" ]
           port_channel_description:
             description:
                 - A description of the port channel.
@@ -305,7 +305,7 @@ EXAMPLES = r"""
 
           - interface_names_list: ["TenGigabitEthernet1/0/43", "TenGigabitEthernet1/0/44"]
             connected_device_type: TRUNK
-            protocol: ON
+            protocol: "ON"
 
           - interface_names_list: ["TenGigabitEthernet1/0/45", "TenGigabitEthernet1/0/46", "TenGigabitEthernet1/0/47", "TenGigabitEthernet1/0/48"]
             connected_device_type: TRUNK
@@ -1006,13 +1006,13 @@ class SDAHostPortOnboarding(DnacBase):
         # Check if number of interfaces exceeds the limit for PAGP or ON protocols
         if protocol.upper() in ["PAGP", "ON"] and len(interface_names_list) > 8:
             self.msg = ("The number of ports provided: {0} exceeds the limit for port channel operation: {1}. "
-                        "Maximum 8 ports for PAGP and ON protocol.").format(len(interface_names_list), port_channel)
+                        "Maximum 8 ports for 'PAGP' and 'ON' protocol.").format(len(interface_names_list), port_channel)
             self.fail_and_exit(self.msg)
 
         # Check if number of interfaces exceeds the limit for LACP protocol
         if protocol.upper() == "LACP" and len(interface_names_list) > 16:
             self.msg = ("The number of ports provided: {0} for protocol: {1} exceeds the limit for port channel operation: {2}. "
-                        "Maximum 16 ports for LACP protocol.").format(len(interface_names_list), protocol, port_channel)
+                        "Maximum 16 ports for 'LACP' protocol.").format(len(interface_names_list), protocol, port_channel)
             self.fail_and_exit(self.msg)
 
     def validate_delete_port_assignment_params(self, interface):
