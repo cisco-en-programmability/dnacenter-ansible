@@ -2269,7 +2269,7 @@ class Accesspoint(DnacBase):
 
         return provision_status, provision_details
 
-    def accesspoint_provision_old(self, rf_profile, hostname, type_name, site_name_hierarchy):
+    def access_point_provision_old(self, rf_profile, hostname, type_name, site_name_hierarchy):
         """
         Provisions a device (AP) to a specific site. support Cisco Catalyst Center version
         less than 2.3.7.6
@@ -2316,7 +2316,7 @@ class Accesspoint(DnacBase):
             return response
         return None
 
-    def accesspoint_provision_new(self, rf_profile, device_id, site_id):
+    def access_point_provision_new(self, rf_profile, device_id, site_id):
         """
         Provisions a device (AP) to a specific site. support Cisco Catalyst Center version
         2.3.7.6 and greater
@@ -2391,7 +2391,7 @@ class Accesspoint(DnacBase):
 
         try:
             if self.dnac_version <= self.dnac_versions["2.3.5.3"]:
-                response = self.accesspoint_provision_old(rf_profile, hostname,
+                response = self.access_point_provision_old(rf_profile, hostname,
                                                           type_name, site_name_hierarchy)
                 if response and isinstance(response, dict):
                     executionid = response.get("executionId")
@@ -2414,7 +2414,7 @@ class Accesspoint(DnacBase):
                         time.sleep(resync_retry_interval)
                         resync_retry_count = resync_retry_count - 1
             else:
-                response = self.accesspoint_provision_new(rf_profile, device_id, site_id)
+                response = self.access_point_provision_new(rf_profile, device_id, site_id)
                 if response and isinstance(response, dict):
                     task_id = response.get("response", {}).get("taskId")
                     resync_retry_count = int(self.payload.get("dnac_api_task_timeout"))
