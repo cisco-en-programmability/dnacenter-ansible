@@ -1047,7 +1047,7 @@ class SDAHostPortOnboarding(DnacBase):
             ).format(unsupported_params, allowed_params, interface)
             self.fail_and_exit(self.msg)
 
-        self.log(f"All provided parameters for DELETE port_assignment(s) operation are valid: {provided_params}", "INFO")
+        self.log("All provided parameters for DELETE port_assignment(s) operation are valid: {0}".format(provided_params), "INFO")
 
     def validate_delete_port_channel_params(self, port_channel):
         """
@@ -1082,7 +1082,7 @@ class SDAHostPortOnboarding(DnacBase):
             self.fail_and_exit(self.msg)
 
         # If only allowed parameters are present, validation passes
-        self.log("All provided parameters for DELETE port_channel(s) operation are valid: {}".format(port_channel), "INFO")
+        self.log("All provided parameters for DELETE port_channel(s) operation are valid: {0}".format(port_channel), "INFO")
 
     def validate_parameters(self, config, state):
         """
@@ -1173,7 +1173,7 @@ class SDAHostPortOnboarding(DnacBase):
         """
         # Initialize the dictionary to map management IP to instance ID
         mgmt_ip_to_instance_id_map = {}
-        self.log("Parameters for 'get_device_list API call: {}".format(get_device_list_params), "DEBUG")
+        self.log("Parameters for 'get_device_list API call: {0}".format(get_device_list_params), "DEBUG")
         try:
             # Query Cisco Catalyst Center for device information using the parameters
             response = self.dnac._exec(
@@ -1325,7 +1325,7 @@ class SDAHostPortOnboarding(DnacBase):
 
         # Get Device IP Address and Id (networkDeviceId required)
         mgmt_ip_to_instance_id_map = self.get_device_ids_by_params(get_device_list_params)
-        self.log(f"Collected mgmt_ip_to_instance_id_map: {mgmt_ip_to_instance_id_map}", "DEBUG")
+        self.log("Collected mgmt_ip_to_instance_id_map: {0}".format(mgmt_ip_to_instance_id_map), "DEBUG")
 
         # Get the Site Name the device is part of.
         site_name = self.get_device_info_from_sda_fabric(list(mgmt_ip_to_instance_id_map.keys())[0])
@@ -1386,7 +1386,7 @@ class SDAHostPortOnboarding(DnacBase):
                     "limit": limit
                 })
 
-                self.log("Updated get_port_assignments_params with offset and limit: {} ".format(get_port_assignments_params), "DEBUG")
+                self.log("Updated get_port_assignments_params with offset and limit: {0} ".format(get_port_assignments_params), "DEBUG")
 
                 # Execute the API call to get extranet policie
                 response = self.dnac._exec(
@@ -1436,8 +1436,8 @@ class SDAHostPortOnboarding(DnacBase):
         """
         existing_port_assignment_details = self.get_port_assignments(get_port_assignments_params)
 
-        self.log(f"Existing Port assignments: {existing_port_assignment_details}", "DEBUG")
-        self.log(f"Requested Port assignments: {requested_port_assignment_details}", "DEBUG")
+        self.log("Existing Port assignments: {0}".format(existing_port_assignment_details), "DEBUG")
+        self.log("Requested Port assignments: {0}".format(requested_port_assignment_details), "DEBUG")
 
         create_port_assignments = []
         update_port_assignments = []
@@ -1751,8 +1751,8 @@ class SDAHostPortOnboarding(DnacBase):
         """
         existing_port_channel_details = self.get_port_channels(get_port_channels_params)
 
-        self.log(f"Existing Port Channels: {existing_port_channel_details}", "DEBUG")
-        self.log(f"Requested Port Channels: {requested_port_channels_details}", "DEBUG")
+        self.log("Existing Port Channels: {0}".format(existing_port_channel_details), "DEBUG")
+        self.log("Requested Port Channels: {0}".format(requested_port_channels_details), "DEBUG")
 
         create_port_channels = []
         update_port_channels = []
@@ -1829,7 +1829,7 @@ class SDAHostPortOnboarding(DnacBase):
                             continue
 
                         if req_value != existing_value:
-                            self.log(f"Update needed for {req_field} - Requested: {req_value}, Existing: {existing_value}", "DEBUG")
+                            self.log("Update needed for {0} - Requested: {1}, Existing: {2}".format(req_field, req_value, existing_value), "DEBUG")
                             updated_channel[existing_field] = req_value
                             update_needed = True
 
@@ -2733,7 +2733,7 @@ class SDAHostPortOnboarding(DnacBase):
             # Check if all add_interface_names are in current_interface_names
             if all(interface in current_interface_names for interface in add_interface_names):
                 self.log(
-                    "Verified the success of ADD Port Assignments operation for interfaceName(s) {}.".format(
+                    "Verified the success of ADD Port Assignments operation for interfaceName(s) {0}.".format(
                         ", ".join(add_interface_names)
                     ), "INFO"
                 )
@@ -2768,14 +2768,14 @@ class SDAHostPortOnboarding(DnacBase):
             # Log the results
             if not mismatched_interfaces:
                 self.log(
-                    "Verified the success of UPDATE Port Assignments operation for interfaceName(s) {}.".format(
+                    "Verified the success of UPDATE Port Assignments operation for interfaceName(s) {0}.".format(
                         ", ".join([param.get("interfaceName") for param in update_port_assignments_params["payload"]])
                     ), "INFO"
                 )
             else:
                 self.log(
                     "The UPDATE Port Assignments operation may not have been successful "
-                    "since the following interface assignments do not match: {}.".format(", ".join(mismatched_interfaces)),
+                    "since the following interface assignments do not match: {0}.".format(", ".join(mismatched_interfaces)),
                     "WARNING"
                 )
 
@@ -2786,8 +2786,8 @@ class SDAHostPortOnboarding(DnacBase):
             existing_port_channels = self.get_port_channels(get_port_channels_params)
 
             # Log the fetched port channels
-            self.log(f"Existing Port Channels after task completion: {existing_port_channels}", "DEBUG")
-            self.log(f"Desired State: {add_port_channels_params}", "INFO")
+            self.log("Existing Port Channels after task completion: {0}".format(existing_port_channels), "DEBUG")
+            self.log("Desired State: {0}".format(add_port_channels_params), "INFO")
 
             if existing_port_channels:
                 # Compare interface names and collect created port channel names
@@ -2801,7 +2801,7 @@ class SDAHostPortOnboarding(DnacBase):
                 # Log the result of verification
                 if port_channels_names:
                     self.log(
-                        "Verified the success of ADD Port Channels operation for portChannelName(s) {}.".format(
+                        "Verified the success of ADD Port Channels operation for portChannelName(s) {0}.".format(
                             ", ".join(port_channels_names)
                         ), "INFO"
                     )
@@ -2841,14 +2841,14 @@ class SDAHostPortOnboarding(DnacBase):
             # Log the results
             if not mismatched_channels:
                 self.log(
-                    "Verified the success of UPDATE Port Channels operation for portChannelName(s) {}.".format(
+                    "Verified the success of UPDATE Port Channels operation for portChannelName(s) {0}.".format(
                         ", ".join([param.get("portChannelName") for param in update_port_channels_params["payload"]])
                     ), "INFO"
                 )
             else:
                 self.log(
                     "The UPDATE Port Channels operation may not have been successful "
-                    "since the following port channels do not match: {}.".format(", ".join(mismatched_channels)),
+                    "since the following port channels do not match: {0}.".format(", ".join(mismatched_channels)),
                     "WARNING"
                 )
 
@@ -2875,7 +2875,7 @@ class SDAHostPortOnboarding(DnacBase):
             for index, delete_port_assignment_data in delete_port_assignments_params.items():
                 self.log("Processing parameters at - index {0}: {1}".format(index, delete_port_assignment_data), "DEBUG")
                 delete_required = delete_port_assignment_data.get("delete_required")
-                delete_port_assignment_params = delete_port_assignment_data.get("delete_port_assignment_params", {})
+                delete_port_assignment_params = delete_port_assignment_data.get("delete_port_assignment_params")
                 interfaces_list = delete_port_assignment_data.get("interfaces_list", [])
 
                 if delete_required:
@@ -2886,19 +2886,19 @@ class SDAHostPortOnboarding(DnacBase):
                         interfaces_still_exist.extend(existing_interfaces)
                         self.log(
                             "The DELETE Port Assignments operation may not have been successful "
-                            "since the following interface assignments still exist: {}.".format(", ".join(existing_interfaces)),
+                            "since the following interface assignments still exist: {0}.".format(", ".join(existing_interfaces)),
                             "WARNING"
                         )
                     else:
                         self.log(
-                            "Verified the success of DELETE Port Assignments operation for interfaceName(s) {}.".format(
+                            "Verified the success of DELETE Port Assignments operation for interfaceName(s) {0}.".format(
                                 ", ".join(interfaces_list)
                             ), "INFO"
                         )
 
             if interfaces_still_exist:
                 self.log(
-                    "The following interfaceName(s) were not deleted: {}.".format(", ".join(interfaces_still_exist)),
+                    "The following interfaceName(s) were not deleted: {0}.".format(", ".join(interfaces_still_exist)),
                     "ERROR"
                 )
             else:
@@ -2914,7 +2914,7 @@ class SDAHostPortOnboarding(DnacBase):
             for index, delete_port_channel_data in delete_port_channels_params.items():
                 self.log("Processing parameters at - index {0}: {1}".format(index, delete_port_channel_data), "DEBUG")
                 delete_required = delete_port_channel_data.get("delete_required")
-                delete_port_channel_params = delete_port_channel_data.get("delete_port_channel_params", {})
+                delete_port_channel_params = delete_port_channel_data.get("delete_port_channel_params")
                 channel_list = delete_port_channel_data.get("channel_list", [])
 
                 if delete_required:
@@ -2925,19 +2925,19 @@ class SDAHostPortOnboarding(DnacBase):
                         channels_still_exist.extend(existing_channels)
                         self.log(
                             "The DELETE Port Channels operation may not have been successful "
-                            "since the following port channels still exist: {}.".format(", ".join(existing_channels)),
+                            "since the following port channels still exist: {0}.".format(", ".join(existing_channels)),
                             "WARNING"
                         )
                     else:
                         self.log(
-                            "Verified the success of DELETE Port Channels operation for portChannelName(s) {}.".format(
+                            "Verified the success of DELETE Port Channels operation for portChannelName(s) {0}.".format(
                                 ", ".join(channel_list)
                             ), "INFO"
                         )
 
             if channels_still_exist:
                 self.log(
-                    "The following portChannelName(s) were not deleted: {}.".format(", ".join(channels_still_exist)),
+                    "The following portChannelName(s) were not deleted: {0}.".format(", ".join(channels_still_exist)),
                     "ERROR"
                 )
             else:
