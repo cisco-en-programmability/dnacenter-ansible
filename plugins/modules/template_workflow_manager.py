@@ -2613,7 +2613,7 @@ class Template(DnacBase):
                 family="configuration_templates",
                 function="gets_the_templates_available",
                 op_modifies=True,
-                params={"projectNames": config.get("projectName")},
+                params={"projectNames": config.get("configuration_templates").get("project_name")},
             )
             if template_list and isinstance(template_list, list):
                 templateName = config.get("configuration_templates").get("template_name")
