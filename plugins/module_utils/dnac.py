@@ -602,8 +602,8 @@ class DnacBase():
             self.log("No reachable devices found at Site: {0}".format(site_id), "INFO")
 
         return mgmt_ip_to_instance_id_map
-    
-    def get_site_type(self, site_name):
+
+    def get_sites_type(self, site_name):
         """
         Get the type of a site in Cisco Catalyst Center.
         Parameters:

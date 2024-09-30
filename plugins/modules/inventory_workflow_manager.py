@@ -2043,7 +2043,7 @@ class Inventory(DnacBase):
             ]
 
             for ap_loc in wireless_param[0]["managedAPLocations"]:
-                if self.get_site_type(site_name=ap_loc) != "floor":
+                if self.get_sites_type(site_name=ap_loc) != "floor":
                     self.status = "failed"
                     self.msg = "Managed AP Location must be a floor"
                     self.log(self.msg, "ERROR")
