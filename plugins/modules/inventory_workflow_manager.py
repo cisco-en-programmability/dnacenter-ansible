@@ -1999,7 +1999,8 @@ class Inventory(DnacBase):
                 if "success" in progress:
                     self.log("Successfully assigned site to the device {0}".format(device_ip))
                     return True
-                elif is_error:
+
+                if is_error:
                     error_msg = "Assigning site failed for device {0}. Error details: {1}".format(device_ip, execution_details)
                     self.log(error_msg, "ERROR")
                     return False
