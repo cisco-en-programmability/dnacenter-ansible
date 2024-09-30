@@ -276,7 +276,7 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
         self.maxDiff = None
         self.assertEqual(
             result.get('response').get("accesspoints_updates").get("ap_reboot_status"),
-            "AP ['34:b8:83:15:7c:6c'] Rebooted Successfully"
+            "APs ['34:b8:83:15:7c:6c'] rebooted successfully"
         )
 
     def test_accesspoint_workflow_manager_provision_old_version(self):

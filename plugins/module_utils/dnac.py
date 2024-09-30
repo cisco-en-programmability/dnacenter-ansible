@@ -781,8 +781,8 @@ class DnacBase():
 
             if response and isinstance(response, dict):
                 task_id = response.get("response", {}).get("taskId")
-                resync_retry_count = int(self.payload.get("dnac_api_task_timeout"), 100)
-                resync_retry_interval = int(self.payload.get("dnac_task_poll_interval"), 5)
+                resync_retry_count = int(self.params.get("dnac_api_task_timeout", 1200))
+                resync_retry_interval = int(self.params.get("dnac_task_poll_interval", 5))
 
                 while resync_retry_count > 0:
                     task_details_response = self.get_tasks_by_id(task_id)
