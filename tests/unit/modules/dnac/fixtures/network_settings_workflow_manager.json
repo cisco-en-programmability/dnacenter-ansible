@@ -1,0 +1,2365 @@
+{
+    "playbook_config_network": [
+      {
+        "network_management_details": [
+          {
+            "site_name": "Global/Vietnam",
+            "settings": {
+              "network_aaa": {
+                "primary_server_address": "10.0.0.20",
+                "secondary_server_address": "10.0.0.10",
+                "protocol": "RADIUS",
+                "server_type": "AAA"
+              },
+              "client_and_endpoint_aaa": {
+                "primary_server_address": "10.0.0.20",
+                "secondary_server_address": "10.0.0.10",
+                "protocol": "RADIUS",
+                "server_type": "AAA"
+              },
+              "dhcp_server": [
+                "10.0.0.1"
+              ],
+              "dns_server": {
+                "domain_name": "cisco.com",
+                "primary_ip_address": "10.0.0.2",
+                "secondary_ip_address": "10.0.0.3"
+              },
+              "ntp_server": [
+                "10.0.0.5"
+              ],
+              "timezone": "GMT",
+              "message_of_the_day": {
+                "banner_message": "hello",
+                "retain_existing_banner": true
+              },
+              "netflow_collector": {
+                "ip_address": "10.0.0.4",
+                "port": 443
+              },
+              "snmp_server": {
+                "configure_dnac_ip": false
+              },
+              "syslog_server": {
+                "configure_dnac_ip": false
+              }
+            }
+          }
+        ]
+      }
+    ],
+
+    "playbook_update_network":[{
+        "network_management_details": [
+          {
+            "site_name": "Global/Testing/test",
+            "settings": {
+              "network_aaa": {
+                "primary_server_address": "10.0.0.10", 
+                "secondary_server_address": "10.0.0.20",
+                "protocol": "RADIUS",
+                "server_type": "AAA",
+                "shared_secret": "string"
+              },
+              "client_and_endpoint_aaa": {
+                "primary_server_address": "10.0.0.20", 
+                "secondary_server_address": "10.0.0.10",
+                "protocol": "RADIUS",                                     
+                "server_type": "AAA",
+                "shared_secret": "string"
+              },
+              "dhcp_server": [
+                "10.0.0.1"
+              ],
+              "dns_server": {
+                "domain_name": "cisco.com",
+                "primary_ip_address": "10.0.0.2",
+                "secondary_ip_address": "10.0.0.3"
+              },
+              "ntp_server": [
+                "10.0.0.5"
+              ],
+              "timezone": "GMT",
+              "message_of_the_day": {
+                "banner_message": "hey",
+                "retain_existing_banner": true
+              }
+            }
+          }
+        ]
+      }
+      ],
+    "playbook_config_aaa_req": [
+      {
+        "network_management_details": [
+          {
+            "site_name": "Global/Testing/test",
+            "settings": {
+                "network_aaa": {
+                "primary_server_address": "10.0.0.10",
+                "secondary_server_address": "10.0.0.20",
+                "protocol": "RADIUS",
+                "server_type": "AAA"
+              }
+              }
+            }
+        ]
+    }
+],
+
+    "playbook_config_update_not_req": [
+      {
+        "network_management_details": [
+          {
+            "site_name": "Global/Testing/test",
+            "settings": {
+                "network_aaa": {
+                "primary_server_address": "10.0.0.10",
+                "secondary_server_address": "10.0.0.20",
+                "protocol": "RADIUS",
+                "server_type": "AAA"
+              }
+              }
+            }
+        ]
+    }
+],
+
+    "get_sites_network": {
+        "response": [
+        {
+            "id": "1886da5c-b0f5-4d6f-84a1-3047ba5ced71",
+            "parentId": "0ceaa46f-e64b-448b-a01c-1c100c9b134b",
+            "name": "Vietnam",
+            "nameHierarchy": "Global/Vietnam",
+            "type": "area"
+        }
+        ],
+        "version": "1.0"
+    },
+      
+    
+    "get_network_v2": {
+            "response": [
+              {
+                "instanceType": "banner",
+                "instanceUuid": "b484f908-b2e3-4a9b-a3a2-9de18b74765d",
+                "namespace": "global",
+                "type": "banner.setting",
+                "key": "device.banner",
+                "version": 1,
+                "value": [
+                  {
+                    "bannerMessage": "hello",
+                    "retainExistingBanner": true
+                  }
+                ],
+                "groupUuid": "1886da5c-b0f5-4d6f-84a1-3047ba5ced71",
+                "inheritedGroupUuid": "",
+                "inheritedGroupName": ""
+              },
+              {
+                "instanceType": "timezone",
+                "instanceUuid": "78fd3761-2557-4a45-959d-2f27fb8c2e71",
+                "namespace": "global",
+                "type": "timezone.setting",
+                "key": "timezone.site",
+                "version": 2,
+                "value": ["GMT"],
+                "groupUuid": "1886da5c-b0f5-4d6f-84a1-3047ba5ced71",
+                "inheritedGroupUuid": "-1",
+                "inheritedGroupName": "Global"
+              },
+              {
+                "instanceType": "syslog",
+                "instanceUuid": "1695cbdb-1110-404b-9152-81c2b2decd05",
+                "namespace": "global",
+                "type": "syslog.setting",
+                "key": "syslog.server",
+                "version": 1,
+                "value": [
+                  {
+                    "ipAddresses": null,
+                    "configureDnacIP": false
+                  }
+                ],
+                "groupUuid": "1886da5c-b0f5-4d6f-84a1-3047ba5ced71",
+                "inheritedGroupUuid": "",
+                "inheritedGroupName": ""
+              },
+              {
+                "instanceType": "netflow",
+                "instanceUuid": "cad6bb6d-1dc6-440d-9d93-1694d414dd00",
+                "namespace": "global",
+                "type": "netflow.setting",
+                "key": "netflow.collector",
+                "version": 1,
+                "value": [
+                  {
+                    "ipAddress": "10.0.0.4",
+                    "port": 443,
+                    "configureDnacIP": false
+                  }
+                ],
+                "groupUuid": "1886da5c-b0f5-4d6f-84a1-3047ba5ced71",
+                "inheritedGroupUuid": "",
+                "inheritedGroupName": ""
+              },
+              {
+                "instanceType": "wiredclient",
+                "instanceUuid": "d80bbb02-a05f-48e2-9505-5d997f19320f",
+                "namespace": "global",
+                "type": "wiredclient.setting",
+                "key": "wiredclient.ipdt",
+                "version": 5,
+                "value": [
+                  {
+                    "ipdtEnabled": false
+                  }
+                ],
+                "groupUuid": "1886da5c-b0f5-4d6f-84a1-3047ba5ced71",
+                "inheritedGroupUuid": "-1",
+                "inheritedGroupName": "Global"
+              },
+              {
+                "instanceType": "singleconnection",
+                "instanceUuid": "322a2c19-9f2d-42af-82b3-f2eecc97686c",
+                "namespace": "global",
+                "type": "singleconnection.setting",
+                "key": "singleconnection.enablement",
+                "version": 11,
+                "value": [
+                  {
+                    "singleConnectionEnabled": false
+                  }
+                ],
+                "groupUuid": "1886da5c-b0f5-4d6f-84a1-3047ba5ced71",
+                "inheritedGroupUuid": "-1",
+                "inheritedGroupName": "Global"
+              },
+              {
+                "instanceType": "pan",
+                "instanceUuid": "cf930c74-d269-48f8-a1df-189f22e61b52",
+                "namespace": "global",
+                "type": "pan.setting",
+                "key": "aaa.server.pan.network",
+                "version": 1,
+                "value": ["None"],
+                "groupUuid": "1886da5c-b0f5-4d6f-84a1-3047ba5ced71",
+                "inheritedGroupUuid": "",
+                "inheritedGroupName": ""
+              },
+              {
+                "instanceType": "aaa",
+                "instanceUuid": "c6287f96-55fb-4e68-ba0e-82bfe6a69fc5",
+                "namespace": "global",
+                "type": "aaa.setting",
+                "key": "aaa.endpoint.server.1",
+                "version": 1,
+                "value": [
+                  {
+                    "ipAddress": "10.0.0.20",
+                    "sharedSecret": "",
+                    "protocol": "RADIUS",
+                    "encryptionScheme": null,
+                    "encryptionKey": "",
+                    "messageKey": ""
+                  }
+                ],
+                "groupUuid": "1886da5c-b0f5-4d6f-84a1-3047ba5ced71",
+                "inheritedGroupUuid": "",
+                "inheritedGroupName": ""
+              },
+              {
+                "instanceType": "securityandtrust",
+                "instanceUuid": "fe144044-8f18-4b2a-aa41-d3362f528b9a",
+                "namespace": "global",
+                "type": "securityandtrust.setting",
+                "key": "securityandtrust.revocationcheck",
+                "version": 0,
+                "value": [
+                  {
+                    "revocationCheckEnabled": true
+                  }
+                ],
+                "groupUuid": "1886da5c-b0f5-4d6f-84a1-3047ba5ced71",
+                "inheritedGroupUuid": "-1",
+                "inheritedGroupName": "Global"
+              },
+              {
+                "instanceType": "aaa",
+                "instanceUuid": "10eaf0e0-ac50-443d-b05a-6daca661668d",
+                "namespace": "global",
+                "type": "aaa.setting",
+                "key": "aaa.endpoint.server.2",
+                "version": 1,
+                "value": [
+                  {
+                    "ipAddress": "10.0.0.10",
+                    "sharedSecret": "",
+                    "protocol": "RADIUS",
+                    "encryptionScheme": null,
+                    "encryptionKey": "",
+                    "messageKey": ""
+                  }
+                ],
+                "groupUuid": "1886da5c-b0f5-4d6f-84a1-3047ba5ced71",
+                "inheritedGroupUuid": "",
+                "inheritedGroupName": ""
+              },
+              {
+                "instanceType": "ip",
+                "instanceUuid": "279c3bb1-b310-46c9-a850-ae9ff8eb198f",
+                "namespace": "global",
+                "type": "ip.address",
+                "key": "dhcp.server",
+                "version": 1,
+                "value": ["10.0.0.1"],
+                "groupUuid": "1886da5c-b0f5-4d6f-84a1-3047ba5ced71",
+                "inheritedGroupUuid": "",
+                "inheritedGroupName": ""
+              },
+              {
+                "instanceType": "interface",
+                "instanceUuid": "eca68714-a10a-433b-bdc1-ce497b914fe4",
+                "namespace": "global",
+                "type": "interface.setting",
+                "key": "interface.info",
+                "version": 8,
+                "value": [
+                  {
+                    "interfaceName": "management",
+                    "vlanId": 0
+                  }
+                ],
+                "groupUuid": "1886da5c-b0f5-4d6f-84a1-3047ba5ced71",
+                "inheritedGroupUuid": "-1",
+                "inheritedGroupName": "Global"
+              },
+              {
+                "instanceType": "telemetry",
+                "instanceUuid": "040bed61-9cfe-4628-a404-606477bc47f8",
+                "namespace": "global",
+                "type": "telemetry.setting",
+                "key": "wireless.telemetry",
+                "version": 0,
+                "value": [
+                  {
+                    "telemetryEnabled": true
+                  }
+                ],
+                "groupUuid": "1886da5c-b0f5-4d6f-84a1-3047ba5ced71",
+                "inheritedGroupUuid": "-1",
+                "inheritedGroupName": "Global"
+              },
+              {
+                "instanceType": "avc",
+                "instanceUuid": "8c568e76-a122-4ed3-9120-eb75e9a9fddc",
+                "namespace": "global",
+                "type": "avc.settings",
+                "key": "avc.settings",
+                "version": 1,
+                "value": [
+                  {
+                    "profileName": "default"
+                  }
+                ],
+                "groupUuid": "1886da5c-b0f5-4d6f-84a1-3047ba5ced71",
+                "inheritedGroupUuid": "",
+                "inheritedGroupName": ""
+              },
+              {
+                "instanceType": "sla",
+                "instanceUuid": "51e5b11e-68c8-42b1-8dc4-720dc6d75090",
+                "namespace": "global",
+                "type": "sla.setting",
+                "key": "sla.endpoint",
+                "version": 0,
+                "value": [
+                  {
+                    "ipAddress": "10.0.0.4",
+                    "icmpEnabled": true
+                  }
+                ],
+                "groupUuid": "1886da5c-b0f5-4d6f-84a1-3047ba5ced71",
+                "inheritedGroupUuid": "",
+                "inheritedGroupName": ""
+              },
+              {
+                "instanceType": "snmp",
+                "instanceUuid": "3978b925-28ed-4afc-8aa1-f558c79a1772",
+                "namespace": "global",
+                "type": "snmp.setting",
+                "key": "snmp.trap.receiver",
+                "version": 1,
+                "value": [
+                  {
+                    "ipAddresses": null,
+                    "configureDnacIP": false
+                  }
+                ],
+                "groupUuid": "1886da5c-b0f5-4d6f-84a1-3047ba5ced71",
+                "inheritedGroupUuid": "",
+                "inheritedGroupName": ""
+              }
+            ]
+          },
+          
+    "get_network_v2_2":
+    {
+        "response": [
+          {
+            "instanceType": "banner",
+            "instanceUuid": "b484f908-b2e3-4a9b-a3a2-9de18b74765d",
+            "namespace": "global",
+            "type": "banner.setting",
+            "key": "device.banner",
+            "version": 1,
+            "value": [
+              {
+                "bannerMessage": "hello",
+                "retainExistingBanner": true
+              }
+            ],
+            "groupUuid": "1886da5c-b0f5-4d6f-84a1-3047ba5ced71",
+            "inheritedGroupUuid": "",
+            "inheritedGroupName": ""
+          },
+          {
+            "instanceType": "timezone",
+            "instanceUuid": "78fd3761-2557-4a45-959d-2f27fb8c2e71",
+            "namespace": "global",
+            "type": "timezone.setting",
+            "key": "timezone.site",
+            "version": 2,
+            "value": ["GMT"],
+            "groupUuid": "1886da5c-b0f5-4d6f-84a1-3047ba5ced71",
+            "inheritedGroupUuid": "-1",
+            "inheritedGroupName": "Global"
+          },
+          {
+            "instanceType": "syslog",
+            "instanceUuid": "1695cbdb-1110-404b-9152-81c2b2decd05",
+            "namespace": "global",
+            "type": "syslog.setting",
+            "key": "syslog.server",
+            "version": 1,
+            "value": [
+              {
+                "ipAddresses": null,
+                "configureDnacIP": false
+              }
+            ],
+            "groupUuid": "1886da5c-b0f5-4d6f-84a1-3047ba5ced71",
+            "inheritedGroupUuid": "",
+            "inheritedGroupName": ""
+          },
+          {
+            "instanceType": "netflow",
+            "instanceUuid": "cad6bb6d-1dc6-440d-9d93-1694d414dd00",
+            "namespace": "global",
+            "type": "netflow.setting",
+            "key": "netflow.collector",
+            "version": 1,
+            "value": [
+              {
+                "ipAddress": "10.0.0.4",
+                "port": 443,
+                "configureDnacIP": false
+              }
+            ],
+            "groupUuid": "1886da5c-b0f5-4d6f-84a1-3047ba5ced71",
+            "inheritedGroupUuid": "",
+            "inheritedGroupName": ""
+          },
+          {
+            "instanceType": "wiredclient",
+            "instanceUuid": "d80bbb02-a05f-48e2-9505-5d997f19320f",
+            "namespace": "global",
+            "type": "wiredclient.setting",
+            "key": "wiredclient.ipdt",
+            "version": 5,
+            "value": [
+              {
+                "ipdtEnabled": false
+              }
+            ],
+            "groupUuid": "1886da5c-b0f5-4d6f-84a1-3047ba5ced71",
+            "inheritedGroupUuid": "-1",
+            "inheritedGroupName": "Global"
+          },
+          {
+            "instanceType": "singleconnection",
+            "instanceUuid": "322a2c19-9f2d-42af-82b3-f2eecc97686c",
+            "namespace": "global",
+            "type": "singleconnection.setting",
+            "key": "singleconnection.enablement",
+            "version": 11,
+            "value": [
+              {
+                "singleConnectionEnabled": false
+              }
+            ],
+            "groupUuid": "1886da5c-b0f5-4d6f-84a1-3047ba5ced71",
+            "inheritedGroupUuid": "-1",
+            "inheritedGroupName": "Global"
+          },
+          {
+            "instanceType": "pan",
+            "instanceUuid": "cf930c74-d269-48f8-a1df-189f22e61b52",
+            "namespace": "global",
+            "type": "pan.setting",
+            "key": "aaa.server.pan.network",
+            "version": 1,
+            "value": ["None"],
+            "groupUuid": "1886da5c-b0f5-4d6f-84a1-3047ba5ced71",
+            "inheritedGroupUuid": "",
+            "inheritedGroupName": ""
+          },
+          {
+            "instanceType": "aaa",
+            "instanceUuid": "c6287f96-55fb-4e68-ba0e-82bfe6a69fc5",
+            "namespace": "global",
+            "type": "aaa.setting",
+            "key": "aaa.endpoint.server.1",
+            "version": 1,
+            "value": [
+              {
+                "ipAddress": "10.0.0.20",
+                "sharedSecret": "",
+                "protocol": "RADIUS",
+                "encryptionScheme": null,
+                "encryptionKey": "",
+                "messageKey": ""
+              }
+            ],
+            "groupUuid": "1886da5c-b0f5-4d6f-84a1-3047ba5ced71",
+            "inheritedGroupUuid": "",
+            "inheritedGroupName": ""
+          },
+          {
+            "instanceType": "securityandtrust",
+            "instanceUuid": "fe144044-8f18-4b2a-aa41-d3362f528b9a",
+            "namespace": "global",
+            "type": "securityandtrust.setting",
+            "key": "securityandtrust.revocationcheck",
+            "version": 0,
+            "value": [
+              {
+                "revocationCheckEnabled": true
+              }
+            ],
+            "groupUuid": "1886da5c-b0f5-4d6f-84a1-3047ba5ced71",
+            "inheritedGroupUuid": "-1",
+            "inheritedGroupName": "Global"
+          },
+          {
+            "instanceType": "aaa",
+            "instanceUuid": "10eaf0e0-ac50-443d-b05a-6daca661668d",
+            "namespace": "global",
+            "type": "aaa.setting",
+            "key": "aaa.endpoint.server.2",
+            "version": 1,
+            "value": [
+              {
+                "ipAddress": "10.0.0.10",
+                "sharedSecret": "",
+                "protocol": "RADIUS",
+                "encryptionScheme": null,
+                "encryptionKey": "",
+                "messageKey": ""
+              }
+            ],
+            "groupUuid": "1886da5c-b0f5-4d6f-84a1-3047ba5ced71",
+            "inheritedGroupUuid": "",
+            "inheritedGroupName": ""
+          },
+          {
+            "instanceType": "ip",
+            "instanceUuid": "279c3bb1-b310-46c9-a850-ae9ff8eb198f",
+            "namespace": "global",
+            "type": "ip.address",
+            "key": "dhcp.server",
+            "version": 1,
+            "value": ["10.0.0.1"],
+            "groupUuid": "1886da5c-b0f5-4d6f-84a1-3047ba5ced71",
+            "inheritedGroupUuid": "",
+            "inheritedGroupName": ""
+          },
+          {
+            "instanceType": "interface",
+            "instanceUuid": "eca68714-a10a-433b-bdc1-ce497b914fe4",
+            "namespace": "global",
+            "type": "interface.setting",
+            "key": "interface.info",
+            "version": 8,
+            "value": [
+              {
+                "interfaceName": "management",
+                "vlanId": 0
+              }
+            ],
+            "groupUuid": "1886da5c-b0f5-4d6f-84a1-3047ba5ced71",
+            "inheritedGroupUuid": "-1",
+            "inheritedGroupName": "Global"
+          },
+          {
+            "instanceType": "telemetry",
+            "instanceUuid": "040bed61-9cfe-4628-a404-606477bc47f8",
+            "namespace": "global",
+            "type": "telemetry.setting",
+            "key": "wireless.telemetry",
+            "version": 0,
+            "value": [
+              {
+                "telemetryEnabled": true
+              }
+            ],
+            "groupUuid": "1886da5c-b0f5-4d6f-84a1-3047ba5ced71",
+            "inheritedGroupUuid": "-1",
+            "inheritedGroupName": "Global"
+          },
+          {
+            "instanceType": "avc",
+            "instanceUuid": "8c568e76-a122-4ed3-9120-eb75e9a9fddc",
+            "namespace": "global",
+            "type": "avc.settings",
+            "key": "avc.enablement",
+            "version": 0,
+            "value": [
+              {
+                "avcEnabled": false
+              }
+            ],
+            "groupUuid": "1886da5c-b0f5-4d6f-84a1-3047ba5ced71",
+            "inheritedGroupUuid": "-1",
+            "inheritedGroupName": "Global"
+          },
+          {
+            "instanceType": "snmp",
+            "instanceUuid": "3978b925-28ed-4afc-8aa1-f558c79a1772",
+            "namespace": "global",
+            "type": "snmp.setting",
+            "key": "snmp.trap.receiver",
+            "version": 1,
+            "value": [
+              {
+                "ipAddresses": null,
+                "configureDnacIP": false
+              }
+            ],
+            "groupUuid": "1886da5c-b0f5-4d6f-84a1-3047ba5ced71",
+            "inheritedGroupUuid": "",
+            "inheritedGroupName": ""
+          }
+        ],
+        "version": "1.0"
+      },
+   
+    "get_sites_test": {
+        "response": [
+        {
+            "id": "b08d92c9-663f-43f3-9575-5af52d4d75a7",
+            "parentId": "062f7b45-66b6-48d8-a2ff-a261b89d71d6",
+            "name": "test",
+            "nameHierarchy": "Global/Testing/test",
+            "type": "building",
+            "latitude": 38.0,
+            "longitude": 145.0,
+            "country": "UNKNOWN"
+        }
+        ],
+        "version": "1.0"
+    },
+     
+    "dhcp_get":
+    {
+        "response": {
+          "dhcp": null
+        },
+        "version": "1.0"
+      },
+
+    "dns_get":
+    {
+        "response": {
+          "dns": null
+        },
+        "version": "1.0"
+      },
+    
+    "telemetry_get":
+      {
+        "response": {
+          "applicationVisibility": null,
+          "wiredDataCollection": null,
+          "wirelessTelemetry": null,
+          "snmpTraps": null,
+          "syslogs": null
+        },
+        "version": "1.0"
+      },
+
+    "ntp_get":
+    {
+        "response": {
+          "ntp": null
+        },
+        "version": "1.0"
+      },
+    
+    "timeZone_get":
+    {
+        "response": {
+          "timeZone": null
+        },
+        "version": "1.0"
+      },
+      
+    "banner_get":
+    {
+        "response": {
+          "banner": null
+        },
+        "version": "1.0"
+      },
+       
+     "AAA_get":
+     {
+        "response": {
+          "aaaNetwork": {},
+          "aaaClient": {}
+        },
+        "version": "1.0"
+      },
+     
+     "update":
+     {
+        "response": {
+          "taskId": "019232bb-578f-72bd-8a2b-303c1d432c2c",
+          "url": "/api/v1/task/019232bb-578f-72bd-8a2b-303c1d432c2c"
+        },
+        "version": "1.0"
+      },
+    
+    "task":
+    {
+        "response": {
+          "endTime": 1727432732818,
+          "startTime": 1727432732524,
+          "version": 1727432732818,
+          "progress": "Desired Common Settings operation successful.",
+          "serviceType": "Common Settings Service",
+          "isError": false,
+          "instanceTenantId": "6663114d388b29001399e46a",
+          "id": "01923303-af6c-7c7d-9726-96b51d45bd1a"
+        },
+        "version": "1.0"
+      },
+      
+    "get_dhcp":
+    {
+        "response": {
+          "dhcp": {
+            "servers": [
+              "10.0.0.1"
+            ]
+          }
+        },
+        "version": "1.0"
+      },
+
+    "get_dns":
+    {
+        "response": {
+          "dns": {
+            "domainName": "cisco.com",
+            "dnsServers": [
+              "10.0.0.2",
+              "10.0.0.3"
+            ]
+          }
+        },
+        "version": "1.0"
+      },
+    
+    "get_telemetry":
+    {
+        "response": {
+          "applicationVisibility": {
+            "collector": {
+              "collectorType": "Builtin"
+            },
+            "enableOnWiredAccessDevices": false
+          },
+          "wiredDataCollection": {
+      "enableWiredDataCollection": false
+    },
+          "wirelessTelemetry": {
+      "enableWirelessTelemetry": false
+    },
+          "snmpTraps": {
+            "useBuiltinTrapServer": false,
+            "externalTrapServers": ["10.0.0.6"]
+          },
+          "syslogs": {
+            "useBuiltinSyslogServer": false,
+            "externalSyslogServers": ["10.0.0.8"]
+          }
+        },
+        "version": "1.0"
+      },
+
+    "get_ntp":
+    {
+        "response": {
+          "ntp": {
+            "servers": [
+              "10.0.0.5"
+            ]
+          }
+        },
+        "version": "1.0"
+      },
+
+    "get_timezone":
+      {
+        "response": {
+          "timeZone": null
+        },
+        "version": "1.0"
+      },
+    
+      "get_banner":
+      {
+        "response": {
+          "banner": {
+            "type": "Custom",
+            "message": "hey"
+          }
+        },
+        "version": "1.0"
+      },
+
+      "get_AAA":
+      {
+        "response": {
+          "aaaNetwork": {
+            "serverType": "AAA",
+            "protocol": "RADIUS",
+            "primaryServerIp": "10.0.0.10",
+            "secondaryServerIp": "10.0.0.20"
+          },
+          "aaaClient": {
+            "serverType": "AAA",
+            "protocol": "RADIUS",
+            "primaryServerIp": "10.0.0.20",
+            "secondaryServerIp": "10.0.0.10"
+          }
+        },
+        "version": "1.0"
+      },
+      
+     "clear_dnac_network": 
+      {
+        "response": [
+          {
+            "instanceType": "timezone",
+            "instanceUuid": "c840c809-04a0-411d-b04d-6c4c50d7fa2f",
+            "namespace": "global",
+            "type": "timezone.setting",
+            "key": "timezone.site",
+            "version": 2,
+            "value": ["GMT"],
+            "groupUuid": "3ff4989e-5260-4f64-887f-ce993a3428db",
+            "inheritedGroupUuid": "",
+            "inheritedGroupName": ""
+          },
+          {
+            "instanceType": "securityandtrust",
+            "instanceUuid": "b89b6126-51c2-4739-8f69-0ae6b481f9fe",
+            "namespace": "global",
+            "type": "securityandtrust.setting",
+            "key": "securityandtrust.revocationcheck",
+            "version": 0,
+            "value": [
+              {
+                "revocationCheckEnabled": true
+              }
+            ],
+            "groupUuid": "3ff4989e-5260-4f64-887f-ce993a3428db",
+            "inheritedGroupUuid": "",
+            "inheritedGroupName": ""
+          },
+          {
+            "instanceType": "interface",
+            "instanceUuid": "7b5f43c5-8852-49ba-affe-720234b29990",
+            "namespace": "global",
+            "type": "interface.setting",
+            "key": "interface.info",
+            "version": 8,
+            "value": [
+              {
+                "interfaceName": "management",
+                "vlanId": 0
+              }
+            ],
+            "groupUuid": "3ff4989e-5260-4f64-887f-ce993a3428db",
+            "inheritedGroupUuid": "",
+            "inheritedGroupName": ""
+          },
+          {
+            "instanceType": "telemetry",
+            "instanceUuid": "333c1da6-0373-463e-8746-600686979567",
+            "namespace": "global",
+            "type": "telemetry.setting",
+            "key": "wireless.telemetry",
+            "version": 0,
+            "value": [
+              {
+                "telemetryEnabled": true
+              }
+            ],
+            "groupUuid": "3ff4989e-5260-4f64-887f-ce993a3428db",
+            "inheritedGroupUuid": "",
+            "inheritedGroupName": ""
+          },
+          {
+            "instanceType": "syslog",
+            "instanceUuid": "7d45012a-ab56-44b6-9ef7-db7d0374543d",
+            "namespace": "global",
+            "type": "syslog.setting",
+            "key": "syslog.server",
+            "version": 3,
+            "value": [
+              {
+                "ipAddresses": [],
+                "configureDnacIP": true
+              }
+            ],
+            "groupUuid": "3ff4989e-5260-4f64-887f-ce993a3428db",
+            "inheritedGroupUuid": "",
+            "inheritedGroupName": ""
+          },
+          {
+            "instanceType": "avc",
+            "instanceUuid": "6a531b72-9904-4e9a-83b4-b97296886e22",
+            "namespace": "global",
+            "type": "avc.settings",
+            "key": "avc.settings",
+            "version": 0,
+            "value": [
+              {
+                "cbarEnabledOnWired": false,
+                "cbarEnabledOnWireless": false,
+                "telemetryEnabledOnWired": false,
+                "telemetryEnabledOnWireless": false
+              }
+            ],
+            "groupUuid": "3ff4989e-5260-4f64-887f-ce993a3428db",
+            "inheritedGroupUuid": "",
+            "inheritedGroupName": ""
+          },
+          {
+            "instanceType": "netflow",
+            "instanceUuid": "dbe20948-bb3e-4e7a-85bf-ef0cc15a2500",
+            "namespace": "global",
+            "type": "netflow.setting",
+            "key": "netflow.collector",
+            "version": 6,
+            "value": [
+              {
+                "ipAddress": "",
+                "port": null,
+                "configureDnacIP": true
+              }
+            ],
+            "groupUuid": "3ff4989e-5260-4f64-887f-ce993a3428db",
+            "inheritedGroupUuid": "",
+            "inheritedGroupName": ""
+          },
+          {
+            "instanceType": "wiredclient",
+            "instanceUuid": "9760f0fd-a2a2-4589-a886-91d9ca0a5922",
+            "namespace": "global",
+            "type": "wiredclient.setting",
+            "key": "wiredclient.ipdt",
+            "version": 5,
+            "value": [
+              {
+                "ipdtEnabled": false
+              }
+            ],
+            "groupUuid": "3ff4989e-5260-4f64-887f-ce993a3428db",
+            "inheritedGroupUuid": "",
+            "inheritedGroupName": ""
+          },
+          {
+            "instanceType": "snmp",
+            "instanceUuid": "d6f999c8-f8c9-4de5-b019-92c57a21be48",
+            "namespace": "global",
+            "type": "snmp.setting",
+            "key": "snmp.trap.receiver",
+            "version": 4,
+            "value": [
+              {
+                "ipAddresses": [],
+                "configureDnacIP": true
+              }
+            ],
+            "groupUuid": "3ff4989e-5260-4f64-887f-ce993a3428db",
+            "inheritedGroupUuid": "",
+            "inheritedGroupName": ""
+          },
+          {
+            "instanceType": "eapfastauthority",
+            "instanceUuid": "5ac8ffb8-33e2-480a-a397-880d18370d57",
+            "namespace": "global",
+            "type": "eapfast.authority",
+            "key": "eapfast.authority.seeds",
+            "version": 1,
+            "value": [
+              {
+                "authorityId": "CB29F71F5BCC3B16A491C714334B8023",
+                "seedKey": "040A5AB9C377BF3D3D1D663656ABA4B96FE03D05F1525561DE17D8982429FA5DB137930555C941C5A1DAC829F396A0F605A8409CD082B40FE41662AE1772D985",
+                "seedId": "19"
+              }
+            ],
+            "groupUuid": "3ff4989e-5260-4f64-887f-ce993a3428db",
+            "inheritedGroupUuid": "",
+            "inheritedGroupName": ""
+          }
+        ],
+        "version": "1.0"
+      },
+
+      "playbook_global_pool_creation": [
+        {
+            "global_pool_details": {
+              "settings": {
+                "ip_pool": [
+                  {
+                    "name": "Global_Pool2",
+                    "pool_type": "Generic",
+                    "ip_address_space": "IPv6",
+                    "cidr": "2001:db8::/64"
+                  },
+                  {
+                    "name": "Global_Pool3",
+                    "pool_type": "Generic",
+                    "ip_address_space": "IPv4",
+                    "cidr": "10.0.0.0/8"
+                  }
+                ]
+              }
+            }
+          }
+    ],
+
+    "playbook_global_pool_updation": [
+        {
+          "global_pool_details": {
+            "settings": {
+              "ip_pool": [
+                {
+                  "name": "Global_Pool2",
+                  "pool_type": "Generic",
+                  "ip_address_space": "IPv6",
+                  "cidr": "2001:db8::/64",
+                  "gateway": "",
+                  "dhcp_server_ips": [],
+                  "dns_server_ips": [],
+                  "prev_name": "Global_Pool1"
+                },
+                {
+                  "name": "Global_Pool3",
+                  "pool_type": "Generic",
+                  "ip_address_space": "IPv4",
+                  "cidr": "10.0.0.0/8",
+                  "gateway": "",
+                  "dhcp_server_ips": [],
+                  "dns_server_ips": []
+             
+                }
+              ]
+            }
+          }
+        }
+      ],
+
+    "global_pool_exist_ipv6":
+    {
+        "response": [
+          {
+            "ipPoolName": "IP_Pool_Abhi_Global",
+            "dhcpServerIps": [],
+            "gateways": [],
+            "createTime": 1726467421206,
+            "lastUpdateTime": 1726469125098,
+            "totalIpAddressCount": 64,
+            "usedIpAddressCount": 8,
+            "parentUuid": "root",
+            "owner": "ipam",
+            "shared": true,
+            "overlapping": false,
+            "configureExternalDhcp": false,
+            "usedPercentage": "12",
+            "clientOptions": {},
+            "ipPoolType": "generic",
+            "unavailableIpAddressCount": 0,
+            "availableIpAddressCount": 0,
+            "totalAssignableIpAddressCount": 62,
+            "dnsServerIps": [
+              "171.70.168.183"
+            ],
+            "hasSubpools": false,
+            "defaultAssignedIpAddressCount": 2,
+            "context": [
+              {
+                "owner": "DNAC",
+                "contextKey": "type",
+                "contextValue": "generic"
+              }
+            ],
+            "ipv6": false,
+            "id": "45b49d9c-63f7-47c5-8888-d041fcf83e96",
+            "ipPoolCidr": "192.0.2.0/26"
+          }
+        ],
+        "version": "1.0"
+      },
+
+    "global_pool_exist_ipv4":
+    {
+        "response": [
+          {
+            "ipPoolName": "IP_Pool_Abhi_Global",
+            "dhcpServerIps": [],
+            "gateways": [],
+            "createTime": 1726467421206,
+            "lastUpdateTime": 1726469125098,
+            "totalIpAddressCount": 64,
+            "usedIpAddressCount": 8,
+            "parentUuid": "root",
+            "owner": "ipam",
+            "shared": true,
+            "overlapping": false,
+            "configureExternalDhcp": false,
+            "usedPercentage": "12",
+            "clientOptions": {},
+            "ipPoolType": "generic",
+            "unavailableIpAddressCount": 0,
+            "availableIpAddressCount": 0,
+            "totalAssignableIpAddressCount": 62,
+            "dnsServerIps": [
+              "171.70.168.183"
+            ],
+            "hasSubpools": false,
+            "defaultAssignedIpAddressCount": 2,
+            "context": [
+              {
+                "owner": "DNAC",
+                "contextKey": "type",
+                "contextValue": "generic"
+              }
+            ],
+            "ipv6": false,
+            "id": "45b49d9c-63f7-47c5-8888-d041fcf83e96",
+            "ipPoolCidr": "192.0.2.0/26"
+          }
+        ],
+        "version": "1.0"
+      },
+    
+     "global_pool_creation": 
+     {
+        "executionId": "827be6d3-e2ad-463b-b034-22add79e5278",
+        "executionStatusUrl": "/dna/platform/management/business-api/v1/execution-status/827be6d3-e2ad-463b-b034-22add79e5278",
+        "message": "The request has been accepted for execution"
+      },
+
+    "global_pool_creation_task": 
+    {
+        "bapiKey": "f793-192a-43da-bed9",
+        "bapiName": "Create Global Pool",
+        "bapiExecutionId": "827be6d3-e2ad-463b-b034-22add79e5278",
+        "startTime": "Fri Sep 27 16:32:53 UTC 2024",
+        "startTimeEpoch": 1727454773918,
+        "endTime": "Fri Sep 27 16:32:54 UTC 2024",
+        "endTimeEpoch": 1727454774625,
+        "timeDuration": 707,
+        "status": "SUCCESS",
+        "bapiSyncResponse": {
+          "status": "true",
+          "message": "Global Ip Pools created Successfully."
+        } 
+    },
+    
+    "global_pool_ipv6_exist2":
+    {
+        "response": [
+          {
+            "ipPoolName": "Global_Pool2",
+            "dhcpServerIps": [],
+            "gateways": [],
+            "createTime": 1727454774076,
+            "lastUpdateTime": 1727454774076,
+            "totalIpAddressCount": 9223372036854776000,
+            "usedIpAddressCount": 0,
+            "parentUuid": "root",
+            "owner": "ipam",
+            "shared": true,
+            "overlapping": false,
+            "configureExternalDhcp": false,
+            "usedPercentage": "0",
+            "clientOptions": {},
+            "ipPoolType": "generic",
+            "unavailableIpAddressCount": 0,
+            "availableIpAddressCount": 0,
+            "totalAssignableIpAddressCount": 9223372036854776000,
+            "dnsServerIps": [],
+            "hasSubpools": false,
+            "defaultAssignedIpAddressCount": 1,
+            "context": [
+              {
+                "owner": "DNAC",
+                "contextKey": "type",
+                "contextValue": "generic"
+              }
+            ],
+            "ipv6": true,
+            "id": "224cb0d0-0d0b-48ea-864c-f432e44d16e6",
+            "ipPoolCidr": "2001:db8::/64"
+          },
+          {
+            "ipPoolName": "Global_Pool3",
+            "dhcpServerIps": [],
+            "gateways": [],
+            "createTime": 1727454774302,
+            "lastUpdateTime": 1727454774302,
+            "totalIpAddressCount": 16777216,
+            "usedIpAddressCount": 0,
+            "parentUuid": "root",
+            "owner": "ipam",
+            "shared": true,
+            "overlapping": false,
+            "configureExternalDhcp": false,
+            "usedPercentage": "0",
+            "clientOptions": {},
+            "ipPoolType": "generic",
+            "unavailableIpAddressCount": 0,
+            "availableIpAddressCount": 0,
+            "totalAssignableIpAddressCount": 16777214,
+            "dnsServerIps": [],
+            "hasSubpools": false,
+            "defaultAssignedIpAddressCount": 2,
+            "context": [
+              {
+                "owner": "DNAC",
+                "contextKey": "type",
+                "contextValue": "generic"
+              }
+            ],
+            "ipv6": false,
+            "id": "347d168c-11b2-4329-985c-32a39bf5a825",
+            "ipPoolCidr": "10.0.0.0/8"
+          },
+          {
+            "ipPoolName": "IP_Pool_Abhi_Global",
+            "dhcpServerIps": [],
+            "gateways": [],
+            "createTime": 1726467421206,
+            "lastUpdateTime": 1726469125098,
+            "totalIpAddressCount": 64,
+            "usedIpAddressCount": 8,
+            "parentUuid": "root",
+            "owner": "ipam",
+            "shared": true,
+            "overlapping": false,
+            "configureExternalDhcp": false,
+            "usedPercentage": "12",
+            "clientOptions": {},
+            "ipPoolType": "generic",
+            "unavailableIpAddressCount": 0,
+            "availableIpAddressCount": 0,
+            "totalAssignableIpAddressCount": 62,
+            "dnsServerIps": ["171.70.168.183"],
+            "hasSubpools": false,
+            "defaultAssignedIpAddressCount": 2,
+            "context": [
+              {
+                "owner": "DNAC",
+                "contextKey": "type",
+                "contextValue": "generic"
+              }
+            ],
+            "ipv6": false,
+            "id": "45b49d9c-63f7-47c5-8888-d041fcf83e96",
+            "ipPoolCidr": "192.0.2.0/26"
+          }
+        ],
+        "version": "1.0"
+      },
+      
+    "global_pool_ipv4_exist2":
+    {
+        "response": [
+          {
+            "ipPoolName": "Global_Pool2",
+            "dhcpServerIps": [],
+            "gateways": [],
+            "createTime": 1727454774076,
+            "lastUpdateTime": 1727454774076,
+            "totalIpAddressCount": 9223372036854776000,
+            "usedIpAddressCount": 0,
+            "parentUuid": "root",
+            "owner": "ipam",
+            "shared": true,
+            "overlapping": false,
+            "configureExternalDhcp": false,
+            "usedPercentage": "0",
+            "clientOptions": {},
+            "ipPoolType": "generic",
+            "unavailableIpAddressCount": 0,
+            "availableIpAddressCount": 0,
+            "totalAssignableIpAddressCount": 9223372036854776000,
+            "dnsServerIps": [],
+            "hasSubpools": false,
+            "defaultAssignedIpAddressCount": 1,
+            "context": [
+              {
+                "owner": "DNAC",
+                "contextKey": "type",
+                "contextValue": "generic"
+              }
+            ],
+            "ipv6": true,
+            "id": "224cb0d0-0d0b-48ea-864c-f432e44d16e6",
+            "ipPoolCidr": "2001:db8::/64"
+          },
+          {
+            "ipPoolName": "Global_Pool3",
+            "dhcpServerIps": [],
+            "gateways": [],
+            "createTime": 1727454774302,
+            "lastUpdateTime": 1727454774302,
+            "totalIpAddressCount": 16777216,
+            "usedIpAddressCount": 0,
+            "parentUuid": "root",
+            "owner": "ipam",
+            "shared": true,
+            "overlapping": false,
+            "configureExternalDhcp": false,
+            "usedPercentage": "0",
+            "clientOptions": {},
+            "ipPoolType": "generic",
+            "unavailableIpAddressCount": 0,
+            "availableIpAddressCount": 0,
+            "totalAssignableIpAddressCount": 16777214,
+            "dnsServerIps": [],
+            "hasSubpools": false,
+            "defaultAssignedIpAddressCount": 2,
+            "context": [
+              {
+                "owner": "DNAC",
+                "contextKey": "type",
+                "contextValue": "generic"
+              }
+            ],
+            "ipv6": false,
+            "id": "347d168c-11b2-4329-985c-32a39bf5a825",
+            "ipPoolCidr": "10.0.0.0/8"
+          },
+          {
+            "ipPoolName": "IP_Pool_Abhi_Global",
+            "dhcpServerIps": [],
+            "gateways": [],
+            "createTime": 1726467421206,
+            "lastUpdateTime": 1726469125098,
+            "totalIpAddressCount": 64,
+            "usedIpAddressCount": 8,
+            "parentUuid": "root",
+            "owner": "ipam",
+            "shared": true,
+            "overlapping": false,
+            "configureExternalDhcp": false,
+            "usedPercentage": "12",
+            "clientOptions": {},
+            "ipPoolType": "generic",
+            "unavailableIpAddressCount": 0,
+            "availableIpAddressCount": 0,
+            "totalAssignableIpAddressCount": 62,
+            "dnsServerIps": [
+              "171.70.168.183"
+            ],
+            "hasSubpools": false,
+            "defaultAssignedIpAddressCount": 2,
+            "context": [
+              {
+                "owner": "DNAC",
+                "contextKey": "type",
+                "contextValue": "generic"
+              }
+            ],
+            "ipv6": false,
+            "id": "45b49d9c-63f7-47c5-8888-d041fcf83e96",
+            "ipPoolCidr": "192.0.2.0/26"
+          }
+        ],
+        "version": "1.0"
+      },
+      
+     "Global_Pool1":
+     {
+        "response": [
+          {
+            "ipPoolName": "Global_Pool2",
+            "dhcpServerIps": [],
+            "gateways": [],
+            "createTime": 1727454774076,
+            "lastUpdateTime": 1727454774076,
+            "totalIpAddressCount": 9223372036854776000,
+            "usedIpAddressCount": 0,
+            "parentUuid": "root",
+            "owner": "ipam",
+            "shared": true,
+            "overlapping": false,
+            "configureExternalDhcp": false,
+            "usedPercentage": "0",
+            "clientOptions": {},
+            "ipPoolType": "generic",
+            "unavailableIpAddressCount": 0,
+            "availableIpAddressCount": 0,
+            "totalAssignableIpAddressCount": 9223372036854776000,
+            "dnsServerIps": [],
+            "hasSubpools": false,
+            "defaultAssignedIpAddressCount": 1,
+            "context": [
+              {
+                "owner": "DNAC",
+                "contextKey": "type",
+                "contextValue": "generic"
+              }
+            ],
+            "ipv6": true,
+            "id": "224cb0d0-0d0b-48ea-864c-f432e44d16e6",
+            "ipPoolCidr": "2001:db8::/64"
+          },
+          {
+            "ipPoolName": "Global_Pool3",
+            "dhcpServerIps": [],
+            "gateways": [],
+            "createTime": 1727454774302,
+            "lastUpdateTime": 1727454774302,
+            "totalIpAddressCount": 16777216,
+            "usedIpAddressCount": 0,
+            "parentUuid": "root",
+            "owner": "ipam",
+            "shared": true,
+            "overlapping": false,
+            "configureExternalDhcp": false,
+            "usedPercentage": "0",
+            "clientOptions": {},
+            "ipPoolType": "generic",
+            "unavailableIpAddressCount": 0,
+            "availableIpAddressCount": 0,
+            "totalAssignableIpAddressCount": 16777214,
+            "dnsServerIps": [],
+            "hasSubpools": false,
+            "defaultAssignedIpAddressCount": 2,
+            "context": [
+              {
+                "owner": "DNAC",
+                "contextKey": "type",
+                "contextValue": "generic"
+              }
+            ],
+            "ipv6": false,
+            "id": "347d168c-11b2-4329-985c-32a39bf5a825",
+            "ipPoolCidr": "10.0.0.0/8"
+          },
+          {
+            "ipPoolName": "IP_Pool_Abhi_Global",
+            "dhcpServerIps": [],
+            "gateways": [],
+            "createTime": 1726467421206,
+            "lastUpdateTime": 1726469125098,
+            "totalIpAddressCount": 64,
+            "usedIpAddressCount": 8,
+            "parentUuid": "root",
+            "owner": "ipam",
+            "shared": true,
+            "overlapping": false,
+            "configureExternalDhcp": false,
+            "usedPercentage": "12",
+            "clientOptions": {},
+            "ipPoolType": "generic",
+            "unavailableIpAddressCount": 0,
+            "availableIpAddressCount": 0,
+            "totalAssignableIpAddressCount": 62,
+            "dnsServerIps": [
+              "171.70.168.183"
+            ],
+            "hasSubpools": false,
+            "defaultAssignedIpAddressCount": 2,
+            "context": [
+              {
+                "owner": "DNAC",
+                "contextKey": "type",
+                "contextValue": "generic"
+              }
+            ],
+            "ipv6": false,
+            "id": "45b49d9c-63f7-47c5-8888-d041fcf83e96",
+            "ipPoolCidr": "192.0.2.0/26"
+          }
+        ],
+        "version": "1.0"
+      },
+
+      "Global_Pool2":
+      {
+        "response": [
+          {
+            "ipPoolName": "Global_Pool2",
+            "dhcpServerIps": [],
+            "gateways": [],
+            "createTime": 1727454774076,
+            "lastUpdateTime": 1727454774076,
+            "totalIpAddressCount": 9223372036854776000,
+            "usedIpAddressCount": 0,
+            "parentUuid": "root",
+            "owner": "ipam",
+            "shared": true,
+            "overlapping": false,
+            "configureExternalDhcp": false,
+            "usedPercentage": "0",
+            "clientOptions": {},
+            "ipPoolType": "generic",
+            "unavailableIpAddressCount": 0,
+            "availableIpAddressCount": 0,
+            "totalAssignableIpAddressCount": 9223372036854776000,
+            "dnsServerIps": [],
+            "hasSubpools": false,
+            "defaultAssignedIpAddressCount": 1,
+            "context": [
+              {
+                "owner": "DNAC",
+                "contextKey": "type",
+                "contextValue": "generic"
+              }
+            ],
+            "ipv6": true,
+            "id": "224cb0d0-0d0b-48ea-864c-f432e44d16e6",
+            "ipPoolCidr": "2001:db8::/64"
+          },
+          {
+            "ipPoolName": "Global_Pool3",
+            "dhcpServerIps": [],
+            "gateways": [],
+            "createTime": 1727454774302,
+            "lastUpdateTime": 1727454774302,
+            "totalIpAddressCount": 16777216,
+            "usedIpAddressCount": 0,
+            "parentUuid": "root",
+            "owner": "ipam",
+            "shared": true,
+            "overlapping": false,
+            "configureExternalDhcp": false,
+            "usedPercentage": "0",
+            "clientOptions": {},
+            "ipPoolType": "generic",
+            "unavailableIpAddressCount": 0,
+            "availableIpAddressCount": 0,
+            "totalAssignableIpAddressCount": 16777214,
+            "dnsServerIps": [],
+            "hasSubpools": false,
+            "defaultAssignedIpAddressCount": 2,
+            "context": [
+              {
+                "owner": "DNAC",
+                "contextKey": "type",
+                "contextValue": "generic"
+              }
+            ],
+            "ipv6": false,
+            "id": "347d168c-11b2-4329-985c-32a39bf5a825",
+            "ipPoolCidr": "10.0.0.0/8"
+          },
+          {
+            "ipPoolName": "IP_Pool_Abhi_Global",
+            "dhcpServerIps": [],
+            "gateways": [],
+            "createTime": 1726467421206,
+            "lastUpdateTime": 1726469125098,
+            "totalIpAddressCount": 64,
+            "usedIpAddressCount": 8,
+            "parentUuid": "root",
+            "owner": "ipam",
+            "shared": true,
+            "overlapping": false,
+            "configureExternalDhcp": false,
+            "usedPercentage": "12",
+            "clientOptions": {},
+            "ipPoolType": "generic",
+            "unavailableIpAddressCount": 0,
+            "availableIpAddressCount": 0,
+            "totalAssignableIpAddressCount": 62,
+            "dnsServerIps": [
+              "171.70.168.183"
+            ],
+            "hasSubpools": false,
+            "defaultAssignedIpAddressCount": 2,
+            "context": [
+              {
+                "owner": "DNAC",
+                "contextKey": "type",
+                "contextValue": "generic"
+              }
+            ],
+            "ipv6": false,
+            "id": "45b49d9c-63f7-47c5-8888-d041fcf83e96",
+            "ipPoolCidr": "192.0.2.0/26"
+          }
+        ],
+        "version": "1.0"
+      },
+      
+      "update_global_pool":
+      {
+        "executionId": "76481204-69fe-4cdf-9ced-18dfd5bcde6e",
+        "executionStatusUrl": "/dna/platform/management/business-api/v1/execution-status/76481204-69fe-4cdf-9ced-18dfd5bcde6e",
+        "message": "The request has been accepted for execution"
+      },
+      
+       "update_global_pool_task":
+       {
+        "bapiKey": "03b4-c8b4-4919-b964",
+        "bapiName": "Update Global Pool",
+        "bapiExecutionId": "76481204-69fe-4cdf-9ced-18dfd5bcde6e",
+        "startTime": "Fri Sep 27 18:28:26 UTC 2024",
+        "startTimeEpoch": 1727461706159,
+        "endTime": "Fri Sep 27 18:28:41 UTC 2024",
+        "endTimeEpoch": 1727461721982,
+        "timeDuration": 15823,
+        "status": "SUCCESS",
+        "bapiSyncResponse": {
+          "status": "true",
+          "message": "Global IP pool updated successfully."
+        }
+      },
+      
+      "Global_Pool_1":
+      {
+        "response": [
+          {
+            "ipPoolName": "Global_Pool1",
+            "dhcpServerIps": [],
+            "gateways": [],
+            "createTime": 1727454774076,
+            "lastUpdateTime": 1727461721254,
+            "totalIpAddressCount": 9223372036854776000,
+            "usedIpAddressCount": 0,
+            "parentUuid": "root",
+            "owner": "ipam",
+            "shared": true,
+            "overlapping": false,
+            "configureExternalDhcp": false,
+            "usedPercentage": "0",
+            "clientOptions": {},
+            "ipPoolType": "generic",
+            "unavailableIpAddressCount": 0,
+            "availableIpAddressCount": 0,
+            "totalAssignableIpAddressCount": 9223372036854776000,
+            "dnsServerIps": [],
+            "hasSubpools": false,
+            "defaultAssignedIpAddressCount": 1,
+            "context": [
+              {
+                "owner": "DNAC",
+                "contextKey": "type",
+                "contextValue": "generic"
+              }
+            ],
+            "ipv6": true,
+            "id": "224cb0d0-0d0b-48ea-864c-f432e44d16e6",
+            "ipPoolCidr": "2001:db8::/64"
+          },
+          {
+            "ipPoolName": "Global_Pool3",
+            "dhcpServerIps": [],
+            "gateways": [],
+            "createTime": 1727454774302,
+            "lastUpdateTime": 1727454774302,
+            "totalIpAddressCount": 16777216,
+            "usedIpAddressCount": 0,
+            "parentUuid": "root",
+            "owner": "ipam",
+            "shared": true,
+            "overlapping": false,
+            "configureExternalDhcp": false,
+            "usedPercentage": "0",
+            "clientOptions": {},
+            "ipPoolType": "generic",
+            "unavailableIpAddressCount": 0,
+            "availableIpAddressCount": 0,
+            "totalAssignableIpAddressCount": 16777214,
+            "dnsServerIps": [],
+            "hasSubpools": false,
+            "defaultAssignedIpAddressCount": 2,
+            "context": [
+              {
+                "owner": "DNAC",
+                "contextKey": "type",
+                "contextValue": "generic"
+              }
+            ],
+            "ipv6": false,
+            "id": "347d168c-11b2-4329-985c-32a39bf5a825",
+            "ipPoolCidr": "10.0.0.0/8"
+          },
+          {
+            "ipPoolName": "IP_Pool_Abhi_Global",
+            "dhcpServerIps": [],
+            "gateways": [],
+            "createTime": 1726467421206,
+            "lastUpdateTime": 1726469125098,
+            "totalIpAddressCount": 64,
+            "usedIpAddressCount": 8,
+            "parentUuid": "root",
+            "owner": "ipam",
+            "shared": true,
+            "overlapping": false,
+            "configureExternalDhcp": false,
+            "usedPercentage": "12",
+            "clientOptions": {},
+            "ipPoolType": "generic",
+            "unavailableIpAddressCount": 0,
+            "availableIpAddressCount": 0,
+            "totalAssignableIpAddressCount": 62,
+            "dnsServerIps": [
+              "171.70.168.183"
+            ],
+            "hasSubpools": false,
+            "defaultAssignedIpAddressCount": 2,
+            "context": [
+              {
+                "owner": "DNAC",
+                "contextKey": "type",
+                "contextValue": "generic"
+              }
+            ],
+            "ipv6": false,
+            "id": "45b49d9c-63f7-47c5-8888-d041fcf83e96",
+            "ipPoolCidr": "192.0.2.0/26"
+          }
+        ],
+        "version": "1.0"
+      },
+      
+      "Global_Pool_2":
+      {
+        "response": [
+          {
+            "ipPoolName": "Global_Pool1",
+            "dhcpServerIps": [],
+            "gateways": [],
+            "createTime": 1727454774076,
+            "lastUpdateTime": 1727461721254,
+            "totalIpAddressCount": 9223372036854776000,
+            "usedIpAddressCount": 0,
+            "parentUuid": "root",
+            "owner": "ipam",
+            "shared": true,
+            "overlapping": false,
+            "configureExternalDhcp": false,
+            "usedPercentage": "0",
+            "clientOptions": {},
+            "ipPoolType": "generic",
+            "unavailableIpAddressCount": 0,
+            "availableIpAddressCount": 0,
+            "totalAssignableIpAddressCount": 9223372036854776000,
+            "dnsServerIps": [],
+            "hasSubpools": false,
+            "defaultAssignedIpAddressCount": 1,
+            "context": [
+              {
+                "owner": "DNAC",
+                "contextKey": "type",
+                "contextValue": "generic"
+              }
+            ],
+            "ipv6": true,
+            "id": "224cb0d0-0d0b-48ea-864c-f432e44d16e6",
+            "ipPoolCidr": "2001:db8::/64"
+          },
+          {
+            "ipPoolName": "Global_Pool3",
+            "dhcpServerIps": [],
+            "gateways": [],
+            "createTime": 1727454774302,
+            "lastUpdateTime": 1727454774302,
+            "totalIpAddressCount": 16777216,
+            "usedIpAddressCount": 0,
+            "parentUuid": "root",
+            "owner": "ipam",
+            "shared": true,
+            "overlapping": false,
+            "configureExternalDhcp": false,
+            "usedPercentage": "0",
+            "clientOptions": {},
+            "ipPoolType": "generic",
+            "unavailableIpAddressCount": 0,
+            "availableIpAddressCount": 0,
+            "totalAssignableIpAddressCount": 16777214,
+            "dnsServerIps": [],
+            "hasSubpools": false,
+            "defaultAssignedIpAddressCount": 2,
+            "context": [
+              {
+                "owner": "DNAC",
+                "contextKey": "type",
+                "contextValue": "generic"
+              }
+            ],
+            "ipv6": false,
+            "id": "347d168c-11b2-4329-985c-32a39bf5a825",
+            "ipPoolCidr": "10.0.0.0/8"
+          },
+          {
+            "ipPoolName": "IP_Pool_Abhi_Global",
+            "dhcpServerIps": [],
+            "gateways": [],
+            "createTime": 1726467421206,
+            "lastUpdateTime": 1726469125098,
+            "totalIpAddressCount": 64,
+            "usedIpAddressCount": 8,
+            "parentUuid": "root",
+            "owner": "ipam",
+            "shared": true,
+            "overlapping": false,
+            "configureExternalDhcp": false,
+            "usedPercentage": "12",
+            "clientOptions": {},
+            "ipPoolType": "generic",
+            "unavailableIpAddressCount": 0,
+            "availableIpAddressCount": 0,
+            "totalAssignableIpAddressCount": 62,
+            "dnsServerIps": [
+              "171.70.168.183"
+            ],
+            "hasSubpools": false,
+            "defaultAssignedIpAddressCount": 2,
+            "context": [
+              {
+                "owner": "DNAC",
+                "contextKey": "type",
+                "contextValue": "generic"
+              }
+            ],
+            "ipv6": false,
+            "id": "45b49d9c-63f7-47c5-8888-d041fcf83e96",
+            "ipPoolCidr": "192.0.2.0/26"
+          }
+        ],
+        "version": "1.0"
+      },
+      
+      "playbook_config_reserve_pool": [
+        {
+            "reserve_pool_details": [
+              {
+                "site_name": "Global/Abc2",
+                "name": "IP_Pool_3",
+                "pool_type": "LAN",
+                "ipv4_global_pool": "10.0.0.0/8",
+                "ipv4_global_pool_name": "Global_Pool2",
+                "ipv4_prefix": true,
+                "ipv4_prefix_length": 9,
+                "ipv4_subnet": "10.128.0.0",
+                "ipv4_gateway": "10.128.0.1",
+                "ipv4_dns_servers": []
+              }
+            ]
+          }
+      ],
+
+      "playbook_config_reserve_pool_deletion": [
+        {
+            "reserve_pool_details": [
+              {
+                "site_name": "Global/Abc2",
+                "name": "IP_Pool_3"
+              }
+            ]
+          }
+      ],
+
+      "site_reserve_deletion":
+      {
+        "response": [
+          {
+            "parentId": "0ceaa46f-e64b-448b-a01c-1c100c9b134b",
+            "additionalInfo": [
+              {
+                "nameSpace": "Location",
+                "attributes": {
+                  "addressInheritedFrom": "1e292ed1-0e1e-41d7-914f-048552ce0fc5",
+                  "type": "area"
+                }
+              }
+            ],
+            "name": "Abc2",
+            "instanceTenantId": "6663114d388b29001399e46a",
+            "id": "1e292ed1-0e1e-41d7-914f-048552ce0fc5",
+            "siteHierarchy": "0ceaa46f-e64b-448b-a01c-1c100c9b134b/1e292ed1-0e1e-41d7-914f-048552ce0fc5",
+            "siteNameHierarchy": "Global/Abc2"
+          }
+        ]
+      },
+
+      "get_reserved_ip_subpool_deletion":
+      {
+        "response": [
+          {
+            "id": "c3078bf6-82ee-41a5-b939-e696c1ba46b4",
+            "groupName": "IP_Pool_3",
+            "ipPools": [
+              {
+                "ipPoolName": "IP_Pool_3",
+                "dhcpServerIps": [],
+                "gateways": ["10.128.0.1"],
+                "createTime": 1727513844408,
+                "lastUpdateTime": 1727513844419,
+                "totalIpAddressCount": 8388608,
+                "usedIpAddressCount": 0,
+                "parentUuid": "35b049a8-13c5-4434-a569-33708cd46f94",
+                "owner": "DNAC",
+                "shared": true,
+                "overlapping": false,
+                "configureExternalDhcp": false,
+                "usedPercentage": "0",
+                "clientOptions": {},
+                "groupUuid": "c3078bf6-82ee-41a5-b939-e696c1ba46b4",
+                "unavailableIpAddressCount": 0,
+                "availableIpAddressCount": 0,
+                "totalAssignableIpAddressCount": 8388605,
+                "dnsServerIps": [],
+                "hasSubpools": false,
+                "defaultAssignedIpAddressCount": 3,
+                "context": [
+                  {
+                    "owner": "DNAC",
+                    "contextKey": "siteId",
+                    "contextValue": "1e292ed1-0e1e-41d7-914f-048552ce0fc5"
+                  },
+                  {
+                    "owner": "DNAC",
+                    "contextKey": "reserved_by",
+                    "contextValue": "DNAC"
+                  }
+                ],
+                "ipv6": false,
+                "id": "f1da373c-ab16-4bbe-8b12-8230df534e76",
+                "ipPoolCidr": "10.128.0.0/9"
+              }
+            ],
+            "siteId": "1e292ed1-0e1e-41d7-914f-048552ce0fc5",
+            "siteHierarchy": "Global/Abc2",
+            "type": "lan",
+            "groupOwner": "DNAC"
+          }
+        ],
+        "version": "1.0"
+      },
+      
+      "delete_reserve_pool":
+      {
+        "executionId": "f4b6fef1-11a3-4413-8928-bdcea2367f8c",
+        "executionStatusUrl": "/dna/platform/management/business-api/v1/execution-status/f4b6fef1-11a3-4413-8928-bdcea2367f8c",
+        "message": "The request has been accepted for execution"
+      },
+
+      "delete_reserve_pool_task":
+      {
+        "bapiKey": "85b2-89e3-4489-9dc1",
+        "bapiName": "Release Reserve IP Subpool",
+        "bapiExecutionId": "f4b6fef1-11a3-4413-8928-bdcea2367f8c",
+        "startTime": "Sat Sep 28 09:22:10 UTC 2024",
+        "startTimeEpoch": 1727515330143,
+        "endTime": "Sat Sep 28 09:22:12 UTC 2024",
+        "endTimeEpoch": 1727515332628,
+        "timeDuration": 2485,
+        "status": "SUCCESS",
+        "bapiSyncResponse": {
+          "message": "Subpool deleted successfully.",
+          "status": "true"
+        }
+      },
+
+      "site_reserve_deletion_2":
+      {
+        "response": [
+          {
+            "parentId": "0ceaa46f-e64b-448b-a01c-1c100c9b134b",
+            "additionalInfo": [
+              {
+                "nameSpace": "Location",
+                "attributes": {
+                  "addressInheritedFrom": "1e292ed1-0e1e-41d7-914f-048552ce0fc5",
+                  "type": "area"
+                }
+              }
+            ],
+            "name": "Abc2",
+            "instanceTenantId": "6663114d388b29001399e46a",
+            "id": "1e292ed1-0e1e-41d7-914f-048552ce0fc5",
+            "siteHierarchy": "0ceaa46f-e64b-448b-a01c-1c100c9b134b/1e292ed1-0e1e-41d7-914f-048552ce0fc5",
+            "siteNameHierarchy": "Global/Abc2"
+          }
+        ]
+      },
+
+      "get_reserved_ip_subpool_deletion_2":
+      {
+        "response": [],
+        "message": "There is no reserve ip present in the system for the given input."
+      },
+
+      "create_reserve_pool":
+      {
+        "executionId": "26e3d398-d4d9-4937-b887-7ab7ccd32b21",
+        "executionStatusUrl": "/dna/platform/management/business-api/v1/execution-status/26e3d398-d4d9-4937-b887-7ab7ccd32b21",
+        "message": "The request has been accepted for execution"
+      },
+
+      "create_reserve_pool_task":
+      {
+        "bapiKey": "429f-aa81-4d3b-960a",
+        "bapiName": "Reserve IP Subpool",
+        "bapiExecutionId": "26e3d398-d4d9-4937-b887-7ab7ccd32b21",
+        "startTime": "Sat Sep 28 10:06:20 UTC 2024",
+        "startTimeEpoch": 1727517980107,
+        "endTime": "Sat Sep 28 10:06:24 UTC 2024",
+        "endTimeEpoch": 1727517984196,
+        "timeDuration": 4089,
+        "status": "SUCCESS",
+        "bapiSyncResponse": {
+          "name": "IP_Pool_3",
+          "type": "lan",
+          "result": {
+            "startTime": 1727517983529,
+            "endTime": 1727517983610,
+            "progress": "Subpool Creation 8e3aedcd-a5f6-42e8-a62d-b98a68af3d15"
+          },
+          "status": true
+        }
+      },
+
+      "get_reserve_pool_creation":
+      {
+        "response": [
+          {
+            "id": "8e3aedcd-a5f6-42e8-a62d-b98a68af3d15",
+            "groupName": "IP_Pool_3",
+            "ipPools": [
+              {
+                "ipPoolName": "IP_Pool_3",
+                "dhcpServerIps": [],
+                "gateways": [
+                  "10.128.0.1"
+                ],
+                "createTime": 1727517983553,
+                "lastUpdateTime": 1727517983556,
+                "totalIpAddressCount": 8388608,
+                "usedIpAddressCount": 0,
+                "parentUuid": "35b049a8-13c5-4434-a569-33708cd46f94",
+                "owner": "DNAC",
+                "shared": true,
+                "overlapping": false,
+                "configureExternalDhcp": false,
+                "usedPercentage": "0",
+                "clientOptions": {},
+                "groupUuid": "8e3aedcd-a5f6-42e8-a62d-b98a68af3d15",
+                "unavailableIpAddressCount": 0,
+                "availableIpAddressCount": 0,
+                "totalAssignableIpAddressCount": 8388605,
+                "dnsServerIps": [],
+                "hasSubpools": false,
+                "defaultAssignedIpAddressCount": 3,
+                "context": [
+                  {
+                    "owner": "DNAC",
+                    "contextKey": "siteId",
+                    "contextValue": "1e292ed1-0e1e-41d7-914f-048552ce0fc5"
+                  },
+                  {
+                    "owner": "DNAC",
+                    "contextKey": "reserved_by",
+                    "contextValue": "DNAC"
+                  }
+                ],
+                "ipv6": false,
+                "id": "24de7e27-12f2-45ea-8720-776f20bf5154",
+                "ipPoolCidr": "10.128.0.0/9"
+              }
+            ],
+            "siteId": "1e292ed1-0e1e-41d7-914f-048552ce0fc5",
+            "siteHierarchy": "Global/Abc2",
+            "type": "lan",
+            "groupOwner": "DNAC"
+          }
+        ],
+        "version": "1.0"
+      },
+
+      "get_reserve_pool_creation_2":
+      {
+        "response": [],
+        "message": "There is no reserve ip present in the system for the given input."
+      },
+      
+      "playbook_config_global_pool_deletion": [
+        {
+            "global_pool_details": {
+              "settings": {
+                "ip_pool": [
+                  {
+                    "name": "Global_Pool2"
+                  }
+                ]
+              }
+            }
+          }
+          
+      ],
+
+      "deletion_global_pool_exist":
+      {
+        "response": [
+          {
+            "ipPoolName": "Global_Pool2",
+            "dhcpServerIps": [],
+            "gateways": [],
+            "createTime": 1727509444422,
+            "lastUpdateTime": 1727509444422,
+            "totalIpAddressCount": 9223372036854776000,
+            "usedIpAddressCount": 0,
+            "parentUuid": "root",
+            "owner": "ipam",
+            "shared": true,
+            "overlapping": false,
+            "configureExternalDhcp": false,
+            "usedPercentage": "0",
+            "clientOptions": {},
+            "ipPoolType": "generic",
+            "unavailableIpAddressCount": 0,
+            "availableIpAddressCount": 0,
+            "totalAssignableIpAddressCount": 9223372036854776000,
+            "dnsServerIps": [],
+            "hasSubpools": false,
+            "defaultAssignedIpAddressCount": 1,
+            "context": [
+              {
+                "owner": "DNAC",
+                "contextKey": "type",
+                "contextValue": "generic"
+              }
+            ],
+            "ipv6": true,
+            "id": "04347feb-2c1f-4d8d-8199-f2f2940ed04a",
+            "ipPoolCidr": "2001:db8::/64"
+          },
+          {
+            "ipPoolName": "Global_Pool3",
+            "dhcpServerIps": [],
+            "gateways": [],
+            "createTime": 1727509445103,
+            "lastUpdateTime": 1727517983579,
+            "totalIpAddressCount": 16777216,
+            "usedIpAddressCount": 8388608,
+            "parentUuid": "root",
+            "owner": "ipam",
+            "shared": true,
+            "overlapping": false,
+            "configureExternalDhcp": false,
+            "usedPercentage": "50",
+            "clientOptions": {},
+            "ipPoolType": "generic",
+            "unavailableIpAddressCount": 0,
+            "availableIpAddressCount": 0,
+            "totalAssignableIpAddressCount": 16777214,
+            "dnsServerIps": [],
+            "hasSubpools": false,
+            "defaultAssignedIpAddressCount": 2,
+            "context": [
+              {
+                "owner": "DNAC",
+                "contextKey": "type",
+                "contextValue": "generic"
+              }
+            ],
+            "ipv6": false,
+            "id": "35b049a8-13c5-4434-a569-33708cd46f94",
+            "ipPoolCidr": "10.0.0.0/8"
+          },
+          {
+            "ipPoolName": "IP_Pool_Abhi_Global",
+            "dhcpServerIps": [],
+            "gateways": [],
+            "createTime": 1726467421206,
+            "lastUpdateTime": 1726469125098,
+            "totalIpAddressCount": 64,
+            "usedIpAddressCount": 8,
+            "parentUuid": "root",
+            "owner": "ipam",
+            "shared": true,
+            "overlapping": false,
+            "configureExternalDhcp": false,
+            "usedPercentage": "12",
+            "clientOptions": {},
+            "ipPoolType": "generic",
+            "unavailableIpAddressCount": 0,
+            "availableIpAddressCount": 0,
+            "totalAssignableIpAddressCount": 62,
+            "dnsServerIps": [
+              "171.70.168.183"
+            ],
+            "hasSubpools": false,
+            "defaultAssignedIpAddressCount": 2,
+            "context": [
+              {
+                "owner": "DNAC",
+                "contextKey": "type",
+                "contextValue": "generic"
+              }
+            ],
+            "ipv6": false,
+            "id": "45b49d9c-63f7-47c5-8888-d041fcf83e96",
+            "ipPoolCidr": "192.0.2.0/26"
+          }
+        ],
+        "version": "1.0"
+      },
+      
+      "global_pool_deletion":
+      {
+        "executionId": "b0ffed0c-3902-4fc2-bcd1-b96eb2dc18d5",
+        "executionStatusUrl": "/dna/platform/management/business-api/v1/execution-status/b0ffed0c-3902-4fc2-bcd1-b96eb2dc18d5",
+        "message": "The request has been accepted for execution"
+      },
+
+      "global_pool_deletion_task":
+      {
+        "bapiKey": "1eaa-8b21-48ab-81de",
+        "bapiName": "Delete Global IP Pool",
+        "bapiExecutionId": "b0ffed0c-3902-4fc2-bcd1-b96eb2dc18d5",
+        "startTime": "Sat Sep 28 10:35:19 UTC 2024",
+        "startTimeEpoch": 1727519719109,
+        "endTime": "Sat Sep 28 10:35:20 UTC 2024",
+        "endTimeEpoch": 1727519720318,
+        "timeDuration": 1209,
+        "status": "SUCCESS",
+        "bapiSyncResponse": "{\"message\":\"Global pool deleted successfully.\",\"status\":\"true\"}"
+      },
+
+      "global_pool_exist_deletion":
+      {
+        "response": [
+          {
+            "ipPoolName": "Global_Pool3",
+            "dhcpServerIps": [],
+            "gateways": [],
+            "createTime": 1727509445103,
+            "lastUpdateTime": 1727517983579,
+            "totalIpAddressCount": 16777216,
+            "usedIpAddressCount": 8388608,
+            "parentUuid": "root",
+            "owner": "ipam",
+            "shared": true,
+            "overlapping": false,
+            "configureExternalDhcp": false,
+            "usedPercentage": "50",
+            "clientOptions": {},
+            "ipPoolType": "generic",
+            "unavailableIpAddressCount": 0,
+            "availableIpAddressCount": 0,
+            "totalAssignableIpAddressCount": 16777214,
+            "dnsServerIps": [],
+            "hasSubpools": false,
+            "defaultAssignedIpAddressCount": 2,
+            "context": [
+              {
+                "owner": "DNAC",
+                "contextKey": "type",
+                "contextValue": "generic"
+              }
+            ],
+            "ipv6": false,
+            "id": "35b049a8-13c5-4434-a569-33708cd46f94",
+            "ipPoolCidr": "10.0.0.0/8"
+          },
+          {
+            "ipPoolName": "IP_Pool_Abhi_Global",
+            "dhcpServerIps": [],
+            "gateways": [],
+            "createTime": 1726467421206,
+            "lastUpdateTime": 1726469125098,
+            "totalIpAddressCount": 64,
+            "usedIpAddressCount": 8,
+            "parentUuid": "root",
+            "owner": "ipam",
+            "shared": true,
+            "overlapping": false,
+            "configureExternalDhcp": false,
+            "usedPercentage": "12",
+            "clientOptions": {},
+            "ipPoolType": "generic",
+            "unavailableIpAddressCount": 0,
+            "availableIpAddressCount": 0,
+            "totalAssignableIpAddressCount": 62,
+            "dnsServerIps": [
+              "171.70.168.183"
+            ],
+            "hasSubpools": false,
+            "defaultAssignedIpAddressCount": 2,
+            "context": [
+              {
+                "owner": "DNAC",
+                "contextKey": "type",
+                "contextValue": "generic"
+              }
+            ],
+            "ipv6": false,
+            "id": "45b49d9c-63f7-47c5-8888-d041fcf83e96",
+            "ipPoolCidr": "192.0.2.0/26"
+          }
+        ],
+        "version": "1.0"
+      },
+      "global_pool_exist_deletion2":
+      {
+        "response": [],
+        "message": "There is no global ip pools present in the system for the given input."
+      }
+      
+
+      
+      
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+       
+      
+        
+
+  }
+  
