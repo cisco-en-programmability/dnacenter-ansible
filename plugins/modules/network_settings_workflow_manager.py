@@ -1307,326 +1307,359 @@ class NetworkSettings(DnacBase):
 
     def get_network_params(self, site_name, site_id):
         """
-        Process the Network parameters from the playbook
-        for Network configuration in Cisco Catalyst Center
+        Decides which network parameters function to call based on the Cisco Catalyst Center version.
 
         Parameters:
+            site_name (str) - The Site name for which network parameters are requested
             site_id (str) - The Site ID for which network parameters are requested
 
         Returns:
-            dict or None: Processed Network data in a format
-            suitable for Cisco Catalyst Center configuration, or None
-            if the response is not a dictionary or there was an error.
+            None
         """
         if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
+            return self.get_network_params_v1(site_name, site_id)
+        else:
+            return self.get_network_params_v2(site_name, site_id)
+
+    def get_network_params_v1(self, site_name, site_id):
+        """
+        Process Network parameters for Cisco Catalyst Center version <= 2.3.5.3.
+
+        Parameters:
+            site_name (str) - The Site name
+            site_id (str) - The Site ID
+
+        Returns:
+            dict or None: Processed Network data in a format suitable for configuration, or None on error.
+        """
+        self.log("Attempting to retrieve network configuration details for site '{0}' (ID: {1})".format(site_name, site_id), "INFO")
+
+        try:
             response = self.dnac._exec(
                 family="network_settings",
                 function='get_network_v2',
-                op_modifies=False,
+                op_modifies=True,
                 params={"site_id": site_id}
             )
-            self.log("Received API response from 'get_network_v2': {0}".format(response), "DEBUG")
-            if not isinstance(response, dict):
-                self.log("Failed to retrieve the network details - "
-                         "Response is not a dictionary", "ERROR")
-                return None
+        except Exception as msg:
+            self.msg = (
+                "Exception occurred while getting the network settings details "
+                "from Cisco Catalyst Center: {msg}".format(msg=msg)
+            )
+            self.log(str(msg), "ERROR")
+            self.status = "failed"
+            return self
 
-            # Extract various network-related details from the response
-            all_network_details = response.get("response")
-            dhcp_details = get_dict_result(all_network_details, "key", "dhcp.server")
-            dns_details = get_dict_result(all_network_details, "key", "dns.server")
-            snmp_details = get_dict_result(all_network_details, "key", "snmp.trap.receiver")
-            syslog_details = get_dict_result(all_network_details, "key", "syslog.server")
-            netflow_details = get_dict_result(all_network_details, "key", "netflow.collector")
-            ntpserver_details = get_dict_result(all_network_details, "key", "ntp.server")
-            timezone_details = get_dict_result(all_network_details, "key", "timezone.site")
-            messageoftheday_details = get_dict_result(all_network_details, "key", "device.banner")
-            network_aaa = get_dict_result(all_network_details, "key", "aaa.network.server.1")
-            network_aaa2 = get_dict_result(all_network_details, "key", "aaa.network.server.2")
-            network_aaa_pan = get_dict_result(all_network_details, "key", "aaa.server.pan.network")
-            client_and_endpoint_aaa = get_dict_result(all_network_details, "key", "aaa.endpoint.server.1")
-            client_and_endpoint_aaa2 = get_dict_result(all_network_details,
-                                                       "key",
-                                                       "aaa.endpoint.server.2")
-            client_and_endpoint_aaa_pan = get_dict_result(all_network_details,
-                                                          "key",
-                                                          "aaa.server.pan.endpoint")
+        self.log("Received API response from 'get_network_v2' for site '{0}' (ID: {1}): {2}".format(site_name, site_id, response,), "DEBUG")
+        if not isinstance(response, dict):
+            self.log("Failed to retrieve the network details - "
+                     "Response is not a dictionary", "ERROR")
+            return None
 
-            # Prepare the network details for Cisco Catalyst Center configuration
-            network_details = {
-                "settings": {
-                    "snmpServer": {
-                        "configureDnacIP": snmp_details.get("value")[0].get("configureDnacIP"),
-                        "ipAddresses": snmp_details.get("value")[0].get("ipAddresses"),
-                    },
-                    "syslogServer": {
-                        "configureDnacIP": syslog_details.get("value")[0].get("configureDnacIP"),
-                        "ipAddresses": syslog_details.get("value")[0].get("ipAddresses"),
-                    },
-                    "timezone": timezone_details.get("value")[0],
-                }
+        # Extract various network-related details from the response
+        all_network_details = response.get("response")
+        dhcp_details = get_dict_result(all_network_details, "key", "dhcp.server")
+        dns_details = get_dict_result(all_network_details, "key", "dns.server")
+        snmp_details = get_dict_result(all_network_details, "key", "snmp.trap.receiver")
+        syslog_details = get_dict_result(all_network_details, "key", "syslog.server")
+        netflow_details = get_dict_result(all_network_details, "key", "netflow.collector")
+        ntpserver_details = get_dict_result(all_network_details, "key", "ntp.server")
+        timezone_details = get_dict_result(all_network_details, "key", "timezone.site")
+        messageoftheday_details = get_dict_result(all_network_details, "key", "device.banner")
+        network_aaa = get_dict_result(all_network_details, "key", "aaa.network.server.1")
+        network_aaa2 = get_dict_result(all_network_details, "key", "aaa.network.server.2")
+        network_aaa_pan = get_dict_result(all_network_details, "key", "aaa.server.pan.network")
+        client_and_endpoint_aaa = get_dict_result(all_network_details, "key", "aaa.endpoint.server.1")
+        client_and_endpoint_aaa2 = get_dict_result(all_network_details, "key", "aaa.endpoint.server.2")
+        client_and_endpoint_aaa_pan = get_dict_result(all_network_details, "key", "aaa.server.pan.endpoint")
+
+        # Prepare the network details for Cisco Catalyst Center configuration
+        network_details = {
+            "settings": {
+                "snmpServer": {
+                    "configureDnacIP": snmp_details.get("value")[0].get("configureDnacIP"),
+                    "ipAddresses": snmp_details.get("value")[0].get("ipAddresses"),
+                },
+                "syslogServer": {
+                    "configureDnacIP": syslog_details.get("value")[0].get("configureDnacIP"),
+                    "ipAddresses": syslog_details.get("value")[0].get("ipAddresses"),
+                },
+                "timezone": timezone_details.get("value")[0],
             }
-            network_settings = network_details.get("settings")
-            if dhcp_details and dhcp_details.get("value") != []:
-                network_settings.update({"dhcpServer": dhcp_details.get("value")})
-            else:
-                network_settings.update({"dhcpServer": [""]})
+        }
+        network_settings = network_details.get("settings")
+        if dhcp_details and dhcp_details.get("value") != []:
+            network_settings.update({"dhcpServer": dhcp_details.get("value")})
+        else:
+            network_settings.update({"dhcpServer": [""]})
 
-            if dns_details is not None:
-                network_settings.update({
-                    "dnsServer": {
-                        "domainName": dns_details.get("value")[0].get("domainName"),
-                        "primaryIpAddress": dns_details.get("value")[0].get("primaryIpAddress"),
-                        "secondaryIpAddress": dns_details.get("value")[0].get("secondaryIpAddress")
-                    }
-                })
-            else:
-                network_settings.update({
-                    "dnsServer": {
-                        "domainName": "",
-                        "primaryIpAddress": "",
-                        "secondaryIpAddress": ""
-                    }
-                })
-
-            if ntpserver_details and ntpserver_details.get("value") != []:
-                network_settings.update({"ntpServer": ntpserver_details.get("value")})
-            else:
-                network_settings.update({"ntpServer": [""]})
-
-            netflow_collector_values = netflow_details.get("value")[0]
-            ip_address = netflow_collector_values.get("ipAddress")
-            port = netflow_collector_values.get("port")
-            if port is None:
-                port = "null"
-
+        if dns_details is not None:
             network_settings.update({
-                "netflowcollector": {
-                    "ipAddress": ip_address,
-                    "port": port,
+                "dnsServer": {
+                    "domainName": dns_details.get("value")[0].get("domainName"),
+                    "primaryIpAddress": dns_details.get("value")[0].get("primaryIpAddress"),
+                    "secondaryIpAddress": dns_details.get("value")[0].get("secondaryIpAddress")
+                }
+            })
+        else:
+            network_settings.update({
+                "dnsServer": {
+                    "domainName": "",
+                    "primaryIpAddress": "",
+                    "secondaryIpAddress": ""
                 }
             })
 
-            if messageoftheday_details is not None:
-                network_settings.update({
-                    "messageOfTheday": {
-                        "bannerMessage": messageoftheday_details.get("value")[0].get("bannerMessage"),
-                    }
-                })
-                retain_existing_banner = messageoftheday_details.get("value")[0] \
-                    .get("retainExistingBanner")
-                if retain_existing_banner is True:
-                    network_settings.get("messageOfTheday").update({
-                        "retainExistingBanner": "true"
-                    })
-                else:
-                    network_settings.get("messageOfTheday").update({
-                        "retainExistingBanner": "false"
-                    })
-            else:
-                network_settings.update({
-                    "messageOfTheday": {
-                        "bannerMessage": "",
-                        "retainExistingBanner": ""
-                    }
-                })
+        if ntpserver_details and ntpserver_details.get("value") != []:
+            network_settings.update({"ntpServer": ntpserver_details.get("value")})
+        else:
+            network_settings.update({"ntpServer": [""]})
 
-            if network_aaa and network_aaa_pan:
-                aaa_pan_value = network_aaa_pan.get("value")[0]
-                aaa_value = network_aaa.get("value")[0]
-                if aaa_pan_value == "None":
-                    network_settings.update({
-                        "network_aaa": {
-                            "network": aaa_value.get("ipAddress"),
-                            "protocol": aaa_value.get("protocol"),
-                            "ipAddress": network_aaa2.get("value")[0].get("ipAddress"),
-                            "servers": "AAA"
-                        }
-                    })
-                else:
-                    network_settings.update({
-                        "network_aaa": {
-                            "network": aaa_pan_value,
-                            "protocol": aaa_value.get("protocol"),
-                            "ipAddress": aaa_value.get("ipAddress"),
-                            "servers": "ISE"
-                        }
-                    })
+        netflow_collector_values = netflow_details.get("value")[0]
+        ip_address = netflow_collector_values.get("ipAddress")
+        port = netflow_collector_values.get("port")
+        if port is None:
+            port = "null"
+
+        network_settings.update({
+            "netflowcollector": {
+                "ipAddress": ip_address,
+                "port": port,
+            }
+        })
+
+        if messageoftheday_details is not None:
+            network_settings.update({
+                "messageOfTheday": {
+                    "bannerMessage": messageoftheday_details.get("value")[0].get("bannerMessage"),
+                }
+            })
+            retain_existing_banner = messageoftheday_details.get("value")[0] \
+                .get("retainExistingBanner")
+            if retain_existing_banner is True:
+                network_settings.get("messageOfTheday").update({
+                    "retainExistingBanner": "true"
+                })
+            else:
+                network_settings.get("messageOfTheday").update({
+                    "retainExistingBanner": "false"
+                })
+        else:
+            network_settings.update({
+                "messageOfTheday": {
+                    "bannerMessage": "",
+                    "retainExistingBanner": ""
+                }
+            })
+
+        if network_aaa and network_aaa_pan:
+            aaa_pan_value = network_aaa_pan.get("value")[0]
+            aaa_value = network_aaa.get("value")[0]
+            if aaa_pan_value == "None":
+                network_settings.update({
+                    "network_aaa": {
+                        "network": aaa_value.get("ipAddress"),
+                        "protocol": aaa_value.get("protocol"),
+                        "ipAddress": network_aaa2.get("value")[0].get("ipAddress"),
+                        "servers": "AAA"
+                    }
+                })
             else:
                 network_settings.update({
                     "network_aaa": {
-                        "network": "",
-                        "protocol": "",
-                        "ipAddress": "",
-                        "servers": ""
+                        "network": aaa_pan_value,
+                        "protocol": aaa_value.get("protocol"),
+                        "ipAddress": aaa_value.get("ipAddress"),
+                        "servers": "ISE"
                     }
                 })
+        else:
+            network_settings.update({
+                "network_aaa": {
+                    "network": "",
+                    "protocol": "",
+                    "ipAddress": "",
+                    "servers": ""
+                }
+            })
 
-            if client_and_endpoint_aaa and client_and_endpoint_aaa_pan:
-                aaa_pan_value = client_and_endpoint_aaa_pan.get("value")[0]
-                aaa_value = client_and_endpoint_aaa.get("value")[0]
-                if aaa_pan_value == "None":
-                    network_settings.update({
-                        "clientAndEndpoint_aaa": {
-                            "network": aaa_value.get("ipAddress"),
-                            "protocol": aaa_value.get("protocol"),
-                            "ipAddress": client_and_endpoint_aaa2.get("value")[0].get("ipAddress"),
-                            "servers": "AAA"
-                        }
-                    })
-                else:
-                    network_settings.update({
-                        "clientAndEndpoint_aaa": {
-                            "network": aaa_pan_value,
-                            "protocol": aaa_value.get("protocol"),
-                            "ipAddress": aaa_value.get("ipAddress"),
-                            "servers": "ISE"
-                        }
-                    })
+        if client_and_endpoint_aaa and client_and_endpoint_aaa_pan:
+            aaa_pan_value = client_and_endpoint_aaa_pan.get("value")[0]
+            aaa_value = client_and_endpoint_aaa.get("value")[0]
+            if aaa_pan_value == "None":
+                network_settings.update({
+                    "clientAndEndpoint_aaa": {
+                        "network": aaa_value.get("ipAddress"),
+                        "protocol": aaa_value.get("protocol"),
+                        "ipAddress": client_and_endpoint_aaa2.get("value")[0].get("ipAddress"),
+                        "servers": "AAA"
+                    }
+                })
             else:
                 network_settings.update({
                     "clientAndEndpoint_aaa": {
-                        "network": "",
-                        "protocol": "",
-                        "ipAddress": "",
-                        "servers": ""
+                        "network": aaa_pan_value,
+                        "protocol": aaa_value.get("protocol"),
+                        "ipAddress": aaa_value.get("ipAddress"),
+                        "servers": "ISE"
                     }
                 })
-
-            network_settings_snmp = network_settings.get("snmpServer")
-            if not network_settings_snmp.get("ipAddresses"):
-                network_settings_snmp.update({"ipAddresses": []})
-
-            network_settings_syslog = network_settings.get("syslogServer")
-            if not network_settings_syslog.get("ipAddresses"):
-                network_settings_syslog.update({"ipAddresses": []})
-
-            self.log("Formatted playbook network details: {0}".format(network_details), "DEBUG")
         else:
-            dhcp_details = self.get_dhcp_settings_for_site(site_name, site_id)
-            dns_details = self.get_dns_settings_for_site(site_name, site_id)
-            telemetry_details = self.get_telemetry_settings_for_site(site_name, site_id)
-            wired_data_collection = telemetry_details.get("wiredDataCollection")
-            wireless_telemetry = telemetry_details.get("wirelessTelemetry")
-            netflow_details = telemetry_details.get("applicationVisibility")
-            snmp_details = telemetry_details.get("snmpTraps")
-            syslog_details = telemetry_details.get("syslogs")
-            ntpserver_details = self.get_ntp_settings_for_site(site_name, site_id)
-            timezone_details = self.get_time_zone_settings_for_site(site_name, site_id)
-            messageoftheday_details = self.get_banner_settings_for_site(site_name, site_id)
-            network_aaa, client_and_endpoint_aaa = self.get_aaa_settings_for_site(site_name, site_id)
+            network_settings.update({
+                "clientAndEndpoint_aaa": {
+                    "network": "",
+                    "protocol": "",
+                    "ipAddress": "",
+                    "servers": ""
+                }
+            })
 
-            # Prepare the network details for Cisco Catalyst Center configuration
-            if not network_aaa:
-                network_aaa = {
-                    "serverType": "",
-                    "primaryServerIp": "",
-                    "secondaryServerIp": "",
-                    "protocol": ""
-                }
-            if not client_and_endpoint_aaa:
-                client_and_endpoint_aaa = {
-                    "serverType": "",
-                    "primaryServerIp": "",
-                    "secondaryServerIp": "",
-                    "protocol": ""
-                }
+        network_settings_snmp = network_settings.get("snmpServer")
+        if not network_settings_snmp.get("ipAddresses"):
+            network_settings_snmp.update({"ipAddresses": []})
 
-            network_details = {
-                "settings": {
-                    "network_aaa" : network_aaa,
-                    "clientAndEndpoint_aaa": client_and_endpoint_aaa,
-                    "wired_data_collection": wired_data_collection,
-                    "wireless_telemetry": wireless_telemetry
-                }
+        network_settings_syslog = network_settings.get("syslogServer")
+        if not network_settings_syslog.get("ipAddresses"):
+            network_settings_syslog.update({"ipAddresses": []})
+
+        self.log("Formatted playbook network details: {0}".format(network_details), "DEBUG")
+        return network_details
+
+    def get_network_params_v2(self, site_name, site_id):
+        """
+        Process Network parameters for Cisco Catalyst Center version >= 2.3.7.6.
+
+        Parameters:
+            site_name (str) - The Site name
+            site_id (str) - The Site ID
+
+        Returns:
+            dict or None: Processed Network data in a format suitable for configuration, or None on error.
+        """
+
+        dhcp_details = self.get_dhcp_settings_for_site(site_name, site_id)
+        dns_details = self.get_dns_settings_for_site(site_name, site_id)
+        telemetry_details = self.get_telemetry_settings_for_site(site_name, site_id)
+        wired_data_collection = telemetry_details.get("wiredDataCollection")
+        wireless_telemetry = telemetry_details.get("wirelessTelemetry")
+        netflow_details = telemetry_details.get("applicationVisibility")
+        snmp_details = telemetry_details.get("snmpTraps")
+        syslog_details = telemetry_details.get("syslogs")
+        ntpserver_details = self.get_ntp_settings_for_site(site_name, site_id)
+        timezone_details = self.get_time_zone_settings_for_site(site_name, site_id)
+        messageoftheday_details = self.get_banner_settings_for_site(site_name, site_id)
+        network_aaa, client_and_endpoint_aaa = self.get_aaa_settings_for_site(site_name, site_id)
+
+        # Prepare the network details for Cisco Catalyst Center configuration
+        if not network_aaa:
+            network_aaa = {
+                "serverType": "",
+                "primaryServerIp": "",
+                "secondaryServerIp": "",
+                "protocol": ""
             }
-            network_settings = network_details.get("settings")
+        if not client_and_endpoint_aaa:
+            client_and_endpoint_aaa = {
+                "serverType": "",
+                "primaryServerIp": "",
+                "secondaryServerIp": "",
+                "protocol": ""
+            }
 
-            if snmp_details:
-                network_settings.update({"snmpServer": snmp_details})
-            else:
-                network_settings.update({"snmpServer": [""]})
+        network_details = {
+            "settings": {
+                "network_aaa" : network_aaa,
+                "clientAndEndpoint_aaa": client_and_endpoint_aaa,
+                "wired_data_collection": wired_data_collection,
+                "wireless_telemetry": wireless_telemetry
+            }
+        }
+        network_settings = network_details.get("settings")
 
-            if timezone_details is None:
-                network_settings.update({"timezone": {'identifier': 'GMT'}})
-            else:
-                network_settings.update({"timezone": timezone_details})
+        if snmp_details:
+            network_settings.update({"snmpServer": snmp_details})
+        else:
+            network_settings.update({"snmpServer": [""]})
 
-            if syslog_details:
-                network_settings.update({"syslogServer": syslog_details})
-            else:
-                network_settings.update({"syslogServer": [""]})
+        if timezone_details is None:
+            network_settings.update({"timezone": {'identifier': 'GMT'}})
+        else:
+            network_settings.update({"timezone": timezone_details})
 
-            if dhcp_details:
-                network_settings.update({"dhcpServer": dhcp_details})
-            else:
-                network_settings.update({"dhcpServer": [""]})
+        if syslog_details:
+            network_settings.update({"syslogServer": syslog_details})
+        else:
+            network_settings.update({"syslogServer": [""]})
 
-            if dns_details is not None:
-                domain_name = dns_details.get("domainName")
-                if 'dnsServer' not in network_settings:
-                    network_settings['dnsServer'] = {}
-                if domain_name:
-                    network_settings.get("dnsServer").update({"domainName": dns_details.get("domainName")})
-                dns_servers = dns_details.get("dnsServers", [])
-                if len(dns_servers) > 0:
-                    network_settings.get("dnsServer").update({
-                        "primaryIpAddress": dns_details.get("dnsServers")[0]})
-                if len(dns_servers) > 1:
-                    network_settings.get("dnsServer").update({
-                        "secondaryIpAddress": dns_details.get("dnsServers")[1]})
+        if dhcp_details:
+            network_settings.update({"dhcpServer": dhcp_details})
+        else:
+            network_settings.update({"dhcpServer": [""]})
+
+        if dns_details is not None:
+            domain_name = dns_details.get("domainName")
+            if 'dnsServer' not in network_settings:
+                network_settings['dnsServer'] = {}
+            if domain_name:
+                network_settings.get("dnsServer").update({"domainName": dns_details.get("domainName")})
+            dns_servers = dns_details.get("dnsServers", [])
+            if len(dns_servers) > 0:
+                network_settings.get("dnsServer").update({
+                    "primaryIpAddress": dns_details.get("dnsServers")[0]})
+            if len(dns_servers) > 1:
+                network_settings.get("dnsServer").update({
+                    "secondaryIpAddress": dns_details.get("dnsServers")[1]})
+        else:
+            network_settings.update({
+                "dnsServer": {
+                    "domainName": "",
+                    "primaryIpAddress": "",
+                    "secondaryIpAddress": ""
+                }
+            })
+
+        if ntpserver_details is not None:
+            network_settings.update({"ntpServer": ntpserver_details})
+        else:
+            network_settings.update({"ntpServer": [""]})
+
+        if netflow_details is not None:
+            ip_address = netflow_details.get("collector").get("address")
+            port = netflow_details.get("collector").get("port")
+            if port:
+                port = int(port)
+
+            enable_on_wired_access_devices = netflow_details \
+                .get("enableOnWiredAccessDevices")
+            collector_type = netflow_details.get("collector").get("collectorType")
+
+            if collector_type == "TelemetryBrokerOrUDPDirector":
+                network_settings.update({
+                    "netflowcollector": {
+                        "collector": {
+                            "collectorType": collector_type,
+                            "address": ip_address,
+                            "port": port,
+                        },
+                        "enableOnWiredAccessDevices": enable_on_wired_access_devices
+                    }})
             else:
                 network_settings.update({
-                    "dnsServer": {
-                        "domainName": "",
-                        "primaryIpAddress": "",
-                        "secondaryIpAddress": ""
-                    }
-                })
+                    "netflowcollector": {
+                        "collector": {
+                            "collectorType": collector_type,
+                        },
+                        "enableOnWiredAccessDevices": enable_on_wired_access_devices
+                    }})
+        else:
+            netflow_details = {}
 
-            if ntpserver_details is not None:
-                network_settings.update({"ntpServer": ntpserver_details})
-            else:
-                network_settings.update({"ntpServer": [""]})
+        if messageoftheday_details is not None:
+            network_settings.update({"messageOfTheday": messageoftheday_details})
+        else:
+            network_settings.update({"messageOfTheday": ""})
 
-            if netflow_details is not None:
-                ip_address = netflow_details.get("collector").get("address")
-                port = netflow_details.get("collector").get("port")
-                if port is None:
-                    port = "null"
-                else:
-                    port = int(port)
-                enable_on_wired_access_devices = netflow_details \
-                    .get("enableOnWiredAccessDevices")
-                collector_type = netflow_details.get("collector").get("collectorType")
-
-                if collector_type == "TelemetryBrokerOrUDPDirector":
-                    network_settings.update({
-                        "netflowcollector": {
-                            "collector": {
-                                "collectorType": collector_type,
-                                "address": ip_address,
-                                "port": port,
-                            },
-                            "enableOnWiredAccessDevices": enable_on_wired_access_devices
-                        }})
-                else:
-                    network_settings.update({
-                        "netflowcollector": {
-                            "collector": {
-                                "collectorType": collector_type,
-                            },
-                            "enableOnWiredAccessDevices": enable_on_wired_access_devices
-                        }})
-            else:
-                netflow_details = {}
-
-            if messageoftheday_details is not None:
-                network_settings.update({"messageOfTheday": messageoftheday_details})
-            else:
-                network_settings.update({"messageOfTheday": ""})
-
-            self.log("Formatted playbook network details: {0}".format(network_details), "DEBUG")
+        self.log("Formatted playbook network details: {0}".format(network_details), "DEBUG")
 
         return network_details
 
