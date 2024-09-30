@@ -1894,10 +1894,17 @@ class Inventory(DnacBase):
             status.
         """
 
-        response = self.dnac._exec(family="sda", function='get_provisioned_devices', params={"networkDeviceId": device_id})
-        response = response.get('response')
-        if response:
-            self.log("API response from 'get_provisioned_devices': {0}".format(response), "DEBUG")
+        api_response = self.dnac._exec(
+            family="sda",
+            function='get_provisioned_devices',
+            params={
+                "networkDeviceId": device_id
+            }
+        )
+        provisioned_devices = api_response.get('response')
+        self.log("API response from 'get_provisioned_devices': {}".format(provisioned_devices), "DEBUG")
+
+        if provisioned_devices:
             return True
         else:
             return False
