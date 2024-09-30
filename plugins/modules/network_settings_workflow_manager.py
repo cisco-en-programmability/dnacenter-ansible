@@ -3420,7 +3420,6 @@ class NetworkSettings(DnacBase):
             client_and_endpoint_aaa = want_network_details.get("settings").get("clientAndEndpoint_aaa")
 
             # Check update is required or not
-
             if not ((network_aaa and network_aaa.get("sharedSecret")) or
                     (client_and_endpoint_aaa and client_and_endpoint_aaa.get("sharedSecret")) or
                     self.requires_update(have_network_details, want_network_details, self.network_obj_params)):
@@ -3440,7 +3439,7 @@ class NetworkSettings(DnacBase):
 
             net_params = copy.deepcopy(self.want.get("wantNetwork")[network_management_index])
             net_params.update({"site_id": self.have.get("network")[network_management_index].get("site_id")})
-            self.log(net_params)
+            self.log("Network parameters for 'update_network_v2': {0}".format(net_params), "DEBUG")
             if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
                 try:
                     response = self.dnac._exec(
@@ -3551,7 +3550,7 @@ class NetworkSettings(DnacBase):
             Global Pool, Reserve Pool, and Network Management information.
 
         Returns:
-            self
+            self - The current object with Global Pool, Reserved Pool, Network Servers information.
         """
 
         global_pool = config.get("global_pool_details")
@@ -3622,7 +3621,7 @@ class NetworkSettings(DnacBase):
             global_pool_details (dict) - Global pool details of the playbook
 
         Returns:
-            self
+            self - The current object with Global Pool, Reserved Pool, Network Servers information.
         """
 
         result_global_pool = self.result.get("response")[0].get("globalPool")
@@ -3666,7 +3665,7 @@ class NetworkSettings(DnacBase):
             config (list of dict) - Playbook details
 
         Returns:
-            self
+            self - The current object with Global Pool, Reserved Pool, Network Servers information.
         """
 
         reserve_pool_details = config.get("reserve_pool_details")
@@ -3689,7 +3688,7 @@ class NetworkSettings(DnacBase):
             Reserved Pool, and Network Management configuration.
 
         Returns:
-            self
+            self - The current object with Global Pool, Reserved Pool, Network Servers information.
         """
 
         self.all_reserved_pool_details = {}
@@ -3772,7 +3771,7 @@ class NetworkSettings(DnacBase):
             Reserved Pool, and Network Management configuration.
 
         Returns:
-            self
+            self - The current object with Global Pool, Reserved Pool, Network Servers information.
         """
 
         self.all_reserved_pool_details = {}
