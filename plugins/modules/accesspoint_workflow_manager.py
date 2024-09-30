@@ -534,15 +534,23 @@ options:
           hostnames:
             description: |
                 A list of hostnames used to identify the access points for rebooting.
+                At least one of the following parameters is required to identify the APs:
+                - mac_addresses
+                - hostnames
+                - management_ip_addresses
             type: list
             elements: str
-            required: False
+            required: True
           management_ip_addresses:
             description: |
                 A list of management IP addresses used to identify the access points for rebooting.
+                At least one of the following parameters is required to identify the APs:
+                - mac_addresses
+                - hostnames
+                - management_ip_addresses
             type: list
             elements: str
-            required: False
+            required: True
 
 requirements:
   - dnacentersdk >= 2.7.2
