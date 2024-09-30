@@ -749,6 +749,80 @@ class DnacBase():
                 self.log("An error occurred in 'get_sites':{0}".format(e), "ERROR")
                 return None
 
+    def assign_device_to_site(self, device_ids, site_id, site_name=None):
+        """
+        Assign the Device to the Site
+
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+
+        Returns:
+            bool: True if The device assign to the site, otherwise False.
+
+        Description:
+            Checks if the specified AP assigned to the site returns "True", otherwise logs an error
+            and returns "failed" with error details.
+        """
+        assign_network_device_to_site = {
+            'deviceIds': device_ids,
+            'siteId': site_id,
+        }
+        self.log("Assign device to site before update: {0}, {1} ."
+                 .format(site_name, assign_network_device_to_site), "INFO")
+        try:
+            response = self.dnac._exec(
+                family="site_design",
+                function='assign_network_devices_to_a_site',
+                op_modifies=True,
+                params=assign_network_device_to_site
+            )
+            self.log("Response from assigning device to site: {0}, {1}, {2} .".format(
+                site_name, str(assign_network_device_to_site), str(response["response"])), "INFO")
+
+            if response and isinstance(response, dict):
+                task_id = response.get("response", {}).get("taskId")
+                resync_retry_count = int(self.payload.get("dnac_api_task_timeout"), 100)
+                resync_retry_interval = int(self.payload.get("dnac_task_poll_interval"), 5)
+
+                while resync_retry_count > 0:
+                    task_details_response = self.get_tasks_by_id(task_id)
+                    self.log("Status of the task: {0} .".format(self.status), "INFO")
+                    responses = {}
+                    if task_details_response.get("endTime") is not None:
+                        if task_details_response.get("status") == "SUCCESS":
+                            self.log("Task Details: {0} .".format(self.pprint(
+                                task_details_response)), "INFO")
+                            self.msg = "AP {0} Site - {1} updated Successfully".format(
+                                self.have["current_ap_config"].get("ap_name"), self.have.get("site_id"))
+                            self.log(self.msg, "INFO")
+                            return True
+
+                        self.result['changed'] = True if self.result['changed'] is True else False
+                        self.status = "failed"
+                        self.msg = "Unable to get success response, hence AP site not updated"
+                        self.log(self.msg, "ERROR")
+                        self.log("Task Details: {0} .".format(self.pprint(
+                            task_details_response)), "ERROR")
+                        responses["accesspoints_updates"] = {
+                            "ap_assign_to_site_task_details": task_details_response,
+                            "ap_assign_to_site_status": self.msg}
+                        self.module.fail_json(msg=self.msg, response=responses)
+                        break
+                    time.sleep(resync_retry_interval)
+                    resync_retry_count = resync_retry_count - 1
+            else:
+                self.msg = "Failed to receive a valid response from site assignment API."
+                self.log(self.msg, "ERROR")
+                self.status = "failed"
+                self.module.fail_json(msg=self.msg)
+
+        except Exception as e:
+            msg = "Unable to assign the site to the device:"
+            self.log(msg + str(e), "ERROR")
+            site_assgin_details = str(e)
+            self.status = "failed"
+            self.module.fail_json(msg=msg, response=site_assgin_details)
+
     def generate_key(self):
         """
         Generate a new encryption key using Fernet.
