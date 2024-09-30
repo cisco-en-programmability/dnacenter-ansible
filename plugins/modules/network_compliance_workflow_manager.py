@@ -1024,12 +1024,13 @@ class NetworkCompliance(DnacBase):
             and stores the result including task ID, batch parameters, task status, and message.
         """
         batches_result = []
+        success_msg = "Task is success"
         for idx, batch_info in batches_dict.items():
             task_id = batch_info["task_id"]
             device_ids = batch_info["batch_params"]["deviceUuids"]
 
             # Get task status for the current batch
-            task_status = self.get_task_result(task_id, device_ids)
+            task_status = self.get_task_status_from_tasks_by_id(task_id, device_ids, success_msg)
             self.log("The task status of batch: {0} with task id: {1} is {2}".format(idx, task_id, task_status), "INFO")
 
             # Extract message and status from the task status result
