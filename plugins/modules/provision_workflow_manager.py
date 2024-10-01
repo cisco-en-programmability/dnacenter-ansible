@@ -952,7 +952,8 @@ class Provision(DnacBase):
 
         except Exception as e:
             status_response = {}
-        self.log("Wired device's status Response collected from 'get_provisioned_wired_device' API is:{0}".format(str(status_response)), "DEBUG")
+        self.log("Wired device's status Response collected from 'get_provisioned_wired_device' API is: {0} "
+                 "for the device: {1}".format(str(status_response), self.validated_config.get("management_ip_address")), "DEBUG")
         status = status_response.get("status")
         self.log("The provisioned status of the wired device is {0}".format(status), "INFO")
 
