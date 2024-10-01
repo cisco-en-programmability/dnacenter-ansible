@@ -976,13 +976,22 @@ class FabricTransit(DnacBase):
             if not have_fabric_transit.get("exists"):
                 self.log("Desired fabric transit '{name}' details (want): {requested_state}"
                          .format(name=name, requested_state=want_fabric_transit), "DEBUG")
-                response = self.dnac._exec(
-                    family="sda",
-                    function="add_transit_networks",
-                    op_modifies=True,
-                    params={"payload": [want_fabric_transit]},
+                payload = {"payload": [want_fabric_transit]}
+                task_name = "add_transit_networks"
+                task_id = self.get_taskid_post_api_call("sda", task_name, payload)
+                if not task_id:
+                    self.msg = (
+                        "Unable to retrive the task_id for the task '{task_name}'."
+                        .format(task_name=task_name)
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
+
+                success_msg = (
+                    "Successfully created the SDA Transit with the details '{transit_details}'."
+                    .format(transit_details=want_fabric_transit)
                 )
-                self.check_tasks_response_status(response, "add_transit_networks").check_return_status()
+                self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg).check_return_status()
                 self.log("Successfully created SDA fabric transit '{name}'.".format(name=name), "INFO")
                 result_fabric_transit.get("response").update({
                     name: want_fabric_transit
@@ -1012,13 +1021,22 @@ class FabricTransit(DnacBase):
             self.log("Desired SDA fabric transit '{name}' details: {requested_state}"
                      .format(name=name, requested_state=want_fabric_transit), "DEBUG")
             want_fabric_transit.update({"id": have_fabric_transit.get("id")})
-            response = self.dnac._exec(
-                family="sda",
-                function="update_transit_networks",
-                op_modifies=True,
-                params={"payload": [want_fabric_transit]},
+            payload = {"payload": [want_fabric_transit]}
+            task_name = "update_transit_networks"
+            task_id = self.get_taskid_post_api_call("sda", task_name, payload)
+            if not task_id:
+                self.msg = (
+                    "Unable to retrive the task_id for the task '{task_name}'."
+                    .format(task_name=task_name)
+                )
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            success_msg = (
+                "Successfully updated the SDA Transit with the details '{transit_details}'."
+                .format(transit_details=want_fabric_transit)
             )
-            self.check_tasks_response_status(response, "update_transit_networks").check_return_status()
+            self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg).check_return_status()
             self.log("SDA fabric transit '{name}' updated successfully.".format(name=name), "INFO")
             result_fabric_transit.get("response").update({
                 name: want_fabric_transit
@@ -1079,14 +1097,22 @@ class FabricTransit(DnacBase):
             self.log("SDA fabric transit scheduled for deletion with the name '{name}'.".format(name=name), "INFO")
             transit_id = have_fabric_transit.get("id")
             self.log("SDA fabric transit '{name}' id: {id}".format(name=name, id=transit_id), "DEBUG")
-            response = self.dnac._exec(
-                family="sda",
-                function="delete_transit_network_by_id",
-                op_modifies=True,
-                params={"id": transit_id},
+            payload = {"id": transit_id}
+            task_name = "delete_transit_network_by_id"
+            task_id = self.get_taskid_post_api_call("sda", task_name, payload)
+            if not task_id:
+                self.msg = (
+                    "Unable to retrive the task_id for the task '{task_name}'."
+                    .format(task_name=task_name)
+                )
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            success_msg = (
+                "Successfully deleted the SDA Transit with id '{id}'."
+                .format(id=transit_id)
             )
-            self.check_tasks_response_status(response, "delete_transit_network_by_id").check_return_status()
-            task_id = response.get("response").get("taskId")
+            self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg).check_return_status()
             result_fabric_transit.get("response").update({name: {}})
             result_fabric_transit.get("response").get(name).update({
                 "Task Id": task_id
@@ -1245,7 +1271,7 @@ def main():
         "dnac_username": {"type": 'str', "default": 'admin', "aliases": ['user']},
         "dnac_password": {"type": 'str', "no_log": True},
         "dnac_verify": {"type": 'bool', "default": 'True'},
-        "dnac_version": {"type": 'str', "default": '2.2.3.3'},
+        "dnac_version": {"type": 'str', "default": '2.3.7.6'},
         "dnac_debug": {"type": 'bool', "default": False},
         "dnac_log": {"type": 'bool', "default": False},
         "dnac_log_level": {"type": 'str', "default": 'WARNING'},
