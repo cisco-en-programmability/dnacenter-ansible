@@ -432,7 +432,7 @@ options:
                 default: "read"
                 type: str
               remote_device_support:
-                description: Allow Cisco support team to remotely troubleshoot any network devices managed by Cisco DNA Center.
+                description: Allow Cisco support team to remotely troubleshoot any network devices managed by Cisco Catalyst Center.
                 choices: ["deny", "read", "write"]
                 default: "deny"
                 type: str
@@ -3052,11 +3052,15 @@ class UserandRole(DnacBase):
             return {"error_message": error_msg}
 
         except Exception as e:
-            self.log("Exception occurred while deleting user {0}: {1}".format(username, str(e)), "ERROR")
-            error_message = (
-                "Self-deletion attempt failed: User cannot delete themselves while logged into the session."
-                " Please log out first and retry with a different account."
-            )
+            if "[404]" in str(e):
+                error_message = "User '{0}' was not found in Cisco Catalyst Center System".format(username)
+            elif "[412]" in str(e):
+                error_message = (
+                    "User '{0}' tried to delete themselves or does not have right permission to delete a user in Cisco Catalyst Center System".format(
+                        username)
+                )
+            else:
+                error_message = "Exception occurred while deleting user {0}: {1}".format(username, str(e))
 
             return {"error_message": error_message}
 
