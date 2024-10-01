@@ -2996,12 +2996,18 @@ class UserandRole(DnacBase):
                 task_response = self.delete_user(user_id_to_delete)
                 self.log("Task response {0}".format(str(task_response)), "INFO")
 
-                responses = {"users_operation": {"response": task_response}}
-                self.msg = responses
-                self.result["response"] = self.msg
-                self.result["changed"] = True
-                self.status = "success"
-                self.log(self.msg, "INFO")
+                if task_response and "error_message" not in task_response:
+                    responses = {"users_operation": {"response": task_response}}
+                    self.msg = responses
+                    self.result["response"] = self.msg
+                    self.result["changed"] = True
+                    self.status = "success"
+                    self.log(self.msg, "INFO")
+                    return self
+
+                self.msg = task_response
+                self.log(self.msg, "ERROR")
+                self.status = "failed"
                 return self
 
             self.msg = (
@@ -3027,15 +3033,24 @@ class UserandRole(DnacBase):
             - The function uses the "user_and_roles" family and the "delete_user_api" function from the Cisco Catalyst Center API.
         """
         self.log("delete user with user_params: {0}".format(str(user_params)), "DEBUG")
-        response = self.dnac._exec(
-            family="user_and_roles",
-            function="delete_user_api",
-            op_modifies=True,
-            params=user_params,
-        )
-        self.log("Received API response from delete_user: {0}".format(str(response)), "DEBUG")
-        self.deleted_user.append(self.have.get("username"))
-        return response
+        try:
+            response = self.dnac._exec(
+                family="user_and_roles",
+                function="delete_user_api",
+                op_modifies=True,
+                params=user_params,
+            )
+            self.log("Received API response from delete_user: {0}".format(str(response)), "DEBUG")
+            self.deleted_user.append(self.have.get("username"))
+            return response
+        except Exception as e:
+            self.log("Unexpected error occurred: {0}".format(str(e)), "ERROR")
+            error_message = (
+                "Self-deletion attempt failed: User cannot delete themselves while logged into the session."
+                " Please log out first and retry with a different account."
+            )
+
+            return {"error_message": error_message}
 
     def delete_role(self, role_params):
         """
@@ -3210,6 +3225,7 @@ class UserandRole(DnacBase):
 
         self.result["changed"] = False
         result_msg_list = []
+        no_update_list = []
 
         if self.want.get("password_update") is not True:
             update_action = "created"
@@ -3226,7 +3242,7 @@ class UserandRole(DnacBase):
 
         if self.no_update_user:
             no_update_user_msg = "User(s) '{0}' need no update in Cisco Catalyst Center.".format("', '".join(self.no_update_user))
-            result_msg_list.append(no_update_user_msg)
+            no_update_list.append(no_update_user_msg)
 
         if self.payload.get("state") == "deleted":
             if self.deleted_user:
@@ -3243,15 +3259,20 @@ class UserandRole(DnacBase):
 
         if self.no_update_role:
             no_update_role_msg = "Role(s) '{0}' need no update in Cisco Catalyst Center.".format("', '".join(self.no_update_role))
-            result_msg_list.append(no_update_role_msg)
+            no_update_list.append(no_update_role_msg)
 
         if self.deleted_role:
             delete_role_msg = "Role(s) '{0}' deleted successfully from the Cisco Catalyst Center.".format("', '".join(self.deleted_role))
             result_msg_list.append(delete_role_msg)
 
-        if result_msg_list:
+        if result_msg_list and no_update_list:
+            self.result["changed"] = True
+            self.msg = "{0} {1}".format(" ".join(result_msg_list), " ".join(no_update_list))
+        elif result_msg_list:
             self.result["changed"] = True
             self.msg = " ".join(result_msg_list)
+        elif no_update_list:
+            self.msg = " ".join(no_update_list)
         else:
             self.msg = "No changes were made. No user or role actions were performed in Cisco Catalyst Center."
 
