@@ -3319,6 +3319,7 @@ class Inventory(DnacBase):
 
         if not config['ip_address_list']:
             self.msg = "Devices '{0}' already present in Cisco Catalyst Center".format(self.have['devices_in_playbook'])
+            self.devices_already_present.append(self.have['devices_in_playbook'])
             self.log(self.msg, "INFO")
             self.result['changed'] = False
             self.result['response'] = self.msg
@@ -4273,16 +4274,16 @@ class Inventory(DnacBase):
         """
 
         self.result["changed"] = False
-        result_msg_list = []
-        result_msg_list_1 = []
+        result_msg_list_not_changed = []
+        result_msg_list_changed = []
 
         if self.provisioned_device:
             provisioned_device = "device(s) '{0}' provisioned successfully in Cisco Catalyst Center.".format("', '".join(self.provisioned_device))
-            result_msg_list_1.append(provisioned_device)
+            result_msg_list_changed.append(provisioned_device)
 
         if self.device_already_provisioned:
             device_already_provisioned = "device(s) '{0}' already provisioned in Cisco Catalyst Center.".format("', '".join(self.device_already_provisioned))
-            result_msg_list.append(device_already_provisioned)
+            result_msg_list_not_changed.append(device_already_provisioned)
 
         if self.device_list:
             flat_devices = []
@@ -4290,7 +4291,7 @@ class Inventory(DnacBase):
                 for ip in sublist:
                     flat_devices.append(ip)
             device_lists_message = "device(s) '{0}' added successfully in Cisco Catalyst Center.".format("', '".join(flat_devices))
-            result_msg_list_1.append(device_lists_message)
+            result_msg_list_changed.append(device_lists_message)
 
         if self.devices_already_present:
             self.log(self.devices_already_present)
@@ -4299,38 +4300,38 @@ class Inventory(DnacBase):
                 for ip in sublist:
                     flat_devices.append(ip)
             devices_already_present = "device(s) '{0}' already present in Cisco Catalyst Center.".format("', '".join(flat_devices))
-            result_msg_list.append(devices_already_present)
+            result_msg_list_not_changed.append(devices_already_present)
 
         if self.provisioned_device_deleted:
             provisioned_device_deleted = ("provisioned device(s) '{0}' successfully deleted in Cisco Catalyst"
                                           " Center.").format("', '".join(self.provisioned_device_deleted))
-            result_msg_list_1.append(provisioned_device_deleted)
+            result_msg_list_changed.append(provisioned_device_deleted)
 
         if self.deleted_devices:
             deleted_devices = "device(s) '{0}' successfully deleted in Cisco Catalyst Center".format("', '".join(self.deleted_devices))
-            result_msg_list_1.append(deleted_devices)
+            result_msg_list_changed.append(deleted_devices)
 
         if self.no_device_to_delete:
             deleted_devices = ("device(s) '{0}' is not present in Cisco Catalyst Center so can't perform delete"
                                " operation").format("', '".join(self.no_device_to_delete))
-            result_msg_list.append(deleted_devices)
+            result_msg_list_not_changed.append(deleted_devices)
 
         if self.response_list:
             response_list_for_update = "{0}".format(", ".join(self.response_list))
-            result_msg_list_1.append(response_list_for_update)
+            result_msg_list_changed.append(response_list_for_update)
 
         if self.role_updated_list:
             role_updated_list = "Device(s) '{0}' role updated successfully to '{1}'".format(self.role_updated_list, self.device_role_name)
-            result_msg_list_1.append(role_updated_list)
+            result_msg_list_changed.append(role_updated_list)
 
-        if result_msg_list and result_msg_list_1:
+        if result_msg_list_not_changed and result_msg_list_changed:
             self.result["changed"] = True
-            self.msg = "{0}, {1}".format(" ".join(result_msg_list), " ".join(result_msg_list_1))
-        elif result_msg_list:
-            self.msg = " ".join(result_msg_list)
-        elif result_msg_list_1:
+            self.msg = "{0}, {1}".format(" ".join(result_msg_list_not_changed), " ".join(result_msg_list_changed))
+        elif result_msg_list_not_changed:
+            self.msg = " ".join(result_msg_list_not_changed)
+        elif result_msg_list_changed:
             self.result["changed"] = True
-            self.msg = " ".join(result_msg_list_1)
+            self.msg = " ".join(result_msg_list_changed)
         else:
             self.msg = "No changes were made. No inventory actions were performed in Cisco Catalyst Center."
 
