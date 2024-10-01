@@ -940,7 +940,7 @@ class Provision(DnacBase):
         """
 
         try:
-            response = self.dnac_apply['exec'](
+            status_response = self.dnac_apply['exec'](
                 family="sda",
                 function="get_provisioned_wired_device",
                 op_modifies=True,
@@ -948,16 +948,12 @@ class Provision(DnacBase):
                     "device_management_ip_address": self.validated_config.get("management_ip_address")
                 },
             )
-            self.log("Received API response from 'get_provisioned_wired_device': {0}".format(response), "DEBUG")
+            self.log("Received API response from 'get_provisioned_wired_device': {0}".format(status_response), "DEBUG")
 
         except Exception as e:
-            self.msg = "Error in get_provisioned_wired_device device '{0}' due to {1}".format(self.device_ip, str(e))
-            self.log(self.msg, "ERROR")
-            self.result['response'] = self.msg
-            self.status = "failed"
-            self.check_return_status()
-
-        status = response.get("status")
+            status_response = {}
+        self.log("Wired device's status Response collected from 'get_provisioned_wired_device' API is:{0}".format(str(status_response)), "DEBUG")
+        status = status_response.get("status")
         self.log("The provisioned status of the wired device is {0}".format(status), "INFO")
 
         if status == "success":
