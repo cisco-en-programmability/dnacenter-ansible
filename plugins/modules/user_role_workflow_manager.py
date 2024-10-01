@@ -3026,13 +3026,13 @@ class UserandRole(DnacBase):
             - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             - user_params (dict): A dictionary containing user information.
         Returns:
-            - response (dict): The API response from the "delete_user" function.
+            - response (dict): The API response from the "delete_user" function, or an error message if the operation fails.
         Description:
             - This method sends a request to delete a user in Cisco Catalyst Center using the provided user parameters.
             - It logs the response and returns it.
             - The function uses the "user_and_roles" family and the "delete_user_api" function from the Cisco Catalyst Center API.
         """
-        self.log("delete user with user_params: {0}".format(str(user_params)), "DEBUG")
+        self.log("Attempting to delete user with user_params: {0}".format(str(user_params)), "DEBUG")
         try:
             response = self.dnac._exec(
                 family="user_and_roles",
@@ -3040,9 +3040,16 @@ class UserandRole(DnacBase):
                 op_modifies=True,
                 params=user_params,
             )
-            self.log("Received API response from delete_user: {0}".format(str(response)), "DEBUG")
-            self.deleted_user.append(self.have.get("username"))
-            return response
+
+            if response and isinstance(response, dict):
+                self.log("Received API response from delete_user: {0}".format(str(response)), "DEBUG")
+                self.deleted_user.append(self.have.get("username"))
+                return response
+
+            error_msg = response.get("error_message", "Unknown error occurred during user deletion")
+            self.log("User deletion failed. Error: {0}".format(error_msg), "ERROR")
+            return {"error_message": error_msg}
+
         except Exception as e:
             self.log("Unexpected error occurred: {0}".format(str(e)), "ERROR")
             error_message = (
