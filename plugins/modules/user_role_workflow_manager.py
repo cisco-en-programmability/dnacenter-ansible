@@ -3032,6 +3032,7 @@ class UserandRole(DnacBase):
             - It logs the response and returns it.
             - The function uses the "user_and_roles" family and the "delete_user_api" function from the Cisco Catalyst Center API.
         """
+        username = self.have.get("username")
         self.log("Attempting to delete user with user_params: {0}".format(str(user_params)), "DEBUG")
         try:
             response = self.dnac._exec(
@@ -3042,16 +3043,16 @@ class UserandRole(DnacBase):
             )
 
             if response and isinstance(response, dict):
-                self.log("Received API response from delete_user: {0}".format(str(response)), "DEBUG")
-                self.deleted_user.append(self.have.get("username"))
+                self.log("Received API response from delete_user '{0}': {1}".format(username, str(response)), "DEBUG")
+                self.deleted_user.append(username)
                 return response
 
-            error_msg = response.get("error_message", "Unknown error occurred during user deletion")
+            error_msg = response.get("error_message", "Unknown error occurred while deleting user '{0}'".format(username))
             self.log("User deletion failed. Error: {0}".format(error_msg), "ERROR")
             return {"error_message": error_msg}
 
         except Exception as e:
-            self.log("Unexpected error occurred: {0}".format(str(e)), "ERROR")
+            self.log("Exception occurred while deleting user {0}: {1}".format(username, str(e)), "ERROR")
             error_message = (
                 "Self-deletion attempt failed: User cannot delete themselves while logged into the session."
                 " Please log out first and retry with a different account."
