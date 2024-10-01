@@ -948,14 +948,13 @@ class Provision(DnacBase):
                     "device_management_ip_address": self.validated_config.get("management_ip_address")
                 },
             )
-            self.log("Received API response from 'get_provisioned_wired_device': {0}".format(status_response), "DEBUG")
+            if status_response:
+                self.log("Received API response from 'get_provisioned_wired_device': {0}".format(status_response), "DEBUG")
+                status = status_response.get("status")
 
         except Exception as e:
-            status_response = {}
-        self.log("Wired device's status Response collected from 'get_provisioned_wired_device' API is: {0} "
-                 "for the device: {1}".format(str(status_response), self.validated_config.get("management_ip_address")), "DEBUG")
-        status = status_response.get("status")
-        self.log("The provisioned status of the wired device is {0}".format(status), "INFO")
+            self.log("device '{0}' is not provisioned".format(self.validated_config.get("management_ip_address")), "DEBUG")
+            status = "failed"
 
         if status == "success":
             if not to_force_provisioning:
