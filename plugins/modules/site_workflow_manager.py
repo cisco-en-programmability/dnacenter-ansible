@@ -124,6 +124,7 @@ options:
               bulk_operation:
                 description: Set to True or Flase to enable bulk operations for site creation and management.
                 type: bool
+                default: False
 
 requirements:
 - dnacentersdk == 2.4.5
