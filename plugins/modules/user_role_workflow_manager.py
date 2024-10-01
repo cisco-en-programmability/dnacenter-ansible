@@ -3053,10 +3053,10 @@ class UserandRole(DnacBase):
 
         except Exception as e:
             if "[404]" in str(e):
-                error_message = "User '{0}' was not found in Cisco Catalyst Center System".format(username)
+                error_message = "User '{0}' was not found in Cisco Catalyst Center".format(username)
             elif "[412]" in str(e):
                 error_message = (
-                    "User '{0}' tried to delete themselves or does not have right permission to delete a user in Cisco Catalyst Center System".format(
+                    "User '{0}' tried to delete themselves or does not have right permission to delete a user in Cisco Catalyst Center".format(
                         username)
                 )
             else:
