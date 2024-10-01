@@ -749,19 +749,22 @@ class DnacBase():
                 self.log("An error occurred in 'get_sites':{0}".format(e), "ERROR")
                 return None
 
-    def assign_device_to_site(self, device_ids, site_id, site_name):
+    def assign_device_to_site(self, device_ids, site_name, site_id):
         """
-        Assign the Device to the Site
+        Assign devices to the specified site.
 
         Parameters:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            device_ids (list): A list of device IDs to assign to the specified site.
+            site_name (str): The complete path of the site location.
+            site_id (str): The ID of the specified site location.
 
         Returns:
-            bool: True if The device assign to the site, otherwise False.
+            bool: True if the devices are successfully assigned to the site, otherwise False.
 
         Description:
-            Checks if the specified AP assigned to the site returns "True", otherwise logs an error
-            and returns "failed" with error details.
+            Assigns the specified devices to the site. If the assignment is successful, returns True.
+            Otherwise, logs an error and returns False along with error details.
         """
         assign_network_device_to_site = {
             'deviceIds': device_ids,
