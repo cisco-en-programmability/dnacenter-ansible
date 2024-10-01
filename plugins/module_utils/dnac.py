@@ -829,7 +829,7 @@ class DnacBase():
                         if task_details_response.get("status") == "SUCCESS":
                             self.log("Task Details: {0} .".format(self.pprint(
                                 task_details_response)), "INFO")
-                            self.msg = "AP {0} Site - {1} updated Successfully".format(
+                            self.msg = "Devices {0} assigned to the site - {1} Successfully".format(
                                 self.have["current_ap_config"].get("ap_name"), self.have.get("site_id"))
                             self.log(self.msg, "INFO")
                             return True
@@ -841,9 +841,9 @@ class DnacBase():
                         self.log("Task Details: {0} .".format(self.pprint(
                             task_details_response)), "ERROR")
                         responses = {
-                            "accesspoints_updates": {
-                                "ap_assign_to_site_task_details": task_details_response,
-                                "ap_assign_to_site_status": self.msg
+                            "devices_updates": {
+                                "devices_assign_to_site_task_details": task_details_response,
+                                "devices_assign_to_site_status": self.msg
                             }
                         }
                         self.module.fail_json(msg=self.msg, response=responses)
