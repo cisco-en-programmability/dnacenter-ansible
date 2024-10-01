@@ -40,7 +40,7 @@ options:
     required: True
     suboptions:
       extranet_policy_name:
-        description: 
+        description:
             - Name of the SDA Extranet Policy.
             - This parameter allows you to specify the desired name when creating a new extranet policy.
             - The same name can be used to update or delete the policy.
@@ -48,7 +48,7 @@ options:
             - Updating this field is not allowed.
         type: str
       provider_virtual_network:
-        description: 
+        description:
             - Specifies the Provider Virtual Network containing shared services resources that subscribers need to access.
             - If a virtual network is already defined as a Provider, it cannot be assigned as a provider again.
             - Ensure the default route is present in the Global Routing Table if INFRA_VN is defined as the Provider.
@@ -58,7 +58,7 @@ options:
             - Updating this field is not allowed.
         type: str
       subscriber_virtual_networks:
-        description: 
+        description:
             - Specifies a list of Subscriber Virtual Networks that require access to the Provider Virtual Network
               containing shared services resources.
             - A Virtual Network previously defined as a Provider cannot be selected as a subscriber.
@@ -68,7 +68,7 @@ options:
         type: list
         elements: str
       fabric_sites:
-        description: 
+        description:
             - Specifies the Fabric Site(s) where this Extranet Policy will be applied.
             - The Provider Virtual Network must be added to a Fabric Site before applying the policy.
             - Updating this field is allowed, but once an extranet policy is applied to a site, it cannot be removed.
@@ -376,7 +376,8 @@ class SDAExtranetPolicies(DnacBase):
         # Check if 'fabric_sites' are provided and site details are available
         if config.get("fabric_sites") and site_details:
             add_extranet_policy_params["fabricIds"] = self.get_fabric_ids_list(site_details)
-
+        else:
+            add_extranet_policy_params["fabricIds"] = []
         return add_extranet_policy_params
 
     def get_update_extranet_policy_params(self, config, extranet_policy_id, site_details=None):
