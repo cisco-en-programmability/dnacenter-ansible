@@ -432,11 +432,7 @@ class Site(DnacBase):
         self.supported_states = ["merged", "deleted"]
         self.created_site_list, self.updated_site_list, self.update_not_neeeded_sites = [], [], []
         self.deleted_site_list, self.site_absent_list = [], []
-        # self.payload = module.params
         self.keymap = {}
-        # self.dnac_version = int(self.payload.get(
-        #     "dnac_version").replace(".", ""))
-        # self.version_2_3_5_3, self.version_2_3_7_6 = 2353, 2376
 
     def validate_input(self):
         """
@@ -587,19 +583,19 @@ class Site(DnacBase):
                 self.log("No response received from 'get_site' API for site: {0}".format(site_name), "ERROR")
                 return (site_exists, current_site)
 
-            if response:
-                response = response.get("response")
-                self.log("Received API response from 'get_site': {0}".format(str(response)), "DEBUG")
-                current_site = self.get_current_site(response)
-                if current_site:
-                    site_exists = True
-                    self.log("Site '{0}' exists in Cisco Catalyst Center".format(self.want.get("site_name")), "INFO")
-                else:
-                    self.log("No valid site details found for '{0}'".format(self.want.get("site_name")), "WARNING")
+            response = response.get("response")
+            self.log("Received API response from 'get_site': {0}".format(str(response)), "DEBUG")
+
+            current_site = self.get_current_site(response)
+            if current_site:
+                site_exists = True
+                self.log("Site '{0}' exists in Cisco Catalyst Center".format(site_name), "INFO")
+            else:
+                self.log("No valid site details found for '{0}'".format(site_name), "WARNING")
+
             return (site_exists, current_site)
 
         else:
-            self.get_ccc_version_as_integer() >= self.version_2_3_7_6
             try:
                 response = {}
                 bulk_operation = self.config[0].get('site', {}).get('bulk_operation', False) or self.config[0]['site']['type']
@@ -636,39 +632,31 @@ class Site(DnacBase):
                     return (site_exists, all_sites_info)
 
             except Exception as e:
-                self.log("Bulk operation is not available due to : {0}".format(str(e)), "WARNING")
+                self.log("Bulk operation is not available due to: {0}".format(str(e)), "WARNING")
                 name_hierarchy = self.want.get("site_name")
                 try:
                     response = self.get_site(name_hierarchy)
-                except Exception as e:
-                    self.log("Error fetching site for {0}: {1}".format(name_hierarchy, str(e)))
-                response = response.get("response")
-                if not response:
-                    self.log("No site information found for name hierarchy: {0}".format(name_hierarchy), "WARNING")
-                    return (site_exists, current_site)
-                if response:
-                    self.log("Received API response from 'get_sites': {0}".format(
-                        str(response)), "DEBUG")
+                    response = response.get("response")
+
+                    if not response:
+                        self.log("No site information found for name hierarchy: {0}".format(name_hierarchy), "WARNING")
+                        return (site_exists, current_site)
+
+                    self.log("Received API response from 'get_sites': {0}".format(str(response)), "DEBUG")
                     all_sites_info = []
+
                     for site in response:
                         if isinstance(site, dict):
-                            for key, value in site.items():
-                                current_site[key] = value
-
-                            if site.get('nameHierarchy'):
-                                parentName = site.get('nameHierarchy', '').rsplit('/', 1)[0]
-                            else:
-                                parentName = None
-                            current_site['parentName'] = parentName
+                            current_site.update(site)
+                            current_site['parentName'] = site.get('nameHierarchy', '').rsplit('/', 1)[0] or None
 
                             all_sites_info.append(current_site)
                             site_exists = True
-                            self.log("Site '{0}' exists in Cisco Catalyst Center".format(
-                                self.want.get("site_name")), "INFO")
-                        all_sites_info.append(current_site)
-                    site_exists = True
-                    self.log("Site '{0}' exists in Cisco Catalyst Center".format(
-                        self.want.get("site_name")), "INFO")
+                            self.log("Site '{0}' exists in Cisco Catalyst Center".format(self.want.get("site_name")), "INFO")
+
+                except Exception as e:
+                    self.log("Error fetching site for {0}: {1}".format(name_hierarchy, str(e)))
+
         return (site_exists, current_site)
 
     def get_parent_id(self, parent_name):
@@ -934,7 +922,6 @@ class Site(DnacBase):
             requested_site = self.want['site_params']['site'].get(type)
 
         else:
-            self.get_ccc_version_as_integer() >= self.version_2_3_7_6
             type = self.have.get("current_site").get("type")
             self.log("Type of site '{0}' for the site creation/updation in Cisco Catalyst Center.".format(type), "DEBUG")
             current_site = self.have.get('current_site', {})
@@ -1001,7 +988,6 @@ class Site(DnacBase):
                 have["current_site"] = current_site
 
         else:
-            self.get_ccc_version_as_integer() >= self.version_2_3_7_6
             have["site_exists"] = site_exists
             if site_exists:
                 have["site_id"] = current_site.get("id")
@@ -1026,10 +1012,9 @@ class Site(DnacBase):
             information is stored in the 'want' attribute for later reference.
         """
         try:
-
-            want_list = []
-            if 'site' in self.config[0]:
-                if self.dnac_version >= self.version_2_3_7_6:
+            if self.dnac_version >= self.version_2_3_7_6:
+                want_list = []
+                if 'site' in self.config[0]:
                     self.keymap = {}
                     self.keymap = self.map_config_key_to_api_param(self.keymap, config)
                     self.keymap.update({
@@ -1076,10 +1061,12 @@ class Site(DnacBase):
                     self.want = want_list
                     self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
                     return self
-            else:
-                self.msg = "In this version '{0}' Bulk site operation file is not supported.".format(self.payload.get("dnac_version")), "ERROR"
-                self.log(self.msg, "ERROR")
-                self.status = "failed"
+
+                else:
+                    self.msg = "In this version '{0}' Bulk site operation file is not supported.".format(self.payload.get("dnac_version"))
+                    self.log(self.msg, "ERROR")
+                    self.status = "failed"
+                    return self
 
         except Exception as e:
             self.log("An unexpected error occurred: {0}".format(e), "ERROR")
