@@ -1819,8 +1819,6 @@ class Inventory(DnacBase):
         Parameters:
             device_ip (str): The IP address of the device to provision.
             site_name (str): The name of the site where the device will be provisioned.
-        Returns:
-            bool: True if provisioning is successful, False otherwise.
         Description:
             This method provisions a device with the specified IP address
             and site name for software versions greater than 2.3.5.6.
@@ -1916,7 +1914,7 @@ class Inventory(DnacBase):
             site_name (str): The name of the site where the device will be provisioned.
             provision_params (dict): A dictionary containing provisioning parameters.
         Returns:
-            bool: True if provisioning is successful, False otherwise.
+            self (object): An instance of the class after the provision operation is performed.
         Description:
             This method provisions a device at the specified site using the
             given provisioning parameters for software versions greater than 2.3.5.3.
@@ -1946,8 +1944,7 @@ class Inventory(DnacBase):
             already_provisioned_count (int): The number of devices that were already provisioned.
             device_ip_list (list): A list of IP addresses of the devices processed.
             device_type (str): The type of device being provisioned.
-        Returns:
-            None
+
         Description:
             This method processes the final results of the provisioning task,
             including logging the total number of devices, the count of successfully
@@ -3756,7 +3753,7 @@ class Inventory(DnacBase):
         """
         Deletes User Defined Fields (UDF) in Cisco Catalyst Center.
         Returns:
-            bool: True if deletion is successful, False otherwise.
+            self (object): An instance of the class after the deleting UFD operation is performed.
         Description:
             This method removes user-defined fields from the Cisco Catalyst Center.
             It ensures that any custom fields that are no longer needed are
@@ -3827,8 +3824,7 @@ class Inventory(DnacBase):
 
         Parameters:
             device_ip (str): The IP address of the device to be deleted.
-        Returns:
-            bool: True if deletion is successful, False otherwise.
+
         Description:
             This method deletes a provisioned device with the specified IP address
             for software versions 2.3.5.3 or earlier. It performs the necessary
@@ -3863,8 +3859,7 @@ class Inventory(DnacBase):
 
         Parameters:
             device_ip (str): The IP address of the device to be deleted.
-        Returns:
-            bool: True if deletion is successful, False otherwise.
+
         Description:
             This method deletes a provisioned device with the specified IP address
             for software versions greater than 2.3.5.3. It ensures that the device
