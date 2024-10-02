@@ -821,13 +821,15 @@ class DnacBase():
             if self.result["changed"]:
                 return True
             else:
-                self.msg = "Failed to receive a valid response from site assignment API."
+                self.msg = "Failed to receive a valid response from site assignment API: {0}, {1}".format(
+                   site_name, str(assign_network_device_to_site))
                 self.log(self.msg, "ERROR")
                 self.status = "failed"
                 self.module.fail_json(msg=self.msg)
 
         except Exception as e:
-            msg = "Unable to assign the site to the device:"
+            msg = "Failed to assign devices to site: {0}, {1}.".format(site_name,
+                                                                      str(assign_network_device_to_site))
             self.log(msg + str(e), "ERROR")
             site_assgin_details = str(e)
             self.status = "failed"
