@@ -805,7 +805,8 @@ class DnacBase():
             'deviceIds': device_ids,
             'siteId': site_id,
         }
-        self.log("Assigning devices to site before update: {site_name}, {assign_network_device_to_site}", "INFO")
+        self.log("Assigning devices to site before update: {0}, {1}".
+                 format(site_name, str(assign_network_device_to_site)), "INFO")
         try:
             response = self.dnac._exec(
                 family="site_design",
@@ -816,52 +817,19 @@ class DnacBase():
             self.log("Response from assigning devices to site: {0}, {1}, {2} .".format(
                 site_name, str(assign_network_device_to_site), str(response["response"])), "INFO")
 
-            if response and isinstance(response, dict):
-                task_id = response.get("response", {}).get("taskId")
-                if not task_id:
-                    raise ValueError("No taskId returned in the API response")
-                resync_retry_count = int(self.params.get("dnac_api_task_timeout", 1200))
-                resync_retry_interval = int(self.params.get("dnac_task_poll_interval", 5))
-
-                while resync_retry_count > 0:
-                    task_details_response = self.get_tasks_by_id(task_id)
-                    if task_details_response.get("endTime") is not None:
-                        if task_details_response.get("status") == "SUCCESS":
-                            self.log("Task Details: {0} .".format(self.pprint(
-                                task_details_response)), "INFO")
-                            self.msg = "Devices {0} assigned to the site - {1} Successfully".format(
-                                self.have["current_ap_config"].get("ap_name"), self.have.get("site_id"))
-                            self.log(self.msg, "INFO")
-                            return True
-
-                        self.result['changed'] = True if self.result['changed'] is True else False
-                        self.status = "failed"
-                        self.msg = "Unable to get success response, hence site not assigned"
-                        self.log(self.msg, "ERROR")
-                        self.log("Task Details: {0} .".format(self.pprint(
-                            task_details_response)), "ERROR")
-                        responses = {
-                            "devices_updates": {
-                                "devices_assign_to_site_task_details": task_details_response,
-                                "devices_assign_to_site_status": self.msg
-                            }
-                        }
-                        self.module.fail_json(msg=self.msg, response=responses)
-                        break
-
-                    resync_retry_count -= 1
-                    self.log("Retrying... {resync_retry_count} attempts left. Sleeping for {resync_retry_interval} seconds before the next attempt.",
-                             "DEBUG")
-                    time.sleep(resync_retry_interval)
-
+            self.check_tasks_response_status(response, api_name='assign_device_to_site')
+            if self.result["changed"]:
+                return True
             else:
-                self.msg = "Failed to receive a valid response from site assignment API."
+                self.msg = "Failed to receive a valid response from site assignment API: {0}, {1}".format(site_name,
+                                                                                                          str(assign_network_device_to_site))
                 self.log(self.msg, "ERROR")
                 self.status = "failed"
                 self.module.fail_json(msg=self.msg)
 
         except Exception as e:
-            msg = "Unable to assign the site to the device:"
+            msg = "Failed to assign devices to site: {0}, {1}.".format(site_name,
+                                                                       str(assign_network_device_to_site))
             self.log(msg + str(e), "ERROR")
             site_assgin_details = str(e)
             self.status = "failed"
