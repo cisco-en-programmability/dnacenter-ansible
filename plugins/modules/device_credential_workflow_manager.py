@@ -227,9 +227,6 @@ options:
         description: Assign Device Credentials to Site.
         type: dict
         suboptions:
-          Sync:
-            description: Sync Device Credentials to Site devices. Applicable for Catalyst Center version 2.3.7.6 and later.
-            type: bool
           cli_credential:
             description: CLI Credential.
             type: dict
@@ -271,6 +268,57 @@ options:
                 type: str
           site_name:
             description: Site Name to assign credential.
+            type: list
+            elements: str
+          snmp_v2c_read:
+            description: SNMPv2c Read Credential
+            type: dict
+            suboptions:
+              description:
+                description: SNMPv2c Read Credential Description.
+                type: str
+              id:
+                description: SNMPv2c Read Credential Id. Use Description or Id.
+                type: str
+          snmp_v2c_write:
+            description: SNMPv2c Write Credential
+            type: dict
+            suboptions:
+              description:
+                description: SNMPv2c Write Credential Description.
+                type: str
+              id:
+                description: SNMPv2c Write Credential Id. Use Description or Id.
+                type: str
+          snmp_v3:
+            description: snmp_v3 Credential
+            type: dict
+            suboptions:
+              description:
+                description: snmp_v3 Credential Description.
+                type: str
+              id:
+                description: snmp_v3 Credential Id. Use Description or Id.
+                type: str
+      apply_credentials_to_site:
+        description: Sync Device Credentials to Site devices. Applicable for Catalyst Center version 2.3.7.6 and later.
+        type: dict
+        suboptions:
+          cli_credential:
+            description: CLI Credential.
+            type: dict
+            suboptions:
+              description:
+                description: CLI Credential Description.
+                type: str
+              username:
+                description: CLI Credential Username.
+                type: str
+              id:
+                description: CLI Credential Id. Use (Description, Username) or Id.
+                type: str
+          site_name:
+            description: Site Name to apply credential.
             type: list
             elements: str
           snmp_v2c_read:
@@ -654,7 +702,6 @@ EXAMPLES = r"""
     config_verify: True
     config:
     - assign_credentials_to_site:
-        Sync: True
         cli_credential:
             description: CLI6
             username: cli6
@@ -672,6 +719,33 @@ EXAMPLES = r"""
             username: HTTP_Write1
         site_name:
             - Global/USA
+
+  - name: Sync global device credentials to a site.
+    cisco.dnac.device_credential_workflow_manager:
+    dnac_host: "{{ dnac_host }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log_level: "{{ dnac_log_level }}"
+    dnac_log: True
+    state: merged
+    config_verify: True
+    config:
+    - apply_credentials_to_site:
+        cli_credential:
+            description: CLI5
+            username: cli5
+        snmp_v2c_read:
+            description: SNMPv2c Read2
+        snmp_v2c_write:
+            description: SNMPv2c Write1
+        snmp_v3:
+            description: snmp
+        site_name:
+            - Global/Vietnam/halong/Hanoi
 
 """
 
@@ -2206,13 +2280,23 @@ class DeviceCredential(DnacBase):
         want = {
             "apply_credentials": {}
         }
-        site_name = ApplyCredentials.get("site_name")
-        if not site_name:
+        site_names = ApplyCredentials.get("site_name")
+        if not site_names:
             self.msg = "The 'site_name' is required parameter for 'apply_credentials_to_site'"
             self.status = "failed"
             return self
 
-        site_exist, want["apply_credentials"]["site_id"] = self.get_site_id(site_name[0])
+        site_ids = []
+        for site_name in site_names:
+            site_exists, current_site_id = self.get_site_id(site_name)
+            if not current_site_id:
+                self.msg = "The site_name '{0}' is invalid in 'apply_credentials_to_site'".format(site_name)
+                self.status = "failed"
+                return self
+            site_ids.append(current_site_id)
+
+        want.update({"site_id": site_ids})
+        want.update({"site_name": site_names})
         global_credentials = self.get_global_credentials_params()
         cli_credential = ApplyCredentials.get("cli_credential")
         if cli_credential:
@@ -2367,10 +2451,8 @@ class DeviceCredential(DnacBase):
             AssignCredentials = config.get("assign_credentials_to_site")
             self.get_want_assign_credentials(AssignCredentials).check_return_status()
 
-        if config.get("assign_credentials_to_site") and config.get("assign_credentials_to_site").get("Sync") is True:
-            config["assign_credentials_to_site"].pop("https_read", None)
-            config["assign_credentials_to_site"].pop("https_write", None)
-            ApplyCredentials = config.get("assign_credentials_to_site")
+        if config.get("apply_credentials_to_site"):
+            ApplyCredentials = config.get("apply_credentials_to_site")
             self.get_want_apply_credentials(ApplyCredentials).check_return_status()
 
         self.log("Desired State (want): {0}".format(self.want), "INFO")
@@ -2413,8 +2495,7 @@ class DeviceCredential(DnacBase):
         )
         self.log("Received API response from 'create_global_credentials_v2': {0}"
                  .format(response), "DEBUG")
-        validation_string = "global credential addition performed"
-        self.check_task_response_status(response, validation_string, "create_global_credentials_v2").check_return_status()
+        self.check_tasks_response_status(response, "create_global_credentials_v2").check_return_status()
         self.log("Global credential created successfully", "INFO")
         result_global_credential.update({
             "Creation": {
@@ -2478,8 +2559,7 @@ class DeviceCredential(DnacBase):
                 )
                 self.log("Received API response for 'update_global_credentials_v2': {0}"
                          .format(response), "DEBUG")
-                validation_string = "global credential update performed"
-                self.check_task_response_status(response, validation_string, "update_global_credentials_v2").check_return_status()
+                self.check_tasks_response_status(response, "update_global_credentials_v2").check_return_status()
         self.log("Updating device credential API input parameters: {0}"
                  .format(final_response), "DEBUG")
         self.log("Global device credential updated successfully", "INFO")
@@ -2535,9 +2615,8 @@ class DeviceCredential(DnacBase):
                 )
                 self.log("Received API response for 'assign_device_credential_to_site_v2': {0}"
                          .format(response), "DEBUG")
-                validation_string = "desired common settings operation successful"
-                self.check_task_response_status(
-                    response, validation_string, "assign_device_credential_to_site_v2").check_return_status()
+                self.check_tasks_response_status(
+                    response, "assign_device_credential_to_site_v2").check_return_status()
             else:
                 credential_params.update({"id": site_id})
                 final_response.append(copy.deepcopy(credential_params))
@@ -2549,9 +2628,8 @@ class DeviceCredential(DnacBase):
                 )
                 self.log("Received API response for 'update_device_credential_settings_for_a_site': {0}"
                          .format(response), "DEBUG")
-                validation_string = "desired common settings operation successful"
-                self.check_task_response_status(
-                    response, validation_string, "update_device_credential_settings_for_a_site").check_return_status()
+                self.check_tasks_response_status(
+                    response, "update_device_credential_settings_for_a_site").check_return_status()
 
         self.log("Device credential assigned to site {0} is successfully."
                  .format(site_ids), "INFO")
@@ -2567,7 +2645,7 @@ class DeviceCredential(DnacBase):
         self.status = "success"
         return self
 
-    def get_network_devices_credentials_sync_status(self):
+    def get_network_devices_credentials_sync_status(self, site_id):
         """
         Retrieve network devices credentials sync status from Cisco Catalyst Center.
 
@@ -2577,7 +2655,7 @@ class DeviceCredential(DnacBase):
         Returns:
             sync_status - Response for all network devices credential's sync status.
         """
-        site_id = self.want.get("apply_credentials").get("site_id")
+
         try:
             sync_status = self.dnac._exec(
                 family="network_settings",
@@ -2597,33 +2675,6 @@ class DeviceCredential(DnacBase):
             return self.check_return_status()
 
         return sync_status
-
-    def check_device_assigned_to_site(self, site_id):
-        """
-        Check if any devices are assigned to a given site in Cisco Catalyst Center.
-
-        Parameters:
-            self - The current object with updated Global Device Credential information.
-            site_id - The ID of the site to check for assigned devices.
-
-        Returns:
-            site_response - The response from the API call.
-        """
-        self.log(
-            "Checking assigned devices for site with ID: {0}".format(site_id), "DEBUG"
-        )
-        site_assigned_network_devices_response = self.dnac._exec(
-            family="site_design",
-            function="get_site_assigned_network_devices",
-            op_modifies=False,
-            params={"site_id": site_id},
-        )
-        self.log("Received API response from 'get_site_assigned_network_devices': {0}"
-                 .format(str(site_assigned_network_devices_response)), "DEBUG")
-        site_response = site_assigned_network_devices_response.get(
-            "response", [])
-
-        return site_response
 
     def get_assigned_device_credential(self, site_id):
         """
@@ -2663,125 +2714,117 @@ class DeviceCredential(DnacBase):
             self - The current object with updated Global Device Credential information.
 
         """
-        if self.get_ccc_version_as_integer() >= self.get_ccc_version_as_int_from_str("2.3.7.6"):
-            result_apply_credential = self.result.get(
-                "response")[0].get("applyCredential")
-            credential_params = self.want.get("apply_credentials")
-            final_response = []
-            self.log("Applying device credential to site API input parameters: {0}"
-                     .format(credential_params), "DEBUG")
+        site_ids = self.want.get("site_id")
+        site_names = self.want.get("site_name")
+        for site_id, site_name in zip(site_ids, site_names):
+            if self.get_ccc_version_as_integer() >= self.get_ccc_version_as_int_from_str("2.3.7.6"):
+                result_apply_credential = self.result.get("response")[0].get("applyCredential")
+                credential_params = self.want.get("apply_credentials")
+                final_response = []
+                self.log("Applying device credential to site API input parameters: {0}".format(credential_params), "DEBUG")
+                if not credential_params:
+                    result_apply_credential.update({
+                        "No Apply Credentials": {
+                            "response": "No Response",
+                            "msg": "No device credential id is available"
+                        }
+                    })
+                    self.msg = "No device credential id is available"
+                    self.status = "success"
+                    return self
 
-            if not credential_params:
-                result_apply_credential.update({
-                    "No Apply Credentials": {
-                        "response": "No Response",
-                        "msg": "No device credential id is available"
-                    }
-                })
-                self.msg = "No device credential id is available"
+                site_response = self.get_device_ids_from_site(site_id)
+                if not site_response:
+                    result_apply_credential.update({
+                        "No Apply Credentials": {
+                            "response": "No Response",
+                            "msg": "No device available in the site"
+                        }
+                    })
+                    self.msg = "No device available in the site: '{0}' with site id {1}".format(site_name, site_id)
+                    self.log(self.msg, "WARNING")
+                    self.status = "exited"
+                    return self
+
+                cred_sync_status = self.get_network_devices_credentials_sync_status(site_id)
+                credential_mapping = {
+                    "cli": "cliId",
+                    "snmpV2Read": "snmpV2ReadId",
+                    "snmpV2Write": "snmpV2WriteId",
+                    "snmpV3": "snmpV3Id"
+                }
+
+                not_synced_ids, assigned_site_ids = [], []
+
+                for status_key, param_key in credential_mapping.items():
+                    if param_key in credential_params:
+                        status_list = cred_sync_status.get(status_key, [])
+                        for status in status_list:
+                            if status.get('status') != 'Synced':
+                                if credential_params.get(param_key):
+                                    not_synced_ids.append(credential_params[param_key])
+                assigned_device_credential = self.get_assigned_device_credential(site_id)
+
+                for value in assigned_device_credential.values():
+                    if isinstance(value, dict) and "credentialsId" in value:
+                        assigned_site_ids.append(value.get("credentialsId"))
+
+                valid_sync_cred_ids, invalid_sync_cred_ids = [], []
+
+                for id in not_synced_ids:
+                    if id in assigned_site_ids:
+                        valid_sync_cred_ids.append(id)
+                    else:
+                        invalid_sync_cred_ids.append(id)
+
+                self.log("Credential IDs {0} not assigned to site, so Sync not possible.".format(invalid_sync_cred_ids), "INFO")
+                if not valid_sync_cred_ids:
+                    result_apply_credential.update({
+                        "Applied Credentials": {
+                            "response": final_response,
+                            "msg": "Either the provided credentials are already synchronized or they are not assigned to the device."
+                        }
+                    })
+                    self.msg = (
+                        "Provided credentials category is/are already synced: {0}".format(credential_params)
+                    )
+                    self.log(self.msg, "WARNING")
+                    self.status = "skipped"
+                    return self
+
+                for credential_id in valid_sync_cred_ids:
+                    param = {"deviceCredentialId": credential_id,
+                             "siteId": site_id}
+                    self.log("Credential {0} to be synced with {1} site id." .format(credential_id, site_id), "INFO")
+                    final_response.append(copy.deepcopy(param))
+                    response = self.dnac._exec(
+                        family="network_settings",
+                        function="sync_network_devices_credential",
+                        op_modifies=True,
+                        params=param
+                    )
+                    self.log("Received API response for 'sync_network_devices_credential': {0}".format(response), "DEBUG")
+                    self.check_tasks_response_status(response,
+                                                     "sync_network_devices_credential").check_return_status()
+
+                    self.log("Device credential applied to site {0} successfully.".format(site_id), "INFO")
+                    self.log("Desired State for applying credentials to a site: {0}".format(final_response), "DEBUG")
+                    result_apply_credential.update({
+                        "Applied Credentials": {
+                            "response": final_response,
+                            "msg": "Successfully applied credential."
+                        }
+                    })
+                self.msg = "Global Credential is applied Successfully"
                 self.status = "success"
-                return self
-
-            site_id = self.want.get("apply_credentials").get("site_id")
-            site_response = self.check_device_assigned_to_site(site_id)
-            if not site_response:
-                result_apply_credential.update({
-                    "No Apply Credentials": {
-                        "response": "No Response",
-                        "msg": "No device available in the site"
-                    }
-                })
-                self.msg = "No device available in the site: {0}".format(site_id)
-                self.log(self.msg, "WARNING")
-                self.status = "exited"
-                return self
-
-            cred_sync_status = self.get_network_devices_credentials_sync_status()
-            credential_mapping = {
-                "cli": "cliId",
-                "snmpV2Read": "snmpV2ReadId",
-                "snmpV2Write": "snmpV2WriteId",
-                "snmpV3": "snmpV3Id"
-            }
-
-            not_synced_ids, assigned_site_ids = [], []
-
-            for status_key, param_key in credential_mapping.items():
-                if param_key in credential_params:
-                    status_list = cred_sync_status.get(status_key, [])
-                    for status in status_list:
-                        if status.get('status') != 'Synced':
-                            if credential_params.get(param_key):
-                                not_synced_ids.append(credential_params[param_key])
-            assigned_device_credential = self.get_assigned_device_credential(site_id)
-
-            for value in assigned_device_credential.values():
-                if isinstance(value, dict) and "credentialsId" in value:
-                    assigned_site_ids.append(value.get("credentialsId"))
-
-            valid_sync_cred_ids, invalid_sync_cred_ids = [], []
-
-            for id in not_synced_ids:
-                if id in assigned_site_ids:
-                    valid_sync_cred_ids.append(id)
-                else:
-                    invalid_sync_cred_ids.append(id)
-
-            self.log("Credential IDs {0} not assigned to site, so Sync not possible."
-                     .format(invalid_sync_cred_ids), "INFO")
-
-            if not valid_sync_cred_ids:
-                result_apply_credential.update({
-                    "Applied Credentials": {
-                        "response": final_response,
-                        "msg": "Either the provided credentials are already synchronized or they are not assigned to the device."
-                    }
-                })
+            else:
                 self.msg = (
-                    "Provided credentials category is/are already synced: {0}".format(credential_params)
+                    "Cisco Catalyst Center version '{0}' doesn't support apply credentials to site feature."
+                    .format(self.payload.get("dnac_version")), "ERROR"
                 )
-                self.log(self.msg, "WARNING")
-                self.status = "skipped"
-                return self
-
-            for credential_id in valid_sync_cred_ids:
-                param = {"deviceCredentialId": credential_id,
-                         "siteId": site_id}
-                self.log("Credential {0} to be synced with {1} site id." .format(credential_id, site_id), "INFO")
-                final_response.append(copy.deepcopy(param))
-                response = self.dnac._exec(
-                    family="network_settings",
-                    function="sync_network_devices_credential",
-                    op_modifies=True,
-                    params=param
-                )
-
-                self.log("Received API response for 'sync_network_devices_credential': {0}"
-                         .format(response), "DEBUG")
-                validation_string = "successfully applied credential."
-                self.check_task_response_status(response, validation_string,
-                                                "sync_network_devices_credential").check_return_status()
-
-                self.log("Device credential applied to site {0} successfully."
-                         .format(site_id), "INFO")
-                self.log("Desired State for applying credentials to a site: {0}"
-                         .format(final_response), "DEBUG")
-                result_apply_credential.update({
-                    "Applied Credentials": {
-                        "response": final_response,
-                        "msg": "Successfully applied credential."
-                    }
-                })
-            self.msg = "Global Credential is applied Successfully"
-            self.status = "success"
-        else:
-            self.msg = (
-                "Cisco Catalyst Center version '{0}' doesn't support apply credentials to site feature."
-                .format(self.payload.get("dnac_version")), "ERROR"
-            )
-            self.log(self.msg, "CRITICAL")
-            self.status = "failed"
-            return self.check_return_status()
+                self.log(self.msg, "CRITICAL")
+                self.status = "failed"
+                return self.check_return_status()
 
         return self
 
@@ -2807,7 +2850,7 @@ class DeviceCredential(DnacBase):
         if config.get("assign_credentials_to_site") is not None:
             self.assign_credentials_to_site().check_return_status()
 
-        if config.get("assign_credentials_to_site") is not None and config.get("assign_credentials_to_site").get("Sync") is True:
+        if config.get("apply_credentials_to_site") is not None:
             self.apply_credentials_to_site().check_return_status()
 
         return self
