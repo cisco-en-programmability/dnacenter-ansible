@@ -42,7 +42,7 @@ cisco.dnac.accesspoint_workflow_manager module -- Automates bulk AP configuratio
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.19.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.20.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1950,6 +1950,150 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       IP address of the primary wireless LAN controller. For example, "10.0.0.3".
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/reboot_aps"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/reboot_aps:
+
+      .. rst-class:: ansible-option-title
+
+      **reboot_aps**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/reboot_aps" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Reboot one or more access points (APs) identified by their MAC addresses, hostnames, or management IP addresses.
+          At least one of the following parameters is required:
+          - mac\_addresses
+          - hostnames
+          - management\_ip\_addresses
+          
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/reboot_aps/hostnames"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/reboot_aps/hostnames:
+
+      .. rst-class:: ansible-option-title
+
+      **hostnames**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/reboot_aps/hostnames" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A list of hostnames used to identify the access points for rebooting.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/reboot_aps/mac_addresses"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/reboot_aps/mac_addresses:
+
+      .. rst-class:: ansible-option-title
+
+      **mac_addresses**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/reboot_aps/mac_addresses" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A list of MAC addresses used to identify the access points for rebooting.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/reboot_aps/management_ip_addresses"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/reboot_aps/management_ip_addresses:
+
+      .. rst-class:: ansible-option-title
+
+      **management_ip_addresses**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/reboot_aps/management_ip_addresses" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A list of management IP addresses used to identify the access points for rebooting.
+          
 
 
       .. raw:: html
@@ -4199,13 +4343,12 @@ Examples
             config_verify: True
             state: merged
             config:
-                  - ap_type: "Unified AP"
-                    mac_address:  90:e9:5e:03:f3:40
-                    rf_profile: "HIGH"
-                    site:
-                      floor:
-                        name: "FLOOR1"
-                        parent_name: "Global/USA/New York/BLDNYC"
+              - mac_address:  90:e9:5e:03:f3:40
+                rf_profile: "HIGH"
+                site:
+                  floor:
+                    name: "FLOOR1"
+                    parent_name: "Global/USA/New York/BLDNYC"
           register: output_list
 
         - name: Updating Access Point Update / Controller Name
@@ -4403,6 +4546,46 @@ Examples
                   channel_width: "40 MHz"
           register: output_list
 
+        - name: Reboot single or multiple access point
+          cisco.dnac.accesspoint_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: True
+            dnac_log_level: DEBUG
+            config_verify: True
+            state: merged
+            config:
+              - reboot_aps:
+                  mac_addresses:
+                    - "6c:d6:e3:75:5a:e0"
+                    - "e4:38:7e:42:bc:00"
+          register: output_list
+
+        - name: Reboot single or multiple access point by hostname
+          cisco.dnac.accesspoint_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: True
+            dnac_log_level: DEBUG
+            config_verify: True
+            state: merged
+            config:
+              - reboot_aps:
+                  hostnames:
+                    - "cisco_Test_9166_T3"
+                    - "cisco_Test_9120_T1"
+          register: output_list
+
 
 
 
@@ -4498,7 +4681,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
         <div class="ansible-option-cell">
 
-      A dictionary with activation details as returned by the Catalyst Center Python SDK
+      A dictionary with provision status returned by the Catalyst Center Python SDK
 
 
 
@@ -4509,7 +4692,53 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"{\\n    \\"response\\": {\\n                    {\\n                        \\"bapiKey\\": \\"d897-19b8-47aa-a9c4\\",\\n                        \\"bapiName\\": \\"AP Provision\\",\\n                        \\"bapiExecutionId\\": \\"97d5edd5-d5db-40d8-9ab6-f15dc4a5cc30\\",\\n                        \\"startTime\\": \\"Wed Jul 03 18:37:24 UTC 2024\\",\\n                        \\"startTimeEpoch\\": 1720031844919,\\n                        \\"endTimeEpoch\\": 0,\\n                        \\"timeDuration\\": 0,\\n                        \\"status\\": \\"IN\_PROGRESS\\",\\n                        \\"runtimeInstanceId\\": \\"DNACP\_Runtime\_3f8f258c-9f7a-4511-b361-592ee9e0c4d2\\"\\n                    }\\n                }\\n}\\n"`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"changed": true, "response": {"ap\_provision\_update\_status": "AP provision for the site 'Global/Chennai/LTTS/FLOOR1' has been successfully verified."}}]}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_3"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__return-response_3:
+
+      .. rst-class:: ansible-option-title
+
+      **response_3**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_3" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary with reboot status of AP returned by the Catalyst Center Python SDK
+
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"accesspoints\_updates": {"ap\_reboot\_status": "AP ['6c:d6:e3:69:49:b4', '68:49:92:75:0f:d0'] Rebooted Successfully", "ap\_reboot\_task\_details": {"reboot\_api\_response": {"apList": [{"apName": "LTTS\_Test\_9120\_T2", "failureReason": null, "rebootStatus": "Success"}, {"apName": "LTTS\_Test\_9166\_T3", "failureReason": null, "rebootStatus": "Success"}], "wlcIP": "204.192.6.200"}}}}}`
 
 
       .. raw:: html
