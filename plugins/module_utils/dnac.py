@@ -603,6 +603,41 @@ class DnacBase():
 
         return mgmt_ip_to_instance_id_map
 
+    def get_sites_type(self, site_name):
+        """
+        Get the type of a site in Cisco Catalyst Center.
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            site_name (str): The name of the site for which to retrieve the type.
+        Returns:
+            site_type (str or None): The type of the specified site, or None if the site is not found.
+        Description:
+            This function queries Cisco Catalyst Center to retrieve the type of a specified site. It uses the
+            get_site API with the provided site name, extracts the site type from the response, and returns it.
+            If the specified site is not found, the function returns None, and an appropriate log message is generated.
+        """
+
+        try:
+            response = self.get_site(site_name)
+            if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
+                site = response.get("response")
+                site_additional_info = site[0].get("additionalInfo")
+
+                for item in site_additional_info:
+                    if item["nameSpace"] == "Location":
+                        site_type = item.get("attributes").get("type")
+            else:
+                self.log("Received API response from 'get_sites': {0}".format(str(response)), "DEBUG")
+                site = response.get("response")
+                site_type = site[0].get("type")
+
+        except Exception as e:
+            self.msg = "Error while fetching the site '{0}' and the specified site was not found in Cisco Catalyst Center.".format(site_name)
+            self.log(self.msg, "ERROR")
+            self.module.fail_json(msg=self.msg, response=[self.msg])
+
+        return site_type
+
     def get_device_ids_from_site(self, site_id):
         """
         Retrieve device IDs associated with a specific site in Cisco Catalyst Center.
@@ -748,6 +783,57 @@ class DnacBase():
             except Exception as e:
                 self.log("An error occurred in 'get_sites':{0}".format(e), "ERROR")
                 return None
+
+    def assign_device_to_site(self, device_ids, site_name, site_id):
+        """
+        Assign devices to the specified site.
+
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            device_ids (list): A list of device IDs to assign to the specified site.
+            site_name (str): The complete path of the site location.
+            site_id (str): The ID of the specified site location.
+
+        Returns:
+            bool: True if the devices are successfully assigned to the site, otherwise False.
+
+        Description:
+            Assigns the specified devices to the site. If the assignment is successful, returns True.
+            Otherwise, logs an error and returns False along with error details.
+        """
+        assign_network_device_to_site = {
+            'deviceIds': device_ids,
+            'siteId': site_id,
+        }
+        self.log("Assigning devices to site before update: {0}, {1}".
+                 format(site_name, str(assign_network_device_to_site)), "INFO")
+        try:
+            response = self.dnac._exec(
+                family="site_design",
+                function='assign_network_devices_to_a_site',
+                op_modifies=True,
+                params=assign_network_device_to_site
+            )
+            self.log("Response from assigning devices to site: {0}, {1}, {2} .".format(
+                site_name, str(assign_network_device_to_site), str(response["response"])), "INFO")
+
+            self.check_tasks_response_status(response, api_name='assign_device_to_site')
+            if self.result["changed"]:
+                return True
+            else:
+                self.msg = "Failed to receive a valid response from site assignment API: {0}, {1}".format(site_name,
+                                                                                                          str(assign_network_device_to_site))
+                self.log(self.msg, "ERROR")
+                self.status = "failed"
+                self.module.fail_json(msg=self.msg)
+
+        except Exception as e:
+            msg = "Failed to assign devices to site: {0}, {1}.".format(site_name,
+                                                                       str(assign_network_device_to_site))
+            self.log(msg + str(e), "ERROR")
+            site_assgin_details = str(e)
+            self.status = "failed"
+            self.module.fail_json(msg=msg, response=site_assgin_details)
 
     def generate_key(self):
         """
