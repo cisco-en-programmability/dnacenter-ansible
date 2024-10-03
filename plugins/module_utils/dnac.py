@@ -802,7 +802,7 @@ class DnacBase():
             Otherwise, logs an error and returns False along with error details.
         """
 
-        if self.dnac_version <= self.version_2_3_5_3:
+        if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
             try:
                 response = self.dnac_apply['exec'](
                     family="sites",
