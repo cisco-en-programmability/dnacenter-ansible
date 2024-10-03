@@ -832,8 +832,8 @@ class DnacBase():
                 'deviceIds': device_ids,
                 'siteId': site_id,
             }
-            self.log("Assigning devices to site before update: {0}, {1}".
-                    format(site_name, str(assign_network_device_to_site)), "INFO")
+            self.log("Assigning devices to site before update: {0}, {1}".format(site_name,
+                                                                                str(assign_network_device_to_site)), "INFO")
             try:
                 response = self.dnac._exec(
                     family="site_design",
