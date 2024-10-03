@@ -42,7 +42,7 @@ cisco.dnac.provision_workflow_manager module -- Resource module for provision re
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.19.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.20.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -383,6 +383,58 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/force_provisioning"></div>
+
+      .. _ansible_collections.cisco.dnac.provision_workflow_manager_module__parameter-config/force_provisioning:
+
+      .. rst-class:: ansible-option-title
+
+      **force_provisioning**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/force_provisioning" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Determines whether to force reprovisioning of a device.
+
+      A device cannot be re-provisioned to a different site.
+
+      The 'provisioning' option should not be set to 'false' for 'force\_provisioning' to take effect.
+
+      Applicable only for wired devices.
+
+      Set to 'true' to enforce reprovisioning, even if the device is already provisioned.
+
+      Set to 'false' to skip provisioning for devices that are already provisioned.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/managed_ap_locations"></div>
 
       .. _ansible_collections.cisco.dnac.provision_workflow_manager_module__parameter-config/managed_ap_locations:
@@ -479,9 +531,9 @@ Parameters
 
       Specifies whether the user intends to perform site assignment only or full provisioning for a wired device.
 
-      Set to 'False' to carry out site assignment only.
+      Set to 'false' to carry out site assignment only.
 
-      Set to 'True' to proceed with provisioning to a site.
+      Set to 'true' to proceed with provisioning to a site.
 
 
       .. rst-class:: ansible-option-line
@@ -513,7 +565,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`string` / :ansible-option-required:`required`
 
       .. raw:: html
 
@@ -523,7 +575,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Name of site where the device needs to be added.
+      Name of the site where the device will be added. This parameter is required for provisioning the device and assigning it to a site.
 
 
       .. raw:: html
@@ -558,7 +610,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Set to True to verify the Cisco Catalyst Center config after applying the playbook config.
+      Set to true to verify the Cisco Catalyst Center config after applying the playbook config.
 
 
       .. rst-class:: ansible-option-line
@@ -1227,7 +1279,7 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        dnac_log: True
+        dnac_log: true
         state: merged
         config:
             - site_name_hierarchy: Global/USA/San Francisco/BGL_18
@@ -1249,11 +1301,27 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        dnac_log: True
+        dnac_log: true
         state: merged
         config:
             - site_name_hierarchy: Global/USA/San Francisco/BGL_18
               management_ip_address: 204.192.3.40
+
+    - name: Re-Provision a wired device to a site forcefully
+      cisco.dnac.provision_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: true
+        state: merged
+        config:
+            - site_name_hierarchy: Global/USA/San Francisco/BGL_18
+              management_ip_address: 204.192.3.40
+              force_provisioning: true
 
     - name: Assign a wired device to a site
       cisco.dnac.provision_workflow_manager:
@@ -1264,12 +1332,12 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        dnac_log: True
+        dnac_log: true
         state: merged
         config:
             - site_name_hierarchy: Global/USA/San Francisco/BGL_18
               management_ip_address: 204.192.3.40
-              provisioning: False
+              provisioning: false
 
     - name: Provision a wireless device to a site
       cisco.dnac.provision_workflow_manager:
@@ -1280,9 +1348,9 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        dnac_log: True
+        dnac_log: true
         state: merged
-        config_verify: True
+        config_verify: true
         config:
             - site_name_hierarchy: Global/USA/RTP/BLD11
               management_ip_address: 204.192.12.201
@@ -1298,9 +1366,9 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        dnac_log: True
+        dnac_log: true
         state: deleted
-        config_verify: True
+        config_verify: true
         config:
             - management_ip_address: 204.1.2.2
 
@@ -1471,7 +1539,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Abinash Mishra (@abimishr) Madhan Sankaranarayanan (@madhansansel)
+- Abinash Mishra (@abimishr) Madhan Sankaranarayanan (@madhansansel) Syed Khadeer Ahmed(@syed-khadeerahmed) Ajith Andrew J (@ajithandrewj)
 
 
 

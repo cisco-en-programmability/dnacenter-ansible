@@ -6,7 +6,7 @@
 Cisco.Dnac
 ==========
 
-Collection version 6.19.0
+Collection version 6.20.0
 
 .. contents::
    :local:
@@ -403,7 +403,6 @@ Modules
 * :ref:`sda_extranet_policies module <ansible_collections.cisco.dnac.sda_extranet_policies_module>` -- Resource module for Sda Extranetpolicies
 * :ref:`sda_extranet_policies_count_info module <ansible_collections.cisco.dnac.sda_extranet_policies_count_info_module>` -- Information module for Sda Extranetpolicies Count
 * :ref:`sda_extranet_policies_info module <ansible_collections.cisco.dnac.sda_extranet_policies_info_module>` -- Information module for Sda Extranetpolicies
-* :ref:`sda_extranet_policies_workflow_manager module <ansible_collections.cisco.dnac.sda_extranet_policies_workflow_manager_module>` -- SDA Extranet Policies Module provides functionality for managing SDA Extranet Policy in Cisco Catalyst Center.
 * :ref:`sda_fabric module <ansible_collections.cisco.dnac.sda_fabric_module>` -- Resource module for Sda Fabric
 * :ref:`sda_fabric_authentication_profile module <ansible_collections.cisco.dnac.sda_fabric_authentication_profile_module>` -- Resource module for Sda Fabric Authentication Profile
 * :ref:`sda_fabric_authentication_profile_info module <ansible_collections.cisco.dnac.sda_fabric_authentication_profile_info_module>` -- Information module for Sda Fabric Authentication Profile
@@ -900,7 +899,6 @@ Modules
     sda_extranet_policies_module
     sda_extranet_policies_count_info_module
     sda_extranet_policies_info_module
-    sda_extranet_policies_workflow_manager_module
     sda_fabric_module
     sda_fabric_authentication_profile_module
     sda_fabric_authentication_profile_info_module

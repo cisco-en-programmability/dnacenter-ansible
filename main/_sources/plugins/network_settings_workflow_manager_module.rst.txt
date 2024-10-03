@@ -42,7 +42,7 @@ cisco.dnac.network_settings_workflow_manager module -- Resource module for IP Ad
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.19.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.20.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -169,7 +169,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Manages IPv4 and IPv6 pools in the global level.
+      Manages IPv4 and IPv6 IP pools in the global level.
 
 
       .. raw:: html
@@ -1190,13 +1190,101 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Netflow collector details under a specific site.
+      NetFlow collector configuration for a specific site.
 
 
       .. raw:: html
 
         </div>
     
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/network_management_details/settings/netflow_collector/collector_type"></div>
+
+      .. _ansible_collections.cisco.dnac.network_settings_workflow_manager_module__parameter-config/network_management_details/settings/netflow_collector/collector_type:
+
+      .. rst-class:: ansible-option-title
+
+      **collector_type**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/network_management_details/settings/netflow_collector/collector_type" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Type of NetFlow collector.
+
+      Supported values include 'Builtin' and 'Telemetry\_broker\_or\_UDP\_director'.
+
+      Applicable from Cisco Catalyst Center version 2.3.7.6 onwards.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`"Builtin"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"Telemetry\_broker\_or\_UDP\_director"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/network_management_details/settings/netflow_collector/enable_on_wired_access_devices"></div>
+
+      .. _ansible_collections.cisco.dnac.network_settings_workflow_manager_module__parameter-config/network_management_details/settings/netflow_collector/enable_on_wired_access_devices:
+
+      .. rst-class:: ansible-option-title
+
+      **enable_on_wired_access_devices**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/network_management_details/settings/netflow_collector/enable_on_wired_access_devices" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Enable or disable wired access device. Applicable from Cisco Catalyst Center version 2.3.7.6 onwards..
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -1224,7 +1312,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      IP Address for NetFlow collector (eg 3.3.3.1).
+      IP Address for NetFlow collector. For example, 3.3.3.1.
 
 
       .. raw:: html
@@ -1258,7 +1346,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Port for NetFlow Collector (eg; 443).
+      Port number used by the NetFlow collector. For example, 443.
 
 
       .. raw:: html
@@ -1828,6 +1916,164 @@ Parameters
 
         </div>
 
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/network_management_details/settings/wired_data_collection"></div>
+
+      .. _ansible_collections.cisco.dnac.network_settings_workflow_manager_module__parameter-config/network_management_details/settings/wired_data_collection:
+
+      .. rst-class:: ansible-option-title
+
+      **wired_data_collection**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/network_management_details/settings/wired_data_collection" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Enables or disables the collection of data from wired network devices for telemetry and monitoring purposes.
+
+      Applicable from Cisco Catalyst Center version 2.3.7.6 onwards.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/network_management_details/settings/wired_data_collection/enable_wired_data_collection"></div>
+
+      .. _ansible_collections.cisco.dnac.network_settings_workflow_manager_module__parameter-config/network_management_details/settings/wired_data_collection/enable_wired_data_collection:
+
+      .. rst-class:: ansible-option-title
+
+      **enable_wired_data_collection**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/network_management_details/settings/wired_data_collection/enable_wired_data_collection" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Enable or disable wired data collection.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/network_management_details/settings/wireless_telemetry"></div>
+
+      .. _ansible_collections.cisco.dnac.network_settings_workflow_manager_module__parameter-config/network_management_details/settings/wireless_telemetry:
+
+      .. rst-class:: ansible-option-title
+
+      **wireless_telemetry**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/network_management_details/settings/wireless_telemetry" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Enables or disables the collection of telemetry data from wireless network devices for performance monitoring and analysis.
+
+      Applicable from Cisco Catalyst Center version 2.3.7.6 onwards.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/network_management_details/settings/wireless_telemetry/enable_wireless_telemetry"></div>
+
+      .. _ansible_collections.cisco.dnac.network_settings_workflow_manager_module__parameter-config/network_management_details/settings/wireless_telemetry/enable_wireless_telemetry:
+
+      .. rst-class:: ansible-option-title
+
+      **enable_wireless_telemetry**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/network_management_details/settings/wireless_telemetry/enable_wireless_telemetry" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Enable or disable wireless telemetry.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+
 
   * - .. raw:: html
 
@@ -1882,7 +2128,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+      :ansible-option-type:`dictionary`
 
       .. raw:: html
 
@@ -3839,7 +4085,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Muthu Rakesh (@MUTHU-RAKESH-27) Madhan Sankaranarayanan (@madhansansel)
+- Muthu Rakesh (@MUTHU-RAKESH-27) Madhan Sankaranarayanan (@madhansansel) Megha Kandari (@kandarimegha)
 
 
 
