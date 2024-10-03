@@ -823,7 +823,7 @@ class DnacBase():
                 return self
 
             except Exception as e:
-                self.msg = "Error while assigning device(s) to site: {0}, {1}, {2}".format(site_name, 
+                self.msg = "Error while assigning device(s) to site: {0}, {1}, {2}".format(site_name,
                                                                                            str(device_ids), str(e))
                 self.log(self.msg, "ERROR")
                 self.status = "failed"
