@@ -1891,15 +1891,15 @@ class Inventory(DnacBase):
         """
         if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
             try:
-                prov_respone = self.dnac._exec(
+                prov_response = self.dnac._exec(
                     family="sda",
                     function='get_provisioned_wired_device',
                     op_modifies=True,
                     params={"device_management_ip_address": device_ip},
                 )
-                self.log("Received API response from 'get_provisioned_wired_device': {0}".format(str(prov_respone)), "DEBUG")
+                self.log("Received API response from 'get_provisioned_wired_device': {0}".format(str(prov_response)), "DEBUG")
 
-                if prov_respone:
+                if prov_response:
                     return True
 
             except Exception as e:
@@ -3889,15 +3889,15 @@ class Inventory(DnacBase):
 
         device_ids = self.get_device_ids([device_ip])
         device_id = device_ids[0]
-        prov_respone = self.dnac._exec(
+        prov_response = self.dnac._exec(
             family="sda",
             function='get_provisioned_devices',
             op_modifies=True,
             params={"networkDeviceId": device_id}
         )
-        self.log("Received API response from 'get_provisioned_devices': {0}".format(str(prov_respone)), "DEBUG")
+        self.log("Received API response from 'get_provisioned_devices': {0}".format(str(prov_response)), "DEBUG")
 
-        if prov_respone.get("response"):
+        if prov_response.get("response"):
             response = self.dnac._exec(
                 family="sda",
                 function='delete_provisioned_devices',
