@@ -1803,12 +1803,10 @@ class Inventory(DnacBase):
         try:
             response = self.dnac._exec(family="sda", function='provision_wired_device', op_modifies=True, params=provision_params)
             self.log("Received API response from 'provision_wired_device': {0}".format(response), "DEBUG")
-
-            self.check_tasks_response_status(response, api_name='provision_device')
-
-            if self.status not in ["failed", "exited"]:
-                self.log("Wired Device '{0}' provisioning completed successfully.".format(device_ip), "INFO")
-                self.provision_count += 1
+            if response:
+                validation_string = "successfully"
+                self.check_task_response_status(response, validation_string, 'deleted_device_by_id')
+                self.deleted_devices.append(device_ip)
 
         except Exception as e:
             self.handle_provisioning_exception(device_ip, e, device_type)
@@ -1903,10 +1901,10 @@ class Inventory(DnacBase):
 
                 if prov_respone:
                     return True
-                return False
 
             except Exception as e:
                 self.log("Exception occurred during 'get_provisioned_wired_device': {0}".format(str(e)), "ERROR")
+                return False
         else:
             try:
                 api_response = self.dnac._exec(
