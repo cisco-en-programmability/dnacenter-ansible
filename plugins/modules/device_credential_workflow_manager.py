@@ -552,12 +552,15 @@ EXAMPLES = r"""
           username: cli1
           password: '12345'
           enable_password: '12345'
+          id: '1b3777a0-09c2-488b-a64c-6f3c441e343'
         snmp_v2c_read:
         - description: SNMPv2c Read1
           read_community: '123456'
+          id: '07c3c5fc-35e6-4c83-bdcb-6322d4bf7103'
         snmp_v2c_write:
         - description: SNMPv2c Write1
           write_community: '123456'
+          id: '9900b521-0dfb-4bd1-b044-d31037c8def3'
         snmp_v3:
         - auth_password: '12345678'
           auth_type: SHA
@@ -566,16 +569,19 @@ EXAMPLES = r"""
           privacy_type: AES128
           username: snmpV31
           description: snmpV31
+          id: '4d3fd6ca-8b01-4a41-9f77-d411a49c2830'
         https_read:
         - description: HTTP Read1
           username: HTTP Read1
           password: '12345'
           port: 443
+          id: '4d3fd6ca-8b01-4a41-9f77-d411a34c2834'
         https_write:
         - description: HTTP_Write1
           username: HTTP_Write1
           password: '12345'
           port: 443
+          id: '4d3fd6ca-8b01-4a41-9f77-d411a34c2688'
 
   - name: Update multiple global device credentials using id
     cisco.dnac.device_credential_workflow_manager:
@@ -596,20 +602,26 @@ EXAMPLES = r"""
           username: cli1
           password: '12345'
           enable_password: '12345'
+          id: '1b3777a0-09c2-488b-a64c-6f3c441e343'
         - description: CLI2
           username: cli2
           password: '12345'
           enable_password: '12345'
+          id: '1d3777a0-09c2-488b-a64c-6f3c441e368'
         snmp_v2c_read:
         - description: SNMPv2c Read1
           read_community: '123456'
+          id: '07c3c5fc-35e6-4c83-bdcb-6322d4bf7103'
         - description: SNMPv2c Read2
           read_community: '123458'
+          id: '08c3c5fc-35e6-4c83-bdcb-6322d4bf7200'
         snmp_v2c_write:
         - description: SNMPv2c write1
           write_community: '123456'
+          id: '07c3c5fc-35e6-4c83-bdcb-6322d4bf7400'
         - description: SNMPv2c Write1
           write_community: '123466'
+          id: '9900b521-0dfb-4bd1-b044-d31037c8def3'
         snmp_v3:
         - auth_password: '12345678'
           auth_type: SHA
@@ -618,6 +630,7 @@ EXAMPLES = r"""
           privacy_type: AES128
           username: snmpV31
           description: snmpV31
+          id: '4d3fd6ca-8b01-4a41-9f77-d411a49c2830'
         - auth_password: '12345678'
           auth_type: SHA
           snmp_mode: AUTHPRIV
@@ -625,24 +638,29 @@ EXAMPLES = r"""
           privacy_type: AES128
           username: snmpV32
           description: snmpV32
+          id: '4d3fd6ca-8b01-4a41-9f77-d411a49c2300'
         https_read:
         - description: HTTP Read1
           username: HTTP Read1
           password: '12345'
           port: 443
+          id: '4d3fd6ca-8b01-4a41-9f77-d411a34c2500'
         - description: HTTP Read2
           username: HTTP Read2
           password: '12345'
           port: 443
+          id: '4d3fd6ca-8b01-4a41-9f77-d411a34c2834'
         https_write:
         - description: HTTP_Write1
           username: HTTP_Write1
           password: '12345'
           port: 443
+          id: '4d3fd6ca-8b01-4a41-9f77-d411a34c2834'
         - description: HTTP_Write2
           username: HTTP_Write2
           password: '12345'
           port: 443
+          id: '4f3fd6ca-8b01-4a41-9f77-d411a34c2804'
 
   - name: Update global device credential name/description using old name and description.
     cisco.dnac.device_credential_workflow_manager:
@@ -663,12 +681,16 @@ EXAMPLES = r"""
           username: cli1
           password: '12345'
           enable_password: '12345'
+          old_description: CLI
+          old_username: cli
         snmp_v2c_read:
         - description: SNMPv2c Read1
           read_community: '123456'
+          old_description: SNMPv2c Read
         snmp_v2c_write:
         - description: SNMPv2c write1
           write_community: '123456'
+          old_description: SNMPv2c write
         snmp_v3:
         - auth_password: '12345678'
           auth_type: SHA
@@ -677,16 +699,21 @@ EXAMPLES = r"""
           privacy_type: AES128
           username: snmpV31
           description: snmpV31
+          old_description: snmp
         https_read:
         - description: HTTP Read1
           username: HTTP Read1
           password: '12345'
           port: 443
+          old_description: HTTP Read
+          old_username: HTTP Read
         https_write:
         - description: HTTP_Write1
           username: HTTP_Write1
           password: '12345'
           port: 443
+          old_description: HTTP_Write
+          old_username: HTTP_Write
 
   - name: Assign Credentials to sites using old description and username.
     cisco.dnac.device_credential_workflow_manager:
@@ -2495,7 +2522,12 @@ class DeviceCredential(DnacBase):
         )
         self.log("Received API response from 'create_global_credentials_v2': {0}"
                  .format(response), "DEBUG")
-        self.check_tasks_response_status(response, "create_global_credentials_v2").check_return_status()
+        if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
+            validation_string = "global credential addition performed"
+            self.check_task_response_status(response, validation_string, "create_global_credentials_v2").check_return_status()
+        else:
+            self.check_tasks_response_status(response, "create_global_credentials_v2").check_return_status()
+
         self.log("Global credential created successfully", "INFO")
         result_global_credential.update({
             "Creation": {
@@ -2559,7 +2591,11 @@ class DeviceCredential(DnacBase):
                 )
                 self.log("Received API response for 'update_global_credentials_v2': {0}"
                          .format(response), "DEBUG")
-                self.check_tasks_response_status(response, "update_global_credentials_v2").check_return_status()
+                if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
+                    validation_string = "global credential update performed"
+                    self.check_task_response_status(response, validation_string, "update_global_credentials_v2").check_return_status()
+                else:
+                    self.check_tasks_response_status(response, "update_global_credentials_v2").check_return_status()
         self.log("Updating device credential API input parameters: {0}"
                  .format(final_response), "DEBUG")
         self.log("Global device credential updated successfully", "INFO")
@@ -2615,8 +2651,9 @@ class DeviceCredential(DnacBase):
                 )
                 self.log("Received API response for 'assign_device_credential_to_site_v2': {0}"
                          .format(response), "DEBUG")
-                self.check_tasks_response_status(
-                    response, "assign_device_credential_to_site_v2").check_return_status()
+                validation_string = "desired common settings operation successful"
+                self.check_task_response_status(
+                    response, validation_string, "assign_device_credential_to_site_v2").check_return_status()
             else:
                 credential_params.update({"id": site_id})
                 final_response.append(copy.deepcopy(credential_params))
