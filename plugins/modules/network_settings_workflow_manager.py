@@ -688,7 +688,7 @@ class NetworkSettings(DnacBase):
         self.result["response"] = [
             {"globalPool": {"response": {}, "msg": {}}},
             {"reservePool": {"response": {}, "msg": {}}},
-            {"network": {"response": {}, "msg": {}}}
+            {"network": {"response": {}, "msg": {}}},
         ]
         self.global_pool_obj_params = self.get_obj_params("GlobalPool")
         self.reserve_pool_obj_params = self.get_obj_params("ReservePool")
@@ -1892,7 +1892,7 @@ class NetworkSettings(DnacBase):
 
             name_length = len(name)
             if name_length > 100:
-                self.msg = "The length of the'name' in global_pool_details should be less or equal to 100."
+                self.msg = "The length of the '{0}' in global_pool_details should be less or equal to 100. Invalid_config: {1}".format(name, pool_details)
                 self.status = "failed"
                 return self
 
