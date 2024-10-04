@@ -1805,7 +1805,7 @@ class Inventory(DnacBase):
             self.log("Received API response from 'provision_wired_device': {0}".format(response), "DEBUG")
             if response:
                 validation_string = "successfully"
-                self.check_task_response_status(response, validation_string, 'deleted_device_by_id')
+                self.check_task_response_status(response, validation_string, 'provision_wired_device')
                 self.deleted_devices.append(device_ip)
 
         except Exception as e:
