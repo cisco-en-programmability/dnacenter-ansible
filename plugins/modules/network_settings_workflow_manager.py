@@ -1453,23 +1453,35 @@ class NetworkSettings(DnacBase):
             })
 
         if network_aaa and network_aaa_pan:
-            aaa_pan_value = network_aaa_pan.get("value")[0]
-            aaa_value = network_aaa.get("value")[0]
+            if network_aaa_pan.get("value"):
+                aaa_pan_value = network_aaa_pan.get("value")[0]
+            else:
+                aaa_pan_value = "None"
+
+            if network_aaa.get("value"):
+                aaa_value = network_aaa.get("value")[0]
+            else:
+                aaa_value = {}
+
             if aaa_pan_value == "None":
                 network_settings.update({
                     "network_aaa": {
-                        "network": aaa_value.get("ipAddress"),
-                        "protocol": aaa_value.get("protocol"),
-                        "ipAddress": network_aaa2.get("value")[0].get("ipAddress"),
+                        "network": aaa_value.get("ipAddress", ""),
+                        "protocol": aaa_value.get("protocol", ""),
                         "servers": "AAA"
                     }
                 })
+                # Handle the second AAA server network_aaa2
+                if network_aaa2 and network_aaa2.get("value"):
+                    network_settings["network_aaa"].update({"ipAddress": network_aaa2.get("value")[0].get("ipAddress", "")})
+                else:
+                    network_settings["network_aaa"].update({"ipAddress": ""})
             else:
                 network_settings.update({
                     "network_aaa": {
                         "network": aaa_pan_value,
-                        "protocol": aaa_value.get("protocol"),
-                        "ipAddress": aaa_value.get("ipAddress"),
+                        "protocol": aaa_value.get("protocol", ""),
+                        "ipAddress": aaa_value.get("ipAddress", ""),
                         "servers": "ISE"
                     }
                 })
@@ -1484,23 +1496,35 @@ class NetworkSettings(DnacBase):
             })
 
         if client_and_endpoint_aaa and client_and_endpoint_aaa_pan:
-            aaa_pan_value = client_and_endpoint_aaa_pan.get("value")[0]
-            aaa_value = client_and_endpoint_aaa.get("value")[0]
+            if client_and_endpoint_aaa_pan.get("value"):
+                aaa_pan_value = client_and_endpoint_aaa_pan.get("value")[0]
+            else:
+                aaa_pan_value = "None"
+
+            if client_and_endpoint_aaa.get("value"):
+                aaa_value = client_and_endpoint_aaa.get("value")[0]
+            else:
+                aaa_value = {}
+
             if aaa_pan_value == "None":
                 network_settings.update({
                     "clientAndEndpoint_aaa": {
-                        "network": aaa_value.get("ipAddress"),
-                        "protocol": aaa_value.get("protocol"),
-                        "ipAddress": client_and_endpoint_aaa2.get("value")[0].get("ipAddress"),
+                        "network": aaa_value.get("ipAddress", ""),
+                        "protocol": aaa_value.get("protocol", ""),
                         "servers": "AAA"
                     }
                 })
+                # Handle the second client AAA server client_and_endpoint_aaa2
+                if client_and_endpoint_aaa2 and client_and_endpoint_aaa2.get("value"):
+                    network_settings["clientAndEndpoint_aaa"].update({"ipAddress": client_and_endpoint_aaa2.get("value")[0].get("ipAddress", "")})
+                else:
+                    network_settings["clientAndEndpoint_aaa"].update({"ipAddress": ""})
             else:
                 network_settings.update({
                     "clientAndEndpoint_aaa": {
                         "network": aaa_pan_value,
-                        "protocol": aaa_value.get("protocol"),
-                        "ipAddress": aaa_value.get("ipAddress"),
+                        "protocol": aaa_value.get("protocol", ""),
+                        "ipAddress": aaa_value.get("ipAddress", ""),
                         "servers": "ISE"
                     }
                 })
@@ -1868,7 +1892,7 @@ class NetworkSettings(DnacBase):
 
             name_length = len(name)
             if name_length > 100:
-                self.msg = "The length of the'name' in global_pool_details should be less or equal to 100."
+                self.msg = "The length of the '{0}' in global_pool_details should be less or equal to 100. Invalid_config: {1}".format(name, pool_details)
                 self.status = "failed"
                 return self
 
@@ -3524,9 +3548,9 @@ class NetworkSettings(DnacBase):
                         "Exception occurred while updating the network settings of '{site_name}': {msg}"
                         .format(site_name=site_name, msg=msg)
                     )
-                self.log(str(msg), "ERROR")
-                self.status = "failed"
-                return self
+                    self.log(str(msg), "ERROR")
+                    self.status = "failed"
+                    return self
             else:
                 site_id = net_params.get("site_id")
                 site_name = self.have.get("network")[network_management_index].get("site_name")
