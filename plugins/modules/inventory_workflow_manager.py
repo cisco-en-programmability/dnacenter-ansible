@@ -1914,10 +1914,10 @@ class Inventory(DnacBase):
                         "networkDeviceId": device_id
                     }
                 )
-                provisioned_devices = api_response.get('response')
-                self.log("API response from 'get_provisioned_devices': {}".format(provisioned_devices), "DEBUG")
+                is_provisioned = api_response.get('response')
+                self.log("API response from 'get_provisioned_devices': {}".format(is_provisioned), "DEBUG")
 
-                if provisioned_devices:
+                if is_provisioned:
                     return True
                 return False
 
@@ -3852,15 +3852,15 @@ class Inventory(DnacBase):
         """
 
         provision_params = {"device_management_ip_address": device_ip}
-        prov_respone = self.dnac._exec(
+        prov_response = self.dnac._exec(
             family="sda",
             function='get_provisioned_wired_device',
             op_modifies=True,
             params=provision_params,
         )
-        self.log("Received API response from 'get_provisioned_wired_device': {0}".format(str(prov_respone)), "DEBUG")
+        self.log("Received API response from 'get_provisioned_wired_device': {0}".format(str(prov_response)), "DEBUG")
 
-        if prov_respone.get("status") == "success":
+        if prov_response.get("status") == "success":
             response = self.dnac._exec(
                 family="sda",
                 function='delete_provisioned_wired_device',
