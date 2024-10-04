@@ -688,7 +688,7 @@ class NetworkSettings(DnacBase):
         self.result["response"] = [
             {"globalPool": {"response": {}, "msg": {}}},
             {"reservePool": {"response": {}, "msg": {}}},
-            {"network": {"response": {}, "msg": {}}},
+            {"network": {"response": {}, "msg": {}}}
         ]
         self.global_pool_obj_params = self.get_obj_params("GlobalPool")
         self.reserve_pool_obj_params = self.get_obj_params("ReservePool")
