@@ -1,0 +1,10 @@
+{
+    "docs": "https://docs.ansible.com/ansible-core/2.15/dev_guide/testing/sanity/pep8.html", 
+    "results": [
+        {
+            "message": "The test `ansible-test sanity --test pep8` [[explain](https://docs.ansible.com/ansible-core/2.15/dev_guide/testing/sanity/pep8.html)] failed with 2 errors:", 
+            "output": "plugins/modules/inventory_workflow_manager.py:1907:1: W293: blank line contains whitespace\nplugins/modules/inventory_workflow_manager.py:1930:5: E303: too many blank lines (2)"
+        }
+    ], 
+    "verified": false
+}
