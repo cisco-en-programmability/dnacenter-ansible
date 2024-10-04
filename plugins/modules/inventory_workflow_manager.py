@@ -1894,7 +1894,6 @@ class Inventory(DnacBase):
                 prov_response = self.dnac._exec(
                     family="sda",
                     function='get_provisioned_wired_device',
-                    op_modifies=True,
                     params={"device_management_ip_address": device_ip},
                 )
                 self.log("Received API response from 'get_provisioned_wired_device': {0}".format(str(prov_response)), "DEBUG")
