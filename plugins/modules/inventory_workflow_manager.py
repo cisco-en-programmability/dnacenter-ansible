@@ -1904,7 +1904,7 @@ class Inventory(DnacBase):
                 if prov_respone:
                     return True
                 return False
-            
+
             except Exception as e:
                 self.log("Exception occurred during 'get_provisioned_wired_device': {0}".format(str(e)), "ERROR")
         else:
@@ -1925,7 +1925,6 @@ class Inventory(DnacBase):
 
             except Exception as e:
                 self.log("Exception occurred during 'get_provisioned_devices': {0}".format(str(e)), "ERROR")
-
 
     def provision_device(self, provision_params, device_ip):
         """
