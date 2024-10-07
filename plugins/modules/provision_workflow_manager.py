@@ -96,6 +96,42 @@ options:
                 interface_name:
                     description: Ip Address allocated to the interface
                     type: str
+        interfaces:
+            description: Interface details of the controller
+            type: list
+            elements: dict
+            suboptions:
+                interface_name:
+                    description:
+                    type: str
+                vlan_id:
+                    description: 
+                    type: str
+                interface_ip_address:
+                    description:
+                    type: str
+                interface_gateway:
+                    description: 
+                    type: str
+                lag_or_port_number:
+                    description:
+                    type: str
+                interface_netmask_in_c_i_d_r:
+                    description:
+                    type: str
+        skip_ap_provision:
+            description: Skip AP provisioning 
+            type: boolen
+        rolling_ap_upgrade:
+            description: Interface details of the controller
+            type: dict
+            suboptions:
+                enable_rolling_ap_upgrade:
+                    description:
+                    type: boolen
+                ap_reboot_percentage:
+                    description:
+                    type: int
 
 requirements:
 - dnacentersdk == 2.4.5
@@ -147,7 +183,7 @@ EXAMPLES = r"""
               interface_ip_address: 204.192.6.200
               interface_gateway: 204.192.6.1
 
-- name: Provision a wireless device to a site
+- name: Provision a wireless device to a site for version - 2.3.7.6
   cisco.dnac.provision_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -172,8 +208,8 @@ EXAMPLES = r"""
               interface_gateway: 204.192.6.1
           skip_ap_provision: false
           rolling_ap_upgrade:
-            enable_rolling_ap_upgrade:
-            ap_reboot_percentage:
+            enable_rolling_ap_upgrade: false
+            ap_reboot_percentage: 5
 
 - name: Provision a wired device to a site
   cisco.dnac.provision_workflow_manager:
@@ -699,42 +735,6 @@ class Provision(DnacBase):
             self.log(msg, "CRITICAL")
             self.module.fail_json(msg=msg)
 
-    # def get_site_assign(self):
-    #     """
-    #     Fetches the details of devices assigned to a site
-
-    #     Parameters:
-    #       - self: The instance of the class containing the 'config' attribute
-    #               to be validated.
-    #     Returns:
-    #       - boolean: True if any device is associated with the site, False if no device is associated with site
-
-    #     Example:
-    #       Post creation of the validated input, this method tells whether devices are associated with a site.
-    #     """
-
-    #     site_name_hierarchy = self.validated_config.get("site_name_hierarchy")
-    #     site_exists, site_id = self.get_site_id(site_name_hierarchy)
-    #     serial_number = self.get_serial_number()
-    #     if site_exists:
-    #         site_response = self.dnac_apply['exec'](
-    #             family="sites",
-    #             function='get_membership',
-    #             params={"site_id": site_id,
-    #                     "serial_number": serial_number},
-    #             op_modifies=True
-    #         )
-    #         self.log("Response collected from the 'get_memership' API is {0}".format(site_response), "DEBUG")
-    #         device_list = site_response.get("device")
-    #         if len(device_list) > 0:
-    #             if all(device.get("response") == [] for device in device_list):
-    #                 return False
-    #             else:
-    #                 return True
-    #         else:
-    #             return False
-    #     return False
-
     def get_wired_params(self):
         """
         Prepares the payload for provisioning of the wired devices
@@ -994,6 +994,8 @@ class Provision(DnacBase):
         return self
 
     def get_provisioned_device(self, device_id):
+        provision_id = None
+        status = "failed"  # Default value
 
         if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
             try:
@@ -1008,10 +1010,12 @@ class Provision(DnacBase):
                 if status_response:
                     self.log("Received API response from 'get_provisioned_wired_device': {0}".format(status_response), "DEBUG")
                     status = status_response.get("status")
-
+                else:
+                    self.log("No status response received for wired device", "DEBUG")
             except Exception as e:
-                self.log("device '{0}' is not provisioned".format(self.validated_config.get("management_ip_address")), "DEBUG")
+                self.log("device '{0}' is not provisioned due to: {1}".format(self.validated_config.get("management_ip_address"), str(e)), "DEBUG")
                 status = "failed"
+        
         else:
             try:
                 api_response = self.dnac._exec(
@@ -1022,21 +1026,28 @@ class Provision(DnacBase):
                     }
                 )
                 if api_response:
-                    self.log("API response from 'get_provisioned_devices': {}".format(provisioned_devices), "DEBUG")
+                    self.log("API response from 'get_provisioned_devices': {}".format(api_response), "DEBUG")
                     provisioned_devices = api_response.get('response')
-                    provision_id = provisioned_devices.get('id')
-                if provisioned_devices:
-                    status = "Success"
+                    provision_id = provisioned_devices[0].get('id') if provisioned_devices else None
+
+                    if provisioned_devices:
+                        status = "success"
+                    else:
+                        status = "failed"
+                        self.log("No provisioned devices found", "DEBUG")
                 else:
-                    status = "failed"
-        
+                    self.log("No API response received for provisioned devices", "DEBUG")
+
             except Exception as e:
                 self.msg = "Error in get_provisioned_devices device '{0}' due to {1}".format(self.device_ip, str(e))
                 self.log(self.msg, "ERROR")
                 self.result['response'] = self.msg
-                self.status = "failed"
-                self.check_return_status()
-        return (status, provision_id)
+                
+
+        self.log(f"Returning status: {status}, provision_id: {provision_id}", "DEBUG")
+        return provision_id, status
+
+
 
     def provision_wired_device(self, to_provisioning, to_force_provisioning):
         """
@@ -1060,10 +1071,13 @@ class Provision(DnacBase):
             In case of errors, it logs them and sets the status to 'failed'.
         """
         device_id = self.get_device_id()
-        provision_id ,status = self.get_provisioned_device(device_id)
-        site_exist, site_id = self.get_site_id
-        reprovision_param = {"id": provision_id, "siteId": site_id, "networkDeviceId": device_id}
+        provision_id , status = self.get_provisioned_device(device_id)
+        self.log(status)
+        site_exist, site_id = self.get_site_id(self.site_name)
+        reprovision_param = [{"id": provision_id, "siteId": site_id, "networkDeviceId": device_id}]
+        
         provision_params = [{"siteId": site_id, "networkDeviceId": device_id}]
+
         if status == "success":
             if not to_force_provisioning:
                 self.result["changed"] = False
@@ -1087,14 +1101,13 @@ class Provision(DnacBase):
 
         # Provision if status is not success
         if not to_provisioning:
-            self.assign_device_to_site()
+            self.assign_device_to_site([device_id], self.site_name, site_id)
         else:
             if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
                 self.initialize_wired_provisioning(provision_params)
             else:
-                self.assign_device_to_site()
+                self.assign_device_to_site([device_id], self.site_name, site_id)
                 self.initialize_wired_provisioning(provision_params)
-
 
         return self
 
@@ -1142,14 +1155,15 @@ class Provision(DnacBase):
                 self.check_return_status()
         else:
             try:
+                self.log(reprovision_param)
                 response = self.dnac_apply['exec'](
                     family="sda",
-                    function="re_provision_device",
+                    function="re_provision_devices",
                     op_modifies=True,
-                    params=reprovision_param,
+                    payload=reprovision_param,
                 )
 
-                self.check_tasks_response_status(response, api_name='provision_device')
+                self.check_tasks_response_status(response, api_name='re_provision_devices')
 
                 if self.status not in ["failed", "exited"]:
                     self.msg = ("Wired Device '{0}' re-provisioning completed successfully.".format(self.device_ip))
@@ -1186,6 +1200,7 @@ class Provision(DnacBase):
         """
         if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
             try:
+                self.log(self.want["prov_params"])
                 response = self.dnac_apply['exec'](
                     family="sda",
                     function="provision_wired_device",
@@ -1257,12 +1272,20 @@ class Provision(DnacBase):
         secondary_ap_location = self.want.get("prov_params")[0].get("secondaryManagedAPLocationsSiteIds")
 
         site_exist, site_id = self.get_site_id(site_name)
+        primary_ap_location_site_id_list = []
+        secondary_ap_location_site_id_list = []
 
-        if primary_ap_location != None:
-          site_exist, primary_ap_location_site_id = self.get_site_id(primary_ap_location)
+        if primary_ap_location:  # Ensure it's not None or empty
+            for primary_sites in primary_ap_location:
+                site_exist, primary_ap_location_site_id = self.get_site_id(primary_sites)
+                primary_ap_location_site_id_list.append(primary_ap_location_site_id)
 
-        if primary_ap_location != None:
-          site_exist, secondary_ap_location_site_id = self.get_site_id(secondary_ap_location)
+        if secondary_ap_location:  # Ensure it's not None or empty
+            for secondary_sites in secondary_ap_location:
+                site_exist, secondary_ap_location_site_id = self.get_site_id(secondary_sites)
+                secondary_ap_location_site_id_list.append(secondary_ap_location_site_id)
+
+
 
         if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
             try:
@@ -1287,32 +1310,81 @@ class Provision(DnacBase):
                 self.result['response'] = self.msg
                 self.check_return_status()
         else:
-            payload = self.want.get("prov_params")
-            interface = self.want.get("prov_params")[0].get("interfaces")
-            skip_ap_provision = self.want.get("prov_params")[0].get("skip_ap_provision")
-            rolling_ap_upgrade = self.want.get("prov_params")[0].get("rolling_ap_upgrade")
 
             is_device_assigned = self.is_device_assigned_to_site(device_uid)
 
             if not is_device_assigned:
                 self.assign_device_to_site([device_uid], site_name, site_id)
-            self.log(device_uid)
+
+            if secondary_ap_location or secondary_ap_location: 
+                try:
+                    response = self.dnac_apply['exec'](
+                        family="wireless",
+                        function="assign_managed_ap_locations_for_w_l_c",
+                        op_modifies=True,
+                        params={'device_id': device_uid,
+                            'primaryManagedAPLocationsSiteIds':
+                                primary_ap_location_site_id_list,
+                            'secondaryManagedAPLocationsSiteIds':
+                                secondary_ap_location_site_id_list,
+                        },
+                    )
+                    if response:
+                        self.log("Received API response from 'assign_managed_ap_locations_for_w_l_c': {0}".format(str(response)), "DEBUG")
+                        self.check_tasks_response_status(response, api_name='assign_managed_ap_locations_for_w_l_c')
+                        if self.status not in ["failed", "exited"]:
+                            self.log("wireless Device '{0}' assign_managed_ap_locations_for_w_l_c completed successfully.".format(self.device_ip), "INFO")
+                except Exception as e:
+                    self.log("Exception occurred during 'assign_managed_ap_locations_for_w_l_c': {0}".format(str(e)), "ERROR")
+                    self.msg = "Error in 'assign_managed_ap_locations_for_w_l_c' '{0}' due to {1}".format(self.device_ip, str(e))
+                    self.log(self.msg, "ERROR")
+                    self.status = "failed"
+                    self.result['response'] = self.msg
+                    self.check_return_status()
+                    self.log(self.want.get("prov_params"))
+
+            prov_params = self.want.get("prov_params")[0]
+            payload = {
+                'device_id': prov_params.get('device_id'),
+                'interfaces': []
+            }
+
+            # Process interfaces if they exist
+            if 'interfaces' in prov_params:
+                for interface in prov_params['interfaces']:
+                    cleaned_interface = {}
+                    for k, v in interface.items():
+                        if v is not None:
+                            cleaned_interface[k] = v
+                    payload['interfaces'].append(cleaned_interface)
+
+            # Add skipApProvision
+            payload['skipApProvision'] = prov_params.get('skip_ap_provision')
+
+            # Add rollingApUpgrade if it exists
+            if 'rolling_ap_upgrade' in prov_params:
+                rolling_ap_upgrade = {}
+                for k, v in prov_params['rolling_ap_upgrade'].items():
+                    if v is not None:
+                        rolling_ap_upgrade[k] = v
+                payload['rollingApUpgrade'] = rolling_ap_upgrade
+
             try:
                 response = self.dnac_apply['exec'](
                     family="wireless",
                     function="wireless_controller_provision",
                     op_modifies=True,
-                    params={'device_id': device_uid},
-                    payload=1
+                    params=payload
                 )
+
                 if response:
-                    self.log("Received API response from 'provision_devices': {0}".format(str(response)), "DEBUG")
-                    self.check_tasks_response_status(response, api_name='provision_device')
+                    self.log("Received API response from 'wireless_controller_provision': {0}".format(str(response)), "DEBUG")
+                    self.check_tasks_response_status(response, api_name='wireless_controller_provision')
                     if self.status not in ["failed", "exited"]:
                         self.log("wireless Device '{0}' provisioning completed successfully.".format(self.device_ip), "INFO")
                         self.result["changed"] = True
-                        self.result['msg'] = "Provisioning of the device '{0}' completed successfully.".format(self.device_ip)
-                        self.result['response'] = "Provisioning of the device '{0}' completed successfully.".format(self.device_ip)
+                        self.result['msg'] = "Provisioning of the wireless device '{0}' completed successfully.".format(self.device_ip)
+                        self.result['response'] = "Provisioning of the wireless device '{0}' completed successfully.".format(self.device_ip)
                         self.log(self.result['msg'], "INFO")
                         return self
             except Exception as e:
@@ -1342,48 +1414,53 @@ class Provision(DnacBase):
             self.result['msg'] = "APIs are not supported for the device"
             self.log(self.result['msg'], "CRITICAL")
             return self
-
-        try:
-            status_response = self.dnac_apply['exec'](
-                family="sda",
-                function="get_provisioned_wired_device",
-                op_modifies=True,
-                params={
-                    "device_management_ip_address": self.validated_config["management_ip_address"]
-                },
-            )
-
-        except Exception:
-            status_response = {}
-        self.log("Wired device's status Response collected from 'get_provisioned_wired_device' API is:{0}".format(str(status_response)), "DEBUG")
-        status = status_response.get("status")
-        self.log("The provisioned status of the wired device is {0}".format(status), "INFO")
-
+        device_id = self.get_device_id()
+        provision_id , status = self.get_provisioned_device(device_id)
+        self.log(status)
+        self.log(device_id)
         if status != "success":
             self.result['msg'] = "Device associated with the passed IP address is not provisioned"
             self.log(self.result['msg'], "CRITICAL")
             self.result['response'] = self.want["prov_params"]
             return self
 
-        response = self.dnac_apply['exec'](
-            family="sda",
-            function="delete_provisioned_wired_device",
-            op_modifies=True,
-            params={
-                "device_management_ip_address": self.validated_config["management_ip_address"]
-            },
-        )
-        self.log("Response collected from the 'delete_provisioned_wired_device' API is : {0}".format(str(response)), "DEBUG")
+        if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
+            response = self.dnac_apply['exec'](
+                family="sda",
+                function="delete_provisioned_wired_device",
+                op_modifies=True,
+                params={
+                    "device_management_ip_address": self.validated_config["management_ip_address"]
+                },
+            )
+            self.log("Response collected from the 'delete_provisioned_wired_device' API is : {0}".format(str(response)), "DEBUG")
 
-        task_id = response.get("taskId")
-        deletion_info = self.get_task_status(task_id=task_id)
-        self.result["changed"] = True
-        self.result['msg'] = "Deletion done Successfully"
-        self.result['diff'] = self.validated_config
-        self.result['response'] = task_id
-        self.log(self.result['msg'], "INFO")
-        return self
+            task_id = response.get("taskId")
+            deletion_info = self.get_task_status(task_id=task_id)
+            self.result["changed"] = True
+            self.result['msg'] = "Deletion done Successfully"
+            self.result['diff'] = self.validated_config
+            self.result['response'] = task_id
+            self.log(self.result['msg'], "INFO")
+            return self
 
+        else:
+            response = self.dnac._exec(
+                family="sda",
+                function='delete_provisioned_devices',
+                op_modifies=True,
+                params={'networkDeviceId': device_id},
+            )
+            self.log("Received API response from 'delete_provisioned_devices': {0}".format(str(response)), "DEBUG")
+            self.check_tasks_response_status(response, api_name='delete_provisioned_devices')
+            if self.status not in ["failed", "exited"]:
+                self.result["changed"] = True
+                self.result['msg'] = "Deletion done Successfully for the device '{0}' ".format(self.validated_config["management_ip_address"])
+                self.result['diff'] = self.validated_config
+                self.result['response'] = self.result['msg']
+                self.log(self.result['msg'], "INFO")
+                return self
+            pass
     def verify_diff_merged(self):
         """
         Verify the merged status(Creation/Updation) of Discovery in Cisco Catalyst Center.
@@ -1529,8 +1606,8 @@ def main():
         ccc_provision.reset_values()
         ccc_provision.get_want(config).check_return_status()
         ccc_provision.get_diff_state_apply[state]().check_return_status()
-        # if config_verify:
-        #     ccc_provision.verify_diff_state_apply[state]().check_return_status()
+        if config_verify:
+            ccc_provision.verify_diff_state_apply[state]().check_return_status()
 
     module.exit_json(**ccc_provision.result)
 
