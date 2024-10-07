@@ -25,7 +25,7 @@ description:
 - API to add fabric devices L3 Handoff with SDA transit.
 - API to update fabric devices L3 Handoff with SDA transit.
 - API to delete fabric devices L3 Handoff with SDA transit.
-version_added: '6.20.0'
+version_added: '6.21.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
 author: Muthu Rakesh (@MUTHU-RAKESH-27)
@@ -1351,7 +1351,6 @@ class FabricDevices(DnacBase):
 
             # If the response returned from the SDK is None, then the device is not provisioned to the site.
             provisioned_device_details = provisioned_device_details.get("response")
-            self.log(str(provisioned_device_details))
             if not provisioned_device_details:
                 self.msg = (
                     "The network device with the IP address '{device_ip}' is not provisioned."
@@ -1360,18 +1359,6 @@ class FabricDevices(DnacBase):
                 self.log(self.msg, "ERROR")
                 self.status = "failed"
                 return self
-
-            # device_site_id = provisioned_device_details[0].get("siteId")
-            # self.log(str(device_site_id))
-            # self.log(str(site_id))
-            # if site_id != device_site_id:
-            #     self.msg = (
-            #         "The device with the IP '{ip}' is not associated with the site '{site_name}"
-            #         .format(ip=fabric_device_ip, site_name=site_name)
-            #     )
-            #     self.log(self.msg, "ERROR")
-            #     self.status = "failed"
-            #     return self
 
         except Exception as msg:
             self.msg = (
@@ -1718,7 +1705,7 @@ class FabricDevices(DnacBase):
                 "network_device_id": device_id,
             }
         )
-        self.log(str(fabric_device_details))
+
         if not isinstance(fabric_device_details, dict):
             self.msg = "Error in getting fabric devices - Response is not a dictionary"
             self.log(self.msg, "ERROR")
@@ -2291,7 +2278,6 @@ class FabricDevices(DnacBase):
             return l2_handoff_info
 
         layer2_handoff = borders_settings.get("layer2_handoff")
-        self.log(str(layer2_handoff))
         if not layer2_handoff:
             return l2_handoff_info
 
@@ -3231,7 +3217,6 @@ class FabricDevices(DnacBase):
             want_device_details = want_fabric_device.get("device_details")
 
             # Check fabric device exists, if not add it
-            self.log(str(self.have))
             if not have_device_details:
                 self.log("Desired fabric device '{ip}' details (want): {requested_state}"
                          .format(ip=device_ip, requested_state=want_device_details), "DEBUG")
@@ -3281,9 +3266,6 @@ class FabricDevices(DnacBase):
                 )
 
                 # Check if the update is required or not
-                self.log(str(have_device_details))
-                self.log(str(want_device_details))
-                self.log(str(self.fabric_devices_obj_params))
                 if not self.requires_update(have_device_details,
                                             want_device_details,
                                             self.fabric_devices_obj_params):
@@ -3350,8 +3332,6 @@ class FabricDevices(DnacBase):
 
             have_l2_handoff = have_fabric_device.get("l2_handoff_details")
             want_l2_handoff = want_fabric_device.get("l2_handoff_details")
-            self.log(str(have_l2_handoff))
-            self.log(str(want_l2_handoff))
             if want_l2_handoff:
                 self.update_l2_handoff(have_l2_handoff, want_l2_handoff, device_ip,
                                        result_fabric_device_response,
@@ -3736,7 +3716,6 @@ class FabricDevices(DnacBase):
         if fabric_devices is not None:
             self.delete_fabric_devices(fabric_devices)
 
-        self.log(str(self.result))
         return self
 
     def verify_ip_l3_handoff(self, device_ip, have_l3_ip, want_l3_ip):
@@ -3923,7 +3902,6 @@ class FabricDevices(DnacBase):
                     "Successfully validated the border settings for in the device '{ip}'."
                     .format(ip=device_ip), "INFO"
                 )
-                self.log(str(self.result))
                 self.response[0].get("msg").get(fabric_name).get(device_ip).update({
                     "Validation": "Success"
                 })
@@ -3958,7 +3936,6 @@ class FabricDevices(DnacBase):
             for item in device_config:
                 fabric_device_index += 1
                 delete_fabric_device = self.have.get("fabric_devices")[fabric_device_index].get("delete_fabric_device")
-                self.log(str(delete_fabric_device))
                 device_ip = item.get("device_ip")
                 fabric_device_details = self.have.get("fabric_devices")[fabric_device_index]
                 if item.get("layer3_handoff_ip_transit"):
@@ -4025,7 +4002,6 @@ class FabricDevices(DnacBase):
                         .format(ip=device_ip), "INFO"
                     )
 
-                self.log(str(self.result))
                 self.response[0].get("msg").get(fabric_name).get(device_ip).update({
                     "Validation": "Success"
                 })
