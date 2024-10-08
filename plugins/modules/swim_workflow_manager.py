@@ -670,9 +670,11 @@ class Swim(DnacBase):
             image_id = image_list[0].get("imageUuid")
             self.log("SWIM image '{0}' has the ID: {1}".format(name, image_id), "INFO")
         else:
-            error_message = "SWIM image '{0}' could not be found".format(name)
-            self.log(error_message, "ERROR")
-            self.module.fail_json(msg=error_message, response=image_response)
+            self.msg = "SWIM image '{0}' could not be found".format(name)
+            self.log(self.msg, "ERROR")
+            self.status = "failed"
+            self.result['response'] = self.msg
+            self.check_return_status()
 
         return image_id
 
@@ -755,9 +757,11 @@ class Swim(DnacBase):
             image_name = image_list[0].get("name")
             self.log("SWIM image '{0}' has been fetched successfully from Cisco Catalyst Center".format(image_name), "INFO")
         else:
-            error_message = "SWIM image with Id '{0}' could not be found in Cisco Catalyst Center".format(image_id)
-            self.log(error_message, "ERROR")
-            self.module.fail_json(msg=error_message, response=image_response)
+            self.msg = "SWIM image with Id '{0}' could not be found in Cisco Catalyst Center".format(image_id)
+            self.log(self.msg, "ERROR")
+            self.status = "failed"
+            self.result['response'] = self.msg
+            self.check_return_status()
 
         return image_name
 
