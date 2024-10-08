@@ -1,13 +1,12 @@
 ---
-- name: Configure the Fabric Vlan(s), layer3 Virtual network(s) and Anycast gateway(s) for SDA in Cisco Catalyst Center
+- name: Configure the Fabric Vlan(s), Virtual network(s) and Anycast gateway(s) for SDA in Cisco Catalyst Center
   hosts: localhost
   connection: local
   gather_facts: no
   vars_files:
-    - "input_fabric_virtual_networks.yml"
     - "credentials.yml"
   tasks:
-    - name: Configure the Fabric Vlan(s), layer3 Virtual network(s) and Anycast gateway(s) for SDA in Cisco Catalyst Center
+    - name: Configure the Fabric Vlan(s), Virtual network(s) and Anycast gateway(s) for SDA in Cisco Catalyst Center
       cisco.dnac.fabric_virtual_networks_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -63,6 +62,5 @@
             multiple_ip_to_mac_addresses: False
             auto_generate_vlan_name: True
 
-      with_items: "{{ fabric_virtual_network }}"
       tags:
         - fabric_virtual_network_testing
