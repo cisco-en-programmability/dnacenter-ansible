@@ -3,7 +3,7 @@
 # Copyright (c) 2024, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-"""Ansible module to perform Network Compliance Operations on devices in Cisco Catalyst Center."""
+"""Ansible module to manage SD-Access Host Onboarding operations in Cisco Catalyst Center."""
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -12,15 +12,15 @@ __author__ = ("Rugvedi Kapse, Madhan Sankaranarayanan")
 DOCUMENTATION = r"""
 ---
 module: sda_host_port_onboarding_workflow_manager
-short_description: SDA Host Onboarding Module provides functionality for managing host onboarding in SD-Access Fabric in Cisco Catalyst Center.
+short_description: Manage host port onboarding in SD-Access Fabric in Cisco Catalyst Center.
 description:
 - Manage host onboarding operations such as adding, updating, and deleting port assignments and port channels of Network Devices in SD-Access Fabric.
-- API to create port assignment(s) of Network Devices operating in SD-Access Fabric roles in Cisco Catalyst Center.
-- API to Update port assignment(s) of Network Devices operating in SD-Access Fabric roles in Cisco Catalyst Center.
-- API to delete port assignment(s) of Network Devices operating in SD-Access Fabric roles in Cisco Catalyst Center.
-- API to create port channel(s) of Network Devices operating in SD-Access Fabric roles in Cisco Catalyst Center.
-- API to update port channel(s) of Network Devices operating in SD-Access Fabric roles in Cisco Catalyst Center.
-- API to delete port channel(s) of Network Devices operating in SD-Access Fabric roles in Cisco Catalyst Center.
+- API to create port assignment(s) for Network Devices in SD-Access Fabric roles in Cisco Catalyst Center.
+- API to Update port assignment(s) for Network Devices in SD-Access Fabric roles in Cisco Catalyst Center.
+- API to delete port assignment(s) for Network Devices in SD-Access Fabric roles in Cisco Catalyst Center.
+- API to create port channel(s) for Network Devices in SD-Access Fabric roles in Cisco Catalyst Center.
+- API to update port channel(s) for Network Devices in SD-Access Fabric roles in Cisco Catalyst Center.
+- API to delete port channel(s) for Network Devices in SD-Access Fabric roles in Cisco Catalyst Center.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
@@ -86,8 +86,8 @@ options:
                 - Specifies the type of access device that needs to be onboarded on the specified interface.
                 - Valid options for Connected Device Types are - "USER_DEVICE", "ACCESS_POINT", and "TRUNKING_DEVICE".
                 - TRUNKING_DEVICE - Configures the interface as a trunk port. No additional parameters are required for this Connected Device Type.
-                                    The "authentication_template_name", if provided, must be set to "No Authentication" when configuring a "TRUNKING_DEVICE".
-                                    Optionally, a description for the port can be provided.
+                                    If the "authentication_template_name" is provided, it must be set to 'No Authentication' when
+                                    configuring a "TRUNKING_DEVICE".
                 - ACCESS_POINT - Configures the port for connecting an access point. The "data_vlan_name" parameter is required when configuring "ACCESS_POINT"
                                  devices in port assignments.
                                  Optionally, the "authentication_template_name" and "interface_description" can also be specified.
@@ -96,16 +96,16 @@ options:
                                 Optional parameters include "security_group_name", "authentication_template_name", and "interface_description".
                 - Note - The "connected_device_type" cannot be updated from "TRUNK" to "EXTENDED_NODE" unless the protocol configured is PAGP.
             type: str
-            choices: [ "USER_DEVICE", "ACCESS_POINT", "TRUNKING_DEVICE" ]
+            choices: [ "TRUNKING_DEVICE", "ACCESS_POINT", "USER_DEVICE" ]
           data_vlan_name:
             description:
-                - Specifies the Data VLAN name/IP address pool to be assigned to the port.
+                - Specifies the Data VLAN name or IP address pool to be assigned to the port.
                 - This parameter is required when the connected_device_type is set to ACCESS_POINT.
                 - At least one VLAN ("data_vlan_name" or "voice_vlan_name") is required when configuring a "USER_DEVICE".
             type: str
           voice_vlan_name:
             description:
-                - Specifies the Voice VLAN name/IP address pool to be assigned to the port.
+                - Specifies the Voice VLAN name or IP address pool to be assigned to the port.
                 - At least one VLAN ("data_vlan_name" or "voice_vlan_name") is required when configuring a "USER_DEVICE".
             type: str
           security_group_name:
@@ -125,24 +125,24 @@ options:
             choices: [ "No Authentication", "Open Authentication", "Closed Authentication", "Low Impact" ]
           interface_description:
             description:
-                - A Interface description of the port assignment.
+                - A description of the port assignment interface.
             type: str
       port_channel_details:
         description:
             - A list containing configuration details for adding, updating, or deleting port channel(s) between a fabric edge and its
               remotely connected devices in Cisco Catalyst Center.
-            - The "interface_names_list" and "connected_device_type" fields are required for add and update port channel(s) operations.
-            - For the update port channel(s) operation, the parameters that can be updated include connected_device_type and port_channel_description.
+            - The "interface_names" and "connected_device_type" fields are required for add and update port channel(s) operations.
+            - For the update port channel(s) operation, the parameters that can be updated include "connected_device_type" and "port_channel_description".
             - For delete port channel(s) operation, the valid parameters are "port_channel_name" and "connected_device_type".
               If both parameters are provided, only port channels that match the specified criteria are deleted (i.e., AND filtering is applied).
         type: list
         elements: dict
         suboptions:
-          interface_names_list:
+          interface_names:
             description:
                 - A list of ports/interfaces of the target device in the SD-Access Fabric on which port channel needs to be configured.
-                - A maximum of 8 ports are supported in interface_names_list for "PAGP" and "ON" protocols.
-                - A maximum of 16 ports are supported in interface_names_list for the "LACP" protocol.
+                - A maximum of 8 ports are supported in interface_names for "PAGP" and "ON" protocols.
+                - A maximum of 16 ports are supported in interface_names for the "LACP" protocol.
                 - Example - ["TwoGigabitEthernet2/0/1", "TwoGigabitEthernet2/0/2", "TwoGigabitEthernet2/0/3"]
             type: list
             elements: str
@@ -211,7 +211,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Add port interfaces and port channels for a specific fabric device
-  cisco.dnac.device_configs_backup_workflow_manager:
+  cisco.dnac.sda_host_port_onboarding_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -223,109 +223,109 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
     config:
-      - ip_address: 204.1.2.2
+      - ip_address: "204.1.2.2"
         port_assignment_details:
-          - interface_name: FortyGigabitEthernet1/1/1
-            connected_device_type: TRUNKING_DEVICE
+          - interface_name: "FortyGigabitEthernet1/1/1"
+            connected_device_type: "TRUNKING_DEVICE"
 
-          - interface_name: FortyGigabitEthernet1/1/2
-            connected_device_type: TRUNKING_DEVICE
-            authentication_template_name: No Authentication
-            interface_description: Trunk Port
+          - interface_name: "FortyGigabitEthernet1/1/2"
+            connected_device_type: "TRUNKING_DEVICE"
+            authentication_template_name: "No Authentication"
+            interface_description: "Trunk Port"
 
-          - interface_name: FortyGigabitEthernet2/1/1
-            connected_device_type: ACCESS_POINT
-            data_vlan_name: AG_23
+          - interface_name: "FortyGigabitEthernet2/1/1"
+            connected_device_type: "ACCESS_POINT"
+            data_vlan_name: "AG_23"
 
-          - interface_name: FortyGigabitEthernet2/1/2
-            connected_device_type: ACCESS_POINT
-            data_vlan_name: AG_23
-            authentication_template_name: No Authentication
-            interface_description: Access Point Port
+          - interface_name: "FortyGigabitEthernet2/1/2"
+            connected_device_type: "ACCESS_POINT"
+            data_vlan_name: "AG_23"
+            authentication_template_name: "No Authentication"
+            interface_description: "Access Point Port"
 
-          - interface_name: GigabitEthernet1/1/1
-            connected_device_type: ACCESS_POINT
-            data_vlan_name: AG_23
-            authentication_template_name: Open Authentication
-            interface_description: Access Point Port
+          - interface_name: "GigabitEthernet1/1/1"
+            connected_device_type: "ACCESS_POINT"
+            data_vlan_name: "AG_23"
+            authentication_template_name: "Open Authentication"
+            interface_description: "Access Point Port"
 
-          - interface_name: GigabitEthernet1/1/2
-            connected_device_type: ACCESS_POINT
-            data_vlan_name: AG_23
-            authentication_template_name: Closed Authentication
-            interface_description: Access Point Port
+          - interface_name: "GigabitEthernet1/1/2"
+            connected_device_type: "ACCESS_POINT"
+            data_vlan_name: "AG_23"
+            authentication_template_name: "Closed Authentication"
+            interface_description: "Access Point Port"
 
-          - interface_name: GigabitEthernet1/1/3
-            connected_device_type: ACCESS_POINT
-            data_vlan_name: AG_23
-            authentication_template_name: Low Impact
-            interface_description: Access Point Port
+          - interface_name: "GigabitEthernet1/1/3"
+            connected_device_type: "ACCESS_POINT"
+            data_vlan_name: "AG_23"
+            authentication_template_name: "Low Impact"
+            interface_description: "Access Point Port"
 
-          - interface_name: GigabitEthernet1/1/4
-            connected_device_type: USER_DEVICE
-            data_vlan_name: AG_VLAN_23
+          - interface_name: "GigabitEthernet1/1/4"
+            connected_device_type: "USER_DEVICE"
+            data_vlan_name: "AG_VLAN_23"
 
-          - interface_name: GigabitEthernet2/1/1
-            connected_device_type: USER_DEVICE
-            voice_vlan_name: VOICE_VLAN_23
+          - interface_name: "GigabitEthernet2/1/1"
+            connected_device_type: "USER_DEVICE"
+            voice_vlan_name: "VOICE_VLAN_23"
 
-          - interface_name: GigabitEthernet2/1/2
-            connected_device_type: USER_DEVICE
-            data_vlan_name: AG_23
-            voice_vlan_name: VOICE_VLAN_23
+          - interface_name: "GigabitEthernet2/1/2"
+            connected_device_type: "USER_DEVICE"
+            data_vlan_name: "AG_23"
+            voice_vlan_name: "VOICE_VLAN_23"
 
-          - interface_name: GigabitEthernet2/1/3
-            connected_device_type: USER_DEVICE
-            data_vlan_name: AG_23
-            voice_vlan_name: VOICE_VLAN_23
-            security_group_name: Guests
+          - interface_name: "GigabitEthernet2/1/3"
+            connected_device_type: "USER_DEVICE"
+            data_vlan_name: "AG_23"
+            voice_vlan_name: "VOICE_VLAN_23"
+            security_group_name: "Guests"
 
-          - interface_name: GigabitEthernet2/1/4
-            connected_device_type: USER_DEVICE
-            data_vlan_name: AG_23
-            voice_vlan_name: VOICE_VLAN_23
-            security_group_name: Guests
-            authentication_template_name: No Authentication
+          - interface_name: "GigabitEthernet2/1/4"
+            connected_device_type: "USER_DEVICE"
+            data_vlan_name: "AG_23"
+            voice_vlan_name: "VOICE_VLAN_23"
+            security_group_name: "Guests"
+            authentication_template_name: "No Authentication"
 
-          - interface_name: GigabitEthernet2/1/4
-            connected_device_type: USER_DEVICE
-            data_vlan_name: AG_23
-            security_group_name: Guests
-            authentication_template_name: Closed Authentication
+          - interface_name: "GigabitEthernet2/1/4"
+            connected_device_type: "USER_DEVICE"
+            data_vlan_name: "AG_23"
+            security_group_name: "Guests"
+            authentication_template_name: "Closed Authentication"
 
-          - interface_name: GigabitEthernet2/1/4
-            connected_device_type: USER_DEVICE
-            voice_vlan_name: VOICE_VLAN_23
-            authentication_template_name: Low Impact
-            interface_description: User Device
+          - interface_name: "GigabitEthernet2/1/4"
+            connected_device_type: "USER_DEVICE"
+            voice_vlan_name: "VOICE_VLAN_23"
+            authentication_template_name: "Low Impact"
+            interface_description: "User Device"
 
         port_channel_details:
-          - interface_names_list: ["TenGigabitEthernet1/0/37", "TenGigabitEthernet1/0/38", "TenGigabitEthernet1/0/39"]
-            connected_device_type: TRUNK
+          - interface_names: ["TenGigabitEthernet1/0/37", "TenGigabitEthernet1/0/38", "TenGigabitEthernet1/0/39"]
+            connected_device_type: "TRUNK"
 
-          - interface_names_list: ["TenGigabitEthernet1/0/43", "TenGigabitEthernet1/0/44"]
-            connected_device_type: TRUNK
+          - interface_names: ["TenGigabitEthernet1/0/43", "TenGigabitEthernet1/0/44"]
+            connected_device_type: "TRUNK"
             protocol: "ON"
 
-          - interface_names_list: ["TenGigabitEthernet1/0/45", "TenGigabitEthernet1/0/46", "TenGigabitEthernet1/0/47", "TenGigabitEthernet1/0/48"]
-            connected_device_type: TRUNK
-            protocol: LACP
+          - interface_names: ["TenGigabitEthernet1/0/45", "TenGigabitEthernet1/0/46", "TenGigabitEthernet1/0/47", "TenGigabitEthernet1/0/48"]
+            connected_device_type: "TRUNK"
+            protocol: "LACP"
 
-          - interface_names_list: ["TenGigabitEthernet1/1/2", "TenGigabitEthernet1/1/3", "TenGigabitEthernet1/1/4"]
-            connected_device_type: TRUNK
-            protocol: PAGP
-            port_channel_descrption: Trunk port channel
+          - interface_names: ["TenGigabitEthernet1/1/2", "TenGigabitEthernet1/1/3", "TenGigabitEthernet1/1/4"]
+            connected_device_type: "TRUNK"
+            protocol: "PAGP"
+            port_channel_descrption: "Trunk port channel"
 
-          - interface_names_list: ["TenGigabitEthernet1/1/5", "TenGigabitEthernet1/1/6"]
-            connected_device_type: EXTENDED_NODE
+          - interface_names: ["TenGigabitEthernet1/1/5", "TenGigabitEthernet1/1/6"]
+            connected_device_type: "EXTENDED_NODE"
 
-          - interface_names_list: ["TenGigabitEthernet1/1/7", "TenGigabitEthernet1/1/8"]
-            connected_device_type: EXTENDED_NODE
-            protocol: PAGP
-            port_channel_descrption: extended node port channel
+          - interface_names: ["TenGigabitEthernet1/1/7", "TenGigabitEthernet1/1/8"]
+            connected_device_type: "EXTENDED_NODE"
+            protocol: "PAGP"
+            port_channel_descrption: "extended node port channel"
 
 - name: Update port interfaces and port channels for a specific fabric device
-  cisco.dnac.device_configs_backup_workflow_manager:
+  cisco.dnac.sda_host_port_onboarding_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -337,33 +337,33 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
     config:
-      - hostname: DC-T-9300.cisco.local
+      - hostname: "DC-T-9300.cisco.local"
         port_assignment_details:
-          - interface_name: FortyGigabitEthernet1/1/1
-            connected_device_type: TRUNKING_DEVICE
-            interface_description: Trunking device on port 111
+          - interface_name: "FortyGigabitEthernet1/1/1"
+            connected_device_type: "TRUNKING_DEVICE"
+            interface_description: "Trunking device on port 111"
 
-          - interface_name: GigabitEthernet2/1/4
-            connected_device_type: USER_DEVICE
-            data_vlan_name: AG_VLAN_23
-            security_group_name: Guests
-            authentication_template_name: Closed Authentication
+          - interface_name: "GigabitEthernet2/1/4"
+            connected_device_type: "USER_DEVICE"
+            data_vlan_name: "AG_VLAN_23"
+            security_group_name: "Guests"
+            authentication_template_name: "Closed Authentication"
 
-          - interface_name: GigabitEthernet2/1/4
-            connected_device_type: USER_DEVICE
-            data_vlan_name: AG_23
-            security_group_name: Guests
-            authentication_template_name: Closed Authentication
-            interface_description: User device at port 214
+          - interface_name: "GigabitEthernet2/1/4"
+            connected_device_type: "USER_DEVICE"
+            data_vlan_name: "AG_23"
+            security_group_name: "Guests"
+            authentication_template_name: "Closed Authentication"
+            interface_description: "User device at port 214"
 
         port_channel_details:
-          - interface_names_list: ["TenGigabitEthernet1/1/2", "TenGigabitEthernet1/1/3", "TenGigabitEthernet1/1/4"]
-            connected_device_type: EXTENDED_NODE
-            protocol: PAGP
-            port_channel_descrption: Trunk port channel
+          - interface_names: ["TenGigabitEthernet1/1/2", "TenGigabitEthernet1/1/3", "TenGigabitEthernet1/1/4"]
+            connected_device_type: "EXTENDED_NODE"
+            protocol: 'PAGP'
+            port_channel_descrption: "Trunk port channel"
 
 - name: Delete ALL port assignments and port channels for the fabric device using hostname
-  cisco.dnac.device_configs_backup_workflow_manager:
+  cisco.dnac.sda_host_port_onboarding_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -375,10 +375,10 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: deleted
     config:
-      - hostname: DC-T-9300.cisco.local
+      - hostname: "DC-T-9300.cisco.local"
 
 - name: Delete ALL port assignments and port channels for the fabric device using ip_address
-  cisco.dnac.device_configs_backup_workflow_manager:
+  cisco.dnac.sda_host_port_onboarding_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -390,10 +390,10 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: deleted
     config:
-      - ip_address: 204.1.2.2
+      - ip_address: "204.1.2.2"
 
 - name: Delete specific interfaces and port channels using interface names and port channel name
-  cisco.dnac.device_configs_backup_workflow_manager:
+  cisco.dnac.sda_host_port_onboarding_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -405,23 +405,23 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: deleted
     config:
-      - ip_address: 204.1.2.2
+      - ip_address: "204.1.2.2"
         port_assignment_details:
-          - interface_name: FortyGigabitEthernet2/1/2
-            data_vlan_name: AG_23
+          - interface_name: "FortyGigabitEthernet2/1/2"
+            data_vlan_name: "AG_23"
 
-          - interface_name: GigabitEthernet2/1/3
-            voice_vlan_name: VOICE_VLAN_23
+          - interface_name: "GigabitEthernet2/1/3"
+            voice_vlan_name: "VOICE_VLAN_23"
 
         port_channel_details:
-          - port_channel_name: Port-channel2
-            connected_device_type: TRUNK
+          - port_channel_name: "Port-channel2"
+            connected_device_type: "TRUNK"
 
-          - port_channel_name: Port-channel6
-            connected_device_type: EXTENDED_NODE
+          - port_channel_name: "Port-channel6"
+            connected_device_type: "EXTENDED_NODE"
 
 - name: Delete specific interfaces and port channels using interface names and port channel name
-  cisco.dnac.device_configs_backup_workflow_manager:
+  cisco.dnac.sda_host_port_onboarding_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -433,21 +433,21 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: deleted
     config:
-      - ip_address: 204.1.2.2
+      - ip_address: "204.1.2.2"
         port_assignment_details:
-          - interface_name: FortyGigabitEthernet1/1/1
-          - interface_name: FortyGigabitEthernet1/1/2
-          - interface_name: GigabitEthernet2/1/1
-          - interface_name: TenGigabitEthernet1/0/37
-          - interface_name: TenGigabitEthernet1/0/38
-          - interface_name: TenGigabitEthernet1/0/39
+          - interface_name: "FortyGigabitEthernet1/1/1"
+          - interface_name: "FortyGigabitEthernet1/1/2"
+          - interface_name: "GigabitEthernet2/1/1"
+          - interface_name: "TenGigabitEthernet1/0/37"
+          - interface_name: "TenGigabitEthernet1/0/38"
+          - interface_name: "TenGigabitEthernet1/0/39"
         port_channel_details:
-          - port_channel_name: Port-channel2
-          - port_channel_name: Port-channel5
-          - port_channel_name: Port-channel6
+          - port_channel_name: "Port-channel2"
+          - port_channel_name: "Port-channel5"
+          - port_channel_name: "Port-channel6"
 
 - name: Delete interfaces that have specified data vlan assigned
-  cisco.dnac.device_configs_backup_workflow_manager:
+  cisco.dnac.sda_host_port_onboarding_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -459,13 +459,13 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: deleted
     config:
-      - hostname: DC-T-9300.cisco.local
+      - hostname: "DC-T-9300.cisco.local"
         port_assignment_details:
-          - data_vlan_name: AG_23
-          - voice_vlan_name: VOICE_VLAN_23
+          - data_vlan_name: "AG_23"
+          - voice_vlan_name: "VOICE_VLAN_23"
 
 - name: Delete all port channels that have Connected Device Type EXTENDED_NODE
-  cisco.dnac.device_configs_backup_workflow_manager:
+  cisco.dnac.sda_host_port_onboarding_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -477,9 +477,9 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: deleted
     config:
-      - ip_address: 204.1.2.2
+      - ip_address: "204.1.2.2"
         port_channel_details:
-          - connected_device_type: EXTENDED_NODE
+          - connected_device_type: "EXTENDED_NODE"
 """
 
 RETURN = r"""
@@ -577,7 +577,7 @@ class SDAHostPortOnboarding(DnacBase):
                 "elements": "dict",
                 "required": False,
                 "options": {
-                    "interface_names_list": {"type": "list", "elements": "str"},
+                    "interface_names": {"type": "list", "elements": "str"},
                     "connected_device_type": {"type": "str"},
                     "protocol": {"type": "str"},
                     "port_channel_description": {"type": "str"},
@@ -602,7 +602,7 @@ class SDAHostPortOnboarding(DnacBase):
         self.set_operation_result("success", False, self.msg, "INFO")
         return self
 
-    def validate_ip_hostname(self, ip_address, hostname):
+    def validate_ip_and_hostname(self, ip_address, hostname):
         """
         Validates the provided IP address and hostname.
         Args:
@@ -618,6 +618,8 @@ class SDAHostPortOnboarding(DnacBase):
             if the provided IP address is a valid IPv4 address. If the IP address is invalid, it logs an error
             message and sets the validation status to "failed".
         """
+        self.log("Validating IP address: '{0}' and hostname: '{1}'".format(ip_address, hostname), "DEBUG")
+
         # Check if both IP address and hostname are not provided
         if not ip_address and not hostname:
             self.msg = "Provided IP address: {0}, hostname: {1}. Either an IP address or a hostname is required.".format(ip_address, hostname)
@@ -628,7 +630,9 @@ class SDAHostPortOnboarding(DnacBase):
             self.msg = "IP address: {0} is not a valid IP Address.".format(ip_address)
             self.fail_and_exit(self.msg)
 
-    def validate_req_port_assignment_params(self, interface_name, connected_device_type):
+        self.log("Validation successful: Provided IP address or hostname are valid")
+
+    def validate_port_assignment_params(self, interface_name, connected_device_type):
         """
         Validates the required parameters for port assignment operations.
         Args:
@@ -644,14 +648,18 @@ class SDAHostPortOnboarding(DnacBase):
             These parameters are essential for Add/Update Port Assignment operations.
         """
         # Check if either interface_name or connected_device_type is not provided
+        self.log("Validating if required parameters 'interface_name' and 'connected_device_type' are provided", "DEBUG")
+
         if not interface_name or not connected_device_type:
             self.msg = (
-                "interface_name and connected_device_type are required parameters for Add/Update "
-                "Port Assignment operations. Provided interface_name: {0}, connected_device_type: {1}."
+                "Both 'interface_name' and ;connected_device_type' are required parameters for Add/Update "
+                "Port Assignment operations. Provided 'interface_name': {0}, 'connected_device_type': {1}."
             ).format(interface_name, connected_device_type)
             self.fail_and_exit(self.msg)
 
-    def validate_connected_device_type_pa(self, interface_name, connected_device_type):
+        self.log("Validation successful: Provided required parameters 'interface_name' and 'connected_device_type'.", "DEBUG")
+
+    def validate_port_assignment_connected_device_type(self, interface_name, connected_device_type):
         """
         Validates the connected device type for a given interface.
         Args:
@@ -666,6 +674,8 @@ class SDAHostPortOnboarding(DnacBase):
             for port assignments. If the type is invalid, it logs an error message and sets the validation
             status to "failed". If the type is valid, it logs a success message.
         """
+        self.log("Validating connected device type: '{0}' for interface: '{1}'".format(connected_device_type, interface_name), "DEBUG")
+
         # List of valid connected device types
         valid_device_types = ["USER_DEVICE", "ACCESS_POINT", "TRUNKING_DEVICE"]
 
@@ -681,7 +691,7 @@ class SDAHostPortOnboarding(DnacBase):
         # Log a success message indicating the connected device type is valid
         self.log("Interface {0}: Successfully validated the connected device type: {1}".format(interface_name, connected_device_type), "DEBUG")
 
-    def validate_authentication_template(self, interface_name, authentication_template_name):
+    def validate_interface_authentication_template(self, interface_name, authentication_template_name):
         """
         Validates the authentication template name for a given interface.
         Args:
@@ -696,6 +706,8 @@ class SDAHostPortOnboarding(DnacBase):
             templates for the interface. If the template name is invalid, it logs an error message and sets the
             validation status to "failed". If the template name is valid, it logs a success message.
         """
+        self.log("Validating authentication template: '{0}' for interface: '{1}'".format(authentication_template_name, interface_name), "DEBUG")
+
         # List of valid authentication template names
         valid_template_names = ["No Authentication", "Open Authentication", "Closed Authentication", "Low Impact"]
 
@@ -709,7 +721,7 @@ class SDAHostPortOnboarding(DnacBase):
         # Log a success message indicating the authentication template name is valid
         self.log("Interface {0}: Successfully validated the authentication template: {1}".format(interface_name, authentication_template_name), "DEBUG")
 
-    def validate_trunking_device_parameters(self, port_assignment):
+    def validate_trunking_device_assignment_params(self, port_assignment):
         """
         Validates the parameters for a trunking device in a port assignment.
         Args:
@@ -725,9 +737,12 @@ class SDAHostPortOnboarding(DnacBase):
             validation status to "failed". If all parameters are valid, it logs a success message.
         """
         # Retrieve specific parameters from the port_assignment dictionary
+
         interface_name = port_assignment.get("interface_name")
         connected_device_type = port_assignment.get("connected_device_type")
         authentication_template_name = port_assignment.get("authentication_template_name")
+
+        self.log("Interface {0}: Starting validation for device type 'TRUNKING_DEVICE'.".format(interface_name), "DEBUG")
 
         # Check if authentication_template_name is set and not equal to 'No Authentication
         if authentication_template_name and authentication_template_name != "No Authentication":
@@ -750,9 +765,9 @@ class SDAHostPortOnboarding(DnacBase):
             ).format(interface_name, invalid_params_str)
             self.fail_and_exit(self.msg)
 
-        self.log("Interface {0}: Successfully validated the device type: 'TRUNKING_DEVICE' parameters.".format(interface_name), "DEBUG")
+        self.log("Interface {0}: All provided parameters for 'TRUNKING_DEVICE' are valid".format(interface_name), "DEBUG")
 
-    def validate_user_device_parameters(self, port_assignment):
+    def validate_user_device_params(self, port_assignment):
         """
         Validates the parameters for a user device in a port assignment.
         Args:
@@ -774,6 +789,8 @@ class SDAHostPortOnboarding(DnacBase):
         security_group_name = port_assignment.get("security_group_name")
         data_vlan_name = port_assignment.get("data_vlan_name")
         voice_vlan_name = port_assignment.get("voice_vlan_name")
+
+        self.log("Interface {0}: Starting validation for device type 'USER_DEVICE'.".format(interface_name), "DEBUG")
 
         valid_params = {
             "interface_name",
@@ -804,16 +821,18 @@ class SDAHostPortOnboarding(DnacBase):
                     "Closed Authentication. Provided data_vlan_name: {3}, voice_vlan_name: {4}."
                 ).format(interface_name, connected_device_type, "data_vlan_name OR voice_vlan_name", data_vlan_name, voice_vlan_name)
                 self.fail_and_exit(self.msg)
+            self.log("Interface {0}: VLAN validation for 'USER_DEVICE' passed.".format(interface_name), "DEBUG")
 
         # Check if security_group_name is provided and authentication_template_name is not "No Authentication"
         if security_group_name and authentication_template_name and authentication_template_name != "No Authentication":
             self.msg = ("Interface {0}: For Device Type  - {1}, if security_group_name is provided, "
                         "the authentication_template_name must be 'No Authentication'.".format(interface_name, connected_device_type))
             self.fail_and_exit(self.msg)
+        self.log("Interface {0}: Security group name validation for 'USER_DEVICE' passed.".format(interface_name), "DEBUG")
 
-        self.log("Interface {0}: Successfully validated the device type: 'USER_DEVICE' parameters.".format(interface_name), "DEBUG")
+        self.log("Interface {0}: All provided parameters for 'USER_DEVICE' are valid".format(interface_name), "DEBUG")
 
-    def validate_access_point_parameters(self, port_assignment):
+    def validate_access_point_params(self, port_assignment):
         """
         Validates the parameters for an access point in a port assignment.
         Args:
@@ -833,12 +852,15 @@ class SDAHostPortOnboarding(DnacBase):
         connected_device_type = port_assignment.get("connected_device_type")
         required_param = "data_vlan_name"
 
+        self.log("Interface {0}: Starting validation for device type 'ACCESS_POINT'.".format(interface_name), "DEBUG")
+
         # Check if the required parameter is present in port_assignment dictionary for a ACCESS_POINT
         if required_param not in port_assignment:
             self.msg = ("Interface {0}: Required parameter '{1}' for Device Type: {2} is missing. "
                         "Parameter required for onboarding device type {2} is '{1}'").format(
                             interface_name, required_param, connected_device_type)
             self.fail_and_exit(self.msg)
+        self.log("Interface {0}: Required parameter '{1}' is present.".format(interface_name, required_param), "DEBUG")
 
         # Check if any parameters provided in the port_assignment dictionary are not from the valid parameters
         valid_params = {"interface_name", "connected_device_type", "authentication_template_name", "data_vlan_name", "interface_description"}
@@ -853,9 +875,9 @@ class SDAHostPortOnboarding(DnacBase):
             ).format(interface_name, invalid_params_str, valid_params)
             self.fail_and_exit(self.msg)
 
-        self.log("Interface {0}: Successfully validated the device type: 'ACCESS_POINT' parameters.".format(interface_name), "DEBUG")
+        self.log("Interface {0}: All provided parameters for 'ACCESS_POINT' are valid".format(interface_name), "DEBUG")
 
-    def validate_device_specific_parameters(self, port_assignment):
+    def validate_device_specific_params(self, port_assignment):
         """
         Validates device-specific parameters in a port assignment.
         Args:
@@ -878,21 +900,27 @@ class SDAHostPortOnboarding(DnacBase):
 
         # Validate authentication_template_name if it is provided
         if authentication_template_name:
-            self.validate_authentication_template(port_assignment.get("interface_name"), authentication_template_name)
+            self.log("Validating authentication template: '{0}' for interface.".format(authentication_template_name), "DEBUG")
+            self.validate_interface_authentication_template(port_assignment.get("interface_name"), authentication_template_name)
 
         # Call the validation method for trunking device parameters
         if connected_device_type_upper == "TRUNKING_DEVICE":
-            self.validate_trunking_device_parameters(port_assignment)
+            self.log("Calling trunking device parameter validation.", "DEBUG")
+            self.validate_trunking_device_assignment_params(port_assignment)
 
         # Call the validation method for user device parameters
         elif connected_device_type_upper == "USER_DEVICE":
-            self.validate_user_device_parameters(port_assignment)
+            self.log("Calling user device parameter validation.", "DEBUG")
+            self.validate_user_device_params(port_assignment)
 
         # Call the validation method for access point parameters
         elif connected_device_type_upper == "ACCESS_POINT":
-            self.validate_access_point_parameters(port_assignment)
+            self.log("Calling access point parameter validation.", "DEBUG")
+            self.validate_access_point_params(port_assignment)
 
-    def validate_req_port_channel_params(self, port_channel):
+        self.log("Finished validation for device type '{0}'.".format(connected_device_type), "DEBUG")
+
+    def validate_port_channel_params(self, port_channel):
         """
         Validates the required parameters for port channel operations.
         Args:
@@ -902,13 +930,15 @@ class SDAHostPortOnboarding(DnacBase):
                 - self.msg: A message describing the validation result.
                 - self.status: The status of the validation (either "success" or "failed").
         Description:
-            This method checks if the required parameters 'interface_names_list' and 'connected_device_type' are present
+            This method checks if the required parameters 'interface_names' and 'connected_device_type' are present
             in the port channel details. If any required parameter is missing, it logs an error message and sets the
             validation status to "failed". If all required parameters are present, the method proceeds without logging
             an error message.
         """
         # Check for missing parameters by comparing required_params with the keys in port_channel
-        required_params = ["interface_names_list", "connected_device_type"]
+        self.log("Starting validation for port channel parameters.", "DEBUG")
+
+        required_params = ["interface_names", "connected_device_type"]
         missing_params = [param for param in required_params if param not in port_channel.keys()]
 
         if missing_params:
@@ -916,7 +946,9 @@ class SDAHostPortOnboarding(DnacBase):
                         "Provided parameters: {1}").format(", ".join(missing_params), port_channel)
             self.fail_and_exit(self.msg)
 
-    def validate_connected_device_type_pc(self, port_channel):
+        self.log("Port channel parameters validated successfully.", "DEBUG")
+
+    def validate_port_channel_connected_device_type(self, port_channel):
         """
         Validates the connected device type for a port channel.
         Args:
@@ -934,6 +966,8 @@ class SDAHostPortOnboarding(DnacBase):
         valid_connected_device_types = ["TRUNK", "EXTENDED_NODE"]
         connected_device_type = port_channel.get("connected_device_type")
 
+        self.log("Validating connected device type for port channel.", "DEBUG")
+
         if connected_device_type and connected_device_type.upper() not in valid_connected_device_types:
             valid_connected_device_types_str = ", ".join(valid_connected_device_types)
             self.msg = (
@@ -942,7 +976,9 @@ class SDAHostPortOnboarding(DnacBase):
             ).format(connected_device_type, port_channel, valid_connected_device_types_str)
             self.fail_and_exit(self.msg)
 
-    def validate_protocol(self, port_channel):
+        self.log("Port channel connected device type validated successfully.", "DEBUG")
+
+    def validate_port_channel_protocol(self, port_channel):
         """
         Validates the protocol for a port channel based on the connected device type.
         Args:
@@ -966,6 +1002,8 @@ class SDAHostPortOnboarding(DnacBase):
         protocol = port_channel.get("protocol")
         connected_device_type = port_channel.get("connected_device_type")
 
+        self.log("Starting protocol validation for port channel.", "DEBUG")
+
         # Check if the protocol is present and is not a boolean
         if protocol and not isinstance(protocol, bool):
             protocol_upper = protocol.upper()
@@ -976,46 +1014,59 @@ class SDAHostPortOnboarding(DnacBase):
             if protocol_upper not in device_valid_protocols:
                 valid_protocols_str = ", ".join(device_valid_protocols)
                 self.msg = (
-                    "Provided protocol: '{0}' is not valid for connected device type '{1}' in Port Channel operation: {2}. "
-                    "Valid protocols for '{1}' are: {3}"
+                    "Invalid protocol: '{0}' provided for connected device type '{1}' in port channel operation. "
+                    "Valid protocols for '{1}' are: {3}. Port channel details: {2}"
                 ).format(protocol, connected_device_type, port_channel, valid_protocols_str)
                 self.fail_and_exit(self.msg)
 
-    def validate_interface_names_list(self, port_channel):
+            self.log("Port channel protocol validated successfully for connected_device_type: {0}".format(connected_device_type), "DEBUG")
+
+    def validate_port_channel_interfaces(self, port_channel):
         """
         Validates the interface names list for a given port channel configuration.
         Args:
             port_channel (dict): Dictionary containing port channel configuration details including
-                                 'interface_names_list', 'protocol', and 'connected_device_type'.
+                                 'interface_names', 'protocol', and 'connected_device_type'.
         Returns:
             None: This method does not return a value. It updates the instance attributes:
                 - self.msg: A message describing the validation result.
                 - self.status: The status of the validation (either "success" or "failed").
         Description:
-            This method checks if the number of interfaces in 'interface_names_list' does not exceed the protocol-specific
+            This method checks if the number of interfaces in 'interface_names' does not exceed the protocol-specific
             limits for the given 'protocol'. If the protocol is 'PAGP' or 'ON', the maximum allowed interfaces are 8. If the
             protocol is 'LACP', the maximum allowed interfaces are 16. If the limits are exceeded, it logs an error message
             and sets the validation status to "failed".
         """
-        interface_names_list = port_channel.get("interface_names_list")
+        interface_names_list = port_channel.get("interface_names")
         protocol = port_channel.get("protocol")
         connected_device_type = port_channel.get("connected_device_type")
 
         protocol = self.update_protocol(protocol, connected_device_type)
 
-        # Check if number of interfaces exceeds the limit for PAGP or ON protocols
-        if protocol.upper() in ["PAGP", "ON"] and len(interface_names_list) > 8:
-            self.msg = ("The number of ports provided: {0} exceeds the limit for port channel operation: {1}. "
-                        "Maximum 8 ports for 'PAGP' and 'ON' protocol.").format(len(interface_names_list), port_channel)
-            self.fail_and_exit(self.msg)
+        self.log("Validating 'interface_names' list for protocol: {0} in port channel.".format(protocol), "DEBUG")
 
-        # Check if number of interfaces exceeds the limit for LACP protocol
-        if protocol.upper() == "LACP" and len(interface_names_list) > 16:
-            self.msg = ("The number of ports provided: {0} for protocol: {1} exceeds the limit for port channel operation: {2}. "
-                        "Maximum 16 ports for 'LACP' protocol.").format(len(interface_names_list), protocol, port_channel)
-            self.fail_and_exit(self.msg)
+        # Define protocol-specific interface limits
+        protocol_limits = {
+            "PAGP": 8,
+            "ON": 8,
+            "LACP": 16
+        }
 
-    def validate_delete_port_assignment_params(self, interface):
+        # Check if the protocol has a defined interface limit
+        if protocol in protocol_limits:
+            max_interfaces = protocol_limits[protocol]
+
+            # Check if the number of interfaces exceeds the protocol-specific limit
+            if len(interface_names_list) > max_interfaces:
+                self.msg = (
+                    "The number of interfaces provided: {0} exceeds the limit for protocol: {1} in port channel operation. "
+                    "Maximum allowed interfaces for '{1}' protocol: {2}. Port channel details: {3}"
+                ).format(len(interface_names_list), protocol, max_interfaces, port_channel_details)
+                self.fail_and_exit(self.msg)
+
+        self.log("Port channel 'interfaces_names' size validated successfully for protocol: {0}".format(protocol), "DEBUG")
+
+    def validate_port_assignment_deletion_params(self, interface):
         """
         Validates the parameters in the interface dictionary for a delete port assignment operation.
         Args:
@@ -1029,6 +1080,8 @@ class SDAHostPortOnboarding(DnacBase):
             present in the provided interface dictionary. If unsupported parameters are found, it logs an error message and
             sets the validation status to "failed". If all parameters are valid, the method logs a success message.
         """
+        self.log("Starting validation for delete port assignments parameters: {0}".format(interface), "INFO")
+
         # Define allowed parameters
         allowed_params = {"interface_name", "data_vlan_name", "voice_vlan_name"}
 
@@ -1049,7 +1102,7 @@ class SDAHostPortOnboarding(DnacBase):
 
         self.log("All provided parameters for DELETE port_assignment(s) operation are valid: {0}".format(provided_params), "INFO")
 
-    def validate_delete_port_channel_params(self, port_channel):
+    def validate_port_channel_deletion_params(self, port_channel):
         """
         Validates the parameters in the port channel dictionary for a delete port channel operation.
         Args:
@@ -1063,6 +1116,8 @@ class SDAHostPortOnboarding(DnacBase):
             the provided port channel dictionary. If unsupported parameters are found, it logs an error message and sets the
             validation status to "failed". If all parameters are valid, the method logs a success message.
         """
+        self.log("Starting validation for delete port channels parameters: {0}".format(interface), "INFO")
+
         # Define allowed parameters
         allowed_params = {"port_channel_name", "connected_device_type"}
 
@@ -1084,7 +1139,7 @@ class SDAHostPortOnboarding(DnacBase):
         # If only allowed parameters are present, validation passes
         self.log("All provided parameters for DELETE port_channel(s) operation are valid: {0}".format(port_channel), "INFO")
 
-    def validate_parameters(self, config, state):
+    def validate_params(self, config, state):
         """
         Validates the configuration parameters based on the specified state.
         Args:
@@ -1105,7 +1160,7 @@ class SDAHostPortOnboarding(DnacBase):
         hostname = config.get("hostname")
 
         # Validate IP address and hostname
-        self.validate_ip_hostname(ip_address, hostname)
+        self.validate_ip_and_hostname(ip_address, hostname)
 
         port_assignment_details = config.get("port_assignment_details")
         port_channel_details = config.get("port_channel_details")
@@ -1116,25 +1171,34 @@ class SDAHostPortOnboarding(DnacBase):
                 for interface in port_assignment_details:
                     interface_name = interface.get("interface_name")
                     connected_device_type = interface.get("connected_device_type")
-                    self.validate_req_port_assignment_params(interface_name, connected_device_type)
-                    self.validate_connected_device_type_pa(interface_name, connected_device_type)
-                    self.validate_device_specific_parameters(interface)
+                    self.log("Validating port assignment params for interface: {0}, device type: {1}".format(interface_name, connected_device_type), "INFO")
+                    self.validate_port_assignment_params(interface_name, connected_device_type)
+                    self.validate_port_assignment_connected_device_type(interface_name, connected_device_type)
+                    self.validate_device_specific_params(interface)
+
             # Validate parameters for add/update in port channels
             if port_channel_details:
                 for port_channel in port_channel_details:
-                    self.validate_req_port_channel_params(port_channel)
-                    self.validate_connected_device_type_pc(port_channel)
-                    self.validate_protocol(port_channel)
-                    self.validate_interface_names_list(port_channel)
-        if state == "deleted":
+                    self.log("Validating port channel params for port_channel: {0}".format(port_channel), "INFO")
+                    self.validate_port_channel_params(port_channel)
+                    self.validate_port_channel_connected_device_type(port_channel)
+                    self.validate_port_channel_protocol(port_channel)
+                    self.validate_port_channel_interfaces(port_channel)
+
+        elif state == "deleted":
             # Validate parameters for deletion in port assignments
             if port_assignment_details:
                 for interface in port_assignment_details:
-                    self.validate_delete_port_assignment_params(interface)
+                    self.log("Validating deletion of port assignment params for interface: {0}".format(interface), "INFO")
+                    self.validate_port_assignment_deletion_params(interface)
+
             # Validate parameters for deletion in port channels
             if port_channel_details:
                 for port_channel in port_channel_details:
-                    self.validate_delete_port_channel_params(port_channel)
+                    self.log("Validating deletion of port channel details for port_channel: {0}".format(port_channel), "INFO")
+                    self.validate_port_channel_deletion_params(port_channel)
+
+        self.log("Validation completed for configuration: {0} with state: {1}".format(config, state), "INFO")
 
     def get_device_list_params(self, ip_address, hostname):
         """
@@ -1153,9 +1217,11 @@ class SDAHostPortOnboarding(DnacBase):
         if ip_address:
             return {"management_ip_address": ip_address}
         # Return a dictionary with 'hostname' if hostname is provided
+
         if hostname:
             return {"hostname": hostname}
         # Return an empty dictionary if neither is provided
+
         return {}
 
     def get_device_ids_by_params(self, get_device_list_params):
@@ -1179,7 +1245,7 @@ class SDAHostPortOnboarding(DnacBase):
             response = self.dnac._exec(
                 family="devices",
                 function="get_device_list",
-                op_modifies=True,
+                op_modifies=False,
                 params=get_device_list_params
             )
             self.log("Response received from 'get_device_list' API call: {0}".format(str(response)), "DEBUG")
@@ -1187,7 +1253,7 @@ class SDAHostPortOnboarding(DnacBase):
             response = response.get("response")
             # Check if a valid response is received
             if not response:
-                self.log("No devices were returned for the given Device: {0}".format(get_device_list_params), "ERROR")
+                self.log("No devices were returned for the given parameters: {0}".format(get_device_list_params), "ERROR")
                 return mgmt_ip_to_instance_id_map
 
             # Get the device information from the response
@@ -1196,8 +1262,8 @@ class SDAHostPortOnboarding(DnacBase):
 
             # Check if the device is reachable, not a Unified AP, and in a managed state
             if (device_info.get("reachabilityStatus") == "Reachable" and
-                    device_info.get("collectionStatus") == "Managed" and
-                    device_info.get("family") != "Unified AP"):
+                device_info.get("collectionStatus") == "Managed" and
+                device_info.get("family") != "Unified AP"):
                 device_id = device_info["id"]
                 mgmt_ip_to_instance_id_map[device_ip] = device_id
                 self.log("Device {0} is valid and added to the map.".format(device_ip), "INFO")
@@ -1241,7 +1307,7 @@ class SDAHostPortOnboarding(DnacBase):
             response = self.dnac._exec(
                 family="sda",
                 function="get_device_info",
-                op_modifies=True,
+                op_modifies=False,
                 params={"device_management_ip_address": ip_address},
             )
             self.log("Response received post SDA - 'get_device_info' API call: {0}".format(str(response)), "DEBUG")
@@ -1262,7 +1328,7 @@ class SDAHostPortOnboarding(DnacBase):
             )
 
         if not site_name:
-            self.msg = "An error occurred while retrieving device details for Device '{0}'. Please verify that the device exists.".format(ip_address)
+            self.msg = "Failed to retrieve site information for Device: '{0}'. Please verify that the device exists.".format(ip_address)
             self.fail_and_exit(self.msg)
 
         return site_name
@@ -1284,7 +1350,7 @@ class SDAHostPortOnboarding(DnacBase):
             response = self.dnac._exec(
                 family="sda",
                 function="get_fabric_sites",
-                op_modifies=True,
+                op_modifies=False,
                 params={"siteId": site_id},
             )
             self.log("Response received post SDA - 'get_fabric_sites' API call: {0}".format(str(response)), "DEBUG")
@@ -1300,7 +1366,7 @@ class SDAHostPortOnboarding(DnacBase):
         except Exception as e:
             # Log an error message and fail if an exception occurs
             self.msg = (
-                "An error occurred while retrieving fabric Site 'Id' for Site '{0}' using SDA - "
+                "An error occurred while retrieving 'fabric ID' for Site: '{0}' using SDA - "
                 "'get_fabric_sites' API call: {1}".format(site_name, str(e))
             )
             self.fail_and_exit(self.msg)
@@ -1328,13 +1394,20 @@ class SDAHostPortOnboarding(DnacBase):
         self.log("Collected mgmt_ip_to_instance_id_map: {0}".format(mgmt_ip_to_instance_id_map), "DEBUG")
 
         # Get the Site Name the device is part of.
-        site_name = self.get_device_info_from_sda_fabric(list(mgmt_ip_to_instance_id_map.keys())[0])
+        device_ip = list(mgmt_ip_to_instance_id_map.keys())[0]
+        site_name = self.get_device_info_from_sda_fabric(device_ip)
 
         # Get siteId of the Site the device is part of
         site_exists, site_id = self.get_site_id(site_name)
+        if not site_exists:
+            self.msg = "Site ID not found for Site: {0}".format(site_name)
+            self.fail_and_exit(self.msg)
 
         # Get fabricId of the site
         fabric_id = self.get_fabric_sites(site_name, site_id)
+        if not fabric_id:
+            self.msg = "Fabric ID not found for Site: {0} with Site ID: {1}".format(site_name, site_id)
+            self.fail_and_exit(self.msg)
 
         return mgmt_ip_to_instance_id_map, fabric_id
 
@@ -1357,7 +1430,7 @@ class SDAHostPortOnboarding(DnacBase):
             "network_device_id": network_device_id,
         }
 
-        self.log("get_port_assignments_params: {0}".format(get_port_assignment_params), "DEBUG")
+        self.log("Generated get_port_assignments_params: {0}".format(get_port_assignment_params), "DEBUG")
 
         return get_port_assignment_params
 
@@ -1380,35 +1453,49 @@ class SDAHostPortOnboarding(DnacBase):
             port_assignments = []
 
             while True:
-                # Update offset and limit in the parameters
-                get_port_assignments_params.update({
-                    "offset": offset,
-                    "limit": limit
-                })
+                try:
+                    # Update offset and limit in the parameters
+                    get_port_assignments_params.update({
+                        "offset": offset,
+                        "limit": limit
+                    })
 
-                self.log("Updated get_port_assignments_params with offset and limit: {0} ".format(get_port_assignments_params), "DEBUG")
+                    self.log("Updated 'get_port_assignments_params' with offset and limit: {0} ".format(get_port_assignments_params), "INFO")
 
-                # Execute the API call to get extranet policie
-                response = self.dnac._exec(
-                    family="sda",
-                    function="get_port_assignments",
-                    op_modifies=True,
-                    params=get_port_assignments_params,
-                )
-
-                # Process the response if available
-                response = response.get("response")
-                if not response:
-                    self.log(
-                        "Exiting the loop because no port assignments were returned after increasing the offset. "
-                        "Current offset: {0}".format(offset),
-                        "INFO"
+                    # Execute the API call to get extranet policie
+                    response = self.dnac._exec(
+                        family="sda",
+                        function="get_port_assignments",
+                        op_modifies=True,
+                        params=get_port_assignments_params,
                     )
-                    break
 
-                port_assignments.extend(response)
-                offset += limit
-                return port_assignments
+                    # Process the response if available
+                    response = response.get("response")
+                    if not response:
+                        self.log(
+                            "Exiting the loop because no port assignments were returned after increasing the offset. "
+                            "Current offset: {0}".format(offset),
+                            "INFO"
+                        )
+                        break
+
+                    port_assignments.extend(response)
+                    offset += limit
+
+                except Exception as e:
+                    self.msg = (
+                        "An error occurred during iteration while retrieving Port Assignment Details: '{0}' using SDA - "
+                        "'get_port_assignments' API call: {1}".format(get_port_assignments_params, str(e))
+                    )
+                    self.fail_and_exit(self.msg)
+
+            if port_assignments:
+                self.log("Port Assignment Details: {0}".format(port_assignments), "DEBUG")
+            else:
+                self.log("No port assignments found.", "DEBUG")
+
+            return port_assignments
 
         except Exception as e:
             # Log an error message and fail if an exception occurs
@@ -1417,6 +1504,49 @@ class SDAHostPortOnboarding(DnacBase):
                 "'get_port_assignments' API call: {1}".format(get_port_assignments_params, str(e))
             )
             self.fail_and_exit(self.msg)
+
+    def check_differences(existing_port, requested_port):
+        """
+        Checks for differences between existing and requested port assignments.
+        Args:
+            existing_port (dict): The existing port assignment details.
+            requested_port (dict): The requested port assignment details.
+        Returns:
+            bool: True if there are differences, False otherwise.
+        """
+        comparison_fields = [
+            ("interfaceName", "interface_name"),
+            ("connectedDeviceType", "connected_device_type"),
+            ("authenticateTemplateName", "authentication_template_name"),
+            ("dataVlanName", "data_vlan_name"),
+            ("voiceVlanName", "voice_vlan_name"),
+            ("interfaceDescription", "interface_description"),
+            ("securityGroupName", "security_group_name")
+        ]
+
+        for existing_field, requested_field in comparison_fields:
+            if existing_field == "authenticateTemplateName":
+                if existing_port.get("authenticateTemplateName") == "No Authentication" and not requested_port.get("authentication_template_name"):
+                    continue
+                if not existing_port.get("authenticateTemplateName") and requested_port.get("authentication_template_name") == "No Authentication":
+                    continue
+
+            if existing_field == "interfaceDescription":
+                if existing_port.get("interfaceDescription") == "" and not requested_port.get("interface_description"):
+                    continue
+                if not existing_port.get("interfaceDescription") and requested_port.get("interface_description") == "":
+                    continue
+                if existing_port.get("interfaceDescription") and not requested_port.get("interface_description"):
+                    continue
+
+            if existing_field in existing_port or requested_field in requested_port:
+                if existing_field in existing_port and requested_field in requested_port:
+                    if existing_port[existing_field] != requested_port[requested_field]:
+                        return True
+                else:
+                    return True
+
+        return False
 
     def compare_port_assignments(self, get_port_assignments_params, requested_port_assignment_details):
         """
@@ -1455,51 +1585,12 @@ class SDAHostPortOnboarding(DnacBase):
         for existing_port in existing_port_assignment_details:
             interface_name = existing_port['interfaceName']
             # If the interface exists in both, compare fields
+
             if interface_name in requested_ports_dict:
                 requested_port = requested_ports_dict[interface_name]
 
-                # Compare the relevant fields (excluding id, fabricId, networkDeviceId)
-                has_diff = False
-                comparison_fields = [
-                    ("interfaceName", "interface_name"),
-                    ("connectedDeviceType", "connected_device_type"),
-                    ("authenticateTemplateName", "authentication_template_name"),
-                    ("dataVlanName", "data_vlan_name"),
-                    ("voiceVlanName", "voice_vlan_name"),
-                    ("interfaceDescription", "interface_description"),
-                    ("securityGroupName", "security_group_name")
-                ]
-
-                # Check for mismatches in the existing and requested fields
-                for existing_field, requested_field in comparison_fields:
-                    # Skip authentication_template_name comparison for trunking_device type
-                    if existing_field == "authenticateTemplateName":
-                        if existing_port.get("authenticateTemplateName") == "No Authentication" and not requested_port.get("authentication_template_name"):
-                            continue
-                        if not existing_port.get("authenticateTemplateName") and requested_port.get("authentication_template_name") == "No Authentication":
-                            continue
-
-                    # Special handling for interfaceDescription when it's an empty string in existing_port_assignment_details
-                    if existing_field == "interfaceDescription":
-                        if existing_port.get("interfaceDescription") == "" and not requested_port.get("interface_description"):
-                            # No need to update if existing has an empty description and requested doesn't specify it
-                            continue
-                        if not existing_port.get("interfaceDescription") and requested_port.get("interface_description") == "":
-                            # No need to update if existing has an empty description and requested doesn't specify it
-                            continue
-                        if existing_port.get("interfaceDescription") and not requested_port.get("interface_description"):
-                            continue
-
-                    if existing_field in existing_port or requested_field in requested_port:
-                        # If the key exists in both, compare their values
-                        if existing_field in existing_port and requested_field in requested_port:
-                            if existing_port[existing_field] != requested_port[requested_field]:
-                                has_diff = True
-                                break
-                        else:
-                            # If the key exists in one but not the other, it's a mismatch
-                            has_diff = True
-                            break
+                # Check for differences using the new function
+                has_diff = self.check_differences(existing_port, requested_port)
 
                 if has_diff:
                     # Add the requested port with the id and relevant metadata from the existing port
@@ -1573,30 +1664,47 @@ class SDAHostPortOnboarding(DnacBase):
             port_channels = []
 
             while True:
+                try:
+                    # Update offset and limit in the parameters
+                    get_port_channels_params.update({
+                        "offset": offset,
+                        "limit": limit
+                    })
 
-                # Update offset and limit in the parameters
-                get_port_channels_params.update({
-                    "offset": offset,
-                    "limit": limit
-                })
+                    # Execute the API call to get extranet policie
+                    response = self.dnac._exec(
+                        family="sda",
+                        function="get_port_channels",
+                        op_modifies=False,
+                        params=get_port_channels_params,
+                    )
 
-                # Execute the API call to get extranet policie
-                response = self.dnac._exec(
-                    family="sda",
-                    function="get_port_channels",
-                    op_modifies=True,
-                    params=get_port_channels_params,
-                )
+                    # Process the response if available
+                    response = response.get("response")
+                    if not response:
+                        self.log(
+                            "Exiting the loop because no port channels were returned after increasing the offset. "
+                            "Current offset: {0}".format(offset),
+                            "INFO"
+                        )
+                        break
 
-                # Process the response if available
-                response = response.get("response")
-                if not response:
-                    self.log("Exiting the loop because no port channels were returned after increasing the offset. Current offset: {0}".format(offset), "INFO")
-                    break
+                    port_channels.extend(response)
+                    offset += limit
 
-                port_channels.extend(response)
-                offset += limit
-                return port_channels
+                except Exception as e:
+                    self.msg = (
+                        "An error occurred during iteration while retrieving Port Channel Details: '{0}' using "
+                        "SDA - 'get_port_channels' API call: {1}".format(get_port_channels_params, str(e))
+                    )
+                    self.fail_and_exit(self.msg)
+
+            if port_channels:
+                self.log("Port Channel Details: {0}".format(port_channels), "DEBUG")
+            else:
+                self.log("No port channels found.", "DEBUG")
+
+            return port_channels
 
         except Exception as e:
             # Log an error message and fail if an exception occurs
@@ -1616,19 +1724,19 @@ class SDAHostPortOnboarding(DnacBase):
             interfaces to be created. It maps the relevant fields from the configuration and constructs the payload
             for the API call. The method logs the generated parameters for debugging purposes and returns the dictionary.
         """
+        self.log("Starting to generate parameters for add port assignments.", "DEBUG")
+
         create_port_assignments = self.have.get("create_port_assignments")
+        parameter_mapping = {
+            "dataVlanName": "data_vlan_name",
+            "voiceVlanName": "voice_vlan_name",
+            "authenticateTemplateName": "authentication_template_name",
+            "securityGroupName": "security_group_name",
+            "interfaceDescription": "interface_description",
+        }
 
         interface_params_list = []
         for interface in create_port_assignments:
-
-            parameters_list = {
-                "dataVlanName": "data_vlan_name",
-                "voiceVlanName": "voice_vlan_name",
-                "authenticateTemplateName": "authentication_template_name",
-                "securityGroupName": "security_group_name",
-                "interfaceDescription": "interface_description",
-            }
-
             interface_params = {
                 "fabricId": self.have.get("fabric_id"),
                 "networkDeviceId": self.have.get("network_device_id"),
@@ -1636,8 +1744,10 @@ class SDAHostPortOnboarding(DnacBase):
                 "connectedDeviceType": interface.get("connected_device_type").upper(),
             }
 
+            self.log("Basic parameters for interface {0}: {1}".format(interface.get("interface_name"), interface_params), "DEBUG")
+
             # Iterate over the parameters and add them to the result dictionary if present in the config
-            for parameter, parameter_name in parameters_list.items():
+            for parameter, parameter_name in parameter_mapping.items():
                 if interface.get(parameter_name):
                     interface_params[parameter] = interface.get(parameter_name)
 
@@ -1645,11 +1755,10 @@ class SDAHostPortOnboarding(DnacBase):
             if not interface.get("authentication_template_name"):
                 interface_params["authenticateTemplateName"] = "No Authentication"
             interface_params_list.append(interface_params)
+            self.log("Generated parameters for interface: {0}".format(interface_params), "DEBUG")
 
         add_port_assignments_params = {"payload": interface_params_list}
-
-        self.log("add_port_assignments_params: {0}".format(add_port_assignments_params), "DEBUG")
-
+        self.log("Final add_port_assignments_params: {0}".format(add_port_assignments_params), "DEBUG")
         return add_port_assignments_params
 
     def get_update_port_assignments_params(self):
@@ -1662,19 +1771,19 @@ class SDAHostPortOnboarding(DnacBase):
             interfaces to be updated. It maps the relevant fields from the configuration and constructs the payload
             for the API call. The method logs the generated parameters for debugging purposes and returns the dictionary.
         """
+        self.log("Starting to generate parameters for updating port assignments.", "DEBUG")
+
         update_port_assignments = self.have.get("update_port_assignments")
+        parameters_mapping = {
+            "dataVlanName": "data_vlan_name",
+            "voiceVlanName": "voice_vlan_name",
+            "authenticateTemplateName": "authentication_template_name",
+            "securityGroupName": "security_group_name",
+            "interfaceDescription": "interface_description"
+        }
 
         interface_params_list = []
         for interface in update_port_assignments:
-
-            parameters_list = {
-                "dataVlanName": "data_vlan_name",
-                "voiceVlanName": "voice_vlan_name",
-                "authenticateTemplateName": "authentication_template_name",
-                "securityGroupName": "security_group_name",
-                "interfaceDescription": "interface_description"
-            }
-
             interface_params = {
                 "id": interface.get("id"),
                 "fabricId": self.have.get("fabric_id"),
@@ -1683,20 +1792,23 @@ class SDAHostPortOnboarding(DnacBase):
                 "connectedDeviceType": interface.get("connected_device_type").upper()
             }
 
+            self.log("Basic parameters for interface {0}: {1}".format(interface.get("interface_name"), interface_params), "DEBUG")
+
             # Iterate over the parameters and add them to the result dictionary if present in the config
-            for parameter, parameter_name in parameters_list.items():
+            for parameter, parameter_name in parameters_mapping.items():
                 if interface.get(parameter_name):
                     interface_params[parameter] = interface.get(parameter_name)
 
+            self.log("Updated parameters with VLAN and security info for interface {0}: {1}".format(interface.get("interface_name"), interface_params), "DEBUG")
+
             if interface.get("connected_device_type") == "TRUNKING_DEVICE":
                 interface_params["authenticateTemplateName"] = "No Authentication"
-
+                self.log("TRUNKING_DEVICE detected for interface: {0}. Setting 'No Authentication'.".format(interface.get("interface_name")), "DEBUG")
             interface_params_list.append(interface_params)
+            self.log("Generated parameters for interface: {0}".format(interface_params), "DEBUG")
 
         update_port_assignments_params = {"payload": interface_params_list}
-
-        self.log("update_port_assignments_params: {0}".format(update_port_assignments_params), "DEBUG")
-
+        self.log("Final update_port_assignments_params: {0}".format(update_port_assignments_params), "DEBUG")
         return update_port_assignments_params
 
     def get_delete_port_assignments_params(self, port_assignment_details, network_device_id, fabric_id):
@@ -1714,6 +1826,7 @@ class SDAHostPortOnboarding(DnacBase):
             'interface_name', 'data_vlan_name', and 'voice_vlan_name'. The method logs the generated parameters for
             debugging purposes and returns the list of dictionaries.
         """
+        self.log("Generating parameters for deleting port assignments. Details: {0}".format(port_assignment_details), "DEBUG")
         delete_port_assignments_params_list = []
 
         for delete_param in port_assignment_details:
@@ -1729,8 +1842,7 @@ class SDAHostPortOnboarding(DnacBase):
 
             delete_port_assignments_params_list.append(delete_port_assignments_params)
 
-        self.log("delete_port_assignments_params_list: {0}".format(delete_port_assignments_params_list), "DEBUG")
-
+        self.log("Generated delete_port_assignments_params_list: {0}".format(delete_port_assignments_params_list), "DEBUG")
         return delete_port_assignments_params_list
 
     def compare_port_channels(self, get_port_channels_params, requested_port_channels_details):
@@ -1767,7 +1879,6 @@ class SDAHostPortOnboarding(DnacBase):
 
         # Define the comparison fields within the function
         comparison_fields = [
-            # ("interfaceNames", "interface_names_list"),
             ("connectedDeviceType", "connected_device_type"),
             ("protocol", "protocol"),
             ("description", "port_channel_description")
@@ -1779,7 +1890,7 @@ class SDAHostPortOnboarding(DnacBase):
             matched = False
             for existing_channel in existing_port_channel_details:
                 # Compare sets of interface names
-                if set(requested_channel["interface_names_list"]) == set(existing_channel["interfaceNames"]):
+                if set(requested_channel["interface_names"]) == set(existing_channel["interfaceNames"]):
                     matched = True
                     update_needed = False
                     updated_channel = {"id": existing_channel["id"], "port_channel_name": existing_channel["portChannelName"]}
@@ -1792,7 +1903,7 @@ class SDAHostPortOnboarding(DnacBase):
                         if existing_field == "protocol":
                             if req_value is True:
                                 req_value = "ON"
-                            if req_value is None:
+                            elif req_value is None:
                                 req_value = existing_value
                             req_value = req_value.upper()
                             update_protocol = req_value
@@ -1836,7 +1947,7 @@ class SDAHostPortOnboarding(DnacBase):
                     if update_needed:
                         # Ensure all necessary fields are included in the updated_channel dictionary
                         updated_channel.update({
-                            "interface_names_list": requested_channel.get("interface_names_list"),
+                            "interface_names": requested_channel.get("interface_names"),
                             "connected_device_type": requested_channel.get("connected_device_type"),
                             # "protocol": requested_channel.get("protocol"),
                             "protocol": update_protocol,
@@ -1883,14 +1994,23 @@ class SDAHostPortOnboarding(DnacBase):
         if protocol:
             if protocol is True:
                 protocol = "ON"
+                self.log("Protocol is set to True, updating 'protocol' to 'ON'.", "INFO")
+
         else:
+            self.log("Protocol not provided, hence using default protocol values based on the 'connected_device_type'.", "INFO")
+            self.log("The default protocol for each 'connected_device_type': 'TRUNK' -> 'ON', 'EXTENDED_NODE' -> 'PAGP'", "INFO")
             # Default protocol for TRUNK -> "ON"
             if connected_device_type == "TRUNK":
                 protocol = "ON"
+                self.log("Connected device type is 'TRUNK', setting protocol to 'ON'.", "INFO")
             # Default protocol for EXTENDED_NODE -> "PAGP"
             elif connected_device_type == "EXTENDED_NODE":
                 protocol = "PAGP"
-        return protocol.upper()
+                self.log("Connected device type is 'EXTENDED_NODE', setting protocol to 'PAGP'.", "INFO")
+
+        updated_protocol = protocol.upper()
+        self.log("Updated 'protocol' is: {0}".format(updated_protocol), "INFO")
+        return updated_protocol
 
     def get_add_port_channels_params(self):
         """
@@ -1908,7 +2028,6 @@ class SDAHostPortOnboarding(DnacBase):
 
         port_channels_params_list = []
         for port_channel in create_port_channels:
-
             protocol = port_channel.get("protocol")
             connected_device_type = port_channel.get("connected_device_type")
             port_channel_description = port_channel.get("port_channel_description")
@@ -1917,7 +2036,7 @@ class SDAHostPortOnboarding(DnacBase):
             port_channel_params = {
                 "fabricId": self.have.get("fabric_id"),
                 "networkDeviceId": self.have.get("network_device_id"),
-                "interfaceNames": port_channel.get("interface_names_list"),
+                "interfaceNames": port_channel.get("interface_names"),
                 "connectedDeviceType": connected_device_type.upper(),
                 "protocol": self.update_protocol(protocol, connected_device_type)
             }
@@ -1927,12 +2046,11 @@ class SDAHostPortOnboarding(DnacBase):
                 port_channel_params["description"] = port_channel_description
 
             port_channels_params_list.append(port_channel_params)
+            self.log("Constructed parameters for port channel: {0}".format(port_channel_params), "DEBUG")
 
         # Create the final payload for adding port channels
         add_port_channels_params = {"payload": port_channels_params_list}
-
-        self.log("add_port_channels_params: {0}".format(add_port_channels_params), "DEBUG")
-
+        self.log("Final add_port_channels_params: {0}".format(add_port_channels_params), "DEBUG")
         return add_port_channels_params
 
     def get_update_port_channels_params(self):
@@ -1950,7 +2068,6 @@ class SDAHostPortOnboarding(DnacBase):
 
         port_channels_params_list = []
         for port_channel in update_port_channels:
-
             protocol = port_channel.get("protocol")
             connected_device_type = port_channel.get("connected_device_type")
             port_channel_description = port_channel.get("port_channel_description")
@@ -1961,7 +2078,7 @@ class SDAHostPortOnboarding(DnacBase):
                 "networkDeviceId": self.have.get("network_device_id"),
                 "id": port_channel.get("id"),
                 "portChannelName": port_channel.get("port_channel_name"),
-                "interfaceNames": port_channel.get("interface_names_list"),
+                "interfaceNames": port_channel.get("interface_names"),
                 "connectedDeviceType": connected_device_type,
                 "protocol": self.update_protocol(protocol, connected_device_type)
             }
@@ -1971,12 +2088,11 @@ class SDAHostPortOnboarding(DnacBase):
                 port_channel_params["description"] = port_channel_description
 
             port_channels_params_list.append(port_channel_params)
+            self.log("Constructed parameters for updating port channel: {0}".format(port_channel_params), "DEBUG")
 
         # Create the final payload for updating port channels
         update_port_channels_params = {"payload": port_channels_params_list}
-
-        self.log("update_port_channels_params: {0}".format(update_port_channels_params), "DEBUG")
-
+        self.log("Final update_port_channels_params: {0}".format(update_port_channels_params), "DEBUG")
         return update_port_channels_params
 
     def get_delete_port_channels_params(self, port_channel_details, network_device_id, fabric_id):
@@ -2010,7 +2126,7 @@ class SDAHostPortOnboarding(DnacBase):
 
             delete_port_channels_params_list.append(delete_port_channels_params)
 
-        self.log("delete_port_channels_params_list: {0}".format(delete_port_channels_params_list), "DEBUG")
+        self.log("Final delete_port_channels_params_list: {0}".format(delete_port_channels_params_list), "DEBUG")
 
         return delete_port_channels_params_list
 
@@ -2024,6 +2140,7 @@ class SDAHostPortOnboarding(DnacBase):
         Description:
             This method initiates the task to add port assignments using the provided parameters and returns the task ID.
         """
+        self.log("Initiating addition of port assignments with parameters: {0}".format(add_port_assignments_params), "INFO")
         return self.get_taskid_post_api_call("sda", "add_port_assignments", add_port_assignments_params)
 
     def update_port_assignments(self, update_port_assignments_params):
@@ -2036,6 +2153,7 @@ class SDAHostPortOnboarding(DnacBase):
         Description:
             This method initiates the task to update port assignments using the provided parameters and returns the task ID.
         """
+        self.log("Initiating update of port assignments with parameters: {0}".format(add_port_assignments_params), "INFO")
         return self.get_taskid_post_api_call("sda", "update_port_assignments", update_port_assignments_params)
 
     def verify_delete_port_assignments_requirement(self, delete_port_assignments_params_list):
@@ -2084,6 +2202,7 @@ class SDAHostPortOnboarding(DnacBase):
         Description:
             This method initiates the task to delete port assignments using the provided parameters and returns the task ID.
         """
+        self.log("Initiating deletion of port assignments with parameters: {0}".format(delete_port_assignments_params), "INFO")
         return self.get_taskid_post_api_call("sda", "delete_port_assignments", delete_port_assignments_params)
 
     def add_port_channels(self, add_port_channels_params):
@@ -2096,6 +2215,7 @@ class SDAHostPortOnboarding(DnacBase):
         Description:
             This method initiates the task to add port channels using the provided parameters and returns the task ID.
         """
+        self.log("Initiating addition of port channels with parameters: {0}".format(add_port_channels_params), "INFO")
         return self.get_taskid_post_api_call("sda", "add_port_channels", add_port_channels_params)
 
     def update_port_channels(self, update_port_channels_params):
@@ -2108,6 +2228,7 @@ class SDAHostPortOnboarding(DnacBase):
         Description:
             This method initiates the task to update port channels using the provided parameters and returns the task ID.
         """
+        self.log("Initiating update of port channels with parameters: {0}".format(update_port_channels_params), "INFO")
         return self.get_taskid_post_api_call("sda", "update_port_channels", update_port_channels_params)
 
     def verify_delete_port_channels_requirement(self, delete_port_channels_params_list):
@@ -2129,7 +2250,7 @@ class SDAHostPortOnboarding(DnacBase):
             # Check if port assignments exist for the given parameters
             get_port_channels_params = delete_port_channels_param.copy()
             port_channels = self.get_port_channels(get_port_channels_params)
-            self.log("Existing Port channels: {0}".format(port_channels), "DEBUG")
+            self.log("Existing Port channels for index {0}: {1}".format(index, port_channels), "DEBUG")
 
             # Determine if deletion is required based on the existence of port assignments
             delete_required = bool(port_channels)
@@ -2155,6 +2276,7 @@ class SDAHostPortOnboarding(DnacBase):
         Description:
             This method initiates the task to delete port channels using the provided parameters and returns the task ID.
         """
+        self.log("Initiating deletion of port channels with parameters: {0}".format(delete_port_channel_param), "DEBUG")
         return self.get_taskid_post_api_call("sda", "delete_port_channels", delete_port_channel_param)
 
     def get_add_port_assignments_task_status(self, task_id):
@@ -2267,20 +2389,21 @@ class SDAHostPortOnboarding(DnacBase):
                 "success_count": len(success_interfaces),
                 "success_interfaces": success_interfaces
             }
+
         if failed_interfaces:
             self.log("{0} Failed for following interface(s): {1} ".format(task_name, failed_interfaces))
             msg["{0} Failed for following interface(s)".format(task_name)] = {"failed_count": len(failed_interfaces), "failed_interfaces": failed_interfaces}
 
         self.msg = msg
         # Check if no operations were performed
-        if not failed_interfaces and not skipped_interfaces:
-            self.set_operation_result("ok", False, self.msg, "INFO")
         if success_interfaces and failed_interfaces:
             self.set_operation_result("failed", True, self.msg, "ERROR")
-        if success_interfaces:
+        elif success_interfaces:
             self.set_operation_result("success", True, self.msg, "INFO")
-        if failed_interfaces:
+        elif failed_interfaces:
             self.set_operation_result("failed", True, self.msg, "ERROR")
+        else:
+            self.set_operation_result("ok", False, self.msg, "INFO")
 
         return self
 
@@ -2330,6 +2453,7 @@ class SDAHostPortOnboarding(DnacBase):
                 "success_port_channels": port_channels_names
             }
             self.msg = updated_msg
+
         return self
 
     def get_update_port_channels_task_status(self, task_id):
@@ -2422,19 +2546,20 @@ class SDAHostPortOnboarding(DnacBase):
                 "success_count": len(success_channels),
                 "success_port_channels": success_channels
             }
+
         if failed_channels:
             self.log("{0} Failed for following channel(s): {1} ".format(task_name, failed_channels))
             msg["{0} Failed for following port channel(s)".format(task_name)] = {"failed_count": len(failed_channels), "failed_port_channels": failed_channels}
 
         self.msg = msg
-        if not success_channels and not failed_channels:
-            self.set_operation_result("ok", False, self.msg, "INFO")
-        elif success_channels and failed_channels:
+        if success_channels and failed_channels:
             self.set_operation_result("failed", True, self.msg, "ERROR")
         elif success_channels:
             self.set_operation_result("success", True, self.msg, "INFO")
         elif failed_channels:
             self.set_operation_result("failed", True, self.msg, "ERROR")
+        else:
+            self.set_operation_result("ok", False, self.msg, "INFO")
 
         return self
 
@@ -2453,6 +2578,244 @@ class SDAHostPortOnboarding(DnacBase):
         else:
             return "success", True
 
+    def verify_port_assignments_add_operation(self, add_port_assignments_params):
+        """
+        Verifies the success of ADD Port Assignments operation.
+        Args:
+            add_port_assignments_params (dict): The parameters for the add port assignments operation.
+        """
+        get_port_assignments_params = self.have.get("get_port_assignments_params")
+        port_assignments = self.get_port_assignments(get_port_assignments_params)
+
+        self.log("Desired State: {0}".format(str(add_port_assignments_params)), "INFO")
+        self.log("State after performing ADD Port Assignments operation: {0}".format(str(port_assignments)), "INFO")
+
+        current_interface_names = [port.get("interfaceName") for port in port_assignments]
+        add_interface_names = [
+            param.get("interfaceName") for param in add_port_assignments_params["payload"]
+        ]
+
+        # Check if all add_interface_names are in current_interface_names
+        if all(interface in current_interface_names for interface in add_interface_names):
+            self.log(
+                "Verified the success of ADD Port Assignments operation for interfaceName(s) {0}.".format(
+                    ", ".join(add_interface_names)
+                ), "INFO"
+            )
+        else:
+            self.log(
+                "The ADD Port Assignments operation may not have been successful "
+                "since the port assignments do not exist in the Cisco Catalyst Center.", "WARNING"
+            )
+
+    def verify_port_assignments_update_operation(self, update_port_assignments_params):
+        """
+        Verifies the success of UPDATE Port Assignments operation.
+        Args:
+            update_port_assignments_params (dict): The parameters for the update port assignments operation.
+        """
+        get_port_assignments_params = self.have.get("get_port_assignments_params")
+        port_assignments = self.get_port_assignments(get_port_assignments_params)
+
+        self.log("Desired State: {0}".format(str(update_port_assignments_params)), "INFO")
+        self.log("State after performing UPDATE Port Assignments operation: {0}".format(str(port_assignments)), "INFO")
+
+        mismatched_interfaces = []
+
+        # Compare the update_port_assignments_params with the current port_assignments
+        for update_param in update_port_assignments_params["payload"]:
+            interface_id = update_param.get("id")
+            matching_port = next((port for port in port_assignments if port.get("id") == interface_id), None)
+
+            if matching_port:
+                for key, value in update_param.items():
+                    if key not in ["fabricId", "networkDeviceId"] and matching_port.get(key) != value:
+                        mismatched_interfaces.append(update_param.get("interfaceName"))
+                        break
+
+        # Log the results
+        if not mismatched_interfaces:
+            self.log(
+                "Verified the success of UPDATE Port Assignments operation for interfaceName(s) {0}.".format(
+                    ", ".join([param.get("interfaceName") for param in update_port_assignments_params["payload"]])
+                ), "INFO"
+            )
+        else:
+            self.log(
+                "The UPDATE Port Assignments operation may not have been successful "
+                "since the following interface assignments do not match: {0}.".format(", ".join(mismatched_interfaces)),
+                "WARNING"
+            )
+
+    def verify_port_assignments_delete_operation(self, delete_port_assignments_params):
+        """
+        Verifies the deletion of port assignments.
+        Args:
+            delete_port_assignments_params (dict): Parameters for deleting port assignments.
+        Returns:
+            None
+        """
+        interfaces_still_exist = []
+
+        for index, delete_port_assignment_data in delete_port_assignments_params.items():
+            self.log("Processing parameters at - index {0}: {1}".format(index, delete_port_assignment_data), "DEBUG")
+            delete_required = delete_port_assignment_data.get("delete_required")
+            delete_port_assignment_params = delete_port_assignment_data.get("delete_port_assignment_params")
+            interfaces_list = delete_port_assignment_data.get("interfaces_list", [])
+
+            if delete_required:
+                port_assignments = self.get_port_assignments(delete_port_assignment_params)
+
+                if port_assignments:
+                    existing_interfaces = [port.get("interfaceName") for port in port_assignments if port.get("interfaceName") in interfaces_list]
+                    interfaces_still_exist.extend(existing_interfaces)
+                    self.log(
+                        "The DELETE Port Assignments operation may not have been successful "
+                        "since the following interface assignments still exist: {0}.".format(", ".join(existing_interfaces)),
+                        "WARNING"
+                    )
+                else:
+                    self.log(
+                        "Verified the success of DELETE Port Assignments operation for interfaceName(s) {0}.".format(
+                            ", ".join(interfaces_list)
+                        ), "INFO"
+                    )
+
+        if interfaces_still_exist:
+            self.log(
+                "The following interfaceName(s) were not deleted: {0}.".format(", ".join(interfaces_still_exist)),
+                "ERROR"
+            )
+        else:
+            self.log(
+                "All specified port assignments were successfully deleted.",
+                "INFO"
+            )
+
+    def verify_port_channels_add_operation(self, add_port_channels_params):
+        """
+        Verifies the success of ADD Port Channels operation.
+        Args:
+            add_port_channels_params (dict): The parameters for the add port channels operation.
+        """
+        get_port_channels_params = self.have.get("get_port_channels_params")
+        existing_port_channels = self.get_port_channels(get_port_channels_params)
+
+        # Log the fetched port channels
+        self.log("Existing Port Channels after task completion: {0}".format(existing_port_channels), "DEBUG")
+        self.log("Desired State: {0}".format(add_port_channels_params), "INFO")
+
+        if existing_port_channels:
+            # Compare interface names and collect created port channel names
+            port_channels_names = []
+            for requested_channel in add_port_channels_params.get("payload"):
+                requested_interface_names = requested_channel.get("interfaceNames")
+                for existing_channel in existing_port_channels:
+                    if set(requested_interface_names) == set(existing_channel.get("interfaceNames")):
+                        port_channels_names.append(existing_channel.get("portChannelName"))
+
+            # Log the result of verification
+            if port_channels_names:
+                self.log(
+                    "Verified the success of ADD Port Channels operation for portChannelName(s) {0}.".format(
+                        ", ".join(port_channels_names)
+                    ), "INFO"
+                )
+            else:
+                self.log(
+                    "The ADD Port Channels operation may not have been successful "
+                    "since the port channels do not exist in the Cisco Catalyst Center.", "WARNING"
+                )
+        else:
+            self.log(
+                "The ADD Port Channels operation may not have been successful "
+                "since no port channels were found in the Cisco Catalyst Center.", "WARNING"
+            )
+
+    def verify_port_channels_update_operation(self, update_port_channels_params):
+        """
+        Verifies the success of UPDATE Port Channels operation.
+        Args:
+            update_port_channels_params (dict): The parameters for the update port channels operation.
+        """
+        get_port_channels_params = self.have.get("get_port_channels_params")
+        port_channels = self.get_port_channels(get_port_channels_params)
+
+        self.log("Desired State: {0}".format(str(update_port_channels_params)), "INFO")
+        self.log("State after performing UPDATE Port Channels operation: {0}".format(str(port_channels)), "INFO")
+
+        mismatched_channels = []
+
+        # Compare the update_port_channels_params with the current port_channels
+        for update_param in update_port_channels_params["payload"]:
+            port_channel_name = update_param.get("portChannelName")
+            matching_channel = next((channel for channel in port_channels if channel.get("portChannelName") == port_channel_name), None)
+
+            if matching_channel:
+                for key, value in update_param.items():
+                    if key not in ["fabricId", "networkDeviceId"] and matching_channel.get(key) != value:
+                        mismatched_channels.append(port_channel_name)
+                        break
+
+        # Log the results
+        if not mismatched_channels:
+            self.log(
+                "Verified the success of UPDATE Port Channels operation for portChannelName(s) {0}.".format(
+                    ", ".join([param.get("portChannelName") for param in update_port_channels_params["payload"]])
+                ), "INFO"
+            )
+        else:
+            self.log(
+                "The UPDATE Port Channels operation may not have been successful "
+                "since the following port channels do not match: {0}.".format(", ".join(mismatched_channels)),
+                "WARNING"
+            )
+
+    def verify_port_channels_delete_operation(self, delete_port_channels_params):
+        """
+        Verifies the deletion of port channels.
+        Args:
+            delete_port_channels_params (dict): Parameters for deleting port channels.
+        Returns:
+            None
+        """
+        channels_still_exist = []
+
+        for index, delete_port_channel_data in delete_port_channels_params.items():
+            self.log("Processing parameters at - index {0}: {1}".format(index, delete_port_channel_data), "DEBUG")
+            delete_required = delete_port_channel_data.get("delete_required")
+            delete_port_channel_params = delete_port_channel_data.get("delete_port_channel_params")
+            channel_list = delete_port_channel_data.get("channel_list", [])
+
+            if delete_required:
+                port_channels = self.get_port_channels(delete_port_channel_params)
+
+                if port_channels:
+                    existing_channels = [channel.get("portChannelName") for channel in port_channels if channel.get("portChannelName") in channel_list]
+                    channels_still_exist.extend(existing_channels)
+                    self.log(
+                        "The DELETE Port Channels operation may not have been successful "
+                        "since the following port channels still exist: {0}.".format(", ".join(existing_channels)),
+                        "WARNING"
+                    )
+                else:
+                    self.log(
+                        "Verified the success of DELETE Port Channels operation for portChannelName(s) {0}.".format(
+                            ", ".join(channel_list)
+                        ), "INFO"
+                    )
+
+        if channels_still_exist:
+            self.log(
+                "The following portChannelName(s) were not deleted: {0}.".format(", ".join(channels_still_exist)),
+                "ERROR"
+            )
+        else:
+            self.log(
+                "All specified port channels were successfully deleted.",
+                "INFO"
+            )
+
     def get_have(self, config, state):
         """
         Gathers the current state of the network device and fabric based on the provided configuration and state.
@@ -2470,21 +2833,19 @@ class SDAHostPortOnboarding(DnacBase):
             returns the instance.
         """
         # Validate the provided configuration parameters
-        self.validate_parameters(config, state)
+        self.validate_params(config, state)
 
         # Get the network fabric ID and map of management IP to instance ID
         mgmt_ip_to_instance_id_map, fabric_id = self.get_network_fabric_id(config.get("ip_address"), config.get("hostname"))
-
-        have = {}
-
-        # Store the management IP to instance ID map and primary IP address
-        have["mgmt_ip_to_instance_id_map"] = mgmt_ip_to_instance_id_map
-        have["ip_address"] = list(mgmt_ip_to_instance_id_map.keys())[0]
-
-        # Required common parameters - fabricId, networkDeviceId
-        have["fabric_id"] = fabric_id
         network_device_id = list(mgmt_ip_to_instance_id_map.values())[0]
-        have["network_device_id"] = network_device_id
+
+        # Store Required common parameters
+        have = {
+            "mgmt_ip_to_instance_id_map": mgmt_ip_to_instance_id_map,
+            "ip_address": list(mgmt_ip_to_instance_id_map.keys())[0],
+            "fabric_id": fabric_id,
+            "network_device_id": network_device_id
+        }
 
         port_assignment_details = config.get("port_assignment_details")
         port_channel_details = config.get("port_channel_details")
@@ -2512,7 +2873,7 @@ class SDAHostPortOnboarding(DnacBase):
                 have["update_port_channels"] = update_port_channels
                 have["no_update_port_channels"] = no_update_port_channels
 
-        if state == "deleted":
+        elif state == "deleted":
             if port_assignment_details:
                 # Generate and verify parameters for deleting port assignments
                 delete_port_assignments_params_list = self.get_delete_port_assignments_params(port_assignment_details, network_device_id, fabric_id)
@@ -2587,7 +2948,7 @@ class SDAHostPortOnboarding(DnacBase):
                     "DEBUG"
                 )
 
-        if state == "deleted":
+        elif state == "deleted":
             if self.have.get("delete_port_assignments_details"):
                 # Set parameters for deleting port assignments
                 want["delete_port_assignments_params"] = self.have.get("delete_port_assignments_details")
@@ -2607,6 +2968,8 @@ class SDAHostPortOnboarding(DnacBase):
 
         self.want = want
         self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
+        self.msg = "Successfully collected all parameters from the playbook for host onboarding operations."
+        self.status = "success"
         return self
 
     def get_diff_merged(self):
@@ -2621,6 +2984,7 @@ class SDAHostPortOnboarding(DnacBase):
             message. The method logs relevant information and updates the final message and status based on the
             execution of the actions.
         """
+        self.log("Starting 'get_diff_merged' operation.", "INFO")
         result_details = {}
 
         action_map = {
@@ -2641,16 +3005,20 @@ class SDAHostPortOnboarding(DnacBase):
 
         for action_param, (action_func, status_func) in action_map.items():
             # Execute the action and check its status
-            if self.want.get(action_param):
-                result_task_id = action_func(self.want.get(action_param))
+            req_action_param = self.want.get(action_param)
+            if req_action_param:
+                self.log("Executing action function: {0} with params: {1}".format(action_func.__name__, req_action_param), "INFO")
+                result_task_id = action_func(req_action_param)
                 self.log("Task Id: {0} returned from the action function: {1}".format(result_task_id, action_func.__name__), "DEBUG")
                 status_func(result_task_id).check_return_status()
+                self.log("Checked return status for Task Id: {0} using status function: {1}".format(result_task_id, status_func.__name__), "INFO")
                 result = self.msg
                 result_details.update(result)
                 final_status_list.append(self.status)
 
         final_status, is_changed = self.process_final_result(final_status_list)
         self.msg = result_details
+        self.log("Completed 'get_diff_merged' operation with final status: {0}, is_changed: {1}".format(final_status, is_changed), "INFO")
         self.set_operation_result(final_status, is_changed, self.msg, "INFO")
         return self
 
@@ -2664,13 +3032,17 @@ class SDAHostPortOnboarding(DnacBase):
             based on the desired state ("deleted"). It processes the deletion of port assignments and channels,
             updates the final message based on the execution of the actions, and logs the relevant information.
         """
+        self.log("Starting 'get_diff_deleted' operation.", "INFO")
+
         final_status_list = []
         result_details = {}
 
         # Process deletion of port assignments if required
         if self.want.get("delete_port_assignments_params"):
+            self.log("Processing deletion of port assignments.", "INFO")
             delete_port_assignments_params_list = self.want.get("delete_port_assignments_params")
             self.process_delete_port_assignments(delete_port_assignments_params_list).check_return_status()
+            self.log("Deletion of port assignments completed.", "INFO")
             result = self.msg
             result_details.update(result)
             final_status_list.append(self.status)
@@ -2687,6 +3059,7 @@ class SDAHostPortOnboarding(DnacBase):
 
         final_status, is_changed = self.process_final_result(final_status_list)
         self.msg = result_details
+        self.log("Completed 'get_diff_deleted' operation with final status: {0}, is_changed: {1}".format(final_status, is_changed), "INFO")
         self.set_operation_result(final_status, is_changed, self.msg, "INFO")
         return self
 
@@ -2699,17 +3072,9 @@ class SDAHostPortOnboarding(DnacBase):
         Returns:
             self: Returns the instance after performing verification on port assignments and
             port channels.
-        Description:
-            This method verifies the success of operations that add or update port assignments
-            and port channels in the Cisco Catalyst Center. It compares the current port assignments
-            and port channels with the desired configuration passed through self.want and checks if
-            the requested changes have been applied. For port assignments, it retrieves the current
-            state, compares interface names, and verifies that the add or update operation was
-            successful by checking if the interface names exist or match. Similarly, for port channels,
-            it fetches the existing port channels and verifies that the requested port channels were
-            added or updated as expected. If mismatches are found during the verification process,
-            warnings are logged to indicate potential issues with the operations.
         """
+        self.log("Starting 'verify_diff_merged' operation.", "INFO")
+
         # Retrieve parameters for add and update operations from the desired state (self.want)
         add_port_assignments_params = self.want.get("add_port_assignments_params")
         update_port_assignments_params = self.want.get("update_port_assignments_params")
@@ -2718,140 +3083,29 @@ class SDAHostPortOnboarding(DnacBase):
 
         # Verifying ADD Port Assignments operation
         if add_port_assignments_params:
-            # Get the current port assignments
-            get_port_assignments_params = self.have.get("get_port_assignments_params")
-            port_assignments = self.get_port_assignments(get_port_assignments_params)
-
-            self.log("Desired State: {0}".format(str(add_port_assignments_params)), "INFO")
-            self.log("State after performing ADD Port Assignments operation: {0}".format(str(port_assignments)), "INFO")
-
-            current_interface_names = [port.get("interfaceName") for port in port_assignments]
-            add_interface_names = [
-                param.get("interfaceName") for param in add_port_assignments_params["payload"]
-            ]
-
-            # Check if all add_interface_names are in current_interface_names
-            if all(interface in current_interface_names for interface in add_interface_names):
-                self.log(
-                    "Verified the success of ADD Port Assignments operation for interfaceName(s) {0}.".format(
-                        ", ".join(add_interface_names)
-                    ), "INFO"
-                )
-            else:
-                self.log(
-                    "The ADD Port Assignments operation may not have been successful "
-                    "since the port assignments do not exist in the Cisco Catalyst Center.", "WARNING"
-                )
+            self.log("Starting verification of ADD Port Assignments operation.", "INFO")
+            self.verify_port_assignments_add_operation(add_port_assignments_params)
+            self.log("Completed verification of ADD Port Assignments operation.", "INFO")
 
         # Verifying UPDATE Port Assignments operation
         if update_port_assignments_params:
-            # Get the current port assignments
-            get_port_assignments_params = self.have.get("get_port_assignments_params")
-            port_assignments = self.get_port_assignments(get_port_assignments_params)
-
-            self.log("Desired State: {0}".format(str(update_port_assignments_params)), "INFO")
-            self.log("State after performing UPDATE Port Assignments operation: {0}".format(str(port_assignments)), "INFO")
-
-            mismatched_interfaces = []
-
-            # Compare the update_port_assignments_params with the current port_assignments
-            for update_param in update_port_assignments_params["payload"]:
-                interface_id = update_param.get("id")
-                matching_port = next((port for port in port_assignments if port.get("id") == interface_id), None)
-
-                if matching_port:
-                    for key, value in update_param.items():
-                        if key not in ["fabricId", "networkDeviceId"] and matching_port.get(key) != value:
-                            mismatched_interfaces.append(update_param.get("interfaceName"))
-                            break
-
-            # Log the results
-            if not mismatched_interfaces:
-                self.log(
-                    "Verified the success of UPDATE Port Assignments operation for interfaceName(s) {0}.".format(
-                        ", ".join([param.get("interfaceName") for param in update_port_assignments_params["payload"]])
-                    ), "INFO"
-                )
-            else:
-                self.log(
-                    "The UPDATE Port Assignments operation may not have been successful "
-                    "since the following interface assignments do not match: {0}.".format(", ".join(mismatched_interfaces)),
-                    "WARNING"
-                )
+            self.log("Starting verification of UPDATE Port Assignments operation.", "INFO")
+            self.verify_port_assignments_update_operation(update_port_assignments_params)
+            self.log("Completed verification of UPDATE Port Assignments operation.", "INFO")
 
         # Verifying ADD Port Channels operation
         if add_port_channels_params:
-            # Get the current port channels
-            get_port_channels_params = self.have.get("get_port_channels_params")
-            existing_port_channels = self.get_port_channels(get_port_channels_params)
-
-            # Log the fetched port channels
-            self.log("Existing Port Channels after task completion: {0}".format(existing_port_channels), "DEBUG")
-            self.log("Desired State: {0}".format(add_port_channels_params), "INFO")
-
-            if existing_port_channels:
-                # Compare interface names and collect created port channel names
-                port_channels_names = []
-                for requested_channel in add_port_channels_params.get("payload"):
-                    requested_interface_names = requested_channel.get("interfaceNames")
-                    for existing_channel in existing_port_channels:
-                        if set(requested_interface_names) == set(existing_channel.get("interfaceNames")):
-                            port_channels_names.append(existing_channel.get("portChannelName"))
-
-                # Log the result of verification
-                if port_channels_names:
-                    self.log(
-                        "Verified the success of ADD Port Channels operation for portChannelName(s) {0}.".format(
-                            ", ".join(port_channels_names)
-                        ), "INFO"
-                    )
-                else:
-                    self.log(
-                        "The ADD Port Channels operation may not have been successful "
-                        "since the port channels do not exist in the Cisco Catalyst Center.", "WARNING"
-                    )
-            else:
-                self.log(
-                    "The ADD Port Channels operation may not have been successful "
-                    "since no port channels were found in the Cisco Catalyst Center.", "WARNING"
-                )
+            self.log("Starting verification of ADD Port Channels operation.", "INFO")
+            self.verify_port_channels_add_operation(add_port_channels_params)
+            self.log("Completed verification of ADD Port Channels operation.", "INFO")
 
         # Verifying UPDATE Port Channels operation
         if update_port_channels_params:
-            # Get the current port channels
-            get_port_channels_params = self.have.get("get_port_channels_params")
-            port_channels = self.get_port_channels(get_port_channels_params)
+            self.log("Starting verification of UPDATE Port Channels operation.", "INFO")
+            self.verify_port_channels_update_operation(update_port_channels_params)
+            self.log("Completed verification of UPDATE Port Channels operation.", "INFO")
 
-            self.log("Desired State: {0}".format(str(update_port_channels_params)), "INFO")
-            self.log("State after performing UPDATE Port Channels operation: {0}".format(str(port_channels)), "INFO")
-
-            mismatched_channels = []
-
-            # Compare the update_port_channels_params with the current port_channels
-            for update_param in update_port_channels_params["payload"]:
-                port_channel_name = update_param.get("portChannelName")
-                matching_channel = next((channel for channel in port_channels if channel.get("portChannelName") == port_channel_name), None)
-
-                if matching_channel:
-                    for key, value in update_param.items():
-                        if key not in ["fabricId", "networkDeviceId"] and matching_channel.get(key) != value:
-                            mismatched_channels.append(port_channel_name)
-                            break
-
-            # Log the results
-            if not mismatched_channels:
-                self.log(
-                    "Verified the success of UPDATE Port Channels operation for portChannelName(s) {0}.".format(
-                        ", ".join([param.get("portChannelName") for param in update_port_channels_params["payload"]])
-                    ), "INFO"
-                )
-            else:
-                self.log(
-                    "The UPDATE Port Channels operation may not have been successful "
-                    "since the following port channels do not match: {0}.".format(", ".join(mismatched_channels)),
-                    "WARNING"
-                )
-
+        self.log("Completed 'verify_diff_merged' operation.", "INFO")
         return self
 
     def verify_diff_deleted(self):
@@ -2865,87 +3119,22 @@ class SDAHostPortOnboarding(DnacBase):
             the deletion operations and logs relevant information, including any interfaces or channels that were
             not successfully deleted.
         """
+        self.log("Starting 'verify_diff_deleted' operation.", "INFO")
+
         delete_port_assignments_params = self.want.get("delete_port_assignments_params")
         delete_port_channels_params = self.want.get("delete_port_channels_params")
 
-        # Verify DELETE Port Assignments
         if delete_port_assignments_params:
-            interfaces_still_exist = []
+            self.log("Starting verification of DELETE Port Assignments operation.", "INFO")
+            self.verify_port_assignments_delete_operation(delete_port_assignments_params)
+            self.log("Completed verification of DELETE Port Assignments operation.", "INFO")
 
-            for index, delete_port_assignment_data in delete_port_assignments_params.items():
-                self.log("Processing parameters at - index {0}: {1}".format(index, delete_port_assignment_data), "DEBUG")
-                delete_required = delete_port_assignment_data.get("delete_required")
-                delete_port_assignment_params = delete_port_assignment_data.get("delete_port_assignment_params")
-                interfaces_list = delete_port_assignment_data.get("interfaces_list", [])
-
-                if delete_required:
-                    port_assignments = self.get_port_assignments(delete_port_assignment_params)
-
-                    if port_assignments:
-                        existing_interfaces = [port.get("interfaceName") for port in port_assignments if port.get("interfaceName") in interfaces_list]
-                        interfaces_still_exist.extend(existing_interfaces)
-                        self.log(
-                            "The DELETE Port Assignments operation may not have been successful "
-                            "since the following interface assignments still exist: {0}.".format(", ".join(existing_interfaces)),
-                            "WARNING"
-                        )
-                    else:
-                        self.log(
-                            "Verified the success of DELETE Port Assignments operation for interfaceName(s) {0}.".format(
-                                ", ".join(interfaces_list)
-                            ), "INFO"
-                        )
-
-            if interfaces_still_exist:
-                self.log(
-                    "The following interfaceName(s) were not deleted: {0}.".format(", ".join(interfaces_still_exist)),
-                    "ERROR"
-                )
-            else:
-                self.log(
-                    "All specified port assignments were successfully deleted.",
-                    "INFO"
-                )
-
-        # Verify DELETE Port Channels
         if delete_port_channels_params:
-            channels_still_exist = []
+            self.log("Starting verification of DELETE Port Channels operation.", "INFO")
+            self.verify_port_channels_delete_operation(delete_port_channels_params)
+            self.log("Completed verification of DELETE Port Channels operation.", "INFO")
 
-            for index, delete_port_channel_data in delete_port_channels_params.items():
-                self.log("Processing parameters at - index {0}: {1}".format(index, delete_port_channel_data), "DEBUG")
-                delete_required = delete_port_channel_data.get("delete_required")
-                delete_port_channel_params = delete_port_channel_data.get("delete_port_channel_params")
-                channel_list = delete_port_channel_data.get("channel_list", [])
-
-                if delete_required:
-                    port_channels = self.get_port_channels(delete_port_channel_params)
-
-                    if port_channels:
-                        existing_channels = [channel.get("portChannelName") for channel in port_channels if channel.get("portChannelName") in channel_list]
-                        channels_still_exist.extend(existing_channels)
-                        self.log(
-                            "The DELETE Port Channels operation may not have been successful "
-                            "since the following port channels still exist: {0}.".format(", ".join(existing_channels)),
-                            "WARNING"
-                        )
-                    else:
-                        self.log(
-                            "Verified the success of DELETE Port Channels operation for portChannelName(s) {0}.".format(
-                                ", ".join(channel_list)
-                            ), "INFO"
-                        )
-
-            if channels_still_exist:
-                self.log(
-                    "The following portChannelName(s) were not deleted: {0}.".format(", ".join(channels_still_exist)),
-                    "ERROR"
-                )
-            else:
-                self.log(
-                    "All specified port channels were successfully deleted.",
-                    "INFO"
-                )
-
+        self.log("Completed 'verify_diff_deleted' operation.", "INFO")
         return self
 
 
@@ -2953,24 +3142,25 @@ def main():
     """ main entry point for module execution
     """
     # Define the specification for the module"s arguments
-    element_spec = {"dnac_host": {"required": True, "type": "str"},
-                    "dnac_port": {"type": "str", "default": "443"},
-                    "dnac_username": {"type": "str", "default": "admin", "aliases": ["user"]},
-                    "dnac_password": {"type": "str", "no_log": True},
-                    "dnac_verify": {"type": "bool", "default": "True"},
-                    "dnac_version": {"type": "str", "default": "2.2.3.3"},
-                    "dnac_debug": {"type": "bool", "default": False},
-                    "dnac_log_level": {"type": "str", "default": "WARNING"},
-                    "dnac_log_file_path": {"type": "str", "default": "dnac.log"},
-                    "dnac_log_append": {"type": "bool", "default": True},
-                    "dnac_log": {"type": "bool", "default": False},
-                    "validate_response_schema": {"type": "bool", "default": True},
-                    "config_verify": {"type": "bool", "default": False},
-                    "dnac_api_task_timeout": {"type": "int", "default": 1200},
-                    "dnac_task_poll_interval": {"type": "int", "default": 2},
-                    "config": {"required": True, "type": "list", "elements": "dict"},
-                    "state": {"default": "merged", "choices": ["merged", "deleted"]}
-                    }
+    element_spec = {
+        "dnac_host": {"required": True, "type": "str"},
+        "dnac_port": {"type": "str", "default": "443"},
+        "dnac_username": {"type": "str", "default": "admin", "aliases": ["user"]},
+        "dnac_password": {"type": "str", "no_log": True},
+        "dnac_verify": {"type": "bool", "default": "True"},
+        "dnac_version": {"type": "str", "default": "2.2.3.3"},
+        "dnac_debug": {"type": "bool", "default": False},
+        "dnac_log_level": {"type": "str", "default": "WARNING"},
+        "dnac_log_file_path": {"type": "str", "default": "dnac.log"},
+        "dnac_log_append": {"type": "bool", "default": True},
+        "dnac_log": {"type": "bool", "default": False},
+        "validate_response_schema": {"type": "bool", "default": True},
+        "config_verify": {"type": "bool", "default": False},
+        "dnac_api_task_timeout": {"type": "int", "default": 1200},
+        "dnac_task_poll_interval": {"type": "int", "default": 2},
+        "config": {"required": True, "type": "list", "elements": "dict"},
+        "state": {"default": "merged", "choices": ["merged", "deleted"]}
+    }
 
     # Initialize the Ansible module with the provided argument specifications
     module = AnsibleModule(argument_spec=element_spec,
@@ -3000,6 +3190,7 @@ def main():
         ccc_sda_host_port_onboarding.get_have(config, state).check_return_status()
         ccc_sda_host_port_onboarding.get_want(state).check_return_status()
         ccc_sda_host_port_onboarding.get_diff_state_apply[state]().check_return_status()
+
         if config_verify:
             ccc_sda_host_port_onboarding.verify_diff_state_apply[state]().check_return_status()
 
