@@ -122,7 +122,7 @@ options:
                     floor and cannot be modified afterward.
                 type: int
               bulk_operation:
-                description: Set to True or Flase to enable bulk operations for site creation and management.
+                description: Set to 'true' or 'flase' to enable bulk operations for site creation and management.
                 type: bool
                 default: False
 
@@ -579,7 +579,7 @@ class Site(DnacBase):
         if self.get_ccc_version_as_integer() <= self.version_2_3_5_3:
             site_name = self.want.get("site_name")
             response = self.get_site(site_name)
-
+            self.log(response)
             if not response:
                 self.log("No response received from 'get_site' API for site: {0}".format(site_name), "ERROR")
                 return (site_exists, current_site)
@@ -588,6 +588,7 @@ class Site(DnacBase):
             self.log("Received API response from 'get_site': {0}".format(str(response)), "DEBUG")
 
             current_site = self.get_current_site(response)
+            self.log(current_site)
             if current_site:
                 site_exists = True
                 self.log("Site '{0}' exists in Cisco Catalyst Center".format(site_name), "INFO")
@@ -599,34 +600,34 @@ class Site(DnacBase):
         else:
             try:
                 response = {}
-                bulk_operation = self.config[0].get('site', {}).get('bulk_operation', False) or self.config[0]['site']['type']
-                self.log(bulk_operation)
+                if self.config[0].get('site', {}).get('bulk_operation', False):
+                    bulk_operation = self.config[0].get('site', {}).get('bulk_operation', False)
+                else:
+                    bulk_operation = self.config[0]['site']['type']
+
+                self.log("Bulk operation mode: {}".format(bulk_operation), "INFO")
                 if bulk_operation:
-                    name_list = [site.get("name") for site in self.want if "name" in site]
-                    self.log(name_list)
+                    name_list = [site["name"] for site in self.want if "name" in site]
+                    self.log("Names extracted for bulk operation: {}".format(name_list), "DEBUG")
+
                     all_sites_info = []
                     for name in name_list:
+                        param = {"name": name}
                         try:
-                            response = self.get_site(name)
+                            response = self.dnac._exec(
+                                family="site_design",
+                                function="get_sites",
+                                op_modifies=True,
+                                params=param,
+                            )
+                            self.log(response)
                             response_data = response.get("response", [])
-
                             if not response_data:
                                 self.log("No site information found for name: {0}".format(name), "WARNING")
                                 return (site_exists, current_site)
 
-                            for site in response_data:
-                                if isinstance(site, dict):
-                                    current_site = {}
-                                    for key, value in site.items():
-                                        current_site[key] = value
-                                    if site.get('nameHierarchy'):
-                                        name_hierarchy = site.get('nameHierarchy', '')
-                                        current_site['parentName'] = name_hierarchy.rsplit('/', 1)[0]
-                                    else:
-                                        current_site['parentName'] = None
-
-                                    all_sites_info.append(current_site)
-                                    site_exists = True
+                            all_sites_info.append(response_data)
+                            site_exists = True
                         except Exception as e:
                             self.log("Error fetching site for name '{0}': {1}".format(name, str(e)))
 
@@ -636,8 +637,12 @@ class Site(DnacBase):
                 self.log("Bulk operation is not available due to: {0}".format(str(e)), "WARNING")
                 name_hierarchy = self.want.get("site_name")
                 try:
-                    response = self.get_site(name_hierarchy)
-                    response = response.get("response")
+                    response = self.dnac._exec(
+                        family="site_design",
+                        function="get_sites",
+                        op_modifies=True,
+                        params=param,
+                    )
 
                     if not response:
                         self.log("No site information found for name hierarchy: {0}".format(name_hierarchy), "WARNING")
@@ -656,7 +661,10 @@ class Site(DnacBase):
                             self.log("Site '{0}' exists in Cisco Catalyst Center".format(self.want.get("site_name")), "INFO")
 
                 except Exception as e:
-                    self.log("Error fetching site for {0}: {1}".format(name_hierarchy, str(e)))
+                    self.msg = "Error fetching site for {0}: {1}".format(name_hierarchy, str(e))
+                    self.log(self.msg, "ERROR")
+                    self.status = "failed"
+                    return self
 
         return (site_exists, current_site)
 
@@ -787,16 +795,16 @@ class Site(DnacBase):
             site_type = site.get("type")
             parent_name = site.get("site", {}).get(site_type, {}).get("parent_name")
 
-            if parent_name:
-                name = site.get("site", {}).get(site_type, {}).get("name")
-                site_name = '/'.join([parent_name, name])
-                self.log("Site name: {0}".format(site_name), "INFO")
-            else:
+            if not parent_name:
                 self.status = "failed"
                 self.msg = "Parent name doesn't exist in playbook"
                 self.log(self.msg, "ERROR")
                 self.result["response"] = self.msg
                 site_name = None
+            else:
+                name = site.get("site", {}).get(site_type, {}).get("name")
+                site_name = '/'.join([parent_name, name])
+                self.log("Site name: {0}".format(site_name), "INFO")
 
             return site_name
 
@@ -1298,6 +1306,7 @@ class Site(DnacBase):
                 self.log(bulk_operation)
                 if bulk_operation:
                     response = self.creating_bulk_site()
+                    self.log(response)
 
                     if response and isinstance(response, dict):
                         self.log(
@@ -1324,8 +1333,10 @@ class Site(DnacBase):
                             resync_retry_count -= 1
 
                         site_exists, current_site = self.site_exists()
+                        self.log(site_exists)
                         name_list = [site["name"]
                                      for site in self.want if "name" in site]
+                        self.log(name_list)
 
                         if site_exists:
                             self.created_site_list.append(name_list)
@@ -1791,7 +1802,7 @@ class Site(DnacBase):
 
     def verify_diff_merged(self, config):
         """
-        Verify the merged status(Creation/Updation) of site configuration in Cisco Catalyst Center.
+        Verify the merged status (Creation/Updation) of site configuration in Cisco Catalyst Center.
         Args:
             - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             - config (dict): The configuration details to be verified.
@@ -1804,12 +1815,10 @@ class Site(DnacBase):
         """
         try:
             if self.get_ccc_version_as_integer() >= self.version_2_3_7_6 and self.config[0].get('site', {}).get('bulk_operation', False):
-                name_list = []
-                for site in self.want:
-                    if "name" in site:
-                        name_list.append(site["name"])
+                name_list = [site["name"] for site in self.want if "name" in site]
                 self.get_have(config)
                 site_exist = self.have.get("site_exists")
+
                 if site_exist:
                     self.status = "success"
                     self.msg = "The requested site '{0}' is present in the Cisco Catalyst Center and its creation has been verified.".format(name_list)
@@ -1818,45 +1827,25 @@ class Site(DnacBase):
 
         except Exception as e:
             self.log("An unexpected error occurred: {0}".format(e), "ERROR")
+            return self
 
         self.get_have(config)
         site_exist = self.have.get("site_exists")
         site_name = self.want.get("site_name")
+
         self.log("Current State (have): {0}".format(str(self.have)), "INFO")
         self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
 
         if site_exist:
             self.status = "success"
-            self.msg = "The requested site '{0}' is present in the Cisco Catalyst Center and its creation has been verified.".format(
-                site_name)
+            self.msg = "The requested site '{0}' is present in the Cisco Catalyst Center and its creation has been verified.".format(site_name)
             self.log(self.msg, "INFO")
 
         require_update = self.site_requires_update()
 
         if not require_update:
-            self.log("The update for site '{0}' has been successfully verified.".format(
-                site_name), "INFO")
-            self. status = "success"
-            return self
-
-        self.log("""The playbook input for site '{0}' does not align with the Cisco Catalyst Center, indicating that the merge task
-                may not have executed successfully.""".format(site_name), "INFO")
-        self.get_have(config)
-        self.log("Current State (have): {0}".format(str(self.have)), "INFO")
-        self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
-
-        if site_exist:
+            self.log("The update for site '{0}' has been successfully verified.".format(site_name), "INFO")
             self.status = "success"
-            self.msg = "The requested site '{0}' is present in the Cisco Catalyst Center and its creation has been verified.".format(
-                site_name)
-            self.log(self.msg, "INFO")
-
-        require_update = self.site_requires_update()
-
-        if not require_update:
-            self.log("The update for site '{0}' has been successfully verified.".format(
-                site_name), "INFO")
-            self. status = "success"
             return self
 
         self.log("""The playbook input for site '{0}' does not align with the Cisco Catalyst Center, indicating that the merge task
