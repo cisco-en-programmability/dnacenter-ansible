@@ -608,19 +608,10 @@ class Site(DnacBase):
                 self.log("Bulk operation mode: {}".format(bulk_operation), "INFO")
                 if bulk_operation:
                     name_list = [site["name"] for site in self.want if "name" in site]
-                    self.log("Names extracted for bulk operation: {}".format(name_list), "DEBUG")
-
                     all_sites_info = []
                     for name in name_list:
-                        param = {"name": name}
                         try:
-                            response = self.dnac._exec(
-                                family="site_design",
-                                function="get_sites",
-                                op_modifies=True,
-                                params=param,
-                            )
-                            self.log(response)
+                            response = self.get_site(name)
                             response_data = response.get("response", [])
                             if not response_data:
                                 self.log("No site information found for name: {0}".format(name), "WARNING")
@@ -634,39 +625,25 @@ class Site(DnacBase):
                     return (site_exists, all_sites_info)
 
             except Exception as e:
-                self.log("Bulk operation is not available due to: {0}".format(str(e)), "WARNING")
+                self.log("Bulk operation is not available due to : {0}".format(str(e)), "WARNING")
                 name_hierarchy = self.want.get("site_name")
                 try:
-                    response = self.dnac._exec(
-                        family="site_design",
-                        function="get_sites",
-                        op_modifies=True,
-                        params=param,
-                    )
-
-                    if not response:
-                        self.log("No site information found for name hierarchy: {0}".format(name_hierarchy), "WARNING")
-                        return (site_exists, current_site)
-
-                    self.log("Received API response from 'get_sites': {0}".format(str(response)), "DEBUG")
-                    all_sites_info = []
-
-                    for site in response:
-                        if isinstance(site, dict):
-                            current_site.update(site)
-                            current_site['parentName'] = site.get('nameHierarchy', '').rsplit('/', 1)[0] or None
-
-                            all_sites_info.append(current_site)
-                            site_exists = True
-                            self.log("Site '{0}' exists in Cisco Catalyst Center".format(self.want.get("site_name")), "INFO")
-
+                    response = self.get_site(name_hierarchy)
                 except Exception as e:
-                    self.msg = "Error fetching site for {0}: {1}".format(name_hierarchy, str(e))
-                    self.log(self.msg, "ERROR")
-                    self.status = "failed"
-                    return self
+                    self.log("Error fetching site for {0}: {1}".format(name_hierarchy, str(e)))
+                response = response.get("response")
+                if not response:
+                    self.log("No site information found for name hierarchy: {0}".format(name_hierarchy), "WARNING")
+                    return (site_exists, current_site)
 
-        return (site_exists, current_site)
+                if response:
+                    self.log("Received API response from 'get_sites': {0}".format(
+                        str(response)), "DEBUG")
+                    all_sites_info = []
+                    all_sites_info.append(response)
+                    site_exists = True
+
+            return (site_exists, current_site)
 
     def get_parent_id(self, parent_name):
         """
@@ -891,18 +868,9 @@ class Site(DnacBase):
         """
 
         keys_to_compare = ['length', 'width', 'height']
-
-        updated_rf_model = updated_site.get(
-            'rf_model') or updated_site.get('rfModel')
-        requested_rf_model = requested_site.get(
-            'rfModel') or requested_site.get('rf_model')
-
-        if updated_site['name'] != requested_site['name'] or updated_rf_model != requested_rf_model:
-            self.log("Name or RF model does not match; returning False.", "WARNING")
+        if updated_site['name'] != requested_site['name'] or updated_site.get('rf_model') != requested_site.get('rfModel'):
             return False
-
         if requested_site.get('floorNumber') and int(requested_site.get('floorNumber')) != int(updated_site.get('floorNumber')):
-            self.log("floorname is same so return is : False ")
             return False
 
         for key in keys_to_compare:
@@ -949,9 +917,10 @@ class Site(DnacBase):
         elif type == "area":
             return not self.is_area_updated(updated_site, requested_site)
         else:
-            self.log("Unsupported site type '{0}' given in the playbook.".format(type), "ERROR")
-
-            return False
+            self.msg = "Unsupported site type '{0}' given in the playbook.".format(type), "ERROR"
+            self.log(self.msg, "ERROR")
+            self.status = "failed"
+            return self
 
     def get_have(self, config):
         """
@@ -982,7 +951,10 @@ class Site(DnacBase):
                 return self
 
         except Exception as e:
-            self.log("An unexpected error occurred: {0}".format(e), "ERROR")
+            self.msg = "An unexpected error occurred: {0}".format(e), "ERROR"
+            self.log(self.msg, "ERROR")
+            self.status = "failed"
+            return self
 
         (site_exists, current_site) = self.site_exists()
 
@@ -1069,12 +1041,6 @@ class Site(DnacBase):
 
                     self.want = want_list
                     self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
-                    return self
-
-                else:
-                    self.msg = "In this version '{0}' Bulk site operation file is not supported.".format(self.payload.get("dnac_version"))
-                    self.log(self.msg, "ERROR")
-                    self.status = "failed"
                     return self
 
         except Exception as e:
