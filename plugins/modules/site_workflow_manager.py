@@ -124,7 +124,7 @@ options:
               bulk_operation:
                 description: Set to 'true' or 'flase' to enable bulk operations for site creation and management.
                 type: bool
-                default: False
+                default: false
 
 requirements:
 - dnacentersdk == 2.4.5
@@ -640,6 +640,7 @@ class Site(DnacBase):
                     self.log("Received API response from 'get_sites': {0}".format(
                         str(response)), "DEBUG")
                     all_sites_info = []
+
                     all_sites_info.append(response)
                     site_exists = True
 
@@ -892,35 +893,32 @@ class Site(DnacBase):
             stored in the 'want' attribute. It checks for differences in
             specified parameters, such as the site type and site details.
         """
-
         if self.get_ccc_version_as_integer() <= self.version_2_3_5_3:
-            type = self.have.get('current_site', {}).get('type')
-            updated_site = self.have.get('current_site', {}).get('site', {}).get(type)
-            requested_site = self.want['site_params']['site'].get(type)
-
+            site_type = self.have.get('current_site', {}).get('type')
+            updated_site = self.have.get('current_site', {}).get('site', {}).get(site_type)
+            requested_site = self.want.get('site_params', {}).get('site', {}).get(site_type)
         else:
-            type = self.have.get("current_site").get("type")
-            self.log("Type of site '{0}' for the site creation/updation in Cisco Catalyst Center.".format(type), "DEBUG")
+            site_type = self.have.get('current_site', {}).get('type')
+            self.log("Type of site '{0}' for the site creation/updation in Cisco Catalyst Center.".format(site_type), "DEBUG")
             current_site = self.have.get('current_site', {})
             self.log("Current site details: {}".format(current_site), "INFO")
             updated_site = current_site
-            requested_site = self.want.get('site_params', {}).get('site', {}).get(type)
+            requested_site = self.want.get('site_params', {}).get('site', {}).get(site_type)
 
-        self.log("Current Site type: {0}".format(str(updated_site)), "INFO")
-        self.log("Requested Site type: {0}".format(
-            str(requested_site)), "INFO")
+        self.log("Current Site details: {0}".format(str(updated_site)), "INFO")
+        self.log("Requested Site details: {0}".format(str(requested_site)), "INFO")
 
-        if type == "building":
+        if site_type == "building":
             return not self.is_building_updated(updated_site, requested_site)
-        elif type == "floor":
+        elif site_type == "floor":
             return not self.is_floor_updated(updated_site, requested_site)
-        elif type == "area":
+        elif site_type == "area":
             return not self.is_area_updated(updated_site, requested_site)
         else:
-            self.msg = "Unsupported site type '{0}' given in the playbook.".format(type), "ERROR"
+            self.msg = "Unsupported site type '{0}' given in the playbook.".format(site_type)
             self.log(self.msg, "ERROR")
             self.status = "failed"
-            return self
+            return False
 
     def get_have(self, config):
         """
@@ -1181,7 +1179,7 @@ class Site(DnacBase):
             self.msg = "Exception occurred while updating building '{0}' due to: {1}".format(site_params.get('site_name'), str(e))
             self.result['response'] = self.msg
             self.log(self.msg, "ERROR")
-        return self
+            self.check_return_status()
 
     def update_area(self, site_params):
         """
@@ -1217,7 +1215,7 @@ class Site(DnacBase):
             self.msg = "Exception occurred while updating area'{0}' due to: {1}".format(site_params.get('site_name'), str(e))
             self.result['response'] = self.msg
             self.log(self.msg, "ERROR")
-        return self
+            self.check_return_status()
 
     def creating_bulk_site(self):
         """
@@ -1299,10 +1297,10 @@ class Site(DnacBase):
                             resync_retry_count -= 1
 
                         site_exists, current_site = self.site_exists()
-                        self.log(site_exists)
-                        name_list = [site["name"]
-                                     for site in self.want if "name" in site]
-                        self.log(name_list)
+                        name_list = []
+                        for site in self.want:
+                            if "name" in site:
+                                name_list.append(site["name"])
 
                         if site_exists:
                             self.created_site_list.append(name_list)
@@ -1321,8 +1319,6 @@ class Site(DnacBase):
                 try:
                     site_params = self.want.get("site_params")
                     site_params["site_id"] = self.have.get("site_id")
-                    self.log(site_params)
-                    self.log("updation started")
 
                     response = self.dnac._exec(
                         family="sites",
@@ -1384,10 +1380,10 @@ class Site(DnacBase):
                             else self.update_building(site_params) if site_type == "building"
                             else self.log("Unknown site type: {0}".format(site_type), "ERROR"))
 
-                if response:
-                    self.log("Received API response from 'update_site': {0}".format(
-                        str(response)), "DEBUG")
-                    site_updated = True
+                if not response:
+                    self.update_not_needed_sites.append(site_name)
+                    self.log("Site - {0} does not need any update".format(site_name), "INFO")
+                    return self
 
                 if site_updated and response and isinstance(response, dict):
                     taskid = response["response"]["taskId"]
