@@ -1292,7 +1292,7 @@ class VirtualNetwork(DnacBase):
             self.log("Checking for anchored site '{0}'.".format(site_name), "DEBUG")
             site_exists, site_id = self.get_site_id(site_name)
 
-            if not site_id:
+            if not site_exists:
                 msg = "Given Anchor site '{0}' not  present in Cisco Catalyst Center.".format(site_name)
                 self.log(msg, "ERROR")
                 return vn_payload
@@ -1453,7 +1453,7 @@ class VirtualNetwork(DnacBase):
         if anchor_site:
             site_exists, site_id = self.get_site_id(anchor_site)
 
-            if not site_id:
+            if not site_exists:
                 msg = "Given Anchor site '{0}' not  present in Cisco Catalyst Center.".format(anchor_site)
                 self.log(msg, "ERROR")
                 return False
@@ -1522,7 +1522,7 @@ class VirtualNetwork(DnacBase):
             return update_vn_payload
 
         site_exists, site_id = self.get_site_id(anchor_site)
-        if not site_id:
+        if not site_exists:
             self.log("Anchor site '{0}' not found. Cannot update payload for VN '{1}'.".format(anchor_site, vn_name), "ERROR")
             return update_vn_payload
 
@@ -1839,7 +1839,7 @@ class VirtualNetwork(DnacBase):
             "fabricId": fabric_id,
             "virtualNetworkName": vn_name,
             "ipPoolName": anycast.get("ip_pool_name"),
-            "trafficType": anycast.get("traffic_type"),
+            "trafficType": anycast.get("traffic_type", "DATA"),
         }
         anycast_mapping = self.get_anycast_gateway_mapping(vn_name)
         self.log("Initial payload structure created: {0}".format(anycast_payload), "DEBUG")
@@ -2337,7 +2337,7 @@ class VirtualNetwork(DnacBase):
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             site_exists, site_id = self.get_site_id(site_name)
-            if not site_id:
+            if not site_exists:
                 self.msg = "Given site '{0}' does not exist in the Catalyst Center.".format(site_name)
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
@@ -2438,35 +2438,51 @@ class VirtualNetwork(DnacBase):
 
         fabric_vlan_details = config.get('fabric_vlan')
         if fabric_vlan_details:
+            self.log("Starting to collect fabric VLAN details.", "INFO")
             for vlan in fabric_vlan_details:
                 vlan_name = vlan.get("vlan_name")
                 vlan_id = vlan.get("vlan_id")
-
+                self.log("Collecting VLAN IDs for VLAN '{0}' with ID '{1}'.".format(vlan_name, vlan_id), "DEBUG")
                 fabric_vlan_ids = self.collect_fabric_vlan_ids(vlan_name, vlan_id)
 
                 if fabric_vlan_ids:
                     self.log("Successfully collect the vlan details for the vlan '{0}'.".format(vlan_name), "DEBUG")
                     have["fabric_vlan_ids"].extend(fabric_vlan_ids)
+                else:
+                    self.log("No VLAN details found for '{0}'.".format(vlan_name), "DEBUG")
 
         virtual_networks = config.get('virtual_networks')
         if virtual_networks:
+            self.log("Starting to collect Layer3 Virtual Network details.", "INFO")
             for vn in virtual_networks:
                 vn_name = vn.get("vn_name")
+                self.log("Checking existence for Virtual Network '{0}'.".format(vn_name), "DEBUG")
                 is_vn_exist = self.is_virtual_network_exist(vn_name)
 
                 if is_vn_exist:
                     self.log("Successfully collect the layer3 VN details for the VN '{0}'.".format(vn_name), "DEBUG")
                     have["l3_vn_name"].append(vn_name)
+                else:
+                    self.log("Virtual Network '{0}' does not exist.".format(vn_name), "DEBUG")
 
         anycast_gateways = config.get('anycast_gateways')
         if anycast_gateways:
+            self.log("Starting to collect Anycast Gateway details.", "INFO")
             for anycast in anycast_gateways:
                 vn_name = anycast.get("vn_name")
                 ip_pool_name = anycast.get("ip_pool_name")
                 site_name = anycast.get("fabric_site_location").get("site_name_hierarchy")
+                self.log("Collecting Anycast Gateway details for VN '{0}', IP Pool '{1}', Site '{2}'."
+                         .format(vn_name, ip_pool_name, site_name), "DEBUG"
+                         )
                 site_exists, site_id = self.get_site_id(site_name)
+                if not site_exists:
+                    self.msg = "Given site '{0}' does not exist in the Catalyst Center.".format(site_name)
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
                 fabric_type = anycast.get("fabric_site_location").get("fabric_type")
                 # Validate the fabric_type given in the playbook
+                self.log("Validating fabric type '{0}'.".format(fabric_type), "DEBUG")
                 self.validate_fabric_type(fabric_type).check_return_status()
                 self.log("Fabric type '{0}' is valid.".format(fabric_type), "INFO")
 
@@ -2475,12 +2491,15 @@ class VirtualNetwork(DnacBase):
                 else:
                     fabric_id = self.get_fabric_zone_id(site_name, site_id)
 
+                self.log("Collected fabric ID '{0}' for site '{1}'.".format(fabric_id, site_name), "DEBUG")
                 # Collect the gateway id with combination of vn_name, ip_pool_name and fabric id
                 gateway_details = self.get_anycast_gateway_details(vn_name, ip_pool_name, fabric_id)
                 if gateway_details:
                     gateway_id = gateway_details.get("id")
                     self.log("Successfully collect the anycast gateway details for the IP pool '{0}'.".format(ip_pool_name), "DEBUG")
                     have["anycast_gateway_ids"].append(gateway_id)
+                else:
+                    self.log("No Anycast Gateway found for IP Pool '{0}' in VN '{1}'.".format(ip_pool_name, vn_name), "DEBUG")
 
         self.have = have
         self.log("Current State (have): {0}".format(str(have)), "INFO")
@@ -2612,12 +2631,17 @@ class VirtualNetwork(DnacBase):
             vlan_id = vlan.get("vlan_id")
             fabric_locations = vlan.get("fabric_site_locations")
             fabric_id_list = []
+            self.log("Processing VLAN '{0}' with ID '{1}'.".format(vlan_name, vlan_id), "INFO")
 
             for fabric in fabric_locations:
                 site_name = fabric.get("site_name_hierarchy")
                 fabric_type = fabric.get("fabric_type")
                 site_exists, site_id = self.get_site_id(site_name)
+                if not site_exists:
+                    self.msg = "Given site '{0}' does not exist in the Catalyst Center.".format(site_name)
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
+                self.log("Checking fabric type for site '{0}'.".format(site_name), "DEBUG")
                 if fabric_type == "fabric_site":
                     fabric_id = self.get_fabric_site_id(site_name, site_id)
                 else:
@@ -2637,23 +2661,28 @@ class VirtualNetwork(DnacBase):
                         if self.fabric_vlan_needs_update(vlan, fabric_vlan_in_ccc):
                             self.updated_fabric_vlans.append(vlan_name)
                             collected_update_vlan_payload.append(self.update_payload_fabric_vlan(vlan, fabric_vlan_in_ccc, fabric_id))
+                            self.log("VLAN '{0}' needs to be updated.".format(vlan_name), "INFO")
                         else:
                             self.no_update_fabric_vlans.append(vlan_name)
                             self.msg = "Given L2 Vlan '{0}' does not need any update".format(vlan_name)
                             self.log(self.msg, "INFO")
                             self.result["response"] = self.msg
                 else:
+                    self.log("Fabric ID '{0}' added for VLAN '{1}'.".format(fabric_id, vlan_name), "DEBUG")
                     fabric_id_list.append(fabric_id)
 
             if fabric_id_list:
+                self.log("Creating new VLAN '{0}' with fabric IDs: {1}.".format(vlan_name, fabric_id_list), "INFO")
                 self.created_fabric_vlans.append(vlan_name)
                 collected_add_vlan_payload.extend(self.create_payload_for_fabric_vlan(vlan, fabric_id_list))
 
         if collected_add_vlan_payload:
             self.create_fabric_vlan(collected_add_vlan_payload).check_return_status()
+            self.log("Successfully created fabric VLANs.", "INFO")
 
         if collected_update_vlan_payload:
             self.update_fabric_vlan(collected_update_vlan_payload)
+            self.log("Successfully updated fabric VLANs.", "INFO")
 
         return self
 
@@ -2690,6 +2719,7 @@ class VirtualNetwork(DnacBase):
         for vn_details in virtual_networks:
             vn_name = vn_details.get("vn_name")
             vn_payload = {"virtualNetworkName": vn_name}
+            self.log("Processing Virtual Network '{0}'.".format(vn_name), "INFO")
 
             if self.have.get("l3_vn_name") and vn_name in self.have.get("l3_vn_name"):
                 # Given VN already present in Cisco Catalyst Center, check vn needs update or not.
@@ -2698,6 +2728,7 @@ class VirtualNetwork(DnacBase):
                 if vn_needs_update:
                     self.updated_virtual_networks.append(vn_name)
                     update_vn_payloads.append(self.update_payload_vn(vn_details, vn_in_ccc))
+                    self.log("Virtual Network '{0}' needs to be updated.".format(vn_name), "INFO")
                 else:
                     # Given Virtual network doesnot need any update
                     self.no_update_virtual_networks.append(vn_name)
@@ -2708,12 +2739,15 @@ class VirtualNetwork(DnacBase):
                 self.created_virtual_networks.append(vn_name)
                 vn_payload = self.create_vn_payload(vn_details)
                 add_vn_payloads.append(vn_payload)
+                self.log("Virtual Network '{0}' is new and will be created.".format(vn_name), "INFO")
 
         if add_vn_payloads:
             self.create_virtual_networks(add_vn_payloads).check_return_status()
+            self.log("Successfully created virtual networks.", "INFO")
 
         if update_vn_payloads:
             self.update_virtual_networks(update_vn_payloads)
+            self.log("Successfully updated virtual networks.", "INFO")
 
         return self
 
@@ -2744,6 +2778,10 @@ class VirtualNetwork(DnacBase):
             ip_pool_name = anycast.get("ip_pool_name")
             site_name = anycast.get("fabric_site_location").get("site_name_hierarchy")
             site_exists, site_id = self.get_site_id(site_name)
+            if not site_exists:
+                self.msg = "Given site '{0}' does not exist in the Catalyst Center.".format(site_name)
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
             fabric_type = anycast.get("fabric_site_location").get("fabric_type")
 
             if fabric_type == "fabric_site":
@@ -2755,6 +2793,7 @@ class VirtualNetwork(DnacBase):
             unique_anycast = vn_name + "_" + ip_pool_name + "_" + site_name
             anycast_details_in_ccc = self.get_anycast_gateway_details(vn_name, ip_pool_name, fabric_id)
             self.validate_gateway_payload(anycast).check_return_status()
+            self.log("Processing anycast gateway: {0}".format(unique_anycast), "INFO")
 
             if anycast_details_in_ccc:
                 # Already present in the Cisco Catalyst Center and check for update needed or not.
@@ -2763,6 +2802,7 @@ class VirtualNetwork(DnacBase):
                     self.updated_anycast_gateways.append(unique_anycast)
                     gateway_update_payload = self.get_anycast_gateway_update_payload(anycast, anycast_details_in_ccc)
                     update_anycast_payloads.append(gateway_update_payload)
+                    self.log("Updated anycast gateway: {0}".format(unique_anycast), "INFO")
                 else:
                     self.no_update_anycast_gateways.append(unique_anycast)
                     self.msg = "Given Anycast gateway '{0}' does not need any update in the Cisco Catalyst Center".format(unique_anycast)
@@ -2773,12 +2813,15 @@ class VirtualNetwork(DnacBase):
                 self.created_anycast_gateways.append(unique_anycast)
                 gateway_payload = self.create_anycast_payload(anycast, fabric_id)
                 add_anycast_payloads.append(gateway_payload)
+                self.log("Created anycast gateway: {0}".format(unique_anycast), "INFO")
 
         if add_anycast_payloads:
             self.add_anycast_gateways_in_system(add_anycast_payloads).check_return_status()
+            self.log("Added anycast gateways: {0}".format(", ".join(self.created_anycast_gateways)), "INFO")
 
         if update_anycast_payloads:
             self.update_anycast_gateways_in_system(update_anycast_payloads)
+            self.log("Updated anycast gateways: {0}".format(", ".join(self.updated_anycast_gateways)), "INFO")
 
         return self
 
@@ -2812,6 +2855,9 @@ class VirtualNetwork(DnacBase):
                 site_name = fabric.get("site_name_hierarchy")
                 fabric_type = fabric.get("fabric_type")
                 site_exists, site_id = self.get_site_id(site_name)
+                if not site_exists:
+                    self.msg = "Given site '{0}' does not exist in the Catalyst Center.".format(site_name)
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
                 if fabric_type == "fabric_site":
                     fabric_id = self.get_fabric_site_id(site_name, site_id)
@@ -2834,6 +2880,7 @@ class VirtualNetwork(DnacBase):
 
                 fabric_vlan_id = fabric_vlan_in_ccc.get("id")
                 self.delete_layer2_fabric_vlan(vlan_name, fabric_vlan_id).check_return_status()
+                self.log("Successfully deleted fabric VLAN '{0}' from site '{1}'.".format(vlan_name, site_name), "INFO")
 
         if self.deleted_fabric_vlans:
             self.log("Given VLAN(s) '{0}' deleted successfully from the Cisco Catalyst Center".format(self.deleted_fabric_vlans), "INFO")
@@ -2873,6 +2920,7 @@ class VirtualNetwork(DnacBase):
                 vn_in_ccc = self.get_vn_details_from_ccc(vn_name)
                 vn_id = vn_in_ccc.get("id")
                 self.delete_layer3_virtual_network(vn_name, vn_id).check_return_status()
+                self.log("Successfully deleted virtual network '{0}' from Cisco Catalyst Center.".format(vn_name), "INFO")
             else:
                 self.log("Given Virtual network '{0}' is not present in Cisco Catalyst Center.".format(vn_name), "INFO")
                 self.absent_virtual_networks.append(vn_name)
@@ -2913,6 +2961,10 @@ class VirtualNetwork(DnacBase):
             ip_pool_name = anycast.get("ip_pool_name")
             site_name = anycast.get("fabric_site_location").get("site_name_hierarchy")
             site_exists, site_id = self.get_site_id(site_name)
+            if not site_exists:
+                self.msg = "Given site '{0}' does not exist in the Catalyst Center.".format(site_name)
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
             fabric_type = anycast.get("fabric_site_location").get("fabric_type")
 
             if fabric_type == "fabric_site":
@@ -2928,6 +2980,7 @@ class VirtualNetwork(DnacBase):
                 self.absent_anycast_gateways.append(unique_anycast)
                 self.log("Given Anycast gateway '{0}' is not present in Cisco Catalyst Center.".format(unique_anycast), "INFO")
                 continue
+
             gateway_id = anycast_details_in_ccc.get("id")
 
             self.delete_anycast_gateway(gateway_id, unique_anycast).check_return_status()
@@ -2962,6 +3015,9 @@ class VirtualNetwork(DnacBase):
                 site_name = fabric.get("site_name_hierarchy")
                 fabric_type = fabric.get("fabric_type")
                 site_exists, site_id = self.get_site_id(site_name)
+                if not site_exists:
+                    self.msg = "Given site '{0}' does not exist in the Catalyst Center.".format(site_name)
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
                 if fabric_type == "fabric_site":
                     fabric_id = self.get_fabric_site_id(site_name, site_id)
@@ -2979,13 +3035,13 @@ class VirtualNetwork(DnacBase):
                 "Requested fabric Vlan(s) '{0}' have been successfully added/updated to the Cisco Catalyst Center "
                 "and their addition/updation has been verified."
             ).format(verify_vlan_list)
-            self.log(msg, "INFO")
         else:
             msg = (
                 "Playbook's input does not match with Cisco Catalyst Center, indicating that the fabric Vlan(s) '{0}' "
                 " addition/updation task may not have executed successfully."
             ).format(missed_vlan_list)
-            self.log(msg, "INFO")
+
+        self.log(msg, "INFO")
 
         return self
 
@@ -3020,13 +3076,13 @@ class VirtualNetwork(DnacBase):
                 "Requested layer3 Virtual Network(s) '{0}' have been successfully added/updated to the Cisco Catalyst Center "
                 "and their addition/updation has been verified."
             ).format(verify_vn_list)
-            self.log(msg, "INFO")
         else:
             msg = (
                 "Playbook's input does not match with Cisco Catalyst Center, indicating that the fabric Vlan(s) '{0}' "
                 " addition/updation task may not have executed successfully."
             ).format(missed_vn_list)
-            self.log(msg, "INFO")
+
+        self.log(msg, "INFO")
 
         return self
 
@@ -3052,6 +3108,10 @@ class VirtualNetwork(DnacBase):
             ip_pool_name = anycast.get("ip_pool_name")
             site_name = anycast.get("fabric_site_location").get("site_name_hierarchy")
             site_exists, site_id = self.get_site_id(site_name)
+            if not site_exists:
+                self.msg = "Given site '{0}' does not exist in the Catalyst Center.".format(site_name)
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
             fabric_type = anycast.get("fabric_site_location").get("fabric_type")
 
             if fabric_type == "fabric_site":
@@ -3073,13 +3133,13 @@ class VirtualNetwork(DnacBase):
                 "Requested Anycast Gateway(s) '{0}' have been successfully added/updated to the Cisco Catalyst Center "
                 "and their addition/updation has been verified."
             ).format(verify_anycast_list)
-            self.log(msg, "INFO")
         else:
             msg = (
                 "Playbook's input does not match with Cisco Catalyst Center, indicating that the Anycast Gateway(s) '{0}' "
                 " addition/updation task may not have executed successfully."
             ).format(missed_anycast_list)
-            self.log(msg, "INFO")
+
+        self.log(msg, "INFO")
 
         return self
 
@@ -3109,6 +3169,9 @@ class VirtualNetwork(DnacBase):
                 site_name = fabric.get("site_name_hierarchy")
                 fabric_type = fabric.get("fabric_type")
                 site_exists, site_id = self.get_site_id(site_name)
+                if not site_exists:
+                    self.msg = "Given site '{0}' does not exist in the Catalyst Center.".format(site_name)
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
                 if fabric_type == "fabric_site":
                     fabric_id = self.get_fabric_site_id(site_name, site_id)
@@ -3122,17 +3185,17 @@ class VirtualNetwork(DnacBase):
                     missed_vlan_list.append(vlan_name)
 
         if verify_vlan_list:
-            self.status = "success"
             msg = (
                 "Requested fabric Vlan(s) '{0}' have been successfully deleted from the Cisco Catalyst "
                 "Center and their deletion has been verified."
             ).format(verify_vlan_list)
-            self.log(msg, "INFO")
         else:
             msg = (
                 "Playbook's input does not match with Cisco Catalyst Center, indicating that fabric Vlan(s)"
                 " '{0}' deletion task may not have executed successfully."
             ).format(missed_vlan_list)
+
+        self.log(msg, "INFO")
 
         return self
 
@@ -3168,13 +3231,13 @@ class VirtualNetwork(DnacBase):
                 "Requested layer3 Virtual Network(s) '{0}' have been successfully deleted from the Cisco "
                 "Catalyst Center and their deletion has been verified."
             ).format(verify_vn_list)
-            self.log(msg, "INFO")
         else:
             msg = (
                 "Playbook's input does not match with Cisco Catalyst Center, indicating that layer3 Virtual"
                 "  Network(s) '{0}' deletion task may not have executed successfully."
             ).format(missed_vn_list)
-            self.log(msg, "INFO")
+
+        self.log(msg, "INFO")
 
         return self
 
@@ -3201,6 +3264,10 @@ class VirtualNetwork(DnacBase):
             ip_pool_name = anycast.get("ip_pool_name")
             site_name = anycast.get("fabric_site_location").get("site_name_hierarchy")
             site_exists, site_id = self.get_site_id(site_name)
+            if not site_exists:
+                self.msg = "Given site '{0}' does not exist in the Catalyst Center.".format(site_name)
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
             fabric_type = anycast.get("fabric_site_location").get("fabric_type")
 
             if fabric_type == "fabric_site":
@@ -3223,13 +3290,13 @@ class VirtualNetwork(DnacBase):
                 "Requested Anycast Gateway(s) '{0}' have been successfully deleted from the Cisco "
                 "Catalyst Center and their deletion has been verified."
             ).format(verify_anycast_list)
-            self.log(msg, "INFO")
         else:
             msg = (
                 "Playbook's input does not match with Cisco Catalyst Center, indicating that Anycast "
                 " Gateway(s) '{0}' deletion task may not have executed successfully."
             ).format(missed_anycast_list)
-            self.log(msg, "INFO")
+
+        self.log(msg, "INFO")
 
         return self
 
