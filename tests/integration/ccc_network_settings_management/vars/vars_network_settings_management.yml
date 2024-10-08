@@ -1,0 +1,84 @@
+---
+design_sites:
+  - site:
+      area:
+        name: USA-Test
+        parent_name: Global
+    site_type: area
+  
+create_global_pools:
+  - global_pool_details:
+      settings:
+        ip_pool:
+        - name: Global_Pool4
+          pool_type: Generic
+          ip_address_space: IPv4 
+          cidr: 20.0.0.0/8  
+
+create_reserve_pools:
+  - reserve_pool_details:
+    - site_name: Global/USA-Test
+      name: IP_Pool_4
+      pool_type: LAN
+      ipv4_global_pool: 20.0.0.0/8
+      ipv4_global_pool_name: Global_Pool4
+      ipv4_prefix: True
+      ipv4_prefix_length: 9
+      ipv4_subnet: 20.128.0.0
+      ipv4_gateway: 20.128.0.1
+      ipv4_dns_servers: []
+
+network_server:
+  - network_management_details:
+    - site_name:  Global/USA-Test
+      settings:
+        network_aaa: 
+          primary_server_address: 10.0.0.10 
+          secondary_server_address: 10.0.0.20
+          protocol: RADIUS
+          server_type: AAA
+        client_and_endpoint_aaa: 
+          primary_server_address: 10.0.0.10 
+          secondary_server_address: 10.0.0.20
+          protocol: RADIUS                                     
+          server_type: AAA
+        dhcp_server:
+        - 10.0.0.2
+        dns_server:
+          domain_name: cisco.com
+          primary_ip_address: 10.0.0.2
+          secondary_ip_address: 10.0.0.4
+        ntp_server:
+        - 10.0.0.5
+        timezone: Europe/Lisbon
+        message_of_the_day:
+          banner_message: hello
+          retain_existing_banner: True
+        wired_data_collection:
+          enable_wired_data_collection: false
+        wireless_telemetry:
+          enable_wireless_telemetry: false 
+        netflow_collector:
+          collector_type: Telemetry_broker_or_UDP_director
+          ip_address: 10.0.0.2
+          port: 443
+          enable_on_wired_access_devices: false
+        snmp_server:
+          configure_dnac_ip: false
+          ip_addresses:
+          - 10.0.0.7
+        syslog_server:
+          configure_dnac_ip: false
+          ip_addresses:
+          - 10.0.0.8
+
+ip_pool1:
+  - reserve_pool_details:
+    - site_name:  Global/USA-Test
+      name: IP_Pool_4
+
+ip_pool2:
+  - global_pool_details:
+      settings:
+        ip_pool:
+        - name: Global_Pool4
