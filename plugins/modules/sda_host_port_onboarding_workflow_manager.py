@@ -1061,7 +1061,7 @@ class SDAHostPortOnboarding(DnacBase):
                 self.msg = (
                     "The number of interfaces provided: {0} exceeds the limit for protocol: {1} in port channel operation. "
                     "Maximum allowed interfaces for '{1}' protocol: {2}. Port channel details: {3}"
-                ).format(len(interface_names_list), protocol, max_interfaces, port_channel_details)
+                ).format(len(interface_names_list), protocol, max_interfaces, port_channel)
                 self.fail_and_exit(self.msg)
 
         self.log("Port channel 'interfaces_names' size validated successfully for protocol: {0}".format(protocol), "DEBUG")
@@ -1116,7 +1116,7 @@ class SDAHostPortOnboarding(DnacBase):
             the provided port channel dictionary. If unsupported parameters are found, it logs an error message and sets the
             validation status to "failed". If all parameters are valid, the method logs a success message.
         """
-        self.log("Starting validation for delete port channels parameters: {0}".format(interface), "INFO")
+        self.log("Starting validation for delete port channels parameters: {0}".format(port_channel), "INFO")
 
         # Define allowed parameters
         allowed_params = {"port_channel_name", "connected_device_type"}
@@ -1262,8 +1262,8 @@ class SDAHostPortOnboarding(DnacBase):
 
             # Check if the device is reachable, not a Unified AP, and in a managed state
             if (device_info.get("reachabilityStatus") == "Reachable" and
-                device_info.get("collectionStatus") == "Managed" and
-                device_info.get("family") != "Unified AP"):
+                    device_info.get("collectionStatus") == "Managed" and
+                    device_info.get("family") != "Unified AP"):
                 device_id = device_info["id"]
                 mgmt_ip_to_instance_id_map[device_ip] = device_id
                 self.log("Device {0} is valid and added to the map.".format(device_ip), "INFO")
@@ -1505,7 +1505,7 @@ class SDAHostPortOnboarding(DnacBase):
             )
             self.fail_and_exit(self.msg)
 
-    def check_differences(existing_port, requested_port):
+    def check_differences(self, existing_port, requested_port):
         """
         Checks for differences between existing and requested port assignments.
         Args:
@@ -2153,7 +2153,7 @@ class SDAHostPortOnboarding(DnacBase):
         Description:
             This method initiates the task to update port assignments using the provided parameters and returns the task ID.
         """
-        self.log("Initiating update of port assignments with parameters: {0}".format(add_port_assignments_params), "INFO")
+        self.log("Initiating update of port assignments with parameters: {0}".format(update_port_assignments_params), "INFO")
         return self.get_taskid_post_api_call("sda", "update_port_assignments", update_port_assignments_params)
 
     def verify_delete_port_assignments_requirement(self, delete_port_assignments_params_list):
