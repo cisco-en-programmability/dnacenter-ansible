@@ -18,7 +18,7 @@
         dnac_debug: "{{dnac_debug}}"
         dnac_log_level: DEBUG
         dnac_log: true
-        config_verify: True
+        config_verify: true
         state: merged
         config:
         - fabric_sites:
