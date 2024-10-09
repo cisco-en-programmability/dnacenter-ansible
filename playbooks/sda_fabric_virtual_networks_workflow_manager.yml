@@ -7,7 +7,7 @@
     - "credentials.yml"
   tasks:
     - name: Configure the Fabric Vlan(s), Virtual network(s) and Anycast gateway(s) for SDA in Cisco Catalyst Center
-      cisco.dnac.fabric_virtual_networks_workflow_manager:
+      cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
         dnac_password: "{{dnac_password}}"
