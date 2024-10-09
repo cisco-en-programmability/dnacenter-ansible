@@ -892,7 +892,6 @@ class UserandRole(DnacBase):
         super().__init__(module)
         self.result["response"] = []
         self.supported_states = ["merged", "deleted"]
-        self.payload = module.params
         self.keymap = {}
         self.created_user, self.updated_user, self.no_update_user = [], [], []
         self.created_role, self.updated_role, self.no_update_role = [], [], []
@@ -1599,53 +1598,59 @@ class UserandRole(DnacBase):
             - Logs the provided user parameters and the received API response.
             - Returns the API response from the "create_user" function.
         """
-        self.log("Create user with 'user_params' argument...", "DEBUG")
 
-        if user_params.get('password'):
-            decrypt_password_response = self.decrypt_password(user_params['password'], self.key.get("generate_key"))
+        if self.version_2_3_5_3 <= self.get_ccc_version_as_integer():
+            self.log("Create user with 'user_params' argument...", "DEBUG")
 
-            if "error_message" in decrypt_password_response:
-                self.msg = decrypt_password_response.get("error_message")
-                self.log(self.msg, "ERROR")
-                self.status = "failed"
-                return self
+            if user_params.get('password'):
+                decrypt_password_response = self.decrypt_password(user_params['password'], self.key.get("generate_key"))
 
-            user_params['password'] = decrypt_password_response.get("decrypt_password")
+                if "error_message" in decrypt_password_response:
+                    self.msg = decrypt_password_response.get("error_message")
+                    self.log(self.msg, "ERROR")
+                    self.status = "failed"
+                    return self
 
-        required_keys = ['username', 'password']
-        missing_keys = []
+                user_params['password'] = decrypt_password_response.get("decrypt_password")
 
-        self.log("Check if each required key is present in the user_params dictionary...", "DEBUG")
-        for key in required_keys:
-            if key not in user_params:
-                missing_keys.append(key)
+            required_keys = ['username', 'password']
+            missing_keys = []
 
-        if missing_keys:
-            error_message = "Mandatory parameter(s) '{0}' not present in the user details.".format(", ".join(missing_keys))
-            return {"error_message": error_message}
+            self.log("Check if each required key is present in the user_params dictionary...", "DEBUG")
+            for key in required_keys:
+                if key not in user_params:
+                    missing_keys.append(key)
 
-        try:
-            response = self.dnac._exec(
-                family="user_and_roles",
-                function="add_user_api",
-                op_modifies=True,
-                params=user_params,
-            )
-            self.log("Received API response from create_user: {0}".format(str(response)), "DEBUG")
-            self.created_user.append(user_params.get("username"))
-            return response
+            if missing_keys:
+                error_message = "Mandatory parameter(s) '{0}' not present in the user details.".format(", ".join(missing_keys))
+                return {"error_message": error_message}
 
-        except Exception as e:
-            self.log("Unexpected error occurred: {0}".format(str(e)), "ERROR")
-            if "[403]" in str(e):
-                error_message = (
-                    "The Catalyst Center user '{0}' does not have the necessary permissions to 'create or update' a user through the API.".format(
-                        self.payload.get("dnac_username"))
+            try:
+                response = self.dnac._exec(
+                    family="user_and_roles",
+                    function="add_user_api",
+                    op_modifies=True,
+                    params=user_params,
                 )
-            else:
-                error_message = "Invalid email format for email '{0}' under username '{1}'".format(user_params.get("email"), user_params.get("username"))
+                self.log("Received API response from create_user: {0}".format(str(response)), "DEBUG")
+                self.created_user.append(user_params.get("username"))
+                return response
 
-            return {"error_message": error_message}
+            except Exception as e:
+                self.log("Unexpected error occurred: {0}".format(str(e)), "ERROR")
+                if "[403]" in str(e):
+                    error_message = (
+                        "The Catalyst Center user '{0}' does not have the necessary permissions to 'create or update' a user through the API.".format(
+                            self.payload.get("dnac_username"))
+                    )
+                else:
+                    error_message = "Invalid email format for email '{0}' under username '{1}'".format(user_params.get("email"), user_params.get("username"))
+
+                return {"error_message": error_message}
+
+        error_message = "The specified version '{0}' does not have the 'add_user_api' functionality. Supported version(s) '2.3.5.3' and '2.3.7.6'.".format(
+            self.payload.get("dnac_version"))
+        return {"error_message": error_message}
 
     def create_role(self, role_params):
         """
@@ -1661,23 +1666,29 @@ class UserandRole(DnacBase):
             - Logs the provided role parameters and the received API response.
             - Returns the API response from the "create_role" function.
         """
-        try:
-            self.log("Create role with role_info_params: {0}".format(str(role_params)), "DEBUG")
-            response = self.dnac._exec(
-                family="user_and_roles",
-                function="add_role_api",
-                op_modifies=True,
-                params=role_params,
-            )
-            self.log("Received API response from create_role: {0}".format(str(response)), "DEBUG")
-            self.created_role.append(role_params.get("role"))
-            return response
 
-        except Exception as e:
-            self.log("Unexpected error occurred: {0}".format(str(e)), "ERROR")
-            error_message = "The Catalyst Center user '{0}' does not have the necessary permissions to 'create a role' through the API.".format(
-                self.payload.get("dnac_username"))
-            return {"error_message": error_message}
+        if self.version_2_3_7_6 <= self.get_ccc_version_as_integer():
+            try:
+                self.log("Create role with role_info_params: {0}".format(str(role_params)), "DEBUG")
+                response = self.dnac._exec(
+                    family="user_and_roles",
+                    function="add_role_api",
+                    op_modifies=True,
+                    params=role_params,
+                )
+                self.log("Received API response from create_role: {0}".format(str(response)), "DEBUG")
+                self.created_role.append(role_params.get("role"))
+                return response
+
+            except Exception as e:
+                self.log("Unexpected error occurred: {0}".format(str(e)), "ERROR")
+                error_message = "The Catalyst Center user '{0}' does not have the necessary permissions to 'create a role' through the API.".format(
+                    self.payload.get("dnac_username"))
+                return {"error_message": error_message}
+
+        error_message = "The specified version '{0}' does not have the 'add_role_api' functionality. Supported version is '2.3.7.6'.".format(
+            self.payload.get("dnac_version"))
+        return {"error_message": error_message}
 
     def get_user(self):
         """
@@ -1691,14 +1702,22 @@ class UserandRole(DnacBase):
               and "get_users_api" function.
             - Logs the received API response and returns it.
         """
-        response = self.dnac._exec(
-            family="user_and_roles",
-            function="get_users_api",
-            op_modifies=True,
-            params={"invoke_source": "external"},
-        )
-        self.log("Received API response from get_users_api: {0}".format(str(response)), "DEBUG")
-        return response
+
+        if self.version_2_3_5_3 <= self.get_ccc_version_as_integer():
+            response = self.dnac._exec(
+                family="user_and_roles",
+                function="get_users_api",
+                op_modifies=True,
+                params={"invoke_source": "external"},
+            )
+            self.log("Received API response from get_users_api: {0}".format(str(response)), "DEBUG")
+            return response
+
+        self.status = "failed"
+        self.msg = "The specified version '{0}' does not have the 'get_users_api' functionality. Supported version(s) '2.3.5.3' and '2.3.7.6'.".format(
+            self.payload.get("dnac_version"))
+        self.log(self.msg, "ERROR")
+        self.check_return_status()
 
     def get_role(self):
         """
@@ -1712,13 +1731,21 @@ class UserandRole(DnacBase):
               and "get_roles_api" function.
             - Logs the received API response and returns it.
         """
-        response = self.dnac._exec(
-            family="user_and_roles",
-            function="get_roles_api",
-            op_modifies=True,
-        )
-        self.log("Received API response from get_roles_api: {0}".format(str(response)), "DEBUG")
-        return response
+
+        if self.version_2_3_5_3 <= self.get_ccc_version_as_integer():
+            response = self.dnac._exec(
+                family="user_and_roles",
+                function="get_roles_api",
+                op_modifies=True,
+            )
+            self.log("Received API response from get_roles_api: {0}".format(str(response)), "DEBUG")
+            return response
+
+        self.status = "failed"
+        self.msg = "The specified version '{0}' does not have the 'get_roles_api' functionality. Supported version(s) '2.3.5.3' and '2.3.7.6'.".format(
+            self.payload.get("dnac_version"))
+        self.log(self.msg, "ERROR")
+        self.check_return_status()
 
     def add_entries(self, entry_types, operations, unique_types):
         """Add multiple entries with specified operations to the unique_types dictionary."""
@@ -2625,22 +2652,30 @@ class UserandRole(DnacBase):
             - This method sends a request to update a user in Cisco Catalyst Center using the provided
             - user parameters. It logs the response and returns it.
         """
-        try:
-            self.log("Updating user with parameters: {0}".format(user_params), "DEBUG")
-            response = self.dnac._exec(
-                family="user_and_roles",
-                function="update_user_api",
-                op_modifies=True,
-                params=user_params,
-            )
-            self.log("Received API response from update_user: {0}".format(str(response)), "DEBUG")
-            self.updated_user.append(user_params.get("username"))
-            return response
 
-        except Exception as e:
-            self.log("Unexpected error occurred: {0}".format(str(e)), "ERROR")
-            error_message = "Invalid email format for email '{0}' under username '{1}'".format(user_params.get("email"), user_params.get("username"))
-            return {"error_message": error_message}
+        if self.version_2_3_5_3 <= self.get_ccc_version_as_integer():
+            try:
+                self.log("Updating user with parameters: {0}".format(user_params), "DEBUG")
+                response = self.dnac._exec(
+                    family="user_and_roles",
+                    function="update_user_api",
+                    op_modifies=True,
+                    params=user_params,
+                )
+                self.log("Received API response from update_user: {0}".format(str(response)), "DEBUG")
+                self.updated_user.append(user_params.get("username"))
+                return response
+
+            except Exception as e:
+                self.log("Unexpected error occurred: {0}".format(str(e)), "ERROR")
+                error_message = "Invalid email format for email '{0}' under username '{1}'".format(user_params.get("email"), user_params.get("username"))
+                return {"error_message": error_message}
+
+        error_message = (
+            "The specified version '{0}' does not have the 'update_user_api' functionality."
+            "Supported version(s) '2.3.5.3' and '2.3.7.6'.".format(self.payload.get("dnac_version"))
+        )
+        return {"error_message": error_message}
 
     def update_role(self, role_params):
         """
@@ -2657,23 +2692,29 @@ class UserandRole(DnacBase):
               and the "update_role_api" function. The method logs the received API response at the "DEBUG" level and
               finally returns the response.
         """
-        try:
-            self.log("Updating role with role_info_params: {0}".format(str(role_params)), "DEBUG")
-            response = self.dnac._exec(
-                family="user_and_roles",
-                function="update_role_api",
-                op_modifies=True,
-                params=role_params,
-            )
-            self.log("Received API response from update_role: {0}".format(str(response)), "DEBUG")
-            self.updated_role.append(self.have.get("role_name"))
-            return response
 
-        except Exception as e:
-            self.log("Unexpected error occurred: {0}".format(str(e)), "ERROR")
-            error_message = "The catalyst center user '{0}' does not have the necessary permissions to update role through the API.".format(
-                self.payload.get("dnac_username"))
-            return {"error_message": error_message}
+        if self.version_2_3_7_6 <= self.get_ccc_version_as_integer():
+            try:
+                self.log("Updating role with role_info_params: {0}".format(str(role_params)), "DEBUG")
+                response = self.dnac._exec(
+                    family="user_and_roles",
+                    function="update_role_api",
+                    op_modifies=True,
+                    params=role_params,
+                )
+                self.log("Received API response from update_role: {0}".format(str(response)), "DEBUG")
+                self.updated_role.append(self.have.get("role_name"))
+                return response
+
+            except Exception as e:
+                self.log("Unexpected error occurred: {0}".format(str(e)), "ERROR")
+                error_message = "The catalyst center user '{0}' does not have the necessary permissions to update role through the API.".format(
+                    self.payload.get("dnac_username"))
+                return {"error_message": error_message}
+
+        error_message = "The specified version '{0}' does not have the 'update_role_api' functionality. Supported version is '2.3.7.6'.".format(
+            self.payload.get("dnac_version"))
+        return {"error_message": error_message}
 
     def find_denied_permissions(self, config, parent_key=""):
         """
@@ -3032,37 +3073,43 @@ class UserandRole(DnacBase):
             - It logs the response and returns it.
             - The function uses the "user_and_roles" family and the "delete_user_api" function from the Cisco Catalyst Center API.
         """
-        username = self.have.get("username")
-        self.log("Attempting to delete user with user_params: {0}".format(str(user_params)), "DEBUG")
-        try:
-            response = self.dnac._exec(
-                family="user_and_roles",
-                function="delete_user_api",
-                op_modifies=True,
-                params=user_params,
-            )
 
-            if response and isinstance(response, dict):
-                self.log("Received API response from delete_user '{0}': {1}".format(username, str(response)), "DEBUG")
-                self.deleted_user.append(username)
-                return response
-
-            error_msg = response.get("error_message", "Unknown error occurred while deleting user '{0}'".format(username))
-            self.log("User deletion failed. Error: {0}".format(error_msg), "ERROR")
-            return {"error_message": error_msg}
-
-        except Exception as e:
-            if "[404]" in str(e):
-                error_message = "User '{0}' was not found in Cisco Catalyst Center".format(username)
-            elif "[412]" in str(e):
-                error_message = (
-                    "User '{0}' tried to delete themselves or does not have right permission to delete a user in Cisco Catalyst Center".format(
-                        username)
+        if self.version_2_3_7_6 <= self.get_ccc_version_as_integer():
+            username = self.have.get("username")
+            self.log("Attempting to delete user with user_params: {0}".format(str(user_params)), "DEBUG")
+            try:
+                response = self.dnac._exec(
+                    family="user_and_roles",
+                    function="delete_user_api",
+                    op_modifies=True,
+                    params=user_params,
                 )
-            else:
-                error_message = "Exception occurred while deleting user {0}: {1}".format(username, str(e))
 
-            return {"error_message": error_message}
+                if response and isinstance(response, dict):
+                    self.log("Received API response from delete_user '{0}': {1}".format(username, str(response)), "DEBUG")
+                    self.deleted_user.append(username)
+                    return response
+
+                error_msg = response.get("error_message", "Unknown error occurred while deleting user '{0}'".format(username))
+                self.log("User deletion failed. Error: {0}".format(error_msg), "ERROR")
+                return {"error_message": error_msg}
+
+            except Exception as e:
+                if "[404]" in str(e):
+                    error_message = "User '{0}' was not found in Cisco Catalyst Center".format(username)
+                elif "[412]" in str(e):
+                    error_message = (
+                        "User '{0}' tried to delete themselves or does not have right permission to delete a user in Cisco Catalyst Center".format(
+                            username)
+                    )
+                else:
+                    error_message = "Exception occurred while deleting user {0}: {1}".format(username, str(e))
+
+                return {"error_message": error_message}
+
+        error_message = "The specified version '{0}' does not have the 'delete_user_api' functionality. Supported version is '2.3.7.6'.".format(
+            self.payload.get("dnac_version"))
+        return {"error_message": error_message}
 
     def delete_role(self, role_params):
         """
@@ -3077,30 +3124,35 @@ class UserandRole(DnacBase):
             - It logs the response and returns it.
             - The function uses the "user_and_roles" family and the "delete_role_api" function from the Cisco Catalyst Center API.
         """
-        try:
-            self.log("delete role with role_params: {0}".format(str(role_params)), "DEBUG")
-            response = self.dnac._exec(
-                family="user_and_roles",
-                function="delete_role_api",
-                op_modifies=True,
-                params=role_params,
-            )
-            self.log("Received API response from delete_role: {0}".format(str(response)), "DEBUG")
-            self.deleted_role.append(self.have.get("role_name"))
-            return response
-
-        except Exception as e:
-            self.log("Unexpected error occurred: {0}".format(str(e)), "ERROR")
-            if "[403]" in str(e):
-                error_message = (
-                    "The Catalyst Center user '{0}' does not have the necessary permissions to delete the role through the API.".format(
-                        self.payload.get("dnac_username"))
+        if self.version_2_3_7_6 <= self.get_ccc_version_as_integer():
+            try:
+                self.log("delete role with role_params: {0}".format(str(role_params)), "DEBUG")
+                response = self.dnac._exec(
+                    family="user_and_roles",
+                    function="delete_role_api",
+                    op_modifies=True,
+                    params=role_params,
                 )
-            else:
-                error_message = "An error occurred while deleting the role. Check whether user(s) are assigned to the role '{0}'.".format(
-                    self.have.get("role_name"))
+                self.log("Received API response from delete_role: {0}".format(str(response)), "DEBUG")
+                self.deleted_role.append(self.have.get("role_name"))
+                return response
 
-            return {"error_message": error_message}
+            except Exception as e:
+                self.log("Unexpected error occurred: {0}".format(str(e)), "ERROR")
+                if "[403]" in str(e):
+                    error_message = (
+                        "The Catalyst Center user '{0}' does not have the necessary permissions to delete the role through the API.".format(
+                            self.payload.get("dnac_username"))
+                    )
+                else:
+                    error_message = "An error occurred while deleting the role. Check whether user(s) are assigned to the role '{0}'.".format(
+                        self.have.get("role_name"))
+
+                return {"error_message": error_message}
+
+        error_message = "The specified version '{0}' does not have the 'delete_user_api' functionality. Supported version is '2.3.7.6'.".format(
+            self.payload.get("dnac_version"))
+        return {"error_message": error_message}
 
     def verify_diff_merged(self, config):
         """
