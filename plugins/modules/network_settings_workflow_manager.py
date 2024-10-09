@@ -1508,7 +1508,7 @@ class NetworkSettings(DnacBase):
 
             if aaa_pan_value == "None":
                 network_settings.update({
-                    "clientAndEndpoint_aaa": {
+                    "client_and_endpoint_aaa": {
                         "network": aaa_value.get("ipAddress", ""),
                         "protocol": aaa_value.get("protocol", ""),
                         "servers": "AAA"
@@ -1516,12 +1516,12 @@ class NetworkSettings(DnacBase):
                 })
                 # Handle the second client AAA server client_and_endpoint_aaa2
                 if client_and_endpoint_aaa2 and client_and_endpoint_aaa2.get("value"):
-                    network_settings["clientAndEndpoint_aaa"].update({"ipAddress": client_and_endpoint_aaa2.get("value")[0].get("ipAddress", "")})
+                    network_settings["client_and_endpoint_aaa"].update({"ipAddress": client_and_endpoint_aaa2.get("value")[0].get("ipAddress", "")})
                 else:
-                    network_settings["clientAndEndpoint_aaa"].update({"ipAddress": ""})
+                    network_settings["client_and_endpoint_aaa"].update({"ipAddress": ""})
             else:
                 network_settings.update({
-                    "clientAndEndpoint_aaa": {
+                    "client_and_endpoint_aaa": {
                         "network": aaa_pan_value,
                         "protocol": aaa_value.get("protocol", ""),
                         "ipAddress": aaa_value.get("ipAddress", ""),
@@ -1530,7 +1530,7 @@ class NetworkSettings(DnacBase):
                 })
         else:
             network_settings.update({
-                "clientAndEndpoint_aaa": {
+                "client_and_endpoint_aaa": {
                     "network": "",
                     "protocol": "",
                     "ipAddress": "",
@@ -1593,7 +1593,7 @@ class NetworkSettings(DnacBase):
         network_details = {
             "settings": {
                 "network_aaa" : network_aaa,
-                "clientAndEndpoint_aaa": client_and_endpoint_aaa,
+                "client_and_endpoint_aaa": client_and_endpoint_aaa,
                 "wired_data_collection": wired_data_collection,
                 "wireless_telemetry": wireless_telemetry
             }
@@ -2380,7 +2380,7 @@ class NetworkSettings(DnacBase):
                     "timezone": "",
                     "messageOfTheday": {},
                     "network_aaa": {},
-                    "clientAndEndpoint_aaa": {}
+                    "client_and_endpoint_aaa": {}
                 }
             }
             want_network_settings = want_network.get("settings")
@@ -2573,7 +2573,7 @@ class NetworkSettings(DnacBase):
                 if client_and_endpoint_aaa:
                     server_type = client_and_endpoint_aaa.get("server_type")
                     if server_type:
-                        want_network_settings.get("clientAndEndpoint_aaa").update({
+                        want_network_settings.get("client_and_endpoint_aaa").update({
                             "servers": server_type
                         })
                     else:
@@ -2588,7 +2588,7 @@ class NetworkSettings(DnacBase):
 
                     primary_server_address = client_and_endpoint_aaa.get("primary_server_address")
                     if primary_server_address:
-                        want_network_settings.get("clientAndEndpoint_aaa").update({
+                        want_network_settings.get("client_and_endpoint_aaa").update({
                             "network": primary_server_address
                         })
                     else:
@@ -2599,7 +2599,7 @@ class NetworkSettings(DnacBase):
                     if server_type == "ISE":
                         pan_address = client_and_endpoint_aaa.get("pan_address")
                         if pan_address:
-                            want_network_settings.get("clientAndEndpoint_aaa").update({
+                            want_network_settings.get("client_and_endpoint_aaa").update({
                                 "ipAddress": pan_address
                             })
                         else:
@@ -2609,17 +2609,17 @@ class NetworkSettings(DnacBase):
                     else:
                         secondary_server_address = client_and_endpoint_aaa.get("secondary_server_address")
                         if secondary_server_address:
-                            want_network_settings.get("clientAndEndpoint_aaa").update({
+                            want_network_settings.get("client_and_endpoint_aaa").update({
                                 "ipAddress": secondary_server_address
                             })
 
                     protocol = client_and_endpoint_aaa.get("protocol")
                     if protocol:
-                        want_network_settings.get("clientAndEndpoint_aaa").update({
+                        want_network_settings.get("client_and_endpoint_aaa").update({
                             "protocol": protocol
                         })
                     else:
-                        want_network_settings.get("clientAndEndpoint_aaa").update({
+                        want_network_settings.get("client_and_endpoint_aaa").update({
                             "protocol": "RADIUS"
                         })
 
@@ -2637,14 +2637,14 @@ class NetworkSettings(DnacBase):
                             self.status = "failed"
                             return self
 
-                        want_network_settings.get("clientAndEndpoint_aaa").update({
+                        want_network_settings.get("client_and_endpoint_aaa").update({
                             "sharedSecret": shared_secret
                         })
                 else:
-                    del want_network_settings["clientAndEndpoint_aaa"]
+                    del want_network_settings["client_and_endpoint_aaa"]
 
                 network_aaa = want_network_settings.get("network_aaa")
-                client_and_endpoint_aaa = want_network_settings.get("clientAndEndpoint_aaa")
+                client_and_endpoint_aaa = want_network_settings.get("client_and_endpoint_aaa")
                 if network_aaa and client_and_endpoint_aaa and \
                         network_aaa.get("sharedSecret") and \
                         client_and_endpoint_aaa.get("sharedSecret") and \
@@ -2903,7 +2903,7 @@ class NetworkSettings(DnacBase):
                 if client_and_endpoint_aaa:
                     server_type = client_and_endpoint_aaa.get("server_type")
                     if server_type:
-                        want_network_settings.get("clientAndEndpoint_aaa").update({
+                        want_network_settings.get("client_and_endpoint_aaa").update({
                             "serverType": server_type
                         })
                     else:
@@ -2918,7 +2918,7 @@ class NetworkSettings(DnacBase):
 
                     primary_server_address = client_and_endpoint_aaa.get("primary_server_address")
                     if primary_server_address:
-                        want_network_settings.get("clientAndEndpoint_aaa").update({
+                        want_network_settings.get("client_and_endpoint_aaa").update({
                             "primaryServerIp": primary_server_address
                         })
                     else:
@@ -2929,7 +2929,7 @@ class NetworkSettings(DnacBase):
                     if server_type == "ISE":
                         pan_address = client_and_endpoint_aaa.get("pan_address")
                         if pan_address:
-                            want_network_settings.get("clientAndEndpoint_aaa").update({
+                            want_network_settings.get("client_and_endpoint_aaa").update({
                                 "pan": pan_address
                             })
                         else:
@@ -2939,17 +2939,17 @@ class NetworkSettings(DnacBase):
                     else:
                         secondary_server_address = client_and_endpoint_aaa.get("secondary_server_address")
                         if secondary_server_address:
-                            want_network_settings.get("clientAndEndpoint_aaa").update({
+                            want_network_settings.get("client_and_endpoint_aaa").update({
                                 "secondaryServerIp": secondary_server_address
                             })
 
                     protocol = client_and_endpoint_aaa.get("protocol")
                     if protocol:
-                        want_network_settings.get("clientAndEndpoint_aaa").update({
+                        want_network_settings.get("client_and_endpoint_aaa").update({
                             "protocol": protocol
                         })
                     else:
-                        want_network_settings.get("clientAndEndpoint_aaa").update({
+                        want_network_settings.get("client_and_endpoint_aaa").update({
                             "protocol": "RADIUS"
                         })
 
@@ -2967,14 +2967,14 @@ class NetworkSettings(DnacBase):
                             self.status = "failed"
                             return self
 
-                        want_network_settings.get("clientAndEndpoint_aaa").update({
+                        want_network_settings.get("client_and_endpoint_aaa").update({
                             "sharedSecret": shared_secret
                         })
                 else:
-                    del want_network_settings["clientAndEndpoint_aaa"]
+                    del want_network_settings["client_and_endpoint_aaa"]
 
                 network_aaa = want_network_settings.get("network_aaa")
-                client_and_endpoint_aaa = want_network_settings.get("clientAndEndpoint_aaa")
+                client_and_endpoint_aaa = want_network_settings.get("client_and_endpoint_aaa")
                 if network_aaa and client_and_endpoint_aaa and \
                         network_aaa.get("sharedSecret") and \
                         client_and_endpoint_aaa.get("sharedSecret") and \
@@ -3454,7 +3454,7 @@ class NetworkSettings(DnacBase):
 
         return response
 
-    def update_aaa_settings_for_site(self, site_name, site_id, network_aaa, clientAndEndpoint_aaa):
+    def update_aaa_settings_for_site(self, site_name, site_id, network_aaa, client_and_endpoint_aaa):
         """
         Update the AAA (Authentication, Authorization, and Accounting) settings for a specified site in Cisco Catalyst Center.
 
@@ -3463,19 +3463,19 @@ class NetworkSettings(DnacBase):
             site_name (str): The name of the site to update the AAA settings.
             site_id (str): The ID of the site to update the AAA settings.
             network_aaa (dict): The AAA network settings to be applied.
-            clientAndEndpoint_aaa (dict): The AAA client and endpoint settings to be applied.
+            client_and_endpoint_aaa (dict): The AAA client and endpoint settings to be applied.
 
         Returns:
             Response (dict): The response after updating the AAA settings.
         """
         self.log("Attempting to update AAA settings for site '{0}' (ID: {1})".format(site_name, site_id), "INFO")
-        self.log({"id": site_id, "aaaNetwork": network_aaa, "aaaClient": clientAndEndpoint_aaa}, "DEBUG")
-        if network_aaa and clientAndEndpoint_aaa:
-            param = {"id": site_id, "aaaNetwork": network_aaa, "aaaClient": clientAndEndpoint_aaa}
+        self.log({"id": site_id, "aaaNetwork": network_aaa, "aaaClient": client_and_endpoint_aaa}, "DEBUG")
+        if network_aaa and client_and_endpoint_aaa:
+            param = {"id": site_id, "aaaNetwork": network_aaa, "aaaClient": client_and_endpoint_aaa}
         elif network_aaa:
             param = {"id": site_id, "aaaNetwork": network_aaa}
         else:
-            param = {"id": site_id, "aaaClient": clientAndEndpoint_aaa}
+            param = {"id": site_id, "aaaClient": client_and_endpoint_aaa}
 
         try:
             response = self.dnac._exec(
@@ -3485,7 +3485,7 @@ class NetworkSettings(DnacBase):
                 params=param,
             )
             self.log("AAA settings updated for site '{0}' (ID: {1}): Network AAA: {2}, Client and Endpoint AAA: {3}"
-                     .format(site_name, site_id, network_aaa, clientAndEndpoint_aaa), "DEBUG")
+                     .format(site_name, site_id, network_aaa, client_and_endpoint_aaa), "DEBUG")
         except Exception as e:
             self.msg = (
                 "Exception occurred while updating AAA settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, str(e))
@@ -3515,7 +3515,7 @@ class NetworkSettings(DnacBase):
             have_network_details = self.have.get("network")[network_management_index].get("net_details")
             want_network_details = self.want.get("wantNetwork")[network_management_index]
             network_aaa = want_network_details.get("settings").get("network_aaa")
-            client_and_endpoint_aaa = want_network_details.get("settings").get("clientAndEndpoint_aaa")
+            client_and_endpoint_aaa = want_network_details.get("settings").get("client_and_endpoint_aaa")
 
             # Check update is required or not
             if not ((network_aaa and network_aaa.get("sharedSecret")) or
@@ -3539,6 +3539,9 @@ class NetworkSettings(DnacBase):
             net_params.update({"site_id": self.have.get("network")[network_management_index].get("site_id")})
             self.log("Network parameters for 'update_network_v2': {0}".format(net_params), "DEBUG")
             if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
+                if 'client_and_endpoint_aaa' in net_params['settings']:
+                    net_params['settings']['clientAndEndpoint_aaa'] = net_params['settings'].pop('client_and_endpoint_aaa')
+
                 try:
                     response = self.dnac._exec(
                         family="network_settings",
@@ -3615,10 +3618,10 @@ class NetworkSettings(DnacBase):
                     validation_string = "desired common settings operation successful"
                     self.check_task_response_status(response, validation_string, "set_telemetry_settings_for_a_site").check_return_status()
 
-                if net_params.get("settings").get("network_aaa") or net_params.get("settings").get("clientAndEndpoint_aaa"):
+                if net_params.get("settings").get("network_aaa") or net_params.get("settings").get("client_and_endpoint_aaa"):
                     network_aaa = net_params.get("settings").get("network_aaa")
-                    clientAndEndpoint_aaa = net_params.get("settings").get("clientAndEndpoint_aaa")
-                    response = self.update_aaa_settings_for_site(site_name, site_id, network_aaa, clientAndEndpoint_aaa)
+                    client_and_endpoint_aaa = net_params.get("settings").get("client_and_endpoint_aaa")
+                    response = self.update_aaa_settings_for_site(site_name, site_id, network_aaa, client_and_endpoint_aaa)
                     self.log("Received API response of 'set_a_a_a_settings_for_a_site': {0}".format(response), "DEBUG")
                     validation_string = "desired common settings operation successful"
                     self.check_task_response_status(response, validation_string, "set_a_a_a_settings_for_a_site").check_return_status()
