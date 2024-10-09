@@ -1990,6 +1990,14 @@ class DNACSDK(object):
                         self.logger.debug(bapi_error)
                         break
 
+        except exceptions.ApiError as e:
+            self.fail_json(
+                msg=(
+                    "An error occured when executing operation."
+                    " The error was: status_code: {error_status},  {error}"
+                ).format(error_status=to_native(e.response.status_code), error=to_native(e.response.text))
+            )
+
         except exceptions.dnacentersdkException as e:
             self.fail_json(
                 msg=(
