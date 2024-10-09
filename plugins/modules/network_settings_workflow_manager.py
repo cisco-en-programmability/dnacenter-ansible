@@ -3470,13 +3470,19 @@ class NetworkSettings(DnacBase):
         """
         self.log("Attempting to update AAA settings for site '{0}' (ID: {1})".format(site_name, site_id), "INFO")
         self.log({"id": site_id, "aaaNetwork": network_aaa, "aaaClient": clientAndEndpoint_aaa}, "DEBUG")
+        if network_aaa and clientAndEndpoint_aaa:
+            param = {"id": site_id, "aaaNetwork": network_aaa, "aaaClient": clientAndEndpoint_aaa}
+        elif network_aaa:
+            param = {"id": site_id, "aaaNetwork": network_aaa}
+        else:
+            param = {"id": site_id, "aaaClient": clientAndEndpoint_aaa}
 
         try:
             response = self.dnac._exec(
                 family="network_settings",
                 function='set_a_a_a_settings_for_a_site',
                 op_modifies=True,
-                params={"id": site_id, "aaaNetwork": network_aaa, "aaaClient": clientAndEndpoint_aaa},
+                params=param,
             )
             self.log("AAA settings updated for site '{0}' (ID: {1}): Network AAA: {2}, Client and Endpoint AAA: {3}"
                      .format(site_name, site_id, network_aaa, clientAndEndpoint_aaa), "DEBUG")
@@ -3609,17 +3615,13 @@ class NetworkSettings(DnacBase):
                     validation_string = "desired common settings operation successful"
                     self.check_task_response_status(response, validation_string, "set_telemetry_settings_for_a_site").check_return_status()
 
-                if net_params.get("settings").get("network_aaa") and net_params.get("settings").get("clientAndEndpoint_aaa"):
+                if net_params.get("settings").get("network_aaa") or net_params.get("settings").get("clientAndEndpoint_aaa"):
                     network_aaa = net_params.get("settings").get("network_aaa")
                     clientAndEndpoint_aaa = net_params.get("settings").get("clientAndEndpoint_aaa")
                     response = self.update_aaa_settings_for_site(site_name, site_id, network_aaa, clientAndEndpoint_aaa)
                     self.log("Received API response of 'set_a_a_a_settings_for_a_site': {0}".format(response), "DEBUG")
                     validation_string = "desired common settings operation successful"
                     self.check_task_response_status(response, validation_string, "set_a_a_a_settings_for_a_site").check_return_status()
-                elif net_params.get("settings").get("network_aaa") or net_params.get("settings").get("clientAndEndpoint_aaa"):
-                    self.msg = "The 'network_aaa' and 'clientAndEndpoint_aaa' both fields are required for AAA server updation."
-                    self.status = "failed"
-                    return self
 
             self.log("Network under the site '{0}' has been changed successfully".format(site_name), "INFO")
             result_network.get("msg") \
