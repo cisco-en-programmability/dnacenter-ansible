@@ -1224,24 +1224,7 @@ class DeviceCredential(DnacBase):
                     if not cliDetail:
                         self.msg = "CLI credential ID is invalid"
                         self.status = "failed"
-                        return self
-
-                cliOldDescription = cliCredential.get("old_description")
-                cliOldUsername = cliCredential.get("old_username")
-                if cliOldDescription and cliOldUsername and (not cliDetail):
-                    for item in cli_details:
-                        if item.get("description") == cliOldDescription \
-                                and item.get("username") == cliOldUsername:
-                            if cliDetail:
-                                self.msg = "There are multiple CLI credentials with the same old_description and old_username. " + \
-                                           "Kindly provide the ID for the global device credentials."
-                                self.status = "failed"
-                                return self
-                            cliDetail = item
-                    if not cliDetail:
-                        self.msg = "CLI credential old_description or old_username is invalid"
-                        self.status = "failed"
-                        return self
+                        return self.check_return_status()
 
                 cliDescription = cliCredential.get("description")
                 cliUsername = cliCredential.get("username")
@@ -1253,9 +1236,29 @@ class DeviceCredential(DnacBase):
                                 self.msg = "There are multiple CLI credentials with the same description and username. " + \
                                            "Kindly provide the ID for the global device credentials."
                                 self.status = "failed"
-                                return self
+                                return self.check_return_status()
                             cliDetail = item
+
+                if not cliDetail:
+                    cliOldDescription = cliCredential.get("old_description")
+                    cliOldUsername = cliCredential.get("old_username")
+                    if cliOldDescription and cliOldUsername and (not cliDetail):
+                        for item in cli_details:
+                            if item.get("description") == cliOldDescription \
+                                    and item.get("username") == cliOldUsername:
+                                if cliDetail:
+                                    self.msg = "There are multiple CLI credentials with the same old_description and old_username. " + \
+                                        "Kindly provide the ID for the global device credentials."
+                                    self.status = "failed"
+                                    return self.check_return_status()
+                                cliDetail = item
+                        if not cliDetail:
+                            self.msg = "CLI credential old_description or old_username is invalid"
+                            self.status = "failed"
+                            return self.check_return_status()
+
                 cliDetails.append(cliDetail)
+
         return cliDetails
 
     def get_snmpV2cRead_credentials(self, CredentialDetails, global_credentials):
@@ -1289,19 +1292,7 @@ class DeviceCredential(DnacBase):
                     if not snmpV2cReadDetail:
                         self.msg = "snmp_v2c_read credential ID is invalid"
                         self.status = "failed"
-                        return self
-
-                snmpV2cReadOldDescription = snmpV2cReadCredential.get("old_description")
-                if snmpV2cReadOldDescription and (not snmpV2cReadDetail):
-                    snmpV2cReadDetail = get_dict_result(
-                        snmpV2cRead_details,
-                        "description",
-                        snmpV2cReadOldDescription
-                    )
-                    if not snmpV2cReadDetail:
-                        self.msg = "snmp_v2c_read credential old_description is invalid"
-                        self.status = "failed"
-                        return self
+                        return self.check_return_status()
 
                 snmpV2cReadDescription = snmpV2cReadCredential.get("description")
                 if snmpV2cReadDescription and (not snmpV2cReadDetail):
@@ -1310,6 +1301,20 @@ class DeviceCredential(DnacBase):
                         "description",
                         snmpV2cReadDescription
                     )
+
+                if not snmpV2cReadDetail:
+                    snmpV2cReadOldDescription = snmpV2cReadCredential.get("old_description")
+                    if snmpV2cReadOldDescription and (not snmpV2cReadDetail):
+                        snmpV2cReadDetail = get_dict_result(
+                            snmpV2cRead_details,
+                            "description",
+                            snmpV2cReadOldDescription
+                        )
+                        if not snmpV2cReadDetail:
+                            self.msg = "snmp_v2c_read credential old_description is invalid"
+                            self.status = "failed"
+                            return self.check_return_status()
+
                 snmpV2cReadDetails.append(snmpV2cReadDetail)
         return snmpV2cReadDetails
 
@@ -1344,19 +1349,7 @@ class DeviceCredential(DnacBase):
                     if not snmpV2cWriteDetail:
                         self.msg = "snmp_v2c_write credential ID is invalid"
                         self.status = "failed"
-                        return self
-
-                snmpV2cWriteOldDescription = snmpV2cWriteCredential.get("old_description")
-                if snmpV2cWriteOldDescription and (not snmpV2cWriteDetail):
-                    snmpV2cWriteDetail = get_dict_result(
-                        snmpV2cWrite_details,
-                        "description",
-                        snmpV2cWriteOldDescription
-                    )
-                    if not snmpV2cWriteDetail:
-                        self.msg = "snmp_v2c_write credential old_description is invalid "
-                        self.status = "failed"
-                        return self
+                        return self.check_return_status()
 
                 snmpV2cWriteDescription = snmpV2cWriteCredential.get("description")
                 if snmpV2cWriteDescription and (not snmpV2cWriteDetail):
@@ -1365,6 +1358,20 @@ class DeviceCredential(DnacBase):
                         "description",
                         snmpV2cWriteDescription
                     )
+
+                if not snmpV2cWriteDetail:
+                    snmpV2cWriteOldDescription = snmpV2cWriteCredential.get("old_description")
+                    if snmpV2cWriteOldDescription and (not snmpV2cWriteDetail):
+                        snmpV2cWriteDetail = get_dict_result(
+                            snmpV2cWrite_details,
+                            "description",
+                            snmpV2cWriteOldDescription
+                        )
+                        if not snmpV2cWriteDetail:
+                            self.msg = "snmp_v2c_write credential old_description is invalid "
+                            self.status = "failed"
+                            return self.check_return_status()
+
                 snmpV2cWriteDetails.append(snmpV2cWriteDetail)
         return snmpV2cWriteDetails
 
@@ -1399,24 +1406,7 @@ class DeviceCredential(DnacBase):
                     if not httpsReadDetail:
                         self.msg = "https_read credential Id is invalid"
                         self.status = "failed"
-                        return self
-
-                httpsReadOldDescription = httpsReadCredential.get("old_description")
-                httpsReadOldUsername = httpsReadCredential.get("old_username")
-                if httpsReadOldDescription and httpsReadOldUsername and (not httpsReadDetail):
-                    for item in httpsRead_details:
-                        if item.get("description") == httpsReadOldDescription \
-                                and item.get("username") == httpsReadOldUsername:
-                            if httpsReadDetail:
-                                self.msg = "There are multiple https_read credentials with the same old_description and old_username. " + \
-                                           "Kindly provide the ID for the global device credentials."
-                                self.status = "failed"
-                                return self
-                            httpsReadDetail = item
-                    if not httpsReadDetail:
-                        self.msg = "https_read credential old_description or old_username is invalid"
-                        self.status = "failed"
-                        return self
+                        return self.check_return_status()
 
                 httpsReadDescription = httpsReadCredential.get("description")
                 httpsReadUsername = httpsReadCredential.get("username")
@@ -1428,8 +1418,27 @@ class DeviceCredential(DnacBase):
                                 self.msg = "There are multiple https_read credentials with the same description and username. " + \
                                            "Kindly provide the ID for the global device credentials."
                                 self.status = "failed"
-                                return self
+                                return self.check_return_status()
                             httpsReadDetail = item
+
+                if not httpsReadDetail:
+                    httpsReadOldDescription = httpsReadCredential.get("old_description")
+                    httpsReadOldUsername = httpsReadCredential.get("old_username")
+                    if httpsReadOldDescription and httpsReadOldUsername and (not httpsReadDetail):
+                        for item in httpsRead_details:
+                            if item.get("description") == httpsReadOldDescription \
+                                    and item.get("username") == httpsReadOldUsername:
+                                if httpsReadDetail:
+                                    self.msg = "There are multiple https_read credentials with the same old_description and old_username. " + \
+                                        "Kindly provide the ID for the global device credentials."
+                                    self.status = "failed"
+                                    return self.check_return_status()
+                                httpsReadDetail = item
+                        if not httpsReadDetail:
+                            self.msg = "https_read credential old_description or old_username is invalid"
+                            self.status = "failed"
+                            return self.check_return_status()
+
                 httpsReadDetails.append(httpsReadDetail)
         return httpsReadDetails
 
@@ -1464,25 +1473,7 @@ class DeviceCredential(DnacBase):
                     if not httpsWriteDetail:
                         self.msg = "https_write credential Id is invalid"
                         self.status = "failed"
-                        return self
-
-                httpsWriteOldDescription = httpsWriteCredential.get("old_description")
-                httpsWriteOldUsername = httpsWriteCredential.get("old_username")
-                if httpsWriteOldDescription and httpsWriteOldUsername and (not httpsWriteDetail):
-                    for item in httpsWrite_details:
-                        if item.get("description") == httpsWriteOldDescription \
-                                and item.get("username") == httpsWriteOldUsername:
-                            if httpsWriteDetail:
-                                self.msg = "There are multiple https_write credentials with the same old_description and old_username. " + \
-                                           "Kindly provide the ID for the global device credentials."
-                                self.status = "failed"
-                                return self
-                            httpsWriteDetail = item
-                    if not httpsWriteDetail:
-                        self.msg = "https_write credential old_description or " + \
-                                   "old_username is invalid"
-                        self.status = "failed"
-                        return self
+                        return self.check_return_status()
 
                 httpsWriteDescription = httpsWriteCredential.get("description")
                 httpsWriteUsername = httpsWriteCredential.get("username")
@@ -1494,8 +1485,28 @@ class DeviceCredential(DnacBase):
                                 self.msg = "There are multiple https_write credentials with the same description and username. " + \
                                            "Kindly provide the ID for the global device credentials."
                                 self.status = "failed"
-                                return self
+                                return self.check_return_status()
                             httpsWriteDetail = item
+
+                if not httpsWriteDetail:
+                    httpsWriteOldDescription = httpsWriteCredential.get("old_description")
+                    httpsWriteOldUsername = httpsWriteCredential.get("old_username")
+                    if httpsWriteOldDescription and httpsWriteOldUsername and (not httpsWriteDetail):
+                        for item in httpsWrite_details:
+                            if item.get("description") == httpsWriteOldDescription \
+                                    and item.get("username") == httpsWriteOldUsername:
+                                if httpsWriteDetail:
+                                    self.msg = "There are multiple https_write credentials with the same old_description and old_username. " + \
+                                        "Kindly provide the ID for the global device credentials."
+                                    self.status = "failed"
+                                    return self.check_return_status()
+                                httpsWriteDetail = item
+                        if not httpsWriteDetail:
+                            self.msg = "https_write credential old_description or " + \
+                                "old_username is invalid"
+                            self.status = "failed"
+                            return self.check_return_status()
+
                 httpsWriteDetails.append(httpsWriteDetail)
         return httpsWriteDetails
 
@@ -1530,20 +1541,21 @@ class DeviceCredential(DnacBase):
                     if not snmpV3Detail:
                         self.msg = "snmp_v3 credential id is invalid"
                         self.status = "failed"
-                        return self
-
-                snmpV3OldDescription = snmpV3Credential.get("old_description")
-                if snmpV3OldDescription and (not snmpV3Detail):
-                    snmpV3Detail = get_dict_result(snmpV3_details,
-                                                   "description", snmpV3OldDescription)
-                    if not snmpV3Detail:
-                        self.msg = "snmp_v3 credential old_description is invalid"
-                        self.status = "failed"
-                        return self
+                        return self.check_return_status()
 
                 snmpV3Description = snmpV3Credential.get("description")
                 if snmpV3Description and (not snmpV3Detail):
                     snmpV3Detail = get_dict_result(snmpV3_details, "description", snmpV3Description)
+
+                if not snmpV3Detail:
+                    snmpV3OldDescription = snmpV3Credential.get("old_description")
+                    if snmpV3OldDescription and (not snmpV3Detail):
+                        snmpV3Detail = get_dict_result(snmpV3_details, "description", snmpV3OldDescription)
+                        if not snmpV3Detail:
+                            self.msg = "snmp_v3 credential old_description is invalid"
+                            self.status = "failed"
+                            return self.check_return_status()
+
                 snmpV3Details.append(snmpV3Detail)
         return snmpV3Details
 
