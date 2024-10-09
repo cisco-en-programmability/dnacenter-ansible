@@ -11,7 +11,7 @@ __author__ = ("Abhishek Maheshwari, Madhan Sankaranarayanan")
 
 DOCUMENTATION = r"""
 ---
-module: fabric_virtual_networks_workflow_manager
+module: sda_fabric_virtual_networks_workflow_manager
 short_description: Configure fabric VLANs, Virtual Networks, and Anycast Gateways in Cisco Catalyst Center.
 description:
 - Create, update, or delete layer2 Fabric VLAN(s) for SDA operations in Cisco Catalyst Center.
@@ -266,7 +266,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Create Layer2 Fabric VLAN for SDA for sda in Cisco Catalyst Center.
-  cisco.dnac.fabric_virtual_networks_workflow_manager:
+  cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -297,7 +297,7 @@ EXAMPLES = r"""
           fabric_enabled_wireless: false
 
 - name: Update Layer 2 Fabric VLAN for SDA in Cisco Catalyst Center.
-  cisco.dnac.fabric_virtual_networks_workflow_manager:
+  cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -321,7 +321,7 @@ EXAMPLES = r"""
           fabric_enabled_wireless: true
 
 - name: Deleting Layer 2 Fabric VLAN from the Cisco Catalyst Center.
-  cisco.dnac.fabric_virtual_networks_workflow_manager:
+  cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -341,7 +341,7 @@ EXAMPLES = r"""
           vlan_id: 1333
 
 - name: Create layer3 Virtual Network and anchored the site to the VN as well.
-  cisco.dnac.fabric_virtual_networks_workflow_manager:
+  cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -361,7 +361,7 @@ EXAMPLES = r"""
           anchored_site_name: "Global/India"
 
 - name: Create layer3 Virtual Network and extend it to multiple fabric sites.
-  cisco.dnac.fabric_virtual_networks_workflow_manager:
+  cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -382,7 +382,7 @@ EXAMPLES = r"""
               fabric_type: "fabric_site"
 
 - name: Update layer3 Virtual Network in the Cisco Catalyst Center.
-  cisco.dnac.fabric_virtual_networks_workflow_manager:
+  cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -405,7 +405,7 @@ EXAMPLES = r"""
               fabric_type: "fabric_site"
 
 - name: Deleting layer3 Virtual Network from the Cisco Catalyst Center.
-  cisco.dnac.fabric_virtual_networks_workflow_manager:
+  cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -421,7 +421,7 @@ EXAMPLES = r"""
           - vn_name: "vlan_test1"
 
 - name: Create the Anycast gateway(s) for SDA in Catalsyt Center.
-  cisco.dnac.fabric_virtual_networks_workflow_manager:
+  cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -445,7 +445,7 @@ EXAMPLES = r"""
           auto_generate_vlan_name: true
 
 - name: Update the Anycast gateway(s) for SDA in Catalsyt Center.
-  cisco.dnac.fabric_virtual_networks_workflow_manager:
+  cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -470,7 +470,7 @@ EXAMPLES = r"""
           multiple_ip_to_mac_addresses: false
 
 - name: Deleting Anycast Gateway from the Cisco Catalyst Center.
-  cisco.dnac.fabric_virtual_networks_workflow_manager:
+  cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
