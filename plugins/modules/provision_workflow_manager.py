@@ -74,29 +74,6 @@ options:
             type: list
             elements: str
         dynamic_interfaces:
-            description: Interface details of the controller
-            type: list
-            elements: dict
-            suboptions:
-                interface_ip_address:
-                    description: Ip Address allocated to the interface
-                    type: str
-                interface_netmask_in_c_i_d_r:
-                    description: Ip Address allocated to the interface
-                    type: int
-                interface_gateway:
-                    description: Ip Address allocated to the interface
-                    type: str
-                lag_or_port_number:
-                    description: Ip Address allocated to the interface
-                    type: int
-                vlan_id:
-                    description: Ip Address allocated to the interface
-                    type: int
-                interface_name:
-                    description: Ip Address allocated to the interface
-                    type: str
-        interfaces:
             description: Interface details of the wireless controller
             type: list
             elements: dict
@@ -201,7 +178,7 @@ EXAMPLES = r"""
             - Global/USA/San Francisco/BGL_18/Test_Floor2
           secondary_managed_ap_locations:
             -Global/USA/San Francisco/BGL_18/Test_Floor1
-          interfaces:
+          dynamic_interfaces:
             - interface_name: Vlan1866
               vlan_id: 1866
               interface_ip_address: 204.192.6.200
@@ -384,8 +361,6 @@ class Provision(DnacBase):
             "secondary_managed_ap_locations": {'type': 'list', 'required': False,
                                                'elements': 'str'},
             "dynamic_interfaces": {'type': 'list', 'required': False,
-                                   'elements': 'dict'},
-            "interfaces": {'type': 'list', 'required': False,
                                    'elements': 'dict'},
             "skip_ap_provision": {'type': 'bool', 'required': False, "default": True},
             "rolling_ap_upgrade": {'type': 'dict', 'required': False},
@@ -779,7 +754,7 @@ class Provision(DnacBase):
                     self.module.fail_json(msg="Managed AP Location must be a floor", response=[])
 
         if self.get_ccc_version_as_integer() >= self.get_ccc_version_as_int_from_str("2.3.7.6"):
-            interfaces = self.validated_config.get("interfaces", [])
+            interfaces = self.validated_config.get("dynamic_interfaces", [])
             has_interface_name = False
             has_vlan_id = False
 
@@ -817,18 +792,6 @@ class Provision(DnacBase):
                 }
                 wireless_params[0]["dynamicInterfaces"].append(interface_dict)
 
-        wireless_params[0]["interfaces"] = []
-        if self.validated_config.get("interfaces"):
-            for interface in self.validated_config.get("interfaces"):
-                interface_dict = {
-                    "interfaceName": interface.get("interface_name"),
-                    "vlanId": interface.get("vlan_id"),
-                    "interfaceIPAddress": interface.get("interface_ip_address"),
-                    "interfaceNetmaskInCIDR": interface.get("interface_netmask_in_c_i_d_r"),
-                    "interfaceGateway": interface.get("interface_gateway"),
-                    "lagOrPortNumber": interface.get("lag_or_port_number"),
-                }
-                wireless_params[0]["interfaces"].append(interface_dict)
         wireless_params[0]["skip_ap_provision"] = self.validated_config.get("skip_ap_provision")
         wireless_params[0]["primaryManagedAPLocationsSiteIds"] = self.validated_config.get("primary_managed_ap_Locations")
         wireless_params[0]["secondaryManagedAPLocationsSiteIds"] = self.validated_config.get("secondary_managed_ap_locations")
@@ -1332,8 +1295,8 @@ class Provision(DnacBase):
             }
 
             self.log("Process interfaces if they exist", "INFO")
-            if 'interfaces' in prov_params:
-                for interface in prov_params['interfaces']:
+            if 'dynamic_interfaces' in prov_params:
+                for interface in prov_params['dynamic_interfaces']:
                     cleaned_interface = {}
                     for k, v in interface.items():
                         if v is not None:
