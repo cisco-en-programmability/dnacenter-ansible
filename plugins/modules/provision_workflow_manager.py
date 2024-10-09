@@ -406,7 +406,6 @@ class Provision(DnacBase):
                 self.status = "failed"
                 return self
 
-        # Validate provision params
         valid_provision, invalid_params = validate_list_of_dicts(
             self.config, provision_spec
         )
@@ -1076,7 +1075,7 @@ class Provision(DnacBase):
             self.reprovision_wired_device(reprovision_param)
             return self
 
-        # Provision if status is not success
+        self.log("Provision if status is not success", "INFO")
         if not to_provisioning:
             self.assign_device_to_site([device_id], self.site_name, site_id)
         else:
@@ -1332,7 +1331,7 @@ class Provision(DnacBase):
                 'interfaces': []
             }
 
-            # Process interfaces if they exist
+            self.log("Process interfaces if they exist", "INFO")
             if 'interfaces' in prov_params:
                 for interface in prov_params['interfaces']:
                     cleaned_interface = {}
@@ -1341,10 +1340,10 @@ class Provision(DnacBase):
                             cleaned_interface[k] = v
                     payload['interfaces'].append(cleaned_interface)
 
-            # Add skipApProvision
+            self.log("Process skipApProvision if they exist", "INFO")
             payload['skipApProvision'] = prov_params.get('skip_ap_provision')
 
-            # Add rollingApUpgrade if it exists
+            self.log("Process rollingApUpgrade if they exist", "INFO")
             if 'rolling_ap_upgrade' in prov_params:
                 rolling_ap_upgrade = {}
                 for k, v in prov_params['rolling_ap_upgrade'].items():
@@ -1457,9 +1456,8 @@ class Provision(DnacBase):
             logs the states, and validates whether the specified device(s) exists in the DNA
             Center configuration's Inventory Database in the provisioned state.
         """
-
+        self.log("validate Cisco Catalyst Center config for merged state", "INFO")
         self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
-        # Code to validate Cisco Catalyst Center config for merged state
 
         device_type = self.want.get("device_type")
         provisioning = self.validated_config.get("provisioning")
@@ -1513,9 +1511,8 @@ class Provision(DnacBase):
             It validates whether the specified discovery(s) exists in the Cisco Catalyst Center configuration's
             Inventory Database in the provisioned state.
         """
-
+        self.log("validate Cisco Catalyst Center config for deleted state", "INFO")
         self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
-        # Code to validate Cisco Catalyst Center config for merged state
 
         device_type = self.want.get("device_type")
         if device_type == "wired":
