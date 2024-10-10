@@ -1993,9 +1993,11 @@ class DNACSDK(object):
         except exceptions.ApiError as e:
             self.fail_json(
                 msg=(
-                    "An error occured when executing operation."
+                    "An error occured when executing operation for the family '{family}' "
+                    "having the function '{function}'."
                     " The error was: status_code: {error_status},  {error}"
-                ).format(error_status=to_native(e.response.status_code), error=to_native(e.response.text))
+                ).format(error_status=to_native(e.response.status_code), error=to_native(e.response.text),
+                         family=family_name, function=function_name)
             )
 
         except exceptions.dnacentersdkException as e:
