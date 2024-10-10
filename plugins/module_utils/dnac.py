@@ -77,7 +77,25 @@ class DnacBase():
         self.max_timeout = self.params.get('dnac_api_task_timeout')
 
         self.payload = module.params
-        self.dnac_version = self.payload.get("dnac_version")
+        self.dnac_version = int(self.payload.get("dnac_version").replace(".", ""))
+        self.dnac_version_in_integer = int(self.payload.get("dnac_version").replace(".", ""))
+        self.dnac_version_in_string = self.payload.get("dnac_version")
+        # Dictionary to store multiple versions for easy maintenance and scalability
+        # To add a new version, simply update the 'dnac_versions' dictionary with the new version string as the key
+        # and the corresponding version number as the value.
+        self.dnac_versions = {
+            "2.2.2.3": 2223,
+            "2.2.3.3": 2233,
+            "2.3.3.0": 2330,
+            "2.3.5.3": 2353,
+            "2.3.7.6": 2376,
+            "2.3.7.9": 2379,
+            # Add new versions here, e.g., "2.4.0.0": 2400
+        }
+
+        # Dynamically create variables based on dictionary keys
+        for version_key, version_value in self.dnac_versions.items():
+            setattr(self, "version_" + version_key.replace(".", "_"), version_value)
 
         if self.dnac_log and not DnacBase.__is_log_init:
             self.dnac_log_level = dnac_params.get("dnac_log_level") or 'WARNING'
@@ -128,7 +146,16 @@ class DnacBase():
         return 0
 
     def get_ccc_version(self):
-        return self.dnac_version
+        return self.payload.get("dnac_version")
+
+    def get_ccc_version_as_string(self):
+        return self.dnac_version_in_string
+
+    def get_ccc_version_as_integer(self):
+        return self.dnac_version_in_integer
+
+    def get_ccc_version_as_int_from_str(self, dnac_version):
+        return self.dnac_versions.get(dnac_version)
 
     @abstractmethod
     def validate_input(self):
