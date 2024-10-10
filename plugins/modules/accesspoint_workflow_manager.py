@@ -1708,12 +1708,13 @@ class Accesspoint(DnacBase):
         check_duplicate_controller = []
         for ctrl_name in ["primary_controller_name", "secondary_controller_name", "tertiary_controller_name"]:
             controller = ap_config.get(ctrl_name)
-            if controller == "":
-                errormsg.append("{0}: Invalid {1} in playbook. Please select one of: Inherit from site / Clear or Controller name."
-                                .format(ctrl_name, controller))
-            elif controller != "Inherit from site / Clear" and controller in check_duplicate_controller:
-                errormsg.append("{0}: Duplicate {1} in playbook.".format(ctrl_name, controller))
-            check_duplicate_controller.append(controller)
+            if controller is not None:
+                if controller == "":
+                    errormsg.append("{0}: Invalid {1} in playbook. Please select one of: Inherit from site / Clear or Controller name."
+                                    .format(ctrl_name, controller))
+                elif controller != "Inherit from site / Clear" and controller in check_duplicate_controller:
+                    errormsg.append("{0}: Duplicate {1} in playbook.".format(ctrl_name, controller))
+                check_duplicate_controller.append(controller)
 
         # Validate controller IP Addresses
         check_duplicate_ip = []
