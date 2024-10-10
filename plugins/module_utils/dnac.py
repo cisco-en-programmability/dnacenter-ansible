@@ -2011,12 +2011,23 @@ class DNACSDK(object):
                         self.logger.debug(bapi_error)
                         break
 
+        except exceptions.ApiError as e:
+            self.fail_json(
+                msg=(
+                    "An error occured when executing operation for the family '{family}' "
+                    "having the function '{function}'."
+                    " The error was: status_code: {error_status},  {error}"
+                ).format(error_status=to_native(e.response.status_code), error=to_native(e.response.text),
+                         family=family_name, function=function_name)
+            )
+
         except exceptions.dnacentersdkException as e:
             self.fail_json(
                 msg=(
-                    "An error occured when executing operation."
+                    "An error occured when executing operation for the family '{family}' "
+                    "having the function '{function}'."
                     " The error was: {error}"
-                ).format(error=to_native(e))
+                ).format(error=to_native(e), family=family_name, function=function_name)
             )
         return response
 
