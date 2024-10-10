@@ -429,8 +429,7 @@ class Provision(DnacBase):
             dev_response = self.dnac_apply['exec'](
                 family="devices",
                 function='get_network_device_by_ip',
-                params={"ip_address": self.validated_config["management_ip_address"]},
-                op_modifies=True
+                params={"ip_address": self.validated_config["management_ip_address"]}
             )
         except Exception as e:
             self.log(str(e), "ERROR")
@@ -466,8 +465,7 @@ class Provision(DnacBase):
         dev_response = self.dnac_apply['exec'](
             family="devices",
             function='get_network_device_by_ip',
-            params={"ip_address": self.validated_config["management_ip_address"]},
-            op_modifies=True
+            params={"ip_address": self.validated_config["management_ip_address"]}
         )
 
         self.log("The device response from 'get_network_device_by_ip' API is {0}".format(str(dev_response)), "DEBUG")
@@ -495,8 +493,7 @@ class Provision(DnacBase):
             response = self.dnac_apply['exec'](
                 family="devices",
                 function='get_network_device_by_ip',
-                params={"ip_address": self.validated_config["management_ip_address"]},
-                op_modifies=True
+                params={"ip_address": self.validated_config["management_ip_address"]}
             )
 
         except Exception as e:
@@ -541,8 +538,7 @@ class Provision(DnacBase):
             response = self.dnac_apply['exec'](
                 family="task",
                 function='get_task_by_id',
-                params=params,
-                op_modifies=True
+                params=params
             )
             self.log("Response collected from 'get_task_by_id' API is {0}".format(str(response)), "DEBUG")
             response = response.response
@@ -589,8 +585,7 @@ class Provision(DnacBase):
             response = self.dnac_apply['exec'](
                 family="task",
                 function="get_business_api_execution_details",
-                params=params,
-                op_modifies=True
+                params=params
             )
             self.log("Response collected from 'get_business_api_execution_details' API is {0}".format(str(response)), "DEBUG")
             self.log("Execution status for the execution id {0} is {1}".format(str(execution_id), str(response.get("status"))), "INFO")
@@ -632,8 +627,7 @@ class Provision(DnacBase):
             response = self.dnac_apply['exec'](
                 family="sites",
                 function='get_site',
-                params={"name": site_name_hierarchy},
-                op_modifies=True
+                params={"name": site_name_hierarchy}
             )
         except Exception:
             self.log("Exception occurred as \
@@ -671,8 +665,7 @@ class Provision(DnacBase):
                 family="devices",
                 function='get_device_detail',
                 params={"search_by": uuid ,
-                        "identifier": "uuid"},
-                op_modifies=True
+                        "identifier": "uuid"}
             )
             self.log("Response collected from the API 'get_device_detail' {0}".format(site_response))
             site_response = site_response.get("response")
@@ -816,8 +809,7 @@ class Provision(DnacBase):
         response = self.dnac_apply['exec'](
             family="devices",
             function='get_network_device_by_ip',
-            params={"ip_address": self.validated_config["management_ip_address"]},
-            op_modifies=True
+            params={"ip_address": self.validated_config["management_ip_address"]}
         )
 
         self.log("Response collected from 'get_network_device_by_ip' is:{0}".format(str(response)), "DEBUG")
@@ -959,7 +951,6 @@ class Provision(DnacBase):
                 status_response = self.dnac_apply['exec'](
                     family="sda",
                     function="get_provisioned_wired_device",
-                    op_modifies=True,
                     params={
                         "device_management_ip_address": self.validated_config.get("management_ip_address")
                     },
@@ -1451,7 +1442,6 @@ class Provision(DnacBase):
                 status_response = self.dnac_apply['exec'](
                     family="sda",
                     function="get_provisioned_wired_device",
-                    op_modifies=True,
                     params={
                         "device_management_ip_address": self.validated_config["management_ip_address"]
                     },
@@ -1496,7 +1486,6 @@ class Provision(DnacBase):
                 status_response = self.dnac_apply['exec'](
                     family="sda",
                     function="get_provisioned_wired_device",
-                    op_modifies=True,
                     params={
                         "device_management_ip_address": self.validated_config["management_ip_address"]
                     },
