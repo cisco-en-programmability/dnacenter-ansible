@@ -74,7 +74,9 @@ options:
             type: list
             elements: str
         dynamic_interfaces:
-            description: Interface details of the wireless controller
+            description:
+              - A list of dynamic interfaces on the wireless controller.
+              - Each entry represents an interface with associated configuration details.
             type: list
             elements: dict
             suboptions:
@@ -87,28 +89,39 @@ options:
                 interface_ip_address:
                     description: The IP address assigned to the interface.
                     type: str
+                interface_netmask_in_c_i_d_r:
+                    description: The netmask of the interface in CIDR format (e.g., 24 for 255.255.255.0).
+                    type: str
                 interface_gateway:
                     description: The gateway IP address for the interface.
                     type: str
                 lag_or_port_number:
                     description: The port number or LAG (Link Aggregation Group) identifier.
                     type: str
-                interface_netmask_in_c_i_d_r:
-                    description: The netmask of the interface in CIDR format
-                    type: str
         skip_ap_provision:
-            description: Skip AP provisioning
+            description:
+              - If set to 'true', Access Point (AP) provisioning will be skipped during the workflow.
+              - Use this option when AP provisioning is not required as part of the current operation.
             type: bool
+            default: false
         rolling_ap_upgrade:
-            description: Interface details of the controller
+            description:
+              - Configuration options for performing a rolling upgrade of Access Points (APs) in phases.
+              - Allows control over the gradual rebooting of APs during the upgrade process.
             type: dict
             suboptions:
                 enable_rolling_ap_upgrade:
-                    description: Enable or disable rolling AP
+                    description:
+                      - Enable or disable the rolling AP upgrade feature.
+                      - If set to 'true', APs will be upgraded in batches based on the specified reboot percentage.
                     type: bool
+                    default: false
                 ap_reboot_percentage:
-                    description: The percentage of Access Points to reboot at a time during an upgrade.
+                    description:
+                      - The percentage of APs to reboot simultaneously during an upgrade.
+                      - Must be an integer value, typically between 1 and 100, indicating the proportion of APs to upgrade at a time.
                     type: int
+                    default: 20
 
 requirements:
 - dnacentersdk == 2.4.5
@@ -742,7 +755,7 @@ class Provision(DnacBase):
                 "managedAPLocations": self.validated_config.get("managed_ap_locations"),
             }
         ]
-        if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
+        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
             if not (wireless_params[0].get("managedAPLocations") and isinstance(wireless_params[0].get("managedAPLocations"), list)):
                 msg = "Missing Managed AP Locations: Please specify the intended location(s) for the wireless device \
                     within the site hierarchy."
@@ -753,7 +766,7 @@ class Provision(DnacBase):
                     self.log("Managed AP Location must be a floor", "CRITICAL")
                     self.module.fail_json(msg="Managed AP Location must be a floor", response=[])
 
-        if self.get_ccc_version_as_integer() >= self.get_ccc_version_as_int_from_str("2.3.7.6"):
+        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
             interfaces = self.validated_config.get("dynamic_interfaces", [])
             has_interface_name = False
             has_vlan_id = False
@@ -921,7 +934,7 @@ class Provision(DnacBase):
 
         return self
 
-    def get_provisioned_device(self, device_id):
+    def get_device_provision_status(self, device_id):
         """
         Retrieves the provisioning status and provision ID of a device based on its device ID.
 
@@ -941,7 +954,7 @@ class Provision(DnacBase):
         provision_id = None
         status = "failed"
 
-        if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
+        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
             try:
                 status_response = self.dnac_apply['exec'](
                     family="sda",
@@ -1012,7 +1025,7 @@ class Provision(DnacBase):
             In case of errors, it logs them and sets the status to 'failed'.
         """
         device_id = self.get_device_id()
-        provision_id , status = self.get_provisioned_device(device_id)
+        provision_id , status = self.get_device_provision_status(device_id)
         site_exist, site_id = self.get_site_id(self.site_name)
         reprovision_param = [{"id": provision_id, "siteId": site_id, "networkDeviceId": device_id}]
         provision_params = [{"siteId": site_id, "networkDeviceId": device_id}]
@@ -1042,7 +1055,7 @@ class Provision(DnacBase):
         if not to_provisioning:
             self.assign_device_to_site([device_id], self.site_name, site_id)
         else:
-            if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
+            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
                 self.initialize_wired_provisioning(provision_params)
             else:
                 is_device_assigned = self.is_device_assigned_to_site(device_id)
@@ -1072,7 +1085,7 @@ class Provision(DnacBase):
             with the reprovisioning status, task ID, and other relevant details. If an error occurs during
             the reprovisioning process, it logs the error and adjusts the status accordingly.
         """
-        if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
+        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
             try:
                 response = self.dnac_apply['exec'](
                     family="sda",
@@ -1147,7 +1160,7 @@ class Provision(DnacBase):
             provisioning, it logs the error and updates the status accordingly.
         """
 
-        if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
+        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
             try:
                 response = self.dnac_apply['exec'](
                     family="sda",
@@ -1234,7 +1247,7 @@ class Provision(DnacBase):
                 site_exist, secondary_ap_location_site_id = self.get_site_id(secondary_sites)
                 secondary_ap_location_site_id_list.append(secondary_ap_location_site_id)
 
-        if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
+        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
             try:
                 response = self.dnac_apply['exec'](
                     family="wireless",
@@ -1360,7 +1373,7 @@ class Provision(DnacBase):
             self.log(self.result['msg'], "CRITICAL")
             return self
         device_id = self.get_device_id()
-        provision_id , status = self.get_provisioned_device(device_id)
+        provision_id , status = self.get_device_provision_status(device_id)
 
         if status != "success":
             self.result['msg'] = "Device associated with the passed IP address is not provisioned"
@@ -1368,7 +1381,7 @@ class Provision(DnacBase):
             self.result['response'] = self.want["prov_params"]
             return self
 
-        if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
+        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
             response = self.dnac_apply['exec'](
                 family="sda",
                 function="delete_provisioned_wired_device",
