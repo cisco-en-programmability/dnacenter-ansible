@@ -110,20 +110,20 @@ class DnacBase():
         # Split version strings into parts and convert to integers
         v1_parts = list(map(int, version1.split('.')))
         v2_parts = list(map(int, version2.split('.')))
-        
+
         # Compare each part of the version numbers
         for v1, v2 in zip(v1_parts, v2_parts):
             if v1 > v2:
                 return 1
             elif v1 < v2:
                 return -1
-        
+
         # If versions are of unequal lengths, check remaining parts
         if len(v1_parts) > len(v2_parts):
             return 1 if any(part > 0 for part in v1_parts[len(v2_parts):]) else 0
         elif len(v2_parts) > len(v1_parts):
             return -1 if any(part > 0 for part in v2_parts[len(v1_parts):]) else 0
-        
+
         # Versions are equal
         return 0
 
