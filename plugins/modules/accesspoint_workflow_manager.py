@@ -1661,6 +1661,8 @@ class Accesspoint(DnacBase):
         if ap_name:
             param_spec = dict(type="str", length_max=32)
             validate_str(ap_name, param_spec, "ap_name", errormsg)
+            if re.search(r'[ ?<]', ap_name):
+                errormsg.append("ap_name: Invalid '{0}' in playbook. Space, '?', '<' and XSS characters are not allowed".format(ap_name))
 
         admin_status = ap_config.get("admin_status")
         if admin_status and admin_status not in ("Enabled", "Disabled"):
@@ -1703,19 +1705,27 @@ class Accesspoint(DnacBase):
                                 .format(freq_band, ap_config_freq_band))
 
         # Validate Controller Names
+        check_duplicate_controller = []
         for ctrl_name in ["primary_controller_name", "secondary_controller_name", "tertiary_controller_name"]:
             controller = ap_config.get(ctrl_name)
             if controller == "":
-                errormsg.append("{0}: Invalid {0} in playbook. Please select one of: Inherit from site / Clear or Controller name."
-                                .format(ap_config.get(ctrl_name)))
+                errormsg.append("{0}: Invalid {1} in playbook. Please select one of: Inherit from site / Clear or Controller name."
+                                .format(ctrl_name, controller))
+            elif controller != "Inherit from site / Clear" and controller in check_duplicate_controller:
+                errormsg.append("{0}: Duplicate {1} in playbook.".format(ctrl_name, controller))
+            check_duplicate_controller.append(controller)
 
         # Validate controller IP Addresses
+        check_duplicate_ip = []
         for ip_address in ["primary_ip_address", "secondary_ip_address", "tertiary_ip_address"]:
             ap_config_ip_address = ap_config.get(ip_address)
             address = ap_config_ip_address.get("address") if ap_config_ip_address else None
-            if address and (not self.is_valid_ipv4(address) and not self.is_valid_ipv6(address)):
-                errormsg.append("{0}: Invalid {0} '{1}' in playbook".format(ip_address,
-                                                                            ap_config_ip_address))
+            if address:
+                if not self.is_valid_ipv4(address) and not self.is_valid_ipv6(address):
+                    errormsg.append("{0}: Invalid IP address '{1}' in playbook".format(ip_address, address))
+                elif address != "0.0.0.0" and address in check_duplicate_ip:
+                    errormsg.append("{0}: Duplicate IP address '{1}' in playbook".format(ip_address, address))
+                check_duplicate_ip.append(address)
 
         # Validate Dual Radio Mode
         dual_radio_mode = ap_config.get("dual_radio_mode")
