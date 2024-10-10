@@ -1003,21 +1003,11 @@ class DnacBase():
         Returns:
             bool: True if the IPv6 address is valid, otherwise False
         """
-        pattern = re.compile(r"""
-            ^(([0-9a-fA-F]{1,4}:){7}([0-9a-fA-F]{1,4}|:))|
-            (([0-9a-fA-F]{1,4}:){1,7}:)|
-            (([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4})|
-            (([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2})|
-            (([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3})|
-            (([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4})|
-            (([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5})|
-            (([0-9a-fA-F]{1,4}:){1}(:[0-9a-fA-F]{1,4}){1,6})|
-            (:((:[0-9a-fA-F]{1,4}){1,7}|:))|
-            (fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,})|
-            (::(ffff(:0{1,4}){0,1}:){0,1}(([0-9]{1,3}\.){3}[0-9]{1,3}))|
-            (([0-9a-fA-F]{1,4}:){1,4}:(([0-9]{1,3}\.){3}[0-9]{1,3}))$
-            """, re.VERBOSE | re.IGNORECASE)
-        return pattern.match(ip_address) is not None
+        try:
+            ip = ipaddress.IPv6Address(ip_address)
+            return True
+        except ipaddress.AddressValueError:
+            return False
 
     def map_config_key_to_api_param(self, keymap=None, data=None):
         """
@@ -1990,12 +1980,23 @@ class DNACSDK(object):
                         self.logger.debug(bapi_error)
                         break
 
+        except exceptions.ApiError as e:
+            self.fail_json(
+                msg=(
+                    "An error occured when executing operation for the family '{family}' "
+                    "having the function '{function}'."
+                    " The error was: status_code: {error_status},  {error}"
+                ).format(error_status=to_native(e.response.status_code), error=to_native(e.response.text),
+                         family=family_name, function=function_name)
+            )
+
         except exceptions.dnacentersdkException as e:
             self.fail_json(
                 msg=(
-                    "An error occured when executing operation."
+                    "An error occured when executing operation for the family '{family}' "
+                    "having the function '{function}'."
                     " The error was: {error}"
-                ).format(error=to_native(e))
+                ).format(error=to_native(e), family=family_name, function=function_name)
             )
         return response
 
