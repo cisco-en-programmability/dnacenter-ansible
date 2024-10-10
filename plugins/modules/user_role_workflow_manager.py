@@ -1599,7 +1599,7 @@ class UserandRole(DnacBase):
             - Returns the API response from the "create_user" function.
         """
 
-        if self.version_2_3_5_3 <= self.get_ccc_version_as_integer():
+        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") >= 0:
             self.log("Create user with 'user_params' argument...", "DEBUG")
 
             if user_params.get('password'):
@@ -1648,7 +1648,7 @@ class UserandRole(DnacBase):
 
                 return {"error_message": error_message}
 
-        error_message = "The specified version '{0}' does not have the 'add_user_api' functionality. Supported version(s) '2.3.5.3' and '2.3.7.6'.".format(
+        error_message = "The specified version '{0}' does not have the 'add_user_api' functionality. Supported version(s) '2.3.5.3', '2.3.7.6'.".format(
             self.payload.get("dnac_version"))
         return {"error_message": error_message}
 
@@ -1667,7 +1667,7 @@ class UserandRole(DnacBase):
             - Returns the API response from the "create_role" function.
         """
 
-        if self.version_2_3_7_6 <= self.get_ccc_version_as_integer():
+        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
             try:
                 self.log("Create role with role_info_params: {0}".format(str(role_params)), "DEBUG")
                 response = self.dnac._exec(
@@ -1686,7 +1686,7 @@ class UserandRole(DnacBase):
                     self.payload.get("dnac_username"))
                 return {"error_message": error_message}
 
-        error_message = "The specified version '{0}' does not have the 'add_role_api' functionality. Supported version is '2.3.7.6'.".format(
+        error_message = "The specified version '{0}' does not have the 'add_role_api' functionality. Supported version(s) '2.3.7.6'.".format(
             self.payload.get("dnac_version"))
         return {"error_message": error_message}
 
@@ -1703,7 +1703,7 @@ class UserandRole(DnacBase):
             - Logs the received API response and returns it.
         """
 
-        if self.version_2_3_5_3 <= self.get_ccc_version_as_integer():
+        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") >= 0:
             response = self.dnac._exec(
                 family="user_and_roles",
                 function="get_users_api",
@@ -1714,7 +1714,7 @@ class UserandRole(DnacBase):
             return response
 
         self.status = "failed"
-        self.msg = "The specified version '{0}' does not have the 'get_users_api' functionality. Supported version(s) '2.3.5.3' and '2.3.7.6'.".format(
+        self.msg = "The specified version '{0}' does not have the 'get_users_api' functionality. Supported version(s) '2.3.5.3', '2.3.7.6'.".format(
             self.payload.get("dnac_version"))
         self.log(self.msg, "ERROR")
         self.check_return_status()
@@ -1732,7 +1732,7 @@ class UserandRole(DnacBase):
             - Logs the received API response and returns it.
         """
 
-        if self.version_2_3_5_3 <= self.get_ccc_version_as_integer():
+        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") >= 0:
             response = self.dnac._exec(
                 family="user_and_roles",
                 function="get_roles_api",
@@ -1742,7 +1742,7 @@ class UserandRole(DnacBase):
             return response
 
         self.status = "failed"
-        self.msg = "The specified version '{0}' does not have the 'get_roles_api' functionality. Supported version(s) '2.3.5.3' and '2.3.7.6'.".format(
+        self.msg = "The specified version '{0}' does not have the 'get_roles_api' functionality. Supported version(s) '2.3.5.3', '2.3.7.6'.".format(
             self.payload.get("dnac_version"))
         self.log(self.msg, "ERROR")
         self.check_return_status()
@@ -2653,7 +2653,7 @@ class UserandRole(DnacBase):
             - user parameters. It logs the response and returns it.
         """
 
-        if self.version_2_3_5_3 <= self.get_ccc_version_as_integer():
+        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") >= 0:
             try:
                 self.log("Updating user with parameters: {0}".format(user_params), "DEBUG")
                 response = self.dnac._exec(
@@ -2673,7 +2673,7 @@ class UserandRole(DnacBase):
 
         error_message = (
             "The specified version '{0}' does not have the 'update_user_api' functionality."
-            "Supported version(s) '2.3.5.3' and '2.3.7.6'.".format(self.payload.get("dnac_version"))
+            "Supported version(s) '2.3.5.3', '2.3.7.6'.".format(self.payload.get("dnac_version"))
         )
         return {"error_message": error_message}
 
@@ -2693,7 +2693,7 @@ class UserandRole(DnacBase):
               finally returns the response.
         """
 
-        if self.version_2_3_7_6 <= self.get_ccc_version_as_integer():
+        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
             try:
                 self.log("Updating role with role_info_params: {0}".format(str(role_params)), "DEBUG")
                 response = self.dnac._exec(
@@ -2712,7 +2712,7 @@ class UserandRole(DnacBase):
                     self.payload.get("dnac_username"))
                 return {"error_message": error_message}
 
-        error_message = "The specified version '{0}' does not have the 'update_role_api' functionality. Supported version is '2.3.7.6'.".format(
+        error_message = "The specified version '{0}' does not have the 'update_role_api' functionality. Supported version(s) '2.3.7.6'.".format(
             self.payload.get("dnac_version"))
         return {"error_message": error_message}
 
@@ -3074,7 +3074,7 @@ class UserandRole(DnacBase):
             - The function uses the "user_and_roles" family and the "delete_user_api" function from the Cisco Catalyst Center API.
         """
 
-        if self.version_2_3_7_6 <= self.get_ccc_version_as_integer():
+        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
             username = self.have.get("username")
             self.log("Attempting to delete user with user_params: {0}".format(str(user_params)), "DEBUG")
             try:
@@ -3107,9 +3107,11 @@ class UserandRole(DnacBase):
 
                 return {"error_message": error_message}
 
-        error_message = "The specified version '{0}' does not have the 'delete_user_api' functionality. Supported version is '2.3.7.6'.".format(
+        self.status = "failed"
+        self.msg = "The specified version '{0}' does not have the 'delete_user_api' functionality. Supported version(s) '2.3.7.6'.".format(
             self.payload.get("dnac_version"))
-        return {"error_message": error_message}
+        self.log(self.msg, "ERROR")
+        self.check_return_status()
 
     def delete_role(self, role_params):
         """
@@ -3124,7 +3126,8 @@ class UserandRole(DnacBase):
             - It logs the response and returns it.
             - The function uses the "user_and_roles" family and the "delete_role_api" function from the Cisco Catalyst Center API.
         """
-        if self.version_2_3_7_6 <= self.get_ccc_version_as_integer():
+
+        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
             try:
                 self.log("delete role with role_params: {0}".format(str(role_params)), "DEBUG")
                 response = self.dnac._exec(
@@ -3150,9 +3153,11 @@ class UserandRole(DnacBase):
 
                 return {"error_message": error_message}
 
-        error_message = "The specified version '{0}' does not have the 'delete_user_api' functionality. Supported version is '2.3.7.6'.".format(
+        self.status = "failed"
+        self.msg = "The specified version '{0}' does not have the 'delete_role_api' functionality. Supported version(s) '2.3.7.6'.".format(
             self.payload.get("dnac_version"))
-        return {"error_message": error_message}
+        self.log(self.msg, "ERROR")
+        self.check_return_status()
 
     def verify_diff_merged(self, config):
         """
