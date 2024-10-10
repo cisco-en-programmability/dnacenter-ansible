@@ -77,25 +77,7 @@ class DnacBase():
         self.max_timeout = self.params.get('dnac_api_task_timeout')
 
         self.payload = module.params
-        self.dnac_version = int(self.payload.get("dnac_version").replace(".", ""))
-        self.dnac_version_in_integer = int(self.payload.get("dnac_version").replace(".", ""))
-        self.dnac_version_in_string = self.payload.get("dnac_version")
-        # Dictionary to store multiple versions for easy maintenance and scalability
-        # To add a new version, simply update the 'dnac_versions' dictionary with the new version string as the key
-        # and the corresponding version number as the value.
-        self.dnac_versions = {
-            "2.2.2.3": 2223,
-            "2.2.3.3": 2233,
-            "2.3.3.0": 2330,
-            "2.3.5.3": 2353,
-            "2.3.7.6": 2376,
-            "2.3.7.9": 2379,
-            # Add new versions here, e.g., "2.4.0.0": 2400
-        }
-
-        # Dynamically create variables based on dictionary keys
-        for version_key, version_value in self.dnac_versions.items():
-            setattr(self, "version_" + version_key.replace(".", "_"), version_value)
+        self.dnac_version = self.payload.get("dnac_version")
 
         if self.dnac_log and not DnacBase.__is_log_init:
             self.dnac_log_level = dnac_params.get("dnac_log_level") or 'WARNING'
@@ -117,14 +99,36 @@ class DnacBase():
         self.supported_states = ["merged", "deleted", "replaced", "overridden", "gathered", "rendered", "parsed"]
         self.result = {"changed": False, "diff": [], "response": [], "warnings": []}
 
-    def get_ccc_version_as_string(self):
-        return self.dnac_version_in_string
+    def compare_dnac_versions(self, version1, version2):
+        """
+        Compare two DNAC version strings.
 
-    def get_ccc_version_as_integer(self):
-        return self.dnac_version_in_integer
+        param version1: str, the first version string to compare (e.g., "2.3.5.3")
+        param version2: str, the second version string to compare (e.g., "2.3.7.6")
+        return: int, returns 1 if version1 > version2, -1 if version1 < version2, and 0 if they are equal
+        """
+        # Split version strings into parts and convert to integers
+        v1_parts = list(map(int, version1.split('.')))
+        v2_parts = list(map(int, version2.split('.')))
+        
+        # Compare each part of the version numbers
+        for v1, v2 in zip(v1_parts, v2_parts):
+            if v1 > v2:
+                return 1
+            elif v1 < v2:
+                return -1
+        
+        # If versions are of unequal lengths, check remaining parts
+        if len(v1_parts) > len(v2_parts):
+            return 1 if any(part > 0 for part in v1_parts[len(v2_parts):]) else 0
+        elif len(v2_parts) > len(v1_parts):
+            return -1 if any(part > 0 for part in v2_parts[len(v1_parts):]) else 0
+        
+        # Versions are equal
+        return 0
 
-    def get_ccc_version_as_int_from_str(self, dnac_version):
-        return self.dnac_versions.get(dnac_version)
+    def get_ccc_version(self):
+        return self.dnac_version
 
     @abstractmethod
     def validate_input(self):
