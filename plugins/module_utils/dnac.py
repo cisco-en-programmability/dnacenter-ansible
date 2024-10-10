@@ -1003,21 +1003,11 @@ class DnacBase():
         Returns:
             bool: True if the IPv6 address is valid, otherwise False
         """
-        pattern = re.compile(r"""
-            ^(([0-9a-fA-F]{1,4}:){7}([0-9a-fA-F]{1,4}|:))|
-            (([0-9a-fA-F]{1,4}:){1,7}:)|
-            (([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4})|
-            (([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2})|
-            (([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3})|
-            (([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4})|
-            (([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5})|
-            (([0-9a-fA-F]{1,4}:){1}(:[0-9a-fA-F]{1,4}){1,6})|
-            (:((:[0-9a-fA-F]{1,4}){1,7}|:))|
-            (fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,})|
-            (::(ffff(:0{1,4}){0,1}:){0,1}(([0-9]{1,3}\.){3}[0-9]{1,3}))|
-            (([0-9a-fA-F]{1,4}:){1,4}:(([0-9]{1,3}\.){3}[0-9]{1,3}))$
-            """, re.VERBOSE | re.IGNORECASE)
-        return pattern.match(ip_address) is not None
+        try:
+            ip = ipaddress.IPv6Address(ip_address)
+            return True
+        except ipaddress.AddressValueError:
+            return False
 
     def map_config_key_to_api_param(self, keymap=None, data=None):
         """
