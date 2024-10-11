@@ -1316,10 +1316,10 @@ class NetworkSettings(DnacBase):
         Returns:
             network_details: Processed Network data in a format suitable for configuration according to cisco catalyst center version.
         """
-        if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
+        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
             return self.get_network_params_v1(site_name, site_id)
-
-        return self.get_network_params_v2(site_name, site_id)
+        else:
+            return self.get_network_params_v2(site_name, site_id)
 
     def get_network_params_v1(self, site_name, site_id):
         """
@@ -2386,7 +2386,7 @@ class NetworkSettings(DnacBase):
             want_network_settings = want_network.get("settings")
             self.log("Current state (have): {0}".format(self.have), "DEBUG")
 
-            if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
+            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
                 if item.get("dhcp_server") is not None:
                     want_network_settings.update({
                         "dhcpServer": item.get("dhcp_server")
@@ -3538,10 +3538,7 @@ class NetworkSettings(DnacBase):
             net_params = copy.deepcopy(self.want.get("wantNetwork")[network_management_index])
             net_params.update({"site_id": self.have.get("network")[network_management_index].get("site_id")})
             self.log("Network parameters for 'update_network_v2': {0}".format(net_params), "DEBUG")
-            if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
-                if 'client_and_endpoint_aaa' in net_params['settings']:
-                    net_params['settings']['clientAndEndpoint_aaa'] = net_params['settings'].pop('client_and_endpoint_aaa')
-
+            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
                 try:
                     response = self.dnac._exec(
                         family="network_settings",
@@ -3971,6 +3968,15 @@ def main():
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=False)
     ccc_network = NetworkSettings(module)
     state = ccc_network.params.get("state")
+
+    if ccc_network.compare_dnac_versions(ccc_network.get_ccc_version(), "2.3.5.3") < 0:
+        ccc_network.msg = (
+            "The specified version '{0}' does not support the Network_settings_workflow features. Supported versions start from '2.3.5.3' onwards. "
+            .format(ccc_network.get_ccc_version())
+        )
+        ccc_network.status = "failed"
+        ccc_network.check_return_status()
+
     config_verify = ccc_network.params.get("config_verify")
     if state not in ccc_network.supported_states:
         ccc_network.status = "invalid"
