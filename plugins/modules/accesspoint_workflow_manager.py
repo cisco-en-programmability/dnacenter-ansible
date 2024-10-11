@@ -3149,6 +3149,15 @@ def main():
         ccc_network.msg = "State {0} is invalid".format(state)
         ccc_network.check_return_status()
 
+    if ccc_network.compare_dnac_versions(ccc_network.get_ccc_version(), "2.3.5.3") < 0:
+        ccc_network.status = "failed"
+        ccc_network.msg = (
+            "The specified version '{0}' does not support the access point workflow feature."
+            "Supported version(s) start from '2.3.5.3' onwards.".format(ccc_network.get_ccc_version())
+        )
+        ccc_network.log(ccc_network.msg, "ERROR")
+        ccc_network.check_return_status()
+
     ccc_network.validate_input_yml().check_return_status()
     config_verify = ccc_network.params.get("config_verify")
 
