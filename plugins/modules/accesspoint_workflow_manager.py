@@ -1378,7 +1378,7 @@ class Accesspoint(DnacBase):
                         self.log("Task Details: {0} .".format(self.pprint(
                             task_details_response)), "ERROR")
                         responses["accesspoints_updates"] = {
-                            "ap_update_config_task_details": task_details_response,
+                            "ap_update_config_task_details": self.get_task_details_by_id(task_response["response"]["taskId"]),
                             "ap_config_update_status": self.msg}
                         self.module.fail_json(msg=self.msg, response=responses)
                     else:
