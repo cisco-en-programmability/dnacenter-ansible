@@ -1300,7 +1300,7 @@ def main():
     # Create an AnsibleModule object with argument specifications
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=False)
     ccc_sda_transit = FabricTransit(module)
-    if ccc_sda_transit.compare_dnac_versions(ccc_sda_transit.get_ccc_version(), "2.3.7.6") <= 0:
+    if ccc_sda_transit.compare_dnac_versions(ccc_sda_transit.get_ccc_version(), "2.3.7.6") < 0:
         ccc_sda_transit.msg = (
             "The specified version '{0}' does not support the SDA fabric devices feature. Supported versions start from '2.3.7.6' onwards. "
             "Version '2.3.7.6' introduces APIs for creating, updating and deleting the IP and SDA Transits."
