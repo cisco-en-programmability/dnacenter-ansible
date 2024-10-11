@@ -681,7 +681,7 @@ class Site(DnacBase):
         the query, the method logs the appropriate message and returns None.
         """
         parent_id = None
-
+        self.log("Starting retrieval of parent site ID for site name: '{}'".format(parent_name), "DEBUG")
         try:
             parent_response = self.get_site(parent_name)
             parent_response = parent_response.get("response")
