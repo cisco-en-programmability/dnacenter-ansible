@@ -1390,7 +1390,7 @@ class Accesspoint(DnacBase):
                             self.have["current_ap_config"].get("ap_name"))
                         self.log(self.msg, "INFO")
                         responses["accesspoints_updates"] = {
-                            "ap_update_config_task_details": task_details_response["id"],
+                            "ap_update_config_task_details": self.get_task_details_by_id(task_details_response["id"]),
                             "ap_config_update_status": self.msg
                         }
                         self.result["ap_update_msg"] = self.msg
@@ -1831,22 +1831,20 @@ class Accesspoint(DnacBase):
                     )
 
         channel_width = radio_config.get("channel_width")
-        if channel_width and channel_width in ("20 MHz", "40 MHz", "80 MHz", "160 MHz", "320 MHz") and\
-           radio_series == "2.4ghz_radio":
-            errormsg.append("channel_width is not applicable for the 2.4Ghz radio")
-        elif channel_width and channel_width not in ("20 MHz", "40 MHz", "80 MHz", "160 MHz", "320 MHz"):
+        valid_channel_widths = ["20 MHz", "40 MHz", "80 MHz", "160 MHz"]
+        if channel_width:
             if radio_series == "2.4ghz_radio":
-                errormsg.append("channel_width is not applicable for the 2.4Ghz radio")
-            elif radio_series == "6ghz_radio":
+                errormsg.append("channel_width is not applicable for the 2.4GHz radio")
+            elif radio_series != "6ghz_radio" and channel_width not in valid_channel_widths:
                 errormsg.append(
                     "channel_width: Invalid value '{0}' for Channel width in playbook. "
-                    "Must be one of: '20 MHz', '40 MHz', '80 MHz', '160 MHz', or '320 MHz'."
-                    .format(channel_width))
+                    "Must be one of: {1}.".format(channel_width, ", ".join(valid_channel_widths)))
             else:
-                errormsg.append(
-                    "channel_width: Invalid value '{0}' for Channel width in playbook. "
-                    "Must be one of: '20 MHz', '40 MHz', '80 MHz' or '160 MHz'."
-                    .format(channel_width))
+                valid_channel_widths.append("320 MHz")
+                if radio_series == "6ghz_radio" and channel_width not in valid_channel_widths:
+                    errormsg.append(
+                        "channel_width: Invalid value '{0}' for Channel width in playbook. "
+                        "Must be one of: {1}.".format(channel_width, ", ".join(valid_channel_widths)))
 
         power_assignment_mode = radio_config.get("power_assignment_mode")
         if power_assignment_mode and power_assignment_mode not in ("Global", "Custom"):
@@ -2369,8 +2367,8 @@ class Accesspoint(DnacBase):
         }
 
         site_assign_status = self.assign_device_to_site([self.have.get("device_id")],
-                                                        self.have.get("site_id"),
-                                                        self.have.get("site_name_hierarchy"))
+                                                        self.have.get("site_name_hierarchy"),
+                                                        self.have.get("site_id"))
         if site_assign_status:
             self.log('Current device details: {0}'.format(self.pprint(provision_params)), "INFO")
             response = self.dnac._exec(
