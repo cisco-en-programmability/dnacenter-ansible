@@ -1262,12 +1262,15 @@ class Events(DnacBase):
             return response
 
         except Exception as e:
-            if "Expecting value: line 1 column 1" in str(e):
-                self.log(
-                    "Getting expection as Syslog destination with given name '{0}' not present in Cisco Catalyst"
-                    " Center.".format(name), "WARNING"
-                )
-                return None
+            expected_exception_msg = ["Expecting value: line 1 column 1", "not iterable", "has no attribute"]
+            for msg in expected_exception_msg:
+                if msg in str(e):
+                    self.log(
+                        "Getting expection as Syslog destination with given name '{0}' not present in Cisco Catalyst"
+                        " Center.".format(name), "WARNING"
+                    )
+                    return None
+
             self.status = "failed"
             self.msg = "Error while getting the details of Syslog destination present in Cisco Catalyst Center: {0}".format(str(e))
             self.log(self.msg, "ERROR")
@@ -1500,12 +1503,14 @@ class Events(DnacBase):
                             return destination
                     time.sleep(1)
                 except Exception as e:
-                    if "Expecting value: line 1 column 1" in str(e):
-                        self.log(
-                            "Getting expection as SNMP destination with given name '{0}' not present in Cisco Catalyst"
-                            " Center.".format(name), "WARNING"
-                        )
-                        return None
+                    expected_exception_msg = ["Expecting value: line 1 column 1", "not iterable", "has no attribute"]
+                    for msg in expected_exception_msg:
+                        if msg in str(e):
+                            self.log(
+                                "Getting expection as SNMP destination with given name '{0}' not present in Cisco Catalyst"
+                                " Center.".format(name), "WARNING"
+                            )
+                            return None
 
         except Exception as e:
             self.status = "failed"
@@ -1850,14 +1855,17 @@ class Events(DnacBase):
                         if destination.get("name") == name:
                             self.log("Webhook Destination '{0}' present in Cisco Catalyst Center".format(name), "INFO")
                             return destination
+
                     time.sleep(1)
                 except Exception as e:
-                    if "Expecting value: line 1 column 1" in str(e):
-                        self.log(
-                            "Getting expection as Syslog destination with given name '{0}' not present in Cisco Catalyst"
-                            " Center.".format(name), "WARNING"
-                        )
-                        return None
+                    expected_exception_msg = ["Expecting value: line 1 column 1", "not iterable", "has no attribute"]
+                    for msg in expected_exception_msg:
+                        if msg in str(e):
+                            self.log(
+                                "Getting expection as Syslog destination with given name '{0}' not present in Cisco Catalyst"
+                                " Center.".format(name), "WARNING"
+                            )
+                            return None
 
         except Exception as e:
             self.status = "failed"
@@ -1881,7 +1889,7 @@ class Events(DnacBase):
             'name': webhook_details.get('name'),
             'description': webhook_details.get('description'),
             'url': webhook_details.get('url'),
-            'method': webhook_details.get('method', 'POST').upper(),
+            'method': (webhook_details.get('method', "POST") or "POST").upper(),
             'trustCert': webhook_details.get('trust_cert'),
             'isProxyRoute': webhook_details.get('is_proxy_route')
         }
@@ -2119,12 +2127,15 @@ class Events(DnacBase):
             return response[0]
 
         except Exception as e:
-            if "Expecting value: line 1 column 1" in str(e):
-                self.log(
-                    "Getting expection as Email destination is not configured in Cisco Catalyst"
-                    " Center.", "WARNING"
-                )
-                return None
+            expected_exception_msg = ["Expecting value: line 1 column 1", "not iterable", "has no attribute"]
+            for msg in expected_exception_msg:
+                if msg in str(e):
+                    self.log(
+                        "Getting expection as Email destination is not configured in Cisco Catalyst"
+                        " Center.", "WARNING"
+                    )
+                    return None
+
             self.status = "failed"
             self.msg = "Error while getting the details of Email destination present in Cisco Catalyst Center: {0}".format(str(e))
             self.log(self.msg, "ERROR")
@@ -2153,6 +2164,9 @@ class Events(DnacBase):
         if email_details.get('primary_smtp_config'):
             primary_smtp_details = email_details.get('primary_smtp_config')
             primary_smtp_type = primary_smtp_details.get('smtp_type', "DEFAULT")
+            if primary_smtp_type is None:
+                primary_smtp_type = "DEFAULT"
+
             if primary_smtp_type not in ["DEFAULT", "TLS", "SSL"]:
                 self.status = "failed"
                 self.msg = """Invalid Primary SMTP Type '{0}' given in the playbook for configuring primary smtp server.
@@ -2175,6 +2189,8 @@ class Events(DnacBase):
         if email_details.get('secondary_smtp_config'):
             secondary_smtp_details = email_details.get('secondary_smtp_config')
             secondary_smtp_type = secondary_smtp_details.get('smtp_type', "DEFAULT")
+            if secondary_smtp_type is None:
+                secondary_smtp_type = "DEFAULT"
 
             if secondary_smtp_type and secondary_smtp_type not in ["DEFAULT", "TLS", "SSL"]:
                 self.status = "failed"
@@ -2759,12 +2775,15 @@ class Events(DnacBase):
             return response
 
         except Exception as e:
-            if "Expecting value: line 1 column 1" in str(e):
-                self.log(
-                    "Getting expection as Syslog Event Notification with given name '{0}' not present in Cisco Catalyst"
-                    " Center.".format(name), "WARNING"
-                )
-                return None
+            expected_exception_msg = ["Expecting value: line 1 column 1", "not iterable", "has no attribute"]
+            for msg in expected_exception_msg:
+                if msg in str(e):
+                    self.log(
+                        "Getting expection as Syslog Event Notification with given name '{0}' not present in Cisco Catalyst"
+                        " Center.".format(name), "WARNING"
+                    )
+                    return None
+
             self.status = "failed"
             self.msg = (
                 "An error occurred while retrieving Syslog Event subscription Notification details "
@@ -2806,12 +2825,15 @@ class Events(DnacBase):
             return response[0]
 
         except Exception as e:
-            if "Expecting value: line 1 column 1" in str(e):
-                self.log(
-                    "Getting expection as Syslog destination with given name '{0}' not present in Cisco Catalyst"
-                    " Center.".format(destination), "WARNING"
-                )
-                return None
+            expected_exception_msg = ["Expecting value: line 1 column 1", "not iterable", "has no attribute"]
+            for msg in expected_exception_msg:
+                if msg in str(e):
+                    self.log(
+                        "Getting expection as Syslog destination with given name '{0}' not present in Cisco Catalyst"
+                        " Center.".format(destination), "WARNING"
+                    )
+                    return None
+
             self.status = "failed"
             self.msg = (
                 "Error while getting the details of the Syslog Subscription with the given name '{0}'"
@@ -3137,8 +3159,11 @@ class Events(DnacBase):
         if sites:
             site_ids = self.get_site_ids(sites)
             if not site_ids:
-                self.msg = "Unable to find the Site ID's for the given site(s) - '{0}' in the playbook's input.".format(sites)
-                self.log(self.msg, "INFO")
+                site_msg = (
+                    "Unable to find the Site IDs for the given site(s) - '{0}' in the playbook's input for the "
+                    "Syslog event notification operation."
+                ).format(sites)
+                self.log(site_msg, "INFO")
 
             playbook_params["filter"]["siteIds"] = site_ids
         syslog_notification_params.append(playbook_params)
@@ -3527,12 +3552,15 @@ class Events(DnacBase):
             return response
 
         except Exception as e:
-            if "Expecting value: line 1 column 1" in str(e):
-                self.log(
-                    "Getting expection as Webhook Event Notification with given name '{0}' not present in Cisco Catalyst"
-                    " Center.".format(name), "WARNING"
-                )
-                return None
+            expected_exception_msg = ["Expecting value: line 1 column 1", "not iterable", "has no attribute"]
+            for msg in expected_exception_msg:
+                if msg in str(e):
+                    self.log(
+                        "Getting expection as Webhook Event Notification with given name '{0}' not present in Cisco Catalyst"
+                        " Center.".format(name), "WARNING"
+                    )
+                    return None
+
             self.status = "failed"
             self.log("Error while retrieving Webhook Event Notification details: {0}".format(str(e)), "ERROR")
             self.log(self.msg, "ERROR")
@@ -3569,12 +3597,15 @@ class Events(DnacBase):
             return response[0]
 
         except Exception as e:
-            if "Expecting value: line 1 column 1" in str(e):
-                self.log(
-                    "Getting expection as Webhook destination with given name '{0}' not present in Cisco Catalyst"
-                    " Center.".format(destination), "WARNING"
-                )
-                return None
+            expected_exception_msg = ["Expecting value: line 1 column 1", "not iterable", "has no attribute"]
+            for msg in expected_exception_msg:
+                if msg in str(e):
+                    self.log(
+                        "Getting expection as Webhook destination with given name '{0}' not present in Cisco Catalyst"
+                        " Center.".format(destination), "WARNING"
+                    )
+                    return None
+
             self.status = "failed"
             self.msg = """Error while getting the details of webhook Subscription with given name '{0}' present in
                     Cisco Catalyst Center: {1}""".format(destination, str(e))
@@ -3684,8 +3715,11 @@ class Events(DnacBase):
         if sites:
             site_ids = self.get_site_ids(sites)
             if not site_ids:
-                self.msg = "Unable to find the Site IDs for the given site(s) - '{0}' in the playbook's input.".format(sites)
-                self.log(self.msg, "INFO")
+                site_msg = (
+                    "Unable to find the Site IDs for the given site(s) - '{0}' in the playbook's input for the "
+                    "Webhook event notification operation."
+                ).format(sites)
+                self.log(site_msg, "INFO")
 
             playbook_params["filter"]["siteIds"] = site_ids
             self.log("Site IDs '{0}' found for site names '{1}'. Added to filter.".format(site_ids, sites), "INFO")
@@ -3965,12 +3999,15 @@ class Events(DnacBase):
             return response
 
         except Exception as e:
-            if "Expecting value: line 1 column 1" in str(e):
-                self.log(
-                    "Getting expection as Email Event Notification with given name '{0}' not present in Cisco Catalyst"
-                    " Center.".format(name), "WARNING"
-                )
-                return None
+            expected_exception_msg = ["Expecting value: line 1 column 1", "not iterable", "has no attribute"]
+            for msg in expected_exception_msg:
+                if msg in str(e):
+                    self.log(
+                        "Getting expection as Email Event Notification with given name '{0}' not present in Cisco Catalyst"
+                        " Center.".format(name), "WARNING"
+                    )
+                    return None
+
             self.msg = "Exception occurred while retrieving Email Event Subscription Notification: {0}".format(str(e))
             self.log(self.msg, "ERROR")
             self.check_return_status()
@@ -4008,12 +4045,15 @@ class Events(DnacBase):
             return response[0]
 
         except Exception as e:
-            if "Expecting value: line 1 column 1" in str(e):
-                self.log(
-                    "Getting expection as Email instance with given name '{0}' not present in Cisco Catalyst"
-                    " Center.".format(instance), "WARNING"
-                )
-                return None
+            expected_exception_msg = ["Expecting value: line 1 column 1", "not iterable", "has no attribute"]
+            for msg in expected_exception_msg:
+                if msg in str(e):
+                    self.log(
+                        "Getting expection as Email instance with given name '{0}' not present in Cisco Catalyst"
+                        " Center.".format(instance), "WARNING"
+                    )
+                    return None
+
             self.status = "failed"
             self.msg = """Error while getting the details of Email event Subscription with given destination name '{0}' present in
                     Cisco Catalyst Center: {1}""".format(instance, str(e))
@@ -4188,8 +4228,11 @@ class Events(DnacBase):
         if sites:
             site_ids = self.get_site_ids(sites)
             if not site_ids:
-                self.msg = "Unable to find the Site IDs for the given site(s) - '{0}' in the playbook's input.".format(sites)
-                self.log(self.msg, "INFO")
+                site_msg = (
+                    "Unable to find the Site IDs for the given site(s) - '{0}' in the playbook's input for the "
+                    "Email event notification operation."
+                ).format(sites)
+                self.log(site_msg, "INFO")
 
             playbook_params["filter"]["siteIds"] = site_ids
         email_notification_params.append(playbook_params)
@@ -5474,6 +5517,14 @@ def main():
         ccc_events.check_return_status()
 
     ccc_events.validate_input().check_return_status()
+    if ccc_events.get_ccc_version_as_integer() <= ccc_events.get_ccc_version_as_int_from_str("2.3.5.3"):
+        ccc_events.msg = (
+            "The provided Catalyst Center Version {ccc_version} does not support this workflow. "
+            "This workflow support starts from Catalyst Center Release {supported_version} onwards."
+            .format(ccc_version=ccc_events.get_ccc_version_as_string(), supported_version="2.3.5.3")
+        )
+        ccc_events.set_operation_result("failed", False, ccc_events.msg, "ERROR").check_return_status()
+
     config_verify = ccc_events.params.get("config_verify")
 
     for config in ccc_events.validated_config:
