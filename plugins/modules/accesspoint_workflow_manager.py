@@ -1370,7 +1370,7 @@ class Accesspoint(DnacBase):
                 self.log("Status of the task: {0} .".format(self.status), "INFO")
 
                 if task_details_response.get("endTime") is not None:
-                    if task_details_response.get("isError") is True:
+                    if task_details_response.get("status") == "FAILURE":
                         self.result["changed"] = True if self.result["changed"] is True else False
                         self.status = "failed"
                         self.msg = "Unable to get success response, hence AP config not updated"
@@ -1831,12 +1831,22 @@ class Accesspoint(DnacBase):
                     )
 
         channel_width = radio_config.get("channel_width")
-        if channel_width and channel_width not in ("20 MHz", "40 MHz", "80 MHz", "160 MHz", "320 MHz"):
-            errormsg.append(
-                "channel_width: Invalid value '{0}' for Channel width in playbook. "
-                "Must be one of: '20 MHz', '40 MHz', '80 MHz', '160 MHz', or '320 MHz'."
-                .format(channel_width)
-            )
+        if channel_width and channel_width in ("20 MHz", "40 MHz", "80 MHz", "160 MHz", "320 MHz") and\
+           radio_series == "2.4ghz_radio":
+            errormsg.append("channel_width is not applicable for the 2.4Ghz radio")
+        elif channel_width and channel_width not in ("20 MHz", "40 MHz", "80 MHz", "160 MHz", "320 MHz"):
+            if radio_series == "2.4ghz_radio":
+                errormsg.append("channel_width is not applicable for the 2.4Ghz radio")
+            elif radio_series == "6ghz_radio":
+                errormsg.append(
+                    "channel_width: Invalid value '{0}' for Channel width in playbook. "
+                    "Must be one of: '20 MHz', '40 MHz', '80 MHz', '160 MHz', or '320 MHz'."
+                    .format(channel_width))
+            else:
+                errormsg.append(
+                    "channel_width: Invalid value '{0}' for Channel width in playbook. "
+                    "Must be one of: '20 MHz', '40 MHz', '80 MHz' or '160 MHz'."
+                    .format(channel_width))
 
         power_assignment_mode = radio_config.get("power_assignment_mode")
         if power_assignment_mode and power_assignment_mode not in ("Global", "Custom"):
