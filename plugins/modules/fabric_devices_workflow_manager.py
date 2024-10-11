@@ -3999,14 +3999,12 @@ class FabricDevices(DnacBase):
                 "No SDA L3 Handoff found for device IP '{device_ip}'."
                 .format(device_ip=device_ip), "DEBUG"
             )
-
-            # SDA L3 Handoff doesnot exist
+            self.log("The SDA L3 Handoff doesnot exist under the device {device_ip}.".format(device_ip=device_ip))
             result_fabric_device_msg.update({
                 "sda_l3_handoff_details": "SDA L3 Handoff is not found in the Cisco Catalyst Center."
             })
         else:
-
-            # SDA L3 Handoff does exist
+            self.log("The SDA L3 Handoff exists under the device {device_ip}.".format(device_ip=device_ip))
             fabric_id = have_sda_l3_handoff.get("fabricId")
             network_device_id = have_sda_l3_handoff.get("networkDeviceId")
             self.log(
