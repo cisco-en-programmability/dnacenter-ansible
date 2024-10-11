@@ -682,6 +682,7 @@ class Site(DnacBase):
         """
         parent_id = None
         self.log("Starting retrieval of parent site ID for site name: '{}'".format(parent_name), "DEBUG")
+
         try:
             parent_response = self.get_site(parent_name)
             parent_response = parent_response.get("response")
@@ -689,6 +690,10 @@ class Site(DnacBase):
                 self.log("No data found for site '{}'. Site does not exist.".format(parent_name), "INFO")
                 return None
             parent_id = parent_response[0].get("id")
+            if parent_id:
+                self.log("Parent site ID for site '{}' successfully retrieved: {}".format(parent_name, parent_id), "DEBUG")
+            else:
+                self.log("Parent site ID for site '{}' could not be retrieved from response.".format(parent_name), "WARNING")
         except Exception as e:
             self.log("An error occurred while retrieving site '{}': {}".format(parent_name, str(e)), "ERROR")
         return parent_id
