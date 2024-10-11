@@ -117,6 +117,37 @@ class DnacBase():
         self.supported_states = ["merged", "deleted", "replaced", "overridden", "gathered", "rendered", "parsed"]
         self.result = {"changed": False, "diff": [], "response": [], "warnings": []}
 
+    def compare_dnac_versions(self, version1, version2):
+        """
+        Compare two DNAC version strings.
+
+        param version1: str, the first version string to compare (e.g., "2.3.5.3")
+        param version2: str, the second version string to compare (e.g., "2.3.7.6")
+        return: int, returns 1 if version1 > version2, -1 if version1 < version2, and 0 if they are equal
+        """
+        # Split version strings into parts and convert to integers
+        v1_parts = list(map(int, version1.split('.')))
+        v2_parts = list(map(int, version2.split('.')))
+
+        # Compare each part of the version numbers
+        for v1, v2 in zip(v1_parts, v2_parts):
+            if v1 > v2:
+                return 1
+            elif v1 < v2:
+                return -1
+
+        # If versions are of unequal lengths, check remaining parts
+        if len(v1_parts) > len(v2_parts):
+            return 1 if any(part > 0 for part in v1_parts[len(v2_parts):]) else 0
+        elif len(v2_parts) > len(v1_parts):
+            return -1 if any(part > 0 for part in v2_parts[len(v1_parts):]) else 0
+
+        # Versions are equal
+        return 0
+
+    def get_ccc_version(self):
+        return self.payload.get("dnac_version")
+
     def get_ccc_version_as_string(self):
         return self.dnac_version_in_string
 
@@ -1980,12 +2011,23 @@ class DNACSDK(object):
                         self.logger.debug(bapi_error)
                         break
 
+        except exceptions.ApiError as e:
+            self.fail_json(
+                msg=(
+                    "An error occured when executing operation for the family '{family}' "
+                    "having the function '{function}'."
+                    " The error was: status_code: {error_status},  {error}"
+                ).format(error_status=to_native(e.response.status_code), error=to_native(e.response.text),
+                         family=family_name, function=function_name)
+            )
+
         except exceptions.dnacentersdkException as e:
             self.fail_json(
                 msg=(
-                    "An error occured when executing operation."
+                    "An error occured when executing operation for the family '{family}' "
+                    "having the function '{function}'."
                     " The error was: {error}"
-                ).format(error=to_native(e))
+                ).format(error=to_native(e), family=family_name, function=function_name)
             )
         return response
 
