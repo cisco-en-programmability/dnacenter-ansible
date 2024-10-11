@@ -1569,6 +1569,45 @@ class DnacBase():
             time.sleep(self.params.get("dnac_task_poll_interval"))
         return self
 
+    def requires_update(self, have, want, obj_params):
+        """
+        Check if the config given requires update by comparing
+        current information with the requested information.
+
+        This method compares the current fabric devices information from
+        Cisco Catalyst Center with the user-provided details from the playbook,
+        using a specified schema for comparison.
+
+        Parameters:
+            have (dict): Current information from the Cisco Catalyst Center
+                          of SDA fabric devices.
+            want (dict): Users provided information from the playbook
+            obj_params (list of tuples) - A list of parameter mappings specifying which
+                                          Cisco Catalyst Center parameters (dnac_param) correspond to
+                                          the user-provided parameters (ansible_param).
+        Returns:
+            bool - True if any parameter specified in obj_params differs between
+            current_obj and requested_obj, indicating that an update is required.
+            False if all specified parameters are equal.
+        Description:
+            This function retrieves the object parameters needed for the requires_update function.
+            The obj_params will contain patterns to be compared based on the specified object.
+            This function checks both the information provided by the user and
+            the information available in the Cisco Catalyst Center.
+            Based on the object_params the comparison will be taken place.
+            If there is a difference in those information, it will return True.
+            Else False.
+        """
+
+        current_obj = have
+        requested_obj = want
+        self.log("Current State (have): {current_obj}".format(current_obj=current_obj), "DEBUG")
+        self.log("Desired State (want): {requested_obj}".format(requested_obj=requested_obj), "DEBUG")
+
+        return any(not dnac_compare_equality(current_obj.get(dnac_param),
+                                             requested_obj.get(ansible_param))
+                   for (dnac_param, ansible_param) in obj_params)
+
 
 def is_list_complex(x):
     return isinstance(x[0], dict) or isinstance(x[0], list)
