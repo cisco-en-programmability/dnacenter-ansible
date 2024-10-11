@@ -1,0 +1,227 @@
+---
+- debug: msg="Starting network settings management test"
+- debug: msg="Role Path {{ role_path }}"
+
+- block:
+  - name: Load vars and declare dnac vars
+    include_vars:
+      file: "{{ role_path }}/vars/vars_network_settings_management.yml"
+      name: vars_map
+    vars:
+      dnac_login: &dnac_login
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        config_verify: true
+
+  # - debug:
+  #     msg: "{{ vars_map.design_sites }}"
+  # - debug:
+  #     msg: "{{ vars_map.update_sites }}"
+  # - debug:
+  #     msg: "{{ vars_map.delete_sites }}"
+
+#############################################
+#                Clean Up                   #
+#############################################
+
+  - name: Clean up before test
+    cisco.dnac.site_workflow_manager:
+      <<: *dnac_login
+      state: deleted
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.design_sites }}"
+
+#############################################
+#                CREATE SITES               #
+#############################################
+
+  - name: Create sites 
+    cisco.dnac.site_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.design_sites }}"
+    register: result_create_site
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_create_site.results }}"
+  #   when: result_create_site is defined
+
+  - name: Assert area creation success for each site
+    assert:
+      that:
+        - item.changed == true
+        - "'created successfully' in item.msg"
+    loop: "{{ result_create_site.results }}"
+    when: result_create_site is defined
+
+# #############################################
+# #          CREATE Global POOL               #
+# #############################################
+
+  - name: create global pool
+    cisco.dnac.network_settings_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.create_global_pools }}"
+    register: result_create_global_pools
+
+    # - name: Debug item
+    #   debug:
+    #     var: item
+    #   loop: "{{ result_create_site.results }}"
+    #   when: result_create_site is defined
+
+  - name: Assert global pool creation success
+    assert:
+      that:
+        - item.changed == true
+        - "'Global Pool Created Successfully' in item.response[0].globalPool.msg.Global_Pool4"
+    loop: "{{ result_create_global_pools.results }}"
+    when: result_create_global_pools is defined
+
+# ###################################################
+# #                  CREATE RESERVE POOL            #
+# ###################################################
+  - name: create reserve pool
+    cisco.dnac.network_settings_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.create_reserve_pools }}"
+    register: result_create_reserve_pools
+
+    # - name: Debug item
+    #   debug:
+    #     var: item
+    #   loop: "{{ result_create_site.results }}"
+    #   when: result_create_site is defined
+
+  - name: Assert reserve pool creation success
+    assert:
+      that:
+        - item.changed == true
+        - "'Ip Subpool Reservation Created Successfully' in item.response[1].reservePool.msg.IP_Pool_4"
+    loop: "{{ result_create_reserve_pools.results }}"
+    when: result_create_reserve_pools is defined
+
+# #####################################################
+#                  NETWORK FUNCTION                   #
+# #####################################################
+  - name: create/update network servers
+    cisco.dnac.network_settings_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.network_server }}"
+    register: result_network_server
+
+    # - name: Debug item
+    #   debug:
+    #     var: item
+    #   loop: "{{ result_network_server.results }}"
+    #   when: result_network_server is defined
+
+  - name: Assert network server creation success
+    assert:
+      that:
+        - item.changed == true
+        - "'Network Updated successfully' in item.response[2].network.msg['Global/USA-Test']"
+    loop: "{{ result_network_server.results }}"
+    when: result_network_server is defined
+
+#############################################
+#          DELETE RESERVE POOL              #
+#############################################
+
+  - name: Delete Reserve pool 
+    cisco.dnac.network_settings_workflow_manager:
+      <<: *dnac_login
+      state: deleted
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.ip_pool1 }}"
+    register: result_delete_ip_pool
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_delete_reserve_pool.results }}"
+  #   when: result_delete_reserve_pool is defined
+
+  - name: Assert reserve pool deletion success for site
+    assert:
+      that:
+        - item.changed == true
+        - "'Ip subpool reservation released successfully' in item.response[1].reservePool.msg.IP_Pool_4"
+    loop: "{{ result_delete_ip_pool.results }}"
+    when: result_delete_ip_pool is defined
+
+#############################################
+#          DELETE GLOBAl POOL               #
+#############################################
+
+  - name: Delete global pool
+    cisco.dnac.network_settings_workflow_manager:
+      <<: *dnac_login
+      state: deleted
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.ip_pool2 }}"
+    register: result_delete_global_pool
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_update_site.results }}"
+  #   when: result_update_site is defined
+
+  - name: Assert global pool deletion success for each site
+    assert:
+      that:
+        - item.changed == true
+        - "'Global pool deleted successfully' in item.response[0].globalPool.msg.Global_Pool4"
+    loop: "{{ result_delete_global_pool.results }}"
+    when: result_delete_global_pool is defined
+
+#############################################
+#                DELETE SITES               #
+#############################################
+
+  - name: Delete sites 
+    cisco.dnac.site_workflow_manager:
+      <<: *dnac_login
+      state: deleted
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.design_sites }}"
+    register: result_delete_site
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_delete_site.results }}"
+  #   when: result_delete_site is defined
+
+  - name: Assert deletion success for each site
+    assert:
+      that:
+        - item.changed == true
+        - "'deleted successfully' in item.response"
+    loop: "{{ result_delete_site.results }}"
+    when: result_delete_site is defined

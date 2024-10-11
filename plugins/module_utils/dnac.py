@@ -117,6 +117,37 @@ class DnacBase():
         self.supported_states = ["merged", "deleted", "replaced", "overridden", "gathered", "rendered", "parsed"]
         self.result = {"changed": False, "diff": [], "response": [], "warnings": []}
 
+    def compare_dnac_versions(self, version1, version2):
+        """
+        Compare two DNAC version strings.
+
+        param version1: str, the first version string to compare (e.g., "2.3.5.3")
+        param version2: str, the second version string to compare (e.g., "2.3.7.6")
+        return: int, returns 1 if version1 > version2, -1 if version1 < version2, and 0 if they are equal
+        """
+        # Split version strings into parts and convert to integers
+        v1_parts = list(map(int, version1.split('.')))
+        v2_parts = list(map(int, version2.split('.')))
+
+        # Compare each part of the version numbers
+        for v1, v2 in zip(v1_parts, v2_parts):
+            if v1 > v2:
+                return 1
+            elif v1 < v2:
+                return -1
+
+        # If versions are of unequal lengths, check remaining parts
+        if len(v1_parts) > len(v2_parts):
+            return 1 if any(part > 0 for part in v1_parts[len(v2_parts):]) else 0
+        elif len(v2_parts) > len(v1_parts):
+            return -1 if any(part > 0 for part in v2_parts[len(v1_parts):]) else 0
+
+        # Versions are equal
+        return 0
+
+    def get_ccc_version(self):
+        return self.payload.get("dnac_version")
+
     def get_ccc_version_as_string(self):
         return self.dnac_version_in_string
 
@@ -558,6 +589,142 @@ class DnacBase():
             pass
         return None
 
+    def get_device_ip_from_device_id(self, site_id):
+        """
+        Retrieve the management IP addresses and their corresponding instance UUIDs of devices associated with a specific site in Cisco Catalyst Center.
+
+        Args:
+            site_id (str): The ID of the site to be retrieved.
+
+        Returns:
+            dict: A dictionary mapping management IP addresses to their instance UUIDs, or an empty dict if no devices found.
+        """
+
+        mgmt_ip_to_instance_id_map = {}
+
+        try:
+            response = self.get_device_ids_from_site(site_id)
+
+            if not response:
+                raise ValueError("No response received from get_device_ids_from_site")
+
+            self.log("Received API response from 'get_device_ids_from_site': {0}".format(str(response)), "DEBUG")
+
+            for device_id in response:
+                device_response = self.dnac._exec(
+                    family="devices",
+                    function="get_device_by_id",
+                    op_modifies=True,
+                    params={"id": device_id}
+                )
+
+                management_ip = device_response.get("response", {}).get("managementIpAddress")
+                instance_uuid = device_response.get("response", {}).get("instanceUuid")
+                if management_ip and instance_uuid:
+                    mgmt_ip_to_instance_id_map[management_ip] = instance_uuid
+                else:
+                    self.log("Management IP or instance UUID not found for device ID: {0}".format(device_id), "WARNING")
+
+        except Exception as e:
+            self.log("Unable to fetch the device(s) associated with the site '{0}' due to {1}".format(site_id, str(e)), "ERROR")
+            return {}
+
+        if not mgmt_ip_to_instance_id_map:
+            self.log("No reachable devices found at Site: {0}".format(site_id), "INFO")
+
+        return mgmt_ip_to_instance_id_map
+
+    def get_sites_type(self, site_name):
+        """
+        Get the type of a site in Cisco Catalyst Center.
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            site_name (str): The name of the site for which to retrieve the type.
+        Returns:
+            site_type (str or None): The type of the specified site, or None if the site is not found.
+        Description:
+            This function queries Cisco Catalyst Center to retrieve the type of a specified site. It uses the
+            get_site API with the provided site name, extracts the site type from the response, and returns it.
+            If the specified site is not found, the function returns None, and an appropriate log message is generated.
+        """
+
+        try:
+            response = self.get_site(site_name)
+            if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
+                site = response.get("response")
+                site_additional_info = site[0].get("additionalInfo")
+
+                for item in site_additional_info:
+                    if item["nameSpace"] == "Location":
+                        site_type = item.get("attributes").get("type")
+            else:
+                self.log("Received API response from 'get_sites': {0}".format(str(response)), "DEBUG")
+                site = response.get("response")
+                site_type = site[0].get("type")
+
+        except Exception as e:
+            self.msg = "Error while fetching the site '{0}' and the specified site was not found in Cisco Catalyst Center.".format(site_name)
+            self.log(self.msg, "ERROR")
+            self.module.fail_json(msg=self.msg, response=[self.msg])
+
+        return site_type
+
+    def get_device_ids_from_site(self, site_id):
+        """
+        Retrieve device IDs associated with a specific site in Cisco Catalyst Center.
+
+        Args:
+            site_id (str): The unique identifier of the site.
+
+        Returns:
+            list: A list of device IDs associated with the site.
+                Returns an empty list if no devices are found or if an error occurs.
+        """
+
+        device_ids = []
+
+        if self.dnac_version <= self.version_2_3_5_3:
+            try:
+                response = self.dnac._exec(
+                    family="sites",
+                    function="get_membership",
+                    op_modifies=True,
+                    params={"site_id": site_id},
+                )
+
+                if response and "device" in response:
+                    for device in response.get("device", []):
+                        for item in device.get("response", []):
+                            device_ids.append(item.get("instanceUuid"))
+
+                self.log("Retrieved device IDs from membership for site '{0}': {1}".format(site_id, device_ids), "DEBUG")
+
+            except Exception as e:
+                self.log("Error retrieving device IDs from membership for site '{0}': {1}".format(site_id, str(e)), "ERROR")
+
+        else:
+            try:
+                response = self.dnac._exec(
+                    family="site_design",
+                    function="get_site_assigned_network_devices",
+                    op_modifies=True,
+                    params={"site_id": site_id},
+                )
+
+                if response and "response" in response:
+                    for device in response.get("response", []):
+                        device_ids.append(device.get("deviceId"))
+
+                self.log("Retrieved device IDs from assigned devices for site '{0}': {1}".format(site_id, device_ids), "DEBUG")
+
+            except Exception as e:
+                self.log("Error retrieving device IDs from assigned devices for site '{0}': {1}".format(site_id, str(e)), "ERROR")
+
+        if not device_ids:
+            self.log("No devices found for site '{0}'".format(site_id), "INFO")
+
+        return device_ids
+
     def get_site_id(self, site_name):
         """
         Retrieve the site ID and check if the site exists in Cisco Catalyst Center based on the provided site name.
@@ -648,6 +815,85 @@ class DnacBase():
                 self.log("An error occurred in 'get_sites':{0}".format(e), "ERROR")
                 return None
 
+    def assign_device_to_site(self, device_ids, site_name, site_id):
+        """
+        Assign devices to the specified site.
+
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            device_ids (list): A list of device IDs to assign to the specified site.
+            site_name (str): The complete path of the site location.
+            site_id (str): The ID of the specified site location.
+
+        Returns:
+            bool: True if the devices are successfully assigned to the site, otherwise False.
+
+        Description:
+            Assigns the specified devices to the site. If the assignment is successful, returns True.
+            Otherwise, logs an error and returns False along with error details.
+        """
+
+        if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
+            try:
+                response = self.dnac_apply['exec'](
+                    family="sites",
+                    function="assign_devices_to_site",
+                    op_modifies=True,
+                    params={
+                        "site_id": site_id,
+                        "payload": device_ids
+                    },
+                )
+
+                self.check_execution_response_status(response, "assign_devices_to_site")
+                if self.status == "success":
+                    self.result["changed"] = True
+                    self.result['msg'] = "Successfully assigned device(s) {0} to site {1}.".format(str(device_ids), site_name)
+                    self.result['response'] = response.get("executionId")
+                    self.log(self.result['msg'], "INFO")
+                return self
+
+            except Exception as e:
+                self.msg = "Error while assigning device(s) to site: {0}, {1}, {2}".format(site_name,
+                                                                                           str(device_ids), str(e))
+                self.log(self.msg, "ERROR")
+                self.status = "failed"
+                self.module.fail_json(msg=self.msg)
+        else:
+            assign_network_device_to_site = {
+                'deviceIds': device_ids,
+                'siteId': site_id,
+            }
+            self.log("Assigning device(s) to site '{0}' with the following details: {1}".format(site_name,
+                                                                                                str(assign_network_device_to_site)), "INFO")
+            try:
+                response = self.dnac._exec(
+                    family="site_design",
+                    function='assign_network_devices_to_a_site',
+                    op_modifies=True,
+                    params=assign_network_device_to_site
+                )
+                self.log("Received API response from 'assign_network_device_to_site' while assigning devices to site: {0}, {1}, {2}".format(
+                    site_name, str(assign_network_device_to_site), str(response["response"])), "INFO")
+
+                self.check_tasks_response_status(response, api_name='assign_device_to_site')
+                if self.result["changed"]:
+                    return True
+
+                self.msg = "Failed to receive a valid response from site assignment API: {0}, {1}".format(
+                    site_name, str(assign_network_device_to_site))
+                self.log(self.msg, "ERROR")
+                self.status = "failed"
+                self.module.fail_json(msg=self.msg)
+
+            except Exception as e:
+                msg = "Exception occurred while assigning devices to site '{0}'. Assignment details: {1}".format(site_name,
+                                                                                                                 str(assign_network_device_to_site))
+                self.log(msg + str(e), "ERROR")
+                site_assgin_details = str(e)
+                self.status = "failed"
+                self.module.fail_json(msg=msg, response=site_assgin_details)
+
     def generate_key(self):
         """
         Generate a new encryption key using Fernet.
@@ -695,8 +941,10 @@ class DnacBase():
         """
         try:
             fernet = Fernet(key)
-            decrypted_password = fernet.decrypt(encrypted_password.encode()).decode()
+            decrypted_password = fernet.decrypt(encrypted_password).decode()
             return {"decrypt_password": decrypted_password}
+        except Exception.InvalidToken:
+            return {"error_message": "Invalid decryption token."}
         except Exception as e:
             return {"error_message": "Exception occurred while decrypting password: {0}".format(e)}
 
@@ -786,21 +1034,11 @@ class DnacBase():
         Returns:
             bool: True if the IPv6 address is valid, otherwise False
         """
-        pattern = re.compile(r"""
-            ^(([0-9a-fA-F]{1,4}:){7}([0-9a-fA-F]{1,4}|:))|
-            (([0-9a-fA-F]{1,4}:){1,7}:)|
-            (([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4})|
-            (([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2})|
-            (([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3})|
-            (([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4})|
-            (([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5})|
-            (([0-9a-fA-F]{1,4}:){1}(:[0-9a-fA-F]{1,4}){1,6})|
-            (:((:[0-9a-fA-F]{1,4}){1,7}|:))|
-            (fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,})|
-            (::(ffff(:0{1,4}){0,1}:){0,1}(([0-9]{1,3}\.){3}[0-9]{1,3}))|
-            (([0-9a-fA-F]{1,4}:){1,4}:(([0-9]{1,3}\.){3}[0-9]{1,3}))$
-            """, re.VERBOSE | re.IGNORECASE)
-        return pattern.match(ip_address) is not None
+        try:
+            ip = ipaddress.IPv6Address(ip_address)
+            return True
+        except ipaddress.AddressValueError:
+            return False
 
     def map_config_key_to_api_param(self, keymap=None, data=None):
         """
@@ -1016,7 +1254,7 @@ class DnacBase():
             Call the API 'get_task_details_by_id' to get the details along with the
             failure reason. Return the details.
         """
-
+        # Need to handle exception
         task_details = None
         try:
             response = self.dnac._exec(
@@ -1054,7 +1292,7 @@ class DnacBase():
             Call the API 'get_tasks_by_id' to get the status of the task.
             Return the details along with the status of the task.
         """
-
+        # Need to handle exception
         task_status = None
         try:
             response = self.dnac._exec(
@@ -1226,7 +1464,7 @@ class DnacBase():
             api_parameters (dict): The parameters for the API call.
         """
         try:
-            self.log("Entered {0} method".format(api_function), "DEBUG")
+
             self.log("Requested payload for the the function: '{0}' is: '{1}'".format(api_function, api_parameters), "INFO")
 
             # Execute the API call
@@ -1773,12 +2011,23 @@ class DNACSDK(object):
                         self.logger.debug(bapi_error)
                         break
 
+        except exceptions.ApiError as e:
+            self.fail_json(
+                msg=(
+                    "An error occured when executing operation for the family '{family}' "
+                    "having the function '{function}'."
+                    " The error was: status_code: {error_status},  {error}"
+                ).format(error_status=to_native(e.response.status_code), error=to_native(e.response.text),
+                         family=family_name, function=function_name)
+            )
+
         except exceptions.dnacentersdkException as e:
             self.fail_json(
                 msg=(
-                    "An error occured when executing operation."
+                    "An error occured when executing operation for the family '{family}' "
+                    "having the function '{function}'."
                     " The error was: {error}"
-                ).format(error=to_native(e))
+                ).format(error=to_native(e), family=family_name, function=function_name)
             )
         return response
 
