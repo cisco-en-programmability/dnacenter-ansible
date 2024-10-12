@@ -1370,7 +1370,7 @@ class Accesspoint(DnacBase):
                 self.log("Status of the task: {0} .".format(self.status), "INFO")
 
                 if task_details_response.get("endTime") is not None:
-                    if task_details_response.get("isError") is True:
+                    if task_details_response.get("status") == "FAILURE":
                         self.result["changed"] = True if self.result["changed"] is True else False
                         self.status = "failed"
                         self.msg = "Unable to get success response, hence AP config not updated"
@@ -1378,7 +1378,7 @@ class Accesspoint(DnacBase):
                         self.log("Task Details: {0} .".format(self.pprint(
                             task_details_response)), "ERROR")
                         responses["accesspoints_updates"] = {
-                            "ap_update_config_task_details": task_details_response,
+                            "ap_update_config_task_details": self.get_task_details_by_id(task_response["response"]["taskId"]),
                             "ap_config_update_status": self.msg}
                         self.module.fail_json(msg=self.msg, response=responses)
                     else:
@@ -1390,7 +1390,7 @@ class Accesspoint(DnacBase):
                             self.have["current_ap_config"].get("ap_name"))
                         self.log(self.msg, "INFO")
                         responses["accesspoints_updates"] = {
-                            "ap_update_config_task_details": task_details_response["id"],
+                            "ap_update_config_task_details": self.get_task_details_by_id(task_details_response["id"]),
                             "ap_config_update_status": self.msg
                         }
                         self.result["ap_update_msg"] = self.msg
@@ -1661,6 +1661,8 @@ class Accesspoint(DnacBase):
         if ap_name:
             param_spec = dict(type="str", length_max=32)
             validate_str(ap_name, param_spec, "ap_name", errormsg)
+            if re.search(r'[ ?<]', ap_name):
+                errormsg.append("ap_name: Invalid '{0}' in playbook. Space, '?', '<' and XSS characters are not allowed".format(ap_name))
 
         admin_status = ap_config.get("admin_status")
         if admin_status and admin_status not in ("Enabled", "Disabled"):
@@ -1703,19 +1705,28 @@ class Accesspoint(DnacBase):
                                 .format(freq_band, ap_config_freq_band))
 
         # Validate Controller Names
+        check_duplicate_controller = []
         for ctrl_name in ["primary_controller_name", "secondary_controller_name", "tertiary_controller_name"]:
             controller = ap_config.get(ctrl_name)
-            if controller == "":
-                errormsg.append("{0}: Invalid {0} in playbook. Please select one of: Inherit from site / Clear or Controller name."
-                                .format(ap_config.get(ctrl_name)))
+            if controller is not None:
+                if controller == "":
+                    errormsg.append("{0}: Invalid {1} in playbook. Please select one of: Inherit from site / Clear or Controller name."
+                                    .format(ctrl_name, controller))
+                elif controller != "Inherit from site / Clear" and controller in check_duplicate_controller:
+                    errormsg.append("{0}: Duplicate {1} in playbook.".format(ctrl_name, controller))
+                check_duplicate_controller.append(controller)
 
         # Validate controller IP Addresses
+        check_duplicate_ip = []
         for ip_address in ["primary_ip_address", "secondary_ip_address", "tertiary_ip_address"]:
             ap_config_ip_address = ap_config.get(ip_address)
             address = ap_config_ip_address.get("address") if ap_config_ip_address else None
-            if address and (not self.is_valid_ipv4(address) and not self.is_valid_ipv6(address)):
-                errormsg.append("{0}: Invalid {0} '{1}' in playbook".format(ip_address,
-                                                                            ap_config_ip_address))
+            if address:
+                if not self.is_valid_ipv4(address) and not self.is_valid_ipv6(address):
+                    errormsg.append("{0}: Invalid IP address '{1}' in playbook".format(ip_address, address))
+                elif address != "0.0.0.0" and address in check_duplicate_ip:
+                    errormsg.append("{0}: Duplicate IP address '{1}' in playbook".format(ip_address, address))
+                check_duplicate_ip.append(address)
 
         # Validate Dual Radio Mode
         dual_radio_mode = ap_config.get("dual_radio_mode")
@@ -1820,12 +1831,20 @@ class Accesspoint(DnacBase):
                     )
 
         channel_width = radio_config.get("channel_width")
-        if channel_width and channel_width not in ("20 MHz", "40 MHz", "80 MHz", "160 MHz", "320 MHz"):
-            errormsg.append(
-                "channel_width: Invalid value '{0}' for Channel width in playbook. "
-                "Must be one of: '20 MHz', '40 MHz', '80 MHz', '160 MHz', or '320 MHz'."
-                .format(channel_width)
-            )
+        valid_channel_widths = ["20 MHz", "40 MHz", "80 MHz", "160 MHz"]
+        if channel_width:
+            if radio_series == "2.4ghz_radio":
+                errormsg.append("channel_width is not applicable for the 2.4GHz radio")
+            elif radio_series != "6ghz_radio" and channel_width not in valid_channel_widths:
+                errormsg.append(
+                    "channel_width: Invalid value '{0}' for Channel width in playbook. "
+                    "Must be one of: {1}.".format(channel_width, ", ".join(valid_channel_widths)))
+            else:
+                valid_channel_widths.append("320 MHz")
+                if radio_series == "6ghz_radio" and channel_width not in valid_channel_widths:
+                    errormsg.append(
+                        "channel_width: Invalid value '{0}' for Channel width in playbook. "
+                        "Must be one of: {1}.".format(channel_width, ", ".join(valid_channel_widths)))
 
         power_assignment_mode = radio_config.get("power_assignment_mode")
         if power_assignment_mode and power_assignment_mode not in ("Global", "Custom"):
@@ -2348,8 +2367,8 @@ class Accesspoint(DnacBase):
         }
 
         site_assign_status = self.assign_device_to_site([self.have.get("device_id")],
-                                                        self.have.get("site_id"),
-                                                        self.have.get("site_name_hierarchy"))
+                                                        self.have.get("site_name_hierarchy"),
+                                                        self.have.get("site_id"))
         if site_assign_status:
             self.log('Current device details: {0}'.format(self.pprint(provision_params)), "INFO")
             response = self.dnac._exec(
@@ -3126,6 +3145,15 @@ def main():
     if state not in ccc_network.supported_states:
         ccc_network.status = "invalid"
         ccc_network.msg = "State {0} is invalid".format(state)
+        ccc_network.check_return_status()
+
+    if ccc_network.compare_dnac_versions(ccc_network.get_ccc_version(), "2.3.5.3") < 0:
+        ccc_network.status = "failed"
+        ccc_network.msg = (
+            "The specified version '{0}' does not support the access point workflow feature."
+            "Supported version(s) start from '2.3.5.3' onwards.".format(ccc_network.get_ccc_version())
+        )
+        ccc_network.log(ccc_network.msg, "ERROR")
         ccc_network.check_return_status()
 
     ccc_network.validate_input_yml().check_return_status()
