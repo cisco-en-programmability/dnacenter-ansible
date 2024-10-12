@@ -1318,8 +1318,8 @@ class NetworkSettings(DnacBase):
         """
         if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
             return self.get_network_params_v1(site_name, site_id)
-
-        return self.get_network_params_v2(site_name, site_id)
+        else:
+            return self.get_network_params_v2(site_name, site_id)
 
     def get_network_params_v1(self, site_name, site_id):
         """
@@ -2189,6 +2189,18 @@ class NetworkSettings(DnacBase):
                 return self
 
             pool_values.update({"IpAddressSpace": ip_address_space})
+
+            # check global pool exist or not in case it's already there compare cidr value
+            # current_global_pool_detail = self.global_pool_exists(pool_details.get("name"))
+            # if current_global_pool_detail.get("exist") is True and pool_details.get("cidr"):
+            #     # current_global_pool_detail = self.global_pool_exists(pool_details.get("name"))
+            #     self.log(pool_details.get("cidr"))
+            #     self.log(current_global_pool_detail)
+            #     pool_details.get("cidr") != current_global_pool_detail.get('ipPoolCidr')
+            #     self.msg = "The provided 'ipPoolCidr' under global_pool_details is invalid: {0}" \
+            #                .format(pool_details.get("cidr"))
+            #     self.status = "failed"
+            #     return self
 
             # Converting to the required format based on the existing Global Pool
             if not self.have.get("globalPool")[global_pool_index].get("exists"):
@@ -3539,9 +3551,6 @@ class NetworkSettings(DnacBase):
             net_params.update({"site_id": self.have.get("network")[network_management_index].get("site_id")})
             self.log("Network parameters for 'update_network_v2': {0}".format(net_params), "DEBUG")
             if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
-                if 'client_and_endpoint_aaa' in net_params['settings']:
-                    net_params['settings']['clientAndEndpoint_aaa'] = net_params['settings'].pop('client_and_endpoint_aaa')
-
                 try:
                     response = self.dnac._exec(
                         family="network_settings",
