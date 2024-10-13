@@ -22,8 +22,8 @@ description:
   - Automatically stopping an ongoing LAN Automation session based on conditions
     like timeout or discovery device list completion, without explicitly calling
     the stop API.
-  - Stopping a LAN Automation session.
-  - PnP device authorization.
+  - Additionally, it provides functionalities to stop ongoing LAN Automation sessions and
+    to handle PnP device authorization.
 version_added: '6.20.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
@@ -109,7 +109,7 @@ options:
             type: str
             required: false
           redistribute_isis_to_bgp:
-            description: Flag to redistribute IS-IS routes to BGP.
+            description: Flag to enable the redistribution of IS-IS routes to BGP.
             type: bool
             default: false
           isis_domain_pwd:
@@ -123,26 +123,25 @@ options:
             default: 2
           discovery_timeout:
             description: Timeout for device discovery during LAN Automation, in minutes.
-                         Until this time, the stop processing will not be triggered.
+                         Until this time, stop processing will not be triggered.
                          Any device contacting after the provided discovery timeout
                          will not be processed, and a device reset and reload will be
                          attempted to bring it back to the PnP agent state before
                          process completion. The supported timeout range is in minutes
-                         [20-10080]. If both timeout and discovery devices list are
-                         provided, the stop processing will be attempted whichever
-                         happens earlier. Users can always use the LAN Automation deleted
-                         state to force stop processing.
+                         [20-10080]. If both 'discovery_timeout' and 'discovery_devices' are provided,
+                         processing will stop based on whichever occurs earlier. Users can always use
+                         the LAN Automation deleted state to force stop processing.
             type: int
             required: false
           discovery_devices:
             description: A list of devices to be discovered during the LAN Automation
                          session. If only a device list is provided without a timeout,
                          stop processing will occur once all devices from the list are
-                         discovered. The maximum supported devices that can be provided
+                         discovered. The maximum number of devices that can be provided
                          for a session is 50. If both the discovery devices list and
                          timeout are provided, the stop processing will be attempted
-                         whichever happens earlier. Users can always use the LAN
-                         Automation deleted state to force stop processing.
+                         whichever happens earlier. Users may choose to use the LAN Automation
+                         'deleted' state to stop processing at any time.
             type: list
             elements: dict
             required: false
@@ -165,12 +164,13 @@ options:
                 type: str
                 required: false
           launch_and_wait:
-            description: Flag to indicate whether the playbook should wait for the
-                         LAN Automation session to complete before moving forward.
+            description: Flag indicating whether the task should pause until the LAN Automation session completes
+                         before continuing to subsequent tasks. If set to false, the process will move to the next
+                         task immediately.
             type: bool
             default: false
           pnp_authorization:
-            description: Flag to authorize devices automatically via PnP.
+            description: Flag to enable Plug and Play (PnP) authorization for devices discovered during the session.
             type: bool
             default: false
           device_serial_number_authorization:
@@ -194,8 +194,8 @@ options:
                 type: str
                 required: true
               new_loopback0_ip_address:
-                description: New Loopback0 IP Address for the device, from the LAN
-                             pool of the device discovery site.
+                description: New Loopback0 IP Address for the device, sourced from the LAN pool associated
+                             with the device discovery site.
                 type: str
                 required: true
           hostname_update_devices:
@@ -232,7 +232,8 @@ options:
                 type: str
                 required: true
               ip_pool_name:
-                description: Name of the IP pool for the new link.
+                description: Name of the IP pool configured within LAN Automation, from which IP addresses will be
+                             allocated for the new link.
                 type: str
                 required: true
           link_delete:
@@ -265,9 +266,8 @@ notes:
     list of devices to be discovered will initially be considered. If neither a
     timeout nor a device list is provided, LAN automation will continue running
     until stopped.
-  - To stop a LAN automation session, the same details can be executed in the
-    deleted state. However, only the seed device IP will be considered for stopping
-    the session.
+  - To stop a LAN automation session, execute the same details in the 'deleted' state.
+    Only the seed device IP is required to terminate the session.
   - PnP authorization will be performed if device authorization has been selected
     in Catalyst Center. LAN automation will continue running until the provided
     serial numbers are authorized, continuously checking the status of the devices.
@@ -413,9 +413,9 @@ EXAMPLES = r"""
       - lan_automated_device_update:
           loopback_update_device_list:
             - device_management_ip_address: "204.1.3.160"
-              new_loopback0_ip_address: "91.1.2"
+              new_loopback0_ip_address: "91.1.2.6"
             - device_management_ip_address: "204.1.2.163"
-              new_loopback0_ip_address: "91.1.5"
+              new_loopback0_ip_address: "91.1.2.5"
 
 - name: Update hostname for LAN Automated devices
   cisco.dnac.lan_automation_workflow_manager:
@@ -532,7 +532,7 @@ class LanAutomation(DnacBase):
     def __init__(self, module):
         super().__init__(module)
         self.started_lan_automation, self.completed_lan_automation, self.stopped_lan_automation = [], [], []
-        self.no_lan_auto_stop = []
+        self.no_lan_auto_start, self.no_lan_auto_stop = [], []
         self.updated_loopback, self.no_loopback_updated = [], []
         self.updated_hostname, self.no_hostname_updated = [], []
         self.added_link, self.no_link_added = [], []
@@ -795,7 +795,11 @@ class LanAutomation(DnacBase):
                     - session_to_ip_map (dict): Maps session IDs to their corresponding primary IP addresses.
         """
 
-        have = {}
+        have = {
+            "activeSessions": False,
+            "activeSessionIds": [],
+            "session_to_ip_map": {}
+        }
         active_lan_automation = False
         lan_automation_session_ids = []
 
@@ -871,7 +875,7 @@ class LanAutomation(DnacBase):
             response = self.dnac._exec(
                 family="lan_automation",
                 function='lan_automation_active_sessions',
-                op_modifies=True
+                op_modifies=False
             )
 
         except Exception as e:
@@ -906,7 +910,6 @@ class LanAutomation(DnacBase):
                     If no sessions are found, an empty list is returned.
         """
 
-        response = None
         sessions = []
         try:
             response = self.dnac._exec(
@@ -948,7 +951,7 @@ class LanAutomation(DnacBase):
                 family="devices",
                 function='get_device_list',
                 params={"management_ip_address": management_ip_address},
-                op_modifies=True
+                op_modifies=False
             )
         except Exception:
             self.log(
@@ -988,7 +991,7 @@ class LanAutomation(DnacBase):
                 family="devices",
                 function='get_device_list',
                 params={"management_ip_address": management_ip_address},
-                op_modifies=True
+                op_modifies=False
             )
         except Exception:
             self.log(
@@ -1184,6 +1187,7 @@ class LanAutomation(DnacBase):
             return None, missing_params
 
         state = self.params.get("state")
+        self.log("Processing 'lan_automation' for state: {}".format(state), "DEBUG")
 
         if state == "deleted":
             self.validate_ipv4_ip(
@@ -1191,50 +1195,82 @@ class LanAutomation(DnacBase):
                 "lan_automation -> primary_device_management_ip_address",
                 missing_params
             )
+            self.log("Validated primary_device_management_ip_address for deletion", "INFO")
             return lan_automation, missing_params
 
         if state == "merged":
-            if not lan_automation.get("discovered_device_site_name_hierarchy"):
+            discovered_site_name = lan_automation.get("discovered_device_site_name_hierarchy")
+            if not discovered_site_name:
                 missing_params.append("lan_automation -> discovered_device_site_name_hierarchy")
-            elif not self.get_site_details(lan_automation.get("discovered_device_site_name_hierarchy")):
-                self.fail_with_error(
-                    "Invalid site \"{}\". Please provide a valid site!".format(
-                        lan_automation.get('discovered_device_site_name_hierarchy')
+                self.log("Missing parameter: lan_automation -> discovered_device_site_name_hierarchy", "ERROR")
+            else:
+                self.log("Validating discovered site name: {}".format(discovered_site_name), "INFO")
+                if not self.get_site_details(discovered_site_name):
+                    self.fail_with_error(
+                        "Invalid site \"{}\". Please provide a valid site!".format(discovered_site_name)
                     )
-                )
+                else:
+                    self.log("Discovered site name '{}' exists and is valid.".format(discovered_site_name), "DEBUG")
 
-            self.validate_ipv4_ip(
-                lan_automation.get("primary_device_management_ip_address"),
-                "lan_automation -> primary_device_management_ip_address", missing_params
-            )
-            if not self.get_ip_details(
-                    lan_automation.get("primary_device_management_ip_address"),
-                    "lan_automation -> primary_device_management_ip_address"
-            ):
+            primary_device_ip = lan_automation.get("primary_device_management_ip_address")
+            self.log("Validating primary device management IP address: {}".format(primary_device_ip), "INFO")
+            self.validate_ipv4_ip(primary_device_ip, "lan_automation -> primary_device_management_ip_address",
+                                  missing_params)
+            if not self.get_ip_details(primary_device_ip, "lan_automation -> primary_device_management_ip_address"):
                 self.module.fail_json(
                     msg="IP address: {} does not exist in Catalyst Center. Please provide a valid IP address for "
-                        "'lan_automation -> primary_device_management_ip_address'!"
-                    .format(lan_automation.get("primary_device_management_ip_address")), response=[])
-
-            if lan_automation.get("peer_device_management_ip_address"):
-                self.validate_ipv4_ip(
-                    lan_automation.get("peer_device_management_ip_address"),
-                    "lan_automation -> peer_device_management_ip_address",
-                    missing_params
+                        "'lan_automation -> primary_device_management_ip_address'!".format(primary_device_ip),
+                    response=[]
                 )
-            if not self.get_ip_details(
-                    lan_automation.get("peer_device_management_ip_address"),
-                    "lan_automation -> peer_device_management_ip_address"):
-                self.module.fail_json(
-                    msg="IP address: {} does not exist in Catalyst Center. Please provide a valid IP address for "
-                        "'lan_automation -> peer_device_management_ip_address'!"
-                    .format(lan_automation.get("peer_device_management_ip_address")), response=[])
+            self.log("Primary device management IP address '{}' is valid.".format(primary_device_ip), "DEBUG")
 
-            if not lan_automation.get("primary_device_interface_names"):
+            peer_device_ip = lan_automation.get("peer_device_management_ip_address")
+            if peer_device_ip:
+                self.log("Validating peer device management IP address: {}".format(peer_device_ip), "INFO")
+                self.validate_ipv4_ip(peer_device_ip, "lan_automation -> peer_device_management_ip_address",
+                                      missing_params)
+                if not self.get_ip_details(peer_device_ip, "lan_automation -> peer_device_management_ip_address"):
+                    self.module.fail_json(
+                        msg="IP address: {} does not exist in Catalyst Center. Please provide a valid IP address for "
+                            "'lan_automation -> peer_device_management_ip_address'!".format(peer_device_ip), response=[]
+                    )
+                self.log("Peer device management IP address '{}' is valid.".format(peer_device_ip), "DEBUG")
+            else:
+                self.log("Peer device IP not provided. Skipping peer device checks.", "INFO")
+
+            primary_device_interfaces = lan_automation.get("primary_device_interface_names")
+            if not primary_device_interfaces:
                 missing_params.append("lan_automation -> primary_device_interface_names")
+                self.log("Missing parameter: lan_automation -> primary_device_interface_names", "ERROR")
+            else:
+                self.log("Primary device interface names provided: {}".format(primary_device_interfaces), "DEBUG")
 
             self.validate_ip_pools(lan_automation.get("ip_pools"), missing_params)
+            self.log("Validating discovery devices.", "INFO")
             self.validate_discovery_devices(lan_automation.get("discovery_devices"), missing_params)
+            self.log("Completed validation of lan_automation parameters.", "INFO")
+            self.log("Validate launch_and_wait, pnp_authorization and if not provided set default to False.", "INFO")
+            launch_and_wait = lan_automation.get("launch_and_wait")
+            if not isinstance(launch_and_wait, bool):
+                self.log(
+                    "Invalid value for 'launch_and_wait': {}. Defaulting to 'false'.".format(launch_and_wait),
+                    "WARNING"
+                )
+                launch_and_wait = False  # Default to False
+            lan_automation["launch_and_wait"] = launch_and_wait
+
+            self.log("'launch_and_wait' set to: {}".format(launch_and_wait), "INFO")
+
+            pnp_authorization = lan_automation.get("pnp_authorization")
+            if not isinstance(pnp_authorization, bool):
+                self.log(
+                    "Invalid value for 'pnp_authorization': {}. Defaulting to 'false'.".format(pnp_authorization),
+                    "WARNING"
+                )
+                pnp_authorization = False
+            lan_automation["pnp_authorization"] = pnp_authorization
+
+            self.log("'pnp_authorization' set to: {}".format(pnp_authorization), "INFO")
 
         return lan_automation, missing_params
 
@@ -1253,17 +1289,31 @@ class LanAutomation(DnacBase):
             and link_delete). It checks for the presence and validity of device lists and IP addresses, logging any
             errors if parameters are missing or invalid.
         """
-        update_device = config.get("lan_automated_device_update")
+
         missing_params = []
+        update_device = config.get("lan_automated_device_update")
 
-        if isinstance(update_device, dict):
-            self.validate_device_list(update_device.get("loopback_update_device_list"), missing_params)
-            self.validate_hostname_update_devices(update_device.get("hostname_update_devices"), missing_params)
-            self.validate_link_update(update_device.get("link_add"), "link_add", missing_params)
-            self.validate_link_update(update_device.get("link_delete"), "link_delete", missing_params)
-        else:
-            self.log("lan_automated_device_update is not a dict, but a {}".format(type(update_device)))
+        if not isinstance(update_device, dict):
+            self.log("lan_automated_device_update is not a dict, but a {}".format(type(update_device)), "ERROR")
+            return None, missing_params
 
+        loopback_devices = update_device.get("loopback_update_device_list")
+        self.log("Starting validation of loopback update devices: {}".format(loopback_devices), "DEBUG")
+        self.validate_device_list(loopback_devices, missing_params)
+
+        hostname_devices = update_device.get("hostname_update_devices")
+        self.log("Starting validation of hostname update devices: {}".format(hostname_devices), "DEBUG")
+        self.validate_hostname_update_devices(hostname_devices, missing_params)
+
+        link_add = update_device.get("link_add")
+        self.log("Starting validation of link_add configurations: {}".format(link_add), "DEBUG")
+        self.validate_link_update(link_add, "link_add", missing_params)
+
+        link_delete = update_device.get("link_delete")
+        self.log("Starting validation of link_delete configurations: {}".format(link_delete), "DEBUG")
+        self.validate_link_update(link_delete, "link_delete", missing_params)
+
+        self.log("Completed validation of lan_automated_device_update parameters.", "DEBUG")
         return update_device, missing_params
 
     def validate_ip_pools(self, ip_pools, missing_params):
@@ -1284,23 +1334,37 @@ class LanAutomation(DnacBase):
         """
 
         if not ip_pools:
+            self.log("IP pools list is empty. Adding 'lan_automation -> ip_pools' to missing parameters.", "ERROR")
             missing_params.append("lan_automation -> ip_pools")
-        else:
-            for index, pool in enumerate(ip_pools):
-                if not pool.get("ip_pool_name"):
-                    missing_params.append("lan_automation -> ip_pools[{}] -> ip_pool_name".format(index))
+            return
 
-                ip_pool_role = pool.get("ip_pool_role")
-                if not ip_pool_role:
-                    missing_params.append("lan_automation -> ip_pools[{}] -> ip_pool_role".format(index))
-                else:
-                    ip_pool_role = ip_pool_role.upper()
-                    if ip_pool_role not in ['MAIN_POOL', 'PHYSICAL_LINK_POOL']:
-                        missing_params.append(
-                            "lan_automation -> ip_pools[{}] -> ip_pool_role (must be either 'MAIN_POOL' "
-                            "or 'PHYSICAL_LINK_POOL')".format(index))
-                    else:
-                        pool["ip_pool_role"] = ip_pool_role
+        self.log("Starting validation of IP pools: {}".format(ip_pools), "DEBUG")
+
+        for index, pool in enumerate(ip_pools):
+            if not pool.get("ip_pool_name"):
+                self.log("IP pool at index {} is missing 'ip_pool_name'.".format(index), "ERROR")
+                missing_params.append("lan_automation -> ip_pools[{}] -> ip_pool_name".format(index))
+
+            ip_pool_role = pool.get("ip_pool_role")
+            if not ip_pool_role:
+                self.log("IP pool at index {} is missing 'ip_pool_role'.".format(index), "ERROR")
+                missing_params.append("lan_automation -> ip_pools[{}] -> ip_pool_role".format(index))
+                continue
+
+            ip_pool_role = ip_pool_role.upper()
+            if ip_pool_role not in ['MAIN_POOL', 'PHYSICAL_LINK_POOL']:
+                self.log("Invalid IP pool role '{}' at index {}. Must be 'MAIN_POOL' or 'PHYSICAL_LINK_POOL'.".format(
+                    ip_pool_role, index), "ERROR")
+                missing_params.append(
+                    "lan_automation -> ip_pools[{}] -> ip_pool_role (must be either 'MAIN_POOL' or 'PHYSICAL_LINK_POOL')"
+                    .format(index)
+                )
+                continue
+
+            self.log("IP pool role '{}' at index {} validated and set.".format(ip_pool_role, index), "INFO")
+            pool["ip_pool_role"] = ip_pool_role
+
+        return
 
     def validate_discovery_devices(self, discovery_devices, missing_params):
         """
@@ -1316,20 +1380,39 @@ class LanAutomation(DnacBase):
             - It validates the 'device_site_name_hierarchy' if provided, ensuring the site exists. If the site is
               invalid, it raises an error and halts execution.
         """
+        if discovery_devices is None:
+            self.log("No discovery devices found. Skipping validation for 'discovery_devices'.", "INFO")
+            return
 
         if discovery_devices:
             for j, device in enumerate(discovery_devices):
+                if device is None:
+                    self.log("Invalid device entry at index {}. Device cannot be 'None'.".format(j), "ERROR")
+                    self.fail_with_error(
+                        "'discovery_devices[{}]' cannot be 'None'. Provide a valid device entry.".format(j))
+                    return
+
+                self.log("Validating device at index {}: {}".format(j, device), "DEBUG")
                 if not device.get("device_serial_number"):
+                    self.log("Discovery device at index {} is missing 'device_serial_number'.".format(j), "ERROR")
                     missing_params.append(
                         "lan_automation -> discovery_devices[{}] -> device_serial_number (required if "
                         "discovery_devices is provided)".format(j))
 
-                if device.get("device_site_name_hierarchy") and not self.get_site_details(
-                        device.get("device_site_name_hierarchy")):
-                    self.fail_with_error(
-                        "Invalid site \"{}\". Please provide a valid site!".format(
-                            device.get('device_site_name_hierarchy'))
-                    )
+                site_name = device.get("device_site_name_hierarchy")
+                if site_name:
+                    self.log("Validating site name hierarchy '{}' for device at index {}.".format(site_name, j),
+                             "DEBUG")
+                    if not self.get_site_details(site_name):
+                        self.fail_with_error(
+                            "Invalid site \"{}\" for device at index {}. Please provide a valid site!".format(site_name,
+                                                                                                              j)
+                        )
+                    else:
+                        self.log(
+                            "Site name hierarchy '{}' validated successfully for device at index {}.".format(site_name,
+                                                                                                             j),
+                            "DEBUG")
 
     def validate_device_list(self, device_list, missing_params):
         """
@@ -1345,25 +1428,52 @@ class LanAutomation(DnacBase):
             - It checks if the provided IP addresses exist in the system. If not, it raises an error and stops.
             - Missing or invalid parameters are appended to the 'missing_params' list.
         """
+        if not device_list:
+            self.log("No devices to validate in device_list. Skipping validation.", "ERROR")
+            return
+
+        self.log("Starting validation of devices in device list: {}".format(device_list), "DEBUG")
 
         if device_list:
             for j, device in enumerate(device_list):
-                self.validate_ipv4_ip(device.get("device_management_ip_address"),
-                                      "loopback_update_device_list -> device_management_ip_address", missing_params)
-                if not self.get_ip_details(device.get("device_management_ip_address"),
-                                           "loopback_update_devices -> device_management_ip_address"):
-                    self.module.fail_json(
-                        msg="IP address: {0} does not exist in Catalyst Center. Please provide a valid IP address for "
-                            "'loopback_update_devices -> device_management_ip_address'!"
-                        .format(device.get("device_management_ip_address")), response=[])
-
-                if not device.get("new_loopback0_ip_address"):
+                if not isinstance(device, dict):
+                    self.log("Expected a dictionary at index {}, but got: {}".format(j, type(device)), "ERROR")
+                    self.fail_with_error(
+                        "Invalid data type for loopback_update_device_list at index {}: expected a dictionary, got {}"
+                        .format(j, type(device))
+                    )
+                management_ip = device.get("device_management_ip_address")
+                if not management_ip:
+                    self.log("Device at index {} missing 'device_management_ip_address'.".format(j), "ERROR")
                     missing_params.append(
-                        "lan_automated_device_update -> loopback_update_device_list[{}] -> new_loopback0_ip_address".format(
-                            j))
+                        "loopback_update_device_list[{}] -> device_management_ip_address".format(j)
+                    )
+                else:
+                    self.validate_ipv4_ip(
+                        management_ip, "loopback_update_device_list -> device_management_ip_address", missing_params
+                    )
+                    if not self.get_ip_details(management_ip,
+                                               "loopback_update_devices -> device_management_ip_address"):
+                        self.fail_with_error(
+                            "IP address '{}' does not exist in Catalyst Center. "
+                            "Please provide a valid IP address for 'loopback_update_devices -> "
+                            "device_management_ip_address'.".format(management_ip))
 
-                self.validate_ipv4_ip(device.get("new_loopback0_ip_address"),
-                                      "loopback_update_device_list -> new_loopback0_ip_address", missing_params)
+                loopback_ip = device.get("new_loopback0_ip_address")
+                if not loopback_ip:
+                    self.log("Device at index {} missing 'new_loopback0_ip_address'.".format(j), "ERROR")
+                    missing_params.append(
+                        "lan_automated_device_update -> loopback_update_device_list[{}] -> new_loopback0_ip_address"
+                        .format(j)
+                    )
+                else:
+                    self.validate_ipv4_ip(
+                        loopback_ip, "loopback_update_device_list -> new_loopback0_ip_address", missing_params
+                    )
+
+                self.log("Device at index {} validated with management IP '{}' and loopback IP '{}'."
+                         .format(j, management_ip, loopback_ip),
+                         "INFO")
 
     def validate_hostname_update_devices(self, hostname_update_devices, missing_params):
         """
@@ -1379,20 +1489,42 @@ class LanAutomation(DnacBase):
             - If the provided IP address does not exist in the system, an error is raised.
             - Missing parameters are added to the 'missing_params' list.
         """
-        if hostname_update_devices:
-            for j, device in enumerate(hostname_update_devices):
-                self.validate_ipv4_ip(device.get("device_management_ip_address"),
-                                      "hostname_update_devices -> device_management_ip_address", missing_params)
-                if not self.get_ip_details(device.get("device_management_ip_address"),
-                                           "hostname_update_devices -> device_management_ip_address"):
-                    self.module.fail_json(
-                        msg="IP address: {0} does not exist in Catalyst Center. Please provide a valid IP address for "
-                            "'hostname_update_devices -> device_management_ip_address'!"
-                        .format(device.get("device_management_ip_address")), response=[])
+        if not hostname_update_devices:
+            self.log("No hostname update devices to validate. Skipping validation.", "INFO")
+            return
 
-                if not device.get("new_host_name"):
-                    missing_params.append(
-                        "lan_automated_device_update -> hostname_update_devices[{}] -> new_host_name".format(j))
+        self.log("Starting validation of hostname update devices: {}".format(hostname_update_devices), "INFO")
+        for j, device in enumerate(hostname_update_devices):
+            if not isinstance(device, dict):
+                self.log("Expected a dictionary at index {}, but got: {}".format(j, type(device)), "ERROR")
+                self.fail_with_error(
+                    "Invalid data type for hostname_update_devices at index {}: expected a dictionary, got {}"
+                    .format(j, type(device))
+                )
+
+            management_ip = device.get("device_management_ip_address")
+            self.validate_ipv4_ip(management_ip,
+                                  "hostname_update_devices -> device_management_ip_address", missing_params)
+
+            if not self.get_ip_details(management_ip, "hostname_update_devices -> device_management_ip_address"):
+                self.log("Invalid or non-existent IP address: {} in device at index {}.".format(management_ip, j),
+                         "ERROR")
+                self.module.fail_json(
+                    msg="IP address: {} does not exist in Catalyst Center. Please provide a valid IP address for "
+                        "'hostname_update_devices -> device_management_ip_address'.".format(management_ip),
+                    response=[]
+                )
+
+            new_host_name = device.get("new_host_name")
+            if not new_host_name:
+                self.log("Device at index {} is missing 'new_host_name'.".format(j), "ERROR")
+                missing_params.append(
+                    "lan_automated_device_update -> hostname_update_devices[{}] -> new_host_name".format(j)
+                )
+            else:
+                self.log("Device at index {} has management IP '{}' and new hostname '{}'.".format(j, management_ip,
+                                                                                                   new_host_name),
+                         "INFO")
 
     def validate_link_update(self, link_update_dict, link_name, missing_params):
         """
@@ -1409,31 +1541,41 @@ class LanAutomation(DnacBase):
             - If any of these parameters are missing, an error is logged.
             - In the case of 'link_add', the 'ip_pool_name' must also be provided.
         """
-        if link_update_dict:
-            if not isinstance(link_update_dict, dict):
-                self.fail_with_error(
-                    "Expected a dict for {0}, but got {1}".format(link_name, type(link_update_dict).__name__))
+        if not link_update_dict:
+            self.log("{0} dictionary is empty. Skipping validation.".format(link_name), "INFO")
+            return
 
-            self.validate_ipv4_ip(link_update_dict.get("source_device_management_ip_address"),
-                                  "{0} -> source_device_management_ip_address".format(link_name), missing_params)
+        if not isinstance(link_update_dict, dict):
+            self.fail_with_error(
+                "Expected a dict for {0}, but got {1}".format(link_name, type(link_update_dict).__name__)
+            )
+            return
 
-            if not link_update_dict.get("source_device_interface_name"):
-                missing_params.append(
-                    "lan_automated_device_update -> {0} -> source_device_interface_name".format(link_name)
-                )
+        self.log("Starting validation for {0}: {1}".format(link_name, link_update_dict), "INFO")
+        source_ip = link_update_dict.get("source_device_management_ip_address")
+        self.validate_ipv4_ip(source_ip, "{0} -> source_device_management_ip_address".format(link_name), missing_params)
 
-            self.validate_ipv4_ip(link_update_dict.get("destination_device_management_ip_address"),
-                                  "{0} -> destination_device_management_ip_address".format(link_name), missing_params)
+        source_interface_name = link_update_dict.get("source_device_interface_name")
+        if not source_interface_name:
+            self.log("{0} is missing 'source_device_interface_name'.".format(link_name), "ERROR")
+            missing_params.append(
+                "lan_automated_device_update -> {0} -> source_device_interface_name".format(link_name)
+            )
+        # Validate Destination Device Management IP Address
+        destination_ip = link_update_dict.get("destination_device_management_ip_address")
+        self.validate_ipv4_ip(destination_ip, "{0} -> destination_device_management_ip_address".format(link_name),
+                              missing_params)
 
-            if not link_update_dict.get("destination_device_interface_name"):
-                missing_params.append(
-                    "lan_automated_device_update -> {0} -> destination_device_interface_name".format(link_name)
-                )
-
-            if link_name == "link_add" and not link_update_dict.get("ip_pool_name"):
-                missing_params.append(
-                    "lan_automated_device_update -> {0} -> ip_pool_name (missing)".format(link_name)
-                )
+        if not link_update_dict.get("destination_device_interface_name"):
+            self.log("{0} is missing 'destination_device_interface_name'.".format(link_name), "ERROR")
+            missing_params.append(
+                "lan_automated_device_update -> {0} -> destination_device_interface_name".format(link_name)
+            )
+        if link_name == "link_add" and not link_update_dict.get("ip_pool_name"):
+            self.log("{0} requires 'ip_pool_name', but it is missing.".format(link_name), "ERROR")
+            missing_params.append(
+                "lan_automated_device_update -> {0} -> ip_pool_name (missing)".format(link_name)
+            )
 
     def validate_ipv4_ip(self, ip_address, field_name, missing_params=None):
         """
@@ -1531,10 +1673,16 @@ class LanAutomation(DnacBase):
             self.log("No response received for {0} on {1}".format(source_device_ip, interface_name), "INFO")
             return False
 
+        self.log("Received response from 'get_interface_details'{}".format(response))
         interface_details = response.get("response", {})
         ipv4_address = interface_details.get("ipv4Address")
         isis_support = interface_details.get("isisSupport", "false")
         address_list = interface_details.get("addresses", [])
+
+        self.log("Interface Details: {0}".format(interface_details), "DEBUG")
+        self.log("IPv4 Address: {0}".format(ipv4_address), "DEBUG")
+        self.log("IS-IS Support: {0}".format(isis_support), "DEBUG")
+        self.log("Address List: {0}".format(address_list), "DEBUG")
 
         if ipv4_address and isis_support != "false" and address_list:
             self.log("Valid link details for {0} on {1}".format(source_device_ip, interface_name), "INFO")
@@ -1574,6 +1722,11 @@ class LanAutomation(DnacBase):
                 "LAN automation session started successfully for the following: {0}".format(
                     self.started_lan_automation))
 
+        if self.no_lan_auto_start:
+            result_msg_list.append(
+                "A LAN Automation session is already running with the following seed IP: {0}. Hence, no update needed"
+                .format(self.no_lan_auto_start))
+
         if self.completed_lan_automation:
             result_msg_list.append(
                 "LAN automation session completed successfully for the following: {0}".format(
@@ -1583,6 +1736,7 @@ class LanAutomation(DnacBase):
             result_msg_list.append(
                 "LAN automation session stopped successfully for the following: {0}".format(
                     self.stopped_lan_automation))
+
         if self.no_lan_auto_stop:
             result_msg_list.append(
                 "No active LAN automation session with following seed IP found: {0}".format(
@@ -1593,7 +1747,8 @@ class LanAutomation(DnacBase):
             result_msg_list.append(update_loopback_msg)
 
         if self.no_loopback_updated:
-            no_loopback_update_msg = "Provided loopback IP Addresses do not need any update in Cisco Catalyst Center."
+            no_loopback_update_msg = "Provided loopback IP Addresses {} do not need any update in Cisco Catalyst " \
+                                     "Center.".format(self.no_loopback_updated)
             result_msg_list.append(no_loopback_update_msg)
 
         if self.updated_hostname:
@@ -1601,7 +1756,8 @@ class LanAutomation(DnacBase):
             result_msg_list.append(update_hostname_msg)
 
         if self.no_hostname_updated:
-            no_hostname_update_msg = "Provided hostname(s) did not need an update in Cisco Catalyst Center."
+            no_hostname_update_msg = "Provided hostname(s) {} did not need an update in Cisco Catalyst Center." \
+                .format(self.no_hostname_updated)
             result_msg_list.append(no_hostname_update_msg)
 
         if self.added_link:
@@ -1609,7 +1765,8 @@ class LanAutomation(DnacBase):
             result_msg_list.append(added_link_msg)
 
         if self.no_link_added:
-            no_link_added_msg = "Provided links were not added in Cisco Catalyst Center."
+            no_link_added_msg = "Provided links {} were not added in Cisco Catalyst Center as links for the devices " \
+                                "already exist.".format(self.no_link_added)
             result_msg_list.append(no_link_added_msg)
 
         if self.deleted_link:
@@ -1617,7 +1774,7 @@ class LanAutomation(DnacBase):
             result_msg_list.append(delete_link_msg)
 
         if self.no_link_deleted:
-            no_link_deleted_msg = "Provided links could not be deleted in Cisco Catalyst Center."
+            no_link_deleted_msg = "Provided links {} did not need any deletion from Cisco Catalyst Center."
             result_msg_list.append(no_link_deleted_msg)
 
         if (
@@ -1661,10 +1818,12 @@ class LanAutomation(DnacBase):
             - Ensuring all required tasks are executed and their statuses are checked to facilitate smooth
               playbook execution.
         """
-        if self.want.get("lan_automation"):
-            seed_ip_address = self.want.get("lan_automation").get("primaryDeviceManagmentIPAddress")
-            launch_and_wait = self.want.get("lan_automation").get("launchAndWait", False)
+        lan_automation = self.want.get("lan_automation", {})
+        if lan_automation:
+            seed_ip_address = lan_automation.get("primaryDeviceManagmentIPAddress")
+            launch_and_wait = lan_automation.get("launchAndWait", False)
 
+            self.log("Verifying LAN automation session for seed IP: {}".format(seed_ip_address), "DEBUG")
             if seed_ip_address and not launch_and_wait:
                 self.get_have(config)
                 self.log("Current State (have): {0}".format(str(self.have)), "INFO")
@@ -1687,64 +1846,134 @@ class LanAutomation(DnacBase):
                             "No session found immediately after starting.".format(seed_ip_address))
                 self.log(self.msg, "INFO")
 
-        if self.want.get("lan_automated_device_update"):
-            lan_devices = self.want.get("lan_automated_device_update")
-            loopback_updates = lan_devices.get("loopbackUpdateDeviceList", [])
-            for loopback in loopback_updates:
-                new_ip = loopback.get("newLoopback0IPAddress")
-                if self.get_ip_details(new_ip, "new loopback IP update"):
-                    self.log("Verified loopback IP address {0} was updated on Catalyst Center.".format(new_ip), "INFO")
-                else:
-                    self.log("Loopback IP address {0} was not updated on Catalyst Center.".format(new_ip), "WARNING")
-
-            hostname_updates = lan_devices.get("hostnameUpdateDevices", [])
-            for hostname in hostname_updates:
-                device_ip = hostname.get("deviceManagementIPAddress")
-                new_hostname = hostname.get("newHostName")
-                current_hostname = self.get_hostname_details(device_ip)
-
-                if current_hostname == new_hostname:
-                    self.log("Hostname for device IP {0} is already updated to {1}.".format(device_ip, new_hostname),
-                             "INFO")
-                else:
-                    self.log("Hostname for device IP {0} was not updated to {1}.".format(device_ip, new_hostname),
-                             "WARNING")
-
-            link_add = lan_devices.get("linkAdd", {})
-            if link_add:
-                source_ip_address = link_add.get("sourceDeviceManagementIPAddress")
-                source_interface_name = link_add.get("sourceDeviceInterfaceName")
-                destination_ip_address = link_add.get("destinationDeviceManagementIPAddress")
-                destination_interface_name = link_add.get("destinationDeviceInterfaceName")
-
-                if self.check_link_details(source_ip_address, source_interface_name) and \
-                        self.check_link_details(destination_ip_address, destination_interface_name):
-                    self.log("Link between {0}/{1} and {2}/{3} was added successfully in Catalyst Center.".format(
-                        source_ip_address, source_interface_name, destination_ip_address, destination_interface_name),
-                        "INFO")
-                else:
-                    self.log("Link between {0}/{1} and {2}/{3} was not added in Catalyst Center.".format(
-                        source_ip_address, source_interface_name, destination_ip_address, destination_interface_name),
-                        "WARNING")
-
-            link_delete = lan_devices.get("linkDelete", {})
-            if link_delete:
-                source_ip_address = link_delete.get("sourceDeviceManagementIPAddress")
-                source_interface_name = link_delete.get("sourceDeviceInterfaceName")
-                destination_ip_address = link_delete.get("destinationDeviceManagementIPAddress")
-                destination_interface_name = link_delete.get("destinationDeviceInterfaceName")
-
-                if not self.check_link_details(source_ip_address, source_interface_name) and \
-                        not self.check_link_details(destination_ip_address, destination_interface_name):
-                    self.log("Link between {0}/{1} and {2}/{3} has already been removed.".format(
-                        source_ip_address, source_interface_name, destination_ip_address, destination_interface_name),
-                        "INFO")
-                else:
-                    self.log("Link between {0}/{1} and {2}/{3} still exists and needs to be removed.".format(
-                        source_ip_address, source_interface_name, destination_ip_address, destination_interface_name),
-                        "WARNING")
+        lan_devices = self.want.get("lan_automated_device_update", {})
+        if lan_devices:
+            self.process_loopback_updates(lan_devices.get("loopbackUpdateDeviceList", []))
+            self.process_hostname_updates(lan_devices.get("hostnameUpdateDevices", []))
+            self.process_link_addition(lan_devices.get("linkAdd", {}))
+            self.process_link_deletion(lan_devices.get("linkDelete", {}))
 
         return self
+
+    def process_loopback_updates(self, loopback_updates):
+        """Processes loopback IP updates and logs the results.
+
+        Args:
+            loopback_updates (list): A list of dictionaries containing loopback
+                                     update details. Each dictionary should contain
+                                     a key "newLoopback0IPAddress".
+
+        Description:
+            This method iterates through a list of loopback update dictionaries,
+            verifies the existence of the new loopback IP address in the system,
+            and logs the outcome of each verification.
+
+        Returns:
+            None
+        """
+        self.log("Processing loopback updates.", "INFO")
+        for loopback in loopback_updates:
+            new_ip = loopback.get("newLoopback0IPAddress")
+            if self.get_ip_details(new_ip, "new loopback IP update"):
+                self.log("Verified loopback IP address {0} was updated on Catalyst Center.".format(new_ip), "INFO")
+            else:
+                self.log("Loopback IP address {0} was not updated on Catalyst Center.".format(new_ip), "WARNING")
+
+    def process_hostname_updates(self, hostname_updates):
+        """Processes hostname updates and logs the results.
+
+        Args:
+            hostname_updates (list): A list of dictionaries containing hostname
+                                     update details. Each dictionary should include
+                                     "deviceManagementIPAddress" and "newHostName".
+
+        Description:
+            This method processes a list of hostname update dictionaries and
+            checks whether the hostname of each device IP is updated. It logs
+            whether the update was successful or if it was already up to date.
+
+        Returns:
+            None
+        """
+        self.log("Processing hostname updates.", "INFO")
+        for hostname in hostname_updates:
+            device_ip = hostname.get("deviceManagementIPAddress")
+            new_hostname = hostname.get("newHostName")
+            current_hostname = self.get_hostname_details(device_ip)
+
+            if current_hostname == new_hostname:
+                self.log("Hostname for device IP {0} is already updated to {1}.".format(device_ip, new_hostname),
+                         "INFO")
+            else:
+                self.log("Hostname for device IP {0} was not updated to {1}.".format(device_ip, new_hostname),
+                         "WARNING")
+
+    def process_link_addition(self, link_add):
+        """Processes link addition and logs the results.
+
+        Args:
+            link_add (dict): A dictionary containing details for adding a link,
+                             including "sourceDeviceManagementIPAddress",
+                             "sourceDeviceInterfaceName", "destinationDeviceManagementIPAddress",
+                             and "destinationDeviceInterfaceName".
+
+        Description:
+            This method checks the details of the link to be added and verifies
+            whether both source and destination links exist in the system. It
+            logs the result of the link addition attempt.
+
+        Returns:
+            None
+        """
+        self.log("Processing link addition.", "INFO")
+        if link_add:
+            source_ip_address = link_add.get("sourceDeviceManagementIPAddress")
+            source_interface_name = link_add.get("sourceDeviceInterfaceName")
+            destination_ip_address = link_add.get("destinationDeviceManagementIPAddress")
+            destination_interface_name = link_add.get("destinationDeviceInterfaceName")
+
+            if self.check_link_details(source_ip_address, source_interface_name) and \
+                    self.check_link_details(destination_ip_address, destination_interface_name):
+                self.log("Link between {0}/{1} and {2}/{3} was added successfully in Catalyst Center.".format(
+                    source_ip_address, source_interface_name, destination_ip_address, destination_interface_name),
+                    "INFO")
+            else:
+                self.log("Link between {0}/{1} and {2}/{3} was not added in Catalyst Center.".format(
+                    source_ip_address, source_interface_name, destination_ip_address, destination_interface_name),
+                    "WARNING")
+
+    def process_link_deletion(self, link_delete):
+        """Processes link deletion and logs the results.
+
+        Args:
+            link_delete (dict): A dictionary containing details for deleting a link,
+                                including "sourceDeviceManagementIPAddress",
+                                "sourceDeviceInterfaceName", "destinationDeviceManagementIPAddress",
+                                and "destinationDeviceInterfaceName".
+
+        Description:
+            This method checks whether the specified link is already removed or
+            still exists in the system. It logs the outcome of the link deletion attempt.
+
+        Returns:
+            None
+        """
+        self.log("Processing link deletion.", "INFO")
+        if link_delete:
+            source_ip_address = link_delete.get("sourceDeviceManagementIPAddress")
+            source_interface_name = link_delete.get("sourceDeviceInterfaceName")
+            destination_ip_address = link_delete.get("destinationDeviceManagementIPAddress")
+            destination_interface_name = link_delete.get("destinationDeviceInterfaceName")
+
+            if not self.check_link_details(source_ip_address, source_interface_name) and \
+                    not self.check_link_details(destination_ip_address, destination_interface_name):
+                self.log("Link between {0}/{1} and {2}/{3} has already been removed.".format(
+                    source_ip_address, source_interface_name, destination_ip_address, destination_interface_name),
+                    "INFO")
+            else:
+                self.log("Link between {0}/{1} and {2}/{3} still exists and needs to be removed.".format(
+                    source_ip_address, source_interface_name, destination_ip_address, destination_interface_name),
+                    "WARNING")
 
     def get_diff_merged(self):
         """
@@ -1779,21 +2008,42 @@ class LanAutomation(DnacBase):
         lan_automation = self.want.get("lan_automation", {})
         update_device = self.want.get("lan_automated_device_update", {})
 
+        self.log("LAN Automation settings: {}".format(lan_automation), "DEBUG")
+        self.log("Device update settings: {}".format(update_device), "DEBUG")
+
         if lan_automation:
             launch_and_wait = lan_automation.get("launchAndWait", False)
+            self.log("Launch and wait setting: {}".format(launch_and_wait), "DEBUG")
+
+            session_to_ip_mapping = self.have.get("session_to_ip_map", {})
+            seed_ip_address = lan_automation.get("primaryDeviceManagmentIPAddress")
+            self.log("Current session to IP mapping: {}".format(session_to_ip_mapping), "DEBUG")
+            self.log("Seed IP address being checked: {}".format(seed_ip_address), "DEBUG")
+
+            if session_to_ip_mapping and seed_ip_address in session_to_ip_mapping.values():
+                self.no_lan_auto_start.append(seed_ip_address)
+                self.msg = "A LAN automation session is already running for the same seed IP address: {}. " \
+                           "Hence, no update needed. ".format(seed_ip_address)
+                self.set_operation_result("success", False, self.msg, "INFO")
+                self.check_return_status()
+                return self
+
             action_func, status_func = action_plan["start_lan_automation"]
-
             self.log("Performing '{}' operation...".format(action_func.__name__), "DEBUG")
-            result_task_id = action_func(lan_automation)
 
+            result_task_id = action_func(lan_automation)
+            self.log("Result task ID from '{}': {}".format(action_func.__name__, result_task_id), "DEBUG")
             self.log("Result task ID is: {}".format(result_task_id))
 
             if not result_task_id:
                 self.msg = "An error occurred while retrieving the task_id of the '{}' operation.".format(
                     action_func.__name__)
                 self.set_operation_result("failed", False, self.msg, "CRITICAL")
-            else:
-                status_func(result_task_id).check_return_status()
+                self.log(self.msg, "ERROR")
+
+            self.log("Checking status for task ID: {}".format(result_task_id), "DEBUG")
+            status_func(result_task_id).check_return_status()
+            self.log("LAN Automation session completed successfully.", "DEBUG")
 
         if update_device:
             if lan_automation and not launch_and_wait:
@@ -1804,10 +2054,10 @@ class LanAutomation(DnacBase):
                 self.module.fail_json(msg=self.msg, response=[])
 
             filtered_updates = self.filter_updates(update_device)
+            self.log("Filtered updates for devices: {}".format(filtered_updates), "DEBUG")
 
             if filtered_updates:
                 action_func, status_func = action_plan["update_lan_automated_devices"]
-
                 self.log("Performing '{}' operation with filtered updates.".format(action_func.__name__), "DEBUG")
                 result_task_ids = action_func(filtered_updates)
 
@@ -1818,6 +2068,7 @@ class LanAutomation(DnacBase):
                 else:
                     self.log("Changes Merged: Task IDs: {}".format(result_task_ids))
                     status_func(result_task_ids).check_return_status()
+                    self.log("Device updates completed successfully.", "INFO")
             else:
                 self.log("No updates required after filtering.", "INFO")
 
@@ -1853,33 +2104,59 @@ class LanAutomation(DnacBase):
             updates = update_device.get(update_key, {} if update_key in ["linkAdd", "linkDelete"] else [])
 
             if updates:
-                self.log("Filtering updates for {}.".format(update_key))
+                self.log("Filtering updates for {}: {}".format(update_key, updates), "DEBUG")
 
                 if update_type == "loopback_update":
                     filtered_updates[update_key] = []
                     for device in updates:
-                        if device.get("deviceManagementIPAddress") != device.get("newLoopback0IPAddress"):
+                        current_ip = device.get("deviceManagementIPAddress")
+                        new_ip = device.get("newLoopback0IPAddress")
+
+                        if current_ip != new_ip:
                             filtered_updates[update_key].append(device)
+                            self.log("Loopback IP needs update for device: {}. Current: {}, New: {}"
+                                     .format(device, current_ip, new_ip), "INFO")
                         else:
                             self.no_loopback_updated.append(device)
+                            self.log("No update needed for loopback IP on device: {}".format(device), "INFO")
                     if not filtered_updates[update_key]:
                         self.log("No loopback updates needed after filtering.", "INFO")
-                        continue
 
                 elif update_type == "hostname_update":
                     filtered_updates[update_key] = []
                     for device in updates:
                         current_hostname = self.get_hostname_details(device.get("deviceManagementIPAddress"))
                         if current_hostname != device.get("newHostName"):
+                            self.log("Hostname needs update for device: {}. Current: {}, New: {}".format(
+                                device, current_hostname, device.get("newHostName")), "INFO")
                             filtered_updates[update_key].append(device)
                         else:
                             self.no_hostname_updated.append(device)
+                            self.log("No update needed for hostname on device: {}".format(device), "INFO")
                     if not filtered_updates[update_key]:
                         self.log("No hostname updates needed after filtering.", "INFO")
-                        continue
 
                 elif update_type == "link_add":
-                    filtered_updates[update_key] = updates
+                    self.log("Link add updates ready for processing: {}".format(updates), "DEBUG")
+
+                    source_ip_address = updates.get("sourceDeviceManagementIPAddress")
+                    source_interface_name = updates.get("sourceDeviceInterfaceName")
+                    destination_ip_address = updates.get("destinationDeviceManagementIPAddress")
+                    destination_interface_name = updates.get("destinationDeviceInterfaceName")
+
+                    if self.check_link_details(source_ip_address, source_interface_name) and \
+                            self.check_link_details(destination_ip_address, destination_interface_name):
+                        self.log("Link already exists between {}/{} and {}/{}. No update needed.".format(
+                            source_ip_address, source_interface_name, destination_ip_address,
+                            destination_interface_name),
+                            "INFO")
+
+                        self.no_link_added.append(updates)
+                    else:
+                        filtered_updates[update_key] = updates
+
+                    if not filtered_updates[update_key]:
+                        self.log("No link add updates needed after filtering.", "INFO")
 
                 elif update_type == "link_delete":
                     if not self.check_link_details(
@@ -1890,12 +2167,15 @@ class LanAutomation(DnacBase):
                         updates.get("destinationDeviceInterfaceName")
                     ):
                         filtered_updates[update_key] = updates
+                        self.log("Link delete updates ready for processing: {}".format(updates), "DEBUG")
                     else:
                         self.no_link_deleted.append(updates)
+                        self.log("No link delete needed for updates: {}".format(updates), "INFO")
 
                     if not filtered_updates.get(update_key):
                         self.log("No link delete updates needed after filtering.", "INFO")
-                        continue
+
+        self.log("Filtered updates: {}".format(filtered_updates), "DEBUG")
 
         return filtered_updates
 
@@ -1930,12 +2210,13 @@ class LanAutomation(DnacBase):
             updates = filtered_updates.get(update_key, [])
 
             if updates:
-                self.log("Processing updates for {}: {}".format(update_key, updates))
+                self.log("Processing updates for {}: {}".format(update_key, updates), "DEBUG")
 
                 task_id = self.call_lan_auto_update_api(update_type, updates)
 
                 if task_id:
                     task_ids[update_type] = task_id
+                    self.log("Successfully initiated {} update. Task ID: {}".format(update_type, task_id), "INFO")
                 else:
                     self.log("Failed to get task ID for {} update: {}".format(update_type, updates), "ERROR")
             else:
@@ -1960,17 +2241,24 @@ class LanAutomation(DnacBase):
             The method ensures to set the operation result based on the final status of the task.
         """
 
-        launch_and_wait = self.want.get("lan_automation").get("launchAndWait", False)  # Default is False
-        pnp_authorization = self.want.get("lan_automation").get("pnpAuthorization", False)
-        start_time = time.time()
-        device_serials = ([serial.upper() for serial in self.want.get("lan_automation", {}).
-                          get("deviceSerialNumberAuthorization", [])] or [device.get("deviceSerialNumber", "").upper()
-                          for device in self.want.get("lan_automation", {}).get("discoveryDevices", [])])
+        lan_automation = self.want.get("lan_automation", {})
+        launch_and_wait = lan_automation.get("launchAndWait", False)  # Default is False
+        pnp_authorization = lan_automation.get("pnpAuthorization", False)
+        device_serials = ([serial.upper() for serial in lan_automation.get("deviceSerialNumberAuthorization", [])] or
+                          [device.get("deviceSerialNumber", "").upper() for device in
+                           lan_automation.get("discoveryDevices", [])])
 
+        self.log("LAN Automation Config: {}".format(lan_automation), "DEBUG")
+        self.log("Launch and Wait: {}".format(launch_and_wait), "DEBUG")
+        self.log("PnP Authorization: {}".format(pnp_authorization), "DEBUG")
+        self.log("Device Serial Numbers: {}".format(device_serials), "DEBUG")
+
+        start_time = time.time()
         remaining_auth_devices = device_serials.copy()
         pending_authorization = True
 
         task_id = task_id.get("response", {}).get("taskId")
+        self.log("Starting to monitor LAN automation task with task ID: {}".format(task_id), "DEBUG")
 
         if not launch_and_wait:
             task_details = self.get_task_details(task_id)
@@ -1997,15 +2285,17 @@ class LanAutomation(DnacBase):
                 )
                 self.log(self.msg, "INFO")
                 self.set_operation_result("success", True, self.msg, "INFO")
+                self.started_lan_automation.append(lan_automation.get("primaryDeviceManagmentIPAddress"))
             else:
                 self.msg = "LAN automation session has started successfully. Please check Catalyst Center UI " \
                            "to track progress."
                 self.log(self.msg, "INFO")
-                self.started_lan_automation.append(
-                    self.want.get("lan_automation").get("primaryDeviceManagmentIPAddress"))
                 self.set_operation_result("success", True, self.msg, "INFO")
+                self.started_lan_automation.append(lan_automation.get("primaryDeviceManagmentIPAddress"))
 
             return self
+
+        self.log("Entering polling loop for LAN automation task completion...", "DEBUG")
 
         while True:
             task_details = self.get_task_details(task_id)
@@ -2014,7 +2304,7 @@ class LanAutomation(DnacBase):
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 break
 
-            self.log("Task details for task ID {}: {}".format(task_id, task_details), "DEBUG")
+            self.log("Current task details for task ID {}: {}".format(task_id, task_details), "DEBUG")
 
             if task_details.get("isError") is True:
                 error_msg = task_details.get("failureReason") or task_details.get("progress")
@@ -2027,8 +2317,7 @@ class LanAutomation(DnacBase):
             if "complete" in task_details.get("progress", "").lower():
                 self.msg = "LAN automation has completed successfully: {}".format(task_details.get('progress'))
                 self.log(self.msg, "INFO")
-                self.completed_lan_automation.append(
-                    self.want.get("lan_automation").get("primaryDeviceManagmentIPAddress"))
+                self.completed_lan_automation.append(lan_automation.get("primaryDeviceManagmentIPAddress"))
                 self.status = "success"
                 self.set_operation_result("success", True, self.msg, "INFO")
                 break
@@ -2072,13 +2361,14 @@ class LanAutomation(DnacBase):
                                 "discovery. Please authorize devices manually in the PnP page in Catalyst Center.")
                     self.set_operation_result("failed", False, self.msg, "ERROR")
 
-            self.log("Waiting for 30 seconds...")
+            self.log("Waiting for 30 seconds before the next status check...", "DEBUG")
             time.sleep(self.params.get("dnac_task_poll_interval", 30))
 
         if self.status != "success":
+            elapsed_time = time.time() - start_time
             self.msg = (
-                "LAN automation did not complete within the expected time. Consider stopping the LAN Automation "
-                "by running the playbook in Deleted state."
+                "LAN automation did not complete within the expected time {:.2f} seconds. "
+                "Consider stopping the LAN Automation by running the playbook in Deleted state.".format(elapsed_time)
             )
             self.log(self.msg, "ERROR")
             self.set_operation_result("failed", True, self.msg, "INFO")
@@ -2116,6 +2406,7 @@ class LanAutomation(DnacBase):
 
         feature = feature_map.get(update_type)
         payload_key = payload_map.get(update_type)
+        self.log("Preparing to call LAN automation API for update type '{}': {}".format(update_type, payload), "DEBUG")
 
         try:
             params = {
@@ -2218,26 +2509,24 @@ class LanAutomation(DnacBase):
             empty dictionary. The logs can be useful for debugging and monitoring the state of
             the automation tasks.
         """
-        response = None
         try:
             response = self.dnac._exec(
                 family="lan_automation",
                 function="lan_automation_log",
                 op_modifies=False
             )
+            if response:
+                response_data = response.get("response", [])
+                self.log("Received API response from 'lan_automation_log': {}".format(str(response)), "DEBUG")
+
+                if response_data:
+                    return response_data[0]
+
+            self.log("No response received for log status request.", "WARNING")
+            return {}
         except Exception as e:
             self.log("Error retrieving log status: {}".format(str(e)), "WARNING")
             return {}
-
-        if response:
-            response_data = response.get("response", [])
-            self.log("Received API response from 'log_status': {}".format(str(response)), "DEBUG")
-
-            if response_data:
-                return response_data[0]
-
-        self.log("No response received for log status request.", "WARNING")
-        return {}
 
     def authorize_devices(self, device_serials):
         """
@@ -2284,9 +2573,8 @@ class LanAutomation(DnacBase):
                     self.log("Serial number {} is not in the provided device_serials list".format(serial_number),
                              "INFO")
 
-        self.log("This is serial to id mapping for devices in 'Pending Authorization': {}".format(serial_to_id_map),
-                 "DEBUG")
-        self.log("This is device_ids list for devices in 'Pending Authorization': {}".format(device_ids))
+        self.log("Serial to ID mapping for devices in 'Pending Authorization': {}".format(serial_to_id_map), "DEBUG")
+        self.log("Device IDs list for devices in 'Pending Authorization': {}".format(device_ids), "DEBUG")
 
         missing_serials = [serial for serial in device_serials if serial not in serial_to_id_map]
         self.log(
@@ -2304,7 +2592,6 @@ class LanAutomation(DnacBase):
 
         self.log("Attempting to authorize devices with IDs: {}".format(device_ids), "DEBUG")
         authorized_devices = self.authorize_pnp_devices(device_ids, serial_to_id_map)
-
         if not authorized_devices:
             self.log("Authorization failed for one or more devices", "ERROR")
             return []
@@ -2330,8 +2617,9 @@ class LanAutomation(DnacBase):
             and an empty list is also returned.
         """
 
+        self.log("Devices to be authorized: {}".format(device_ids))
+
         payload = {"deviceIdList": device_ids}
-        response = None
         try:
             response = self.dnac._exec(
                 family="device_onboarding_pnp",
@@ -2372,8 +2660,7 @@ class LanAutomation(DnacBase):
             an empty list.
         """
 
-        self.log("!! API Call for dev_list: {}".format(device_serial_numbers))
-        response = None
+        self.log("Initiating API call for device list: {}".format(device_serial_numbers))
         try:
             response = self.dnac._exec(
                 family="device_onboarding_pnp",
@@ -2390,9 +2677,9 @@ class LanAutomation(DnacBase):
 
         if isinstance(response, list) and response:
             return response
-        else:
-            self.log("Received empty or invalid response: {}".format(response), "WARNING")
-            return []
+
+        self.log("Received empty or invalid response: {}".format(response), "WARNING")
+        return []
 
     def start_lan_auto(self, lan_automation_params):
         """
@@ -2411,11 +2698,14 @@ class LanAutomation(DnacBase):
         """
         session_to_ip_mapping = self.have.get("session_to_ip_map", {})
         seed_ip_address = lan_automation_params.get("primaryDeviceManagmentIPAddress")
+        self.log("Current session to IP mapping: {}".format(session_to_ip_mapping), "DEBUG")
+        self.log("Seed IP address being checked: {}".format(seed_ip_address), "DEBUG")
 
         if session_to_ip_mapping and seed_ip_address in session_to_ip_mapping.values():
-            self.msg = "A LAN automation session is already running for the same seed IP address: {}. " \
-                       "Only one automation session is allowed per seed device.".format(seed_ip_address)
-            self.set_operation_result("failed", False, self.msg, "CRITICAL")
+            self.no_lan_auto_start.append(seed_ip_address)
+            self.msg = "A LAN automation session is already running for the same seed IP address: {}. Hence, " \
+                       "no update needed. ".format(seed_ip_address)
+            self.set_operation_result("success", False, self.msg, "INFO")
             self.check_return_status()
 
         self.log("Input parameters: {}".format(lan_automation_params), "DEBUG")
@@ -2441,6 +2731,7 @@ class LanAutomation(DnacBase):
         lan_auto_params_list = []
         lan_auto_params_list.append(lan_auto_params)
 
+        self.log("Sending request to start LAN Automation with payload: {}".format(lan_auto_params_list), "DEBUG")
         try:
             response = self.dnac_apply["exec"](
                 family="lan_automation",
@@ -2454,13 +2745,16 @@ class LanAutomation(DnacBase):
             if response:
                 self.result.update(dict(response=response["response"]))
                 task_id = response["response"].get("taskId")
-                self.log("Task Id for starting LAN Automation session is {}".format(task_id), "DEBUG")
+                self.log("Task ID for starting LAN Automation session is {}".format(task_id), "DEBUG")
+
                 if task_id:
                     self.result['task_id'] = task_id
+
                 return self.result
-            else:
-                self.msg = "No response received from the LAN Automation API call."
-                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+            self.msg = "No response received from the LAN Automation API call."
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            self.check_return_status()
         except Exception as e:
             self.msg = "An error occurred while trying to start LAN Automation session. Error: {}".format(str(e))
             self.log(self.msg, "CRITICAL")
@@ -2484,61 +2778,66 @@ class LanAutomation(DnacBase):
             Cisco Catalyst Center API to stop the session.
             It logs the outcome, indicating success or failure, and updates the internal state based on the API response.
         """
+        if not self.want.get("lan_automation"):
+            self.log("LAN automation configuration not found in 'want'. Exiting the method.", "INFO")
+            return self
 
-        if self.want.get("lan_automation"):
-            session_to_ip_mapping = self.have.get("session_to_ip_map", {})
-            seed_ip_address = self.want.get("lan_automation").get("primaryDeviceManagmentIPAddress")
+        session_to_ip_mapping = self.have.get("session_to_ip_map", {})
+        seed_ip_address = self.want.get("lan_automation").get("primaryDeviceManagmentIPAddress")
+        self.log("Current session to IP mapping: {}".format(session_to_ip_mapping), "DEBUG")
+        self.log("Seed IP address for stopping LAN automation: {}".format(seed_ip_address), "DEBUG")
 
-            if not session_to_ip_mapping:
-                self.msg = "No LAN automation session is currently running. Please use state merged to start a " \
-                           "new LAN Automation session."
-                self.no_lan_auto_stop.append(seed_ip_address)
-                self.set_operation_result("success", False, self.msg, "INFO")
-                return self
+        if not session_to_ip_mapping:
+            self.msg = "No LAN automation session is currently running. Please use state merged to start a " \
+                       "new LAN Automation session."
+            self.no_lan_auto_stop.append(seed_ip_address)
+            self.set_operation_result("success", False, self.msg, "INFO")
+            return self
 
-            session_id = next(
-                (sid for sid, ip_address in session_to_ip_mapping.items() if ip_address == seed_ip_address), None)
+        session_id = next(
+            (sid for sid, ip_address in session_to_ip_mapping.items() if ip_address == seed_ip_address), None)
 
-            if not session_id:
-                self.msg = "No active LAN automation session found for seed IP address: {0}.".format(seed_ip_address)
-                self.log(self.msg)
-                self.set_operation_result("failed", False, self.msg, "INFO")
-                return self
+        if not session_id:
+            self.msg = "No active LAN automation session found for seed IP address: {0}.".format(seed_ip_address)
+            self.log(self.msg)
+            self.set_operation_result("failed", False, self.msg, "INFO")
+            return self
 
-            self.log(
-                "LAN automation session is running for seed IP address: {0}, session ID: {1}.".format(seed_ip_address,
-                                                                                                      session_id),
-                "INFO")
+        self.log(
+            "LAN automation session is running for seed IP address: {0}, session ID: {1}.".format(seed_ip_address,
+                                                                                                  session_id),
+            "INFO")
 
-            try:
-                response = self.dnac_apply["exec"](
-                    family="lan_automation",
-                    function="lan_automation_stop",
-                    params={"id": session_id},
-                    op_modifies=True
-                )
+        try:
+            self.log("Attempting to stop LAN automation session with ID: {}".format(session_id), "DEBUG")
+            response = self.dnac_apply["exec"](
+                family="lan_automation",
+                function="lan_automation_stop",
+                params={"id": session_id},
+                op_modifies=True
+            )
 
-                self.log("Response from 'lan_automation_stop' API: {0}".format(response), "DEBUG")
+            self.log("Response from 'lan_automation_stop' API: {0}".format(response), "DEBUG")
 
-                response_data = response.get("response", {})
-                error_code = response_data.get("errorCode")
-                message = response_data.get("message")
-                detail = response_data.get("detail")
+            response_data = response.get("response", {})
+            error_code = response_data.get("errorCode")
+            message = response_data.get("message")
+            detail = response_data.get("detail")
 
-                if error_code:
-                    self.msg = "Error stopping LAN automation session: {0}. Details: {1} (Error Code: {2}) ".format(
-                        message, detail, error_code)
-                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
-                else:
-                    self.check_stop_session(seed_ip_address, session_id)
-                    self.msg = "Successfully stopped LAN automation session with session ID: {0}.".format(session_id)
-                    self.stopped_lan_automation.append(seed_ip_address)
-                    self.set_operation_result("success", True, self.msg, "INFO")
+            if error_code:
+                self.msg = "Error stopping LAN automation session: {0}. Details: {1} (Error Code: {2}) ".format(
+                    message, detail, error_code)
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            else:
+                self.check_stop_session(seed_ip_address, session_id)
+                self.msg = "Successfully stopped LAN automation session with session ID: {0}.".format(session_id)
+                self.stopped_lan_automation.append(seed_ip_address)
+                self.set_operation_result("success", True, self.msg, "INFO")
 
-            except Exception as e:
-                self.msg = "An error occurred while stopping the LAN automation session: {0}".format(str(e))
-                self.log(self.msg, "CRITICAL")
-                self.set_operation_result("failed", False, self.msg, "CRITICAL")
+        except Exception as e:
+            self.msg = "An error occurred while stopping the LAN automation session: {0}".format(str(e))
+            self.log(self.msg, "CRITICAL")
+            self.set_operation_result("failed", False, self.msg, "CRITICAL")
 
         return self
 
@@ -2558,12 +2857,16 @@ class LanAutomation(DnacBase):
             operation result accordingly.
         """
         end_time = time.time() + max_wait_time
+        self.log(
+            "Starting to check if the LAN automation session is stopped for seed IP '{0}' with session ID '{1}'."
+            .format(seed_ip_address, session_id), "DEBUG")
 
         while time.time() < end_time:
             self.get_have(self.want)
             self.log("Current State (have): {0}".format(str(self.have)), "INFO")
 
             active_session_ids = self.have.get("activeSessionIds", [])
+            self.log("Active session IDs: {0}".format(active_session_ids), "DEBUG")
 
             if session_id not in active_session_ids:
                 self.status = "success"
@@ -2598,26 +2901,31 @@ class LanAutomation(DnacBase):
             If found, it logs the session ID; otherwise, it logs a message indicating that no session is active for the
             specified seed IP.
         """
+        if not self.want.get("lan_automated_device_update"):
+            self.log("LAN automated device update is not requested. Exiting verification.", "DEBUG")
+            return self
 
-        if self.want.get("lan_automated_device_update"):
-            seed_ip_address = self.want.get("lan_automation").get("primaryDeviceManagmentIPAddress")
+        seed_ip_address = self.want.get("lan_automation").get("primaryDeviceManagmentIPAddress")
+        self.log("Verifying active LAN automation session for seed IP: {}".format(seed_ip_address), "DEBUG")
 
-            self.get_have(config)
-            self.log("Current State (have): {0}".format(str(self.have)), "INFO")
-            session_to_ip_mapping = self.have.get("session_to_ip_map", {})
+        self.get_have(config)
+        self.log("Current State (have): {0}".format(str(self.have)), "INFO")
 
-            session_id = None
-            for sid, ip in session_to_ip_mapping.items():
-                if ip == seed_ip_address:
-                    session_id = sid
-                    break
+        session_to_ip_mapping = self.have.get("session_to_ip_map", {})
+        self.log("Session to IP mapping: {}".format(session_to_ip_mapping), "DEBUG")
 
-            if not session_id:
-                self.msg = f"No active LAN automation session found for seed IP '{seed_ip_address}'."
-                self.log(self.msg)
-            else:
-                self.msg = f"Active LAN automation session found for seed IP '{seed_ip_address}', session ID: {session_id}."
-                self.log(self.msg)
+        session_id = None
+        for sid, ip in session_to_ip_mapping.items():
+            if ip == seed_ip_address:
+                session_id = sid
+                break
+
+        if not session_id:
+            self.msg = f"No active LAN automation session found for seed IP '{seed_ip_address}'."
+            self.log(self.msg)
+        else:
+            self.msg = f"Active LAN automation session found for seed IP '{seed_ip_address}', session ID: {session_id}."
+            self.log(self.msg)
 
         return self
 
@@ -2644,7 +2952,7 @@ def main():
                     "dnac_api_task_timeout": {"type": "int", "default": 604800},
                     "dnac_task_poll_interval": {"type": "int", "default": 30},
                     "config": {"required": True, "type": "list", "elements": "dict"},
-                    'state': {'default': 'merged', 'choices': ['merged', 'deleted']}
+                    "state": {"default": "merged", "choices": ["merged", "deleted"]}
                     }
 
     module = AnsibleModule(argument_spec=element_spec,
@@ -2652,6 +2960,17 @@ def main():
     ccc_lan_automation = LanAutomation(module)
 
     state = ccc_lan_automation.params.get("state")
+
+    if ccc_lan_automation.compare_dnac_versions(ccc_lan_automation.get_ccc_version(), "2.3.7.6") < 0:
+        ccc_lan_automation.msg = (
+            "The specified version '{}' does not support LAN Automation workflow feature. Supported versions start "
+            "from '2.3.7.6' onwards. Version '2.3.7.6' introduces new APIs which support optional auto-stop processing"
+            " feature based on the provided timeout or a specific device list, or both."
+            .format(ccc_lan_automation.get_ccc_version())
+        )
+        ccc_lan_automation.status = "failed"
+        ccc_lan_automation.check_return_status()
+
     if state not in ccc_lan_automation.supported_states:
         ccc_lan_automation.status = "invalid"
         ccc_lan_automation.msg = "State {0} is invalid".format(state)
