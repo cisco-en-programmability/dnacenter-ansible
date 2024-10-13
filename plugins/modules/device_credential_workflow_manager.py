@@ -7,23 +7,26 @@
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
-__author__ = ['Muthu Rakesh, Madhan Sankaranarayanan']
+__author__ = ['Muthu Rakesh, Madhan Sankaranarayanan, Megha Kandari']
 
 DOCUMENTATION = r"""
 ---
 module: device_credential_workflow_manager
 short_description: Resource module for Global Device Credentials and Assigning Credentials to sites.
 description:
-- Manage operations on Global Device Credentials and Assigning Credentials to sites.
+- Manage operations on Global Device Credentials, Assigning Credentials to sites and Sync Credentials to site device.
 - API to create global device credentials.
 - API to update global device credentials.
 - API to delete global device credentials.
 - API to assign the device credential to the site.
+- API to sync the device credential to the site. Sync functionality is applicable for Catalyst Center version 2.3.7.6 and later.
+
 version_added: '6.7.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
 author: Muthu Rakesh (@MUTHU-RAKESH-27)
         Madhan Sankaranarayanan (@madhansansel)
+        Megha Kandari (@kandarimegha)
 options:
   config_verify:
     description: Set to True to verify the Cisco Catalyst Center after applying the playbook config.
@@ -297,6 +300,58 @@ options:
               id:
                 description: snmp_v3 Credential Id. Use Description or Id.
                 type: str
+      apply_credentials_to_site:
+        description: Sync Device Credentials to Site devices. Applicable for Catalyst Center version 2.3.7.6 and later.
+        type: dict
+        suboptions:
+          cli_credential:
+            description: CLI Credential.
+            type: dict
+            suboptions:
+              description:
+                description: CLI Credential Description.
+                type: str
+              username:
+                description: CLI Credential Username.
+                type: str
+              id:
+                description: CLI Credential Id. Use (Description, Username) or Id.
+                type: str
+          site_name:
+            description: Site Name to apply credential.
+            type: list
+            elements: str
+          snmp_v2c_read:
+            description: SNMPv2c Read Credential
+            type: dict
+            suboptions:
+              description:
+                description: SNMPv2c Read Credential Description.
+                type: str
+              id:
+                description: SNMPv2c Read Credential Id. Use Description or Id.
+                type: str
+          snmp_v2c_write:
+            description: SNMPv2c Write Credential
+            type: dict
+            suboptions:
+              description:
+                description: SNMPv2c Write Credential Description.
+                type: str
+              id:
+                description: SNMPv2c Write Credential Id. Use Description or Id.
+                type: str
+          snmp_v3:
+            description: snmp_v3 Credential
+            type: dict
+            suboptions:
+              description:
+                description: snmp_v3 Credential Description.
+                type: str
+              id:
+                description: snmp_v3 Credential Id. Use Description or Id.
+                type: str
+
 requirements:
 - dnacentersdk >= 2.7.2
 - python >= 3.9
@@ -313,18 +368,37 @@ seealso:
 - name: Cisco Catalyst Center documentation for Network Settings AssignDeviceCredentialToSiteV2
   description: Complete reference of the AssignDeviceCredentialToSiteV2 API.
   link: https://developer.cisco.com/docs/dna-center/#!assign-device-credential-to-site-v-2
+- name: Cisco Catalyst Center documentation for Network Settings updateDeviceCredentialSettingsForASite_
+  description: Complete reference of the updateDeviceCredentialSettingsForASite API.
+  link: https://developer.cisco.com/docs/dna-center/update-device-credential-settings-for-a-site
+- name: Cisco Catalyst Center documentation for Network Settings syncNetworkDevicesCredential
+  description: Complete reference of the syncNetworkDevicesCredential API.
+  link: https://developer.cisco.com/docs/dna-center/sync-network-devices-credential
+
 notes:
   - SDK Method used are
     discovery.Discovery.create_global_credentials_v2,
     discovery.Discovery.delete_global_credential_v2,
     discovery.Discovery.update_global_credentials_v2,
     network_settings.NetworkSettings.assign_device_credential_to_site_v2,
+    network_settings.NetworkSettings.get_device_credential_settings_for_a_site,
+    network_settings.NetworkSettings.update_device_credential_settings_for_a_site,
+    network_settings.NetworkSettings.sync_network_devices_credential,
+    network_settings.NetworkSettings.get_network_devices_credentials_sync_status,
+    site.Sites.get_site_assigned_network_devices,
+    site.Sites.get_sites
 
   - Paths used are
     post /dna/intent/api/v2/global-credential,
     delete /dna/intent/api/v2/global-credential/{id},
     put /dna/intent/api/v2/global-credential,
     post /dna/intent/api/v2/credential-to-site/{siteId},
+    get /dna/intent/api/v1/sites/${id}/deviceCredentials,
+    post /dna/intent/api/v1/sites/deviceCredentials/apply,
+    post /dna/intent/api/v1/sites/${id}/deviceCredentials,
+    get /dna/intent/api/v1/sites/${id}/deviceCredentials/status,
+    get /dna/intent/api/v1/networkDevices/assignedToSite,
+    get /dna/intent/api/v1/sites,
 """
 
 EXAMPLES = r"""
@@ -344,49 +418,53 @@ EXAMPLES = r"""
     config:
     - global_credential_details:
         cli_credential:
-        - description: string
-          username: string
-          password: string
-          enable_password: string
+        - description: CLI1
+          username: cli1
+          password: '12345'
+          enable_password: '12345'
         snmp_v2c_read:
-        - description: string
-          read_community: string
+        - description: SNMPv2c Read1
+          read_community: '123456'
         snmp_v2c_write:
-        - description: string
-          write_community: string
+        - description: SNMPv2c Write1
+          write_community: '123456'
         snmp_v3:
-        - auth_password: string
+        - auth_password: '12345678'
           auth_type: SHA
           snmp_mode: AUTHPRIV
-          privacy_password: string
+          privacy_password: '12345678'
           privacy_type: AES128
-          username: string
-          description: string
+          username: snmpV31
+          description: snmpV31
         https_read:
-        - description: string
-          username: string
-          password: string
+        - description: HTTP Read1
+          username: HTTP Read1
+          password: '12345'
           port: 443
         https_write:
-        - description: string
-          username: string
-          password: string
+        - description: HTTP Write1
+          username: HTTP Write1
+          password: '12345'
           port: 443
       assign_credentials_to_site:
+        Sync: True
         cli_credential:
-          id: string
+            description: CLI6
+            username: cli6
         snmp_v2c_read:
-          id: string
+            description: SNMPv2c Read1
         snmp_v2c_write:
-          id: string
+            description: SNMPv2c Write1
         snmp_v3:
-          id: string
+            description: snmpV31
         https_read:
-          id: string
+            description: HTTP Read1
+            username: HTTP_Read1
         https_write:
-           id: string
+            description: HTTP Write1
+            username: HTTP_Write1
         site_name:
-        - string
+            - Global/USA
 
   - name: Create Multiple Credentials.
     cisco.dnac.device_credential_workflow_manager:
@@ -403,56 +481,56 @@ EXAMPLES = r"""
     config:
     - global_credential_details:
         cli_credential:
-        - description: string
-          username: string
-          password: string
-          enable_password: string
-        - description: string
-          username: string
-          password: string
-          enable_password: string
+        - description: CLI1
+          username: cli1
+          password: '12345'
+          enable_password: '12345'
+        - description: CLI2
+          username: cli2
+          password: '12345'
+          enable_password: '12345'
         snmp_v2c_read:
-        - description: string
-          read_community: string
-        - description: string
-          read_community: string
+        - description: SNMPv2c Read1
+          read_community: '123456'
+        - description: SNMPv2c Read2
+          read_community: '123456'
         snmp_v2c_write:
-        - description: string
-          write_community: string
-        - description: string
-          write_community: string
+        - description: SNMPv2c Write1
+          write_community: '123456'
+        - description: SNMPv2c Write2
+          write_community: '123456'
         snmp_v3:
-        - auth_password: string
+        - auth_password: '12345678'
           auth_type: SHA
           snmp_mode: AUTHPRIV
-          privacy_password: string
+          privacy_password: '12345678'
           privacy_type: AES128
-          username: string
-          description: string
-        - auth_password: string
+          username: snmpV31
+          description: snmpV31
+        - auth_password: '12345678'
           auth_type: SHA
           snmp_mode: AUTHPRIV
-          privacy_password: string
+          privacy_password: '12345678'
           privacy_type: AES128
-          username: string
-          description: string
+          username: snmp
+          description: snmp
         https_read:
-        - description: string
-          username: string
-          password: string
+        - description: HTTP Read1
+          username: HTTP Read1
+          password: '12345'
           port: 443
-        - description: string
-          username: string
-          password: string
+        - description: HTTP Read2
+          username: HTTP Read2
+          password: '12345'
           port: 443
         https_write:
-        - description: string
-          username: string
-          password: string
+        - description: HTTP Write1
+          username: HTTP Write1
+          password: '12345'
           port: 443
-        - description: string
-          username: string
-          password: string
+        - description: HTTP Write2
+          username: HTTP Write2
+          password: '12345'
           port: 443
 
   - name: Update global device credentials using id
@@ -470,40 +548,40 @@ EXAMPLES = r"""
     config:
     - global_credential_details:
         cli_credential:
-        - description: string
-          username: string
-          password: string
-          enable_password: string
-          id: string
+        - description: CLI1
+          username: cli1
+          password: '12345'
+          enable_password: '12345'
+          id: '1b3777a0-09c2-488b-a64c-6f3c441e343'
         snmp_v2c_read:
-        - description: string
-          read_community: string
-          id: string
+        - description: SNMPv2c Read1
+          read_community: '123456'
+          id: '07c3c5fc-35e6-4c83-bdcb-6322d4bf7103'
         snmp_v2c_write:
-        - description: string
-          write_community: string
-          id: string
+        - description: SNMPv2c Write1
+          write_community: '123456'
+          id: '9900b521-0dfb-4bd1-b044-d31037c8def3'
         snmp_v3:
-        - auth_password: string
+        - auth_password: '12345678'
           auth_type: SHA
           snmp_mode: AUTHPRIV
-          privacy_password: string
+          privacy_password: '12345678'
           privacy_type: AES128
-          username: string
-          description: string
-          id: string
+          username: snmpV31
+          description: snmpV31
+          id: '4d3fd6ca-8b01-4a41-9f77-d411a49c2830'
         https_read:
-        - description: string
-          username: string
-          password: string
+        - description: HTTP Read1
+          username: HTTP Read1
+          password: '12345'
           port: 443
-          id: string
+          id: '4d3fd6ca-8b01-4a41-9f77-d411a34c2834'
         https_write:
-        - description: string
-          username: string
-          password: string
+        - description: HTTP_Write1
+          username: HTTP_Write1
+          password: '12345'
           port: 443
-          id: string
+          id: '4d3fd6ca-8b01-4a41-9f77-d411a34c2688'
 
   - name: Update multiple global device credentials using id
     cisco.dnac.device_credential_workflow_manager:
@@ -520,69 +598,69 @@ EXAMPLES = r"""
     config:
     - global_credential_details:
         cli_credential:
-        - description: string
-          username: string
-          password: string
-          enable_password: string
-          id: string
-        - description: string
-          username: string
-          password: string
-          enable_password: string
-          id: string
+        - description: CLI1
+          username: cli1
+          password: '12345'
+          enable_password: '12345'
+          id: '1b3777a0-09c2-488b-a64c-6f3c441e343'
+        - description: CLI2
+          username: cli2
+          password: '12345'
+          enable_password: '12345'
+          id: '1d3777a0-09c2-488b-a64c-6f3c441e368'
         snmp_v2c_read:
-        - description: string
-          read_community: string
-          id: string
-        - description: string
-          read_community: string
-          id: string
+        - description: SNMPv2c Read1
+          read_community: '123456'
+          id: '07c3c5fc-35e6-4c83-bdcb-6322d4bf7103'
+        - description: SNMPv2c Read2
+          read_community: '123458'
+          id: '08c3c5fc-35e6-4c83-bdcb-6322d4bf7200'
         snmp_v2c_write:
-        - description: string
-          write_community: string
-          id: string
-        - description: string
-          write_community: string
-          id: string
+        - description: SNMPv2c write1
+          write_community: '123456'
+          id: '07c3c5fc-35e6-4c83-bdcb-6322d4bf7400'
+        - description: SNMPv2c Write1
+          write_community: '123466'
+          id: '9900b521-0dfb-4bd1-b044-d31037c8def3'
         snmp_v3:
-        - auth_password: string
+        - auth_password: '12345678'
           auth_type: SHA
           snmp_mode: AUTHPRIV
-          privacy_password: string
+          privacy_password: '12345678'
           privacy_type: AES128
-          username: string
-          description: string
-          id: string
-        - auth_password: string
+          username: snmpV31
+          description: snmpV31
+          id: '4d3fd6ca-8b01-4a41-9f77-d411a49c2830'
+        - auth_password: '12345678'
           auth_type: SHA
           snmp_mode: AUTHPRIV
-          privacy_password: string
+          privacy_password: '12345644'
           privacy_type: AES128
-          username: string
-          description: string
-          id: string
+          username: snmpV32
+          description: snmpV32
+          id: '4d3fd6ca-8b01-4a41-9f77-d411a49c2300'
         https_read:
-        - description: string
-          username: string
-          password: string
+        - description: HTTP Read1
+          username: HTTP Read1
+          password: '12345'
           port: 443
-          id: string
-        - description: string
-          username: string
-          password: string
+          id: '4d3fd6ca-8b01-4a41-9f77-d411a34c2500'
+        - description: HTTP Read2
+          username: HTTP Read2
+          password: '12345'
           port: 443
-          id: string
+          id: '4d3fd6ca-8b01-4a41-9f77-d411a34c2834'
         https_write:
-        - description: string
-          username: string
-          password: string
+        - description: HTTP_Write1
+          username: HTTP_Write1
+          password: '12345'
           port: 443
-          id: string
-        - description: string
-          username: string
-          password: string
+          id: '4d3fd6ca-8b01-4a41-9f77-d411a34c2834'
+        - description: HTTP_Write2
+          username: HTTP_Write2
+          password: '12345'
           port: 443
-          id: string
+          id: '4f3fd6ca-8b01-4a41-9f77-d411a34c2804'
 
   - name: Update global device credential name/description using old name and description.
     cisco.dnac.device_credential_workflow_manager:
@@ -599,42 +677,43 @@ EXAMPLES = r"""
     config:
     - global_credential_details:
         cli_credential:
-        - description: string
-          username: string
-          password: string
-          enable_password: string
-          old_description: string
-          old_username: string
+        - description: CLI1
+          username: cli1
+          password: '12345'
+          enable_password: '12345'
+          old_description: CLI
+          old_username: cli
         snmp_v2c_read:
-        - description: string
-          read_community: string
-          old_description: string
+        - description: SNMPv2c Read1
+          read_community: '123456'
+          old_description: SNMPv2c Read
         snmp_v2c_write:
-        - description: string
-          write_community: string
-          old_description: string
+        - description: SNMPv2c write1
+          write_community: '123456'
+          old_description: SNMPv2c write
         snmp_v3:
-        - auth_password: string
-          auth_type: string
-          snmp_mode: string
-          privacy_password: string
-          privacy_type: string
-          username: string
-          description: string
+        - auth_password: '12345678'
+          auth_type: SHA
+          snmp_mode: AUTHPRIV
+          privacy_password: '12345678'
+          privacy_type: AES128
+          username: snmpV31
+          description: snmpV31
+          old_description: snmp
         https_read:
-        - description: string
-          username: string
-          password: string
-          port: string
-          old_description: string
-          old_username: string
+        - description: HTTP Read1
+          username: HTTP Read1
+          password: '12345'
+          port: 443
+          old_description: HTTP Read
+          old_username: HTTP Read
         https_write:
-        - description: string
-          username: string
-          password: string
-          port: string
-          old_description: string
-          old_username: string
+        - description: HTTP_Write1
+          username: HTTP_Write1
+          password: '12345'
+          port: 443
+          old_description: HTTP_Write
+          old_username: HTTP_Write
 
   - name: Assign Credentials to sites using old description and username.
     cisco.dnac.device_credential_workflow_manager:
@@ -651,23 +730,49 @@ EXAMPLES = r"""
     config:
     - assign_credentials_to_site:
         cli_credential:
-          description: string
-          username: string
+            description: CLI6
+            username: cli6
         snmp_v2c_read:
-          description: string
+            description: SNMPv2c Read1
         snmp_v2c_write:
-          description: string
+            description: SNMPv2c Write1
         snmp_v3:
-          description: string
+            description: snmpV31
         https_read:
-          description: string
-          username: string
+            description: HTTP Read1
+            username: HTTP_Read1
         https_write:
-          description: string
-          username: string
+            description: HTTP Write1
+            username: HTTP_Write1
         site_name:
-        - string
-        - string
+            - Global/USA
+
+  - name: Sync global device credentials to a site.
+    cisco.dnac.device_credential_workflow_manager:
+    dnac_host: "{{ dnac_host }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log_level: "{{ dnac_log_level }}"
+    dnac_log: True
+    state: merged
+    config_verify: True
+    config:
+    - apply_credentials_to_site:
+        cli_credential:
+            description: CLI5
+            username: cli5
+        snmp_v2c_read:
+            description: SNMPv2c Read2
+        snmp_v2c_write:
+            description: SNMPv2c Write1
+        snmp_v3:
+            description: snmp
+        site_name:
+            - Global/Vietnam/halong/Hanoi
 
 """
 
@@ -686,7 +791,7 @@ dnac_response1:
       "version": "string"
     }
 
-# Case_2: Successful assignment of global device credentials to a site.
+# Case_2: Successful assignment/sync of global device credentials to a site.
 dnac_response2:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
@@ -699,6 +804,7 @@ dnac_response2:
       },
       "version": "string"
     }
+
 """
 
 import copy
@@ -718,7 +824,8 @@ class DeviceCredential(DnacBase):
         self.result["response"] = [
             {
                 "globalCredential": {},
-                "assignCredential": {}
+                "assignCredential": {},
+                "applyCredential": {}
             }
         ]
 
@@ -848,6 +955,35 @@ class DeviceCredential(DnacBase):
                     "type": 'list',
                     "elements": 'string'
                 }
+            },
+            "apply_credentials_to_site": {
+                "type": 'dict',
+                "cli_credential": {
+                    "type": 'dict',
+                    "description": {"type: 'string'"},
+                    "username": {"type": 'string'},
+                    "id": {"type": 'string'},
+                },
+                "snmp_v2c_read": {
+                    "type": 'dict',
+                    "description": {"type: 'string'"},
+                    "username": {"type": 'string'},
+                    "id": {"type": 'string'},
+                },
+                "snmp_v2c_write": {
+                    "type": 'dict',
+                    "description": {"type: 'string'"},
+                    "id": {"type": 'string'},
+                },
+                "snmp_v3": {
+                    "type": 'dict',
+                    "description": {"type: 'string'"},
+                    "id": {"type": 'string'},
+                },
+                "site_name": {
+                    "type": 'list',
+                    "elements": 'string'
+                }
             }
         }
 
@@ -863,45 +999,6 @@ class DeviceCredential(DnacBase):
         self.msg = "Successfully validated input from the playbook"
         self.status = "success"
         return self
-
-    def get_site_id(self, site_name):
-        """
-        Get the site id from the site name.
-        Use check_return_status() to check for failure
-
-        Parameters:
-            site_name (str) - Site name
-
-        Returns:
-            str or None - The Site Id if found, or None if not found or error
-        """
-
-        try:
-            response = self.dnac._exec(
-                family="sites",
-                function='get_site',
-                op_modifies=True,
-                params={"name": site_name},
-            )
-            self.log("Received API response from 'get_site': {0}".format(response), "DEBUG")
-            if not response:
-                self.log("Failed to retrieve the site ID for the site name: {0}"
-                         .format(site_name), "ERROR")
-                return None
-
-            response = response.get("response")
-            if not response:
-                self.log("The site with the name '{0}' is not valid".format(site_name), "ERROR")
-                return None
-
-            _id = response[0].get("id")
-            self.log("Site ID for the site name {0}: {1}".format(site_name, _id), "INFO")
-        except Exception as e:
-            self.log("Exception occurred while getting site_id from the site_name: {0}"
-                     .format(e), "CRITICAL")
-            return None
-
-        return _id
 
     def get_global_credentials_params(self):
         """
@@ -922,10 +1019,13 @@ class DeviceCredential(DnacBase):
             global_credentials = global_credentials.get("response")
             self.log("All global device credentials details: {0}"
                      .format(global_credentials), "DEBUG")
-        except Exception as e:
-            self.log("Exception occurred while getting global device credentials: {0}"
-                     .format(e), "CRITICAL")
-            return None
+        except Exception as msg:
+            self.msg = (
+                "Exception occurred while getting global device credentials: {0}".format(msg)
+            )
+            self.log(self.msg, "CRITICAL")
+            self.status = "failed"
+            return self.check_return_status()
 
         return global_credentials
 
@@ -1124,24 +1224,7 @@ class DeviceCredential(DnacBase):
                     if not cliDetail:
                         self.msg = "CLI credential ID is invalid"
                         self.status = "failed"
-                        return self
-
-                cliOldDescription = cliCredential.get("old_description")
-                cliOldUsername = cliCredential.get("old_username")
-                if cliOldDescription and cliOldUsername and (not cliDetail):
-                    for item in cli_details:
-                        if item.get("description") == cliOldDescription \
-                                and item.get("username") == cliOldUsername:
-                            if cliDetail:
-                                self.msg = "There are multiple CLI credentials with the same old_description and old_username. " + \
-                                           "Kindly provide the ID for the global device credentials."
-                                self.status = "failed"
-                                return self
-                            cliDetail = item
-                    if not cliDetail:
-                        self.msg = "CLI credential old_description or old_username is invalid"
-                        self.status = "failed"
-                        return self
+                        return self.check_return_status()
 
                 cliDescription = cliCredential.get("description")
                 cliUsername = cliCredential.get("username")
@@ -1153,9 +1236,29 @@ class DeviceCredential(DnacBase):
                                 self.msg = "There are multiple CLI credentials with the same description and username. " + \
                                            "Kindly provide the ID for the global device credentials."
                                 self.status = "failed"
-                                return self
+                                return self.check_return_status()
                             cliDetail = item
+
+                if not cliDetail:
+                    cliOldDescription = cliCredential.get("old_description")
+                    cliOldUsername = cliCredential.get("old_username")
+                    if cliOldDescription and cliOldUsername and (not cliDetail):
+                        for item in cli_details:
+                            if item.get("description") == cliOldDescription \
+                                    and item.get("username") == cliOldUsername:
+                                if cliDetail:
+                                    self.msg = "There are multiple CLI credentials with the same old_description and old_username. " + \
+                                        "Kindly provide the ID for the global device credentials."
+                                    self.status = "failed"
+                                    return self.check_return_status()
+                                cliDetail = item
+                        if not cliDetail:
+                            self.msg = "CLI credential old_description or old_username is invalid"
+                            self.status = "failed"
+                            return self.check_return_status()
+
                 cliDetails.append(cliDetail)
+
         return cliDetails
 
     def get_snmpV2cRead_credentials(self, CredentialDetails, global_credentials):
@@ -1189,19 +1292,7 @@ class DeviceCredential(DnacBase):
                     if not snmpV2cReadDetail:
                         self.msg = "snmp_v2c_read credential ID is invalid"
                         self.status = "failed"
-                        return self
-
-                snmpV2cReadOldDescription = snmpV2cReadCredential.get("old_description")
-                if snmpV2cReadOldDescription and (not snmpV2cReadDetail):
-                    snmpV2cReadDetail = get_dict_result(
-                        snmpV2cRead_details,
-                        "description",
-                        snmpV2cReadOldDescription
-                    )
-                    if not snmpV2cReadDetail:
-                        self.msg = "snmp_v2c_read credential old_description is invalid"
-                        self.status = "failed"
-                        return self
+                        return self.check_return_status()
 
                 snmpV2cReadDescription = snmpV2cReadCredential.get("description")
                 if snmpV2cReadDescription and (not snmpV2cReadDetail):
@@ -1210,6 +1301,20 @@ class DeviceCredential(DnacBase):
                         "description",
                         snmpV2cReadDescription
                     )
+
+                if not snmpV2cReadDetail:
+                    snmpV2cReadOldDescription = snmpV2cReadCredential.get("old_description")
+                    if snmpV2cReadOldDescription and (not snmpV2cReadDetail):
+                        snmpV2cReadDetail = get_dict_result(
+                            snmpV2cRead_details,
+                            "description",
+                            snmpV2cReadOldDescription
+                        )
+                        if not snmpV2cReadDetail:
+                            self.msg = "snmp_v2c_read credential old_description is invalid"
+                            self.status = "failed"
+                            return self.check_return_status()
+
                 snmpV2cReadDetails.append(snmpV2cReadDetail)
         return snmpV2cReadDetails
 
@@ -1244,19 +1349,7 @@ class DeviceCredential(DnacBase):
                     if not snmpV2cWriteDetail:
                         self.msg = "snmp_v2c_write credential ID is invalid"
                         self.status = "failed"
-                        return self
-
-                snmpV2cWriteOldDescription = snmpV2cWriteCredential.get("old_description")
-                if snmpV2cWriteOldDescription and (not snmpV2cWriteDetail):
-                    snmpV2cWriteDetail = get_dict_result(
-                        snmpV2cWrite_details,
-                        "description",
-                        snmpV2cWriteOldDescription
-                    )
-                    if not snmpV2cWriteDetail:
-                        self.msg = "snmp_v2c_write credential old_description is invalid "
-                        self.status = "failed"
-                        return self
+                        return self.check_return_status()
 
                 snmpV2cWriteDescription = snmpV2cWriteCredential.get("description")
                 if snmpV2cWriteDescription and (not snmpV2cWriteDetail):
@@ -1265,6 +1358,20 @@ class DeviceCredential(DnacBase):
                         "description",
                         snmpV2cWriteDescription
                     )
+
+                if not snmpV2cWriteDetail:
+                    snmpV2cWriteOldDescription = snmpV2cWriteCredential.get("old_description")
+                    if snmpV2cWriteOldDescription and (not snmpV2cWriteDetail):
+                        snmpV2cWriteDetail = get_dict_result(
+                            snmpV2cWrite_details,
+                            "description",
+                            snmpV2cWriteOldDescription
+                        )
+                        if not snmpV2cWriteDetail:
+                            self.msg = "snmp_v2c_write credential old_description is invalid "
+                            self.status = "failed"
+                            return self.check_return_status()
+
                 snmpV2cWriteDetails.append(snmpV2cWriteDetail)
         return snmpV2cWriteDetails
 
@@ -1299,24 +1406,7 @@ class DeviceCredential(DnacBase):
                     if not httpsReadDetail:
                         self.msg = "https_read credential Id is invalid"
                         self.status = "failed"
-                        return self
-
-                httpsReadOldDescription = httpsReadCredential.get("old_description")
-                httpsReadOldUsername = httpsReadCredential.get("old_username")
-                if httpsReadOldDescription and httpsReadOldUsername and (not httpsReadDetail):
-                    for item in httpsRead_details:
-                        if item.get("description") == httpsReadOldDescription \
-                                and item.get("username") == httpsReadOldUsername:
-                            if httpsReadDetail:
-                                self.msg = "There are multiple https_read credentials with the same old_description and old_username. " + \
-                                           "Kindly provide the ID for the global device credentials."
-                                self.status = "failed"
-                                return self
-                            httpsReadDetail = item
-                    if not httpsReadDetail:
-                        self.msg = "https_read credential old_description or old_username is invalid"
-                        self.status = "failed"
-                        return self
+                        return self.check_return_status()
 
                 httpsReadDescription = httpsReadCredential.get("description")
                 httpsReadUsername = httpsReadCredential.get("username")
@@ -1328,8 +1418,27 @@ class DeviceCredential(DnacBase):
                                 self.msg = "There are multiple https_read credentials with the same description and username. " + \
                                            "Kindly provide the ID for the global device credentials."
                                 self.status = "failed"
-                                return self
+                                return self.check_return_status()
                             httpsReadDetail = item
+
+                if not httpsReadDetail:
+                    httpsReadOldDescription = httpsReadCredential.get("old_description")
+                    httpsReadOldUsername = httpsReadCredential.get("old_username")
+                    if httpsReadOldDescription and httpsReadOldUsername and (not httpsReadDetail):
+                        for item in httpsRead_details:
+                            if item.get("description") == httpsReadOldDescription \
+                                    and item.get("username") == httpsReadOldUsername:
+                                if httpsReadDetail:
+                                    self.msg = "There are multiple https_read credentials with the same old_description and old_username. " + \
+                                        "Kindly provide the ID for the global device credentials."
+                                    self.status = "failed"
+                                    return self.check_return_status()
+                                httpsReadDetail = item
+                        if not httpsReadDetail:
+                            self.msg = "https_read credential old_description or old_username is invalid"
+                            self.status = "failed"
+                            return self.check_return_status()
+
                 httpsReadDetails.append(httpsReadDetail)
         return httpsReadDetails
 
@@ -1364,25 +1473,7 @@ class DeviceCredential(DnacBase):
                     if not httpsWriteDetail:
                         self.msg = "https_write credential Id is invalid"
                         self.status = "failed"
-                        return self
-
-                httpsWriteOldDescription = httpsWriteCredential.get("old_description")
-                httpsWriteOldUsername = httpsWriteCredential.get("old_username")
-                if httpsWriteOldDescription and httpsWriteOldUsername and (not httpsWriteDetail):
-                    for item in httpsWrite_details:
-                        if item.get("description") == httpsWriteOldDescription \
-                                and item.get("username") == httpsWriteOldUsername:
-                            if httpsWriteDetail:
-                                self.msg = "There are multiple https_write credentials with the same old_description and old_username. " + \
-                                           "Kindly provide the ID for the global device credentials."
-                                self.status = "failed"
-                                return self
-                            httpsWriteDetail = item
-                    if not httpsWriteDetail:
-                        self.msg = "https_write credential old_description or " + \
-                                   "old_username is invalid"
-                        self.status = "failed"
-                        return self
+                        return self.check_return_status()
 
                 httpsWriteDescription = httpsWriteCredential.get("description")
                 httpsWriteUsername = httpsWriteCredential.get("username")
@@ -1394,8 +1485,28 @@ class DeviceCredential(DnacBase):
                                 self.msg = "There are multiple https_write credentials with the same description and username. " + \
                                            "Kindly provide the ID for the global device credentials."
                                 self.status = "failed"
-                                return self
+                                return self.check_return_status()
                             httpsWriteDetail = item
+
+                if not httpsWriteDetail:
+                    httpsWriteOldDescription = httpsWriteCredential.get("old_description")
+                    httpsWriteOldUsername = httpsWriteCredential.get("old_username")
+                    if httpsWriteOldDescription and httpsWriteOldUsername and (not httpsWriteDetail):
+                        for item in httpsWrite_details:
+                            if item.get("description") == httpsWriteOldDescription \
+                                    and item.get("username") == httpsWriteOldUsername:
+                                if httpsWriteDetail:
+                                    self.msg = "There are multiple https_write credentials with the same old_description and old_username. " + \
+                                        "Kindly provide the ID for the global device credentials."
+                                    self.status = "failed"
+                                    return self.check_return_status()
+                                httpsWriteDetail = item
+                        if not httpsWriteDetail:
+                            self.msg = "https_write credential old_description or " + \
+                                "old_username is invalid"
+                            self.status = "failed"
+                            return self.check_return_status()
+
                 httpsWriteDetails.append(httpsWriteDetail)
         return httpsWriteDetails
 
@@ -1430,20 +1541,21 @@ class DeviceCredential(DnacBase):
                     if not snmpV3Detail:
                         self.msg = "snmp_v3 credential id is invalid"
                         self.status = "failed"
-                        return self
-
-                snmpV3OldDescription = snmpV3Credential.get("old_description")
-                if snmpV3OldDescription and (not snmpV3Detail):
-                    snmpV3Detail = get_dict_result(snmpV3_details,
-                                                   "description", snmpV3OldDescription)
-                    if not snmpV3Detail:
-                        self.msg = "snmp_v3 credential old_description is invalid"
-                        self.status = "failed"
-                        return self
+                        return self.check_return_status()
 
                 snmpV3Description = snmpV3Credential.get("description")
                 if snmpV3Description and (not snmpV3Detail):
                     snmpV3Detail = get_dict_result(snmpV3_details, "description", snmpV3Description)
+
+                if not snmpV3Detail:
+                    snmpV3OldDescription = snmpV3Credential.get("old_description")
+                    if snmpV3OldDescription and (not snmpV3Detail):
+                        snmpV3Detail = get_dict_result(snmpV3_details, "description", snmpV3OldDescription)
+                        if not snmpV3Detail:
+                            self.msg = "snmp_v3 credential old_description is invalid"
+                            self.status = "failed"
+                            return self.check_return_status()
+
                 snmpV3Details.append(snmpV3Detail)
         return snmpV3Details
 
@@ -1957,6 +2069,7 @@ class DeviceCredential(DnacBase):
         want = {
             "assign_credentials": {}
         }
+        current_ccc_version_as_int = self.get_ccc_version_as_integer()
         site_names = AssignCredentials.get("site_name")
         if not site_names:
             self.msg = "The 'site_name' is required parameter for 'assign_credentials_to_site'"
@@ -1965,7 +2078,7 @@ class DeviceCredential(DnacBase):
 
         site_ids = []
         for site_name in site_names:
-            current_site_id = self.get_site_id(site_name)
+            site_exists, current_site_id = self.get_site_id(site_name)
             if not current_site_id:
                 self.msg = "The site_name '{0}' is invalid in 'assign_credentials_to_site'".format(site_name)
                 self.status = "failed"
@@ -2003,7 +2116,12 @@ class DeviceCredential(DnacBase):
                         self.msg = "The username and description of the CLI credential are invalid"
                         self.status = "failed"
                         return self
-                want.get("assign_credentials").update({"cliId": cliDetail.get("id")})
+                if current_ccc_version_as_int <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
+                    want.get("assign_credentials").update({"cliId": cliDetail.get("id")})
+                else:
+                    want.get("assign_credentials").update({
+                        "cliCredentialsId": {"credentialsId": cliDetail.get("id")}
+                    })
 
         snmp_v2c_read = AssignCredentials.get("snmp_v2c_read")
         if snmp_v2c_read:
@@ -2032,7 +2150,12 @@ class DeviceCredential(DnacBase):
                         self.msg = "The username and description for the snmp_v2c_read credential are invalid."
                         self.status = "failed"
                         return self
-                want.get("assign_credentials").update({"snmpV2ReadId": snmpV2cReadDetail.get("id")})
+                if current_ccc_version_as_int <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
+                    want.get("assign_credentials").update({"snmpV2ReadId": snmpV2cReadDetail.get("id")})
+                else:
+                    want.get("assign_credentials").update({
+                        "snmpv2cReadCredentialsId": {"credentialsId": snmpV2cReadDetail.get("id")}
+                    })
 
         snmp_v2c_write = AssignCredentials.get("snmp_v2c_write")
         if snmp_v2c_write:
@@ -2061,7 +2184,12 @@ class DeviceCredential(DnacBase):
                         self.msg = "The username and description of the snmp_v2c_write credential are invalid."
                         self.status = "failed"
                         return self
-                want.get("assign_credentials").update({"snmpV2WriteId": snmpV2cWriteDetail.get("id")})
+                if current_ccc_version_as_int <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
+                    want.get("assign_credentials").update({"snmpV2WriteId": snmpV2cWriteDetail.get("id")})
+                else:
+                    want.get("assign_credentials").update({
+                        "snmpv2cWriteCredentialsId": {"credentialsId": snmpV2cWriteDetail.get("id")}
+                    })
 
         https_read = AssignCredentials.get("https_read")
         if https_read:
@@ -2092,7 +2220,12 @@ class DeviceCredential(DnacBase):
                         self.msg = "The description and username for the httpRead credential are invalid."
                         self.status = "failed"
                         return self
-                want.get("assign_credentials").update({"httpRead": httpReadDetail.get("id")})
+                if current_ccc_version_as_int <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
+                    want.get("assign_credentials").update({"httpRead": httpReadDetail.get("id")})
+                else:
+                    want.get("assign_credentials").update({
+                        "httpReadCredentialsId": {"credentialsId": httpReadDetail.get("id")}
+                    })
 
         https_write = AssignCredentials.get("https_write")
         if https_write:
@@ -2123,7 +2256,12 @@ class DeviceCredential(DnacBase):
                         self.msg = "The description and username for the httpWrite credential are invalid."
                         self.status = "failed"
                         return self
-                want.get("assign_credentials").update({"httpWrite": httpWriteDetail.get("id")})
+                if current_ccc_version_as_int <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
+                    want.get("assign_credentials").update({"httpWrite": httpWriteDetail.get("id")})
+                else:
+                    want.get("assign_credentials").update({
+                        "httpWriteCredentialsId": {"credentialsId": httpWriteDetail.get("id")}
+                    })
 
         snmp_v3 = AssignCredentials.get("snmp_v3")
         if snmp_v3:
@@ -2152,10 +2290,180 @@ class DeviceCredential(DnacBase):
                         self.msg = "The username and description for the snmp_v2c_write credential are invalid."
                         self.status = "failed"
                         return self
-                want.get("assign_credentials").update({"snmpV3Id": snmpV3Detail.get("id")})
+                if current_ccc_version_as_int <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
+                    want.get("assign_credentials").update({"snmpV3Id": snmpV3Detail.get("id")})
+                else:
+                    want.get("assign_credentials").update({
+                        "snmpv3CredentialsId": {"credentialsId": snmpV3Detail.get("id")}
+                    })
+
         self.log("Desired State (want): {0}".format(want), "INFO")
         self.want.update(want)
         self.msg = "Collected the Credentials needed to be assigned from the Cisco Catalyst Center"
+        self.status = "success"
+        return self
+
+    def get_want_apply_credentials(self, ApplyCredentials):
+        """
+        Get the Credentials to be applied to a site from the playbook.
+        Check this API using the check_return_status.
+
+        Parameters:
+            ApplyCredentials (dict) - Playbook details containing
+            credentials that need to be applied to a site.
+
+        Returns:
+            self - The current object with updated information of credentials
+            that need to be applied to a site from the playbook.
+        """
+        want = {
+            "apply_credentials": {}
+        }
+        site_names = ApplyCredentials.get("site_name")
+        if not site_names:
+            self.msg = "The 'site_name' is required parameter for 'apply_credentials_to_site'"
+            self.status = "failed"
+            return self
+
+        site_ids = []
+        for site_name in site_names:
+            site_exists, current_site_id = self.get_site_id(site_name)
+            if not current_site_id:
+                self.msg = "The site_name '{0}' is invalid in 'apply_credentials_to_site'".format(site_name)
+                self.status = "failed"
+                return self
+            site_ids.append(current_site_id)
+
+        want.update({"site_id": site_ids})
+        want.update({"site_name": site_names})
+        global_credentials = self.get_global_credentials_params()
+        cli_credential = ApplyCredentials.get("cli_credential")
+        if cli_credential:
+            cliId = cli_credential.get("id")
+            cliDescription = cli_credential.get("description")
+            cliUsername = cli_credential.get("username")
+
+            if cliId or cliDescription and cliUsername:
+                # All CLI details from the Cisco Catalyst Center
+                cli_details = global_credentials.get("cliCredential")
+                if not cli_details:
+                    self.msg = "Global CLI credential is not available"
+                    self.status = "failed"
+                    return self
+                cliDetail = None
+                if cliId:
+                    cliDetail = get_dict_result(cli_details, "id", cliId)
+                    if not cliDetail:
+                        self.msg = "The ID for the CLI credential is not valid."
+                        self.status = "failed"
+                        return self
+                elif cliDescription and cliUsername:
+                    for item in cli_details:
+                        if item.get("description") == cliDescription and \
+                                item.get("username") == cliUsername:
+                            cliDetail = item
+                    if not cliDetail:
+                        self.msg = "The username and description of the CLI credential are invalid"
+                        self.status = "failed"
+                        return self
+
+                want["apply_credentials"]["cliId"] = cliDetail.get("id")
+
+        snmp_v2c_read = ApplyCredentials.get("snmp_v2c_read")
+        if snmp_v2c_read:
+            snmpV2cReadId = snmp_v2c_read.get("id")
+            snmpV2cReadDescription = snmp_v2c_read.get("description")
+            if snmpV2cReadId or snmpV2cReadDescription:
+                # All snmp_v2c_read details from the Cisco Catalyst Center
+                snmpV2cRead_details = global_credentials.get("snmpV2cRead")
+                if not snmpV2cRead_details:
+                    self.msg = "Global snmp_v2c_read credential is not available"
+                    self.status = "failed"
+                    return self
+                snmpV2cReadDetail = None
+                if snmpV2cReadId:
+                    snmpV2cReadDetail = get_dict_result(
+                        snmpV2cRead_details, "id", snmpV2cReadId)
+                    if not snmpV2cReadDetail:
+                        self.msg = "The ID of the snmp_v2c_read credential is not valid."
+                        self.status = "failed"
+                        return self
+                elif snmpV2cReadDescription:
+                    for item in snmpV2cRead_details:
+                        if item.get("description") == snmpV2cReadDescription:
+                            snmpV2cReadDetail = item
+                    if not snmpV2cReadDetail:
+                        self.msg = "The username and description for the snmp_v2c_read credential are invalid."
+                        self.status = "failed"
+                        return self
+
+                want["apply_credentials"]["snmpV2ReadId"] = snmpV2cReadDetail.get(
+                    "id")
+
+        snmp_v2c_write = ApplyCredentials.get("snmp_v2c_write")
+        if snmp_v2c_write:
+            snmpV2cWriteId = snmp_v2c_write.get("id")
+            snmpV2cWriteDescription = snmp_v2c_write.get("description")
+            if snmpV2cWriteId or snmpV2cWriteDescription:
+                # All snmp_v2c_write details from the Cisco Catalyst Center
+                snmpV2cWrite_details = global_credentials.get("snmpV2cWrite")
+                if not snmpV2cWrite_details:
+                    self.msg = "Global snmp_v2c_write Credential is not available"
+                    self.status = "failed"
+                    return self
+                snmpV2cWriteDetail = None
+                if snmpV2cWriteId:
+                    snmpV2cWriteDetail = get_dict_result(
+                        snmpV2cWrite_details, "id", snmpV2cWriteId)
+                    if not snmpV2cWriteDetail:
+                        self.msg = "The ID of the snmp_v2c_write credential is invalid."
+                        self.status = "failed"
+                        return self
+                elif snmpV2cWriteDescription:
+                    for item in snmpV2cWrite_details:
+                        if item.get("description") == snmpV2cWriteDescription:
+                            snmpV2cWriteDetail = item
+                    if not snmpV2cWriteDetail:
+                        self.msg = "The username and description of the snmp_v2c_write credential are invalid."
+                        self.status = "failed"
+                        return self
+
+                want["apply_credentials"]["snmpV2WriteId"] = snmpV2cWriteDetail.get(
+                    "id")
+
+        snmp_v3 = ApplyCredentials.get("snmp_v3")
+        if snmp_v3:
+            snmpV3Id = snmp_v3.get("id")
+            snmpV3Description = snmp_v3.get("description")
+            if snmpV3Id or snmpV3Description:
+                # All snmp_v3 details from the Cisco Catalyst Center
+                snmpV3_details = global_credentials.get("snmpV3")
+                if not snmpV3_details:
+                    self.msg = "Global snmp_v3 Credential is not available."
+                    self.status = "failed"
+                    return self
+                snmpV3Detail = None
+                if snmpV3Id:
+                    snmpV3Detail = get_dict_result(
+                        snmpV3_details, "id", snmpV3Id)
+                    if not snmpV3Detail:
+                        self.msg = "The ID of the snmp_v3 credential is not valid."
+                        self.status = "failed"
+                        return self
+                elif snmpV3Description:
+                    for item in snmpV3_details:
+                        if item.get("description") == snmpV3Description:
+                            snmpV3Detail = item
+                    if not snmpV3Detail:
+                        self.msg = "The username and description for the snmp_v2c_write credential are invalid."
+                        self.status = "failed"
+                        return self
+
+                want["apply_credentials"]["snmpV3Id"] = snmpV3Detail.get("id")
+
+        self.log("Desired State (want): {0}".format(want), "INFO")
+        self.want.update(want)
+        self.msg = "Collected the Credentials needed to be applied from the Cisco Catalyst Center"
         self.status = "success"
         return self
 
@@ -2181,6 +2489,10 @@ class DeviceCredential(DnacBase):
         if config.get("assign_credentials_to_site"):
             AssignCredentials = config.get("assign_credentials_to_site")
             self.get_want_assign_credentials(AssignCredentials).check_return_status()
+
+        if config.get("apply_credentials_to_site"):
+            ApplyCredentials = config.get("apply_credentials_to_site")
+            self.get_want_apply_credentials(ApplyCredentials).check_return_status()
 
         self.log("Desired State (want): {0}".format(self.want), "INFO")
         self.msg = "Successfully retrieved details from the playbook"
@@ -2222,8 +2534,12 @@ class DeviceCredential(DnacBase):
         )
         self.log("Received API response from 'create_global_credentials_v2': {0}"
                  .format(response), "DEBUG")
-        validation_string = "global credential addition performed"
-        self.check_task_response_status(response, validation_string, "create_global_credentials_v2").check_return_status()
+        if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
+            validation_string = "global credential addition performed"
+            self.check_task_response_status(response, validation_string, "create_global_credentials_v2").check_return_status()
+        else:
+            self.check_tasks_response_status(response, "create_global_credentials_v2").check_return_status()
+
         self.log("Global credential created successfully", "INFO")
         result_global_credential.update({
             "Creation": {
@@ -2287,8 +2603,11 @@ class DeviceCredential(DnacBase):
                 )
                 self.log("Received API response for 'update_global_credentials_v2': {0}"
                          .format(response), "DEBUG")
-                validation_string = "global credential update performed"
-                self.check_task_response_status(response, validation_string, "update_global_credentials_v2").check_return_status()
+                if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
+                    validation_string = "global credential update performed"
+                    self.check_task_response_status(response, validation_string, "update_global_credentials_v2").check_return_status()
+                else:
+                    self.check_tasks_response_status(response, "update_global_credentials_v2").check_return_status()
         self.log("Updating device credential API input parameters: {0}"
                  .format(final_response), "DEBUG")
         self.log("Global device credential updated successfully", "INFO")
@@ -2333,18 +2652,34 @@ class DeviceCredential(DnacBase):
 
         site_ids = self.want.get("site_id")
         for site_id in site_ids:
-            credential_params.update({"site_id": site_id})
-            final_response.append(copy.deepcopy(credential_params))
-            response = self.dnac._exec(
-                family="network_settings",
-                function='assign_device_credential_to_site_v2',
-                op_modifies=True,
-                params=credential_params,
-            )
-            self.log("Received API response for 'assign_device_credential_to_site_v2': {0}"
-                     .format(response), "DEBUG")
-            validation_string = "desired common settings operation successful"
-            self.check_task_response_status(response, validation_string, "assign_device_credential_to_site_v2").check_return_status()
+            if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
+                credential_params.update({"site_id": site_id})
+                final_response.append(copy.deepcopy(credential_params))
+                response = self.dnac._exec(
+                    family="network_settings",
+                    function='assign_device_credential_to_site_v2',
+                    op_modifies=True,
+                    params=credential_params,
+                )
+                self.log("Received API response for 'assign_device_credential_to_site_v2': {0}"
+                         .format(response), "DEBUG")
+                validation_string = "desired common settings operation successful"
+                self.check_task_response_status(
+                    response, validation_string, "assign_device_credential_to_site_v2").check_return_status()
+            else:
+                credential_params.update({"id": site_id})
+                final_response.append(copy.deepcopy(credential_params))
+                response = self.dnac._exec(
+                    family="network_settings",
+                    function='update_device_credential_settings_for_a_site',
+                    op_modifies=True,
+                    params=credential_params
+                )
+                self.log("Received API response for 'update_device_credential_settings_for_a_site': {0}"
+                         .format(response), "DEBUG")
+                self.check_tasks_response_status(
+                    response, "update_device_credential_settings_for_a_site").check_return_status()
+
         self.log("Device credential assigned to site {0} is successfully."
                  .format(site_ids), "INFO")
         self.log("Desired State for assign credentials to a site: {0}"
@@ -2357,6 +2692,189 @@ class DeviceCredential(DnacBase):
         })
         self.msg = "Global Credential is assigned Successfully"
         self.status = "success"
+        return self
+
+    def get_network_devices_credentials_sync_status(self, site_id):
+        """
+        Retrieve network devices credentials sync status from Cisco Catalyst Center.
+
+        Parameters:
+            self - The current object with updated Global Device Credential information.
+
+        Returns:
+            sync_status - Response for all network devices credential's sync status.
+        """
+
+        try:
+            sync_status = self.dnac._exec(
+                family="network_settings",
+                function='get_network_devices_credentials_sync_status',
+                params={"id": site_id}
+            )
+            sync_status = sync_status.get("response")
+            self.log("All global device credentials sync details: {0}"
+                     .format(sync_status), "DEBUG")
+        except Exception as msg:
+            self.msg = (
+                "Exception occurred while getting global device credentials sync status: {0}".format(
+                    msg)
+            )
+            self.log(self.msg, "CRITICAL")
+            self.status = "failed"
+            return self.check_return_status()
+
+        return sync_status
+
+    def get_assigned_device_credential(self, site_id):
+        """
+        Retrieve device credential configurations for a site from Cisco Catalyst Center.
+
+        Parameters:
+            self - The current object with updated Global Device Credential information.
+
+        Returns:
+            site_credential_response - The device credential settings for the specified site.
+        """
+        self.log(
+            "Retrieving device credential settings for site ID: {0}".format(site_id), "DEBUG")
+        credential_settings = self.dnac._exec(
+            family="network_settings",
+            function='get_device_credential_settings_for_a_site',
+            params={"id": site_id}
+        )
+
+        self.log("Received API response: {0}".format(credential_settings), "DEBUG")
+        site_credential_response = credential_settings.get("response")
+        self.log("Device credential settings details: {0}".format(
+            site_credential_response), "DEBUG")
+
+        return site_credential_response
+
+    def apply_credentials_to_site(self):
+        """
+        Apply Global Device Credential to the Cisco Catalyst
+        Center based on the provided playbook details.
+        Check the return value of the API with check_return_status().
+
+        Parameters:
+            self - The current object with updated Global Device Credential information.
+
+        Returns:
+            self - The current object with updated Global Device Credential information.
+
+        """
+        site_ids = self.want.get("site_id")
+        site_names = self.want.get("site_name")
+        for site_id, site_name in zip(site_ids, site_names):
+            if self.get_ccc_version_as_integer() >= self.get_ccc_version_as_int_from_str("2.3.7.6"):
+                result_apply_credential = self.result.get("response")[0].get("applyCredential")
+                credential_params = self.want.get("apply_credentials")
+                final_response = []
+                self.log("Applying device credential to site API input parameters: {0}".format(credential_params), "DEBUG")
+                if not credential_params:
+                    result_apply_credential.update({
+                        "No Apply Credentials": {
+                            "response": "No Response",
+                            "msg": "No device credential id is available"
+                        }
+                    })
+                    self.msg = "No device credential id is available"
+                    self.status = "success"
+                    return self
+
+                site_response = self.get_device_ids_from_site(site_id)
+                if not site_response:
+                    result_apply_credential.update({
+                        "No Apply Credentials": {
+                            "response": "No Response",
+                            "msg": "No device available in the site"
+                        }
+                    })
+                    self.msg = "No device available in the site: '{0}' with site id {1}".format(site_name, site_id)
+                    self.log(self.msg, "WARNING")
+                    self.status = "exited"
+                    return self
+
+                cred_sync_status = self.get_network_devices_credentials_sync_status(site_id)
+                credential_mapping = {
+                    "cli": "cliId",
+                    "snmpV2Read": "snmpV2ReadId",
+                    "snmpV2Write": "snmpV2WriteId",
+                    "snmpV3": "snmpV3Id"
+                }
+
+                not_synced_ids, assigned_site_ids = [], []
+
+                for status_key, param_key in credential_mapping.items():
+                    if param_key in credential_params:
+                        status_list = cred_sync_status.get(status_key, [])
+                        for status in status_list:
+                            if status.get('status') != 'Synced':
+                                if credential_params.get(param_key):
+                                    not_synced_ids.append(credential_params[param_key])
+                assigned_device_credential = self.get_assigned_device_credential(site_id)
+
+                for value in assigned_device_credential.values():
+                    if isinstance(value, dict) and "credentialsId" in value:
+                        assigned_site_ids.append(value.get("credentialsId"))
+
+                valid_sync_cred_ids, invalid_sync_cred_ids = [], []
+
+                for id in not_synced_ids:
+                    if id in assigned_site_ids:
+                        valid_sync_cred_ids.append(id)
+                    else:
+                        invalid_sync_cred_ids.append(id)
+
+                self.log("Credential IDs {0} not assigned to site, so Sync not possible.".format(invalid_sync_cred_ids), "INFO")
+                if not valid_sync_cred_ids:
+                    result_apply_credential.update({
+                        "Applied Credentials": {
+                            "response": final_response,
+                            "msg": "Either the provided credentials are already synchronized or they are not assigned to the device."
+                        }
+                    })
+                    self.msg = (
+                        "Provided credentials category is/are already synced: {0}".format(credential_params)
+                    )
+                    self.log(self.msg, "WARNING")
+                    self.status = "skipped"
+                    return self
+
+                for credential_id in valid_sync_cred_ids:
+                    param = {"deviceCredentialId": credential_id,
+                             "siteId": site_id}
+                    self.log("Credential {0} to be synced with {1} site id." .format(credential_id, site_id), "INFO")
+                    final_response.append(copy.deepcopy(param))
+                    response = self.dnac._exec(
+                        family="network_settings",
+                        function="sync_network_devices_credential",
+                        op_modifies=True,
+                        params=param
+                    )
+                    self.log("Received API response for 'sync_network_devices_credential': {0}".format(response), "DEBUG")
+                    self.check_tasks_response_status(response,
+                                                     "sync_network_devices_credential").check_return_status()
+
+                    self.log("Device credential applied to site {0} successfully.".format(site_id), "INFO")
+                    self.log("Desired State for applying credentials to a site: {0}".format(final_response), "DEBUG")
+                    result_apply_credential.update({
+                        "Applied Credentials": {
+                            "response": final_response,
+                            "msg": "Successfully applied credential."
+                        }
+                    })
+                self.msg = "Global Credential is applied Successfully"
+                self.status = "success"
+            else:
+                self.msg = (
+                    "Cisco Catalyst Center version '{0}' doesn't support apply credentials to site feature."
+                    .format(self.payload.get("dnac_version")), "ERROR"
+                )
+                self.log(self.msg, "CRITICAL")
+                self.status = "failed"
+                return self.check_return_status()
+
         return self
 
     def get_diff_merged(self, config):
@@ -2380,6 +2898,9 @@ class DeviceCredential(DnacBase):
 
         if config.get("assign_credentials_to_site") is not None:
             self.assign_credentials_to_site().check_return_status()
+
+        if config.get("apply_credentials_to_site") is not None:
+            self.apply_credentials_to_site().check_return_status()
 
         return self
 
@@ -2566,7 +3087,11 @@ class DeviceCredential(DnacBase):
             self.log("Successfully validated the assign device credential to site", "INFO")
             self.result.get("response")[0].get("assignCredential").update({"Validation": "Success"})
 
-        self.msg = "Successfully validated the global device credential and assigned device credential to site."
+        if config.get("apply_credentials_to_site") is not None:
+            self.log("Successfully validated the assign device credential to site", "INFO")
+            self.result.get("response")[0].get("applyCredential").update({"Validation": "Success"})
+
+        self.msg = "Successfully validated the global device credential, assigned and applied device credential to site."
         self.status = "success"
         return self
 
