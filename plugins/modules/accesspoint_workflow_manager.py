@@ -543,6 +543,33 @@ options:
             type: list
             elements: str
             required: False
+      factory_reset_aps:
+        description: |
+          Factory reset one or more access points (APs) identified by their MAC addresses, hostnames, or management IP addresses.
+          At least one of the following parameters is required:
+          - mac_addresses
+          - hostnames
+          - management_ip_addresses
+        type: dict
+        required: False
+        suboptions:
+          mac_addresses:
+            description: A list of MAC addresses used to identify the access points for factory reset.
+            type: list
+            elements: str
+            required: False
+          hostnames:
+            description: |
+                A list of hostnames used to identify the access points for factory reset.
+            type: list
+            elements: str
+            required: False
+          management_ip_addresses:
+            description: |
+                A list of management IP addresses used to identify the access points for factory reset.
+            type: list
+            elements: str
+            required: False
 
 requirements:
   - dnacentersdk >= 2.7.2
@@ -997,6 +1024,26 @@ EXAMPLES = r"""
               hostnames:
                 - "cisco_Test_9166_T3"
                 - "cisco_Test_9120_T1"
+      register: output_list
+
+    - name: Factory reset single or multiple access point
+      cisco.dnac.accesspoint_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: True
+        dnac_log_level: DEBUG
+        config_verify: True
+        state: merged
+        config:
+          - factory_reset_aps:
+              mac_addresses:
+                - "6c:d6:e3:75:5a:e0"
+                - "e4:38:7e:42:bc:00"
       register: output_list
 """
 
@@ -1624,26 +1671,27 @@ class Accesspoint(DnacBase):
             param_spec = dict(type="str", length_max=32)
             validate_str(ap_config["rf_profile"], param_spec, "rf_profile", errormsg)
 
-        reboot_aps = ap_config.get("reboot_aps")
-        if reboot_aps is not None:
-            ap_identity_type = list(reboot_aps.keys())[0]  # Retrieve the type (mac, hostname, or IP)
-            if ap_identity_type and ap_identity_type in self.keymap and len(reboot_aps.get(ap_identity_type)) > 0:
-                for ap_identifier in reboot_aps[ap_identity_type]:
-                    if ap_identity_type == "mac_addresses":
-                        mac_regex = re.compile(r'^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$')
-                        if not mac_regex.match(ap_identifier):
-                            errormsg.append("mac_addresses: Invalid MAC Address '{0}' in playbook.".format(
-                                str(ap_identifier)))
-                            self.log("Invalid MAC address: {0}".format(ap_identifier), "ERROR")
-                    elif ap_identity_type == "management_ip_addresses" and (not self.is_valid_ipv4(ap_identifier) and
-                                                                            not self.is_valid_ipv6(ap_identifier)):
-                        errormsg.append("management_ip_addresses: Invalid Management IP Address '{0}' in playbook."
-                                        .format(str(ap_identifier)))
-                        self.log("Invalid Management IP address: {0}".format(ap_identifier), "ERROR")
-                    elif ap_identity_type == "hostnames":
-                        param_spec = dict(type="str", length_max=32)
-                        validate_str(ap_identifier, param_spec, "hostnames", errormsg)
-                        self.log("Hostname validation for '{0}' completed.".format(ap_identifier), "DEBUG")
+        for reboot_reset in ("reboot_aps", "factory_reset_aps"):
+            reboot_reset_aps = ap_config.get(reboot_reset)
+            if reboot_reset_aps is not None:
+                ap_identity_type = list(reboot_reset_aps.keys())[0]  # Retrieve the type (mac, hostname, or IP)
+                if ap_identity_type and ap_identity_type in self.keymap and len(reboot_reset_aps.get(ap_identity_type)) > 0:
+                    for ap_identifier in reboot_reset_aps[ap_identity_type]:
+                        if ap_identity_type == "mac_addresses":
+                            mac_regex = re.compile(r'^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$')
+                            if not mac_regex.match(ap_identifier):
+                                errormsg.append("mac_addresses: Invalid MAC Address '{0}' in playbook.".format(
+                                    str(ap_identifier)))
+                                self.log("Invalid MAC address: {0}".format(ap_identifier), "ERROR")
+                        elif ap_identity_type == "management_ip_addresses" and (not self.is_valid_ipv4(ap_identifier) and
+                                                                                not self.is_valid_ipv6(ap_identifier)):
+                            errormsg.append("management_ip_addresses: Invalid Management IP Address '{0}' in playbook."
+                                            .format(str(ap_identifier)))
+                            self.log("Invalid Management IP address: {0}".format(ap_identifier), "ERROR")
+                        elif ap_identity_type == "hostnames":
+                            param_spec = dict(type="str", length_max=32)
+                            validate_str(ap_identifier, param_spec, "hostnames", errormsg)
+                            self.log("Hostname validation for '{0}' completed.".format(ap_identifier), "DEBUG")
 
         site = ap_config.get("site")
         if site:
@@ -2197,6 +2245,12 @@ class Accesspoint(DnacBase):
                     self.log("Current site details: {0}".format(str(current_site)), "INFO")
                     self.log("Site {0} exists in Cisco Catalyst Center".format(site.get("name")), "INFO")
                     site_exists = True
+                else:
+                    msg = "The provided site name '{0}' is either invalid or not present in the \
+                        Cisco Catalyst Center.".format(self.want.get("site_name"))
+                    self.log(msg, "WARNING")
+                    self.module.fail_json(msg=msg)
+
             except Exception as e:
                 msg = "The provided site name '{0}' is either invalid or not present in the \
                         Cisco Catalyst Center.".format(self.want.get("site_name"))
@@ -3119,6 +3173,113 @@ class Accesspoint(DnacBase):
             self.status = "failed"
             self.module.fail_json(msg=error_msg)
 
+    def reset_access_point(self, ap_list):
+        """
+        Factroy reset access points, handling single or bulk APs.
+
+        Parameters:
+            self (dict): A dictionary used to collect the execution results.
+            ap_list (dict): A list containing the list of Access point Mac Address.
+
+        Returns:
+            dict: A dictionary containing the result of the access point factory reset response.
+        """
+        try:
+            self.log('Resetting the list of APs: {0}'.format(self.pprint(ap_list)), "INFO")
+            response = self.dnac._exec(
+                family="wireless",
+                function='factory_reset_access_points',
+                op_modifies=True,
+                params={"apMacAddresses": ap_list, "keepStaticIPConfig": True},
+            )
+            self.log("Response from factory_reset_access_points: {0}".format(str(response.get("response"))), "INFO")
+
+            if response and isinstance(response, dict):
+                task_id = response.get("response", {}).get("taskId")
+                resync_retry_count = int(self.payload.get("dnac_api_task_timeout"))
+                resync_retry_interval = int(self.payload.get("dnac_task_poll_interval"))
+
+                while resync_retry_count:
+                    task_details_response = self.get_tasks_by_id(task_id)
+                    self.log("Status of the reset task: {0} .".format(self.status), "INFO")
+                    responses = {}
+                    if task_details_response.get("endTime") is not None:
+                        if task_details_response.get("status") == "SUCCESS":
+                            self.log("Reset Task Details: {0} .".format(self.pprint(
+                                task_details_response)), "INFO")
+                            self.msg = "APs {0} reset successfully".format(str(ap_list))
+                            reset_status = self.access_point_reset_status(task_id)
+                            responses = {
+                                "accesspoints_updates": {
+                                    "ap_reset_task_details": {"reset_api_response": reset_status.get("apResponseInfoList")},
+                                    "ap_reset_status": self.msg
+                                }
+                            }
+                            self.result['changed'] = True
+                            self.result['response'] = responses
+                            self.log("Given APs '{0}' factory reset done successfully with task: '{1}'."
+                                     .format(ap_list, self.pprint(task_details_response)), "INFO")
+                            return self
+
+                        self.result['changed'] = False
+                        self.status = "failed"
+                        self.msg = "Unable to get success response, hence APs are not resetted"
+                        self.log(self.msg, "ERROR")
+                        self.log("Reset Task Details: {0} .".format(self.pprint(
+                            task_details_response)), "ERROR")
+                        reset_status = self.access_point_reset_status(task_id)
+                        responses["accesspoints_updates"] = {
+                            "ap_reset_task_details": {
+                                "status": task_details_response.get("status"),
+                                "reset_api_response": reset_status.get("apResponseInfoList")
+                            },
+                            "ap_reset_status": self.msg}
+                        self.module.fail_json(msg=self.msg, response=responses)
+                    time.sleep(resync_retry_interval)
+                    resync_retry_count = resync_retry_count - 1
+            else:
+                self.msg = "Failed to receive a valid response from AP reset API."
+                self.log(self.msg, "ERROR")
+                self.status = "failed"
+                self.module.fail_json(msg=self.msg)
+
+        except Exception as e:
+            error_msg = 'An error occurred during access point reset: {0}'.format(str(e))
+            self.log(error_msg, "ERROR")
+            self.msg = error_msg
+            self.status = "failed"
+            self.module.fail_json(msg=self.msg)
+
+    def access_point_reset_status(self, task_id):
+        """
+        Get the reset status of the accesspoint using by the task id.
+
+        Parameters:
+            self (dict): A dictionary used to collect the execution results.
+            task_id (string): A sting containing the task id generated from factory reset task.
+
+        Returns:
+            dict: A dictionary containing the result of the access point reset status.
+        """
+        try:
+            response = self.dnac._exec(
+                family="wireless",
+                function='get_access_points_factory_reset_status',
+                params=task_id,
+            )
+            self.log("Response from ap reset status: {0}".format(self.pprint(response)), "INFO")
+            if response and isinstance(response[0], dict):
+                return response.get("response",{})[0]
+            error_msg = "Invalid response format or missing data in AP reset status."
+            self.log(error_msg, "ERROR")
+            self.module.fail_json(msg=error_msg)
+        except Exception as e:
+            error_msg = 'An error occurred during access point reset status: {0}'.format(str(e))
+            self.log(error_msg, "ERROR")
+            self.msg = error_msg
+            self.status = "failed"
+            self.module.fail_json(msg=error_msg)
+
 
 def main():
     """ main entry point for module execution
@@ -3167,14 +3328,15 @@ def main():
 
     ccc_network.validate_input_yml().check_return_status()
     config_verify = ccc_network.params.get("config_verify")
+    ccc_network.keymap = {
+        "mac_addresses": "mac_address",
+        "hostnames": "hostname",
+        "management_ip_addresses": "management_ip_address"
+    }
 
+    # Below set of line related to the Access Point reboot function.
     reboot_list = ccc_network.validated_config[0].get("reboot_aps")
     if reboot_list is not None:
-        ccc_network.keymap = {
-            "mac_addresses": "mac_address",
-            "hostnames": "hostname",
-            "management_ip_addresses": "management_ip_address"
-        }
         ccc_network.validate_ap_config_parameters(ccc_network.validated_config[0]).check_return_status()
         ap_indentity = list(reboot_list.keys())[0]
         if ap_indentity and ap_indentity in ccc_network.keymap and len(reboot_list.get(ap_indentity)) > 0:
@@ -3192,6 +3354,27 @@ def main():
                 ccc_network.log("No valid Ethernet MAC addresses found for reboot.", "WARNING")
     else:
         ccc_network.log("No reboot list found in validated configuration.", "WARNING")
+
+    # Below set of line related to the Access Point factroy reset function.
+    reset_list = ccc_network.validated_config[0].get("factory_reset_aps")
+    if reset_list is not None:
+        ccc_network.validate_ap_config_parameters(ccc_network.validated_config[0]).check_return_status()
+        ap_indentity = list(reset_list.keys())[0]
+        if ap_indentity and ap_indentity in ccc_network.keymap and len(reset_list.get(ap_indentity)) > 0:
+            eth_mac_list = []
+            for each_ap in reset_list[ap_indentity]:
+                ap_indentity_param = {ccc_network.keymap[ap_indentity]: each_ap}
+                ccc_network.log("Factory Reset AP: {0}".format(str(ap_indentity_param)), "INFO")
+                ap_exist, ap_details = ccc_network.get_accesspoint_details(ap_indentity_param)
+                eth_mac_list.append(ap_details.get("ap_ethernet_mac_address"))
+            if eth_mac_list:
+                ccc_network.log("Ethernet MAC addresses for Factory Reset: {0}".format(eth_mac_list), "INFO")
+                ccc_network.reset_access_point(eth_mac_list)
+                module.exit_json(**ccc_network.result)
+            else:
+                ccc_network.log("No valid Ethernet MAC addresses found for Reset.", "WARNING")
+    else:
+        ccc_network.log("No reset list found in validated configuration.", "WARNING")
 
     for config in ccc_network.validated_config:
         ccc_network.reset_values()
