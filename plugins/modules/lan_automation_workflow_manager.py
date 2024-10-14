@@ -1930,21 +1930,21 @@ class LanAutomation(DnacBase):
             return
 
         self.log("Processing link addition.", "INFO")
-        if link_add:
-            source_ip_address = link_add.get("sourceDeviceManagementIPAddress")
-            source_interface_name = link_add.get("sourceDeviceInterfaceName")
-            destination_ip_address = link_add.get("destinationDeviceManagementIPAddress")
-            destination_interface_name = link_add.get("destinationDeviceInterfaceName")
 
-            if self.check_link_details(source_ip_address, source_interface_name) and \
-                    self.check_link_details(destination_ip_address, destination_interface_name):
-                self.log("Link between {0}/{1} and {2}/{3} was added successfully in Catalyst Center.".format(
-                    source_ip_address, source_interface_name, destination_ip_address, destination_interface_name),
-                    "INFO")
-            else:
-                self.log("Link between {0}/{1} and {2}/{3} was not added in Catalyst Center.".format(
-                    source_ip_address, source_interface_name, destination_ip_address, destination_interface_name),
-                    "WARNING")
+        source_ip_address = link_add.get("sourceDeviceManagementIPAddress")
+        source_interface_name = link_add.get("sourceDeviceInterfaceName")
+        destination_ip_address = link_add.get("destinationDeviceManagementIPAddress")
+        destination_interface_name = link_add.get("destinationDeviceInterfaceName")
+
+        if self.check_link_details(source_ip_address, source_interface_name) and \
+                self.check_link_details(destination_ip_address, destination_interface_name):
+            self.log("Link between {0}/{1} and {2}/{3} was added successfully in Catalyst Center.".format(
+                source_ip_address, source_interface_name, destination_ip_address, destination_interface_name),
+                "INFO")
+        else:
+            self.log("Link between {0}/{1} and {2}/{3} was not added in Catalyst Center.".format(
+                source_ip_address, source_interface_name, destination_ip_address, destination_interface_name),
+                "WARNING")
 
     def process_link_deletion(self, link_delete):
         """
@@ -1965,21 +1965,21 @@ class LanAutomation(DnacBase):
             return
 
         self.log("Processing link deletion.", "INFO")
-        if link_delete:
-            source_ip_address = link_delete.get("sourceDeviceManagementIPAddress")
-            source_interface_name = link_delete.get("sourceDeviceInterfaceName")
-            destination_ip_address = link_delete.get("destinationDeviceManagementIPAddress")
-            destination_interface_name = link_delete.get("destinationDeviceInterfaceName")
 
-            if not self.check_link_details(source_ip_address, source_interface_name) and \
-                    not self.check_link_details(destination_ip_address, destination_interface_name):
-                self.log("Link between {0}/{1} and {2}/{3} has already been removed.".format(
-                    source_ip_address, source_interface_name, destination_ip_address, destination_interface_name),
-                    "INFO")
-            else:
-                self.log("Link between {0}/{1} and {2}/{3} still exists and needs to be removed.".format(
-                    source_ip_address, source_interface_name, destination_ip_address, destination_interface_name),
-                    "WARNING")
+        source_ip_address = link_delete.get("sourceDeviceManagementIPAddress")
+        source_interface_name = link_delete.get("sourceDeviceInterfaceName")
+        destination_ip_address = link_delete.get("destinationDeviceManagementIPAddress")
+        destination_interface_name = link_delete.get("destinationDeviceInterfaceName")
+
+        if not self.check_link_details(source_ip_address, source_interface_name) and \
+                not self.check_link_details(destination_ip_address, destination_interface_name):
+            self.log("Link between {0}/{1} and {2}/{3} has already been removed.".format(
+                source_ip_address, source_interface_name, destination_ip_address, destination_interface_name),
+                "INFO")
+        else:
+            self.log("Link between {0}/{1} and {2}/{3} still exists and needs to be removed.".format(
+                source_ip_address, source_interface_name, destination_ip_address, destination_interface_name),
+                "WARNING")
 
     def get_diff_merged(self):
         """
