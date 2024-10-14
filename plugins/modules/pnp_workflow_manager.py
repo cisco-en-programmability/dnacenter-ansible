@@ -1210,11 +1210,18 @@ class PnP(DnacBase):
                 params={"serial_number": serial_number},
                 op_modifies=True,
             )
-            if response and len(response) == 1:
-                return response
+
+            if response and isinstance(response, list) and len(response) == 1:
+                self.device_response = response[0]
+                self.log("Successfully retrieved PNP device details for serial number: {0}".format(serial_number), "INFO")
+                return self.device_response
+
+            msg = "No device found with serial number: {0}".format(serial_number)
+            self.log(msg, "WARNING")
+            self.module.fail_json(msg=msg)
 
         except Exception as e:
-            msg = "Device with serial number {0} is not found in the inventory".format(str(serial_number))
+            msg = "An error occurred while retrieving device with serial number {0}: {1}".format(serial_number, str(e))
             self.log(msg + str(e), "WARNING")
             self.module.fail_json(msg=msg)
 
@@ -1232,6 +1239,7 @@ class PnP(DnacBase):
         Example:
         passing device details and getting pnp device details response
         """
+        self.log("Attempting to retrieve PNP device details for device id: {0}".format(device_id), "INFO")
         try:
             device_details_response = self.dnac_apply['exec'](
                 family="device_onboarding_pnp",
@@ -1239,11 +1247,19 @@ class PnP(DnacBase):
                 params={"id": device_id},
                 op_modifies=True,
             )
+            # Check if the response contains the expected data
             if device_details_response:
-                return device_details_response
+                self.device_response = device_details_response  # Update the instance attribute
+                self.log("Successfully retrieved PNP device details for device id: {0}".format(device_id), "INFO")
+                return self.device_response
+
+            # If no device found, raise an error
+            msg = "No device found with device id: {0}".format(device_id)
+            self.log(msg, "WARNING")
+            self.module.fail_json(msg=msg)
 
         except Exception as e:
-            msg = "Device with device id {0} is not found in the inventory".format(str(device_id))
+            msg = "An error occurred while retrieving device with device id {0}: {1}".format(device_id, str(e))
             self.log(msg + str(e), "WARNING")
             self.module.fail_json(msg=msg)
 
@@ -1261,6 +1277,7 @@ class PnP(DnacBase):
         Example:
         passing device details and getting pnp device details response
         """
+        self.log("Attempting to add PNP device with parameters: {0}".format(pnp_params), "INFO")
         try:
             device_add_response = self.dnac_apply['exec'](
                 family="device_onboarding_pnp",
@@ -1269,10 +1286,17 @@ class PnP(DnacBase):
                 op_modifies=True,
             )
             if device_add_response:
-                return device_add_response
+                self.device_response = device_add_response  # Update the instance attribute
+                self.log("Successfully added PNP device with parameters: {0}".format(pnp_params), "INFO")
+                return self.device_response
+
+            # If the response is empty, log a warning
+            msg = "No response received when trying to add the PNP device with parameters: {0}".format(pnp_params)
+            self.log(msg, "WARNING")
+            self.module.fail_json(msg=msg)
 
         except Exception as e:
-            msg = "Unable to add the PNP device {0}.".format(str(pnp_params))
+            msg = "Unable to add the PNP device with parameters: {0}. Error: {1}".format(pnp_params, str(e))
             self.log(msg + str(e), "WARNING")
             self.module.fail_json(msg=msg)
 
@@ -1290,6 +1314,7 @@ class PnP(DnacBase):
         Example:
             passing device param and getting pnp device count response
         """
+        self.log("Attempting to get PNP device count with parameters: {0}".format(pnp_params), "INFO")
         try:
             prov_dev_response = self.dnac_apply['exec'](
                 family="device_onboarding_pnp",
@@ -1298,10 +1323,16 @@ class PnP(DnacBase):
                 params=pnp_params,
             )
             if prov_dev_response:
+                self.log("Successfully retrieved PNP device count: {0}".format(prov_dev_response), "INFO")
                 return prov_dev_response
 
+            # If the response is empty, log a warning
+            msg = "No response received when trying to get the PNP device count for parameters: {0}".format(pnp_params)
+            self.log(msg, "WARNING")
+            self.module.fail_json(msg=msg)
+
         except Exception as e:
-            msg = "Unable to get the PNP device count for {0}.".format(str(pnp_params))
+            msg = "Unable to get the PNP device count for parameters: {0}. Error: {1}".format(pnp_params, str(e))
             self.log(msg + str(e), "WARNING")
             self.module.fail_json(msg=msg)
 
@@ -1319,6 +1350,7 @@ class PnP(DnacBase):
         Example:
             passing device claim param and getting pnp claim response
         """
+        self.log("Attempting to claim device to site with parameters: {0}".format(claim_params), "INFO")
         try:
             claim_response = self.dnac_apply['exec'](
                 family="device_onboarding_pnp",
@@ -1327,10 +1359,16 @@ class PnP(DnacBase):
                 params=claim_params,
             )
             if claim_response:
+                self.log("Successfully claimed device to site: {0}".format(claim_response), "INFO")
                 return claim_response
 
+            # If the response is empty, log a warning
+            msg = "No response received when trying to claim the device to site with parameters: {0}".format(claim_params)
+            self.log(msg, "WARNING")
+            self.module.fail_json(msg=msg)
+
         except Exception as e:
-            msg = "Unable to claim the device to site {0}.".format(str(claim_params))
+            msg = "Unable to claim the device to site with parameters: {0}. Error: {1}".format(claim_params, str(e))
             self.log(msg + str(e), "WARNING")
             self.module.fail_json(msg=msg)
 
