@@ -2366,22 +2366,29 @@ class Accesspoint(DnacBase):
             "siteId": site_id
         }
 
-        site_assign_status = self.assign_device_to_site([self.have.get("device_id")],
-                                                        self.have.get("site_name_hierarchy"),
-                                                        self.have.get("site_id"))
-        if site_assign_status:
-            self.log('Current device details: {0}'.format(self.pprint(provision_params)), "INFO")
-            response = self.dnac._exec(
-                family="wireless",
-                function='ap_provision',
-                op_modifies=True,
-                params={"payload": provision_params},
-            )
-            self.log('Response from ap_provision: {0}'.format(str(response.get("response"))), "INFO")
+        try:
+            site_assign_status = self.assign_device_to_site([self.have.get("device_id")],
+                                                            self.have.get("site_name_hierarchy"),
+                                                            self.have.get("site_id"))
+            if site_assign_status:
+                self.log('Current device details: {0}'.format(self.pprint(provision_params)), "INFO")
+                response = self.dnac._exec(
+                    family="wireless",
+                    function='ap_provision',
+                    op_modifies=True,
+                    params={"payload": provision_params},
+                )
+                self.log('Response from ap_provision: {0}'.format(str(response.get("response"))), "INFO")
 
-            if response and isinstance(response, dict):
-                return response
-            return None
+                if response and isinstance(response, dict):
+                    return response
+                return None
+
+        except Exception as e:
+            error_msg = 'An error occurred during device provisioning: {0}'.format(str(e))
+            self.log(error_msg, "ERROR")
+            self.msg = error_msg
+            self.module.fail_json(msg=self.msg)
 
     def provision_device(self):
         """
@@ -2453,7 +2460,7 @@ class Accesspoint(DnacBase):
                                 self.result['changed'] = True
                                 self.result['response'] = self.msg
                                 provision_status = "SUCCESS"
-                                provision_details = task_details_response
+                                provision_details = self.get_task_details_by_id(task_id)
                                 break
                             else:
                                 self.result['changed'] = True if self.result['changed'] is True else False
@@ -2462,11 +2469,12 @@ class Accesspoint(DnacBase):
                                 self.log(self.msg, "ERROR")
                                 self.log("Task Details: {0} .".format(self.pprint(
                                     task_details_response)), "ERROR")
+                                provision_details = self.get_task_details_by_id(task_id)
                                 responses["accesspoints_updates"] = {
                                     "ap_provision_task_details": {
-                                        "error_code": task_details_response.get("errorCode"),
-                                        "failure_reason": task_details_response.get("failureReason"),
-                                        "is_error": task_details_response.get("isError")
+                                        "error_code": provision_details.get("errorCode"),
+                                        "failure_reason": provision_details.get("failureReason"),
+                                        "data": provision_details.get("data")
                                     },
                                     "ap_provision_status": self.msg}
                                 self.module.fail_json(msg=self.msg, response=responses)
