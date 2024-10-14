@@ -3541,6 +3541,7 @@ class NetworkSettings(DnacBase):
             if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
                 if 'client_and_endpoint_aaa' in net_params['settings']:
                     net_params['settings']['clientAndEndpoint_aaa'] = net_params['settings'].pop('client_and_endpoint_aaa')
+
                 try:
                     response = self.dnac._exec(
                         family="network_settings",
