@@ -1384,39 +1384,38 @@ class LanAutomation(DnacBase):
             self.log("No discovery devices found. Skipping validation for 'discovery_devices'.", "INFO")
             return
 
-        if discovery_devices:
-            for j, device in enumerate(discovery_devices):
-                if device is None:
-                    self.log("Invalid device entry at index {}. Device cannot be 'None'.".format(j), "ERROR")
+        for j, device in enumerate(discovery_devices):
+            if device is None:
+                self.log("Invalid device entry at index {}. Device cannot be 'None'.".format(j), "ERROR")
+                self.fail_with_error(
+                    "'discovery_devices[{}]' cannot be 'None'. Provide a valid device entry.".format(j))
+                return
+
+            self.log("Validating device at index {}: {}".format(j, device), "DEBUG")
+            if not device.get("device_serial_number"):
+                self.log("Discovery device at index {} is missing 'device_serial_number'.".format(j), "ERROR")
+                missing_params.append(
+                    "lan_automation -> discovery_devices[{}] -> device_serial_number (required if "
+                    "discovery_devices is provided)".format(j))
+
+            site_name = device.get("device_site_name_hierarchy")
+            if site_name:
+                self.log("Validating site name hierarchy '{}' for device at index {}.".format(site_name, j),
+                         "DEBUG")
+                if not self.get_site_details(site_name):
                     self.fail_with_error(
-                        "'discovery_devices[{}]' cannot be 'None'. Provide a valid device entry.".format(j))
-                    return
-
-                self.log("Validating device at index {}: {}".format(j, device), "DEBUG")
-                if not device.get("device_serial_number"):
-                    self.log("Discovery device at index {} is missing 'device_serial_number'.".format(j), "ERROR")
-                    missing_params.append(
-                        "lan_automation -> discovery_devices[{}] -> device_serial_number (required if "
-                        "discovery_devices is provided)".format(j))
-
-                site_name = device.get("device_site_name_hierarchy")
-                if site_name:
-                    self.log("Validating site name hierarchy '{}' for device at index {}.".format(site_name, j),
-                             "DEBUG")
-                    if not self.get_site_details(site_name):
-                        self.fail_with_error(
-                            "Invalid site \"{}\" for device at index {}. Please provide a valid site!".format(site_name,
-                                                                                                              j)
-                        )
-                    else:
-                        self.log(
-                            "Site name hierarchy '{}' validated successfully for device at index {}.".format(site_name,
-                                                                                                             j),
-                            "DEBUG")
+                        "Invalid site \"{}\" for device at index {}. Please provide a valid site!".format(site_name,
+                                                                                                          j)
+                    )
+                else:
+                    self.log(
+                        "Site name hierarchy '{}' validated successfully for device at index {}.".format(site_name,
+                                                                                                         j),
+                        "DEBUG")
 
     def validate_device_list(self, device_list, missing_params):
         """
-        Validates device lists such as 'loopback_update_device_list' and 'hostname_update_devices'.
+        Validates device lists such as 'loopback_update_device_list'.
         Args:
             self (object): An instance of the class used for LAN automation validation.
             device_list (list): A list of dictionaries representing devices to validate.
@@ -1434,46 +1433,45 @@ class LanAutomation(DnacBase):
 
         self.log("Starting validation of devices in device list: {}".format(device_list), "DEBUG")
 
-        if device_list:
-            for j, device in enumerate(device_list):
-                if not isinstance(device, dict):
-                    self.log("Expected a dictionary at index {}, but got: {}".format(j, type(device)), "ERROR")
+        for j, device in enumerate(device_list):
+            if not isinstance(device, dict):
+                self.log("Expected a dictionary at index {}, but got: {}".format(j, type(device)), "ERROR")
+                self.fail_with_error(
+                    "Invalid data type for loopback_update_device_list at index {}: expected a dictionary, got {}"
+                    .format(j, type(device))
+                )
+            management_ip = device.get("device_management_ip_address")
+            if not management_ip:
+                self.log("Device at index {} missing 'device_management_ip_address'.".format(j), "ERROR")
+                missing_params.append(
+                    "loopback_update_device_list[{}] -> device_management_ip_address".format(j)
+                )
+            else:
+                self.validate_ipv4_ip(
+                    management_ip, "loopback_update_device_list -> device_management_ip_address", missing_params
+                )
+                if not self.get_ip_details(management_ip,
+                                           "loopback_update_devices -> device_management_ip_address"):
                     self.fail_with_error(
-                        "Invalid data type for loopback_update_device_list at index {}: expected a dictionary, got {}"
-                        .format(j, type(device))
-                    )
-                management_ip = device.get("device_management_ip_address")
-                if not management_ip:
-                    self.log("Device at index {} missing 'device_management_ip_address'.".format(j), "ERROR")
-                    missing_params.append(
-                        "loopback_update_device_list[{}] -> device_management_ip_address".format(j)
-                    )
-                else:
-                    self.validate_ipv4_ip(
-                        management_ip, "loopback_update_device_list -> device_management_ip_address", missing_params
-                    )
-                    if not self.get_ip_details(management_ip,
-                                               "loopback_update_devices -> device_management_ip_address"):
-                        self.fail_with_error(
-                            "IP address '{}' does not exist in Catalyst Center. "
-                            "Please provide a valid IP address for 'loopback_update_devices -> "
-                            "device_management_ip_address'.".format(management_ip))
+                        "IP address '{}' does not exist in Catalyst Center. "
+                        "Please provide a valid IP address for 'loopback_update_devices -> "
+                        "device_management_ip_address'.".format(management_ip))
 
-                loopback_ip = device.get("new_loopback0_ip_address")
-                if not loopback_ip:
-                    self.log("Device at index {} missing 'new_loopback0_ip_address'.".format(j), "ERROR")
-                    missing_params.append(
-                        "lan_automated_device_update -> loopback_update_device_list[{}] -> new_loopback0_ip_address"
-                        .format(j)
-                    )
-                else:
-                    self.validate_ipv4_ip(
-                        loopback_ip, "loopback_update_device_list -> new_loopback0_ip_address", missing_params
-                    )
+            loopback_ip = device.get("new_loopback0_ip_address")
+            if not loopback_ip:
+                self.log("Device at index {} missing 'new_loopback0_ip_address'.".format(j), "ERROR")
+                missing_params.append(
+                    "lan_automated_device_update -> loopback_update_device_list[{}] -> new_loopback0_ip_address"
+                    .format(j)
+                )
+            else:
+                self.validate_ipv4_ip(
+                    loopback_ip, "loopback_update_device_list -> new_loopback0_ip_address", missing_params
+                )
 
-                self.log("Device at index {} validated with management IP '{}' and loopback IP '{}'."
-                         .format(j, management_ip, loopback_ip),
-                         "INFO")
+            self.log("Device at index {} validated with management IP '{}' and loopback IP '{}'."
+                     .format(j, management_ip, loopback_ip),
+                     "INFO")
 
     def validate_hostname_update_devices(self, hostname_update_devices, missing_params):
         """
@@ -1856,21 +1854,23 @@ class LanAutomation(DnacBase):
         return self
 
     def process_loopback_updates(self, loopback_updates):
-        """Processes loopback IP updates and logs the results.
-
+        """
+        Processes loopback IP updates and logs the results.
         Args:
             loopback_updates (list): A list of dictionaries containing loopback
                                      update details. Each dictionary should contain
                                      a key "newLoopback0IPAddress".
-
+        Returns:
+            None
         Description:
             This method iterates through a list of loopback update dictionaries,
             verifies the existence of the new loopback IP address in the system,
             and logs the outcome of each verification.
-
-        Returns:
-            None
         """
+        if not loopback_updates:
+            self.log("No loopback update data provided. Skipping loopback update processing.", "INFO")
+            return
+
         self.log("Processing loopback updates.", "INFO")
         for loopback in loopback_updates:
             new_ip = loopback.get("newLoopback0IPAddress")
@@ -1880,21 +1880,23 @@ class LanAutomation(DnacBase):
                 self.log("Loopback IP address {0} was not updated on Catalyst Center.".format(new_ip), "WARNING")
 
     def process_hostname_updates(self, hostname_updates):
-        """Processes hostname updates and logs the results.
-
+        """
+        Processes hostname updates and logs the results.
         Args:
             hostname_updates (list): A list of dictionaries containing hostname
                                      update details. Each dictionary should include
                                      "deviceManagementIPAddress" and "newHostName".
-
+        Returns:
+            None
         Description:
             This method processes a list of hostname update dictionaries and
             checks whether the hostname of each device IP is updated. It logs
             whether the update was successful or if it was already up to date.
-
-        Returns:
-            None
         """
+        if not hostname_updates:
+            self.log("No hostname updates data provided. Skipping hostname updates processing.", "INFO")
+            return
+
         self.log("Processing hostname updates.", "INFO")
         for hostname in hostname_updates:
             device_ip = hostname.get("deviceManagementIPAddress")
@@ -1909,22 +1911,24 @@ class LanAutomation(DnacBase):
                          "WARNING")
 
     def process_link_addition(self, link_add):
-        """Processes link addition and logs the results.
-
+        """
+        Processes link addition and logs the results.
         Args:
             link_add (dict): A dictionary containing details for adding a link,
                              including "sourceDeviceManagementIPAddress",
                              "sourceDeviceInterfaceName", "destinationDeviceManagementIPAddress",
                              and "destinationDeviceInterfaceName".
-
+        Returns:
+            None
         Description:
             This method checks the details of the link to be added and verifies
             whether both source and destination links exist in the system. It
             logs the result of the link addition attempt.
-
-        Returns:
-            None
         """
+        if not link_add:
+            self.log("No link addition data provided. Skipping link addition processing.", "INFO")
+            return
+
         self.log("Processing link addition.", "INFO")
         if link_add:
             source_ip_address = link_add.get("sourceDeviceManagementIPAddress")
@@ -1943,21 +1947,23 @@ class LanAutomation(DnacBase):
                     "WARNING")
 
     def process_link_deletion(self, link_delete):
-        """Processes link deletion and logs the results.
-
+        """
+        Processes link deletion and logs the results.
         Args:
             link_delete (dict): A dictionary containing details for deleting a link,
                                 including "sourceDeviceManagementIPAddress",
                                 "sourceDeviceInterfaceName", "destinationDeviceManagementIPAddress",
                                 and "destinationDeviceInterfaceName".
-
+        Returns:
+            None
         Description:
             This method checks whether the specified link is already removed or
             still exists in the system. It logs the outcome of the link deletion attempt.
-
-        Returns:
-            None
         """
+        if not link_delete:
+            self.log("No link deletion data provided. Skipping link deletion processing.", "INFO")
+            return
+
         self.log("Processing link deletion.", "INFO")
         if link_delete:
             source_ip_address = link_delete.get("sourceDeviceManagementIPAddress")
@@ -2452,7 +2458,7 @@ class LanAutomation(DnacBase):
             successfully, it appends the task ID to the corresponding list of completed tasks. In case of
             errors, appropriate messages are logged, and the operation result is marked as failed.
         """
-        self.log(f"Task Ids is: {task_ids}")
+        self.log("Task Ids is: {}".format(task_ids))
 
         for update_type, task_id in task_ids.items():
             if task_id is not None:
