@@ -4198,8 +4198,8 @@ class Inventory(DnacBase):
         if self.updated_ip:
             ip_address_for_update = ("', '".join(self.ip_address_for_update))
             updated_ip = ("', '".join(self.updated_ip))
-            updated_ip_msg = ("Device '{0}' present in Cisco Catalyst Center and new management ip '{1}' have"
-                              "been updated successfully").format(ip_address_for_update, updated_ip)
+            updated_ip_msg = ("Device '{0}' found in Cisco Catalyst Center. The new management IP '{1}' has"
+                              "been updated successfully.").format(ip_address_for_update, updated_ip)
             result_msg_list_changed.append(updated_ip_msg)
 
         if result_msg_list_not_changed and result_msg_list_changed:
