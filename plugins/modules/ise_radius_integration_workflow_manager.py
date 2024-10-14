@@ -736,6 +736,47 @@ class IseRadiusIntegration(DnacBase):
         self.status = "success"
         return self
 
+    def get_primary_ise_fqdn(self, cisco_ise_dtos, ip_address):
+        """
+        Get the fully qualified domain name (fqdn) from the Multi-Node ISE environment
+        in the Cisco Catalyst Center with the role as 'primary'.
+
+        Parameters:
+            cisco_ise_dtos (list of dict): List of configuration of Multi-Node in an
+            ISE environment.
+            ip_address (str): IP address of the Cisco ISE server.
+
+        Returns:
+            primary_fqdn (str): The fqdn value of the primary node of the ISE server.
+        """
+
+        self.log("Getting the fully qualified name of the primary node of the ISE server...")
+        primary_node_ise_details = get_dict_result(cisco_ise_dtos, "role", "PRIMARY")
+        if not primary_node_ise_details:
+            self.msg = (
+                "There is no details of the PRIMARY role node in the multi-node ISE environment {ip_address}"
+                .format(ip_address=ip_address)
+            )
+            self.log(str(self.msg), "ERROR")
+            self.status = "failed"
+            return self.check_return_status()
+
+        primary_fqdn = primary_node_ise_details.get("fqdn")
+        if not primary_fqdn:
+            self.msg = (
+                "The FQDN value is not available in the 'primary' node with IP address'{ip_address}'."
+                .format(ip_address=ip_address)
+            )
+            self.log(str(self.msg), "ERROR")
+            self.status = "failed"
+            return self.check_return_status()
+
+        self.log(
+            "Returning the FQDN value of the primary node '{ip_address}': {primary_fqdn}"
+            .format(ip_address=ip_address, primary_fqdn=primary_fqdn)
+        )
+        return primary_fqdn
+
     def get_want_authentication_policy_server(self, auth_policy_server):
         """
         Get all the Authentication Policy Server information from playbook
@@ -989,17 +1030,6 @@ class IseRadiusIntegration(DnacBase):
                         "password": password
                     })
 
-                    fqdn = ise_credential.get("fqdn")
-                    if not fqdn:
-                        if not auth_server_exists:
-                            self.msg = "The required parameter 'fqdn' is missing when 'server_type' is 'ISE'."
-                            self.status = "failed"
-                            return self
-
-                        fqdn = auth_server_details.get("ciscoIseDtos")[0].get("fqdn")
-
-                    auth_server.get("ciscoIseDtos")[position_ise_creds].update({"fqdn": fqdn})
-
                     ip_address = ise_credential.get("ip_address")
                     if not ip_address:
                         self.msg = "The required parameter 'ip_address' is missing when 'server_type' is 'ISE'."
@@ -1009,6 +1039,32 @@ class IseRadiusIntegration(DnacBase):
                     auth_server.get("ciscoIseDtos")[position_ise_creds].update({
                         "ipAddress": ip_address
                     })
+
+                    fqdn = ise_credential.get("fqdn")
+                    if not fqdn:
+                        if not auth_server_exists:
+                            self.msg = "The required parameter 'fqdn' is missing when 'server_type' is 'ISE'."
+                            self.status = "failed"
+                            return self
+
+                        response = self.dnac._exec(
+                            family="system_settings",
+                            function='get_authentication_and_policy_servers',
+                            params={"is_ise_enabled": True}
+                        )
+                        response = response.get("response")
+                        if response is None:
+                            self.msg = (
+                                "Failed to retrieve the information from the API 'get_authentication_and_policy_servers' of {0}."
+                                .format(ip_address)
+                            )
+                            self.status = "failed"
+                            return self
+
+                        cisco_ise_dtos = response[0].get("ciscoIseDtos")
+                        fqdn = self.get_primary_ise_fqdn(cisco_ise_dtos, ip_address)
+
+                    auth_server.get("ciscoIseDtos")[position_ise_creds].update({"fqdn": fqdn})
 
                     if not auth_server_exists:
                         auth_server.get("ciscoIseDtos")[position_ise_creds].update({
@@ -1740,11 +1796,12 @@ def main():
     # Create an AnsibleModule object with argument specifications
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=False)
     ccc_ise_radius = IseRadiusIntegration(module)
-    if ccc_ise_radius.get_ccc_version_as_integer() <= ccc_ise_radius.get_ccc_version_as_int_from_str("2.3.5.3"):
+    if ccc_ise_radius.compare_dnac_versions(ccc_ise_radius.get_ccc_version(), "2.3.5.3") < 0:
         ccc_ise_radius.msg = (
-            "The provided Catalyst Center Version {ccc_version} does not support this workflow. "
-            "This workflow support starts from Catalyst Center Release {supported_version} onwards."
-            .format(ccc_version=ccc_ise_radius.get_ccc_version_as_string(), supported_version="2.3.5.3")
+            "The specified version '{0}' does not support the authentication and policy server integration feature. "
+            "Supported versions start from '2.3.5.3' onwards. "
+            "Version '2.3.5.3' introduces APIs for creating, updating and deleting the AAA servers and ISE server."
+            .format(ccc_ise_radius.get_ccc_version())
         )
         ccc_ise_radius.status = "failed"
         ccc_ise_radius.check_return_status()
