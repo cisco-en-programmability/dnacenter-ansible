@@ -746,6 +746,7 @@ class Inventory(DnacBase):
         self.deleted_devices, self.provisioned_device_deleted, self.no_device_to_delete = [], [], []
         self.response_list, self.role_updated_list, self.device_role_name = [], [], []
         self.udf_added, self.udf_deleted = [], []
+        self.ip_address_for_update, self.updated_ip = [], []
 
     def validate_input(self):
         """
@@ -3039,6 +3040,8 @@ class Inventory(DnacBase):
                 self.result['changed'] = True
                 self.msg = """Device '{0}' present in Cisco Catalyst Center and new management ip '{1}' have been
                             updated successfully""".format(device_ip, new_mgmt_ipaddress)
+                self.ip_address_for_update.append(device_ip)
+                self.updated_ip.append(new_mgmt_ipaddress)
                 self.log(self.msg, "INFO")
                 break
             self.result['response'] = self.msg
@@ -4191,6 +4194,13 @@ class Inventory(DnacBase):
         if self.udf_deleted:
             udf_deleted = "Global User Defined Field(UDF) named '{0}' has been successfully deleted to the device.".format("', '".join(self.udf_deleted))
             result_msg_list_changed.append(udf_deleted)
+
+        if self.updated_ip:
+            ip_address_for_update = ("', '".join(self.ip_address_for_update))
+            updated_ip = ("', '".join(self.updated_ip))
+            updated_ip_msg = ("Device '{0}' found in Cisco Catalyst Center. The new management IP '{1}' has"
+                              "been updated successfully.").format(ip_address_for_update, updated_ip)
+            result_msg_list_changed.append(updated_ip_msg)
 
         if result_msg_list_not_changed and result_msg_list_changed:
             self.result["changed"] = True
