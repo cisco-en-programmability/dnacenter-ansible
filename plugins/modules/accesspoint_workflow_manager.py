@@ -3269,7 +3269,7 @@ class Accesspoint(DnacBase):
             )
             self.log("Response from ap reset status: {0}".format(self.pprint(response)), "INFO")
             if response and isinstance(response[0], dict):
-                return response.get("response",{})[0]
+                return response.get("response", {})[0]
             error_msg = "Invalid response format or missing data in AP reset status."
             self.log(error_msg, "ERROR")
             self.module.fail_json(msg=error_msg)
