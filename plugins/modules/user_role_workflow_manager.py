@@ -3021,11 +3021,16 @@ class UserandRole(DnacBase):
                 self.status = "failed"
                 return self
 
-            self.msg = (
-                "Please provide a valid 'username' or 'email' for user deletion, or "
-                "The Catalyst Center user '{0}' does not have the necessary permissions "
-                "to delete a user through the API.".format(self.payload.get("dnac_username"))
-            )
+            if config.get("username") is not None:
+                self.msg = (
+                    "The specified user '{0}' does not exist in Cisco Catalyst Center."
+                    " Please provide a valid 'username' or 'email' for user deletion.".format(self.want.get("username"))
+                )
+            else:
+                self.msg = (
+                    "The specified user '{0}' does not exist in Cisco Catalyst Center."
+                    " Please provide a valid 'username' or 'email' for user deletion.".format(self.want.get("email"))
+                )
             self.log(self.msg, "ERROR")
             self.status = "failed"
             return self
