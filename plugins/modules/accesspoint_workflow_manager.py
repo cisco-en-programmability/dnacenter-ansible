@@ -2382,6 +2382,7 @@ class Accesspoint(DnacBase):
 
                 if response and isinstance(response, dict):
                     return response
+
                 return None
 
         except Exception as e:
