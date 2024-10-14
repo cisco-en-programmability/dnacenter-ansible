@@ -2462,22 +2462,23 @@ class LanAutomation(DnacBase):
 
         for update_type, task_id in task_ids.items():
             if task_id is not None:
-                self.log(f"Monitoring task ID: {task_id} for update type: {update_type}", "INFO")
+                self.log("Monitoring task ID: {} for update type: {}".format(task_id, update_type), "INFO")
 
                 while True:
                     task_details = self.get_task_details(task_id)
                     if not task_details:
-                        self.msg = f"Error retrieving task status for task_id '{task_id}'."
+                        self.msg = "Error retrieving task status for task_id '{}'.".format(task_id)
                         self.log(self.msg, "ERROR")
                         self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
                         break
 
-                    self.log(f"Task details for task ID {task_id}: {task_details}", "DEBUG")
+                    self.log("Task details for task ID {}: {}".format(task_id, task_details), "DEBUG")
 
                     if task_details.get("isError") is True:
                         error_msg = task_details.get("failureReason") or task_details.get("progress")
-                        self.msg = f"Error encountered for update type {update_type} with Task ID: '{task_id}': " \
-                                   f"{error_msg} Check the logs for more details."
+                        self.msg = "Error encountered for update type {} with Task ID: '{}': {} Check the logs " \
+                                   "for more details.".format(update_type, task_id, error_msg)
+
                         self.log(self.msg, "ERROR")
                         self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
                         break
@@ -2485,7 +2486,7 @@ class LanAutomation(DnacBase):
                     if ("deleted" in task_details.get("progress", "").lower() or
                             "config push success" in task_details.get("progress", "").lower() or
                             "update performed successfully" in task_details.get("progress", "").lower()):
-                        self.msg = f"Update {update_type} for task ID '{task_id}' completed successfully"
+                        self.msg = "Update {} for task ID '{}' completed successfully".format(update_type, task_id)
                         self.log(self.msg, "INFO")
 
                         if update_type == "loopback_update":
@@ -2498,7 +2499,8 @@ class LanAutomation(DnacBase):
                             self.deleted_link.append(task_id)
                         break
 
-                    self.log(f"Current progress for task ID {task_id}: {task_details.get('progress')}", "DEBUG")
+                    self.log("Current progress for task ID {}: {}".format(task_id, task_details.get('progress')),
+                             "DEBUG")
 
                     time.sleep(self.params.get("dnac_task_poll_interval", 30))
 
@@ -2927,10 +2929,12 @@ class LanAutomation(DnacBase):
                 break
 
         if not session_id:
-            self.msg = f"No active LAN automation session found for seed IP '{seed_ip_address}'."
+            self.msg = "No active LAN automation session found for seed IP '{}'.".format(seed_ip_address)
             self.log(self.msg)
         else:
-            self.msg = f"Active LAN automation session found for seed IP '{seed_ip_address}', session ID: {session_id}."
+            self.msg = "Active LAN automation session found for seed IP '{}', session ID: {}."\
+                .format(seed_ip_address, session_id)
+
             self.log(self.msg)
 
         return self
