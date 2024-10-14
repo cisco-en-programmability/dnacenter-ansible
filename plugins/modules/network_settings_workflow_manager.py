@@ -1280,7 +1280,7 @@ class NetworkSettings(DnacBase):
         try:
             aaa_network_response = self.dnac._exec(
                 family="network_settings",
-                function='retrieve_a_a_a_settings_for_a_site',
+                function='retrieve_aaa_settings_for_a_site',
                 op_modifies=False,
                 params={"id": site_id}
             )
@@ -2190,18 +2190,6 @@ class NetworkSettings(DnacBase):
 
             pool_values.update({"IpAddressSpace": ip_address_space})
 
-            # check global pool exist or not in case it's already there compare cidr value
-            # current_global_pool_detail = self.global_pool_exists(pool_details.get("name"))
-            # if current_global_pool_detail.get("exist") is True and pool_details.get("cidr"):
-            #     # current_global_pool_detail = self.global_pool_exists(pool_details.get("name"))
-            #     self.log(pool_details.get("cidr"))
-            #     self.log(current_global_pool_detail)
-            #     pool_details.get("cidr") != current_global_pool_detail.get('ipPoolCidr')
-            #     self.msg = "The provided 'ipPoolCidr' under global_pool_details is invalid: {0}" \
-            #                .format(pool_details.get("cidr"))
-            #     self.status = "failed"
-            #     return self
-
             # Converting to the required format based on the existing Global Pool
             if not self.have.get("globalPool")[global_pool_index].get("exists"):
                 if pool_values.get("dhcpServerIps") is None:
@@ -2793,7 +2781,7 @@ class NetworkSettings(DnacBase):
                                 "enableWiredDataCollection": False
                             })
                     else:
-                        want_network_settings.get("wiredDataCollection").update({
+                        want_network_settings.get("wired_data_collection").update({
                             "enableWiredDataCollection": False
                         })
 
@@ -3492,7 +3480,7 @@ class NetworkSettings(DnacBase):
         try:
             response = self.dnac._exec(
                 family="network_settings",
-                function='set_a_a_a_settings_for_a_site',
+                function='set_aaa_settings_for_a_site',
                 op_modifies=True,
                 params=param,
             )
