@@ -1462,49 +1462,52 @@ class IseRadiusIntegration(DnacBase):
                 self.log(self.msg, "ERROR")
                 return
 
-            trusted_server = self.want.get("trusted_server")
             trusted_server_msg = ""
-            state = self.have.get("authenticationPolicyServer")[auth_server_index].get("details").get("state")
-            if state != "ACTIVE":
-                self.check_ise_server_integration_status(ip_address)
-                self.accept_cisco_ise_server_certificate(ip_address, trusted_server)
-                ise_integration_wait_time = self.want.get("ise_integration_wait_time")
-                time.sleep(ise_integration_wait_time)
+            if is_ise_server_enabled:
+                trusted_server = self.want.get("trusted_server")
+                state = self.have.get("authenticationPolicyServer")[auth_server_index].get("details").get("state")
+                if state != "ACTIVE":
+                    self.check_ise_server_integration_status(ip_address)
+                    self.accept_cisco_ise_server_certificate(ip_address, trusted_server)
+                    ise_integration_wait_time = self.want.get("ise_integration_wait_time")
+                    time.sleep(ise_integration_wait_time)
 
-            ise_details = self.dnac._exec(
-                family="system_settings",
-                function='get_authentication_and_policy_servers',
-                params={"is_ise_enabled": True}
-            )
-            if not ise_details:
-                self.msg = (
-                    "The response from the API 'get_authentication_and_policy_servers' is empty."
+                ise_details = self.dnac._exec(
+                    family="system_settings",
+                    function='get_authentication_and_policy_servers',
+                    params={"is_ise_enabled": True}
                 )
-                self.log(self.msg, "CRITICAL")
-                self.status = "failed"
-                return self
 
-            ise_details = ise_details.get("response")
-            if not isinstance(ise_details, list):
-                self.msg = (
-                    "The response from the API 'get_authentication_and_policy_servers' "
-                    "is not a dictionary."
-                )
-                self.log(self.msg, "CRITICAL")
-                self.status = "failed"
-                return self
+                ise_details = ise_details.get("response")
+                if not ise_details:
+                    self.msg = (
+                        "The response from the API 'get_authentication_and_policy_servers' is empty."
+                    )
+                    self.log(self.msg, "CRITICAL")
+                    self.status = "failed"
+                    return self
 
-            state = ise_details[0].get("state")
-            if not state:
-                self.msg = (
-                    "The parameter 'state' is not available in the ISE details response "
-                    "from the API 'get_authentication_and_policy_servers'."
-                )
-                self.status = "failed"
-                return self
+                if not isinstance(ise_details, list):
+                    self.msg = (
+                        "The response from the API 'get_authentication_and_policy_servers' "
+                        "is not a dictionary."
+                    )
+                    self.log(self.msg, "CRITICAL")
+                    self.status = "failed"
+                    return self
 
-            if state == "FAILED":
-                trusted_server_msg = " But the server is not trusted."
+                self.log(str(ise_details))
+                state = ise_details[0].get("state")
+                if not state:
+                    self.msg = (
+                        "The parameter 'state' is not available in the ISE details response "
+                        "from the API 'get_authentication_and_policy_servers'."
+                    )
+                    self.status = "failed"
+                    return self
+
+                if state == "FAILED":
+                    trusted_server_msg = " But the server is not trusted."
 
             self.log("Authentication and Policy Server '{0}' updated successfully"
                      .format(ip_address), "INFO")
