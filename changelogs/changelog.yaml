@@ -1003,7 +1003,7 @@ releases:
         - swim_workflow_manager.py: added attribute 'cco_image_details'.
         - user_role_workflow_manager: added attribute 'password_update'.
   6.20.0:
-    release_date: "2024-09-30"
+    release_date: "2024-10-03"
     changes:
       release_summary: Code changes in workflow manager modules.
       minor_changes:
