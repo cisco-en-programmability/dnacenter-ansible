@@ -1208,7 +1208,6 @@ class PnP(DnacBase):
                 family="device_onboarding_pnp",
                 function='get_device_list',
                 params={"serial_number": serial_number},
-                op_modifies=True,
             )
 
             if response and isinstance(response, list) and len(response) == 1:
@@ -1245,7 +1244,6 @@ class PnP(DnacBase):
                 family="device_onboarding_pnp",
                 function="get_device_by_id",
                 params={"id": device_id},
-                op_modifies=True,
             )
             # Check if the response contains the expected data
             if device_details_response:
