@@ -3022,15 +3022,14 @@ class UserandRole(DnacBase):
                 return self
 
             if config.get("username") is not None:
-                self.msg = (
-                    "The specified user '{0}' does not exist in Cisco Catalyst Center."
-                    " Please provide a valid 'username' or 'email' for user deletion.".format(self.want.get("username"))
-                )
+                user_identifier = self.want.get("username")
             else:
-                self.msg = (
-                    "The specified user '{0}' does not exist in Cisco Catalyst Center."
-                    " Please provide a valid 'username' or 'email' for user deletion.".format(self.want.get("email"))
-                )
+                user_identifier = self.want.get("email")
+
+            self.msg = (
+                "The specified user '{0}' does not exist in Cisco Catalyst Center. "
+                "Please provide a valid 'username' or 'email' for user deletion.".format(user_identifier)
+            )
             self.log(self.msg, "ERROR")
             self.status = "failed"
             return self
