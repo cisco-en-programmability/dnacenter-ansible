@@ -1281,7 +1281,7 @@ class Site(DnacBase):
                     self.log("No response received from the 'creating_bulk_site' API call.", "WARNING")
                     return None
             except Exception as e:
-                self.log(f"Yaml is not available for bulk: {e}", "ERROR")
+                self.log("Yaml is not available for bulk: {}".format(e), "ERROR")
 
         if self.have.get("site_exists"):
             site_name = self.want.get("site_name")
