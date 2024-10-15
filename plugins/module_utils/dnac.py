@@ -677,23 +677,24 @@ class DnacBase():
             site_id (str): The unique identifier of the site.
 
         Returns:
-            list: A list of device IDs associated with the site.
+            tuple: A tuple containing the API response and a list of device IDs associated with the site.
                 Returns an empty list if no devices are found or if an error occurs.
         """
 
         device_ids = []
+        api_response = None
 
         if self.dnac_version <= self.version_2_3_5_3:
             try:
-                response = self.dnac._exec(
+                api_response = self.dnac._exec(
                     family="sites",
                     function="get_membership",
                     op_modifies=True,
                     params={"site_id": site_id},
                 )
 
-                if response and "device" in response:
-                    for device in response.get("device", []):
+                if api_response and "device" in api_response:
+                    for device in api_response.get("device", []):
                         for item in device.get("response", []):
                             device_ids.append(item.get("instanceUuid"))
 
@@ -704,15 +705,15 @@ class DnacBase():
 
         else:
             try:
-                response = self.dnac._exec(
+                api_response = self.dnac._exec(
                     family="site_design",
                     function="get_site_assigned_network_devices",
                     op_modifies=True,
                     params={"site_id": site_id},
                 )
 
-                if response and "response" in response:
-                    for device in response.get("response", []):
+                if api_response and "response" in api_response:
+                    for device in api_response.get("response", []):
                         device_ids.append(device.get("deviceId"))
 
                 self.log("Retrieved device IDs from assigned devices for site '{0}': {1}".format(site_id, device_ids), "DEBUG")
@@ -723,7 +724,7 @@ class DnacBase():
         if not device_ids:
             self.log("No devices found for site '{0}'".format(site_id), "INFO")
 
-        return device_ids
+        return api_response, device_ids
 
     def get_site_id(self, site_name):
         """

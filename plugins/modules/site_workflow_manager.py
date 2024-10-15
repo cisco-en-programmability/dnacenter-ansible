@@ -122,7 +122,7 @@ options:
                     floor and cannot be modified afterward.
                 type: int
               bulk_operation:
-                description: Set to 'true' or 'flase' to enable bulk operations for site creation and management.
+                description: Set to 'true' or 'false' to enable bulk operations for site creation and management.
                 type: bool
                 default: false
 
@@ -422,7 +422,7 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     get_dict_result,
 )
 
-import time
+import os
 
 
 class Site(DnacBase):
@@ -473,8 +473,7 @@ class Site(DnacBase):
             self.msg = "Invalid parameters in playbook: {0}".format(
                 "\n".join(invalid_params)
             )
-            self.log(self.msg, "ERROR")
-            self.status = "failed"
+            self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
 
         self.validated_config = valid_temp
@@ -576,10 +575,9 @@ class Site(DnacBase):
         current_site = {}
         response = None
 
-        if self.get_ccc_version_as_integer() <= self.version_2_3_5_3:
+        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
             site_name = self.want.get("site_name")
             response = self.get_site(site_name)
-            self.log(response)
             if not response:
                 self.log("No response received from 'get_site' API for site: {0}".format(site_name), "ERROR")
                 return (site_exists, current_site)
@@ -588,7 +586,6 @@ class Site(DnacBase):
             self.log("Received API response from 'get_site': {0}".format(str(response)), "DEBUG")
 
             current_site = self.get_current_site(response)
-            self.log(current_site)
             if current_site:
                 site_exists = True
                 self.log("Site '{0}' exists in Cisco Catalyst Center".format(site_name), "INFO")
@@ -621,11 +618,11 @@ class Site(DnacBase):
                             for site in response_data:
                                 if isinstance(site, dict):
                                     current_site = dict(site.items())
-                                    current_site['parentName'] = (
-                                        site.get('nameHierarchy', '').rsplit('/', 1)[0]
-                                        if site.get('nameHierarchy')
-                                        else None
-                                    )
+                                    if site.get('nameHierarchy'):
+                                        current_site['parentName'] = site['nameHierarchy'].rsplit('/', 1)[0]
+                                    else:
+                                        current_site['parentName'] = None
+
                                     all_sites_info.append(current_site)
                                     site_exists = True
                         except Exception as e:
@@ -720,10 +717,8 @@ class Site(DnacBase):
         site_info = {}
 
         if typeinfo not in ["area", "building", "floor"]:
-            self.status = "failed"
             self.msg = "Given bulk site create playbook is only applicable to DNAC version 2.3.7.6"
-            self.log(self.msg, "ERROR")
-            self.check_return_status()
+            self.set_operation_result("failed", False, self.msg, "ERROR")
 
         if typeinfo == 'area':
             area_details = params.get('site').get('area')
@@ -787,20 +782,18 @@ class Site(DnacBase):
             self.log("Identified site type: {}".format(site_type), "DEBUG")
             self.log("Retrieved parent name: {}".format(parent_name), "DEBUG")
             if not parent_name:
-                self.status = "failed"
                 self.msg = "Parent name is missing for site type '{}' in the playbook.".format(site_type)
-                self.log(self.msg, "ERROR")
                 self.result["response"] = self.msg
+                self.set_operation_result("failed", False, self.msg, "ERROR")
                 return None
 
             name = site.get("site", {}).get(site_type, {}).get("name")
             self.log("Retrieved site name: {}".format(name), "DEBUG")
 
             if not name:
-                self.status = "failed"
                 self.msg = "Site name is missing for site type '{}' in the playbook.".format(site_type)
-                self.log(self.msg, "ERROR")
                 self.result["response"] = self.msg
+                self.set_operation_result("failed", False, self.msg, "ERROR")
                 return None
 
             site_name = '/'.join([parent_name, name])
@@ -914,7 +907,7 @@ class Site(DnacBase):
             stored in the 'want' attribute. It checks for differences in
             specified parameters, such as the site type and site details.
         """
-        if self.get_ccc_version_as_integer() <= self.version_2_3_5_3:
+        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
             current_site = self.have.get('current_site', {})
             site_type = current_site.get('type')
             updated_site = current_site.get('site', {}).get(site_type)
@@ -945,8 +938,7 @@ class Site(DnacBase):
             return needs_update
 
         self.msg = "Unsupported site type '{0}' given in the playbook.".format(site_type)
-        self.log(self.msg, "ERROR")
-        self.status = "failed"
+        self.set_operation_result("failed", False, self.msg, "ERROR")
         return False
 
     def get_have(self, config):
@@ -969,7 +961,7 @@ class Site(DnacBase):
         have = {}
 
         try:
-            if self.get_ccc_version_as_integer() >= self.version_2_3_7_6:
+            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
                 if self.config[0].get('site', {}).get('bulk_operation', False):
                     site_exists, current_site = self.site_exists()
                     self.log("Bulk operation: Site exists: {}".format(site_exists), "DEBUG")
@@ -985,7 +977,7 @@ class Site(DnacBase):
             self.log("Regular operation: Retrieved site existence: {}".format(site_exists), "DEBUG")
 
             if site_exists:
-                if self.get_ccc_version_as_integer() <= self.version_2_3_5_3:
+                if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
                     have["site_id"] = current_site.get("siteId")
                     self.log("Using legacy siteId for site version <= 2.3.5.3: {}".format(have["site_id"]), "DEBUG")
                 else:
@@ -1002,9 +994,7 @@ class Site(DnacBase):
 
         except Exception as e:
             self.msg = "An unexpected error occurred while retrieving site details: {}".format(e)
-            self.log(self.msg, "ERROR")
-            self.status = "failed"
-            return self
+            self.set_operation_result("failed", False, self.msg, "ERROR")
 
     def get_want(self, config):
         """
@@ -1021,7 +1011,7 @@ class Site(DnacBase):
             information is stored in the 'want' attribute for later reference.
         """
         try:
-            if self.dnac_version >= self.version_2_3_7_6:
+            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
                 want_list = []
                 if 'site' in self.config[0]:
                     self.keymap = {}
@@ -1172,11 +1162,9 @@ class Site(DnacBase):
             return response
 
         except Exception as e:
-            self.status = "failed"
             self.msg = "Exception occurred while updating building '{0}' due to: {1}".format(site_params.get('site_name'), str(e))
             self.result['response'] = self.msg
-            self.log(self.msg, "ERROR")
-            self.check_return_status()
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
     def update_area(self, site_params):
         """
@@ -1210,11 +1198,9 @@ class Site(DnacBase):
             return response
 
         except Exception as e:
-            self.status = "failed"
             self.msg = "Exception occurred while updating area'{0}' due to: {1}".format(site_params.get('site_name'), str(e))
             self.result['response'] = self.msg
-            self.log(self.msg, "ERROR")
-            self.check_return_status()
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
     def creating_bulk_site(self):
         """
@@ -1238,9 +1224,9 @@ class Site(DnacBase):
 
             if not response:
                 self.log("Site creation failed: No response from the API.", "ERROR")
-                self.status = "failed"
-                self.check_return_status()
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
                 return None
+
             self.log("Site creation successful. Response: {0}".format(response), "INFO")
             return response
 
@@ -1269,57 +1255,38 @@ class Site(DnacBase):
         site_updated = False
         site_created = False
 
-        if self.get_ccc_version_as_integer() >= self.version_2_3_7_6:
+        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
             try:
                 bulk_operation = self.config[0].get('site', {}).get('bulk_operation', False)
                 self.log("Bulk operation status retrieved: {}".format(bulk_operation))
                 if bulk_operation:
                     response = self.creating_bulk_site()
                     self.log("Response from creating_bulk_site: {}".format(response))
+                    if response and isinstance(response, dict) and "response" in response:
+                        task_id = response["response"].get("taskId")
+                        if task_id:
+                            self.log("Task Id for the 'site_creation' task is {}".format(task_id), "INFO")
 
-                    if response and isinstance(response, dict):
-                        self.log(
-                            "Received API response from 'create_{0}': {1}".format(bulk_operation, str(response)), "DEBUG")
+                            task_name = "create_sites"
+                            success_msg = "Site created successfully."
+                            self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
+                            self.result['changed'] = True
 
-                        resync_retry_count = self.payload.get("dnac_api_task_timeout")
-                        resync_retry_interval = self.payload.get("dnac_task_poll_interval")
-
-                        while resync_retry_count:
-                            task_details_response = self.get_tasks_by_id(
-                                response["response"]["taskId"])
-                            if task_details_response.get("endTime"):
-                                if task_details_response.get("isError"):
-                                    self.result['changed'] = False
-                                    self.status = "failed"
-                                    self.msg = "Unable to get success response, hence site not created"
-                                    self.log(
-                                        "Error response for 'create_sites' task: {0}".format(task_details_response.get('failureReason')), "ERROR")
-                                else:
-                                    self.result['changed'] = True
-                                    self.result['response'] = task_details_response
-                                break
-                            time.sleep(resync_retry_interval)
-                            resync_retry_count -= 1
-
-                        site_exists, current_site = self.site_exists()
-                        name_list = []
-                        for site in self.want:
-                            if "name" in site:
-                                name_list.append(site["name"])
-
-                        if site_exists:
+                            name_list = [site.get("name") for site in self.want if "name" in site]
                             self.created_site_list.append(name_list)
-                            self.log("Site '{0}' created successfully".format(name_list), "INFO")
-
-                    return self
-
+                            self.log("Site '{}' created successfully".format(name_list), "INFO")
+                            return self
+                        self.log("No valid task ID received from the 'creating_bulk_site' response.", "WARNING")
+                        return None
+                    self.log("No response received from the 'creating_bulk_site' API call.", "WARNING")
+                    return None
             except Exception as e:
-                self.log("Yaml is not available for bulk: {0}".format(str(e)), "ERROR")
+                self.log(f"Yaml is not available for bulk: {e}", "ERROR")
 
         if self.have.get("site_exists"):
             site_name = self.want.get("site_name")
 
-            if self.dnac_version <= self.version_2_3_5_3 and self.site_requires_update():
+            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0 and self.site_requires_update():
                 try:
                     site_params = self.want.get("site_params")
                     site_params["site_id"] = self.have.get("site_id")
@@ -1367,7 +1334,7 @@ class Site(DnacBase):
                         self.created_site_list.append(site_name)
                         self.log("Site '{0}' created successfully".format(site_name), "INFO")
 
-            elif self.dnac_version >= self.version_2_3_7_6 and self.site_requires_update():
+            elif self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") >= 0 and self.site_requires_update():
                 site_params = self.want.get("site_params")
                 site_params["site_id"] = self.have.get("site_id")
                 site_type = site_params.get("type")
@@ -1408,7 +1375,7 @@ class Site(DnacBase):
         else:
             self.log(site_updated)
 
-            if self.dnac_version <= self.version_2_3_5_3:
+            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
                 try:
                     site_params = self.want.get("site_params")
                     try:
@@ -1458,11 +1425,9 @@ class Site(DnacBase):
                         self.log("Site '{0}' created successfully".format(site_name), "INFO")
                     return self
             else:
-                self.status = "failed"
                 self.msg = "This version : '{0}' given yaml format is not applicable to create a site' ".format(
                     self.payload.get("dnac_version"))
-                self.log(self.msg, "ERROR")
-                self.check_return_status()
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         if site_updated:
             self.updated_site_list.append(site_name)
@@ -1516,9 +1481,8 @@ class Site(DnacBase):
                         break
 
         except Exception as e:
-            self.status = "failed"
             self.msg = "Exception occurred while deleting site '{0}' due to: {1}".format(site_name, str(e))
-            self.log(self.msg, "ERROR")
+            self.set_operation_result("failed", False, self.msg, "ERROR")
 
         return self
 
@@ -1546,11 +1510,8 @@ class Site(DnacBase):
             self.log("Successfully deleted floor site: {0}. API response: {1}".format(site_name, response), "DEBUG")
             return response
         except Exception as e:
-            error_msg = "Exception occurred while deleting floor site '{0}' with site_id '{1}' due to: {2}".format(site_name, site_id, str(e))
-            self.log(error_msg, "ERROR")
-            self.status = "failed"
-            self.msg = error_msg
-            self.check_return_status()
+            self.msg = "Exception occurred while deleting floor site '{0}' with site_id '{1}' due to: {2}".format(site_name, site_id, str(e))
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
     def delete_building(self, site_name):
         """
@@ -1578,11 +1539,8 @@ class Site(DnacBase):
             return response
 
         except Exception as e:
-            error_msg = "Exception occurred while deleting building site '{0}' with site_id '{1}' due to: {2}".format(site_name, site_id, str(e))
-            self.log(error_msg, "ERROR")
-            self.status = "failed"
-            self.msg = error_msg
-            self.check_return_status()
+            self.msg = "Exception occurred while deleting building site '{0}' with site_id '{1}' due to: {2}".format(site_name, site_id, str(e))
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
     def delete_area(self, site_name):
         """
@@ -1608,11 +1566,8 @@ class Site(DnacBase):
             return response
 
         except Exception as e:
-            error_msg = "Exception occurred while deleting area site '{0}' with site_id '{1}' due to: {2}".format(site_name, site_id, str(e))
-            self.log(error_msg, "ERROR")
-            self.status = "failed"
-            self.msg = error_msg
-            self.check_return_status()
+            self.msg = "Exception occurred while deleting area site '{0}' with site_id '{1}' due to: {2}".format(site_name, site_id, str(e))
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
     def get_diff_deleted(self, config):
         """
@@ -1640,7 +1595,7 @@ class Site(DnacBase):
                 "Unable to delete site '{0}' as it's not found in Cisco Catalyst Center".format(self.want.get("site_name")), "INFO")
             return self
 
-        if self.get_ccc_version_as_integer() <= self.version_2_3_5_3:
+        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
             site_id = self.have.get("site_id")
             api_response, response = self.get_device_ids_from_site(site_id)
 
@@ -1665,7 +1620,7 @@ class Site(DnacBase):
             self.log(
                 "The site '{0}' and its child sites have been deleted successfully".format(site_name), "INFO")
 
-        elif self.dnac_version >= self.version_2_3_7_6:
+        elif self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
             site_params = self.want.get("site_params")
             site_params["site_id"] = self.have.get("site_id")
             site_type = site_params.get("type")
@@ -1748,7 +1703,7 @@ class Site(DnacBase):
             site exists in the Catalyst Center configuration.
         """
         try:
-            if self.get_ccc_version_as_integer() >= self.version_2_3_7_6 and self.config[0].get('site', {}).get('bulk_operation', False):
+            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") >= 0 and self.config[0].get('site', {}).get('bulk_operation', False):
                 name_list = [site["name"] for site in self.want if "name" in site]
                 self.get_have(config)
                 site_exist = self.have.get("site_exists")
@@ -1814,6 +1769,92 @@ class Site(DnacBase):
         self.log("""Mismatch between the playbook input for site '{0}' and the Cisco Catalyst Center indicates that
                  the deletion was not executed successfully.""".format(self.want.get("site_name")), "INFO")
         return self
+
+    def upload_floor_image(self, config):
+        map_details = None
+        map_status = None
+        response = None
+        success_message = None
+
+        try:
+            self.log("Starting upload_floor_image function", "DEBUG")
+
+            self.get_want(config)
+            self.get_have(config)
+
+            file_path = config['site']['floor'][0]['upload_floor_image_path']
+            self.log("File path extracted from config: {}".format(file_path), "DEBUG")
+
+            if not os.path.exists(file_path):
+                raise ValueError(f"File path does not exist: {file_path}")
+            self.log("File path exists: {}".format(file_path), "DEBUG")
+
+            if file_path.lower().endswith('.png'):
+                content_type = 'image/png'
+            elif file_path.lower().endswith('.jpg') or file_path.lower().endswith('.jpeg'):
+                content_type = 'image/jpeg'
+            elif file_path.lower().endswith('.pdf'):
+                content_type = 'application/pdf'
+            else:
+                raise ValueError("Unsupported file format.")
+            self.log("Determined content type: {}".format(content_type), "DEBUG")
+
+            try:
+                with open(file_path, "rb") as image_file:
+                    file_content = image_file.read()
+            except IOError as e:
+                raise IOError(f"Failed to read file at {file_path}: {str(e)}")
+
+            site_id = self.have.get("site_id")
+            if not site_id:
+                raise ValueError("No valid site_id found in 'self.have'.")
+            multipart_fields = {
+                'image': (os.path.basename(file_path), file_content, content_type)
+            }
+
+            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
+                try:
+                    response = self.dnac._exec(
+                        family="site_design",
+                        function="uploads_floor_image",
+                        op_modifies=True,
+                        params={
+                            "id": site_id,
+                            "multipart_fields": multipart_fields,
+                            "multipart_monitor_callback": None
+                        }
+                    )
+                    if response is None:
+                        self.log("No response received from the API.", "ERROR")
+                    else:
+                        self.log("API response: {}".format(response), "DEBUG")
+                except Exception as e:
+                    self.msg = "An exception occurred during API execution: {}".format(str(e))
+                    self.log(self.msg, "ERROR")
+                    self.module.fail_json(msg=self.msg)
+                    return None, None, None
+
+            else:
+                raise ValueError("DNAC version is below the required version for this function.")
+
+        except Exception as e:
+            self.msg = f"An exception occurred: {str(e)}"
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return None, None, None
+
+        if not response:
+            self.msg = "Failed to upload floor image: No response from the API."
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+        if isinstance(response, dict) and "id" in response:
+            self.log("Received valid API response: {}".format(response), "DEBUG")
+            map_details = True
+            map_status = response
+            success_message = "Floor image uploaded successfully."
+            self.log(success_message, "INFO")
+        else:
+            self.log("Invalid response received from API. Response: {}".format(response), "ERROR")
+
+        return map_details, map_status, success_message
 
     def update_site_messages(self):
         """
@@ -1906,6 +1947,17 @@ def main():
     ccc_site = Site(module)
     state = ccc_site.params.get("state")
 
+    if ccc_site.compare_dnac_versions(ccc_site.get_ccc_version(), "2.3.5.3") < 0:
+        ccc_site.msg = (
+            "The specified version '{0}' does not support the site workflow feature. Supported versions start from '2.3.5.3' onwards. "
+            "Version '2.3.5.3' introduces APIs for creating, updating, and deleting sites. "
+            "Version '2.3.7.6' expands support to include APIs for bulk site creating, updating, and deleting sites.".format(
+                ccc_site.get_ccc_version())
+        )
+
+        ccc_site.status = "failed"
+        ccc_site.check_return_status()
+
     if state not in ccc_site.supported_states:
         ccc_site.status = "invalid"
         ccc_site.msg = "State {0} is invalid".format(state)
@@ -1918,6 +1970,7 @@ def main():
         ccc_site.reset_values()
         ccc_site.get_want(config).check_return_status()
         ccc_site.get_have(config).check_return_status()
+        ccc_site.upload_floor_image(config)
         ccc_site.get_diff_state_apply[state](config).check_return_status()
         if config_verify:
             ccc_site.verify_diff_state_apply[state](
