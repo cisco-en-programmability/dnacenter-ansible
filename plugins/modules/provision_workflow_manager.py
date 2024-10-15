@@ -996,7 +996,8 @@ class Provision(DnacBase):
                         status = "success"
                     else:
                         status = "failed"
-                        self.log("No provisioned devices found", "DEBUG")
+
+                    self.log("Provisioned devices found for '{0}': {1}".format(device_management_ip, bool(provisioned_devices)), "DEBUG")
                 else:
                     self.log("No API response received for device '{0}' provisioning check".format(device_management_ip), "DEBUG")
 
