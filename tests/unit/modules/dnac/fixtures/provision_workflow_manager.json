@@ -1,0 +1,1472 @@
+{
+    "playbook_assign_wired_device_to_site": [
+        {
+            "management_ip_address": "204.1.2.5",
+            "provisioning": false,
+            "site_name_hierarchy": "Global/Chennai/LTTS/FLOOR1"
+        }
+    ],
+    "get_network_device_by_ip": {
+        "response": {
+            "memorySize": "NA",
+            "family": "Switches and Hubs",
+            "description": "Cisco IOS Software [Dublin], Catalyst L3 Switch Software (CAT9K_IOSXE), Version 17.14.1, RELEASE SOFTWARE (fc1) Technical Support: http://www.cisco.com/techsupport Copyright (c) 1986-2024 by Cisco Systems, Inc. Compiled Fri 05-Apr-24 00:08 by mcpre",
+            "lastUpdateTime": 1727217261072,
+            "macAddress": "00:b6:70:32:b8:00",
+            "deviceSupportLevel": "Supported",
+            "softwareType": "IOS-XE",
+            "softwareVersion": "17.14.1",
+            "serialNumber": "FCW2225C020",
+            "collectionInterval": "Global Default",
+            "dnsResolvedManagementAddress": "204.1.2.5",
+            "lastManagedResyncReasons": "Periodic",
+            "managementState": "Managed",
+            "pendingSyncRequestsCount": "0",
+            "reasonsForDeviceResync": "Periodic",
+            "reasonsForPendingSyncRequests": "",
+            "syncRequestedByApp": "",
+            "inventoryStatusDetail": "<status><general code='SUCCESS'/></status>",
+            "upTime": "6 days, 11:57:44.01",
+            "roleSource": "AUTO",
+            "interfaceCount": "0",
+            "bootDateTime": "2024-09-18 10:37:21",
+            "reachabilityFailureReason": "",
+            "reachabilityStatus": "Reachable",
+            "series": "Cisco Catalyst 9300 Series Switches",
+            "snmpContact": "",
+            "snmpLocation": "",
+            "apManagerInterfaceIp": "",
+            "collectionStatus": "Managed",
+            "hostname": "DC-T-9300.cisco.local",
+            "locationName": null,
+            "managementIpAddress": "204.1.2.5",
+            "platformId": "C9300-24P",
+            "lastUpdated": "2024-09-24 22:34:21",
+            "associatedWlcIp": "",
+            "apEthernetMacAddress": null,
+            "errorCode": null,
+            "errorDescription": null,
+            "lastDeviceResyncStartTime": "2024-09-24 22:32:34",
+            "lineCardCount": "0",
+            "lineCardId": "",
+            "managedAtleastOnce": true,
+            "tagCount": "0",
+            "tunnelUdpPort": null,
+            "uptimeSeconds": 601453,
+            "vendor": "Cisco",
+            "waasDeviceMode": null,
+            "type": "Cisco Catalyst 9300 Switch",
+            "location": null,
+            "role": "ACCESS",
+            "instanceTenantId": "66e48af26fe687300375675e",
+            "instanceUuid": "820bd13a-f565-4778-a320-9ec9f23b4725",
+            "id": "820bd13a-f565-4778-a320-9ec9f23b4725"
+        },
+        "version": "1.0"
+    },
+    "get_site_details": {
+        "response": [
+            {
+                "parentId": "c3293908-c136-45b9-b74f-d5dfaabb26a9",
+                "additionalInfo": [
+                    {
+                        "nameSpace": "mapsSummary",
+                        "attributes": {
+                            "rfModel": "106106",
+                            "floorIndex": "1"
+                        }
+                    },
+                    {
+                        "nameSpace": "UMBRELLA",
+                        "attributes": {
+                            "umbrellaReady": "true",
+                            "member.umbrellaNotReady.direct": "0",
+                            "member.umbrellaReady.direct": "2",
+                            "member.umbrellaReadyNotEnabled.direct": "2",
+                            "member.umbrellaEnabled.direct": "0"
+                        }
+                    },
+                    {
+                        "nameSpace": "mapGeometry",
+                        "attributes": {
+                            "offsetX": "0.0",
+                            "offsetY": "0.0",
+                            "length": "100.0",
+                            "width": "100.0",
+                            "height": "10.0"
+                        }
+                    },
+                    {
+                        "nameSpace": "ETA",
+                        "attributes": {
+                            "member.compatibleWithNaasOnly.direct": "0",
+                            "member.etaCapable.direct": "1",
+                            "member.etaReady.direct": "1",
+                            "member.etaEnabledNaasOnly.direct": "0",
+                            "ETAReady": "true",
+                            "member.etaNotReady.direct": "0",
+                            "member.etaReadyNotEnabled.direct": "1",
+                            "member.etaEnabled.direct": "0"
+                        }
+                    },
+                    {
+                        "nameSpace": "Location",
+                        "attributes": {
+                            "address": "164692, Ценогора, Arkhangelsk, Russia",
+                            "addressInheritedFrom": "c3293908-c136-45b9-b74f-d5dfaabb26a9",
+                            "type": "floor"
+                        }
+                    }
+                ],
+                "name": "FLOOR1",
+                "instanceTenantId": "66e48af26fe687300375675e",
+                "id": "03072c33-bd11-4914-9c0e-3c53379b2813",
+                "siteHierarchy": "50f15f14-4c73-47a7-9dc3-cb10eb9508bd/b0292a67-36ff-49ad-9135-5e79b056019e/c3293908-c136-45b9-b74f-d5dfaabb26a9/03072c33-bd11-4914-9c0e-3c53379b2813",
+                "siteNameHierarchy": "Global/Chennai/LTTS/FLOOR1"
+            }
+        ]
+    },
+    "get_provisioned_wired_device": {},
+    "get_network_device_by_ip1": {
+        "response": {
+            "memorySize": "NA",
+            "family": "Switches and Hubs",
+            "description": "Cisco IOS Software [Dublin], Catalyst L3 Switch Software (CAT9K_IOSXE), Version 17.14.1, RELEASE SOFTWARE (fc1) Technical Support: http://www.cisco.com/techsupport Copyright (c) 1986-2024 by Cisco Systems, Inc. Compiled Fri 05-Apr-24 00:08 by mcpre",
+            "lastUpdateTime": 1727217261072,
+            "macAddress": "00:b6:70:32:b8:00",
+            "deviceSupportLevel": "Supported",
+            "softwareType": "IOS-XE",
+            "softwareVersion": "17.14.1",
+            "serialNumber": "FCW2225C020",
+            "collectionInterval": "Global Default",
+            "dnsResolvedManagementAddress": "204.1.2.5",
+            "lastManagedResyncReasons": "Periodic",
+            "managementState": "Managed",
+            "pendingSyncRequestsCount": "0",
+            "reasonsForDeviceResync": "Periodic",
+            "reasonsForPendingSyncRequests": "",
+            "syncRequestedByApp": "",
+            "inventoryStatusDetail": "<status><general code='SUCCESS'/></status>",
+            "upTime": "6 days, 11:57:44.01",
+            "roleSource": "AUTO",
+            "interfaceCount": "0",
+            "bootDateTime": "2024-09-18 10:37:21",
+            "reachabilityFailureReason": "",
+            "reachabilityStatus": "Reachable",
+            "series": "Cisco Catalyst 9300 Series Switches",
+            "snmpContact": "",
+            "snmpLocation": "",
+            "apManagerInterfaceIp": "",
+            "collectionStatus": "Managed",
+            "hostname": "DC-T-9300.cisco.local",
+            "locationName": null,
+            "managementIpAddress": "204.1.2.5",
+            "platformId": "C9300-24P",
+            "lastUpdated": "2024-09-24 22:34:21",
+            "associatedWlcIp": "",
+            "apEthernetMacAddress": null,
+            "errorCode": null,
+            "errorDescription": null,
+            "lastDeviceResyncStartTime": "2024-09-24 22:32:34",
+            "lineCardCount": "0",
+            "lineCardId": "",
+            "managedAtleastOnce": true,
+            "tagCount": "0",
+            "tunnelUdpPort": null,
+            "uptimeSeconds": 601457,
+            "vendor": "Cisco",
+            "waasDeviceMode": null,
+            "type": "Cisco Catalyst 9300 Switch",
+            "location": null,
+            "role": "ACCESS",
+            "instanceTenantId": "66e48af26fe687300375675e",
+            "instanceUuid": "820bd13a-f565-4778-a320-9ec9f23b4725",
+            "id": "820bd13a-f565-4778-a320-9ec9f23b4725"
+        },
+        "version": "1.0"
+    },
+    "get_device_id": {
+        "response": "820bd13a-f565-4778-a320-9ec9f23b4725"
+    },
+    "is_device_assigned_to_site": {
+        "response": "820bd13a-f565-4778-a320-9ec9f23b4725"
+    },
+    "get_device_detail": {
+        "response": {
+            "maxTemperature": 5800.0,
+            "overallHealth": 10.0,
+            "managementIpAddr": "204.1.2.5",
+            "memory": "44.90643835531522",
+            "communicationState": "REACHABLE",
+            "nwDeviceRole": "ACCES",
+            "osType": "IOS-XE",
+            "ringStatus": false,
+            "ip_addr_managementIpAddr": "204.1.2.5",
+            "stackType": "NA",
+            "nwDeviceType": "Cisco Catalyst 9300 Switch",
+            "timestamp": 1727256900000.0,
+            "haStatus": "Non-redundant",
+            "serialNumber": "FCW2225C020",
+            "nwDeviceName": "DC-T-9300.cisco.local",
+            "deviceGroupHierarchyId": "/9d8f81af-11c4-4d52-a9e5-9f1e69fe7a9c/abf87b8b-f5a3-4a77-a9e9-4e3d6c308b3f/",
+            "cpu": "2.0",
+            "platformId": "C9300-24P",
+            "productVendor": "Cisco",
+            "nwDeviceId": "820bd13a-f565-4778-a320-9ec9f23b4725",
+            "siteHierarchyGraphId": "/50f15f14-4c73-47a7-9dc3-cb10eb9508bd/",
+            "memoryScore": 10.0,
+            "nwDeviceFamily": "Switches and Hubs",
+            "macAddress": "00:B6:70:32:B8:00",
+            "deviceSeries": "Cisco Catalyst 9300 Series Switches",
+            "collectionStatus": "SUCCESS",
+            "lastBootTime": 1726655841086,
+            "location": "",
+            "maintenanceMode": false,
+            "avgTemperature": 4266.666666666667,
+            "softwareVersion": "17.14.1",
+            "tagIdList": [],
+            "cpuScore": 10.0
+        }
+    },
+    "assign_devices_to_site": {
+        "executionId": "4cacde44-080c-44d9-aed6-77323a19cf0b",
+        "executionStatusUrl": "/dna/platform/management/business-api/v1/execution-status/4cacde44-080c-44d9-aed6-77323a19cf0b",
+        "message": "The request has been accepted for execution"
+    },
+    "get_business_api_execution_details": {
+        "bapiKey": "98a8-aa5e-40cb-b90b",
+        "bapiName": "Assign Devices To Site",
+        "bapiExecutionId": "4cacde44-080c-44d9-aed6-77323a19cf0b",
+        "startTime": "Wed Sep 25 09:41:39 UTC 2024",
+        "startTimeEpoch": 1727257299156,
+        "endTime": "Wed Sep 25 09:41:42 UTC 2024",
+        "endTimeEpoch": 1727257302576,
+        "timeDuration": 3420,
+        "status": "SUCCESS",
+        "runtimeInstanceId": "DNACP_Runtime_58bbc851-670e-4896-8aa7-2803f88ec793"
+    },
+    "response_assign_wired_device_to_site": {
+        "message": "Site assignment done successfully"
+    },
+    "playbook_del_provision_device": [
+        {
+            "management_ip_address": "204.1.2.4"
+        }
+    ],
+    "get_network_device_by_ip_delete_success": {
+        "response": {
+            "memorySize": "NA",
+            "family": "Switches and Hubs",
+            "description": "Cisco IOS Software [Dublin], Catalyst L3 Switch Software (CAT9K_IOSXE), Version 17.14.1, RELEASE SOFTWARE (fc1) Technical Support: http://www.cisco.com/techsupport Copyright (c) 1986-2024 by Cisco Systems, Inc. Compiled Fri 05-Apr-24 00:08 by mcpre",
+            "lastUpdateTime": 1727345755601,
+            "macAddress": "0c:75:bd:41:14:00",
+            "deviceSupportLevel": "Supported",
+            "softwareType": "IOS-XE",
+            "softwareVersion": "17.14.1",
+            "serialNumber": "FJB2334D06N",
+            "collectionInterval": "Global Default",
+            "dnsResolvedManagementAddress": "204.1.2.4",
+            "lastManagedResyncReasons": "Application Requested",
+            "managementState": "Managed",
+            "pendingSyncRequestsCount": "0",
+            "reasonsForDeviceResync": "Application Requested",
+            "reasonsForPendingSyncRequests": "",
+            "syncRequestedByApp": "Provisioning",
+            "inventoryStatusDetail": "<status><general code='SUCCESS'/></status>",
+            "upTime": "13 days, 10:05:47.44",
+            "roleSource": "AUTO",
+            "interfaceCount": "0",
+            "bootDateTime": "2024-09-13 00:10:55",
+            "reachabilityFailureReason": "",
+            "reachabilityStatus": "Reachable",
+            "series": "Cisco Catalyst 9300 Series Switches",
+            "snmpContact": "",
+            "snmpLocation": "",
+            "apManagerInterfaceIp": "",
+            "collectionStatus": "Managed",
+            "hostname": "NY-BN-9300.cisco.local",
+            "locationName": null,
+            "managementIpAddress": "204.1.2.4",
+            "platformId": "C9300-48UXM, C9300-48UXM",
+            "lastUpdated": "2024-09-26 10:15:55",
+            "associatedWlcIp": "",
+            "apEthernetMacAddress": null,
+            "errorCode": null,
+            "errorDescription": null,
+            "lastDeviceResyncStartTime": "2024-09-26 10:15:47",
+            "lineCardCount": "0",
+            "lineCardId": "",
+            "managedAtleastOnce": true,
+            "tagCount": "0",
+            "tunnelUdpPort": null,
+            "uptimeSeconds": 1159501,
+            "vendor": "Cisco",
+            "waasDeviceMode": null,
+            "type": "Cisco Catalyst 9300 Switch",
+            "location": null,
+            "role": "DISTRIBUTION",
+            "instanceTenantId": "66e48af26fe687300375675e",
+            "instanceUuid": "f19cf2b0-a9bb-4569-b140-e1d0e86d5226",
+            "id": "f19cf2b0-a9bb-4569-b140-e1d0e86d5226"
+        },
+        "version": "1.0"
+    },
+    "get_sites_delete_success": {
+        "response": [
+            {
+                "id": "50f15f14-4c73-47a7-9dc3-cb10eb9508bd",
+                "name": "Global",
+                "type": "global"
+            },
+            {
+                "id": "d42e6d8b-73b0-4ec3-99d3-fda53e339c83",
+                "parentId": "50f15f14-4c73-47a7-9dc3-cb10eb9508bd",
+                "name": "USA",
+                "nameHierarchy": "Global/USA",
+                "type": "area"
+            },
+            {
+                "id": "19ef7e22-457d-4bc8-ab7d-4446f9fb196c",
+                "parentId": "d42e6d8b-73b0-4ec3-99d3-fda53e339c83",
+                "name": "San Jose",
+                "nameHierarchy": "Global/USA/San Jose",
+                "type": "area"
+            },
+            {
+                "id": "ee0411ea-54d0-4c08-842a-afdca9246477",
+                "parentId": "50f15f14-4c73-47a7-9dc3-cb10eb9508bd",
+                "name": "tamilnadu",
+                "nameHierarchy": "Global/tamilnadu",
+                "type": "area"
+            },
+            {
+                "id": "b0292a67-36ff-49ad-9135-5e79b056019e",
+                "parentId": "50f15f14-4c73-47a7-9dc3-cb10eb9508bd",
+                "name": "Chennai",
+                "nameHierarchy": "Global/Chennai",
+                "type": "area"
+            },
+            {
+                "id": "55abe146-aafd-475e-b150-caf77ba6da62",
+                "parentId": "50f15f14-4c73-47a7-9dc3-cb10eb9508bd",
+                "name": "japan1011",
+                "nameHierarchy": "Global/japan1011",
+                "type": "area"
+            },
+            {
+                "id": "c8a2d8ea-98d1-4ecc-946c-4894ca0e0660",
+                "parentId": "50f15f14-4c73-47a7-9dc3-cb10eb9508bd",
+                "name": "Abc2",
+                "nameHierarchy": "Global/Abc2",
+                "type": "area"
+            },
+            {
+                "id": "e67109a3-4e90-4110-86e6-ff0348a55d9c",
+                "parentId": "50f15f14-4c73-47a7-9dc3-cb10eb9508bd",
+                "name": "japan10117",
+                "nameHierarchy": "Global/japan10117",
+                "type": "area"
+            },
+            {
+                "id": "5037a204-1b45-475b-acbd-31a74c0351a6",
+                "parentId": "50f15f14-4c73-47a7-9dc3-cb10eb9508bd",
+                "name": "japan10",
+                "nameHierarchy": "Global/japan10",
+                "type": "area"
+            },
+            {
+                "id": "9a5ae7d9-c669-4eac-8a65-386d82f4d7d8",
+                "parentId": "50f15f14-4c73-47a7-9dc3-cb10eb9508bd",
+                "name": "japan101",
+                "nameHierarchy": "Global/japan101",
+                "type": "area"
+            },
+            {
+                "id": "5a9bb391-fb8f-47a5-8dd9-31c6fa7d8289",
+                "parentId": "19ef7e22-457d-4bc8-ab7d-4446f9fb196c",
+                "name": "BLDG23",
+                "nameHierarchy": "Global/USA/San Jose/BLDG23",
+                "type": "building",
+                "latitude": 37.41864,
+                "longitude": -121.9193,
+                "address": "Cisco - Building 23, 560 McCarthy Blvd, Milpitas, California 95035, United States",
+                "country": "United States"
+            },
+            {
+                "id": "74549cff-b640-4279-93f0-d5003229fdad",
+                "parentId": "ee0411ea-54d0-4c08-842a-afdca9246477",
+                "name": "BLD1",
+                "nameHierarchy": "Global/tamilnadu/BLD1",
+                "type": "building",
+                "latitude": 16.91227,
+                "longitude": 77.58193,
+                "address": "509336, Doulathabad, Telangana, India",
+                "country": "India"
+            },
+            {
+                "id": "c3293908-c136-45b9-b74f-d5dfaabb26a9",
+                "parentId": "b0292a67-36ff-49ad-9135-5e79b056019e",
+                "name": "LTTS",
+                "nameHierarchy": "Global/Chennai/LTTS",
+                "type": "building",
+                "latitude": 65.22,
+                "longitude": 45.87,
+                "address": "164692, Ценогора, Arkhangelsk, Russia",
+                "country": "Russia"
+            },
+            {
+                "id": "6a8eb442-2937-4bcd-879b-9ab92489ad2a",
+                "parentId": "55abe146-aafd-475e-b150-caf77ba6da62",
+                "name": "blossom",
+                "nameHierarchy": "Global/japan1011/blossom",
+                "type": "building",
+                "latitude": 37.386,
+                "longitude": -121.845,
+                "address": "1234 Elm Street",
+                "country": "India"
+            },
+            {
+                "id": "b04c159e-1669-4076-a7a3-ed48f2fa53a7",
+                "parentId": "9a5ae7d9-c669-4eac-8a65-386d82f4d7d8",
+                "name": "blossom",
+                "nameHierarchy": "Global/japan101/blossom",
+                "type": "building",
+                "latitude": 37.387,
+                "longitude": -121.845,
+                "address": "1234 Elm Street",
+                "country": "India"
+            },
+            {
+                "id": "79d4b673-9aea-4762-bae1-604d6d715797",
+                "parentId": "5037a204-1b45-475b-acbd-31a74c0351a6",
+                "name": "blossom",
+                "nameHierarchy": "Global/japan10/blossom",
+                "type": "building",
+                "latitude": 37.387,
+                "longitude": -121.845,
+                "address": "1234 Elm Street",
+                "country": "India"
+            },
+            {
+                "id": "5fc3b912-8cb8-4c73-8ef3-97b544af6843",
+                "parentId": "5a9bb391-fb8f-47a5-8dd9-31c6fa7d8289",
+                "name": "FLOOR1_LEVEL1",
+                "nameHierarchy": "Global/USA/San Jose/BLDG23/FLOOR1_LEVEL1",
+                "type": "floor",
+                "floorNumber": 1,
+                "rfModel": "Cubes And Walled Offices",
+                "width": 100.0,
+                "length": 100.0,
+                "height": 10.0,
+                "unitsOfMeasure": "feet"
+            },
+            {
+                "id": "ca82e433-dd7e-40cc-9220-41294dfb6d59",
+                "parentId": "74549cff-b640-4279-93f0-d5003229fdad",
+                "name": "FLOOR1",
+                "nameHierarchy": "Global/tamilnadu/BLD1/FLOOR1",
+                "type": "floor",
+                "floorNumber": 1,
+                "rfModel": "Cubes And Walled Offices",
+                "width": 100.0,
+                "length": 100.0,
+                "height": 10.0,
+                "unitsOfMeasure": "feet"
+            },
+            {
+                "id": "c55c069f-a77f-4cc9-bb20-63df01e9a01a",
+                "parentId": "c3293908-c136-45b9-b74f-d5dfaabb26a9",
+                "name": "FLOOR2",
+                "nameHierarchy": "Global/Chennai/LTTS/FLOOR2",
+                "type": "floor",
+                "floorNumber": 2,
+                "rfModel": "Cubes And Walled Offices",
+                "width": 100.0,
+                "length": 100.0,
+                "height": 10.0,
+                "unitsOfMeasure": "feet"
+            },
+            {
+                "id": "03072c33-bd11-4914-9c0e-3c53379b2813",
+                "parentId": "c3293908-c136-45b9-b74f-d5dfaabb26a9",
+                "name": "FLOOR1",
+                "nameHierarchy": "Global/Chennai/LTTS/FLOOR1",
+                "type": "floor",
+                "floorNumber": 1,
+                "rfModel": "Cubes And Walled Offices",
+                "width": 100.0,
+                "length": 100.0,
+                "height": 10.0,
+                "unitsOfMeasure": "feet"
+            },
+            {
+                "id": "90689137-956f-4929-ad74-d84415b5b784",
+                "parentId": "6a8eb442-2937-4bcd-879b-9ab92489ad2a",
+                "name": "cherry",
+                "nameHierarchy": "Global/japan1011/blossom/cherry",
+                "type": "floor",
+                "floorNumber": 1,
+                "rfModel": "Cubes And Walled Offices",
+                "width": 106.0,
+                "length": 100.0,
+                "height": 10.0,
+                "unitsOfMeasure": "feet"
+            },
+            {
+                "id": "acbe67cb-827a-4357-b09b-167dcecbe24a",
+                "parentId": "b04c159e-1669-4076-a7a3-ed48f2fa53a7",
+                "name": "cherry",
+                "nameHierarchy": "Global/japan101/blossom/cherry",
+                "type": "floor",
+                "floorNumber": 3,
+                "rfModel": "Cubes And Walled Offices",
+                "width": 75.1,
+                "length": 103.23,
+                "height": 50.23,
+                "unitsOfMeasure": "feet"
+            },
+            {
+                "id": "543a9db2-929e-4069-a66f-d1cc8f8b2509",
+                "parentId": "79d4b673-9aea-4762-bae1-604d6d715797",
+                "name": "cherry",
+                "nameHierarchy": "Global/japan10/blossom/cherry",
+                "type": "floor",
+                "floorNumber": 3,
+                "rfModel": "Cubes And Walled Offices",
+                "width": 75.1,
+                "length": 103.23,
+                "height": 50.23,
+                "unitsOfMeasure": "feet"
+            }
+        ],
+        "version": "1.0"
+    },
+    "get_site_delete_success": {
+        "response": [
+            {
+                "id": "50f15f14-4c73-47a7-9dc3-cb10eb9508bd",
+                "name": "Global",
+                "type": "global"
+            },
+            {
+                "id": "d42e6d8b-73b0-4ec3-99d3-fda53e339c83",
+                "parentId": "50f15f14-4c73-47a7-9dc3-cb10eb9508bd",
+                "name": "USA",
+                "nameHierarchy": "Global/USA",
+                "type": "area"
+            },
+            {
+                "id": "19ef7e22-457d-4bc8-ab7d-4446f9fb196c",
+                "parentId": "d42e6d8b-73b0-4ec3-99d3-fda53e339c83",
+                "name": "San Jose",
+                "nameHierarchy": "Global/USA/San Jose",
+                "type": "area"
+            },
+            {
+                "id": "ee0411ea-54d0-4c08-842a-afdca9246477",
+                "parentId": "50f15f14-4c73-47a7-9dc3-cb10eb9508bd",
+                "name": "tamilnadu",
+                "nameHierarchy": "Global/tamilnadu",
+                "type": "area"
+            },
+            {
+                "id": "b0292a67-36ff-49ad-9135-5e79b056019e",
+                "parentId": "50f15f14-4c73-47a7-9dc3-cb10eb9508bd",
+                "name": "Chennai",
+                "nameHierarchy": "Global/Chennai",
+                "type": "area"
+            },
+            {
+                "id": "55abe146-aafd-475e-b150-caf77ba6da62",
+                "parentId": "50f15f14-4c73-47a7-9dc3-cb10eb9508bd",
+                "name": "japan1011",
+                "nameHierarchy": "Global/japan1011",
+                "type": "area"
+            },
+            {
+                "id": "c8a2d8ea-98d1-4ecc-946c-4894ca0e0660",
+                "parentId": "50f15f14-4c73-47a7-9dc3-cb10eb9508bd",
+                "name": "Abc2",
+                "nameHierarchy": "Global/Abc2",
+                "type": "area"
+            },
+            {
+                "id": "e67109a3-4e90-4110-86e6-ff0348a55d9c",
+                "parentId": "50f15f14-4c73-47a7-9dc3-cb10eb9508bd",
+                "name": "japan10117",
+                "nameHierarchy": "Global/japan10117",
+                "type": "area"
+            },
+            {
+                "id": "5037a204-1b45-475b-acbd-31a74c0351a6",
+                "parentId": "50f15f14-4c73-47a7-9dc3-cb10eb9508bd",
+                "name": "japan10",
+                "nameHierarchy": "Global/japan10",
+                "type": "area"
+            },
+            {
+                "id": "9a5ae7d9-c669-4eac-8a65-386d82f4d7d8",
+                "parentId": "50f15f14-4c73-47a7-9dc3-cb10eb9508bd",
+                "name": "japan101",
+                "nameHierarchy": "Global/japan101",
+                "type": "area"
+            },
+            {
+                "id": "5a9bb391-fb8f-47a5-8dd9-31c6fa7d8289",
+                "parentId": "19ef7e22-457d-4bc8-ab7d-4446f9fb196c",
+                "name": "BLDG23",
+                "nameHierarchy": "Global/USA/San Jose/BLDG23",
+                "type": "building",
+                "latitude": 37.41864,
+                "longitude": -121.9193,
+                "address": "Cisco - Building 23, 560 McCarthy Blvd, Milpitas, California 95035, United States",
+                "country": "United States"
+            },
+            {
+                "id": "74549cff-b640-4279-93f0-d5003229fdad",
+                "parentId": "ee0411ea-54d0-4c08-842a-afdca9246477",
+                "name": "BLD1",
+                "nameHierarchy": "Global/tamilnadu/BLD1",
+                "type": "building",
+                "latitude": 16.91227,
+                "longitude": 77.58193,
+                "address": "509336, Doulathabad, Telangana, India",
+                "country": "India"
+            },
+            {
+                "id": "c3293908-c136-45b9-b74f-d5dfaabb26a9",
+                "parentId": "b0292a67-36ff-49ad-9135-5e79b056019e",
+                "name": "LTTS",
+                "nameHierarchy": "Global/Chennai/LTTS",
+                "type": "building",
+                "latitude": 65.22,
+                "longitude": 45.87,
+                "address": "164692, Ценогора, Arkhangelsk, Russia",
+                "country": "Russia"
+            },
+            {
+                "id": "6a8eb442-2937-4bcd-879b-9ab92489ad2a",
+                "parentId": "55abe146-aafd-475e-b150-caf77ba6da62",
+                "name": "blossom",
+                "nameHierarchy": "Global/japan1011/blossom",
+                "type": "building",
+                "latitude": 37.386,
+                "longitude": -121.845,
+                "address": "1234 Elm Street",
+                "country": "India"
+            },
+            {
+                "id": "b04c159e-1669-4076-a7a3-ed48f2fa53a7",
+                "parentId": "9a5ae7d9-c669-4eac-8a65-386d82f4d7d8",
+                "name": "blossom",
+                "nameHierarchy": "Global/japan101/blossom",
+                "type": "building",
+                "latitude": 37.387,
+                "longitude": -121.845,
+                "address": "1234 Elm Street",
+                "country": "India"
+            },
+            {
+                "id": "79d4b673-9aea-4762-bae1-604d6d715797",
+                "parentId": "5037a204-1b45-475b-acbd-31a74c0351a6",
+                "name": "blossom",
+                "nameHierarchy": "Global/japan10/blossom",
+                "type": "building",
+                "latitude": 37.387,
+                "longitude": -121.845,
+                "address": "1234 Elm Street",
+                "country": "India"
+            },
+            {
+                "id": "5fc3b912-8cb8-4c73-8ef3-97b544af6843",
+                "parentId": "5a9bb391-fb8f-47a5-8dd9-31c6fa7d8289",
+                "name": "FLOOR1_LEVEL1",
+                "nameHierarchy": "Global/USA/San Jose/BLDG23/FLOOR1_LEVEL1",
+                "type": "floor",
+                "floorNumber": 1,
+                "rfModel": "Cubes And Walled Offices",
+                "width": 100.0,
+                "length": 100.0,
+                "height": 10.0,
+                "unitsOfMeasure": "feet"
+            },
+            {
+                "id": "ca82e433-dd7e-40cc-9220-41294dfb6d59",
+                "parentId": "74549cff-b640-4279-93f0-d5003229fdad",
+                "name": "FLOOR1",
+                "nameHierarchy": "Global/tamilnadu/BLD1/FLOOR1",
+                "type": "floor",
+                "floorNumber": 1,
+                "rfModel": "Cubes And Walled Offices",
+                "width": 100.0,
+                "length": 100.0,
+                "height": 10.0,
+                "unitsOfMeasure": "feet"
+            },
+            {
+                "id": "c55c069f-a77f-4cc9-bb20-63df01e9a01a",
+                "parentId": "c3293908-c136-45b9-b74f-d5dfaabb26a9",
+                "name": "FLOOR2",
+                "nameHierarchy": "Global/Chennai/LTTS/FLOOR2",
+                "type": "floor",
+                "floorNumber": 2,
+                "rfModel": "Cubes And Walled Offices",
+                "width": 100.0,
+                "length": 100.0,
+                "height": 10.0,
+                "unitsOfMeasure": "feet"
+            },
+            {
+                "id": "03072c33-bd11-4914-9c0e-3c53379b2813",
+                "parentId": "c3293908-c136-45b9-b74f-d5dfaabb26a9",
+                "name": "FLOOR1",
+                "nameHierarchy": "Global/Chennai/LTTS/FLOOR1",
+                "type": "floor",
+                "floorNumber": 1,
+                "rfModel": "Cubes And Walled Offices",
+                "width": 100.0,
+                "length": 100.0,
+                "height": 10.0,
+                "unitsOfMeasure": "feet"
+            },
+            {
+                "id": "90689137-956f-4929-ad74-d84415b5b784",
+                "parentId": "6a8eb442-2937-4bcd-879b-9ab92489ad2a",
+                "name": "cherry",
+                "nameHierarchy": "Global/japan1011/blossom/cherry",
+                "type": "floor",
+                "floorNumber": 1,
+                "rfModel": "Cubes And Walled Offices",
+                "width": 106.0,
+                "length": 100.0,
+                "height": 10.0,
+                "unitsOfMeasure": "feet"
+            },
+            {
+                "id": "acbe67cb-827a-4357-b09b-167dcecbe24a",
+                "parentId": "b04c159e-1669-4076-a7a3-ed48f2fa53a7",
+                "name": "cherry",
+                "nameHierarchy": "Global/japan101/blossom/cherry",
+                "type": "floor",
+                "floorNumber": 3,
+                "rfModel": "Cubes And Walled Offices",
+                "width": 75.1,
+                "length": 103.23,
+                "height": 50.23,
+                "unitsOfMeasure": "feet"
+            },
+            {
+                "id": "543a9db2-929e-4069-a66f-d1cc8f8b2509",
+                "parentId": "79d4b673-9aea-4762-bae1-604d6d715797",
+                "name": "cherry",
+                "nameHierarchy": "Global/japan10/blossom/cherry",
+                "type": "floor",
+                "floorNumber": 3,
+                "rfModel": "Cubes And Walled Offices",
+                "width": 75.1,
+                "length": 103.23,
+                "height": 50.23,
+                "unitsOfMeasure": "feet"
+            }
+        ],
+        "version": "1.0"
+    },
+    "get_provisioned_wired_device_delete_success": {
+        "deviceManagementIpAddress": "204.1.2.4",
+        "siteNameHierarchy": "Global/Chennai/LTTS/FLOOR1",
+        "status": "SUCCESS",
+        "description": "Wired Provisioned device detail retrieved successfully."
+    },
+    "delete_provisioned_wired_device_delete_success": {
+        "status": "pending",
+        "description": "API execution is in progress.",
+        "taskId": "01922dd4-b3a1-7aa7-9e73-fb87e6905334",
+        "taskStatusUrl": "/dna/intent/api/v1/task/01922dd4-b3a1-7aa7-9e73-fb87e6905334",
+        "executionStatusUrl": "/dna/intent/api/v1/dnacaap/management/execution-status/4618779b-cc4c-480d-9764-006143a08a79",
+        "executionId": "4618779b-cc4c-480d-9764-006143a08a79"
+    },
+    "get_task_by_id_delete_success": {
+        "response": {
+            "version": 1727345767329,
+            "progress": "Inventory service deleting devices",
+            "startTime": 1727345767329,
+            "serviceType": "Inventory service",
+            "isError": false,
+            "instanceTenantId": "66e48af26fe687300375675e",
+            "id": "01922dd4-b3a1-7aa7-9e73-fb87e6905334"
+        },
+        "version": "1.0"
+    },
+    "get_task_by_id1_delete_success": {
+        "response": {
+            "version": 1727345784546,
+            "progress": "Network device deleted successfully",
+            "startTime": 1727345767329,
+            "endTime": 1727345784546,
+            "serviceType": "Inventory service",
+            "isError": false,
+            "instanceTenantId": "66e48af26fe687300375675e",
+            "id": "01922dd4-b3a1-7aa7-9e73-fb87e6905334"
+        },
+        "version": "1.0"
+    },
+    "delete_provision_device_success": {
+        "message": "Deletion done Successfully"
+    },
+    "playbook_provision_device": [
+        {
+            "management_ip_address": "204.1.2.4",
+            "site_name_hierarchy": "Global/Chennai/LTTS/FLOOR1"
+        }
+    ],
+    "get_network_device_by_ip_prov_device": {
+        "response": {
+            "memorySize": "NA",
+            "family": "Switches and Hubs",
+            "description": "Cisco IOS Software [Dublin], Catalyst L3 Switch Software (CAT9K_IOSXE), Version 17.14.1, RELEASE SOFTWARE (fc1) Technical Support: http://www.cisco.com/techsupport Copyright (c) 1986-2024 by Cisco Systems, Inc. Compiled Fri 05-Apr-24 00:08 by mcpre",
+            "lastUpdateTime": 1727349981515,
+            "macAddress": "0c:75:bd:41:14:00",
+            "deviceSupportLevel": "Supported",
+            "softwareType": "IOS-XE",
+            "softwareVersion": "17.14.1",
+            "serialNumber": "FJB2334D06N",
+            "collectionInterval": "Global Default",
+            "dnsResolvedManagementAddress": "204.1.2.4",
+            "lastManagedResyncReasons": "Device Added",
+            "managementState": "Managed",
+            "pendingSyncRequestsCount": "0",
+            "reasonsForDeviceResync": "Device Added",
+            "reasonsForPendingSyncRequests": "",
+            "syncRequestedByApp": "",
+            "inventoryStatusDetail": "<status><general code='SUCCESS'/></status>",
+            "upTime": "13 days, 11:15:30.51",
+            "roleSource": "AUTO",
+            "interfaceCount": "0",
+            "bootDateTime": "2024-09-13 00:11:21",
+            "reachabilityFailureReason": "",
+            "reachabilityStatus": "Reachable",
+            "series": "Cisco Catalyst 9300 Series Switches",
+            "snmpContact": "",
+            "snmpLocation": "",
+            "apManagerInterfaceIp": "",
+            "collectionStatus": "Managed",
+            "hostname": "NY-BN-9300",
+            "locationName": null,
+            "managementIpAddress": "204.1.2.4",
+            "platformId": "C9300-48UXM, C9300-48UXM",
+            "lastUpdated": "2024-09-26 11:26:21",
+            "associatedWlcIp": "",
+            "apEthernetMacAddress": null,
+            "errorCode": null,
+            "errorDescription": null,
+            "lastDeviceResyncStartTime": "2024-09-26 11:26:17",
+            "lineCardCount": "0",
+            "lineCardId": "",
+            "managedAtleastOnce": true,
+            "tagCount": "0",
+            "tunnelUdpPort": null,
+            "uptimeSeconds": 1163993,
+            "vendor": "Cisco",
+            "waasDeviceMode": null,
+            "type": "Cisco Catalyst 9300 Switch",
+            "location": null,
+            "role": "DISTRIBUTION",
+            "instanceTenantId": "66e48af26fe687300375675e",
+            "instanceUuid": "f19cf2b0-a9bb-4569-b140-e1d0e86d5226",
+            "id": "f19cf2b0-a9bb-4569-b140-e1d0e86d5226"
+        },
+        "version": "1.0"
+    },
+    "get_sites_prov_device": {
+        "response": [
+            {
+                "id": "03072c33-bd11-4914-9c0e-3c53379b2813",
+                "parentId": "c3293908-c136-45b9-b74f-d5dfaabb26a9",
+                "name": "FLOOR1",
+                "nameHierarchy": "Global/Chennai/LTTS/FLOOR1",
+                "type": "floor",
+                "floorNumber": 1,
+                "rfModel": "Cubes And Walled Offices",
+                "width": 100.0,
+                "length": 100.0,
+                "height": 10.0,
+                "unitsOfMeasure": "feet"
+            }
+        ],
+        "version": "1.0"
+    },
+    "get_site_prov_device": {
+        "response": [
+            {
+                "id": "03072c33-bd11-4914-9c0e-3c53379b2813",
+                "parentId": "c3293908-c136-45b9-b74f-d5dfaabb26a9",
+                "name": "FLOOR1",
+                "nameHierarchy": "Global/Chennai/LTTS/FLOOR1",
+                "type": "floor",
+                "floorNumber": 1,
+                "rfModel": "Cubes And Walled Offices",
+                "width": 100.0,
+                "length": 100.0,
+                "height": 10.0,
+                "unitsOfMeasure": "feet"
+            }
+        ],
+        "version": "1.0"
+    },
+    "get_provisioned_wired_device_prov_device": {},
+    "provision_wired_device_prov_device": {
+        "status": "pending",
+        "description": "API execution is in progress.",
+        "taskId": "01922e19-8e14-710a-b2fb-1bded8bcc333",
+        "taskStatusUrl": "/dna/intent/api/v1/task/01922e19-8e14-710a-b2fb-1bded8bcc333",
+        "executionStatusUrl": "/dna/intent/api/v1/dnacaap/management/execution-status/9b2ea3e0-c2cd-4580-ae86-a968688be989",
+        "executionId": "9b2ea3e0-c2cd-4580-ae86-a968688be989"
+    },
+    "get_task_by_id_prov_device": {
+        "response": {
+            "version": 1727350281967,
+            "progress": "TASK_PROVISION",
+            "startTime": 1727350279700,
+            "data": "workflow_id=7b911631-3722-4e87-8ceb-c2788db6a03a;cfs_id=90403326-b632-4d91-a834-d60ea99d2ff3;rollback_status=not_supported;rollback_taskid=0;failure_task=NA;processcfs_complete=true",
+            "lastUpdate": 1727350281967,
+            "serviceType": "NCSP",
+            "isError": false,
+            "instanceTenantId": "66e48af26fe687300375675e",
+            "id": "01922e19-8e14-710a-b2fb-1bded8bcc333"
+        },
+        "version": "1.0"
+    },
+    "get_task_status": "Task status for the task id 01922e19-8e14-710a-b2fb-1bded8bcc333 is TASK_PROVISION",
+    "get_task_status1": {
+        "msg": "Provision done Successfully",
+        "provision_task": {
+            "data": "workflow_id=7b911631-3722-4e87-8ceb-c2788db6a03a;cfs_id=90403326-b632-4d91-a834-d60ea99d2ff3;rollback_status=not_supported;rollback_taskid=0;failure_task=NA;processcfs_complete=true",
+            "id": "01922e19-8e14-710a-b2fb-1bded8bcc333",
+            "instanceTenantId": "66e48af26fe687300375675e",
+            "isError": false,
+            "lastUpdate": 1727350281967,
+            "progress": "TASK_PROVISION",
+            "serviceType": "NCSP",
+            "startTime": 1727350279700,
+            "version": 1727350281967
+        },
+        "response": "01922e19-8e14-710a-b2fb-1bded8bcc333"
+    },
+    "get_network_device_by_ip1_prov_device": {
+        "response": {
+            "memorySize": "NA",
+            "family": "Switches and Hubs",
+            "description": "Cisco IOS Software [Dublin], Catalyst L3 Switch Software (CAT9K_IOSXE), Version 17.14.1, RELEASE SOFTWARE (fc1) Technical Support: http://www.cisco.com/techsupport Copyright (c) 1986-2024 by Cisco Systems, Inc. Compiled Fri 05-Apr-24 00:08 by mcpre",
+            "lastUpdateTime": 1727349981515,
+            "macAddress": "0c:75:bd:41:14:00",
+            "deviceSupportLevel": "Supported",
+            "softwareType": "IOS-XE",
+            "softwareVersion": "17.14.1",
+            "serialNumber": "FJB2334D06N",
+            "collectionInterval": "Global Default",
+            "dnsResolvedManagementAddress": "204.1.2.4",
+            "lastManagedResyncReasons": "Device Added",
+            "managementState": "Managed",
+            "pendingSyncRequestsCount": "0",
+            "reasonsForDeviceResync": "Device Added",
+            "reasonsForPendingSyncRequests": "",
+            "syncRequestedByApp": "",
+            "inventoryStatusDetail": "<status><general code='SUCCESS'/></status>",
+            "upTime": "13 days, 11:15:30.51",
+            "roleSource": "AUTO",
+            "interfaceCount": "0",
+            "bootDateTime": "2024-09-13 00:11:21",
+            "reachabilityFailureReason": "",
+            "reachabilityStatus": "Reachable",
+            "series": "Cisco Catalyst 9300 Series Switches",
+            "snmpContact": "",
+            "snmpLocation": "",
+            "apManagerInterfaceIp": "",
+            "collectionStatus": "Managed",
+            "hostname": "NY-BN-9300",
+            "locationName": null,
+            "managementIpAddress": "204.1.2.4",
+            "platformId": "C9300-48UXM, C9300-48UXM",
+            "lastUpdated": "2024-09-26 11:26:21",
+            "associatedWlcIp": "",
+            "apEthernetMacAddress": null,
+            "errorCode": null,
+            "errorDescription": null,
+            "lastDeviceResyncStartTime": "2024-09-26 11:26:17",
+            "lineCardCount": "0",
+            "lineCardId": "",
+            "managedAtleastOnce": true,
+            "tagCount": "0",
+            "tunnelUdpPort": null,
+            "uptimeSeconds": 1164010,
+            "vendor": "Cisco",
+            "waasDeviceMode": null,
+            "type": "Cisco Catalyst 9300 Switch",
+            "location": null,
+            "role": "DISTRIBUTION",
+            "instanceTenantId": "66e48af26fe687300375675e",
+            "instanceUuid": "f19cf2b0-a9bb-4569-b140-e1d0e86d5226",
+            "id": "f19cf2b0-a9bb-4569-b140-e1d0e86d5226"
+        },
+        "version": "1.0"
+    },
+    "get_provisioned_wired_device1_prov_device": {
+        "deviceManagementIpAddress": "204.1.2.4",
+        "siteNameHierarchy": "Global/Chennai/LTTS/FLOOR1",
+        "status": "SUCCESS",
+        "description": "Wired Provisioned device detail retrieved successfully."
+    },
+    "provision_device_response": {
+        "message": "Provision done Successfully"
+    },
+    "playbook_del_wireless_provision_not_supported": [
+        {
+            "management_ip_address": "204.192.6.200"
+        }
+    ],
+    "get_wireless_params": {
+        "response": "Missing Managed AP Locations: Please specify the intended location(s) for the wireless device                 within the site hierarchy. "
+    },
+    "response_del_wireless_provision_not_supported": {
+        "message": "Missing Managed AP Locations: Please specify the intended location(s) for the wireless device within the site hierarchy."
+    },
+    "playbook_force_provision_device": [
+        {
+            "force_provisioning": true,
+            "management_ip_address": "204.192.3.40",
+            "provisioning": true,
+            "site_name_hierarchy": "Global/Chennai/LTTS/FLOOR1"
+        }
+    ],
+    "get_network_device_by_ip_force_provision": {
+        "response": {
+            "memorySize": "NA",
+            "family": "Switches and Hubs",
+            "description": "Cisco IOS Software [Dublin], Catalyst L3 Switch Software (CAT9K_IOSXE), Version 17.14.1, RELEASE SOFTWARE (fc1) Technical Support: http://www.cisco.com/techsupport Copyright (c) 1986-2024 by Cisco Systems, Inc. Compiled Fri 05-Apr-24 00:08 by mcpre",
+            "lastUpdateTime": 1727679914422,
+            "macAddress": "d4:ad:bd:c1:67:00",
+            "deviceSupportLevel": "Supported",
+            "softwareType": "IOS-XE",
+            "softwareVersion": "17.14.1",
+            "serialNumber": "FJC2327U0S2",
+            "collectionInterval": "Global Default",
+            "dnsResolvedManagementAddress": "204.192.3.40",
+            "lastManagedResyncReasons": "Device Added",
+            "managementState": "Managed",
+            "pendingSyncRequestsCount": "0",
+            "reasonsForDeviceResync": "Device Added",
+            "reasonsForPendingSyncRequests": "",
+            "syncRequestedByApp": "",
+            "inventoryStatusDetail": "<status><general code='SUCCESS'/></status>",
+            "upTime": "17 days, 7:03:32.87",
+            "roleSource": "AUTO",
+            "interfaceCount": "0",
+            "bootDateTime": "2024-09-13 00:02:14",
+            "reachabilityFailureReason": "",
+            "reachabilityStatus": "Reachable",
+            "series": "Cisco Catalyst 9300 Series Switches",
+            "snmpContact": "",
+            "snmpLocation": "",
+            "apManagerInterfaceIp": "",
+            "collectionStatus": "Managed",
+            "hostname": "DC-FR-9300",
+            "locationName": null,
+            "managementIpAddress": "204.192.3.40",
+            "platformId": "C9300-24U",
+            "lastUpdated": "2024-09-30 07:05:14",
+            "associatedWlcIp": "",
+            "apEthernetMacAddress": null,
+            "errorCode": null,
+            "errorDescription": null,
+            "lastDeviceResyncStartTime": "2024-09-30 07:05:12",
+            "lineCardCount": "0",
+            "lineCardId": "",
+            "managedAtleastOnce": true,
+            "tagCount": "0",
+            "tunnelUdpPort": null,
+            "uptimeSeconds": 1494272,
+            "vendor": "Cisco",
+            "waasDeviceMode": null,
+            "type": "Cisco Catalyst 9300 Switch",
+            "location": null,
+            "role": "ACCESS",
+            "instanceTenantId": "66e48af26fe687300375675e",
+            "instanceUuid": "1e8ffc57-8a44-459f-b880-6b49d6b63aa4",
+            "id": "1e8ffc57-8a44-459f-b880-6b49d6b63aa4"
+        },
+        "version": "1.0"
+    },
+    "get_sites_force_provision": {
+        "response": [
+            {
+                "id": "03072c33-bd11-4914-9c0e-3c53379b2813",
+                "parentId": "c3293908-c136-45b9-b74f-d5dfaabb26a9",
+                "name": "FLOOR1",
+                "nameHierarchy": "Global/Chennai/LTTS/FLOOR1",
+                "type": "floor",
+                "floorNumber": 1,
+                "rfModel": "Cubes And Walled Offices",
+                "width": 100.0,
+                "length": 100.0,
+                "height": 10.0,
+                "unitsOfMeasure": "feet"
+            }
+        ],
+        "version": "1.0"
+    },
+    "get_site_force_provision": {
+        "response": [
+            {
+                "id": "03072c33-bd11-4914-9c0e-3c53379b2813",
+                "parentId": "c3293908-c136-45b9-b74f-d5dfaabb26a9",
+                "name": "FLOOR1",
+                "nameHierarchy": "Global/Chennai/LTTS/FLOOR1",
+                "type": "floor",
+                "floorNumber": 1,
+                "rfModel": "Cubes And Walled Offices",
+                "width": 100.0,
+                "length": 100.0,
+                "height": 10.0,
+                "unitsOfMeasure": "feet"
+            }
+        ],
+        "version": "1.0"
+    },
+    "get_provisioned_wired_device_force_provision": {
+        "deviceManagementIpAddress": "204.192.3.40",
+        "siteNameHierarchy": "Global/Chennai/LTTS/FLOOR1",
+        "status": "success",
+        "description": "Wired Provisioned device detail retrieved successfully."
+    },
+    "re_provision_wired_device": {
+        "status": "pending",
+        "description": "API execution is in progress.",
+        "taskId": "01924236-8681-7284-9d45-7b2348fdea0f",
+        "taskStatusUrl": "/dna/intent/api/v1/task/01924236-8681-7284-9d45-7b2348fdea0f",
+        "executionStatusUrl": "/dna/intent/api/v1/dnacaap/management/execution-status/7c909ef7-ce2b-46c0-883c-1ce6e769539e",
+        "executionId": "7c909ef7-ce2b-46c0-883c-1ce6e769539e"
+    },
+    "Task_Details_force_provision": {
+        "response": {
+            "lastUpdate": 1727687722848,
+            "status": "PENDING",
+            "startTime": 1727687722625,
+            "version": 1727687722848,
+            "resultLocation": "/dna/intent/api/v1/tasks/01924236-8681-7284-9d45-7b2348fdea0f/detail",
+            "id": "01924236-8681-7284-9d45-7b2348fdea0f"
+        },
+        "version": "1.0"
+    },
+    "Task_Details1_force_provision": {
+        "response": {
+            "endTime": 1727687749893,
+            "lastUpdate": 1727687734210,
+            "status": "SUCCESS",
+            "startTime": 1727687722625,
+            "version": 1727687749893,
+            "resultLocation": "/dna/intent/api/v1/tasks/01924236-8681-7284-9d45-7b2348fdea0f/detail",
+            "id": "01924236-8681-7284-9d45-7b2348fdea0f"
+        },
+        "version": "1.0"
+    },
+    "provision_wired_device_force_provision": {
+        "status": "pending",
+        "description": "API execution is in progress.",
+        "taskId": "019241c0-d48a-7742-b943-c3f3fa76873e",
+        "taskStatusUrl": "/dna/intent/api/v1/task/019241c0-d48a-7742-b943-c3f3fa76873e",
+        "executionStatusUrl": "/dna/intent/api/v1/dnacaap/management/execution-status/cf86e078-8120-4924-b0a5-4e80cbd7dfef",
+        "executionId": "cf86e078-8120-4924-b0a5-4e80cbd7dfef"
+    },
+    "get_task_by_id_force_provision": {
+        "response": {
+            "version": 1727680013762,
+            "progress": "TASK_PROVISION",
+            "startTime": 1727680009354,
+            "data": "workflow_id=1a2976b4-3d2c-4a5c-b5a9-8ba241a5f2e9;cfs_id=bde1c9d8-ece9-48e4-a132-3847e6adbad5;rollback_status=not_supported;rollback_taskid=0;failure_task=NA;processcfs_complete=true",
+            "lastUpdate": 1727680013762,
+            "serviceType": "NCSP",
+            "isError": false,
+            "instanceTenantId": "66e48af26fe687300375675e",
+            "id": "019241c0-d48a-7742-b943-c3f3fa76873e"
+        },
+        "version": "1.0"
+    },
+    "response_force_provision": {
+        "message": "Provision done Successfully"
+    },
+    "playbook_wireless_provision": [
+        {
+            "managed_ap_locations": [
+                "Global/Chennai/LTTS/FLOOR1"
+            ],
+            "management_ip_address": "204.192.6.200",
+            "site_name_hierarchy": "Global/Chennai/LTTS"
+        }
+    ],
+    "get_network_device_by_ip_wp": {
+        "response": {
+            "memorySize": "NA",
+            "family": "Wireless Controller",
+            "description": "Cisco IOS Software [Dublin], C9800 Software (C9800_IOSXE-K9), Version 17.14.1, RELEASE SOFTWARE (fc1) Technical Support: http://www.cisco.com/techsupport Copyright (c) 1986-2024 by Cisco Systems, Inc. Compiled Fri 05-Apr-24 00:11 by mcpre netconf enabled",
+            "lastUpdateTime": 1728384388329,
+            "macAddress": "cc:b6:c8:e2:29:0b",
+            "deviceSupportLevel": "Supported",
+            "softwareType": "IOS-XE",
+            "softwareVersion": "17.14.1",
+            "serialNumber": "FOX2639PAY7",
+            "collectionInterval": "Global Default",
+            "dnsResolvedManagementAddress": "204.192.6.200",
+            "lastManagedResyncReasons": "Config Change Event",
+            "managementState": "Managed",
+            "pendingSyncRequestsCount": "0",
+            "reasonsForDeviceResync": "Config Change Event",
+            "reasonsForPendingSyncRequests": "",
+            "syncRequestedByApp": "",
+            "inventoryStatusDetail": "<status><general code='SUCCESS'/></status>",
+            "upTime": "78 days, 10:31:29.67",
+            "roleSource": "AUTO",
+            "interfaceCount": "0",
+            "bootDateTime": "2024-07-22 00:15:28",
+            "reachabilityFailureReason": "",
+            "reachabilityStatus": "Reachable",
+            "series": "Cisco Catalyst 9800 Series Wireless Controllers",
+            "snmpContact": "",
+            "snmpLocation": "",
+            "apManagerInterfaceIp": "",
+            "collectionStatus": "Managed",
+            "hostname": "NY-IAC-EWLC.cisco.com",
+            "locationName": null,
+            "managementIpAddress": "204.192.6.200",
+            "platformId": "C9800-40-K9",
+            "lastUpdated": "2024-10-08 10:46:28",
+            "associatedWlcIp": "",
+            "apEthernetMacAddress": null,
+            "errorCode": null,
+            "errorDescription": null,
+            "lastDeviceResyncStartTime": "2024-10-08 10:46:25",
+            "lineCardCount": "0",
+            "lineCardId": "",
+            "managedAtleastOnce": true,
+            "tagCount": "0",
+            "tunnelUdpPort": null,
+            "uptimeSeconds": 6778186,
+            "vendor": "Cisco",
+            "waasDeviceMode": null,
+            "type": "Cisco Catalyst 9800-40 Wireless Controller",
+            "location": null,
+            "role": "ACCESS",
+            "instanceTenantId": "66e48af26fe687300375675e",
+            "instanceUuid": "71197925-1982-46d4-b569-e4cbbe8f06e7",
+            "id": "71197925-1982-46d4-b569-e4cbbe8f06e7"
+        },
+        "version": "1.0"
+    },
+    "get_site_type_wp": {
+        "response": [
+            {
+                "parentId": "c3293908-c136-45b9-b74f-d5dfaabb26a9",
+                "additionalInfo": [
+                    {
+                        "nameSpace": "Location",
+                        "attributes": {
+                            "address": "164692, Ценогора, Arkhangelsk, Russia",
+                            "addressInheritedFrom": "c3293908-c136-45b9-b74f-d5dfaabb26a9",
+                            "type": "floor"
+                        }
+                    },
+                    {
+                        "nameSpace": "UMBRELLA",
+                        "attributes": {
+                            "umbrellaReady": "true",
+                            "member.umbrellaNotReady.direct": "0",
+                            "member.umbrellaReady.direct": "1",
+                            "member.umbrellaReadyNotEnabled.direct": "1",
+                            "member.umbrellaEnabled.direct": "0"
+                        }
+                    },
+                    {
+                        "nameSpace": "mapGeometry",
+                        "attributes": {
+                            "offsetX": "0.0",
+                            "offsetY": "0.0",
+                            "length": "100.0",
+                            "width": "100.0",
+                            "height": "10.0"
+                        }
+                    },
+                    {
+                        "nameSpace": "mapsSummary",
+                        "attributes": {
+                            "rfModel": "106106",
+                            "floorIndex": "1"
+                        }
+                    }
+                ],
+                "name": "FLOOR1",
+                "instanceTenantId": "66e48af26fe687300375675e",
+                "id": "03072c33-bd11-4914-9c0e-3c53379b2813",
+                "siteHierarchy": "50f15f14-4c73-47a7-9dc3-cb10eb9508bd/b0292a67-36ff-49ad-9135-5e79b056019e/c3293908-c136-45b9-b74f-d5dfaabb26a9/03072c33-bd11-4914-9c0e-3c53379b2813",
+                "siteNameHierarchy": "Global/Chennai/LTTS/FLOOR1"
+            }
+        ]
+    },
+    "get_network_device_by_ip1_wp": {
+        "response": {
+            "memorySize": "NA",
+            "family": "Wireless Controller",
+            "description": "Cisco IOS Software [Dublin], C9800 Software (C9800_IOSXE-K9), Version 17.14.1, RELEASE SOFTWARE (fc1) Technical Support: http://www.cisco.com/techsupport Copyright (c) 1986-2024 by Cisco Systems, Inc. Compiled Fri 05-Apr-24 00:11 by mcpre netconf enabled",
+            "lastUpdateTime": 1728384388329,
+            "macAddress": "cc:b6:c8:e2:29:0b",
+            "deviceSupportLevel": "Supported",
+            "softwareType": "IOS-XE",
+            "softwareVersion": "17.14.1",
+            "serialNumber": "FOX2639PAY7",
+            "collectionInterval": "Global Default",
+            "dnsResolvedManagementAddress": "204.192.6.200",
+            "lastManagedResyncReasons": "Config Change Event",
+            "managementState": "Managed",
+            "pendingSyncRequestsCount": "0",
+            "reasonsForDeviceResync": "Config Change Event",
+            "reasonsForPendingSyncRequests": "",
+            "syncRequestedByApp": "",
+            "inventoryStatusDetail": "<status><general code='SUCCESS'/></status>",
+            "upTime": "78 days, 10:31:29.67",
+            "roleSource": "AUTO",
+            "interfaceCount": "0",
+            "bootDateTime": "2024-07-22 00:15:28",
+            "reachabilityFailureReason": "",
+            "reachabilityStatus": "Reachable",
+            "series": "Cisco Catalyst 9800 Series Wireless Controllers",
+            "snmpContact": "",
+            "snmpLocation": "",
+            "apManagerInterfaceIp": "",
+            "collectionStatus": "Managed",
+            "hostname": "NY-IAC-EWLC.cisco.com",
+            "locationName": null,
+            "managementIpAddress": "204.192.6.200",
+            "platformId": "C9800-40-K9",
+            "lastUpdated": "2024-10-08 10:46:28",
+            "associatedWlcIp": "",
+            "apEthernetMacAddress": null,
+            "errorCode": null,
+            "errorDescription": null,
+            "lastDeviceResyncStartTime": "2024-10-08 10:46:25",
+            "lineCardCount": "0",
+            "lineCardId": "",
+            "managedAtleastOnce": true,
+            "tagCount": "0",
+            "tunnelUdpPort": null,
+            "uptimeSeconds": 6778187,
+            "vendor": "Cisco",
+            "waasDeviceMode": null,
+            "type": "Cisco Catalyst 9800-40 Wireless Controller",
+            "location": null,
+            "role": "ACCESS",
+            "instanceTenantId": "66e48af26fe687300375675e",
+            "instanceUuid": "71197925-1982-46d4-b569-e4cbbe8f06e7",
+            "id": "71197925-1982-46d4-b569-e4cbbe8f06e7"
+        },
+        "version": "1.0"
+    },
+    "get_business_api_execution_details_wp": {
+        "bapiKey": "d09b-08a3-447a-a3b9",
+        "bapiName": "Provision",
+        "bapiExecutionId": "4a9a518e-d6fb-421d-93ad-304910d810c6",
+        "startTime": "Tue Oct 08 11:05:15 UTC 2024",
+        "startTimeEpoch": 1728385515486,
+        "endTime": "Tue Oct 08 11:05:18 UTC 2024",
+        "endTimeEpoch": 1728385518953,
+        "timeDuration": 3467,
+        "status": "FAILURE",
+        "bapiError": "Device was already provisioned , please use provision update API to reprovision the device",
+        "runtimeInstanceId": "DNACP_Runtime_58bbc851-670e-4896-8aa7-2803f88ec793"
+    },
+    "provision_update_wp": {
+        "executionId": "35d9554d-0b2b-4caa-bd6d-47e6720426f5",
+        "executionStatusUrl": "/dna/platform/management/business-api/v1/execution-status/35d9554d-0b2b-4caa-bd6d-47e6720426f5",
+        "message": "The request has been accepted for execution"
+    },
+    "get_business_api_execution_details1_wp": {
+        "bapiKey": "87a5-ab04-4139-862d",
+        "bapiName": "Provision update",
+        "bapiExecutionId": "35d9554d-0b2b-4caa-bd6d-47e6720426f5",
+        "startTime": "Tue Oct 08 11:05:19 UTC 2024",
+        "startTimeEpoch": 1728385519581,
+        "endTime": "Tue Oct 08 11:06:38 UTC 2024",
+        "endTimeEpoch": 1728385598779,
+        "timeDuration": 79198,
+        "status": "SUCCESS",
+        "bapiSyncResponse": {
+            "executionId": "35d9554d-0b2b-4caa-bd6d-47e6720426f5",
+            "executionUrl": "/dna/platform/management/business-api/v1/execution-status/35d9554d-0b2b-4caa-bd6d-47e6720426f5",
+            "provisioningTasks": {
+                "SUCCESS": [
+                    {
+                        "taskId": "01926bce-2afa-7103-a3ce-e719dea6a053",
+                        "taskUrl": "/api/v1/task/01926bce-2afa-7103-a3ce-e719dea6a053"
+                    }
+                ]
+            }
+        },
+        "runtimeInstanceId": "DNACP_Runtime_58bbc851-670e-4896-8aa7-2803f88ec793"
+    },
+    "get_network_device_by_ip3_wp": {
+        "response": {
+            "memorySize": "NA",
+            "family": "Wireless Controller",
+            "description": "Cisco IOS Software [Dublin], C9800 Software (C9800_IOSXE-K9), Version 17.14.1, RELEASE SOFTWARE (fc1) Technical Support: http://www.cisco.com/techsupport Copyright (c) 1986-2024 by Cisco Systems, Inc. Compiled Fri 05-Apr-24 00:11 by mcpre netconf enabled",
+            "lastUpdateTime": 1728384388329,
+            "macAddress": "cc:b6:c8:e2:29:0b",
+            "deviceSupportLevel": "Supported",
+            "softwareType": "IOS-XE",
+            "softwareVersion": "17.14.1",
+            "serialNumber": "FOX2639PAY7",
+            "collectionInterval": "Global Default",
+            "dnsResolvedManagementAddress": "204.192.6.200",
+            "lastManagedResyncReasons": "Config Change Event",
+            "managementState": "Managed",
+            "pendingSyncRequestsCount": "0",
+            "reasonsForDeviceResync": "Config Change Event",
+            "reasonsForPendingSyncRequests": "",
+            "syncRequestedByApp": "",
+            "inventoryStatusDetail": "<status><general code='SUCCESS'/></status>",
+            "upTime": "78 days, 10:31:29.67",
+            "roleSource": "AUTO",
+            "interfaceCount": "0",
+            "bootDateTime": "2024-07-22 00:15:28",
+            "reachabilityFailureReason": "",
+            "reachabilityStatus": "Reachable",
+            "series": "Cisco Catalyst 9800 Series Wireless Controllers",
+            "snmpContact": "",
+            "snmpLocation": "",
+            "apManagerInterfaceIp": "",
+            "collectionStatus": "Managed",
+            "hostname": "NY-IAC-EWLC.cisco.com",
+            "locationName": null,
+            "managementIpAddress": "204.192.6.200",
+            "platformId": "C9800-40-K9",
+            "lastUpdated": "2024-10-08 10:46:28",
+            "associatedWlcIp": "",
+            "apEthernetMacAddress": null,
+            "errorCode": null,
+            "errorDescription": null,
+            "lastDeviceResyncStartTime": "2024-10-08 10:46:25",
+            "lineCardCount": "0",
+            "lineCardId": "",
+            "managedAtleastOnce": true,
+            "tagCount": "0",
+            "tunnelUdpPort": null,
+            "uptimeSeconds": 6778272,
+            "vendor": "Cisco",
+            "waasDeviceMode": null,
+            "type": "Cisco Catalyst 9800-40 Wireless Controller",
+            "location": null,
+            "role": "ACCESS",
+            "instanceTenantId": "66e48af26fe687300375675e",
+            "instanceUuid": "71197925-1982-46d4-b569-e4cbbe8f06e7",
+            "id": "71197925-1982-46d4-b569-e4cbbe8f06e7"
+        },
+        "version": "1.0"
+    },
+    "wireless_provision_response_wp": "Wireless device provisioned successfully"
+}

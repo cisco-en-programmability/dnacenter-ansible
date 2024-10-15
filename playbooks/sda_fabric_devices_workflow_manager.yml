@@ -5,7 +5,7 @@
   connection: local
   tasks:
     - name: Add the SDA fabric device as BORDER and CONTROL node and do L2 and L3 handoff.
-      cisco.dnac.fabric_devices_workflow_manager:
+      cisco.dnac.sda_fabric_devices_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"
@@ -54,7 +54,7 @@
                     external_vlan_id: 444
 
     - name: Delete the SDA fabric device and remove L2 and L3 handoff configurations
-      cisco.dnac.fabric_devices_workflow_manager:
+      cisco.dnac.sda_fabric_devices_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"
