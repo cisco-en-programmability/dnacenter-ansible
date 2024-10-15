@@ -265,7 +265,7 @@ EXAMPLES = r"""
           parent_name: Global/India/Building_1
       site_type: floor
 
-- name: Creating bulk sites
+- name: Create bulk sites and upload floor map
   cisco.dnac.site_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -301,6 +301,7 @@ EXAMPLES = r"""
               rf_model: 'Cubes And Walled Offices'
               floor_number: 3
               units_of_measure: 'feet'
+              upload_floor_image_path: "/Users/skesali/Downloads/pngegg.png"  
         bulk_operation: true
 """
 
