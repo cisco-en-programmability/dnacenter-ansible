@@ -11,7 +11,7 @@ __author__ = ("Abhishek Maheshwari, Madhan Sankaranarayanan")
 
 DOCUMENTATION = r"""
 ---
-module: fabric_sites_zones_workflow_manager
+module: sda_fabric_sites_zones_workflow_manager
 short_description: Manage fabric site(s)/zone(s) and update the authentication profile template in Cisco Catalyst Center.
 description:
 - Creating fabric site(s) for the SDA operation in Cisco Catalyst Center.
@@ -133,7 +133,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Create a fabric site for SDA with the specified name.
-  cisco.dnac.fabric_sites_zones_workflow_manager:
+  cisco.dnac.sda_fabric_sites_zones_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -151,7 +151,7 @@ EXAMPLES = r"""
           is_pub_sub_enabled: False
 
 - name: Update a fabric site for SDA with the specified name.
-  cisco.dnac.fabric_sites_zones_workflow_manager:
+  cisco.dnac.sda_fabric_sites_zones_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -168,7 +168,7 @@ EXAMPLES = r"""
           authentication_profile: "Open Authentication"
 
 - name: Update a fabric zone for SDA with the specified name.
-  cisco.dnac.fabric_sites_zones_workflow_manager:
+  cisco.dnac.sda_fabric_sites_zones_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -186,7 +186,7 @@ EXAMPLES = r"""
           authentication_profile: "Closed Authentication"
 
 - name: Update fabric zone for sda with given name.
-  cisco.dnac.fabric_sites_zones_workflow_manager:
+  cisco.dnac.sda_fabric_sites_zones_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -204,7 +204,7 @@ EXAMPLES = r"""
           authentication_profile: "Open Authentication"
 
 - name: Update/customise authentication profile template for fabric site/zone.
-  cisco.dnac.fabric_sites_zones_workflow_manager:
+  cisco.dnac.sda_fabric_sites_zones_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -228,7 +228,7 @@ EXAMPLES = r"""
             number_of_hosts: "Single"
 
 - name: Deleting/removing fabric site from sda from Cisco Catalyst Center
-  cisco.dnac.fabric_sites_zones_workflow_manager:
+  cisco.dnac.sda_fabric_sites_zones_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -244,7 +244,7 @@ EXAMPLES = r"""
           site_name: "Global/Test_SDA/Bld1"
 
 - name: Deleting/removing fabric zone from sda from Cisco Catalyst Center
-  cisco.dnac.fabric_sites_zones_workflow_manager:
+  cisco.dnac.sda_fabric_sites_zones_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -287,7 +287,7 @@ import time
 
 
 class FabricSitesZones(DnacBase):
-    """Class containing member attributes for fabric sites and zones workflow manager module"""
+    """Class containing member attributes for sda fabric sites and zones workflow manager module"""
 
     def __init__(self, module):
         super().__init__(module)
