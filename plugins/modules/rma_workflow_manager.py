@@ -1101,7 +1101,6 @@ class DeviceReplacement(DnacBase):
             time.sleep(ccc_poll_interval)
             timeout_interval -= ccc_poll_interval
 
-
     def update_rma_profile_messages(self):
         """
         Updates and logs messages based on the status of RMA device replacements.
