@@ -1086,20 +1086,21 @@ class DeviceReplacement(DnacBase):
         while timeout_interval > 0:
             task_details = self.get_task_details(task_id)
 
-            if 'response' in task_details and 'progress' in task_details['response']:
-                task_details['response']['progress'] = task_details['response']['progress'].lower()
-
-            if task_details.get("isError"):
-                error_message = task_details.get("failureReason", "{0}: Task failed.".format(error_prefix))
+            if task_details.get('response', {}).get("isError"):
+                error_message = task_details['response'].get("failureReason", "{0}: Task failed.".format(error_prefix))
                 self.log(error_message, "ERROR")
                 return {"status": "failed", "msg": error_message}
 
-            if 'successful' in task_details.get("progress", ""):
-                self.log(success_message, "INFO")
-                return {"status": "success", "msg": task_details.get("progress")}
+            if 'response' in task_details and 'progress' in task_details['response']:
+                progress = task_details['response']['progress'].lower()
+
+                if 'successful' in progress:
+                    self.log(success_message, "INFO")
+                    return {"status": "success", "msg": progress}
 
             time.sleep(ccc_poll_interval)
             timeout_interval -= ccc_poll_interval
+
 
     def update_rma_profile_messages(self):
         """
