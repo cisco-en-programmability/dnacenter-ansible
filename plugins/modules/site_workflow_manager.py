@@ -1786,7 +1786,7 @@ class Site(DnacBase):
             self.log("File path extracted from config: {}".format(file_path), "DEBUG")
 
             if not os.path.exists(file_path):
-                raise ValueError(f"File path does not exist: {file_path}")
+                raise ValueError("File path does not exist: {}".format(file_path))
             self.log("File path exists: {}".format(file_path), "DEBUG")
 
             if file_path.lower().endswith('.png'):
@@ -1803,7 +1803,7 @@ class Site(DnacBase):
                 with open(file_path, "rb") as image_file:
                     file_content = image_file.read()
             except IOError as e:
-                raise IOError(f"Failed to read file at {file_path}: {str(e)}")
+                raise IOError("Failed to read file at {}: {}".format(file_path, str(e)))
 
             site_id = self.have.get("site_id")
             if not site_id:
@@ -1838,7 +1838,7 @@ class Site(DnacBase):
                 raise ValueError("DNAC version is below the required version for this function.")
 
         except Exception as e:
-            self.msg = f"An exception occurred: {str(e)}"
+            self.msg = "An exception occurred: {}".format(str(e))
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return None, None, None
 
