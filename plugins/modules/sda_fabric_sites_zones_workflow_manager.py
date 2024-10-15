@@ -287,7 +287,7 @@ import time
 
 
 class FabricSitesZones(DnacBase):
-    """Class containing member attributes for fabric sites and zones workflow manager module"""
+    """Class containing member attributes for sda fabric sites and zones workflow manager module"""
 
     def __init__(self, module):
         super().__init__(module)
