@@ -750,11 +750,15 @@ class IseRadiusIntegration(DnacBase):
             primary_fqdn (str): The fqdn value of the primary node of the ISE server.
         """
 
-        self.log("Getting the fully qualified name of the primary node of the ISE server...")
+        self.log(
+            "Getting the FQDN (Fully Qualified Domain Name) of the primary node of the ISE server. "
+            "Input parameters - cisco_ise_dtos: {cisco_ise_dtos}, ip_address: {ip_address}"
+            .format(cisco_ise_dtos=cisco_ise_dtos, ip_address=ip_address)
+        )
         primary_node_ise_details = get_dict_result(cisco_ise_dtos, "role", "PRIMARY")
         if not primary_node_ise_details:
             self.msg = (
-                "There is no details of the PRIMARY role node in the multi-node ISE environment {ip_address}"
+                "There are no details of the 'PRIMARY' role node in the multi-node ISE environment {ip_address}."
                 .format(ip_address=ip_address)
             )
             self.log(str(self.msg), "ERROR")
@@ -1042,29 +1046,52 @@ class IseRadiusIntegration(DnacBase):
 
                     fqdn = ise_credential.get("fqdn")
                     if not fqdn:
+                        self.log("FQDN is missing in the provided ISE credentials, proceeding to fetch it...", "DEBUG")
                         if not auth_server_exists:
                             self.msg = "The required parameter 'fqdn' is missing when 'server_type' is 'ISE'."
+                            self.log(str(self.msg), "ERROR")
                             self.status = "failed"
                             return self
 
+                        self.log(
+                            "Auth server exists; retrieving authentication and policy servers to obtain FQDN for IP '{0}'."
+                            .format(ip_address),
+                            "DEBUG"
+                        )
                         response = self.dnac._exec(
                             family="system_settings",
                             function='get_authentication_and_policy_servers',
                             params={"is_ise_enabled": True}
                         )
+                        self.log("Successfully retrieved authentication server response; processing Cisco ISE details.", "DEBUG")
                         response = response.get("response")
                         if response is None:
                             self.msg = (
-                                "Failed to retrieve the information from the API 'get_authentication_and_policy_servers' of {0}."
+                                "Failed to retrieve information from 'get_authentication_and_policy_servers' for IP '{0}'."
                                 .format(ip_address)
                             )
+                            self.log(str(self.msg), "ERROR")
                             self.status = "failed"
                             return self
 
                         cisco_ise_dtos = response[0].get("ciscoIseDtos")
+                        if not cisco_ise_dtos:
+                            self.msg = "No Cisco ISE details available for IP '{0}'.".format(ip_address)
+                            self.status = "failed"
+                            self.log(str(self.msg), "ERROR")
+                            return self
+
+                        self.log("Cisco ISE details found; retrieving FQDN of primary node...", "DEBUG")
                         fqdn = self.get_primary_ise_fqdn(cisco_ise_dtos, ip_address)
+                        self.log("Updating authentication server details with FQDN...", "DEBUG")
+                        self.log(
+                            "Retrieved FQDN for primary ISE node with IP '{ip}': {fqdn}"
+                            .format(ip=ip_address, fqdn=fqdn),
+                            "INFO"
+                        )
 
                     auth_server.get("ciscoIseDtos")[position_ise_creds].update({"fqdn": fqdn})
+                    self.log("Authentication server details successfully updated with FQDN.", "INFO")
 
                     if not auth_server_exists:
                         auth_server.get("ciscoIseDtos")[position_ise_creds].update({
