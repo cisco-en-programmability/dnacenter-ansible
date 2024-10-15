@@ -1280,7 +1280,7 @@ class NetworkSettings(DnacBase):
         try:
             aaa_network_response = self.dnac._exec(
                 family="network_settings",
-                function='retrieve_a_a_a_settings_for_a_site',
+                function='retrieve_aaa_settings_for_a_site',
                 op_modifies=False,
                 params={"id": site_id}
             )
@@ -2781,7 +2781,7 @@ class NetworkSettings(DnacBase):
                                 "enableWiredDataCollection": False
                             })
                     else:
-                        want_network_settings.get("wiredDataCollection").update({
+                        want_network_settings.get("wired_data_collection").update({
                             "enableWiredDataCollection": False
                         })
 
@@ -3480,7 +3480,7 @@ class NetworkSettings(DnacBase):
         try:
             response = self.dnac._exec(
                 family="network_settings",
-                function='set_a_a_a_settings_for_a_site',
+                function='set_aaa_settings_for_a_site',
                 op_modifies=True,
                 params=param,
             )

@@ -1015,3 +1015,24 @@ releases:
         - network_settings_workflow_manager.py: added attributes 'wired_data_collection', 'wireless_telemetry', and 'netflow_collector'.
         - provision_workflow_manager.py: added attribute 'force_provisioning'.
         - accesspoint_workflow_manager.py: added attribute 'reboot_aps'.
+  6.21.0:
+    release_date: "2024-10-14"
+    changes:
+      release_summary: Code changes in workflow manager modules.
+      minor_changes:
+        - Added 'lan_automation_workflow_manager' to automate network discovery, deployment, and device configuration with LAN Automation.
+        - Added 'sda_fabric_devices_workflow_manager' to manage SDA fabric devices.
+        - Added 'sda_extranet_policies_workflow_manager' to manage SDA Extranet Policies.
+        - Added 'sda_fabric_virtual_networks_workflow_manager' to configure fabric VLANs, Virtual Networks, and Anycast Gateways.
+        - Added 'sda_host_port_onboarding_workflow_manager' to manage host port onboarding in SD-Access Fabric.
+        - Enhancements in swim_workflow_manager module.
+        - Changes in user_role_workflow_manager module.
+        - Changes in device_credential_workflow_manager module.
+        - Changes in accesspoint_workflow_manager module.
+        - Changes in events_and_notifications_workflow_manager module.
+        - Changes in sda_fabric_transits_workflow_manager module.
+        - Changes in inventory_workflow_manager module.
+        - Changes in ise_radius_integration_workflow_manager module.
+        - Enhancements in network_settings_workflow_manager module.
+        - Changes in dnac.py to support common APIs
+        - device_credential_workflow_manager.py: added attribute 'apply_credentials_to_site'.
