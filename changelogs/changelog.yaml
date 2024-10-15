@@ -1036,3 +1036,4 @@ releases:
         - Enhancements in network_settings_workflow_manager module.
         - Changes in dnac.py to support common APIs
         - device_credential_workflow_manager.py: added attribute 'apply_credentials_to_site'.
+        - accesspoint_workflow_manager.py: added attribute 'factory_reset_aps'.
