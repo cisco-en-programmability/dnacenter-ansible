@@ -301,7 +301,7 @@ EXAMPLES = r"""
               rf_model: 'Cubes And Walled Offices'
               floor_number: 3
               units_of_measure: 'feet'
-              upload_floor_image_path: "/Users/skesali/Downloads/pngegg.png"  
+              upload_floor_image_path: "/Users/skesali/Downloads/pngegg.png"
         bulk_operation: true
 """
 
