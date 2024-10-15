@@ -1086,6 +1086,9 @@ class DeviceReplacement(DnacBase):
         while timeout_interval > 0:
             task_details = self.get_task_details(task_id)
 
+            if 'response' in task_details and 'progress' in task_details['response']:
+                task_details['response']['progress'] = task_details['response']['progress'].lower()
+
             if task_details.get("isError"):
                 error_message = task_details.get("failureReason", "{0}: Task failed.".format(error_prefix))
                 self.log(error_message, "ERROR")
