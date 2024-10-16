@@ -2340,7 +2340,7 @@ class NetworkSettings(DnacBase):
                 if pool_values.get("ipv4TotalHost") is None:
                     del pool_values['ipv4TotalHost']
                 if pool_values.get("ipv6AddressSpace") is True:
-                    pool_values.update({"ipv6Prefix": True})
+                    pool_values.update({"ipv6AddressSpace": True})
                 else:
                     del pool_values['ipv6Prefix']
 
