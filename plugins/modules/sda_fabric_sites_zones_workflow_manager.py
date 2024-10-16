@@ -649,43 +649,6 @@ class FabricSitesZones(DnacBase):
             success_msg = "Fabric site '{0}' created successfully in the Cisco Catalyst Center".format(site_name)
             self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
             self.create_site.append(site_name)
-            # response = self.dnac._exec(
-            #     family="sda",
-            #     function='add_fabric_site',
-            #     op_modifies=True,
-            #     params={'payload': fabric_site_payload}
-            # )
-            # self.log("Received API response from 'add_fabric_site' for the site {0}: {1}".format(site_name, str(response)), "DEBUG")
-            # response = response.get("response")
-
-            # if not response:
-            #     self.status = "failed"
-            #     self.msg = "No response received from 'add_fabric_site' API, task ID not retrieved."
-            #     self.log(self.msg, "ERROR")
-            #     return self
-
-            # task_id = response.get("taskId")
-
-            # while True:
-            #     task_details = self.get_task_details(task_id)
-
-            #     if task_details.get("isError"):
-            #         self.status = "failed"
-            #         failure_reason = task_details.get("failureReason")
-            #         if failure_reason:
-            #             self.msg = "Failed to create the Fabric site '{0}' due to {1}.".format(site_name, failure_reason)
-            #         else:
-            #             self.msg = "Failed to create the Fabric site '{0}'.".format(site_name)
-            #         self.log(self.msg, "ERROR")
-            #         self.result['response'] = self.msg
-            #         break
-            #     elif task_details.get("endTime") and "workflow_id" in task_details.get("data"):
-            #         self.status = "success"
-            #         self.create_site.append(site_name)
-            #         self.log("Fabric site '{0}' created successfully in the Cisco Catalyst Center".format(site_name), "INFO")
-            #         break
-
-            #     time.sleep(1)
 
         except Exception as e:
             self.msg = "An exception occured while creating the fabric site '{0}' in Cisco Catalyst Center: {1}".format(site_name, str(e))
@@ -857,42 +820,6 @@ class FabricSitesZones(DnacBase):
             self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
             self.create_zone.append(site_name)
 
-            # response = self.dnac._exec(
-            #     family="sda",
-            #     function='add_fabric_zone',
-            #     op_modifies=True,
-            #     params={'payload': fabric_zone_payload}
-            # )
-            # self.log("Received API response from 'add_fabric_zone' for the site {0}: {1}".format(site_name, str(response)), "DEBUG")
-            # response = response.get("response")
-
-            # if not response:
-            #     self.status = "failed"
-            #     self.msg = "Unable to fetch the task Id for the creation of fabric zone as the 'add_fabric_zone' response is empty."
-            #     self.log(self.msg, "ERROR")
-            #     return self
-
-            # task_id = response.get("taskId")
-
-            # while True:
-            #     task_details = self.get_task_details(task_id)
-
-            #     if task_details.get("isError"):
-            #         self.status = "failed"
-            #         failure_reason = task_details.get("failureReason")
-            #         if failure_reason:
-            #             self.msg = "Unable to create the Fabric zone '{0}' because of {1}.".format(site_name, failure_reason)
-            #         else:
-            #             self.msg = "Unable to create the Fabric zone '{0}'.".format(site_name)
-            #         self.log(self.msg, "ERROR")
-            #         self.result['response'] = self.msg
-            #         break
-            #     elif task_details.get("endTime") and "workflow_id" in task_details.get("data"):
-            #         self.status = "success"
-            #         self.create_zone.append(site_name)
-            #         self.log("Fabric zone '{0}' created successfully in the Cisco Catalyst Center.".format(site_name), "INFO")
-            #         break
-            #     time.sleep(1)
         except Exception as e:
             self.msg = "An exception occured while creating the fabric zone '{0}' in Cisco Catalyst Center: {1}".format(site_name, str(e))
             self.set_operation_result("failed", False, self.msg, "ERROR")
