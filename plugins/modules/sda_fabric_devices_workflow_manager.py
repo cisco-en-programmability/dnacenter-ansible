@@ -2191,6 +2191,72 @@ class FabricDevices(DnacBase):
         self.status = "success"
         return self
 
+    def validate_local_autonomous_system_number(self, local_autonomous_system_number, device_ip):
+        """
+        Validate the local autonomous system number for the border settings.
+        Set the status and the msg before returning from the API
+        Check the return value of the API with check_return_status()
+
+        Parameters:
+            local_autonomous_system_number (str): Local Autonomous System number of the border device.
+            device_ip (str): The IP address of the network device.
+        Description:
+            The Local Autonomous System number can of two format. One is from 1 to 4294967295.
+            The other one can be of dot format. from 1.0 to 65535.65535.
+            Find '.' is in the 'local_autonomous_system_number'. If yes split it into two part
+            and check if the left part is between 1 to 65535 and the right part is from
+            0 to 65535. If the '.' is not present in the 'local_autonomous_system_number',
+            check if the value is between 1 to 4294967295.
+        """
+
+        try:
+            str_asn = str(local_autonomous_system_number)
+            if "." in str_asn:
+
+                # Split the input into two parts
+                parts = str_asn.split(".")
+                if len(parts) == 2:
+                    first_part = int(parts[0])
+                    second_part = int(parts[1])
+
+                    # Validate the range for both parts
+                    if 1 <= first_part <= 65535 and 0 <= second_part <= 65535:
+                        self.log("Input is valid in the format 1.0 to 65535.65535", "INFO")
+                    else:
+                        self.msg = (
+                            "The 'local_autonomous_system_number' should be in the range '1.0' to '65535.65535' for the device '{ip}'."
+                            .format(ip=device_ip)
+                        )
+                        self.status = "failed"
+                        return self.check_return_status()
+                else:
+                    self.msg = (
+                        "The 'local_autonomous_system_number' should contain one '.' and two numeric parts for the device '{ip}'."
+                        .format(ip=device_ip)
+                    )
+                    self.status = "failed"
+                    return self.check_return_status()
+            else:
+                local_autonomous_system_number = int(local_autonomous_system_number)
+                if not 1 <= local_autonomous_system_number <= 4294967295:
+                    self.msg = (
+                        "The 'local_autonomous_system_number' should be from 1 to 4294967295 for the device '{ip}'."
+                        .format(ip=device_ip)
+                    )
+                    self.status = "failed"
+                    return self.check_return_status()
+
+        except ValueError:
+            self.msg = (
+                "The 'local_autonomous_system_number' should contain only digits 0-9 for the device '{ip}'."
+                .format(ip=device_ip)
+            )
+            self.status = "failed"
+            return self.check_return_status()
+
+        self.log("The 'local_autonomous_system_number' is successfully validated.")
+        return
+        
     def get_device_params(self, fabric_id, network_id, device_details, config_index):
         """
         Get the SDA fabric devices detail along with the border
@@ -2350,7 +2416,7 @@ class FabricDevices(DnacBase):
 
             local_autonomous_system_number = layer3_settings.get("local_autonomous_system_number")
             self.log("Local AS number: {asn_number}".format(asn_number=local_autonomous_system_number), "DEBUG")
-            if not local_autonomous_system_number:
+            if local_autonomous_system_number is None:
                 if have_layer3_settings:
                     local_autonomous_system_number = have_layer3_settings.get("localAutonomousSystemNumber")
                 else:
@@ -2361,51 +2427,7 @@ class FabricDevices(DnacBase):
                     self.status = "failed"
                     return self.check_return_status()
 
-            try:
-                if "." in str(local_autonomous_system_number):
-
-                    # Split the input into two parts
-                    parts = str(local_autonomous_system_number).split(".")
-                    if len(parts) == 2:
-                        first_part = int(parts[0])
-                        second_part = int(parts[1])
-
-                        # Validate the range for both parts
-                        if 1 <= first_part <= 65535 and 0 <= second_part <= 65535:
-                            self.log("Input is valid in the format 1.0 to 65535.65535", "INFO")
-                            pass
-                        else:
-                            self.msg = (
-                                "The 'local_autonomous_system_number' should be in the range '1.0' to '65535.65535' for the device '{ip}'."
-                                .format(ip=device_ip)
-                            )
-                            self.status = "failed"
-                            return self.check_return_status()
-                    else:
-                        self.msg = (
-                            "The 'local_autonomous_system_number' should contain one '.' and two numeric parts for the device '{ip}'."
-                            .format(ip=device_ip)
-                        )
-                        self.status = "failed"
-                        return self.check_return_status()
-                else:
-                    local_autonomous_system_number = int(local_autonomous_system_number)
-                    if not 1 <= local_autonomous_system_number <= 4294967295:
-                        self.msg = (
-                            "The 'local_autonomous_system_number' should be from 1 to 4294967295 for the device '{ip}'."
-                            .format(ip=device_ip)
-                        )
-                        self.status = "failed"
-                        return self.check_return_status()
-
-            except ValueError:
-                self.msg = (
-                    "The 'local_autonomous_system_number' should contain only digits 0-9 for the device '{ip}'."
-                    .format(ip=device_ip)
-                )
-                self.status = "failed"
-                return self.check_return_status()
-
+            self.validate_local_autonomous_system_number(local_autonomous_system_number, device_ip)
             self.log(
                 "Successfully validated 'local_autonomous_system_number': {asn_number}"
                 .format(asn_number=local_autonomous_system_number), "DEBUG"
