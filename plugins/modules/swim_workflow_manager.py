@@ -670,9 +670,11 @@ class Swim(DnacBase):
             image_id = image_list[0].get("imageUuid")
             self.log("SWIM image '{0}' has the ID: {1}".format(name, image_id), "INFO")
         else:
-            error_message = "SWIM image '{0}' could not be found".format(name)
-            self.log(error_message, "ERROR")
-            self.module.fail_json(msg=error_message, response=image_response)
+            self.msg = "SWIM image '{0}' could not be found".format(name)
+            self.log(self.msg, "ERROR")
+            self.status = "failed"
+            self.result['response'] = self.msg
+            self.check_return_status()
 
         return image_id
 
@@ -755,9 +757,11 @@ class Swim(DnacBase):
             image_name = image_list[0].get("name")
             self.log("SWIM image '{0}' has been fetched successfully from Cisco Catalyst Center".format(image_name), "INFO")
         else:
-            error_message = "SWIM image with Id '{0}' could not be found in Cisco Catalyst Center".format(image_id)
-            self.log(error_message, "ERROR")
-            self.module.fail_json(msg=error_message, response=image_response)
+            self.msg = "SWIM image with Id '{0}' could not be found in Cisco Catalyst Center".format(image_id)
+            self.log(self.msg, "ERROR")
+            self.status = "failed"
+            self.result['response'] = self.msg
+            self.check_return_status()
 
         return image_name
 
@@ -1259,6 +1263,7 @@ class Swim(DnacBase):
                 self.result['response'] = self.msg
                 self.result['msg'] = self.msg
                 self.log(self.msg, "WARNING")
+                self.result['response'] = self.msg
                 self.result['changed'] = False
                 return self
 
@@ -1371,6 +1376,7 @@ class Swim(DnacBase):
                             self.status = "success"
                             self.msg = "Swim Image(s) {0} imported successfully".format(images_to_import_str)
                             self.result['msg'] = self.msg
+                            self.result['response'] = self.msg
                             self.log(self.msg, "INFO")
                             break
 
@@ -1378,6 +1384,7 @@ class Swim(DnacBase):
                         if "already exists" in task_details.get("failureReason", ""):
                             self.msg = "SWIM Image {0} already exists in the Cisco Catalyst Center".format(image_name.split('/')[-1])
                             self.result['msg'] = self.msg
+                            self.result['response'] = self.msg
                             self.log(self.msg, "INFO")
                             self.status = "success"
                             self.result['changed'] = False
@@ -1471,6 +1478,7 @@ class Swim(DnacBase):
                 self.result['changed'] = False
                 self.msg = "SWIM Image '{0}' already tagged as Golden image in Cisco Catalyst Center".format(image_name)
                 self.result['msg'] = self.msg
+                self.result['response'] = self.msg
                 self.log(self.msg, "INFO")
                 return self
 
@@ -1478,6 +1486,7 @@ class Swim(DnacBase):
                 self.status = "success"
                 self.result['changed'] = False
                 self.msg = "SWIM Image '{0}' already un-tagged from Golden image in Cisco Catalyst Center".format(image_name)
+                self.result['response'] = self.msg
                 self.result['msg'] = self.msg
                 self.log(self.msg, "INFO")
                 return self
@@ -1695,6 +1704,7 @@ class Swim(DnacBase):
                         self.status = "success"
                         self.single_device_distribution = True
                         self.result['msg'] = "Image with Id {0} Distributed Successfully".format(image_id)
+                        self.result['response'] = self.msg
                         break
 
                     if task_details.get("isError"):
@@ -1761,6 +1771,7 @@ class Swim(DnacBase):
             self.log("For device(s) {0} image Distribution gets failed".format(str(device_ips_list)), "CRITICAL")
 
         self.result['msg'] = self.msg
+        self.result['response'] = self.msg
         self.log(self.msg, "INFO")
 
         return self
@@ -1822,6 +1833,7 @@ class Swim(DnacBase):
                         ("completed successfully" in task_details.get("progress")):
                     self.result['changed'] = True
                     self.result['msg'] = "Image Activated successfully"
+                    self.result['response'] = self.msg
                     self.status = "success"
                     self.single_device_activation = True
                     break
@@ -1841,6 +1853,7 @@ class Swim(DnacBase):
             self.status = "success"
             self.msg = "The SWIM image activation task could not proceed because no eligible devices were found."
             self.result['msg'] = self.msg
+            self.result['response'] = self.msg
             self.log(self.msg, "WARNING")
             return self
 
@@ -1895,6 +1908,7 @@ class Swim(DnacBase):
             self.log("Image activation failed for the following device(s): {0}".format(", ".join(device_ips_list)), "CRITICAL")
 
         self.result['msg'] = self.msg
+        self.result['response'] = self.msg
         self.log(self.msg, "INFO")
 
         return self
