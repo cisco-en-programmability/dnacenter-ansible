@@ -11,7 +11,7 @@ __author__ = ['Muthu Rakesh, Madhan Sankaranarayanan']
 
 DOCUMENTATION = r"""
 ---
-module: fabric_transits_workflow_manager
+module: sda_fabric_transits_workflow_manager
 short_description: Resource module for SDA fabric transits
 description:
 - Manage operations on SDA fabric transits.
@@ -132,7 +132,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Create SDA fabric transit of transit_type IP_BASED_TRANSIT
-  cisco.dnac.fabric_transits_workflow_manager:
+  cisco.dnac.sda_fabric_transits_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -153,7 +153,7 @@ EXAMPLES = r"""
         autonomous_system_number: 1234
 
 - name: Create SDA fabric transit of transit_type SDA_LISP_BGP_TRANSIT
-  cisco.dnac.fabric_transits_workflow_manager:
+  cisco.dnac.sda_fabric_transits_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -175,7 +175,7 @@ EXAMPLES = r"""
         - string
 
 - name: Create SDA fabric transit of transit_type SDA_LISP_PUB_SUB_TRANSIT
-  cisco.dnac.fabric_transits_workflow_manager:
+  cisco.dnac.sda_fabric_transits_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -200,7 +200,7 @@ EXAMPLES = r"""
         - string
 
 - name: Update SDA fabric transit of transit_type SDA_LISP_BGP_TRANSIT
-  cisco.dnac.fabric_transits_workflow_manager:
+  cisco.dnac.sda_fabric_transits_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -222,7 +222,7 @@ EXAMPLES = r"""
         - string
 
 - name: Update the multicast over transit
-  cisco.dnac.fabric_transits_workflow_manager:
+  cisco.dnac.sda_fabric_transits_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -242,7 +242,7 @@ EXAMPLES = r"""
         is_multicast_over_transit_enabled: true
 
 - name: Update the control plane network devices
-  cisco.dnac.fabric_transits_workflow_manager:
+  cisco.dnac.sda_fabric_transits_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -265,7 +265,7 @@ EXAMPLES = r"""
         - string
 
 - name: Delete SDA fabric transit
-  cisco.dnac.fabric_transits_workflow_manager:
+  cisco.dnac.sda_fabric_transits_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -338,7 +338,7 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
 
 
 class FabricTransit(DnacBase):
-    """Class containing member attributes for fabric_transits_workflow_manager module"""
+    """Class containing member attributes for sda_fabric_transits_workflow_manager module"""
 
     def __init__(self, module):
         super().__init__(module)
