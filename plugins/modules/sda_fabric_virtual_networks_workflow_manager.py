@@ -65,7 +65,7 @@ options:
             type: list
             elements: dict
             suboptions:
-              site_name:
+              site_name_hierarchy:
                 description: This name uniquely identifies the site for operations such as creating/updating/deleting any fabric
                     VLAN. This parameter is required, and updates to this field is not allowed.
                 type: str
@@ -108,7 +108,7 @@ options:
             type: list
             elements: dict
             suboptions:
-              site_name:
+              site_name_hierarchy:
                 description: This name uniquely identifies the site for operations such as creating/updating/deleting any layer3
                     virtual network.
                 type: str
@@ -143,7 +143,7 @@ options:
             type: dict
             required: True
             suboptions:
-              site_name:
+              site_name_hierarchy:
                 description: The hierarchical name of the site where the anycast gateway is deployed.
                 type: str
               fabric_type:
@@ -3506,11 +3506,12 @@ def main():
 
     # Initialize the Virtual Network object
     ccc_virtual_network = VirtualNetwork(module)
-    if ccc_virtual_network.get_ccc_version_as_integer() <= ccc_virtual_network.get_ccc_version_as_int_from_str("2.3.5.3"):
+    if ccc_virtual_network.compare_dnac_versions(ccc_virtual_network.get_ccc_version(), "2.3.7.6") < 0:
         ccc_virtual_network.msg = (
-            "The provided Catalyst Center Version {ccc_version} does not support this workflow. "
-            "This workflow support starts from Catalyst Center Release {supported_version} onwards."
-            .format(ccc_version=ccc_virtual_network.get_ccc_version_as_string(), supported_version="2.3.5.3")
+            "The specified version '{0}' does not support the SDA fabric devices feature. Supported versions start "
+            "  from '2.3.7.6' onwards. Version '2.3.7.6' introduces APIs for creating, updating and deleting the "
+            "Fabric VLAN, Virtual Networks and Anycast Gateways."
+            .format(ccc_virtual_network.get_ccc_version())
         )
         ccc_virtual_network.set_operation_result("failed", False, ccc_virtual_network.msg, "ERROR").check_return_status()
 

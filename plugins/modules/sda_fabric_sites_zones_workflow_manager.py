@@ -145,8 +145,8 @@ EXAMPLES = r"""
     dnac_log: False
     state: merged
     config:
-      - fabric sites:
-          site_name: "Global/Test_SDA/Bld1"
+      - fabric_sites:
+        - site_name: "Global/Test_SDA/Bld1"
           authentication_profile: "Closed Authentication"
           is_pub_sub_enabled: False
 
@@ -163,8 +163,8 @@ EXAMPLES = r"""
     dnac_log: False
     state: merged
     config:
-      - fabric sites:
-          site_name: "Global/Test_SDA/Bld1"
+      - fabric_sites:
+        - site_name: "Global/Test_SDA/Bld1"
           authentication_profile: "Open Authentication"
 
 - name: Update a fabric zone for SDA with the specified name.
@@ -180,8 +180,8 @@ EXAMPLES = r"""
     dnac_log: False
     state: merged
     config:
-      - fabric sites:
-          site_name: "Global/Test_SDA/Bld1/Floor1"
+      - fabric_sites:
+        - site_name: "Global/Test_SDA/Bld1/Floor1"
           fabric_type: "fabric_zone"
           authentication_profile: "Closed Authentication"
 
@@ -198,8 +198,8 @@ EXAMPLES = r"""
     dnac_log: False
     state: merged
     config:
-      - fabric sites:
-          site_name: "Global/Test_SDA/Bld1/Floor1"
+      - fabric_sites:
+        - site_name: "Global/Test_SDA/Bld1/Floor1"
           fabric_type: "fabric_zone"
           authentication_profile: "Open Authentication"
 
@@ -217,7 +217,7 @@ EXAMPLES = r"""
     state: merged
     config:
       - fabric_sites:
-          site_name: "Global/Test_SDA/Bld1"
+        - site_name: "Global/Test_SDA/Bld1"
           fabric_type: "fabric_zone"
           authentication_profile: "Open Authentication"
           is_pub_sub_enabled: False
@@ -241,7 +241,7 @@ EXAMPLES = r"""
     state: deleted
     config:
       - fabric_sites:
-          site_name: "Global/Test_SDA/Bld1"
+        - site_name: "Global/Test_SDA/Bld1"
 
 - name: Deleting/removing fabric zone from sda from Cisco Catalyst Center
   cisco.dnac.sda_fabric_sites_zones_workflow_manager:
@@ -257,7 +257,7 @@ EXAMPLES = r"""
     state: deleted
     config:
       - fabric_sites:
-          site_name: "Global/Test_SDA/Bld1/Floor1"
+        - site_name: "Global/Test_SDA/Bld1/Floor1"
           fabric_type: "fabric_zone"
 
 """
@@ -326,7 +326,7 @@ class FabricSitesZones(DnacBase):
                 'is_pub_sub_enabled': {'type': 'bool', 'default': False},
                 'update_authentication_profile': {
                     'elements': 'dict',
-                    'site_name_hierarchy': {'type': 'str'},
+                    'site_name': {'type': 'str'},
                     'authentication_profile': {'type': 'str'},
                     'authentication_order': {'type': 'str'},
                     'dot1x_fallback_timeout': {'type': 'int'},
@@ -1783,6 +1783,15 @@ def main():
                            supports_check_mode=False)
 
     ccc_fabric_sites = FabricSitesZones(module)
+    if ccc_fabric_sites.compare_dnac_versions(ccc_fabric_sites.get_ccc_version(), "2.3.7.6") < 0:
+        ccc_fabric_sites.msg = (
+            "The specified version '{0}' does not support the SDA fabric devices feature. Supported versions start "
+            "  from '2.3.7.6' onwards. Version '2.3.7.6' introduces APIs for creating, updating and deleting the "
+            "Fabric Sites/Zones and updating the Authentication profiles."
+            .format(ccc_fabric_sites.get_ccc_version())
+        )
+        ccc_fabric_sites.set_operation_result("failed", False, ccc_fabric_sites.msg, "ERROR").check_return_status()
+
     state = ccc_fabric_sites.params.get("state")
 
     if state not in ccc_fabric_sites.supported_states:
