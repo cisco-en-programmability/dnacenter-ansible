@@ -2256,7 +2256,7 @@ class FabricDevices(DnacBase):
 
         self.log("The 'local_autonomous_system_number' is successfully validated.")
         return
-        
+
     def get_device_params(self, fabric_id, network_id, device_details, config_index):
         """
         Get the SDA fabric devices detail along with the border
