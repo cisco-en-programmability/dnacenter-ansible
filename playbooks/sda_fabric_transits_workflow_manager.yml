@@ -5,7 +5,7 @@
   connection: local
   tasks:
     - name: Create the SDA fabric transits with transit_type as IP_BASED_TRANSIT
-      cisco.dnac.fabric_transits_workflow_manager:
+      cisco.dnac.sda_fabric_transits_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"
@@ -28,7 +28,7 @@
               autonomous_system_number: 1234 # between 1 and 4294967295
 
     - name: Create the SDA fabric transits with transit_type as SDA_LISP_BGP_TRANSIT
-      cisco.dnac.fabric_transits_workflow_manager:
+      cisco.dnac.sda_fabric_transits_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"
@@ -52,7 +52,7 @@
                 - 10.0.0.2
 
     - name: Create the SDA fabric transits with transit_type as SDA_LISP_PUB_SUB_TRANSIT
-      cisco.dnac.fabric_transits_workflow_manager:
+      cisco.dnac.sda_fabric_transits_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"
@@ -79,7 +79,7 @@
                 - 11.0.0.4
 
     - name: Update the SDA fabric transits with transit_type as SDA_LISP_BGP_TRANSIT
-      cisco.dnac.fabric_transits_workflow_manager:
+      cisco.dnac.sda_fabric_transits_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"
@@ -103,7 +103,7 @@
                 - 10.0.0.4
 
     - name: Update the SDA fabric transits with transit_type as SDA_LISP_PUB_SUB_TRANSIT
-      cisco.dnac.fabric_transits_workflow_manager:
+      cisco.dnac.sda_fabric_transits_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"
@@ -130,7 +130,7 @@
                 - 11.0.0.8
 
     - name: Delete the SDA fabric transits
-      cisco.dnac.fabric_transits_workflow_manager:
+      cisco.dnac.sda_fabric_transits_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"

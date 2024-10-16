@@ -10,7 +10,7 @@ __metaclass__ = type
 __author__ = ['Muthu Rakesh, Madhan Sankaranarayanan']
 DOCUMENTATION = r"""
 ---
-module: fabric_devices_workflow_manager
+module: sda_fabric_devices_workflow_manager
 short_description: Manage SDA fabric devices in Cisco Catalyst Center.
 description:
 - Perform operations on SDA fabric devices, including adding, updating, and deleting fabric devices.
@@ -359,7 +359,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Create SDA fabric device with device role as CONTROL_PLANE_NODE
-  cisco.dnac.fabric_devices_workflow_manager:
+  cisco.dnac.sda_fabric_devices_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -379,7 +379,7 @@ EXAMPLES = r"""
           device_roles: [CONTROL_PLANE_NODE]
 
 - name: Update the SDA fabric device with the device roles with BORDER_NODE and add L2 Handoff
-  cisco.dnac.fabric_devices_workflow_manager:
+  cisco.dnac.sda_fabric_devices_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -411,7 +411,7 @@ EXAMPLES = r"""
 
 
 - name: Add the L3 Handoff with SDA Transit to the SDA fabric device
-  cisco.dnac.fabric_devices_workflow_manager:
+  cisco.dnac.sda_fabric_devices_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -438,7 +438,7 @@ EXAMPLES = r"""
               is_multicast_over_transit_enabled: false
 
 - name: Add L3 Handoff with IP Transit to the SDA fabric device with external_connectivity_ip_pool_name
-  cisco.dnac.fabric_devices_workflow_manager:
+  cisco.dnac.sda_fabric_devices_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -466,7 +466,7 @@ EXAMPLES = r"""
               tcp_mss_adjustment: 2
 
 - name: Add L3 Handoff with IP Transit to the SDA fabric device with local and remote network
-  cisco.dnac.fabric_devices_workflow_manager:
+  cisco.dnac.sda_fabric_devices_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -497,7 +497,7 @@ EXAMPLES = r"""
               remote_ipv6_address: 2009:db8::2/64
 
 - name: Update the border settings of the SDA Devices
-  cisco.dnac.fabric_devices_workflow_manager:
+  cisco.dnac.sda_fabric_devices_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -524,7 +524,7 @@ EXAMPLES = r"""
               prepend_autonomous_system_count: 3
 
 - name: Update the L3 Handoffs with SDA Transit and IP Transit.
-  cisco.dnac.fabric_devices_workflow_manager:
+  cisco.dnac.sda_fabric_devices_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -562,7 +562,7 @@ EXAMPLES = r"""
               remote_ipv6_address: 2009:db8::2/64
 
 - name: Delete the L2 Handoff
-  cisco.dnac.fabric_devices_workflow_manager:
+  cisco.dnac.sda_fabric_devices_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -585,7 +585,7 @@ EXAMPLES = r"""
               internal_vlan_id: 550
 
 - name: Delete the L3 Handoff with SDA Transit
-  cisco.dnac.fabric_devices_workflow_manager:
+  cisco.dnac.sda_fabric_devices_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -607,7 +607,7 @@ EXAMPLES = r"""
               transit_network_name: SDA_PUB_SUB_TRANSIT
 
 - name: Delete the L3 Handoff with IP Transit
-  cisco.dnac.fabric_devices_workflow_manager:
+  cisco.dnac.sda_fabric_devices_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -631,7 +631,7 @@ EXAMPLES = r"""
               virtual_network_name: L3VN1
 
 - name: Delete the device along with L2 Handoff and L3 Handoff
-  cisco.dnac.fabric_devices_workflow_manager:
+  cisco.dnac.sda_fabric_devices_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -845,7 +845,7 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
 
 
 class FabricDevices(DnacBase):
-    """Class containing member attributes for fabric_devices_workflow_manager module"""
+    """Class containing member attributes for sda_fabric_devices_workflow_manager module"""
 
     def __init__(self, module):
         super().__init__(module)
