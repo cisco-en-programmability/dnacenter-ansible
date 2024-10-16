@@ -820,6 +820,26 @@ class NetworkSettings(DnacBase):
             }
         }
 
+        invalid_params_type = []
+
+        for config_item in self.config:
+            ip_pool = config_item.get("global_pool_details", {}).get("settings", {}).get("ip_pool", [])
+
+            for pool in ip_pool:
+                # Check for 'dhcp_server_ips'
+                if not isinstance(pool["dhcp_server_ips"], list):
+                    invalid_params_type.append("dhcp_server_ips should be a list.")
+
+                # Check for 'dns_server_ips'
+                elif not isinstance(pool["dns_server_ips"], list):
+                    invalid_params_type.append("dns_server_ips should be a list.")
+
+        if invalid_params_type:
+            self.msg = "Invalid required parameter(s): {0}".format(', '.join(invalid_params_type))
+            self.result['response'] = self.msg
+            self.status = "failed"
+            return self
+
         # Validate playbook params against the specification (temp_spec)
         valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
         if invalid_params:
@@ -3102,6 +3122,8 @@ class NetworkSettings(DnacBase):
                     }
                 }
                 self.log("Desired State for global pool (want): {0}".format(pool_params), "DEBUG")
+                # validation_results = self.check_ips_in_cidr(pool_params["settings"]["ippool"][0])
+
                 keys_to_remove = ["IpAddressSpace", "ipPoolCidr", "type"]
                 for item in pool_params["settings"]["ippool"]:
                     for key in keys_to_remove:
