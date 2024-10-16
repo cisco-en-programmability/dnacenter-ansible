@@ -746,6 +746,7 @@ class Inventory(DnacBase):
         self.deleted_devices, self.provisioned_device_deleted, self.no_device_to_delete = [], [], []
         self.response_list, self.role_updated_list, self.device_role_name = [], [], []
         self.udf_added, self.udf_deleted = [], []
+        self.ip_address_for_update, self.updated_ip = [], []
 
     def validate_input(self):
         """
@@ -1803,12 +1804,10 @@ class Inventory(DnacBase):
         try:
             response = self.dnac._exec(family="sda", function='provision_wired_device', op_modifies=True, params=provision_params)
             self.log("Received API response from 'provision_wired_device': {0}".format(response), "DEBUG")
-
-            self.check_tasks_response_status(response, api_name='provision_device')
-
-            if self.status not in ["failed", "exited"]:
-                self.log("Wired Device '{0}' provisioning completed successfully.".format(device_ip), "INFO")
-                self.provision_count += 1
+            if response:
+                validation_string = "successfully"
+                self.check_task_response_status(response, validation_string, 'provision_wired_device')
+                self.deleted_devices.append(device_ip)
 
         except Exception as e:
             self.handle_provisioning_exception(device_ip, e, device_type)
@@ -1878,7 +1877,7 @@ class Inventory(DnacBase):
             self.log(msg, "CRITICAL")
             self.module.fail_json(msg=msg)
 
-    def is_device_provisioned(self, device_id):
+    def is_device_provisioned(self, device_id, device_ip):
         """
         Checks if a device is provisioned.
         Parameters:
@@ -1891,21 +1890,39 @@ class Inventory(DnacBase):
             if the device is currently provisioned and returns the appropriate
             status.
         """
+        if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
+            try:
+                prov_response = self.dnac._exec(
+                    family="sda",
+                    function='get_provisioned_wired_device',
+                    params={"device_management_ip_address": device_ip},
+                )
+                self.log("Received API response from 'get_provisioned_wired_device': {0}".format(str(prov_response)), "DEBUG")
 
-        api_response = self.dnac._exec(
-            family="sda",
-            function='get_provisioned_devices',
-            params={
-                "networkDeviceId": device_id
-            }
-        )
-        provisioned_devices = api_response.get('response')
-        self.log("API response from 'get_provisioned_devices': {}".format(provisioned_devices), "DEBUG")
+                if prov_response:
+                    return True
 
-        if provisioned_devices:
-            return True
+            except Exception as e:
+                self.log("Exception occurred during 'get_provisioned_wired_device': {0}".format(str(e)), "ERROR")
+                return False
+        else:
+            try:
+                api_response = self.dnac._exec(
+                    family="sda",
+                    function='get_provisioned_devices',
+                    params={
+                        "networkDeviceId": device_id
+                    }
+                )
+                is_provisioned = api_response.get('response')
+                self.log("API response from 'get_provisioned_devices': {}".format(is_provisioned), "DEBUG")
 
-        return False
+                if is_provisioned:
+                    return True
+                return False
+
+            except Exception as e:
+                self.log("Exception occurred during 'get_provisioned_devices': {0}".format(str(e)), "ERROR")
 
     def provision_device(self, provision_params, device_ip):
         """
@@ -3023,6 +3040,8 @@ class Inventory(DnacBase):
                 self.result['changed'] = True
                 self.msg = """Device '{0}' present in Cisco Catalyst Center and new management ip '{1}' have been
                             updated successfully""".format(device_ip, new_mgmt_ipaddress)
+                self.ip_address_for_update.append(device_ip)
+                self.updated_ip.append(new_mgmt_ipaddress)
                 self.log(self.msg, "INFO")
                 break
             self.result['response'] = self.msg
@@ -3737,15 +3756,17 @@ class Inventory(DnacBase):
                 continue
             device_ids = self.get_device_ids([device_ip])
             device_id = device_ids[0]
-            is_device_provisioned = self.is_device_provisioned(device_id)
+            is_device_provisioned = self.is_device_provisioned(device_id, device_ip)
             if not is_device_provisioned:
                 self.handle_device_deletion(device_ip)
                 continue
 
             if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
                 self.delete_provisioned_device_v1(device_ip)
+                continue
             else:
                 self.delete_provisioned_device_v2(device_ip)
+                continue
 
         return self
 
@@ -3833,15 +3854,15 @@ class Inventory(DnacBase):
         """
 
         provision_params = {"device_management_ip_address": device_ip}
-        prov_respone = self.dnac._exec(
+        prov_response = self.dnac._exec(
             family="sda",
             function='get_provisioned_wired_device',
             op_modifies=True,
             params=provision_params,
         )
-        self.log("Received API response from 'get_provisioned_wired_device': {0}".format(str(prov_respone)), "DEBUG")
+        self.log("Received API response from 'get_provisioned_wired_device': {0}".format(str(prov_response)), "DEBUG")
 
-        if prov_respone.get("status") == "success":
+        if prov_response.get("status") == "success":
             response = self.dnac._exec(
                 family="sda",
                 function='delete_provisioned_wired_device',
@@ -3849,9 +3870,10 @@ class Inventory(DnacBase):
                 params=provision_params,
             )
             self.log("Received API response from 'delete_provisioned_wired_device': {0}".format(str(response)), "DEBUG")
-            self.check_tasks_response_status(response, api_name='delete_provisioned_wired_device')
-            if self.status not in ["failed", "exited"]:
-                self.provisioned_device_deleted.append(device_ip)
+
+            validation_string = "deleted successfully"
+            self.check_task_response_status(response, validation_string, 'delete_provisioned_wired_device')
+            self.deleted_devices.append(device_ip)
 
     def delete_provisioned_device_v2(self, device_ip):
         """
@@ -3869,15 +3891,15 @@ class Inventory(DnacBase):
 
         device_ids = self.get_device_ids([device_ip])
         device_id = device_ids[0]
-        prov_respone = self.dnac._exec(
+        prov_response = self.dnac._exec(
             family="sda",
             function='get_provisioned_devices',
             op_modifies=True,
             params={"networkDeviceId": device_id}
         )
-        self.log("Received API response from 'get_provisioned_devices': {0}".format(str(prov_respone)), "DEBUG")
+        self.log("Received API response from 'get_provisioned_devices': {0}".format(str(prov_response)), "DEBUG")
 
-        if prov_respone.get("response"):
+        if prov_response.get("response"):
             response = self.dnac._exec(
                 family="sda",
                 function='delete_provisioned_devices',
@@ -3916,10 +3938,17 @@ class Inventory(DnacBase):
             op_modifies=True,
             params=delete_params,
         )
+
         self.log("Received API response from 'deleted_device_by_id': {0}".format(str(response)), "DEBUG")
-        self.check_tasks_response_status(response, api_name='deleted_device_by_id')
-        if self.status not in ["failed", "exited"]:
+
+        if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
+            validation_string = "network device deleted successfully"
+            self.check_task_response_status(response, validation_string, 'deleted_device_by_id')
             self.deleted_devices.append(device_ip)
+        else:
+            self.check_tasks_response_status(response, api_name='deleted_device_by_id')
+            if self.status not in ["failed", "exited"]:
+                self.deleted_devices.append(device_ip)
 
     def verify_diff_merged(self, config):
         """
@@ -4165,6 +4194,13 @@ class Inventory(DnacBase):
         if self.udf_deleted:
             udf_deleted = "Global User Defined Field(UDF) named '{0}' has been successfully deleted to the device.".format("', '".join(self.udf_deleted))
             result_msg_list_changed.append(udf_deleted)
+
+        if self.updated_ip:
+            ip_address_for_update = ("', '".join(self.ip_address_for_update))
+            updated_ip = ("', '".join(self.updated_ip))
+            updated_ip_msg = ("Device '{0}' found in Cisco Catalyst Center. The new management IP '{1}' has"
+                              "been updated successfully.").format(ip_address_for_update, updated_ip)
+            result_msg_list_changed.append(updated_ip_msg)
 
         if result_msg_list_not_changed and result_msg_list_changed:
             self.result["changed"] = True
