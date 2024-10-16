@@ -828,11 +828,11 @@ class NetworkSettings(DnacBase):
             for pool in ip_pool:
                 # Check for 'dhcp_server_ips'
                 if not isinstance(pool["dhcp_server_ips"], list):
-                    invalid_params_type.append("dhcp_server_ips should be a list.")
+                    invalid_params_type.append("'dhcp_server_ips' should be a list.")
 
                 # Check for 'dns_server_ips'
-                elif not isinstance(pool["dns_server_ips"], list):
-                    invalid_params_type.append("dns_server_ips should be a list.")
+                if not isinstance(pool["dns_server_ips"], list):
+                    invalid_params_type.append("'dns_server_ips' should be a list.")
 
         if invalid_params_type:
             self.msg = "Invalid required parameter(s): {0}".format(', '.join(invalid_params_type))
