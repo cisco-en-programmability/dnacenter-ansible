@@ -3122,8 +3122,6 @@ class NetworkSettings(DnacBase):
                     }
                 }
                 self.log("Desired State for global pool (want): {0}".format(pool_params), "DEBUG")
-                # validation_results = self.check_ips_in_cidr(pool_params["settings"]["ippool"][0])
-
                 keys_to_remove = ["IpAddressSpace", "ipPoolCidr", "type"]
                 for item in pool_params["settings"]["ippool"]:
                     for key in keys_to_remove:
