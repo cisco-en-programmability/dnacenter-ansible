@@ -2321,7 +2321,7 @@ class NetworkSettings(DnacBase):
                     self.status = "failed"
                     return self
 
-                if not pool_values.get("ipv4PrefixLength"):
+                if pool_values.get("ipv4Prefix") and not pool_values.get("ipv4PrefixLength"):
                     self.msg = "missing parameter 'ipv4_prefix_length' in reserve_pool_details '{0}' element" \
                                .format(reserve_pool_index + 1)
                     self.status = "failed"
@@ -2340,7 +2340,7 @@ class NetworkSettings(DnacBase):
                 if pool_values.get("ipv4TotalHost") is None:
                     del pool_values['ipv4TotalHost']
                 if pool_values.get("ipv6AddressSpace") is True:
-                    pool_values.update({"ipv6Prefix": True})
+                    pool_values.update({"ipv6AddressSpace": True})
                 else:
                     del pool_values['ipv6Prefix']
 
