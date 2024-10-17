@@ -1372,44 +1372,46 @@ class IseRadiusIntegration(DnacBase):
 
     def check_ise_server_updation_status(self, have_auth_details, want_auth_details):
         """
-        Check if the Cisco ISE server requires an update or not by checking the user name,
-        fqdn value and the state of the Cisco ISE server.
+        Check if the Cisco ISE server requires an update by comparing the user name,
+        FQDN, and the state of the Cisco ISE server.
 
         Parameters:
-            have_auth_details (dict) - Authentication and policy server information from the Cisco Catalyst Center.
-            want_auth_details (dict) - Authentication and policy server information from the Playbook.
+            have_auth_details (dict) - Current Cisco Catalyst Center authentication server information.
+            want_auth_details (dict) - Desired authentication server configuration from the playbook.
         Returns:
-            True or False (bool): Return True, if the Cisco ISE server requires an update. Else, False.
+            True or False (bool): True if the Cisco ISE server requires an update; otherwise, False.
         Description:
-            Check the user name and the fully qualified domain name between the config provided by the
-            user and the config available in the Cisco Catalyst Center. If there is any change in that
-            return True. Check for the state of the Cisco ISE server. If it is 'ACTIVE', return True.
-            Else, the Cisco ISE server doesnot requires an update.
+            Compares the user name and FQDN between the existing configuration and the new configuration.
+            If there is a discrepancy, or if the server state is not 'ACTIVE', an update is required.
         """
 
         ip_address = have_auth_details.get("ipAddress")
         have_cisco_ise_dtos = have_auth_details.get("ciscoIseDtos")[0]
         want_cisco_ise_dtos = want_auth_details.get("ciscoIseDtos")[0]
+        self.log(
+            "Checking if the Cisco ISE server '{ip_address}' requires an update."
+            .format(ip_address=ip_address), "DEBUG"
+        )
         check_list = ["userName", "fqdn"]
         for item in check_list:
             if have_cisco_ise_dtos[item] != want_cisco_ise_dtos[item]:
                 self.log(
-                    "The Cisco ISE server requires an update. The {item} needs updation in {ip_address}"
-                    .format(item=item, ip_address=ip_address)
+                    "Cisco ISE server '{ip_address}' requires an update: {item} has changed."
+                    .format(item=item, ip_address=ip_address), "INFO"
                 )
                 return True
 
         state = have_auth_details.get("state")
         if state != "ACTIVE":
             self.log(
-                "The state is not 'ACTIVE'. So there might require an updation of Cisco "
-                "ISE server's '{ip_address}' password.".format(ip_address=ip_address)
+                "Cisco ISE server '{ip_address}' is not in 'ACTIVE' state (current state: '{state}'). "
+                "Update required.".format(ip_address=ip_address, state=state), "DEBUG"
             )
             return True
 
         self.log(
-            "The Cisco ISE server's '{ip_address}' username, password, fqdn doesnot require an update."
-            .format(ip_address=ip_address)
+            "No updates are required for the Cisco ISE server '{ip_address}' based on username, fqdn, and state."
+            .format(ip_address=ip_address), "DEBUG"
         )
         return False
 
@@ -1548,13 +1550,21 @@ class IseRadiusIntegration(DnacBase):
             have_auth_server_details = self.have.get("authenticationPolicyServer")[auth_server_index].get("details")
             want_auth_server_details = self.want.get("authenticationPolicyServer")[auth_server_index]
 
+            self.log(
+                "Formatting payload for update between current and desired authentication server details.", "DEBUG"
+            )
             self.format_payload_for_update(have_auth_server_details, want_auth_server_details).check_return_status()
 
             is_ise_server_enabled = have_auth_server_details.get("isIseEnabled")
             ise_server_requires_update = False
             if is_ise_server_enabled:
+                self.log("Cisco ISE server is enabled; checking if an update is required.")
                 ise_server_requires_update = self.check_ise_server_updation_status(have_auth_server_details,
                                                                                    want_auth_server_details)
+                if ise_server_requires_update:
+                    self.log("Cisco ISE server requires an update based on configuration changes.", "DEBUG")
+                else:
+                    self.log("Cisco ISE server does not require any updates.", "DEBUG")
 
             if not (ise_server_requires_update or self.requires_update(have_auth_server_details,
                                                                        want_auth_server_details,
