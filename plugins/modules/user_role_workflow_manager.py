@@ -1043,7 +1043,6 @@ class UserandRole(DnacBase):
               lowercase letters, uppercase letters, digits, and special characters.
         """
         meets_character_requirements = False
-        passes_sequence_repetition_check = False
         password_criteria_message = (
             "The password must be 9 to 20 characters long and include at least three of the following "
             "character types: lowercase letters, uppercase letters, digits, and special characters. "
@@ -1080,7 +1079,6 @@ class UserandRole(DnacBase):
 
         self.log("Checking that the password does not contain repetitive or sequential characters.", "DEBUG")
         if re.match(password_sequence_repetitive_regex, password):
-            passes_sequence_repetition_check = True
             self.log("Password passed repetitive and sequential character checks.", "INFO")
         else:
             self.log("Password failed repetitive or sequential character validation.", "ERROR")
