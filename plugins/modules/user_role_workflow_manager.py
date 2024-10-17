@@ -1042,8 +1042,8 @@ class UserandRole(DnacBase):
             - The password must include characters from at least three of the following classes:
               lowercase letters, uppercase letters, digits, and special characters.
         """
-        is_valid_password_check1 = False
-        is_valid_password_check2 = False
+        meets_character_requirements = False
+        passes_sequence_repetition_check = False
         password_criteria_message = (
             "The password must be 9 to 20 characters long and include at least three of the following "
             "character types: lowercase letters, uppercase letters, digits, and special characters. "
@@ -1068,18 +1068,22 @@ class UserandRole(DnacBase):
             r'[a-zA-Z0-9!@#$%^&*()_+<>?]{9,20}$'
         )
 
-        self.log("Checking that the password is 8 to 20 characters long and includes at least three character types.", "DEBUG")
+        self.log("Password meets character type and length requirements.", "INFO")
         for password_regex in password_regexs:
             if password_regex.match(password):
-                is_valid_password_check1 = True
+                meets_character_requirements = True
                 break
+
+        if not meets_character_requirements:
+            self.log("Password failed character type and length validation.", "ERROR")
+            error_messages.append(password_criteria_message)
 
         self.log("Checking that the password does not contain repetitive or sequential characters.", "DEBUG")
         if re.match(password_sequence_repetitive_regex, password):
-            is_valid_password_check2 = True
-
-        if not is_valid_password_check1 or not is_valid_password_check2:
-            self.log("Password validation failed: {0}".format(password_criteria_message), "DEBUG")
+            passes_sequence_repetition_check = True
+            self.log("Password passed repetitive and sequential character checks.", "INFO")
+        else:
+            self.log("Password failed repetitive or sequential character validation.", "ERROR")
             error_messages.append(password_criteria_message)
 
     def validate_role_parameters(self, role_key, params_list, role_config, role_param_map, error_messages):
