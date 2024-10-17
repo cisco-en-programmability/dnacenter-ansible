@@ -22,4 +22,6 @@
         state: merged
         config:
           - site_name_hierarchy: Global/Chennai/LTTS/FLOOR1
-            management_ip_address: 1.1.1.1
+            management_ip_address: 204.192.6.200
+            managed_ap_locations:
+              - Global/Chennai/LTTS/FLOOR1
