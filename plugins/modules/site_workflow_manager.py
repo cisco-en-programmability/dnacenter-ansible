@@ -1971,7 +1971,7 @@ def main():
         ccc_site.reset_values()
         ccc_site.get_want(config).check_return_status()
         ccc_site.get_have(config).check_return_status()
-        # ccc_site.upload_floor_image(config)
+        ccc_site.upload_floor_image(config)
         ccc_site.get_diff_state_apply[state](config).check_return_status()
         if config_verify:
             ccc_site.verify_diff_state_apply[state](
