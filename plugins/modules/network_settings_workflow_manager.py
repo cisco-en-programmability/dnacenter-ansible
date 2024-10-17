@@ -820,6 +820,26 @@ class NetworkSettings(DnacBase):
             }
         }
 
+        invalid_params_type = []
+
+        for config_item in self.config:
+            ip_pool = config_item.get("global_pool_details", {}).get("settings", {}).get("ip_pool", [])
+
+            for pool in ip_pool:
+                # Check for 'dhcp_server_ips'
+                if not isinstance(pool["dhcp_server_ips"], list):
+                    invalid_params_type.append("'dhcp_server_ips' should be a list.")
+
+                # Check for 'dns_server_ips'
+                if not isinstance(pool["dns_server_ips"], list):
+                    invalid_params_type.append("'dns_server_ips' should be a list.")
+
+        if invalid_params_type:
+            self.msg = "Invalid required parameter(s): {0}".format(', '.join(invalid_params_type))
+            self.result['response'] = self.msg
+            self.status = "failed"
+            return self
+
         # Validate playbook params against the specification (temp_spec)
         valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
         if invalid_params:
@@ -2301,7 +2321,7 @@ class NetworkSettings(DnacBase):
                     self.status = "failed"
                     return self
 
-                if not pool_values.get("ipv4PrefixLength"):
+                if pool_values.get("ipv4Prefix") and not pool_values.get("ipv4PrefixLength"):
                     self.msg = "missing parameter 'ipv4_prefix_length' in reserve_pool_details '{0}' element" \
                                .format(reserve_pool_index + 1)
                     self.status = "failed"
@@ -2320,7 +2340,7 @@ class NetworkSettings(DnacBase):
                 if pool_values.get("ipv4TotalHost") is None:
                     del pool_values['ipv4TotalHost']
                 if pool_values.get("ipv6AddressSpace") is True:
-                    pool_values.update({"ipv6Prefix": True})
+                    pool_values.update({"ipv6AddressSpace": True})
                 else:
                     del pool_values['ipv6Prefix']
 

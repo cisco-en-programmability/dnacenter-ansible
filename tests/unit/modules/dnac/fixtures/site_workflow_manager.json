@@ -1,0 +1,1723 @@
+{
+  "playbook_config_bulk_site": [
+    {
+      "site": {
+        "area": [
+          {
+            "name": "japan151",
+            "parent_name_hierarchy": "Global"
+          },
+          {
+            "name": "Abc2",
+            "parent_name_hierarchy": "Global"
+          }
+        ],
+        "building": [
+          {
+            "name": "blossom",
+            "address": "1234 Elm Street",
+            "parent_name_hierarchy": "Global/japan151",
+            "latitude": 37.387,
+            "longitude": -121.845,
+            "country": "India"
+          }
+        ],
+        "floor": [
+          {
+            "name": "cherry",
+            "parent_name_hierarchy": "Global/japan151/blossom",
+            "length": 103.23,
+            "width": 75.1,
+            "height": 50.23,
+            "rf_model": "Cubes And Walled Offices",
+            "floor_number": 3,
+            "units_of_measure": "feet",
+            "upload_floor_image": {
+              "path": "/Users/skesali/Downloads/pngegg.png"
+            }
+          }
+        ],
+        "site_type": "bulk"
+      }
+    }
+  ],
+
+  "get_sites": {
+  "response": [],
+  "version": "1.0"
+},
+"create_bulk_site_response":
+{
+  "response": {
+    "taskId": "01920653-4162-7dc9-a1ed-680f23960122",
+    "url": "/api/v1/task/01920653-4162-7dc9-a1ed-680f23960122"
+  },
+  "version": "1.0"
+},
+
+"create_bulk_site_response_details1":
+{
+  "response": {
+    "startTime": 1726682972514,
+    "version": 1726682972514,
+    "progress": {
+      "TOTAL": 0,
+      "VALIDATION_FAILURE_COUNT": 0,
+      "VALIDATION_SUCCESS_COUNT": 0,
+      "VALIDATION_PENDING_COUNT": 0,
+      "CRAETION_SUCCESS_COUNT": 0,
+      "message": "Group import is in progress. Count will be updated shortly."
+    },
+    "serviceType": "Grouping Service",
+    "operationIdList": [
+      "a7be9ccd-581e-4791-b136-628c11bc9e29"
+    ],
+    "isError": false,
+    "instanceTenantId": "6663114d388b29001399e46a",
+    "id": "01920653-4162-7dc9-a1ed-680f23960122"
+  },
+  "version": "1.0"
+},
+
+"create_bulk_site_response_details2":
+{
+  "response": {
+    "endTime": 1726682975599,
+    "data": "BULK_IMPORT_GROUPS",
+    "startTime": 1726682972514,
+    "version": 1726682975599,
+    "progress": {
+      "TOTAL": 3,
+      "VALIDATION_FAILURE_COUNT": 0,
+      "VALIDATION_SUCCESS_COUNT": 3,
+      "VALIDATION_PENDING_COUNT": 0,
+      "CRAETION_SUCCESS_COUNT": 3,
+      "message": "Group validation is completed."
+    },
+    "lastUpdate": 1726682975596,
+    "serviceType": "Grouping Service",
+    "operationIdList": [
+      "a7be9ccd-581e-4791-b136-628c11bc9e29"
+    ],
+    "isError": false,
+    "instanceTenantId": "6663114d388b29001399e46a",
+    "id": "01920653-4162-7dc9-a1ed-680f23960122"
+  },
+  "version": "1.0"
+},
+"get_sites_area":
+{
+  "response": [
+    {
+      "id": "f75a5e76-0b03-48a8-897f-b8f8bf9e3994",
+      "parentId": "0ceaa46f-e64b-448b-a01c-1c100c9b134b",
+      "name": "japan775",
+      "nameHierarchy": "Global/japan775",
+      "type": "area"
+    }
+  ],
+  "version": "1.0"
+},
+"get_sites_building":
+{
+  "response": [
+    {
+      "id": "a21e79ff-afdd-467d-b36f-e18ff9f60105",
+      "parentId": "1b57d499-7a5c-44b8-be4e-70c2ee79dcf6",
+      "name": "blossom",
+      "nameHierarchy": "Global/japan/blossom",
+      "type": "building",
+      "address": "new street canada 46575",
+      "country": "Canada"
+    },
+    {
+      "id": "52060ddd-c1fe-4d7e-9150-f0dfe22ff155",
+      "parentId": "6b623d98-83f5-46b7-b8e5-5f2076bd7248",
+      "name": "blossom",
+      "nameHierarchy": "Global/japan75/blossom",
+      "type": "building",
+      "latitude": 37.387,
+      "longitude": -121.845,
+      "address": "1234 Elm Street",
+      "country": "India"
+    },
+    {
+      "id": "113c9ed5-534e-41d6-9880-16fe53b8f64e",
+      "parentId": "8f4eb160-2321-4e3b-8b66-d7df752cee8f",
+      "name": "blossom",
+      "nameHierarchy": "Global/japan15/blossom",
+      "type": "building",
+      "latitude": 37.386,
+      "longitude": -121.846,
+      "address": "1234 Elm Street",
+      "country": "India"
+    },
+    {
+      "id": "bb2e85e1-1402-4026-9742-557a9bad162e",
+      "parentId": "b6bbdcab-dcce-47f0-ac77-1043b9b550ac",
+      "name": "blossom",
+      "nameHierarchy": "Global/japan7/blossom",
+      "type": "building",
+      "latitude": 37.387,
+      "longitude": -121.845,
+      "address": "1234 Elm Street",
+      "country": "India"
+    },
+    {
+      "id": "b8704aa7-cc86-4acb-85c7-cb7b08b7baed",
+      "parentId": "dc22654e-402d-4fd6-b1ba-d93a1e4e1fc8",
+      "name": "blossom",
+      "nameHierarchy": "Global/japan151/blossom",
+      "type": "building",
+      "latitude": 37.387,
+      "longitude": -121.845,
+      "address": "1234 Elm Street",
+      "country": "India"
+    },
+    {
+      "id": "e7cc45ee-2cd0-4551-8770-9f52b1a72bae",
+      "parentId": "955b8350-6680-4514-abf7-f1fb2506bd5f",
+      "name": "blossom",
+      "nameHierarchy": "Global/japan152/blossom",
+      "type": "building",
+      "latitude": 37.387,
+      "longitude": -121.845,
+      "address": "1234 Elm Street",
+      "country": "India"
+    },
+    {
+      "id": "38d7e6a1-06cf-418e-9897-1debd8c0d255",
+      "parentId": "3404c8cb-a09f-470c-a049-3106f4feeb86",
+      "name": "blossom",
+      "nameHierarchy": "Global/japan17/blossom",
+      "type": "building",
+      "latitude": 37.386,
+      "longitude": -121.845,
+      "address": "1234 Elm Street",
+      "country": "India"
+    },
+    {
+      "id": "f62afe0a-8ae3-4ec8-ae45-5f45d087b0be",
+      "parentId": "d9cbc0a9-f996-423e-b354-7f01eca3ad8d",
+      "name": "blossom",
+      "nameHierarchy": "Global/japan71/blossom",
+      "type": "building",
+      "latitude": 37.387,
+      "longitude": -121.845,
+      "address": "1234 Elm Street",
+      "country": "India"
+    },
+    {
+      "id": "f74e7c3c-0c8f-4eb4-88f1-bf9357b160d2",
+      "parentId": "67cd405f-536b-4137-9f55-aca8dc9531d2",
+      "name": "blossom",
+      "nameHierarchy": "Global/japan177/blossom",
+      "type": "building",
+      "latitude": 37.388,
+      "longitude": -121.848,
+      "address": "1234 Elm Street",
+      "country": "United States"
+    },
+    {
+      "id": "b2dadedd-8f43-4236-8739-ebf92a43370b",
+      "parentId": "f75a5e76-0b03-48a8-897f-b8f8bf9e3994",
+      "name": "blossom",
+      "nameHierarchy": "Global/japan775/blossom",
+      "type": "building",
+      "latitude": 37.387,
+      "longitude": -121.845,
+      "address": "1234 Elm Street",
+      "country": "India"
+    }
+  ],
+  "version": "1.0"
+},
+"get_sites_floor":
+{
+  "response": [
+    {
+      "id": "84d73ede-1ecc-4944-991b-f5ab8cd9bfe3",
+      "parentId": "a21e79ff-afdd-467d-b36f-e18ff9f60105",
+      "name": "cherry",
+      "nameHierarchy": "Global/japan/blossom/cherry",
+      "type": "floor",
+      "floorNumber": 1,
+      "rfModel": "Cubes And Walled Offices",
+      "width": 107.0,
+      "length": 107.0,
+      "height": 10.0,
+      "unitsOfMeasure": "feet"
+    },
+    {
+      "id": "75c8c838-c33c-47c9-b4b4-de016b495490",
+      "parentId": "52060ddd-c1fe-4d7e-9150-f0dfe22ff155",
+      "name": "cherry",
+      "nameHierarchy": "Global/japan75/blossom/cherry",
+      "type": "floor",
+      "floorNumber": 3,
+      "rfModel": "Cubes And Walled Offices",
+      "width": 75.1,
+      "length": 103.23,
+      "height": 50.23,
+      "unitsOfMeasure": "feet"
+    },
+    {
+      "id": "c66e2757-3e89-4e58-a8e0-814fa8ee0374",
+      "parentId": "b8704aa7-cc86-4acb-85c7-cb7b08b7baed",
+      "name": "cherry",
+      "nameHierarchy": "Global/japan151/blossom/cherry",
+      "type": "floor",
+      "floorNumber": 3,
+      "rfModel": "Cubes And Walled Offices",
+      "width": 75.1,
+      "length": 103.23,
+      "height": 50.23,
+      "unitsOfMeasure": "feet"
+    },
+    {
+      "id": "a8df3356-13b6-47e8-8858-21c60eb475d0",
+      "parentId": "bb2e85e1-1402-4026-9742-557a9bad162e",
+      "name": "cherry",
+      "nameHierarchy": "Global/japan7/blossom/cherry",
+      "type": "floor",
+      "floorNumber": 3,
+      "rfModel": "Cubes And Walled Offices",
+      "width": 75.1,
+      "length": 103.23,
+      "height": 50.23,
+      "unitsOfMeasure": "feet"
+    },
+    {
+      "id": "47eed7e1-2de3-42f7-b4c3-4e1dfdc7f2ac",
+      "parentId": "113c9ed5-534e-41d6-9880-16fe53b8f64e",
+      "name": "cherry",
+      "nameHierarchy": "Global/japan15/blossom/cherry",
+      "type": "floor",
+      "floorNumber": 1,
+      "rfModel": "Cubes And Walled Offices",
+      "width": 105.0,
+      "length": 107.0,
+      "height": 10.0,
+      "unitsOfMeasure": "feet"
+    },
+    {
+      "id": "ea3f6d21-68ee-4d78-ad18-1dc35b725d98",
+      "parentId": "e7cc45ee-2cd0-4551-8770-9f52b1a72bae",
+      "name": "cherry",
+      "nameHierarchy": "Global/japan152/blossom/cherry",
+      "type": "floor",
+      "floorNumber": 3,
+      "rfModel": "Cubes And Walled Offices",
+      "width": 75.1,
+      "length": 103.23,
+      "height": 50.23,
+      "unitsOfMeasure": "feet"
+    },
+    {
+      "id": "ef75ebac-bae8-4bb7-943e-3dde094ab3e9",
+      "parentId": "38d7e6a1-06cf-418e-9897-1debd8c0d255",
+      "name": "cherry",
+      "nameHierarchy": "Global/japan17/blossom/cherry",
+      "type": "floor",
+      "floorNumber": 1,
+      "rfModel": "Cubes And Walled Offices",
+      "width": 106.0,
+      "length": 100.0,
+      "height": 10.0,
+      "unitsOfMeasure": "feet"
+    },
+    {
+      "id": "91701977-a0e0-43f8-8e73-c71218d64215",
+      "parentId": "f62afe0a-8ae3-4ec8-ae45-5f45d087b0be",
+      "name": "cherry",
+      "nameHierarchy": "Global/japan71/blossom/cherry",
+      "type": "floor",
+      "floorNumber": 3,
+      "rfModel": "Cubes And Walled Offices",
+      "width": 75.1,
+      "length": 103.23,
+      "height": 50.23,
+      "unitsOfMeasure": "feet"
+    },
+    {
+      "id": "f0391b64-85c8-4910-aa3e-d959706d16b0",
+      "parentId": "f74e7c3c-0c8f-4eb4-88f1-bf9357b160d2",
+      "name": "cherry",
+      "nameHierarchy": "Global/japan177/blossom/cherry",
+      "type": "floor",
+      "floorNumber": 1,
+      "rfModel": "Cubes And Walled Offices",
+      "width": 105.0,
+      "length": 107.0,
+      "height": 10.0,
+      "unitsOfMeasure": "feet"
+    },
+    {
+      "id": "6f31fdc6-52f1-440c-aeb5-6b9e2794b7b5",
+      "parentId": "b2dadedd-8f43-4236-8739-ebf92a43370b",
+      "name": "cherry",
+      "nameHierarchy": "Global/japan775/blossom/cherry",
+      "type": "floor",
+      "floorNumber": 3,
+      "rfModel": "Cubes And Walled Offices",
+      "width": 75.1,
+      "length": 103.23,
+      "height": 50.23,
+      "unitsOfMeasure": "feet"
+    }
+  ],
+  "version": "1.0"
+},
+
+"playbook_config_site":
+[
+  {
+    "type": "area",
+    "site": {
+      "area": {
+        "name": "japan8888",
+        "parentName": "Global"
+      }
+    }
+  },
+  {
+    "type": "building",
+    "site": {
+      "building": {
+        "name": "blossom",
+        "address": "1234 Elm Street",
+        "parentName": "Global/japan8888",
+        "latitude": 37.386,
+        "longitude": -121.845,
+        "country": "India"
+      }
+    }
+  },
+  {
+    "type": "floor",
+    "site": {
+      "floor": {
+        "name": "cherry",
+        "parentName": "Global/japan8888/blossom",
+        "rfModel": "Cubes And Walled Offices",
+        "width": 106,
+        "length": 100,
+        "height": 10,
+        "floorNumber": 1
+      }
+    }
+  }
+],
+
+"create_site_response_area" :
+{
+  "executionId": "96690074-acaf-4f2e-881d-e7bdb4ac2fff",
+  "executionStatusUrl": "/dna/platform/management/business-api/v1/execution-status/96690074-acaf-4f2e-881d-e7bdb4ac2fff",
+  "message": "The request has been accepted for execution"
+},
+
+"create_site_response_area_details" :
+{
+  "bapiKey": "50b5-89fd-4c7a-930a",
+  "bapiName": "Create Site",
+  "bapiExecutionId": "96690074-acaf-4f2e-881d-e7bdb4ac2fff",
+  "startTime": "Fri Sep 20 04:21:21 UTC 2024",
+  "startTimeEpoch": 1726806081062,
+  "endTime": "Fri Sep 20 04:21:21 UTC 2024",
+  "endTimeEpoch": 1726806081345,
+  "timeDuration": 283,
+  "status": "SUCCESS"
+},
+
+"get_site_create_area" :
+{
+  "response": [
+    {
+      "parentId": "0ceaa46f-e64b-448b-a01c-1c100c9b134b",
+      "additionalInfo": [
+        {
+          "nameSpace": "Location",
+          "attributes": {
+            "addressInheritedFrom": "2ae296a3-18a9-441d-9099-174c687e4822",
+            "type": "area"
+          }
+        }
+      ],
+      "name": "japan8888",
+      "instanceTenantId": "6663114d388b29001399e46a",
+      "id": "2ae296a3-18a9-441d-9099-174c687e4822",
+      "siteHierarchy": "0ceaa46f-e64b-448b-a01c-1c100c9b134b/2ae296a3-18a9-441d-9099-174c687e4822",
+      "siteNameHierarchy": "Global/japan8888"
+    }
+  ]
+},
+"create_site_response_building" :
+{
+  "executionId": "493d27ba-72d9-4d17-acbc-8f8cc8517f0d",
+  "executionStatusUrl": "/dna/platform/management/business-api/v1/execution-status/493d27ba-72d9-4d17-acbc-8f8cc8517f0d",
+  "message": "The request has been accepted for execution"
+},
+
+"create_site_response_building_details" :
+{
+  "bapiKey": "50b5-89fd-4c7a-930a",
+  "bapiName": "Create Site",
+  "bapiExecutionId": "493d27ba-72d9-4d17-acbc-8f8cc8517f0d",
+  "startTime": "Fri Sep 20 04:21:23 UTC 2024",
+  "startTimeEpoch": 1726806083324,
+  "endTime": "Fri Sep 20 04:21:23 UTC 2024",
+  "endTimeEpoch": 1726806083582,
+  "timeDuration": 258,
+  "status": "SUCCESS"
+},
+
+"get_site_create_building" :
+{
+  "response": [
+    {
+      "parentId": "2ae296a3-18a9-441d-9099-174c687e4822",
+      "additionalInfo": [
+        {
+          "nameSpace": "Location",
+          "attributes": {
+            "country": "India",
+            "address": "1234 Elm Street",
+            "latitude": "37.386",
+            "addressInheritedFrom": "ae173d05-a0ad-4d94-8333-c99f4a921a85",
+            "type": "building",
+            "longitude": "-121.845"
+          }
+        }
+      ],
+      "name": "blossom",
+      "instanceTenantId": "6663114d388b29001399e46a",
+      "id": "ae173d05-a0ad-4d94-8333-c99f4a921a85",
+      "siteHierarchy": "0ceaa46f-e64b-448b-a01c-1c100c9b134b/2ae296a3-18a9-441d-9099-174c687e4822/ae173d05-a0ad-4d94-8333-c99f4a921a85",
+      "siteNameHierarchy": "Global/japan8888/blossom"
+    }
+  ]
+},
+"create_site_response_floor" :
+{
+  "executionId": "af1c088f-e746-430c-808a-b333b1b2b60c",
+  "executionStatusUrl": "/dna/platform/management/business-api/v1/execution-status/af1c088f-e746-430c-808a-b333b1b2b60c",
+  "message": "The request has been accepted for execution"
+},
+"create_site_response_floor_details" :
+{
+  "bapiKey": "50b5-89fd-4c7a-930a",
+  "bapiName": "Create Site",
+  "bapiExecutionId": "af1c088f-e746-430c-808a-b333b1b2b60c",
+  "startTime": "Fri Sep 20 04:21:25 UTC 2024",
+  "startTimeEpoch": 1726806085417,
+  "endTime": "Fri Sep 20 04:21:25 UTC 2024",
+  "endTimeEpoch": 1726806085722,
+  "timeDuration": 305,
+  "status": "SUCCESS"
+},
+"get_site_create_floor" :
+{
+  "response": [
+    {
+      "parentId": "ae173d05-a0ad-4d94-8333-c99f4a921a85",
+      "additionalInfo": [
+        {
+          "nameSpace": "mapsSummary",
+          "attributes": {
+            "rfModel": "162162",
+            "floorIndex": "1"
+          }
+        },
+        {
+          "nameSpace": "Location",
+          "attributes": {
+            "address": "1234 Elm Street",
+            "addressInheritedFrom": "ae173d05-a0ad-4d94-8333-c99f4a921a85",
+            "type": "floor"
+          }
+        },
+        {
+          "nameSpace": "mapGeometry",
+          "attributes": {
+            "offsetX": "0.0",
+            "offsetY": "0.0",
+            "width": "106.0",
+            "length": "100.0",
+            "height": "10.0"
+          }
+        }
+      ],
+      "name": "cherry",
+      "instanceTenantId": "6663114d388b29001399e46a",
+      "id": "f3caf8ed-d27f-4268-a844-16c3df874930",
+      "siteHierarchy": "0ceaa46f-e64b-448b-a01c-1c100c9b134b/2ae296a3-18a9-441d-9099-174c687e4822/ae173d05-a0ad-4d94-8333-c99f4a921a85/f3caf8ed-d27f-4268-a844-16c3df874930",
+      "siteNameHierarchy": "Global/japan8888/blossom/cherry"
+    }
+  ]
+},
+"playbook_config_update_site" :
+[
+  {
+    "type": "area",
+    "site": {
+      "area": {
+        "name": "japan8888",
+        "parentName": "Global"
+      }
+    }
+  },
+  {
+    "type": "building",
+    "site": {
+      "building": {
+        "name": "blossom",
+        "address": "1234 Elm Street",
+        "parentName": "Global/japan8888",
+        "latitude": 37.387,
+        "longitude": -121.847,
+        "country": "India"
+      }
+    }
+  },
+  {
+    "type": "floor",
+    "site": {
+      "floor": {
+        "name": "cherry",
+        "parentName": "Global/japan8888/blossom",
+        "rfModel": "Cubes And Walled Offices",
+        "width": 107,
+        "length": 107,
+        "height": 10,
+        "floorNumber": 1
+      }
+    }
+  }
+],
+
+
+"get_site_area_update" :
+{
+  "response": [
+    {
+      "parentId": "0ceaa46f-e64b-448b-a01c-1c100c9b134b",
+      "additionalInfo": [
+        {
+          "nameSpace": "Location",
+          "attributes": {
+            "addressInheritedFrom": "2ae296a3-18a9-441d-9099-174c687e4822",
+            "type": "area"
+          }
+        }
+      ],
+      "name": "japan8888",
+      "instanceTenantId": "6663114d388b29001399e46a",
+      "id": "2ae296a3-18a9-441d-9099-174c687e4822",
+      "siteHierarchy": "0ceaa46f-e64b-448b-a01c-1c100c9b134b/2ae296a3-18a9-441d-9099-174c687e4822",
+      "siteNameHierarchy": "Global/japan8888"
+    }
+  ]
+},
+"get_site_building_update" :
+{
+  "response": [
+    {
+      "parentId": "2ae296a3-18a9-441d-9099-174c687e4822",
+      "additionalInfo": [
+        {
+          "nameSpace": "Location",
+          "attributes": {
+            "country": "India",
+            "address": "1234 Elm Street",
+            "latitude": "37.386",
+            "addressInheritedFrom": "ae173d05-a0ad-4d94-8333-c99f4a921a85",
+            "type": "building",
+            "longitude": "-121.845"
+          }
+        }
+      ],
+      "name": "blossom",
+      "instanceTenantId": "6663114d388b29001399e46a",
+      "id": "ae173d05-a0ad-4d94-8333-c99f4a921a85",
+      "siteHierarchy": "0ceaa46f-e64b-448b-a01c-1c100c9b134b/2ae296a3-18a9-441d-9099-174c687e4822/ae173d05-a0ad-4d94-8333-c99f4a921a85",
+      "siteNameHierarchy": "Global/japan8888/blossom"
+    }
+  ]
+},
+
+"update_site_building_response" :
+{
+  "executionId": "29af9339-1477-47d1-a939-91da668ef796",
+  "executionStatusUrl": "/dna/platform/management/business-api/v1/execution-status/29af9339-1477-47d1-a939-91da668ef796",
+  "message": "The request has been accepted for execution"
+},
+"update_site_building_response_details" :
+{
+  "bapiKey": "eeb7-eb4b-4bd8-a1dd",
+  "bapiName": "Update Site",
+  "bapiExecutionId": "29af9339-1477-47d1-a939-91da668ef796",
+  "startTime": "Fri Sep 20 06:27:59 UTC 2024",
+  "startTimeEpoch": 1726813679604,
+  "endTime": "Fri Sep 20 06:28:14 UTC 2024",
+  "endTimeEpoch": 1726813694124,
+  "timeDuration": 14520,
+  "status": "SUCCESS"
+},
+"get_site_floor_update" :
+{
+  "response": [
+    {
+      "parentId": "ae173d05-a0ad-4d94-8333-c99f4a921a85",
+      "additionalInfo": [
+        {
+          "nameSpace": "mapsSummary",
+          "attributes": {
+            "rfModel": "162162",
+            "floorIndex": "1"
+          }
+        },
+        {
+          "nameSpace": "mapGeometry",
+          "attributes": {
+            "offsetX": "0.0",
+            "offsetY": "0.0",
+            "width": "106.0",
+            "length": "100.0",
+            "height": "10.0"
+          }
+        },
+        {
+          "nameSpace": "Location",
+          "attributes": {
+            "address": "1234 Elm Street",
+            "addressInheritedFrom": "ae173d05-a0ad-4d94-8333-c99f4a921a85",
+            "type": "floor"
+          }
+        }
+      ],
+      "name": "cherry",
+      "instanceTenantId": "6663114d388b29001399e46a",
+      "id": "f3caf8ed-d27f-4268-a844-16c3df874930",
+      "siteHierarchy": "0ceaa46f-e64b-448b-a01c-1c100c9b134b/2ae296a3-18a9-441d-9099-174c687e4822/ae173d05-a0ad-4d94-8333-c99f4a921a85/f3caf8ed-d27f-4268-a844-16c3df874930",
+      "siteNameHierarchy": "Global/japan8888/blossom/cherry"
+    }
+  ]
+},
+"update_site_floor_response" :
+{
+  "executionId": "194e6396-20da-41a0-99fc-4dd3e0e1640b",
+  "executionStatusUrl": "/dna/platform/management/business-api/v1/execution-status/194e6396-20da-41a0-99fc-4dd3e0e1640b",
+  "message": "The request has been accepted for execution"
+},
+"update_site_floor_response_details" :
+{
+  "bapiKey": "eeb7-eb4b-4bd8-a1dd",
+  "bapiName": "Update Site",
+  "bapiExecutionId": "194e6396-20da-41a0-99fc-4dd3e0e1640b",
+  "startTime": "Fri Sep 20 06:28:15 UTC 2024",
+  "startTimeEpoch": 1726813695721,
+  "endTime": "Fri Sep 20 06:28:16 UTC 2024",
+  "endTimeEpoch": 1726813696356,
+  "timeDuration": 635,
+  "status": "SUCCESS"
+},
+"playbook_config_update_a_site" :
+[
+  {
+    "type": "area",
+    "site": {
+      "area": {
+        "name": "japan8888",
+        "parentName": "Global"
+      }
+    }
+  },
+  {
+    "type": "building",
+    "site": {
+      "building": {
+        "name": "blossom",
+        "address": "1234 Elm Street",
+        "parentName": "Global/japan8888",
+        "latitude": 37.357,
+        "longitude": -121.857,
+        "country": "India"
+      }
+    }
+  },
+  {
+    "type": "floor",
+    "site": {
+      "floor": {
+        "name": "cherry",
+        "parentName": "Global/japan8888/blossom",
+        "rfModel": "Cubes And Walled Offices",
+        "width": 105,
+        "length": 105,
+        "height": 10,
+        "floorNumber": 1
+      }
+    }
+  }
+],
+"get_site_area_a_update":
+{
+  "response": [
+    {
+      "id": "2ae296a3-18a9-441d-9099-174c687e4822",
+      "parentId": "0ceaa46f-e64b-448b-a01c-1c100c9b134b",
+      "name": "japan8888",
+      "nameHierarchy": "Global/japan8888",
+      "type": "area"
+    },
+    {
+      "id": "ae173d05-a0ad-4d94-8333-c99f4a921a85",
+      "parentId": "2ae296a3-18a9-441d-9099-174c687e4822",
+      "name": "blossom",
+      "nameHierarchy": "Global/japan8888/blossom",
+      "type": "building",
+      "latitude": 37.355,
+      "longitude": -121.855,
+      "address": "1234 Elm Street",
+      "country": "India"
+    }
+  ],
+  "version": "1.0"
+},
+"get_site_building_a_update" :
+{
+  "response": [
+    {
+      "id": "ae173d05-a0ad-4d94-8333-c99f4a921a85",
+      "parentId": "2ae296a3-18a9-441d-9099-174c687e4822",
+      "name": "blossom",
+      "nameHierarchy": "Global/japan8888/blossom",
+      "type": "building",
+      "latitude": 37.355,
+      "longitude": -121.855,
+      "address": "1234 Elm Street",
+      "country": "India"
+    }
+  ],
+  "version": "1.0"
+},
+"update_a_site_building_response" :
+{
+  "response": {
+    "taskId": "01920e3b-6d8a-7c98-aa1a-406d9d64fb2c",
+    "url": "/api/v1/task/01920e3b-6d8a-7c98-aa1a-406d9d64fb2c"
+  },
+  "version": "1.0"
+},
+"update_a_site_building_response_details" :
+{
+  "response": {
+    "endTime": 1726815628804,
+    "data": "ae173d05-a0ad-4d94-8333-c99f4a921a85",
+    "startTime": 1726815628682,
+    "version": 1726815628804,
+    "progress": "Group is updated successfully",
+    "serviceType": "Grouping Service",
+    "operationIdList": [
+      "ccb72a34-2344-4819-93ac-e7ea69efa8b3"
+    ],
+    "isError": false,
+    "instanceTenantId": "6663114d388b29001399e46a",
+    "id": "01920e3b-6d8a-7c98-aa1a-406d9d64fb2c"
+  },
+  "version": "1.0"
+},
+"get_site_floor_a_update" :
+{
+  "response": [
+    {
+      "id": "f3caf8ed-d27f-4268-a844-16c3df874930",
+      "parentId": "ae173d05-a0ad-4d94-8333-c99f4a921a85",
+      "name": "cherry",
+      "nameHierarchy": "Global/japan8888/blossom/cherry",
+      "type": "floor",
+      "floorNumber": 1,
+      "rfModel": "Cubes And Walled Offices",
+      "width": 103.0,
+      "length": 103.0,
+      "height": 10.0,
+      "unitsOfMeasure": "feet"
+    }
+  ],
+  "version": "1.0"
+},
+"update_a_site_floor_response" :
+{
+  "response": {
+    "taskId": "01920e3b-7602-7ad2-80b6-464d6329c97f",
+    "url": "/api/v1/task/01920e3b-7602-7ad2-80b6-464d6329c97f"
+  },
+  "version": "1.0"
+},
+"update_a_site_floor_response_details" :
+{
+  "response": {
+    "endTime": 1726815631052,
+    "data": "f3caf8ed-d27f-4268-a844-16c3df874930",
+    "startTime": 1726815630850,
+    "version": 1726815631052,
+    "progress": "Service domain is updated successfully.",
+    "serviceType": "DNA Maps Service",
+    "isError": false,
+    "instanceTenantId": "6663114d388b29001399e46a",
+    "id": "01920e3b-7602-7ad2-80b6-464d6329c97f"
+  },
+  "version": "1.0"
+},
+"get_site_floor_a_delete":
+{
+  "response": [
+      {
+          "id": "f3caf8ed-d27f-4268-a844-16c3df874930",
+          "parentId": "ae173d05-a0ad-4d94-8333-c99f4a921a85",
+          "name": "cherry",
+          "nameHierarchy": "Global/japan8888/blossom/cherry",
+          "type": "floor",
+          "floorNumber": 1,
+          "rfModel": "Cubes And Walled Offices",
+          "width": 106.0,
+          "length": 100.0,
+          "height": 10.0,
+          "unitsOfMeasure": "feet"
+      }
+  ],
+  "version": "1.0"
+},
+
+"get_sites_assigned_devices_network" :
+{
+  "response": [],
+  "version": "1.0"
+},
+"delete_a_floor_response":
+{
+  "response": {
+      "taskId": "01920eac-a052-7b3f-a62e-25449a63bc09",
+      "url": "/api/v1/task/01920eac-a052-7b3f-a62e-25449a63bc09"
+  },
+  "version": "1.0"
+},
+
+"delete_a_floor_response_details":
+{
+  "response": {
+      "endTime": 1726823047404,
+      "startTime": 1726823047250,
+      "version": 1726823047404,
+      "progress": "NCMP00150: Service domain is deleted successfully",
+      "serviceType": "DNA Maps Service",
+      "isError": false,
+      "instanceTenantId": "6663114d388b29001399e46a",
+      "id": "01920eac-a052-7b3f-a62e-25449a63bc09"
+  },
+  "version": "1.0"
+},
+"get_site_building_a_delete":
+{
+  "response": [
+      {
+          "id": "ae173d05-a0ad-4d94-8333-c99f4a921a85",
+          "parentId": "2ae296a3-18a9-441d-9099-174c687e4822",
+          "name": "blossom",
+          "nameHierarchy": "Global/japan8888/blossom",
+          "type": "building",
+          "latitude": 37.386,
+          "longitude": -121.845,
+          "address": "1234 Elm Street",
+          "country": "India"
+      }
+  ],
+  "version": "1.0"
+},
+"delete_a_building_response":
+{
+  "response": {
+      "taskId": "01920eac-a84e-76e2-9d03-82b23431f674",
+      "url": "/api/v1/task/01920eac-a84e-76e2-9d03-82b23431f674"
+  },
+  "version": "1.0"
+},
+"delete_a_building_response_details":
+{
+  "response": {
+      "endTime": 1726823049381,
+      "data": "ae173d05-a0ad-4d94-8333-c99f4a921a85",
+      "startTime": 1726823049294,
+      "version": 1726823049381,
+      "progress": "Group is deleted successfully",
+      "serviceType": "Grouping Service",
+      "operationIdList": ["fd479ecd-0154-46a0-9e46-42b100d35774"],
+      "isError": false,
+      "instanceTenantId": "6663114d388b29001399e46a",
+      "id": "01920eac-a84e-76e2-9d03-82b23431f674"
+  },
+  "version": "1.0"
+},
+"get_site_area_a_delete":
+{
+  "response": [
+      {
+          "id": "2ae296a3-18a9-441d-9099-174c687e4822",
+          "parentId": "0ceaa46f-e64b-448b-a01c-1c100c9b134b",
+          "name": "japan8888",
+          "nameHierarchy": "Global/japan8888",
+          "type": "area"
+      }
+  ],
+  "version": "1.0"
+},
+"delete_an_area_response":
+{
+  "response": {
+      "taskId": "01920eac-afda-788c-80c1-9d6e5ba6a3c8",
+      "url": "/api/v1/task/01920eac-afda-788c-80c1-9d6e5ba6a3c8"
+  },
+  "version": "1.0"
+},
+"delete_an_area_response_details":
+{
+  "response": {
+      "endTime": 1726823051293,
+      "data": "2ae296a3-18a9-441d-9099-174c687e4822",
+      "startTime": 1726823051226,
+      "version": 1726823051293,
+      "progress": "Group is deleted successfully",
+      "serviceType": "Grouping Service",
+      "operationIdList": [
+          "0f40d3e5-0c0d-40f4-bd6c-0960ad408d4d"
+      ],
+      "isError": false,
+      "instanceTenantId": "6663114d388b29001399e46a",
+      "id": "01920eac-afda-788c-80c1-9d6e5ba6a3c8"
+  },
+  "version": "1.0"
+},
+"get_site_area" :
+{
+  "response": [
+      {
+          "parentId": "0ceaa46f-e64b-448b-a01c-1c100c9b134b",
+          "additionalInfo": [
+              {
+                  "nameSpace": "Location",
+                  "attributes": {
+                      "addressInheritedFrom": "392613a2-beeb-4ea8-b07a-4132c953dd4a",
+                      "type": "area"
+                  }
+              }
+          ],
+          "name": "japan8888",
+          "instanceTenantId": "6663114d388b29001399e46a",
+          "id": "392613a2-beeb-4ea8-b07a-4132c953dd4a",
+          "siteHierarchy": "0ceaa46f-e64b-448b-a01c-1c100c9b134b/392613a2-beeb-4ea8-b07a-4132c953dd4a",
+          "siteNameHierarchy": "Global/japan8888"
+      }
+  ]
+},
+"get_membership" :
+{
+  "site": {
+      "response": [
+          {
+              "parentId": "392613a2-beeb-4ea8-b07a-4132c953dd4a",
+              "groupTypeList": [
+                  "SITE"
+              ],
+              "additionalInfo": [
+                  {
+                      "nameSpace": "com.wireless.managingwlc",
+                      "attributes": {
+                          "secondaryWlcInheritedFrom": "392613a2-beeb-4ea8-b07a-4132c953dd4a",
+                          "anchorWlcInheritedFrom": "392613a2-beeb-4ea8-b07a-4132c953dd4a",
+                          "tertiaryWlcInheritedFrom": "392613a2-beeb-4ea8-b07a-4132c953dd4a",
+                          "primaryWlcInheritedFrom": "392613a2-beeb-4ea8-b07a-4132c953dd4a"
+                      }
+                  },
+                  {
+                      "nameSpace": "Location",
+                      "attributes": {
+                          "country": "India",
+                          "address": "1234 Elm Street",
+                          "latitude": "37.386",
+                          "addressInheritedFrom": "4e361618-ab97-495e-9b55-bd3d1e971823",
+                          "type": "building",
+                          "longitude": "-121.845"
+                      }
+                  },
+                  {
+                      "nameSpace": "System Settings",
+                      "attributes": {
+                          "group.count.total": "1",
+                          "hasChild": "TRUE",
+                          "group.count.direct": "1",
+                          "group.hierarchy.groupType": "SITE",
+                          "member.count.total": "0",
+                          "member.count.direct": "0"
+                      }
+                  }
+              ],
+              "groupHierarchy": "0ceaa46f-e64b-448b-a01c-1c100c9b134b/392613a2-beeb-4ea8-b07a-4132c953dd4a/4e361618-ab97-495e-9b55-bd3d1e971823",
+              "groupNameHierarchy": "Global/japan8888/blossom",
+              "name": "blossom",
+              "instanceTenantId": "6663114d388b29001399e46a",
+              "id": "4e361618-ab97-495e-9b55-bd3d1e971823"
+          },
+          {
+              "parentId": "4e361618-ab97-495e-9b55-bd3d1e971823",
+              "groupTypeList": [
+                  "SITE"
+              ],
+              "additionalInfo": [
+                  {
+                      "nameSpace": "mapGeometry",
+                      "attributes": {
+                          "offsetX": "0.0",
+                          "offsetY": "0.0",
+                          "width": "106.0",
+                          "length": "100.0",
+                          "height": "10.0"
+                      }
+                  },
+                  {
+                      "nameSpace": "Location",
+                      "attributes": {
+                          "address": "1234 Elm Street",
+                          "addressInheritedFrom": "4e361618-ab97-495e-9b55-bd3d1e971823",
+                          "type": "floor"
+                      }
+                  },
+                  {
+                      "nameSpace": "mapsSummary",
+                      "attributes": {
+                          "rfModel": "162162",
+                          "floorIndex": "1"
+                      }
+                  },
+                  {
+                      "nameSpace": "com.wireless.managingwlc",
+                      "attributes": {
+                          "secondaryWlcInheritedFrom": "392613a2-beeb-4ea8-b07a-4132c953dd4a",
+                          "anchorWlcInheritedFrom": "392613a2-beeb-4ea8-b07a-4132c953dd4a",
+                          "tertiaryWlcInheritedFrom": "392613a2-beeb-4ea8-b07a-4132c953dd4a",
+                          "primaryWlcInheritedFrom": "392613a2-beeb-4ea8-b07a-4132c953dd4a"
+                      }
+                  },
+                  {
+                      "nameSpace": "System Settings",
+                      "attributes": {
+                          "group.count.total": "0",
+                          "hasChild": "FALSE",
+                          "group.count.direct": "0",
+                          "group.hierarchy.groupType": "SITE",
+                          "member.count.total": "0",
+                          "member.count.direct": "0"
+                      }
+                  }
+              ],
+              "groupHierarchy": "0ceaa46f-e64b-448b-a01c-1c100c9b134b/392613a2-beeb-4ea8-b07a-4132c953dd4a/4e361618-ab97-495e-9b55-bd3d1e971823/0ba743ac-4762-459b-94bf-3414f9373835",
+              "groupNameHierarchy": "Global/japan8888/blossom/cherry",
+              "name": "cherry",
+              "instanceTenantId": "6663114d388b29001399e46a",
+              "id": "0ba743ac-4762-459b-94bf-3414f9373835"
+          }
+      ],
+      "version": "1.0"
+  },
+  "device": [
+      {
+          "response": [],
+          "version": "1.0",
+          "siteId": "392613a2-beeb-4ea8-b07a-4132c953dd4a",
+          "message": "Site does not have device member with given device family or serial number as input"
+      },
+      {
+          "response": [],
+          "version": "1.0",
+          "siteId": "4e361618-ab97-495e-9b55-bd3d1e971823",
+          "message": "Site doesn not have device member with given device family or serial number as input"
+      },
+      {
+          "response": [],
+          "version": "1.0",
+          "siteId": "0ba743ac-4762-459b-94bf-3414f9373835",
+          "message": "Site doesn not have device member with given device family or serial number as input"
+      }
+  ]
+},
+"get_single_floor_deletion_response" :
+{
+  "executionId": "0b4d15be-e5bd-4ab8-9e77-329ccde38441",
+  "executionStatusUrl": "/dna/platform/management/business-api/v1/execution-status/0b4d15be-e5bd-4ab8-9e77-329ccde38441",
+  "message": "The request has been accepted for execution"
+},
+"delete_site_execution_detail" :
+{
+  "bapiKey": "f083-cb13-484a-8fae",
+  "bapiName": "Delete Site",
+  "bapiExecutionId": "0b4d15be-e5bd-4ab8-9e77-329ccde38441",
+  "startTime": "Fri Sep 20 09:33:59 UTC 2024",
+  "startTimeEpoch": 1726824839494,
+  "endTime": "Fri Sep 20 09:34:02 UTC 2024",
+  "endTimeEpoch": 1726824842000,
+  "timeDuration": 2506,
+  "status": "SUCCESS",
+  "bapiSyncResponse": "{\"status\":true,\"message\":\"Floor deleted successfully.\"}"
+},
+"get_single_building_deletion_response" :
+{
+  "executionId": "2d6fa7b7-c35c-4a02-b545-36fc924cf51c",
+  "executionStatusUrl": "/dna/platform/management/business-api/v1/execution-status/2d6fa7b7-c35c-4a02-b545-36fc924cf51c",
+  "message": "The request has been accepted for execution"
+},
+"delete_site_execution_detail1" :
+{
+  "bapiKey": "f083-cb13-484a-8fae",
+  "bapiName": "Delete Site",
+  "bapiExecutionId": "2d6fa7b7-c35c-4a02-b545-36fc924cf51c",
+  "startTime": "Fri Sep 20 09:34:02 UTC 2024",
+  "startTimeEpoch": 1726824842561,
+  "endTime": "Fri Sep 20 09:34:02 UTC 2024",
+  "endTimeEpoch": 1726824842886,
+  "timeDuration": 325,
+  "status": "SUCCESS",
+  "bapiSyncResponse": "{\"status\":true,\"message\":\"Building deleted successfully.\"}"
+},
+"get_single_area_deletion_response" :
+{
+  "executionId": "3c89f5fc-eb2d-4f20-81c2-a9653f8fb633",
+  "executionStatusUrl": "/dna/platform/management/business-api/v1/execution-status/3c89f5fc-eb2d-4f20-81c2-a9653f8fb633",
+  "message": "The request has been accepted for execution"
+},
+"delete_site_execution_detail3" :
+{
+  "bapiKey": "f083-cb13-484a-8fae",
+  "bapiName": "Delete Site",
+  "bapiExecutionId": "3c89f5fc-eb2d-4f20-81c2-a9653f8fb633",
+  "startTime": "Fri Sep 20 09:34:03 UTC 2024",
+  "startTimeEpoch": 1726824843466,
+  "endTime": "Fri Sep 20 09:34:03 UTC 2024",
+  "endTimeEpoch": 1726824843739,
+  "timeDuration": 273,
+  "status": "SUCCESS",
+  "bapiSyncResponse": "{\"status\":true,\"message\":\"Area deleted successfully.\"}"
+},
+"playbook_config_empty" :[
+
+],
+"playbook_config_delete" :
+[
+  {
+    "type": "floor",
+    "site": {
+      "floor": {
+        "name": "cherry",
+        "parentName": "Global/japan8888/blossom",
+        "rfModel": "Cubes And Walled Offices",
+        "width": 177,
+        "length": 171,
+        "height": 10,
+        "floorNumber": 1
+      }
+    }
+  },
+  {
+    "type": "building",
+    "site": {
+      "building": {
+        "name": "blossom",
+        "address": "1234 Elm Street",
+        "parentName": "Global/japan8888",
+        "latitude": 37.358,
+        "longitude": -121.846,
+        "country": "India"
+      }
+    }
+  },
+  {
+    "type": "area",
+    "site": {
+      "area": {
+        "name": "japan8888",
+        "parentName": "Global"
+      }
+    }
+  }
+],
+"get_site_updated_floor" :
+{
+  "response": [
+    {
+      "parentId": "c687b9d9-a095-44f6-891d-438ec0b5d6f3",
+      "additionalInfo": [
+        {
+          "nameSpace": "Location",
+          "attributes": {
+            "address": "1234 Elm Street",
+            "addressInheritedFrom": "c687b9d9-a095-44f6-891d-438ec0b5d6f3",
+            "type": "floor"
+          }
+        },
+        {
+          "nameSpace": "mapGeometry",
+          "attributes": {
+            "offsetX": "0.0",
+            "offsetY": "0.0",
+            "width": "107.0",
+            "length": "101.0",
+            "height": "10.0"
+          }
+        },
+        {
+          "nameSpace": "mapsSummary",
+          "attributes": {
+            "rfModel": "162162",
+            "floorIndex": "1"
+          }
+        }
+      ],
+      "name": "cherry",
+      "instanceTenantId": "6663114d388b29001399e46a",
+      "id": "dc467c88-26a7-4483-9139-4f905dff6b87",
+      "siteHierarchy": "0ceaa46f-e64b-448b-a01c-1c100c9b134b/5a422684-4302-4366-9318-26d85e1133fc/c687b9d9-a095-44f6-891d-438ec0b5d6f3/dc467c88-26a7-4483-9139-4f905dff6b87",
+      "siteNameHierarchy": "Global/japan8888/blossom/cherry"
+    }
+  ]
+},
+"playbook_config_invalid_param": {
+        "type": "floor"
+    },
+
+"get_new_delete_floor":
+{
+  "response": [
+    {
+      "parentId": "c687b9d9-a095-44f6-891d-438ec0b5d6f3",
+      "additionalInfo": [
+        {
+          "nameSpace": "Location",
+          "attributes": {
+            "address": "1234 Elm Street",
+            "addressInheritedFrom": "c687b9d9-a095-44f6-891d-438ec0b5d6f3",
+            "type": "floor"
+          }
+        },
+        {
+          "nameSpace": "mapsSummary",
+          "attributes": {
+            "rfModel": "162162",
+            "floorIndex": "1"
+          }
+        },
+        {
+          "nameSpace": "mapGeometry",
+          "attributes": {
+            "offsetX": "0.0",
+            "offsetY": "0.0",
+            "length": "105.0",
+            "width": "107.0",
+            "height": "10.0"
+          }
+        }
+      ],
+      "name": "cherry",
+      "instanceTenantId": "6663114d388b29001399e46a",
+      "id": "dc467c88-26a7-4483-9139-4f905dff6b87",
+      "siteHierarchy": "0ceaa46f-e64b-448b-a01c-1c100c9b134b/5a422684-4302-4366-9318-26d85e1133fc/c687b9d9-a095-44f6-891d-438ec0b5d6f3/dc467c88-26a7-4483-9139-4f905dff6b87",
+      "siteNameHierarchy": "Global/japan8888/blossom/cherry"
+    }
+  ]
+},
+"new_get_membership":
+{
+  "site": {
+    "response": [],
+    "version": "1.0",
+    "message": "Site does not have childrens."
+  },
+  "device": [
+    {
+      "response": [],
+      "version": "1.0",
+      "siteId": "dc467c88-26a7-4483-9139-4f905dff6b87",
+      "message": "Site doesn not have device member with given device family or serial number as input"
+    }
+  ]
+},
+"new_floor_delete_response" :
+{
+  "executionId": "60de5037-17f8-4961-9a91-51852c7decee",
+  "executionStatusUrl": "/dna/platform/management/business-api/v1/execution-status/60de5037-17f8-4961-9a91-51852c7decee",
+  "message": "The request has been accepted for execution"
+},
+"new_floor_delete_response_details" :
+{
+  "bapiKey": "f083-cb13-484a-8fae",
+  "bapiName": "Delete Site",
+  "bapiExecutionId": "60de5037-17f8-4961-9a91-51852c7decee",
+  "startTime": "Sat Sep 21 12:51:26 UTC 2024",
+  "startTimeEpoch": 1726923086231,
+  "endTime": "Sat Sep 21 12:51:33 UTC 2024",
+  "endTimeEpoch": 1726923093701,
+  "timeDuration": 7470,
+  "status": "SUCCESS",
+  "bapiSyncResponse": {
+    "status": true,
+    "message": "Floor deleted successfully."
+  }
+},
+"get_new_delete_building":
+{
+  "response": [
+    {
+      "parentId": "5a422684-4302-4366-9318-26d85e1133fc",
+      "additionalInfo": [
+        {
+          "nameSpace": "Location",
+          "attributes": {
+            "country": "United States",
+            "address": "1234 Elm Street",
+            "latitude": "37.386",
+            "addressInheritedFrom": "c687b9d9-a095-44f6-891d-438ec0b5d6f3",
+            "type": "building",
+            "longitude": "-121.848"
+          }
+        }
+      ],
+      "name": "blossom",
+      "instanceTenantId": "6663114d388b29001399e46a",
+      "id": "c687b9d9-a095-44f6-891d-438ec0b5d6f3",
+      "siteHierarchy": "0ceaa46f-e64b-448b-a01c-1c100c9b134b/5a422684-4302-4366-9318-26d85e1133fc/c687b9d9-a095-44f6-891d-438ec0b5d6f3",
+      "siteNameHierarchy": "Global/japan8888/blossom"
+    }
+  ]
+},
+"new_get_membership1":
+{
+  "site": {
+    "response": [],
+    "version": "1.0",
+    "message": "Site does not have childrens."
+  },
+  "device": [
+    {
+      "response": [],
+      "version": "1.0",
+      "siteId": "c687b9d9-a095-44f6-891d-438ec0b5d6f3",
+      "message": "Site does not have device member with given device family or serial number as input"
+    }
+  ]
+},
+"new_building_delete_response" :
+{
+  "executionId": "451da762-0748-4335-9819-1c7c405125e5",
+  "executionStatusUrl": "/dna/platform/management/business-api/v1/execution-status/451da762-0748-4335-9819-1c7c405125e5",
+  "message": "The request has been accepted for execution"
+},
+"new_floor_building_response_details" :
+{
+  "bapiKey": "f083-cb13-484a-8fae",
+  "bapiName": "Delete Site",
+  "bapiExecutionId": "451da762-0748-4335-9819-1c7c405125e5",
+  "startTime": "Sat Sep 21 12:51:35 UTC 2024",
+  "startTimeEpoch": 1726923095653,
+  "endTime": "Sat Sep 21 12:51:35 UTC 2024",
+  "endTimeEpoch": 1726923095985,
+  "timeDuration": 332,
+  "status": "SUCCESS",
+  "bapiSyncResponse": {
+    "status": true,
+    "message": "Building deleted successfully."
+  }
+},
+"get_new_area_building":
+{
+  "response": [
+    {
+      "parentId": "0ceaa46f-e64b-448b-a01c-1c100c9b134b",
+      "additionalInfo": [
+        {
+          "nameSpace": "Location",
+          "attributes": {
+            "addressInheritedFrom": "5a422684-4302-4366-9318-26d85e1133fc",
+            "type": "area"
+          }
+        }
+      ],
+      "name": "japan8888",
+      "instanceTenantId": "6663114d388b29001399e46a",
+      "id": "5a422684-4302-4366-9318-26d85e1133fc",
+      "siteHierarchy": "0ceaa46f-e64b-448b-a01c-1c100c9b134b/5a422684-4302-4366-9318-26d85e1133fc",
+      "siteNameHierarchy": "Global/japan8888"
+    }
+  ]
+},
+"new_get_membership2":
+{
+  "site": {
+    "response": [],
+    "version": "1.0",
+    "message": "Site does not have childrens."
+  },
+  "device": [
+    {
+      "response": [],
+      "version": "1.0",
+      "siteId": "5a422684-4302-4366-9318-26d85e1133fc",
+      "message": "Site does not have device member with given device family or serial number as input"
+    }
+  ]
+},
+"new_area_delete_response" :
+{
+  "executionId": "0e8d2e25-cfcf-4f12-b081-ef74da258f47",
+  "executionStatusUrl": "/dna/platform/management/business-api/v1/execution-status/0e8d2e25-cfcf-4f12-b081-ef74da258f47",
+  "message": "The request has been accepted for execution"
+},
+"new_area_delete_response_details" :
+{
+  "bapiKey": "f083-cb13-484a-8fae",
+  "bapiName": "Delete Site",
+  "bapiExecutionId": "0e8d2e25-cfcf-4f12-b081-ef74da258f47",
+  "startTime": "Sat Sep 21 12:51:37 UTC 2024",
+  "startTimeEpoch": 1726923097814,
+  "endTime": "Sat Sep 21 12:51:38 UTC 2024",
+  "endTimeEpoch": 1726923098074,
+  "timeDuration": 260,
+  "status": "SUCCESS",
+  "bapiSyncResponse": {
+    "status": true,
+    "message": "Area deleted successfully."
+  }
+},
+"new_update_site_area" :
+{
+  "response": [
+    {
+      "id": "c454921c-394a-4269-a006-eed5eea286e7",
+      "parentId": "0ceaa46f-e64b-448b-a01c-1c100c9b134b",
+      "name": "japan8888",
+      "nameHierarchy": "Global/japan8888",
+      "type": "area"
+    }
+  ],
+  "version": "1.0"
+},
+"new_update_site_building" :
+{
+  "response": [
+    {
+      "id": "c878734d-27c4-49fa-941a-be4018331c7d",
+      "parentId": "c454921c-394a-4269-a006-eed5eea286e7",
+      "name": "blossom",
+      "nameHierarchy": "Global/japan8888/blossom",
+      "type": "building",
+      "latitude": 37.387,
+      "longitude": -121.848,
+      "address": "1234 Elm Street",
+      "country": "India"
+    }
+  ],
+  "version": "1.0"
+},
+"new_update_site_floor" :
+{
+  "response": [
+    {
+      "id": "da7404b2-353f-4148-807b-671cff1bcb6a",
+      "parentId": "c878734d-27c4-49fa-941a-be4018331c7d",
+      "name": "cherry",
+      "nameHierarchy": "Global/japan8888/blossom/cherry",
+      "type": "floor",
+      "floorNumber": 1,
+      "rfModel": "Cubes And Walled Offices",
+      "width": 177.0,
+      "length": 171.0,
+      "height": 10.0,
+      "unitsOfMeasure": "feet"
+    }
+  ],
+  "version": "1.0"
+},
+"new_update_floor_response" :
+{
+  "response": {
+    "taskId": "01921595-b0a0-7f3b-8caf-5bd7952152df",
+    "url": "/api/v1/task/01921595-b0a0-7f3b-8caf-5bd7952152df"
+  },
+  "version": "1.0"
+},
+"new_update_floor_response_details" :
+{
+  "response": {
+    "endTime": 1726940397936,
+    "data": "da7404b2-353f-4148-807b-671cff1bcb6a",
+    "startTime": 1726940397721,
+    "version": 1726940397936,
+    "progress": "Service domain is updated successfully.",
+    "serviceType": "DNA Maps Service",
+    "isError": false,
+    "instanceTenantId": "6663114d388b29001399e46a",
+    "id": "019215ab-4099-79fb-ad89-dc0a4ed02c98"
+  },
+  "version": "1.0"
+},
+
+"new_update_floor_response2" :
+{
+  "response": {
+    "taskId": "019215ab-53a2-7a86-80e1-d44ac7b48c41",
+    "url": "/api/v1/task/019215ab-53a2-7a86-80e1-d44ac7b48c41"
+  },
+  "version": "1.0"
+},
+
+"new_update_floor_response_details1" :
+{
+  "response": {
+    "endTime": 1726940402686,
+    "data": "da7404b2-353f-4148-807b-671cff1bcb6a",
+    "startTime": 1726940402594,
+    "version": 1726940402686,
+    "progress": "Service domain is updated successfully.",
+    "serviceType": "DNA Maps Service",
+    "isError": false,
+    "instanceTenantId": "6663114d388b29001399e46a",
+    "id": "019215ab-53a2-7a86-80e1-d44ac7b48c41"
+  },
+  "version": "1.0"
+},
+"playbook_config_update1_site":
+[
+  {
+    "type": "area",
+    "site": {
+      "area": {
+        "name": "japan8888",
+        "parentName": "Global"
+      }
+    }
+  },
+  {
+    "type": "building",
+    "site": {
+      "building": {
+        "name": "blossom",
+        "address": "1234 Elm Street",
+        "parentName": "Global/japan8888",
+        "latitude": 37.387,
+        "longitude": -121.847,
+        "country": "India"
+      }
+    }
+  },
+  {
+    "type": "floor",
+    "site": {
+      "floor": {
+        "name": "cherry",
+        "parentName": "Global/japan8888/blossom",
+        "rfModel": "Cubes And Walled Offices",
+        "width": 106,
+        "length": 108,
+        "height": 10,
+        "floorNumber": 1
+      }
+    }
+  }
+],
+"get_site_area": {
+  "response":
+    [{
+      "parentId": "3cf15665-7b7b-4b29-82a9-75b8d094b602",
+      "additionalInfo": [
+        {
+          "nameSpace": "Location",
+          "attributes": {
+            "addressInheritedFrom": "bc0ede8b-ef59-4c0e-a420-e570b72331db",
+            "type": "area"
+          }
+        }
+      ],
+      "name": "Mysore",
+      "instanceTenantId": "6486ce96ff1f0d0c8be622f4",
+      "id": "bc0ede8b-ef59-4c0e-a420-e570b72331db",
+      "siteHierarchy": "3cf15665-7b7b-4b29-82a9-75b8d094b602/bc0ede8b-ef59-4c0e-a420-e570b72331db",
+      "siteNameHierarchy": "Global/Mysore"
+  }]
+  
+},
+
+"get_site_building":
+{
+  "response": 
+    [{
+      "parentId": "bc0ede8b-ef59-4c0e-a420-e570b72331db",
+      "additionalInfo": [
+        {
+          "nameSpace": "Location",
+          "attributes": {
+            "country": "India",
+            "address": "1234 Elm Street",
+            "latitude": "37.338",
+            "longitude": "-121.832",
+            "addressInheritedFrom": "bc5bae84-3991-4684-8d4f-8fa332fd554c",
+            "type": "building"
+          }
+        }
+      ],
+      "name": "Mod-x",
+      "instanceTenantId": "6486ce96ff1f0d0c8be622f4",
+      "id": "bc5bae84-3991-4684-8d4f-8fa332fd554c",
+      "siteHierarchy": "3cf15665-7b7b-4b29-82a9-75b8d094b602/bc0ede8b-ef59-4c0e-a420-e570b72331db/bc5bae84-3991-4684-8d4f-8fa332fd554c",
+      "siteNameHierarchy": "Global/Mysore/Mod-x"
+    }]
+},
+
+"get_site_floor":
+{
+  "response": [
+    {
+      "parentId": "bc5bae84-3991-4684-8d4f-8fa332fd554c",
+      "additionalInfo": [
+        {
+          "nameSpace": "mapGeometry",
+          "attributes": {
+            "offsetX": "0.0",
+            "offsetY": "0.0",
+            "length": "100.0",
+            "width": "100.0",
+            "height": "15.0"
+          }
+        },
+        {
+          "nameSpace": "Location",
+          "attributes": {
+            "address": "1234 Elm Street",
+            "addressInheritedFrom": "bc5bae84-3991-4684-8d4f-8fa332fd554c",
+            "type": "floor"
+          }
+        },
+        {
+          "nameSpace": "mapsSummary",
+          "attributes": {
+            "rfModel": "101101",
+            "floorIndex": "1"
+          }
+        }
+      ],
+      "name": "Mezzanine",
+      "instanceTenantId": "6486ce96ff1f0d0c8be622f4",
+      "id": "383bd9aa-1634-4f8d-8803-487d47e45d71",
+      "siteHierarchy": "3cf15665-7b7b-4b29-82a9-75b8d094b602/bc0ede8b-ef59-4c0e-a420-e570b72331db/bc5bae84-3991-4684-8d4f-8fa332fd554c/383bd9aa-1634-4f8d-8803-487d47e45d71",
+      "siteNameHierarchy": "Global/Mysore/Mod-x/Mezzanine"
+    }
+  ]
+}
+
+
+}
