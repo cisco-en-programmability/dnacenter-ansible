@@ -1813,8 +1813,10 @@ class Swim(DnacBase):
         self.complete_successful_activation = False
         self.partial_successful_activation = False
         self.single_device_activation = False
+        device_ip = self.want.get("activation_details").get("device_ip_address")
 
         if self.have.get("activation_device_id"):
+            self.log("Stating image activation for a single device: {0}".format(device_ip))
             payload = [dict(
                 activateLowerImageVersion=activation_details.get("activate_lower_image_version"),
                 deviceUpgradeMode=activation_details.get("device_upgrade_mode"),
@@ -1875,6 +1877,7 @@ class Swim(DnacBase):
         activation_task_dict = {}
 
         for device_uuid in device_uuid_list:
+            self.log("Stating image activation for multiple devices")
             device_management_ip = self.get_device_ip_from_id(device_uuid)
             payload = [dict(
                 activateLowerImageVersion=activation_details.get("activate_lower_image_version"),
