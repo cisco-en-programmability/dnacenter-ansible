@@ -432,7 +432,7 @@ class Site(DnacBase):
     def __init__(self, module):
         super().__init__(module)
         self.supported_states = ["merged", "deleted"]
-        self.created_site_list, self.updated_site_list, self.update_not_neeeded_sites = [], [], []
+        self.created_site_list, self.updated_site_list, self.update_not_needed_sites = [], [], []
         self.deleted_site_list, self.site_absent_list = [], []
         self.keymap = {}
 
@@ -1308,7 +1308,7 @@ class Site(DnacBase):
                     return {"error_message": error_message}
 
             if not self.site_requires_update():
-                self.update_not_neeeded_sites.append(site_name)
+                self.update_not_needed_sites.append(site_name)
                 self.log("Site - {0} does not need any update".format(site_name), "INFO")
 
                 return self
@@ -1872,34 +1872,34 @@ class Site(DnacBase):
         """
         if self.created_site_list and self.updated_site_list:
             self.result['changed'] = True
-            if self.update_not_neeeded_sites:
+            if self.update_not_needed_sites:
                 msg = """Site(s) '{0}' created successfully as well as Site(s) '{1}' updated successully and the some site(s)
                         '{2}' needs no update in Cisco Catalyst Center"""
                 self.msg = msg.format(str(self.created_site_list), str(
-                    self.updated_site_list), str(self.update_not_neeeded_sites))
+                    self.updated_site_list), str(self.update_not_needed_sites))
             else:
                 self.msg = """Site(s) '{0}' created successfully in Cisco Catalyst Center as well as Site(s) '{1}' updated successully in
                         Cisco Catalyst Center""".format(str(self.created_site_list), str(self.updated_site_list))
         elif self.created_site_list:
             self.result['changed'] = True
-            if self.update_not_neeeded_sites:
+            if self.update_not_needed_sites:
                 self.msg = """Site(s) '{0}' created successfully and some site(s) '{1}' not needs any update in Cisco Catalyst
-                                Center.""".format(str(self.created_site_list), str(self.update_not_neeeded_sites))
+                                Center.""".format(str(self.created_site_list), str(self.update_not_needed_sites))
             else:
                 self.msg = "Site(s) '{0}' created successfully in Cisco Catalyst Center.".format(
                     str(self.created_site_list))
         elif self.updated_site_list:
             self.result['changed'] = True
-            if self.update_not_neeeded_sites:
+            if self.update_not_needed_sites:
                 self.msg = """Site(s) '{0}' updated successfully and some site(s) '{1}' not needs any update in Cisco Catalyst
-                                Center.""".format(str(self.updated_site_list), str(self.update_not_neeeded_sites))
+                                Center.""".format(str(self.updated_site_list), str(self.update_not_needed_sites))
             else:
                 self.msg = "Site(s) '{0}' updated successfully in Cisco Catalyst Center.".format(
                     str(self.updated_site_list))
-        elif self.update_not_neeeded_sites:
+        elif self.update_not_needed_sites:
             self.result['changed'] = False
             self.msg = "Site(s) '{0}' not needs any update in Cisco Catalyst Center.".format(
-                str(self.update_not_neeeded_sites))
+                str(self.update_not_needed_sites))
         elif self.deleted_site_list and self.site_absent_list:
             self.result['changed'] = True
             self.msg = """Given site(s) '{0}' deleted successfully from Cisco Catalyst Center and unable to deleted some site(s) '{1}' as they
@@ -1971,7 +1971,7 @@ def main():
         ccc_site.reset_values()
         ccc_site.get_want(config).check_return_status()
         ccc_site.get_have(config).check_return_status()
-        ccc_site.upload_floor_image(config)
+        # ccc_site.upload_floor_image(config)
         ccc_site.get_diff_state_apply[state](config).check_return_status()
         if config_verify:
             ccc_site.verify_diff_state_apply[state](
