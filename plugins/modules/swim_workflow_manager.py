@@ -207,8 +207,8 @@ options:
             type: bool
       image_distribution_details:
         description: Details for SWIM image distribution. Device on which the image needs to distributed
-          can be speciifed using any of the following parameters - deviceSerialNumber,
-          deviceIPAddress, deviceHostname or deviceMacAddress.
+          can be speciifed using any of the following parameters - device_serial_number or
+          device_ip_address or device_hostname or device_mac_address or site_name
         type: dict
         suboptions:
           device_role:
@@ -256,8 +256,8 @@ options:
             type: str
       image_activation_details:
         description: Details for SWIM image activation. Device on which the image needs to activated
-          can be speciifed using any of the following parameters - deviceSerialNumber,
-          deviceIPAddress, deviceHostname or deviceMacAddress.
+          can be speciifed using any of the following parameters - device_serial_number or
+          device_ip_address or device_hostname or device_mac_address or site_name
         type: dict
         suboptions:
           device_role:
@@ -1153,27 +1153,20 @@ class Swim(DnacBase):
                 self.log("Image details required for distribution have not been provided", "ERROR")
                 self.module.fail_json(msg="Image details required for distribution have not been provided", response=[])
 
-            device_params = dict(
-                hostname=distribution_details.get("device_hostname"),
-                serialNumber=distribution_details.get("device_serial_number"),
-                managementIpAddress=distribution_details.get("device_ip_address"),
-                macAddress=distribution_details.get("device_mac_address"),
-            )
+            device_params = {
+                "hostname": distribution_details.get("device_hostname"),
+                "serialNumber": distribution_details.get("device_serial_number"),
+                "managementIpAddress": distribution_details.get("device_ip_address"),
+                "macAddress": distribution_details.get("device_mac_address")
+            }
 
-            device_id = self.get_device_id(device_params)
+            if any(device_params.values()):
+                device_id = self.get_device_id(device_params)
 
-            if (distribution_details.get("device_ip_address") or
-                    distribution_details.get("device_mac_address") or
-                    distribution_details.get("device_serial_number") or
-                    distribution_details.get("device_hostname")):
-
-                if device_id is not None:
-                    have["distribution_device_id"] = device_id
-                else:
-                    desired_keys = {"hostname", "serialNumber", "managementIpAddress", "macAddress"}
+                if device_id is None:
                     params_list = []
                     for key, value in device_params.items():
-                        if value is not None and key in desired_keys:
+                        if value:
                             formatted_param = "{0}: {1}".format(key, value)
                             params_list.append(formatted_param)
 
@@ -1183,6 +1176,10 @@ class Swim(DnacBase):
                     self.log(self.msg, "ERROR")
                     self.result['response'] = self.msg
                     self.check_return_status()
+
+                else:
+                    self.log("Device with ID {0} found and added to distribution details.".format(device_id), "DEBUG")
+                    have["distribution_device_id"] = device_id
 
             self.have.update(have)
 
@@ -1209,26 +1206,24 @@ class Swim(DnacBase):
                     have["site_id"] = site_id
                     self.log("The site '{0}' exists and has the site ID '{1}'".format(site_name, str(site_id)), "INFO")
 
-            device_params = dict(
-                hostname=activation_details.get("device_hostname"),
-                serialNumber=activation_details.get("device_serial_number"),
-                managementIpAddress=activation_details.get("device_ip_address"),
-                macAddress=activation_details.get("device_mac_address"),
-            )
+            device_params = {
+                "hostname": activation_details.get("device_hostname"),
+                "serialNumber": activation_details.get("device_serial_number"),
+                "managementIpAddress": activation_details.get("device_ip_address"),
+                "macAddress": activation_details.get("device_mac_address")
+            }
 
-            device_id = self.get_device_id(device_params)
+            # Check if any device parameters are provided
+            if any(device_params.values()):
+                device_id = self.get_device_id(device_params)
 
-            if (activation_details.get("device_ip_address") or
-                activation_details.get("device_mac_address") or
-                activation_details.get("device_serial_number") or
-                    activation_details.get("device_hostname")):
-                if device_id is not None:
-                    have["activation_device_id"] = device_id
-                else:
+                if device_id is None:
                     desired_keys = {"hostname", "serialNumber", "managementIpAddress", "macAddress"}
                     params_list = []
+
+                    # Format only the parameters that are present
                     for key, value in device_params.items():
-                        if value is not None and key in desired_keys:
+                        if value and key in desired_keys:
                             formatted_param = "{0}: {1}".format(key, value)
                             params_list.append(formatted_param)
 
@@ -1238,6 +1233,10 @@ class Swim(DnacBase):
                     self.log(self.msg, "ERROR")
                     self.result['response'] = self.msg
                     self.check_return_status()
+
+                else:
+                    have["activation_device_id"] = device_id
+                    self.log("Device with ID {0} found and added to activation details.".format(device_id), "DEBUG")
 
             self.have.update(have)
 
