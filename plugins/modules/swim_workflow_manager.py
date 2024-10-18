@@ -1795,7 +1795,7 @@ class Swim(DnacBase):
         distribution_task_dict = {}
 
         for device_uuid in device_uuid_list:
-            self.log("Stating image distribution for multiple devices")
+            self.log("Starting distribution of image '{0}' to multiple devices.".format(image_name))
             device_management_ip = self.get_device_ip_from_id(device_uuid)
             distribution_params = dict(
                 payload=[dict(
@@ -1869,7 +1869,7 @@ class Swim(DnacBase):
         device_ip = self.get_device_ip_from_id(activation_device_id)
         image_name = self.want.get("activation_details").get("image_name")
 
-        if self.have.get("activation_device_id"):
+        if activation_device_id:
             self.log("Starting image activation for device IP {0} with ID {1}, targeting software version {2}.".format(
                 device_ip, activation_device_id, image_name), "INFO")
             payload = [dict(
@@ -1934,7 +1934,7 @@ class Swim(DnacBase):
         activation_task_dict = {}
 
         for device_uuid in device_uuid_list:
-            self.log("Stating image activation for multiple devices")
+            self.log("Starting activation of image '{0}' to multiple devices.".format(image_name))
             device_management_ip = self.get_device_ip_from_id(device_uuid)
             payload = [dict(
                 activateLowerImageVersion=activation_details.get("activate_lower_image_version"),
