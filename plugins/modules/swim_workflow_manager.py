@@ -2220,7 +2220,6 @@ class Swim(DnacBase):
             self.verify_diff_tagged().check_return_status()
 
         distribution_details = self.want.get("distribution_details")
-        self.log("testing log for the distribution ")
         if distribution_details:
             self.verify_diff_distributed().check_return_status()
 
