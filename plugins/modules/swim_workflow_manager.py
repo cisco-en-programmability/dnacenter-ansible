@@ -206,15 +206,15 @@ options:
               If False then the given image will be un-tagged as golden.
             type: bool
       image_distribution_details:
-      description: |
+        description: |
           Parameters for specifying the target device(s) for SWIM image distribution. The device can be identified using one of the following options:
           - device_serial_number
           - device_ip_address
           - device_hostname
           - device_mac_address
           - site_name (if specified, the image will be distributed to all devices within the site)
-              At least one of these parameters must be provided. If 'site_name' is provided, additional filters—such as 
-              'device_role', 'device_family_name', and 'device_series_name' — can be used to further narrow down the devices within the site.
+          At least one of these parameters must be provided. If 'site_name' is provided, additional filters
+          such as 'device_role', 'device_family_name', and 'device_series_name' can be used to further narrow down the devices within the site.
         type: dict
         suboptions:
           device_role:
@@ -262,14 +262,14 @@ options:
             type: str
       image_activation_details:
         description: |
-            Parameters for specifying the target device(s) for SWIM image activation. The device can be identified using one of the following options:
-            - device_serial_number
-            - device_ip_address
-            - device_hostname
-            - device_mac_address
-            - site_name (if specified, the image will be activated on all devices within the site)
-                At least one of these parameters must be provided. If 'site_name' is provided, additional filters—such as 
-                'device_role', 'device_family_name', and 'device_series_name' — can be used to further narrow down the devices within the site.
+          Parameters for specifying the target device(s) for SWIM image activation. The device can be identified using one of the following options:
+          - device_serial_number
+          - device_ip_address
+          - device_hostname
+          - device_mac_address
+          - site_name (if specified, the image will be activated on all devices within the site)
+          At least one of these parameters must be provided. If 'site_name' is provided, additional filters
+          such as 'device_role', 'device_family_name', and 'device_series_name' can be used to further narrow down the devices within the site.
         type: dict
         suboptions:
           device_role:
