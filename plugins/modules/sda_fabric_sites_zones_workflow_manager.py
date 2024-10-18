@@ -642,7 +642,7 @@ class FabricSitesZones(DnacBase):
             task_id = self.get_taskid_post_api_call("sda", task_name, payload)
 
             if not task_id:
-                self.msg = "Unable to retrive the task_id for the task '{0}'.".format(task_name)
+                self.msg = "Unable to retrieve the task_id for the task '{0}'.".format(task_name)
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
@@ -729,7 +729,7 @@ class FabricSitesZones(DnacBase):
             task_id = self.get_taskid_post_api_call("sda", task_name, payload)
 
             if not task_id:
-                self.msg = "Unable to retrive the task_id for the task '{0}'.".format(task_name)
+                self.msg = "Unable to retrieve the task_id for the task '{0}'.".format(task_name)
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
@@ -737,41 +737,6 @@ class FabricSitesZones(DnacBase):
             self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
             self.update_site.append(site_name)
 
-            # response = self.dnac._exec(
-            #     family="sda",
-            #     function='update_fabric_site',
-            #     op_modifies=True,
-            #     params={'payload': update_site_params}
-            # )
-            # self.log("Received API response from 'update_fabric_site' for the site {0}: {1}".format(site_name, str(response)), "DEBUG")
-            # response = response.get("response")
-
-            # if not response:
-            #     self.status = "failed"
-            #     self.msg = "Unable to fetch the task Id for the updation of fabric site as the 'update_fabric_site' response is empty."
-            #     self.log(self.msg, "ERROR")
-            #     return self
-
-            # task_id = response.get("taskId")
-
-            # while True:
-            #     task_details = self.get_task_details(task_id)
-            #     if task_details.get("isError"):
-            #         self.status = "failed"
-            #         failure_reason = task_details.get("failureReason")
-            #         if failure_reason:
-            #             self.msg = "Unable to update the Fabric site '{0}' because of {1}.".format(site_name, failure_reason)
-            #         else:
-            #             self.msg = "Unable to update the Fabric site '{0}'.".format(site_name)
-            #         self.log(self.msg, "ERROR")
-            #         self.result['response'] = self.msg
-            #         break
-            #     elif task_details.get("endTime") and "workflow_id" in task_details.get("data"):
-            #         self.status = "success"
-            #         self.update_site.append(site_name)
-            #         self.log("Fabric site '{0}' updated successfully in the Cisco Catalyst Center".format(site_name), "INFO")
-            #         break
-            #     time.sleep(1)
         except Exception as e:
             self.status = "failed"
             self.msg = "An exception occured while updating the fabric site '{0}' in Cisco Catalyst Center: {1}".format(site_name, str(e))
@@ -812,7 +777,7 @@ class FabricSitesZones(DnacBase):
             task_id = self.get_taskid_post_api_call("sda", task_name, payload)
 
             if not task_id:
-                self.msg = "Unable to retrive the task_id for the task '{0}'.".format(task_name)
+                self.msg = "Unable to retrieve the task_id for the task '{0}'.".format(task_name)
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 

@@ -58,7 +58,7 @@ options:
                 reserved VLANs 1002-1005, and 2046. If deploying on a fabric zone, this vlan_id must match the
                 vlan_id of the corresponding layer2 virtual network on the fabric site. And updation of this
                 field is not allowed.
-            type: str
+            type: int
             required: True
           fabric_site_locations:
             description: A list of fabric site locations where this VLAN is deployed, including site hierarchy and fabric type details.
@@ -244,6 +244,8 @@ notes:
     with VLAN be available for deletion.
   - For Layer 3 virtual networks, all Anycast Gateways associated with the given virtual network must be deleted first before
     the deletion operation for the virtual network is enabled.
+  - All newly created Layer3 Virtual Networks must either be assigned to one or more Fabric Sites, or they all must not be
+    assigned to any Fabric Sites.
   - SDK Method used are
     ccc_virtual_network.sda.get_site
     ccc_virtual_network.sda.get_fabric_sites
