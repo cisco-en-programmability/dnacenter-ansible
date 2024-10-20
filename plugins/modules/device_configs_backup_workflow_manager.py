@@ -894,7 +894,7 @@ class Device_configs_backup(DnacBase):
             failure_msg = (
                 "An error occurred while performing {0} task with task ID {1} for export_device_configurations_params: {2}"
                 .format(task_name, task_id, self.want.get("export_device_configurations_params"))
-            )            
+            )
             self.get_task_status_from_task_by_id(task_id, task_name, failure_msg, success_msg, progress_validation=progress_validation)
         else:
             self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
@@ -909,7 +909,7 @@ class Device_configs_backup(DnacBase):
 
             if not additional_status_url:
                 self.msg = "Error retrieving the Device Config Backup file ID for task ID {0}".format(task_id)
-                fail_and_exit(self.msg)
+                self.fail_and_exit(self.msg)
 
             # Perform additional tasks after breaking the loop
             mgmt_ip_to_instance_id_map = self.want.get("mgmt_ip_to_instance_id_map")
