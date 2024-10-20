@@ -748,8 +748,10 @@ class NetworkCompliance(DnacBase):
         if not mgmt_ip_to_instance_id_map:
             # Log an error message if mgmt_ip_to_instance_id_map is empty
             ip_address_list_str = ", ".join(ip_address_list)
-            self.msg = ("No device UUIDs were fetched for network compliance operations with the provided IP address(es): {0} "
-                   "or site name: {1}. This could be due to Unreachable devices or access points (APs).").format(ip_address_list_str, site_name)
+            self.msg = (
+                "No device UUIDs were fetched for network compliance operations with the provided IP address(es): {0} "
+                "or site name: {1}. This could be due to Unreachable devices or access points (APs)."
+            ).format(ip_address_list_str, site_name)
             self.fail_and_exit(self.msg)
 
         return mgmt_ip_to_instance_id_map
@@ -822,9 +824,13 @@ class NetworkCompliance(DnacBase):
             self.log("Sucessfully retrieved Compliance details for device: '{0}'".format(device_ip), "INFO")
             return response.get("response")
         else:
+            self.log(
+                "No Compliance details retrieved for device: '{0}' with parameters: {1}".format(
+                    device_ip, compliance_details_of_device_params
+                ),
+                "WARNING"
+            )
             return None
-          # self.msg = "An error occurred while retrieving Compliance Details for device: '{0}'".format(device_ip)
-          # self.fail_and_exit(self.msg)
 
     def get_compliance_report(self, run_compliance_params, mgmt_ip_to_instance_id_map):
         """
@@ -1314,7 +1320,7 @@ class NetworkCompliance(DnacBase):
                 if not response:
                     ip_address_list_str = ", ".join(list(mgmt_ip_to_instance_id_map.keys()))
                     self.msg = "Error occurred when retrieving Compliance Report to identify if Sync Device Config Operation "
-                    msg += "is required on device(s): {0}".format(ip_address_list_str)
+                    self.msg += "is required on device(s): {0}".format(ip_address_list_str)
                     self.fail_and_exit(self.msg)
 
                 compliance_details = response

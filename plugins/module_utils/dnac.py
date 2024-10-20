@@ -749,19 +749,15 @@ class DnacBase():
                     mgmt_ip_to_instance_id_map[management_ip] = instance_uuid
                 else:
                     skipped_devices_list.append(management_ip)
-                    msg = (
-                        "Skipping device {0} as its family is: {1}.".format(
-                            management_ip, device_family
-                        )
+                    msg = "Skipping device {0} as its family is: {1}.".format(
+                        management_ip, device_family
                     )
                     self.log(msg, "WARNING")
             else:
                 skipped_devices_list.append(management_ip)
-                msg = (
-                        "Skipping device {0} as its status is {1} or its collectionStatus is {2}.".format(
-                            management_ip, reachability_status, collection_status
-                        )
-                    )
+                msg = "Skipping device {0} as its status is {1} or its collectionStatus is {2}.".format(
+                    management_ip, reachability_status, collection_status
+                )
                 self.log(msg, "WARNING")
 
         if not mgmt_ip_to_instance_id_map:
@@ -1641,7 +1637,7 @@ class DnacBase():
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 break
 
-             # Check if there is an error in the task response
+            # Check if there is an error in the task response
             if response.get("isError"):
                 failure_reason = response.get("failureReason")
                 self.msg = failure_reason
