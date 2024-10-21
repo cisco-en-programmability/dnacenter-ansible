@@ -708,7 +708,7 @@ class DnacBase():
             site_id, site_exists = self.get_site_id(site_name)
             if not site_exists:
                 self.log("Site '{0}' does not exist, cannot proceed with device retrieval.".format(site_name), "ERROR")
-                return api_response, device_ids
+                return device_details_list
 
             self.log("Retrieved site ID '{0}' for site name '{1}'.".format(site_id, site_name), "DEBUG")
 
