@@ -81,10 +81,10 @@ options:
             elements: dict
             suboptions:
                 interface_name:
-                    description: The name of the interface
+                    description: The name of the interface. (Required parameter for Cisco Catalyst Version - 2.3.7.6)
                     type: str
                 vlan_id:
-                    description: The VLAN ID associated with the interface.
+                    description: The VLAN ID associated with the interface. (Required parameter for Cisco Catalyst Version - 2.3.7.6)
                     type: str
                 interface_ip_address:
                     description: The IP address assigned to the interface.
@@ -805,6 +805,14 @@ class Provision(DnacBase):
             has_interface_name = False
             has_vlan_id = False
 
+            if interfaces is None:
+                self.msg = ("'dynamic_interfaces' parameter is either missing or set to None. For provisioning a wireless device, "
+                            "'dynamic_interfaces' is a mandatory parameter in Catalyst Center version 2.3.7.6 or higher.")
+                self.log(self.msg, "ERROR")
+                self.result['response'] = self.msg
+                self.status = "failed"
+                self.check_return_status()
+
             for interface in interfaces:
                 if 'interface_name' in interface:
                     has_interface_name = True
@@ -821,7 +829,7 @@ class Provision(DnacBase):
 
             if missing_fields:
                 missing_fields_str = ', '.join(missing_fields)
-                self.msg = ("The following fields are mandatory to provision a wireless device in 2.3.7.6 and"
+                self.msg = ("The following fields are mandatory to provision a wireless device in 2.3.7.6 and "
                             "are missing: {0}".format(missing_fields_str), "CRITICAL")
                 self.log(self.msg, "ERROR")
                 self.result['response'] = self.msg
@@ -912,10 +920,11 @@ class Provision(DnacBase):
         device_id = self.get_device_id()
         self.log(device_id)
         already_provisioned_site = self.is_device_assigned_to_site_v1(device_id)
-        
+
         if already_provisioned_site != self.site_name:
             self.log("inside new logic")
-            self.msg = "Error in re-provisioning a wireless device '{0}' - the device is already associated with Site: {1} and cannot be re-provisioned to Site {2}.".format(self.device_ip,already_provisioned_site,self.site_name)
+            self.msg = ("Error in re-provisioning a wireless device '{0}' - the device is already associated "
+                        "with Site: {1} and cannot be re-provisioned to Site {2}.".format(self.device_ip, already_provisioned_site, self.site_name))
             self.log(self.msg, "ERROR")
             self.result['response'] = self.msg
             self.status = "failed"
@@ -933,18 +942,11 @@ class Provision(DnacBase):
             self.log("Wireless provisioning response collected from 'provision_update' API is: {0}".format(str(response)), "DEBUG")
             execution_id = response.get("executionId")
             self.get_execution_status_wireless(execution_id=execution_id)
-            # self.result["changed"] = True
-            # self.result['msg'] = "Wireless device with IP address {0} got re-provisioned successfully".format(self.validated_config["management_ip_address"])
-            # self.result['diff'] = self.validated_config
-            # self.result['response'] = execution_id
-            # self.log(self.result['msg'], "INFO")
-            self.log("testing log")
             self.result["changed"] = True
-            self.msg = "Wireless device with IP address {0} got re-provisioned successfully".format(self.validated_config["management_ip_address"])
-            self.result['msg'] = self.msg
-            self.result['response'] = self.msg
-            self.log(self.msg, "INFO")
-            self.check_return_status()
+            self.result['msg'] = "Wireless device with IP address {0} got re-provisioned successfully".format(self.validated_config["management_ip_address"])
+            self.result['diff'] = self.validated_config
+            self.result['response'] = execution_id
+            self.log(self.result['msg'], "INFO")
             return self
         except Exception as e:
             self.log("Parameters are {0}".format(self.want))
