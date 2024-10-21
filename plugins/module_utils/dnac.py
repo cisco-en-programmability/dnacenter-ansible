@@ -1625,7 +1625,7 @@ class DnacBase():
                 self.log(
                     "Timeout exceeded after {0:.2f} seconds while monitoring task '{1}' with task ID '{2}'.".format(
                         elapsed_time, task_name, task_id
-                    ), 
+                    ),
                     "DEBUG"
                 )
                 break
@@ -1703,7 +1703,7 @@ class DnacBase():
                 self.log(
                     "Timeout exceeded after {0:.2f} seconds while monitoring task '{1}' with task ID '{2}'.".format(
                         elapsed_time, task_name, task_id
-                    ), 
+                    ),
                     "DEBUG"
                 )
                 break
