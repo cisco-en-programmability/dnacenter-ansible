@@ -1098,7 +1098,7 @@ class Provision(DnacBase):
         if status == "success":
             if not to_force_provisioning:
                 self.result["changed"] = False
-                msg = "Device '{0}' is already provisioned.".format(self.validated_config.get("management_ip_address"))
+                msg = "wired Device '{0}' is already provisioned.".format(self.validated_config.get("management_ip_address"))
                 self.result['msg'] = msg
                 self.result['response'] = msg
                 self.log(msg, "INFO")
