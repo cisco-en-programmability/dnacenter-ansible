@@ -559,7 +559,9 @@ class IseRadiusIntegration(DnacBase):
                 obj_params = [
                     ("protocol", "protocol"),
                     ("retries", "retries"),
-                    ("timeoutSeconds", "timeoutSeconds")
+                    ("timeoutSeconds", "timeoutSeconds"),
+                    ("pxgridEnabled", "pxgridEnabled"),
+                    ("useDnacCertForPxgrid", "useDnacCertForPxgrid"),
                 ]
             else:
                 raise ValueError("Received an unexpected value for 'get_object': {0}"
@@ -735,6 +737,51 @@ class IseRadiusIntegration(DnacBase):
         self.msg = "Successfully retrieved the details from the Cisco Catalyst Center"
         self.status = "success"
         return self
+
+    def get_primary_ise_fqdn(self, cisco_ise_dtos, ip_address):
+        """
+        Get the fully qualified domain name (fqdn) from the Multi-Node ISE environment
+        in the Cisco Catalyst Center with the role as 'primary'.
+
+        Parameters:
+            cisco_ise_dtos (list of dict): List of configuration of Multi-Node in an
+            ISE environment.
+            ip_address (str): IP address of the Cisco ISE server.
+
+        Returns:
+            primary_fqdn (str): The fqdn value of the primary node of the ISE server.
+        """
+
+        self.log(
+            "Getting the FQDN (Fully Qualified Domain Name) of the primary node of the ISE server. "
+            "Input parameters - cisco_ise_dtos: {cisco_ise_dtos}, ip_address: {ip_address}"
+            .format(cisco_ise_dtos=cisco_ise_dtos, ip_address=ip_address)
+        )
+        primary_node_ise_details = get_dict_result(cisco_ise_dtos, "role", "PRIMARY")
+        if not primary_node_ise_details:
+            self.msg = (
+                "There are no details of the 'PRIMARY' role node in the multi-node ISE environment {ip_address}."
+                .format(ip_address=ip_address)
+            )
+            self.log(str(self.msg), "ERROR")
+            self.status = "failed"
+            return self.check_return_status()
+
+        primary_fqdn = primary_node_ise_details.get("fqdn")
+        if not primary_fqdn:
+            self.msg = (
+                "The FQDN value is not available in the 'primary' node with IP address'{ip_address}'."
+                .format(ip_address=ip_address)
+            )
+            self.log(str(self.msg), "ERROR")
+            self.status = "failed"
+            return self.check_return_status()
+
+        self.log(
+            "Returning the FQDN value of the primary node '{ip_address}': {primary_fqdn}"
+            .format(ip_address=ip_address, primary_fqdn=primary_fqdn)
+        )
+        return primary_fqdn
 
     def get_want_authentication_policy_server(self, auth_policy_server):
         """
@@ -989,17 +1036,6 @@ class IseRadiusIntegration(DnacBase):
                         "password": password
                     })
 
-                    fqdn = ise_credential.get("fqdn")
-                    if not fqdn:
-                        if not auth_server_exists:
-                            self.msg = "The required parameter 'fqdn' is missing when 'server_type' is 'ISE'."
-                            self.status = "failed"
-                            return self
-
-                        fqdn = auth_server_details.get("ciscoIseDtos")[0].get("fqdn")
-
-                    auth_server.get("ciscoIseDtos")[position_ise_creds].update({"fqdn": fqdn})
-
                     ip_address = ise_credential.get("ip_address")
                     if not ip_address:
                         self.msg = "The required parameter 'ip_address' is missing when 'server_type' is 'ISE'."
@@ -1009,6 +1045,55 @@ class IseRadiusIntegration(DnacBase):
                     auth_server.get("ciscoIseDtos")[position_ise_creds].update({
                         "ipAddress": ip_address
                     })
+
+                    fqdn = ise_credential.get("fqdn")
+                    if not fqdn:
+                        self.log("FQDN is missing in the provided ISE credentials, proceeding to fetch it...", "DEBUG")
+                        if not auth_server_exists:
+                            self.msg = "The required parameter 'fqdn' is missing when 'server_type' is 'ISE'."
+                            self.log(str(self.msg), "ERROR")
+                            self.status = "failed"
+                            return self
+
+                        self.log(
+                            "Auth server exists; retrieving authentication and policy servers to obtain FQDN for IP '{0}'."
+                            .format(ip_address),
+                            "DEBUG"
+                        )
+                        response = self.dnac._exec(
+                            family="system_settings",
+                            function='get_authentication_and_policy_servers',
+                            params={"is_ise_enabled": True}
+                        )
+                        self.log("Successfully retrieved authentication server response; processing Cisco ISE details.", "DEBUG")
+                        response = response.get("response")
+                        if response is None:
+                            self.msg = (
+                                "Failed to retrieve information from 'get_authentication_and_policy_servers' for IP '{0}'."
+                                .format(ip_address)
+                            )
+                            self.log(str(self.msg), "ERROR")
+                            self.status = "failed"
+                            return self
+
+                        cisco_ise_dtos = response[0].get("ciscoIseDtos")
+                        if not cisco_ise_dtos:
+                            self.msg = "No Cisco ISE details available for IP '{0}'.".format(ip_address)
+                            self.status = "failed"
+                            self.log(str(self.msg), "ERROR")
+                            return self
+
+                        self.log("Cisco ISE details found; retrieving FQDN of primary node...", "DEBUG")
+                        fqdn = self.get_primary_ise_fqdn(cisco_ise_dtos, ip_address)
+                        self.log("Updating authentication server details with FQDN...", "DEBUG")
+                        self.log(
+                            "Retrieved FQDN for primary ISE node with IP '{ip}': {fqdn}"
+                            .format(ip=ip_address, fqdn=fqdn),
+                            "INFO"
+                        )
+
+                    auth_server.get("ciscoIseDtos")[position_ise_creds].update({"fqdn": fqdn})
+                    self.log("Authentication server details successfully updated with FQDN.", "INFO")
 
                     if not auth_server_exists:
                         auth_server.get("ciscoIseDtos")[position_ise_creds].update({
@@ -1285,6 +1370,51 @@ class IseRadiusIntegration(DnacBase):
 
         return self
 
+    def check_ise_server_updation_status(self, have_auth_details, want_auth_details):
+        """
+        Check if the Cisco ISE server requires an update by comparing the user name,
+        FQDN, and the state of the Cisco ISE server.
+
+        Parameters:
+            have_auth_details (dict) - Current Cisco Catalyst Center authentication server information.
+            want_auth_details (dict) - Desired authentication server configuration from the playbook.
+        Returns:
+            True or False (bool): True if the Cisco ISE server requires an update; otherwise, False.
+        Description:
+            Compares the user name and FQDN between the existing configuration and the new configuration.
+            If there is a discrepancy, or if the server state is not 'ACTIVE', an update is required.
+        """
+
+        ip_address = have_auth_details.get("ipAddress")
+        have_cisco_ise_dtos = have_auth_details.get("ciscoIseDtos")[0]
+        want_cisco_ise_dtos = want_auth_details.get("ciscoIseDtos")[0]
+        self.log(
+            "Checking if the Cisco ISE server '{ip_address}' requires an update."
+            .format(ip_address=ip_address), "DEBUG"
+        )
+        check_list = ["userName", "fqdn"]
+        for item in check_list:
+            if have_cisco_ise_dtos[item] != want_cisco_ise_dtos[item]:
+                self.log(
+                    "Cisco ISE server '{ip_address}' requires an update: {item} has changed."
+                    .format(item=item, ip_address=ip_address), "INFO"
+                )
+                return True
+
+        state = have_auth_details.get("state")
+        if state != "ACTIVE":
+            self.log(
+                "Cisco ISE server '{ip_address}' is not in 'ACTIVE' state (current state: '{state}'). "
+                "Update required.".format(ip_address=ip_address, state=state), "DEBUG"
+            )
+            return True
+
+        self.log(
+            "No updates are required for the Cisco ISE server '{ip_address}' based on username, fqdn, and state."
+            .format(ip_address=ip_address), "DEBUG"
+        )
+        return False
+
     def format_payload_for_update(self, have_auth_server, want_auth_server):
         """
         Format the parameter of the payload for updating the authentication and policy server
@@ -1417,17 +1547,33 @@ class IseRadiusIntegration(DnacBase):
 
             # Authentication and Policy Server exists, check update is required
             # Edit API not working, remove this
-            self.format_payload_for_update(self.have.get("authenticationPolicyServer")[auth_server_index].get("details"),
-                                           self.want.get("authenticationPolicyServer")[auth_server_index]).check_return_status()
-            is_ise_server_enabled = self.have.get("authenticationPolicyServer")[auth_server_index].get("details").get("isIseEnabled")
-            if not (is_ise_server_enabled or self.requires_update(self.have.get("authenticationPolicyServer")[auth_server_index].get("details"),
-                                                                  self.want.get("authenticationPolicyServer")[auth_server_index],
-                                                                  self.authentication_policy_server_obj_params)):
+            have_auth_server_details = self.have.get("authenticationPolicyServer")[auth_server_index].get("details")
+            want_auth_server_details = self.want.get("authenticationPolicyServer")[auth_server_index]
+
+            self.log(
+                "Formatting payload for update between current and desired authentication server details.", "DEBUG"
+            )
+            self.format_payload_for_update(have_auth_server_details, want_auth_server_details).check_return_status()
+
+            is_ise_server_enabled = have_auth_server_details.get("isIseEnabled")
+            ise_server_requires_update = False
+            if is_ise_server_enabled:
+                self.log("Cisco ISE server is enabled; checking if an update is required.")
+                ise_server_requires_update = self.check_ise_server_updation_status(have_auth_server_details,
+                                                                                   want_auth_server_details)
+                if ise_server_requires_update:
+                    self.log("Cisco ISE server requires an update based on configuration changes.", "DEBUG")
+                else:
+                    self.log("Cisco ISE server does not require any updates.", "DEBUG")
+
+            if not (ise_server_requires_update or self.requires_update(have_auth_server_details,
+                                                                       want_auth_server_details,
+                                                                       self.authentication_policy_server_obj_params)):
                 self.log("Authentication and Policy Server '{0}' doesn't require an update"
                          .format(ip_address), "INFO")
                 result_auth_server.get("response").get(ip_address).update({
                     "Cisco Catalyst Center params":
-                    self.have.get("authenticationPolicyServer")[auth_server_index].get("details")
+                    have_auth_server_details
                 })
                 result_auth_server.get("response").get(ip_address).update({
                     "Id": self.have.get("authenticationPolicyServer")[auth_server_index].get("id")
@@ -1440,12 +1586,12 @@ class IseRadiusIntegration(DnacBase):
             self.log("Authentication and Policy Server requires update", "DEBUG")
 
             # Authenticaiton and Policy Server Exists
-            auth_server_params = copy.deepcopy(self.want.get("authenticationPolicyServer")[auth_server_index])
+            auth_server_params = copy.deepcopy(want_auth_server_details)
             auth_server_params.update({"id": self.have.get("authenticationPolicyServer")[auth_server_index].get("id")})
             self.log("Desired State for Authentication and Policy Server (want): {0}"
                      .format(auth_server_params), "DEBUG")
             self.log("Current State for Authentication and Policy Server (have): {0}"
-                     .format(self.have.get("authenticationPolicyServer")[auth_server_index].get("details")), "DEBUG")
+                     .format(have_auth_server_details), "DEBUG")
             function_name = "edit_authentication_and_policy_server_access_configuration"
             response = self.dnac._exec(
                 family="system_settings",
@@ -1462,49 +1608,52 @@ class IseRadiusIntegration(DnacBase):
                 self.log(self.msg, "ERROR")
                 return
 
-            trusted_server = self.want.get("trusted_server")
             trusted_server_msg = ""
-            state = self.have.get("authenticationPolicyServer")[auth_server_index].get("details").get("state")
-            if state != "ACTIVE":
-                self.check_ise_server_integration_status(ip_address)
-                self.accept_cisco_ise_server_certificate(ip_address, trusted_server)
-                ise_integration_wait_time = self.want.get("ise_integration_wait_time")
-                time.sleep(ise_integration_wait_time)
+            if is_ise_server_enabled:
+                trusted_server = self.want.get("trusted_server")
+                state = have_auth_server_details.get("state")
+                if state != "ACTIVE":
+                    self.check_ise_server_integration_status(ip_address)
+                    self.accept_cisco_ise_server_certificate(ip_address, trusted_server)
+                    ise_integration_wait_time = self.want.get("ise_integration_wait_time")
+                    time.sleep(ise_integration_wait_time)
 
-            ise_details = self.dnac._exec(
-                family="system_settings",
-                function='get_authentication_and_policy_servers',
-                params={"is_ise_enabled": True}
-            )
-            if not ise_details:
-                self.msg = (
-                    "The response from the API 'get_authentication_and_policy_servers' is empty."
+                ise_details = self.dnac._exec(
+                    family="system_settings",
+                    function='get_authentication_and_policy_servers',
+                    params={"is_ise_enabled": True}
                 )
-                self.log(self.msg, "CRITICAL")
-                self.status = "failed"
-                return self
 
-            ise_details = ise_details.get("response")
-            if not isinstance(ise_details, list):
-                self.msg = (
-                    "The response from the API 'get_authentication_and_policy_servers' "
-                    "is not a dictionary."
-                )
-                self.log(self.msg, "CRITICAL")
-                self.status = "failed"
-                return self
+                ise_details = ise_details.get("response")
+                if not ise_details:
+                    self.msg = (
+                        "The response from the API 'get_authentication_and_policy_servers' is empty."
+                    )
+                    self.log(self.msg, "CRITICAL")
+                    self.status = "failed"
+                    return self
 
-            state = ise_details[0].get("state")
-            if not state:
-                self.msg = (
-                    "The parameter 'state' is not available in the ISE details response "
-                    "from the API 'get_authentication_and_policy_servers'."
-                )
-                self.status = "failed"
-                return self
+                if not isinstance(ise_details, list):
+                    self.msg = (
+                        "The response from the API 'get_authentication_and_policy_servers' "
+                        "is not a dictionary."
+                    )
+                    self.log(self.msg, "CRITICAL")
+                    self.status = "failed"
+                    return self
 
-            if state == "FAILED":
-                trusted_server_msg = " But the server is not trusted."
+                self.log(str(ise_details))
+                state = ise_details[0].get("state")
+                if not state:
+                    self.msg = (
+                        "The parameter 'state' is not available in the ISE details response "
+                        "from the API 'get_authentication_and_policy_servers'."
+                    )
+                    self.status = "failed"
+                    return self
+
+                if state == "FAILED":
+                    trusted_server_msg = " But the server is not trusted."
 
             self.log("Authentication and Policy Server '{0}' updated successfully"
                      .format(ip_address), "INFO")
@@ -1737,11 +1886,12 @@ def main():
     # Create an AnsibleModule object with argument specifications
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=False)
     ccc_ise_radius = IseRadiusIntegration(module)
-    if ccc_ise_radius.get_ccc_version_as_integer() <= ccc_ise_radius.get_ccc_version_as_int_from_str("2.3.5.3"):
+    if ccc_ise_radius.compare_dnac_versions(ccc_ise_radius.get_ccc_version(), "2.3.5.3") < 0:
         ccc_ise_radius.msg = (
-            "The provided Catalyst Center Version {ccc_version} does not support this workflow. "
-            "This workflow support starts from Catalyst Center Release {supported_version} onwards."
-            .format(ccc_version=ccc_ise_radius.get_ccc_version_as_string(), supported_version="2.3.5.3")
+            "The specified version '{0}' does not support the authentication and policy server integration feature. "
+            "Supported versions start from '2.3.5.3' onwards. "
+            "Version '2.3.5.3' introduces APIs for creating, updating and deleting the AAA servers and ISE server."
+            .format(ccc_ise_radius.get_ccc_version())
         )
         ccc_ise_radius.status = "failed"
         ccc_ise_radius.check_return_status()

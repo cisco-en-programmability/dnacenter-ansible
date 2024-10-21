@@ -11,7 +11,7 @@ __author__ = ("Abhishek Maheshwari, Madhan Sankaranarayanan")
 
 DOCUMENTATION = r"""
 ---
-module: fabric_sites_zones_workflow_manager
+module: sda_fabric_sites_zones_workflow_manager
 short_description: Manage fabric site(s)/zone(s) and update the authentication profile template in Cisco Catalyst Center.
 description:
 - Creating fabric site(s) for the SDA operation in Cisco Catalyst Center.
@@ -133,78 +133,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Create a fabric site for SDA with the specified name.
-  cisco.dnac.fabric_sites_zones_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: False
-    state: merged
-    config:
-      - fabric sites:
-          site_name: "Global/Test_SDA/Bld1"
-          authentication_profile: "Closed Authentication"
-          is_pub_sub_enabled: False
-
-- name: Update a fabric site for SDA with the specified name.
-  cisco.dnac.fabric_sites_zones_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: False
-    state: merged
-    config:
-      - fabric sites:
-          site_name: "Global/Test_SDA/Bld1"
-          authentication_profile: "Open Authentication"
-
-- name: Update a fabric zone for SDA with the specified name.
-  cisco.dnac.fabric_sites_zones_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: False
-    state: merged
-    config:
-      - fabric sites:
-          site_name: "Global/Test_SDA/Bld1/Floor1"
-          fabric_type: "fabric_zone"
-          authentication_profile: "Closed Authentication"
-
-- name: Update fabric zone for sda with given name.
-  cisco.dnac.fabric_sites_zones_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: False
-    state: merged
-    config:
-      - fabric sites:
-          site_name: "Global/Test_SDA/Bld1/Floor1"
-          fabric_type: "fabric_zone"
-          authentication_profile: "Open Authentication"
-
-- name: Update/customise authentication profile template for fabric site/zone.
-  cisco.dnac.fabric_sites_zones_workflow_manager:
+  cisco.dnac.sda_fabric_sites_zones_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -217,7 +146,78 @@ EXAMPLES = r"""
     state: merged
     config:
       - fabric_sites:
-          site_name: "Global/Test_SDA/Bld1"
+        - site_name: "Global/Test_SDA/Bld1"
+          authentication_profile: "Closed Authentication"
+          is_pub_sub_enabled: False
+
+- name: Update a fabric site for SDA with the specified name.
+  cisco.dnac.sda_fabric_sites_zones_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
+    dnac_log: False
+    state: merged
+    config:
+      - fabric_sites:
+        - site_name: "Global/Test_SDA/Bld1"
+          authentication_profile: "Open Authentication"
+
+- name: Update a fabric zone for SDA with the specified name.
+  cisco.dnac.sda_fabric_sites_zones_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
+    dnac_log: False
+    state: merged
+    config:
+      - fabric_sites:
+        - site_name: "Global/Test_SDA/Bld1/Floor1"
+          fabric_type: "fabric_zone"
+          authentication_profile: "Closed Authentication"
+
+- name: Update fabric zone for sda with given name.
+  cisco.dnac.sda_fabric_sites_zones_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
+    dnac_log: False
+    state: merged
+    config:
+      - fabric_sites:
+        - site_name: "Global/Test_SDA/Bld1/Floor1"
+          fabric_type: "fabric_zone"
+          authentication_profile: "Open Authentication"
+
+- name: Update/customise authentication profile template for fabric site/zone.
+  cisco.dnac.sda_fabric_sites_zones_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
+    dnac_log: False
+    state: merged
+    config:
+      - fabric_sites:
+        - site_name: "Global/Test_SDA/Bld1"
           fabric_type: "fabric_zone"
           authentication_profile: "Open Authentication"
           is_pub_sub_enabled: False
@@ -228,7 +228,7 @@ EXAMPLES = r"""
             number_of_hosts: "Single"
 
 - name: Deleting/removing fabric site from sda from Cisco Catalyst Center
-  cisco.dnac.fabric_sites_zones_workflow_manager:
+  cisco.dnac.sda_fabric_sites_zones_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -241,10 +241,10 @@ EXAMPLES = r"""
     state: deleted
     config:
       - fabric_sites:
-          site_name: "Global/Test_SDA/Bld1"
+        - site_name: "Global/Test_SDA/Bld1"
 
 - name: Deleting/removing fabric zone from sda from Cisco Catalyst Center
-  cisco.dnac.fabric_sites_zones_workflow_manager:
+  cisco.dnac.sda_fabric_sites_zones_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -257,7 +257,7 @@ EXAMPLES = r"""
     state: deleted
     config:
       - fabric_sites:
-          site_name: "Global/Test_SDA/Bld1/Floor1"
+        - site_name: "Global/Test_SDA/Bld1/Floor1"
           fabric_type: "fabric_zone"
 
 """
@@ -287,7 +287,7 @@ import time
 
 
 class FabricSitesZones(DnacBase):
-    """Class containing member attributes for fabric sites and zones workflow manager module"""
+    """Class containing member attributes for sda fabric sites and zones workflow manager module"""
 
     def __init__(self, module):
         super().__init__(module)
@@ -326,7 +326,7 @@ class FabricSitesZones(DnacBase):
                 'is_pub_sub_enabled': {'type': 'bool', 'default': False},
                 'update_authentication_profile': {
                     'elements': 'dict',
-                    'site_name_hierarchy': {'type': 'str'},
+                    'site_name': {'type': 'str'},
                     'authentication_profile': {'type': 'str'},
                     'authentication_order': {'type': 'str'},
                     'dot1x_fallback_timeout': {'type': 'int'},
@@ -622,16 +622,14 @@ class FabricSitesZones(DnacBase):
             fabric_site_payload = []
             site_name = site.get("site_name")
             auth_profile = site.get("authentication_profile")
+
             if not auth_profile:
-                self.status = "failed"
                 self.msg = (
                     "Required parameter 'authentication_profile'is missing needed for creation of fabric sites in Cisco Catalyst Center. "
                     "Please provide one of the following authentication_profile ['Closed Authentication', 'Low Impact'"
                     ", 'No Authentication', 'Open Authentication'] in the playbook."
                 )
-                self.log(self.msg, "ERROR")
-                self.result["response"] = self.msg
-                return self
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             site_payload = {
                 "siteId": self.get_site_id(site_name),
@@ -639,50 +637,22 @@ class FabricSitesZones(DnacBase):
                 "isPubSubEnabled": site.get("is_pub_sub_enabled", False)
             }
             fabric_site_payload.append(site_payload)
-            self.log("Requested payload for creating fabric site '{0}' is:  {1}".format(site_name, str(site_payload)), "INFO")
+            task_name = "add_fabric_site"
+            payload = {"payload": fabric_site_payload}
+            task_id = self.get_taskid_post_api_call("sda", task_name, payload)
 
-            response = self.dnac._exec(
-                family="sda",
-                function='add_fabric_site',
-                op_modifies=True,
-                params={'payload': fabric_site_payload}
-            )
-            self.log("Received API response from 'add_fabric_site' for the site {0}: {1}".format(site_name, str(response)), "DEBUG")
-            response = response.get("response")
-
-            if not response:
-                self.status = "failed"
-                self.msg = "No response received from 'add_fabric_site' API, task ID not retrieved."
-                self.log(self.msg, "ERROR")
+            if not task_id:
+                self.msg = "Unable to retrieve the task_id for the task '{0}'.".format(task_name)
+                self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
-            task_id = response.get("taskId")
-
-            while True:
-                task_details = self.get_task_details(task_id)
-
-                if task_details.get("isError"):
-                    self.status = "failed"
-                    failure_reason = task_details.get("failureReason")
-                    if failure_reason:
-                        self.msg = "Failed to create the Fabric site '{0}' due to {1}.".format(site_name, failure_reason)
-                    else:
-                        self.msg = "Failed to create the Fabric site '{0}'.".format(site_name)
-                    self.log(self.msg, "ERROR")
-                    self.result['response'] = self.msg
-                    break
-                elif task_details.get("endTime") and "workflow_id" in task_details.get("data"):
-                    self.status = "success"
-                    self.create_site.append(site_name)
-                    self.log("Fabric site '{0}' created successfully in the Cisco Catalyst Center".format(site_name), "INFO")
-                    break
-
-                time.sleep(1)
+            success_msg = "Fabric site '{0}' created successfully in the Cisco Catalyst Center".format(site_name)
+            self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
+            self.create_site.append(site_name)
 
         except Exception as e:
-            self.status = "failed"
             self.msg = "An exception occured while creating the fabric site '{0}' in Cisco Catalyst Center: {1}".format(site_name, str(e))
-            self.log(self.msg, "ERROR")
+            self.set_operation_result("failed", False, self.msg, "ERROR")
 
         return self
 
@@ -754,43 +724,19 @@ class FabricSitesZones(DnacBase):
                 "isPubSubEnabled": pub_sub_enable
             }
             update_site_params.append(site_payload)
-            self.log("Requested payload for updating fabric site '{0}' is:  {1}".format(site_name, str(site_payload)), "INFO")
+            payload = {"payload": update_site_params}
+            task_name = "update_fabric_site"
+            task_id = self.get_taskid_post_api_call("sda", task_name, payload)
 
-            response = self.dnac._exec(
-                family="sda",
-                function='update_fabric_site',
-                op_modifies=True,
-                params={'payload': update_site_params}
-            )
-            self.log("Received API response from 'update_fabric_site' for the site {0}: {1}".format(site_name, str(response)), "DEBUG")
-            response = response.get("response")
-
-            if not response:
-                self.status = "failed"
-                self.msg = "Unable to fetch the task Id for the updation of fabric site as the 'update_fabric_site' response is empty."
-                self.log(self.msg, "ERROR")
+            if not task_id:
+                self.msg = "Unable to retrieve the task_id for the task '{0}'.".format(task_name)
+                self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
-            task_id = response.get("taskId")
+            success_msg = "Fabric site '{0}' updated successfully in the Cisco Catalyst Center".format(site_name)
+            self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
+            self.update_site.append(site_name)
 
-            while True:
-                task_details = self.get_task_details(task_id)
-                if task_details.get("isError"):
-                    self.status = "failed"
-                    failure_reason = task_details.get("failureReason")
-                    if failure_reason:
-                        self.msg = "Unable to update the Fabric site '{0}' because of {1}.".format(site_name, failure_reason)
-                    else:
-                        self.msg = "Unable to update the Fabric site '{0}'.".format(site_name)
-                    self.log(self.msg, "ERROR")
-                    self.result['response'] = self.msg
-                    break
-                elif task_details.get("endTime") and "workflow_id" in task_details.get("data"):
-                    self.status = "success"
-                    self.update_site.append(site_name)
-                    self.log("Fabric site '{0}' updated successfully in the Cisco Catalyst Center".format(site_name), "INFO")
-                    break
-                time.sleep(1)
         except Exception as e:
             self.status = "failed"
             self.msg = "An exception occured while updating the fabric site '{0}' in Cisco Catalyst Center: {1}".format(site_name, str(e))
@@ -820,54 +766,28 @@ class FabricSitesZones(DnacBase):
         try:
             fabric_zone_payload = []
             site_name = zone.get("site_name")
-
             zone_payload = {
                 "siteId": self.get_site_id(site_name),
                 "authenticationProfileName": zone.get("authentication_profile"),
             }
             fabric_zone_payload.append(zone_payload)
             self.log("Requested payload for creating fabric zone '{0}' is:  {1}".format(site_name, zone_payload), "INFO")
+            task_name = "add_fabric_site"
+            payload = {"payload": fabric_zone_payload}
+            task_id = self.get_taskid_post_api_call("sda", task_name, payload)
 
-            response = self.dnac._exec(
-                family="sda",
-                function='add_fabric_zone',
-                op_modifies=True,
-                params={'payload': fabric_zone_payload}
-            )
-            self.log("Received API response from 'add_fabric_zone' for the site {0}: {1}".format(site_name, str(response)), "DEBUG")
-            response = response.get("response")
-
-            if not response:
-                self.status = "failed"
-                self.msg = "Unable to fetch the task Id for the creation of fabric zone as the 'add_fabric_zone' response is empty."
-                self.log(self.msg, "ERROR")
+            if not task_id:
+                self.msg = "Unable to retrieve the task_id for the task '{0}'.".format(task_name)
+                self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
-            task_id = response.get("taskId")
+            success_msg = "Fabric zone '{0}' created successfully in the Cisco Catalyst Center.".format(site_name)
+            self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
+            self.create_zone.append(site_name)
 
-            while True:
-                task_details = self.get_task_details(task_id)
-
-                if task_details.get("isError"):
-                    self.status = "failed"
-                    failure_reason = task_details.get("failureReason")
-                    if failure_reason:
-                        self.msg = "Unable to create the Fabric zone '{0}' because of {1}.".format(site_name, failure_reason)
-                    else:
-                        self.msg = "Unable to create the Fabric zone '{0}'.".format(site_name)
-                    self.log(self.msg, "ERROR")
-                    self.result['response'] = self.msg
-                    break
-                elif task_details.get("endTime") and "workflow_id" in task_details.get("data"):
-                    self.status = "success"
-                    self.create_zone.append(site_name)
-                    self.log("Fabric zone '{0}' created successfully in the Cisco Catalyst Center.".format(site_name), "INFO")
-                    break
-                time.sleep(1)
         except Exception as e:
-            self.status = "failed"
             self.msg = "An exception occured while creating the fabric zone '{0}' in Cisco Catalyst Center: {1}".format(site_name, str(e))
-            self.log(self.msg, "ERROR")
+            self.set_operation_result("failed", False, self.msg, "ERROR")
 
         return self
 
@@ -1755,6 +1675,15 @@ def main():
                            supports_check_mode=False)
 
     ccc_fabric_sites = FabricSitesZones(module)
+    if ccc_fabric_sites.compare_dnac_versions(ccc_fabric_sites.get_ccc_version(), "2.3.7.6") < 0:
+        ccc_fabric_sites.msg = (
+            "The specified version '{0}' does not support the SDA fabric devices feature. Supported versions start "
+            "  from '2.3.7.6' onwards. Version '2.3.7.6' introduces APIs for creating, updating and deleting the "
+            "Fabric Sites/Zones and updating the Authentication profiles."
+            .format(ccc_fabric_sites.get_ccc_version())
+        )
+        ccc_fabric_sites.set_operation_result("failed", False, ccc_fabric_sites.msg, "ERROR").check_return_status()
+
     state = ccc_fabric_sites.params.get("state")
 
     if state not in ccc_fabric_sites.supported_states:
