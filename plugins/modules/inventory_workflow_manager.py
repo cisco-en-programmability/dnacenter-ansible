@@ -1703,7 +1703,6 @@ class Inventory(DnacBase):
             if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
                 self.log("Processing with Catalyst version <= 2.3.5.3", "DEBUG")
                 device_status = self.get_provision_wired_device(device_ip)
-
                 if device_status == 2:  # Already provisioned
                     self.log_device_already_provisioned(device_ip)
                     continue
@@ -3869,11 +3868,13 @@ class Inventory(DnacBase):
                 op_modifies=True,
                 params=provision_params,
             )
-            self.log("Received API response from 'delete_provisioned_wired_device': {0}".format(str(response)), "DEBUG")
+            if response:
+                response = {"response": response}
+                self.log("Received API response from 'delete_provisioned_wired_device': {0}".format(str(response)), "DEBUG")
 
-            validation_string = "deleted successfully"
-            self.check_task_response_status(response, validation_string, 'delete_provisioned_wired_device')
-            self.deleted_devices.append(device_ip)
+                validation_string = "deleted successfully"
+                self.check_task_response_status(response, validation_string, 'delete_provisioned_wired_device')
+                self.provisioned_device_deleted.append(device_ip)
 
     def delete_provisioned_device_v2(self, device_ip):
         """
