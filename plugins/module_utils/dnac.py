@@ -848,7 +848,10 @@ class DnacBase():
             site_exists = True
 
         except Exception as e:
-            self.msg = "An exception occurred while retrieving Site details for  Site '{0}' does not exist in the Cisco Catalyst Center. Error: {1}".format(site_name, e)
+            self.msg = (
+                "An exception occurred while retrieving Site details for Site '{0}' does not exist in the Cisco Catalyst Center. "
+                "Error: {1}".format(site_name, e)
+            )
             self.fail_and_exit(self.msg)
 
         return (site_exists, site_id)
@@ -1619,7 +1622,12 @@ class DnacBase():
             elapsed_time = time.time() - loop_start_time
             # Check if the elapsed time exceeds the timeout
             if self.check_timeout_and_exit(loop_start_time, task_id, task_name):
-                self.log("Timeout exceeded after {0:.2f} seconds while monitoring task '{1}' with task ID '{2}'.".format(elapsed_time, task_name, task_id), "DEBUG")
+                self.log(
+                    "Timeout exceeded after {0:.2f} seconds while monitoring task '{1}' with task ID '{2}'.".format(
+                        elapsed_time, task_name, task_id
+                    ), 
+                    "DEBUG"
+                )
                 break
 
             # Check if the task has completed (either success or failure)
@@ -1692,7 +1700,12 @@ class DnacBase():
             # Check if the elapsed time exceeds the timeout
             elapsed_time = time.time() - loop_start_time
             if self.check_timeout_and_exit(loop_start_time, task_id, task_name):
-                self.log("Timeout exceeded after {0:.2f} seconds while monitoring task '{1}' with task ID '{2}'.".format(elapsed_time, task_name, task_id), "DEBUG")
+                self.log(
+                    "Timeout exceeded after {0:.2f} seconds while monitoring task '{1}' with task ID '{2}'.".format(
+                        elapsed_time, task_name, task_id
+                    ), 
+                    "DEBUG"
+                )
                 break
 
             # Extract data, progress, and end time from the response
@@ -1701,7 +1714,7 @@ class DnacBase():
             end_time = response.get("endTime")
             self.log("Current task progress for '{0}': {1}, Data: {2}".format(task_name, progress, data), "INFO")
 
-             # Validate task data or progress if validation keys are provided
+            # Validate task data or progress if validation keys are provided
             if end_time:
                 if data_validation and data_validation in data:
                     self.msg = success_msg

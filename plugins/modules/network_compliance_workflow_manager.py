@@ -481,9 +481,13 @@ class NetworkCompliance(DnacBase):
         Raises:
             Exception: If no compliance operation is requested, raises an exception with a message.
         """
-        self.log("Validating if any network compliance operation is requested: "
-             "run_compliance={0}, run_compliance_categories={1}, sync_device_config={2}".format(
-                 run_compliance, run_compliance_categories, sync_device_config), "DEBUG")
+        self.log(
+            "Validating if any network compliance operation is requested: "
+            "run_compliance={0}, run_compliance_categories={1}, sync_device_config={2}".format(
+                run_compliance, run_compliance_categories, sync_device_config
+            ),
+            "DEBUG"
+        )
 
         if not any([run_compliance, run_compliance_categories, sync_device_config]):
             self.msg = (
