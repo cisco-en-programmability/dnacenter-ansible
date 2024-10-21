@@ -615,14 +615,10 @@ class Device_configs_backup(DnacBase):
 
             # Retrieve device IDs for each site in the unique_sites set
             for site_name in unique_sites:
-                (site_exists, site_id) = self.get_site_id(site_name)
-                if site_exists:
-                    site_mgmt_ip_to_instance_id_map, skipped_devices_list = self.get_reachable_devices_from_site(site_id)
-                    self.log("Retrieved following Device Id(s) of device(s): {0} from the provided site: {1}".format(
-                        site_mgmt_ip_to_instance_id_map, site_name), "DEBUG")
-                    mgmt_ip_to_instance_id_map.update(site_mgmt_ip_to_instance_id_map)
-                else:
-                    self.log("Site '{0}' does not exist.".format(site_name), "WARNING")
+                site_mgmt_ip_to_instance_id_map, skipped_devices_list = self.get_reachable_devices_from_site(site_name)
+                self.log("Retrieved following Device Id(s) of device(s): {0} from the provided site: {1}".format(
+                    site_mgmt_ip_to_instance_id_map, site_name), "DEBUG")
+                mgmt_ip_to_instance_id_map.update(site_mgmt_ip_to_instance_id_map)
 
             # Get additional device list parameters excluding site_list
             get_device_list_params = self.get_device_list_params(config)
@@ -900,6 +896,7 @@ class Device_configs_backup(DnacBase):
             self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
 
         if self.status == "success":
+            self.log("Task '{0}' completed successfully for task ID {1}.".format(task_name, task_id), "INFO")
             if self.dnac_version <= self.version_2_3_5_3:
                 response = self.get_task_details(task_id)
                 additional_status_url = response.get("additionalStatusURL")
@@ -910,11 +907,13 @@ class Device_configs_backup(DnacBase):
             if not additional_status_url:
                 self.msg = "Error retrieving the Device Config Backup file ID for task ID {0}".format(task_id)
                 self.fail_and_exit(self.msg)
+            self.log("Additional status URL retrieved: {0}".format(additional_status_url), "DEBUG")
 
             # Perform additional tasks after breaking the loop
             mgmt_ip_to_instance_id_map = self.want.get("mgmt_ip_to_instance_id_map")
 
             # Download the file using the additional status URL
+            self.log("Downloading the Device Config Backup file from {0}.".format(additional_status_url), "DEBUG")
             file_id, downloaded_file = self.download_file(additional_status_url=additional_status_url)
             self.log("Retrived file data for file ID: {0}.".format(file_id), "DEBUG")
             if not downloaded_file:
@@ -922,6 +921,7 @@ class Device_configs_backup(DnacBase):
                 self.fail_and_exit(self.msg)
 
             # Unzip the downloaded file
+            self.log("Unzipping the downloaded Device Config Backup file(s) for file ID: {0}.".format(file_id), "DEBUG")
             download_status = self.unzip_data(file_id, downloaded_file)
             if download_status:
                 self.log("{0} task has been successfully performed on {1} device(s): {2}.".format(
