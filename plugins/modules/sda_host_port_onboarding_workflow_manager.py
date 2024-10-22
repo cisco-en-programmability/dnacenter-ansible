@@ -314,7 +314,7 @@ EXAMPLES = r"""
           - interface_names: ["TenGigabitEthernet1/1/2", "TenGigabitEthernet1/1/3", "TenGigabitEthernet1/1/4"]
             connected_device_type: "TRUNK"
             protocol: "PAGP"
-            port_channel_descrption: "Trunk port channel"
+            port_channel_description: "Trunk port channel"
 
           - interface_names: ["TenGigabitEthernet1/1/5", "TenGigabitEthernet1/1/6"]
             connected_device_type: "EXTENDED_NODE"
@@ -322,7 +322,7 @@ EXAMPLES = r"""
           - interface_names: ["TenGigabitEthernet1/1/7", "TenGigabitEthernet1/1/8"]
             connected_device_type: "EXTENDED_NODE"
             protocol: "PAGP"
-            port_channel_descrption: "extended node port channel"
+            port_channel_description: "extended node port channel"
 
 - name: Update port interfaces and port channels for a specific fabric device
   cisco.dnac.sda_host_port_onboarding_workflow_manager:
@@ -360,7 +360,7 @@ EXAMPLES = r"""
           - interface_names: ["TenGigabitEthernet1/1/2", "TenGigabitEthernet1/1/3", "TenGigabitEthernet1/1/4"]
             connected_device_type: "EXTENDED_NODE"
             protocol: 'PAGP'
-            port_channel_descrption: "Trunk port channel"
+            port_channel_description: "Trunk port channel"
 
 - name: Delete ALL port assignments and port channels for the fabric device using hostname
   cisco.dnac.sda_host_port_onboarding_workflow_manager:
