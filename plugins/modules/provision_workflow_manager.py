@@ -73,6 +73,20 @@ options:
                 - This is mandatory for provisioning of wireless devices.
             type: list
             elements: str
+        primary_managed_ap_locations:
+            description:
+                - List of site locations allocated for the primary managed Access Points (APs).
+                - This is mandatory for provisioning wireless devices if the managed AP location is not set.
+                - Supported in Cisco Catalyst version 2.3.7.6 and above.
+            type: list
+            elements: str
+        secondary_managed_ap_locations:
+            description:
+                - List of site locations allocated for the secondary managed Access Points (APs).
+                - This is mandatory for provisioning wireless devices if the managed AP location is not set.
+                - Supported in Cisco Catalyst version 2.3.7.6 and above.
+            type: list
+            elements: str
         dynamic_interfaces:
             description:
               - A list of dynamic interfaces on the wireless controller.
@@ -678,34 +692,39 @@ class Provision(DnacBase):
             self.log(msg, "CRITICAL")
             self.module.fail_json(msg=msg)
 
-    def is_device_assigned_to_site_v1(self, uuid):
+    def find_device_site(self, uuid):
         """
-        Checks if a device, specified by its UUID, is assigned to any site.
+        Checks if a device is assigned to any site.
 
         Parameters:
-          - self: The instance of the class containing the 'config' attribute
-                  to be validated.
-          - uuid (str): The UUID of the device to check for site assignment.
+        - self: The instance of the class containing the 'config' attribute
+                to be validated.
+        - uuid (str): The UUID of the device to check for site assignment.
         Returns:
-          - boolean:  True if the device is assigned to a site, False otherwise.
-
+        - location (str): The location of the site if the device is assigned,
+                            None otherwise.
         """
 
         self.log("Checking site assignment for device with UUID: {0}".format(uuid), "INFO")
+
         try:
             site_response = self.dnac_apply['exec'](
                 family="devices",
                 function='get_device_detail',
-                params={"search_by": uuid ,
-                        "identifier": "uuid"}
+                params={"search_by": uuid, "identifier": "uuid"}
             )
-            self.log("Response collected from the API 'get_device_detail' {0}".format(site_response))
+            self.log("Response collected from the API 'get_device_detail': {0}".format(site_response))
+
             site_response = site_response.get("response")
-            if site_response.get("location"):
-                location = (site_response.get("location"))
+            if site_response and site_response.get("location"):
+                location = site_response.get("location")
                 return location
+            else:
+                self.log(f"No site assignment found for device with UUID: {uuid}", "INFO")
+                return None
+
         except Exception as e:
-            msg = "Failed to find device with UUID {0} due to: {1}".format(uuid, e)
+            msg = "Failed to find device with location for UUID {0} due to: {1}".format(uuid, e)
             self.log(msg, "CRITICAL")
             self.module.fail_json(msg=msg)
 
@@ -919,7 +938,7 @@ class Provision(DnacBase):
         """
         device_id = self.get_device_id()
         self.log(device_id)
-        already_provisioned_site = self.is_device_assigned_to_site_v1(device_id)
+        already_provisioned_site = self.find_device_site(device_id)
 
         if already_provisioned_site != self.site_name:
             self.log("inside new logic")
@@ -1332,9 +1351,10 @@ class Provision(DnacBase):
 
         site_exist, site_id = self.get_site_id(site_name)
 
-        primary_ap_location_site_id_list = []
-        secondary_ap_location_site_id_list = []
         if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") <= 0:
+            primary_ap_location_site_id_list = []
+            secondary_ap_location_site_id_list = []
+
             if primary_ap_location:
                 self.log("Processing primary access point locations", "INFO")
                 for primary_sites in primary_ap_location:
