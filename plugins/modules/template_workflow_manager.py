@@ -7,7 +7,7 @@
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
-__author__ = ['Madhan Sankaranarayanan, Rishita Chowdhary, Akash Bhaskaran, Muthu Rakesh']
+__author__ = ['Madhan Sankaranarayanan, Rishita Chowdhary, Akash Bhaskaran, Muthu Rakesh, Abhishek Maheshwari']
 
 DOCUMENTATION = r"""
 ---
@@ -29,6 +29,7 @@ author: Madhan Sankaranarayanan (@madhansansel)
         Rishita Chowdhary (@rishitachowdhary)
         Akash Bhaskaran (@akabhask)
         Muthu Rakesh (@MUTHU-RAKESH-27)
+        Abhishek Maheshwari (@abmahesh)
 options:
   config_verify:
     description: Set to True to verify the Cisco Catalyst Center after applying the playbook config.
@@ -809,6 +810,79 @@ options:
                 description: ProjectName path parameter. Project name to create template under the
                   project.
                 type: str
+      deploy_template:
+        description: To deploy the template to the devices based on either list of site provisionig details with further filtering
+            criteria like device family, device role, device tag or by providing the device specific details which includes device_ips_list,
+            device_hostnames_list, serial_number_list or mac_address_list.
+        type: dict
+        suboptions:
+          project_name:
+            description: Provide the name of project under which template is available.
+            type: str
+          template_name:
+            description: Name of the template to be deployed.
+            type: str
+          force_push_template:
+            description: Boolean flag to indicate whether the template should be forcefully pushed to the devices, overriding any existing
+                configuration.
+            type: bool
+          is_composite:
+            description: Boolean flag indicating whether the template is composite, which means the template is built using multiple smaller
+                templates.
+            type: bool
+          device_template_params:
+            description: A list of parameter name-value pairs used for customizing the template with specific values for each device.
+            type: list
+            elements: dict
+            suboptions:
+              param_name:
+                description: Name of the parameter in the template that needs to be replaced with a specific value.
+                type: str
+              param_value:
+                description: Value assigned to the parameter for deployment to devices.
+                type: str
+          device_specific_details:
+            description: Details specific to devices where the template will be deployed, including lists of device IPs, hostnames,
+                serial numbers, or MAC addresses.
+            type: list
+            elements: dict
+            suboptions:
+              device_ips_list:
+                description: A list of IP addresses of the devices where the template will be deployed.
+                type: list
+                elements: str
+              device_hostnames_list:
+                description: A list of hostnames of the devices where the template will be deployed.
+                type: list
+                elements: str
+              serial_number_list:
+                description: A list of serial numbers of the devices where the template will be deployed.
+                type: list
+                elements: str
+              mac_address_list:
+                description: A list of MAC addresses of the devices where the template will be deployed.
+                type: list
+                elements: str
+          site_associated_provisioning:
+            description: Parameters related to site-based provisioning, allowing the deployment of templates to devices associated with specific sites, with
+                optional filtering by device family, role, or tag.
+            type: list
+            elements: dict
+            suboptions:
+              site_name:
+                description: Name of the site where the devices are associated for provisioning.
+                type: list
+                elements: str
+              device_family:
+                description: Family of the devices (e.g., switches, routers) used to filter devices for template deployment.
+                type: str
+              device_role:
+                description: Role of the devices (e.g., access, core, edge) used to filter devices for template deployment.
+                type: str
+              device_tag:
+                description: Specific device tag used to filter devices for template deployment.
+                type: str
+
 
 requirements:
 - dnacentersdk >= 2.7.2
@@ -953,6 +1027,81 @@ EXAMPLES = r"""
           project_name: string
           template_file: string
 
+- name: Deploy the given template to the devices based on site specific details and other filtering mode
+  cisco.dnac.template_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: True
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config_verify: True
+    config:
+      deploy_template:
+        project_name: "Sample_Project"
+        template_name: "Sample Template"
+        force_push_template: true
+        device_template_params:
+        - param_name: "vlan_id"
+          param_value: "1431"
+        - param_name: "vlan_name"
+          param_value: "testvlan31"
+        site_associated_provisioning:
+        - site_name: "Global/Bangalore/Building14/Floor1"
+          device_family: "Switches and Hubs"
+
+- name: Deploy the given template to the devices based on device specific details
+  cisco.dnac.template_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: True
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config_verify: True
+    config:
+      deploy_template:
+        project_name: "Sample_Project"
+        template_name: "Sample Template"
+        force_push_template: true
+        device_template_params:
+        - param_name: "vlan_id"
+          param_value: "1431"
+        - param_name: "vlan_name"
+          param_value: "testvlan31"
+        device_specific_details:
+          - device_ips_list: ["10.1.2.1", "10.2.3.4"]
+
+- name: Delete the given project or template from the Cisco Catalyst Center
+  cisco.dnac.template_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: True
+    dnac_log_level: "{{dnac_log_level}}"
+    state: deleted
+    config_verify: True
+    config:
+      configuration_templates:
+        project_name: "Sample_Project"
+        template_name: "Sample Template"
+        language: "velocity"
+        software_type: "IOS-XE"
+        device_types:
+        - product_family: "Switches and Hubs"
+
 """
 
 RETURN = r"""
@@ -1027,6 +1176,7 @@ response_5:
 
 import copy
 import json
+import time
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
@@ -1046,6 +1196,7 @@ class Template(DnacBase):
         self.supported_states = ["merged", "deleted"]
         self.accepted_languages = ["JINJA", "VELOCITY"]
         self.export_template = []
+        self.max_timeout = self.params.get('dnac_api_task_timeout')
         self.result['response'] = [
             {"configurationTemplate": {"response": {}, "msg": {}}},
             {"export": {"response": {}}},
@@ -1106,6 +1257,35 @@ class Template(DnacBase):
                 'template_name': {'type': 'str'},
                 'version': {'type': 'str'}
             },
+            'deploy_template': {
+                'type': 'dict',
+                'project_name': {'type': 'str'},
+                'template_name': {'type': 'str'},
+                'force_push_template': {'type': 'bool'},
+                'is_composite': {'type': 'bool'},
+                'device_template_params': {
+                    'type': 'list',
+                    'elements': 'dict',
+                    'param_name': {'type': 'str'},
+                    'param_value': {'type': 'str'},
+                },
+                'device_specific_details': {
+                    'type': 'list',
+                    'elements': 'dict',
+                    'device_ips_list': {'type': 'list', 'elements': 'str'},
+                    'device_hostnames_list': {'type': 'list', 'elements': 'str'},
+                    'serial_number_list': {'type': 'list', 'elements': 'str'},
+                    'mac_address_list': {'type': 'list', 'elements': 'str'},
+                },
+                'site_associated_provisioning': {
+                    'type': 'list',
+                    'elements': 'dict',
+                    'site_name': {'type': 'str'},
+                    'device_family': {'type': 'str'},
+                    'device_role': {'type': 'str'},
+                    'device_tag': {'type': 'str'},
+                }
+            },
             'export': {
                 'type': 'dict',
                 'project': {'type': 'list', 'elements': 'str'},
@@ -1120,11 +1300,13 @@ class Template(DnacBase):
                 'type': 'dict',
                 'project': {
                     'type': 'dict',
+                    'project_file': {'type': 'str'},
                     'do_version': {'type': 'str', 'default': 'False'},
                 },
                 'template': {
                     'type': 'dict',
                     'do_version': {'type': 'str', 'default': 'False'},
+                    'template_file': {'type': 'str'},
                     'payload': {
                         'type': 'list',
                         'elements': 'dict',
@@ -1443,6 +1625,33 @@ class Template(DnacBase):
         self.log("Received API response from 'get_templates_details': {0}".format(items), "DEBUG")
         return result
 
+    def get_project_defined_template_details(self, project_name, template_name):
+        """
+        Get the template details from the template name provided in the playbook.
+        Parameters:
+            project_name (str) - Name of the project under which templates are associated.
+            template_name (str) - Name of the template provided in the playbook.
+        Returns:
+            result (dict) - Template details for the given template name.
+        """
+
+        result = None
+        items = self.dnac_apply['exec'](
+            family="configuration_templates",
+            function="get_templates_details",
+            op_modifies=True,
+            params={
+                "project_name": project_name,
+                "name": template_name
+            }
+        )
+        if items:
+            result = items
+
+        self.log("Received API response from 'get_templates_details': {0}".format(items), "DEBUG")
+
+        return result
+
     def get_containing_templates(self, containing_templates):
         """
         Store tags from the playbook for template processing in Cisco Catalyst Center.
@@ -1656,6 +1865,99 @@ class Template(DnacBase):
         self.result['response'][0].get("configurationTemplate").update({"items": items})
         return result
 
+    def get_uncommitted_template_id(self, project_name, template_name):
+        """
+        Retrieves the ID of an uncommitted template from a specified project in the Cisco Catalyst Center.
+
+        Args:
+            self (object): An instance of the class used for interacting with Cisco Catalyst Center.
+            project_name (str): The name of the project under which the template is located.
+            template_name (str): The name of the template whose uncommitted ID is to be retrieved.
+        Returns:
+            str or None: The template ID if found, otherwise `None` if the template is not available or uncommitted.
+        Description:
+            This function queries the Cisco Catalyst Center for uncommitted templates within a specified project.
+            It checks if the template list contains the specified `template_name` and if found, returns the associated
+            `templateId`. If the template is not found, the function logs a warning message and returns `None`.
+            The function is useful for identifying templates that are not yet committed, which can then be versioned
+            or deployed. If the template is unavailable, an appropriate log message is recorded and the function
+            exits early with `None`.
+        """
+
+        template_id = None
+        template_list = self.dnac_apply['exec'](
+            family="configuration_templates",
+            function="gets_the_templates_available",
+            op_modifies=False,
+            params={
+                "projectNames": project_name,
+                "un_committed": True
+            },
+        )
+        msg = (
+            "Given template '{0}' is not available under the project '{1}' "
+            "so cannot commit or deploy the template in device(s)."
+        ).format(template_name, project_name)
+
+        if not template_list:
+            self.log(msg, "WARNING")
+            self.msg = msg
+            return template_id
+
+        for template in template_list:
+            if template.get("name") == template_name:
+                template_id = template.get("templateId")
+                return template_id
+
+        return template_id
+
+    def versioned_given_template(self, project_name, template_name, template_id):
+        """
+        Versions (commits) a specified template in the Cisco Catalyst Center.
+
+        Args:
+            self (object): An instance of the class used for interacting with Cisco Catalyst Center.
+            project_name (str): The name of the project under which the template resides.
+            template_name (str): The name of the template to be versioned.
+            template_id (str): The unique identifier of the template to be versioned.
+        Returns:
+            self (object): The instance of the class itself, with the operation result (success/failure) set accordingly.
+        Description:
+            This function handles the process of versioning or committing a template in the Cisco Catalyst Center.
+            It constructs a request payload with versioning comments and template ID, and then calls the API to
+            initiate the versioning task.
+            The function returns the class instance for further chaining of operations.
+        """
+
+        try:
+            comments = (
+                "Given template '{0}' under the project '{1}' versioned successfully."
+            ).format(template_name, project_name)
+
+            version_params = {
+                "comments": comments,
+                "templateId": template_id
+            }
+            task_name = "version_template"
+            task_id = self.get_taskid_post_api_call("configuration_templates", task_name, version_params)
+
+            if not task_id:
+                self.msg = "Unable to retrieve the task_id for the task '{0}'.".format(task_name)
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            success_msg = "Given template '{0}' versioned/committed successfully in the Cisco Catalyst Center.".format(template_name)
+            self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
+
+        except Exception as e:
+            self.msg = (
+                "An exception occured while versioning the template '{0}' in the Cisco Catalyst "
+                "Center: {1}"
+            ).format(template_name, str(e))
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+
+        return self
+
     def get_have_project(self, config):
         """
         Get the current project related information from Cisco Catalyst Center.
@@ -1769,6 +2071,7 @@ class Template(DnacBase):
         Returns:
             self
         """
+        have = {}
         configuration_templates = config.get("configuration_templates")
         if configuration_templates:
             if not configuration_templates.get("project_name"):
@@ -1778,6 +2081,22 @@ class Template(DnacBase):
             template_available = self.get_have_project(config)
             if template_available:
                 self.get_have_template(config, template_available)
+
+        deploy_temp_details = config.get("deploy_template")
+        if deploy_temp_details:
+            template_name = deploy_temp_details.get("template_name")
+            project_name = deploy_temp_details.get("project_name")
+            temp_details = self.get_project_defined_template_details(project_name, template_name).get("response")
+
+            if temp_details:
+                self.log("Given template '{0}' is already committed in the Catalyst Center.".format(template_name), "INFO")
+                have["temp_id"] = temp_details[0].get("id")
+
+            self.log("Successfully collect the details for the template '{0}' from the "
+                     "Cisco Catalyst Center.".format(template_name), "INFO"
+                     )
+
+            self.have = have
 
         self.msg = "Successfully collected all project and template \
                     parameters from Cisco Catalyst Center for comparison"
@@ -1829,6 +2148,39 @@ class Template(DnacBase):
             want["template_params"] = template_params
             want["project_params"] = project_params
             want["comments"] = version_comments
+
+        deploy_temp_details = config.get("deploy_template")
+        if deploy_temp_details:
+            project_name = deploy_temp_details.get("project_name")
+            if not project_name:
+                self.msg = (
+                    "To Deploy the template in the devices, parameter 'project_name' "
+                    "must be given in the playboook."
+                )
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            template_name = deploy_temp_details.get("template_name")
+            if not template_name:
+                self.msg = (
+                    "To Deploy the template in the devices, parameter 'template_name' "
+                    "must be given in the playboook."
+                )
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            device_specific_details = deploy_temp_details.get("device_specific_details")
+            site_associated_provisioning = deploy_temp_details.get("site_associated_provisioning")
+
+            if not (device_specific_details or site_associated_provisioning):
+                self.msg = (
+                    "Either give the parameter 'device_specific_details' or 'site_associated_provisioning' "
+                    "in the playbook to fetch the device ids and proceed for the deployment of template {0}."
+                ).format(template_name)
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            want["deploy_tempate"] = deploy_temp_details
 
         self.want = want
         self.msg = "Successfully collected all parameters from playbook " + \
@@ -2184,7 +2536,8 @@ class Template(DnacBase):
             else:
                 self.msg = str(task_details.get("progress"))
             self.status = "failed"
-            return self
+
+        return self
 
     def handle_export(self, export):
         """
@@ -2397,11 +2750,331 @@ class Template(DnacBase):
 
         return self
 
+    def filter_devices_with_family_role(self, site_assign_device_ids, device_family=None, device_role=None):
+        """
+        Filters devices based on their family and role from a list of site-assigned device IDs.
+
+        Args:
+            self (object): An instance of the class interacting with Cisco Catalyst Center.
+            site_assign_device_ids (list): A list of device IDs (strings) assigned to a site that need to be filtered.
+            device_family (str, optional): The family of devices to filter by (e.g., 'Switches and Hubs'). If None,
+                this filter is not applied. Defaults to None.
+            device_role (str, optional): The role of the devices to filter by (e.g., 'ACCESS', 'CORE'). If None,
+                this filter is not applied. Defaults to None.
+        Returns:
+            list (str): A list of filtered device IDs (strings) that belong to the specified device family and role.
+            If no matching devices are found, the list will be empty.
+        Description:
+            This function filters a list of device IDs based on the specified `device_family` and `device_role` by querying
+            the Cisco Catalyst Center API. It iterates over each device ID, checking if the device belongs to the specified
+            family and has the desired role. Devices that match the criteria are added to the `filtered_device_list`.
+            If a device does not match the criteria or no response is received from the API, the function logs an
+            informational message and skips that device. In the event of an error during the API call, it logs the error
+            message and continues processing the remaining devices.
+            The function returns the list of devices that meet the filtering criteria.
+        """
+
+        filtered_device_list = []
+
+        for device_id in site_assign_device_ids:
+            try:
+                response = self.dnac._exec(
+                    family="devices",
+                    function='get_device_list',
+                    op_modifies=True,
+                    params={
+                        "family": device_family,
+                        "id": device_id,
+                        "role": device_role
+                    }
+                )
+                response = response.get('response')
+
+                if not response:
+                    self.log(
+                        "Device with id '{0}' does not belong to the device family '{1}' or not having the "
+                        " device role as {2}".format(device_id, device_family, device_role), "INFO"
+                    )
+                    continue
+
+                filtered_device_list.append(device_id)
+
+            except Exception as e:
+                error_message = "Error while getting the response of device from Cisco Catalyst Center: {0}".format(str(e))
+                self.log(error_message, "CRITICAL")
+                continue
+
+        return filtered_device_list
+
+    def get_latest_template_version_id(self, template_id, template_name):
+        version_temp_id = None
+
+        try:
+            response = self.dnac._exec(
+                family="configuration_templates",
+                function='get_template_versions',
+                op_modifies=True,
+                params={
+                    "template_id": template_id,
+                }
+            )
+
+            if not response:
+                self.log(
+                    "There is no versioning present for the template {0} in the Cisco "
+                    "Catalyst Center.".format(template_name), "INFO"
+                )
+            response = response[0].get("versionsInfo")
+            self.log(
+                "Received API response from 'get_tempget_template_versionslate_version' for template "
+                "{0}: {1}".format(str(response), template_name), "DEBUG"
+            )
+            latest_version = max(response, key=lambda x: x["versionTime"])
+            version_temp_id = latest_version.get("id")
+
+        except Exception as e:
+            error_message = "Error while getting the latest version id for the template {0}: {1}".format(template_name, str(e))
+            self.log(error_message, "CRITICAL")
+
+        return version_temp_id
+
+    def create_payload_for_template_deploy(self, deploy_temp_details, device_ids):
+        """
+        Creates a payload for deploying a template to specified devices in the Cisco Catalyst Center.
+
+        Args:
+            self (object): An instance of the class interacting with Cisco Catalyst Center.
+            deploy_temp_details (dict): A dictionary containing details about the template to be deployed.
+            device_ids (list): A list of device UUIDs to which the template should be deployed.
+        Returns:
+            dict: A dictionary representing the payload required to deploy the template.
+        Description:
+            This function generates the necessary payload for deploying a template to devices in the Cisco Catalyst Center.
+            It first checks if the given template is already committed. If not, it fetches its uncommitted version, commits it,
+            and uses its template ID for deployment. The payload includes information about target devices and their respective
+            template parameters.
+            The function logs appropriate messages during the process, including if a template is already committed, if
+            parameters are updated, and when the payload is successfully collected.
+        """
+
+        project_name = deploy_temp_details.get("project_name")
+        template_name = deploy_temp_details.get("template_name")
+        # Check if the template is available but not yet committed
+        if self.have.get("temp_id"):
+            self.log("Given template '{0}' is already committed in the Cisco Catalyst Center".format(template_name), "INFO")
+            template_id = self.have.get("temp_id")
+        else:
+            template_id = self.get_uncommitted_template_id(project_name, template_name)
+
+            if not template_id:
+                self.msg = (
+                    "Unable to fetch the details for the template '{0}' from the Cisco "
+                    "Catalyst Center."
+                ).format(template_name)
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+            self.log("Given template '{0}' is available and is not committed yet.".format(template_name), "INFO")
+
+            # Commit or versioned the given template in the Catalyst Center
+            self.versioned_given_template(project_name, template_name, template_id).check_return_status()
+
+        deploy_payload = {
+            "forcePushTemplate": deploy_temp_details.get("force_push_template", False),
+            "isComposite": deploy_temp_details.get("is_composite", False),
+            "templateId": template_id,
+        }
+        target_info_list = []
+        template_dict = {}
+        device_template_params = deploy_temp_details.get("device_template_params")
+        if not device_template_params:
+            self.msg = "Template parameters is not given in the playbook so cannot deploy {0} to the devices.".format(template_name)
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+        for param in device_template_params:
+            name = param["param_name"]
+            value = param["param_value"]
+            self.log("Update the template placeholder for the name '{0}' with value {1}".format(name, value), "DEBUG")
+            template_dict[name] = value
+
+        # Get the latest version template ID
+        version_template_id = self.get_latest_template_version_id(template_id, template_name)
+        if not version_template_id:
+            self.log("No versioning found for the template: {0}".format(template_name), "INFO")
+            version_template_id = template_id
+
+        for device_id in device_ids:
+            target_device_dict = {
+                "id": device_id,
+                "type": "MANAGED_DEVICE_UUID",
+                "versionedTemplateId": version_template_id,
+                "params": template_dict,
+            }
+            target_info_list.append(target_device_dict)
+            del target_device_dict
+
+        deploy_payload["targetInfo"] = target_info_list
+        self.log("Successfully collected the payload for the deploy of template '{0}'.".format(template_name), "INFO")
+
+        return deploy_payload
+
+    def deploy_template_to_devices(self, deploy_temp_payload, template_name, device_ips):
+        """
+        Deploys a specified template to devices associated with a site in the Cisco Catalyst Center.
+
+        Args:
+            self (object): An instance of the class used for interacting with Cisco Catalyst Center.
+            deploy_temp_payload (dict): The payload containing the details required to deploy the template.
+                This includes the template ID, device details, and template parameters.
+            template_name (str): The name of the template to be deployed.
+            device_ips (list): The management ip address of the devices to which template will be deployed.
+        Returns:
+            self (object): The instance of the class itself, with the operation result (success or failure)
+            set accordingly.
+        Description:
+            This function handles the deployment of a template to a set of devices managed in the Cisco Catalyst Center.
+            It sends a POST request with the deployment payload and retrieves the task ID associated with the deployment task.
+            It then monitors the status of the task using the task ID and logs the result.
+            If the task ID is not retrieved or an exception occurs during deployment, the function logs an error message,
+            sets the operation result to "failed," and returns the instance.
+            The success message indicates that the template has been successfully deployed to all the devices in the specified
+            site, while any exceptions are caught and logged with appropriate details.
+        """
+
+        try:
+            self.log("Deploying the given template {0} to the device(s) {1}.".format(template_name, device_ips))
+            payload = {"payload": deploy_temp_payload}
+            task_name = "deploy_template_v2"
+            task_id = self.get_taskid_post_api_call("configuration_templates", task_name, payload)
+
+            if not task_id:
+                self.msg = "Unable to retrive the task_id for the task '{0}'.".format(task_name)
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            while True:
+                task_details = self.get_task_details_by_id(task_id)
+                progress = task_details.get("progress")
+                self.log("Task details for the API {0}: {1}".format(task_name, progress), "DEBUG")
+
+                if "not deploying" in progress:
+                    self.log("Deployment of the template {0} gets failed because of: {1}".format(template_name, progress), "WARNING")
+                    self.msg = progress
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
+
+                if "ApplicableTargets" in progress:
+                    self.msg = (
+                        "Given template '{0}' deployed successfully to all the device(s) '{1}' "
+                        " in the Cisco Catalyst Center."
+                    ).format(template_name, device_ips)
+                    self.set_operation_result("success", True, self.msg, "INFO")
+                    return self
+
+                time.sleep(self.params.get('dnac_task_poll_interval'))
+
+        except Exception as e:
+            self.msg = (
+                "An exception occured while deploying the template '{0}' to the device(s) {1} "
+                " in the Cisco Catalyst Center: {2}."
+            ).format(template_name, device_ips, str(e))
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+
+        return self
+
+    def get_device_ips_from_config_priority(self, device_specific_details):
+        """
+        Retrieve device IPs based on the configuration.
+        Parameters:
+            -  self (object): An instance of a class used for interacting with Cisco Cisco Catalyst Center.
+        Returns:
+            list: A list containing device IPs.
+        Description:
+            This method retrieves device IPs based on the priority order specified in the configuration.
+            It first checks if device IPs are available. If not, it checks hostnames, serial numbers,
+            and MAC addresses in order and retrieves IPs based on availability.
+            If none of the information is available, an empty list is returned.
+        """
+        # Retrieve device IPs from the configuration
+        device_ips = device_specific_details.get("device_ips_list")
+
+        if device_ips:
+            return device_ips
+
+        # If device IPs are not available, check hostnames
+        device_hostnames = device_specific_details.get("device_hostnames_list")
+        if device_hostnames:
+            return self.get_device_ips_from_hostname(device_hostnames)
+
+        # If hostnames are not available, check serial numbers
+        device_serial_numbers = device_specific_details.get("serial_number_list")
+        if device_serial_numbers:
+            return self.get_device_ips_from_serial_number(device_serial_numbers)
+
+        # If serial numbers are not available, check MAC addresses
+        device_mac_addresses = device_specific_details.get("mac_address_list")
+        if device_mac_addresses:
+            return self.get_device_ips_from_mac_address(device_mac_addresses)
+
+        # If no information is available, return an empty list
+        return []
+
+    def get_device_ids_from_tag(self, tag_id, tag_name):
+        """
+        Retrieves the device IDs associated with a specific tag from the Cisco Catalyst Center.
+
+        Args:
+            self (object): An instance of the class used for interacting with Cisco Catalyst Center.
+            tag_id (str): The unique identifier of the tag from which to retrieve associated device IDs.
+            tag_name (str): The name of the tag, used for logging purposes.
+        Returns:
+            list (str): A list of device IDs (strings) associated with the specified tag. If no devices are found or
+            an error occurs, the function returns an empty list.
+        Description:
+            This function queries the Cisco Catalyst Center API to retrieve a list of devices associated with a given tag.
+            It calls the `get_tag_members_by_id` function using the tag's ID, specifying that the tag members should be of
+            type "networkdevice". If the API response contains device data, the function extracts and returns the device IDs.
+            The function logs whether the tag has associated devices and details about the API response. In the event of an
+            exception, it logs an error message, sets the operation result to "failed," and returns an empty list.
+        """
+
+        device_ids = []
+
+        try:
+            response = self.dnac._exec(
+                family="tag",
+                function='get_tag_members_by_id',
+                op_modifies=False,
+                params={
+                    "id": tag_id,
+                    "member_type": "networkdevice",
+                }
+            )
+            response = response.get("response")
+            if not response:
+                self.log("No device(s) are associated with the tag '{0}'.".format(tag_name), "WARNING")
+                return device_ids
+
+            self.log("Received API response from 'get_tag_members_by_id' for the tag {0}: {1}".format(tag_name, response), "DEBUG")
+            for tag in response:
+                device_id = tag.get("id")
+                device_ids.append(device_id)
+
+        except Exception as e:
+            self.msg = (
+                "Exception occurred while fetching tag id for the tag '{0} 'from "
+                "Cisco Catalyst Center: {1}"
+            ).format(tag_name, str(e))
+            self.set_operation_result("failed", False, self.msg, "INFO").check_return_status()
+
+        return device_ids
+
     def get_diff_merged(self, config):
         """
         Update/Create templates and projects in CCC with fields provided in Cisco Catalyst Center.
         Export the tempaltes and projects.
         Import the templates and projects.
+        Deploy the template to the devices based on device specific details or by fetching the device
+        details from site using other filtering parameters like device tag, device family, device role.
         Check using check_return_status().
 
         Parameters:
@@ -2413,24 +3086,126 @@ class Template(DnacBase):
 
         configuration_templates = config.get("configuration_templates")
         if configuration_templates:
-            self.update_configuration_templates(configuration_templates)
-            if self.status == "failed":
-                return self
-
-        export = config.get("export")
-        if export:
-            self.handle_export(export)
-            if self.status == "failed":
-                return self
+            self.update_configuration_templates(configuration_templates).check_return_status()
 
         _import = config.get("import")
         if _import:
-            self.handle_import(_import)
-            if self.status == "failed":
+            self.handle_import(_import).check_return_status()
+
+        export = config.get("export")
+        if export:
+            self.handle_export(export).check_return_status()
+
+        deploy_temp_details = config.get("deploy_template")
+        if deploy_temp_details:
+            template_name = deploy_temp_details.get("template_name")
+            device_specific_details = deploy_temp_details.get("device_specific_details")
+            site_specific_details = deploy_temp_details.get("site_associated_provisioning")
+
+            if device_specific_details:
+                device_ips = self.get_device_ips_from_config_priority(device_specific_details)
+                if not device_ips:
+                    self.msg = (
+                        "There is no matched device management ip addresss found for the "
+                        "deployment of template '{0}'"
+                    ).format(template_name)
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
+
+                device_ids = self.get_device_ids_from_device_ips(device_ips)
+                device_missing_msg = (
+                    "There are no device id found for the device(s) '{0}' in the "
+                    "Cisco Catalyst Center so cannot deploy the given template '{1}'."
+                ).format(device_ips, template_name)
+            elif site_specific_details:
+                device_ids, site_name_list = [], []
+
+                for site in site_specific_details:
+                    site_name = site.get("site_name")
+                    site_exists, site_id = self.get_site_id(site_name)
+                    if not site_exists:
+                        self.msg = (
+                            "To Deploy the template in the devices, given site '{0}' must be "
+                            "present in the Cisco Catalyst Center and it's not there currently."
+                        ).format(site_name)
+                        self.set_operation_result("failed", False, self.msg, "ERROR")
+                        return self
+
+                    site_response, site_assign_device_ids = self.get_device_ids_from_site(site_id)
+                    site_name_list.append(site_name)
+                    device_missing_msg = (
+                        "There is no device currently associated with the site '{0}' in the "
+                        "Cisco Catalyst Center so cannot deploy the given template '{1}'."
+                    ).format(site_name, template_name)
+
+                    if not site_assign_device_ids:
+                        self.msg = device_missing_msg
+                        self.log(device_missing_msg, "WARNING")
+                        continue
+
+                    device_family = site.get("device_family")
+                    device_role = site.get("device_role")
+
+                    # Filter devices based on the device family or device role
+                    if device_family or device_role:
+                        self.log("Filtering devices based on the given family/role for the site {0}.".format(site_name), "INFO")
+                        site_assign_device_ids = self.filter_devices_with_family_role(site_assign_device_ids, device_family, device_role)
+
+                    # Filter devices based on the device tag given to the devices
+                    tag_name = site.get("device_tag")
+                    tag_device_ids = None
+                    if tag_name:
+                        self.log("Filtering out the devices based on the given device tag: {0}".format(tag_name), "INFO")
+                        tag_id = self.get_network_device_tag_id(tag_name)
+                        self.log("Successfully collected the tag id {0} for the tag {1}".format(tag_id, tag_name), "INFO")
+                        # Get the device ids associated with the given tag for given site
+                        tag_device_ids = self.get_device_ids_from_tag(tag_id, tag_name)
+                        self.log("Successfully collected the device ids {0} associated with the tag {1}".format(tag_device_ids, tag_name), "INFO")
+
+                    self.log("Getting the device ids based on device assoicated with tag or site or both.", "DEBUG")
+
+                    if tag_device_ids and site_assign_device_ids:
+                        self.log("Getting the common device ids based on devices fetched from site and with tag.", "DEBUG")
+                        common_device_ids = list(set(tag_device_ids).intersection(set(site_assign_device_ids)))
+                        device_ids.extend(common_device_ids)
+                    elif site_assign_device_ids and not tag_device_ids:
+                        self.log("Getting the device ids based on devices fetched from site.", "DEBUG")
+                        device_ids.extend(site_assign_device_ids)
+                    elif tag_device_ids and not site_assign_device_ids:
+                        self.log("Getting the device ids based on devices fetched with the tag {0}.".format(tag_name), "DEBUG")
+                        device_ids.extend(tag_device_ids)
+                    else:
+                        self.log(
+                            "There is no matching device ids found for the deployment of template {0} "
+                            "for the given site {1}".format(template_name, site_name), "WARNING"
+                        )
+                        continue
+
+                device_missing_msg = (
+                    "There is no device id found for the given site(s) '{0}' in the "
+                    "Cisco Catalyst Center so cannot deploy the template '{1}'."
+                ).format(site_name_list, template_name)
+            else:
+                self.msg = (
+                    "Unable to provision the template '{0}' as device related details are "
+                    "not given in the playboook. Please provide it either via the parameter "
+                    "device_specific_details or with site_associated_provisioning."
+                ).format(self.msg)
+                self.set_operation_result("failed", False, self.msg, "INFO").check_return_status()
+
+            if not device_ids:
+                self.msg = device_missing_msg
+                self.set_operation_result("failed", False, self.msg, "INFO")
                 return self
+
+            device_ips = self.get_device_ips_from_device_ids(device_ids)
+            self.log("Successfully collect the device ips {0} for the device ids {1}.".format(device_ips, device_ids), "INFO")
+            deploy_temp_payload = self.create_payload_for_template_deploy(deploy_temp_details, device_ids)
+            self.deploy_template_to_devices(deploy_temp_payload, template_name, device_ips).check_return_status()
 
         self.msg = "Successfully completed merged state execution"
         self.status = "success"
+
         return self
 
     def delete_project_or_template(self, config, is_delete_project=False):
@@ -2462,21 +3237,41 @@ class Template(DnacBase):
             params=params_key,
         )
         task_id = response.get("response").get("taskId")
-        if task_id:
-            task_details = self.get_task_details(task_id)
-            self.result['changed'] = True
-            self.result['response'][0].get("configurationTemplate")['msg'] = task_details.get('progress')
-            self.result['response'][0].get("configurationTemplate")['diff'] = config.get("configuration_templates")
+        if not task_id:
+            self.msg = "Unable to retrive the task_id for the task '{0}'.".format(deletion_value)
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return self
 
-            self.log("Task details for '{0}': {1}".format(deletion_value, task_details), "DEBUG")
-            self.result['response'][0].get("configurationTemplate")['response'] = task_details if task_details else response
-            if not self.result['response'][0].get("configurationTemplate")['msg']:
-                self.result['response'][0].get("configurationTemplate")['msg'] = "Error while deleting {name} : "
-                self.status = "failed"
+        while True:
+            task_details = self.get_task_details_by_id(task_id)
+            self.log("Printing task details: {0}".format(task_details), "DEBUG")
+            if not task_details:
+                self.msg = "Unable to delete {0} as task details is empty.".format(deletion_value)
+                self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
-        self.msg = "Successfully deleted {0} ".format(name)
-        self.status = "success"
+            progress = task_details.get("progress")
+            self.log("Task details for the API {0}: {1}".format(deletion_value, progress), "DEBUG")
+
+            if "deleted" in progress:
+                self.log("Successfully perform the operation of {0} for {1}".format(deletion_value, name), "INFO")
+                self.msg = "Successfully deleted {0} ".format(name)
+                self.set_operation_result("success", True, self.msg, "INFO")
+                break
+
+            if task_details.get("isError"):
+                failure_reason = task_details.get("failureReason")
+                if failure_reason:
+                    self.msg = (
+                        "Failed to perform the operation of {0} for {1} because of: {2}"
+                    ).format(deletion_value, name, failure_reason)
+                else:
+                    self.msg = "Failed to perform the operation of {0} for {1}.".format(deletion_value, name)
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            time.sleep(self.params.get('dnac_task_poll_interval'))
+
         return self
 
     def get_diff_deleted(self, config):
@@ -2524,6 +3319,15 @@ class Template(DnacBase):
                     self.msg = "Project is not deletable"
                     self.status = "failed"
                     return self
+
+        deploy_temp_details = config.get("deploy_template")
+        if deploy_temp_details:
+            template_name = deploy_temp_details.get("template_name")
+            self.msg = (
+                "Deleting/removing the device configuration using deployment of template is not supported "
+                "for the template {0} in the Cisco Catalyst Center."
+            ).format(template_name)
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         self.msg = "Successfully completed delete state execution"
         self.status = "success"

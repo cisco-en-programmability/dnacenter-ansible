@@ -1034,6 +1034,243 @@ class DnacBase():
 
         return new_config
 
+    def get_device_ips_from_hostname(self, hostname_list):
+        """
+        Get the list of unique device IPs for list of specified hostnames of devices in Cisco Catalyst Center.
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            hostname_list (list): The hostnames of devices for which you want to retrieve the device IPs.
+        Returns:
+            list: The list of unique device IPs for the specified devices hostname list.
+        Description:
+            Queries Cisco Catalyst Center to retrieve the unique device IP's associated with a device having the specified
+            list of hostnames. If a device is not found in Cisco Catalyst Center, an error log message is printed.
+        """
+
+        device_ips = []
+        for hostname in hostname_list:
+            try:
+                response = self.dnac._exec(
+                    family="devices",
+                    function='get_device_list',
+                    op_modifies=True,
+                    params={"hostname": hostname}
+                )
+                if response:
+                    self.log("Received API response from 'get_device_list': {0}".format(str(response)), "DEBUG")
+                    response = response.get("response")
+                    if response:
+                        device_ip = response[0]["managementIpAddress"]
+                        if device_ip:
+                            device_ips.append(device_ip)
+            except Exception as e:
+                error_message = "Exception occurred while fetching device from Cisco Catalyst Center: {0}".format(str(e))
+                self.log(error_message, "ERROR")
+
+        return device_ips
+
+    def get_device_ips_from_serial_number(self, serial_number_list):
+        """
+        Get the list of unique device IPs for a specified list of serial numbers in Cisco Catalyst Center.
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            serial_number_list (list): The list of serial number of devices for which you want to retrieve the device IPs.
+        Returns:
+            list: The list of unique device IPs for the specified devices with serial numbers.
+        Description:
+            Queries Cisco Catalyst Center to retrieve the unique device IPs associated with a device having the specified
+            serial numbers.If a device is not found in Cisco Catalyst Center, an error log message is printed.
+        """
+
+        device_ips = []
+        for serial_number in serial_number_list:
+            try:
+                response = self.dnac._exec(
+                    family="devices",
+                    function='get_device_list',
+                    op_modifies=True,
+                    params={"serialNumber": serial_number}
+                )
+                if response:
+                    self.log("Received API response from 'get_device_list': {0}".format(str(response)), "DEBUG")
+                    response = response.get("response")
+                    if response:
+                        device_ip = response[0]["managementIpAddress"]
+                        if device_ip:
+                            device_ips.append(device_ip)
+            except Exception as e:
+                error_message = "Exception occurred while fetching device from Cisco Catalyst Center - {0}".format(str(e))
+                self.log(error_message, "ERROR")
+
+        return device_ips
+
+    def get_device_ips_from_mac_address(self, mac_address_list):
+        """
+        Get the list of unique device IPs for list of specified mac address of devices in Cisco Catalyst Center.
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            mac_address_list (list): The list of mac address of devices for which you want to retrieve the device IPs.
+        Returns:
+            list: The list of unique device IPs for the specified devices.
+        Description:
+            Queries Cisco Catalyst Center to retrieve the unique device IPs associated with a device having the specified
+            mac addresses. If a device is not found in Cisco Catalyst Center, an error log message is printed.
+        """
+
+        device_ips = []
+        for mac_address in mac_address_list:
+            try:
+                response = self.dnac._exec(
+                    family="devices",
+                    function='get_device_list',
+                    op_modifies=True,
+                    params={"macAddress": mac_address}
+                )
+                if response:
+                    self.log("Received API response from 'get_device_list': {0}".format(str(response)), "DEBUG")
+                    response = response.get("response")
+                    if response:
+                        device_ip = response[0]["managementIpAddress"]
+                        if device_ip:
+                            device_ips.append(device_ip)
+            except Exception as e:
+                self.status = "failed"
+                self.msg = "Exception occurred while fetching device from Cisco Catalyst Center - {0}".format(str(e))
+                self.result['response'] = self.msg
+                self.log(self.msg, "ERROR")
+                self.check_return_status()
+
+        return device_ips
+
+    def get_device_ids_from_device_ips(self, device_ips):
+        """
+        Get the list of unique device IPs for list of specified hostnames of devices in Cisco Catalyst Center.
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            hostname_list (list): The hostnames of devices for which you want to retrieve the device IPs.
+        Returns:
+            list: The list of unique device IPs for the specified devices hostname list.
+        Description:
+            Queries Cisco Catalyst Center to retrieve the unique device IP's associated with a device having the specified
+            list of hostnames. If a device is not found in Cisco Catalyst Center, an error log message is printed.
+        """
+
+        device_ids = []
+        for device_ip in device_ips:
+            try:
+                response = self.dnac._exec(
+                    family="devices",
+                    function='get_device_list',
+                    op_modifies=False,
+                    params={"management_ip_address": device_ip}
+                )
+                response = response.get("response")
+                if not response:
+                    self.log("Unable to fetch the device id for the device '{0}' due to absence of device.".format(device_ip), "WARNING")
+                    continue
+
+                self.log("Received API response from 'get_device_list': {0}".format(str(response)), "DEBUG")
+                device_id = response[0]["id"]
+                if device_id:
+                    self.log("Received the device id '{0}' for the device {1}".format(device_id, device_ip), "DEBUG")
+                    device_ids.append(device_id)
+            except Exception as e:
+                error_message = (
+                    "Exception occurred while fetching device id for the device '{0} 'from "
+                    "Cisco Catalyst Center: {1}"
+                ).format(device_ip, str(e))
+                self.log(error_message, "ERROR")
+
+        return device_ids
+
+    def get_device_ips_from_device_ids(self, device_ids):
+        """
+        Retrieves the management IP addresses of devices based on the provided device IDs.
+
+        Args:
+            device_ids (list): A list of device IDs for which the management IP addresses need to be fetched.
+        Returns:
+            device_ips (list): A list of management IP addresses corresponding to the provided device IDs. If a device ID
+                doesn't have an associated IP or there is an error, the corresponding IP is not included in the list.
+        Description:
+            This function iterates over a list of device IDs, makes an API call to Cisco Catalyst Center to fetch
+            the management IP addresses of the devices, and returns a list of these IPs. If a device is not found
+            or an exception occurs, it logs the error or warning and continues to the next device ID.
+        """
+
+        device_ips = []
+
+        for device_id in device_ids:
+            try:
+                response = self.dnac._exec(
+                    family="devices",
+                    function='get_device_list',
+                    op_modifies=False,
+                    params={"id": device_id}
+                )
+                response = response.get("response")
+                if not response:
+                    self.log("Unable to fetch the device ip for the device '{0}' due to absence of device.".format(device_id), "WARNING")
+                    continue
+
+                self.log("Received API response from 'get_device_list': {0}".format(str(response)), "DEBUG")
+                device_ip = response[0]["managementIpAddress"]
+                if device_ip:
+                    self.log("Received the device ip '{0}' for the device having id {1}".format(device_ip, device_id), "DEBUG")
+                    device_ips.append(device_ip)
+
+            except Exception as e:
+                error_message = (
+                    "Exception occurred while fetching device ip with device id'{0} 'from "
+                    "Cisco Catalyst Center: {1}"
+                ).format(device_id, str(e))
+                self.log(error_message, "ERROR")
+
+        return device_ips
+
+    def get_network_device_tag_id(self, tag_name):
+        """
+        Retrieves the ID of a network device tag from the Cisco Catalyst Center based on the tag name.
+
+        Args:
+            self (object): An instance of the class used for interacting with Cisco Catalyst Center.
+            tag_name (str): The name of the tag whose ID is to be retrieved.
+        Returns:
+            str or None: The tag ID if found, or `None` if the tag is not available or an error occurs.
+        Description:
+            This function queries the Cisco Catalyst Center API to retrieve the ID of a tag by its name.
+            It sends a request to the 'get_tag' API endpoint with the specified `tag_name`. If the tag is found,
+            the function extracts and returns its `id`. If no tag is found or an error occurs during the API call,
+            it logs appropriate messages and returns `None`.
+        """
+
+        device_tag_id = None
+
+        try:
+            response = self.dnac._exec(
+                family="tag",
+                function='get_tag',
+                op_modifies=False,
+                params={"name": tag_name}
+            )
+            response = response.get("response")
+            if not response:
+                self.log("Unable to fetch the tag details for the tag '{0}'.".format(tag_name), "WARNING")
+                return device_tag_id
+
+            self.log("Received API response from 'get_tag': {0}".format(str(response)), "DEBUG")
+            device_tag_id = response[0]["id"]
+            self.log("Received the tag id '{0}' for the tag: {1}".format(device_tag_id, tag_name), "INFO")
+
+        except Exception as e:
+            self.msg = (
+                "Exception occurred while fetching tag id for the tag '{0} 'from "
+                "Cisco Catalyst Center: {1}"
+            ).format(tag_name, str(e))
+            self.set_operation_result("failed", False, self.msg, "INFO").check_return_status()
+
+        return device_tag_id
+
     def is_valid_ipv4(self, ip_address):
         """
         Validates an IPv4 address.

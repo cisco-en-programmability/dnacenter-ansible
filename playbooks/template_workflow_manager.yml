@@ -13,11 +13,11 @@
         dnac_password: "{{ dnac_password }}"
         dnac_verify: "{{ dnac_verify }}"
         dnac_debug: "{{ dnac_debug }}"
-        dnac_log: True
+        dnac_log: true
         dnac_log_level: DEBUG
-        dnac_log_append: True
+        dnac_log_append: true
         dnac_log_file_path: "{{ dnac_log_file_path }}"
-        validate_response_schema: False
+        validate_response_schema: false
         state: "merged"
         config_verify: true
         #ignore_errors: true        #Enable this to continue execution even the task fails
@@ -41,6 +41,30 @@
           import:
             project: "{{ item.import_project }}"
             template: "{{ item.import_template }}"
+
+          deploy_template:
+            project_name: "{{ item.proj_name }}"
+            template_name: "{{ item.temp_name }}"
+            force_push_template: "{{ item.force_push_template }}"
+            device_template_params:
+            - param_name: "{{ item.device_template_params.param_name }}"
+              param_value: "{{ item.device_template_params.param_value }}"
+            - param_name: "{{ item.device_template_params.param_name }}"
+              param_value: "{{ item.device_template_params.param_value }}"
+            device_specific_details:
+              # Provide any of the one device_specific details either device_ips_list, device_hostnames_list
+              # serial_number_list, mac_address_list to deploy template to the devices
+              # device_ips_list: "{{ item.device_specific_details.device_ips_list }}"
+              device_hostnames_list: "{{ item.device_specific_details.device_hostnames_list }}"
+              # serial_number_list: "{{ item.device_specific_details.serial_number_list }}"
+              # mac_address_list: "{{ item.device_specific_details.mac_address_list }}"
+            site_associated_provisioning:
+            # Provide the site name and other parameters are optional to narrow down the results
+            - site_name: "{{ item.site_associated_provisioning.site_name }}"
+              device_family: "{{ item.site_associated_provisioning.device_family }}"
+              device_role: "{{ item.site_associated_provisioning.device_role }}"
+              device_tag: "{{ item.site_associated_provisioning.device_tag }}"
+
       register: template_result
       with_items: '{{ template_details }}'
       tags:
