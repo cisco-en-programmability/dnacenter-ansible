@@ -720,7 +720,7 @@ class Provision(DnacBase):
                 location = site_response.get("location")
                 return location
             else:
-                self.log(f"No site assignment found for device with UUID: {uuid}", "INFO")
+                self.log("No site assignment found for device with UUID: {0}".format(uuid), "INFO")
                 return None
 
         except Exception as e:
