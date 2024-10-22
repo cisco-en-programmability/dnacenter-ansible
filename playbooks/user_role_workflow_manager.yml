@@ -31,14 +31,7 @@
               password_update: True
               role_list:
                 - Test_role_1
-<<<<<<< HEAD
-          # role_details:
-          #   - role_name: Test_role_1
-          #     assurance:
-          #       - overall: write
-=======
           role_details:
             - role_name: Test_role_1
               assurance:
                 - overall: write
->>>>>>> madhansansel/main
