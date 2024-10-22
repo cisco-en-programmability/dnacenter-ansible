@@ -34,10 +34,10 @@
       loop: "{{ vars_map.device_backup }}"
       register: result_device_backup
 
-    # - name: Debug item
-    #   debug:
-    #     var: item
-    #   loop: "{{ result_device_backup.results }}"
+    - name: Debug item
+      debug:
+        var: item
+      loop: "{{ result_device_backup.results }}"
 
     - name: Assert device configuration backup
       assert:
@@ -50,6 +50,15 @@
     - name: Delete the generated file
       file:
         path: "{{ item.ansible_facts.file_path | default('backup') }}"
+        state: absent
+      when: item.changed
+      loop: "{{ result_device_backup.results }}"
+      register: cleanup_result
+      delegate_to: localhost
+
+    - name: Delete the generated file
+      file:
+        path: "{{ item.ansible_facts.file_path | default('tmp') }}"
         state: absent
       when: item.changed
       loop: "{{ result_device_backup.results }}"
