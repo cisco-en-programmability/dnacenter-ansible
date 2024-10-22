@@ -55,7 +55,7 @@ options:
   state:
     description: |
       The 'replaced' state is used to indicate the replacement of faulty network devices with
-      replacement network devicein the workflow.
+      replacement network device in the workflow.
     type: str
     choices: [ 'replaced' ]
     default: replaced
