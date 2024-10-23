@@ -1483,7 +1483,6 @@ class FabricDevices(DnacBase):
                         l2_handoff_details = item
                         break
 
-                l2_handoff_details = get_dict_result(all_l2_handoff_details, "internalVlanId", internal_vlan_id)
                 if l2_handoff_details:
                     self.log(
                         "The L2 handoff details with the internal VLAN Id: {details}"
@@ -2617,12 +2616,12 @@ class FabricDevices(DnacBase):
         Returns:
             is_transit_pub_sub (bool): Returns True, if the transit type is 'SDA_LISP_PUB_SUB_TRANSIT'. Else, False.
         Description:
-            Call the API 'get_transit_networks' by setting the 'id' and 'type' as field with the
-            given transit id and 'SDA_LISP_PUB_SUB_TRANSIT'.
-            If the response is not empty, fetch the Id and return. Else, return None.
+            Calls the 'get_transit_networks' API by setting the 'id' and 'type' fields
+            with the given transit id and 'SDA_LISP_PUB_SUB_TRANSIT'.
+            If the response is valid, fetch the Id and return True, otherwise False.
         """
 
-        self.log("Starting to get transit type for transit name: '{id}'".format(id=transit_id), "DEBUG")
+        self.log("Fetching transit type for transit ID: '{id}'".format(id=transit_id), "DEBUG")
         is_transit_pub_sub = False
         try:
             transit_details = self.dnac._exec(
@@ -2643,6 +2642,10 @@ class FabricDevices(DnacBase):
                 )
                 return is_transit_pub_sub
 
+            self.log(
+                "Transit network found with ID: '{id}' and type 'SDA_LISP_PUB_SUB_TRANSIT'."
+                .format(id=transit_id), "DEBUG"
+            )
             is_transit_pub_sub = True
         except Exception as msg:
             self.msg = (
