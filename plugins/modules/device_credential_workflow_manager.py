@@ -1525,17 +1525,17 @@ class DeviceCredential(DnacBase):
         all_snmp_v3 = credential_details.get("snmp_v3")
 
         # All snmp_v3 details from the Cisco Catalyst Center
-        snmp_v3__details = global_credentials.get("snmpV3")
+        snmpv3_details = global_credentials.get("snmpV3")
 
         # Cisco Catalyst Center details for the snmp_v3 Credential given in the playbook
         snmp_v3_details = []
 
-        if all_snmp_v3 and snmp_v3__details:
+        if all_snmp_v3 and snmpv3_details:
             for snmp_v3_credential in all_snmp_v3:
                 snmp_v3_detail = None
                 snmp_v3_id = snmp_v3_credential.get("id")
                 if snmp_v3_id:
-                    snmp_v3_detail = get_dict_result(snmp_v3__details, "id", snmp_v3_id)
+                    snmp_v3_detail = get_dict_result(snmpv3_details, "id", snmp_v3_id)
                     if not snmp_v3_detail:
                         self.msg = "snmp_v3 credential id is invalid"
                         self.status = "failed"
@@ -1544,12 +1544,12 @@ class DeviceCredential(DnacBase):
                 snmp_v3_description = snmp_v3_credential.get("description")
 
                 if snmp_v3_description and (not snmp_v3_detail):
-                    snmp_v3_detail = get_dict_result(snmp_v3__details, "description", snmp_v3_description)
+                    snmp_v3_detail = get_dict_result(snmpv3_details, "description", snmp_v3_description)
 
                 if not snmp_v3_detail:
                     snmp_v3_old_description = snmp_v3_credential.get("old_description")
                     if snmp_v3_old_description and (not snmp_v3_detail):
-                        snmp_v3_detail = get_dict_result(snmp_v3__details, "description", snmp_v3_old_description)
+                        snmp_v3_detail = get_dict_result(snmpv3_details, "description", snmp_v3_old_description)
                         if not snmp_v3_detail:
                             self.msg = "snmp_v3 credential old_description is invalid"
                             self.status = "failed"
