@@ -943,7 +943,7 @@ class Provision(DnacBase):
             API and handles it accordingly
         """
         device_id = self.get_device_id()
-        self.log(device_id)
+        self.log("Retrieved device ID: {0}".format(device_id), "DEBUG")
         already_provisioned_site = self.get_device_site_by_uuid(device_id)
 
         if already_provisioned_site != self.site_name:
