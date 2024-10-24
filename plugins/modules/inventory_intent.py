@@ -864,7 +864,7 @@ class DnacDevice(DnacBase):
             If none of the information is available, an empty list is returned.
         """
         # Retrieve device IPs from the configuration
-        device_ips = self.config[0].get("ip_address_list")
+        device_ips = self.want.get("device_params").get("ipAddress")
 
         if device_ips:
             return device_ips
@@ -872,17 +872,20 @@ class DnacDevice(DnacBase):
         # If device IPs are not available, check hostnames
         device_hostnames = self.config[0].get("hostname_list")
         if device_hostnames:
-            return self.get_device_ips_from_hostname(device_hostnames)
+            device_ip_dict = self.get_device_ips_from_hostnames(device_hostnames)
+            return self.get_list_from_dict_values(device_ip_dict)
 
         # If hostnames are not available, check serial numbers
         device_serial_numbers = self.config[0].get("serial_number_list")
         if device_serial_numbers:
-            return self.get_device_ips_from_serial_number(device_serial_numbers)
+            device_ip_dict = self.get_device_ips_from_serial_numbers(device_serial_numbers)
+            return self.get_list_from_dict_values(device_ip_dict)
 
         # If serial numbers are not available, check MAC addresses
         device_mac_addresses = self.config[0].get("mac_address_list")
         if device_mac_addresses:
-            return self.get_device_ips_from_mac_address(device_mac_addresses)
+            device_ip_dict = self.get_device_ips_from_mac_addresses(device_mac_addresses)
+            return self.get_list_from_dict_values(device_ip_dict)
 
         # If no information is available, return an empty list
         return []
@@ -2239,7 +2242,7 @@ class DnacDevice(DnacBase):
 
         return device_ids
 
-    def get_device_ips_from_hostname(self, hostname_list):
+    def get_device_ips_from_hostnames(self, hostname_list):
         """
         Get the list of unique device IPs for list of specified hostnames of devices in Cisco Catalyst Center.
         Parameters:
@@ -2274,7 +2277,7 @@ class DnacDevice(DnacBase):
 
         return device_ips
 
-    def get_device_ips_from_serial_number(self, serial_number_list):
+    def get_device_ips_from_serial_numbers(self, serial_number_list):
         """
         Get the list of unique device IPs for a specified list of serial numbers in Cisco Catalyst Center.
         Parameters:
@@ -2309,7 +2312,7 @@ class DnacDevice(DnacBase):
 
         return device_ips
 
-    def get_device_ips_from_mac_address(self, mac_address_list):
+    def get_device_ips_from_mac_addresses(self, mac_address_list):
         """
         Get the list of unique device IPs for list of specified mac address of devices in Cisco Catalyst Center.
         Parameters:

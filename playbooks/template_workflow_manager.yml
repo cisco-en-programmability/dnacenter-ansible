@@ -12,11 +12,12 @@
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
         dnac_verify: "{{ dnac_verify }}"
+        dnac_version: "{{dnac_version}}"
         dnac_debug: "{{ dnac_debug }}"
         dnac_log: true
         dnac_log_level: DEBUG
         dnac_log_append: true
-        dnac_log_file_path: "{{ dnac_log_file_path }}"
+        # dnac_log_file_path: "{{ dnac_log_file_path }}"
         validate_response_schema: false
         state: "merged"
         config_verify: true
@@ -45,25 +46,25 @@
           deploy_template:
             project_name: "{{ item.proj_name }}"
             template_name: "{{ item.temp_name }}"
-            force_push_template: "{{ item.force_push_template }}"
-            device_template_params:
-            - param_name: "{{ item.device_template_params.param_name }}"
-              param_value: "{{ item.device_template_params.param_value }}"
-            - param_name: "{{ item.device_template_params.param_name }}"
-              param_value: "{{ item.device_template_params.param_value }}"
-            device_specific_details:
-              # Provide any of the one device_specific details either device_ips_list, device_hostnames_list
-              # serial_number_list, mac_address_list to deploy template to the devices
-              # device_ips_list: "{{ item.device_specific_details.device_ips_list }}"
-              device_hostnames_list: "{{ item.device_specific_details.device_hostnames_list }}"
-              # serial_number_list: "{{ item.device_specific_details.serial_number_list }}"
-              # mac_address_list: "{{ item.device_specific_details.mac_address_list }}"
-            site_associated_provisioning:
+            force_push: "{{ item.force_push }}"
+            template_parameters:
+            - param_name: "{{ item.template_parameters.param_name }}"
+              param_value: "{{ item.template_parameters.param_value }}"
+            - param_name: "{{ item.template_parameters.param_name }}"
+              param_value: "{{ item.template_parameters.param_value }}"
+            device_details:
+              # Provide any of the one device_specific details either device_ips, device_hostnames
+              # serial_numbers, mac_addresses to deploy template to the devices
+              # device_ips: "{{ item.device_details.device_ips }}"
+              device_hostnames: "{{ item.device_details.device_hostnames }}"
+              # serial_numbers: "{{ item.device_details.serial_numbers }}"
+              # mac_addresses: "{{ item.device_details.mac_addresses }}"
+            site_provisioning_details:
             # Provide the site name and other parameters are optional to narrow down the results
-            - site_name: "{{ item.site_associated_provisioning.site_name }}"
-              device_family: "{{ item.site_associated_provisioning.device_family }}"
-              device_role: "{{ item.site_associated_provisioning.device_role }}"
-              device_tag: "{{ item.site_associated_provisioning.device_tag }}"
+            - site_name: "{{ item.site_provisioning_details.site_name }}"
+              device_family: "{{ item.site_provisioning_details.device_family }}"
+              device_role: "{{ item.site_provisioning_details.device_role }}"
+              device_tag: "{{ item.site_provisioning_details.device_tag }}"
 
       register: template_result
       with_items: '{{ template_details }}'
