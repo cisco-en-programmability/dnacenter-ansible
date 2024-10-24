@@ -73,6 +73,20 @@ options:
                 - This is mandatory for provisioning of wireless devices.
             type: list
             elements: str
+        primary_managed_ap_locations:
+            description:
+                - List of site locations assigned to primary managed Access Points (APs).
+                - Required for provisioning wireless devices if the managed AP location is not set.
+                - Supported in Cisco Catalyst version 2.3.7.6 and later.
+            type: list
+            elements: str
+        secondary_managed_ap_locations:
+            description:
+                - List of site locations assigned to secondary managed Access Points (APs).
+                - Required for provisioning wireless devices if the managed AP location is not set.
+                - Supported in Cisco Catalyst version 2.3.7.6 and later.
+            type: list
+            elements: str
         dynamic_interfaces:
             description:
               - A list of dynamic interfaces on the wireless controller.
@@ -81,10 +95,10 @@ options:
             elements: dict
             suboptions:
                 interface_name:
-                    description: The name of the interface
+                    description: The name of the interface. (Required parameter for Cisco Catalyst Version - 2.3.7.6)
                     type: str
                 vlan_id:
-                    description: The VLAN ID associated with the interface.
+                    description: The VLAN ID associated with the interface. (Required parameter for Cisco Catalyst Version - 2.3.7.6)
                     type: str
                 interface_ip_address:
                     description: The IP address assigned to the interface.
@@ -102,26 +116,29 @@ options:
             description:
               - If set to 'true', Access Point (AP) provisioning will be skipped during the workflow.
               - Use this option when AP provisioning is not required as part of the current operation.
+              - Supported in Cisco Catalyst version 2.3.7.6 and later.
             type: bool
             default: false
         rolling_ap_upgrade:
             description:
               - Configuration options for performing a rolling upgrade of Access Points (APs) in phases.
               - Allows control over the gradual rebooting of APs during the upgrade process.
+              - Supported in Cisco Catalyst version 2.3.7.6 and later.
             type: dict
             suboptions:
                 enable_rolling_ap_upgrade:
                     description:
                       - Enable or disable the rolling AP upgrade feature.
                       - If set to 'true', APs will be upgraded in batches based on the specified reboot percentage.
+                      - Supported in Cisco Catalyst version 2.3.7.6 and later.
                     type: bool
                     default: false
                 ap_reboot_percentage:
                     description:
                       - The percentage of APs to reboot simultaneously during an upgrade.
-                      - Must be an integer value, typically between 1 and 100, indicating the proportion of APs to upgrade at a time.
+                      - Supported in Cisco Catalyst version 2.3.7.6 and later.
+                      - Must be either 5, 15 or 25 representing the proportion of APs to reboot at once.
                     type: int
-                    default: 20
 
 requirements:
 - dnacentersdk == 2.4.5
@@ -190,7 +207,7 @@ EXAMPLES = r"""
           primary_managed_ap_Locations:
             - Global/USA/San Francisco/BGL_18/Test_Floor2
           secondary_managed_ap_locations:
-            -Global/USA/San Francisco/BGL_18/Test_Floor1
+            - Global/USA/San Francisco/BGL_18/Test_Floor1
           dynamic_interfaces:
             - interface_name: Vlan1866
               vlan_id: 1866
@@ -678,6 +695,42 @@ class Provision(DnacBase):
             self.log(msg, "CRITICAL")
             self.module.fail_json(msg=msg)
 
+    def get_device_site_by_uuid(self, uuid):
+        """
+        Checks if a device is assigned to any site.
+
+        Parameters:
+        - self: The instance of the class containing the 'config' attribute
+                to be validated.
+        - uuid (str): The UUID of the device to check for site assignment.
+        Returns:
+        - location (str): The location of the site if the device is assigned,
+                            None otherwise.
+        """
+
+        self.log("Checking site assignment for device with UUID: {0}".format(uuid), "INFO")
+
+        try:
+            site_response = self.dnac_apply['exec'](
+                family="devices",
+                function='get_device_detail',
+                params={"search_by": uuid, "identifier": "uuid"}
+            )
+            self.log("Response collected from the API 'get_device_detail': {0}".format(site_response))
+
+            site_response = site_response.get("response")
+            if site_response and site_response.get("location"):
+                location = site_response.get("location")
+                return location
+            else:
+                self.log("No site assignment found for device with UUID: {0}".format(uuid), "INFO")
+                return None
+
+        except Exception as e:
+            msg = "Failed to find device with location for UUID {0} due to: {1}".format(uuid, e)
+            self.log(msg, "CRITICAL")
+            self.module.fail_json(msg=msg)
+
     def get_wired_params(self):
         """
         Prepares the payload for provisioning of the wired devices
@@ -774,6 +827,15 @@ class Provision(DnacBase):
             has_interface_name = False
             has_vlan_id = False
 
+            if interfaces is None:
+                self.msg = ("It appears that the 'dynamic_interfaces' parameter is either missing or set to None. "
+                            "Please note that this parameter is required for provisioning a wireless device in "
+                            "Catalyst Center version 2.3.7.6 or higher.")
+                self.log(self.msg, "ERROR")
+                self.result['response'] = self.msg
+                self.status = "failed"
+                self.check_return_status()
+
             for interface in interfaces:
                 if 'interface_name' in interface:
                     has_interface_name = True
@@ -790,8 +852,8 @@ class Provision(DnacBase):
 
             if missing_fields:
                 missing_fields_str = ', '.join(missing_fields)
-                self.msg = ("The following fields are mandatory to provision a wireless device in 2.3.7.6 and"
-                            "are missing: {0}".format(missing_fields_str), "CRITICAL")
+                self.msg = ("The following required fields for provisioning a wireless device in version"
+                            " 2.3.7.6 are currently missing: {0}".format(missing_fields_str))
                 self.log(self.msg, "ERROR")
                 self.result['response'] = self.msg
                 self.status = "failed"
@@ -878,6 +940,18 @@ class Provision(DnacBase):
             If wireless device is already provisioned, this method calls the provision update
             API and handles it accordingly
         """
+        device_id = self.get_device_id()
+        self.log("Retrieved device ID: {0}".format(device_id), "DEBUG")
+        already_provisioned_site = self.get_device_site_by_uuid(device_id)
+
+        if already_provisioned_site != self.site_name:
+            self.log("Device re-provisioning logic triggered.", "INFO")
+            self.msg = ("Error in re-provisioning a wireless device '{0}' - the device is already associated "
+                        "with Site: {1} and cannot be re-provisioned to Site {2}.".format(self.device_ip, already_provisioned_site, self.site_name))
+            self.log(self.msg, "ERROR")
+            self.result['response'] = self.msg
+            self.status = "failed"
+            self.check_return_status()
 
         try:
             headers_payload = {"__persistbapioutput": "true"}
@@ -1049,7 +1123,7 @@ class Provision(DnacBase):
         if status == "success":
             if not to_force_provisioning:
                 self.result["changed"] = False
-                msg = "Device '{0}' is already provisioned.".format(self.validated_config.get("management_ip_address"))
+                msg = "Wired Device '{0}' is already provisioned.".format(self.validated_config.get("management_ip_address"))
                 self.result['msg'] = msg
                 self.result['response'] = msg
                 self.log(msg, "INFO")
@@ -1281,22 +1355,23 @@ class Provision(DnacBase):
 
         site_exist, site_id = self.get_site_id(site_name)
 
-        primary_ap_location_site_id_list = []
-        secondary_ap_location_site_id_list = []
+        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") <= 0:
+            primary_ap_location_site_id_list = []
+            secondary_ap_location_site_id_list = []
 
-        if primary_ap_location:
-            self.log("Processing primary access point locations", "INFO")
-            for primary_sites in primary_ap_location:
-                self.log("Retrieving site ID for primary location: {0}".format(primary_ap_location), "DEBUG")
-                site_exist, primary_ap_location_site_id = self.get_site_id(primary_sites)
-                primary_ap_location_site_id_list.append(primary_ap_location_site_id)
+            if primary_ap_location:
+                self.log("Processing primary access point locations", "INFO")
+                for primary_sites in primary_ap_location:
+                    self.log("Retrieving site ID for primary location: {0}".format(primary_sites), "DEBUG")
+                    site_exist, primary_ap_location_site_id = self.get_site_id(primary_sites)
+                    primary_ap_location_site_id_list.append(primary_ap_location_site_id)
 
-        if secondary_ap_location:
-            self.log("Processing secondary access point locations", "INFO")
-            for secondary_sites in secondary_ap_location:
-                self.log("Retrieving site ID for secondary location: {0}".format(secondary_ap_location), "DEBUG")
-                site_exist, secondary_ap_location_site_id = self.get_site_id(secondary_sites)
-                secondary_ap_location_site_id_list.append(secondary_ap_location_site_id)
+            if secondary_ap_location:
+                self.log("Processing secondary access point locations", "INFO")
+                for secondary_sites in secondary_ap_location:
+                    self.log("Retrieving site ID for secondary location: {0}".format(secondary_sites), "DEBUG")
+                    site_exist, secondary_ap_location_site_id = self.get_site_id(secondary_sites)
+                    secondary_ap_location_site_id_list.append(secondary_ap_location_site_id)
 
         if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
             self.log("Detected Catalyst Center version <= 2.3.5.3; using old provisioning method", "INFO")
@@ -1323,6 +1398,7 @@ class Provision(DnacBase):
                 self.status = "failed"
                 self.result['response'] = self.msg
                 self.check_return_status()
+
         else:
             self.log("Detected Catalyst Center version > 2.3.5.3; using new provisioning method", "INFO")
             self.log("Checking if device is assigned to the site", "INFO")
@@ -1370,9 +1446,9 @@ class Provision(DnacBase):
 
             self.log("Processing interfaces if they exist", "INFO")
             self.log("Building payload for wireless provisioning", "INFO")
-            if 'dynamic_interfaces' in prov_params:
+            if 'dynamicInterfaces' in prov_params:
                 self.log("Processing dynamic interfaces", "INFO")
-                for interface in prov_params['dynamic_interfaces']:
+                for interface in prov_params['dynamicInterfaces']:
                     cleaned_interface = {}
                     for k, v in interface.items():
                         if v is not None:
