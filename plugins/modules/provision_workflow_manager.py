@@ -138,9 +138,8 @@ options:
                       - The percentage of APs to reboot simultaneously during an upgrade.
                       - Must be an integer value, typically between 1 and 100, indicating the proportion of APs to upgrade at a time.
                       - Supported in Cisco Catalyst version 2.3.7.6 and later.
-                      - Permissible values are - 5, 15, 25
+                      - Must be one of the permissible values - 5, 15, or 25, representing the proportion of APs to reboot at once.
                     type: int
-                    default: 20
 
 requirements:
 - dnacentersdk == 2.4.5
@@ -1448,9 +1447,9 @@ class Provision(DnacBase):
 
             self.log("Processing interfaces if they exist", "INFO")
             self.log("Building payload for wireless provisioning", "INFO")
-            if 'dynamic_interfaces' in prov_params:
+            if 'dynamicInterfaces' in prov_params:
                 self.log("Processing dynamic interfaces", "INFO")
-                for interface in prov_params['dynamic_interfaces']:
+                for interface in prov_params['dynamicInterfaces']:
                     cleaned_interface = {}
                     for k, v in interface.items():
                         if v is not None:
