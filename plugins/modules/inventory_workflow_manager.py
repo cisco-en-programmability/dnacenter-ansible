@@ -3869,11 +3869,12 @@ class Inventory(DnacBase):
                 op_modifies=True,
                 params=provision_params,
             )
-            self.log("Received API response from 'delete_provisioned_wired_device': {0}".format(str(response)), "DEBUG")
-
-            validation_string = "deleted successfully"
-            self.check_task_response_status(response, validation_string, 'delete_provisioned_wired_device')
-            self.deleted_devices.append(device_ip)
+            if response:
+                response = {"response": response}
+                self.log("Received API response from 'delete_provisioned_wired_device': {0}".format(str(response)), "DEBUG")
+                validation_string = "deleted successfully"
+                self.check_task_response_status(response, validation_string, 'delete_provisioned_wired_device')
+                self.provisioned_device_deleted.append(device_ip)
 
     def delete_provisioned_device_v2(self, device_ip):
         """
