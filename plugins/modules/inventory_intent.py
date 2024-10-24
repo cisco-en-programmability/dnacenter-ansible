@@ -89,17 +89,17 @@ options:
             or resyncing devices, with Meraki devices being the exception.
         elements: str
         type: list
-      hostname_list:
+      hostnames:
         description: "A list of hostnames representing devices. Operations such as updating, deleting, resyncing, or rebooting
             can be performed as alternatives to using IP addresses."
         type: list
         elements: str
-      serial_number_list:
+      serial_numbers:
         description: A list of serial numbers representing devices. Operations such as updating, deleting, resyncing, or rebooting
             can be performed as alternatives to using IP addresses.
         type: list
         elements: str
-      mac_address_list:
+      mac_addresses:
         description:  "A list of MAC addresses representing devices. Operations such as updating, deleting, resyncing, or rebooting
             can be performed as alternatives to using IP addresses."
         type: list
@@ -771,9 +771,9 @@ class DnacDevice(DnacBase):
             'http_secure': {'type': 'bool'},
             'http_username': {'type': 'str'},
             'ip_address_list': {'type': 'list', 'elements': 'str'},
-            'hostname_list': {'type': 'list', 'elements': 'str'},
-            'serial_number_list': {'type': 'list', 'elements': 'str'},
-            'mac_address_list': {'type': 'list', 'elements': 'str'},
+            'hostnames': {'type': 'list', 'elements': 'str'},
+            'serial_numbers': {'type': 'list', 'elements': 'str'},
+            'mac_addresses': {'type': 'list', 'elements': 'str'},
             'netconf_port': {'type': 'str'},
             'password': {'type': 'str'},
             'snmp_auth_passphrase': {'type': 'str'},
@@ -870,19 +870,19 @@ class DnacDevice(DnacBase):
             return device_ips
 
         # If device IPs are not available, check hostnames
-        device_hostnames = self.config[0].get("hostname_list")
+        device_hostnames = self.config[0].get("hostnames")
         if device_hostnames:
             device_ip_dict = self.get_device_ips_from_hostnames(device_hostnames)
             return self.get_list_from_dict_values(device_ip_dict)
 
         # If hostnames are not available, check serial numbers
-        device_serial_numbers = self.config[0].get("serial_number_list")
+        device_serial_numbers = self.config[0].get("serial_numbers")
         if device_serial_numbers:
             device_ip_dict = self.get_device_ips_from_serial_numbers(device_serial_numbers)
             return self.get_list_from_dict_values(device_ip_dict)
 
         # If serial numbers are not available, check MAC addresses
-        device_mac_addresses = self.config[0].get("mac_address_list")
+        device_mac_addresses = self.config[0].get("mac_addresses")
         if device_mac_addresses:
             device_ip_dict = self.get_device_ips_from_mac_addresses(device_mac_addresses)
             return self.get_list_from_dict_values(device_ip_dict)
@@ -1468,7 +1468,7 @@ class DnacDevice(DnacBase):
             return self
 
         # Get and store the apEthernetMacAddress of given devices
-        ap_mac_address_list = []
+        ap_mac_addresses = []
         for device_ip in input_device_ips:
             response = self.dnac._exec(
                 family="devices",
@@ -1484,9 +1484,9 @@ class DnacDevice(DnacBase):
             ap_mac_address = response.get('apEthernetMacAddress')
 
             if ap_mac_address is not None:
-                ap_mac_address_list.append(ap_mac_address)
+                ap_mac_addresses.append(ap_mac_address)
 
-        if not ap_mac_address_list:
+        if not ap_mac_addresses:
             self.status = "success"
             self.result['changed'] = False
             self.msg = "Cannot find the AP devices for rebooting"
@@ -1496,7 +1496,7 @@ class DnacDevice(DnacBase):
 
         # Now call the Reboot Access Point API
         reboot_params = {
-            "apMacAddresses": ap_mac_address_list
+            "apMacAddresses": ap_mac_addresses
         }
         response = self.dnac._exec(
             family="wireless",
@@ -2242,12 +2242,12 @@ class DnacDevice(DnacBase):
 
         return device_ids
 
-    def get_device_ips_from_hostnames(self, hostname_list):
+    def get_device_ips_from_hostnames(self, hostnames):
         """
         Get the list of unique device IPs for list of specified hostnames of devices in Cisco Catalyst Center.
         Parameters:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-            hostname_list (list): The hostnames of devices for which you want to retrieve the device IPs.
+            hostnames (list): The hostnames of devices for which you want to retrieve the device IPs.
         Returns:
             list: The list of unique device IPs for the specified devices hostname list.
         Description:
@@ -2256,7 +2256,7 @@ class DnacDevice(DnacBase):
         """
 
         device_ips = []
-        for hostname in hostname_list:
+        for hostname in hostnames:
             try:
                 response = self.dnac._exec(
                     family="devices",
@@ -2277,12 +2277,12 @@ class DnacDevice(DnacBase):
 
         return device_ips
 
-    def get_device_ips_from_serial_numbers(self, serial_number_list):
+    def get_device_ips_from_serial_numbers(self, serial_numbers):
         """
         Get the list of unique device IPs for a specified list of serial numbers in Cisco Catalyst Center.
         Parameters:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-            serial_number_list (list): The list of serial number of devices for which you want to retrieve the device IPs.
+            serial_numbers (list): The list of serial number of devices for which you want to retrieve the device IPs.
         Returns:
             list: The list of unique device IPs for the specified devices with serial numbers.
         Description:
@@ -2291,7 +2291,7 @@ class DnacDevice(DnacBase):
         """
 
         device_ips = []
-        for serial_number in serial_number_list:
+        for serial_number in serial_numbers:
             try:
                 response = self.dnac._exec(
                     family="devices",
@@ -2312,12 +2312,12 @@ class DnacDevice(DnacBase):
 
         return device_ips
 
-    def get_device_ips_from_mac_addresses(self, mac_address_list):
+    def get_device_ips_from_mac_addresses(self, mac_addresses):
         """
         Get the list of unique device IPs for list of specified mac address of devices in Cisco Catalyst Center.
         Parameters:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-            mac_address_list (list): The list of mac address of devices for which you want to retrieve the device IPs.
+            mac_addresses (list): The list of mac address of devices for which you want to retrieve the device IPs.
         Returns:
             list: The list of unique device IPs for the specified devices.
         Description:
@@ -2326,7 +2326,7 @@ class DnacDevice(DnacBase):
         """
 
         device_ips = []
-        for mac_address in mac_address_list:
+        for mac_address in mac_addresses:
             try:
                 response = self.dnac._exec(
                     family="devices",
