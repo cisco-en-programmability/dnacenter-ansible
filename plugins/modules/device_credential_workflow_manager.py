@@ -2834,7 +2834,7 @@ class DeviceCredential(DnacBase):
 
                 site_response = self.get_device_ids_from_site(site_name, site_id)
 
-                if not site_response[1]:
+                if not site_response:
                     result_apply_credential.update({
                         "No Apply Credentials": {
                             "response": "No Response",
