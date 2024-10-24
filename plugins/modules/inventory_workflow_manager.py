@@ -1830,7 +1830,7 @@ class Inventory(DnacBase):
 
             assign_params = {'deviceIds': [device_id], 'siteId': site_id}
             provision_params = [{"siteId": site_id, "networkDeviceId": device_id}]
-            is_device_provisioned = self.is_device_provisioned(device_id)
+            is_device_provisioned = self.is_device_provisioned(device_id, device_ip)
             is_device_assigned_to_site = self.is_device_assigned_to_site(device_id)
 
             if not is_device_assigned_to_site:

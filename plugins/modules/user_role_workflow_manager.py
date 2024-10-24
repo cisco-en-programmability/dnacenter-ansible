@@ -1038,32 +1038,50 @@ class UserandRole(DnacBase):
         Returns:
             None: This function does not return a value, but it may append an error message to `error_messages` if the password is invalid.
         Criteria:
-            - The password must be 8 to 20 characters long.
+            - The password must be 9 to 20 characters long.
             - The password must include characters from at least three of the following classes:
               lowercase letters, uppercase letters, digits, and special characters.
         """
-        is_valid_password = False
+        meets_character_requirements = False
         password_criteria_message = (
-            "Password must be 8 to 20 characters long and include characters from at least three of "
-            "the following classes: lowercase letters, uppercase letters, digits, and special characters."
+            "The password must be 9 to 20 characters long and include at least three of the following "
+            "character types: lowercase letters, uppercase letters, digits, and special characters. "
+            "Additionally, the password must not contain repetitive or sequential characters."
         )
 
         self.log(password_criteria_message, "DEBUG")
         password_regexs = [
-            re.compile(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?!.*[\W_]).{8,20}$'),
-            re.compile(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_])(?!.*\d).{8,20}$'),
-            re.compile(r'^(?=.*[a-z])(?=.*\d)(?=.*[\W_])(?!.*[A-Z]).{8,20}$'),
-            re.compile(r'^(?=.*[A-Z])(?=.*\d)(?=.*[\W_])(?!.*[a-z]).{8,20}$'),
-            re.compile(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,20}$')
+            re.compile(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?!.*[\W_]).{9,20}$'),
+            re.compile(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_])(?!.*\d).{9,20}$'),
+            re.compile(r'^(?=.*[a-z])(?=.*\d)(?=.*[\W_])(?!.*[A-Z]).{9,20}$'),
+            re.compile(r'^(?=.*[A-Z])(?=.*\d)(?=.*[\W_])(?!.*[a-z]).{9,20}$'),
+            re.compile(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{9,20}$')
         ]
+        password_sequence_repetitive_regex = re.compile(
+            r'^(?!.*(.)\1{3})'
+            r'(?!.*(?:012|123|234|345|456|567|678|789|'
+            r'abc|bcd|cde|def|efg|fgh|ghi|hij|ijk|jkl|klm|lmn|mno|nop|'
+            r'opq|pqr|qrs|rst|stu|tuv|uvw|vwx|wxy|xyz|'
+            r'ABC|BCD|CDE|DEF|EFG|FGH|GHI|HIJ|IJK|JKL|KLM|LMN|MNO|NOP|'
+            r'OPQ|PQR|QRS|RST|STU|TUV|UVW|VWX|WXY|XYZ)).*'
+            r'[a-zA-Z0-9!@#$%^&*()_+<>?]{9,20}$'
+        )
 
+        self.log("Password meets character type and length requirements.", "INFO")
         for password_regex in password_regexs:
             if password_regex.match(password):
-                is_valid_password = True
+                meets_character_requirements = True
                 break
 
-        if not is_valid_password:
-            self.log("Password validation failed: {0}".format(password_criteria_message), "DEBUG")
+        if not meets_character_requirements:
+            self.log("Password failed character type and length validation.", "ERROR")
+            error_messages.append(password_criteria_message)
+
+        self.log("Checking that the password does not contain repetitive or sequential characters.", "DEBUG")
+        if re.match(password_sequence_repetitive_regex, password):
+            self.log("Password passed repetitive and sequential character checks.", "INFO")
+        else:
+            self.log("Password failed repetitive or sequential character validation.", "ERROR")
             error_messages.append(password_criteria_message)
 
     def validate_role_parameters(self, role_key, params_list, role_config, role_param_map, error_messages):
