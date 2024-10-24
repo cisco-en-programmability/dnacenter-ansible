@@ -1598,7 +1598,7 @@ class Site(DnacBase):
 
         if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
             site_id = self.have.get("site_id")
-            api_response, response = self.get_device_ids_from_site(site_id)
+            api_response, response = self.get_device_ids_from_site(site_name, site_id)
 
             self.log(
                 "Received API response from 'get_membership': {0}".format(str(api_response)), "DEBUG")
