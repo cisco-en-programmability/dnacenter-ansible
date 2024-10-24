@@ -4022,29 +4022,31 @@ class FabricDevices(DnacBase):
 
         return self
 
-    def arrange_config_for_deletion(self, device_config):
+    def prioritize_device_deletion(self, device_config):
         """
-        Arrange the device config in such a way that the device with the role 'CONTROL_PLANE_NODE'
-        will be deleted at last.
+        Prioritize the device config so that the device with the role 'CONTROL_PLANE_NODE'
+        is deleted last, and devices that don't exist are handled first.
 
         Parameters:
             device_config (list): Devices config details provided by the user in the playbook.
         Returns:
-            updated_device_config (list): Updated device config details.
+            updated_device_config (list): Reordered device config details.
         Description:
-            Loop in the device config information. If the device doesnot exists, prepend the
-            config details and the information collected from the Cisco Catalyst Center to the
-            new list or if the device has a role of 'CONTROL_PLANE_NODE', append the config details
-            and the information collected from the Cisco Catalyst Center to the new list.
-            Update the self.have.get("fabric_details") and return the new device_config list.
+            For each device in the config, check whether it exists in the Cisco Catalyst Center.
+            If the device doesn't exist, prepend it to the list. If it has a role 'CONTROL_PLANE_NODE',
+            append it to ensure it is processed last. Update self.have['fabric_details'] with the new
+            order and return the updated config.
         """
 
         fabric_device_index = -1
         updated_device_config = []
         update_have = []
+        self.log("Starting to reorder devices based on their existence and role.", "DEBUG")
+        self.log("Input device_config: {device_config}".format(device_config=device_config), "DEBUG")
         for item in device_config:
             fabric_device_index += 1
             device_ip = item.get("device_ip")
+            self.log("Processing device with IP: {ip}".format(ip=device_ip))
             have_device_details = self.have.get("fabric_devices")[fabric_device_index]
             exists = have_device_details.get("exists")
             if not exists:
@@ -4058,16 +4060,28 @@ class FabricDevices(DnacBase):
 
             device_roles = have_device_details.get("device_details").get("deviceRoles")
             if "CONTROL_PLANE_NODE" in device_roles:
+                self.log(
+                    "Device with IP '{ip}' has role 'CONTROL_PLANE_NODE', appending to the end."
+                    .format(ip=device_ip)
+                )
                 updated_device_config.append(item)
                 update_have.append(have_device_details)
                 continue
 
-            updated_device_config = [item] + updated_device_config
-            update_have = [have_device_details] + update_have
+            self.log(
+                "Device with IP '{ip}' role '{device_roles}', prepending."
+                .format(ip=device_ip, device_roles=device_roles)
+            )
+            updated_device_config.insert(0, item)
+            update_have.insert(0, have_device_details)
 
         self.have.update({
             "fabric_devices": update_have
         })
+        self.log(
+            "Updated device_config for deletion: {updated_config}"
+            .format(updated_config=updated_device_config)
+        )
 
         return updated_device_config
 
@@ -4365,7 +4379,7 @@ class FabricDevices(DnacBase):
             "Starting deletion of fabric devices under fabric '{fabric_name}'"
             .format(fabric_name=fabric_name), "DEBUG"
         )
-        updated_device_config = self.arrange_config_for_deletion(device_config)
+        updated_device_config = self.prioritize_device_deletion(device_config)
         for item in updated_device_config:
             fabric_device_index += 1
             device_ip = item.get("device_ip")
