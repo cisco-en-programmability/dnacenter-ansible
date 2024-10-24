@@ -690,9 +690,9 @@ class PnP(DnacBase):
             # check if given device exists in pnp inventory, store device Id
             device_response = self.get_device_list_pnp(self.want.get("serial_number"))
             self.log("Device details for the device with serial \
-                number '{0}': {1}".format(self.want.get("serial_number"), str(device_response)), "DEBUG")
+                number '{0}': {1}".format(self.want.get("serial_number"), self.pprint(device_response)), "DEBUG")
 
-            if not (device_response and (len(device_response) == 1)):
+            if not device_response:
                 self.log("Device with serial number {0} is not found in the inventory".format(self.want.get("serial_number")), "WARNING")
                 self.msg = "Adding the device to database"
                 self.status = "success"
@@ -701,7 +701,7 @@ class PnP(DnacBase):
                 return self
 
             have["device_found"] = True
-            have["device_id"] = device_response[0].get("id")
+            have["device_id"] = device_response.get("id")
             self.log("Device Id: " + str(have["device_id"]))
 
             if self.params.get("state") == "merged":
@@ -710,27 +710,27 @@ class PnP(DnacBase):
                     family="software_image_management_swim",
                     function='get_software_image_details',
                     params=self.want.get("image_params"),
-                    op_modifies=True,
                 )
                 image_list = image_response.get("response")
-                self.log("Image details obtained from the API 'get_software_image_details': {0}".format(str(image_response)), "DEBUG")
+                self.log("Image details obtained from the API 'get_software_image_details': {0}"
+                         .format(self.pprint(image_response)), "DEBUG")
 
                 # check if project has templates or not
                 template_list = self.dnac_apply['exec'](
                     family="configuration_templates",
                     function='gets_the_templates_available',
                     params={"project_names": self.want.get("project_name")},
-                    op_modifies=True,
                 )
-                self.log("List of templates under the project '{0}': {1}".format(self.want.get("project_name"),
-                                                                                 str(template_list)), "DEBUG")
+                self.log("List of templates under the project '{0}': {1}"
+                         .format(self.want.get("project_name"), self.pprint(template_list)), "DEBUG")
 
-                dev_details_response = self.get_device_by_id_pnp(device_response[0].get("id"))
-                self.log("Device details retrieved after calling the 'get_device_by_id' API: {0}".format(str(dev_details_response)), "DEBUG")
+                dev_details_response = self.get_device_by_id_pnp(device_response.get("id"))
+                self.log("Device details retrieved after calling the 'get_device_by_id' API: {0}"
+                         .format(self.pprint(dev_details_response)), "DEBUG")
 
                 install_mode = dev_details_response.get("deviceInfo").get("mode")
-                self.log("Installation mode of the device with the serial no. '{0}':{1}".format(self.want.get("serial_number"),
-                                                                                                install_mode), "INFO")
+                self.log("Installation mode of the device with the serial no. '{0}':{1}"
+                         .format(self.want.get("serial_number"), install_mode), "INFO")
 
                 # check if given site exits, if exists store current site info
                 site_exists = False
@@ -1087,8 +1087,8 @@ class PnP(DnacBase):
             multi_device_response = self.get_device_list_pnp(device["deviceInfo"]["serialNumber"])
             self.log("Response from 'get_device_list' API for claiming: {0}".format(str(multi_device_response)), "DEBUG")
 
-            if multi_device_response and len(multi_device_response) == 1:
-                device_id = multi_device_response[0].get("id")
+            if multi_device_response:
+                device_id = multi_device_response.get("id")
 
                 response = self.dnac_apply['exec'](
                     family="device_onboarding_pnp",
@@ -1217,7 +1217,7 @@ class PnP(DnacBase):
 
             msg = "No device found with serial number: {0}".format(serial_number)
             self.log(msg, "WARNING")
-            self.module.fail_json(msg=msg)
+            return None
 
         except Exception as e:
             msg = "An error occurred while retrieving device with serial number {0}: {1}".format(serial_number, str(e))
@@ -1317,7 +1317,6 @@ class PnP(DnacBase):
             prov_dev_response = self.dnac_apply['exec'](
                 family="device_onboarding_pnp",
                 function='get_device_count',
-                op_modifies=True,
                 params=pnp_params,
             )
             if prov_dev_response:
