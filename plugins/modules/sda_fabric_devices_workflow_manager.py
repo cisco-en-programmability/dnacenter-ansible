@@ -88,6 +88,7 @@ options:
                                   managing traffic entering or exiting the SDA environment.
                   - WIRELESS_CONTROLLER_NODE - Manages and controls wireless access points and
                                                devices within the network.
+                - For 'WIRELESS_CONTROLLER_NODE', the check for the provisioning status will be added in 2.3.7.6 SDK.
                 choices: [CONTROL_PLANE_NODE, EDGE_NODE, BORDER_NODE, WIRELESS_CONTROLLER_NODE]
                 type: list
                 elements: str
@@ -2094,9 +2095,9 @@ class FabricDevices(DnacBase):
             # The device should be provisioned to the site
             if not is_the_device_wlc:
                 self.check_device_is_provisioned(fabric_device_ip,
-                                                    network_device_id,
-                                                    site_id,
-                                                    fabric_name).check_return_status()
+                                                 network_device_id,
+                                                 site_id,
+                                                 fabric_name).check_return_status()
 
             delete_fabric_device = item.get("delete_fabric_device")
             if delete_fabric_device is None:
