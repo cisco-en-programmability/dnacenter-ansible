@@ -4022,6 +4022,55 @@ class FabricDevices(DnacBase):
 
         return self
 
+    def arrange_config_for_deletion(self, device_config):
+        """
+        Arrange the device config in such a way that the device with the role 'CONTROL_PLANE_NODE'
+        will be deleted at last.
+
+        Parameters:
+            device_config (list): Devices config details provided by the user in the playbook.
+        Returns:
+            updated_device_config (list): Updated device config details.
+        Description:
+            Loop in the device config information. If the device doesnot exists, prepend the
+            config details and the information collected from the Cisco Catalyst Center to the
+            new list or if the device has a role of 'CONTROL_PLANE_NODE', append the config details
+            and the information collected from the Cisco Catalyst Center to the new list.
+            Update the self.have.get("fabric_details") and return the new device_config list.
+        """
+
+        fabric_device_index = -1
+        updated_device_config = []
+        update_have = []
+        for item in device_config:
+            fabric_device_index += 1
+            device_ip = item.get("device_ip")
+            have_device_details = self.have.get("fabric_devices")[fabric_device_index]
+            exists = have_device_details.get("exists")
+            if not exists:
+                self.log(
+                    "The device with IP address '{ip}' is not available in the Cisco Catalyst Center."
+                    .format(ip=device_ip)
+                )
+                updated_device_config = [item] + updated_device_config
+                update_have = [have_device_details] + update_have
+                continue
+
+            device_roles = have_device_details.get("device_details").get("deviceRoles")
+            if "CONTROL_PLANE_NODE" in device_roles:
+                updated_device_config.append(item)
+                update_have.append(have_device_details)
+                continue
+
+            updated_device_config = [item] + updated_device_config
+            update_have = [have_device_details] + update_have
+
+        self.have.update({
+            "fabric_devices": update_have
+        })
+
+        return updated_device_config
+
     def delete_l2_handoff(self, have_l2_handoff, device_ip,
                           result_fabric_device_response,
                           result_fabric_device_msg):
@@ -4316,7 +4365,8 @@ class FabricDevices(DnacBase):
             "Starting deletion of fabric devices under fabric '{fabric_name}'"
             .format(fabric_name=fabric_name), "DEBUG"
         )
-        for item in device_config:
+        updated_device_config = self.arrange_config_for_deletion(device_config)
+        for item in updated_device_config:
             fabric_device_index += 1
             device_ip = item.get("device_ip")
             self.response[0].get("response").get(fabric_name).update({
