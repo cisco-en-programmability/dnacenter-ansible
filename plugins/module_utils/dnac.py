@@ -1080,8 +1080,8 @@ class DnacBase():
                 error_message = "Exception occurred while fetching device IP for hostname '{0}': {1}".format(hostname, str(e))
                 self.log(error_message, "ERROR")
                 device_ip_mapping[hostname] = None
-        self.log("Exiting 'get_device_ips_from_hostnames' with device IP mapping: {0}".format(device_ip_mapping), "INFO")
 
+        self.log("Exiting 'get_device_ips_from_hostnames' with device IP mapping: {0}".format(device_ip_mapping), "INFO")
         return device_ip_mapping
 
     def get_device_ips_from_serial_numbers(self, serial_numbers):
@@ -1131,8 +1131,8 @@ class DnacBase():
                 error_message = "Exception occurred while fetching device IP for serial number '{0}': {1}".format(serial_number, str(e))
                 self.log(error_message, "ERROR")
                 device_ip_mapping[serial_number] = None
-        self.log("Exiting 'get_device_ips_from_serial_numbers' with device IP mapping: {0}".format(device_ip_mapping), "INFO")
 
+        self.log("Exiting 'get_device_ips_from_serial_numbers' with device IP mapping: {0}".format(device_ip_mapping), "INFO")
         return device_ip_mapping
 
     def get_device_ips_from_mac_addresses(self, mac_addresses):
@@ -1182,8 +1182,8 @@ class DnacBase():
                 error_message = "Exception occurred while fetching device IP for mac address '{0}': {1}".format(mac_address, str(e))
                 self.log(error_message, "ERROR")
                 device_ip_mapping[mac_address] = None
-        self.log("Exiting 'get_device_ips_from_mac_addresses' with device IP mapping: {0}".format(device_ip_mapping), "INFO")
 
+        self.log("Exiting 'get_device_ips_from_mac_addresses' with device IP mapping: {0}".format(device_ip_mapping), "INFO")
         return device_ip_mapping
 
     def get_device_ids_from_device_ips(self, device_ips):
@@ -1233,8 +1233,8 @@ class DnacBase():
                 error_message = "Exception occurred while fetching device ID for device ip  '{0}': {1}".format(device_ip, str(e))
                 self.log(error_message, "ERROR")
                 device_id_mapping[device_ip] = None
-        self.log("Exiting 'get_device_ids_from_device_ips' with unique device ID mapping: {0}".format(device_id_mapping), "INFO")
 
+        self.log("Exiting 'get_device_ids_from_device_ips' with unique device ID mapping: {0}".format(device_id_mapping), "INFO")
         return device_id_mapping
 
     def get_device_ips_from_device_ids(self, device_ids):
@@ -1285,8 +1285,8 @@ class DnacBase():
                 error_message = "Exception occurred while fetching device ip for device id '{0}': {1}".format(device_id, str(e))
                 self.log(error_message, "ERROR")
                 device_ip_mapping[device_id] = None
-        self.log("Exiting 'get_device_ips_from_device_ids' with device IP mapping: '{0}'".format(device_ip_mapping), "INFO")
 
+        self.log("Exiting 'get_device_ips_from_device_ids' with device IP mapping: '{0}'".format(device_ip_mapping), "INFO")
         return device_ip_mapping
 
     def get_network_device_tag_id(self, tag_name):
