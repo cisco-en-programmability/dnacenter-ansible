@@ -136,7 +136,6 @@ options:
                 ap_reboot_percentage:
                     description:
                       - The percentage of APs to reboot simultaneously during an upgrade.
-                      - Must be an integer value, typically between 1 and 100, indicating the proportion of APs to upgrade at a time.
                       - Supported in Cisco Catalyst version 2.3.7.6 and later.
                       - Must be one of the permissible values - 5, 15, or 25, representing the proportion of APs to reboot at once.
                     type: int
