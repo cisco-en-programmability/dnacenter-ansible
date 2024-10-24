@@ -1806,17 +1806,17 @@ class DeviceCredential(DnacBase):
                 have_snmpv2cwrite_ptr = have_snmpv2cwrite_ptr + 1
 
         if credential_details.get("https_read"):
-            httpsRead = credential_details.get("https_read")
+            https_read = credential_details.get("https_read")
             have_httpsread_ptr = 0
             create_httpsread_ptr = 0
             update_httpsread_ptr = 0
             values = ["password", "description", "username", "id", "port"]
-            have_httpsRead = self.have.get("global_credential").get("httpsRead")
+            have_https_read = self.have.get("global_credential").get("httpsRead")
 
-            for item in httpsRead:
+            for item in https_read:
                 self.log("Global credentials details: {0}"
                          .format(self.have.get("global_credential")), "DEBUG")
-                if not have_httpsRead or have_httpsRead[have_httpsread_ptr] is None:
+                if not have_https_read or have_https_read[have_httpsread_ptr] is None:
                     if want.get("want_create").get("httpsRead") is None:
                         want.get("want_create").update({"httpsRead": []})
                     create_credential = want.get("want_create").get("httpsRead")
@@ -2223,7 +2223,7 @@ class DeviceCredential(DnacBase):
                 # All httpRead details from the Cisco Catalyst Center
                 http_read_details = global_credentials.get("httpsRead")
                 if not http_read_details:
-                    self.msg = "Global httpRead Credential is not available."
+                    self.msg = "Global http_read Credential is not available."
                     self.status = "failed"
                     return self
                 http_read_detail = None
@@ -2231,7 +2231,7 @@ class DeviceCredential(DnacBase):
                 if http_read_id:
                     http_read_detail = get_dict_result(http_read_details, "id", http_read_id)
                     if not http_read_detail:
-                        self.msg = "The ID of the httpRead credential is not valid."
+                        self.msg = "The ID of the http_read credential is not valid."
                         self.status = "failed"
                         return self
                 elif http_read_description and http_read_username:
@@ -2241,7 +2241,7 @@ class DeviceCredential(DnacBase):
                             http_read_detail = item
 
                     if not http_read_detail:
-                        self.msg = "The description and username for the httpRead credential are invalid."
+                        self.msg = "The description and username for the http_read credential are invalid."
                         self.status = "failed"
                         return self
 
@@ -2262,7 +2262,7 @@ class DeviceCredential(DnacBase):
                 # All httpWrite details from the Cisco Catalyst Center
                 http_write_details = global_credentials.get("httpsWrite")
                 if not http_write_details:
-                    self.msg = "Global httpWrite credential is not available."
+                    self.msg = "Global http_write credential is not available."
                     self.status = "failed"
                     return self
                 http_write_detail = None
@@ -2270,7 +2270,7 @@ class DeviceCredential(DnacBase):
                 if http_write_id:
                     http_write_detail = get_dict_result(http_write_details, "id", http_write_id)
                     if not http_write_detail:
-                        self.msg = "The ID of the httpWrite credential is not valid."
+                        self.msg = "The ID of the http_write credential is not valid."
                         self.status = "failed"
                         return self
                 elif http_write_description and http_write_username:
@@ -2280,7 +2280,7 @@ class DeviceCredential(DnacBase):
                             http_write_detail = item
 
                     if not http_write_detail:
-                        self.msg = "The description and username for the httpWrite credential are invalid."
+                        self.msg = "The description and username for the http_write credential are invalid."
                         self.status = "failed"
                         return self
 
