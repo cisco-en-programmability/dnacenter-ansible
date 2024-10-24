@@ -506,11 +506,11 @@ class DnacBase():
         self.have.clear()
         self.want.clear()
 
-    def get_execution_details(self, execid):
+    def get_execution_details(self, exec_id):
         """
         Get the execution details of an API
         Args:
-            execid (str) - Id for API execution
+            exec_id (str) - Id for API execution
         Returns:
             response (dict) - Status for API execution
         """
@@ -519,10 +519,10 @@ class DnacBase():
             response = self.dnac._exec(
                 family="task",
                 function='get_business_api_execution_details',
-                params={"execution_id": execid}
+                params={"execution_id": exec_id}
             )
             self.log("Successfully retrieved execution details by the API 'get_business_api_execution_details' for execution ID: {0}, Response: {1}"
-                     .format(execid, response), "DEBUG")
+                     .format(exec_id, response), "DEBUG")
         except Exception as e:
             # Log an error message and fail if an exception occurs
             self.log_traceback()
@@ -1034,21 +1034,23 @@ class DnacBase():
 
         return new_config
 
-    def get_device_ips_from_hostname(self, hostname_list):
+    def get_device_ips_from_hostnames(self, hostnames):
         """
         Get the list of unique device IPs for list of specified hostnames of devices in Cisco Catalyst Center.
         Parameters:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-            hostname_list (list): The hostnames of devices for which you want to retrieve the device IPs.
+            hostnames (list): The hostnames of devices for which you want to retrieve the device IPs.
         Returns:
-            list: The list of unique device IPs for the specified devices hostname list.
+            device_ip_mapping (dict): Provide the dictionary with the mapping of hostname of device to its ip address.
         Description:
             Queries Cisco Catalyst Center to retrieve the unique device IP's associated with a device having the specified
             list of hostnames. If a device is not found in Cisco Catalyst Center, an error log message is printed.
         """
 
-        device_ips = []
-        for hostname in hostname_list:
+        self.log("Entering 'get_device_ips_from_hostnames' with hostname_list: {0}".format(str(hostnames)), "INFO")
+        device_ip_mapping = {}
+
+        for hostname in hostnames:
             try:
                 response = self.dnac._exec(
                     family="devices",
@@ -1057,34 +1059,50 @@ class DnacBase():
                     params={"hostname": hostname}
                 )
                 if response:
-                    self.log("Received API response from 'get_device_list': {0}".format(str(response)), "DEBUG")
+                    self.log("Received API response for hostname '{0}': {1}".format(hostname, str(response)), "DEBUG")
                     response = response.get("response")
                     if response:
                         device_ip = response[0]["managementIpAddress"]
                         if device_ip:
-                            device_ips.append(device_ip)
+                            device_ip_mapping[hostname] = device_ip
+                            self.log("Added device IP '{0}' for hostname '{1}'.".format(device_ip, hostname), "INFO")
+                        else:
+                            device_ip_mapping[hostname] = None
+                            self.log("No management IP found for hostname '{0}'.".format(hostname), "WARNING")
+                    else:
+                        device_ip_mapping[hostname] = None
+                        self.log("No response received for hostname '{0}'.".format(hostname), "WARNING")
+                else:
+                    device_ip_mapping[hostname] = None
+                    self.log("No response received from 'get_device_list' for hostname '{0}'.".format(hostname), "ERROR")
+
             except Exception as e:
-                error_message = "Exception occurred while fetching device from Cisco Catalyst Center: {0}".format(str(e))
+                error_message = "Exception occurred while fetching device IP for hostname '{0}': {1}".format(hostname, str(e))
                 self.log(error_message, "ERROR")
+                device_ip_mapping[hostname] = None
+        self.log("Exiting 'get_device_ips_from_hostnames' with device IP mapping: {0}".format(device_ip_mapping), "INFO")
 
-        return device_ips
+        return device_ip_mapping
 
-    def get_device_ips_from_serial_number(self, serial_number_list):
+    def get_device_ips_from_serial_numbers(self, serial_numbers):
         """
         Get the list of unique device IPs for a specified list of serial numbers in Cisco Catalyst Center.
         Parameters:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-            serial_number_list (list): The list of serial number of devices for which you want to retrieve the device IPs.
+            serial_numbers (list): The list of serial number of devices for which you want to retrieve the device IPs.
         Returns:
-            list: The list of unique device IPs for the specified devices with serial numbers.
+            device_ip_mapping (dict): Provide the dictionary with the mapping of serial number of device to its ip address.
         Description:
             Queries Cisco Catalyst Center to retrieve the unique device IPs associated with a device having the specified
             serial numbers.If a device is not found in Cisco Catalyst Center, an error log message is printed.
         """
 
-        device_ips = []
-        for serial_number in serial_number_list:
+        self.log("Entering 'get_device_ips_from_serial_numbers' with serial_numbers: {0}".format(str(serial_numbers)), "INFO")
+        device_ip_mapping = {}
+
+        for serial_number in serial_numbers:
             try:
+                self.log("Fetching device info for serial number: {0}".format(serial_number), "INFO")
                 response = self.dnac._exec(
                     family="devices",
                     function='get_device_list',
@@ -1092,34 +1110,50 @@ class DnacBase():
                     params={"serialNumber": serial_number}
                 )
                 if response:
-                    self.log("Received API response from 'get_device_list': {0}".format(str(response)), "DEBUG")
+                    self.log("Received API response for serial number '{0}': {1}".format(serial_number, str(response)), "DEBUG")
                     response = response.get("response")
                     if response:
                         device_ip = response[0]["managementIpAddress"]
                         if device_ip:
-                            device_ips.append(device_ip)
+                            device_ip_mapping[serial_number] = device_ip
+                            self.log("Added device IP '{0}' for serial number '{1}'.".format(device_ip, serial_number), "INFO")
+                        else:
+                            device_ip_mapping[serial_number] = None
+                            self.log("No management IP found for serial number '{0}'.".format(serial_number), "WARNING")
+                    else:
+                        device_ip_mapping[serial_number] = None
+                        self.log("No response received for serial number '{0}'.".format(serial_number), "WARNING")
+                else:
+                    device_ip_mapping[serial_number] = None
+                    self.log("No response received from 'get_device_list' for serial number '{0}'.".format(serial_number), "ERROR")
+
             except Exception as e:
-                error_message = "Exception occurred while fetching device from Cisco Catalyst Center - {0}".format(str(e))
+                error_message = "Exception occurred while fetching device IP for serial number '{0}': {1}".format(serial_number, str(e))
                 self.log(error_message, "ERROR")
+                device_ip_mapping[serial_number] = None
+        self.log("Exiting 'get_device_ips_from_serial_numbers' with device IP mapping: {0}".format(device_ip_mapping), "INFO")
 
-        return device_ips
+        return device_ip_mapping
 
-    def get_device_ips_from_mac_address(self, mac_address_list):
+    def get_device_ips_from_mac_addresses(self, mac_addresses):
         """
         Get the list of unique device IPs for list of specified mac address of devices in Cisco Catalyst Center.
         Parameters:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-            mac_address_list (list): The list of mac address of devices for which you want to retrieve the device IPs.
+            mac_addresses (list): The list of mac address of devices for which you want to retrieve the device IPs.
         Returns:
-            list: The list of unique device IPs for the specified devices.
+            device_ip_mapping (dict): Provide the dictionary with the mapping of mac address of device to its ip address.
         Description:
             Queries Cisco Catalyst Center to retrieve the unique device IPs associated with a device having the specified
             mac addresses. If a device is not found in Cisco Catalyst Center, an error log message is printed.
         """
 
-        device_ips = []
-        for mac_address in mac_address_list:
+        self.log("Entering 'get_device_ips_from_mac_addresses' with mac_addresses: {0}".format(str(mac_addresses)), "INFO")
+        device_ip_mapping = {}
+
+        for mac_address in mac_addresses:
             try:
+                self.log("Fetching device info for mac_address: {0}".format(mac_address), "INFO")
                 response = self.dnac._exec(
                     family="devices",
                     function='get_device_list',
@@ -1127,20 +1161,30 @@ class DnacBase():
                     params={"macAddress": mac_address}
                 )
                 if response:
-                    self.log("Received API response from 'get_device_list': {0}".format(str(response)), "DEBUG")
+                    self.log("Received API response for mac address '{0}': {1}".format(mac_address, str(response)), "DEBUG")
                     response = response.get("response")
                     if response:
                         device_ip = response[0]["managementIpAddress"]
                         if device_ip:
-                            device_ips.append(device_ip)
-            except Exception as e:
-                self.status = "failed"
-                self.msg = "Exception occurred while fetching device from Cisco Catalyst Center - {0}".format(str(e))
-                self.result['response'] = self.msg
-                self.log(self.msg, "ERROR")
-                self.check_return_status()
+                            device_ip_mapping[mac_address] = device_ip
+                            self.log("Added device IP '{0}' for mac address '{1}'.".format(device_ip, mac_address), "INFO")
+                        else:
+                            device_ip_mapping[mac_address] = None
+                            self.log("No management IP found for mac address '{0}'.".format(mac_address), "WARNING")
+                    else:
+                        device_ip_mapping[mac_address] = None
+                        self.log("No response received for mac address '{0}'.".format(mac_address), "WARNING")
+                else:
+                    device_ip_mapping[mac_address] = None
+                    self.log("No response received from 'get_device_list' for mac address '{0}'.".format(mac_address), "ERROR")
 
-        return device_ips
+            except Exception as e:
+                error_message = "Exception occurred while fetching device IP for mac address '{0}': {1}".format(mac_address, str(e))
+                self.log(error_message, "ERROR")
+                device_ip_mapping[mac_address] = None
+        self.log("Exiting 'get_device_ips_from_mac_addresses' with device IP mapping: {0}".format(device_ip_mapping), "INFO")
+
+        return device_ip_mapping
 
     def get_device_ids_from_device_ips(self, device_ips):
         """
@@ -1149,39 +1193,49 @@ class DnacBase():
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             hostname_list (list): The hostnames of devices for which you want to retrieve the device IPs.
         Returns:
-            list: The list of unique device IPs for the specified devices hostname list.
+            device_id_mapping (dict): Provide the dictionary with the mapping of ip address of device to device id.
         Description:
             Queries Cisco Catalyst Center to retrieve the unique device IP's associated with a device having the specified
             list of hostnames. If a device is not found in Cisco Catalyst Center, an error log message is printed.
         """
 
-        device_ids = []
+        self.log("Entering 'get_device_ids_from_device_ips' with device ips: {0}".format(str(device_ips)), "INFO")
+        device_id_mapping = {}
+
         for device_ip in device_ips:
             try:
+                self.log("Fetching device id for device ip: {0}".format(device_ip), "INFO")
                 response = self.dnac._exec(
                     family="devices",
                     function='get_device_list',
                     op_modifies=False,
                     params={"management_ip_address": device_ip}
                 )
-                response = response.get("response")
-                if not response:
-                    self.log("Unable to fetch the device id for the device '{0}' due to absence of device.".format(device_ip), "WARNING")
-                    continue
+                if response:
+                    self.log("Received API response for device ip  '{0}': {1}".format(device_ip, str(response)), "DEBUG")
+                    response = response.get("response")
+                    if response:
+                        device_id = response[0]["id"]
+                        if device_id:
+                            device_id_mapping[device_ip] = device_id
+                            self.log("Added device ID '{0}' for device ip  '{1}'.".format(device_id, device_ip), "INFO")
+                        else:
+                            device_id_mapping[device_ip] = None
+                            self.log("No device ID found for device ip  '{0}'.".format(device_ip), "WARNING")
+                    else:
+                        device_id_mapping[device_ip] = None
+                        self.log("No response received for device ip  '{0}'.".format(device_ip), "WARNING")
+                else:
+                    device_id_mapping[device_ip] = None
+                    self.log("No response received from 'get_device_list' for device ip  '{0}'.".format(device_ip), "ERROR")
 
-                self.log("Received API response from 'get_device_list': {0}".format(str(response)), "DEBUG")
-                device_id = response[0]["id"]
-                if device_id:
-                    self.log("Received the device id '{0}' for the device {1}".format(device_id, device_ip), "DEBUG")
-                    device_ids.append(device_id)
             except Exception as e:
-                error_message = (
-                    "Exception occurred while fetching device id for the device '{0} 'from "
-                    "Cisco Catalyst Center: {1}"
-                ).format(device_ip, str(e))
+                error_message = "Exception occurred while fetching device ID for device ip  '{0}': {1}".format(device_ip, str(e))
                 self.log(error_message, "ERROR")
+                device_id_mapping[device_ip] = None
+        self.log("Exiting 'get_device_ids_from_device_ips' with unique device ID mapping: {0}".format(device_id_mapping), "INFO")
 
-        return device_ids
+        return device_id_mapping
 
     def get_device_ips_from_device_ids(self, device_ids):
         """
@@ -1190,43 +1244,50 @@ class DnacBase():
         Args:
             device_ids (list): A list of device IDs for which the management IP addresses need to be fetched.
         Returns:
-            device_ips (list): A list of management IP addresses corresponding to the provided device IDs. If a device ID
-                doesn't have an associated IP or there is an error, the corresponding IP is not included in the list.
+            device_ip_mapping (dict): Provide the dictionary with the mapping of id of device to its ip address.
         Description:
             This function iterates over a list of device IDs, makes an API call to Cisco Catalyst Center to fetch
             the management IP addresses of the devices, and returns a list of these IPs. If a device is not found
             or an exception occurs, it logs the error or warning and continues to the next device ID.
         """
 
-        device_ips = []
+        self.log("Entering 'get_device_ips_from_device_ids' with device ips: {0}".format(str(device_ids)), "INFO")
+        device_ip_mapping = {}
 
         for device_id in device_ids:
             try:
+                self.log("Fetching device ip for device id: {0}".format(device_id), "INFO")
                 response = self.dnac._exec(
                     family="devices",
                     function='get_device_list',
                     op_modifies=False,
                     params={"id": device_id}
                 )
-                response = response.get("response")
-                if not response:
-                    self.log("Unable to fetch the device ip for the device '{0}' due to absence of device.".format(device_id), "WARNING")
-                    continue
-
-                self.log("Received API response from 'get_device_list': {0}".format(str(response)), "DEBUG")
-                device_ip = response[0]["managementIpAddress"]
-                if device_ip:
-                    self.log("Received the device ip '{0}' for the device having id {1}".format(device_ip, device_id), "DEBUG")
-                    device_ips.append(device_ip)
+                if response:
+                    self.log("Received API response for device id  '{0}': {1}".format(device_id, str(response)), "DEBUG")
+                    response = response.get("response")
+                    if response:
+                        device_ip = response[0]["managementIpAddress"]
+                        if device_ip:
+                            device_ip_mapping[device_id] = device_ip
+                            self.log("Added device IP '{0}' for device id  '{1}'.".format(device_ip, device_id), "INFO")
+                        else:
+                            device_ip_mapping[device_id] = None
+                            self.log("No device ID found for device id  '{0}'.".format(device_id), "WARNING")
+                    else:
+                        device_ip_mapping[device_id] = None
+                        self.log("No response received for device id  '{0}'.".format(device_id), "WARNING")
+                else:
+                    device_ip_mapping[device_id] = None
+                    self.log("No response received from 'get_device_list' for device id  '{0}'.".format(device_id), "ERROR")
 
             except Exception as e:
-                error_message = (
-                    "Exception occurred while fetching device ip with device id'{0} 'from "
-                    "Cisco Catalyst Center: {1}"
-                ).format(device_id, str(e))
+                error_message = "Exception occurred while fetching device ip for device id '{0}': {1}".format(device_id, str(e))
                 self.log(error_message, "ERROR")
+                device_ip_mapping[device_id] = None
+        self.log("Exiting 'get_device_ips_from_device_ids' with device IP mapping: '{0}'".format(device_ip_mapping), "INFO")
 
-        return device_ips
+        return device_ip_mapping
 
     def get_network_device_tag_id(self, tag_name):
         """
@@ -1244,6 +1305,7 @@ class DnacBase():
             it logs appropriate messages and returns `None`.
         """
 
+        self.log("Entering 'get_network_device_tag_id' with tag_name: '{0}'".format(tag_name), "INFO")
         device_tag_id = None
 
         try:
@@ -1253,14 +1315,21 @@ class DnacBase():
                 op_modifies=False,
                 params={"name": tag_name}
             )
-            response = response.get("response")
             if not response:
+                self.log("No response received from 'get_tag' for tag '{0}'.".format(tag_name), "WARNING")
+                return device_tag_id
+
+            response_data = response.get("response")
+            if not response_data:
                 self.log("Unable to fetch the tag details for the tag '{0}'.".format(tag_name), "WARNING")
                 return device_tag_id
 
-            self.log("Received API response from 'get_tag': {0}".format(str(response)), "DEBUG")
-            device_tag_id = response[0]["id"]
-            self.log("Received the tag id '{0}' for the tag: {1}".format(device_tag_id, tag_name), "INFO")
+            self.log("Received API response from 'get_tag': {0}".format(str(response_data)), "DEBUG")
+            device_tag_id = response_data[0]["id"]
+            if device_tag_id:
+                self.log("Received the tag ID '{0}' for the tag: {1}".format(device_tag_id, tag_name), "INFO")
+            else:
+                self.log("Tag ID not found in the response for tag '{0}'.".format(tag_name), "WARNING")
 
         except Exception as e:
             self.msg = (
@@ -1270,6 +1339,41 @@ class DnacBase():
             self.set_operation_result("failed", False, self.msg, "INFO").check_return_status()
 
         return device_tag_id
+
+    def get_list_from_dict_values(self, dict_name):
+        """
+        Extracts values from a dictionary and returns a list of non-None values.
+
+        Args:
+            self (object): An instance of the class used for interacting with Cisco Catalyst Center.
+            dict_name (dict): The dictionary from which values are extracted. Each key-value pair is
+                checked, and non-None values are included in the returned list.
+        Returns:
+            list: A list containing all non-None values from the dictionary.
+        Description:
+            This function iterates over a given dictionary, checking each key-value pair. If the value
+            is `None`, it logs a debug message and skips that value. Otherwise, it appends the value to
+            a list. If an exception occurs during this process, it logs the exception message and handles
+            the operation result.
+        """
+
+        values_list = []
+        for key, value in dict_name.items():
+            try:
+                if value is None:
+                    self.log("Value for the key {0} is None so not including in the list.".format(key), "DEBUG")
+                    continue
+                else:
+                    self.log("Fetch the value '{0}' for the key '{1}'".format(value, key), "DEBUG")
+                    values_list.append(value)
+            except Exception as e:
+                self.msg = (
+                    "Exception occurred while fetching value for the key '{0} 'from "
+                    "Cisco Catalyst Center: {1}"
+                ).format(key, str(e))
+                self.set_operation_result("failed", False, self.msg, "INFO").check_return_status()
+
+        return values_list
 
     def is_valid_ipv4(self, ip_address):
         """
@@ -1509,7 +1613,7 @@ class DnacBase():
             Call the API 'get_task_details_by_id' to get the details along with the
             failure reason. Return the details.
         """
-        # Need to handle exception
+
         task_details = None
         try:
             response = self.dnac._exec(
