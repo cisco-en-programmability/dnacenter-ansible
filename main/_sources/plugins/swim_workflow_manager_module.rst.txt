@@ -42,7 +42,7 @@ cisco.dnac.swim_workflow_manager module -- Module to manage SWIM (Software Image
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.20.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.22.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -171,7 +171,15 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Details for SWIM image activation. Device on which the image needs to activated can be speciifed using any of the following parameters - deviceSerialNumber, deviceIPAddress, deviceHostname or deviceMacAddress.
+      Parameters for specifying the target device(s) for SWIM image activation. The device can be identified using one of the following options:
+          - device\_serial\_number
+          - device\_ip\_address
+          - device\_hostname
+          - device\_mac\_address
+          - site\_name (if specified, the image will be activated on all devices within the site)
+          At least one of these parameters must be provided. If 'site\_name' is provided, additional filters
+          such as 'device\_role', 'device\_family\_name', and 'device\_series\_name' can be used to further narrow down the devices within the site.
+          
 
 
       .. raw:: html
@@ -675,7 +683,15 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Details for SWIM image distribution. Device on which the image needs to distributed can be speciifed using any of the following parameters - deviceSerialNumber, deviceIPAddress, deviceHostname or deviceMacAddress.
+      Parameters for specifying the target device(s) for SWIM image distribution. The device can be identified using one of the following options:
+          - device\_serial\_number
+          - device\_ip\_address
+          - device\_hostname
+          - device\_mac\_address
+          - site\_name (if specified, the image will be distributed to all devices within the site)
+          At least one of these parameters must be provided. If 'site\_name' is provided, additional filters
+          such as 'device\_role', 'device\_family\_name', and 'device\_series\_name' can be used to further narrow down the devices within the site.
+          
 
 
       .. raw:: html

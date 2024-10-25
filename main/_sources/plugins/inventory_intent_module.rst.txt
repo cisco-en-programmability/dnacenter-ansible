@@ -42,7 +42,7 @@ cisco.dnac.inventory_intent module -- Resource module for Network Device
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.20.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.22.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -803,17 +803,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/hostname_list"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/hostnames"></div>
 
-      .. _ansible_collections.cisco.dnac.inventory_intent_module__parameter-config/hostname_list:
+      .. _ansible_collections.cisco.dnac.inventory_intent_module__parameter-config/hostnames:
 
       .. rst-class:: ansible-option-title
 
-      **hostname_list**
+      **hostnames**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/hostname_list" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/hostnames" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -1015,17 +1015,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/mac_address_list"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/mac_addresses"></div>
 
-      .. _ansible_collections.cisco.dnac.inventory_intent_module__parameter-config/mac_address_list:
+      .. _ansible_collections.cisco.dnac.inventory_intent_module__parameter-config/mac_addresses:
 
       .. rst-class:: ansible-option-title
 
-      **mac_address_list**
+      **mac_addresses**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/mac_address_list" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/mac_addresses" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -1457,17 +1457,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/serial_number_list"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/serial_numbers"></div>
 
-      .. _ansible_collections.cisco.dnac.inventory_intent_module__parameter-config/serial_number_list:
+      .. _ansible_collections.cisco.dnac.inventory_intent_module__parameter-config/serial_numbers:
 
       .. rst-class:: ansible-option-title
 
-      **serial_number_list**
+      **serial_numbers**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/serial_number_list" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/serial_numbers" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 

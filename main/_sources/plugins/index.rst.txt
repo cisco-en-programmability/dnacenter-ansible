@@ -6,7 +6,7 @@
 Cisco.Dnac
 ==========
 
-Collection version 6.20.0
+Collection version 6.22.0
 
 .. contents::
    :local:
@@ -212,8 +212,6 @@ Modules
 * :ref:`event_webhook_update module <ansible_collections.cisco.dnac.event_webhook_update_module>` -- Resource module for Event Webhook Update
 * :ref:`events_and_notifications_workflow_manager module <ansible_collections.cisco.dnac.events_and_notifications_workflow_manager_module>` -- Configure various types of destinations to deliver event notifications from Cisco Catalyst Center Platform.
 * :ref:`execute_suggested_actions_commands module <ansible_collections.cisco.dnac.execute_suggested_actions_commands_module>` -- Resource module for Execute Suggested Actions Commands
-* :ref:`fabric_sites_zones_workflow_manager module <ansible_collections.cisco.dnac.fabric_sites_zones_workflow_manager_module>` -- Manage fabric site(s)/zone(s) and update the authentication profile template in Cisco Catalyst Center.
-* :ref:`fabric_transits_workflow_manager module <ansible_collections.cisco.dnac.fabric_transits_workflow_manager_module>` -- Resource module for SDA fabric transits
 * :ref:`file_import module <ansible_collections.cisco.dnac.file_import_module>` -- Resource module for File Import
 * :ref:`file_info module <ansible_collections.cisco.dnac.file_info_module>` -- Information module for File
 * :ref:`file_namespace_files_info module <ansible_collections.cisco.dnac.file_namespace_files_info_module>` -- Information module for File Namespace Files
@@ -266,6 +264,7 @@ Modules
 * :ref:`lan_automation_update_device module <ansible_collections.cisco.dnac.lan_automation_update_device_module>` -- Resource module for Lan Automation Updatedevice
 * :ref:`lan_automation_update_v2 module <ansible_collections.cisco.dnac.lan_automation_update_v2_module>` -- Resource module for Lan Automation Update V2
 * :ref:`lan_automation_v2 module <ansible_collections.cisco.dnac.lan_automation_v2_module>` -- Resource module for Lan Automation V2
+* :ref:`lan_automation_workflow_manager module <ansible_collections.cisco.dnac.lan_automation_workflow_manager_module>` -- Automate network discovery, deployment, and device configuration with LAN Automation in Cisco Catalyst Center.
 * :ref:`license_device_count_info module <ansible_collections.cisco.dnac.license_device_count_info_module>` -- Information module for License Device Count
 * :ref:`license_device_deregistration module <ansible_collections.cisco.dnac.license_device_deregistration_module>` -- Resource module for License Device Deregistration
 * :ref:`license_device_license_details_info module <ansible_collections.cisco.dnac.license_device_license_details_info_module>` -- Information module for License Device License Details
@@ -403,6 +402,7 @@ Modules
 * :ref:`sda_extranet_policies module <ansible_collections.cisco.dnac.sda_extranet_policies_module>` -- Resource module for Sda Extranetpolicies
 * :ref:`sda_extranet_policies_count_info module <ansible_collections.cisco.dnac.sda_extranet_policies_count_info_module>` -- Information module for Sda Extranetpolicies Count
 * :ref:`sda_extranet_policies_info module <ansible_collections.cisco.dnac.sda_extranet_policies_info_module>` -- Information module for Sda Extranetpolicies
+* :ref:`sda_extranet_policies_workflow_manager module <ansible_collections.cisco.dnac.sda_extranet_policies_workflow_manager_module>` -- SDA Extranet Policies Module provides functionality for managing SD-Access Extranet Policies in Cisco Catalyst Center.
 * :ref:`sda_fabric module <ansible_collections.cisco.dnac.sda_fabric_module>` -- Resource module for Sda Fabric
 * :ref:`sda_fabric_authentication_profile module <ansible_collections.cisco.dnac.sda_fabric_authentication_profile_module>` -- Resource module for Sda Fabric Authentication Profile
 * :ref:`sda_fabric_authentication_profile_info module <ansible_collections.cisco.dnac.sda_fabric_authentication_profile_info_module>` -- Information module for Sda Fabric Authentication Profile
@@ -422,6 +422,7 @@ Modules
 * :ref:`sda_fabric_devices_layer2_handoffs_sda_transits module <ansible_collections.cisco.dnac.sda_fabric_devices_layer2_handoffs_sda_transits_module>` -- Resource module for Sda Fabricdevices Layer2handoffs Sdatransits
 * :ref:`sda_fabric_devices_layer2_handoffs_sda_transits_count_info module <ansible_collections.cisco.dnac.sda_fabric_devices_layer2_handoffs_sda_transits_count_info_module>` -- Information module for Sda Fabricdevices Layer2handoffs Sdatransits Count
 * :ref:`sda_fabric_devices_layer2_handoffs_sda_transits_info module <ansible_collections.cisco.dnac.sda_fabric_devices_layer2_handoffs_sda_transits_info_module>` -- Information module for Sda Fabricdevices Layer2handoffs Sdatransits
+* :ref:`sda_fabric_devices_workflow_manager module <ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module>` -- Manage SDA fabric devices in Cisco Catalyst Center.
 * :ref:`sda_fabric_edge_device module <ansible_collections.cisco.dnac.sda_fabric_edge_device_module>` -- Resource module for Sda Fabric Edge Device
 * :ref:`sda_fabric_edge_device_info module <ansible_collections.cisco.dnac.sda_fabric_edge_device_info_module>` -- Information module for Sda Fabric Edge Device
 * :ref:`sda_fabric_info module <ansible_collections.cisco.dnac.sda_fabric_info_module>` -- Information module for Sda Fabric
@@ -430,9 +431,13 @@ Modules
 * :ref:`sda_fabric_sites module <ansible_collections.cisco.dnac.sda_fabric_sites_module>` -- Resource module for Sda Fabricsites
 * :ref:`sda_fabric_sites_count_info module <ansible_collections.cisco.dnac.sda_fabric_sites_count_info_module>` -- Information module for Sda Fabricsites Count
 * :ref:`sda_fabric_sites_info module <ansible_collections.cisco.dnac.sda_fabric_sites_info_module>` -- Information module for Sda Fabricsites
+* :ref:`sda_fabric_sites_zones_workflow_manager module <ansible_collections.cisco.dnac.sda_fabric_sites_zones_workflow_manager_module>` -- Manage fabric site(s)/zone(s) and update the authentication profile template in Cisco Catalyst Center.
+* :ref:`sda_fabric_transits_workflow_manager module <ansible_collections.cisco.dnac.sda_fabric_transits_workflow_manager_module>` -- Resource module for SDA fabric transits
+* :ref:`sda_fabric_virtual_networks_workflow_manager module <ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module>` -- Configure fabric VLANs, Virtual Networks, and Anycast Gateways in Cisco Catalyst Center.
 * :ref:`sda_fabric_zones module <ansible_collections.cisco.dnac.sda_fabric_zones_module>` -- Resource module for Sda Fabriczones
 * :ref:`sda_fabric_zones_count_info module <ansible_collections.cisco.dnac.sda_fabric_zones_count_info_module>` -- Information module for Sda Fabriczones Count
 * :ref:`sda_fabric_zones_info module <ansible_collections.cisco.dnac.sda_fabric_zones_info_module>` -- Information module for Sda Fabriczones
+* :ref:`sda_host_port_onboarding_workflow_manager module <ansible_collections.cisco.dnac.sda_host_port_onboarding_workflow_manager_module>` -- Manage host port onboarding in SD-Access Fabric in Cisco Catalyst Center.
 * :ref:`sda_multicast module <ansible_collections.cisco.dnac.sda_multicast_module>` -- Resource module for Sda Multicast
 * :ref:`sda_multicast_info module <ansible_collections.cisco.dnac.sda_multicast_info_module>` -- Information module for Sda Multicast
 * :ref:`sda_port_assignment_for_access_point module <ansible_collections.cisco.dnac.sda_port_assignment_for_access_point_module>` -- Resource module for Sda Port Assignment For Access Point
@@ -708,8 +713,6 @@ Modules
     event_webhook_update_module
     events_and_notifications_workflow_manager_module
     execute_suggested_actions_commands_module
-    fabric_sites_zones_workflow_manager_module
-    fabric_transits_workflow_manager_module
     file_import_module
     file_info_module
     file_namespace_files_info_module
@@ -762,6 +765,7 @@ Modules
     lan_automation_update_device_module
     lan_automation_update_v2_module
     lan_automation_v2_module
+    lan_automation_workflow_manager_module
     license_device_count_info_module
     license_device_deregistration_module
     license_device_license_details_info_module
@@ -899,6 +903,7 @@ Modules
     sda_extranet_policies_module
     sda_extranet_policies_count_info_module
     sda_extranet_policies_info_module
+    sda_extranet_policies_workflow_manager_module
     sda_fabric_module
     sda_fabric_authentication_profile_module
     sda_fabric_authentication_profile_info_module
@@ -918,6 +923,7 @@ Modules
     sda_fabric_devices_layer2_handoffs_sda_transits_module
     sda_fabric_devices_layer2_handoffs_sda_transits_count_info_module
     sda_fabric_devices_layer2_handoffs_sda_transits_info_module
+    sda_fabric_devices_workflow_manager_module
     sda_fabric_edge_device_module
     sda_fabric_edge_device_info_module
     sda_fabric_info_module
@@ -926,9 +932,13 @@ Modules
     sda_fabric_sites_module
     sda_fabric_sites_count_info_module
     sda_fabric_sites_info_module
+    sda_fabric_sites_zones_workflow_manager_module
+    sda_fabric_transits_workflow_manager_module
+    sda_fabric_virtual_networks_workflow_manager_module
     sda_fabric_zones_module
     sda_fabric_zones_count_info_module
     sda_fabric_zones_info_module
+    sda_host_port_onboarding_workflow_manager_module
     sda_multicast_module
     sda_multicast_info_module
     sda_port_assignment_for_access_point_module

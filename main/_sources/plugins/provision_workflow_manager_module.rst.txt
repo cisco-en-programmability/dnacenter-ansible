@@ -42,7 +42,7 @@ cisco.dnac.provision_workflow_manager module -- Resource module for provision re
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.20.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.22.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -168,7 +168,9 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Interface details of the controller
+      A list of dynamic interfaces on the wireless controller.
+
+      Each entry represents an interface with associated configuration details.
 
 
       .. raw:: html
@@ -202,7 +204,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Ip Address allocated to the interface
+      The gateway IP address for the interface.
 
 
       .. raw:: html
@@ -236,7 +238,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Ip Address allocated to the interface
+      The IP address assigned to the interface.
 
 
       .. raw:: html
@@ -270,7 +272,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Ip Address allocated to the interface
+      The name of the interface. (Required parameter for Cisco Catalyst Version - 2.3.7.6)
 
 
       .. raw:: html
@@ -294,7 +296,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`integer`
+      :ansible-option-type:`string`
 
       .. raw:: html
 
@@ -304,7 +306,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Ip Address allocated to the interface
+      The netmask of the interface in CIDR format (e.g., 24 for 255.255.255.0).
 
 
       .. raw:: html
@@ -328,7 +330,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`integer`
+      :ansible-option-type:`string`
 
       .. raw:: html
 
@@ -338,7 +340,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Ip Address allocated to the interface
+      The port number or LAG (Link Aggregation Group) identifier.
 
 
       .. raw:: html
@@ -362,7 +364,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`integer`
+      :ansible-option-type:`string`
 
       .. raw:: html
 
@@ -372,7 +374,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Ip Address allocated to the interface
+      The VLAN ID associated with the interface. (Required parameter for Cisco Catalyst Version - 2.3.7.6)
 
 
       .. raw:: html
@@ -505,6 +507,44 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/primary_managed_ap_locations"></div>
+
+      .. _ansible_collections.cisco.dnac.provision_workflow_manager_module__parameter-config/primary_managed_ap_locations:
+
+      .. rst-class:: ansible-option-title
+
+      **primary_managed_ap_locations**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/primary_managed_ap_locations" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of site locations assigned to primary managed Access Points (APs).
+
+      Required for provisioning wireless devices if the managed AP location is not set.
+
+      Supported in Cisco Catalyst version 2.3.7.6 and later.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/provisioning"></div>
 
       .. _ansible_collections.cisco.dnac.provision_workflow_manager_module__parameter-config/provisioning:
@@ -551,6 +591,167 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/rolling_ap_upgrade"></div>
+
+      .. _ansible_collections.cisco.dnac.provision_workflow_manager_module__parameter-config/rolling_ap_upgrade:
+
+      .. rst-class:: ansible-option-title
+
+      **rolling_ap_upgrade**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/rolling_ap_upgrade" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Configuration options for performing a rolling upgrade of Access Points (APs) in phases.
+
+      Allows control over the gradual rebooting of APs during the upgrade process.
+
+      Supported in Cisco Catalyst version 2.3.7.6 and later.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/rolling_ap_upgrade/ap_reboot_percentage"></div>
+
+      .. _ansible_collections.cisco.dnac.provision_workflow_manager_module__parameter-config/rolling_ap_upgrade/ap_reboot_percentage:
+
+      .. rst-class:: ansible-option-title
+
+      **ap_reboot_percentage**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/rolling_ap_upgrade/ap_reboot_percentage" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The percentage of APs to reboot simultaneously during an upgrade.
+
+      Supported in Cisco Catalyst version 2.3.7.6 and later.
+
+      Must be either 5, 15 or 25 representing the proportion of APs to reboot at once.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/rolling_ap_upgrade/enable_rolling_ap_upgrade"></div>
+
+      .. _ansible_collections.cisco.dnac.provision_workflow_manager_module__parameter-config/rolling_ap_upgrade/enable_rolling_ap_upgrade:
+
+      .. rst-class:: ansible-option-title
+
+      **enable_rolling_ap_upgrade**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/rolling_ap_upgrade/enable_rolling_ap_upgrade" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Enable or disable the rolling AP upgrade feature.
+
+      If set to 'true', APs will be upgraded in batches based on the specified reboot percentage.
+
+      Supported in Cisco Catalyst version 2.3.7.6 and later.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/secondary_managed_ap_locations"></div>
+
+      .. _ansible_collections.cisco.dnac.provision_workflow_manager_module__parameter-config/secondary_managed_ap_locations:
+
+      .. rst-class:: ansible-option-title
+
+      **secondary_managed_ap_locations**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/secondary_managed_ap_locations" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of site locations assigned to secondary managed Access Points (APs).
+
+      Required for provisioning wireless devices if the managed AP location is not set.
+
+      Supported in Cisco Catalyst version 2.3.7.6 and later.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/site_name_hierarchy"></div>
 
       .. _ansible_collections.cisco.dnac.provision_workflow_manager_module__parameter-config/site_name_hierarchy:
@@ -576,6 +777,52 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Name of the site where the device will be added. This parameter is required for provisioning the device and assigning it to a site.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/skip_ap_provision"></div>
+
+      .. _ansible_collections.cisco.dnac.provision_workflow_manager_module__parameter-config/skip_ap_provision:
+
+      .. rst-class:: ansible-option-title
+
+      **skip_ap_provision**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/skip_ap_provision" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      If set to 'true', Access Point (AP) provisioning will be skipped during the workflow.
+
+      Use this option when AP provisioning is not required as part of the current operation.
+
+      Supported in Cisco Catalyst version 2.3.7.6 and later.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
 
 
       .. raw:: html
@@ -1291,6 +1538,34 @@ Examples
                   interface_name: Vlan1866
                   interface_ip_address: 204.192.6.200
                   interface_gateway: 204.192.6.1
+
+    - name: Provision a wireless device to a site for version - 2.3.7.6
+      cisco.dnac.provision_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: true
+        state: merged
+        config:
+            - site_name_hierarchy: Global/USA/San Francisco/BGL_18
+              management_ip_address: 204.192.3.40
+              primary_managed_ap_Locations:
+                - Global/USA/San Francisco/BGL_18/Test_Floor2
+              secondary_managed_ap_locations:
+                - Global/USA/San Francisco/BGL_18/Test_Floor1
+              dynamic_interfaces:
+                - interface_name: Vlan1866
+                  vlan_id: 1866
+                  interface_ip_address: 204.192.6.200
+                  interface_gateway: 204.192.6.1
+              skip_ap_provision: false
+              rolling_ap_upgrade:
+                enable_rolling_ap_upgrade: false
+                ap_reboot_percentage: 5
 
     - name: Provision a wired device to a site
       cisco.dnac.provision_workflow_manager:

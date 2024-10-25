@@ -42,7 +42,7 @@ cisco.dnac.network_compliance_workflow_manager module -- Network Compliance modu
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.20.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.22.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1033,8 +1033,8 @@ Notes
 -----
 
 .. note::
-   - SDK Methods used are compliance.Compliance.run\_compliance compliance.Compliance.commit\_device\_configuration task.Task.get\_task\_by\_id task.Task.get\_task\_details\_by\_id task.Task.get\_task\_tree task.Task.get\_tasks compliance.Compliance.compliance\_details\_of\_device devices.Devices.get\_device\_list devices.Devices.get\_device\_by\_id site.Site.get\_site site.Site.get\_membership site\_design.Site\_design.get\_sites site\_design.Site\_design.get\_site\_assigned\_network\_devices
-   - Paths used are post /dna/intent/api/v1/compliance/ post /dna/intent/api/v1/network-device-config/write-memory get /dna/intent/api/v1/task/{taskId} get /dna/intent/api/v1/task/{taskId}/tree get /dna/intent/api/v1/compliance/${deviceUuid}/detail get /dna/intent/api/v1/membership/${siteId} get /dna/intent/api/v1/site get /dna/intent/api/v1/networkDevices/assignedToSite get /dna/intent/api/v1/sites get /dna/intent/api/v1/tasks/${id}/detail get /dna/intent/api/v1/tasks get /dna/intent/api/v1/network-device/${id} get /dna/intent/api/v1/network-device
+   - SDK Methods used are compliance.Compliance.run\_compliance compliance.Compliance.commit\_device\_configuration task.Task.get\_task\_by\_id task.Task.get\_task\_details\_by\_id task.Task.get\_tasks compliance.Compliance.compliance\_details\_of\_device devices.Devices.get\_device\_list devices.Devices.get\_device\_by\_id site.Site.get\_site site.Site.get\_membership site\_design.Site\_design.get\_sites site\_design.Site\_design.get\_site\_assigned\_network\_devices
+   - Paths used are post /dna/intent/api/v1/compliance/ post /dna/intent/api/v1/network-device-config/write-memory get /dna/intent/api/v1/task/{taskId} get /dna/intent/api/v1/compliance/${deviceUuid}/detail get /dna/intent/api/v1/membership/${siteId} get /dna/intent/api/v1/site get /dna/intent/api/v1/networkDevices/assignedToSite get /dna/intent/api/v1/sites get /dna/intent/api/v1/tasks/${id}/detail get /dna/intent/api/v1/tasks get /dna/intent/api/v1/network-device/${id} get /dna/intent/api/v1/network-device
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK
    - The parameters starting with dnac\_ are used by the Cisco Catalyst Center Python SDK to establish the connection

@@ -26,7 +26,7 @@
 
 .. Anchors
 
-.. _ansible_collections.cisco.dnac.fabric_sites_zones_workflow_manager_module:
+.. _ansible_collections.cisco.dnac.sda_fabric_sites_zones_workflow_manager_module:
 
 .. Anchors: short name for ansible.builtin
 
@@ -36,19 +36,19 @@
 
 .. Title
 
-cisco.dnac.fabric_sites_zones_workflow_manager module -- Manage fabric site(s)/zone(s) and update the authentication profile template in Cisco Catalyst Center.
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.sda_fabric_sites_zones_workflow_manager module -- Manage fabric site(s)/zone(s) and update the authentication profile template in Cisco Catalyst Center.
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.20.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.22.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
-    see :ref:`Requirements <ansible_collections.cisco.dnac.fabric_sites_zones_workflow_manager_module_requirements>` for details.
+    see :ref:`Requirements <ansible_collections.cisco.dnac.sda_fabric_sites_zones_workflow_manager_module_requirements>` for details.
 
-    To use it in a playbook, specify: :code:`cisco.dnac.fabric_sites_zones_workflow_manager`.
+    To use it in a playbook, specify: :code:`cisco.dnac.sda_fabric_sites_zones_workflow_manager`.
 
 .. version_added
 
@@ -82,7 +82,7 @@ Synopsis
 
 .. Requirements
 
-.. _ansible_collections.cisco.dnac.fabric_sites_zones_workflow_manager_module_requirements:
+.. _ansible_collections.cisco.dnac.sda_fabric_sites_zones_workflow_manager_module_requirements:
 
 Requirements
 ------------
@@ -116,7 +116,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config"></div>
 
-      .. _ansible_collections.cisco.dnac.fabric_sites_zones_workflow_manager_module__parameter-config:
+      .. _ansible_collections.cisco.dnac.sda_fabric_sites_zones_workflow_manager_module__parameter-config:
 
       .. rst-class:: ansible-option-title
 
@@ -150,7 +150,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/fabric_sites"></div>
 
-      .. _ansible_collections.cisco.dnac.fabric_sites_zones_workflow_manager_module__parameter-config/fabric_sites:
+      .. _ansible_collections.cisco.dnac.sda_fabric_sites_zones_workflow_manager_module__parameter-config/fabric_sites:
 
       .. rst-class:: ansible-option-title
 
@@ -184,7 +184,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/fabric_sites/authentication_profile"></div>
 
-      .. _ansible_collections.cisco.dnac.fabric_sites_zones_workflow_manager_module__parameter-config/fabric_sites/authentication_profile:
+      .. _ansible_collections.cisco.dnac.sda_fabric_sites_zones_workflow_manager_module__parameter-config/fabric_sites/authentication_profile:
 
       .. rst-class:: ansible-option-title
 
@@ -218,7 +218,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/fabric_sites/fabric_type"></div>
 
-      .. _ansible_collections.cisco.dnac.fabric_sites_zones_workflow_manager_module__parameter-config/fabric_sites/fabric_type:
+      .. _ansible_collections.cisco.dnac.sda_fabric_sites_zones_workflow_manager_module__parameter-config/fabric_sites/fabric_type:
 
       .. rst-class:: ansible-option-title
 
@@ -252,7 +252,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/fabric_sites/is_pub_sub_enabled"></div>
 
-      .. _ansible_collections.cisco.dnac.fabric_sites_zones_workflow_manager_module__parameter-config/fabric_sites/is_pub_sub_enabled:
+      .. _ansible_collections.cisco.dnac.sda_fabric_sites_zones_workflow_manager_module__parameter-config/fabric_sites/is_pub_sub_enabled:
 
       .. rst-class:: ansible-option-title
 
@@ -294,7 +294,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/fabric_sites/site_name"></div>
 
-      .. _ansible_collections.cisco.dnac.fabric_sites_zones_workflow_manager_module__parameter-config/fabric_sites/site_name:
+      .. _ansible_collections.cisco.dnac.sda_fabric_sites_zones_workflow_manager_module__parameter-config/fabric_sites/site_name:
 
       .. rst-class:: ansible-option-title
 
@@ -328,7 +328,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/fabric_sites/update_authentication_profile"></div>
 
-      .. _ansible_collections.cisco.dnac.fabric_sites_zones_workflow_manager_module__parameter-config/fabric_sites/update_authentication_profile:
+      .. _ansible_collections.cisco.dnac.sda_fabric_sites_zones_workflow_manager_module__parameter-config/fabric_sites/update_authentication_profile:
 
       .. rst-class:: ansible-option-title
 
@@ -362,7 +362,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/fabric_sites/update_authentication_profile/authentication_order"></div>
 
-      .. _ansible_collections.cisco.dnac.fabric_sites_zones_workflow_manager_module__parameter-config/fabric_sites/update_authentication_profile/authentication_order:
+      .. _ansible_collections.cisco.dnac.sda_fabric_sites_zones_workflow_manager_module__parameter-config/fabric_sites/update_authentication_profile/authentication_order:
 
       .. rst-class:: ansible-option-title
 
@@ -396,7 +396,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/fabric_sites/update_authentication_profile/dot1x_fallback_timeout"></div>
 
-      .. _ansible_collections.cisco.dnac.fabric_sites_zones_workflow_manager_module__parameter-config/fabric_sites/update_authentication_profile/dot1x_fallback_timeout:
+      .. _ansible_collections.cisco.dnac.sda_fabric_sites_zones_workflow_manager_module__parameter-config/fabric_sites/update_authentication_profile/dot1x_fallback_timeout:
 
       .. rst-class:: ansible-option-title
 
@@ -430,7 +430,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/fabric_sites/update_authentication_profile/enable_bpu_guard"></div>
 
-      .. _ansible_collections.cisco.dnac.fabric_sites_zones_workflow_manager_module__parameter-config/fabric_sites/update_authentication_profile/enable_bpu_guard:
+      .. _ansible_collections.cisco.dnac.sda_fabric_sites_zones_workflow_manager_module__parameter-config/fabric_sites/update_authentication_profile/enable_bpu_guard:
 
       .. rst-class:: ansible-option-title
 
@@ -472,7 +472,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/fabric_sites/update_authentication_profile/number_of_hosts"></div>
 
-      .. _ansible_collections.cisco.dnac.fabric_sites_zones_workflow_manager_module__parameter-config/fabric_sites/update_authentication_profile/number_of_hosts:
+      .. _ansible_collections.cisco.dnac.sda_fabric_sites_zones_workflow_manager_module__parameter-config/fabric_sites/update_authentication_profile/number_of_hosts:
 
       .. rst-class:: ansible-option-title
 
@@ -506,7 +506,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/fabric_sites/update_authentication_profile/wake_on_lan"></div>
 
-      .. _ansible_collections.cisco.dnac.fabric_sites_zones_workflow_manager_module__parameter-config/fabric_sites/update_authentication_profile/wake_on_lan:
+      .. _ansible_collections.cisco.dnac.sda_fabric_sites_zones_workflow_manager_module__parameter-config/fabric_sites/update_authentication_profile/wake_on_lan:
 
       .. rst-class:: ansible-option-title
 
@@ -551,7 +551,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config_verify"></div>
 
-      .. _ansible_collections.cisco.dnac.fabric_sites_zones_workflow_manager_module__parameter-config_verify:
+      .. _ansible_collections.cisco.dnac.sda_fabric_sites_zones_workflow_manager_module__parameter-config_verify:
 
       .. rst-class:: ansible-option-title
 
@@ -593,7 +593,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-dnac_api_task_timeout"></div>
 
-      .. _ansible_collections.cisco.dnac.fabric_sites_zones_workflow_manager_module__parameter-dnac_api_task_timeout:
+      .. _ansible_collections.cisco.dnac.sda_fabric_sites_zones_workflow_manager_module__parameter-dnac_api_task_timeout:
 
       .. rst-class:: ansible-option-title
 
@@ -631,7 +631,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div>
 
-      .. _ansible_collections.cisco.dnac.fabric_sites_zones_workflow_manager_module__parameter-dnac_debug:
+      .. _ansible_collections.cisco.dnac.sda_fabric_sites_zones_workflow_manager_module__parameter-dnac_debug:
 
       .. rst-class:: ansible-option-title
 
@@ -673,7 +673,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div>
 
-      .. _ansible_collections.cisco.dnac.fabric_sites_zones_workflow_manager_module__parameter-dnac_host:
+      .. _ansible_collections.cisco.dnac.sda_fabric_sites_zones_workflow_manager_module__parameter-dnac_host:
 
       .. rst-class:: ansible-option-title
 
@@ -707,7 +707,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-dnac_log"></div>
 
-      .. _ansible_collections.cisco.dnac.fabric_sites_zones_workflow_manager_module__parameter-dnac_log:
+      .. _ansible_collections.cisco.dnac.sda_fabric_sites_zones_workflow_manager_module__parameter-dnac_log:
 
       .. rst-class:: ansible-option-title
 
@@ -759,7 +759,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-dnac_log_append"></div>
 
-      .. _ansible_collections.cisco.dnac.fabric_sites_zones_workflow_manager_module__parameter-dnac_log_append:
+      .. _ansible_collections.cisco.dnac.sda_fabric_sites_zones_workflow_manager_module__parameter-dnac_log_append:
 
       .. rst-class:: ansible-option-title
 
@@ -801,7 +801,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-dnac_log_file_path"></div>
 
-      .. _ansible_collections.cisco.dnac.fabric_sites_zones_workflow_manager_module__parameter-dnac_log_file_path:
+      .. _ansible_collections.cisco.dnac.sda_fabric_sites_zones_workflow_manager_module__parameter-dnac_log_file_path:
 
       .. rst-class:: ansible-option-title
 
@@ -843,7 +843,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-dnac_log_level"></div>
 
-      .. _ansible_collections.cisco.dnac.fabric_sites_zones_workflow_manager_module__parameter-dnac_log_level:
+      .. _ansible_collections.cisco.dnac.sda_fabric_sites_zones_workflow_manager_module__parameter-dnac_log_level:
 
       .. rst-class:: ansible-option-title
 
@@ -891,7 +891,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div>
 
-      .. _ansible_collections.cisco.dnac.fabric_sites_zones_workflow_manager_module__parameter-dnac_password:
+      .. _ansible_collections.cisco.dnac.sda_fabric_sites_zones_workflow_manager_module__parameter-dnac_password:
 
       .. rst-class:: ansible-option-title
 
@@ -925,7 +925,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div>
 
-      .. _ansible_collections.cisco.dnac.fabric_sites_zones_workflow_manager_module__parameter-dnac_port:
+      .. _ansible_collections.cisco.dnac.sda_fabric_sites_zones_workflow_manager_module__parameter-dnac_port:
 
       .. rst-class:: ansible-option-title
 
@@ -963,7 +963,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-dnac_task_poll_interval"></div>
 
-      .. _ansible_collections.cisco.dnac.fabric_sites_zones_workflow_manager_module__parameter-dnac_task_poll_interval:
+      .. _ansible_collections.cisco.dnac.sda_fabric_sites_zones_workflow_manager_module__parameter-dnac_task_poll_interval:
 
       .. rst-class:: ansible-option-title
 
@@ -1002,8 +1002,8 @@ Parameters
         <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
         <div class="ansibleOptionAnchor" id="parameter-user"></div>
 
-      .. _ansible_collections.cisco.dnac.fabric_sites_zones_workflow_manager_module__parameter-dnac_username:
-      .. _ansible_collections.cisco.dnac.fabric_sites_zones_workflow_manager_module__parameter-user:
+      .. _ansible_collections.cisco.dnac.sda_fabric_sites_zones_workflow_manager_module__parameter-dnac_username:
+      .. _ansible_collections.cisco.dnac.sda_fabric_sites_zones_workflow_manager_module__parameter-user:
 
       .. rst-class:: ansible-option-title
 
@@ -1045,7 +1045,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div>
 
-      .. _ansible_collections.cisco.dnac.fabric_sites_zones_workflow_manager_module__parameter-dnac_verify:
+      .. _ansible_collections.cisco.dnac.sda_fabric_sites_zones_workflow_manager_module__parameter-dnac_verify:
 
       .. rst-class:: ansible-option-title
 
@@ -1087,7 +1087,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div>
 
-      .. _ansible_collections.cisco.dnac.fabric_sites_zones_workflow_manager_module__parameter-dnac_version:
+      .. _ansible_collections.cisco.dnac.sda_fabric_sites_zones_workflow_manager_module__parameter-dnac_version:
 
       .. rst-class:: ansible-option-title
 
@@ -1125,7 +1125,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-state"></div>
 
-      .. _ansible_collections.cisco.dnac.fabric_sites_zones_workflow_manager_module__parameter-state:
+      .. _ansible_collections.cisco.dnac.sda_fabric_sites_zones_workflow_manager_module__parameter-state:
 
       .. rst-class:: ansible-option-title
 
@@ -1167,7 +1167,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
 
-      .. _ansible_collections.cisco.dnac.fabric_sites_zones_workflow_manager_module__parameter-validate_response_schema:
+      .. _ansible_collections.cisco.dnac.sda_fabric_sites_zones_workflow_manager_module__parameter-validate_response_schema:
 
       .. rst-class:: ansible-option-title
 
@@ -1233,78 +1233,7 @@ Examples
 
     
     - name: Create a fabric site for SDA with the specified name.
-      cisco.dnac.fabric_sites_zones_workflow_manager:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
-        dnac_log_level: "{{dnac_log_level}}"
-        dnac_log: False
-        state: merged
-        config:
-          - fabric sites:
-              site_name: "Global/Test_SDA/Bld1"
-              authentication_profile: "Closed Authentication"
-              is_pub_sub_enabled: False
-
-    - name: Update a fabric site for SDA with the specified name.
-      cisco.dnac.fabric_sites_zones_workflow_manager:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
-        dnac_log_level: "{{dnac_log_level}}"
-        dnac_log: False
-        state: merged
-        config:
-          - fabric sites:
-              site_name: "Global/Test_SDA/Bld1"
-              authentication_profile: "Open Authentication"
-
-    - name: Update a fabric zone for SDA with the specified name.
-      cisco.dnac.fabric_sites_zones_workflow_manager:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
-        dnac_log_level: "{{dnac_log_level}}"
-        dnac_log: False
-        state: merged
-        config:
-          - fabric sites:
-              site_name: "Global/Test_SDA/Bld1/Floor1"
-              fabric_type: "fabric_zone"
-              authentication_profile: "Closed Authentication"
-
-    - name: Update fabric zone for sda with given name.
-      cisco.dnac.fabric_sites_zones_workflow_manager:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
-        dnac_log_level: "{{dnac_log_level}}"
-        dnac_log: False
-        state: merged
-        config:
-          - fabric sites:
-              site_name: "Global/Test_SDA/Bld1/Floor1"
-              fabric_type: "fabric_zone"
-              authentication_profile: "Open Authentication"
-
-    - name: Update/customise authentication profile template for fabric site/zone.
-      cisco.dnac.fabric_sites_zones_workflow_manager:
+      cisco.dnac.sda_fabric_sites_zones_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
         dnac_password: "{{dnac_password}}"
@@ -1317,7 +1246,78 @@ Examples
         state: merged
         config:
           - fabric_sites:
-              site_name: "Global/Test_SDA/Bld1"
+            - site_name: "Global/Test_SDA/Bld1"
+              authentication_profile: "Closed Authentication"
+              is_pub_sub_enabled: False
+
+    - name: Update a fabric site for SDA with the specified name.
+      cisco.dnac.sda_fabric_sites_zones_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log_level: "{{dnac_log_level}}"
+        dnac_log: False
+        state: merged
+        config:
+          - fabric_sites:
+            - site_name: "Global/Test_SDA/Bld1"
+              authentication_profile: "Open Authentication"
+
+    - name: Update a fabric zone for SDA with the specified name.
+      cisco.dnac.sda_fabric_sites_zones_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log_level: "{{dnac_log_level}}"
+        dnac_log: False
+        state: merged
+        config:
+          - fabric_sites:
+            - site_name: "Global/Test_SDA/Bld1/Floor1"
+              fabric_type: "fabric_zone"
+              authentication_profile: "Closed Authentication"
+
+    - name: Update fabric zone for sda with given name.
+      cisco.dnac.sda_fabric_sites_zones_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log_level: "{{dnac_log_level}}"
+        dnac_log: False
+        state: merged
+        config:
+          - fabric_sites:
+            - site_name: "Global/Test_SDA/Bld1/Floor1"
+              fabric_type: "fabric_zone"
+              authentication_profile: "Open Authentication"
+
+    - name: Update/customise authentication profile template for fabric site/zone.
+      cisco.dnac.sda_fabric_sites_zones_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log_level: "{{dnac_log_level}}"
+        dnac_log: False
+        state: merged
+        config:
+          - fabric_sites:
+            - site_name: "Global/Test_SDA/Bld1"
               fabric_type: "fabric_zone"
               authentication_profile: "Open Authentication"
               is_pub_sub_enabled: False
@@ -1328,7 +1328,7 @@ Examples
                 number_of_hosts: "Single"
 
     - name: Deleting/removing fabric site from sda from Cisco Catalyst Center
-      cisco.dnac.fabric_sites_zones_workflow_manager:
+      cisco.dnac.sda_fabric_sites_zones_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
         dnac_password: "{{dnac_password}}"
@@ -1341,10 +1341,10 @@ Examples
         state: deleted
         config:
           - fabric_sites:
-              site_name: "Global/Test_SDA/Bld1"
+            - site_name: "Global/Test_SDA/Bld1"
 
     - name: Deleting/removing fabric zone from sda from Cisco Catalyst Center
-      cisco.dnac.fabric_sites_zones_workflow_manager:
+      cisco.dnac.sda_fabric_sites_zones_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
         dnac_password: "{{dnac_password}}"
@@ -1357,7 +1357,7 @@ Examples
         state: deleted
         config:
           - fabric_sites:
-              site_name: "Global/Test_SDA/Bld1/Floor1"
+            - site_name: "Global/Test_SDA/Bld1/Floor1"
               fabric_type: "fabric_zone"
 
 
@@ -1388,7 +1388,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="return-dnac_response"></div>
 
-      .. _ansible_collections.cisco.dnac.fabric_sites_zones_workflow_manager_module__return-dnac_response:
+      .. _ansible_collections.cisco.dnac.sda_fabric_sites_zones_workflow_manager_module__return-dnac_response:
 
       .. rst-class:: ansible-option-title
 
