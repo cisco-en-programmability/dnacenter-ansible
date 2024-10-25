@@ -88,6 +88,7 @@ options:
                                   managing traffic entering or exiting the SDA environment.
                   - WIRELESS_CONTROLLER_NODE - Manages and controls wireless access points and
                                                devices within the network.
+                - For 'WIRELESS_CONTROLLER_NODE', the check for the provisioning status will be added in 2.3.7.6 SDK.
                 choices: [CONTROL_PLANE_NODE, EDGE_NODE, BORDER_NODE, WIRELESS_CONTROLLER_NODE]
                 type: list
                 elements: str
@@ -1043,22 +1044,22 @@ class FabricDevices(DnacBase):
         )
         return transit_id
 
-    def get_device_id_from_ip(self, device_ip):
+    def get_device_details_from_ip(self, device_ip):
         """
-        Get the network device ID from the network device IP.
+        Get the network device details from the network device IP.
 
         Parameters:
             device_ip (str): The IP address of the network device.
         Returns:
-            device_id (str or None): The ID of the network device. None, if the device doesnot exist.
+            device_details (dict or None): The details of the network device. None, if the device doesnot exist.
         Description:
             Call the API 'get_device_list' by setting the 'management_ip_address' field with the
             given IP address.
-            If the response is not empty, fetch the Id and return. Else, return None.
+            If the response is not empty, return the device details. Else, return None.
         """
 
-        self.log("Starting to get device ID for device IP: '{ip}'.".format(ip=device_ip), "DEBUG")
-        device_id = None
+        self.log("Starting to get device details for device IP: '{ip}'.".format(ip=device_ip), "DEBUG")
+        device_details = None
         try:
             device_details = self.dnac._exec(
                 family="devices",
@@ -1077,17 +1078,8 @@ class FabricDevices(DnacBase):
                     "There is no device with the IP address '{ip_address}'."
                     .format(ip_address=device_ip), "DEBUG"
                 )
-                return device_id
+                return device_details
 
-            self.log(
-                "The device with the IP {ip} is a valid network device IP."
-                .format(ip=device_ip), "DEBUG"
-            )
-            device_id = device_details[0].get("id")
-            self.log(
-                "Device ID found: '{id}' for device IP: '{ip}'."
-                .format(id=device_id, ip=device_ip), "DEBUG"
-            )
         except Exception as msg:
             self.msg = (
                 "Exception occured while running the API 'get_device_list': {msg}"
@@ -1098,9 +1090,9 @@ class FabricDevices(DnacBase):
             return self.check_return_status()
 
         self.log(
-            "Returning device ID: '{id}'.".format(id=device_id), "DEBUG"
+            "Returning device details: '{details}'.".format(details=device_details), "DEBUG"
         )
-        return device_id
+        return device_details
 
     def check_valid_virtual_network_name(self, virtual_network_name):
         """
@@ -2076,8 +2068,8 @@ class FabricDevices(DnacBase):
                 "Fetching network device ID for IP '{device_ip}'."
                 .format(device_ip=fabric_device_ip), "INFO"
             )
-            network_device_id = self.get_device_id_from_ip(fabric_device_ip)
-            if not network_device_id:
+            network_device_details = self.get_device_details_from_ip(fabric_device_ip)
+            if not network_device_details:
                 self.msg = (
                     "The 'device_ip' '{ip}' in 'device_config' is not a valid IP under the fabric '{fabric_name}'."
                     .format(ip=fabric_device_ip, fabric_name=fabric_name)
@@ -2087,12 +2079,30 @@ class FabricDevices(DnacBase):
                 return self
 
             self.log(
+                "The device with the IP {ip} is a valid network device IP."
+                .format(ip=fabric_device_ip), "DEBUG"
+            )
+            network_device_id = network_device_details[0].get("id")
+            self.log(
                 "Obtained network device ID: {network_device_id}."
                 .format(network_device_id=network_device_id), "DEBUG"
             )
+            family_name = network_device_details[0].get("family")
+            if family_name != "Wireless Controller":
+                self.log(
+                    "The device with the IP '{ip}' is not a Wireless Controller, "
+                    "proceeding with provisioning checks."
+                )
+                self.check_device_is_provisioned(fabric_device_ip,
+                                                 network_device_id,
+                                                 site_id,
+                                                 fabric_name).check_return_status()
+            else:
+                self.log(
+                    "The device with the IP '{ip}' is a Wireless Controller, "
+                    "skipping provisioning checks."
+                )
 
-            # The device should be provisioned to the site
-            self.check_device_is_provisioned(fabric_device_ip, network_device_id, site_id, fabric_name).check_return_status()
             delete_fabric_device = item.get("delete_fabric_device")
             if delete_fabric_device is None:
                 delete_fabric_device = False
