@@ -1,0 +1,3128 @@
+
+.. Document meta
+
+:orphan:
+
+.. |antsibull-internal-nbsp| unicode:: 0xA0
+    :trim:
+
+.. role:: ansible-attribute-support-label
+.. role:: ansible-attribute-support-property
+.. role:: ansible-attribute-support-full
+.. role:: ansible-attribute-support-partial
+.. role:: ansible-attribute-support-none
+.. role:: ansible-attribute-support-na
+.. role:: ansible-option-type
+.. role:: ansible-option-elements
+.. role:: ansible-option-required
+.. role:: ansible-option-versionadded
+.. role:: ansible-option-aliases
+.. role:: ansible-option-choices
+.. role:: ansible-option-choices-default-mark
+.. role:: ansible-option-default-bold
+.. role:: ansible-option-configuration
+.. role:: ansible-option-returned-bold
+.. role:: ansible-option-sample-bold
+
+.. Anchors
+
+.. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module:
+
+.. Anchors: short name for ansible.builtin
+
+.. Anchors: aliases
+
+
+
+.. Title
+
+cisco.dnac.sda_fabric_devices_workflow_manager module -- Manage SDA fabric devices in Cisco Catalyst Center.
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. Collection note
+
+.. note::
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.22.0).
+
+    To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module_requirements>` for details.
+
+    To use it in a playbook, specify: :code:`cisco.dnac.sda_fabric_devices_workflow_manager`.
+
+.. version_added
+
+.. rst-class:: ansible-version-added
+
+New in cisco.dnac 6.21.0
+
+.. contents::
+   :local:
+   :depth: 1
+
+.. Deprecated
+
+
+Synopsis
+--------
+
+.. Description
+
+- Perform operations on SDA fabric devices, including adding, updating, and deleting fabric devices.
+- Manage L2 handoffs for fabric devices, including adding and deleting configurations.
+- Manage L3 handoffs for fabric devices with IP transit, including adding, updating, and deleting configurations.
+- Manage L3 handoffs for fabric devices with SDA transit, including adding, updating, and deleting configurations.
+
+
+.. Aliases
+
+
+.. Requirements
+
+.. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module_requirements:
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- dnacentersdk \>= 2.9.2
+- python \>= 3.9
+
+
+
+
+
+
+.. Options
+
+Parameters
+----------
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Parameter
+    - Comments
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__parameter-config:
+
+      .. rst-class:: ansible-option-title
+
+      **config**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A list of SDA fabric device configurations associated with fabric sites.
+
+      Each entry in the list represents the configurations for devices within a fabric site.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_devices"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__parameter-config/fabric_devices:
+
+      .. rst-class:: ansible-option-title
+
+      **fabric_devices**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_devices" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Configuration details for SDA fabric devices associated with a fabric site.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/device_config"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__parameter-config/fabric_devices/device_config:
+
+      .. rst-class:: ansible-option-title
+
+      **device_config**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_devices/device_config" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A list of devices with their respective border settings, L2 handoff, L3 handoff with SDA transit, and L3 handoff with IP transit.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/device_config/borders_settings"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__parameter-config/fabric_devices/device_config/borders_settings:
+
+      .. rst-class:: ansible-option-title
+
+      **borders_settings**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_devices/device_config/borders_settings" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Effective only when the 'device\_roles' contains BORDER\_NODE.
+
+      This parameter is required when adding the device to a fabric site with the \`BORDER\_NODE\` role.
+
+      Updates to \`borders\_settings\` are allowed after the initial configuration.
+
+      Border type can be Layer2 or Layer3.
+
+      Border type can be Layer2 or Layer3, identified based on the presence of L2 Handoff or L3 Handoff with IP or SDA transit.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/device_config/borders_settings/layer2_handoff"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__parameter-config/fabric_devices/device_config/borders_settings/layer2_handoff:
+
+      .. rst-class:: ansible-option-title
+
+      **layer2_handoff**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_devices/device_config/borders_settings/layer2_handoff" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Adds layer 2 handoffs in fabric devices.
+
+      This parameter cannots be updated.
+
+      Configured while transferring a device's data traffic at Layer 2 (Data Link layer).
+
+      If 'layer2\_handoff' is set, the border type will be considered as Layer2.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/device_config/borders_settings/layer2_handoff/external_vlan_id"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__parameter-config/fabric_devices/device_config/borders_settings/layer2_handoff/external_vlan_id:
+
+      .. rst-class:: ansible-option-title
+
+      **external_vlan_id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_devices/device_config/borders_settings/layer2_handoff/external_vlan_id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Represents to the VLAN identifier used for traffic that exits the fabric to external networks.
+
+      Should be unique across the entire fabric site settings.
+
+      This parameter is required for all operations in 'layer2\_handoff'.
+
+      The 'external\_vlan\_id' can range from 1 to 4094, excluding 1, 1002-1005, 2046, and 4094.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/device_config/borders_settings/layer2_handoff/interface_name"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__parameter-config/fabric_devices/device_config/borders_settings/layer2_handoff/interface_name:
+
+      .. rst-class:: ansible-option-title
+
+      **interface_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_devices/device_config/borders_settings/layer2_handoff/interface_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Refers to the specific network interface in the border device.
+
+      This parameter is required for all operations in L2 Handoff.
+
+      The 'interface\_name' cannot be updated.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/device_config/borders_settings/layer2_handoff/internal_vlan_id"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__parameter-config/fabric_devices/device_config/borders_settings/layer2_handoff/internal_vlan_id:
+
+      .. rst-class:: ansible-option-title
+
+      **internal_vlan_id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_devices/device_config/borders_settings/layer2_handoff/internal_vlan_id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Represents the VLAN identifier used within the fabric for traffic segmentation among devices.
+
+      Should be unique across the entire fabric site settings.
+
+      This parameter is required for all operations in layer2\_handoff.
+
+      The 'internal\_vlan\_id' can range from 1 to 4094, excluding 1, 1002-1005, 2046, and 4094.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/device_config/borders_settings/layer3_handoff_ip_transit"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__parameter-config/fabric_devices/device_config/borders_settings/layer3_handoff_ip_transit:
+
+      .. rst-class:: ansible-option-title
+
+      **layer3_handoff_ip_transit**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_devices/device_config/borders_settings/layer3_handoff_ip_transit" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Adds layer 3 handoffs with ip transit in fabric devices.
+
+      Configured when IP traffic is routed from the SDA fabric to external networks.
+
+      If 'layer3\_handoff\_ip\_transit' is set, border type will be considered as Layer3.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/device_config/borders_settings/layer3_handoff_ip_transit/external_connectivity_ip_pool_name"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__parameter-config/fabric_devices/device_config/borders_settings/layer3_handoff_ip_transit/external_connectivity_ip_pool_name:
+
+      .. rst-class:: ansible-option-title
+
+      **external_connectivity_ip_pool_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_devices/device_config/borders_settings/layer3_handoff_ip_transit/external_connectivity_ip_pool_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Denotes the IP address range allocated for communication between the SDA fabric and external networks.
+
+      This parameter is required for adding the L3 Handoff with IP transit.
+
+      The IP pool must be reserved in the fabric site.
+
+      If \`external\_connectivity\_ip\_pool\_name\` is specified, there is no need to set the local and remote addresses.
+
+      Specifying \`external\_connectivity\_ip\_pool\_name\` will automatically configure the local and remote addresses.
+
+      If both are set, \`external\_connectivity\_ip\_pool\_name\` takes precedence.
+
+      Updating IP addresses is not permitted.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/device_config/borders_settings/layer3_handoff_ip_transit/interface_name"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__parameter-config/fabric_devices/device_config/borders_settings/layer3_handoff_ip_transit/interface_name:
+
+      .. rst-class:: ansible-option-title
+
+      **interface_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_devices/device_config/borders_settings/layer3_handoff_ip_transit/interface_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Refers to the specific network interface in the border device.
+
+      This parameter is required for all operations in L3 Handoff with IP transit.
+
+      This parameter cannot be updated after being set.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/device_config/borders_settings/layer3_handoff_ip_transit/local_ip_address"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__parameter-config/fabric_devices/device_config/borders_settings/layer3_handoff_ip_transit/local_ip_address:
+
+      .. rst-class:: ansible-option-title
+
+      **local_ip_address**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_devices/device_config/borders_settings/layer3_handoff_ip_transit/local_ip_address" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      IP address assigned to a device's interface within the fabric.
+
+      The 'local\_ip\_address' is for IPv4.
+
+      Both 'local\_ip\_address' and 'remote\_ip\_address' must fall within the same subnet.
+
+      Either local and remote addresses or \`external\_connectivity\_ip\_pool\_name\` is required.
+
+      If local and remote addresses are provided with 'external\_connectivity\_ip\_pool\_name', \`external\_connectivity\_ip\_pool\_name\` takes precedence.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/device_config/borders_settings/layer3_handoff_ip_transit/local_ipv6_address"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__parameter-config/fabric_devices/device_config/borders_settings/layer3_handoff_ip_transit/local_ipv6_address:
+
+      .. rst-class:: ansible-option-title
+
+      **local_ipv6_address**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_devices/device_config/borders_settings/layer3_handoff_ip_transit/local_ipv6_address" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      IP address assigned to a device's interface within the fabric.
+
+      The local\_ipv6\_address is for IPv6.
+
+      Both 'local\_ipv6\_address' and 'remote\_ipv6\_address' must fall within the same subnet.
+
+      If 'remote\_ipv6\_address' is provided, then 'local\_ipv6\_address' is required.
+
+      If local and remote addresses are provided with 'external\_connectivity\_ip\_pool\_name', \`external\_connectivity\_ip\_pool\_name\` takes precedence.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/device_config/borders_settings/layer3_handoff_ip_transit/remote_ip_address"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__parameter-config/fabric_devices/device_config/borders_settings/layer3_handoff_ip_transit/remote_ip_address:
+
+      .. rst-class:: ansible-option-title
+
+      **remote_ip_address**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_devices/device_config/borders_settings/layer3_handoff_ip_transit/remote_ip_address" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      IP address of a device located outside the fabric network, often used for BGP peering.
+
+      The 'remote\_ip\_address' is for IPv4.
+
+      Both 'local\_ip\_address' and 'remote\_ip\_address' must fall within the same subnet.
+
+      Either local and remote addresses or \`external\_connectivity\_ip\_pool\_name\` is required.
+
+      If local and remote addresses are provided with 'external\_connectivity\_ip\_pool\_name', \`external\_connectivity\_ip\_pool\_name\` takes precedence.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/device_config/borders_settings/layer3_handoff_ip_transit/remote_ipv6_address"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__parameter-config/fabric_devices/device_config/borders_settings/layer3_handoff_ip_transit/remote_ipv6_address:
+
+      .. rst-class:: ansible-option-title
+
+      **remote_ipv6_address**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_devices/device_config/borders_settings/layer3_handoff_ip_transit/remote_ipv6_address" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      IP address of a device located outside the fabric network, often used for BGP peering.
+
+      The 'remote\_ipv6\_address' is for IPv6.
+
+      Both 'local\_ipv6\_address' and 'remote\_ipv6\_address' must fall within the same subnet.
+
+      If 'local\_ipv6\_address' is provided, then 'remote\_ipv6\_address' is required.
+
+      If local and remote addresses are provided with 'external\_connectivity\_ip\_pool\_name', \`external\_connectivity\_ip\_pool\_name\` takes precedence.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/device_config/borders_settings/layer3_handoff_ip_transit/tcp_mss_adjustment"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__parameter-config/fabric_devices/device_config/borders_settings/layer3_handoff_ip_transit/tcp_mss_adjustment:
+
+      .. rst-class:: ansible-option-title
+
+      **tcp_mss_adjustment**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_devices/device_config/borders_settings/layer3_handoff_ip_transit/tcp_mss_adjustment" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Allows the modification of the Maximum Segment Size in TCP packets.
+
+      The 'tcp\_mss\_adjustment' can be set from 500 to 1440.
+
+      This parameter can be updated after being initially set.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/device_config/borders_settings/layer3_handoff_ip_transit/transit_network_name"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__parameter-config/fabric_devices/device_config/borders_settings/layer3_handoff_ip_transit/transit_network_name:
+
+      .. rst-class:: ansible-option-title
+
+      **transit_network_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_devices/device_config/borders_settings/layer3_handoff_ip_transit/transit_network_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Network that connects multiple SDA fabrics or networks.
+
+      Required for all operations in L3 Handoff with IP transit.
+
+      It is not possible to update \`transit\_network\_name\` after initial configuration.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/device_config/borders_settings/layer3_handoff_ip_transit/virtual_network_name"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__parameter-config/fabric_devices/device_config/borders_settings/layer3_handoff_ip_transit/virtual_network_name:
+
+      .. rst-class:: ansible-option-title
+
+      **virtual_network_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_devices/device_config/borders_settings/layer3_handoff_ip_transit/virtual_network_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Refers to the logical segmentation of the network, grouping devices into isolated virtual networks.
+
+      Either \`virtual\_network\_name\` or \`vlan\_id\` is required for all operations in L3 Handoff with IP transit.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/device_config/borders_settings/layer3_handoff_ip_transit/vlan_id"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__parameter-config/fabric_devices/device_config/borders_settings/layer3_handoff_ip_transit/vlan_id:
+
+      .. rst-class:: ansible-option-title
+
+      **vlan_id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_devices/device_config/borders_settings/layer3_handoff_ip_transit/vlan_id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Unique identifier assigned to a Virtual Local Area Network (VLAN).
+
+      Should be unique across the entire fabric site settings.
+
+      The 'vlan\_id' can range from 1 to 4094, excluding 1, 1002-1005, 2046, and 4094.
+
+      Either \`virtual\_network\_name\` or \`vlan\_id\` is required for all operations in L3 Handoff with IP transit.
+
+      This parameter cannot be updated once set.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/device_config/borders_settings/layer3_handoff_sda_transit"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__parameter-config/fabric_devices/device_config/borders_settings/layer3_handoff_sda_transit:
+
+      .. rst-class:: ansible-option-title
+
+      **layer3_handoff_sda_transit**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_devices/device_config/borders_settings/layer3_handoff_sda_transit" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Adds layer 3 handoffs with SDA transit in fabric devices.
+
+      Configured when routing traffic is routed from the SDA fabric to external networks.
+
+      If 'layer3\_handoff\_sda\_transit' is set, border type will be considered as Layer3.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/device_config/borders_settings/layer3_handoff_sda_transit/affinity_id_decider"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__parameter-config/fabric_devices/device_config/borders_settings/layer3_handoff_sda_transit/affinity_id_decider:
+
+      .. rst-class:: ansible-option-title
+
+      **affinity_id_decider**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_devices/device_config/borders_settings/layer3_handoff_sda_transit/affinity_id_decider" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      If the 'affinity\_id\_prime' value is the same, the 'affinity\_id\_decider' value is used as a tiebreaker.
+
+      The lower the relative value of 'affinity\_id\_decider', the higher the preference.
+
+      The 'affinity\_id\_decider' ranges from 0 to 2147483647.
+
+      The 'affinity\_id\_decider' can be updated.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/device_config/borders_settings/layer3_handoff_sda_transit/affinity_id_prime"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__parameter-config/fabric_devices/device_config/borders_settings/layer3_handoff_sda_transit/affinity_id_prime:
+
+      .. rst-class:: ansible-option-title
+
+      **affinity_id_prime**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_devices/device_config/borders_settings/layer3_handoff_sda_transit/affinity_id_prime" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      It supersedes the border priority to determine border node preference.
+
+      The lower the relative value of 'affinity\_id\_prime', the higher the preference.
+
+      Resources with the same affinity ID are treated similarly and affinity\_id\_decider decides the priority.
+
+      The 'affinity\_id\_prime' ranges from 0 to 2147483647.
+
+      The 'affinity\_id\_prime' can be updated.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/device_config/borders_settings/layer3_handoff_sda_transit/connected_to_internet"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__parameter-config/fabric_devices/device_config/borders_settings/layer3_handoff_sda_transit/connected_to_internet:
+
+      .. rst-class:: ansible-option-title
+
+      **connected_to_internet**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_devices/device_config/borders_settings/layer3_handoff_sda_transit/connected_to_internet" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Set this true to allow associated site to provide internet access to other sites through SDA.
+
+      Default value is false.
+
+      This parameter can be updated.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/device_config/borders_settings/layer3_handoff_sda_transit/is_multicast_over_transit_enabled"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__parameter-config/fabric_devices/device_config/borders_settings/layer3_handoff_sda_transit/is_multicast_over_transit_enabled:
+
+      .. rst-class:: ansible-option-title
+
+      **is_multicast_over_transit_enabled**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_devices/device_config/borders_settings/layer3_handoff_sda_transit/is_multicast_over_transit_enabled" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Set this true to configure native multicast over multiple sites that are connected to an SDA transit.
+
+      Default value is false.
+
+      This parameter can be updated.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/device_config/borders_settings/layer3_handoff_sda_transit/transit_network_name"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__parameter-config/fabric_devices/device_config/borders_settings/layer3_handoff_sda_transit/transit_network_name:
+
+      .. rst-class:: ansible-option-title
+
+      **transit_network_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_devices/device_config/borders_settings/layer3_handoff_sda_transit/transit_network_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Network that connects multiple SDA fabrics or networks.
+
+      This parameter is required for all operations in L3 Handoff with SDA transit.
+
+      The transit\_network\_name cannot be updated.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/device_config/borders_settings/layer3_settings"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__parameter-config/fabric_devices/device_config/borders_settings/layer3_settings:
+
+      .. rst-class:: ansible-option-title
+
+      **layer3_settings**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_devices/device_config/borders_settings/layer3_settings" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Configures a device with a Layer3 border type.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/device_config/borders_settings/layer3_settings/border_priority"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__parameter-config/fabric_devices/device_config/borders_settings/layer3_settings/border_priority:
+
+      .. rst-class:: ansible-option-title
+
+      **border_priority**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_devices/device_config/borders_settings/layer3_settings/border_priority" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Sets the preference level for this Border Node when multiple border nodes are present.
+
+      Higher-priority nodes are favored for routing traffic to external networks.
+
+      Acceptable range is from 1 to 9. If not set, the default value is 10.
+
+      This parameter can be updated.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`10`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/device_config/borders_settings/layer3_settings/import_external_routes"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__parameter-config/fabric_devices/device_config/borders_settings/layer3_settings/import_external_routes:
+
+      .. rst-class:: ansible-option-title
+
+      **import_external_routes**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_devices/device_config/borders_settings/layer3_settings/import_external_routes" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Determines whether routes from external networks are imported into the fabric.
+
+      Enhances security by limiting route usage to internal routes.
+
+      The 'import\_external\_routes' can be updated.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/device_config/borders_settings/layer3_settings/is_default_exit"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__parameter-config/fabric_devices/device_config/borders_settings/layer3_settings/is_default_exit:
+
+      .. rst-class:: ansible-option-title
+
+      **is_default_exit**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_devices/device_config/borders_settings/layer3_settings/is_default_exit" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Indicates whether this Border Node serves as the default gateway for traffic exiting the virtual network.
+
+      The \`is\_default\_exit\` can be updated.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/device_config/borders_settings/layer3_settings/local_autonomous_system_number"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__parameter-config/fabric_devices/device_config/borders_settings/layer3_settings/local_autonomous_system_number:
+
+      .. rst-class:: ansible-option-title
+
+      **local_autonomous_system_number**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_devices/device_config/borders_settings/layer3_settings/local_autonomous_system_number" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Identifies the local autonomous system in BGP routing.
+
+      This parameter is required when adding a device with the \`BORDER\_NODE\` role.
+
+      The \`local\_autonomous\_system\_number\` cannot be updated once set.
+
+      Acceptable range is from 1 to 4,294,967,295.
+
+      Dot notation (1.0 to 65535.65535) is also allowed. For example, 65534.65535.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/device_config/borders_settings/layer3_settings/prepend_autonomous_system_count"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__parameter-config/fabric_devices/device_config/borders_settings/layer3_settings/prepend_autonomous_system_count:
+
+      .. rst-class:: ansible-option-title
+
+      **prepend_autonomous_system_count**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_devices/device_config/borders_settings/layer3_settings/prepend_autonomous_system_count" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Increases the AS path length artificially when advertising routes via BGP.
+
+      It makes the route less attractive to external peers.
+
+      Acceptable range is from 1 to 10. If not set, the default value is 0.
+
+      This parameter can be updated.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`0`
+
+      .. raw:: html
+
+        </div>
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/device_config/delete_fabric_device"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__parameter-config/fabric_devices/device_config/delete_fabric_device:
+
+      .. rst-class:: ansible-option-title
+
+      **delete_fabric_device**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_devices/device_config/delete_fabric_device" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Effective only when the state is deleted.
+
+      Set to true to delete the device from the fabric site, or false to retain it.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/device_config/device_ip"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__parameter-config/fabric_devices/device_config/device_ip:
+
+      .. rst-class:: ansible-option-title
+
+      **device_ip**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_devices/device_config/device_ip" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      IP address of the device to be added to the fabric site.
+
+      Mandatory parameter for all operations under fabric\_devices.
+
+      Device must be provisioned to the site prior to configuration.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/device_config/device_roles"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__parameter-config/fabric_devices/device_config/device_roles:
+
+      .. rst-class:: ansible-option-title
+
+      **device_roles**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_devices/device_config/device_roles" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the role(s) of the device within the fabric site.
+
+      This parameter is required when adding the device to the fabric site.
+
+      The device roles cannot be updated once assigned.
+
+      At least one device must be a CONTROL\_PLANE\_NODE to assign roles to other devices.
+
+      Available roles, - CONTROL\_PLANE\_NODE - Manages the mapping of endpoint IP addresses to their location within the network using LISP, enabling mobility. - EDGE\_NODE - Connects endpoints to the SDA network, handling policy enforcement, segmentation, and communication with the control plane. - BORDER\_NODE - Acts as the gateway between the fabric and external networks, managing traffic entering or exiting the SDA environment. - WIRELESS\_CONTROLLER\_NODE - Manages and controls wireless access points and devices within the network.
+
+      For 'WIRELESS\_CONTROLLER\_NODE', the check for the provisioning status will be added in 2.3.7.6 SDK.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"CONTROL\_PLANE\_NODE"`
+      - :ansible-option-choices-entry:`"EDGE\_NODE"`
+      - :ansible-option-choices-entry:`"BORDER\_NODE"`
+      - :ansible-option-choices-entry:`"WIRELESS\_CONTROLLER\_NODE"`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/fabric_name"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__parameter-config/fabric_devices/fabric_name:
+
+      .. rst-class:: ansible-option-title
+
+      **fabric_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_devices/fabric_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of the SDA fabric site.
+
+      Mandatory parameter for all operations under fabric\_devices.
+
+      The fabric site must already be created before configuring devices.
+
+      A Fabric Site is composed of networking devices operating in SD-Access Fabric roles.
+
+      A fabric site consists of networking devices in SD-Access Fabric roles, including Border Nodes, Control Plane Nodes, and Edge Nodes.
+
+      A Fabric sites may also include Fabric Wireless LAN Controllers and Fabric Wireless Access Points.
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config_verify"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__parameter-config_verify:
+
+      .. rst-class:: ansible-option-title
+
+      **config_verify**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config_verify" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Set to True to verify the Cisco Catalyst Center after applying the playbook config.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_api_task_timeout"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__parameter-dnac_api_task_timeout:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_api_task_timeout**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_api_task_timeout" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Defines the timeout in seconds for API calls to retrieve task details. If the task details are not received within this period, the process will end, and a timeout notification will be logged.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`1200`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__parameter-dnac_debug:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_debug**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Indicates whether debugging is enabled in the Cisco Catalyst Center SDK.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__parameter-dnac_host:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_host**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The hostname of the Cisco Catalyst Center.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__parameter-dnac_log:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable/disable playbook execution logging.
+
+      When true and dnac\_log\_file\_path is provided, - Create the log file at the execution location with the specified name.
+
+      When true and dnac\_log\_file\_path is not provided, - Create the log file at the execution location with the name 'dnac.log'.
+
+      When false, - Logging is disabled.
+
+      If the log file doesn't exist, - It is created in append or write mode based on the "dnac\_log\_append" flag.
+
+      If the log file exists, - It is overwritten or appended based on the "dnac\_log\_append" flag.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log_append"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__parameter-dnac_log_append:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log_append**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log_append" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Determines the mode of the file. Set to True for 'append' mode. Set to False for 'write' mode.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log_file_path"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__parameter-dnac_log_file_path:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log_file_path**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log_file_path" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Governs logging. Logs are recorded if dnac\_log is True.
+
+      If path is not specified, - When 'dnac\_log\_append' is True, 'dnac.log' is generated in the current Ansible directory; logs are appended. - When 'dnac\_log\_append' is False, 'dnac.log' is generated; logs are overwritten.
+
+      If path is specified, - When 'dnac\_log\_append' is True, the file opens in append mode. - When 'dnac\_log\_append' is False, the file opens in write (w) mode. - In shared file scenarios, without append mode, content is overwritten after each module execution. - For a shared log file, set append to False for the 1st module (to overwrite); for subsequent modules, set append to True.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"dnac.log"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log_level"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__parameter-dnac_log_level:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log_level**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log_level" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Sets the threshold for log level. Messages with a level equal to or higher than this will be logged. Levels are listed in order of severity [CRITICAL, ERROR, WARNING, INFO, DEBUG].
+
+      CRITICAL indicates serious errors halting the program. Displays only CRITICAL messages.
+
+      ERROR indicates problems preventing a function. Displays ERROR and CRITICAL messages.
+
+      WARNING indicates potential future issues. Displays WARNING, ERROR, CRITICAL messages.
+
+      INFO tracks normal operation. Displays INFO, WARNING, ERROR, CRITICAL messages.
+
+      DEBUG provides detailed diagnostic info. Displays all log messages.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"WARNING"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__parameter-dnac_password:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The password for authentication at the Cisco Catalyst Center.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__parameter-dnac_port:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the port number associated with the Cisco Catalyst Center.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"443"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_task_poll_interval"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__parameter-dnac_task_poll_interval:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_task_poll_interval**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_task_poll_interval" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the interval in seconds between successive calls to the API to retrieve task details.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`2`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-user"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__parameter-dnac_username:
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__parameter-user:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: user`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The username for authentication at the Cisco Catalyst Center.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__parameter-dnac_verify:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_verify**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable or disable SSL certificate verification.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__parameter-dnac_version:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the version of the Cisco Catalyst Center that the SDK should use.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-state"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__parameter-state:
+
+      .. rst-class:: ansible-option-title
+
+      **state**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-state" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The state of Cisco Catalyst Center after module completion.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`"merged"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"deleted"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__parameter-validate_response_schema:
+
+      .. rst-class:: ansible-option-title
+
+      **validate_response_schema**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco Catalyst Center SDK to enable the validation of request bodies against a JSON schema.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+
+.. Attributes
+
+
+.. Notes
+
+Notes
+-----
+
+.. note::
+   - SDK Method used are site\_design.SiteDesign.get\_sites, network\_settings.NetworkSettings.get\_reserve\_ip\_subpool, devices.Devices.get\_device\_list, sda.Sda.get\_transit\_networks, sda.Sda.get\_layer3\_virtual\_networks, sda.Sda.get\_fabric\_sites, sda.Sda.get\_provisioned\_devices, sda.Sda.get\_fabric\_devices\_layer2\_handoffs, sda.Sda.get\_fabric\_devices\_layer3\_handoffs\_with\_sda\_transit, sda.Sda.get\_fabric\_devices\_layer3\_handoffs\_with\_ip\_transit, sda.Sda.get\_fabric\_devices, sda.Sda.add\_fabric\_devices, sda.Sda.add\_fabric\_devices\_layer2\_handoffs, sda.Sda.add\_fabric\_devices\_layer3\_handoffs\_with\_sda\_transit, sda.Sda.add\_fabric\_devices\_layer3\_handoffs\_with\_ip\_transit, sda.Sda.update\_fabric\_devices, sda.Sda.update\_fabric\_devices\_layer3\_handoffs\_with\_sda\_transit, sda.Sda.update\_fabric\_devices\_layer3\_handoffs\_with\_ip\_transit, sda.Sda.delete\_fabric\_device\_layer2\_handoff\_by\_id, sda.Sda.delete\_fabric\_device\_by\_id, sda.Sda.delete\_fabric\_device\_layer3\_handoffs\_with\_sda\_transit, sda.Sda.delete\_fabric\_device\_layer3\_handoff\_with\_ip\_transit\_by\_id, task.Task.get\_tasks\_by\_id, task.Task.get\_task\_details\_by\_id,
+   - Paths used are get /dna/intent/api/v1/sites get /dna/intent/api/v1/reserve-ip-subpool get /dna/intent/api/v1/network-device get /dna/intent/api/v1/sda/transitNetworks get /dna/intent/api/v1/sda/layer3VirtualNetworks get /dna/intent/api/v1/sda/fabricSites get /dna/intent/api/v1/sda/provisionDevices get /dna/intent/api/v1/sda/fabricDevices/layer2Handoffs get /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/sdaTransits get /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/ipTransits get /dna/intent/api/v1/sda/fabricDevices post /dna/intent/api/v1/sda/fabricDevices post /dna/intent/api/v1/sda/fabricDevices/layer2Handoffs post /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/sdaTransits post /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/ipTransits put /dna/intent/api/v1/sda/fabricDevices put /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/sdaTransits put /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/ipTransits delete /dna/intent/api/v1/sda/fabricDevices/${id} delete /dna/intent/api/v1/sda/fabricDevices/layer2Handoffs/${id} delete /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/sdaTransits delete /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/ipTransits/${id} get /dna/intent/api/v1/tasks/${id} get /dna/intent/api/v1/tasks/${id}/detail
+   - Does not support \ :literal:`check\_mode`\ 
+   - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK
+   - The parameters starting with dnac\_ are used by the Cisco Catalyst Center Python SDK to establish the connection
+
+.. Seealso
+
+
+.. Examples
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    - name: Create SDA fabric device with device role as CONTROL_PLANE_NODE
+      cisco.dnac.sda_fabric_devices_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: True
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: merged
+        config_verify: True
+        config:
+        - fabric_devices:
+            fabric_name: Global/USA/SAN-JOSE
+            device_config:
+            - device_ip: 10.0.0.1
+              device_roles: [CONTROL_PLANE_NODE]
+
+    - name: Update the SDA fabric device with the device roles with BORDER_NODE and add L2 Handoff
+      cisco.dnac.sda_fabric_devices_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: True
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: merged
+        config_verify: True
+        config:
+        - fabric_devices:
+            fabric_name: Global/USA/SAN-JOSE
+            device_config:
+            - device_ip: 10.0.0.1
+              device_roles: [CONTROL_PLANE_NODE, BORDER_NODE]
+              borders_settings:
+                layer3_settings:
+                  local_autonomous_system_number: 1234
+                  is_default_exit: true
+                  import_external_routes: true
+                  border_priority: 2
+                  prepend_autonomous_system_count: 2
+                layer2_handoff:
+                - interface_name: FortyGigabitEthernet1/1/1
+                  internal_vlan_id: 550
+                  external_vlan_id: 551
+
+
+    - name: Add the L3 Handoff with SDA Transit to the SDA fabric device
+      cisco.dnac.sda_fabric_devices_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: True
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: merged
+        config_verify: True
+        config:
+        - fabric_devices:
+            fabric_name: Global/USA/SAN-JOSE
+            device_config:
+            - device_ip: 10.0.0.1
+              device_roles: [CONTROL_PLANE_NODE, BORDER_NODE]
+              borders_settings:
+                layer3_handoff_sda_transit:
+                  transit_network_name: SDA_PUB_SUB_TRANSIT
+                  affinity_id_prime: 1
+                  affinity_id_decider: 1
+                  connected_to_internet: true
+                  is_multicast_over_transit_enabled: false
+
+    - name: Add L3 Handoff with IP Transit to the SDA fabric device with external_connectivity_ip_pool_name
+      cisco.dnac.sda_fabric_devices_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: True
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: merged
+        config_verify: True
+        config:
+        - fabric_devices:
+            fabric_name: Global/USA/SAN-JOSE
+            device_config:
+            - device_ip: 10.0.0.1
+              device_roles: [CONTROL_PLANE_NODE, BORDER_NODE]
+              borders_settings:
+                layer3_handoff_ip_transit:
+                - transit_network_name: IP_TRANSIT_1
+                  interface_name: FortyGigabitEthernet1/1/1
+                  external_connectivity_ip_pool_name: Reserved_sda_test_1
+                  virtual_network_name: L3VN1
+                  vlan_id: 440
+                  tcp_mss_adjustment: 2
+
+    - name: Add L3 Handoff with IP Transit to the SDA fabric device with local and remote network
+      cisco.dnac.sda_fabric_devices_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: True
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: merged
+        config_verify: True
+        config:
+        - fabric_devices:
+            fabric_name: Global/USA/SAN-JOSE
+            device_config:
+            - device_ip: 10.0.0.1
+              device_roles: [CONTROL_PLANE_NODE, BORDER_NODE]
+              borders_settings:
+                layer3_handoff_ip_transit:
+                - transit_network_name: IP_TRANSIT_1
+                  interface_name: FortyGigabitEthernet1/1/1
+                  virtual_network_name: L3VN1
+                  vlan_id: 440
+                  tcp_mss_adjustment: 510
+                  local_ip_address: 10.0.0.1/24
+                  remote_ip_address: 10.0.0.2/24
+                  local_ipv6_address: 2009:db8::1/64
+                  remote_ipv6_address: 2009:db8::2/64
+
+    - name: Update the border settings of the SDA Devices
+      cisco.dnac.sda_fabric_devices_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: True
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: merged
+        config_verify: True
+        config:
+        - fabric_devices:
+            fabric_name: Global/USA/SAN-JOSE
+            device_config:
+            - device_ip: 10.0.0.1
+              device_roles: [CONTROL_PLANE_NODE, BORDER_NODE]
+              borders_settings:
+                layer3_settings:
+                  local_autonomous_system_number: 1234
+                  is_default_exit: false
+                  import_external_routes: false
+                  border_priority: 1
+                  prepend_autonomous_system_count: 3
+
+    - name: Update the L3 Handoffs with SDA Transit and IP Transit.
+      cisco.dnac.sda_fabric_devices_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: True
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: merged
+        config_verify: True
+        config:
+        - fabric_devices:
+            fabric_name: Global/USA/SAN-JOSE
+            device_config:
+            - device_ip: 10.0.0.1
+              device_roles: [CONTROL_PLANE_NODE, BORDER_NODE]
+              borders_settings:
+                layer3_handoff_sda_transit:
+                  transit_network_name: SDA_PUB_SUB_TRANSIT
+                  affinity_id_prime: 2
+                  affinity_id_decider: 2
+                  connected_to_internet: false
+                  is_multicast_over_transit_enabled: true
+
+                layer3_handoff_ip_transit:
+                - transit_network_name: IP_TRANSIT_1
+                  interface_name: FortyGigabitEthernet1/1/1
+                  virtual_network_name: L3VN1
+                  vlan_id: 440
+                  tcp_mss_adjustment: 511
+                  local_ip_address: 10.0.0.1/24
+                  remote_ip_address: 10.0.0.2/24
+                  local_ipv6_address: 2009:db8::1/64
+                  remote_ipv6_address: 2009:db8::2/64
+
+    - name: Delete the L2 Handoff
+      cisco.dnac.sda_fabric_devices_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: True
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: deleted
+        config_verify: True
+        config:
+        - fabric_devices:
+            fabric_name: Global/USA/SAN-JOSE
+            device_config:
+            - device_ip: 10.0.0.1
+              borders_settings:
+                layer2_handoff:
+                - interface_name: FortyGigabitEthernet1/1/1
+                  internal_vlan_id: 550
+
+    - name: Delete the L3 Handoff with SDA Transit
+      cisco.dnac.sda_fabric_devices_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: True
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: deleted
+        config_verify: True
+        config:
+        - fabric_devices:
+            fabric_name: Global/USA/SAN-JOSE
+            device_config:
+            - device_ip: 10.0.0.1
+              borders_settings:
+                layer3_handoff_sda_transit:
+                  transit_network_name: SDA_PUB_SUB_TRANSIT
+
+    - name: Delete the L3 Handoff with IP Transit
+      cisco.dnac.sda_fabric_devices_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: True
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: deleted
+        config_verify: True
+        config:
+        - fabric_devices:
+            fabric_name: Global/USA/SAN-JOSE
+            device_config:
+            - device_ip: 10.0.0.1
+              borders_settings:
+                layer3_handoff_ip_transit:
+                - transit_network_name: IP_TRANSIT_1
+                  interface_name: FortyGigabitEthernet1/1/1
+                  virtual_network_name: L3VN1
+
+    - name: Delete the device along with L2 Handoff and L3 Handoff
+      cisco.dnac.sda_fabric_devices_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: True
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: deleted
+        config_verify: True
+        config:
+        - fabric_devices:
+            fabric_name: Global/USA/SAN-JOSE
+            device_config:
+            - device_ip: 10.0.0.1
+              delete_fabric_device: true
+              borders_settings:
+                layer3_handoff_ip_transit:
+                - transit_network_name: IP_TRANSIT_1
+                  interface_name: FortyGigabitEthernet1/1/1
+                  virtual_network_name: L3VN1
+
+                layer3_handoff_sda_transit:
+                  transit_network_name: SDA_PUB_SUB_TRANSIT
+
+                layer2_handoff:
+                - interface_name: FortyGigabitEthernet1/1/1
+                  internal_vlan_id: 550
+
+
+
+
+.. Facts
+
+
+.. Return values
+
+Return Values
+-------------
+Common return values are documented :ref:`here <common_return_values>`, the following are the fields unique to this module:
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Key
+    - Description
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_1"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__return-response_1:
+
+      .. rst-class:: ansible-option-title
+
+      **response_1**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_1" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "string", "url": "string"}, "version": "string"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_10"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__return-response_10:
+
+      .. rst-class:: ansible-option-title
+
+      **response_10**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_10" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "string", "url": "string"}, "version": "string"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_11"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__return-response_11:
+
+      .. rst-class:: ansible-option-title
+
+      **response_11**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_11" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "string", "url": "string"}, "version": "string"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_12"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__return-response_12:
+
+      .. rst-class:: ansible-option-title
+
+      **response_12**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_12" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "string", "url": "string"}, "version": "string"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_2"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__return-response_2:
+
+      .. rst-class:: ansible-option-title
+
+      **response_2**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_2" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "string", "url": "string"}, "version": "string"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_3"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__return-response_3:
+
+      .. rst-class:: ansible-option-title
+
+      **response_3**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_3" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "string", "url": "string"}, "version": "string"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_4"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__return-response_4:
+
+      .. rst-class:: ansible-option-title
+
+      **response_4**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_4" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "string", "url": "string"}, "version": "string"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_5"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__return-response_5:
+
+      .. rst-class:: ansible-option-title
+
+      **response_5**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_5" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "string", "url": "string"}, "version": "string"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_6"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__return-response_6:
+
+      .. rst-class:: ansible-option-title
+
+      **response_6**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_6" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "string", "url": "string"}, "version": "string"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_7"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__return-response_7:
+
+      .. rst-class:: ansible-option-title
+
+      **response_7**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_7" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "string", "url": "string"}, "version": "string"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_8"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__return-response_8:
+
+      .. rst-class:: ansible-option-title
+
+      **response_8**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_8" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "string", "url": "string"}, "version": "string"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_9"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__return-response_9:
+
+      .. rst-class:: ansible-option-title
+
+      **response_9**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_9" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "string", "url": "string"}, "version": "string"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+..  Status (Presently only deprecated)
+
+
+.. Authors
+
+Authors
+~~~~~~~
+
+- Muthu Rakesh (@MUTHU-RAKESH-27) Madhan Sankaranarayanan (@madhansansel)
+
+
+
+.. Extra links
+
+Collection links
+~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+  <p class="ansible-links">
+    <a href="https://github.com/cisco-en-programmability/dnacenter-ansible/issues" aria-role="button" target="_blank" rel="noopener external">Issue Tracker</a>
+    <a href="https://github.com/cisco-en-programmability/dnacenter-ansible" aria-role="button" target="_blank" rel="noopener external">Repository (Sources)</a>
+  </p>
+
+.. Parsing errors
+

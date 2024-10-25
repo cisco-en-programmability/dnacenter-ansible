@@ -42,7 +42,7 @@ cisco.dnac.rma_workflow_manager module -- Manage device replacement workflows in
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.20.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.22.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1082,7 +1082,8 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      The desired state of the device replacement workflow.
+      The 'replaced' state is used to indicate the replacement of faulty network devices with
+          replacement network device in the workflow.
           
 
 
@@ -1090,9 +1091,7 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry-default:`"merged"` :ansible-option-choices-default-mark:`← (default)`
-      - :ansible-option-choices-entry:`"deleted"`
-      - :ansible-option-choices-entry:`"replaced"`
+      - :ansible-option-choices-entry-default:`"replaced"` :ansible-option-choices-default-mark:`← (default)`
 
 
       .. raw:: html

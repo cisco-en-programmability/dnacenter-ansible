@@ -42,7 +42,7 @@ cisco.dnac.accesspoint_workflow_manager module -- Automates bulk AP configuratio
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.20.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.22.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -893,7 +893,7 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Role assignment mode for the 5GHz radio interface. Accepts "Auto", "Client-serving",
-          or "Monitor". For example, "Auto".
+          or "Monitor". For example, "Auto". This field not required for xor series access point slot 1
           
 
 
@@ -1562,6 +1562,150 @@ Parameters
       .. raw:: html
 
         </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/factory_reset_aps"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/factory_reset_aps:
+
+      .. rst-class:: ansible-option-title
+
+      **factory_reset_aps**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/factory_reset_aps" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Factory reset one or more access points (APs) identified by their MAC addresses, hostnames, or management IP addresses.
+          At least one of the following parameters is required:
+          - mac\_addresses
+          - hostnames
+          - management\_ip\_addresses
+          
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/factory_reset_aps/hostnames"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/factory_reset_aps/hostnames:
+
+      .. rst-class:: ansible-option-title
+
+      **hostnames**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/factory_reset_aps/hostnames" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A list of hostnames used to identify the access points for factory reset.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/factory_reset_aps/mac_addresses"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/factory_reset_aps/mac_addresses:
+
+      .. rst-class:: ansible-option-title
+
+      **mac_addresses**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/factory_reset_aps/mac_addresses" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A list of MAC addresses used to identify the access points for factory reset.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/factory_reset_aps/management_ip_addresses"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/factory_reset_aps/management_ip_addresses:
+
+      .. rst-class:: ansible-option-title
+
+      **management_ip_addresses**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/factory_reset_aps/management_ip_addresses" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A list of management IP addresses used to identify the access points for factory reset.
+          
+
+
+      .. raw:: html
+
+        </div>
+
 
   * - .. raw:: html
 
@@ -4584,6 +4728,26 @@ Examples
                   hostnames:
                     - "cisco_Test_9166_T3"
                     - "cisco_Test_9120_T1"
+          register: output_list
+
+        - name: Factory reset single or multiple access point
+          cisco.dnac.accesspoint_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: True
+            dnac_log_level: DEBUG
+            config_verify: True
+            state: merged
+            config:
+              - factory_reset_aps:
+                  mac_addresses:
+                    - "6c:d6:e3:75:5a:e0"
+                    - "e4:38:7e:42:bc:00"
           register: output_list
 
 

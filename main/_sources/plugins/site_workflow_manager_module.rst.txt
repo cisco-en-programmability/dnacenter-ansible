@@ -42,7 +42,7 @@ cisco.dnac.site_workflow_manager module -- Resource module for Site operations
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.20.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.22.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,8 +68,9 @@ Synopsis
 
 .. Description
 
-- Manage operation create, update and delete of the resource Sites.
+- Manage operation create, bulk create, update and delete of the resource Sites.
 - Creates site with area/building/floor with specified hierarchy.
+- Create multiple sites (area, building, or floor) with specified hierarchies in bulk.
 - Updates site with area/building/floor with specified hierarchy.
 - Deletes site with area/building/floor with specified hierarchy.
 
@@ -521,6 +522,48 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/site/floor/bulk_operation"></div>
+
+      .. _ansible_collections.cisco.dnac.site_workflow_manager_module__parameter-config/site/floor/bulk_operation:
+
+      .. rst-class:: ansible-option-title
+
+      **bulk_operation**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/site/floor/bulk_operation" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Set to 'true' or 'false' to enable bulk operations for site creation and management.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/site/floor/floor_number"></div>
 
       .. _ansible_collections.cisco.dnac.site_workflow_manager_module__parameter-config/site/floor/floor_number:
@@ -820,7 +863,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Set to True to verify the Cisco Catalyst Center config after applying the playbook config.
+      Set to true to verify the Cisco Catalyst Center config after applying the playbook config.
 
 
       .. rst-class:: ansible-option-line
@@ -1461,8 +1504,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sites.Sites.create\_site, sites.Sites.update\_site, sites.Sites.delete\_site
-   - Paths used are post /dna/intent/api/v1/site, put dna/intent/api/v1/site/{siteId}, delete dna/intent/api/v1/site/{siteId}
+   - SDK Method used are sites.Sites.create\_site, sites.Sites.update\_site, sites.Sites.delete\_site site.Sites.create\_sites site.Sites.update\_a\_floor site.Sites.update\_a\_building site.Sites.update\_an\_area site.Sites.delete\_a\_floor site.Sites.delete\_a\_building site.Sites.delete\_an\_area site.Sites.get\_site\_assigned\_network\_devices
+   - Paths used are POST /dna/intent/api/v1/site, PUT dna/intent/api/v1/site/{siteId}, DELETE dna/intent/api/v1/site/{siteId} DELETE/dna/intent/api/v2/buildings/{id} DELETE/dna/intent/api/v1/areas/{id} DELETE/dna/intent/api/v2/floors/{id} PUT/dna/intent/api/v2/floors/{id} PUT/dna/intent/api/v1/areas/{id} PUT/dna/intent/api/v2/buildings/{id} GET/dna/intent/api/v1/sites POST/dna/intent/api/v1/sites/bulk GET/dna/intent/api/v1/networkDevices/assignedToSite
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK
    - The parameters starting with dnac\_ are used by the Cisco Catalyst Center Python SDK to establish the connection
@@ -1584,6 +1627,45 @@ Examples
               parent_name: Global/India/Building_1
           site_type: floor
 
+    - name: Create bulk sites and upload floor map
+      cisco.dnac.site_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: True
+        dnac_log_level: DEBUG
+        config_verify: True
+        state: merged
+        config:
+        - site:
+            area:
+                - name: japan
+                  parent_name_hierarchy: 'Global'
+                - name: Abc2
+                  parent_name_hierarchy: 'Global'
+            building:
+                - name: blossom
+                  address: '1234 Elm Street'
+                  parent_name_hierarchy: 'Global/japan'
+                  latitude: 37.387
+                  longitude: -121.845
+                  country: India
+            floor:
+                - name: cherry
+                  parent_name_hierarchy: 'Global/japan/blossom'
+                  length: 103.23
+                  width: 75.1
+                  height: 50.23
+                  rf_model: 'Cubes And Walled Offices'
+                  floor_number: 3
+                  units_of_measure: 'feet'
+                  upload_floor_image_path: "/Users/skesali/Downloads/pngegg.png"
+            bulk_operation: true
+
 
 
 
@@ -1688,7 +1770,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"{\\n  \\"response\\":\\n  {\\n        \\"site\\": {},\\n        \\"siteId\\": String,\\n        \\"type\\": String\\n  },\\n  \\"msg\\": String\\n}\\n"`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"{\\n  \\"response\\":\\n  {\\n    \\"site\\": {},\\n    \\"siteId\\": String,\\n    \\"type\\": String\\n  },\\n  \\"msg\\": String\\n}\\n"`
 
 
       .. raw:: html
@@ -1786,6 +1868,51 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
         </div>
 
 
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_5"></div>
+
+      .. _ansible_collections.cisco.dnac.site_workflow_manager_module__return-response_5:
+
+      .. rst-class:: ansible-option-title
+
+      **response_5**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_5" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary with API task details as returned by the Cisco Catalyst Center Python SDK
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"{\\n    \\"response\\": {\\n        \\"startTime\\": 1725427091204,\\n        \\"version\\": 1725427091204,\\n        \\"progress\\": \\"{\\\\\\"TOTAL\\\\\\":0,\\\\\\"VALIDATION\_FAILURE\_COUNT\\\\\\":0,\\\\\\"VALIDATION\_SUCCESS\_COUNT\\\\\\":0,\\\\\\n        \\"VALIDATION\_PENDING\_COUNT\\\\\\":0,\\\\\\"CRAETION\_SUCCESS\_COUNT\\\\\\":0,\\\\\\"message\\\\\\":\\\\\\n        \\"Group import is in progress.Count will be updated shortly.\\\\\\"}\\",\\n        \\"serviceType\\": \\"Grouping Service\\",\\n        \\"operationIdList\\": [\\n        \\"3e7f1f73-b6f8-4ac6-b925-22e372e72510\\"\\n        ],\\n        \\"isError\\": False,\\n        \\"instanceTenantId\\": \\"6663114d388b29001399e46a\\",\\n        \\"id\\": \\"0191bb78-0704-767c-94c6-95a6e5a511d1\\"\\n    },\\n    \\"version\\": \\"1.0\\"\\n}\\n"`
+
+
+      .. raw:: html
+
+        </div>
+
+
 
 ..  Status (Presently only deprecated)
 
@@ -1795,7 +1922,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Madhan Sankaranarayanan (@madhansansel) Rishita Chowdhary (@rishitachowdhary) Abhishek Maheshwari (@abhishekmaheshwari)
+- Madhan Sankaranarayanan (@madhansansel) Rishita Chowdhary (@rishitachowdhary) Abhishek Maheshwari (@abhishekmaheshwari) Megha Kandari (@kandarimegha) Sonali Deepthi Kesali (@skesali)
 
 
 
