@@ -2087,17 +2087,21 @@ class FabricDevices(DnacBase):
                 "Obtained network device ID: {network_device_id}."
                 .format(network_device_id=network_device_id), "DEBUG"
             )
-            is_the_device_wlc = False
             family_name = network_device_details[0].get("family")
-            if family_name == "Wireless Controller":
-                is_the_device_wlc = True
-
-            # The device should be provisioned to the site
-            if not is_the_device_wlc:
+            if family_name != "Wireless Controller":
+                self.log(
+                    "The device with the IP '{ip}' is not a Wireless Controller, "
+                    "proceeding with provisioning checks."
+                )
                 self.check_device_is_provisioned(fabric_device_ip,
                                                  network_device_id,
                                                  site_id,
                                                  fabric_name).check_return_status()
+            else:
+                self.log(
+                    "The device with the IP '{ip}' is a Wireless Controller, "
+                    "skipping provisioning checks."
+                )
 
             delete_fabric_device = item.get("delete_fabric_device")
             if delete_fabric_device is None:
