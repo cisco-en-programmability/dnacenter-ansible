@@ -54,10 +54,11 @@ options:
     default: False
   state:
     description: |
-      The desired state of the device replacement workflow.
+      The 'replaced' state is used to indicate the replacement of faulty network devices with
+      replacement network device in the workflow.
     type: str
-    choices: [ 'merged', 'deleted', 'replaced' ]
-    default: merged
+    choices: [ 'replaced' ]
+    default: replaced
   ccc_poll_interval:
     description: |
       The interval, in seconds, for polling Cisco Catalyst Center.
@@ -309,7 +310,7 @@ class DeviceReplacement(DnacBase):
     def __init__(self, module):
         super().__init__(module)
         self.result["response"] = []
-        self.supported_states = ["merged", "deleted", "replaced"]
+        self.supported_states = ["replaced"]
         self.payload = module.params
         self.keymap = {}
         self.faulty_device, self.replacement_device = [], []
@@ -1085,14 +1086,14 @@ class DeviceReplacement(DnacBase):
         timeout_interval = self.params.get('timeout_interval')
         while timeout_interval > 0:
             task_details = self.get_task_details(task_id)
-
-            if task_details.get('response', {}).get("isError"):
-                error_message = task_details['response'].get("failureReason", "{0}: Task failed.".format(error_prefix))
+            self.log(task_details)
+            if task_details.get("isError"):
+                error_message = task_details.get("failureReason", "{0}: Task failed.".format(error_prefix))
                 self.log(error_message, "ERROR")
                 return {"status": "failed", "msg": error_message}
 
-            if 'response' in task_details and 'progress' in task_details['response']:
-                progress = task_details['response']['progress'].lower()
+            if 'progress' in task_details:
+                progress = task_details['progress'].lower()
 
                 if 'successful' in progress:
                     self.log(success_message, "INFO")
@@ -1206,7 +1207,7 @@ def main():
         'timeout_interval': {'type': 'int', 'default': 100},
         'config': {'required': True, 'type': 'list', 'elements': 'dict'},
         'validate_response_schema': {'type': 'bool', 'default': True},
-        'state': {'default': 'merged', 'choices': ['merged', 'deleted', 'replaced']}
+        'state': {'default': 'replaced', 'choices': ['replaced']}
     }
     module = AnsibleModule(
         argument_spec=device_replacement_spec,
