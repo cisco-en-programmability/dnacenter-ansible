@@ -615,14 +615,10 @@ class Device_configs_backup(DnacBase):
 
             # Retrieve device IDs for each site in the unique_sites set
             for site_name in unique_sites:
-                (site_exists, site_id) = self.get_site_id(site_name)
-                if site_exists:
-                    site_mgmt_ip_to_instance_id_map = self.get_device_ip_from_device_id(site_id)
-                    self.log("Retrieved following Device Id(s) of device(s): {0} from the provided site: {1}".format(
-                        site_mgmt_ip_to_instance_id_map, site_name), "DEBUG")
-                    mgmt_ip_to_instance_id_map.update(site_mgmt_ip_to_instance_id_map)
-                else:
-                    self.log("Site '{0}' does not exist.".format(site_name), "WARNING")
+                site_mgmt_ip_to_instance_id_map, skipped_devices_list = self.get_reachable_devices_from_site(site_name)
+                self.log("Retrieved following Device Id(s) of device(s): {0} from the provided site: {1}".format(
+                    site_mgmt_ip_to_instance_id_map, site_name), "DEBUG")
+                mgmt_ip_to_instance_id_map.update(site_mgmt_ip_to_instance_id_map)
 
             # Get additional device list parameters excluding site_list
             get_device_list_params = self.get_device_list_params(config)
@@ -802,34 +798,6 @@ class Device_configs_backup(DnacBase):
             self.set_operation_result("failed", False, self.msg, "ERROR")
             self.check_return_status()
 
-    def exit_while_loop(self, start_time, task_id, task_name, response):
-        """
-        Check if the elapsed time exceeds the specified timeout period and exit the while loop if it does.
-        Parameters:
-            - start_time (float): The time when the while loop started.
-            - task_id (str): ID of the task being monitored.
-            - task_name (str): Name of the task being monitored.
-            - response (dict): Response received from the task status check.
-        Returns:
-            bool: True if the elapsed time exceeds the timeout period, False otherwise.
-        """
-        # If the elapsed time exceeds the timeout period
-        if time.time() - start_time > self.params.get("dnac_api_task_timeout"):
-            if response.get("data"):
-                # If there is data in the response, include it in the error message
-                self.msg = "Task {0} with task id {1} has not completed within the timeout period. Task Status: {2} ".format(
-                    task_name, task_id, response.get("data"))
-            else:
-                # If there is no data in the response, generate a generic error message
-                self.msg = "Task {0} with task id {1} has not completed within the timeout period.".format(
-                    task_name, task_id)
-
-            # Update the result with failure status and log the error message
-            self.update_result("failed", False, self.msg, "ERROR")
-            return True
-
-        return False
-
     def download_file(self, additional_status_url=None):
         """
         Downloads a file from Cisco Catalyst Center and stores it locally.
@@ -916,71 +884,59 @@ class Device_configs_backup(DnacBase):
             file if the task completes successfully.
         """
         task_name = "Backup Device Configuration"
-        start_time = time.time()
-
-        while True:
-            # Retrieve the task status using the task ID
-            response = self.get_task_details(task_id)
-
-            # Check if response returned
-            if not response:
-                self.msg = "Error retrieving Task status for the task_name {0} task_id {1}".format(task_name, task_id)
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return self
-
-            # Check if the elapsed time exceeds the timeout
-            if self.exit_while_loop(start_time, task_id, task_name, response):
-                return self
-
-            # Handle error if task execution encounters an error
-            if response.get("isError") or re.search("failed", response.get("progress"), flags=re.IGNORECASE):
-                failure_reason = response.get("failureReason", "No detailed reason provided")
-                self.msg = (
-                    "An error occurred while performing {0} task for export_device_configurations_params: {1}. "
-                    "The operation failed due to the following reason: {2}".format(
-                        task_name, self.want.get("export_device_configurations_params"), failure_reason
-                    )
-                )
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return self
-
-            # Check if task completed successfully and exit the loop
-            if not response.get("isError") and response.get("progress") == "Device configuration Successfully exported as password protected ZIP.":
-                self.log("{0} Task completed successfully. Exiting the loop.".format(task_name), "INFO")
-                break
-
-            self.log("The progress status is {0}, continue to check the status after 3 seconds. Putting into sleep for 3 seconds.".format(
-                response.get("progress")), "INFO")
-            time.sleep(3)
-
-        # Perform additional tasks after breaking the loop
-        mgmt_ip_to_instance_id_map = self.want.get("mgmt_ip_to_instance_id_map")
-        additional_status_url = response.get("additionalStatusURL")
-
-        # Download the file using the additional status URL
-        file_id, downloaded_file = self.download_file(additional_status_url=additional_status_url)
-        self.log("Retrived file data for file ID: {0}.".format(file_id), "DEBUG")
-        if not downloaded_file:
-            self.msg = "Error downloading Device Config Backup file(s) with file ID: {0}. ".format(file_id)
-            self.set_operation_result("Failed", True, self.msg, "CRITICAL")
-            return self
-
-        # Unzip the downloaded file
-        download_status = self.unzip_data(file_id, downloaded_file)
-        if download_status:
-            self.log("{0} task has been successfully performed on {1} device(s): {2}.".format(
-                task_name, len(mgmt_ip_to_instance_id_map), list(mgmt_ip_to_instance_id_map.keys())), "INFO")
-            self.log("{0} task has been skipped for {1} device(s): {2}".format(
-                task_name, len(self.skipped_devices_list), self.skipped_devices_list), "INFO")
-            self.msg = (
-                "{0} task has been successfully performed on {1} device(s) and skipped on {2} device(s). "
-                "The backup configuration files can be found at: {3}".format(
-                    task_name, len(mgmt_ip_to_instance_id_map), len(self.skipped_devices_list), pathlib.Path(self.want.get("file_path")).resolve())
+        success_msg = "{0} Task with task ID {1} completed successfully. Exiting the loop.".format(task_name, task_id)
+        if self.dnac_version <= self.version_2_3_5_3:
+            progress_validation = "Device configuration Successfully exported as password protected ZIP"
+            failure_msg = (
+                "An error occurred while performing {0} task with task ID {1} for export_device_configurations_params: {2}"
+                .format(task_name, task_id, self.want.get("export_device_configurations_params"))
             )
-            self.set_operation_result("success", True, self.msg, "INFO")
+            self.get_task_status_from_task_by_id(task_id, task_name, failure_msg, success_msg, progress_validation=progress_validation)
         else:
-            self.msg = "Error unzipping Device Config Backup file(s) with file ID: {0}. ".format(file_id)
-            self.set_operation_result("failed", False, self.msg, "ERROR")
+            self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
+
+        if self.status == "success":
+            self.log("Task '{0}' completed successfully for task ID {1}.".format(task_name, task_id), "INFO")
+            if self.dnac_version <= self.version_2_3_5_3:
+                response = self.get_task_details(task_id)
+                additional_status_url = response.get("additionalStatusURL")
+            else:
+                response = self.get_tasks_by_id(task_id)
+                additional_status_url = response.get("resultLocation")
+
+            if not additional_status_url:
+                self.msg = "Error retrieving the Device Config Backup file ID for task ID {0}".format(task_id)
+                self.fail_and_exit(self.msg)
+            self.log("Additional status URL retrieved: {0}".format(additional_status_url), "DEBUG")
+
+            # Perform additional tasks after breaking the loop
+            mgmt_ip_to_instance_id_map = self.want.get("mgmt_ip_to_instance_id_map")
+
+            # Download the file using the additional status URL
+            self.log("Downloading the Device Config Backup file from {0}.".format(additional_status_url), "DEBUG")
+            file_id, downloaded_file = self.download_file(additional_status_url=additional_status_url)
+            self.log("Retrived file data for file ID: {0}.".format(file_id), "DEBUG")
+            if not downloaded_file:
+                self.msg = "Error downloading Device Config Backup file(s) with file ID: {0}. ".format(file_id)
+                self.fail_and_exit(self.msg)
+
+            # Unzip the downloaded file
+            self.log("Unzipping the downloaded Device Config Backup file(s) for file ID: {0}.".format(file_id), "DEBUG")
+            download_status = self.unzip_data(file_id, downloaded_file)
+            if download_status:
+                self.log("{0} task has been successfully performed on {1} device(s): {2}.".format(
+                    task_name, len(mgmt_ip_to_instance_id_map), list(mgmt_ip_to_instance_id_map.keys())), "INFO")
+                self.log("{0} task has been skipped for {1} device(s): {2}".format(
+                    task_name, len(self.skipped_devices_list), self.skipped_devices_list), "INFO")
+                self.msg = (
+                    "{0} task has been successfully performed on {1} device(s) and skipped on {2} device(s). "
+                    "The backup configuration files can be found at: {3}".format(
+                        task_name, len(mgmt_ip_to_instance_id_map), len(self.skipped_devices_list), pathlib.Path(self.want.get("file_path")).resolve())
+                )
+                self.set_operation_result("success", True, self.msg, "INFO")
+            else:
+                self.msg = "Error unzipping Device Config Backup file(s) with file ID: {0}. ".format(file_id)
+                self.fail_and_exit(self.msg)
 
         return self
 

@@ -878,17 +878,20 @@ class Inventory(DnacBase):
         # If device IPs are not available, check hostnames
         device_hostnames = self.config[0].get("hostname_list")
         if device_hostnames:
-            return self.get_device_ips_from_hostname(device_hostnames)
+            device_ip_dict = self.get_device_ips_from_hostnames(device_hostnames)
+            return self.get_list_from_dict_values(device_ip_dict)
 
         # If hostnames are not available, check serial numbers
         device_serial_numbers = self.config[0].get("serial_number_list")
         if device_serial_numbers:
-            return self.get_device_ips_from_serial_number(device_serial_numbers)
+            device_ip_dict = self.get_device_ips_from_serial_numbers(device_serial_numbers)
+            return self.get_list_from_dict_values(device_ip_dict)
 
         # If serial numbers are not available, check MAC addresses
         device_mac_addresses = self.config[0].get("mac_address_list")
         if device_mac_addresses:
-            return self.get_device_ips_from_mac_address(device_mac_addresses)
+            device_ip_dict = self.get_device_ips_from_mac_addresses(device_mac_addresses)
+            return self.get_list_from_dict_values(device_ip_dict)
 
         # If no information is available, return an empty list
         return []
@@ -1830,7 +1833,7 @@ class Inventory(DnacBase):
 
             assign_params = {'deviceIds': [device_id], 'siteId': site_id}
             provision_params = [{"siteId": site_id, "networkDeviceId": device_id}]
-            is_device_provisioned = self.is_device_provisioned(device_id)
+            is_device_provisioned = self.is_device_provisioned(device_id, device_ip)
             is_device_assigned_to_site = self.is_device_assigned_to_site(device_id)
 
             if not is_device_assigned_to_site:
@@ -2397,114 +2400,6 @@ class Inventory(DnacBase):
                 self.log(error_message, "ERROR")
 
         return device_ids
-
-    def get_device_ips_from_hostname(self, hostname_list):
-        """
-        Get the list of unique device IPs for list of specified hostnames of devices in Cisco Catalyst Center.
-        Parameters:
-            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-            hostname_list (list): The hostnames of devices for which you want to retrieve the device IPs.
-        Returns:
-            list: The list of unique device IPs for the specified devices hostname list.
-        Description:
-            Queries Cisco Catalyst Center to retrieve the unique device IP's associated with a device having the specified
-            list of hostnames. If a device is not found in Cisco Catalyst Center, an error log message is printed.
-        """
-
-        device_ips = []
-        for hostname in hostname_list:
-            try:
-                response = self.dnac._exec(
-                    family="devices",
-                    function='get_device_list',
-                    op_modifies=True,
-                    params={"hostname": hostname}
-                )
-                if response:
-                    self.log("Received API response from 'get_device_list': {0}".format(str(response)), "DEBUG")
-                    response = response.get("response")
-                    if response:
-                        device_ip = response[0]["managementIpAddress"]
-                        if device_ip:
-                            device_ips.append(device_ip)
-            except Exception as e:
-                error_message = "Exception occurred while fetching device from Cisco Catalyst Center: {0}".format(str(e))
-                self.log(error_message, "ERROR")
-
-        return device_ips
-
-    def get_device_ips_from_serial_number(self, serial_number_list):
-        """
-        Get the list of unique device IPs for a specified list of serial numbers in Cisco Catalyst Center.
-        Parameters:
-            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-            serial_number_list (list): The list of serial number of devices for which you want to retrieve the device IPs.
-        Returns:
-            list: The list of unique device IPs for the specified devices with serial numbers.
-        Description:
-            Queries Cisco Catalyst Center to retrieve the unique device IPs associated with a device having the specified
-            serial numbers.If a device is not found in Cisco Catalyst Center, an error log message is printed.
-        """
-
-        device_ips = []
-        for serial_number in serial_number_list:
-            try:
-                response = self.dnac._exec(
-                    family="devices",
-                    function='get_device_list',
-                    op_modifies=True,
-                    params={"serialNumber": serial_number}
-                )
-                if response:
-                    self.log("Received API response from 'get_device_list': {0}".format(str(response)), "DEBUG")
-                    response = response.get("response")
-                    if response:
-                        device_ip = response[0]["managementIpAddress"]
-                        if device_ip:
-                            device_ips.append(device_ip)
-            except Exception as e:
-                error_message = "Exception occurred while fetching device from Cisco Catalyst Center - {0}".format(str(e))
-                self.log(error_message, "ERROR")
-
-        return device_ips
-
-    def get_device_ips_from_mac_address(self, mac_address_list):
-        """
-        Get the list of unique device IPs for list of specified mac address of devices in Cisco Catalyst Center.
-        Parameters:
-            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-            mac_address_list (list): The list of mac address of devices for which you want to retrieve the device IPs.
-        Returns:
-            list: The list of unique device IPs for the specified devices.
-        Description:
-            Queries Cisco Catalyst Center to retrieve the unique device IPs associated with a device having the specified
-            mac addresses. If a device is not found in Cisco Catalyst Center, an error log message is printed.
-        """
-
-        device_ips = []
-        for mac_address in mac_address_list:
-            try:
-                response = self.dnac._exec(
-                    family="devices",
-                    function='get_device_list',
-                    op_modifies=True,
-                    params={"macAddress": mac_address}
-                )
-                if response:
-                    self.log("Received API response from 'get_device_list': {0}".format(str(response)), "DEBUG")
-                    response = response.get("response")
-                    if response:
-                        device_ip = response[0]["managementIpAddress"]
-                        if device_ip:
-                            device_ips.append(device_ip)
-            except Exception as e:
-                self.status = "failed"
-                self.msg = "Exception occurred while fetching device from Cisco Catalyst Center - {0}".format(str(e))
-                self.result['response'] = self.msg
-                self.log(self.msg, "ERROR")
-                self.check_return_status()
-
-        return device_ips
 
     def get_interface_from_id_and_name(self, device_id, interface_name):
         """
@@ -3869,11 +3764,12 @@ class Inventory(DnacBase):
                 op_modifies=True,
                 params=provision_params,
             )
-            self.log("Received API response from 'delete_provisioned_wired_device': {0}".format(str(response)), "DEBUG")
-
-            validation_string = "deleted successfully"
-            self.check_task_response_status(response, validation_string, 'delete_provisioned_wired_device')
-            self.deleted_devices.append(device_ip)
+            if response:
+                response = {"response": response}
+                self.log("Received API response from 'delete_provisioned_wired_device': {0}".format(str(response)), "DEBUG")
+                validation_string = "deleted successfully"
+                self.check_task_response_status(response, validation_string, 'delete_provisioned_wired_device')
+                self.provisioned_device_deleted.append(device_ip)
 
     def delete_provisioned_device_v2(self, device_ip):
         """
