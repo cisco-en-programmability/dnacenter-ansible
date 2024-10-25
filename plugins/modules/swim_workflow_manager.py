@@ -1523,45 +1523,45 @@ class Swim(DnacBase):
         image_name = self.get_image_name_from_id(self.have.get("tagging_image_id"))
         device_role=tagging_details.get("device_role", "ALL")
 
-        # status = "true" 
-        # for role in device_role:
-        #     image_params = dict(
-        #         image_id=self.have.get("tagging_image_id"),
-        #         site_id=self.have.get("site_id"),
-        #         device_family_identifier=self.have.get("device_family_identifier"),
-        #         device_role=role.upper()
-        #     )
+        status = "true" 
+        for role in device_role:
+            image_params = dict(
+                image_id=self.have.get("tagging_image_id"),
+                site_id=self.have.get("site_id"),
+                device_family_identifier=self.have.get("device_family_identifier"),
+                device_role=role.upper()
+            )
 
-        #     response = self.dnac._exec(
-        #         family="software_image_management_swim",
-        #         function='get_golden_tag_status_of_an_image',
-        #         op_modifies=True,
-        #         params=image_params
-        #     )
-        #     self.log("Received API response from 'get_golden_tag_status_of_an_image': {0}".format(str(response)), "DEBUG")
+            response = self.dnac._exec(
+                family="software_image_management_swim",
+                function='get_golden_tag_status_of_an_image',
+                op_modifies=True,
+                params=image_params
+            )
+            self.log("Received API response from 'get_golden_tag_status_of_an_image': {0}".format(str(response)), "DEBUG")
 
-        #     response = response.get('response')
-        #     if response:
-        #         image_status = response['taggedGolden']
-        #         if image_status and image_status == tag_image_golden:
-        #             self.status = "success"
-        #             self.msg = "SWIM Image '{0}' already tagged as Golden image in Cisco Catalyst Center for the device role - {1}".format(image_name,role)
-        #             self.log(self.msg, "INFO")
-        #         else:
-        #             status = "false"
-        #         if not image_status and image_status == tag_image_golden:
-        #             self.status = "success"
-        #             self.msg = "SWIM Image '{0}' already un-tagged from Golden image in Cisco Catalyst Cente for the device role - {1}".format(image_name,role)
-        #             self.log(self.msg, "INFO")
+            response = response.get('response')
+            if response:
+                image_status = response['taggedGolden']
+                if image_status and image_status == tag_image_golden:
+                    self.status = "success"
+                    self.msg = "SWIM Image '{0}' already tagged as Golden image in Cisco Catalyst Center for the device role - {1}".format(image_name,role)
+                    self.log(self.msg, "INFO")
+                else:
+                    status = "false"
+                if not image_status and image_status == tag_image_golden:
+                    self.status = "success"
+                    self.msg = "SWIM Image '{0}' already un-tagged from Golden image in Cisco Catalyst Cente for the device role - {1}".format(image_name,role)
+                    self.log(self.msg, "INFO")
 
-        # if status == "true":
-        #     self.status = "success"
-        #     self.result['changed'] = False
-        #     self.msg = "SWIM Image '{0}' already tagged as Golden image in Cisco Catalyst Center for all the roles".format(image_name)
-        #     self.result['msg'] = self.msg
-        #     self.result['response'] = self.msg
-        #     self.log(self.msg, "INFO")
-        #     return self
+        if status == "true":
+            self.status = "success"
+            self.result['changed'] = False
+            self.msg = "SWIM Image '{0}' already tagged as Golden image in Cisco Catalyst Center for all the roles".format(image_name)
+            self.result['msg'] = self.msg
+            self.result['response'] = self.msg
+            self.log(self.msg, "INFO")
+            return self
 
         if tag_image_golden:
             image_params = dict(
