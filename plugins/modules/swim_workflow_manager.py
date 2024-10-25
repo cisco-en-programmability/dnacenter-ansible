@@ -206,9 +206,15 @@ options:
               If False then the given image will be un-tagged as golden.
             type: bool
       image_distribution_details:
-        description: Details for SWIM image distribution. Device on which the image needs to distributed
-          can be speciifed using any of the following parameters - deviceSerialNumber,
-          deviceIPAddress, deviceHostname or deviceMacAddress.
+        description: |
+          Parameters for specifying the target device(s) for SWIM image distribution. The device can be identified using one of the following options:
+          - device_serial_number
+          - device_ip_address
+          - device_hostname
+          - device_mac_address
+          - site_name (if specified, the image will be distributed to all devices within the site)
+          At least one of these parameters must be provided. If 'site_name' is provided, additional filters
+          such as 'device_role', 'device_family_name', and 'device_series_name' can be used to further narrow down the devices within the site.
         type: dict
         suboptions:
           device_role:
@@ -255,9 +261,15 @@ options:
             description: Device MAC address where the image needs to be distributed
             type: str
       image_activation_details:
-        description: Details for SWIM image activation. Device on which the image needs to activated
-          can be speciifed using any of the following parameters - deviceSerialNumber,
-          deviceIPAddress, deviceHostname or deviceMacAddress.
+        description: |
+          Parameters for specifying the target device(s) for SWIM image activation. The device can be identified using one of the following options:
+          - device_serial_number
+          - device_ip_address
+          - device_hostname
+          - device_mac_address
+          - site_name (if specified, the image will be activated on all devices within the site)
+          At least one of these parameters must be provided. If 'site_name' is provided, additional filters
+          such as 'device_role', 'device_family_name', and 'device_series_name' can be used to further narrow down the devices within the site.
         type: dict
         suboptions:
           device_role:
@@ -803,31 +815,46 @@ class Swim(DnacBase):
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             params (dict): A dictionary containing parameters to filter devices.
         Returns:
-            str: The unique device ID corresponding to the filtered device.
+            str or None: The unique device ID corresponding to the filtered device, or None if an error occurs.
+        Raises:
+            AnsibleFailJson: If the device ID cannot be found in the response.
         Description:
             This function sends a request to Cisco Catalyst Center to retrieve a list of devices based on the provided
             filtering parameters. If a single matching device is found, it extracts and returns the device ID. If
             no device or multiple devices match the criteria, it raises an exception.
         """
-        device_id = None
-        response = self.dnac._exec(
-            family="devices",
-            function='get_device_list',
-            op_modifies=True,
-            params=params,
-        )
-        self.log("Received API response from 'get_device_list': {0}".format(str(response)), "DEBUG")
+        try:
+            response = self.dnac._exec(
+                family="devices",
+                function='get_device_list',
+                op_modifies=True,
+                params=params,
+            )
+            self.log("Received API response from 'get_device_list': {0}".format(str(response)), "DEBUG")
 
-        device_list = response.get("response")
+            device_list = response.get("response")
 
-        if (len(device_list) == 1):
-            device_id = device_list[0].get("id")
-            self.log("Device Id: {0}".format(str(device_id)), "INFO")
-        else:
-            self.msg = "Device with params: '{0}' not found in Cisco Catalyst Center so can't fetch the device id".format(str(params))
-            self.log(self.msg, "WARNING")
+            if not device_list:
+                self.log("Device list is empty; no devices found for given parameters.", "WARNING")
+                raise ValueError("No devices found")
 
-        return device_id
+            if len(device_list) == 1:
+                device_id = device_list[0].get("id")
+                self.log("Successfully retrieved device ID: {0}".format(device_id), "INFO")
+                return device_id
+
+            self.log("Multiple devices found for parameters: {0}".format(params), "ERROR")
+            raise ValueError("Multiple devices found")
+
+        except ValueError as ve:
+            msg = "Error: {0}. Unable to fetch unique device ID with parameters: {1}".format(str(ve), params)
+            self.log(msg, "ERROR")
+            return None
+
+        except Exception as e:
+            msg = "An unexpected error occurred while retrieving device ID: {0}".format(str(e))
+            self.log(msg, "ERROR")
+            return None
 
     def get_device_uuids(self, site_name, device_family, device_role, device_series_name=None):
         """
@@ -1138,16 +1165,33 @@ class Swim(DnacBase):
                 self.log("Image details required for distribution have not been provided", "ERROR")
                 self.module.fail_json(msg="Image details required for distribution have not been provided", response=[])
 
-            device_params = dict(
-                hostname=distribution_details.get("device_hostname"),
-                serialNumber=distribution_details.get("device_serial_number"),
-                managementIpAddress=distribution_details.get("device_ip_address"),
-                macAddress=distribution_details.get("device_mac_address"),
-            )
-            device_id = self.get_device_id(device_params)
+            device_params = {
+                "hostname": distribution_details.get("device_hostname"),
+                "serialNumber": distribution_details.get("device_serial_number"),
+                "managementIpAddress": distribution_details.get("device_ip_address"),
+                "macAddress": distribution_details.get("device_mac_address")
+            }
 
-            if device_id is not None:
-                have["distribution_device_id"] = device_id
+            if any(device_params.values()):
+                device_id = self.get_device_id(device_params)
+
+                if device_id is None:
+                    params_list = []
+                    for key, value in device_params.items():
+                        if value:
+                            formatted_param = "{0}: {1}".format(key, value)
+                            params_list.append(formatted_param)
+
+                    params_message = ", ".join(params_list)
+                    self.status = "failed"
+                    self.msg = "The device with the following parameter(s): {0} could not be found in the Cisco Catalyst Center.".format(params_message)
+                    self.log(self.msg, "ERROR")
+                    self.result['response'] = self.msg
+                    self.check_return_status()
+
+                else:
+                    self.log("Device with ID {0} found and added to distribution details.".format(device_id), "DEBUG")
+                    have["distribution_device_id"] = device_id
 
             self.have.update(have)
 
@@ -1174,18 +1218,41 @@ class Swim(DnacBase):
                     have["site_id"] = site_id
                     self.log("The site '{0}' exists and has the site ID '{1}'".format(site_name, str(site_id)), "INFO")
 
-            device_params = dict(
-                hostname=activation_details.get("device_hostname"),
-                serialNumber=activation_details.get("device_serial_number"),
-                managementIpAddress=activation_details.get("device_ip_address"),
-                macAddress=activation_details.get("device_mac_address"),
-            )
-            device_id = self.get_device_id(device_params)
+            device_params = {
+                "hostname": activation_details.get("device_hostname"),
+                "serialNumber": activation_details.get("device_serial_number"),
+                "managementIpAddress": activation_details.get("device_ip_address"),
+                "macAddress": activation_details.get("device_mac_address")
+            }
 
-            if device_id is not None:
-                have["activation_device_id"] = device_id
+            # Check if any device parameters are provided
+            if any(device_params.values()):
+                device_id = self.get_device_id(device_params)
+
+                if device_id is None:
+                    desired_keys = {"hostname", "serialNumber", "managementIpAddress", "macAddress"}
+                    params_list = []
+
+                    # Format only the parameters that are present
+                    for key, value in device_params.items():
+                        if value and key in desired_keys:
+                            formatted_param = "{0}: {1}".format(key, value)
+                            params_list.append(formatted_param)
+
+                    params_message = ", ".join(params_list)
+                    self.status = "failed"
+                    self.msg = "The device with the following parameter(s): {0} could not be found in the Cisco Catalyst Center.".format(params_message)
+                    self.log(self.msg, "ERROR")
+                    self.result['response'] = self.msg
+                    self.check_return_status()
+
+                else:
+                    have["activation_device_id"] = device_id
+                    self.log("Device with ID {0} found and added to activation details.".format(device_id), "DEBUG")
+
             self.have.update(have)
-            self.log("Current State (have): {0}".format(str(self.have)), "INFO")
+
+        self.log("Current State (have): {0}".format(str(self.have)), "INFO")
 
         return self
 
@@ -1673,8 +1740,13 @@ class Swim(DnacBase):
         self.complete_successful_distribution = False
         self.partial_successful_distribution = False
         self.single_device_distribution = False
+        distribution_device_id = self.have.get("distribution_device_id")
+        device_ip = self.get_device_ip_from_id(distribution_device_id)
+        image_name = self.want.get("distribution_details").get("image_name")
 
-        if self.have.get("distribution_device_id"):
+        if distribution_device_id:
+            self.log("Starting image distribution for device IP {0} with ID {1}, targeting software version {2}.".format(
+                device_ip, distribution_device_id, image_name), "INFO")
             distribution_params = dict(
                 payload=[dict(
                     deviceUuid=self.have.get("distribution_device_id"),
@@ -1703,15 +1775,19 @@ class Swim(DnacBase):
                         self.result['changed'] = True
                         self.status = "success"
                         self.single_device_distribution = True
-                        self.result['msg'] = "Image with Id {0} Distributed Successfully".format(image_id)
-                        self.result['response'] = self.msg
+                        self.result['msg'] = "Image '{0}' (ID: {1}) has been successfullyyy distributed to the device with IP address {2}.".format(
+                            image_name, image_id, device_ip)
+                        self.result['response'] = self.result['msg']
+                        self.log(self.result['msg'])
                         break
 
                     if task_details.get("isError"):
                         self.status = "failed"
-                        self.msg = "Image with Id {0} Distribution Failed".format(image_id)
-                        self.log(self.msg, "ERROR")
+                        self.msg = "Failed to distribute image '{0}' (ID: {1}) to the device with IP address {2}.".format(
+                            image_name, image_id, device_ip)
+                        self.result['msg'] = self.msg
                         self.result['response'] = task_details
+                        self.log(self.result['msg'])
                         break
 
                     self.result['response'] = task_details if task_details else response
@@ -1730,6 +1806,7 @@ class Swim(DnacBase):
         distribution_task_dict = {}
 
         for device_uuid in device_uuid_list:
+            self.log("Starting distribution of image '{0}' to multiple devices.".format(image_name))
             device_management_ip = self.get_device_ip_from_id(device_uuid)
             distribution_params = dict(
                 payload=[dict(
@@ -1767,7 +1844,7 @@ class Swim(DnacBase):
             self.result['changed'] = True
             self.status = "success"
             self.partial_successful_distribution = False
-            self.msg = "Image with Id '{0}' Distributed and partially successfull".format(image_id)
+            self.msg = "Image {0} with Id '{1}' Distributed and partially successfull".format(image_name, image_id)
             self.log("For device(s) {0} image Distribution gets failed".format(str(device_ips_list)), "CRITICAL")
 
         self.result['msg'] = self.msg
@@ -1799,8 +1876,13 @@ class Swim(DnacBase):
         self.complete_successful_activation = False
         self.partial_successful_activation = False
         self.single_device_activation = False
+        activation_device_id = self.have.get("activation_device_id")
+        device_ip = self.get_device_ip_from_id(activation_device_id)
+        image_name = self.want.get("activation_details").get("image_name")
 
-        if self.have.get("activation_device_id"):
+        if activation_device_id:
+            self.log("Starting image activation for device IP {0} with ID {1}, targeting software version {2}.".format(
+                device_ip, activation_device_id, image_name), "INFO")
             payload = [dict(
                 activateLowerImageVersion=activation_details.get("activate_lower_image_version"),
                 deviceUpgradeMode=activation_details.get("device_upgrade_mode"),
@@ -1832,17 +1914,19 @@ class Swim(DnacBase):
                 if not task_details.get("isError") and \
                         ("completed successfully" in task_details.get("progress")):
                     self.result['changed'] = True
-                    self.result['msg'] = "Image Activated successfully"
-                    self.result['response'] = self.msg
+                    self.result['msg'] = "Image '{0}' (ID: {1}) has been successfully activated on the device with IP address {2}.".format(
+                        image_name, image_id, device_ip)
+                    self.result['response'] = self.result['msg']
                     self.status = "success"
                     self.single_device_activation = True
                     break
 
                 if task_details.get("isError"):
-                    self.msg = "Activation for Image with Id '{0}' gets failed".format(image_id)
                     self.status = "failed"
+                    self.msg = "Activation of image '{0}' (ID: {1}) to the device with IP address {2} has failed.".format(image_name, image_id, device_ip)
+                    self.result['msg'] = self.msg
                     self.result['response'] = task_details
-                    self.log(self.msg, "ERROR")
+                    self.log(self.result['msg'], "ERROR")
                     return self
 
             self.result['response'] = task_details if task_details else response
@@ -1861,6 +1945,7 @@ class Swim(DnacBase):
         activation_task_dict = {}
 
         for device_uuid in device_uuid_list:
+            self.log("Starting activation of image '{0}' to multiple devices.".format(image_name))
             device_management_ip = self.get_device_ip_from_id(device_uuid)
             payload = [dict(
                 activateLowerImageVersion=activation_details.get("activate_lower_image_version"),
