@@ -2351,7 +2351,8 @@ class Accesspoint(DnacBase):
             not found or if an error occurs during the API call, it returns False.
         """
         try:
-            device_list = self.get_device_ids_from_site(site_id)
+            site_name = self.have.get("site_name_hierarchy", self.want.get("site_name"))
+            device_list = self.get_device_ids_from_site(site_name, site_id)
             if current_config.get("id") is not None and current_config.get("id") in device_list:
                 self.log("Device with MAC address: {0} found in site: {1} Proceeding with ap_site updation."
                          .format(ap_mac_address, site_id), "INFO")
@@ -2361,8 +2362,8 @@ class Accesspoint(DnacBase):
                 return False
 
         except Exception as e:
-            self.log("Failed to execute the get_device_ids_from_site function '{}'\
-                      Error: {}".format(site_id, str(e)), "ERROR")
+            self.log("Failed to execute the get_device_ids_from_site function '{0}'\
+                      Error: {1}".format(site_id, str(e)), "ERROR")
             return False
 
     def verify_ap_provision(self, wlc_ip_address):
