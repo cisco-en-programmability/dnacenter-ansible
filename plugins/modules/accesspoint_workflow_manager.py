@@ -620,6 +620,110 @@ options:
                 description: Current AP name that needs to be changed along with the new AP name. For example, "Test2".
                 type: str
                 required: False
+          common_fields_to_change:
+            description: |
+              Common fields to change AP is a dict which contains below data which need to update all listed access points.
+            type: dict
+            elements: str
+            required: True
+            suboptions:
+              admin_status:
+                description: Status of the AP configuration. Accepts "Enabled" or "Disabled". For example, "Enabled".
+                type: str
+                required: False
+              led_status:
+                description: State of the AP's LED. Accepts "Enabled" or "Disabled". For example, "Enabled".
+                type: str
+                required: False
+              led_brightness_level:
+                description: Brightness level of the AP's LED. Accepts values from 1 to 8. For example, 3.
+                type: int
+                required: False
+              ap_mode:
+                description: |
+                  Defines the mode of operation for the Access Point (AP). Possible values include "Local",
+                  "Monitor", "Sniffer", or "Bridge". For example, "Local".
+                type: str
+                required: False
+              location:
+                description: Location name of the AP. Provide this data if a change is required. For example, "Bangalore".
+                type: str
+                required: False
+              is_assigned_site_as_location:
+                description: |
+                  Configures whether the access point location is automatically set to the site assigned to the access point.
+                  Accepts "Enabled" or "Disabled". If set to "Enabled", no additional location configuration is required.
+                type: str
+                required: False
+              failover_priority:
+                description: Priority order for failover in AP configuration. Accepts "Low", "Medium", "High", or "Critical".
+                type: str
+                required: False
+              clean_air_si_2.4ghz:
+                description: |
+                  Clean Air Spectrum Intelligence (SI) feature status for the 2.4GHz band. Indicates whether. For example, "Enabled".
+                  Clean Air Spectrum Intelligence is enabled or disabled.
+                type: str
+                required: False
+              clean_air_si_5ghz:
+                description: |
+                  Clean Air Spectrum Intelligence (SI) feature status for the 5GHz band. Indicates whether. For example, "Enabled".
+                  Clean Air Spectrum Intelligence is enabled or disabled.
+                type: str
+                required: False
+              clean_air_si_6ghz:
+                description: |
+                  Clean Air Spectrum Intelligence (SI) feature status for the 6GHz band. Indicates whether. For example, "Enabled".
+                  Clean Air Spectrum Intelligence is enabled or disabled.
+                type: str
+                required: False
+              primary_controller_name:
+                description: |
+                  Name or identifier of the primary wireless LAN controller (WLC) managing the Access Point (AP).
+                  For example, "SJ-EWLC-1".
+                type: str
+                required: False
+              primary_ip_address:
+                description: IP address of the primary wireless LAN controller (WLC) managing the Access Point (AP).
+                type: dict
+                required: False
+                suboptions:
+                  address:
+                    description: IP address of the primary wireless LAN controller. For example, "10.0.0.3".
+                    type: str
+                    required: False
+              secondary_controller_name:
+                description: |
+                  Name or identifier of the secondary wireless LAN controller (WLC) managing the Access Point (AP).
+                  To modify only the primary controller, set the secondary and tertiary controller names
+                  to "Inherit from site / Clear".
+                type: str
+                required: False
+              secondary_ip_address:
+                description: IP address of the secondary wireless LAN controller (WLC) managing the Access Point (AP).
+                type: dict
+                required: False
+                suboptions:
+                  address:
+                    description: IP address of the primary wireless LAN controller. For example, "10.0.0.3".
+                    type: str
+                    required: False
+              tertiary_controller_name:
+                description: |
+                  Name or identifier of the tertiary wireless LAN controller (WLC) managing the Access Point (AP).
+                  To modify only the primary controller, set the secondary and tertiary controller names
+                  to "Inherit from site / Clear".
+                type: str
+                required: False
+              tertiary_ip_address:
+                description: IP address of the tertiary wireless LAN controller (WLC) managing the Access Point (AP).
+                type: dict
+                required: False
+                suboptions:
+                  address:
+                    description: IP address of the primary wireless LAN controller. For example, "10.0.0.2".
+                    type: str
+                    required: False
 
 requirements:
   - dnacentersdk >= 2.7.2
