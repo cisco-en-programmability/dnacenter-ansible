@@ -2886,7 +2886,7 @@ class Accesspoint(DnacBase):
         """
         try:
             site_name = self.have.get("site_name_hierarchy", self.want.get("site_name"))
-            device_list = self.get_device_ids_from_site(site_name, site_id)
+            api_response, device_list = self.get_device_ids_from_site(site_name, site_id)
             if current_config.get("id") is not None and current_config.get("id") in device_list:
                 self.log("Device with MAC address: {0} found in site: {1} Proceeding with ap_site updation."
                          .format(ap_mac_address, site_id), "INFO")
