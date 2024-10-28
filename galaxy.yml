@@ -1,7 +1,7 @@
 ---
 namespace: cisco
 name: dnac
-version: 6.18.0
+version: 6.22.0
 readme: README.md
 authors:
   - Rafael Campos <rcampos@altus.cr>
@@ -10,6 +10,7 @@ authors:
   - Bryan Vargas <bvargas@altus.cr>
   - Francisco Muñoz <fmunoz@altus.cr>
   - Madhan Sankaranarayanan <madsanka@cisco.com>
+  - Pawan Singh <pawansi@cisco.com>
   - Rishita Chowdhary (@rishitachowdhary)
   - Muthu Rakesh Babu <mutbabu@cisco.com>
   - Akash Bhaskaran <akabhask@cisco.com>
@@ -21,6 +22,10 @@ authors:
   - Ajith Andrew J <jajandre@cisco.com>
   - Syed Khadeer Ahmed <syedkahm@cisco.com>
   - A Mohamed Rafeek <mabdulk2@cisco.com>
+  - Trupti A Shetty <trashett@cisco.com>
+  - Sonali Deepthi Kesali <skesali@cisco.com>
+  - Megha Kandari <mekandar@cisco.com>
+
 description: Ansible Modules for Cisco DNA Center
 license_file: "LICENSE"
 tags:
@@ -31,7 +36,7 @@ tags:
   - networking
   - sdn
 dependencies:
-  ansible.utils: ">=2.0.0,<5.0"
+  ansible.utils: ">=2.0.0,<6.0"
 repository: https://github.com/cisco-en-programmability/dnacenter-ansible
 documentation: https://cisco-en-programmability.github.io/dnacenter-ansible/
 homepage: https://github.com/cisco-en-programmability/dnacenter-ansible

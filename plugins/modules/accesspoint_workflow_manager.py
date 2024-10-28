@@ -17,7 +17,7 @@ description:
   - Filter specific device details, such as selecting devices with hostnames matching "NFW-AP1-9130AXE".
   - Compares input details with current AP configurations and applies desired changes only to relevant APs.
 
-version_added: '6.17.0'
+version_added: "6.17.0"
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
 author:
@@ -36,7 +36,7 @@ options:
   state:
     description: The desired state of the device replacement workflow.
     type: str
-    choices: [ 'merged', 'deleted' ]
+    choices: [ "merged", "deleted" ]
     default: merged
   dnac_api_task_timeout:
     description: The number of times to retry resynchronization.
@@ -58,14 +58,35 @@ options:
     suboptions:
       mac_address:
         description: |
-          The MAC address used to identify the device. If the MAC address is known,
-          it must be provided and cannot be modified. At least one of the following parameters is required
-          to identify the specific access point: mac_address, hostname, or management_ip_address.
-          (eg 90:e9:5e:03:f3:40)
+          The MAC address used to identify the device. If provided, it cannot be modified.
+          To identify the specific access point, at least one of the following parameters is required.
+          - mac_address
+          - hostname
+          - management_ip_address
+        type: str
+        required: True
+      hostname:
+        description: |
+          The Host Name used to identify the device. If provided, it cannot be modified.
+          To identify the specific access point, at least one of the following parameters is required.
+          - mac_address
+          - hostname
+          - management_ip_address
+        type: str
+        required: True
+      management_ip_address:
+        description: |
+          The Management IP Address used to identify the device. If provided, it cannot be modified.
+          To identify the specific access point, at least one of the following parameters is required.
+          - mac_address
+          - hostname
+          - management_ip_address
         type: str
         required: True
       rf_profile:
-        description: Radio Frequency (RF) profile of the Access Point. For example, "HIGH".
+        description: |
+          Specifies the Radio Frequency (RF) profile name for the Access Point. It can be one of the standard profiles
+          "HIGH", "LOW", "TYPICAL", or a custom profile that has been created. For example, "HIGH".
         type: str
         required: False
       site:
@@ -140,7 +161,9 @@ options:
         type: str
         required: False
       primary_controller_name:
-        description: Name or identifier of the primary wireless LAN controller (WLC) managing the Access Point (AP). For example, "SJ-EWLC-1".
+        description: |
+          Name or identifier of the primary wireless LAN controller (WLC) managing the Access Point (AP).
+          For example, "SJ-EWLC-1".
         type: str
         required: False
       primary_ip_address:
@@ -149,11 +172,14 @@ options:
         required: False
         suboptions:
           address:
-              description: IP address of the primary wireless LAN controller. For example, '10.0.0.3'.
-              type: str
-              required: False
+            description: IP address of the primary wireless LAN controller. For example, "10.0.0.3".
+            type: str
+            required: False
       secondary_controller_name:
-        description: Name or identifier of the secondary wireless LAN controller (WLC) managing the Access Point (AP). For example, "Inherit from site/Clear".
+        description: |
+          Name or identifier of the secondary wireless LAN controller (WLC) managing the Access Point (AP).
+          To modify only the primary controller, set the secondary and tertiary controller names
+          to "Inherit from site / Clear".
         type: str
         required: False
       secondary_ip_address:
@@ -162,11 +188,14 @@ options:
         required: False
         suboptions:
           address:
-              description: IP address of the primary wireless LAN controller. For example, '10.0.0.3'.
-              type: str
-              required: False
+            description: IP address of the primary wireless LAN controller. For example, "10.0.0.3".
+            type: str
+            required: False
       tertiary_controller_name:
-        description: Name or identifier of the tertiary wireless LAN controller (WLC) managing the Access Point (AP). For example, "Clear".
+        description: |
+          Name or identifier of the tertiary wireless LAN controller (WLC) managing the Access Point (AP).
+          To modify only the primary controller, set the secondary and tertiary controller names
+          to "Inherit from site / Clear".
         type: str
         required: False
       tertiary_ip_address:
@@ -175,9 +204,9 @@ options:
         required: False
         suboptions:
           address:
-              description: IP address of the primary wireless LAN controller. For example, '10.0.0.2'.
-              type: str
-              required: False
+            description: IP address of the primary wireless LAN controller. For example, "10.0.0.2".
+            type: str
+            required: False
       2.4ghz_radio:
         description: Configuration options for the 2.4GHz radio interface.
         type: dict
@@ -192,7 +221,9 @@ options:
             type: str
             required: False
           antenna_gain:
-            description: Specifies the antenna gain value in decibels (dB) for the 2.4GHz radio interface. For example, 4.
+            description: |
+              Specifies the antenna gain value in decibels (dB) for the 2.4GHz radio interface, valid values range
+              from 0 to 40. For example, 10.
             type: int
             required: False
           radio_role_assignment:
@@ -200,7 +231,9 @@ options:
             type: str
             required: False
           cable_loss:
-            description: Cable loss in dB for the 2.4GHz radio interface. For example, 75.
+            description: |
+              Cable loss in dB for the 2.4GHz radio interface. Valid values are from 0 to 40.
+              This value must be less than the antenna gain. For example, 2.
             type: int
             required: False
           antenna_cable_name:
@@ -237,15 +270,21 @@ options:
             type: str
             required: False
           antenna_gain:
-            description: Antenna gain value in decibels (dB) for the 5GHz radio interface. For example, 5.
+            description: |
+              Antenna gain value in decibels (dB) for the 5GHz radio interface, valid values range
+              from 0 to 40. For example, 5.
             type: int
             required: False
           radio_role_assignment:
-            description: Role assignment mode for the 5GHz radio interface. Accepts "Auto", "Client-serving", or "Monitor". For example, "Auto".
+            description: |
+              Role assignment mode for the 5GHz radio interface. Accepts "Auto", "Client-serving",
+              or "Monitor". For example, "Auto". This field not required for xor series access point slot 1
             type: str
             required: False
           cable_loss:
-            description: Cable loss in dB for the 5GHz radio interface. For example, 80.
+            description: |
+              Cable loss in dB for the 5GHz radio interface. Valid values are from 0 to 40.
+              This value must be less than the antenna gain. For example, 3.
             type: int
             required: False
           antenna_cable_name:
@@ -282,7 +321,9 @@ options:
             type: str
             required: False
           antenna_gain:
-            description: Antenna gain value in decibels (dB) for the 6GHz radio interface. For example, 4.
+            description: |
+              Antenna gain value in decibels (dB) for the 6GHz radio interface, valid values range
+              from 0 to 40. For example, 30.
             type: int
             required: False
           radio_role_assignment:
@@ -290,7 +331,9 @@ options:
             type: str
             required: False
           cable_loss:
-            description: Cable loss in dB for the 6GHz radio interface. For example, 75.
+            description: |
+              Cable loss in dB for the 6GHz radio interface. Valid values are from 0 to 40.
+              This value must be less than the antenna gain. For example, 10.
             type: int
             required: False
           antenna_cable_name:
@@ -314,125 +357,151 @@ options:
             type: int
             required: False
       xor_radio:
-        description: Configuration options for the xor radio interface.
+        description: Configuration options for the XOR radio interface.
         type: dict
         required: False
         suboptions:
           admin_status:
-            description: Administrative status for the xor radio interface. For example, "Enabled".
+            description: Administrative status for the XOR radio interface. For example, "Enabled".
             type: str
             required: False
           antenna_name:
-            description: Name or type of antenna used for the xor radio interface. For example, "other".
+            description: Name or type of antenna used for the XOR radio interface. For example, "other".
             type: str
             required: False
           antenna_gain:
-            description: Antenna gain value in decibels (dB) for the xor radio interface. For example, 4.
+            description: |
+              Antenna gain value in decibels (dB) for the XOR radio interface, valid values range
+              from 0 to 40. For example, 14.
             type: int
             required: False
           radio_role_assignment:
             description: |
-              Role assignment mode for the xor radio interface. Accepts "Auto", "Client-serving", or "Monitor".
-              If radio_role_assignment is "client-serving", then only power-level and channel-level can be changed.
-              For example, Auto.
+              Role assignment mode for the XOR radio interface. Accepts "Auto", "Client-serving", or "Monitor"
+              If "radio_role_assignment" is set to "Client-serving" only the power level and channel number can be changed.
+              Additionally, if the 5 GHz band is selected in the radio band, the power level cannot be modified.
+              For example, "Auto".
+            type: str
+            required: False
+          radio_band:
+            description: |
+              Radio band should be enabled if the radio role assignment is set to "Client-serving" mode.
+              Accepts "2.4 GHz" or "5 GHz" or "6 GHz".
             type: str
             required: False
           cable_loss:
-            description: Cable loss in dB for the xor radio interface. For example, 75.
+            description: |
+              Cable loss in dB for the XOR radio interface. Valid values are from 0 to 40.
+              This value must be less than the antenna gain. For example, 5.
             type: int
             required: False
           antenna_cable_name:
-            description: Name or type of antenna cable used for the xor radio interface. For example, "other".
+            description: Name or type of antenna cable used for the XOR radio interface. For example, "other".
             type: str
             required: False
           channel_assignment_mode:
             description: |
-              Mode of channel assignment for the xor radio interface. Accepts "Global" or "Custom".
-              For xor Custom, it accepts values like 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112,
-              116, 120, 124, 128, 132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173. For example, "Custom".
+              Mode of channel assignment for the XOR radio interface. Accepts "Global" or "Custom".
+              - For "Custom" mode and a radio band of "2.4 GHz", valid values are from 1 to 14.
+              - For "Custom" mode and a radio band of "5 GHz", valid values are
+                36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108,
+                112, 116, 120, 124, 128, 132, 136, 140, 144,
+                149, 153, 157, 161, 165, 169, 173.
+              - For "Custom" mode and a radio band of "6 GHz", valid values are
+                1, 5, 9, 13, 17, 21, 25, 29, 33, 37, 41, 45, 49,
+                53, 57, 61, 65, 69, 73, 77, 81, 85, 89, 93, 97,
+                101, 105, 109, 113, 117, 121, 125, 129, 133, 137,
+                141, 145, 149, 153, 157, 161, 165, 169, 173, 177,
+                181, 185, 189, 193, 197, 201, 205, 209, 213, 217,
+                221, 225, 229, 233.
+              For example, "Custom".
             type: str
             required: False
           channel_number:
-            description: Custom channel number configured for the xor radio interface. For example, 6.
+            description: Custom channel number configured for the XOR radio interface. For example, 6.
             type: int
             required: False
           channel_width:
             description: |
-              Width of the channel configured for the xor radio interface. Accepts values
-              "20 MHz", "40 MHz", "80 MHz", or "160 MHz". For example, 20 MHz.
+              Width of the channel configured for the XOR radio interface. Accepts values
+              "20 MHz", "40 MHz", "80 MHz", "160 MHz" or "320 MHz". For example, 20 MHz.
             type: str
             required: False
           power_assignment_mode:
             description: |
-              Mode of power assignment for the xor radio interface. Accepts "Global" or "Custom".
-              In Custom, it accepts values 1 to 5.
+              Mode of power assignment for the XOR radio interface. Accepts "Global" or "Custom."
+              In "Custom" mode, valid values range from 1 to 8.
             type: str
             required: False
           power_level:
-            description: Custom power level configured for the xor radio interface. For example, 3.
+            description: Custom power level configured for the XOR radio interface. For example, 3.
             type: int
             required: False
       tri_radio:
-        description: Configuration options for the tri radio interface.
+        description: Configuration options for the TRI radio interface.
         type: dict
         required: False
         suboptions:
           admin_status:
-            description: Administrative status for the tri radio interface. For example, "Enabled".
+            description: Administrative status for the TRI radio interface. For example, "Enabled".
             type: str
             required: False
           antenna_name:
-            description: Name or type of antenna used for the tri radio interface. For example, "other".
+            description: Name or type of antenna used for the TRI radio interface. For example, "other".
             type: str
             required: False
           antenna_gain:
-            description: Antenna gain value in decibels (dB) for the tri radio interface. For example, 4.
+            description: |
+              Antenna gain value in decibels (dB) for the TRI radio interface, valid values range
+              from 0 to 40. For example, 16.
             type: int
             required: False
           radio_role_assignment:
             description: |
-              Role assignment mode for the tri radio interface. Accepts "Auto", "Client-serving", or "Monitor".
+              Role assignment mode for the TRI radio interface. Accepts "Auto", "Client-serving", or "Monitor".
               If radio_role_assignment is "client-serving", then only power-level and channel-level can be changed.
             type: str
             required: False
           cable_loss:
-            description: Cable loss in dB for the tri radio interface. For example, 75.
+            description: |
+              Cable loss in dB for the TRI radio interface. Valid values are from 0 to 40.
+              This value must be less than the antenna gain. For example, 6.
             type: int
             required: False
           antenna_cable_name:
-            description: Name or type of antenna cable used for the tri radio interface. For example, "other".
+            description: Name or type of antenna cable used for the TRI radio interface. For example, "other".
             type: str
             required: False
           channel_assignment_mode:
             description: |
-              Mode of channel assignment for the tri radio interface. Accepts "Global" or "Custom".
-              For tri Custom, it accepts values like 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128,
+              Mode of channel assignment for the TRI radio interface. Accepts "Global" or "Custom".
+              For Custom, it accepts values like 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128,
               132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173. (eg. Custom)
             type: str
             required: False
           channel_number:
-            description: Custom channel number configured for the tri radio interface. For example, 6.
+            description: Custom channel number configured for the TRI radio interface. For example, 6.
             type: int
             required: False
           channel_width:
             description: |
-              Width of the channel configured for the tri radio interface. Accepts values
-              "20 MHz", "40 MHz", "80 MHz", or "160 MHz". . For example, 20 MHz.
+              Width of the channel configured for the TRI radio interface. Accepts values
+              "20 MHz", "40 MHz", "80 MHz", "160 MHz", or "320 MHz". . For example, 20 MHz.
             type: str
             required: False
           power_assignment_mode:
             description: |
-                Mode of power assignment for the tri radio interface. Accepts "Global" or "Custom".
-                In Custom, it accepts values 1 to 5.
+                Mode of power assignment for the TRI radio interface. Accepts "Global" or "Custom".
+                In Custom, it accepts values 1 to 8.
             type: str
             required: False
           power_level:
-            description: Custom power level configured for the tri radio interface. For example, 3.
+            description: Custom power level configured for the TRI radio interface. For example, 3.
             type: int
             required: False
           dual_radio_mode:
             description: |
-              Mode of operation configured for the tri radio interface. Specifies how the
+              Mode of operation configured for the TRI radio interface. Specifies how the
               access point (AP) manages its dual radio functionality. eg . Auto
             type: str
             required: False
@@ -447,9 +516,63 @@ options:
           (eg. "mac_address,eth_mac,ap_name,led_brightness_level,led_status,location,radioDTOs")
         type: str
         required: False
+      reboot_aps:
+        description: |
+          Reboot one or more access points (APs) identified by their MAC addresses, hostnames, or management IP addresses.
+          At least one of the following parameters is required:
+          - mac_addresses
+          - hostnames
+          - management_ip_addresses
+        type: dict
+        required: false
+        suboptions:
+          mac_addresses:
+            description: A list of MAC addresses used to identify the access points for rebooting.
+            type: list
+            elements: str
+            required: false
+          hostnames:
+            description: |
+                A list of hostnames used to identify the access points for rebooting.
+            type: list
+            elements: str
+            required: false
+          management_ip_addresses:
+            description: |
+                A list of management IP addresses used to identify the access points for rebooting.
+            type: list
+            elements: str
+            required: false
+      factory_reset_aps:
+        description: |
+          Factory reset one or more access points (APs) identified by their MAC addresses, hostnames, or management IP addresses.
+          At least one of the following parameters is required:
+          - mac_addresses
+          - hostnames
+          - management_ip_addresses
+        type: dict
+        required: false
+        suboptions:
+          mac_addresses:
+            description: A list of MAC addresses used to identify the access points for factory reset.
+            type: list
+            elements: str
+            required: false
+          hostnames:
+            description: |
+                A list of hostnames used to identify the access points for factory reset.
+            type: list
+            elements: str
+            required: false
+          management_ip_addresses:
+            description: |
+                A list of management IP addresses used to identify the access points for factory reset.
+            type: list
+            elements: str
+            required: false
 
 requirements:
-  - dnacentersdk >= 2.4.5
+  - dnacentersdk >= 2.7.2
   - python >= 3.8
 
 seealso:
@@ -647,7 +770,7 @@ EXAMPLES = r"""
       register: output_list
 
     - name: Provisioning and Re-provisiong Access Point Site details
-      cisco.dnac.accesspoint_movement:
+      cisco.dnac.accesspoint_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
@@ -660,13 +783,76 @@ EXAMPLES = r"""
         config_verify: True
         state: merged
         config:
-              - ap_type: "Unified AP"
-                mac_address:  90:e9:5e:03:f3:40
-                rf_profile: "HIGH"
-                site:
-                  floor:
-                    name: "FLOOR1"
-                    parent_name: "Global/USA/New York/BLDNYC"
+          - mac_address:  90:e9:5e:03:f3:40
+            rf_profile: "HIGH"
+            site:
+              floor:
+                name: "FLOOR1"
+                parent_name: "Global/USA/New York/BLDNYC"
+      register: output_list
+
+    - name: Updating Access Point Update / Controller Name
+      cisco.dnac.accesspoint_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: True
+        dnac_log_level: DEBUG
+        config_verify: True
+        state: merged
+        config:
+          - mac_address: a4:88:73:d4:d6:60
+            ap_name: "Cisco_Test_AP_T003"
+            admin_status: "Enabled"
+            led_status: "Enabled"
+            led_brightness_level: 1
+            ap_mode: "Local"
+            is_assigned_site_as_location: "Enabled"
+            failover_priority: "Low"
+            primary_controller_name: "NY-EWLC-1"
+            primary_ip_address:
+              address: "204.192.6.200"
+            secondary_controller_name: "NY-EWLC-20"
+            secondary_ip_address:
+              address: "fe80::202:b3ff:fe1e:8324"
+            tertiary_controller_name: "SJ-EWLC-20"
+            tertiary_ip_address:
+              address: "fe80::202:b3ff:fe1e:8325"
+      register: output_list
+
+    - name: Updating Access Point Update / remove tertiary_controller_name
+      cisco.dnac.accesspoint_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: True
+        dnac_log_level: DEBUG
+        config_verify: True
+        state: merged
+        config:
+          - mac_address: a4:88:73:d4:d6:60
+            ap_name: "Cisco_Test_AP_T003"
+            admin_status: "Enabled"
+            led_status: "Enabled"
+            led_brightness_level: 1
+            ap_mode: "Local"
+            is_assigned_site_as_location: "Enabled"
+            failover_priority: "Low"
+            primary_controller_name: "NY-EWLC-10"
+            primary_ip_address:
+              address: "fe80::202:b3ff:fe1e:8329"
+            secondary_controller_name: "NY-EWLC-20"
+            secondary_ip_address:
+              address: "fe80::202:b3ff:fe1e:8324"
+            tertiary_controller_name: "Inherit from site / Clear"
       register: output_list
 
     - name: Updating Access Point Site / Configuration details
@@ -710,10 +896,159 @@ EXAMPLES = r"""
               powerlevel: 2
               channel_width: "40 MHz"
       register: output_list
+
+    - name: Updating Access Point Site / Configuration details
+      cisco.dnac.accesspoint_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: True
+        dnac_log_level: DEBUG
+        config_verify: True
+        state: merged
+        config:
+          - mac_address: 6c:d6:e3:75:5a:e0
+            ap_name: "LTTS_Test_9120_T2"
+            admin_status: "Enabled"
+            led_status: "Enabled"
+            led_brightness_level: 2
+            ap_mode: "Local"
+            is_assigned_site_as_location: "Enabled"
+            failover_priority: "Low"
+            primary_controller_name: "NY-IAC-EWLC.cisco.local"
+            primary_ip_address:
+              address: "204.192.6.200"
+            secondary_controller_name: "Inherit from site / Clear"
+            tertiary_controller_name: "Inherit from site / Clear"
+            xor_radio:
+              admin_status: "Enabled"
+              radio_role_assignment: "Client-Serving"
+              channel_number: 4
+              radio_band: "2.4 GHz"
+              channel_width: "40 MHz"
+            5ghz_radio:
+              admin_status: "Enabled"
+              antenna_name: "AIR-ANT2513P4M-N-5GHz"
+              radio_role_assignment: "Client-Serving"
+              channel_number: 40
+              powerlevel: 2
+              channel_width: "80 MHz"
+      register: output_list
+
+    - name: Updating Access Point Configuration
+      cisco.dnac.accesspoint_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: True
+        dnac_log_level: DEBUG
+        config_verify: True
+        state: merged
+        config:
+          - mac_address: e4:38:7e:42:bc:00
+            ap_name: "LTTS_Test_9166_T3"
+            admin_status: "Enabled"
+            led_status: "Enabled"
+            led_brightness_level: 3
+            ap_mode: "Local"
+            is_assigned_site_as_location: "Enabled"
+            failover_priority: "Low"
+            primary_controller_name: "NY-IAC-EWLC"
+            primary_ip_address:
+              address: "204.192.6.200"
+            secondary_controller_name: "Inherit from site / Clear"
+            tertiary_controller_name: "Inherit from site / Clear"
+            2.4ghz_radio:
+              admin_status: "Enabled"
+              radio_role_assignment: "Client-Serving"
+              channel_number: 3
+              powerlevel: 3
+            5ghz_radio:
+              admin_status: "Enabled"
+              radio_role_assignment: "Client-Serving"
+              channel_number: 44
+              powerlevel: 3
+              channel_width: "20 MHz"
+            xor_radio:
+              admin_status: "Enabled"
+              radio_role_assignment: "Client-Serving"
+              channel_number: 1
+              powerlevel: 3
+              radio_band: "6 GHz"
+              channel_width: "40 MHz"
+      register: output_list
+
+    - name: Reboot single or multiple access point
+      cisco.dnac.accesspoint_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: True
+        dnac_log_level: DEBUG
+        config_verify: True
+        state: merged
+        config:
+          - reboot_aps:
+              mac_addresses:
+                - "6c:d6:e3:75:5a:e0"
+                - "e4:38:7e:42:bc:00"
+      register: output_list
+
+    - name: Reboot single or multiple access point by hostname
+      cisco.dnac.accesspoint_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: True
+        dnac_log_level: DEBUG
+        config_verify: True
+        state: merged
+        config:
+          - reboot_aps:
+              hostnames:
+                - "cisco_Test_9166_T3"
+                - "cisco_Test_9120_T1"
+      register: output_list
+
+    - name: Factory reset single or multiple access point
+      cisco.dnac.accesspoint_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: True
+        dnac_log_level: DEBUG
+        config_verify: True
+        state: merged
+        config:
+          - factory_reset_aps:
+              mac_addresses:
+                - "6c:d6:e3:75:5a:e0"
+                - "e4:38:7e:42:bc:00"
+      register: output_list
 """
 
 RETURN = r"""
-#Case_1: Modification of the AP details updated and Rebooted Access Point
+#Case 1: Updating Access Point Configuration Details
 response_1:
   description: >
     A list of dictionaries containing details about the AP updates and verification
@@ -722,74 +1057,67 @@ response_1:
   type: dict
   sample: |
     {
-        "response": [
-            {
-                "accesspoints_updates": {
-                    "response": {
-                        "macAdress": "34:5d:a8:0e:20:b4",
-                        "response": {
-                            "taskId": "2ce139fa-1d58-4739-a6ad-b735b97e4dfe",
-                            "url": "/api/v1/task/2ce139fa-1d58-4739-a6ad-b735b97e4dfe"
-                        }
-                    }
+        "response": [{
+                "changed": true,
+                "response": {
+                    "ap_config_update_status": "The update for AP Config Cisco_Test_9120_T1 has been successfully verified."
                 }
-            },
-            {
-                "accesspoints_verify": {
-                    "have": [
-                        {
-                            "ap_name": "NFW-AP1-9130AXE",
-                            "eth_mac": "34:5d:a8:0e:20:b4",
-                            "led_brightness_level": 2,
-                            "led_status": "Enabled",
-                            "location": "LTTS-Bangalore",
-                            "mac_address": "90:e9:5e:03:f3:40"
-                        }
-                    ],
-                    "message": "The update for AP Config 'NFW-AP1-9130AXE' has been successfully verified.",
-                    "want": {
-                        "ap_name": "LTTS-Test1",
-                        "ap_name_new": "NFW-AP1-9130AXE",
-                        "hostname": null,
-                        "led_brightness_level": 2,
-                        "led_status": "Enabled",
-                        "location": "LTTS-Bangalore",
-                        "mac_address": "90:e9:5e:03:f3:40",
-                        "management_ip_address": null
-                    }
-                }
-            }
-        ]
+        }]
     }
 
 #Case-2: Provisioning and Re-Provisioning of Accesspoint
 response_2:
   description: >
-    A dictionary with activation details as returned by the Catalyst Center Python SDK
+    A dictionary with provision status returned by the Catalyst Center Python SDK
+  returned: always
+  type: dict
+  sample: |
+    {
+        "response": [
+        {
+            "changed": true,
+            "response": {
+                "ap_provision_update_status": "AP provision for the site 'Global/Chennai/LTTS/FLOOR1' has been successfully verified."
+            }
+        }]
+    }
+
+#Case-3: Reboot single or multiple Accesspoint task
+response_3:
+  description: >
+    A dictionary with reboot status of AP returned by the Catalyst Center Python SDK
   returned: always
   type: dict
   sample: |
     {
         "response": {
-                        {
-                            'bapiKey': 'd897-19b8-47aa-a9c4',
-                            'bapiName': 'AP Provision',
-                            'bapiExecutionId': '97d5edd5-d5db-40d8-9ab6-f15dc4a5cc30',
-                            'startTime': 'Wed Jul 03 18:37:24 UTC 2024',
-                            'startTimeEpoch': 1720031844919,
-                            'endTimeEpoch': 0,
-                            'timeDuration': 0,
-                            'status': 'IN_PROGRESS',
-                            'runtimeInstanceId': 'DNACP_Runtime_3f8f258c-9f7a-4511-b361-592ee9e0c4d2'
-                        }
+            "accesspoints_updates": {
+                "ap_reboot_status": "AP ['6c:d6:e3:69:49:b4', '68:49:92:75:0f:d0'] Rebooted Successfully",
+                "ap_reboot_task_details": {
+                    "reboot_api_response": {
+                        "apList": [
+                            {
+                                "apName": "LTTS_Test_9120_T2",
+                                "failureReason": null,
+                                "rebootStatus": "Success"
+                            },
+                            {
+                                "apName": "LTTS_Test_9166_T3",
+                                "failureReason": null,
+                                "rebootStatus": "Success"
+                            }
+                        ],
+                        "wlcIP": "204.192.6.200"
                     }
+                }
+            }
+        }
     }
 """
 
 
 import time
 import re
-import json
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
     validate_list_of_dicts,
@@ -806,6 +1134,7 @@ class Accesspoint(DnacBase):
         super().__init__(module)
         self.supported_states = ["merged"]
         self.payload = module.params
+        self.payload["consolidated_result"] = []
         self.keymap = {}
         self.radio_interface = ["6ghz_radio", "xor_radio", "tri_radio"]
         self.allowed_series = {
@@ -818,7 +1147,7 @@ class Accesspoint(DnacBase):
             "2.4ghz_radio": list(range(1, 15)),
             "5ghz_radio": (36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120,
                            124, 128, 132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173),
-            "xor_radio": list(range(1, 15))
+            "6ghz_radio": list(range(1, 234, 4))
         }
 
     def validate_input_yml(self):
@@ -832,27 +1161,24 @@ class Accesspoint(DnacBase):
         Returns:
         - Updates instance attributes:
             - self.msg: Validation result message.
-            - self.status: Validation status ('success' or 'failed').
-            - self.validated_config: Validated 'config' parameter if successful.
+            - self.status: Validation status ("success" or "failed").
+            - self.validated_config: Validated "config" parameter if successful.
 
         Description:
         Example:
-        Instantiate the class and call 'validate_input_yml'.
-        - 'self.status' is 'success' on successful validation; 'self.validated_config' holds
+        Instantiate the class and call "validate_input_yml".
+        - "self.status" is "success" on successful validation; "self.validated_config" holds
             validated data.
-        - 'self.status' is 'failed' on validation failure; 'self.msg' describes issues.
+        - "self.status" is "failed" on validation failure; "self.msg" describes issues.
         """
 
-        self.log('Validating the Playbook Yaml File..', "INFO")
+        self.log("Validating the Playbook Yaml File..", "INFO")
         if not self.config:
             self.status = "success"
             self.msg = "Configuration is not available in the playbook for validation"
             self.log(self.msg, "ERROR")
             return self
 
-        ap_list = self.payload.get("config")
-        ap_list = self.camel_to_snake_case(ap_list)
-        ap_list = self.update_site_type_key(ap_list)
         accesspoint_spec = {
             "mac_address": {"required": False, "type": "str"},
             "management_ip_address": {"required": False, "type": "str"},
@@ -863,7 +1189,7 @@ class Accesspoint(DnacBase):
             "ap_name": {"required": False, "type": "str"},
             "admin_status": {"required": False, "type": "str"},
             "led_status": {"required": False, "type": "str"},
-            "led_brightness_level": {"required": False, "type": "int"},
+            "led_brightness_level": {"required": False, "type": "int", "range_min": 1, "range_max": 8},
             "ap_mode": {"required": False, "type": "str"},
             "location": {"required": False, "type": "str"},
             "is_assigned_site_as_location": {"required": False, "type": "str"},
@@ -882,34 +1208,37 @@ class Accesspoint(DnacBase):
             "6ghz_radio": {"required": False, "type": "dict"},
             "xor_radio": {"required": False, "type": "dict"},
             "tri_radio": {"required": False, "type": "dict"},
+            "reboot_aps": {"required": False, "type": "dict"},
+            "factory_reset_aps": {"required": False, "type": "dict"},
             "ap_selected_fields": {"required": False, "type": "str"},
             "ap_config_selected_fields": {"required": False, "type": "str"}
         }
+        radio_config_spec = {
+            "admin_status": {"required": False, "type": "str"},
+            "dual_radio_mode": {"required": False, "type": "str"},
+            "antenna_name": {"required": False, "type": "str"},
+            "antenna_gain": {"required": False, "type": "int"},
+            "radio_role_assignment": {"required": False, "type": "str"},
+            "cable_loss": {"required": False, "type": "int"},
+            "antenna_cable_name": {"required": False, "type": "str"},
+            "channel_assignment_mode": {"required": False, "type": "str"},
+            "channel_number": {"required": False, "type": "int"},
+            "power_assignment_mode": {"required": False, "type": "str"},
+            "powerlevel": {"required": False, "type": "int", "range_min": 1, "range_max": 8},
+            "channel_width": {"required": False, "type": "str"},
+            "radio_band": {"required": False, "type": "str"}
+        }
+        ap_list = self.update_site_type_key(self.camel_to_snake_case(self.payload.get("config")))
 
         invalid_list_radio = []
-        for each_radio in ("2.4ghz_radio", "5ghz_radio", "6ghz_radio", "xor_radio", "tri_radio"):
-            radio_config = ap_list[0].get(each_radio)
-            valid_param_radio, invalid_params_radio = (None, None)
-            if radio_config:
-                radio_config_spec = {
-                    "admin_status": {"required": False, "type": "str"},
-                    "dual_radio_mode": {"required": False, "type": "str"},
-                    "antenna_name": {"required": False, "type": "str"},
-                    "antenna_gain": {"required": False, "type": "int"},
-                    "radio_role_assignment": {"required": False, "type": "str"},
-                    "cable_loss": {"required": False, "type": "int"},
-                    "antenna_cable_name": {"required": False, "type": "str"},
-                    "channel_assignment_mode": {"required": False, "type": "str"},
-                    "channel_number": {"required": False, "type": "int"},
-                    "power_assignment_mode": {"required": False, "type": "str"},
-                    "powerlevel": {"required": False, "type": "int"},
-                    "channel_width": {"required": False, "type": "str"},
-                    "radio_band": {"required": False, "type": "str"}
-                }
-                valid_param_radio, invalid_params_radio = \
-                    validate_list_of_dicts([radio_config], radio_config_spec)
-                if len(invalid_params_radio) > 0:
-                    invalid_list_radio.append(each_radio + str(invalid_params_radio))
+        for each_ap in ap_list:
+            for each_radio in ("2.4ghz_radio", "5ghz_radio", "6ghz_radio", "xor_radio", "tri_radio"):
+                radio_config = each_ap.get(each_radio)
+                if radio_config:
+                    valid_param_radio, invalid_params_radio = \
+                        validate_list_of_dicts([radio_config], radio_config_spec)
+                    if len(invalid_params_radio) > 0:
+                        invalid_list_radio.append(each_radio + str(invalid_params_radio))
 
         valid_param, invalid_params = validate_list_of_dicts(ap_list, accesspoint_spec)
 
@@ -922,8 +1251,7 @@ class Accesspoint(DnacBase):
             return self
 
         self.validated_config = valid_param
-        self.msg = "Successfully validated playbook config params:{0}".format(
-            self.pprint(valid_param[0]))
+        self.msg = "Successfully validated playbook config params:{0}".format(self.pprint(valid_param))
         self.log(self.msg, "INFO")
         self.status = "success"
         return self
@@ -938,12 +1266,12 @@ class Accesspoint(DnacBase):
 
         Returns:
             self (object): Updated instance with extracted Access Point configuration
-            stored in 'want'.
+            stored in "want".
 
         Description:
-            Extracts all Access Point configuration details from 'ap_config', excluding
-            fields such as 'ap_selected_fields' and 'ap_config_selected_fields'.
-            The extracted information is stored in the 'want' attribute of the
+            Extracts all Access Point configuration details from "ap_config", excluding
+            fields such as "ap_selected_fields" and "ap_config_selected_fields".
+            The extracted information is stored in the "want" attribute of the
             instance for use in subsequent workflow steps.
         """
         want = {}
@@ -967,13 +1295,13 @@ class Accesspoint(DnacBase):
 
         Returns:
             self (object): Updated instance with retrieved Access Point configuration stored \
-                in 'have'.
+                in "have".
 
         Description:
             Checks if the specified Access Point configuration and site exists in the system.
             If found, retrieves details such as MAC address, IP address, hostname,
             associated WLC IP, AP type and site information if available, these details
-            are stored in the 'have' attribute of the instance.
+            are stored in the "have" attribute of the instance.
         """
         ap_exists = False
         current_ap_config = None
@@ -988,6 +1316,7 @@ class Accesspoint(DnacBase):
             have["ap_exists"] = ap_exists
             have["current_ap_config"] = current_ap_config
             have["ip_address"] = self.payload["access_point_details"]["management_ip_address"]
+            have["device_id"] = self.payload["access_point_details"]["id"]
             have["wlc_provision_status"] = self.payload.get("wlc_provision_status")
             have["associated_wlc_ip"] = self.payload["access_point_details"]["associated_wlc_ip"]
             have["hostname"] = self.payload["access_point_details"]["hostname"]
@@ -1012,14 +1341,14 @@ class Accesspoint(DnacBase):
             ap_config (dict): Dictionary containing configuration information.
 
         Returns:
-            self (object): Updated instance with operation results stored in 'result'.
+            self (object): Updated instance with operation results stored in "result".
 
         Description:
             Determines whether to Provision, re-provision, update or create the Access Point
             configuration in Cisco Catalyst Center based on provided information.
             If the Access Point and site exists, it compares current configuration
             with input data. If changes are required, it updates the configuration using the
-            'configure_access_points' function from the Cisco Catalyst Center API.
+            "configure_access_points" function from the Cisco Catalyst Center API.
             If no updates are needed, it logs that the configuration is up to date.
             Handles provisioning and site assignment if specified by playbook data.
         """
@@ -1044,37 +1373,38 @@ class Accesspoint(DnacBase):
                 if self.have.get("wlc_provision_status") == "success":
                     provision_status, provision_details = self.provision_device()
                     if provision_status == "SUCCESS":
-                        self.result['changed'] = True
-                        self.msg = "AP {0} provisioned successfully.".format(self.have['hostname'])
+                        self.result["changed"] = True
+                        self.msg = "AP {0} provisioned successfully.".format(self.have["hostname"])
                         self.log(self.msg, "INFO")
                         responses["accesspoints_updates"].update({
                             "provision_message": self.msg
                         })
             else:
                 self.msg = "AP {0} already provisioned at site {1}.".format(
-                    self.have['hostname'], self.have.get('site_name_hierarchy'))
+                    self.have["hostname"], self.have.get("site_name_hierarchy"))
                 self.log(self.msg, "INFO")
-                self.result['changed'] = False
+                self.result["changed"] = False
                 responses["accesspoints_updates"].update({"provision_message": self.msg})
+
+        if not self.ap_update_required:
+            return self
 
         time.sleep(self.payload.get("next_task_after_interval"))
 
         self.log("Comparing current AP configuration with input data.", "INFO")
         consolidated_data = self.config_diff(self.have["current_ap_config"])
         if not consolidated_data:
-            self.msg = "AP - {0} does not need any update"\
-                .format(self.have.get("current_ap_config").get("ap_name"))
+            self.msg = "AP - {0} does not need any update".format(self.have.get("current_ap_config").get("ap_name"))
             self.log(self.msg, "INFO")
             del self.payload["access_point_details"]
             responses["accesspoints_updates"].update({
                 "ap_config_message": self.msg
             })
-            self.result['ap_update_msg'] = self.msg
-            self.result["changed"] = False
+            self.result["changed"] = True if self.result["changed"] else False
             self.result["response"] = responses
             return self
 
-        self.log('Final AP Configuration data to update {0}'.format(self.pprint(
+        self.log("Final AP Configuration data to update {0}".format(self.pprint(
             consolidated_data)), "INFO")
         task_response = self.update_ap_configuration(consolidated_data)
         self.log("Access Point update response: {0} .".format(task_response), "INFO")
@@ -1083,34 +1413,35 @@ class Accesspoint(DnacBase):
             resync_retry_count = self.payload.get("dnac_api_task_timeout")
             resync_retry_interval = self.payload.get("dnac_task_poll_interval")
             while resync_retry_count:
-                task_details_response = self.get_task_details(
+                task_details_response = self.get_tasks_by_id(
                     task_response["response"]["taskId"])
                 self.log("Status of the task: {0} .".format(self.status), "INFO")
 
                 if task_details_response.get("endTime") is not None:
-                    if task_details_response.get("isError") is True:
-                        self.result['changed'] = False
+                    if task_details_response.get("status") == "FAILURE":
+                        self.result["changed"] = True if self.result["changed"] is True else False
                         self.status = "failed"
                         self.msg = "Unable to get success response, hence AP config not updated"
                         self.log(self.msg, "ERROR")
                         self.log("Task Details: {0} .".format(self.pprint(
                             task_details_response)), "ERROR")
                         responses["accesspoints_updates"] = {
-                            "ap_update_config_task_details": task_details_response,
+                            "ap_update_config_task_details": self.get_task_details_by_id(task_response["response"]["taskId"]),
                             "ap_config_update_status": self.msg}
                         self.module.fail_json(msg=self.msg, response=responses)
                     else:
-                        self.result['changed'] = True
+                        self.result["changed"] = True
+                        self.result["ap_update_status"] = True
                         self.log("Task Details: {0} .".format(self.pprint(
                             task_details_response)), "INFO")
-                        self.msg = "AP Configuration - {0} updated Successfully"\
-                            .format(self.have["current_ap_config"].get("ap_name"))
+                        self.msg = "AP Configuration - {0} updated Successfully".format(
+                            self.have["current_ap_config"].get("ap_name"))
                         self.log(self.msg, "INFO")
                         responses["accesspoints_updates"] = {
-                            "ap_update_config_task_details": task_details_response["id"],
+                            "ap_update_config_task_details": self.get_task_details_by_id(task_details_response["id"]),
                             "ap_config_update_status": self.msg
                         }
-                        self.result['ap_update_msg'] = self.msg
+                        self.result["ap_update_msg"] = self.msg
                     break
 
                 time.sleep(resync_retry_interval)
@@ -1118,6 +1449,28 @@ class Accesspoint(DnacBase):
 
         self.result["response"] = responses
         return self
+
+    def ap_update_required(self):
+        """
+        Check if the necessary keys are present in the configuration for AP updates.
+
+        Returns:
+            bool: True if any of the required keys for AP update are present, False otherwise.
+        """
+        required_keys_for_updates = [
+            "ap_name", "admin_status",
+            "led_status", "led_brightness_level", "ap_mode", "location",
+            "failover_priority", "clean_air_si_2.4ghz", "clean_air_si_5ghz", "clean_air_si_6ghz",
+            "primary_controller_name", "primary_ip_address", "secondary_controller_name", "address",
+            "secondary_ip_address", "tertiary_controller_name", "tertiary_ip_address", "2.4ghz_radio",
+            "antenna_name", "radio_role_assignment", "cable_loss", "antenna_cable_name",
+            "channel_assignment_mode", "channel_number", "power_assignment_mode", "powerlevel",
+            "antenna_gain", "channel_width", "5ghz_radio", "6ghz_radio",
+            "xor_radio", "radio_band", "tri_radio", "dual_radio_mode"
+        ]
+        want_key_list = self.want.keys()
+        has_required_keys = bool(set(want_key_list).intersection(required_keys_for_updates))
+        return has_required_keys
 
     def verify_diff_merged(self, config):
         """
@@ -1153,24 +1506,32 @@ class Accesspoint(DnacBase):
 
         self.status = "success"
         self.msg = """The requested AP Config '{0}' is present in the Cisco Catalyst Center
-                    and its creation has been verified.""".format(ap_name)
+                    and its updation has been verified.""".format(ap_name)
         self.log(self.msg, "INFO")
 
         unmatch_count = 0
         require_update = self.config_diff(self.have["current_ap_config"])
         self.log(self.pprint(require_update), "INFO")
         if require_update:
-            radio_list = require_update.get("radioConfigurations")
+            radio_list = require_update.get(self.keymap["radio_configurations"], [])
             if len(radio_list) > 0:
                 for each_radio in radio_list:
                     radio_key_list = list(each_radio.keys())
                     for each_key in radio_key_list:
-                        if each_key not in ("antenna_name", "radioType", "unmatch", "cable_loss", "radioRoleAssignment"):
+                        if each_key not in ("antenna_name", self.keymap["radio_type"], "unmatch", "cable_loss",
+                                            self.keymap["radio_role_assignment"], self.keymap["radio_band"]):
                             unmatch_count += 1
 
             other_keys = list(require_update.keys())
+            self.log(other_keys, "INFO")
             for each_key in other_keys:
-                if each_key not in ("macAddress", "radioConfigurations", "isAssignedSiteAsLocation"):
+                if each_key not in (self.keymap["mac_address"], self.keymap["radio_configurations"],
+                                    self.keymap["is_assigned_site_as_location"], "macAddress",
+                                    self.keymap["primary_controller_name"], self.keymap["secondary_controller_name"],
+                                    self.keymap["tertiary_controller_name"], self.keymap["primary_ip_address"],
+                                    self.keymap["secondary_ip_address"], self.keymap["tertiary_ip_address"],
+                                    self.keymap["clean_air_si_2.4ghz"], self.keymap["clean_air_si_5ghz"],
+                                    self.keymap["clean_air_si_6ghz"]):
                     unmatch_count += 1
 
         self.log("Unmatch count for the radio configuration : {0}".format(str(unmatch_count)), "INFO")
@@ -1178,41 +1539,45 @@ class Accesspoint(DnacBase):
         responses = {}
         responses["accesspoints_verify"] = {}
 
-        if unmatch_count < 1:
-            msg = "The update for AP Config '{0}' has been successfully verified.".format(ap_name)
-            self.log(msg, "INFO")
-            self.status = "success"
-
-            ap_selected_fields = self.payload.get("config")[0].get("ap_selected_fields")
-            if ap_selected_fields is None or ap_selected_fields == "" or \
-               ap_selected_fields == "all":
-                self.payload["access_point_details"] = self.payload["access_point_details"]
-            else:
-                self.payload["access_point_details"] = self.data_frame(
-                    ap_selected_fields, [self.payload["access_point_details"]])
-
-            ap_config_selected_fields =\
-                self.payload.get("config")[0].get("ap_config_selected_fields")
-            if ap_config_selected_fields is None or ap_config_selected_fields == "" \
-               or ap_config_selected_fields == "all":
-                self.payload["access_point_config"] = self.payload["access_point_config"]
-            else:
-                self.payload["access_point_config"] = self.data_frame(
-                    ap_config_selected_fields, [self.payload["access_point_config"]])
-            self.have["current_ap_config"] = self.payload["access_point_config"]
-
-            responses["accesspoints_verify"]["ap_config_update_status"] = msg
-        elif self.have.get("site_required_changes") is False:
+        if self.have.get("site_required_changes") is False:
             msg = "AP provision for the site '{0}' has been successfully verified."\
                 .format(self.want.get("site_name"))
             responses["accesspoints_verify"]["ap_provision_update_status"] = msg
-        else:
-            self.msg = "Configuration for AP '{0}' does not match the desired state."\
-                .format(ap_name)
-            self.log(self.msg, "DEBUG")
-            self.status = "failed"
+            self.result["changed"] = True
 
-        self.result['response'] = responses
+        self.log("Unmatch count for the radio configuration : {0}".format(str(unmatch_count)), "INFO")
+        if self.result.get("ap_update_status") is True:
+            if unmatch_count < 1:
+                msg = "The update for AP Config '{0}' has been successfully verified.".format(ap_name)
+                self.log(msg, "INFO")
+                self.status = "success"
+                self.result["changed"] = True
+
+                ap_selected_fields = self.payload.get("config")[0].get("ap_selected_fields")
+                if ap_selected_fields is None or ap_selected_fields == "" or ap_selected_fields == "all":
+                    self.payload["access_point_details"] = self.payload["access_point_details"]
+                else:
+                    self.payload["access_point_details"] = self.data_frame(
+                        ap_selected_fields, [self.payload["access_point_details"]])
+
+                ap_config_selected_fields =\
+                    self.payload.get("config")[0].get("ap_config_selected_fields")
+                if ap_config_selected_fields is None or ap_config_selected_fields == "" \
+                   or ap_config_selected_fields == "all":
+                    self.payload["access_point_config"] = self.payload["access_point_config"]
+                else:
+                    self.payload["access_point_config"] = self.data_frame(
+                        ap_config_selected_fields, [self.payload["access_point_config"]])
+                self.have["current_ap_config"] = self.payload["access_point_config"]
+
+                responses["accesspoints_verify"]["ap_config_update_status"] = msg
+            else:
+                self.msg = "Configuration for AP '{0}' does not match the desired state."\
+                    .format(ap_name)
+                self.log(self.msg, "DEBUG")
+                self.status = "failed"
+
+        self.result["response"] = responses
         return self
 
     def validate_radio_series(self, ap_config):
@@ -1230,31 +1595,30 @@ class Accesspoint(DnacBase):
         Description:
             Iterates through available radio interfaces and checks if the Access Point
             series supports the specified radio type. If not supported, adds details
-            to the 'invalid_series' list. Returns the list of invalid radio interfaces
+            to the "invalid_series" list. Returns the list of invalid radio interfaces
             for further action or validation.
         """
         invalid_series = []
         self.log("Starting validation of radio series with configuration: {0}".format(str(ap_config)), "INFO")
         for radio_type in self.radio_interface:
             ap_series = ap_config.get(radio_type)
-            self.log('Validating radio type: {0}'.format(radio_type), "INFO")
+            self.log("Validating radio type: {0}".format(radio_type), "INFO")
+
             if ap_series is not None:
                 for series in self.allowed_series[radio_type]:
-                    pattern = r'\b{}\w+'.format(re.escape(series))
-                    compiled_pattern = re.compile(pattern)
+                    compiled_pattern = re.compile(r'\b{0}\w+|\b{0}\b'.format(re.escape(series)))
                     is_valid = compiled_pattern.search(self.payload["access_point_details"]["series"])
                     if is_valid:
                         invalid_series = []
                         break
 
-                    if not is_valid:
-                        invalid_entry = "Access Point series '{0}' not supported for the radio type {1} allowed series {2}".format(
-                            self.payload["access_point_details"]["series"],
-                            radio_type,
-                            str(self.allowed_series[radio_type])
-                        )
-                        self.log("Invalid series detected: {}".format(invalid_entry), "DEBUG")
-                        invalid_series.append(invalid_entry)
+                    invalid_entry = "Access Point series '{0}' not supported for the radio type {1} allowed series {2}".format(
+                        self.payload["access_point_details"]["series"],
+                        radio_type,
+                        str(series)
+                    )
+                    self.log("Invalid series detected: {}".format(invalid_entry), "DEBUG")
+                    invalid_series.append(invalid_entry)
 
         self.log("Completed validation. Invalid series: {}".format(invalid_series), "INFO")
         return invalid_series
@@ -1271,7 +1635,7 @@ class Accesspoint(DnacBase):
         Returns:
         An instance of the class with updated attributes:
             - self.msg (str): A message describing the validation result.
-            - self.status (str): The status of the validation ('success' or 'failed').
+            - self.status (str): The status of the validation ("success" or "failed").
 
         Description:
         This method validates various parameters in the AP configuration, AP provisioning, and
@@ -1280,9 +1644,9 @@ class Accesspoint(DnacBase):
         fields like LED status and radio settings.
 
         Example:
-        To use this method, create an instance of the class and call 'validate_ap_config_parameters'
-        on it. If validation succeeds, 'self.status' will be 'success'. If it fails, 'self.status'
-        will be 'failed', and 'self.msg' will describe the validation issues.
+        To use this method, create an instance of the class and call "validate_ap_config_parameters"
+        on it. If validation succeeds, "self.status" will be "success". If it fails, "self.status"
+        will be "failed", and "self.msg" will describe the validation issues.
         """
 
         errormsg = []
@@ -1299,13 +1663,36 @@ class Accesspoint(DnacBase):
                     mac_address))
 
         management_ip_address = ap_config.get("management_ip_address")
-        if management_ip_address and not self.is_valid_ipv4(management_ip_address):
+        if management_ip_address and (not self.is_valid_ipv4(management_ip_address) and
+                                      not self.is_valid_ipv6(management_ip_address)):
             errormsg.append("management_ip_address: Invalid Management IP Address '{0}'\
                             in playbook.".format(management_ip_address))
 
         if ap_config.get("rf_profile"):
             param_spec = dict(type="str", length_max=32)
             validate_str(ap_config["rf_profile"], param_spec, "rf_profile", errormsg)
+
+        for reboot_reset in ("reboot_aps", "factory_reset_aps"):
+            reboot_reset_aps = ap_config.get(reboot_reset)
+            if reboot_reset_aps is not None:
+                ap_identity_type = list(reboot_reset_aps.keys())[0]  # Retrieve the type (mac, hostname, or IP)
+                if ap_identity_type and ap_identity_type in self.keymap and len(reboot_reset_aps.get(ap_identity_type)) > 0:
+                    for ap_identifier in reboot_reset_aps[ap_identity_type]:
+                        if ap_identity_type == "mac_addresses":
+                            mac_regex = re.compile(r'^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$')
+                            if not mac_regex.match(ap_identifier):
+                                errormsg.append("mac_addresses: Invalid MAC Address '{0}' in playbook.".format(
+                                    str(ap_identifier)))
+                                self.log("Invalid MAC address for {0}: {1}".format(reboot_reset, ap_identifier), "ERROR")
+                        elif ap_identity_type == "management_ip_addresses":
+                            if not (self.is_valid_ipv4(ap_identifier) or self.is_valid_ipv6(ap_identifier)):
+                                errormsg.append("management_ip_addresses: Invalid Management IP Address '{0}' in playbook."
+                                                .format(ap_identifier))
+                                self.log("Invalid Management IP address for {0}: {1}".format(reboot_reset, ap_identifier), "ERROR")
+                        elif ap_identity_type == "hostnames":
+                            param_spec = dict(type="str", length_max=32)
+                            validate_str(ap_identifier, param_spec, "hostnames", errormsg)
+                            self.log("Hostname validation for '{0}' in {1} completed.".format(ap_identifier, reboot_reset), "DEBUG")
 
         site = ap_config.get("site")
         if site:
@@ -1323,6 +1710,8 @@ class Accesspoint(DnacBase):
         if ap_name:
             param_spec = dict(type="str", length_max=32)
             validate_str(ap_name, param_spec, "ap_name", errormsg)
+            if re.search(r'[ ?<]', ap_name):
+                errormsg.append("ap_name: Invalid '{0}' in playbook. Space, '?', '<' and XSS characters are not allowed".format(ap_name))
 
         admin_status = ap_config.get("admin_status")
         if admin_status and admin_status not in ("Enabled", "Disabled"):
@@ -1365,17 +1754,28 @@ class Accesspoint(DnacBase):
                                 .format(freq_band, ap_config_freq_band))
 
         # Validate Controller Names
+        check_duplicate_controller = []
         for ctrl_name in ["primary_controller_name", "secondary_controller_name", "tertiary_controller_name"]:
-            if ap_config.get(ctrl_name) == "":
-                errormsg.append("{0}: Invalid {0} in playbook. Please select one of: Inherit from site/Clear or Controller name."
-                                .format(ap_config.get(ctrl_name)))
+            controller = ap_config.get(ctrl_name)
+            if controller is not None:
+                if controller == "":
+                    errormsg.append("{0}: Invalid {1} in playbook. Please select one of: Inherit from site / Clear or Controller name."
+                                    .format(ctrl_name, controller))
+                elif controller != "Inherit from site / Clear" and controller in check_duplicate_controller:
+                    errormsg.append("{0}: Duplicate {1} in playbook.".format(ctrl_name, controller))
+                check_duplicate_controller.append(controller)
 
         # Validate controller IP Addresses
+        check_duplicate_ip = []
         for ip_address in ["primary_ip_address", "secondary_ip_address", "tertiary_ip_address"]:
             ap_config_ip_address = ap_config.get(ip_address)
-            if ap_config_ip_address and not self.is_valid_ipv4(ap_config_ip_address["address"]):
-                errormsg.append("{0}: Invalid {0} '{1}' in playbook".format(ip_address,
-                                                                            ap_config_ip_address))
+            address = ap_config_ip_address.get("address") if ap_config_ip_address else None
+            if address:
+                if not self.is_valid_ipv4(address) and not self.is_valid_ipv6(address):
+                    errormsg.append("{0}: Invalid IP address '{1}' in playbook".format(ip_address, address))
+                elif address != "0.0.0.0" and address in check_duplicate_ip:
+                    errormsg.append("{0}: Duplicate IP address '{1}' in playbook".format(ip_address, address))
+                check_duplicate_ip.append(address)
 
         # Validate Dual Radio Mode
         dual_radio_mode = ap_config.get("dual_radio_mode")
@@ -1386,9 +1786,9 @@ class Accesspoint(DnacBase):
         for radio_series in ["2.4ghz_radio", "5ghz_radio", "6ghz_radio", "xor_radio", "tri_radio"]:
             radio_config = ap_config.get(radio_series)
             if radio_config:
-                if self.have["current_ap_config"].get("ap_mode") not in ("Local/FlexConnect", "Local"):
+                if ap_config.get("ap_mode") not in ("Local/FlexConnect", "Local"):
                     errormsg.append("Radio Params cannot be changed when AP mode is in {0}."
-                                    .format(self.have["current_ap_config"].get("ap_mode")))
+                                    .format(ap_config.get("ap_mode")))
                 self.validate_radio_parameters(radio_config, radio_series, errormsg)
 
         if len(errormsg) > 0:
@@ -1419,10 +1819,12 @@ class Accesspoint(DnacBase):
             errormsg.append("admin_status: Invalid value '{0}' for admin_status in playbook. Must be either 'Enabled' or 'Disabled'."
                             .format(admin_status))
 
-        radio_type_map = {"2.4ghz_radio": 1, "5ghz_radio": 2, "6ghz_radio": 6, "xor_radio": 3}
+        radio_type_map = {"2.4ghz_radio": 1, "5ghz_radio": 2, "6ghz_radio": 6,
+                          "xor_radio": 3, "tri_radio": 2}
         radio_config["radio_type"] = radio_type_map[radio_series]
         self.want[radio_series]["radio_type"] = radio_config["radio_type"]
         self.keymap["radio_type"] = "radioType"
+        radio_band = radio_config.get("radio_band")
 
         antenna_name = radio_config.get("antenna_name")
         if antenna_name:
@@ -1430,8 +1832,17 @@ class Accesspoint(DnacBase):
             validate_str(antenna_name, param_spec, "antenna_name", errormsg)
 
         antenna_gain = radio_config.get("antenna_gain")
-        if antenna_gain and antenna_gain not in range(1, 10):
-            errormsg.append("antenna_gain: Invalid '{0}' in playbook".format(antenna_gain))
+        if antenna_gain and antenna_gain not in range(0, 41):
+            errormsg.append("antenna_gain: Invalid '{0}' in playbook, allowed range of min: 0 and max: 40"
+                            .format(antenna_gain))
+
+        cable_loss = radio_config.get("cable_loss")
+        if cable_loss:
+            if not 0 <= cable_loss <= 40:
+                errormsg.append("cable_loss: Invalid '{0}' in playbook. Must be between 0 and 40.".format(cable_loss))
+            elif antenna_gain and cable_loss >= antenna_gain:
+                errormsg.append("cable_loss: Invalid '{0}' in playbook. Must be less than antenna_gain: {1}."
+                                .format(cable_loss, antenna_gain))
 
         channel_assignment_mode = radio_config.get("channel_assignment_mode")
         if channel_assignment_mode and channel_assignment_mode not in ("Global", "Custom"):
@@ -1440,28 +1851,49 @@ class Accesspoint(DnacBase):
 
         channel_number = radio_config.get("channel_number")
         if channel_number:
-            if self.allowed_channel_no.get(radio_series) is not None and\
-               channel_number not in self.allowed_channel_no.get(radio_series):
+            if radio_series == "xor_radio" and self.want.get(radio_series).get("radio_role_assignment") == "Client-Serving"\
+               and radio_band in ["2.4 GHz", "5 GHz", "6 GHz"]:
+                if radio_band == "2.4 GHz" and channel_number not in self.allowed_channel_no.get("2.4ghz_radio"):
+                    errormsg.append(
+                        "channel_number: Invalid value '{0}' for Channel Number in playbook. Must be one of: {1}."
+                        .format(channel_number, str(self.allowed_channel_no["2.4ghz_radio"])))
+                elif radio_band == "5 GHz" and channel_number not in self.allowed_channel_no.get("5ghz_radio"):
+                    errormsg.append(
+                        "channel_number: Invalid value '{0}' for Channel Number in playbook. Must be one of: {1}."
+                        .format(channel_number, str(self.allowed_channel_no["5ghz_radio"])))
+                elif radio_band == "6 GHz" and channel_number not in self.allowed_channel_no.get("6ghz_radio"):
+                    errormsg.append(
+                        "channel_number: Invalid value '{0}' for Channel Number in playbook. Must be one of: {1}."
+                        .format(channel_number, str(self.allowed_channel_no["6ghz_radio"])))
+            elif self.allowed_channel_no.get(radio_series) is not None and channel_number not in self.allowed_channel_no.get(radio_series):
                 errormsg.append(
                     "channel_number: Invalid value '{0}' for Channel Number in playbook. Must be one of: {1}."
                     .format(channel_number, str(self.allowed_channel_no[radio_series]))
                 )
             else:
                 current_radio_role = self.check_current_radio_role_assignment(
-                    radio_series, self.have["current_ap_config"].get("radio_dtos" , []))
-                if self.want.get(radio_series).get("radio_role_assignment") != "Client-Serving" :
+                    radio_series, self.have["current_ap_config"].get("radio_dtos" , []), radio_band)
+                if self.want.get(radio_series).get("radio_role_assignment") != "Client-Serving" and radio_series != "5ghz_radio":
                     errormsg.append(
                         "channel_number: This configuration is only supported with Client-Serving Radio Role Assignment {0} "
                         .format(current_radio_role)
                     )
 
         channel_width = radio_config.get("channel_width")
-        if channel_width and channel_width not in ("20 MHz", "40 MHz", "80 MHz", "160 MHz"):
-            errormsg.append(
-                "channel_width: Invalid value '{0}' for Channel width in playbook. "
-                "Must be one of: '20 MHz', '40 MHz', '80 MHz', or '160 MHz'."
-                .format(channel_width)
-            )
+        valid_channel_widths = ["20 MHz", "40 MHz", "80 MHz", "160 MHz"]
+        if channel_width:
+            if radio_series == "2.4ghz_radio":
+                errormsg.append("channel_width is not applicable for the 2.4GHz radio")
+            elif radio_series != "6ghz_radio" and channel_width not in valid_channel_widths:
+                errormsg.append(
+                    "channel_width: Invalid value '{0}' for Channel width in playbook. "
+                    "Must be one of: {1}.".format(channel_width, ", ".join(valid_channel_widths)))
+            else:
+                valid_channel_widths.append("320 MHz")
+                if radio_series == "6ghz_radio" and channel_width not in valid_channel_widths:
+                    errormsg.append(
+                        "channel_width: Invalid value '{0}' for Channel width in playbook. "
+                        "Must be one of: {1}.".format(channel_width, ", ".join(valid_channel_widths)))
 
         power_assignment_mode = radio_config.get("power_assignment_mode")
         if power_assignment_mode and power_assignment_mode not in ("Global", "Custom"):
@@ -1477,19 +1909,19 @@ class Accesspoint(DnacBase):
                 )
             else:
                 current_radio_role = self.check_current_radio_role_assignment(
-                    radio_series, self.have["current_ap_config"].get("radio_dtos", []))
-                if self.want.get(radio_series).get("radio_role_assignment") != "Client-Serving" :
+                    radio_series, self.have["current_ap_config"].get("radio_dtos", []), radio_band)
+                if self.want.get(radio_series).get("radio_role_assignment") != "Client-Serving" and radio_series != "5ghz_radio":
                     errormsg.append(
                         "powerlevel: This configuration is only supported with Client-Serving Radio Role Assignment {0} "
                         .format(current_radio_role)
                     )
 
-        radio_band = radio_config.get("radio_band")
-        if radio_band and radio_band not in ("2.4 GHz", "5 GHz"):
-            errormsg.append("radio_band: Invalid value '{0}' in playbook. Must be either '2.4 GHz' or '5 GHz'."
+        radio_role_assignment = radio_config.get("radio_role_assignment")
+        if radio_role_assignment == "Client-Serving" and radio_band and radio_band not in ("2.4 GHz", "5 GHz", "6 GHz")\
+           and radio_series == "xor_radio":
+            errormsg.append("radio_band: Invalid value '{0}' in playbook. Must be either '2.4 GHz' or '5 GHz' or '6 GHz'."
                             .format(radio_band))
 
-        radio_role_assignment = radio_config.get("radio_role_assignment")
         if radio_role_assignment:
             if radio_role_assignment not in ("Auto", "Client-Serving", "Monitor"):
                 errormsg.append(
@@ -1498,12 +1930,19 @@ class Accesspoint(DnacBase):
                     .format(radio_role_assignment)
                 )
             else:
-                if self.have["current_ap_config"].get("ap_mode") not in ("Local/FlexConnect", "Local"):
+                if self.want.get("ap_mode") not in ("Local/FlexConnect", "Local"):
                     errormsg.append(
                         "radio_role_assignment: Invalid value '{0}'. Hence, AP mode is not Local. "
                         "Kindly change the AP mode to Local then change the radio_role_assignment to Auto."
                         .format(radio_role_assignment)
                     )
+
+        if radio_series == "xor_radio" and radio_role_assignment == "Client-Serving" and radio_band is None:
+            errormsg.append("radio_band: Missing in '{0}' in playbook. Must be either '2.4 GHz' or '5 GHz' or '6 GHz'."
+                            .format(radio_series))
+        elif radio_series == "xor_radio" and radio_role_assignment in ("Auto", "Monitor") and radio_band is not None:
+            errormsg.append("radio_band: Should be empty for '{0}' when radio_role_assignment in 'Auto' or 'Monitor' mode."
+                            .format(radio_series))
 
     def check_current_radio_role_assignment(self, radio_type, radio_dtos, radio_band=any):
         """
@@ -1524,7 +1963,7 @@ class Accesspoint(DnacBase):
 
         Example:
         To check the current radio role assignment for the 5 GHz radio, call this method with
-        '5ghz_radio' as 'radio_type' and the list of radio DTOS.
+        "5ghz_radio" as "radio_type" and the list of radio DTOS.
         """
         role_assignment = None
         for each_dto in radio_dtos:
@@ -1537,7 +1976,8 @@ class Accesspoint(DnacBase):
 
             if radio_type == "xor_radio":
                 if (radio_band == "2.4 GHz" and slot_id == 0) or \
-                   (radio_band == "5 GHz" and slot_id == 1):
+                   (radio_band == "5 GHz" and slot_id == 2) or \
+                   (radio_band == "6 GHz" and slot_id == 2):
                     break
 
             if radio_type == "tri_radio":
@@ -1546,7 +1986,7 @@ class Accesspoint(DnacBase):
                    (radio_band == "5 GHz" and slot_id == 2):
                     break
 
-        self.log('Completed checking radio role assignments. Role assignment: {0}, radio type: {1}, radio band: {2}'
+        self.log("Completed checking radio role assignments. Role assignment: {0}, radio type: {1}, radio band: {2}"
                  .format(role_assignment, radio_type, radio_band), "INFO")
         return role_assignment
 
@@ -1586,10 +2026,16 @@ class Accesspoint(DnacBase):
         self.keymap.update({
             "mac_address": "macAddress",
             "management_ip_address": "managementIpAddress",
-            "hostname": "hostname"
+            "hostname": "hostname",
+            "radio_configurations": "radioConfigurations",
+            "radio_type": "radioType",
+            "is_assigned_site_as_location": "isAssignedSiteAsLocation",
+            "clean_air_si_2.4ghz": "cleanAirSI24",
+            "clean_air_si_5ghz": "cleanAirSI5",
+            "clean_air_si_6ghz": "cleanAirSI6"
         })
 
-        for key in ['mac_address', 'management_ip_address', 'hostname']:
+        for key in ["mac_address", "management_ip_address", "hostname"]:
             if input_config.get(key):
                 input_param[self.keymap[key]] = input_config[key]
                 break
@@ -1603,7 +2049,7 @@ class Accesspoint(DnacBase):
         try:
             ap_response = self.dnac._exec(
                 family="devices",
-                function='get_device_list',
+                function="get_device_list",
                 op_modifies=True,
                 params=input_param,
             )
@@ -1616,7 +2062,7 @@ class Accesspoint(DnacBase):
         except Exception as e:
             self.msg = "The provided device '{0}' is either invalid or not present in the \
                      Cisco Catalyst Center.".format(str(input_param))
-            self.log(msg + str(e), "WARNING")
+            self.log(self.msg + str(e), "WARNING")
 
         if not accesspoint_exists:
             self.msg = "The provided device '{0}' is either invalid or not present in the \
@@ -1666,14 +2112,15 @@ class Accesspoint(DnacBase):
 
         if input_config.get("site"):
             site_exists, current_site = self.site_exists(input_config)
-            self.log('Site exists: {0}, Current site: {1}'.format(site_exists, current_site), "INFO")
+            self.log("Site exists: {0}, Current site: {1}".format(site_exists, current_site), "INFO")
 
             if site_exists:
                 self.payload.update({
                     "site_exists": site_exists,
                     "current_site": current_site,
                     "site_changes": self.get_site_device(current_site["site_id"],
-                                                         current_configuration["mac_address"])
+                                                         current_configuration["mac_address"],
+                                                         site_exists, current_site, current_configuration)
                 })
                 provision_status, wlc_details = self.verify_ap_provision(
                     current_configuration["associated_wlc_ip"])
@@ -1692,7 +2139,7 @@ class Accesspoint(DnacBase):
                 self.payload["access_point_config"] = current_configuration
                 self.log("Updated payload with access point configuration: {0}".format(str(self.payload)), "INFO")
 
-        self.log('Completed retrieving current configuration. Access point exists: {0}, Current configuration: {1}'
+        self.log("Completed retrieving current configuration. Access point exists: {0}, Current configuration: {1}"
                  .format(accesspoint_exists, current_configuration), "INFO")
         return (accesspoint_exists, current_configuration)
 
@@ -1730,14 +2177,14 @@ class Accesspoint(DnacBase):
         try:
             ap_config_response = self.dnac._exec(
                 family="wireless",
-                function='get_access_point_configuration',
+                function="get_access_point_configuration",
                 params=input_param,
             )
 
             if ap_config_response:
                 self.keymap = self.map_config_key_to_api_param(self.keymap, ap_config_response)
                 current_configuration = self.camel_to_snake_case(ap_config_response)
-                self.log("Received API response from 'get_access_point_configuration': {0}".format(self.pprint(current_configuration)), "INFO")
+                self.log("Received API response from get_access_point_configuration: {0}".format(self.pprint(current_configuration)), "INFO")
                 accesspoint_config_exists = True
 
         except Exception as e:
@@ -1776,24 +2223,24 @@ class Accesspoint(DnacBase):
             site_name = parent_name + "/" + floor_name
             self.want["site_name"] = site_name
             try:
-                response = self.dnac._exec(
-                    family="sites",
-                    function='get_site',
-                    op_modifies=True,
-                    params={"name": site_name},
-                )
+                response = self.get_site(site_name)
                 if response.get("response"):
                     site = response["response"][0]
                     self.log("Site response: {0}".format(self.pprint(site)), "INFO")
-                    location = get_dict_result(site.get("additionalInfo"), 'nameSpace', "Location")
-                    type_info = location.get("attributes", {}).get("type")
+
+                    if self.dnac_version <= self.dnac_versions["2.3.5.3"]:
+                        location = get_dict_result(site.get("additionalInfo"), 'nameSpace', "Location")
+                        type_info = location.get("attributes", {}).get("type")
+                        parent_name = site.get("siteNameHierarchy").split("/" + site.get("name"))[0]
+                    else:
+                        type_info = site.get("type")
+                        parent_name = site.get("nameHierarchy").split("/" + site.get("name"))[0]
 
                     if type_info == "floor":
                         site_info = {
                             "floor": {
                                 "name": site.get("name"),
-                                "parentName": site.get("siteNameHierarchy").split(
-                                    "/" + site.get("name"))[0]
+                                "parentName": parent_name
                             }
                         }
 
@@ -1803,9 +2250,15 @@ class Accesspoint(DnacBase):
                         "site_id": site.get("id"),
                         "site_name": site_info["floor"]["parentName"] + "/" + site_info["floor"]["name"]
                     }
-                    self.log('Current site details: {0}'.format(str(current_site)), "INFO")
-                    self.log("Site '{0}' exists in Cisco Catalyst Center".format(site.get("name")), "INFO")
+                    self.log("Current site details: {0}".format(str(current_site)), "INFO")
+                    self.log("Site {0} exists in Cisco Catalyst Center".format(site.get("name")), "INFO")
                     site_exists = True
+                else:
+                    msg = "The provided site name '{0}' is either invalid or not present in the \
+                        Cisco Catalyst Center.".format(self.want.get("site_name"))
+                    self.log(msg, "WARNING")
+                    self.module.fail_json(msg=msg)
+
             except Exception as e:
                 msg = "The provided site name '{0}' is either invalid or not present in the \
                         Cisco Catalyst Center.".format(self.want.get("site_name"))
@@ -1815,7 +2268,7 @@ class Accesspoint(DnacBase):
 
         return site_exists, current_site
 
-    def get_site_device(self, site_id, ap_mac_address):
+    def get_site_device(self, site_id, ap_mac_address, site_exist=None, current_site=None, current_config=None):
         """
         Fetches device information associated with a specific site and checks if a given AP
         MAC address is present.
@@ -1829,48 +2282,28 @@ class Accesspoint(DnacBase):
             bool: True if the AP MAC address is found in the site's devices, otherwise False.
 
         Description:
-            This method utilizes the 'get_membership' API to retrieve details about devices
-            associated with the specified 'site_id'. It verifies if the AP device identified by
-            'ap_mac_address' is among the devices retrieved for the site. If found, it logs a
+            This method utilizes the "get_membership" API to retrieve details about devices
+            associated with the specified "site_id". It verifies if the AP device identified by
+            "ap_mac_address" is among the devices retrieved for the site. If found, it logs a
             success message indicating presence; otherwise, it logs a failure message.
 
             If the AP MAC address is found in the site, the method returns True. If the device is
             not found or if an error occurs during the API call, it returns False.
         """
         try:
-            response = self.dnac._exec(
-                family="sites",
-                function="get_membership",
-                op_modifies=True,
-                params={"site_id": site_id}
-            )
-
-            if not response.get("device"):
-                self.log("No site information found : {sId},".format(sId=site_id), "INFO")
-                return False
-
-            device_mac_info = []
-            for device_info in response.get('device', []):
-                response_list = device_info.get('response', [])
-                for response_item in response_list:
-                    mac_address = response_item.get('macAddress')
-                    if mac_address:
-                        device_mac_info.append(mac_address)
-
-            if ap_mac_address in device_mac_info:
-                self.log(
-                    "Device with MAC address: {macAddress} found in site: {sId},"
-                    "Proceeding with ap_site updation."
-                    .format(macAddress=ap_mac_address, sId=site_id), "INFO"
-                )
+            site_name = self.have.get("site_name_hierarchy", self.want.get("site_name"))
+            device_list = self.get_device_ids_from_site(site_name, site_id)
+            if current_config.get("id") is not None and current_config.get("id") in device_list:
+                self.log("Device with MAC address: {0} found in site: {1} Proceeding with ap_site updation."
+                         .format(ap_mac_address, site_id), "INFO")
                 return True
             else:
-                self.log("No site information found : {sId},".format(sId=site_id), "INFO")
+                self.log("Given device not found on the site: {sId},".format(sId=site_id), "INFO")
                 return False
 
         except Exception as e:
-            self.log("Failed to execute the get_membership function '{}'\
-                      Error: {}".format(site_id, str(e)), "ERROR")
+            self.log("Failed to execute the get_device_ids_from_site function '{0}'\
+                      Error: {1}".format(site_id, str(e)), "ERROR")
             return False
 
     def verify_ap_provision(self, wlc_ip_address):
@@ -1898,12 +2331,12 @@ class Accesspoint(DnacBase):
         try:
             response = self.dnac._exec(
                 family="sda",
-                function='get_device_info',
+                function="get_device_info",
                 op_modifies=True,
                 params={"device_management_ip_address": device_management_ip_address}
             )
             if response and response.get("status") == "success":
-                self.log('Response from get_device_info: {0}'.format(self.pprint(response)),
+                self.log("Response from get_device_info: {0}".format(self.pprint(response)),
                          "INFO")
                 self.log("WLC already provisioned.", "INFO")
                 provision_status = "success"
@@ -1917,6 +2350,109 @@ class Accesspoint(DnacBase):
             self.module.fail_json(msg=msg, response=provision_details)
 
         return provision_status, provision_details
+
+    def access_point_provision_old(self, rf_profile, hostname, type_name, site_name_hierarchy):
+        """
+        Provisions a device (AP) to a specific site. support Cisco Catalyst Center version
+        less than 2.3.7.6
+
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            rf_profile (str): Radio profile name either custom or default like "HIGH", "LOW"
+            hostname (str): Accesspoint host name
+            type_name (str): Site type should be "floor" or "building"
+            site_name_hierarchy (str): Complete path of the the site location.
+
+        Returns:
+            resoponse (dict): A dict containing the execution id and url.
+
+        Description:
+            Provisions an Access Point (AP) to a specified site using the provided
+            site name hierarchy, RF profile, hostname, and AP type. Logs details
+            and handles
+        """
+        if not site_name_hierarchy or not rf_profile or not hostname:
+            error_msg = ("Cannot provision device: Missing parameters - "
+                         "site_name_hierarchy: {0}, rf_profile: {1}, host_name: {2}"
+                         .format(site_name_hierarchy, rf_profile, hostname))
+            self.log(error_msg, "ERROR")
+            self.module.fail_json(msg=error_msg)
+
+        provision_params = [{
+            "rfProfile": rf_profile,
+            "deviceName": hostname,
+            "type": type_name,
+            "siteNameHierarchy": site_name_hierarchy
+        }]
+        self.log('Before AP provision: {0}'.format(self.pprint(provision_params)), "INFO")
+
+        response = self.dnac._exec(
+            family="wireless",
+            function='ap_provision',
+            op_modifies=True,
+            params={"payload": provision_params},
+        )
+
+        self.log('Response from ap_provision: {0}'.format(str(response.get("response"))), "INFO")
+        if response and isinstance(response, dict):
+            return response
+        return None
+
+    def access_point_provision_new(self, rf_profile, device_id, site_id):
+        """
+        Provisions a device (AP) to a specific site. support Cisco Catalyst Center version
+        2.3.7.6 and greater
+
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            rf_profile (str): Radio profile name either custom or default like "HIGH", "LOW"
+            device_id (str): Accesspoint id collected from device details
+            site_id (str): Site id of the site location
+
+        Returns:
+            resoponse (dict): A dict containing the Task id and url.
+
+        Description:
+            Provisions an Access Point (AP) to a specified site using the provided
+            device id, RF profile and site id Logs details and handles
+        """
+        if not rf_profile or not device_id or not site_id:
+            error_msg = ("Cannot provision device: Missing parameters - "
+                         "device_id: {0}, rf_profile: {1}, site_id: {2}"
+                         .format(device_id, rf_profile, site_id))
+            self.log(error_msg, "ERROR")
+            self.module.fail_json(msg=error_msg)
+
+        provision_params = {
+            "rfProfileName": rf_profile,
+            "networkDevices": [{"deviceId": device_id}],
+            "siteId": site_id
+        }
+
+        try:
+            site_assign_status = self.assign_device_to_site([self.have.get("device_id")],
+                                                            self.have.get("site_name_hierarchy"),
+                                                            self.have.get("site_id"))
+            if site_assign_status:
+                self.log('Current device details: {0}'.format(self.pprint(provision_params)), "INFO")
+                response = self.dnac._exec(
+                    family="wireless",
+                    function='ap_provision',
+                    op_modifies=True,
+                    params={"payload": provision_params},
+                )
+                self.log('Response from ap_provision: {0}'.format(str(response.get("response"))), "INFO")
+
+                if response and isinstance(response, dict):
+                    return response
+
+                return None
+
+        except Exception as e:
+            error_msg = 'An error occurred during device provisioning: {0}'.format(str(e))
+            self.log(error_msg, "ERROR")
+            self.msg = error_msg
+            self.module.fail_json(msg=self.msg)
 
     def provision_device(self):
         """
@@ -1934,64 +2470,87 @@ class Accesspoint(DnacBase):
             site name hierarchy, RF profile, hostname, and AP type. Logs details
             and handles
         """
-
         provision_status = "failed"
         provision_details = None
+        rf_profile = self.want.get("rf_profile")
+        site_name_hierarchy = self.have.get("site_name_hierarchy")
+        hostname = self.have.get("hostname")
+        type_name = self.have.get("ap_type")
+        device_id = self.have.get("device_id")
+        site_id = self.have.get("site_id")
+
         try:
-            site_name_hierarchy = self.have.get("site_name_hierarchy")
-            rf_profile = self.want.get("rf_profile")
-            host_name = self.have.get("hostname")
-            type_name = self.have.get("ap_type")
+            if self.dnac_version <= self.dnac_versions["2.3.5.3"]:
+                response = self.access_point_provision_old(rf_profile, hostname,
+                                                           type_name, site_name_hierarchy)
+                if response and isinstance(response, dict):
+                    executionid = response.get("executionId")
+                    resync_retry_count = int(self.payload.get("dnac_api_task_timeout", 100))
+                    resync_retry_interval = int(self.payload.get("dnac_task_poll_interval", 5))
 
-            if not site_name_hierarchy or not rf_profile or not host_name:
-                error_msg = ("Cannot provision device: Missing parameters - "
-                             "site_name_hierarchy: {0}, rf_profile: {1}, host_name: {2}"
-                             .format(site_name_hierarchy, rf_profile, host_name))
-                self.log(error_msg, "ERROR")
-                self.module.fail_json(msg=error_msg)
+                    while resync_retry_count:
+                        execution_details = self.get_execution_details(executionid)
+                        if execution_details.get("status") == "SUCCESS":
+                            self.result['changed'] = True
+                            self.result['response'] = execution_details
+                            provision_status = "SUCCESS"
+                            provision_details = execution_details
+                            break
+                        if execution_details.get("bapiError"):
+                            self.module.fail_json(msg=execution_details.get("bapiError"),
+                                                  response=execution_details)
+                            break
 
-            provision_params = [{
-                "rfProfile": rf_profile,
-                "deviceName": host_name,
-                "type": type_name,
-                "siteNameHierarchy": site_name_hierarchy
-            }]
-            self.log('Current device details: {0}'.format(self.pprint(provision_params)), "INFO")
+                        time.sleep(resync_retry_interval)
+                        resync_retry_count = resync_retry_count - 1
+            else:
+                response = self.access_point_provision_new(rf_profile, device_id, site_id)
+                if response and isinstance(response, dict):
+                    task_id = response.get("response", {}).get("taskId")
+                    resync_retry_count = int(self.payload.get("dnac_api_task_timeout"))
+                    resync_retry_interval = int(self.payload.get("dnac_task_poll_interval"))
 
-            response = self.dnac._exec(
-                family="wireless",
-                function='ap_provision',
-                op_modifies=True,
-                params={"payload": provision_params},
-            )
-
-            self.log('Response from ap_provision: {0}'.format(str(response)), "INFO")
-            if response and isinstance(response, dict):
-                executionid = response.get("executionId")
-                resync_retry_count = self.payload.get("dnac_api_task_timeout", 100)
-                resync_retry_interval = self.payload.get("dnac_task_poll_interval", 5)
-
-                while resync_retry_count:
-                    execution_details = self.get_execution_details(executionid)
-                    if execution_details.get("status") == "SUCCESS":
-                        self.result['changed'] = True
-                        self.result['response'] = execution_details
-                        provision_status = "SUCCESS"
-                        provision_details = execution_details
-                        break
-                    elif execution_details.get("bapiError"):
-                        self.module.fail_json(msg=execution_details.get("bapiError"),
-                                              response=execution_details)
-                        break
-
-                    time.sleep(resync_retry_interval)
-                    resync_retry_count = resync_retry_count - 1
+                    while resync_retry_count:
+                        task_details_response = self.get_tasks_by_id(task_id)
+                        self.log("Status of the task: {0} .".format(self.status), "INFO")
+                        responses = {}
+                        if task_details_response.get("endTime") is not None:
+                            if task_details_response.get("status") == "SUCCESS":
+                                self.log("Task Details: {0} .".format(self.pprint(
+                                    task_details_response)), "INFO")
+                                self.msg = "AP {0} provisioned Successfully".format(
+                                    self.have["current_ap_config"].get("ap_name"))
+                                self.log(self.msg, "INFO")
+                                self.result['changed'] = True
+                                self.result['response'] = self.msg
+                                provision_status = "SUCCESS"
+                                provision_details = self.get_task_details_by_id(task_id)
+                                break
+                            else:
+                                self.result['changed'] = True if self.result['changed'] is True else False
+                                self.status = "failed"
+                                self.msg = "Unable to get success response, hence not provisioned"
+                                self.log(self.msg, "ERROR")
+                                self.log("Task Details: {0} .".format(self.pprint(
+                                    task_details_response)), "ERROR")
+                                provision_details = self.get_task_details_by_id(task_id)
+                                responses["accesspoints_updates"] = {
+                                    "ap_provision_task_details": {
+                                        "error_code": provision_details.get("errorCode"),
+                                        "failure_reason": provision_details.get("failureReason"),
+                                        "data": provision_details.get("data")
+                                    },
+                                    "ap_provision_status": self.msg}
+                                self.module.fail_json(msg=self.msg, response=responses)
+                        time.sleep(resync_retry_interval)
+                        resync_retry_count = resync_retry_count - 1
 
             self.log("Provisioned device with host '{0}' to site '{1}' successfully.".format(
-                host_name, site_name_hierarchy), "INFO")
+                hostname, site_name_hierarchy), "INFO")
         except Exception as e:
             error_msg = 'An error occurred during device provisioning: {0}'.format(str(e))
             self.log(error_msg, "ERROR")
+            self.msg = error_msg
             self.status = "failed"
 
         return provision_status, provision_details
@@ -2020,14 +2579,15 @@ class Accesspoint(DnacBase):
         available_key = {
             "_0": ("admin_status", "antenna_gain", "antenna_name", "radio_role_assignment",
                    "power_assignment_mode", "powerlevel", "channel_assignment_mode",
-                   "channel_number", "cable_loss", "antenna_cable_name", "radio_type"),
+                   "channel_number", "cable_loss", "antenna_cable_name", "radio_type",
+                   "radio_band"),
             "_1": ("admin_status", "antenna_gain", "antenna_name", "radio_role_assignment",
                    "power_assignment_mode", "powerlevel", "channel_assignment_mode",
                    "channel_number", "cable_loss", "antenna_cable_name", "channel_width",
-                   "radio_type"),
+                   "radio_type", "radio_band", "dual_radio_mode"),
             "_2": ("admin_status", "radio_role_assignment", "radio_type",
                    "power_assignment_mode", "powerlevel", "channel_assignment_mode",
-                   "channel_number", "channel_width"),
+                   "channel_number", "channel_width", "dual_radio_mode", "radio_band"),
             "_3": ("admin_status", "antenna_gain", "antenna_name", "radio_role_assignment",
                    "power_assignment_mode", "powerlevel", "channel_assignment_mode",
                    "channel_number", "cable_loss", "antenna_cable_name", "radio_band",
@@ -2042,7 +2602,7 @@ class Accesspoint(DnacBase):
         unmatch_count = 0
         dtos_keys = list(want_radio.keys())
         slot_id_key = "_" + str(current_radio["slot_id"])
-        self.log('Comparing keys for slot ID: {}'.format(current_radio["slot_id"]), "INFO")
+        self.log("Comparing keys for slot ID: {}".format(current_radio["slot_id"]), "INFO")
 
         for dto_key in dtos_keys:
             if dto_key in available_key[slot_id_key]:
@@ -2051,14 +2611,25 @@ class Accesspoint(DnacBase):
                     unmatch_count = unmatch_count + 1
                     self.log("Antenna name unmatched: {0}".format(want_radio[dto_key]), "INFO")
                 elif dto_key == "cable_loss":
-                    temp_dtos[dto_key] = want_radio[dto_key]
+                    cable_loss = int(want_radio[dto_key])
+                    antenna_gain = int(want_radio.get("antenna_gain", 0))
+                    actual_gain = antenna_gain - cable_loss
+                    if current_radio.get(self.keymap["antenna_gain"]) != actual_gain:
+                        temp_dtos[dto_key] = cable_loss
                     self.log("Cable loss set to: {0}".format(want_radio[dto_key]), "INFO")
                 elif dto_key == "antenna_cable_name":
                     temp_dtos[dto_key] = want_radio[dto_key]
                     self.log("Antenna cable name set to: {0}".format(want_radio[dto_key]), "INFO")
                 elif dto_key == "radio_type":
-                    temp_dtos["radioType"] = want_radio[dto_key]
+                    temp_dtos[self.keymap[dto_key]] = want_radio[dto_key]
                     self.log("Radio type set to: {0}".format(want_radio[dto_key]), "INFO")
+                elif dto_key == "radio_role_assignment":
+                    temp_dtos[self.keymap[dto_key]] = want_radio[dto_key]
+                    self.log("Radio Role Assignment set to: {0}".format(want_radio[dto_key]), "INFO")
+                    unmatch_count = unmatch_count + 1
+                elif dto_key == "radio_band":
+                    temp_dtos[self.keymap[dto_key]] = want_radio[dto_key]
+                    self.log("Radio band set to: {0}".format(want_radio[dto_key]), "INFO")
                 else:
                     if want_radio[dto_key] != current_radio[dto_key]:
                         temp_dtos[self.keymap[dto_key]] = want_radio[dto_key]
@@ -2067,8 +2638,8 @@ class Accesspoint(DnacBase):
                                  .format(dto_key, current_radio[dto_key], want_radio[dto_key]), "INFO")
 
         temp_dtos["unmatch"] = unmatch_count
-        self.log('Total unmatched keys: {0}'.format(unmatch_count), "INFO")
-        self.log('Completed radio configuration comparison. Result: {0}'.format(temp_dtos), "INFO")
+        self.log("Total unmatched keys: {0}".format(unmatch_count), "INFO")
+        self.log("Completed radio configuration comparison. Result: {0}".format(temp_dtos), "INFO")
         return temp_dtos
 
     def config_diff(self, current_ap_config):
@@ -2109,12 +2680,6 @@ class Accesspoint(DnacBase):
                             update_config["apName"] = current_ap_config.get("ap_name")
                     elif each_key == "is_assigned_site_as_location":
                         update_config["isAssignedSiteAsLocation"] = self.want["is_assigned_site_as_location"]
-                    elif each_key in ("primary_ip_address", "secondary_ip_address",
-                                      "tertiary_ip_address"):
-                        if current_ap_config.get(each_key) != self.want.get(each_key):
-                            update_config[self.keymap[each_key]] = {}
-                            update_config[self.keymap[each_key]]["address"] = \
-                                self.want[each_key]["address"]
                     elif each_key in ("2.4ghz_radio", "5ghz_radio", "6ghz_radio",
                                       "xor_radio", "tri_radio"):
                         current_radio_dtos = current_ap_config.get("radio_dtos")
@@ -2132,7 +2697,7 @@ class Accesspoint(DnacBase):
                             elif each_key == "xor_radio" and each_radio["slot_id"] == 0:
                                 radio_data = self.compare_radio_config(each_radio,
                                                                        self.want[each_key])
-                            elif each_key == "tri_radio" and each_radio["slot_id"] == 4:
+                            elif each_key == "tri_radio" and each_radio.get("dual_radio_mode") is not None:
                                 radio_data = self.compare_radio_config(each_radio,
                                                                        self.want[each_key])
                         if radio_data.get("unmatch") != 0:
@@ -2163,15 +2728,55 @@ class Accesspoint(DnacBase):
                         update_config.get("apNameNew") is None:
                     del update_config["apName"]
 
-                if self.want.get("primary_controller_name") == "Inherit from site/Clear":
-                    update_config[self.keymap["primary_ip_address"]] = {}
-                    update_config[self.keymap["primary_ip_address"]]["address"] = \
-                        self.payload["access_point_details"][0]["associated_wlc_ip"]
-                    update_config[self.keymap["primary_controller_name"]] = \
-                        self.want["primary_controller_name"]
-                    self.want["primary_ip_address"] = {}
-                    self.want["primary_ip_address"]["address"] = \
-                        self.payload["access_point_details"][0]["associated_wlc_ip"]
+                for ctrl_name in ["primary_controller_name", "secondary_controller_name", "tertiary_controller_name"]:
+                    if ctrl_name == "primary_controller_name" and self.want.get(ctrl_name):
+                        if self.want.get(ctrl_name) == "Inherit from site / Clear":
+                            update_config[self.keymap[ctrl_name]] = self.want.get(ctrl_name)
+                            update_config[self.keymap["primary_ip_address"]] = {}
+                            update_config[self.keymap["primary_ip_address"]]["address"] = "0.0.0.0"
+                            update_config[self.keymap["secondary_controller_name"]] = self.want.get(ctrl_name)
+                            update_config[self.keymap["secondary_ip_address"]] = {}
+                            update_config[self.keymap["secondary_ip_address"]]["address"] = "0.0.0.0"
+                            update_config[self.keymap["tertiary_controller_name"]] = self.want.get(ctrl_name)
+                            update_config[self.keymap["tertiary_ip_address"]] = {}
+                            update_config[self.keymap["tertiary_ip_address"]]["address"] = "0.0.0.0"
+                        else:
+                            update_config[self.keymap[ctrl_name]] = self.want[ctrl_name]
+                            update_config[self.keymap["primary_ip_address"]] = {}
+                            if self.want.get("primary_ip_address", {}).get("address"):
+                                update_config[self.keymap["primary_ip_address"]]["address"] = \
+                                    self.want["primary_ip_address"]["address"]
+                            else:
+                                update_config[self.keymap["primary_ip_address"]]["address"] = "0.0.0.0"
+                    elif ctrl_name == "secondary_controller_name" and self.want.get(ctrl_name):
+                        if self.want.get(ctrl_name) == "Inherit from site / Clear":
+                            update_config[self.keymap[ctrl_name]] = self.want.get(ctrl_name)
+                            update_config[self.keymap["secondary_ip_address"]] = {}
+                            update_config[self.keymap["secondary_ip_address"]]["address"] = "0.0.0.0"
+                            update_config[self.keymap["tertiary_controller_name"]] = self.want.get(ctrl_name)
+                            update_config[self.keymap["tertiary_ip_address"]] = {}
+                            update_config[self.keymap["tertiary_ip_address"]]["address"] = "0.0.0.0"
+                        else:
+                            update_config[self.keymap[ctrl_name]] = self.want[ctrl_name]
+                            update_config[self.keymap["secondary_ip_address"]] = {}
+                            if self.want.get("secondary_ip_address", {}).get("address"):
+                                update_config[self.keymap["secondary_ip_address"]]["address"] = \
+                                    self.want["secondary_ip_address"]["address"]
+                            else:
+                                update_config[self.keymap["secondary_ip_address"]]["address"] = "0.0.0.0"
+                    elif ctrl_name == "tertiary_controller_name" and self.want.get(ctrl_name):
+                        if self.want.get(ctrl_name) == "Inherit from site / Clear":
+                            update_config[self.keymap[ctrl_name]] = self.want.get(ctrl_name)
+                            update_config[self.keymap["tertiary_ip_address"]] = {}
+                            update_config[self.keymap["tertiary_ip_address"]]["address"] = "0.0.0.0"
+                        else:
+                            update_config[self.keymap[ctrl_name]] = self.want[ctrl_name]
+                            update_config[self.keymap["tertiary_ip_address"]] = {}
+                            if self.want.get("tertiary_ip_address", {}).get("address"):
+                                update_config[self.keymap["tertiary_ip_address"]]["address"] = \
+                                    self.want["tertiary_ip_address"]["address"]
+                            else:
+                                update_config[self.keymap["tertiary_ip_address"]]["address"] = "0.0.0.0"
 
                 if update_config:
                     update_config["macAddress"] = current_ap_config["eth_mac"]
@@ -2181,7 +2786,7 @@ class Accesspoint(DnacBase):
                          .format(self.pprint(update_config)), "INFO")
                 return update_config
 
-            self.log('Playbook AP configuration remain same in current AP configration', "INFO")
+            self.log("Playbook AP configuration remain same in current AP configration", "INFO")
             return None
 
     def update_ap_configuration(self, ap_config):
@@ -2312,8 +2917,10 @@ class Accesspoint(DnacBase):
                         radio_dtos[self.keymap["channel_width"]] = 4
                     elif each_radio.get(self.keymap["channel_width"]) == "80 MHz":
                         radio_dtos[self.keymap["channel_width"]] = 5
-                    else:
+                    elif each_radio.get(self.keymap["channel_width"]) == "160 MHz":
                         radio_dtos[self.keymap["channel_width"]] = 6
+                    else:
+                        radio_dtos[self.keymap["channel_width"]] = 7
                     radio_dtos["configureChannelWidth"] = True
 
                 if each_radio.get(self.keymap["power_assignment_mode"]) is not None:
@@ -2362,7 +2969,7 @@ class Accesspoint(DnacBase):
 
                 if each_radio.get(self.keymap["antenna_gain"]) is not None:
                     if each_radio.get(self.keymap["antenna_gain"]) is not None and \
-                            each_radio.get(self.keymap["antenna_gain"]) > 0:
+                            each_radio.get(self.keymap["antenna_gain"]) >= 0:
                         radio_dtos[self.keymap["antenna_gain"]] = \
                             each_radio.get(self.keymap["antenna_gain"])
                         radio_dtos["antennaPatternName"] = "other"
@@ -2379,7 +2986,7 @@ class Accesspoint(DnacBase):
         try:
             response = self.dnac._exec(
                 family="wireless",
-                function='configure_access_points_v2',
+                function="configure_access_points_v2",
                 op_modifies=True,
                 params={"payload": ap_config}
             )
@@ -2416,7 +3023,7 @@ class Accesspoint(DnacBase):
 
             records = self.camel_to_snake_case(records)
 
-            if not fields_to_include or fields_to_include.strip() == '':
+            if not fields_to_include or fields_to_include.strip() == "":
                 return records
 
             field_names = [field.strip() for field in fields_to_include.split(",")]
@@ -2436,107 +3043,319 @@ class Accesspoint(DnacBase):
             self.log("Unable to filter fields: {0}".format(str(e)) , "ERROR")
             return None
 
-    def map_config_key_to_api_param(self, keymap=any, data=any):
+    def consolidate_output(self):
         """
-        Converts keys in a dictionary from CamelCase to snake_case and creates a keymap.
+        Bulk access point changes collect each output update in the response.
 
         Parameters:
-            keymap (dict): Already existing key map dictionary to add to or empty dict {}.
-            data (dict): Input data where keys need to be mapped using the key map.
+            self (dict): A dictionary used to collect the execution results.
 
         Returns:
-            dict: A dictionary with the original keys as values and the converted snake_case
-                    keys as keys.
-
-        Example:
-            functions = Accesspoint(module)
-            keymap = functions.map_config_key_to_api_param(keymap, device_data)
+            dict: A dictionary containing the result of the access point update response.
         """
+        each_result = {
+            "changed": self.result["changed"],
+            "response": self.result["response"].get("accesspoints_verify"),
+        }
+        self.payload["consolidated_result"].append(each_result)
+        self.log("Each execution Result {0}".format(self.pprint(self.result)))
+        self.result["changed"] = False
 
-        if keymap is None:
-            keymap = {}
+        for each_cosolidated in self.payload["consolidated_result"]:
+            if each_cosolidated["changed"]:
+                self.result["changed"] = True
+                break
 
-        if isinstance(data, dict):
-            keymap.update(keymap)
+        if self.result["changed"]:
+            self.status = "success"
 
-            for key, value in data.items():
-                new_key = re.sub(r'([a-z0-9])([A-Z])', r'\1_\2', key).lower()
-                keymap[new_key] = key
+        self.msg = self.pprint(self.payload["consolidated_result"])
+        self.result["response"] = self.payload["consolidated_result"]
+        self.log("Consolidated Result: {0}".format(self.pprint(self.result)))
 
-                if isinstance(value, dict):
-                    self.map_config_key_to_api_param(keymap, value)
-                elif isinstance(value, list):
+        return self
 
-                    for item in value:
-                        if isinstance(item, dict):
-                            self.map_config_key_to_api_param(keymap, item)
-
-        elif isinstance(data, list):
-            for item in data:
-                if isinstance(item, dict):
-                    self.map_config_key_to_api_param(keymap, item)
-
-        return keymap
-
-    def pprint(self, jsondata):
+    def reboot_access_point(self, ap_list):
         """
-        Pretty prints JSON/dictionary data in a readable format.
+        Reboots access points, handling single or bulk APs.
 
         Parameters:
-            jsondata (dict): Dictionary data to be printed.
+            self (dict): A dictionary used to collect the execution results.
+            ap_list (dict): A list containing the list of Access point Mac Address.
 
         Returns:
-            str: Formatted JSON string.
+            dict: A dictionary containing the result of the access point reboot response.
         """
-        return json.dumps(jsondata, indent=4, separators=(',', ': '))
+        try:
+            self.log('Rebooting the list of APs: {0}'.format(self.pprint(ap_list)), "INFO")
+            response = self.dnac._exec(
+                family="wireless",
+                function='reboot_access_points',
+                op_modifies=True,
+                params={"apMacAddresses": ap_list},
+            )
+            self.log("Response from reboot_access_points: {0}".format(str(response.get("response"))), "INFO")
 
-    def camel_to_snake_case(self, config):
+            if response and isinstance(response, dict):
+                task_id = response.get("response", {}).get("taskId")
+                resync_retry_count = int(self.payload.get("dnac_api_task_timeout"))
+                resync_retry_interval = int(self.payload.get("dnac_task_poll_interval"))
+
+                while resync_retry_count:
+                    task_details_response = self.get_tasks_by_id(task_id)
+                    self.log("Status of the reboot task: {0} .".format(self.status), "INFO")
+                    responses = {}
+                    if task_details_response.get("endTime") is not None:
+                        if task_details_response.get("status") == "SUCCESS":
+                            self.log("Reboot Task Details: {0} .".format(self.pprint(
+                                task_details_response)), "INFO")
+                            self.msg = "APs {0} rebooted successfully".format(str(ap_list))
+                            reboot_status = self.access_point_reboot_status(task_id)
+                            responses = {
+                                "accesspoints_updates": {
+                                    "ap_reboot_task_details": {"reboot_api_response": reboot_status["apList"]},
+                                    "ap_reboot_status": self.msg
+                                }
+                            }
+                            self.result['changed'] = True
+                            self.result['response'] = responses
+                            self.log("Given APs '{0}' rebooted successfully with task: '{1}'."
+                                     .format(ap_list, self.pprint(task_details_response)), "INFO")
+                            return self
+
+                        self.result['changed'] = False
+                        self.status = "failed"
+                        self.msg = "Unable to get success response, hence APs are not rebooted"
+                        self.log(self.msg, "ERROR")
+                        self.log("Reboot Task Details: {0} .".format(self.pprint(
+                            task_details_response)), "ERROR")
+                        reboot_status = self.access_point_reboot_status(task_id)
+                        responses["accesspoints_updates"] = {
+                            "ap_reboot_task_details": {
+                                "status": task_details_response.get("status"),
+                                "reboot_api_response": reboot_status["apList"]
+                            },
+                            "ap_reboot_status": self.msg}
+                        self.module.fail_json(msg=self.msg, response=responses)
+                    time.sleep(resync_retry_interval)
+                    resync_retry_count = resync_retry_count - 1
+            else:
+                self.msg = "Failed to receive a valid response from AP reboot API."
+                self.log(self.msg, "ERROR")
+                self.status = "failed"
+                self.module.fail_json(msg=self.msg)
+
+        except Exception as e:
+            error_msg = 'An error occurred during access point reboot: {0}'.format(str(e))
+            self.log(error_msg, "ERROR")
+            self.msg = error_msg
+            self.status = "failed"
+            self.module.fail_json(msg=self.msg)
+
+    def access_point_reboot_status(self, task_id):
         """
-        Convert camel case keys to snake case keys in the config.
+        Get the reboot status of the accesspoint using by the task id.
 
         Parameters:
-            config (dict or list): Configuration data to be transformed.
+            self (dict): A dictionary used to collect the execution results.
+            task_id (string): A sting containing the task id generated from reboot task.
 
         Returns:
-            dict or list: Updated config with snake_case keys.
+            dict: A dictionary containing the result of the access point reboot status.
         """
+        try:
+            response = self.dnac._exec(
+                family="wireless",
+                function='get_access_point_reboot_task_result',
+                op_modifies=True,
+                params={"parentTaskId": task_id},
+            )
+            self.log("Response from ap reboot status: {0}".format(self.pprint(response)), "INFO")
+            if response and isinstance(response[0], dict):
+                return response[0]
+            error_msg = "Invalid response format or missing data in AP reboot status."
+            self.log(error_msg, "ERROR")
+            self.module.fail_json(msg=error_msg)
+        except Exception as e:
+            error_msg = 'An error occurred during access point reboot status: {0}'.format(str(e))
+            self.log(error_msg, "ERROR")
+            self.msg = error_msg
+            self.status = "failed"
+            self.module.fail_json(msg=error_msg)
 
-        if isinstance(config, dict):
-            new_config = {}
-            for key, value in config.items():
-                new_key = re.sub(r'([a-z0-9])([A-Z])', r'\1_\2', key).lower()
-                new_value = self.camel_to_snake_case(value)
-                new_config[new_key] = new_value
-        elif isinstance(config, list):
-            return [self.camel_to_snake_case(item) for item in config]
-        else:
-            return config
+    def reset_access_point(self, ap_list):
+        """
+        Factroy reset access points, handling single or bulk APs.
 
-        return new_config
+        Parameters:
+            self (dict): A dictionary used to collect the execution results.
+            ap_list (dict): A list containing the list of Access point Mac Address.
+
+        Returns:
+            dict: A dictionary containing the result of the access point factory reset response.
+        """
+        try:
+            self.log('Resetting the list of APs: {0}'.format(self.pprint(ap_list)), "INFO")
+            response = self.dnac._exec(
+                family="wireless",
+                function='factory_reset_access_points',
+                op_modifies=True,
+                params={"apMacAddresses": ap_list, "keepStaticIPConfig": False},
+            )
+            self.log("Response from factory_reset_access_points: {0}".format(str(response.get("response"))), "INFO")
+
+            if not (response or isinstance(response, dict)):
+                self.msg = "Failed to receive a valid response from 'factory_reset_access_points' API."
+                self.log(self.msg, "ERROR")
+                self.status = "failed"
+                self.module.fail_json(msg=self.msg)
+
+            task_id = response.get("response", {}).get("taskId")
+            if not task_id:
+                self.msg = "Failed to retrieve task id from 'factory_reset_access_points' API response."
+                self.log(self.msg, "ERROR")
+                self.status = "failed"
+                self.module.fail_json(msg=self.msg)
+            resync_retry_count = int(self.payload.get("dnac_api_task_timeout"))
+            resync_retry_interval = int(self.payload.get("dnac_task_poll_interval"))
+
+            while resync_retry_count:
+                task_details_response = self.get_tasks_by_id(task_id)
+                self.log("Status of the reset task: {0} .".format(self.status), "INFO")
+                responses = {}
+                if task_details_response.get("endTime") is not None:
+                    if task_details_response.get("status") == "SUCCESS":
+                        self.log("Reset Task Details: {0} .".format(self.pprint(
+                            task_details_response)), "INFO")
+                        self.msg = "APs {0} reset successfully".format(str(ap_list))
+                        reset_status = self.access_point_reset_status(task_id)
+                        responses = {
+                            "accesspoints_updates": {
+                                "ap_reset_task_details": {"reset_api_response": reset_status.get("apResponseInfoList")},
+                                "ap_reset_status": self.msg
+                            }
+                        }
+                        self.result['changed'] = True
+                        self.result['response'] = responses
+                        self.log("Given APs '{0}' factory reset done successfully with task: '{1}'."
+                                 .format(ap_list, self.pprint(task_details_response)), "INFO")
+                        return self
+
+                    self.result['changed'] = False
+                    self.status = "failed"
+                    self.msg = "Unable to get success response, hence APs are not resetted"
+                    self.log(self.msg, "ERROR")
+                    self.log("Reset Task Details: {0} .".format(self.pprint(
+                        task_details_response)), "ERROR")
+                    reset_status = self.access_point_reset_status(task_id)
+                    responses["accesspoints_updates"] = {
+                        "ap_reset_task_details": {
+                            "status": task_details_response.get("status"),
+                            "reset_api_response": reset_status.get("apResponseInfoList")
+                        },
+                        "ap_reset_status": self.msg}
+                    self.module.fail_json(msg=self.msg, response=responses)
+                time.sleep(resync_retry_interval)
+                resync_retry_count = resync_retry_count - 1
+
+        except Exception as e:
+            error_msg = 'An error occurred during access point reset: {0}'.format(str(e))
+            self.log(error_msg, "ERROR")
+            self.msg = error_msg
+            self.status = "failed"
+            self.module.fail_json(msg=self.msg)
+
+    def access_point_reset_status(self, task_id):
+        """
+        Get the reset status of the accesspoint using by the task id.
+
+        Parameters:
+            self (dict): A dictionary used to collect the execution results.
+            task_id (string): A sting containing the task id generated from factory reset task.
+
+        Returns:
+            dict: A dictionary containing the result of the access point reset status.
+        """
+        try:
+            response = self.dnac._exec(
+                family="wireless",
+                function='get_access_points_factory_reset_status',
+                params={"task_id": task_id},
+            )
+            self.log("Response from ap reset status: {0}".format(self.pprint(response)), "INFO")
+            if response and isinstance(response.get("response")[0], dict):
+                return response.get("response", {})[0]
+
+            error_msg = "Invalid response format or missing data in AP reset status."
+            self.log(error_msg, "ERROR")
+            self.module.fail_json(msg=error_msg)
+        except Exception as e:
+            error_msg = 'An error occurred during access point reset status: {0}'.format(str(e))
+            self.log(error_msg, "ERROR")
+            self.msg = error_msg
+            self.status = "failed"
+            self.module.fail_json(msg=error_msg)
+
+    def reboot_factory_reset_function(self, ap_list, reboot_or_reset):
+        """
+        Process reboot and factory reset function from the main by accepting AP list and reset or reboot mode.
+
+        Parameters:
+            self (dict): A dictionary used to collect the execution results.
+            ap_list (list): A list containing the APs mac address which need to reset or reboot.
+            reboot_or_reset (str): A string containing reset or reboot mode.
+
+        Returns:
+            dict: A dictionary containing the result of the access point reset/reboot status.
+        """
+        self.keymap = {
+            "mac_addresses": "mac_address",
+            "hostnames": "hostname",
+            "management_ip_addresses": "management_ip_address"
+        }
+        ap_indentity = list(ap_list.keys())[0]
+
+        if ap_indentity and ap_indentity in self.keymap and len(ap_list.get(ap_indentity)) > 0:
+            eth_mac_list = []
+            for each_ap in ap_list[ap_indentity]:
+                ap_indentity_param = {self.keymap[ap_indentity]: each_ap}
+                self.log("{0}: {1}".format(reboot_or_reset, str(ap_indentity_param)), "INFO")
+                ap_exist, ap_details = self.get_accesspoint_details(ap_indentity_param)
+                eth_mac_list.append(ap_details.get("ap_ethernet_mac_address"))
+            if eth_mac_list:
+                self.log("Ethernet MAC addresses to {0}: {1}".format(reboot_or_reset, eth_mac_list), "INFO")
+                if reboot_or_reset == "reboot_aps":
+                    self.reboot_access_point(eth_mac_list)
+                else:
+                    self.reset_access_point(eth_mac_list)
+            else:
+                self.log("No valid Ethernet MAC addresses found for {0}.".format(reboot_or_reset), "WARNING")
+
+            return self
 
 
 def main():
     """ main entry point for module execution
     """
     accepoint_spec = {
-        'dnac_host': {'required': True, 'type': 'str'},
-        'dnac_port': {'type': 'str', 'default': '443'},
-        'dnac_username': {'type': 'str', 'default': 'admin', "aliases": ["user"]},
-        'dnac_password': {'type': 'str', 'no_log': True},
-        'dnac_verify': {'type': 'bool', 'default': 'True'},
-        'dnac_version': {'type': 'str', 'default': '2.2.3.3'},
-        'dnac_debug': {'type': 'bool', 'default': False},
-        'dnac_log': {'type': 'bool', 'default': False},
-        'dnac_log_level': {'type': 'str', 'default': 'WARNING'},
-        "dnac_log_file_path": {"type": 'str', "default": 'dnac.log'},
-        'config_verify': {'type': 'bool', "default": False},
-        "dnac_log_append": {"type": 'bool', "default": True},
-        'dnac_api_task_timeout': {'type': 'int', "default": 1200},
-        'dnac_task_poll_interval': {'type': 'int', "default": 2},
-        'next_task_after_interval': {'type': 'int', "default": 5},
-        'config': {'required': True, 'type': 'list', 'elements': 'dict'},
-        'validate_response_schema': {'type': 'bool', 'default': True},
-        'state': {'default': 'merged', 'choices': ['merged', 'deleted']}
+        "dnac_host": {"required": True, "type": "str"},
+        "dnac_port": {"type": "str", "default": "443"},
+        "dnac_username": {"type": "str", "default": "admin", "aliases": ["user"]},
+        "dnac_password": {"type": "str", "no_log": True},
+        "dnac_verify": {"type": "bool", "default": "True"},
+        "dnac_version": {"type": "str", "default": "2.2.3.3"},
+        "dnac_debug": {"type": "bool", "default": False},
+        "dnac_log": {"type": "bool", "default": False},
+        "dnac_log_level": {"type": "str", "default": "WARNING"},
+        "dnac_log_file_path": {"type": "str", "default": "dnac.log"},
+        "config_verify": {"type": "bool", "default": False},
+        "dnac_log_append": {"type": "bool", "default": True},
+        "dnac_api_task_timeout": {"type": "int", "default": 1200},
+        "dnac_task_poll_interval": {"type": "int", "default": 2},
+        "next_task_after_interval": {"type": "int", "default": 5},
+        "config": {"required": True, "type": "list", "elements": "dict"},
+        "validate_response_schema": {"type": "bool", "default": True},
+        "state": {"default": "merged", "choices": ["merged", "deleted"]}
     }
     module = AnsibleModule(
         argument_spec=accepoint_spec,
@@ -2551,8 +3370,25 @@ def main():
         ccc_network.msg = "State {0} is invalid".format(state)
         ccc_network.check_return_status()
 
+    if ccc_network.compare_dnac_versions(ccc_network.get_ccc_version(), "2.3.5.3") < 0:
+        ccc_network.status = "failed"
+        ccc_network.msg = (
+            "The specified version '{0}' does not support the access point workflow feature."
+            "Supported version(s) start from '2.3.5.3' onwards.".format(ccc_network.get_ccc_version())
+        )
+        ccc_network.log(ccc_network.msg, "ERROR")
+        ccc_network.check_return_status()
+
     ccc_network.validate_input_yml().check_return_status()
     config_verify = ccc_network.params.get("config_verify")
+
+    # Below set of line related to the Access Point reboot / factory reset function.
+    for reboot_reset in ("reboot_aps", "factory_reset_aps"):
+        ap_list = ccc_network.validated_config[0].get(reboot_reset)
+        if ap_list is not None:
+            ccc_network.validate_ap_config_parameters(ccc_network.validated_config[0]).check_return_status()
+            ccc_network.reboot_factory_reset_function(ap_list, reboot_reset)
+            module.exit_json(**ccc_network.result)
 
     for config in ccc_network.validated_config:
         ccc_network.reset_values()
@@ -2561,11 +3397,15 @@ def main():
         ccc_network.get_diff_state_apply[state](config).check_return_status()
 
         if config_verify:
-            time.sleep(20)
+            waiting_time_to_verify = 10
+            ccc_network.log("Starting verify AP details after {0} seconds".format(
+                str(waiting_time_to_verify)), "INFO")
+            time.sleep(waiting_time_to_verify)
             ccc_network.verify_diff_state_apply[state](config).check_return_status()
+            ccc_network.consolidate_output()
 
     module.exit_json(**ccc_network.result)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
