@@ -2992,7 +2992,7 @@ class Accesspoint(DnacBase):
             return response
         return None
 
-    def access_point_provision_new(self, rf_profile, device_id, site_id, site_type):
+    def access_point_provision_new(self, rf_profile, device_id, site_id):
         """
         Provisions a device (AP) to a specific site. support Cisco Catalyst Center version
         2.3.7.6 and greater
@@ -3098,7 +3098,7 @@ class Accesspoint(DnacBase):
                         time.sleep(resync_retry_interval)
                         resync_retry_count = resync_retry_count - 1
             else:
-                response = self.access_point_provision_new(rf_profile, device_id, site_id, type_name)
+                response = self.access_point_provision_new(rf_profile, device_id, site_id)
                 if response and isinstance(response, dict):
                     task_id = response.get("response", {}).get("taskId")
                     resync_retry_count = int(self.payload.get("dnac_api_task_timeout"))
