@@ -3026,7 +3026,7 @@ class Accesspoint(DnacBase):
         try:
             site_assign_status = self.assign_device_to_site([self.have.get("device_id")],
                                                             self.have.get("site_name_hierarchy"),
-                                                            self.have.get("site_id"), site_type)
+                                                            self.have.get("site_id"))
             if site_assign_status:
                 self.log('Current device details: {0}'.format(self.pprint(provision_params)), "INFO")
                 response = self.dnac._exec(
@@ -3960,9 +3960,9 @@ class Accesspoint(DnacBase):
                 self.want = bulk_config.get("common_fields_to_change")
                 self.want["mac_address"] = each_ap["mac_address"]
                 ap_name = [ap.get('ap_name') for ap in bulk_config.get("ap_identifier")
-                                        if (each_ap["mac_address"] == ap.get('mac_address') or
-                                            each_ap["hostname"] == ap.get('hostname') or
-                                            each_ap["management_ip_address"] == ap.get('management_ip_address'))]
+                           if (each_ap["mac_address"] == ap.get('mac_address') or
+                               each_ap["hostname"] == ap.get('hostname') or
+                               each_ap["management_ip_address"] == ap.get('management_ip_address'))]
                 self.want["ap_name"] = ap_name[0]
                 ap_output_list.append(ap_name[0])
                 self.log("Access point WANT configuration exists: {0}, Current configuration: {1}"
@@ -4080,7 +4080,6 @@ def main():
             ccc_network.validate_ap_config_parameters(ccc_network.validated_config[0]).check_return_status()
             ccc_network.reboot_factory_reset_function(ap_list, reboot_reset)
             module.exit_json(**ccc_network.result)
-
 
     bulk_updates = ccc_network.validated_config[0].get("bulk_update_aps")
     if bulk_updates is not None:
