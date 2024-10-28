@@ -624,7 +624,6 @@ options:
             description: |
               Common fields to change AP is a dict which contains below data which need to update all listed access points.
             type: dict
-            elements: str
             required: True
             suboptions:
               admin_status:
@@ -722,6 +721,304 @@ options:
                 suboptions:
                   address:
                     description: IP address of the primary wireless LAN controller. For example, "10.0.0.2".
+                    type: str
+                    required: False
+              2.4ghz_radio:
+                description: Configuration options for the 2.4GHz radio interface.
+                type: dict
+                required: False
+                suboptions:
+                  admin_status:
+                    description: Administrative status for the 2.4GHz radio interface. For example, "Enabled".
+                    type: str
+                    required: False
+                  antenna_name:
+                    description: Name or type of antenna used for the 2.4GHz radio interface. For example, "other".
+                    type: str
+                    required: False
+                  antenna_gain:
+                    description: |
+                      Specifies the antenna gain value in decibels (dB) for the 2.4GHz radio interface, valid values range
+                      from 0 to 40. For example, 10.
+                    type: int
+                    required: False
+                  radio_role_assignment:
+                    description: Role assignment mode for the 2.4GHz radio interface. Accepts "Auto", "Client-serving", or "Monitor". For example, Auto.
+                    type: str
+                    required: False
+                  cable_loss:
+                    description: |
+                      Cable loss in dB for the 2.4GHz radio interface. Valid values are from 0 to 40.
+                      This value must be less than the antenna gain. For example, 2.
+                    type: int
+                    required: False
+                  antenna_cable_name:
+                    description: Name or type of antenna cable used for the 2.4GHz radio interface. For example, "other".
+                    type: str
+                    required: False
+                  channel_assignment_mode:
+                    description: Mode of channel assignment for the 2.4GHz radio interface. Accepts "Global" or "Custom". For example, "Custom".
+                    type: str
+                    required: False
+                  channel_number:
+                    description: Custom channel number configured for the 2.4GHz radio interface. For example, 6.
+                    type: int
+                    required: False
+                  power_assignment_mode:
+                    description: Mode of power assignment for the 2.4GHz radio interface. Accepts "Global" or "Custom". For example, "Custom".
+                    type: str
+                    required: False
+                  power_level:
+                    description: Custom power level configured for the 2.4GHz radio interface. For example, 3.
+                    type: int
+                    required: False
+              5ghz_radio:
+                description: Configuration options for the 5GHz radio interface.
+                type: dict
+                required: False
+                suboptions:
+                  admin_status:
+                    description: Administrative status for the 5GHz radio interface. For example, "Enabled".
+                    type: str
+                    required: False
+                  antenna_name:
+                    description: Name or type of antenna used for the 5GHz radio interface. For example, "other".
+                    type: str
+                    required: False
+                  antenna_gain:
+                    description: |
+                      Antenna gain value in decibels (dB) for the 5GHz radio interface, valid values range
+                      from 0 to 40. For example, 5.
+                    type: int
+                    required: False
+                  radio_role_assignment:
+                    description: |
+                      Role assignment mode for the 5GHz radio interface. Accepts "Auto", "Client-serving",
+                      or "Monitor". For example, "Auto". This field not required for xor series access point slot 1
+                    type: str
+                    required: False
+                  cable_loss:
+                    description: |
+                      Cable loss in dB for the 5GHz radio interface. Valid values are from 0 to 40.
+                      This value must be less than the antenna gain. For example, 3.
+                    type: int
+                    required: False
+                  antenna_cable_name:
+                    description: Name or type of antenna cable used for the 5GHz radio interface. For example, "other".
+                    type: str
+                    required: False
+                  channel_assignment_mode:
+                    description: Mode of channel assignment for the 5GHz radio interface. Accepts "Global" or "Custom". For example, "Custom".
+                    type: str
+                    required: False
+                  channel_number:
+                    description: Custom channel number configured for the 5GHz radio interface. For example, 36.
+                    type: int
+                    required: False
+                  power_assignment_mode:
+                    description: Mode of power assignment for the 5GHz radio interface. Accepts "Global" or "Custom". For example, "Custom".
+                    type: str
+                    required: False
+                  power_level:
+                    description: Custom power level configured for the 5GHz radio interface. For example, 3.
+                    type: int
+                    required: False
+              6ghz_radio:
+                description: Configuration options for the 6GHz radio interface.
+                type: dict
+                required: False
+                suboptions:
+                  admin_status:
+                    description: Administrative status for the 6GHz radio interface. For example, "Enabled".
+                    type: str
+                    required: False
+                  antenna_name:
+                    description: Name or type of antenna used for the 6GHz radio interface. For example, "other".
+                    type: str
+                    required: False
+                  antenna_gain:
+                    description: |
+                      Antenna gain value in decibels (dB) for the 6GHz radio interface, valid values range
+                      from 0 to 40. For example, 30.
+                    type: int
+                    required: False
+                  radio_role_assignment:
+                    description: Role assignment mode for the 6GHz radio interface. Accepts "Auto", "Client-serving", or "Monitor".
+                    type: str
+                    required: False
+                  cable_loss:
+                    description: |
+                      Cable loss in dB for the 6GHz radio interface. Valid values are from 0 to 40.
+                      This value must be less than the antenna gain. For example, 10.
+                    type: int
+                    required: False
+                  antenna_cable_name:
+                    description: Name or type of antenna cable used for the 6GHz radio interface. For example, "other".
+                    type: str
+                    required: False
+                  channel_assignment_mode:
+                    description: Mode of channel assignment for the 6GHz radio interface. Accepts "Global" or "Custom". For example, "Custom".
+                    type: str
+                    required: False
+                  channel_number:
+                    description: Custom channel number configured for the 6GHz radio interface. For example, 6.
+                    type: int
+                    required: False
+                  power_assignment_mode:
+                    description: Mode of power assignment for the 6GHz radio interface. Accepts "Global" or "Custom". For example, "Custom".
+                    type: str
+                    required: False
+                  power_level:
+                    description: Custom power level configured for the 6GHz radio interface. For example, 3.
+                    type: int
+                    required: False
+              xor_radio:
+                description: Configuration options for the XOR radio interface.
+                type: dict
+                required: False
+                suboptions:
+                  admin_status:
+                    description: Administrative status for the XOR radio interface. For example, "Enabled".
+                    type: str
+                    required: False
+                  antenna_name:
+                    description: Name or type of antenna used for the XOR radio interface. For example, "other".
+                    type: str
+                    required: False
+                  antenna_gain:
+                    description: |
+                      Antenna gain value in decibels (dB) for the XOR radio interface, valid values range
+                      from 0 to 40. For example, 14.
+                    type: int
+                    required: False
+                  radio_role_assignment:
+                    description: |
+                      Role assignment mode for the XOR radio interface. Accepts "Auto", "Client-serving", or "Monitor"
+                      If "radio_role_assignment" is set to "Client-serving" only the power level and channel number can be changed.
+                      Additionally, if the 5 GHz band is selected in the radio band, the power level cannot be modified.
+                      For example, "Auto".
+                    type: str
+                    required: False
+                  radio_band:
+                    description: |
+                      Radio band should be enabled if the radio role assignment is set to "Client-serving" mode.
+                      Accepts "2.4 GHz" or "5 GHz" or "6 GHz".
+                    type: str
+                    required: False
+                  cable_loss:
+                    description: |
+                      Cable loss in dB for the XOR radio interface. Valid values are from 0 to 40.
+                      This value must be less than the antenna gain. For example, 5.
+                    type: int
+                    required: False
+                  antenna_cable_name:
+                    description: Name or type of antenna cable used for the XOR radio interface. For example, "other".
+                    type: str
+                    required: False
+                  channel_assignment_mode:
+                    description: |
+                      Mode of channel assignment for the XOR radio interface. Accepts "Global" or "Custom".
+                      - For "Custom" mode and a radio band of "2.4 GHz", valid values are from 1 to 14.
+                      - For "Custom" mode and a radio band of "5 GHz", valid values are
+                        36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108,
+                        112, 116, 120, 124, 128, 132, 136, 140, 144,
+                        149, 153, 157, 161, 165, 169, 173.
+                      - For "Custom" mode and a radio band of "6 GHz", valid values are
+                        1, 5, 9, 13, 17, 21, 25, 29, 33, 37, 41, 45, 49,
+                        53, 57, 61, 65, 69, 73, 77, 81, 85, 89, 93, 97,
+                        101, 105, 109, 113, 117, 121, 125, 129, 133, 137,
+                        141, 145, 149, 153, 157, 161, 165, 169, 173, 177,
+                        181, 185, 189, 193, 197, 201, 205, 209, 213, 217,
+                        221, 225, 229, 233.
+                      For example, "Custom".
+                    type: str
+                    required: False
+                  channel_number:
+                    description: Custom channel number configured for the XOR radio interface. For example, 6.
+                    type: int
+                    required: False
+                  channel_width:
+                    description: |
+                      Width of the channel configured for the XOR radio interface. Accepts values
+                      "20 MHz", "40 MHz", "80 MHz", "160 MHz" or "320 MHz". For example, 20 MHz.
+                    type: str
+                    required: False
+                  power_assignment_mode:
+                    description: |
+                      Mode of power assignment for the XOR radio interface. Accepts "Global" or "Custom."
+                      In "Custom" mode, valid values range from 1 to 8.
+                    type: str
+                    required: False
+                  power_level:
+                    description: Custom power level configured for the XOR radio interface. For example, 3.
+                    type: int
+                    required: False
+              tri_radio:
+                description: Configuration options for the TRI radio interface.
+                type: dict
+                required: False
+                suboptions:
+                  admin_status:
+                    description: Administrative status for the TRI radio interface. For example, "Enabled".
+                    type: str
+                    required: False
+                  antenna_name:
+                    description: Name or type of antenna used for the TRI radio interface. For example, "other".
+                    type: str
+                    required: False
+                  antenna_gain:
+                    description: |
+                      Antenna gain value in decibels (dB) for the TRI radio interface, valid values range
+                      from 0 to 40. For example, 16.
+                    type: int
+                    required: False
+                  radio_role_assignment:
+                    description: |
+                      Role assignment mode for the TRI radio interface. Accepts "Auto", "Client-serving", or "Monitor".
+                      If radio_role_assignment is "client-serving", then only power-level and channel-level can be changed.
+                    type: str
+                    required: False
+                  cable_loss:
+                    description: |
+                      Cable loss in dB for the TRI radio interface. Valid values are from 0 to 40.
+                      This value must be less than the antenna gain. For example, 6.
+                    type: int
+                    required: False
+                  antenna_cable_name:
+                    description: Name or type of antenna cable used for the TRI radio interface. For example, "other".
+                    type: str
+                    required: False
+                  channel_assignment_mode:
+                    description: |
+                      Mode of channel assignment for the TRI radio interface. Accepts "Global" or "Custom".
+                      For Custom, it accepts values like 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128,
+                      132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173. (eg. Custom)
+                    type: str
+                    required: False
+                  channel_number:
+                    description: Custom channel number configured for the TRI radio interface. For example, 6.
+                    type: int
+                    required: False
+                  channel_width:
+                    description: |
+                      Width of the channel configured for the TRI radio interface. Accepts values
+                      "20 MHz", "40 MHz", "80 MHz", "160 MHz", or "320 MHz". . For example, 20 MHz.
+                    type: str
+                    required: False
+                  power_assignment_mode:
+                    description: |
+                        Mode of power assignment for the TRI radio interface. Accepts "Global" or "Custom".
+                        In Custom, it accepts values 1 to 8.
+                    type: str
+                    required: False
+                  power_level:
+                    description: Custom power level configured for the TRI radio interface. For example, 3.
+                    type: int
+                    required: False
+                  dual_radio_mode:
+                    description: |
+                      Mode of operation configured for the TRI radio interface. Specifies how the
+                      access point (AP) manages its dual radio functionality. eg . Auto
                     type: str
                     required: False
 
