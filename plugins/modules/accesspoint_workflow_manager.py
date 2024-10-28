@@ -1603,7 +1603,7 @@ response_3:
     }
 
 #Case-4: Bulk update for single or multiple Accesspoint
-response_3:
+response_4:
   description: >
     A dictionary with bulk update status of AP returned by the Catalyst Center Python SDK
   returned: always
@@ -1623,7 +1623,7 @@ response_3:
     }
 
 #Case-5: Factory reset for single or multiple Accesspoint
-response_3:
+response_5:
   description: >
     A dictionary with factory reset status of AP returned by the Catalyst Center Python SDK
   returned: always
