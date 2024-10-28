@@ -80,7 +80,6 @@ jobs:
     docker:
       - image: python:3.8.10
     resource_class: cisco-en-programmability/catalyst-center-ansible-runner-main
-
     steps:
       - run:
           name: Debug information for pre
@@ -146,7 +145,6 @@ jobs:
     docker:
       - image: python:3.8.10
     resource_class: cisco-en-programmability/catalyst-center-ansible-runner-main
-
     steps:
       - run:
           name: Create Roles File header
@@ -362,7 +360,6 @@ jobs:
     docker:
       - image: python:3.8.10
     resource_class: cisco-en-programmability/catalyst-center-ansible-runner-main
-
     steps:
       - when:
           condition: << pipeline.parameters.run-pnp >>

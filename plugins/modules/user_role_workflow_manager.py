@@ -66,6 +66,14 @@ options:
                 and a minimum length of 8 characters.
               - Required for creating a new user account.
             type: str
+          password_update:
+            description:
+              - Indicates whether the password should be updated.
+              - Set to `true` to trigger a password update.
+              - Required if a password change is necessary; must be explicitly set to `true` to initiate the update process.
+              - If no update is needed, omit this parameter or set it to `false`.
+              - Ensure this parameter is correctly set to avoid unnecessary updates or errors.
+            type: str
           role_list:
             description:
               - A list of role names to be assigned to the user. If no role is specified, the default role will be "OBSERVER-ROLE".
@@ -424,7 +432,7 @@ options:
                 default: "read"
                 type: str
               remote_device_support:
-                description: Allow Cisco support team to remotely troubleshoot any network devices managed by Cisco DNA Center.
+                description: Allow Cisco support team to remotely troubleshoot any network devices managed by Cisco Catalyst Center.
                 choices: ["deny", "read", "write"]
                 default: "deny"
                 type: str
@@ -479,7 +487,7 @@ EXAMPLES = r"""
           first_name: "ajith"
           last_name: "andrew"
           email: "ajith.andrew@example.com"
-          password: "Ajith@123"
+          password: "Example@0101"
           role_list: ["SUPER-ADMIN-ROLE"]
 
 - name: Update a user for first name, last name, email, and role list
@@ -524,6 +532,27 @@ EXAMPLES = r"""
       user_details:
         - username: "ajithandrewj"
           role_list: ["NETWORK-ADMIN-ROLE"]
+
+- name: Update the user password
+  cisco.dnac.user_role_workflow_manager:
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log: True
+    dnac_log_level: DEBUG
+    config_verify: True
+    dnac_api_task_timeout: 1000
+    dnac_task_poll_interval: 1
+    state: merged
+    config:
+      user_details:
+        - username: "ajithandrewj"
+          password: "Example@010101"
+          password_update: True
 
 - name: Delete a user using username or email address
   cisco.dnac.user_role_workflow_manager:
@@ -863,7 +892,6 @@ class UserandRole(DnacBase):
         super().__init__(module)
         self.result["response"] = []
         self.supported_states = ["merged", "deleted"]
-        self.payload = module.params
         self.keymap = {}
         self.created_user, self.updated_user, self.no_update_user = [], [], []
         self.created_role, self.updated_role, self.no_update_role = [], [], []
@@ -951,10 +979,19 @@ class UserandRole(DnacBase):
                     "last_name": {"required": False, "type": "str"},
                     "email": {"required": False, "type": "str"},
                     "password": {"required": False, "type": "str"},
+                    "password_update": {"required": False, "type": "bool"},
                     "username": {"required": False, "type": "str"},
                     "role_list": {"required": False, "type": "list", "elements": "str"},
                 }
-                valid_param, invalid_param = validate_list_of_dicts(user_role_details, user_details)
+
+                try:
+                    valid_param, invalid_param = validate_list_of_dicts(user_role_details, user_details)
+                except Exception as e:
+                    self.log("Unexpected error occurred: {0}".format(str(e)), "ERROR")
+                    self.msg = "{0}.".format(str(e).split('.', maxsplit=1)[0])
+                    self.log(self.msg, "ERROR")
+                    self.status = "failed"
+                    return self
 
                 if invalid_param:
                     self.msg = "Invalid parameter(s) found in playbook: {0}".format(", ".join(invalid_param))
@@ -1001,32 +1038,50 @@ class UserandRole(DnacBase):
         Returns:
             None: This function does not return a value, but it may append an error message to `error_messages` if the password is invalid.
         Criteria:
-            - The password must be 8 to 20 characters long.
+            - The password must be 9 to 20 characters long.
             - The password must include characters from at least three of the following classes:
               lowercase letters, uppercase letters, digits, and special characters.
         """
-        is_valid_password = False
+        meets_character_requirements = False
         password_criteria_message = (
-            "Password must be 8 to 20 characters long and include characters from at least three of "
-            "the following classes: lowercase letters, uppercase letters, digits, and special characters."
+            "The password must be 9 to 20 characters long and include at least three of the following "
+            "character types: lowercase letters, uppercase letters, digits, and special characters. "
+            "Additionally, the password must not contain repetitive or sequential characters."
         )
 
         self.log(password_criteria_message, "DEBUG")
         password_regexs = [
-            re.compile(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?!.*[\W_]).{8,20}$'),
-            re.compile(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_])(?!.*\d).{8,20}$'),
-            re.compile(r'^(?=.*[a-z])(?=.*\d)(?=.*[\W_])(?!.*[A-Z]).{8,20}$'),
-            re.compile(r'^(?=.*[A-Z])(?=.*\d)(?=.*[\W_])(?!.*[a-z]).{8,20}$'),
-            re.compile(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,20}$')
+            re.compile(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?!.*[\W_]).{9,20}$'),
+            re.compile(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_])(?!.*\d).{9,20}$'),
+            re.compile(r'^(?=.*[a-z])(?=.*\d)(?=.*[\W_])(?!.*[A-Z]).{9,20}$'),
+            re.compile(r'^(?=.*[A-Z])(?=.*\d)(?=.*[\W_])(?!.*[a-z]).{9,20}$'),
+            re.compile(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{9,20}$')
         ]
+        password_sequence_repetitive_regex = re.compile(
+            r'^(?!.*(.)\1{3})'
+            r'(?!.*(?:012|123|234|345|456|567|678|789|'
+            r'abc|bcd|cde|def|efg|fgh|ghi|hij|ijk|jkl|klm|lmn|mno|nop|'
+            r'opq|pqr|qrs|rst|stu|tuv|uvw|vwx|wxy|xyz|'
+            r'ABC|BCD|CDE|DEF|EFG|FGH|GHI|HIJ|IJK|JKL|KLM|LMN|MNO|NOP|'
+            r'OPQ|PQR|QRS|RST|STU|TUV|UVW|VWX|WXY|XYZ)).*'
+            r'[a-zA-Z0-9!@#$%^&*()_+<>?]{9,20}$'
+        )
 
+        self.log("Password meets character type and length requirements.", "INFO")
         for password_regex in password_regexs:
             if password_regex.match(password):
-                is_valid_password = True
+                meets_character_requirements = True
                 break
 
-        if not is_valid_password:
-            self.log("Password validation failed: {0}".format(password_criteria_message), "DEBUG")
+        if not meets_character_requirements:
+            self.log("Password failed character type and length validation.", "ERROR")
+            error_messages.append(password_criteria_message)
+
+        self.log("Checking that the password does not contain repetitive or sequential characters.", "DEBUG")
+        if re.match(password_sequence_repetitive_regex, password):
+            self.log("Password passed repetitive and sequential character checks.", "INFO")
+        else:
+            self.log("Password failed repetitive or sequential character validation.", "ERROR")
             error_messages.append(password_criteria_message)
 
     def validate_role_parameters(self, role_key, params_list, role_config, role_param_map, error_messages):
@@ -1379,27 +1434,45 @@ class UserandRole(DnacBase):
                 self.valid_user_config_parameters(config).check_return_status()
                 (consolidated_data, update_required_param) = self.user_requires_update(self.have["current_user_config"], self.have["current_role_id_config"])
 
-                if not consolidated_data:
-                    self.msg = "User with username '{0}' already exists and does not require an update.".format(self.have.get("username"))
-                    self.no_update_user.append(self.have.get("username"))
-                    self.log(self.msg, "INFO")
-                    responses["role_operation"] = {"response": config}
-                    self.result["response"] = self.msg
-                    self.status = "success"
-                    return self
-
-                if update_required_param.get("role_list"):
-                    if self.want["username"] not in self.have["current_user_config"]["username"]:
-                        task_response = {"error_message": "Username for an existing user cannot be updated."}
+                if self.want.get("password_update"):
+                    if update_required_param.get("role_list"):
+                        if self.want["username"] not in self.have["current_user_config"]["username"]:
+                            task_response = {"error_message": "Username for an existing user cannot be updated."}
+                        else:
+                            self.get_diff_deleted(self.want)
+                            update_required_param["password"] = self.want.get("password")
+                            user_info_params = self.snake_to_camel_case(update_required_param)
+                            task_response = self.create_user(user_info_params)
                     else:
-                        user_in_have = self.have["current_user_config"]
-                        update_param = update_required_param
-                        update_param["user_id"] = user_in_have.get("user_id")
-                        user_info_params = self.snake_to_camel_case(update_param)
-                        task_response = self.update_user(user_info_params)
+                        task_response = {
+                            "error_message": "The role name in the 'role_list' of user details is not present in the Cisco Catalyst Center. "
+                                             "Please provide a valid role name."
+                        }
                 else:
-                    task_response = {"error_message": "The role name in the user details role_list is not present in the Cisco Catalyst Center,"
-                                     " Please provide a valid role name"}
+                    if not consolidated_data:
+                        username = self.have.get("username")
+                        self.msg = "User with username '{0}' already exists and does not require an update.".format(username)
+                        self.no_update_user.append(username)
+                        self.log(self.msg, "INFO")
+                        responses["role_operation"] = {"response": config}
+                        self.result["response"] = self.msg
+                        self.status = "success"
+                        return self
+
+                    if update_required_param.get("role_list"):
+                        if self.want["username"] not in self.have["current_user_config"]["username"]:
+                            task_response = {"error_message": "Username for an existing user cannot be updated."}
+                        else:
+                            user_in_have = self.have["current_user_config"]
+                            update_param = update_required_param
+                            update_param["user_id"] = user_in_have.get("user_id")
+                            user_info_params = self.snake_to_camel_case(update_param)
+                            task_response = self.update_user(user_info_params)
+                    else:
+                        task_response = {
+                            "error_message": "The role name in the user details 'role_list' is not present in the Cisco Catalyst Center. "
+                                             "Please provide a valid role name."
+                        }
             else:
                 # Create the user
                 self.valid_user_config_parameters(config).check_return_status()
@@ -1544,15 +1617,18 @@ class UserandRole(DnacBase):
             - Returns the API response from the "create_user" function.
         """
         self.log("Create user with 'user_params' argument...", "DEBUG")
-        decrypt_password_response = self.decrypt_password(user_params['password'], self.key.get("generate_key"))
 
-        if decrypt_password_response and "error_message" in decrypt_password_response:
-            self.msg = decrypt_password_response.get("error_message")
-            self.log(self.msg, "ERROR")
-            self.status = "failed"
-            return self
+        if user_params.get('password'):
+            decrypt_password_response = self.decrypt_password(user_params['password'], self.key.get("generate_key"))
 
-        user_params['password'] = decrypt_password_response.get("decrypt_password")
+            if "error_message" in decrypt_password_response:
+                self.msg = decrypt_password_response.get("error_message")
+                self.log(self.msg, "ERROR")
+                self.status = "failed"
+                return self
+
+            user_params['password'] = decrypt_password_response.get("decrypt_password")
+
         required_keys = ['username', 'password']
         missing_keys = []
 
@@ -1580,11 +1656,11 @@ class UserandRole(DnacBase):
             self.log("Unexpected error occurred: {0}".format(str(e)), "ERROR")
             if "[403]" in str(e):
                 error_message = (
-                    "The Catalyst Center user '{0}' does not have the necessary permissions to 'create or update' a user through the API.".format(
+                    "The Catalyst Center user '{0}' does not have the necessary permissions to 'create or update' a user via the API.".format(
                         self.payload.get("dnac_username"))
                 )
             else:
-                error_message = "Invalid email format for email '{0}' under username '{1}'".format(user_params.get("email"), user_params.get("username"))
+                error_message = "Invalid email format for '{0}' associated with username '{1}'".format(user_params.get("email"), user_params.get("username"))
 
             return {"error_message": error_message}
 
@@ -1602,23 +1678,29 @@ class UserandRole(DnacBase):
             - Logs the provided role parameters and the received API response.
             - Returns the API response from the "create_role" function.
         """
-        try:
-            self.log("Create role with role_info_params: {0}".format(str(role_params)), "DEBUG")
-            response = self.dnac._exec(
-                family="user_and_roles",
-                function="add_role_api",
-                op_modifies=True,
-                params=role_params,
-            )
-            self.log("Received API response from create_role: {0}".format(str(response)), "DEBUG")
-            self.created_role.append(role_params.get("role"))
-            return response
 
-        except Exception as e:
-            self.log("Unexpected error occurred: {0}".format(str(e)), "ERROR")
-            error_message = "The Catalyst Center user '{0}' does not have the necessary permissions to 'create a role' through the API.".format(
-                self.payload.get("dnac_username"))
-            return {"error_message": error_message}
+        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
+            try:
+                self.log("Create role with role_info_params: {0}".format(str(role_params)), "DEBUG")
+                response = self.dnac._exec(
+                    family="user_and_roles",
+                    function="add_role_api",
+                    op_modifies=True,
+                    params=role_params,
+                )
+                self.log("Received API response from create_role: {0}".format(str(response)), "DEBUG")
+                self.created_role.append(role_params.get("role"))
+                return response
+
+            except Exception as e:
+                self.log("Unexpected error occurred: {0}".format(str(e)), "ERROR")
+                error_message = "The Catalyst Center user '{0}' does not have the necessary permissions to 'create a role' through the API.".format(
+                    self.payload.get("dnac_username"))
+                return {"error_message": error_message}
+
+        error_message = "The specified version '{0}' does not have the 'add_role_api' functionality. Supported version(s) from '2.3.7.6' onwards.".format(
+            self.payload.get("dnac_version"))
+        return {"error_message": error_message}
 
     def get_user(self):
         """
@@ -2598,23 +2680,29 @@ class UserandRole(DnacBase):
               and the "update_role_api" function. The method logs the received API response at the "DEBUG" level and
               finally returns the response.
         """
-        try:
-            self.log("Updating role with role_info_params: {0}".format(str(role_params)), "DEBUG")
-            response = self.dnac._exec(
-                family="user_and_roles",
-                function="update_role_api",
-                op_modifies=True,
-                params=role_params,
-            )
-            self.log("Received API response from update_role: {0}".format(str(response)), "DEBUG")
-            self.updated_role.append(self.have.get("role_name"))
-            return response
 
-        except Exception as e:
-            self.log("Unexpected error occurred: {0}".format(str(e)), "ERROR")
-            error_message = "The catalyst center user '{0}' does not have the necessary permissions to update role through the API.".format(
-                self.payload.get("dnac_username"))
-            return {"error_message": error_message}
+        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
+            try:
+                self.log("Updating role with role_info_params: {0}".format(str(role_params)), "DEBUG")
+                response = self.dnac._exec(
+                    family="user_and_roles",
+                    function="update_role_api",
+                    op_modifies=True,
+                    params=role_params,
+                )
+                self.log("Received API response from update_role: {0}".format(str(response)), "DEBUG")
+                self.updated_role.append(self.have.get("role_name"))
+                return response
+
+            except Exception as e:
+                self.log("Unexpected error occurred: {0}".format(str(e)), "ERROR")
+                error_message = "The catalyst center user '{0}' does not have the necessary permissions to update role through the API.".format(
+                    self.payload.get("dnac_username"))
+                return {"error_message": error_message}
+
+        error_message = "The specified version '{0}' does not have the 'update_role_api' functionality. Supported version(s) from '2.3.7.6' onwards.".format(
+            self.payload.get("dnac_version"))
+        return {"error_message": error_message}
 
     def find_denied_permissions(self, config, parent_key=""):
         """
@@ -2937,18 +3025,28 @@ class UserandRole(DnacBase):
                 task_response = self.delete_user(user_id_to_delete)
                 self.log("Task response {0}".format(str(task_response)), "INFO")
 
-                responses = {"users_operation": {"response": task_response}}
-                self.msg = responses
-                self.result["response"] = self.msg
-                self.result["changed"] = True
-                self.status = "success"
-                self.log(self.msg, "INFO")
+                if task_response and "error_message" not in task_response:
+                    responses = {"users_operation": {"response": task_response}}
+                    self.msg = responses
+                    self.result["response"] = self.msg
+                    self.result["changed"] = True
+                    self.status = "success"
+                    self.log(self.msg, "INFO")
+                    return self
+
+                self.msg = task_response
+                self.log(self.msg, "ERROR")
+                self.status = "failed"
                 return self
 
+            if config.get("username") is not None:
+                user_identifier = self.want.get("username")
+            else:
+                user_identifier = self.want.get("email")
+
             self.msg = (
-                "Please provide a valid 'username' or 'email' for user deletion, or "
-                "The Catalyst Center user '{0}' does not have the necessary permissions "
-                "to delete a user through the API.".format(self.payload.get("dnac_username"))
+                "The specified user '{0}' does not exist in Cisco Catalyst Center. "
+                "Please provide a valid 'username' or 'email' for user deletion.".format(user_identifier)
             )
             self.log(self.msg, "ERROR")
             self.status = "failed"
@@ -2961,22 +3059,51 @@ class UserandRole(DnacBase):
             - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             - user_params (dict): A dictionary containing user information.
         Returns:
-            - response (dict): The API response from the "delete_user" function.
+            - response (dict): The API response from the "delete_user" function, or an error message if the operation fails.
         Description:
             - This method sends a request to delete a user in Cisco Catalyst Center using the provided user parameters.
             - It logs the response and returns it.
             - The function uses the "user_and_roles" family and the "delete_user_api" function from the Cisco Catalyst Center API.
         """
-        self.log("delete user with user_params: {0}".format(str(user_params)), "DEBUG")
-        response = self.dnac._exec(
-            family="user_and_roles",
-            function="delete_user_api",
-            op_modifies=True,
-            params=user_params,
-        )
-        self.log("Received API response from delete_user: {0}".format(str(response)), "DEBUG")
-        self.deleted_user.append(self.have.get("username"))
-        return response
+
+        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
+            username = self.have.get("username")
+            self.log("Attempting to delete user with user_params: {0}".format(str(user_params)), "DEBUG")
+            try:
+                response = self.dnac._exec(
+                    family="user_and_roles",
+                    function="delete_user_api",
+                    op_modifies=True,
+                    params=user_params,
+                )
+
+                if response and isinstance(response, dict):
+                    self.log("Received API response from delete_user '{0}': {1}".format(username, str(response)), "DEBUG")
+                    self.deleted_user.append(username)
+                    return response
+
+                error_msg = response.get("error_message", "Unknown error occurred while deleting user '{0}'".format(username))
+                self.log("User deletion failed. Error: {0}".format(error_msg), "ERROR")
+                return {"error_message": error_msg}
+
+            except Exception as e:
+                if "[404]" in str(e):
+                    error_message = "User '{0}' was not found in Cisco Catalyst Center".format(username)
+                elif "[412]" in str(e):
+                    error_message = (
+                        "User '{0}' tried to delete themselves or does not have right permission to delete a user in Cisco Catalyst Center".format(
+                            username)
+                    )
+                else:
+                    error_message = "Exception occurred while deleting user {0}: {1}".format(username, str(e))
+
+                return {"error_message": error_message}
+
+        self.status = "failed"
+        self.msg = "The specified version '{0}' does not have the 'delete_user_api' functionality. Supported version(s) from '2.3.7.6' onwards.".format(
+            self.payload.get("dnac_version"))
+        self.log(self.msg, "ERROR")
+        self.check_return_status()
 
     def delete_role(self, role_params):
         """
@@ -2991,30 +3118,38 @@ class UserandRole(DnacBase):
             - It logs the response and returns it.
             - The function uses the "user_and_roles" family and the "delete_role_api" function from the Cisco Catalyst Center API.
         """
-        try:
-            self.log("delete role with role_params: {0}".format(str(role_params)), "DEBUG")
-            response = self.dnac._exec(
-                family="user_and_roles",
-                function="delete_role_api",
-                op_modifies=True,
-                params=role_params,
-            )
-            self.log("Received API response from delete_role: {0}".format(str(response)), "DEBUG")
-            self.deleted_role.append(self.have.get("role_name"))
-            return response
 
-        except Exception as e:
-            self.log("Unexpected error occurred: {0}".format(str(e)), "ERROR")
-            if "[403]" in str(e):
-                error_message = (
-                    "The Catalyst Center user '{0}' does not have the necessary permissions to delete the role through the API.".format(
-                        self.payload.get("dnac_username"))
+        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
+            try:
+                self.log("delete role with role_params: {0}".format(str(role_params)), "DEBUG")
+                response = self.dnac._exec(
+                    family="user_and_roles",
+                    function="delete_role_api",
+                    op_modifies=True,
+                    params=role_params,
                 )
-            else:
-                error_message = "An error occurred while deleting the role. Check whether user(s) are assigned to the role '{0}'.".format(
-                    self.have.get("role_name"))
+                self.log("Received API response from delete_role: {0}".format(str(response)), "DEBUG")
+                self.deleted_role.append(self.have.get("role_name"))
+                return response
 
-            return {"error_message": error_message}
+            except Exception as e:
+                self.log("Unexpected error occurred: {0}".format(str(e)), "ERROR")
+                if "[403]" in str(e):
+                    error_message = (
+                        "The Catalyst Center user '{0}' does not have the necessary permissions to delete the role through the API.".format(
+                            self.payload.get("dnac_username"))
+                    )
+                else:
+                    error_message = "An error occurred while deleting the role. Check whether user(s) are assigned to the role '{0}'.".format(
+                        self.have.get("role_name"))
+
+                return {"error_message": error_message}
+
+        self.status = "failed"
+        self.msg = "The specified version '{0}' does not have the 'delete_role_api' functionality. Supported version(s) from '2.3.7.6' onwards.".format(
+            self.payload.get("dnac_version"))
+        self.log(self.msg, "ERROR")
+        self.check_return_status()
 
     def verify_diff_merged(self, config):
         """
@@ -3151,9 +3286,15 @@ class UserandRole(DnacBase):
 
         self.result["changed"] = False
         result_msg_list = []
+        no_update_list = []
+
+        if self.want.get("password_update") is not True:
+            update_action = "created"
+        else:
+            update_action = "updated"
 
         if self.created_user:
-            create_user_msg = "User(s) '{0}' created successfully in Cisco Catalyst Center.".format("', '".join(self.created_user))
+            create_user_msg = "User(s) '{0}' {1} successfully in Cisco Catalyst Center.".format("', '".join(self.created_user), update_action)
             result_msg_list.append(create_user_msg)
 
         if self.updated_user:
@@ -3162,11 +3303,12 @@ class UserandRole(DnacBase):
 
         if self.no_update_user:
             no_update_user_msg = "User(s) '{0}' need no update in Cisco Catalyst Center.".format("', '".join(self.no_update_user))
-            result_msg_list.append(no_update_user_msg)
+            no_update_list.append(no_update_user_msg)
 
-        if self.deleted_user:
-            delete_user_msg = "User(s) '{0}' deleted successfully from the Cisco Catalyst Center.".format("', '".join(self.deleted_user))
-            result_msg_list.append(delete_user_msg)
+        if self.payload.get("state") == "deleted":
+            if self.deleted_user:
+                delete_user_msg = "User(s) '{0}' deleted successfully from the Cisco Catalyst Center.".format("', '".join(self.deleted_user))
+                result_msg_list.append(delete_user_msg)
 
         if self.created_role:
             create_role_msg = "Role(s) '{0}' created successfully in Cisco Catalyst Center.".format("', '".join(self.created_role))
@@ -3178,15 +3320,20 @@ class UserandRole(DnacBase):
 
         if self.no_update_role:
             no_update_role_msg = "Role(s) '{0}' need no update in Cisco Catalyst Center.".format("', '".join(self.no_update_role))
-            result_msg_list.append(no_update_role_msg)
+            no_update_list.append(no_update_role_msg)
 
         if self.deleted_role:
             delete_role_msg = "Role(s) '{0}' deleted successfully from the Cisco Catalyst Center.".format("', '".join(self.deleted_role))
             result_msg_list.append(delete_role_msg)
 
-        if result_msg_list:
+        if result_msg_list and no_update_list:
+            self.result["changed"] = True
+            self.msg = "{0} {1}".format(" ".join(result_msg_list), " ".join(no_update_list))
+        elif result_msg_list:
             self.result["changed"] = True
             self.msg = " ".join(result_msg_list)
+        elif no_update_list:
+            self.msg = " ".join(no_update_list)
         else:
             self.msg = "No changes were made. No user or role actions were performed in Cisco Catalyst Center."
 
@@ -3233,6 +3380,33 @@ class UserandRole(DnacBase):
 
             return camel_case_data
 
+    def process_config_details(self, config_type, state):
+        """
+        Process and apply configuration changes based on a given configuration type and desired state.
+
+        Parameters:
+            - config_type (str): The configuration type to be processed, found in the "config" section of the payload.
+            - state (str): The target state for the configuration (e.g., "present" or "absent").
+
+        Description:
+            - This method first checks if the `config_type` exists in the payload and validates its configuration.
+            - For each validated configuration, it resets internal values, retrieves the desired (want) and current (have) states,
+              and applies the necessary changes based on the `state`.
+            - If `config_verify` is enabled, it verifies that the changes have been correctly applied.
+        """
+        if config_type in self.payload.get("config"):
+            self.validate_input_yml(self.payload.get("config").get(config_type)).check_return_status()
+            config_verify = self.payload.get("config_verify")
+
+            for config in self.validated_config:
+                self.reset_values()
+                self.get_want(config).check_return_status()
+                self.get_have(config).check_return_status()
+                self.get_diff_state_apply[state](config).check_return_status()
+
+                if config_verify:
+                    self.verify_diff_state_apply[state](config).check_return_status()
+
 
 def main():
     """ main entry point for module execution
@@ -3265,31 +3439,22 @@ def main():
     ccc_user_role = UserandRole(module)
     state = ccc_user_role.params.get("state")
 
-    if "role_details" in ccc_user_role.params.get("config"):
-        ccc_user_role.validate_input_yml(ccc_user_role.params.get("config").get("role_details")).check_return_status()
-        config_verify = ccc_user_role.params.get("config_verify")
+    if ccc_user_role.compare_dnac_versions(ccc_user_role.get_ccc_version(), "2.3.5.3") < 0:
+        ccc_user_role.msg = (
+            "The specified version '{0}' does not support the user and role workflow feature. Supported versions start from '2.3.5.3' onwards. "
+            "Version '2.3.5.3' introduces APIs for creating and updating users, as well as retrieving users and roles. "
+            "Version '2.3.7.6' expands support to include APIs for creating, updating, retrieving, and deleting both users and roles.".format(
+                ccc_user_role.get_ccc_version())
+        )
+        ccc_user_role.status = "failed"
+        ccc_user_role.check_return_status()
 
-        for config in ccc_user_role.validated_config:
-            ccc_user_role.reset_values()
-            ccc_user_role.get_want(config).check_return_status()
-            ccc_user_role.get_have(config).check_return_status()
-            ccc_user_role.get_diff_state_apply[state](config).check_return_status()
-
-            if config_verify:
-                ccc_user_role.verify_diff_state_apply[state](config).check_return_status()
-
-    if "user_details" in ccc_user_role.params.get("config"):
-        ccc_user_role.validate_input_yml(ccc_user_role.params.get("config").get("user_details")).check_return_status()
-        config_verify = ccc_user_role.params.get("config_verify")
-
-        for config in ccc_user_role.validated_config:
-            ccc_user_role.reset_values()
-            ccc_user_role.get_want(config).check_return_status()
-            ccc_user_role.get_have(config).check_return_status()
-            ccc_user_role.get_diff_state_apply[state](config).check_return_status()
-
-            if config_verify:
-                ccc_user_role.verify_diff_state_apply[state](config).check_return_status()
+    if state == "merged":
+        ccc_user_role.process_config_details("role_details", state)
+        ccc_user_role.process_config_details("user_details", state)
+    else:
+        ccc_user_role.process_config_details("user_details", state)
+        ccc_user_role.process_config_details("role_details", state)
 
     ccc_user_role.update_user_role_profile_messages().check_return_status()
 
