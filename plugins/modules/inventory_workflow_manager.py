@@ -1712,6 +1712,7 @@ class Inventory(DnacBase):
                 if device_status == 2:  # Already provisioned
                     self.log_device_already_provisioned(device_ip)
                     continue
+
                 elif device_status == 3:  # Error in provisioning
                     self.status = "failed"
                     error_msg = "Cannot do Provisioning for device {0}.".format(device_ip)
