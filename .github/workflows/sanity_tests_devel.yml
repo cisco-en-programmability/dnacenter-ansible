@@ -1,10 +1,13 @@
 name: CI Devel
+
 on:
   workflow_dispatch:
   pull_request:
+
 env:
   NAMESPACE: cisco
   COLLECTION_NAME: dnac
+
 jobs:
   sanity:
     name: Sanity (Ⓐ${{ matrix.ansible }})
@@ -13,26 +16,41 @@ jobs:
         ansible:
           - devel
     runs-on: ubuntu-22.04
+
     steps:
       - name: Check out code
         uses: actions/checkout@v4
         with:
           path: cisco-en-programmability/dnacenter-ansible
+
       - name: Create directory
         run: mkdir -p ./ansible_collections/${{env.NAMESPACE}}
+
       - name: Move repository
         run: mv ./cisco-en-programmability/dnacenter-ansible ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+
       - name: Install ansible-base (${{ matrix.ansible }})
         run: pip install https://github.com/ansible/ansible/archive/${{ matrix.ansible }}.tar.gz --disable-pip-version-check
+
+      - name: Get changed files
+        id: changed_files
+        run: |
+          git fetch origin main
+          echo "changed_files=$(git diff --name-only origin/main HEAD)" >> $GITHUB_ENV
+          echo "Changed files: ${{ env.changed_files }}"
+
       - name: Run sanity tests
-        run: ansible-test sanity --docker -v --color
+        run: ansible-test sanity --docker -v --color ${{ env.changed_files }}
         working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
+
       - name: Install yamllint
         run: pip install --user yamllint
+
       - name: Run yamllint
-        run: yamllint -c .yamllint.yml .
+        run: yamllint -c .yamllint.yml ${{ env.changed_files }}
         working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
