@@ -40,6 +40,7 @@ jobs:
       - name: Get changed files
         id: changed_files
         run: |
+          cd ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
           git fetch origin main
           echo "changed_files=$(git diff --name-only origin/main HEAD)" >> $GITHUB_ENV
           echo "Changed files: ${{ env.changed_files }}"
