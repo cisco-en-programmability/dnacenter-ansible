@@ -1263,13 +1263,13 @@ class FabricDevices(DnacBase):
 
         return True
 
-    def get_fabric_site_id_from_name(self, site_id, site_name):
+    def get_fabric_site_id_from_name(self, site_name, site_id):
         """
         Get the fabric ID from the given site hierarchy name.
 
         Parameters:
-            site_id (str): The ID of the site.
             site_name (str): The name of the site.
+            site_id (str): The ID of the site.
         Returns:
             fabric_site_id (str): The ID of the fabric site.
         Description:
