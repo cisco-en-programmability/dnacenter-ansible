@@ -1709,10 +1709,10 @@ class Inventory(DnacBase):
             if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
                 self.log("Processing with Catalyst version <= 2.3.5.3", "DEBUG")
                 device_status = self.get_provision_wired_device(device_ip)
+
                 if device_status == 2:  # Already provisioned
                     self.log_device_already_provisioned(device_ip)
                     continue
-
                 elif device_status == 3:  # Error in provisioning
                     self.status = "failed"
                     error_msg = "Cannot do Provisioning for device {0}.".format(device_ip)
