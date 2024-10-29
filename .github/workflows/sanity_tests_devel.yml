@@ -43,16 +43,18 @@ jobs:
           cd ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
           git fetch origin main
           changed_files=$(git diff --name-only origin/main HEAD)
-          echo "changed_files=$changed_files" >> $GITHUB_ENV
+          echo "::set-output name=changed_files::$changed_files"
           echo "Changed files: $changed_files"
 
       - name: Run sanity tests
-        run: ansible-test sanity --docker -v --color ${{ env.changed_files }}
+        if: steps.changed_files.outputs.changed_files != ''
+        run: ansible-test sanity --docker -v --color --test ${{ steps.changed_files.outputs.changed_files }}
         working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
 
       - name: Install yamllint
         run: pip install --user yamllint
 
       - name: Run yamllint
-        run: yamllint -c .yamllint.yml ${{ env.changed_files }}
+        if: steps.changed_files.outputs.changed_files != ''
+        run: yamllint -c .yamllint.yml ${{ steps.changed_files.outputs.changed_files }}
         working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
