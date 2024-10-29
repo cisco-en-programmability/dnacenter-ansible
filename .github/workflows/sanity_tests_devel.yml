@@ -42,8 +42,9 @@ jobs:
         run: |
           cd ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
           git fetch origin main
-          echo "changed_files=$(git diff --name-only origin/main HEAD)" >> $GITHUB_ENV
-          echo "Changed files: ${{ env.changed_files }}"
+          changed_files=$(git diff --name-only origin/main HEAD)
+          echo "changed_files=$changed_files" >> $GITHUB_ENV
+          echo "Changed files: $changed_files"
 
       - name: Run sanity tests
         run: ansible-test sanity --docker -v --color ${{ env.changed_files }}
