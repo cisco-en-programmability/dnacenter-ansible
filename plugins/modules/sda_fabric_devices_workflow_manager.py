@@ -311,6 +311,7 @@ notes:
     sda.Sda.get_transit_networks,
     sda.Sda.get_layer3_virtual_networks,
     sda.Sda.get_fabric_sites,
+    sda.Sda.get_fabric_zones,
     sda.Sda.get_provisioned_devices,
     sda.Sda.get_fabric_devices_layer2_handoffs,
     sda.Sda.get_fabric_devices_layer3_handoffs_with_sda_transit,
@@ -337,6 +338,7 @@ notes:
     get /dna/intent/api/v1/sda/transitNetworks
     get /dna/intent/api/v1/sda/layer3VirtualNetworks
     get /dna/intent/api/v1/sda/fabricSites
+    get /dna/intent/api/v1/sda/fabricZones
     get /dna/intent/api/v1/sda/provisionDevices
     get /dna/intent/api/v1/sda/fabricDevices/layer2Handoffs
     get /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/sdaTransits
@@ -1032,7 +1034,7 @@ class FabricDevices(DnacBase):
             )
         except Exception as msg:
             self.msg = (
-                "Exception occured while running the API 'get_transit_networks': {msg}"
+                "Exception occurred while running the API 'get_transit_networks': {msg}"
                 .format(msg=msg)
             )
             self.log(self.msg, "CRITICAL")
@@ -1082,7 +1084,7 @@ class FabricDevices(DnacBase):
 
         except Exception as msg:
             self.msg = (
-                "Exception occured while running the API 'get_device_list': {msg}"
+                "Exception occurred while running the API 'get_device_list': {msg}"
                 .format(msg=msg)
             )
             self.log(self.msg, "CRITICAL")
@@ -1148,7 +1150,7 @@ class FabricDevices(DnacBase):
 
         except Exception as msg:
             self.msg = (
-                "Exception occured while running the API 'get_layer3_virtual_networks': {msg}"
+                "Exception occurred while running the API 'get_layer3_virtual_networks': {msg}"
                 .format(msg=msg)
             )
             self.log(self.msg, "CRITICAL")
@@ -1252,7 +1254,7 @@ class FabricDevices(DnacBase):
                 )
         except Exception as msg:
             self.msg = (
-                "Exception occured while running the API 'get_reserve_ip_subpool': {msg}"
+                "Exception occurred while running the API 'get_reserve_ip_subpool': {msg}"
                 .format(msg=msg)
             )
             self.log(self.msg, "CRITICAL")
@@ -1261,18 +1263,18 @@ class FabricDevices(DnacBase):
 
         return True
 
-    def get_fabric_site_id_from_name(self, site_id, site_name):
+    def get_fabric_site_id_from_name(self, site_name, site_id):
         """
         Get the fabric ID from the given site hierarchy name.
 
         Parameters:
-            site_id (str): The ID of the site.
             site_name (str): The name of the site.
+            site_id (str): The ID of the site.
         Returns:
             fabric_site_id (str): The ID of the fabric site.
         Description:
-            Call the API 'get_site' by setting the 'site_name_hierarchy' field with the
-            given site name.
+            Call the API 'get_fabric_sites' by setting the 'site_id' field with the
+            given site id.
             If the status is set to failed, return None. Else, return the fabric site ID.
         """
 
@@ -1319,7 +1321,7 @@ class FabricDevices(DnacBase):
             )
         except Exception as msg:
             self.msg = (
-                "Exception occured while running the API 'get_fabric_sites': {msg}"
+                "Exception occurred while running the API 'get_fabric_sites': {msg}"
                 .format(msg=msg)
             )
             self.log(self.msg, "CRITICAL")
@@ -1327,6 +1329,73 @@ class FabricDevices(DnacBase):
             return self.check_return_status()
 
         return fabric_site_id
+
+    def get_fabric_zone_id_from_name(self, site_id, site_name):
+        """
+        Get the fabric zone ID from the given site hierarchy name.
+
+        Parameters:
+            site_id (str): The ID of the zone.
+            site_name (str): The name of the site.
+        Returns:
+            fabric_zone_id (str): The ID of the fabric zone.
+        Description:
+            Call the API 'get_fabric_zones' by setting the 'site_name_hierarchy' field with the
+            given site name.
+            If the status is set to failed, return None. Else, return the fabric site ID.
+        """
+
+        self.log(
+            "Attempting to retrieve fabric site details for site ID '{site_id}' and site name '{site_name}'."
+            .format(site_id=site_id, site_name=site_name), "DEBUG"
+        )
+        fabric_zone_id = None
+        try:
+            fabric_zone = self.dnac._exec(
+                family="sda",
+                function="get_fabric_zones",
+                params={"site_id": site_id},
+            )
+            self.log(
+                "Response received from 'get_fabric_zones': {response}"
+                .format(response=fabric_zone), "DEBUG"
+            )
+
+            # If the status is 'failed', then the zone is not a fabric
+            if not isinstance(fabric_zone, dict):
+                self.msg = "Error in getting fabric zone details - Response is not a dictionary"
+                self.log(self.msg, "CRITICAL")
+                self.status = "failed"
+                return self.check_return_status()
+
+            # if the SDK returns no response, then the virtual network doesnot exist
+            fabric_zone = fabric_zone.get("response")
+            if not fabric_zone:
+                self.log(
+                    "The site hierarchy 'fabric_zone' {site_name} is not a valid one or it not a 'Fabric' zone."
+                    .format(site_name=site_name), "ERROR"
+                )
+                return fabric_zone_id
+
+            self.log(
+                "The site hierarchy 'fabric_site' {fabric_name} is a valid fabric site."
+                .format(fabric_name=site_name), "DEBUG"
+            )
+            fabric_zone_id = fabric_zone[0].get("id")
+            self.log(
+                "Fabric zone ID retrieved successfully: {fabric_zone_id}"
+                .format(fabric_zone_id=fabric_zone_id), "DEBUG"
+            )
+        except Exception as msg:
+            self.msg = (
+                "Exception occurred while running the API 'get_fabric_zones': {msg}"
+                .format(msg=msg)
+            )
+            self.log(self.msg, "CRITICAL")
+            self.status = "failed"
+            return self.check_return_status()
+
+        return fabric_zone_id
 
     def check_device_is_provisioned(self, fabric_device_ip, device_id, site_id, site_name):
         """
@@ -1374,7 +1443,7 @@ class FabricDevices(DnacBase):
 
         except Exception as msg:
             self.msg = (
-                "Exception occured while running the API 'get_provisioned_devices': {msg}"
+                "Exception occurred while running the API 'get_provisioned_devices': {msg}"
                 .format(msg=msg)
             )
             self.log(self.msg, "CRITICAL")
@@ -1494,7 +1563,7 @@ class FabricDevices(DnacBase):
                     return self.check_return_status()
             except Exception as msg:
                 self.msg = (
-                    "Exception occured while running the API 'get_fabric_devices_layer2_handoffs': {msg}"
+                    "Exception occurred while running the API 'get_fabric_devices_layer2_handoffs': {msg}"
                     .format(msg=msg)
                 )
                 self.log(self.msg, "CRITICAL")
@@ -2017,15 +2086,25 @@ class FabricDevices(DnacBase):
         self.log("Fetching fabric site ID for site '{site_id}'.".format(site_id=site_id), "INFO")
         fabric_site_id = self.get_fabric_site_id_from_name(site_id, fabric_name)
         if not fabric_site_id:
-            self.msg = (
-                "The provided 'fabric_name' '{fabric_name}' is not valid a fabric site."
-                .format(fabric_name=fabric_name)
-            )
-            self.log(self.msg, "ERROR")
-            self.status = "failed"
-            return self
+            fabric_site_id = self.get_fabric_zone_id_from_name(site_id, fabric_name)
+            if not fabric_site_id:
+                self.msg = (
+                    "The provided 'fabric_name' '{fabric_name}' is not valid a fabric site."
+                    .format(fabric_name=fabric_name)
+                )
+                self.log(self.msg, "ERROR")
+                self.status = "failed"
+                return self
 
-        self.log("Fabric site ID obtained: {fabric_site_id}.".format(fabric_site_id=fabric_site_id), "DEBUG")
+            self.log(
+                "Fabric zone ID obtained: {fabric_site_id}."
+                .format(fabric_site_id=fabric_site_id), "DEBUG"
+            )
+        else:
+            self.log(
+                "Fabric site ID obtained: {fabric_site_id}."
+                .format(fabric_site_id=fabric_site_id), "DEBUG"
+            )
 
         # device_config contains the list of devices on which the operations should be performed
         device_config = fabric_devices.get("device_config")
@@ -2659,7 +2738,7 @@ class FabricDevices(DnacBase):
             is_transit_pub_sub = True
         except Exception as msg:
             self.msg = (
-                "Exception occured while running the API 'get_transit_networks': {msg}"
+                "Exception occurred while running the API 'get_transit_networks': {msg}"
                 .format(msg=msg)
             )
             self.log(self.msg, "CRITICAL")
@@ -3428,7 +3507,7 @@ class FabricDevices(DnacBase):
             self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg).check_return_status()
         except Exception as msg:
             self.msg = (
-                "Exception occured while creating the L2 Handoff(s) in the device '{ip}': {msg}"
+                "Exception occurred while creating the L2 Handoff(s) in the device '{ip}': {msg}"
                 .format(ip=device_ip, msg=msg)
             )
             self.status = "failed"
@@ -3499,7 +3578,7 @@ class FabricDevices(DnacBase):
                 self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg).check_return_status()
             except Exception as msg:
                 self.msg = (
-                    "Exception occured while adding the SDA L3 Handoff for the device '{ip}': {msg}"
+                    "Exception occurred while adding the SDA L3 Handoff for the device '{ip}': {msg}"
                     .format(ip=device_ip, msg=msg)
                 )
                 self.status = "failed"
@@ -3570,7 +3649,7 @@ class FabricDevices(DnacBase):
             self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg).check_return_status()
         except Exception as msg:
             self.msg = (
-                "Exception occured while updating the SDA L3 Handoff for the device '{ip}': {msg}"
+                "Exception occurred while updating the SDA L3 Handoff for the device '{ip}': {msg}"
                 .format(ip=device_ip, msg=msg)
             )
             self.status = "failed"
@@ -3705,7 +3784,7 @@ class FabricDevices(DnacBase):
                 self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg).check_return_status()
             except Exception as msg:
                 self.msg = (
-                    "Exception occured while adding the L3 Handoff with IP Transit to the device '{ip}': {msg}"
+                    "Exception occurred while adding the L3 Handoff with IP Transit to the device '{ip}': {msg}"
                     .format(ip=device_ip, msg=msg)
                 )
                 self.log(self.msg, "ERROR")
@@ -3744,7 +3823,7 @@ class FabricDevices(DnacBase):
                 self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg).check_return_status()
             except Exception as msg:
                 self.msg = (
-                    "Exception occured while updating the L3 Handoff with IP Transit to the device '{ip}': {msg}"
+                    "Exception occurred while updating the L3 Handoff with IP Transit to the device '{ip}': {msg}"
                     .format(ip=device_ip, msg=msg)
                 )
                 self.log(self.msg, "ERROR")
@@ -3871,7 +3950,7 @@ class FabricDevices(DnacBase):
                     self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg).check_return_status()
                 except Exception as msg:
                     self.msg = (
-                        "Exception occured while adding the device '{ip}' to the fabric site '{site}: {msg}"
+                        "Exception occurred while adding the device '{ip}' to the fabric site '{site}: {msg}"
                         .format(ip=device_ip, site=fabric_name, msg=msg)
                     )
                     self.status = "failed"
@@ -3940,7 +4019,7 @@ class FabricDevices(DnacBase):
                         self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg).check_return_status()
                     except Exception as msg:
                         self.msg = (
-                            "Exception occured while updating the fabric device with IP '{ip}': {msg}"
+                            "Exception occurred while updating the fabric device with IP '{ip}': {msg}"
                             .format(ip=device_ip, msg=msg)
                         )
                         self.log(self.msg, "ERROR")
@@ -4160,7 +4239,7 @@ class FabricDevices(DnacBase):
                 self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg).check_return_status()
             except Exception as msg:
                 self.msg = (
-                    "Exception occured while deleting the L2 Handoff in the fabric device with IP '{ip}': {msg}"
+                    "Exception occurred while deleting the L2 Handoff in the fabric device with IP '{ip}': {msg}"
                     .format(ip=device_ip, msg=msg)
                 )
                 self.log(self.msg, "ERROR")
@@ -4247,7 +4326,7 @@ class FabricDevices(DnacBase):
                 self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg).check_return_status()
             except Exception as msg:
                 self.msg = (
-                    "Exception occured while deleting the SDA L3 Handoff in the fabric device with IP '{ip}': {msg}"
+                    "Exception occurred while deleting the SDA L3 Handoff in the fabric device with IP '{ip}': {msg}"
                     .format(ip=device_ip, msg=msg)
                 )
                 self.log(self.msg, "ERROR")
@@ -4329,7 +4408,7 @@ class FabricDevices(DnacBase):
                 self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg).check_return_status()
             except Exception as msg:
                 self.msg = (
-                    "Exception occured while deleting the IP L3 Handoff in the fabric device with IP '{ip}': {msg}"
+                    "Exception occurred while deleting the IP L3 Handoff in the fabric device with IP '{ip}': {msg}"
                     .format(ip=device_ip, msg=msg)
                 )
                 self.log(self.msg, "ERROR")
@@ -4475,7 +4554,7 @@ class FabricDevices(DnacBase):
                         })
                     except Exception as msg:
                         self.msg = (
-                            "Exception occured while deleting the fabric device with IP '{ip}': {msg}"
+                            "Exception occurred while deleting the fabric device with IP '{ip}': {msg}"
                             .format(ip=device_ip, msg=msg)
                         )
                         self.log(self.msg, "ERROR")
