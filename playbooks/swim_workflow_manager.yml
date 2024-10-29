@@ -24,7 +24,7 @@
         config:
         - tagging_details:
             image_name: cat9k_iosxe.17.15.01.SPA.bin
-            device_role: [Distribution]
+            device_role: ("core","Distribution")
             device_image_family_name: Cisco Catalyst 9300 Switch
             # site_name: Global/Chennai/LTTS/FLOOR1
             tagging: True
