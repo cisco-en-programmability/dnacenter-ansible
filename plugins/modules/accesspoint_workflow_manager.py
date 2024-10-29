@@ -3941,10 +3941,10 @@ class Accesspoint(DnacBase):
 
         Parameters:
             self (dict): A dictionary used to collect the execution results.
-            ap_list (list): A list containing the APs mac address which need to reset or reboot.
+            bulk_config (dict): A dict containing the APs mac address and cofig details which need to update APs.
 
         Returns:
-            dict: A dictionary containing the result of the access point reset/reboot status.
+            dict: A dictionary containing the result of the buld access point update status.
         """
         ap_exist, ap_details = self.get_accesspoint_details(bulk_config)
         self.payload["access_point_details"] = ap_details
