@@ -747,6 +747,7 @@ class Inventory(DnacBase):
         self.response_list, self.role_updated_list, self.device_role_name = [], [], []
         self.udf_added, self.udf_deleted = [], []
         self.ip_address_for_update, self.updated_ip = [], []
+        self.output_file_name = []
 
     def validate_input(self):
         """
@@ -1192,6 +1193,7 @@ class Inventory(DnacBase):
         """
 
         device_ips = self.get_device_ips_from_config_priority()
+        output_file_name = ''
 
         if not device_ips:
             self.status = "failed"
@@ -1272,6 +1274,7 @@ class Inventory(DnacBase):
                 csv_writer.writerows(device_data)
 
             self.msg = "Device Details Exported Successfully to the CSV file: {0}".format(output_file_name)
+            self.output_file_name.append(output_file_name)
             self.log(self.msg, "INFO")
             self.status = "success"
             self.result['changed'] = True
@@ -4097,6 +4100,10 @@ class Inventory(DnacBase):
             updated_ip_msg = ("Device '{0}' found in Cisco Catalyst Center. The new management IP '{1}' has"
                               "been updated successfully.").format(ip_address_for_update, updated_ip)
             result_msg_list_changed.append(updated_ip_msg)
+
+        if self.output_file_name:
+            output_file_name = "Device Details Exported Successfully to the CSV file: {0}".format("', '".join(self.output_file_name))
+            result_msg_list_changed.append(output_file_name)
 
         if result_msg_list_not_changed and result_msg_list_changed:
             self.result["changed"] = True
