@@ -1186,6 +1186,7 @@ class DnacDevice(DnacBase):
         """
 
         device_ips = self.get_device_ips_from_config_priority()
+        output_file_name = ''
 
         if not device_ips:
             self.status = "failed"
