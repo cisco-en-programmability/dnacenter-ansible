@@ -870,6 +870,7 @@ class DnacBase():
             Assigns the specified devices to the site. If the assignment is successful, returns True.
             Otherwise, logs an error and returns False along with error details.
         """
+
         if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
             try:
                 response = self.dnac_apply['exec'](
