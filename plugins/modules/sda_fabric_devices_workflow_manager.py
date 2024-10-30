@@ -94,14 +94,15 @@ options:
                 elements: str
               route_distribution_protocol:
                 description:
-                - Route Distribution Protocol for Control Plane Device.
+                - Specifies the Route Distribution Protocol for the Control Plane Device.
                 - The route distribution protocol manages routing information across network segments.
                 - Available protocols,
-                  - LISP_BGP - Location/ID Separation Protocol Publish-Subscribe is a control plane model
-                               in which routing information is distributed using a publish-subscribe mechanism.
-                  - LISP_PUB_SUB - Location/ID Separation Protocol with BGP) integrates BGP as the control plane
-                                   for LISP networks. Here, BGP advertises and manages routing information.
+                  - LISP_BGP - Location/ID Separation Protocol with a publish-subscribe mechanism
+                               for distributing routing information.
+                  - LISP_PUB_SUB - Location/ID Separation Protocol with BGP, where BGP serves as the control plane
+                                   to advertise and manage routing information within LISP networks.
                 choices: [LISP_BGP, LISP_PUB_SUB]
+                default: LISP_BGP
                 type: list
                 elements: str
               borders_settings:
@@ -1411,13 +1412,13 @@ class FabricDevices(DnacBase):
 
         return fabric_site_id
 
-    def get_fabric_zone_id_from_name(self, site_id, site_name):
+    def get_fabric_zone_id_from_name(self, site_name, site_id):
         """
         Get the fabric zone ID from the given site hierarchy name.
 
         Parameters:
-            site_id (str): The ID of the zone.
             site_name (str): The name of the site.
+            site_id (str): The ID of the zone.
         Returns:
             fabric_zone_id (str): The ID of the fabric zone.
         Description:
@@ -2165,9 +2166,9 @@ class FabricDevices(DnacBase):
             return self.check_return_status()
 
         self.log("Fetching fabric site ID for site '{site_id}'.".format(site_id=site_id), "INFO")
-        fabric_site_id = self.get_fabric_site_id_from_name(site_id, fabric_name)
+        fabric_site_id = self.get_fabric_site_id_from_name(fabric_name, site_id)
         if not fabric_site_id:
-            fabric_site_id = self.get_fabric_zone_id_from_name(site_id, fabric_name)
+            fabric_site_id = self.get_fabric_zone_id_from_name(fabric_name, site_id)
             if not fabric_site_id:
                 self.msg = (
                     "The provided 'fabric_name' '{fabric_name}' is not valid a fabric site."
@@ -4014,18 +4015,31 @@ class FabricDevices(DnacBase):
                          .format(ip=device_ip, requested_state=want_device_details), "DEBUG")
                 try:
                     device_roles = want_device_details.get("deviceRoles")
+                    self.log(
+                        "Device roles retrieved: {device_roles}".format(device_roles=device_roles), "DEBUG"
+                    )
                     if device_roles == ["CONTROL_PLANE_NODE"]:
                         route_distribution_protocol = item.get("route_distribution_protocol")
+                        self.log(
+                            "Route distribution protocol set to: {route_distribution_protocol}".format(
+                                route_distribution_protocol=route_distribution_protocol
+                            ), "DEBUG"
+                        )
                         if route_distribution_protocol is None:
                             route_distribution_protocol = "LISP_BGP"
                         else:
-                            route_distribution_protocol_list = ["LISP_BGP", "LISP_PUB_SUB"]
-                            if route_distribution_protocol not in route_distribution_protocol_list:
+                            valid_protocols = ["LISP_BGP", "LISP_PUB_SUB"]
+                            if route_distribution_protocol not in valid_protocols:
                                 self.msg = (
-                                    "The 'route_distribution_protocol_list' should be in the list {protocol_list}."
-                                    .format(protocol_list=route_distribution_protocol_list)
+                                    "The 'route_distribution_protocol' must be one of {valid_protocols}."
+                                    .format(valid_protocols=valid_protocols)
                                 )
                                 self.status = "failed"
+                                self.log(
+                                    "Invalid route distribution protocol: {route_distribution_protocol}. Allowed values: {valid_protocols}"
+                                    .format(route_distribution_protocol=route_distribution_protocol, valid_protocols=valid_protocols),
+                                    "ERROR"
+                                )
                                 return self
 
                         payload = {
