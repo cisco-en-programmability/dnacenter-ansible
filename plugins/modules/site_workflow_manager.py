@@ -410,7 +410,7 @@ response_5:
 """
 
 floor_plan = {
-    '101101': 'Cubes And Walled Offices',
+    '107107': 'Cubes And Walled Offices',
     '101102': 'Drywall Office Only',
     '101105': 'Free Space',
     '101104': 'Indoor High Ceiling',
@@ -502,8 +502,7 @@ class Site(DnacBase):
         """
 
         site_info = {}
-        location = get_dict_result(site[0].get(
-            "additionalInfo"), 'nameSpace', "Location")
+        location = get_dict_result(site[0].get("additionalInfo"), 'nameSpace', "Location")
         typeinfo = location.get("attributes").get("type")
 
         if typeinfo == "area":
@@ -539,7 +538,7 @@ class Site(DnacBase):
                     name=site[0].get("name"),
                     parentName=site[0].get("siteNameHierarchy").split(
                         "/" + site[0].get("name"))[0],
-                    rfmodel=rf_model,
+                    rf_model=floor_plan.get(rf_model),
                     width=map_geometry.get("attributes").get("width"),
                     length=map_geometry.get("attributes").get("length"),
                     height=map_geometry.get("attributes").get("height"),
@@ -555,111 +554,147 @@ class Site(DnacBase):
         self.log("Current site details: {0}".format(str(current_site)), "INFO")
         return current_site
 
+    def get_site_v1(self, site_name_hierarchy):
+        """
+        Retrieve site details from Cisco Catalyst Center based on the provided site name.
+        Args:
+            - site_name_hierarchy (str): The name or hierarchy of the site to be retrieved.
+        Returns:
+            - response (dict or None): The response from the API call, typically a dictionary containing site details.
+                                    Returns None if an error occurs or if the response is empty.
+        Criteria:
+            - This function uses the Cisco Catalyst Center SDK to execute the 'get_sites' function from the 'site_design' family.
+            - If the response is empty, a warning is logged.
+            - Any exceptions during the API call are caught, logged as errors, and the function returns None.
+        """
+        self.log("Fetching site details for site hierarchy: '{0}'".format(site_name_hierarchy), "INFO")
+        try:
+            response = self.dnac._exec(
+                family="sites",
+                function='get_site',
+                op_modifies=True,
+                params={"name": site_name_hierarchy},
+            )
+
+            if not response:
+                self.log("Empty response received for site: {0}".format(site_name_hierarchy), "WARNING")
+                return None
+
+            self.log("Received API response for site '{0}' from 'get_sites': {1}".format(site_name_hierarchy, response), "DEBUG")
+            return response
+
+        except Exception as e:
+            self.log("An error occurred in 'get_sites':{0}".format(e), "ERROR")
+            return None
+
     def site_exists(self):
         """
+
         Check if the site exists in Cisco Catalyst Center.
         Parameters:
-          - self (object): An instance of the class containing the method.
+        - self (object): An instance of the class containing the method.
+
         Returns:
-          - tuple: A tuple containing a boolean indicating whether the site exists and
-                   a dictionary containing information about the existing site.
-                   The returned tuple includes two elements:
-                   - site_exists (bool): Indicates whether the site exists.
-                   - dict: Contains information about the existing site. If the
-                           site doesn't exist, this dictionary is empty.
+        - tuple: A tuple containing a boolean indicating whether the site exists and
+                a dictionary containing information about the existing site.
+                The returned tuple includes two elements:
+                - site_exists (bool): Indicates whether the site exists.
+                - dict: Contains information about the existing site. If the
+                        site doesn't exist, this dictionary is empty.
+
         Description:
             Checks the existence of a site in Cisco Catalyst Center by querying the
-          'get_site' function in the 'sites' family. It utilizes the
-          'site_name' parameter from the 'want' attribute to identify the site.
+        'get_site' function in the 'sites' family. It utilizes the
+        'site_name_hierarchy' parameter from the 'want' attribute to identify the site.
         """
         site_exists = False
         current_site = {}
-        response = None
 
         if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
-            site_name = self.want.get("site_name")
-            response = self.get_site(site_name)
+            site_name_hierarchy = self.want.get("site_name_hierarchy")
+            response = self.get_site_v1(site_name_hierarchy)
+
             if not response:
-                self.log("No response received from 'get_site' API for site: {0}".format(site_name), "ERROR")
-                return (site_exists, current_site)
+                self.log("No response received from 'get_site' API for site: {0}".format(site_name_hierarchy), "ERROR")
+                return site_exists, current_site
 
-            response = response.get("response")
-            self.log("Received API response from 'get_site': {0}".format(str(response)), "DEBUG")
+            response_data = response.get("response")
+            self.log("Received API response from 'get_site': {0}".format(str(response_data)), "DEBUG")
 
-            current_site = self.get_current_site(response)
+            current_site = self.get_current_site(response_data)
             if current_site:
                 site_exists = True
-                self.log("Site '{0}' exists in Cisco Catalyst Center".format(site_name), "INFO")
+                self.log("Site '{0}' exists in Cisco Catalyst Center".format(site_name_hierarchy), "INFO")
             else:
-                self.log("No valid site details found for '{0}'".format(site_name), "WARNING")
-
-            return (site_exists, current_site)
-
+                self.log("No valid site details found for '{0}'".format(site_name_hierarchy), "WARNING")
+            return site_exists, current_site
         else:
             try:
-                response = {}
-                if self.config[0].get('site', {}).get('bulk_operation', False):
-                    bulk_operation = self.config[0].get('site', {}).get('bulk_operation', False)
-                else:
-                    bulk_operation = self.config[0]['site']['type']
-
+                bulk_operation = self.config[0].get('site', {}).get('bulk_operation', False)
                 self.log("Bulk operation mode: {}".format(bulk_operation), "INFO")
+
                 if bulk_operation:
-                    name_list = [site["name"] for site in self.want if "name" in site]
+                    name_list = self.get_bulk_site_names(self.config[0])
+                    self.log("Constructed name_list: {}".format(name_list), "DEBUG")
                     all_sites_info = []
+
                     for name in name_list:
                         try:
                             response = self.get_site(name)
-                            response_data = response.get("response", [])
-                            site_exists = True
+                            self.log("Raw response from get_site: {}".format(response), "DEBUG")
+
+                            if isinstance(response, dict):
+                                response_data = response.get("response", [])
+                            elif isinstance(response, list):
+                                self.log("Unexpected list returned from get_site, skipping: {}".format(response), "ERROR")
+                                continue
+                            else:
+                                self.log("Unexpected response type: {}".format(type(response)), "ERROR")
+                                continue
+
                             if not response_data:
                                 self.log("No site information found for name: {0}".format(name), "WARNING")
-                                return (site_exists, current_site)
+                                continue
 
                             for site in response_data:
                                 if isinstance(site, dict):
                                     current_site = dict(site.items())
-                                    if site.get('nameHierarchy'):
-                                        current_site['parentName'] = site['nameHierarchy'].rsplit('/', 1)[0]
-                                    else:
-                                        current_site['parentName'] = None
-
+                                    current_site['parentName'] = site.get('nameHierarchy', '').rsplit('/', 1)[0] if site.get('nameHierarchy') else None
                                     all_sites_info.append(current_site)
-                                    site_exists = True
+
+                            site_exists = True
+
                         except Exception as e:
                             self.log("Error fetching site for name '{0}': {1}".format(name, str(e)))
 
-                    return (site_exists, all_sites_info)
+                    if all_sites_info:
+                        self.log("All site information collected from bulk operation: {}".format(all_sites_info), "DEBUG")
+                        return site_exists, current_site
+
+                name_hierarchy = self.want.get("site_name_hierarchy")
+                response = self.get_site(name_hierarchy)
+
+                if not response:
+                    self.log("No site information found for name hierarchy: {}".format(name_hierarchy), "WARNING")
+                    return site_exists, current_site
+
+                response_data = response.get("response", [])
+                self.log("Received API response from 'get_sites': {}".format(response_data), "DEBUG")
+
+                for site in response_data:
+                    if isinstance(site, dict):
+                        current_site = dict(site.items())
+                        name_hierarchy = site.get('nameHierarchy', '')
+                        if name_hierarchy:
+                            current_site['parentName'] = name_hierarchy.rsplit('/', 1)[0]
+                        else:
+                            current_site['parentName'] = None
+                        site_exists = True
 
             except Exception as e:
-                self.log("Bulk operation is not available due to : {0}".format(str(e)), "WARNING")
-                name_hierarchy = self.want.get("site_name")
-                try:
-                    response = self.get_site(name_hierarchy)
-                except Exception as e:
-                    self.log("Error fetching site for {0}: {1}".format(name_hierarchy, str(e)))
-                response = response.get("response")
-                if not response:
-                    self.log("No site information found for name hierarchy: {0}".format(name_hierarchy), "WARNING")
-                    return (site_exists, current_site)
+                self.log("Error during site existence check: {}".format(str(e)), "WARNING")
 
-                if response:
-                    self.log("Received API response from 'get_sites': {0}".format(
-                        str(response)), "DEBUG")
-                    all_sites_info = []
-                    for site in response:
-                        if isinstance(site, dict):
-                            current_site = dict(site.items())
-                            name_hierarchy = site.get('nameHierarchy', '')
-                            if name_hierarchy:
-                                current_site['parentName'] = name_hierarchy.rsplit('/', 1)[0]
-                            else:
-                                current_site['parentName'] = None
-
-                            all_sites_info.append(current_site)
-                            site_exists = True
-
-            return (site_exists, current_site)
+            return site_exists, current_site
 
     def get_parent_id(self, parent_name):
         """
@@ -718,8 +753,10 @@ class Site(DnacBase):
         site_info = {}
 
         if typeinfo not in ["area", "building", "floor"]:
+            self.status = "failed"
             self.msg = "Given bulk site create playbook is only applicable to DNAC version 2.3.7.6"
-            self.set_operation_result("failed", False, self.msg, "ERROR")
+            self.log(self.msg, "ERROR")
+            self.check_return_status()
 
         if typeinfo == 'area':
             area_details = params.get('site').get('area')
@@ -745,7 +782,8 @@ class Site(DnacBase):
                 'length': floor_details.get('length'),
                 'width': floor_details.get('width'),
                 'height': floor_details.get('height'),
-                'floorNumber': floor_details.get('floor_number', '')
+                'floorNumber': floor_details.get('floor_number', ''),
+                'unitsOfMeasure': floor_details.get('units_of_measure')
             }
 
             if isinstance(floor_details, dict):
@@ -763,22 +801,25 @@ class Site(DnacBase):
         self.log("Site parameters: {0}".format(str(site_params)), "DEBUG")
         return site_params
 
-    def get_site_name(self, site):
+    def get_site_name_hierarchy(self, site):
         """
-        Get and Return the site name.
+        Get and return the site name for a single site.
+
         Parameters:
         - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
         - site (dict): A dictionary containing information about the site.
+
         Returns:
-        - str: The constructed site name.
+        - str: The constructed site name or None if not found.
+
         Description:
-            This method takes a dictionary 'site' containing information about
-        the site and constructs the site name by combining the parent name
-        and site name.
+        This method constructs the site name by combining the parent name and site name.
+        It handles single site operations based on the Cisco DNAC version.
         """
         try:
             self.log("Retrieving site name for site data: {}".format(site), "DEBUG")
             site_type = site.get("type")
+
             parent_name = site.get("site", {}).get(site_type, {}).get("parent_name")
             self.log("Identified site type: {}".format(site_type), "DEBUG")
             self.log("Retrieved parent name: {}".format(parent_name), "DEBUG")
@@ -797,13 +838,63 @@ class Site(DnacBase):
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return None
 
-            site_name = '/'.join([parent_name, name])
-            self.log("Constructed site name: {}".format(site_name), "INFO")
-            return site_name
+            site_name_hierarchy = '/'.join([parent_name, name])
+            self.log("Constructed site name: {}".format(site_name_hierarchy), "INFO")
+            return site_name_hierarchy
 
         except Exception as e:
-            error_message = "An error occurred while getting site name: {0}".format(str(e))
+            error_message = "An error occurred while getting site name: {}".format(str(e))
             self.log(error_message, "ERROR")
+            return None
+
+    def get_bulk_site_names(self, site, bulk_operation=True):
+        """
+        Get and return a list of constructed site names for areas, buildings, and floors.
+
+        Parameters:
+        - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+
+        Returns:
+        - list: A list of constructed site names.
+
+        Description:
+        This method collects and constructs site names from areas, buildings, and floors
+        based on the Cisco DNAC version.
+        """
+        name_list = []
+        try:
+            for area in self.config[0].get('site', {}).get('area', []):
+                area_name = area.get('name')
+                area_parent_name_hierarchy = area.get('parent_name_hierarchy')
+                if area_name and area_parent_name_hierarchy:
+                    name_list.append("{}/{}".format(area_parent_name_hierarchy, area_name))
+                elif not area_parent_name_hierarchy:
+                    self.log("Missing parent name hierarchy for area: {}".format(area_name), "ERROR")
+
+            for building in self.config[0].get('site', {}).get('building', []):
+                building_name = building.get('name')
+                building_parent_name_hierarchy = building.get('parent_name_hierarchy')
+                if building_name and building_parent_name_hierarchy:
+                    name_list.append("{}/{}".format(building_parent_name_hierarchy, building_name))
+                elif not building_parent_name_hierarchy:
+                    self.log("Missing parent name hierarchy for building: {}".format(building_name), "ERROR")
+
+            for floor in self.config[0].get('site', {}).get('floor', []):
+                floor_name = floor.get('name')
+                floor_parent_name_hierarchy = floor.get('parent_name_hierarchy')
+                if floor_name and floor_parent_name_hierarchy:
+                    name_list.append("{}/{}".format(floor_parent_name_hierarchy, floor_name))
+                elif not floor_parent_name_hierarchy:
+                    self.log("Missing parent name hierarchy for floor: {}".format(floor_name), "ERROR")
+
+            if not name_list:
+                self.log("No site names constructed from areas, buildings, or floors.", "WARNING")
+            return name_list
+
+        except Exception as e:
+            error_message = "An error occurred while getting bulk site names: {}".format(str(e))
+            self.log(error_message, "ERROR")
+            return None
 
     def compare_float_values(self, ele1, ele2, precision=2):
         """
@@ -857,7 +948,7 @@ class Site(DnacBase):
             It checks if the name, parent_name, latitude, longitude, and address (if provided) are
             equal, indicating that the building details have been updated. Returns True if the
             details match, and False otherwise.
-        """
+        # """
         return (
             updated_site['name'] == requested_site['name'] and
             updated_site['parentName'] == requested_site['parentName'] and
@@ -882,9 +973,8 @@ class Site(DnacBase):
             It checks if the name, rf_model, length, width, and height are equal, indicating
             that the floor details have been updated. Returns True if the details match, and False otherwise.
         """
-
         keys_to_compare = ['length', 'width', 'height']
-        if updated_site['name'] != requested_site['name'] or updated_site.get('rf_model') != requested_site.get('rfModel'):
+        if updated_site['name'] != requested_site['name'] or updated_site.get('rfModel', updated_site.get('rf_model')) != requested_site.get('rfModel'):
             return False
         if requested_site.get('floorNumber') and int(requested_site.get('floorNumber')) != int(updated_site.get('floorNumber')):
             return False
@@ -945,7 +1035,6 @@ class Site(DnacBase):
     def get_have(self, config):
         """
         Get the site details from Cisco Catalyst Center.
-
         Parameters:
             - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             - config (dict): A dictionary containing the configuration details.
@@ -971,8 +1060,10 @@ class Site(DnacBase):
                     if site_exists:
                         have["site_exists"] = site_exists
                         have["current_site"] = current_site
+                        have["site_id"] = current_site.get("id")
                         self.log("Site details found in Cisco Catalyst Center: {}".format(current_site), "DEBUG")
                     else:
+                        have["site_id"] = current_site.get("id")
                         self.log("No site found in Cisco Catalyst Center.", "WARNING")
             site_exists, current_site = self.site_exists()
             self.log("Regular operation: Retrieved site existence: {}".format(site_exists), "DEBUG")
@@ -980,7 +1071,7 @@ class Site(DnacBase):
             if site_exists:
                 if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
                     have["site_id"] = current_site.get("siteId")
-                    self.log("Using legacy siteId for site version <= 2.3.5.3: {}".format(have["site_id"]), "DEBUG")
+                    self.log("SiteId for site version <= 2.3.5.3: {}".format(have["site_id"]), "DEBUG")
                 else:
                     have["site_id"] = current_site.get("id")
                     self.log("Using updated site ID for newer version: {}".format(have["site_id"]), "DEBUG")
@@ -1008,7 +1099,7 @@ class Site(DnacBase):
         Description:
             Retrieves all site-related information from playbook that is
             required for creating a site in Cisco Catalyst Center. It includes
-            parameters such as 'site_params' and 'site_name.' The gathered
+            parameters such as 'site_params' and 'site_name_hierarchy.' The gathered
             information is stored in the 'want' attribute for later reference.
         """
         try:
@@ -1070,13 +1161,13 @@ class Site(DnacBase):
 
         want = dict(
             site_params=self.get_site_params(config),
-            site_name=self.get_site_name(config),
+            site_name_hierarchy=self.get_site_name_hierarchy(config),
         )
         self.want = want
-        self.log("Desired State (want): {0}".format(self.pprint(self.want)), "INFO")
+        self.log("Desired State (want): {0}".format(self.want), "INFO")
         return self
 
-    def update_floor(self, site_params):
+    def update_floor(self, site_params, config):
         """
         Updates a floor in the site hierarchy using the provided site parameters.
 
@@ -1088,15 +1179,35 @@ class Site(DnacBase):
             dict: The API response from the 'updates_a_floor' operation or None if an exception occurs.
         """
         response = None
-        units_of_measure = "feet"
+        units_of_measure = ["feet", "meters"]
+        rf_model = [
+            "Free Space",
+            "Outdoor Open Space",
+            "Cubes And Walled Offices",
+            "Indoor High Ceiling",
+            "Drywall Office Only"
+        ]
         try:
             self.log("Updating floor with parameters: {0}".format(site_params), "INFO")
             parent_name = site_params.get("site", {}).get("floor", {}).get("parentName")
             parent_id = self.get_parent_id(parent_name)
             site_params['site']['floor']['parentId'] = parent_id
-            site_params['site']['floor']['unitsOfMeasure'] = units_of_measure
+
+            if config.get("site", {}).get("floor", {}).get("units_of_measure") not in units_of_measure:
+                error_msg = "Given Unit of Measure: {0} not in the global unit {1}".format(
+                    str(site_params['site']['floor']['unitsOfMeasure']), str(units_of_measure))
+                self.module.fail_json(msg=error_msg)
+            else:
+                site_params['site']['floor']['unitsOfMeasure'] = config.get("site", {}).get("floor", {}).get("units_of_measure")
+
+            if site_params['site']['floor']['rfModel'] not in rf_model:
+                error_msg = "Given RF Model: {0} not in the Floor Plan {1}".format(
+                    str(site_params['site']['floor']['rfModel']), str(rf_model))
+                self.module.fail_json(msg=error_msg)
+
             self.log("Updated site_params with parent_id: {0}".format(site_params), "INFO")
             floor_param = site_params.get('site', {}).get('floor')
+            site_params['site']['floor']['parentId'] = parent_id
             site_id = self.have.get("site_id")
             floor_param['id'] = site_id
 
@@ -1163,7 +1274,7 @@ class Site(DnacBase):
             return response
 
         except Exception as e:
-            self.msg = "Exception occurred while updating building '{0}' due to: {1}".format(site_params.get('site_name'), str(e))
+            self.msg = "Exception occurred while updating building '{0}' due to: {1}".format(site_params.get('site_name_hierarchy'), str(e))
             self.result['response'] = self.msg
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
@@ -1179,13 +1290,13 @@ class Site(DnacBase):
         """
         response = None
         try:
-            self.log("Updating area with parameters: {0}".format(
-                site_params), "INFO")
-            parent_id = self.have.get("parent_id")
+            self.log("Updating area with parameters: {0}".format(self.have), "INFO")
+            parent_id = self.have.get("current_site", {}).get("parentId")
             site_params['site']['area']['parentId'] = parent_id
             area_param = site_params.get('site', {}).get('area')
             site_id = self.have.get("site_id")
             area_param['id'] = site_id
+            self.log("Updating area with parameters: {0}".format(area_param), "INFO")
 
             response = self.dnac._exec(
                 family="site_design",
@@ -1199,7 +1310,7 @@ class Site(DnacBase):
             return response
 
         except Exception as e:
-            self.msg = "Exception occurred while updating area'{0}' due to: {1}".format(site_params.get('site_name'), str(e))
+            self.msg = "Exception occurred while updating area'{0}' due to: {1}".format(site_params.get('site_name_hierarchy'), str(e))
             self.result['response'] = self.msg
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
@@ -1276,6 +1387,22 @@ class Site(DnacBase):
                             name_list = [site.get("name") for site in self.want if "name" in site]
                             self.created_site_list.append(name_list)
                             self.log("Site '{}' created successfully".format(name_list), "INFO")
+
+                            for site in self.want:
+                                if site.get("type") == "floor":
+                                    floor_name = site.get("name")
+                                    self.log("Floor '{}' created successfully".format(floor_name), "INFO")
+
+                                    upload_path = site.get("upload_floor_image_path", None)
+                                    if upload_path:
+                                        self.log("Floor '{}' found. Proceeding to upload floor map from '{}.'".format(floor_name, upload_path), "INFO")
+                                        map_details, map_status, success_message = self.upload_floor_image(config)
+                                        if map_details:
+                                            self.log(success_message, "INFO")
+                                        else:
+                                            self.log("Floor map upload failed.", "ERROR")
+                                    else:
+                                        self.log("Floor '{}' created without uploading a floor map.".format(floor_name), "INFO")
                             return self
                         self.log("No valid task ID received from the 'creating_bulk_site' response.", "WARNING")
                         return None
@@ -1285,9 +1412,14 @@ class Site(DnacBase):
                 self.log("Yaml is not available for bulk: {}".format(e), "ERROR")
 
         if self.have.get("site_exists"):
-            site_name = self.want.get("site_name")
+            site_name_hierarchy = self.want.get("site_name_hierarchy")
+            if not self.site_requires_update():
+                self.update_not_needed_sites.append(site_name_hierarchy)
+                self.msg = "Site - {0} does not need any update".format(site_name_hierarchy)
+                self.log(self.msg, "INFO")
+                return self
 
-            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0 and self.site_requires_update():
+            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
                 try:
                     site_params = self.want.get("site_params")
                     site_params["site_id"] = self.have.get("site_id")
@@ -1301,81 +1433,71 @@ class Site(DnacBase):
                         params=site_params,
                     )
                     self.log("Received API response from 'update_site': {0}".format(str(response)), "DEBUG")
-                    site_updated = True
+
+                    if response and isinstance(response, dict):
+                        execution_id = response.get("executionId")
+                        while True:
+                            execution_details = self.get_execution_details(execution_id)
+                            if execution_details.get("status") == "SUCCESS":
+                                self.result['changed'] = True
+                                site_updated = True
+                                self.updated_site_list.append(site_name_hierarchy)
+                                self.log("Site - {0} Updated Successfully".format(site_name_hierarchy), "INFO")
+                                break
+                            elif execution_details.get("bapiError"):
+                                self.module.fail_json(msg=execution_details.get(
+                                    "bapiError"), response=execution_details)
+
                 except Exception as e:
                     self.log("Unexpected error occurred: {0}".format(str(e)), "ERROR")
-                    error_message = "Site - {0} does not need any update".format(site_name)
+                    error_message = "Site - {0} does not need any update".format(site_name_hierarchy)
                     return {"error_message": error_message}
 
-            if not self.site_requires_update():
-                self.update_not_needed_sites.append(site_name)
-                self.log("Site - {0} does not need any update".format(site_name), "INFO")
+                site_exists, current_site = self.site_exists()
+                if site_exists:
+                    self.update_not_needed_sites.append(site_name_hierarchy)
+                    self.log("Site '{0}' created successfully".format(site_name_hierarchy), "INFO")
 
-                return self
-
-            if site_updated and response and isinstance(response, dict):
-                execution_id = response.get("executionId")
-                while True:
-                    execution_details = self.get_execution_details(execution_id)
-                    if execution_details.get("status") == "SUCCESS":
-                        self.result['changed'] = True
-                        break
-                    elif execution_details.get("bapiError"):
-                        self.module.fail_json(msg=execution_details.get(
-                            "bapiError"), response=execution_details)
-                        break
-
-                if site_updated:
-                    self.updated_site_list.append(site_name)
-                    self.log("Site - {0} Updated Successfully".format(site_name), "INFO")
-
-                else:
-                    site_exists = self.site_exists()
-                    if site_exists:
-                        self.created_site_list.append(site_name)
-                        self.log("Site '{0}' created successfully".format(site_name), "INFO")
-
-            elif self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") >= 0 and self.site_requires_update():
+            elif self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
                 site_params = self.want.get("site_params")
                 site_params["site_id"] = self.have.get("site_id")
                 site_type = site_params.get("type")
+                self.log(site_name_hierarchy)
+                if self.site_requires_update():
+                    response = (self.update_floor(site_params, config) if site_type == "floor"
+                                else self.update_area(site_params) if site_type == "area"
+                                else self.update_building(site_params) if site_type == "building"
+                                else self.log("Unknown site type: {0}".format(site_type), "ERROR"))
 
-                response = (self.update_floor(site_params) if site_type == "floor"
-                            else self.update_area(site_params) if site_type == "area"
-                            else self.update_building(site_params) if site_type == "building"
-                            else self.log("Unknown site type: {0}".format(site_type), "ERROR"))
-
-                if response:
                     self.log("Received API response from 'update_site': {0}".format(str(response)), "DEBUG")
-                    site_updated = True
 
-                if site_updated and response and isinstance(response, dict):
-                    taskid = response["response"]["taskId"]
-                    task_details = self.get_task_details(taskid)
+                    if response and isinstance(response, dict):
+                        taskid = response["response"]["taskId"]
+                        task_details = self.get_task_details(taskid)
 
-                    while True:
-                        if site_type != "floor":
-                            if task_details.get("progress") == "Group is updated successfully":
-                                self.result['changed'] = True
-                                self.result['response'] = task_details
+                        while True:
+                            if site_type != "floor":
+                                if task_details.get("progress") == "Group is updated successfully":
+                                    self.result['changed'] = True
+                                    site_updated = True
+                                    self.result['response'] = task_details
+                                    break
+                            else:
+                                if task_details.get("progress") == "Service domain is updated successfully.":
+                                    self.result['changed'] = True
+                                    site_updated = True
+                                    self.result['response'] = task_details
+                                    break
+
+                            if task_details.get("bapiError"):
+                                self.module.fail_json(msg=task_details.get("bapiError"), response=task_details)
                                 break
-                        else:
-                            if task_details.get("progress") == "Service domain is updated successfully.":
-                                self.result['changed'] = True
-                                self.result['response'] = task_details
-                                break
-
-                        if task_details.get("bapiError"):
-                            self.module.fail_json(msg=task_details.get("bapiError"), response=task_details)
-                            break
-                else:
-                    self.update_not_needed_sites.append(site_name)
-                    self.log("Site - {0} does not need any update".format(site_name), "INFO")
-                    return self
+                    else:
+                        self.msg = "Unable to execute the update the site: {0} ".format(site_name_hierarchy)
+                        self.log(self.msg, "INFO")
+                        return self
 
         else:
-            self.log(site_updated)
-
             if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
                 try:
                     site_params = self.want.get("site_params")
@@ -1404,7 +1526,7 @@ class Site(DnacBase):
                     site_created = True
                 except Exception as e:
                     self.log("Unexpected error occurred: {0}".format(str(e)), "ERROR")
-                    error_message = "Failed to create site '{0}': {1}".format(site_name, str(e))
+                    error_message = "Failed to create site '{0}': {1}".format(site_name_hierarchy, str(e))
                     return {"error_message": error_message}
 
                 if (site_created or site_updated) and response and isinstance(response, dict):
@@ -1421,9 +1543,9 @@ class Site(DnacBase):
 
                     site_exists, current_site = self.site_exists()
                     if site_exists:
-                        site_name = self.want.get("site_name")
-                        self.created_site_list.append(site_name)
-                        self.log("Site '{0}' created successfully".format(site_name), "INFO")
+                        site_name_hierarchy = self.want.get("site_name_hierarchy")
+                        self.created_site_list.append(site_name_hierarchy)
+                        self.log("Site '{0}' created successfully".format(site_name_hierarchy), "INFO")
                     return self
             else:
                 self.msg = "This version : '{0}' given yaml format is not applicable to create a site' ".format(
@@ -1431,23 +1553,23 @@ class Site(DnacBase):
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         if site_updated:
-            self.updated_site_list.append(site_name)
-            self.log("Site - {0} Updated Successfully".format(site_name), "INFO")
+            self.updated_site_list.append(site_name_hierarchy)
+            self.log("Site {0} Updated Successfully".format(site_name_hierarchy), "INFO")
         else:
             site_exists, current_site = self.site_exists()
             if site_exists:
-                self.created_site_list.append(site_name)
-                self.log("Site '{0}' created successfully".format(site_name), "INFO")
+                self.created_site_list.append(site_name_hierarchy)
+                self.log("Site '{0}' created successfully".format(site_name_hierarchy), "INFO")
 
         return self
 
-    def delete_single_site(self, site_id, site_name):
+    def delete_single_site(self, site_id, site_name_hierarchy):
         """"
         Delete a single site in the Cisco Catalyst Center.
         Parameters:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             site_id (str): The ID of the site to be deleted.
-            site_name (str): The name of the site to be deleted.
+           site_name_hierarchy  (str): The name of the site to be deleted.
         Returns:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
         Description:
@@ -1471,8 +1593,8 @@ class Site(DnacBase):
                     execution_details = self.get_execution_details(executionid)
                     if execution_details.get("status") == "SUCCESS":
                         self.status = "success"
-                        self.deleted_site_list.append(site_name)
-                        self.log("Site '{0}' deleted successfully".format(site_name), "INFO")
+                        self.deleted_site_list.append(site_name_hierarchy)
+                        self.log("Site '{0}' deleted successfully".format(site_name_hierarchy), "INFO")
                         break
                     elif execution_details.get("bapiError"):
                         self.log("Error response for 'delete_site' execution: {0}".format(
@@ -1482,18 +1604,18 @@ class Site(DnacBase):
                         break
 
         except Exception as e:
-            self.msg = "Exception occurred while deleting site '{0}' due to: {1}".format(site_name, str(e))
+            self.msg = "Exception occurred while deleting site '{0}' due to: {1}".format(site_name_hierarchy, str(e))
             self.set_operation_result("failed", False, self.msg, "ERROR")
 
         return self
 
-    def delete_floor(self, site_name):
+    def delete_floor(self, site_name_hierarchy):
         """
         Deletes a floor site by ID.
 
         Parameters:
             site_id (str): The ID of the floor site to be deleted.
-            site_name (str): The name of the floor site to be deleted.
+            site_name_hierarchy (str): The name of the floor site to be deleted.
 
         Returns:
             dict: The API response from the 'deletes_a_floor' operation.
@@ -1501,26 +1623,26 @@ class Site(DnacBase):
         site_id = self.have.get("site_id")
         try:
             self.log(
-                "Deleting floor site: {0} with ID: {1}".format(site_name, site_id), "INFO")
+                "Deleting floor site: {0} with ID: {1}".format(site_name_hierarchy, site_id), "INFO")
             response = self.dnac._exec(
                 family="site_design",
                 function="deletes_a_floor",
                 op_modifies=True,
                 params={'id': site_id},
             )
-            self.log("Successfully deleted floor site: {0}. API response: {1}".format(site_name, response), "DEBUG")
+            self.log("Successfully deleted floor site: {0}. API response: {1}".format(site_name_hierarchy, response), "DEBUG")
             return response
         except Exception as e:
-            self.msg = "Exception occurred while deleting floor site '{0}' with site_id '{1}' due to: {2}".format(site_name, site_id, str(e))
+            self.msg = "Exception occurred while deleting floor site '{0}' with site_id '{1}' due to: {2}".format(site_name_hierarchy, site_id, str(e))
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-    def delete_building(self, site_name):
+    def delete_building(self, site_name_hierarchy):
         """
         Deletes a building site by ID.
 
         Parameters:
             site_id (str): The ID of the building site to be deleted.
-            site_name (str): The name of the building site to be deleted.
+            site_name_hierarchy (str): The name of the building site to be deleted.
 
         Returns:
             dict: The API response from the 'deletes_a_building' operation.
@@ -1528,7 +1650,7 @@ class Site(DnacBase):
         site_id = self.have.get("site_id")
         try:
 
-            self.log("Deleting building site: {0} with ID: {1}".format(site_name, site_id), "INFO")
+            self.log("Deleting building site: {0} with ID: {1}".format(site_name_hierarchy, site_id), "INFO")
 
             response = self.dnac._exec(
                 family="site_design",
@@ -1536,38 +1658,38 @@ class Site(DnacBase):
                 op_modifies=True,
                 params={'id': site_id},
             )
-            self.log("Successfully deleted building site: {0}. API response: {1}".format(site_name, response), "DEBUG")
+            self.log("Successfully deleted building site: {0}. API response: {1}".format(site_name_hierarchy, response), "DEBUG")
             return response
 
         except Exception as e:
-            self.msg = "Exception occurred while deleting building site '{0}' with site_id '{1}' due to: {2}".format(site_name, site_id, str(e))
+            self.msg = "Exception occurred while deleting building site '{0}' with site_id '{1}' due to: {2}".format(site_name_hierarchy, site_id, str(e))
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-    def delete_area(self, site_name):
+    def delete_area(self, site_name_hierarchy):
         """
         Deletes an area site by ID.
 
         Parameters:
             site_id (str): The ID of the site to be deleted.
-            site_name (str): The name of the site to be deleted.
+            site_name_hierarchy (str): The name of the site to be deleted.
 
         Returns:
             self: An instance of the class used for interacting with Cisco Catalyst Center.
         """
         site_id = self.have.get("site_id")
         try:
-            self.log("Deleting area site: {0} with ID: {1}".format(site_name, site_id), "INFO")
+            self.log("Deleting area site: {0} with ID: {1}".format(site_name_hierarchy, site_id), "INFO")
             response = self.dnac._exec(
                 family="site_design",
                 function="deletes_an_area",
                 op_modifies=True,
                 params={'id': site_id},
             )
-            self.log("Successfully deleted farea site: {0}. API response: {1}".format(site_name, response), "DEBUG")
+            self.log("Successfully deleted farea site: {0}. API response: {1}".format(site_name_hierarchy, response), "DEBUG")
             return response
 
         except Exception as e:
-            self.msg = "Exception occurred while deleting area site '{0}' with site_id '{1}' due to: {2}".format(site_name, site_id, str(e))
+            self.msg = "Exception occurred while deleting area site '{0}' with site_id '{1}' due to: {2}".format(site_name_hierarchy, site_id, str(e))
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
     def get_diff_deleted(self, config):
@@ -1588,27 +1710,29 @@ class Site(DnacBase):
             of the Cisco Catalyst Center API. It uses the site ID obtained from the 'have' attribute.
         """
         site_exists = self.have.get("site_exists")
-        site_name = self.want.get("site_name")
+        site_name_hierarchy = self.want.get("site_name_hierarchy")
 
         if not site_exists:
             self.status = "success"
+            # self.site_absent_list.append(site_name)
             self.log(
-                "Unable to delete site '{0}' as it's not found in Cisco Catalyst Center".format(self.want.get("site_name")), "INFO")
+                "Unable to delete site '{0}' as it's not found in Cisco Catalyst Center".format(self.want.get("site_name_hierarchy")), "INFO")
             return self
 
         if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
             site_id = self.have.get("site_id")
-            api_response, response = self.get_device_ids_from_site(site_name, site_id)
+            site_name_hierarchy = self.want.get("site_name_hierarchy")
+            api_response, response = self.get_device_ids_from_site(site_name_hierarchy, site_id)
 
             self.log(
                 "Received API response from 'get_membership': {0}".format(str(api_response)), "DEBUG")
 
             site_response = api_response.get("site", {}).get("response", [])
             self.log(
-                "Site '{0}' response along with its child sites: {1}".format(site_name, str(site_response)), "DEBUG")
+                "Site '{0}' response along with its child sites: {1}".format(site_name_hierarchy, str(site_response)), "DEBUG")
 
             if not site_response:
-                self.delete_single_site(site_id, site_name)
+                self.delete_single_site(site_id, site_name_hierarchy)
                 return self
 
             sorted_site_resp = sorted(
@@ -1617,45 +1741,35 @@ class Site(DnacBase):
             for item in sorted_site_resp:
                 self.delete_single_site(item['id'], item['name'])
 
-            self.delete_single_site(site_id, site_name)
+            self.delete_single_site(site_id, site_name_hierarchy)
             self.log(
-                "The site '{0}' and its child sites have been deleted successfully".format(site_name), "INFO")
+                "The site '{0}' and its child sites have been deleted successfully".format(site_name_hierarchy), "INFO")
 
         elif self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
             site_params = self.want.get("site_params")
             site_params["site_id"] = self.have.get("site_id")
             site_type = site_params.get("type")
             site_id = self.have.get("site_id")
-
-            response = self.get_site(site_id)
+            self.log("Site ID from 'have' for retrieval: {0}".format(site_id), "DEBUG")
+            self.log("Site TYPE from 'have' for retrieval: {0}".format(site_type), "DEBUG")
+            self.log("Site PARAMS from 'have' for retrieval: {0}".format(site_params), "DEBUG")
+            self.log("Site NAME from 'want' for retrieval: {0}".format(site_name_hierarchy), "DEBUG")
+            name_hierarchy = self.want.get("site_name_hierarchy")
+            self.log("Initiating deletion for site '{}' with site ID: {} of type: {}".format(site_name_hierarchy, site_id, site_type), "DEBUG")
+            response = self.get_site(name_hierarchy)
             self.log("Received API response from 'get_site_assigned_network_devices': {0}".format(str(response)), "DEBUG")
             site_response = response.get("response", [])
 
-            if site_response:
-                self.module.fail_json(
-                    msg=(
-                        "Site '{0}' cannot be deleted because it has assigned devices. "
-                        "Please delete devices first then delete the site.".format(site_name)
-                    )
-                )
-
-                return self
-
             response = None
             if site_type == "floor":
-                response = self.delete_floor(site_name)
+                response = self.delete_floor(site_name_hierarchy)
             elif site_type == "area":
-                response = self.delete_area(site_name)
-                self.log(
-                    "Manual test response for deleting area: {0}".format(str(response)), "DEBUG")
+                response = self.delete_area(site_name_hierarchy)
+                self.log("Response for deleting area: {0}".format(str(response)), "DEBUG")
             elif site_type == "building":
-                response = self.delete_building(site_name)
+                response = self.delete_building(site_name_hierarchy)
 
-            self.log(
-                "Received API response from 'deleted': {0}".format(str(response)), "DEBUG")
-            site_deleted = response is not None
-
-            if site_deleted and isinstance(response, dict):
+            if isinstance(response, dict):
                 taskid = response.get("response", {}).get("taskId")
 
                 if taskid:
@@ -1663,11 +1777,10 @@ class Site(DnacBase):
                     while True:
                         if site_type != "floor":
                             if task_details.get("progress") == "Group is deleted successfully":
-                                self.log(
-                                    "Area site '{0}' deleted successfully.".format(site_name), "INFO")
+                                self.log("Area site '{0}' deleted successfully.".format(site_name_hierarchy), "INFO")
                                 self.result['changed'] = True
                                 self.result['response'] = task_details
-                                self.deleted_site_list.append(site_name)
+                                self.deleted_site_list.append(site_name_hierarchy)
                                 break
                             elif task_details.get("failureReason"):
                                 self.log(
@@ -1677,10 +1790,10 @@ class Site(DnacBase):
                                 break
                         else:
                             if task_details.get("progress") == "NCMP00150: Service domain is deleted successfully":
-                                self.log("Area site '{0}' deleted successfully.".format(site_name), "INFO")
+                                self.log("Area site '{0}' deleted successfully.".format(site_name_hierarchy), "INFO")
                                 self.result['changed'] = True
                                 self.result['response'] = task_details
-                                self.deleted_site_list.append(site_name)
+                                self.deleted_site_list.append(site_name_hierarchy)
                                 break
                             elif task_details.get("failureReason"):
                                 self.log("Error response for 'deletes_an_area' task: {0}".format(task_details.get('failureReason')), "ERROR")
@@ -1721,25 +1834,25 @@ class Site(DnacBase):
 
         self.get_have(config)
         site_exist = self.have.get("site_exists")
-        site_name = self.want.get("site_name")
+        site_name_hierarchy = self.want.get("site_name_hierarchy")
 
         self.log("Current State (have): {0}".format(str(self.have)), "INFO")
         self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
 
         if site_exist:
             self.status = "success"
-            self.msg = "The requested site '{0}' is present in the Cisco Catalyst Center and its creation has been verified.".format(site_name)
+            self.msg = "The requested site '{0}' is present in the Cisco Catalyst Center and its creation has been verified.".format(site_name_hierarchy)
             self.log(self.msg, "INFO")
 
         require_update = self.site_requires_update()
 
         if not require_update:
-            self.log("The update for site '{0}' has been successfully verified.".format(site_name), "INFO")
+            self.log("The update for site '{0}' has been successfully verified.".format(site_name_hierarchy), "INFO")
             self.status = "success"
             return self
 
         self.log("""The playbook input for site '{0}' does not align with the Cisco Catalyst Center, indicating that the merge task
-                may not have executed successfully.""".format(site_name), "INFO")
+                may not have executed successfully.""".format(site_name_hierarchy), "INFO")
 
         return self
 
@@ -1763,99 +1876,13 @@ class Site(DnacBase):
         if not site_exist:
             self.status = "success"
             msg = """The requested site '{0}' has already been deleted from the Cisco Catalyst Center and this has been
-                successfully verified.""".format(self.want.get("site_name"))
+                successfully verified.""".format(self.want.get("site_name_hierarchy"))
             self.log(msg, "INFO")
             return self
 
         self.log("""Mismatch between the playbook input for site '{0}' and the Cisco Catalyst Center indicates that
-                 the deletion was not executed successfully.""".format(self.want.get("site_name")), "INFO")
+                 the deletion was not executed successfully.""".format(self.want.get("site_name_hierarchy")), "INFO")
         return self
-
-    def upload_floor_image(self, config):
-        map_details = None
-        map_status = None
-        response = None
-        success_message = None
-
-        try:
-            self.log("Starting upload_floor_image function", "DEBUG")
-
-            self.get_want(config)
-            self.get_have(config)
-
-            file_path = config['site']['floor'][0]['upload_floor_image_path']
-            self.log("File path extracted from config: {}".format(file_path), "DEBUG")
-
-            if not os.path.exists(file_path):
-                raise ValueError("File path does not exist: {}".format(file_path))
-            self.log("File path exists: {}".format(file_path), "DEBUG")
-
-            if file_path.lower().endswith('.png'):
-                content_type = 'image/png'
-            elif file_path.lower().endswith('.jpg') or file_path.lower().endswith('.jpeg'):
-                content_type = 'image/jpeg'
-            elif file_path.lower().endswith('.pdf'):
-                content_type = 'application/pdf'
-            else:
-                raise ValueError("Unsupported file format.")
-            self.log("Determined content type: {}".format(content_type), "DEBUG")
-
-            try:
-                with open(file_path, "rb") as image_file:
-                    file_content = image_file.read()
-            except IOError as e:
-                raise IOError("Failed to read file at {}: {}".format(file_path, str(e)))
-
-            site_id = self.have.get("site_id")
-            if not site_id:
-                raise ValueError("No valid site_id found in 'self.have'.")
-            multipart_fields = {
-                'image': (os.path.basename(file_path), file_content, content_type)
-            }
-
-            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
-                try:
-                    response = self.dnac._exec(
-                        family="site_design",
-                        function="uploads_floor_image",
-                        op_modifies=True,
-                        params={
-                            "id": site_id,
-                            "multipart_fields": multipart_fields,
-                            "multipart_monitor_callback": None
-                        }
-                    )
-                    if response is None:
-                        self.log("No response received from the API.", "ERROR")
-                    else:
-                        self.log("API response: {}".format(response), "DEBUG")
-                except Exception as e:
-                    self.msg = "An exception occurred during API execution: {}".format(str(e))
-                    self.log(self.msg, "ERROR")
-                    self.module.fail_json(msg=self.msg)
-                    return None, None, None
-
-            else:
-                raise ValueError("DNAC version is below the required version for this function.")
-
-        except Exception as e:
-            self.msg = "An exception occurred: {}".format(str(e))
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return None, None, None
-
-        if not response:
-            self.msg = "Failed to upload floor image: No response from the API."
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-        if isinstance(response, dict) and "id" in response:
-            self.log("Received valid API response: {}".format(response), "DEBUG")
-            map_details = True
-            map_status = response
-            success_message = "Floor image uploaded successfully."
-            self.log(success_message, "INFO")
-        else:
-            self.log("Invalid response received from API. Response: {}".format(response), "ERROR")
-
-        return map_details, map_status, success_message
 
     def update_site_messages(self):
         """
@@ -1919,6 +1946,115 @@ class Site(DnacBase):
 
         return self
 
+    def upload_floor_image(self, config):
+        """
+        Upload a floor image to the Cisco Catalyst Center.
+
+        Args:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            config (dict): A dictionary containing configuration details, including the file path for the floor image.
+
+        Returns:
+            tuple: A tuple containing:
+                - map_details (bool): Indicates if the upload was successful.
+                - map_status (dict or None): Contains the upload status if successful; otherwise None.
+                - success_message (str or None): A success message if upload was successful; otherwise None.
+
+        Description:
+            This method uploads a specified floor image by validating the file path, ensuring the file exists,
+            determining the content type, reading the file content, and invoking the appropriate API to upload the image.
+            It logs the success or failure of the upload operation.
+        """
+        map_details = None
+        map_status = None
+        response = None
+        success_message = None
+
+        try:
+            self.log("Starting upload_floor_image function", "DEBUG")
+
+            self.get_want(config)
+            self.get_have(config)
+
+            file_path = config['site']['floor'][0]['upload_floor_image_path']
+            self.log("File path extracted from config: {}".format(file_path), "DEBUG")
+
+            if not isinstance(file_path, str) or not file_path:
+                raise ValueError("Invalid file path format. It must be a non-empty string.")
+            if not os.path.exists(file_path):
+                raise ValueError("File path does not exist: {}".format(file_path))
+            self.log("File path exists: {}".format(file_path), "DEBUG")
+
+            valid_extensions = ['.png', '.jpg', '.jpeg', '.pdf']
+            if not any(file_path.lower().endswith(ext) for ext in valid_extensions):
+                raise ValueError("Unsupported file format. Supported formats: {}".format(", ".join(valid_extensions)))
+
+            if file_path.lower().endswith('.png'):
+                content_type = 'image/png'
+            elif file_path.lower().endswith('.jpg') or file_path.lower().endswith('.jpeg'):
+                content_type = 'image/jpeg'
+            elif file_path.lower().endswith('.pdf'):
+                content_type = 'application/pdf'
+
+            self.log("Determined content type: {}".format(content_type), "DEBUG")
+
+            try:
+                with open(file_path, "rb") as image_file:
+                    file_content = image_file.read()
+            except IOError as e:
+                raise IOError("Failed to read file at {}: {}".format(file_path, str(e)))
+
+            site_id = self.have.get("site_id")
+            if not site_id:
+                raise ValueError("No valid site_id found in 'self.have'.")
+
+            multipart_fields = {
+                'image': (os.path.basename(file_path), file_content, content_type)
+            }
+
+            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
+                try:
+                    response = self.dnac._exec(
+                        family="site_design",
+                        function="uploads_floor_image",
+                        op_modifies=True,
+                        params={
+                            "id": site_id,
+                            "multipart_fields": multipart_fields,
+                            "multipart_monitor_callback": None
+                        }
+                    )
+                    if response is None:
+                        self.log("No response received from the API.", "ERROR")
+                    else:
+                        self.log("API response: {}".format(response), "DEBUG")
+                except Exception as e:
+                    self.msg = "An exception occurred during API execution: {}".format(str(e))
+                    self.log(self.msg, "ERROR")
+                    self.module.fail_json(msg=self.msg)
+                    return None, None, None
+            else:
+                raise ValueError("DNAC version is below the required version for this function.")
+
+        except Exception as e:
+            self.msg = "An exception occurred: {}".format(str(e))
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return None, None, None
+
+        if not response:
+            self.msg = "Failed to upload floor image: No response from the API."
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+        if isinstance(response, dict) and "id" in response:
+            self.log("Received valid API response: {}".format(response), "DEBUG")
+            map_details = True
+            map_status = response
+            success_message = "Floor image uploaded successfully."
+            self.log(success_message, "INFO")
+        else:
+            self.log("Invalid response received from API. Response: {}".format(response), "ERROR")
+
+        return map_details, map_status, success_message
+
 
 def main():
     """ main entry point for module execution
@@ -1969,16 +2105,16 @@ def main():
 
     for config in ccc_site.validated_config:
         ccc_site.reset_values()
+
         ccc_site.get_want(config).check_return_status()
         ccc_site.get_have(config).check_return_status()
-        ccc_site.upload_floor_image(config)
+
         ccc_site.get_diff_state_apply[state](config).check_return_status()
+
         if config_verify:
-            ccc_site.verify_diff_state_apply[state](
-                config).check_return_status()
+            ccc_site.verify_diff_state_apply[state](config).check_return_status()
 
     ccc_site.update_site_messages().check_return_status()
-
     module.exit_json(**ccc_site.result)
 
 
