@@ -870,15 +870,6 @@ class DnacBase():
             Assigns the specified devices to the site. If the assignment is successful, returns True.
             Otherwise, logs an error and returns False along with error details.
         """
-        site_response = self.get_site(site_name)
-        if site_response.get("response") and site_response["response"][0].get("type"):
-            site_type = site_response["response"][0].get("type")
-            if site_type not in ("building", "floor"):
-                self.msg = "Device(s) can only be assigned to building/floor"
-                self.log(self.msg, "ERROR")
-                self.status = "failed"
-                self.module.fail_json(msg=self.msg)
-
         if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
             try:
                 response = self.dnac_apply['exec'](
