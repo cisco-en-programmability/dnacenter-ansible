@@ -92,6 +92,19 @@ options:
                 choices: [CONTROL_PLANE_NODE, EDGE_NODE, BORDER_NODE, WIRELESS_CONTROLLER_NODE]
                 type: list
                 elements: str
+              route_distribution_protocol:
+                description:
+                - Specifies the Route Distribution Protocol for the Control Plane Device.
+                - The route distribution protocol manages routing information across network segments.
+                - Available protocols,
+                  - LISP_BGP - Location/ID Separation Protocol with a publish-subscribe mechanism
+                               for distributing routing information.
+                  - LISP_PUB_SUB - Location/ID Separation Protocol with BGP, where BGP serves as the control plane
+                                   to advertise and manage routing information within LISP networks.
+                choices: [LISP_BGP, LISP_PUB_SUB]
+                default: LISP_BGP
+                type: list
+                elements: str
               borders_settings:
                 description:
                 - Effective only when the 'device_roles' contains BORDER_NODE.
@@ -318,6 +331,7 @@ notes:
     sda.Sda.get_fabric_devices_layer3_handoffs_with_ip_transit,
     sda.Sda.get_fabric_devices,
     sda.Sda.add_fabric_devices,
+    sda.Sda.add_control_plane_device,
     sda.Sda.add_fabric_devices_layer2_handoffs,
     sda.Sda.add_fabric_devices_layer3_handoffs_with_sda_transit,
     sda.Sda.add_fabric_devices_layer3_handoffs_with_ip_transit,
@@ -345,6 +359,7 @@ notes:
     get /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/ipTransits
     get /dna/intent/api/v1/sda/fabricDevices
     post /dna/intent/api/v1/sda/fabricDevices
+    post /dna/intent/api/v1/business/sda/control-plane-device
     post /dna/intent/api/v1/sda/fabricDevices/layer2Handoffs
     post /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/sdaTransits
     post /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/ipTransits
@@ -380,6 +395,54 @@ EXAMPLES = r"""
         device_config:
         - device_ip: 10.0.0.1
           device_roles: [CONTROL_PLANE_NODE]
+          route_distribution_protocol: LISP_PUB_SUB
+
+- name: Create SDA fabric device with device role as CONTROL_PLANE_NODE, EDGE_NODE
+  cisco.dnac.sda_fabric_devices_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: True
+    dnac_log_level: "{{ dnac_log_level }}"
+    state: merged
+    config_verify: True
+    config:
+    - fabric_devices:
+        fabric_name: Global/USA/SAN-JOSE
+        device_config:
+        - device_ip: 10.0.0.1
+          device_roles: [CONTROL_PLANE_NODE, EDGE_NODE]
+
+- name: Create SDA fabric device with device role as CONTROL_PLANE_NODE, EDGE_NODE, BORDER_NODE
+  cisco.dnac.sda_fabric_devices_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: True
+    dnac_log_level: "{{ dnac_log_level }}"
+    state: merged
+    config_verify: True
+    config:
+    - fabric_devices:
+        fabric_name: Global/USA/SAN-JOSE
+        device_config:
+        - device_ip: 10.0.0.1
+          device_roles: [CONTROL_PLANE_NODE, EDGE_NODE, BORDER_NODE]
+          borders_settings:
+            layer3_settings:
+              local_autonomous_system_number: 1234
+              is_default_exit: true
+              import_external_routes: true
+              border_priority: 1
+              prepend_autonomous_system_count: 1
 
 - name: Update the SDA fabric device with the device roles with BORDER_NODE and add L2 Handoff
   cisco.dnac.sda_fabric_devices_workflow_manager:
@@ -833,6 +896,25 @@ response_12:
       "response": {
         "taskId": "string",
         "url": "string"
+      },
+      "version": "string"
+    }
+
+# Case_13: Successful addition of Control Node to the fabric.
+response_13:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "endTime": "integer",
+        "lastUpdate": "integer",
+        "status": "string",
+        "startTime": "integer",
+        "version": "integer",
+        "resultLocation": "string",
+        "id": "string"
       },
       "version": "string"
     }
@@ -1330,13 +1412,13 @@ class FabricDevices(DnacBase):
 
         return fabric_site_id
 
-    def get_fabric_zone_id_from_name(self, site_id, site_name):
+    def get_fabric_zone_id_from_name(self, site_name, site_id):
         """
         Get the fabric zone ID from the given site hierarchy name.
 
         Parameters:
-            site_id (str): The ID of the zone.
             site_name (str): The name of the site.
+            site_id (str): The ID of the zone.
         Returns:
             fabric_zone_id (str): The ID of the fabric zone.
         Description:
@@ -2084,9 +2166,9 @@ class FabricDevices(DnacBase):
             return self.check_return_status()
 
         self.log("Fetching fabric site ID for site '{site_id}'.".format(site_id=site_id), "INFO")
-        fabric_site_id = self.get_fabric_site_id_from_name(site_id, fabric_name)
+        fabric_site_id = self.get_fabric_site_id_from_name(fabric_name, site_id)
         if not fabric_site_id:
-            fabric_site_id = self.get_fabric_zone_id_from_name(site_id, fabric_name)
+            fabric_site_id = self.get_fabric_zone_id_from_name(fabric_name, site_id)
             if not fabric_site_id:
                 self.msg = (
                     "The provided 'fabric_name' '{fabric_name}' is not valid a fabric site."
@@ -3932,9 +4014,76 @@ class FabricDevices(DnacBase):
                 self.log("Desired fabric device '{ip}' details (want): {requested_state}"
                          .format(ip=device_ip, requested_state=want_device_details), "DEBUG")
                 try:
-                    payload = {"payload": [want_device_details]}
-                    task_name = "add_fabric_devices"
-                    task_id = self.get_taskid_post_api_call("sda", task_name, payload)
+                    device_roles = want_device_details.get("deviceRoles")
+                    self.log(
+                        "Device roles retrieved: {device_roles}".format(device_roles=device_roles), "DEBUG"
+                    )
+                    if device_roles == ["CONTROL_PLANE_NODE"]:
+                        route_distribution_protocol = item.get("route_distribution_protocol")
+                        self.log(
+                            "Route distribution protocol set to: {route_distribution_protocol}".format(
+                                route_distribution_protocol=route_distribution_protocol
+                            ), "DEBUG"
+                        )
+                        if route_distribution_protocol is None:
+                            route_distribution_protocol = "LISP_BGP"
+                        else:
+                            valid_protocols = ["LISP_BGP", "LISP_PUB_SUB"]
+                            if route_distribution_protocol not in valid_protocols:
+                                self.msg = (
+                                    "The 'route_distribution_protocol' must be one of {valid_protocols}."
+                                    .format(valid_protocols=valid_protocols)
+                                )
+                                self.status = "failed"
+                                self.log(
+                                    "Invalid route distribution protocol: {route_distribution_protocol}. Allowed values: {valid_protocols}"
+                                    .format(route_distribution_protocol=route_distribution_protocol, valid_protocols=valid_protocols),
+                                    "ERROR"
+                                )
+                                return self
+
+                        payload = {
+                            "payload": {
+                                "deviceManagementIpAddress": device_ip,
+                                "siteNameHierarchy": fabric_name,
+                                "routeDistributionProtocol": route_distribution_protocol
+                            }
+                        }
+                        task_name = "add_control_plane_device"
+                        self.log(
+                            "Payload prepared for '{task_name}' API call: {payload}".format(
+                                task_name=task_name, payload=payload
+                            ), "DEBUG"
+                        )
+
+                        # Execute the API call
+                        response = self.dnac._exec(
+                            family="sda",
+                            function="add_control_plane_device",
+                            op_modifies=True,
+                            params=payload,
+                        )
+                        self.log(
+                            "Response received from API call to Function: 'add_control_plane_device': {response}"
+                            .format(response=str(response)), "DEBUG"
+                        )
+
+                        # Update result and extract task ID
+                        task_id = response.get("taskId")
+                        self.log(
+                            "Task ID from '{task_name}' API call: {task_id}".format(
+                                task_name=task_name, task_id=task_id
+                            ), "INFO"
+                        )
+                        self.log(
+                            "Task ID received from API call to Function: 'add_control_plane_device': {task_id}"
+                            .format(task_id=task_id), "INFO"
+                        )
+                    else:
+                        payload = {"payload": [want_device_details]}
+                        task_name = "add_fabric_devices"
+                        task_id = self.get_taskid_post_api_call("sda", task_name, payload)
+
                     if not task_id:
                         self.msg = (
                             "Unable to retrive the task_id for the task '{task_name}'."
