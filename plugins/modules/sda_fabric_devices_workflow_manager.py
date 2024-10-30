@@ -4050,6 +4050,11 @@ class FabricDevices(DnacBase):
                             }
                         }
                         task_name = "add_control_plane_device"
+                        self.log(
+                            "Payload prepared for '{task_name}' API call: {payload}".format(
+                                task_name=task_name, payload=payload
+                            ), "DEBUG"
+                        )
 
                         # Execute the API call
                         response = self.dnac._exec(
@@ -4065,6 +4070,11 @@ class FabricDevices(DnacBase):
 
                         # Update result and extract task ID
                         task_id = response.get("taskId")
+                        self.log(
+                            "Task ID from '{task_name}' API call: {task_id}".format(
+                                task_name=task_name, task_id=task_id
+                            ), "INFO"
+                        )
                         self.log(
                             "Task ID received from API call to Function: 'add_control_plane_device': {task_id}"
                             .format(task_id=task_id), "INFO"
