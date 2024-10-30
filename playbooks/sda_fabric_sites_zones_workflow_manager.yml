@@ -22,7 +22,7 @@
         state: merged
         config:
         - fabric_sites:
-          - site_name: "{{item.fabric_sites.site_name}}"
+          - site_name_hierarchy: "{{item.fabric_sites.site_name_hierarchy}}"
             fabric_type: "{{item.fabric_sites.fabric_type}}"
             authentication_profile: "{{item.fabric_sites.authentication_profile}}"
             is_pub_sub_enabled: "{{item.fabric_sites.is_pub_sub_enabled}}"
