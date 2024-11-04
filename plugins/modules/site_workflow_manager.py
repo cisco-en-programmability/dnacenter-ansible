@@ -967,7 +967,7 @@ class Site(DnacBase):
             It checks if the name, parent_name, latitude, longitude, and address (if provided) are
             equal, indicating that the building details have been updated. Returns True if the
             details match, and False otherwise.
-        # """
+        """
         return (
             updated_site['name'] == requested_site['name'] and
             updated_site['parentName'] == requested_site['parentName'] and
