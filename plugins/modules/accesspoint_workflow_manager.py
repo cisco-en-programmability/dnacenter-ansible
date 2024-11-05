@@ -572,12 +572,12 @@ options:
             required: false
       bulk_update_aps:
         description: |
-          Bulk update to modify one or more access points (APs) of the same series,
-          identified by their MAC address, hostname, or management IP address.
-          At least one of the following parameters is required:
+          Perform a bulk update on multiple access points (APs) of the same series,
+          identified by one or more of the following parameters:
           - mac_address
           - hostname
           - management_ip_address
+          At least one of these parameters must be specified to identify the APs for updating.
         type: dict
         required: false
         suboptions:
@@ -1958,15 +1958,14 @@ class Accesspoint(DnacBase):
                 if task_details_response.get("endTime") is not None:
                     if task_details_response.get("status") == "FAILURE":
                         self.result["changed"] = True if self.result["changed"] is True else False
-                        self.status = "failed"
                         self.msg = "Unable to get success response, hence AP config not updated"
                         self.log(self.msg, "ERROR")
                         self.log("Task Details: {0} .".format(self.pprint(
                             task_details_response)), "ERROR")
-                        responses["accesspoints_updates"] = {
-                            "ap_update_config_task_details": self.get_task_details_by_id(task_response["response"]["taskId"]),
-                            "ap_config_update_status": self.msg}
-                        self.module.fail_json(msg=self.msg, response=responses)
+                        failure_details = self.get_task_details_by_id(task_response["response"]["taskId"])
+                        self.log("Failure Details: {0} .".format(self.pprint(failure_details)), "ERROR")
+                        self.set_operation_result("failed", self.result["changed"],
+                                                  self.msg, "ERROR", failure_details).check_return_status()
                     else:
                         self.result["changed"] = True
                         self.result["ap_update_status"] = True
@@ -2211,39 +2210,46 @@ class Accesspoint(DnacBase):
 
         ap_identifier = ap_config.get("ap_identifier")
         common_fields_to_change = ap_config.get("common_fields_to_change")
+        self.log("Processing AP configuration. ap_identifier: {0}, common_fields_to_change: {1}".
+                 format(ap_identifier, common_fields_to_change), "DEBUG")
         if ap_identifier is not None:
             for each_ap in ap_identifier:
+                self.log("Validating AP entry: {0}".format(each_ap), "DEBUG")
                 mac_address = each_ap.get("mac_address")
                 if mac_address:
-                    mac_regex = re.compile(r'^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$')
-                    if not mac_regex.match(mac_address):
-                        errormsg.append("mac_address: Invalid MAC Address '{0}' in playbook.".format(mac_address))
+                    self.validate_mac_address(mac_address, errormsg)
 
                 management_ip_address = each_ap.get("management_ip_address")
-                if management_ip_address and (not self.is_valid_ipv4(management_ip_address) and
-                                              not self.is_valid_ipv6(management_ip_address)):
-                    errormsg.append("management_ip_address: Invalid Management IP Address '{0}' in playbook."
-                                    .format(management_ip_address))
+                if management_ip_address:
+                    self.validate_ip_address(management_ip_address, "management_ip_address",
+                                             errormsg)
 
                 hostname = each_ap.get("hostname")
                 if hostname:
+                    self.log("Validating Hostname: {0}".format(hostname), "DEBUG")
                     param_spec = dict(type="str", length_max=32)
                     validate_str(hostname, param_spec, "hostname", errormsg)
                     self.log("Hostname validation for '{0}' completed.".format(hostname), "INFO")
 
                 ap_name = each_ap.get("ap_name")
                 if ap_name:
+                    self.log("Validating AP Name: {0}".format(ap_name), "DEBUG")
                     param_spec = dict(type="str", length_max=32)
                     validate_str(ap_name, param_spec, "ap_name", errormsg)
                     if re.search(r'[ ?<]', ap_name):
-                        errormsg.append("ap_name: Invalid '{0}' in playbook. Space, '?', '<' and XSS characters are not allowed".format(ap_name))
-
+                        errormsg.append("ap_name: Invalid '{0}' in playbook. Space, '?', '<' and XSS characters are not allowed".
+                                        format(ap_name))
+                    else:
+                        self.log("AP Name '{0}' is valid.".format(ap_name), "INFO")
         if common_fields_to_change is not None:
             ap_config = common_fields_to_change
+            self.log("Updated ap_config with common_fields_to_change: {0}".format(common_fields_to_change), "DEBUG")
 
         invalid_series = self.validate_radio_series(ap_config)
         if invalid_series:
             errormsg.append(invalid_series)
+        else:
+            self.log("Radio series validation completed with no errors.", "INFO")
 
         mac_address = ap_config.get("mac_address")
         if mac_address:
@@ -2258,9 +2264,12 @@ class Accesspoint(DnacBase):
             errormsg.append("management_ip_address: Invalid Management IP Address '{0}'\
                             in playbook.".format(management_ip_address))
 
-        if ap_config.get("rf_profile"):
+        rf_profile = ap_config.get("rf_profile")
+        if rf_profile:
+            self.log("Validating RF profile: {0}".format(rf_profile), "DEBUG")
             param_spec = dict(type="str", length_max=32)
-            validate_str(ap_config["rf_profile"], param_spec, "rf_profile", errormsg)
+            validate_str(rf_profile, param_spec, "rf_profile", errormsg)
+            self.log("RF profile '{0}' validation completed.".format(rf_profile), "DEBUG")
 
         site = ap_config.get("site")
         if site:
@@ -2369,6 +2378,50 @@ class Accesspoint(DnacBase):
         self.log(self.msg, "INFO")
         self.status = "success"
         return self
+
+    def validate_mac_address(self, mac_address, errormsg):
+        """
+        Validates the provided MAC address.
+
+        Parameters:
+        - self (object): An instance of the class containing the method.
+        - mac_address (str): The MAC address string to validate in the input configuration.
+        - errormsg (list): List contain error message of the mac address error.
+
+        Returns:
+            An error message if validation fails; otherwise, returns Nothing
+
+        Description:
+        This helper function validates the MAC address provided with the specified field name.
+        If the MAC address is invalid, it returns an error message containing with field name.
+        """
+        self.log("Validating MAC address: {0}".format(mac_address), "INFO")
+        mac_regex = re.compile(r'^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$')
+
+        if mac_address and not mac_regex.match(mac_address):
+            errormsg.append("mac_address: Invalid MAC Address '{0}' in playbook.".format(mac_address))
+        else:
+            self.log("MAC address '{0}' is valid.".format(mac_address), "INFO")
+
+    def validate_ip_address(self, ip_address, ip_type, errormsg):
+        """
+        Validates the provided IP Address.
+
+        Parameters:
+        - self (object): An instance of the class containing the method.
+        - ip_address (str): The IP address string to validate in the input configuration.
+        - ip_type (str): String contain field name needs to display in the error message
+        - errormsg (list): List contain error message of the mac address error.
+
+        Returns:
+            An error message if validation fails; otherwise, returns Nothing
+        """
+        self.log("Validating {0}: {1}".format(ip_type, ip_address), "DEBUG")
+
+        if ip_address and not (self.is_valid_ipv4(ip_address) or self.is_valid_ipv6(ip_address)):
+            errormsg.append("{0}: Invalid {0} '{1}' in playbook.".format(ip_type, ip_address))
+        else:
+            self.log("{0}: '{1}' is valid.".format(ip_type, ip_address), "INFO")
 
     def validate_radio_parameters(self, radio_config, radio_series, errormsg):
         """
@@ -2608,23 +2661,31 @@ class Accesspoint(DnacBase):
                 input_param[self.keymap[key]] = input_config[key]
                 break
 
-        if input_config.get("ap_identifier"):
+        ap_identifier = input_config.get("ap_identifier")
+
+        if ap_identifier:
             ap_list = []
             selected_key = None
-            for each_ap in input_config.get("ap_identifier"):
+            self.log("Starting to process AP identifiers from input configuration.", "DEBUG")
+
+            for each_ap in ap_identifier:
                 for key in ["mac_address", "management_ip_address", "hostname"]:
                     if each_ap.get(key):
                         ap_list.append(each_ap[key])
                         selected_key = key
+                        self.log("Selected key '{0}' with value '{1}' for AP identifier.".
+                                 format(key, each_ap[key]), "DEBUG")
                         break
             input_param[self.keymap[selected_key]] = ap_list
             self.log("At AP details {0}".format(self.pprint(input_param)))
+            self.log("Completed AP identifier processing. Mapped {0} to input_param with values: {1}".
+                     format(self.keymap[selected_key], ap_list), "DEBUG")
+            self.log("Final AP details structure: {0}".format(self.pprint(input_param)), "DEBUG")
 
         if not input_param:
             msg = "Required param of mac_address,ip_address or hostname is not in playbook config"
             self.log(msg, "WARNING")
-            self.module.fail_json(msg=msg, response=msg)
-            return (accesspoint_exists, current_configuration)
+            self.set_operation_result("failed", False, msg, "ERROR").check_return_status()
 
         try:
             ap_response = self.dnac._exec(
@@ -2634,13 +2695,18 @@ class Accesspoint(DnacBase):
                 params=input_param,
             )
 
-            if ap_response and ap_response.get("response") and not input_config.get("ap_identifier"):
-                ap_response = self.camel_to_snake_case(ap_response["response"])
+            ap_response_data = ap_response.get("response") if ap_response else None
+            ap_identifier_present = input_config.get("ap_identifier")
+
+            if ap_response_data:
+                ap_response = self.camel_to_snake_case(ap_response_data)
                 accesspoint_exists = True
-                current_configuration = ap_response[0]
-            elif ap_response and ap_response.get("response") and input_config.get("ap_identifier"):
-                ap_response = self.camel_to_snake_case(ap_response["response"])
-                accesspoint_exists = True
+
+                if not ap_identifier_present:
+                    current_configuration = ap_response[0]
+                    self.log("AP response found without 'ap_identifier'; current configuration set.", "DEBUG")
+                else:
+                    self.log("AP response found with 'ap_identifier'; processed AP response data.", "DEBUG")
 
         except Exception as e:
             self.msg = "The provided device '{0}' is either invalid or not present in the \
@@ -2650,12 +2716,12 @@ class Accesspoint(DnacBase):
         if not accesspoint_exists:
             self.msg = "The provided device '{0}' is either invalid or not present in the \
                      Cisco Catalyst Center.".format(str(input_param))
-            self.module.fail_json(msg="MAC Address not exist:", response=str(self.msg))
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
         else:
-            if not input_config.get("ap_identifier") and current_configuration["family"] != "Unified AP":
-                self.msg = "Provided device is not Access Point."
-                self.module.fail_json(msg="MAC Address is not Access point")
-            elif input_config.get("ap_identifier"):
+            ap_identifier_present = input_config.get("ap_identifier")
+            is_unified_ap = current_configuration.get("family") == "Unified AP"
+
+            if ap_identifier_present:
                 filter_response = []
                 for each_response in ap_response:
                     if each_response["family"] != "Unified AP":
@@ -2665,6 +2731,10 @@ class Accesspoint(DnacBase):
                         filter_response.append(each_response)
                 self.log("Filtered Access points List: {0} ".format(self.pprint(filter_response)), "INFO")
                 return accesspoint_exists, filter_response
+
+            if not is_unified_ap:
+                self.msg = "Provided device is not Access Point."
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         return accesspoint_exists, current_configuration
 
@@ -2850,14 +2920,13 @@ class Accesspoint(DnacBase):
                     msg = "The provided site name '{0}' is either invalid or not present in the \
                         Cisco Catalyst Center.".format(self.want.get("site_name"))
                     self.log(msg, "WARNING")
-                    self.module.fail_json(msg=msg)
+                    self.set_operation_result("failed", False, msg, "ERROR").check_return_status()
 
             except Exception as e:
                 msg = "The provided site name '{0}' is either invalid or not present in the \
                         Cisco Catalyst Center.".format(self.want.get("site_name"))
                 self.log(msg + str(e), "WARNING")
-                self.module.fail_json(msg=msg)
-                return site_exists, None
+                self.set_operation_result("failed", False, msg, "ERROR").check_return_status()
 
         return site_exists, current_site
 
@@ -2940,7 +3009,8 @@ class Accesspoint(DnacBase):
             self.log(msg + str(e), "ERROR")
             provision_details = str(e)
             self.status = "failed"
-            self.module.fail_json(msg=msg, response=provision_details)
+            self.set_operation_result("failed", False, msg, "ERROR",
+                                      provision_details).check_return_status()
 
         return provision_status, provision_details
 
@@ -2969,7 +3039,7 @@ class Accesspoint(DnacBase):
                          "site_name_hierarchy: {0}, rf_profile: {1}, host_name: {2}"
                          .format(site_name_hierarchy, rf_profile, hostname))
             self.log(error_msg, "ERROR")
-            self.module.fail_json(msg=error_msg)
+            self.set_operation_result("failed", False, error_msg, "ERROR").check_return_status()
 
         provision_params = [{
             "rfProfile": rf_profile,
@@ -3014,7 +3084,7 @@ class Accesspoint(DnacBase):
                          "device_id: {0}, rf_profile: {1}, site_id: {2}"
                          .format(device_id, rf_profile, site_id))
             self.log(error_msg, "ERROR")
-            self.module.fail_json(msg=error_msg)
+            self.set_operation_result("failed", False, error_msg, "ERROR").check_return_status()
 
         provision_params = {
             "rfProfileName": rf_profile,
@@ -3044,8 +3114,7 @@ class Accesspoint(DnacBase):
         except Exception as e:
             error_msg = 'An error occurred during device provisioning: {0}'.format(str(e))
             self.log(error_msg, "ERROR")
-            self.msg = error_msg
-            self.module.fail_json(msg=self.msg)
+            self.set_operation_result("failed", False, error_msg, "ERROR").check_return_status()
 
     def provision_device(self):
         """
@@ -3090,8 +3159,9 @@ class Accesspoint(DnacBase):
                             provision_details = execution_details
                             break
                         if execution_details.get("bapiError"):
-                            self.module.fail_json(msg=execution_details.get("bapiError"),
-                                                  response=execution_details)
+                            msg=execution_details.get("bapiError")
+                            self.set_operation_result("failed", False, msg, "ERROR",
+                                                      execution_details).check_return_status()
                             break
 
                         time.sleep(resync_retry_interval)
@@ -3121,20 +3191,15 @@ class Accesspoint(DnacBase):
                                 break
                             else:
                                 self.result['changed'] = True if self.result['changed'] is True else False
-                                self.status = "failed"
                                 self.msg = "Unable to get success response, hence not provisioned"
                                 self.log(self.msg, "ERROR")
                                 self.log("Task Details: {0} .".format(self.pprint(
                                     task_details_response)), "ERROR")
                                 provision_details = self.get_task_details_by_id(task_id)
-                                responses["accesspoints_updates"] = {
-                                    "ap_provision_task_details": {
-                                        "error_code": provision_details.get("errorCode"),
-                                        "failure_reason": provision_details.get("failureReason"),
-                                        "data": provision_details.get("data")
-                                    },
-                                    "ap_provision_status": self.msg}
-                                self.module.fail_json(msg=self.msg, response=responses)
+                                self.log("Provision error details: {0} .".format(self.pprint(
+                                    provision_details)), "ERROR")
+                                self.set_operation_result("failed", self.result['changed'],
+                                                          self.msg, "ERROR", provision_details).check_return_status()
                         time.sleep(resync_retry_interval)
                         resync_retry_count = resync_retry_count - 1
 
@@ -3410,21 +3475,36 @@ class Accesspoint(DnacBase):
                 if ap_config["adminStatus"] == "Enabled" else False
 
         if not ap_config.get("bulk_update"):
-            if ap_config.get(self.keymap["ap_name"]) is not None:
-                temp_dict[self.keymap["ap_name"]] = ap_config.get(self.keymap["ap_name"])
+            ap_name = ap_config.get(self.keymap["ap_name"])
+            mac_address = ap_config.get(self.keymap["mac_address"])
+            if ap_name is not None:
+                temp_dict[self.keymap["ap_name"]] = ap_name
                 temp_dict["apNameNew"] = ap_config["apNameNew"]
-                temp_dict[self.keymap["mac_address"]] = ap_config[self.keymap["mac_address"]]
+                temp_dict[self.keymap["mac_address"]] = mac_address
+                self.log("Populated temp_dict with AP name: {0}, MAC address: {1}".format(ap_name,
+                                                                                          mac_address), "DEBUG")
                 del ap_config[self.keymap["ap_name"]]
                 del ap_config["apNameNew"]
-            elif ap_config.get(self.keymap["mac_address"]) is not None:
-                temp_dict[self.keymap["mac_address"]] = ap_config.get(self.keymap["mac_address"])
+            elif mac_address is not None:
+                temp_dict[self.keymap["mac_address"]] = mac_address
+                self.log("Populated temp_dict with MAC address: {0}".format(mac_address), "DEBUG")
+            else:
+                self.log("No AP name or MAC address found in ap_config.", "WARNING")
             ap_config["apList"].append(temp_dict)
+            self.log("Added temp_dict to apList. Current apList: {0}".
+                     format(self.pprint(ap_config["apList"])), "INFO")
         else:
             ap_config["apList"] = ap_config.get("ap_list")
+            self.log("Bulk update detected. Setting apList from ap_list. Current apList: {0}".
+                     format(self.pprint(ap_config["apList"])), "INFO")
             del ap_config["ap_list"]
+            self.log("Removed ap_list from ap_config.", "DEBUG")
             if ap_config.get(self.keymap["ap_name"]) and ap_config.get("apNameNew"):
                 del ap_config[self.keymap["ap_name"]]
                 del ap_config["apNameNew"]
+                self.log("Removed old AP name and new AP name from ap_config.", "DEBUG")
+            else:
+                self.log("No AP name or new AP name to remove from ap_config.", "DEBUG")
 
         if ap_config.get(self.keymap["location"]) is not None:
             ap_config["configureLocation"] = True
@@ -3726,7 +3806,6 @@ class Accesspoint(DnacBase):
                             return self
 
                         self.result['changed'] = False
-                        self.status = "failed"
                         self.msg = "Unable to get success response, hence APs are not rebooted"
                         self.log(self.msg, "ERROR")
                         self.log("Reboot Task Details: {0} .".format(self.pprint(
@@ -3738,21 +3817,19 @@ class Accesspoint(DnacBase):
                                 "reboot_api_response": reboot_status["apList"]
                             },
                             "ap_reboot_status": self.msg}
-                        self.module.fail_json(msg=self.msg, response=responses)
+                        self.set_operation_result("failed", self.result['changed'],
+                                                  self.msg, "ERROR", responses).check_return_status()
                     time.sleep(resync_retry_interval)
                     resync_retry_count = resync_retry_count - 1
             else:
                 self.msg = "Failed to receive a valid response from AP reboot API."
                 self.log(self.msg, "ERROR")
-                self.status = "failed"
-                self.module.fail_json(msg=self.msg)
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         except Exception as e:
             error_msg = 'An error occurred during access point reboot: {0}'.format(str(e))
             self.log(error_msg, "ERROR")
-            self.msg = error_msg
-            self.status = "failed"
-            self.module.fail_json(msg=self.msg)
+            self.set_operation_result("failed", False, error_msg, "ERROR").check_return_status()
 
     def access_point_reboot_status(self, task_id):
         """
@@ -3777,13 +3854,11 @@ class Accesspoint(DnacBase):
                 return response[0]
             error_msg = "Invalid response format or missing data in AP reboot status."
             self.log(error_msg, "ERROR")
-            self.module.fail_json(msg=error_msg)
+            self.set_operation_result("failed", False, error_msg, "ERROR").check_return_status()
         except Exception as e:
             error_msg = 'An error occurred during access point reboot status: {0}'.format(str(e))
             self.log(error_msg, "ERROR")
-            self.msg = error_msg
-            self.status = "failed"
-            self.module.fail_json(msg=error_msg)
+            self.set_operation_result("failed", False, error_msg, "ERROR").check_return_status()
 
     def reset_access_point(self, ap_list):
         """
@@ -3809,15 +3884,14 @@ class Accesspoint(DnacBase):
             if not (response or isinstance(response, dict)):
                 self.msg = "Failed to receive a valid response from 'factory_reset_access_points' API."
                 self.log(self.msg, "ERROR")
-                self.status = "failed"
-                self.module.fail_json(msg=self.msg)
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             task_id = response.get("response", {}).get("taskId")
             if not task_id:
                 self.msg = "Failed to retrieve task id from 'factory_reset_access_points' API response."
                 self.log(self.msg, "ERROR")
-                self.status = "failed"
-                self.module.fail_json(msg=self.msg)
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
             resync_retry_count = int(self.payload.get("dnac_api_task_timeout"))
             resync_retry_interval = int(self.payload.get("dnac_task_poll_interval"))
 
@@ -3843,29 +3917,27 @@ class Accesspoint(DnacBase):
                                  .format(ap_list, self.pprint(task_details_response)), "INFO")
                         return self
 
-                    self.result['changed'] = False
-                    self.status = "failed"
                     self.msg = "Unable to get success response, hence APs are not resetted"
                     self.log(self.msg, "ERROR")
                     self.log("Reset Task Details: {0} .".format(self.pprint(
                         task_details_response)), "ERROR")
                     reset_status = self.access_point_reset_status(task_id)
+                    self.log("Reset Error Details: {0} .".format(self.pprint(reset_status)), "ERROR")
                     responses["accesspoints_updates"] = {
                         "ap_reset_task_details": {
                             "status": task_details_response.get("status"),
                             "reset_api_response": reset_status.get("apResponseInfoList")
                         },
                         "ap_reset_status": self.msg}
-                    self.module.fail_json(msg=self.msg, response=responses)
+                    self.set_operation_result("failed", False, self.msg, "ERROR", responses).check_return_status()
+
                 time.sleep(resync_retry_interval)
                 resync_retry_count = resync_retry_count - 1
 
         except Exception as e:
             error_msg = 'An error occurred during access point reset: {0}'.format(str(e))
             self.log(error_msg, "ERROR")
-            self.msg = error_msg
-            self.status = "failed"
-            self.module.fail_json(msg=self.msg)
+            self.set_operation_result("failed", False, error_msg, "ERROR").check_return_status()
 
     def access_point_reset_status(self, task_id):
         """
@@ -3890,13 +3962,12 @@ class Accesspoint(DnacBase):
 
             error_msg = "Invalid response format or missing data in AP reset status."
             self.log(error_msg, "ERROR")
-            self.module.fail_json(msg=error_msg)
+            self.set_operation_result("failed", False, error_msg, "ERROR").check_return_status()
+
         except Exception as e:
             error_msg = 'An error occurred during access point reset status: {0}'.format(str(e))
             self.log(error_msg, "ERROR")
-            self.msg = error_msg
-            self.status = "failed"
-            self.module.fail_json(msg=error_msg)
+            self.set_operation_result("failed", False, error_msg, "ERROR").check_return_status()
 
     def reboot_factory_reset_function(self, ap_list, reboot_or_reset):
         """
@@ -3914,7 +3985,7 @@ class Accesspoint(DnacBase):
         if ap_indentity and len(ap_list.get(ap_indentity)) > 100:
             error_msg = "Maximum allowed AP list 100 but passed {0}".format(str(len(ap_list.get(ap_indentity))))
             self.log(error_msg, "ERROR")
-            self.module.fail_json(msg=error_msg)
+            self.set_operation_result("failed", False, error_msg, "ERROR").check_return_status()
 
         if ap_indentity and ap_indentity in self.keymap and len(ap_list.get(ap_indentity)) > 0:
             eth_mac_list = []
@@ -3951,7 +4022,10 @@ class Accesspoint(DnacBase):
         ap_update_list = []
         common_config = {}
         ap_output_list = []
+
         if ap_exist and len(ap_details) > 0:
+            self.log("Access points exist. Total count: {0}".format(str(len(ap_details))), "INFO")
+
             for each_ap in ap_details:
                 ap_config_exists, ap_configuration = self.get_accesspoint_config(each_ap["ap_ethernet_mac_address"])
                 self.log("Access point configuration exists: {0}, Current configuration: {1}"
@@ -3962,11 +4036,18 @@ class Accesspoint(DnacBase):
                            if (each_ap["mac_address"] == ap.get('mac_address') or
                                each_ap["hostname"] == ap.get('hostname') or
                                each_ap["management_ip_address"] == ap.get('management_ip_address'))]
-                self.want["ap_name"] = ap_name[0]
-                ap_output_list.append(ap_name[0])
+                if ap_name:
+                    self.want["ap_name"] = ap_name[0]
+                    ap_output_list.append(ap_name[0])
+                    self.log("Identified AP name: {0}".format(ap_name[0]), "INFO")
+                else:
+                    self.log("No matching AP name found for MAC: {0}".format(each_ap["mac_address"]), "WARNING")
+
                 self.log("Access point WANT configuration exists: {0}, Current configuration: {1}"
                          .format(ap_config_exists, self.pprint(self.want)), "INFO")
                 consolidated_config = self.config_diff(ap_configuration)
+                self.log("Consolidated configuration for AP {0}: {1}".format(each_ap["mac_address"],
+                                                                             self.pprint(consolidated_config)), "DEBUG")
 
                 temp_dict = {}
                 if consolidated_config.get(self.keymap["ap_name"]) is not None:
@@ -3976,10 +4057,12 @@ class Accesspoint(DnacBase):
                 elif consolidated_config.get(self.keymap["mac_address"]) is not None:
                     temp_dict[self.keymap["mac_address"]] = consolidated_config.get(self.keymap["mac_address"])
                 ap_update_list.append(temp_dict)
+                self.log("Temp dict for AP {0}: {1}".format(each_ap["mac_address"], self.pprint(temp_dict)), "DEBUG")
                 common_config.update(consolidated_config)
 
             common_config["bulk_update"] = True
             common_config["ap_list"] = ap_update_list
+            self.log("Common configuration for bulk update: {0}".format(self.pprint(common_config)), "INFO")
 
             task_response = self.update_ap_configuration(common_config)
             self.log("Access Point update response: {0} .".format(task_response), "INFO")
@@ -3987,6 +4070,8 @@ class Accesspoint(DnacBase):
             if task_response and isinstance(task_response, dict):
                 resync_retry_count = self.payload.get("dnac_api_task_timeout")
                 resync_retry_interval = self.payload.get("dnac_task_poll_interval")
+                self.log("Starting task polling with timeout: {0} and interval: {1}".
+                         format(str(resync_retry_count), str(resync_retry_interval)), "INFO")
                 while resync_retry_count:
                     task_details_response = self.get_tasks_by_id(
                         task_response["response"]["taskId"])
@@ -3995,14 +4080,13 @@ class Accesspoint(DnacBase):
                     if task_details_response.get("endTime") is not None:
                         if task_details_response.get("status") == "FAILURE":
                             self.result["changed"] = True if self.result["changed"] is True else False
-                            self.status = "failed"
                             self.msg = "Unable to get success response, hence AP config not updated"
                             self.log(self.msg, "ERROR")
                             self.log("Task Details: {0} .".format(self.pprint(task_details_response)), "ERROR")
-                            responses["accesspoints_updates"] = {
-                                "ap_update_config_task_details": self.get_task_details_by_id(task_response["response"]["taskId"]),
-                                "ap_config_update_status": self.msg}
-                            self.module.fail_json(msg=self.msg, response=responses)
+                            failure_response = self.get_task_details_by_id(task_response["response"]["taskId"])
+                            self.log("Failure Details: {0} .".format(self.pprint(failure_response)), "ERROR")
+                            self.set_operation_result("failed", self.result["changed"],
+                                                         self.msg, "ERROR", failure_response).check_return_status()
                         else:
                             self.result["changed"] = True
                             self.result["ap_update_status"] = True
@@ -4017,6 +4101,8 @@ class Accesspoint(DnacBase):
                             self.result["ap_update_msg"] = self.msg
                         break
 
+                    self.log("Polling task status, waiting for {0} seconds before the next check...".
+                             format(str(resync_retry_interval)), "DEBUG")
                     time.sleep(resync_retry_interval)
                     resync_retry_count = resync_retry_count - 1
 
