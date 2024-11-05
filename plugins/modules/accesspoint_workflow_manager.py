@@ -3159,7 +3159,7 @@ class Accesspoint(DnacBase):
                             provision_details = execution_details
                             break
                         if execution_details.get("bapiError"):
-                            msg=execution_details.get("bapiError")
+                            msg = execution_details.get("bapiError")
                             self.set_operation_result("failed", False, msg, "ERROR",
                                                       execution_details).check_return_status()
                             break
@@ -4086,7 +4086,7 @@ class Accesspoint(DnacBase):
                             failure_response = self.get_task_details_by_id(task_response["response"]["taskId"])
                             self.log("Failure Details: {0} .".format(self.pprint(failure_response)), "ERROR")
                             self.set_operation_result("failed", self.result["changed"],
-                                                         self.msg, "ERROR", failure_response).check_return_status()
+                                                      self.msg, "ERROR", failure_response).check_return_status()
                         else:
                             self.result["changed"] = True
                             self.result["ap_update_status"] = True
