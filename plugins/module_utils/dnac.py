@@ -1769,10 +1769,9 @@ class DnacBase():
         self.result.update({
             "status": operation_status,
             "msg": status_message,
-            "response": status_message,
+            "response": additional_info or status_message,
             "changed": is_changed,
-            "failed": operation_status == "failed",
-            "data": additional_info or {}  # Include additional_info if provided, else an empty dictionary
+            "failed": operation_status == "failed"
         })
 
         # Log the message at the specified log level
