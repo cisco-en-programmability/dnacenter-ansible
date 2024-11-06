@@ -1064,3 +1064,18 @@ releases:
         - Changes in dnac.py
         - inventory_workflow_manager.py - added attribute hostnames, serial_numbers and mac_addresses
         - inventory_workflow_manager.py - Removed attribute hostname_list, serial_number_list and mac_address_list 
+  6.23.0:
+    release_date: "2024-11-06"
+    changes:
+      release_summary: Code changes in workflow manager modules.
+      minor_changes:
+        - Changes in circleci to run test cases in integration branch
+        - Added support for bulk operations on multiple access points in accesspoint_workflow_manager
+        - Bug fixes in inventory_workflow_manager
+        - Enhancements in sda_fabric_devices_workflow_manager.py to support route distribution protocol
+        - Enhancements in sda_fabric_sites_zones_workflow_manager.py
+        - Bug fixes in sda_fabric_virtual_networks_workflow_manager.py
+        - Changes in site_workflow_manager
+        - accesspoint_workflow_manager - added attribute bulk_update_aps
+        - sda_fabric_devices_workflow_manager.py - added attribute route_distribution_protocol
+        - sda_fabric_sites_zones_workflow_manager.py - added attribute site_name_hierarchy and removed attribute site_name 
