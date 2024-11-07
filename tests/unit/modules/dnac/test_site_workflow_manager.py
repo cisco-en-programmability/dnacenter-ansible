@@ -28,12 +28,15 @@ class TestDnacSiteWorkflow(TestDnacModule):
     playbook_config_bulk_site = test_data.get("playbook_config_bulk_site")
     playbook_config_site = test_data.get("playbook_config_site")
     playbook_config_update_site = test_data.get("playbook_config_update_site")
-    playbook_config_update_a_site = test_data.get("playbook_config_update_a_site")
+    update_a_playbook = test_data.get("update_a_playbook")
     playbook_config_invalid_param = test_data.get("playbook_config_invalid_param")
     playbook_config_empty = test_data.get("playbook_config_empty")
     playbook_config_invalid_bulk_site = test_data.get("playbook_config_invalid_bulk_site")
     playbook_config_delete = test_data.get("playbook_config_delete")
     playbook_config_update1_site = test_data.get("playbook_config_update1_site")
+    delete_playbook_config = test_data.get("delete_playbook_config")
+    upload_floor_map_playbook = test_data.get("upload_floor_map_playbook")
+    delete_config_playbook = test_data.get("delete_config_playbook")
 
     def setUp(self):
         super(TestDnacSiteWorkflow, self).setUp()
@@ -91,8 +94,8 @@ class TestDnacSiteWorkflow(TestDnacModule):
             self.run_dnac_exec.side_effect = [
                 Exception(),
                 Exception(),
-                self.test_data.get("create_site_response_area"),
-                self.test_data.get("create_site_response_area_details"),
+                self.test_data.get("get_site_response"),
+                self.test_data.get("get_site_response1"),
                 self.test_data.get("get_site_create_area"),
                 Exception(),
                 Exception(),
@@ -125,17 +128,22 @@ class TestDnacSiteWorkflow(TestDnacModule):
 
         elif "update_a_site" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
-                Exception(),
-                self.test_data.get("new_update_site_area"),
-                Exception(),
-                Exception(),
-                self.test_data.get("new_update_site_building"),
-                Exception(),
-                Exception(),
-                self.test_data.get("new_update_site_floor"),
-                self.test_data.get("new_update_floor_response"),
-                self.test_data.get("new_update_floor_response_details"),
-                self.test_data.get("new_update_site_floor"),
+                # Exception(),
+                self.test_data.get("update_a_get_sites"),
+                self.test_data.get("update_a_get_site1"),
+                self.test_data.get("update_a_task_id_building"),
+                self.test_data.get("update_a_task_id_building_details"),
+                # Exception(),
+                self.test_data.get("update_a_get_site2"),
+                self.test_data.get("update_a_task_id_floor"),
+                self.test_data.get("update_a_task_id_floor_details"),
+            ]
+        elif "update_not_needed_site" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                # Exception(),
+                self.test_data.get("update_not_needed_get_site_area"),
+                self.test_data.get("update_not_needed_get_sites_building"),
+                self.test_data.get("update_not_needed_get_sites_floor"),
             ]
 
         elif "delete_a_site" in self._testMethodName:
@@ -154,27 +162,73 @@ class TestDnacSiteWorkflow(TestDnacModule):
                 self.test_data.get("delete_an_area_response"),
                 self.test_data.get("delete_an_area_response_details"),
             ]
+        elif "delete_a_new_site" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                # Exception(),
+                self.test_data.get("delete_a_get_site_floor"),
+                self.test_data.get("delete_get_assigned_site_floor"),
+                self.test_data.get("delete_a_floor"),
+                self.test_data.get("delete_floor_task_id"),
+                self.test_data.get("get_sites"),
+                # Exception(),
+                self.test_data.get("delete_a_get_site_building"),
+                self.test_data.get("delete_get_assigned_site_building"),
+                self.test_data.get("delete_a_building"),
+                self.test_data.get("delete_building_task_id"),
+                self.test_data.get("get_sites"),
+                self.test_data.get("get_sites"),
+                # Exception(),
+                self.test_data.get("delete_a_get_site_area"),
+                self.test_data.get("delete_get_assigned_site_area"),
+                self.test_data.get("delete_an_area"),
+                self.test_data.get("delete_area_task_id"),
+                self.test_data.get("get_sites"),
+                self.test_data.get("get_sites"),
+                self.test_data.get("get_sites"),
+            ]
 
         elif "delete_site" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
-                Exception(),
-                Exception(),
-                self.test_data.get("get_new_delete_floor"),
-                self.test_data.get("new_get_membership"),
-                self.test_data.get("new_floor_delete_response"),
-                self.test_data.get("new_floor_delete_response_details"),
-                Exception(),
-                Exception(),
-                self.test_data.get("get_new_delete_building"),
-                self.test_data.get("new_get_membership1"),
-                self.test_data.get("new_building_delete_response"),
-                self.test_data.get("new_floor_building_response_details"),
-                Exception(),
-                Exception(),
-                self.test_data.get("get_new_area_building"),
-                self.test_data.get("new_get_membership2"),
-                self.test_data.get("new_area_delete_response"),
-                self.test_data.get("new_area_delete_response_details"),
+                # Exception(),
+                # Exception(),
+                self.test_data.get("delete_get_site_response"),
+                self.test_data.get("delete_get_membership"),
+                self.test_data.get("delete_response"),
+                self.test_data.get("delete_response_details"),
+                # Exception(),
+                # Exception(),
+                self.test_data.get("delete_get_site_response"),
+                self.test_data.get("delete_get_membership"),
+                self.test_data.get("delete_response1"),
+                self.test_data.get("delete_response_details1"),
+                # Exception(),
+                # Exception(),
+                self.test_data.get("delete_get_site_response"),
+                self.test_data.get("delete_get_membership"),
+                self.test_data.get("delete_response2"),
+                self.test_data.get("delete_response_details2"),
+            ]
+
+        elif "invalid_delete_site" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                # Exception(),
+                # Exception(),
+                self.test_data.get("delete_get_site_response"),
+                self.test_data.get("delete_get_membership"),
+                self.test_data.get("delete_response"),
+                self.test_data.get("delete_response_detail_invalid"),
+                # Exception(),
+                # Exception(),
+                self.test_data.get("delete_get_site_response"),
+                self.test_data.get("delete_get_membership"),
+                self.test_data.get("delete_response1"),
+                self.test_data.get("delete_response_details1"),
+                # Exception(),
+                # Exception(),
+                self.test_data.get("delete_get_site_response"),
+                self.test_data.get("delete_get_membership"),
+                self.test_data.get("delete_response2"),
+                self.test_data.get("delete_response_detail_invalid"),
             ]
 
         elif "verify_diff" in self._testMethodName:
@@ -185,6 +239,19 @@ class TestDnacSiteWorkflow(TestDnacModule):
                 self.test_data.get("get_site_create_building"),
                 Exception(),
                 self.test_data.get("get_site_create_floor"),
+            ]
+        elif "upload_floor_map" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                # Exception(),
+                self.test_data.get("upload_for_get_site"),
+                self.test_data.get("upload_for_get_site2"),
+                self.test_data.get("upload_for_get_site3"),
+                self.test_data.get("upload_site_creation"),
+                self.test_data.get("upload_task_id"),
+                self.test_data.get("upload_task_id2"),
+                self.test_data.get("upload_task_id_details"),
+                # Exception(),
+                self.test_data.get("upload_floor_map"),
             ]
 
     def test_Site_workflow_manager_create_bulk_site(self):
@@ -201,7 +268,7 @@ class TestDnacSiteWorkflow(TestDnacModule):
                 dnac_version="2.3.7.6",
                 dnac_log=True,
                 state="merged",
-                config=self.playbook_config_bulk_site
+                config=self.upload_floor_map_playbook
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -231,6 +298,29 @@ class TestDnacSiteWorkflow(TestDnacModule):
         self.assertEqual(
             result.get('msg'),
             "Site(s) '['Global/japan8888', 'Global/japan8888/blossom', 'Global/japan8888/blossom/cherry']' created successfully in Cisco Catalyst Center."
+        )
+
+    def test_Site_workflow_manager_upload_floor_map(self):
+        """
+        Test case for site workflow manager when creating a site.
+
+        This test case checks the behavior of the site workflow manager when creating a new site in the specified DNAC.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.6",
+                dnac_log=True,
+                state="merged",
+                config=self.upload_floor_map_playbook
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        self.assertEqual(
+            result.get('msg'),
+            "Site(s) '[['japan151', 'Abc2', 'blossom', 'cherry']]' created successfully in Cisco Catalyst Center."
         )
 
     def test_site_workflow_manager_invalid_param(self):
@@ -325,7 +415,10 @@ class TestDnacSiteWorkflow(TestDnacModule):
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
             result.get('msg'),
-            "This version : '2.3.7.6' given yaml format is not applicable to create a site' "
+            "An error occurred while executing GET API call to Function: 'get_sites' "
+            "from Family: 'site_design'. "
+            "Parameters: {'name_hierarchy': 'Global/japan8888'}. "
+            "Exception: ."
         )
 
     def test_Site_workflow_manager_verify_diff_merged_site(self):
@@ -339,6 +432,7 @@ class TestDnacSiteWorkflow(TestDnacModule):
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
+                dnac_version="2.3.5.3",
                 dnac_log=True,
                 state="merged",
                 config_verify=True,
@@ -375,6 +469,29 @@ class TestDnacSiteWorkflow(TestDnacModule):
             "This version : '2.3.7.6' given yaml format is not applicable to create a site' "
         )
 
+    def test_Site_workflow_manager_delete_a_new_site(self):
+        """
+        Test case for site workflow manager when creating a site.
+
+        This test case checks the behavior of the site workflow manager when creating a new site in the specified DNAC.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.6",
+                dnac_log=True,
+                state="deleted",
+                config=self.delete_config_playbook
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        self.assertEqual(
+            result.get('msg'),
+            "Given site(s) '['Global/bangalore/s1/cherry4', 'Global/bangalore']' deleted successfully from Cisco Catalyst Center"
+        )
+
     def test_Site_workflow_manager_delete_site(self):
         """
         Test case for site workflow manager when creating a site.
@@ -388,17 +505,67 @@ class TestDnacSiteWorkflow(TestDnacModule):
                 dnac_password="dummy",
                 dnac_version="2.3.5.3",
                 dnac_log=True,
-                state="merged",
-                config=self.playbook_config_site
+                state="deleted",
+                config=self.delete_config_playbook
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
             result.get('msg'),
-            "Site(s) '['Global/japan8888/blossom', 'Global/japan8888/blossom']' updated successfully in Cisco Catalyst Center."
+            "Given site(s) '['Global/bangalore/s1/cherry4', 'Global/bangalore/s1', 'Global/bangalore']' deleted successfully from Cisco Catalyst Center"
+        )
+
+    def test_Site_workflow_manager_invalid_delete_site(self):
+        """
+        Test case for site workflow manager when creating a site.
+
+        This test case checks the behavior of the site workflow manager when creating a new site in the specified DNAC.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.5.3",
+                dnac_log=True,
+                state="deleted",
+                config=self.delete_playbook_config
+            )
+        )
+        self.maxDiff = None
+        result = self.execute_module(changed=False, failed=True)
+        self.assertEqual(
+            result.get('msg'),
+            "Given site(s) 'Global/bangalore, Global/bangalore/s1, Global/bangalore/s1/cherry4' deleted successfully in Cisco Catalyst Center."
         )
 
     def test_Site_workflow_manager_update_site(self):
+        """
+        Test case for site workflow manager when creating a site.
+
+        This test case checks the behavior of the site workflow manager when creating a new site in the specified DNAC.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.5.3",
+                dnac_log=True,
+                state="merged",
+                config=self.playbook_config_update_site
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        self.maxDiff = None
+        self.assertEqual(
+            result.get('msg'),
+            "Site(s) '['Global/japan8888/blossom/cherry', 'Global/japan8888/blossom/cherry']' updated successfully and some site(s)"
+            " '['Global/japan8888']' not needs any update in Cisco Catalyst\n" +
+            "                                Center."
+        )
+
+    def test_Site_workflow_manager_update_not_needed_site(self):
         """
         Test case for site workflow manager when creating a site.
 
@@ -438,11 +605,11 @@ class TestDnacSiteWorkflow(TestDnacModule):
                 dnac_version="2.3.7.6",
                 dnac_log=True,
                 state="merged",
-                config=self.playbook_config_update_site
+                config=self.playbook_config_site
             )
         )
-        result = self.execute_module(changed=False, failed=True)
+        result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
             result.get('msg'),
-            "This version : '2.3.7.6' given yaml format is not applicable to create a site' "
+            "hello"
         )
