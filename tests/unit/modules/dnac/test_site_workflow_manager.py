@@ -448,7 +448,7 @@ class TestDnacSiteWorkflow(TestDnacModule):
 
     def test_Site_workflow_manager_delete_a_site(self):
         """
-        Test case for site workflow manager when creating a site.
+        Test case for site workflow manager when deleting a site.
 
         This test case checks the behavior of the site workflow manager when creating a new site in the specified DNAC.
         """
@@ -611,5 +611,6 @@ class TestDnacSiteWorkflow(TestDnacModule):
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
             result.get('msg'),
-            "hello"
+            "Site(s) '['Global/Mysore', 'Global/Mysore/Mod-x', 'Global/Mysore/Mod-x/Mezzanine']'" +
+            " updated successfully in Cisco Catalyst Center."
         )
