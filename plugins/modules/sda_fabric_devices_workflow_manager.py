@@ -2568,8 +2568,8 @@ class FabricDevices(DnacBase):
 
         if not border_types:
             self.msg = (
-                "Either L3 or L2 Handoff should be set. Please provide the 'layer3_settings' or "
-                "'layer2_handoff' for the device with IP '{ip}'".format(ip=device_ip)
+                "The 'layer3_settings' parameter is required under 'borders_settings' when "
+                "'device_roles' includes 'BORDER_NODE' for device {ip}.".format(ip=device_ip)
             )
             self.status = "failed"
             return self.check_return_status()
@@ -2605,10 +2605,11 @@ class FabricDevices(DnacBase):
                     self.status = "failed"
                     return self.check_return_status()
             else:
-                if have_layer3_settings and (str(local_autonomous_system_number) != str(have_layer3_settings.get("localAutonomousSystemNumber"))):
+                existing_as_number = have_layer3_settings.get("localAutonomousSystemNumber") if have_layer3_settings else None
+                if existing_as_number and str(local_autonomous_system_number) != str(existing_as_number):
                     self.msg = (
-                        "The parameter 'local_autonomous_system_number' under 'layer3_settings' should not be "
-                        "updated for the device with IP '{ip}'.".format(ip=device_ip)
+                        "The parameter 'local_autonomous_system_number' in 'layer3_settings' must not be updated "
+                        "for the device with IP '{ip}'.".format(ip=device_ip)
                     )
                     self.status = "failed"
                     return self.check_return_status()
@@ -2621,14 +2622,12 @@ class FabricDevices(DnacBase):
             is_default_exit = layer3_settings.get("is_default_exit")
             if is_default_exit is None:
                 if have_layer3_settings:
-                    have_is_default_exit = have_layer3_settings.get("isDefaultExit")
-                    is_default_exit = have_is_default_exit
+                    is_default_exit = have_layer3_settings.get("isDefaultExit", True)
                 else:
                     is_default_exit = True
             else:
                 if have_layer3_settings:
-                    have_is_default_exit = have_layer3_settings.get("importExternalRoutes")
-                    if is_default_exit != have_is_default_exit:
+                    if is_default_exit != have_layer3_settings.get("importExternalRoutes"):
                         self.msg = (
                             "The parameter 'is_default_exit' under 'layer3_settings' should not be "
                             "updated for the device with IP '{ip}'.".format(ip=device_ip)
