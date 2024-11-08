@@ -1064,3 +1064,10 @@ releases:
         - Changes in dnac.py
         - inventory_workflow_manager.py - added attribute hostnames, serial_numbers and mac_addresses
         - inventory_workflow_manager.py - Removed attribute hostname_list, serial_number_list and mac_address_list 
+  6.23.0:
+    release_date: "2024-11-08"
+    changes:
+      release_summary: modifications to fix issues '#200'.
+      minor_changes:
+        - Removing duplicates in the discovery.py module
+        - Variable initialization in the event_subscription.py action
