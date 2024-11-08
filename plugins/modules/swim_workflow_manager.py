@@ -1165,10 +1165,6 @@ class Swim(DnacBase):
             have = {}
             distribution_details = self.want.get("distribution_details")
             site_name = distribution_details.get("site_name")
-
-            family_name = distribution_details.get("device_image_family_name")
-            self.get_device_family_identifier(family_name)
-
             if site_name:
                 site_exists = False
                 (site_exists, site_id) = self.site_exists(site_name)
@@ -1176,8 +1172,7 @@ class Swim(DnacBase):
                 if site_exists:
                     have["site_id"] = site_id
                     self.log("Site '{0}' exists and has the site ID: {1}".format(site_name, str(site_id)), "DEBUG")
-            golden_tagged_images_id = self.get_golden_image_id(site_id)
-            self.log(golden_tagged_images_id)
+
             # check if image for distributon is available
             if distribution_details.get("image_name"):
                 name = distribution_details.get("image_name").split("/")[-1]
@@ -1187,9 +1182,9 @@ class Swim(DnacBase):
             elif self.have.get("imported_image_id"):
                 have["distribution_image_id"] = self.have.get("imported_image_id")
 
-            # else:
-            #     self.log("Image details required for distribution have not been provided", "ERROR")
-            #     self.module.fail_json(msg="Image details required for distribution have not been provided", response=[])
+            else:
+                self.log("Image details required for distribution have not been provided", "ERROR")
+                self.module.fail_json(msg="Image details required for distribution have not been provided", response=[])
 
             device_params = {
                 "hostname": distribution_details.get("device_hostname"),
@@ -1529,55 +1524,6 @@ class Swim(DnacBase):
 
         return self
 
-    def get_golden_image_id(self, site_id):
-        distribution_details = self.want.get("distribution_details")
-        distribution_device_role = distribution_details.get("device_role")
-        self.log(self.want.get("device_role"))
-        golden_tagged_image_ids = []
-        final_golden_tagged_image = []
-        self.log("Inside get_golden_image_id function", "DEBUG")
-        
-        image_response = self.dnac._exec(
-            family="software_image_management_swim",
-            function="get_software_image_details",
-            params={"isTaggedGolden": True},
-        )
-        
-        if not image_response or "response" not in image_response:
-            self.log("Empty or invalid response received from 'get_software_image_details'", "ERROR")
-            return golden_tagged_image_ids
-
-        self.log("Received API response from 'get_software_image_details': {0}".format(image_response), "DEBUG")
-        
-        for item in image_response.get("response", []):
-            image_uuid = item.get("imageUuid")
-            if image_uuid:
-                golden_tagged_image_ids.append(image_uuid)
-                image_params = {
-                    "image_id": image_uuid,
-                    "site_id": site_id,
-                    "device_family_identifier": self.have.get("device_family_identifier"),
-                    "device_role": distribution_device_role
-                }
-                self.log(image_params)
-
-                golden_tag_response = self.dnac._exec(
-                    family="software_image_management_swim",
-                    function="get_golden_tag_status_of_an_image",
-                    op_modifies=True,
-                    params=image_params
-                )
-                self.log(golden_tag_response)
-                if golden_tag_response:
-                    if golden_tag_response.get("response").get("taggedGolden") is True:
-                        final_golden_tagged_image.append(image_uuid)
-        self.log(final_golden_tagged_image)
-
-        self.log("Golden tagged image IDs: {0}".format(golden_tagged_image_ids), "DEBUG")
-        self.log("specific golden tagged image for the given parameter is {0}".format(final_golden_tagged_image))
-
-        return final_golden_tagged_image
-
     def get_diff_tagging(self):
         """
         Tag or untag a software image as golden based on provided tagging details.
@@ -1597,16 +1543,16 @@ class Swim(DnacBase):
         tag_image_golden = tagging_details.get("tagging")
         image_name = self.get_image_name_from_id(self.have.get("tagging_image_id"))
         device_role = tagging_details.get("device_role", "ALL")
-
-        if isinstance(device_role, str):
-            device_role = [device_role]
-
+        device_role_no = []
         already_un_tagged_device_role = []
         already_tagged_device_role = []
 
         device_roles = ["core", "distribution", "access", "border router", "unknown", "all"]
 
-        for role in device_role:
+        for role in device_role.split(','):
+            role = role.strip()
+            device_role_no.append(role)
+
             if role.lower() not in device_roles:
                 self.status = "failed"
                 self.msg = (
@@ -1617,14 +1563,13 @@ class Swim(DnacBase):
                 self.result['response'] = self.msg
                 self.check_return_status()
 
-        for role in device_role:
+        for role in device_role.split(','):
             image_params = {
                 "image_id": self.have.get("tagging_image_id"),
                 "site_id": self.have.get("site_id"),
                 "device_family_identifier": self.have.get("device_family_identifier"),
                 "device_role": role.upper()
             }
-            self.log(image_params)
 
             response = self.dnac._exec(
                 family="software_image_management_swim",
@@ -1637,20 +1582,25 @@ class Swim(DnacBase):
             api_response = response.get('response')
             if api_response:
                 image_status = api_response.get('taggedGolden')
+                self.log(image_status)
+                self.log(tag_image_golden)
 
                 if image_status == tag_image_golden:
+                    self.log("inside if")
                     msg = "SWIM Image '{0}' already tagged as Golden image in Cisco Catalyst Center".format(image_name)
                     self.log(msg, "INFO")
                     already_tagged_device_role.append(role)
+                    
 
                 if not image_status and image_status == tag_image_golden:
                     msg = "SWIM Image '{0}' already un-tagged from Golden image in Cisco Catalyst Center".format(image_name)
                     self.log(msg, "INFO")
                     already_un_tagged_device_role.append(role)
+                    
 
         # Check if all roles are tagged as Golden
         if tag_image_golden:
-            if len(already_tagged_device_role) == len(device_role):
+            if len(already_tagged_device_role) == len(device_role_no):
                 self.status = "success"
                 self.result['changed'] = False
                 self.msg = "SWIM Image '{0}' already tagged as Golden image in Cisco Catalyst Center for the roles - {1}.".format(image_name, device_role)
@@ -1659,7 +1609,10 @@ class Swim(DnacBase):
                 self.log(self.msg, "INFO")
                 return self
         else:
-            if len(already_un_tagged_device_role) == len(device_role):
+            self.log("inside else for already tagged")
+            self.log(len(already_un_tagged_device_role))
+            self.log(len(device_role_no))
+            if len(already_un_tagged_device_role) == len(device_role_no):
                 self.log("inside logic")
                 self.status = "success"
                 self.result['changed'] = False
@@ -1670,26 +1623,7 @@ class Swim(DnacBase):
                 return self
 
         if tag_image_golden:
-            image_param = dict(
-                site_id=self.have.get("site_id"),
-                device_family_identifier=self.have.get("device_family_identifier"),
-                device_role="ALL",
-                image_id=self.have.get("tagging_image_id"),
-            )
-            self.log("Parameters for un-tagging the image as golden: {0}".format(str(image_param)), "INFO")
-
-            response = self.dnac._exec(
-                family="software_image_management_swim",
-                function='remove_golden_tag_for_image',
-                op_modifies=True,
-                params=image_param
-            )
-            self.log("Received API response from 'remove_golden_tag_for_image': {0}".format(str(response)), "DEBUG")
-            if not response:
-                self.status = "failed"
-                self.msg = "Did not get the response of API so cannot check the Golden tagging status of image - {0}".format(image_name)
-
-            for role in device_role:
+            for role in device_role.split(','):
                 image_params = dict(
                     imageId=self.have.get("tagging_image_id"),
                     siteId=self.have.get("site_id"),
@@ -1707,8 +1641,7 @@ class Swim(DnacBase):
                 self.log("Received API response from 'tag_as_golden_image': {0}".format(str(response)), "DEBUG")
 
         else: 
-            for role in device_role:
-                self.log(role)
+            for role in device_role.split(','):
                 image_params = {
                     "image_id": self.have.get("tagging_image_id"),
                     "site_id": self.have.get("site_id"),
@@ -2241,10 +2174,7 @@ class Swim(DnacBase):
         image_name = self.get_image_name_from_id(image_id)
         device_role = tagging_details.get("device_role", "ALL")
 
-        if isinstance(device_role, str):
-            device_role = [device_role]
-
-        for role in device_role:
+        for role in device_role.split(','):
             image_params = dict(
                 image_id=self.have.get("tagging_image_id"),
                 site_id=self.have.get("site_id"),
@@ -2439,9 +2369,9 @@ def main():
         ccc_swims.get_want(config).check_return_status()
         ccc_swims.get_diff_import().check_return_status()
         ccc_swims.get_have().check_return_status()
-        # ccc_swims.get_diff_state_apply[state](config).check_return_status()
-        # if config_verify:
-            # ccc_swims.verify_diff_state_apply[state](config).check_return_status()
+        ccc_swims.get_diff_state_apply[state](config).check_return_status()
+        if config_verify:
+            ccc_swims.verify_diff_state_apply[state](config).check_return_status()
 
     module.exit_json(**ccc_swims.result)
 
