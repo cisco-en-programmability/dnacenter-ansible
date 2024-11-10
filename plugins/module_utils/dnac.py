@@ -535,7 +535,7 @@ class DnacBase():
 
     def check_execution_response_status(self, response, api_name):
         """
-        Checks the reponse status provided by API in the Cisco Catalyst Center
+        Checks the response status provided by API in the Cisco Catalyst Center
         Args:
             response (dict) - API response
             api_name (str) - API name
