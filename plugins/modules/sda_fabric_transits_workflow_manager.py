@@ -746,6 +746,54 @@ class FabricTransit(DnacBase):
 
         return fabric_transits_values
 
+    def remove_duplicate_ips(self, control_plane_ips):
+        """
+        Remove the duplicates from the given list.
+
+        Parameters:
+            control_plane_ips (list): List of elements which may contain duplicates.
+        Returns:
+            final_control_plane_ips (list): List of elements with out duplicates.
+        Description:
+            Return empty list if the list is empty or it is a NoneType. Check whether any
+            duplicates is present in the list or not. If yes, remove them and return the list.
+        """
+
+        self.log(
+            "The list of control plane ips before removing the duplicates {list_of_ips}"
+            .format(list_of_ips=control_plane_ips), "DEBUG"
+        )
+        final_control_plane_ips = []
+
+        # No need to proceed when there is no elements in the list
+        if not control_plane_ips:
+            self.log("Received an empty or None list. Returning an empty list.", "DEBUG")
+            return final_control_plane_ips
+
+        control_plane_ips = sorted(control_plane_ips)
+        self.log(
+            "Control plane IPs sorted: {0}".format(control_plane_ips),
+            "DEBUG"
+        )
+        length_control_plane_ips = len(control_plane_ips)
+
+        # No need to check for the duplicates when there is only one element in the list
+        if length_control_plane_ips == 1:
+            self.log("Only one IP found, no duplicates to remove.", "DEBUG")
+            return control_plane_ips
+
+        final_control_plane_ips.append(control_plane_ips[0])
+        for i in range(1, length_control_plane_ips):
+            if control_plane_ips[i] != control_plane_ips[i - 1]:
+                final_control_plane_ips.append(control_plane_ips[i])
+
+        self.log(
+            "The list of control plane IPs after removing the duplicates '{list_of_ips}'"
+            .format(list_of_ips=final_control_plane_ips), "DEBUG"
+        )
+
+        return final_control_plane_ips
+
     def handle_sda_transit_settings(self, item, fabric_transits_values, transit_type, fabric_transit_index):
         """
         Handle the SDA transit settings details.
@@ -779,7 +827,7 @@ class FabricTransit(DnacBase):
                 else:
                     sda_transit_settings.update({"isMulticastOverTransitEnabled": False})
 
-            control_plane_network_device_ips = want_sda_transit_settings.get("control_plane_network_device_ips")
+            control_plane_network_device_ips = self.remove_duplicate_ips(want_sda_transit_settings.get("control_plane_network_device_ips"))
             if have_sda_transit_settings and not control_plane_network_device_ips:
                 sda_transit_settings.update({"controlPlaneNetworkDeviceIds": sorted(have_sda_transit_settings.get("controlPlaneNetworkDeviceIds"))})
             elif control_plane_network_device_ips:
