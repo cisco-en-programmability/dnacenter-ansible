@@ -1,3 +1,4 @@
+---
 name: CI
 
 on:
@@ -5,7 +6,7 @@ on:
     branches: [main]
   schedule:
     - cron: '0 6 * * *'
-  workflow_dispatch:
+  workflow_dispatch: true
 
 env:
   NAMESPACE: cisco
