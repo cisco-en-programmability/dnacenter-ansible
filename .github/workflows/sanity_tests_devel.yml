@@ -48,21 +48,31 @@ jobs:
           cat changed_files.txt
 
       - name: Run sanity tests
-        if: steps.changed_files.outputs.changed_files != ''
+        if: ${{ steps.changed_files.outputs.changed_files != '' }}
         run: |
-          changed_files=$(cat changed_files.txt)
-          for file in $changed_files; do
-            ansible-test sanity --docker -v --color yes $file
-          done
+          if [ -s changed_files.txt ]; then
+            changed_files=$(cat changed_files.txt)
+            for file in $changed_files; do
+              ansible-test sanity --docker -v --color yes $file
+            done
+          else
+            echo "No changed files to test."
+          fi
         working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
 
       - name: Install yamllint
         run: pip install --user yamllint
 
       - name: Run yamllint
-        if: steps.changed_files.outputs.changed_files != ''
+        if: ${{ steps.changed_files.outputs.changed_files != '' }}
         run: |
-          changed_files=$(cat changed_files.txt)
-          yamllint -c .yamllint.yml $changed_files
+          if [ -s changed_files.txt ]; then
+            changed_files=$(cat changed_files.txt)
+            for file in $changed_files; do
+              yamllint -c .yamllint.yml $file
+            done
+          else
+            echo "No changed files to lint."
+          fi
         working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
 
