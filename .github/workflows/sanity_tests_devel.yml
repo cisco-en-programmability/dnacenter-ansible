@@ -1,3 +1,4 @@
+---
 name: CI Devel
 
 on:
@@ -43,13 +44,12 @@ jobs:
           cd ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
           git fetch origin main
           changed_files=$(git diff --name-only origin/main HEAD)
-          echo "::set-output name=changed_files::$changed_files"
+          echo "changed_files=$changed_files" >> $GITHUB_ENV
           echo "Changed files: $changed_files"
 
       - name: Run sanity tests
-        if: steps.changed_files.outputs.changed_files != ''
+        if: env.changed_files != ''
         run: |
-          changed_files="${{ steps.changed_files.outputs.changed_files }}"
           for file in $changed_files; do
             ansible-test sanity --docker -v --color yes $file
           done
@@ -59,6 +59,6 @@ jobs:
         run: pip install --user yamllint
 
       - name: Run yamllint
-        if: steps.changed_files.outputs.changed_files != ''
-        run: yamllint -c .yamllint.yml ${{ steps.changed_files.outputs.changed_files }}
+        if: env.changed_files != ''
+        run: yamllint -c .yamllint.yml ${{ env.changed_files }}
         working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
