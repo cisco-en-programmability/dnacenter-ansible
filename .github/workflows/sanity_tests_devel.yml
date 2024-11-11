@@ -2,8 +2,8 @@
 name: CI Devel
 
 on:
-  workflow_dispatch: true
-  pull_request: true
+  workflow_dispatch:
+  pull_request:
 
 env:
   NAMESPACE: cisco
