@@ -73,4 +73,3 @@ jobs:
             echo "No changed files to lint."
           fi
         working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
-
