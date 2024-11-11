@@ -69,11 +69,13 @@ options:
                 description: Physical address of the building that is to be created or managed.
                 type: str
               latitude:
-                description: Geographical latitude coordinate of the building. For example, use 37.338 for a location in San Jose, California.
+                description: |
+                    Geographical latitude coordinate of the building. For example, use 37.338 for a location in San Jose, California.
                     Valid values range from -90.0 to +90.0 degrees.
                 type: float
               longitude:
-                description: Geographical longitude coordinate of the building. For example, use -121.832 for a location in San Jose, California.
+                description: |
+                    Geographical longitude coordinate of the building. For example, use -121.832 for a location in San Jose, California.
                     Valid values range from -180.0 to +180.0 degrees.
                 type: float
               name:
@@ -96,11 +98,13 @@ options:
                 description: Name of the floor (e.g., "Floor-1").
                 type: str
               parent_name:
-                description: Hierarchical parent path of the floor, indicating its location within the site (e.g.,
+                description: |
+                    Hierarchical parent path of the floor, indicating its location within the site (e.g.,
                     "Global/USA/San Francisco/BGL_18").
                 type: str
               rf_model:
-                description: The RF (Radio Frequency) model type for the floor, which is essential for simulating and optimizing wireless
+                description: |
+                    The RF (Radio Frequency) model type for the floor, which is essential for simulating and optimizing wireless
                     network coverage. Select from the following allowed values, which describe different environmental signal propagation
                     characteristics.
                     Type of floor (allowed values are 'Cubes And Walled Offices', 'Drywall Office Only', 'Indoor High Ceiling',
@@ -118,16 +122,19 @@ options:
                 description: Width of the floor in feet (e.g., 100.22).
                 type: float
               floor_number:
-                description: Floor number within the building site (e.g., 5). This value can only be specified during the creation of the
+                description: |
+                    Floor number within the building site (e.g., 5). This value can only be specified during the creation of the
                     floor and cannot be modified afterward.
                 type: int
               units_of_measure:
-                description: The unit of measurement for floor dimensions, typically 'FEET' or 'METERS'.
+                description: The unit of measurement for floor dimensions, typically 'feet' or 'meters'.
                 type: str
               upload_floor_image_path:
-                description: File path for the floor image to be uploaded (e.g., "/path/to/floor_image.png").
+                description: |
+                    File path for the floor image to be uploaded (e.g., "/path/to/floor_image.png").
                     Ensure the image is in a supported format such as JPG, PNG, or PDF.
-                type: str
+                    "upload_floor_image_path" parameter not supported for 2.3.5.3 Catalyst Center and onlyls
+
 requirements:
 - dnacentersdk == 2.4.5
 - python >= 3.9
@@ -634,22 +641,23 @@ class Site(DnacBase):
             sites = None
             response = self.get_site(site_name_hierarchy)
             self.log("Raw response from get_site: {}".format(response), "DEBUG")
-            if isinstance(response, dict):
-                sites = response.get("response", [])
-            elif isinstance(response, list):
+
+            if isinstance(response, list):
                 self.log("Unexpected list returned from get_site, skipping: {}".format(response), "ERROR")
-            else:
+            elif not response:
                 self.log("Unexpected response type: {}".format(type(response)), "ERROR")
+            elif isinstance(response, dict):
+                sites = response.get("response", [])
+                for site in sites:
+                    if isinstance(site, dict):
+                        self.log("Site information found: {0}".format(self.pprint(site)), "INFO")
+                        current_site = dict(site.items())
+                        current_site['parentName'] = site.get('nameHierarchy', '').rsplit('/', 1)[0] if site.get('nameHierarchy') else None
+                        site_exists = True
 
             if not sites:
                 self.log("No site information found for name: {0}".format(response), "WARNING")
 
-            for site in sites:
-                if isinstance(site, dict):
-                    self.log("No site information found for name: {0}".format(self.pprint(site)), "INFO")
-                    current_site = dict(site.items())
-                    current_site['parentName'] = site.get('nameHierarchy', '').rsplit('/', 1)[0] if site.get('nameHierarchy') else None
-                    site_exists = True
         else:
             site_name_hierarchy = self.want.get("site_name_hierarchy")
             self.log("CHECK {0}".format(site_name_hierarchy), "INFO")
@@ -1074,20 +1082,27 @@ class Site(DnacBase):
                 self.handle_config['floor'] = []
                 for each_config in config:
                     try:
-                        have = {}
-                        have["site_name_hierarchy"] = self.get_site_name_hierarchy(each_config)
-                        have["site_params"] = self.get_site_params(each_config)
-                        have["want"] = each_config
-                        have["site_exists"] = False
+                        have = {
+                            "site_name_hierarchy": self.get_site_name_hierarchy(each_config),
+                            "site_params": self.get_site_params(each_config),
+                            "want": each_config,
+                            "site_exists": False
+                        }
 
                         response = self.get_site(have["site_name_hierarchy"])
                         self.log("Raw response from get_site: {}".format(response), "DEBUG")
 
-                        if isinstance(response, dict):
-                            sites = response.get("response", [])
-                        elif isinstance(response, list):
+                        if isinstance(response, list):
                             self.log("Unexpected list returned from get_site, skipping: {}".format(response), "ERROR")
                             continue
+                        elif isinstance(response, dict):
+                            sites = response.get("response", [])
+                            for site in sites:
+                                if isinstance(site, dict):
+                                    self.log("site information found: {0}".format(self.pprint(site)), "INFO")
+                                    current_site = dict(site.items())
+                                    current_site['parentName'] = site.get('nameHierarchy', '').rsplit('/', 1)[0] if site.get('nameHierarchy') else None
+                                    site_exists = True
                         else:
                             self.log("Unexpected response type: {}".format(type(response)), "ERROR")
                             self.handle_config["create_site"].append(have)
@@ -1215,25 +1230,34 @@ class Site(DnacBase):
             'latitude', 'longitude', and other site-specific details depending on the site type (area, building, or floor).
         """
         errormsg = []
+        self.log("Starting validation of site input data.", "DEBUG")
 
         if not config:
+            self.log("Config data is missing.", "ERROR")
             errormsg.append("Config data is missing.")
+            return errormsg
         else:
+            self.log("Config data found with " + str(len(config)) + " entries.", "DEBUG")
             for entry in config:
+                self.log("Validating entry in config: " + str(entry), "DEBUG")
                 site = entry.get("site", {})
                 site_type = entry.get("type")
                 name = site.get(site_type, {}).get("name")
                 parent_name = site.get(site_type, {}).get("parent_name")
                 if name:
+                    self.log("Validating 'name' field:{0} ".format(name), "DEBUG")
                     param_spec = dict(type="str", length_max=40)
                     validate_str(name, param_spec, "name", errormsg)
                 else:
-                    errormsg.append("parent_name should not be None or empty")
+                    self.log("Missing 'name' field in entry.", "ERROR")
+                    errormsg.append("name should not be None or empty")
 
                 if parent_name:
+                    self.log("Validating 'parent_name' field:{0} ".format(parent_name), "DEBUG")
                     param_spec = dict(type="str", length_max=400)
                     validate_str(parent_name, param_spec, "parent_name", errormsg)
                 else:
+                    self.log("Missing 'parent_name' field in entry.", "ERROR")
                     errormsg.append("parent_name should not be None or empty")
 
                 if site_type:
@@ -1243,42 +1267,53 @@ class Site(DnacBase):
                     errormsg.append("Site_type should not be None or empty")
 
                 if site_type == "building":
+                    self.log("Performing building-specific validations.", "DEBUG")
                     address = site.get(site_type, {}).get("address")
                     if address:
+                        self.log("Validating 'address' field: " + address, "DEBUG")
                         param_spec = dict(type="str", length_max=255)
                         validate_str(address, param_spec, "address", errormsg)
 
                     latitude = site.get(site_type, {}).get("latitude")
                     if latitude:
+                        self.log("Validating 'latitude' value: " + str(latitude), "DEBUG")
                         if not (isinstance(latitude, (float, int)) and -90 <= latitude <= 90):
                             errormsg.append("Invalid latitude, valid range is -90 to +90.")
 
                     longitude = site.get(site_type, {}).get("longitude")
                     if longitude:
-                        if not (isinstance(longitude, (float, int)) and -90 <= longitude <= 90):
+                        self.log("Validating 'longitude' value: " + str(longitude), "DEBUG")
+                        if not (isinstance(longitude, (float, int)) and -180 <= longitude <= 180):
                             errormsg.append("Invalid longitude. Valid range is -90 to +90.")
 
                     if not (latitude and longitude or address):
                         errormsg.append("Either latitude/longitude or address is required.")
+                        self.log("Missing required latitude/longitude or address for building.", "ERROR")
                     elif (latitude and not longitude) or (not latitude and longitude):
                         errormsg.append("Either Latitude or longitude is missing in the given playbook")
 
                     country = site.get(site_type, {}).get("country")
+                    self.log("Validating 'country' field: " + country, "DEBUG")
                     if country:
                         param_spec = dict(type="str", length_max=100)
                         validate_str(country, param_spec, "country", errormsg)
                     else:
+                        self.log("Missing 'country' field in building entry.", "ERROR")
                         errormsg.append("country should not be None or empty")
 
                 if site_type == "floor":
+                    self.log("Performing floor-specific validations.", "DEBUG")
                     floor_number = site.get(site_type, {}).get("floor_number")
                     if floor_number:
+                        self.log("Validating 'floor_number': " + str(floor_number), "DEBUG")
                         if not (isinstance(floor_number, int) and -200 <= floor_number <= 200):
                             errormsg.append("Please enter a valid floor number (-200 to 200)")
+                            self.log("Missing 'floor_number' in floor entry.", "ERROR")
                     else:
                         errormsg.append("Floor number should not be None or empty")
 
                     rf_model = site.get(site_type, {}).get("rf_model")
+                    self.log("Validating 'rf_model': " + rf_model, "DEBUG")
                     if rf_model:
                         rf_model_list = [
                             "Free Space",
@@ -1290,11 +1325,13 @@ class Site(DnacBase):
                         if rf_model not in rf_model_list:
                             errormsg.append("rf_model: Invalid value '{0}' for rf_model in playbook. Must be one of: '{1}'".
                                             format(site_type, str(rf_model)))
+                            self.log("Invalid 'rf_model': " + rf_model, "ERROR")
                     else:
                         errormsg.append("RF should not be None or empty")
 
                     width = site.get(site_type, {}).get("width")
                     if width:
+                        self.log("Validating 'width': " + str(width), "DEBUG")
                         if not (isinstance(width, (float, int)) and 5.00 <= width <= 99999.00):
                             errormsg.append("Invalid width. Valid range is 5.00 to 99999.00 ft.")
                     else:
@@ -1302,6 +1339,7 @@ class Site(DnacBase):
 
                     length = site.get(site_type, {}).get("length")
                     if length:
+                        self.log("Validating 'length': " + str(length), "DEBUG")
                         if not (isinstance(length, (float, int)) and 5.00 <= length <= 99999.00):
                             errormsg.append("Invalid length. Valid range is 5.00 to 99999.00 ft.")
                     else:
@@ -1557,19 +1595,31 @@ class Site(DnacBase):
         """
         payload_data = {}
         try:
+            self.log("Starting to process payload data.", "DEBUG")
             if config:
+                self.log("Config data found, proceeding with processing.", "DEBUG")
                 site_data = config.get('site', {})
                 site_type = config.get('type')
 
                 if site_type in ['area', 'building', 'floor'] and site_data:
+                    self.log("Site type identified as: " + site_type, "DEBUG")
                     specific_data = site_data.get(site_type, {})
+
                     for key, value in specific_data.items():
                         if value is not None:
+                            self.log("Mapping key: " + key + " to value: " + str(value), "DEBUG")
                             mapped_key = self.keymap.get(key, key)
                             payload_data[mapped_key] = value
-                    payload_data["type"] = site_type
+                            payload_data["type"] = site_type
+                            self.log("Payload data created successfully.", "DEBUG")
+                        else:
+                            self.log("Skipping key: " + key + " as value is None.", "DEBUG")
+                else:
+                    self.log("Invalid site type or missing site data in the configuration.", "ERROR")
+            else:
+                self.log("No configuration data provided.", "ERROR")
 
-                return payload_data
+            return payload_data
         except Exception as e:
             self.msg = "Unable to process the payload data : {}".format(str(e))
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
@@ -1600,23 +1650,28 @@ class Site(DnacBase):
             try:
                 create_site = copy.deepcopy(self.handle_config["create_site"])
                 if len(create_site) > 0:
+                    self.log("Starting site creation process.", "DEBUG")
                     for each_config in create_site:
                         payload_data = self.change_payload_data(each_config.get("want"))
                         if payload_data:
                             payload_data[self.keymap["parent_name_hierarchy"]] =\
                                 payload_data.get(self.keymap["parent_name"])
                             del payload_data[self.keymap["parent_name"]]
+                            self.log("Payload data prepared for site creation: {}".format(payload_data), "DEBUG")
 
                         if payload_data.get("type") == "area":
                             self.handle_config["area"].append(payload_data)
+                            self.log("Added to area: {}".format(payload_data), "DEBUG")
                         elif payload_data.get("type") == "building":
                             self.handle_config["building"].append(payload_data)
+                            self.log("Added to building: {}".format(payload_data), "DEBUG")
                         elif payload_data.get("type") == "floor":
                             self.handle_config["floor"].append(payload_data)
+                            self.log("Added to floor: {}".format(payload_data), "DEBUG")
                     for each_type in ("area", "building", "floor"):
                         if self.handle_config[each_type]:
                             response = self.creating_bulk_site(self.handle_config[each_type])
-                            self.log("Response from creating_bulk_site: {}".format(response))
+                            self.log("Response from creating_bulk_site for {}: {}".format(each_type, response), "DEBUG")
 
                             if response and isinstance(response, dict) and "response" in response:
                                 task_id = response["response"].get("taskId")
@@ -1664,6 +1719,7 @@ class Site(DnacBase):
                     site_name_hierarchy = each_config.get("site_name_hierarchy")
 
                     if each_config.get("site_exists"):
+                        self.log("Processing site: {}".format(site_name_hierarchy), "DEBUG")
                         payload_new = self.change_payload_data(each_config.get("want"))
                         if payload_new.get("type") == "area":
                             self.msg = "Site - {0} does not need any update".format(site_name_hierarchy)
@@ -1675,6 +1731,7 @@ class Site(DnacBase):
                             site_type = site_params.get("type")
 
                             if self.site_requires_update(each_config):
+                                self.log("Site requires update, starting update for type: {}".format(site_type), "DEBUG")
                                 response = (self.update_floor(site_params, payload_new) if site_type == "floor"
                                             else self.update_area(site_params) if site_type == "area"
                                             else self.update_building(site_params) if site_type == "building"
@@ -1692,6 +1749,7 @@ class Site(DnacBase):
                                             if task_details.get("progress") == "Group is updated successfully":
                                                 task_detail_list.append(task_details)
                                                 self.updated_site_list.append(site_type + ": " + site_name_hierarchy)
+                                                self.log("Site '{}' updated successfully.".format(site_name_hierarchy), "INFO")
                                                 break
                                         else:
                                             if task_details.get("progress") == "Service domain is updated successfully.":
@@ -2019,6 +2077,7 @@ class Site(DnacBase):
             final_deletion_list = []
             for each_type in ("floor", "building", "area"):
                 if self.handle_config[each_type]:
+                    self.log("Starting bulk site creation for type: {}".format(each_type), "DEBUG")
                     for config in self.handle_config[each_type]:
                         site_exists = config.get("site_exists")
                         if not site_exists:
@@ -2054,10 +2113,10 @@ class Site(DnacBase):
                         response = self.delete_building(site_name_hierarchy, site_id)
 
                     if isinstance(response, dict):
-                        taskid = response.get("response", {}).get("taskId")
+                        task_id = response.get("response", {}).get("taskId")
 
-                        if taskid:
-                            task_details = self.get_task_details(taskid)
+                        if task_id:
+                            task_details = self.get_task_details(task_id)
                             while True:
                                 if site_type == "area":
                                     if task_details.get("progress") == "Group is deleted successfully":
