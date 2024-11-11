@@ -48,7 +48,6 @@ jobs:
           cat changed_files.txt
 
       - name: Run sanity tests
-        if: ${{ steps.changed_files.outputs.changed_files != '' }}
         run: |
           if [ -s changed_files.txt ]; then
             changed_files=$(cat changed_files.txt)
@@ -64,7 +63,6 @@ jobs:
         run: pip install --user yamllint
 
       - name: Run yamllint
-        if: ${{ steps.changed_files.outputs.changed_files != '' }}
         run: |
           if [ -s changed_files.txt ]; then
             changed_files=$(cat changed_files.txt)
