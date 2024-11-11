@@ -529,6 +529,13 @@ class FabricSitesZones(DnacBase):
                     )
                     self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
+                if site_name.title() == "Global":
+                    self.msg = (
+                        "Unable to create/update the given site 'Global' to {0} as it is not allowed operation "
+                        "in the Cisco Catalyst Center."
+                    ).format(fabric_type)
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
                 if fabric_type not in ["fabric_site", "fabric_zone"]:
                     self.msg = (
                         "Invalid fabric_type '{0}' provided. Please use 'fabric_site' or 'fabric_zone' for fabric site/zone operations"
@@ -1163,6 +1170,150 @@ class FabricSitesZones(DnacBase):
 
         return self
 
+    def is_wired_data_collection_enable(self, site_name, site_id):
+        """
+        Checks if wired data collection is enabled for a specified site.
+
+        Args:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            site_name (str): The name of the site to check.
+            site_id (str): The unique identifier of the site.
+        Returns:
+            bool: True if wired data collection is enabled for the site, False otherwise.
+        Description:
+            This function logs the status of wired data collection for a given site and checks if it is enabled.
+            It retrieves telemetry settings for the specified site using the `retrieve_telemetry_settings_for_a_site`
+            API function. If telemetry settings or wired data collection details are missing or disabled,
+            function logs relevant messages and returns False. If wired data collection is enabled, it returns True.
+        """
+
+        self.log("Checking whether wired data collection is enabled or not for the site: {0}".format(site_name), "INFO")
+
+        try:
+            telemetry_response = self.dnac._exec(
+                family="network_settings",
+                function='retrieve_telemetry_settings_for_a_site',
+                op_modifies=False,
+                params={"id": site_id}
+            )
+            telemetry_details = telemetry_response.get("response", {})
+            if not telemetry_details:
+                self.log("No telemetry settings found for site '{0}' (ID: {1})".format(site_name, site_id), "WARNING")
+                return False
+
+            self.log("Successfully retrieved telemetry settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, telemetry_details), "DEBUG")
+            wired_data_collection = telemetry_details.get("wiredDataCollection")
+
+            if not wired_data_collection:
+                self.log("Wired Data Collection is not enabled at this site '{0}'.".format(site_name), "DEBUG")
+                return False
+
+            is_enabled = wired_data_collection.get("enableWiredDataCollection")
+            if not is_enabled:
+                self.log("Wired Data Collection is not enabled at this site '{0}'.".format(site_name), "DEBUG")
+                return False
+
+        except Exception as e:
+            self.msg = (
+                "Exception occurred while getting telemetry settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, str(e))
+            )
+            self.set_operation_result("failed", False, self.msg, "CRITICAL").check_return_status()
+
+        return True
+
+    def get_telemetry_details(self, site_name, site_id):
+        """
+        Retrieves telemetry settings for a specified site.
+
+        Args:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            site_name (str): The name of the site for which telemetry settings are being retrieved.
+            site_id (str): The unique identifier of the site.
+        Returns:
+            dict: A dictionary containing telemetry details for the site. If telemetry settings are not found
+                or an exception occurs, it logs an error and returns an empty dictionary.
+        Description:
+            This function logs the process of checking and retrieving telemetry settings for a specified site.
+            It sends a request to the `retrieve_telemetry_settings_for_a_site` API function using the provided
+            site ID. If no telemetry settings are found, it logs an error message and sets the operation result
+            to "failed."
+        """
+
+        self.log("Checking whether wired data collection is enabled or not for the site: {0}".format(site_name), "INFO")
+
+        try:
+            telemetry_response = self.dnac._exec(
+                family="network_settings",
+                function='retrieve_telemetry_settings_for_a_site',
+                op_modifies=False,
+                params={"id": site_id}
+            )
+            telemetry_details = telemetry_response.get("response", {})
+            if not telemetry_details:
+                self.mg = "No telemetry settings found for site '{0}' (ID: {1})".format(site_name, site_id)
+                self.set_operation_result("failed", False, self.msg, "CRITICAL").check_return_status()
+
+            self.log("Successfully retrieved telemetry settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, telemetry_details), "DEBUG")
+
+        except Exception as e:
+            self.msg = (
+                "Exception occurred while getting telemetry settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, str(e))
+            )
+            self.set_operation_result("failed", False, self.msg, "CRITICAL").check_return_status()
+
+        return telemetry_details
+
+    def enable_wired_data_collection(self, site_name, site_id):
+        """
+        Enables wired data collection for a specified site.
+
+        Args:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            site_name (str): The name of the site for which wired data collection should be enabled.
+            site_id (str): The unique identifier of the site.
+        Returns:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+        Description:
+            This function enables wired data collection for a specified site in Cisco Catalyst Center. It first retrieves
+            the current telemetry settings for the site using `get_telemetry_details`. If the `wiredDataCollection` field
+            is missing, it initializes it as an empty dictionary. It then sets `enableWiredDataCollection` to `True`.
+            The function creates a payload with the updated telemetry settings and initiates an API call to set
+            telemetry settings for the site. It retrieves the task ID for the API call and checks the status of task.
+            If any part of the process fails, it logs an error message and sets the operation result to "failed."
+            If successful, it logs an informational message indicating that wired data collection was enabled.
+        """
+
+        self.log("Started the process of enabling wired data collection for site {0}...".format(site_name), "DEBUG")
+
+        try:
+            telemetry_settings = self.get_telemetry_details(site_name, site_id)
+            if telemetry_settings.get('wiredDataCollection') is None:
+                telemetry_settings['wiredDataCollection'] = {}
+            telemetry_settings["wiredDataCollection"]["enableWiredDataCollection"] = True
+
+            payload = {
+                "id": site_id,
+                "payload": telemetry_settings
+            }
+            task_name = "set_telemetry_settings_for_a_site"
+            task_id = self.get_taskid_post_api_call("network_settings", task_name, payload)
+
+            if not task_id:
+                self.msg = "Unable to retrieve the task_id for the task '{0}'.".format(task_name)
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+            success_msg = "Wired Data Collection gets enabled for the site '{0}'".format(site_name)
+            self.log(success_msg, "INFO")
+            self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
+        except Exception as e:
+            self.msg = (
+                "An exception occured while eanbling the Wired Data Collection for the site '{0}' "
+                "in Cisco Catalyst Center: {1}"
+            ).format(site_name, str(e))
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+
+        return self
+
     def get_diff_merged(self, config):
         """
         Creates, updates, or deletes fabric sites and zones based on the provided configuration, and manages
@@ -1187,7 +1338,11 @@ class FabricSitesZones(DnacBase):
         """
 
         # Create/Update Fabric sites/zones in Cisco Catalyst Center
-        fabric_sites = self.want.get('fabric_sites')
+        raw_fabric_sites = self.want.get('fabric_sites')
+        # Convert each dictionary to a sorted tuple of key-value pairs
+        unique_fabric_sites = {tuple(sorted(d.items())) for d in raw_fabric_sites}
+        # Convert each unique tuple back into a dictionary
+        fabric_sites = [dict(t) for t in unique_fabric_sites]
 
         for site in fabric_sites:
             site_name = site.get("site_name_hierarchy")
@@ -1207,13 +1362,24 @@ class FabricSitesZones(DnacBase):
                 ).format(auth_profile)
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
+            self.log("Checking whether Wired Endpoint Data Collection is enabled at this site '{0}'or not".format(site_name), "INFO")
+            is_wired_data_enable = self.is_wired_data_collection_enable(site_name, site_id)
+
+            if not is_wired_data_enable:
+                self.log("Wired Data Collection is not enabled at this site '{0}'.".format(site_name), "INFO")
+                self.enable_wired_data_collection(site_name, site_id).check_return_status()
+                self.log("Wired Data Collection is enabled at this site '{0}' successfully.".format(site_name), "INFO")
+            else:
+                self.log("Wired Data Collection is already enabled at this site '{0}'.".format(site_name), "INFO")
+
             if fabric_type == "fabric_site":
-                # Check whether site is already fabric or not.
+                self.log("Checking whether the given site {0} is already fabric site or not.".format(site_name), "DEBUG")
+
                 if site_id not in self.have.get("fabric_sites_ids"):
-                    # Create the fabric site in Cisco Catalyst Center
+                    self.log("Starting the process of making site {0} as fabric site...".format(site_name), "DEBUG")
                     self.create_fabric_site(site).check_return_status()
                 else:
-                    # Check whether fabric site needs any update or not
+                    self.log("Checkiing whether the given fabric site {0} needs update or not.".format(site_name), "DEBUG")
                     site_in_ccc = self.get_fabric_site_detail(site_name, site_id)
                     require_update = self.fabric_site_needs_update(site, site_in_ccc)
                     if require_update:
@@ -1222,14 +1388,20 @@ class FabricSitesZones(DnacBase):
                         self.no_update_site.append(site_name)
                         self.log("Fabric site '{0}' already present and doesnot need any update in the Cisco Catalyst Center.".format(site_name), "INFO")
             else:
-                # Check whether site zone is already fabric or not.
+                self.log("Checking whether the given site {0} is already fabric zone or not.".format(site_name), "DEBUG")
+
                 if site_id not in self.have.get("fabric_zone_ids"):
-                    # Create the fabric zone in Cisco Catalyst Center
+                    self.log("Starting the process of making site {0} as fabric zone...".format(site_name), "DEBUG")
                     self.create_fabric_zone(site).check_return_status()
                 else:
-                    # Check whether fabric site needs any update or not
+                    self.log("Checking whether the given fabric zone {0} needs update or not.".format(site_name), "DEBUG")
                     zone_in_ccc = self.get_fabric_zone_detail(site_name, site_id)
+
                     if auth_profile and auth_profile != zone_in_ccc.get("authenticationProfileName"):
+                        self.log(
+                            "Authentication profile '{0}' not matched with the profile in the Cisco Catalyst Center "
+                            "for the fabric zone {1}".format(auth_profile, site_name), "INFO"
+                        )
                         self.update_fabric_zone(site, zone_in_ccc).check_return_status()
                     else:
                         self.no_update_zone.append(site_name)
@@ -1389,7 +1561,9 @@ class FabricSitesZones(DnacBase):
         self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
 
         if config.get('fabric_sites'):
-            fabric_sites = self.want.get('fabric_sites')
+            raw_fabric_sites = self.want.get('fabric_sites')
+            unique_fabric_sites = {tuple(sorted(d.items())) for d in raw_fabric_sites}
+            fabric_sites = [dict(t) for t in unique_fabric_sites]
             verify_site_list, verify_auth_list = [], []
             site_name_list, auth_name_list = [], []
             auth_flag = False
