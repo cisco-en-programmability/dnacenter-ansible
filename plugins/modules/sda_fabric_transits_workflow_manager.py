@@ -746,7 +746,7 @@ class FabricTransit(DnacBase):
 
         return fabric_transits_values
 
-    def remove_duplicates(self, control_plane_ips):
+    def remove_duplicate_ips(self, control_plane_ips):
         """
         Remove the duplicates from the given list.
 
@@ -761,20 +761,25 @@ class FabricTransit(DnacBase):
 
         self.log(
             "The list of control plane ips before removing the duplicates {list_of_ips}"
-            .format(list_of_ips=control_plane_ips)
+            .format(list_of_ips=control_plane_ips), "DEBUG"
         )
         final_control_plane_ips = []
 
         # No need to proceed when there is no elements in the list
         if not control_plane_ips:
-            self.log("Returning the empty control plane list of IPs.")
+            self.log("Received an empty or None list. Returning an empty list.", "DEBUG")
             return final_control_plane_ips
 
         control_plane_ips = sorted(control_plane_ips)
+        self.log(
+            "Control plane IPs sorted: {0}".format(control_plane_ips),
+            "DEBUG"
+        )
         length_control_plane_ips = len(control_plane_ips)
 
         # No need to check for the duplicates when there is only one element in the list
         if length_control_plane_ips == 1:
+            self.log("Only one IP found, no duplicates to remove.", "DEBUG")
             return control_plane_ips
 
         final_control_plane_ips.append(control_plane_ips[0])
@@ -784,7 +789,7 @@ class FabricTransit(DnacBase):
 
         self.log(
             "The list of control plane IPs after removing the duplicates '{list_of_ips}'"
-            .format(list_of_ips=final_control_plane_ips)
+            .format(list_of_ips=final_control_plane_ips), "DEBUG"
         )
 
         return final_control_plane_ips
@@ -822,7 +827,7 @@ class FabricTransit(DnacBase):
                 else:
                     sda_transit_settings.update({"isMulticastOverTransitEnabled": False})
 
-            control_plane_network_device_ips = self.remove_duplicates(want_sda_transit_settings.get("control_plane_network_device_ips"))
+            control_plane_network_device_ips = self.remove_duplicate_ips(want_sda_transit_settings.get("control_plane_network_device_ips"))
             if have_sda_transit_settings and not control_plane_network_device_ips:
                 sda_transit_settings.update({"controlPlaneNetworkDeviceIds": sorted(have_sda_transit_settings.get("controlPlaneNetworkDeviceIds"))})
             elif control_plane_network_device_ips:
