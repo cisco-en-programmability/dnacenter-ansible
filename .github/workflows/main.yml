@@ -8,7 +8,7 @@ on:
 
 jobs:
   trigger-circleci:
-    # if: github.event.review.state == 'approved'
+    if: github.event.review.state == 'approved'
     runs-on: ubuntu-20.04
     steps:
       - run: echo -n "${GITHUB_REF}" | sed -r 's/^refs\///' | sed -r 's/merge/head/' > github_ref
