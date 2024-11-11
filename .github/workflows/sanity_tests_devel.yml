@@ -48,7 +48,11 @@ jobs:
 
       - name: Run sanity tests
         if: steps.changed_files.outputs.changed_files != ''
-        run: ansible-test sanity --docker -v --color --path ${{ steps.changed_files.outputs.changed_files }}
+        run: |
+          changed_files="${{ steps.changed_files.outputs.changed_files }}"
+          for file in $changed_files; do
+            ansible-test sanity --docker -v --color $file
+          done
         working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
 
       - name: Install yamllint
