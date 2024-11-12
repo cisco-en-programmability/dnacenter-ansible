@@ -336,6 +336,7 @@ jobs:
             cat ccc_roles.yml
             echo $(circleci tests glob "tests/integration/*")
             env
+            cat run_tests.sh
             cat ccc_roles.yml | circleci tests run --command "xargs ./run_tests.sh" --split-by=timings --timings-type=name
 
             # echo -n 0 > rc
