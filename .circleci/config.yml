@@ -335,24 +335,26 @@ jobs:
             export ANSIBLE_ROLES_PATH=$PWD/tests/integration
             cat ccc_roles.yml
             echo $(circleci tests glob "tests/integration/*")
-            echo -n 0 > rc
-            cat ccc_roles.yml | circleci tests run --command "xargs ./run_tests.sh" --split-by=timings --timings-type=name || echo -n $? > rc
-            echo ${LOGS_SSH_KEY} | base64 -d > ~/id_ssh
-            chmod 600 ~/id_ssh
-            export NO_PROXY=""
-            export no_proxy=""
-            ssh $LOGS_MACHINE \
-              -o StrictHostKeyChecking=no \
-              -o UserKnownHostsFile=/dev/null \
-              -i ~/id_ssh \
-              mkdir -p /var/www/html/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/$CIRCLE_BUILD_NUM
-            scp \
-              -i ~/id_ssh \
-              -o StrictHostKeyChecking=no \
-              -o UserKnownHostsFile=/dev/null \
-              sanity_tests_logs_$CIRCLE_NODE_INDEX.log $LOGS_MACHINE:/var/www/html/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/$CIRCLE_BUILD_NUM
-            echo "LOGS URL: http://10.195.243.37/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/$CIRCLE_BUILD_NUM/sanity_tests_logs_$CIRCLE_NODE_INDEX.log"
-            if [[ $(cat rc) != "0" ]]; then exit 1; fi
+            cat ccc_roles.yml | circleci tests run --command "xargs ./run_tests.sh" --split-by=timings --timings-type=name
+
+            # echo -n 0 > rc
+            # cat ccc_roles.yml | circleci tests run --command "xargs ./run_tests.sh" --split-by=timings --timings-type=name || echo -n $? > rc
+            # echo ${LOGS_SSH_KEY} | base64 -d > ~/id_ssh
+            # chmod 600 ~/id_ssh
+            # export NO_PROXY=""
+            # export no_proxy=""
+            # ssh $LOGS_MACHINE \
+            #   -o StrictHostKeyChecking=no \
+            #   -o UserKnownHostsFile=/dev/null \
+            #   -i ~/id_ssh \
+            #   mkdir -p /var/www/html/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/$CIRCLE_BUILD_NUM
+            # scp \
+            #   -i ~/id_ssh \
+            #   -o StrictHostKeyChecking=no \
+            #   -o UserKnownHostsFile=/dev/null \
+            #   sanity_tests_logs_$CIRCLE_NODE_INDEX.log $LOGS_MACHINE:/var/www/html/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/$CIRCLE_BUILD_NUM
+            # echo "LOGS URL: http://10.195.243.37/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/$CIRCLE_BUILD_NUM/sanity_tests_logs_$CIRCLE_NODE_INDEX.log"
+            # if [[ $(cat rc) != "0" ]]; then exit 1; fi
 
           no_output_timeout: 120m
 
