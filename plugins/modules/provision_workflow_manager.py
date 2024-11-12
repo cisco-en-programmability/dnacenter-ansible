@@ -95,10 +95,10 @@ options:
             elements: dict
             suboptions:
                 interface_name:
-                    description: The name of the interface. (Required parameter for Cisco Catalyst Version - 2.3.7.6)
+                    description: The name of the interface.
                     type: str
                 vlan_id:
-                    description: The VLAN ID associated with the interface. (Required parameter for Cisco Catalyst Version - 2.3.7.6)
+                    description: The VLAN ID associated with the interface.
                     type: str
                 interface_ip_address:
                     description: The IP address assigned to the interface.
