@@ -1609,9 +1609,6 @@ class Swim(DnacBase):
                 self.log(self.msg, "INFO")
                 return self
         else:
-            self.log("inside else for already tagged")
-            self.log(len(already_un_tagged_device_role))
-            self.log(len(device_role_no))
             if len(already_un_tagged_device_role) == len(device_role_no):
                 self.log("inside logic")
                 self.status = "success"
