@@ -827,12 +827,15 @@ class NetworkSettings(DnacBase):
 
             for pool in ip_pool:
                 # Check for 'dhcp_server_ips'
-                if not isinstance(pool["dhcp_server_ips"], list):
+                dhcp_server_ips = pool.get("dhcp_server_ips")
+                if dhcp_server_ips is not None and not isinstance(dhcp_server_ips, list):
                     invalid_params_type.append("'dhcp_server_ips' should be a list.")
-
+                
                 # Check for 'dns_server_ips'
-                if not isinstance(pool["dns_server_ips"], list):
+                dns_server_ips = pool.get("dns_server_ips")
+                if dns_server_ips is not None and not isinstance(dns_server_ips, list):
                     invalid_params_type.append("'dns_server_ips' should be a list.")
+
 
         if invalid_params_type:
             self.msg = "Invalid required parameter(s): {0}".format(', '.join(invalid_params_type))
@@ -2834,11 +2837,11 @@ class NetworkSettings(DnacBase):
                     if retain_existing_banner is not None:
                         if retain_existing_banner is True:
                             want_network_settings.get("messageOfTheday").update({
-                                "type": "Custom"
+                                "type": "Builtin"
                             })
                         else:
                             want_network_settings.get("messageOfTheday").update({
-                                "type": "Builtin"
+                                "type": "Custom"
                             })
                 else:
                     del want_network_settings["messageOfTheday"]
@@ -3588,36 +3591,31 @@ class NetworkSettings(DnacBase):
                     dhcp_settings = net_params.get("settings").get("dhcpServer")
                     response = self.update_dhcp_settings_for_site(site_name, site_id, dhcp_settings)
                     self.log("Received API response of 'set_dhcp_settings_for_a_site': {0}".format(response), "DEBUG")
-                    validation_string = "desired common settings operation successful"
-                    self.check_task_response_status(response, validation_string, "set_dhcp_settings_for_a_site").check_return_status()
+                    self.check_tasks_response_status(response, "set_dhcp_settings_for_a_site").check_return_status()
 
                 if net_params.get("settings").get("ntpServer"):
                     ntp_settings = net_params.get("settings").get("ntpServer")
                     response = self.update_ntp_settings_for_site(site_name, site_id, ntp_settings)
                     self.log("Received API response of 'set_n_t_p_settings_for_a_site': {0}".format(response), "DEBUG")
-                    validation_string = "desired common settings operation successful"
-                    self.check_task_response_status(response, validation_string, "set_n_t_p_settings_for_a_site").check_return_status()
+                    self.check_tasks_response_status(response, "set_n_t_p_settings_for_a_site").check_return_status()
 
                 if net_params.get("settings").get("timezone"):
                     time_zone_settings = net_params.get("settings").get("timezone")
                     response = self.update_time_zone_settings_for_site(site_name, site_id, time_zone_settings)
                     self.log("Received API response of 'set_time_zone_for_a_site': {0}".format(response), "DEBUG")
-                    validation_string = "desired common settings operation successful"
-                    self.check_task_response_status(response, validation_string, "set_time_zone_for_a_site").check_return_status()
+                    self.check_tasks_response_status(response, "set_time_zone_for_a_site").check_return_status()
 
                 if net_params.get("settings").get("dnsServer"):
                     dns_settings = net_params.get("settings").get("dnsServer")
                     response = self.update_dns_settings_for_site(site_name, site_id, dns_settings)
                     self.log("Received API response of 'set_d_n_s_settings_for_a_site': {0}".format(response), "DEBUG")
-                    validation_string = "desired common settings operation successful"
-                    self.check_task_response_status(response, validation_string, "set_d_n_s_settings_for_a_site").check_return_status()
+                    self.check_tasks_response_status(response, "set_d_n_s_settings_for_a_site").check_return_status()
 
                 if net_params.get("settings").get("messageOfTheday"):
                     banner_settings = net_params.get("settings").get("messageOfTheday")
                     response = self.update_banner_settings_for_site(site_name, site_id, banner_settings)
                     self.log("Received API response of 'set_banner_settings_for_a_site': {0}".format(response), "DEBUG")
-                    validation_string = "desired common settings operation successful"
-                    self.check_task_response_status(response, validation_string, "set_banner_settings_for_a_site").check_return_status()
+                    self.check_tasks_response_status(response, "set_banner_settings_for_a_site").check_return_status()
 
                 if all([
                     net_params.get("settings", {}).get("snmpServer"),
@@ -3635,16 +3633,14 @@ class NetworkSettings(DnacBase):
                     }
                     response = self.update_telemetry_settings_for_site(site_name, site_id, telemetry_settings)
                     self.log("Received API response of 'set_telemetry_settings_for_a_site': {0}".format(response), "DEBUG")
-                    validation_string = "desired common settings operation successful"
-                    self.check_task_response_status(response, validation_string, "set_telemetry_settings_for_a_site").check_return_status()
+                    self.check_tasks_response_status(response, "set_telemetry_settings_for_a_site").check_return_status()
 
                 if net_params.get("settings").get("network_aaa") or net_params.get("settings").get("client_and_endpoint_aaa"):
                     network_aaa = net_params.get("settings").get("network_aaa")
                     client_and_endpoint_aaa = net_params.get("settings").get("client_and_endpoint_aaa")
                     response = self.update_aaa_settings_for_site(site_name, site_id, network_aaa, client_and_endpoint_aaa)
                     self.log("Received API response of 'set_a_a_a_settings_for_a_site': {0}".format(response), "DEBUG")
-                    validation_string = "desired common settings operation successful"
-                    self.check_task_response_status(response, validation_string, "set_a_a_a_settings_for_a_site").check_return_status()
+                    self.check_tasks_response_status(response, "set_a_a_a_settings_for_a_site").check_return_status()
 
             self.log("Network under the site '{0}' has been changed successfully".format(site_name), "INFO")
             result_network.get("msg") \
