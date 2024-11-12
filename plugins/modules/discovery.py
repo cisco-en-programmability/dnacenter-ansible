@@ -175,12 +175,6 @@ options:
   snmpPrivProtocol:
     description: SNMP privacy protocol. 'AES128'.
     type: str
-  snmpRWCommunity:
-    description: SNMP RW community of the devices to be discovered.
-    type: str
-  snmpRWCommunityDesc:
-    description: Description for SNMP RW community.
-    type: str
   snmpRoCommunity:
     description: SNMP RO community of the devices to be discovered.
     type: str
@@ -364,8 +358,8 @@ EXAMPLES = r"""
     snmpPrivProtocol: string
     snmpRoCommunity: string
     snmpRoCommunityDesc: string
-    snmpRWCommunity: string
-    snmpRWCommunityDesc: string
+    snmpRwCommunity: string
+    snmpRwCommunityDesc: string
     snmpUserName: string
     snmpVersion: string
     timeOut: 0
