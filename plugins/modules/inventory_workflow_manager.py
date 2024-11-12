@@ -1791,45 +1791,31 @@ class Inventory(DnacBase):
         self.log("Device '{0}' did not transition to the Managed state within the retry limit.".format(device_ip), "WARNING")
         return False
 
-    def provision_wired_device_v1(self, device_ip, site_name, device_type):
+    def provision_wired_device_v1(self, device_ip, site_name_hierarchy, device_type):
         """
         Provisions a device for versions <= 2.3.5.6.
         Parameters:
             device_ip (str): The IP address of the device to provision.
-            site_name (str): The name of the site where the device will be provisioned.
+            site_name_hierarchy (str): The name of the site where the device will be provisioned.
             device_type (str): The type of device being provisioned.
-        Returns:
-            self (object): An instance of the class after the provision operation is performed.
         Description:
             This method provisions a device with the specified IP address,
             site name, and device type for software versions 2.3.5.6 or earlier.
             It handles the necessary configurations and returns a success status.
         """
 
-        provision_params = {'deviceManagementIpAddress': device_ip, 'siteNameHierarchy': site_name}
+        provision_params = {'deviceManagementIpAddress': device_ip, 'siteNameHierarchy': site_name_hierarchy}
         try:
             response = self.dnac._exec(family="sda", function='provision_wired_device', op_modifies=True, params=provision_params)
             self.log("Received API response from 'provision_wired_device': {0}".format(response), "DEBUG")
 
             if response:
-                exec_id = response.get("executionId")
-                response = self.get_execution_details(exec_id)
-                while True:
-                    if response.get("status") == "SUCCESS":
-                        self.log("Device: {0} successfully provisioned to the site {1}".format(device_ip, site_name), "INFO")
-                        self.provision_count += 1
-                        self.provisioned_device.append(device_ip)
-                        break
-                    elif response.get("status") == "FAILURE":
-                        self.log("Failed to provision device: {0}".format(device_ip), "ERROR")
-                        raise Exception
-                    else:
-                        self.log("Provisioning in progress for device: {0}".format(device_ip), "DEBUG")
+                self.check_execution_response_status(response, "provision_wired_device").check_return_status()
+                self.provision_count += 1
+                self.provisioned_device.append(device_ip)
 
         except Exception as e:
             self.handle_provisioning_exception(device_ip, e, device_type)
-
-        return self
 
     def provision_wired_device_v2(self, device_ip, site_name):
         """
