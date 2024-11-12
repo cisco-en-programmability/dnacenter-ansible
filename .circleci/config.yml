@@ -126,7 +126,6 @@ jobs:
             # Install ansible, dnacentersdk
             pip install --upgrade pip
             pip install -r test-requirements.txt
-            pip install ansible
             # Build collection and store resulting tarball in directory $HOME/.cache/v<< pipeline.parameters.ansible_cisco_dnac_version >>/collection-tarballs
             ansible-galaxy collection build --force --output-path workspace/
       - save_cache:
@@ -314,7 +313,6 @@ jobs:
             # Install ansible, dnacentersdk
             pip install --upgrade pip
             pip install -r test-requirements.txt
-            pip install ansible
             ansible --version
       - run:
           name: Install the collection tarball
@@ -337,6 +335,7 @@ jobs:
             export ANSIBLE_ROLES_PATH=$PWD/tests/integration
             cat ccc_roles.yml
             echo $(circleci tests glob "tests/integration/*")
+            env
             cat ccc_roles.yml | circleci tests run --command "xargs ./run_tests.sh" --split-by=timings --timings-type=name
 
             # echo -n 0 > rc
@@ -372,43 +371,43 @@ jobs:
                 command: |
                   python ${HOME}/static/pnp_script.py #TODO
 
-  main-pr:
-    docker:
-      - image: maniator/gh:v2.49.2
-    resource_class: cisco-en-programmability/catalyst-center-ansible-runner-main
-    steps:
-      - run:
-          name: Clone repo to workspace
-          command: git clone --depth=1 -b $CIRCLE_BRANCH https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
-      - run:
-          name: Create release pr to main
-          command: |
-            gh repo set-default $CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME
-            gh pr create \
-              --base main \
-              --head $CIRCLE_BRANCH \
-              --title "Release v<< pipeline.parameters.ansible_cisco_dnac_version >>" \
-              --body "Release v<< pipeline.parameters.ansible_cisco_dnac_version >>"
+  # main-pr:
+  #   docker:
+  #     - image: maniator/gh:v2.49.2
+  #   resource_class: cisco-en-programmability/catalyst-center-ansible-runner-main
+  #   steps:
+  #     - run:
+  #         name: Clone repo to workspace
+  #         command: git clone --depth=1 -b $CIRCLE_BRANCH https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+  #     - run:
+  #         name: Create release pr to main
+  #         command: |
+  #           gh repo set-default $CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME
+  #           gh pr create \
+  #             --base main \
+  #             --head $CIRCLE_BRANCH \
+  #             --title "Release v<< pipeline.parameters.ansible_cisco_dnac_version >>" \
+  #             --body "Release v<< pipeline.parameters.ansible_cisco_dnac_version >>"
 
-  release-job:
-    docker:
-      - image: python:3.8.10
-    resource_class: cisco-en-programmability/catalyst-center-ansible-runner-main
-    steps:
-      - run:
-          name: Clone repo to workspace
-          command: |
-            git clone --depth=1 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
-            git fetch origin $CIRCLE_BRANCH:work
-            git checkout work
-      - restore_cache:
-          keys:
-            - collection-<< pipeline.git.revision >>
-      # - add_ssh_keys:
-      #     fingerprints:
-      #       - "KEY_FINGERPRINT"
-      - run:
-          echo create release
+  # release-job:
+  #   docker:
+  #     - image: python:3.8.10
+  #   resource_class: cisco-en-programmability/catalyst-center-ansible-runner-main
+  #   steps:
+  #     - run:
+  #         name: Clone repo to workspace
+  #         command: |
+  #           git clone --depth=1 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+  #           git fetch origin $CIRCLE_BRANCH:work
+  #           git checkout work
+  #     - restore_cache:
+  #         keys:
+  #           - collection-<< pipeline.git.revision >>
+  #     # - add_ssh_keys:
+  #     #     fingerprints:
+  #     #       - "KEY_FINGERPRINT"
+  #     - run:
+  #         echo create release
           # git tag \
           #   -a v<< pipeline.parameters.ansible_cisco_dnac_version >> \
           #   -m "Ansible DNACCollection Version v<< pipeline.parameters.ansible_cisco_dnac_version >>"
@@ -487,49 +486,49 @@ workflows:
             - addrole
           context:
             - dnac-servers
-            - logs-vm
+            # - logs-vm
 
             # - post_pnp_testing:
             #     requires:
             #       - sanity-tests
 
-  release-candidate:
-    when:
-      or:
-        - equal: [run-release-prep, << pipeline.parameters.GHA_Meta >>]
-    jobs:
-      - build
-      - addrole:
-          matrix:
-            parameters:
-              run-all:
-                - true
-      - sanity-tests:
-          requires:
-            - addrole
-            - build
-          context:
-            - dnac-servers
-      - hold:
-          type: approval
-          requires:
-            - sanity-tests
+  # release-candidate:
+  #   when:
+  #     or:
+  #       - equal: [run-release-prep, << pipeline.parameters.GHA_Meta >>]
+  #   jobs:
+  #     - build
+  #     - addrole:
+  #         matrix:
+  #           parameters:
+  #             run-all:
+  #               - true
+  #     - sanity-tests:
+  #         requires:
+  #           - addrole
+  #           - build
+  #         context:
+  #           - dnac-servers
+  #     - hold:
+  #         type: approval
+  #         requires:
+  #           - sanity-tests
 
-      - main-pr:
-          context:
-            - gh-token
-          requires:
-            - hold
+  #     - main-pr:
+  #         context:
+  #           - gh-token
+  #         requires:
+  #           - hold
 
-  release:
-    when:
-      or:
-        - equal: [run-release, << pipeline.parameters.GHA_Meta >>]
-    jobs:
-      - build
-      - release-job:
-          requires:
-            - build
-          context:
-            - gh-token
-            - galaxy-token
+  # release:
+  #   when:
+  #     or:
+  #       - equal: [run-release, << pipeline.parameters.GHA_Meta >>]
+  #   jobs:
+  #     - build
+  #     - release-job:
+  #         requires:
+  #           - build
+  #         context:
+  #           - gh-token
+  #           - galaxy-token
