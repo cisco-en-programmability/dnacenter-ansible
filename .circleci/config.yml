@@ -126,6 +126,7 @@ jobs:
             # Install ansible, dnacentersdk
             pip install --upgrade pip
             pip install -r test-requirements.txt
+            pip install ansible
             # Build collection and store resulting tarball in directory $HOME/.cache/v<< pipeline.parameters.ansible_cisco_dnac_version >>/collection-tarballs
             ansible-galaxy collection build --force --output-path workspace/
       - save_cache:
@@ -313,6 +314,7 @@ jobs:
             # Install ansible, dnacentersdk
             pip install --upgrade pip
             pip install -r test-requirements.txt
+            pip install ansible
             ansible --version
       - run:
           name: Install the collection tarball
