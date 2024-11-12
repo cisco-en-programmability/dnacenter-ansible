@@ -177,23 +177,21 @@ options:
             description: SWIM image name which will be tagged or untagged as golden.
             type: str
           device_role:
-            description: Defines the device role, with permissible values including ALL, UNKNOWN, ACCESS, BORDER ROUTER,
-              DISTRIBUTION, and CORE.
-              ALL - This role typically represents all devices within the network, regardless of their specific roles or functions.
-              UNKNOWN - This role is assigned to devices whose roles or functions have not been identified or classified within Cisco Catalsyt Center.
-                This could happen if the platform is unable to determine the device's role based on available information.
-              ACCESS - This role typically represents switches or access points that serve as access points for end-user devices to connect to the network.
-                These devices are often located at the edge of the network and provide connectivity to end-user devices.
-              BORDER ROUTER - These are devices that connect different network domains or segments together. They often serve as
-                gateways between different networks, such as connecting an enterprise network to the internet or connecting
-                multiple branch offices.
-              DISTRIBUTION - This role represents function as distribution switches or routers in hierarchical network designs. They aggregate traffic
-                from access switches and route it toward the core of the network or toward other distribution switches.
-              CORE - This role typically represents high-capacity switches or routers that form the backbone of the network. They handle large volumes
-                of traffic and provide connectivity between different parts of network, such as connecting distribution switches or
-                providing interconnection between different network segments.
-              Only the end-state device role will be marked as golden. For example, if a device is already marked as golden for ACCESS, and it needs to be marked 
-              as golden for DISTRIBUTION and CORE, the system will first un-tag the golden status for ACCESS before marking DISTRIBUTION and CORE as golden.
+            description: |
+              Specifies the device role(s) for tagging or untagging the image as golden.
+              Permissible values:
+              - `ALL`: Applies the golden tag to all devices, regardless of role.
+              - `UNKNOWN`: For devices without a specific classification.
+              - `ACCESS`: Devices connecting end-user devices (e.g., access switches).
+              - `BORDER ROUTER`: Devices linking different network segments or domains.
+              - `DISTRIBUTION`: Devices aggregating traffic towards the core.
+              - `CORE`: Backbone devices handling high-volume network traffic.
+              Behavior:
+              - If `device_role` is provided as a single string (e.g., `"ACCESS"`), that role alone will be tagged as golden.
+              - If `device_role` is provided as a single string with multiple roles (e.g., `"ACCESS,CORE"`), both roles will be tagged as golden.
+              Examples:
+              - Given `device_role: "ACCESS"`, only the `ACCESS` role will be tagged as golden.
+              - If `device_role: "ACCESS,CORE"` is used, both `ACCESS` and `CORE` roles will be tagged as golden.
             type: str
           device_image_family_name:
             description: Device Image family name(Eg Cisco Catalyst 9300 Switch)
@@ -464,7 +462,7 @@ EXAMPLES = r"""
         site_name: Global/USA/San Francisco/BGL_18
         tagging: True
 
-- name: Tag the specified image as golden for multiple device roles and load it onto the device
+- name: Tag the specified image as golden for multiple device roles and load it into the device
   cisco.dnac.swim_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -478,7 +476,7 @@ EXAMPLES = r"""
     config:
     - tagging_details:
         image_name: cat9k_iosxe.17.12.01.SPA.bin
-        device_role: ("ACCESS","DISTRIBUTION")
+        device_role: ACCESS,CORE
         device_image_family_name: Cisco Catalyst 9300 Switch
         site_name: Global/USA/San Francisco/BGL_18
         tagging: True
@@ -1543,9 +1541,7 @@ class Swim(DnacBase):
         tag_image_golden = tagging_details.get("tagging")
         image_name = self.get_image_name_from_id(self.have.get("tagging_image_id"))
         device_role = tagging_details.get("device_role", "ALL")
-        device_role_no = []
-        already_un_tagged_device_role = []
-        already_tagged_device_role = []
+        device_role_no, already_un_tagged_device_role, already_tagged_device_role = [], [], []
 
         device_roles = ["core", "distribution", "access", "border router", "unknown", "all"]
 
@@ -1590,13 +1586,11 @@ class Swim(DnacBase):
                     msg = "SWIM Image '{0}' already tagged as Golden image in Cisco Catalyst Center".format(image_name)
                     self.log(msg, "INFO")
                     already_tagged_device_role.append(role)
-                    
 
                 if not image_status and image_status == tag_image_golden:
                     msg = "SWIM Image '{0}' already un-tagged from Golden image in Cisco Catalyst Center".format(image_name)
                     self.log(msg, "INFO")
                     already_un_tagged_device_role.append(role)
-                    
 
         # Check if all roles are tagged as Golden
         if tag_image_golden:
@@ -1637,7 +1631,7 @@ class Swim(DnacBase):
                 )
                 self.log("Received API response from 'tag_as_golden_image': {0}".format(str(response)), "DEBUG")
 
-        else: 
+        else:
             for role in device_role.split(','):
                 image_params = {
                     "image_id": self.have.get("tagging_image_id"),
@@ -1681,7 +1675,8 @@ class Swim(DnacBase):
                 if not task_details.get("isError") and 'successful' in task_details.get("progress"):
                     self.status = "success"
                     self.result['changed'] = True
-                    self.msg = "Tagging image {0} golden for site {1} for family {2} for device deviceTag - {3} successful".format(image_name, site_name, device_family, device_role)
+                    self.msg = ("Tagging image {0} golden for site {1} for family {2} for device deviceTag"
+                                " - {3} successful".format(image_name, site_name, device_family, device_role))
                     self.result['msg'] = self.msg
                     self.result['response'] = self.msg
                     self.log(self.msg, "INFO")
@@ -1690,7 +1685,8 @@ class Swim(DnacBase):
                 if not task_details.get("isError") and 'successful' in task_details.get("progress"):
                     self.status = "success"
                     self.result['changed'] = True
-                    self.msg = "Un-Tagging image {0} golden for site {1} for family {2} for device deviceTag - {3} successful".format(image_name, site_name, device_family, device_role)
+                    self.msg = ("Un-Tagging image {0} golden for site {1} for family {2} for device deviceTag"
+                                " - {3} successful".format(image_name, site_name, device_family, device_role))
                     self.result['msg'] = self.msg
                     self.result['response'] = self.msg
                     self.log(self.msg, "INFO")
@@ -1704,9 +1700,7 @@ class Swim(DnacBase):
                         self.result['msg'] = failure_reason
                         self.log(self.msg, "ERROR")
                         break
-
         return self
-
 
     def get_device_ip_from_id(self, device_id):
         """
@@ -2205,7 +2199,6 @@ class Swim(DnacBase):
                             the tagging/un-tagging task was not executed successfully.""", "INFO")
 
         return self
-
 
     def verify_diff_distributed(self):
         """
