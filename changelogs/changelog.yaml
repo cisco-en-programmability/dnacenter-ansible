@@ -1071,3 +1071,10 @@ releases:
       minor_changes:
         - Removing duplicates in the discovery.py module
         - Variable initialization in the event_subscription.py action
+
+  6.24.0:
+    release_date: "2024-11-12"
+    changes:
+      release_summary: modifications to fix issues '#200'.
+      minor_changes:
+        - Removing duplicates in the discovery.py module. snmpRwCommunity property.
