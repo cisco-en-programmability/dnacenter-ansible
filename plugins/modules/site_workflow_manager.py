@@ -133,7 +133,8 @@ options:
                 description: |
                     File path for the floor image to be uploaded (e.g., "/path/to/floor_image.png").
                     Ensure the image is in a supported format such as JPG, PNG, or PDF.
-                    "upload_floor_image_path" parameter not supported for 2.3.5.3 Catalyst Center and onlyls
+                    "upload_floor_image_path" parameter not supported for 2.3.5.3 Catalyst Center and only applicable from
+                    2.3.7.6 Catalyst version onwards
 
 requirements:
 - dnacentersdk == 2.4.5
@@ -644,8 +645,10 @@ class Site(DnacBase):
 
             if isinstance(response, list):
                 self.log("Unexpected list returned from get_site, skipping: {}".format(response), "ERROR")
+                return site_exists, current_site
             elif not response:
                 self.log("Unexpected response type: {}".format(type(response)), "ERROR")
+                return site_exists, current_site
             elif isinstance(response, dict):
                 sites = response.get("response", [])
                 for site in sites:
@@ -1236,144 +1239,144 @@ class Site(DnacBase):
             self.log("Config data is missing.", "ERROR")
             errormsg.append("Config data is missing.")
             return errormsg
-        else:
-            self.log("Config data found with " + str(len(config)) + " entries.", "DEBUG")
-            for entry in config:
-                self.log("Validating entry in config: " + str(entry), "DEBUG")
-                site = entry.get("site", {})
-                site_type = entry.get("type")
-                name = site.get(site_type, {}).get("name")
-                parent_name = site.get(site_type, {}).get("parent_name")
-                if name:
-                    self.log("Validating 'name' field:{0} ".format(name), "DEBUG")
-                    param_spec = dict(type="str", length_max=40)
-                    validate_str(name, param_spec, "name", errormsg)
+
+        self.log("Config data found with {0} entries.".format(str(len(config))), "DEBUG")
+        for entry in config:
+            self.log("Validating entry in config: ".format(str(entry)), "DEBUG")
+            site = entry.get("site", {})
+            site_type = entry.get("type")
+            name = site.get(site_type, {}).get("name")
+            parent_name = site.get(site_type, {}).get("parent_name")
+            if name:
+                self.log("Validating 'name' field:{0} ".format(name), "DEBUG")
+                param_spec = dict(type="str", length_max=40)
+                validate_str(name, param_spec, "name", errormsg)
+            else:
+                self.log("Missing 'name' field in entry.", "ERROR")
+                errormsg.append("name should not be None or empty")
+
+            if parent_name:
+                self.log("Validating 'parent_name' field:{0} ".format(parent_name), "DEBUG")
+                param_spec = dict(type="str", length_max=400)
+                validate_str(parent_name, param_spec, "parent_name", errormsg)
+            else:
+                self.log("Missing 'parent_name' field in entry.", "ERROR")
+                errormsg.append("parent_name should not be None or empty")
+
+            if site_type:
+                if site_type not in ("area", "building", "floor"):
+                    errormsg.append("site_type: Invalid value '{0}' for site_type in playbook. Must be one of: area, building, or Floor.".format(site_type))
+            else:
+                errormsg.append("Site_type should not be None or empty")
+
+            if site_type == "building":
+                self.log("Performing building-specific validations.", "DEBUG")
+                address = site.get(site_type, {}).get("address")
+                if address:
+                    self.log("Validating 'address' field: " + address, "DEBUG")
+                    param_spec = dict(type="str", length_max=255)
+                    validate_str(address, param_spec, "address", errormsg)
+
+                latitude = site.get(site_type, {}).get("latitude")
+                if latitude:
+                    self.log("Validating 'latitude' value: " + str(latitude), "DEBUG")
+                    if not (isinstance(latitude, (float, int)) and -90 <= latitude <= 90):
+                        errormsg.append("Invalid latitude, valid range is -90 to +90.")
+
+                longitude = site.get(site_type, {}).get("longitude")
+                if longitude:
+                    self.log("Validating 'longitude' value: " + str(longitude), "DEBUG")
+                    if not (isinstance(longitude, (float, int)) and -180 <= longitude <= 180):
+                        errormsg.append("Invalid longitude. Valid range is -180 to +180.")
+
+                if not (latitude and longitude or address):
+                    errormsg.append("Either latitude/longitude or address is required.")
+                    self.log("Missing required latitude/longitude or address for building.", "ERROR")
+                elif (latitude and not longitude) or (not latitude and longitude):
+                    errormsg.append("Either Latitude or longitude is missing in the given playbook")
+
+                country = site.get(site_type, {}).get("country")
+                self.log("Validating 'country' field: " + country, "DEBUG")
+                if country:
+                    param_spec = dict(type="str", length_max=100)
+                    validate_str(country, param_spec, "country", errormsg)
                 else:
-                    self.log("Missing 'name' field in entry.", "ERROR")
-                    errormsg.append("name should not be None or empty")
+                    self.log("Missing 'country' field in building entry.", "ERROR")
+                    errormsg.append("country should not be None or empty")
 
-                if parent_name:
-                    self.log("Validating 'parent_name' field:{0} ".format(parent_name), "DEBUG")
-                    param_spec = dict(type="str", length_max=400)
-                    validate_str(parent_name, param_spec, "parent_name", errormsg)
+            if site_type == "floor":
+                self.log("Performing floor-specific validations.", "DEBUG")
+                floor_number = site.get(site_type, {}).get("floor_number")
+                if floor_number:
+                    self.log("Validating 'floor_number': " + str(floor_number), "DEBUG")
+                    if not (isinstance(floor_number, int) and -200 <= floor_number <= 200):
+                        errormsg.append("Please enter a valid floor number (-200 to 200)")
+                        self.log("Missing 'floor_number' in floor entry.", "ERROR")
                 else:
-                    self.log("Missing 'parent_name' field in entry.", "ERROR")
-                    errormsg.append("parent_name should not be None or empty")
+                    errormsg.append("Floor number should not be None or empty")
 
-                if site_type:
-                    if site_type not in ("area", "building", "floor"):
-                        errormsg.append("site_type: Invalid value '{0}' for site_type in playbook. Must be one of: area, building, or Floor.".format(site_type))
+                rf_model = site.get(site_type, {}).get("rf_model")
+                self.log("Validating 'rf_model': " + rf_model, "DEBUG")
+                if rf_model:
+                    rf_model_list = [
+                        "Free Space",
+                        "Outdoor Open Space",
+                        "Cubes And Walled Offices",
+                        "Indoor High Ceiling",
+                        "Drywall Office Only"
+                    ]
+                    if rf_model not in rf_model_list:
+                        errormsg.append("rf_model: Invalid value '{0}' for rf_model in playbook. Must be one of: '{1}'".
+                                        format(site_type, str(rf_model)))
+                        self.log("Invalid 'rf_model': " + rf_model, "ERROR")
                 else:
-                    errormsg.append("Site_type should not be None or empty")
+                    errormsg.append("RF should not be None or empty")
 
-                if site_type == "building":
-                    self.log("Performing building-specific validations.", "DEBUG")
-                    address = site.get(site_type, {}).get("address")
-                    if address:
-                        self.log("Validating 'address' field: " + address, "DEBUG")
-                        param_spec = dict(type="str", length_max=255)
-                        validate_str(address, param_spec, "address", errormsg)
+                width = site.get(site_type, {}).get("width")
+                if width:
+                    self.log("Validating 'width': " + str(width), "DEBUG")
+                    if not (isinstance(width, (float, int)) and 5.00 <= width <= 99999.00):
+                        errormsg.append("Invalid width. Valid range is 5.00 to 99999.00 ft.")
+                else:
+                    errormsg.append("Width should not be None or empty")
 
-                    latitude = site.get(site_type, {}).get("latitude")
-                    if latitude:
-                        self.log("Validating 'latitude' value: " + str(latitude), "DEBUG")
-                        if not (isinstance(latitude, (float, int)) and -90 <= latitude <= 90):
-                            errormsg.append("Invalid latitude, valid range is -90 to +90.")
+                length = site.get(site_type, {}).get("length")
+                if length:
+                    self.log("Validating 'length': " + str(length), "DEBUG")
+                    if not (isinstance(length, (float, int)) and 5.00 <= length <= 99999.00):
+                        errormsg.append("Invalid length. Valid range is 5.00 to 99999.00 ft.")
+                else:
+                    errormsg.append("length should not be None or empty")
 
-                    longitude = site.get(site_type, {}).get("longitude")
-                    if longitude:
-                        self.log("Validating 'longitude' value: " + str(longitude), "DEBUG")
-                        if not (isinstance(longitude, (float, int)) and -180 <= longitude <= 180):
-                            errormsg.append("Invalid longitude. Valid range is -90 to +90.")
+                height = site.get(site_type, {}).get("height")
+                if height:
+                    if not (isinstance(height, (float, int)) and 3.00 <= height <= 99999.00):
+                        errormsg.append("Invalid height. Valid range is 3.00 to 99999.00 ft.")
+                else:
+                    errormsg.append("height should not be None or empty")
 
-                    if not (latitude and longitude or address):
-                        errormsg.append("Either latitude/longitude or address is required.")
-                        self.log("Missing required latitude/longitude or address for building.", "ERROR")
-                    elif (latitude and not longitude) or (not latitude and longitude):
-                        errormsg.append("Either Latitude or longitude is missing in the given playbook")
+                units_of_measure = site.get(site_type, {}).get("units_of_measure")
+                if units_of_measure:
+                    if units_of_measure not in ("feet", "meters"):
+                        errormsg.append(
+                            "units_of_measure: Invalid value '{0}' for units_of_measure in playbook. Must be one of 'feet' or 'meters'.".format(
+                                units_of_measure))
+                else:
+                    errormsg.append("units_of_measure should not be None or empty")
 
-                    country = site.get(site_type, {}).get("country")
-                    self.log("Validating 'country' field: " + country, "DEBUG")
-                    if country:
-                        param_spec = dict(type="str", length_max=100)
-                        validate_str(country, param_spec, "country", errormsg)
-                    else:
-                        self.log("Missing 'country' field in building entry.", "ERROR")
-                        errormsg.append("country should not be None or empty")
+                upload_floor_image_path = site.get(site_type, {}).get("upload_floor_image_path")
+                if upload_floor_image_path:
+                    param_spec = dict(type="str", length_max=500)
+                    validate_str(upload_floor_image_path, param_spec, "upload_floor_image_path", errormsg)
+                elif upload_floor_image_path == "":
+                    errormsg.append("upload_floor_image_path should not be whitespace")
 
-                if site_type == "floor":
-                    self.log("Performing floor-specific validations.", "DEBUG")
-                    floor_number = site.get(site_type, {}).get("floor_number")
-                    if floor_number:
-                        self.log("Validating 'floor_number': " + str(floor_number), "DEBUG")
-                        if not (isinstance(floor_number, int) and -200 <= floor_number <= 200):
-                            errormsg.append("Please enter a valid floor number (-200 to 200)")
-                            self.log("Missing 'floor_number' in floor entry.", "ERROR")
-                    else:
-                        errormsg.append("Floor number should not be None or empty")
-
-                    rf_model = site.get(site_type, {}).get("rf_model")
-                    self.log("Validating 'rf_model': " + rf_model, "DEBUG")
-                    if rf_model:
-                        rf_model_list = [
-                            "Free Space",
-                            "Outdoor Open Space",
-                            "Cubes And Walled Offices",
-                            "Indoor High Ceiling",
-                            "Drywall Office Only"
-                        ]
-                        if rf_model not in rf_model_list:
-                            errormsg.append("rf_model: Invalid value '{0}' for rf_model in playbook. Must be one of: '{1}'".
-                                            format(site_type, str(rf_model)))
-                            self.log("Invalid 'rf_model': " + rf_model, "ERROR")
-                    else:
-                        errormsg.append("RF should not be None or empty")
-
-                    width = site.get(site_type, {}).get("width")
-                    if width:
-                        self.log("Validating 'width': " + str(width), "DEBUG")
-                        if not (isinstance(width, (float, int)) and 5.00 <= width <= 99999.00):
-                            errormsg.append("Invalid width. Valid range is 5.00 to 99999.00 ft.")
-                    else:
-                        errormsg.append("Width should not be None or empty")
-
-                    length = site.get(site_type, {}).get("length")
-                    if length:
-                        self.log("Validating 'length': " + str(length), "DEBUG")
-                        if not (isinstance(length, (float, int)) and 5.00 <= length <= 99999.00):
-                            errormsg.append("Invalid length. Valid range is 5.00 to 99999.00 ft.")
-                    else:
-                        errormsg.append("length should not be None or empty")
-
-                    height = site.get(site_type, {}).get("height")
-                    if height:
-                        if not (isinstance(height, (float, int)) and 3.00 <= height <= 99999.00):
-                            errormsg.append("Invalid height. Valid range is 3.00 to 99999.00 ft.")
-                    else:
-                        errormsg.append("height should not be None or empty")
-
-                    units_of_measure = site.get(site_type, {}).get("units_of_measure")
-                    if units_of_measure:
-                        if units_of_measure not in ("feet", "meters"):
-                            errormsg.append(
-                                "units_of_measure: Invalid value '{0}' for units_of_measure in playbook. Must be one of 'feet' or 'meters'.".format(
-                                    units_of_measure))
-                    else:
-                        errormsg.append("units_of_measure should not be None or empty")
-
-                    upload_floor_image_path = site.get(site_type, {}).get("upload_floor_image_path")
+                if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
                     if upload_floor_image_path:
-                        param_spec = dict(type="str", length_max=500)
-                        validate_str(upload_floor_image_path, param_spec, "upload_floor_image_path", errormsg)
-                    elif upload_floor_image_path == "":
-                        errormsg.append("upload_floor_image_path should not be whitespace")
-
-                    if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
-                        if upload_floor_image_path:
-                            errormsg.append(
-                                "upload_floor_image_path parameter not supported for 2.3.5.3 Catalyst Center and only applicable from "
-                                "2.3.7.6 Catalyst version onwards"
-                            )
+                        errormsg.append(
+                            "upload_floor_image_path parameter not supported for 2.3.5.3 Catalyst Center and only applicable from "
+                            "2.3.7.6 Catalyst version onwards"
+                        )
 
         if len(errormsg) > 0:
             self.msg = "Invalid parameters in playbook config: '{0}' ".format(", ".join(errormsg))
