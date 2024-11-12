@@ -2828,11 +2828,6 @@ class NetworkSettings(DnacBase):
 
                 message_of_the_day = item.get("message_of_the_day")
                 if message_of_the_day is not None:
-                    if message_of_the_day.get("banner_message") is not None:
-                        want_network_settings.get("messageOfTheday").update({
-                            "message":
-                            message_of_the_day.get("banner_message")
-                        })
                     retain_existing_banner = message_of_the_day.get("retain_existing_banner")
                     if retain_existing_banner is not None:
                         if retain_existing_banner is True:
@@ -2843,6 +2838,11 @@ class NetworkSettings(DnacBase):
                             want_network_settings.get("messageOfTheday").update({
                                 "type": "Custom"
                             })
+                            if message_of_the_day.get("banner_message") is not None:
+                                want_network_settings.get("messageOfTheday").update({
+                                    "message":
+                                    message_of_the_day.get("banner_message")
+                                })
                 else:
                     del want_network_settings["messageOfTheday"]
 
