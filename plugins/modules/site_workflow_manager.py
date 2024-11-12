@@ -1242,13 +1242,13 @@ class Site(DnacBase):
 
         self.log("Config data found with {0} entries.".format(str(len(config))), "DEBUG")
         for entry in config:
-            self.log("Validating entry in config: ".format(str(entry)), "DEBUG")
+            self.log("Validating entry in config: {0}".format(str(entry)), "DEBUG")
             site = entry.get("site", {})
             site_type = entry.get("type")
             name = site.get(site_type, {}).get("name")
             parent_name = site.get(site_type, {}).get("parent_name")
             if name:
-                self.log("Validating 'name' field:{0} ".format(name), "DEBUG")
+                self.log("Validating 'name' field: {0}.".format(name), "DEBUG")
                 param_spec = dict(type="str", length_max=40)
                 validate_str(name, param_spec, "name", errormsg)
             else:
