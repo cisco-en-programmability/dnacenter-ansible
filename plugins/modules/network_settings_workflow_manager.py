@@ -830,12 +830,11 @@ class NetworkSettings(DnacBase):
                 dhcp_server_ips = pool.get("dhcp_server_ips")
                 if dhcp_server_ips is not None and not isinstance(dhcp_server_ips, list):
                     invalid_params_type.append("'dhcp_server_ips' should be a list.")
-                
+
                 # Check for 'dns_server_ips'
                 dns_server_ips = pool.get("dns_server_ips")
                 if dns_server_ips is not None and not isinstance(dns_server_ips, list):
                     invalid_params_type.append("'dns_server_ips' should be a list.")
-
 
         if invalid_params_type:
             self.msg = "Invalid required parameter(s): {0}".format(', '.join(invalid_params_type))
