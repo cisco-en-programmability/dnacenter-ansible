@@ -643,23 +643,26 @@ class Site(DnacBase):
             response = self.get_site(site_name_hierarchy)
             self.log("Raw response from get_site: {}".format(response), "DEBUG")
 
+            if not response:
+                self.log("Unexpected response received:", "ERROR")
+                return site_exists, current_site
+
             if isinstance(response, list):
                 self.log("Unexpected list returned from get_site, skipping: {}".format(response), "ERROR")
                 return site_exists, current_site
-            elif not response:
-                self.log("Unexpected response type: {}".format(type(response)), "ERROR")
-                return site_exists, current_site
-            elif isinstance(response, dict):
+
+            if isinstance(response, dict):
                 sites = response.get("response", [])
+                if not sites:
+                    self.log("No site information found: {0}".format(response), "WARNING")
+                    return site_exists, current_site
+
                 for site in sites:
                     if isinstance(site, dict):
-                        self.log("Site information found: {0}".format(self.pprint(site)), "INFO")
+                        self.log("No site information found for name: {0}".format(self.pprint(site)), "INFO")
                         current_site = dict(site.items())
                         current_site['parentName'] = site.get('nameHierarchy', '').rsplit('/', 1)[0] if site.get('nameHierarchy') else None
                         site_exists = True
-
-            if not sites:
-                self.log("No site information found for name: {0}".format(response), "WARNING")
 
         else:
             site_name_hierarchy = self.want.get("site_name_hierarchy")
@@ -1095,33 +1098,28 @@ class Site(DnacBase):
                         response = self.get_site(have["site_name_hierarchy"])
                         self.log("Raw response from get_site: {}".format(response), "DEBUG")
 
+                        if not response:
+                            self.log("Unexpected response received:", "ERROR")
+                            self.handle_config["create_site"].append(have)
+                            self.handle_config["have"].append(have)
+                            continue
+
                         if isinstance(response, list):
                             self.log("Unexpected list returned from get_site, skipping: {}".format(response), "ERROR")
                             continue
-                        elif isinstance(response, dict):
+
+                        if isinstance(response, dict):
                             sites = response.get("response", [])
+                            if not sites:
+                                self.log("No site information found for name: {0}".format(have["site_name_hierarchy"]), "WARNING")
+                                continue
+
                             for site in sites:
                                 if isinstance(site, dict):
                                     self.log("site information found: {0}".format(self.pprint(site)), "INFO")
                                     current_site = dict(site.items())
                                     current_site['parentName'] = site.get('nameHierarchy', '').rsplit('/', 1)[0] if site.get('nameHierarchy') else None
                                     site_exists = True
-                        else:
-                            self.log("Unexpected response type: {}".format(type(response)), "ERROR")
-                            self.handle_config["create_site"].append(have)
-                            self.handle_config["have"].append(have)
-                            continue
-
-                        if not sites:
-                            self.log("No site information found for name: {0}".format(have["site_name_hierarchy"]), "WARNING")
-                            continue
-
-                        for site in sites:
-                            if isinstance(site, dict):
-                                self.log("site information found: {0}".format(self.pprint(site)), "INFO")
-                                current_site = dict(site.items())
-                                current_site['parentName'] = site.get('nameHierarchy', '').rsplit('/', 1)[0] if site.get('nameHierarchy') else None
-                                site_exists = True
 
                         have["site_exists"] = site_exists
                         have["current_site"] = current_site
