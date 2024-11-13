@@ -95,10 +95,10 @@ options:
             elements: dict
             suboptions:
                 interface_name:
-                    description: The name of the interface. (Required parameter for Cisco Catalyst Version - 2.3.7.6)
+                    description: The name of the interface.
                     type: str
                 vlan_id:
-                    description: The VLAN ID associated with the interface. (Required parameter for Cisco Catalyst Version - 2.3.7.6)
+                    description: The VLAN ID associated with the interface.
                     type: str
                 interface_ip_address:
                     description: The IP address assigned to the interface.
@@ -820,45 +820,6 @@ class Provision(DnacBase):
                     self.log("Managed AP Location must be a floor", "CRITICAL")
                     self.module.fail_json(msg="Managed AP Location must be a floor", response=[])
 
-        else:
-            self.log("Checking for mandatory interface fields in Catalyst Center version >= 2.3.7.6", "DEBUG")
-            interfaces = self.validated_config.get("dynamic_interfaces", [])
-            self.log("Configured interfaces: {0}".format(interfaces), "DEBUG")
-            has_interface_name = False
-            has_vlan_id = False
-
-            if interfaces is None:
-                self.msg = ("It appears that the 'dynamic_interfaces' parameter is either missing or set to None. "
-                            "Please note that this parameter is required for provisioning a wireless device in "
-                            "Catalyst Center version 2.3.7.6 or higher.")
-                self.log(self.msg, "ERROR")
-                self.result['response'] = self.msg
-                self.status = "failed"
-                self.check_return_status()
-
-            for interface in interfaces:
-                if 'interface_name' in interface:
-                    has_interface_name = True
-                if 'vlan_id' in interface:
-                    has_vlan_id = True
-                self.log("Presence of 'interface_name' in interfaces: {0}".format(has_interface_name), "DEBUG")
-                self.log("Presence of 'vlan_id' in interfaces: {0}".format(has_vlan_id), "DEBUG")
-
-            missing_fields = []
-            if not has_interface_name:
-                missing_fields.append("interface_name")
-            if not has_vlan_id:
-                missing_fields.append("vlan_id")
-
-            if missing_fields:
-                missing_fields_str = ', '.join(missing_fields)
-                self.msg = ("The following required fields for provisioning a wireless device in version"
-                            " 2.3.7.6 are currently missing: {0}".format(missing_fields_str))
-                self.log(self.msg, "ERROR")
-                self.result['response'] = self.msg
-                self.status = "failed"
-                self.check_return_status()
-
         wireless_params[0]["dynamicInterfaces"] = []
         if self.validated_config.get("dynamic_interfaces"):
             for interface in self.validated_config.get("dynamic_interfaces"):
@@ -873,7 +834,8 @@ class Provision(DnacBase):
                 wireless_params[0]["dynamicInterfaces"].append(interface_dict)
 
         wireless_params[0]["skip_ap_provision"] = self.validated_config.get("skip_ap_provision")
-        wireless_params[0]["primaryManagedAPLocationsSiteIds"] = self.validated_config.get("primary_managed_ap_Locations")
+        primary_ap_location = self.validated_config.get("primary_managed_ap_Locations") or self.validated_config.get("managed_ap_locations")
+        wireless_params[0]["primaryManagedAPLocationsSiteIds"] = primary_ap_location
         wireless_params[0]["secondaryManagedAPLocationsSiteIds"] = self.validated_config.get("secondary_managed_ap_locations")
 
         if self.validated_config.get("rolling_ap_upgrade"):
