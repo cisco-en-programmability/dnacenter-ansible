@@ -42,7 +42,7 @@ cisco.dnac.site_workflow_manager module -- Resource module for Site operations
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.22.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.23.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -375,7 +375,9 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Geographical latitude coordinate of the building. For example, use 37.338 for a location in San Jose, California. Valid values range from -90.0 to +90.0 degrees.
+      Geographical latitude coordinate of the building. For example, use 37.338 for a location in San Jose, California.
+          Valid values range from -90.0 to +90.0 degrees.
+          
 
 
       .. raw:: html
@@ -409,7 +411,9 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Geographical longitude coordinate of the building. For example, use -121.832 for a location in San Jose, California. Valid values range from -180.0 to +180.0 degrees.
+      Geographical longitude coordinate of the building. For example, use -121.832 for a location in San Jose, California.
+          Valid values range from -180.0 to +180.0 degrees.
+          
 
 
       .. raw:: html
@@ -522,48 +526,6 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/site/floor/bulk_operation"></div>
-
-      .. _ansible_collections.cisco.dnac.site_workflow_manager_module__parameter-config/site/floor/bulk_operation:
-
-      .. rst-class:: ansible-option-title
-
-      **bulk_operation**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/site/floor/bulk_operation" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`boolean`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Set to 'true' or 'false' to enable bulk operations for site creation and management.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
-      - :ansible-option-choices-entry:`true`
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/site/floor/floor_number"></div>
 
       .. _ansible_collections.cisco.dnac.site_workflow_manager_module__parameter-config/site/floor/floor_number:
@@ -588,7 +550,9 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Floor number within the building site (e.g., 5). This value can only be specified during the creation of the floor and cannot be modified afterward.
+      Floor number within the building site (e.g., 5). This value can only be specified during the creation of the
+          floor and cannot be modified afterward.
+          
 
 
       .. raw:: html
@@ -724,7 +688,9 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Hierarchical parent path of the floor, indicating its location within the site (e.g., "Global/USA/San Francisco/BGL\_18").
+      Hierarchical parent path of the floor, indicating its location within the site (e.g.,
+          "Global/USA/San Francisco/BGL\_18").
+          
 
 
       .. raw:: html
@@ -758,7 +724,92 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The RF (Radio Frequency) model type for the floor, which is essential for simulating and optimizing wireless network coverage. Select from the following allowed values, which describe different environmental signal propagation characteristics. Type of floor (allowed values are 'Cubes And Walled Offices', 'Drywall Office Only', 'Indoor High Ceiling', 'Outdoor Open Space'). Cubes And Walled Offices - This RF model typically represents indoor areas with cubicles or walled offices, where radio signals may experience attenuation due to walls and obstacles. Drywall Office Only - This RF model indicates an environment with drywall partitions, commonly found in office spaces, which may have moderate signal attenuation. Indoor High Ceiling - This RF model is suitable for indoor spaces with high ceilings, such as auditoriums or atriums, where signal propagation may differ due to the height of the ceiling. Outdoor Open Space - This RF model is used for outdoor areas with open spaces, where signal propagation is less obstructed and may follow different patterns compared to indoor environments.
+      The RF (Radio Frequency) model type for the floor, which is essential for simulating and optimizing wireless
+          network coverage. Select from the following allowed values, which describe different environmental signal propagation
+          characteristics.
+          Type of floor (allowed values are 'Cubes And Walled Offices', 'Drywall Office Only', 'Indoor High Ceiling',
+          'Outdoor Open Space').
+          Cubes And Walled Offices - This RF model typically represents indoor areas with cubicles or walled offices, where
+              radio signals may experience attenuation due to walls and obstacles.
+          Drywall Office Only - This RF model indicates an environment with drywall partitions, commonly found in office spaces,
+              which may have moderate signal attenuation.
+          Indoor High Ceiling - This RF model is suitable for indoor spaces with high ceilings, such as auditoriums or atriums,
+              where signal propagation may differ due to the height of the ceiling.
+          Outdoor Open Space - This RF model is used for outdoor areas with open spaces, where signal propagation is less obstructed
+              and may follow different patterns compared to indoor environments.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/site/floor/units_of_measure"></div>
+
+      .. _ansible_collections.cisco.dnac.site_workflow_manager_module__parameter-config/site/floor/units_of_measure:
+
+      .. rst-class:: ansible-option-title
+
+      **units_of_measure**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/site/floor/units_of_measure" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The unit of measurement for floor dimensions, typically 'feet' or 'meters'.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/site/floor/upload_floor_image_path"></div>
+
+      .. _ansible_collections.cisco.dnac.site_workflow_manager_module__parameter-config/site/floor/upload_floor_image_path:
+
+      .. rst-class:: ansible-option-title
+
+      **upload_floor_image_path**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/site/floor/upload_floor_image_path" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      File path for the floor image to be uploaded (e.g., "/path/to/floor\_image.png").
+          Ensure the image is in a supported format such as JPG, PNG, or PDF.
+          "upload\_floor\_image\_path" parameter not supported for 2.3.5.3 Catalyst Center and only applicable from
+          2.3.7.6 Catalyst version onwards
+          
 
 
       .. raw:: html
@@ -1641,30 +1692,45 @@ Examples
         config_verify: True
         state: merged
         config:
-        - site:
-            area:
-                - name: japan
-                  parent_name_hierarchy: 'Global'
-                - name: Abc2
-                  parent_name_hierarchy: 'Global'
-            building:
-                - name: blossom
-                  address: '1234 Elm Street'
-                  parent_name_hierarchy: 'Global/japan'
-                  latitude: 37.387
-                  longitude: -121.845
-                  country: India
-            floor:
-                - name: cherry
-                  parent_name_hierarchy: 'Global/japan/blossom'
-                  length: 103.23
-                  width: 75.1
-                  height: 50.23
-                  rf_model: 'Cubes And Walled Offices'
-                  floor_number: 3
-                  units_of_measure: 'feet'
-                  upload_floor_image_path: "/Users/skesali/Downloads/pngegg.png"
-            bulk_operation: true
+            - site:
+                area:
+                    name: bangalore99
+                    parent_name: Global
+              type: area
+            - site:
+                building:
+                    name: s1
+                    address: 1234 Elm Street3
+                    parent_name: Global/bangalore99
+                    latitude: 37.373
+                    longitude: -121.873
+                    country: india
+              type: building
+            - site:
+                floor:
+                    name: cherry88
+                    parent_name: Global/bangalore99/s1
+                    rf_model: Outdoor Open Space
+                    width: 117
+                    length: 117
+                    height: 13
+                    floor_number: 3
+                    units_of_measure: "feet"
+                    upload_floor_image_path: "/Users/skesali/Downloads/pngegg.png"
+              type: floor
+            - site:
+                floor:
+                    name: cherry5
+                    parent_name: Global/bangalore9/s1
+                    rf_model: Outdoor Open Space
+                    width: 113
+                    length: 113
+                    height: 13
+                    floor_number: 3
+                    units_of_measure: "feet"
+                    upload_floor_image_path: "/Users/skesali/Downloads/pngegg.png"
+              type: floor
+
 
 
 

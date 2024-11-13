@@ -42,7 +42,7 @@ cisco.dnac.discovery module -- Resource module for Discovery
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.22.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.23.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -2079,40 +2079,6 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-snmpROCommunity"></div>
-
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-snmprocommunity:
-
-      .. rst-class:: ansible-option-title
-
-      **snmpROCommunity**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-snmpROCommunity" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      SNMP RO community of the devices to be discovered.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-snmpRoCommunity"></div>
 
       .. _ansible_collections.cisco.dnac.discovery_module__parameter-snmprocommunity:
@@ -2138,40 +2104,6 @@ Parameters
         <div class="ansible-option-cell">
 
       SNMP RO community of the devices to be discovered.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-snmpROCommunityDesc"></div>
-
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-snmprocommunitydesc:
-
-      .. rst-class:: ansible-option-title
-
-      **snmpROCommunityDesc**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-snmpROCommunityDesc" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Description for SNMP RO community.
 
 
       .. raw:: html
@@ -2215,40 +2147,6 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-snmpRWCommunity"></div>
-
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-snmprwcommunity:
-
-      .. rst-class:: ansible-option-title
-
-      **snmpRWCommunity**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-snmpRWCommunity" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      SNMP RW community of the devices to be discovered.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-snmpRwCommunity"></div>
 
       .. _ansible_collections.cisco.dnac.discovery_module__parameter-snmprwcommunity:
@@ -2274,40 +2172,6 @@ Parameters
         <div class="ansible-option-cell">
 
       SNMP RW community of the devices to be discovered.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-snmpRWCommunityDesc"></div>
-
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-snmprwcommunitydesc:
-
-      .. rst-class:: ansible-option-title
-
-      **snmpRWCommunityDesc**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-snmpRWCommunityDesc" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Description for SNMP RW community.
 
 
       .. raw:: html
@@ -2444,40 +2308,6 @@ Parameters
         <div class="ansible-option-cell">
 
       Time to wait for device response.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-timeout"></div>
-
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-timeout:
-
-      .. rst-class:: ansible-option-title
-
-      **timeout**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-timeout" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Time to wait for device response in seconds.
 
 
       .. raw:: html
@@ -2763,13 +2593,13 @@ Examples
         snmpMode: string
         snmpPrivPassphrase: string
         snmpPrivProtocol: string
-        snmpROCommunity: string
-        snmpROCommunityDesc: string
-        snmpRWCommunity: string
-        snmpRWCommunityDesc: string
+        snmpRoCommunity: string
+        snmpRoCommunityDesc: string
+        snmpRwCommunity: string
+        snmpRwCommunityDesc: string
         snmpUserName: string
         snmpVersion: string
-        timeout: 0
+        timeOut: 0
         userNameList:
         - string
 
