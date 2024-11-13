@@ -1604,7 +1604,6 @@ class Swim(DnacBase):
                 return self
         else:
             if len(already_un_tagged_device_role) == len(device_role_no):
-                self.log("inside logic")
                 self.status = "success"
                 self.result['changed'] = False
                 self.msg = "SWIM Image '{0}' already un-tagged as Golden image in Cisco Catalyst Center for the roles - {1}.".format(image_name, device_role)
