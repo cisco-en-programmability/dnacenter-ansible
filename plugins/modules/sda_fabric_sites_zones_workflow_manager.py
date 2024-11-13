@@ -1187,7 +1187,7 @@ class FabricSitesZones(DnacBase):
             function logs relevant messages and returns False. If wired data collection is enabled, it returns True.
         """
 
-        self.log("Checking whether wired data collection is enabled or not for the site: {0}".format(site_name), "INFO")
+        self.log("Checking whether wired data collection is enabled for the site: {0}".format(site_name), "INFO")
 
         try:
             telemetry_response = self.dnac._exec(
@@ -1212,7 +1212,7 @@ class FabricSitesZones(DnacBase):
             if not is_enabled:
                 self.log("Wired Data Collection is not enabled at this site '{0}'.".format(site_name), "DEBUG")
                 return False
-
+            self.log("Wired Data Collection is enabled at this site '{0}'.".format(site_name), "DEBUG")
         except Exception as e:
             self.msg = (
                 "Exception occurred while getting telemetry settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, str(e))
@@ -1239,8 +1239,7 @@ class FabricSitesZones(DnacBase):
             to "failed."
         """
 
-        self.log("Checking whether wired data collection is enabled or not for the site: {0}".format(site_name), "INFO")
-
+        self.log("Fetching telemetry settings for site: {0}".format(site_name), "INFO")
         try:
             telemetry_response = self.dnac._exec(
                 family="network_settings",
@@ -1302,7 +1301,8 @@ class FabricSitesZones(DnacBase):
                 self.msg = "Unable to retrieve the task_id for the task '{0}'.".format(task_name)
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
-            success_msg = "Wired Data Collection gets enabled for the site '{0}'".format(site_name)
+
+            success_msg = "Successfully enabled wired data collection for site '{0}'.".format(site_name)
             self.log(success_msg, "INFO")
             self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
         except Exception as e:
@@ -1368,7 +1368,7 @@ class FabricSitesZones(DnacBase):
             if not is_wired_data_enable:
                 self.log("Wired Data Collection is not enabled at this site '{0}'.".format(site_name), "INFO")
                 self.enable_wired_data_collection(site_name, site_id).check_return_status()
-                self.log("Wired Data Collection is enabled at this site '{0}' successfully.".format(site_name), "INFO")
+                self.log("Wired Data Collection has been successfully enabled for site '{0}'.".format(site_name), "INFO")
             else:
                 self.log("Wired Data Collection is already enabled at this site '{0}'.".format(site_name), "INFO")
 
@@ -1399,8 +1399,8 @@ class FabricSitesZones(DnacBase):
 
                     if auth_profile and auth_profile != zone_in_ccc.get("authenticationProfileName"):
                         self.log(
-                            "Authentication profile '{0}' not matched with the profile in the Cisco Catalyst Center "
-                            "for the fabric zone {1}".format(auth_profile, site_name), "INFO"
+                            "Authentication profile '{0}' does not match the profile '{1}' in Cisco Catalyst Center "
+                            "for the fabric zone '{2}'.".format(auth_profile, zone_in_ccc.get("authenticationProfileName"), site_name), "INFO"
                         )
                         self.update_fabric_zone(site, zone_in_ccc).check_return_status()
                     else:
