@@ -393,8 +393,7 @@ class PnP(DnacBase):
         )
 
         if invalid_params:
-            self.msg = "Invalid parameters in playbook: {0}".format(
-                "\n".join(invalid_params))
+            self.msg = "Invalid parameters in playbook: {0}".format("\n".join(invalid_params))
             self.log(str(self.msg), "ERROR")
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
@@ -464,30 +463,25 @@ class PnP(DnacBase):
                 self.log("Received site details for '{0}': {1}".format(self.want.get("site_name"),
                                                                        str(response)), "DEBUG")
                 site = response.get("response")
-                site_additional_info = site[0].get("additionalInfo")
                 site_type = None
-                for item in site_additional_info:
-                    if item["nameSpace"] == "Location":
-                        site_type = item.get("attributes").get("type")
-                        self.log("Site type for site name '{1}' : {0}".
-                                 format(site_type, self.want.get("site_name")), "INFO")
+
+                if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
+                    site_additional_info = site[0].get("additionalInfo")
+                    for item in site_additional_info:
+                        if item["nameSpace"] == "Location":
+                            site_type = item.get("attributes").get("type")
+                            self.log("Site type for site name '{1}' : {0}".
+                                     format(site_type, self.want.get("site_name")), "INFO")
+                else:
+                    site_type = site[0].get("type")
+                    self.log("Site type for site name '{1}' : {0}".
+                             format(site_type, self.want.get("site_name")), "INFO")
+
                 return site_type
         except Exception:
             self.msg = "Exception occurred as site '{0}' was not found".format(self.want.get("site_name"))
             self.log(self.msg, "CRITICAL")
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
-
-        if response:
-            self.log("Received site details for '{0}': {1}".format(self.want.get("site_name"),
-                                                                   str(response)), "DEBUG")
-            site = response.get("response")
-            site_additional_info = site[0].get("additionalInfo")
-            for item in site_additional_info:
-                if item["nameSpace"] == "Location":
-                    site_type = item.get("attributes").get("type")
-                    self.log("Site type for site name '{1}' : {0}".format(site_type, self.want.get("site_name")), "INFO")
-
-        return site_type
 
     def get_pnp_params(self, params):
         """
@@ -785,8 +779,7 @@ class PnP(DnacBase):
                     template_name = self.want.get("template_name")
                     if template_name:
                         if not (template_list and isinstance(template_list, list)):
-                            self.msg = "Either project not found"\
-                                " or it is Empty."
+                            self.msg = "Either project not found or it is Empty."
                             self.log(self.msg, "CRITICAL")
                             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
