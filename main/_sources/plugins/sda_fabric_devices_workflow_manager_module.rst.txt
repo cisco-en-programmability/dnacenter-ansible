@@ -42,7 +42,7 @@ cisco.dnac.sda_fabric_devices_workflow_manager module -- Manage SDA fabric devic
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.22.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.23.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1218,7 +1218,7 @@ Parameters
 
       Enhances security by limiting route usage to internal routes.
 
-      The 'import\_external\_routes' can be updated.
+      The 'import\_external\_routes' cannot be updated.
 
 
       .. rst-class:: ansible-option-line
@@ -1262,7 +1262,7 @@ Parameters
 
       Indicates whether this Border Node serves as the default gateway for traffic exiting the virtual network.
 
-      The \`is\_default\_exit\` can be updated.
+      The \`is\_default\_exit\` cannot be updated.
 
 
       .. rst-class:: ansible-option-line
@@ -1496,6 +1496,56 @@ Parameters
       - :ansible-option-choices-entry:`"BORDER\_NODE"`
       - :ansible-option-choices-entry:`"WIRELESS\_CONTROLLER\_NODE"`
 
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/device_config/route_distribution_protocol"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__parameter-config/fabric_devices/device_config/route_distribution_protocol:
+
+      .. rst-class:: ansible-option-title
+
+      **route_distribution_protocol**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_devices/device_config/route_distribution_protocol" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the Route Distribution Protocol for the Control Plane Device.
+
+      The route distribution protocol manages routing information across network segments.
+
+      Available protocols, - LISP\_BGP - Location/ID Separation Protocol with a publish-subscribe mechanism for distributing routing information. - LISP\_PUB\_SUB - Location/ID Separation Protocol with BGP, where BGP serves as the control plane to advertise and manage routing information within LISP networks.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`"LISP\_BGP"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"LISP\_PUB\_SUB"`
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`["LISP\_BGP"]`
 
       .. raw:: html
 
@@ -2216,8 +2266,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are site\_design.SiteDesign.get\_sites, network\_settings.NetworkSettings.get\_reserve\_ip\_subpool, devices.Devices.get\_device\_list, sda.Sda.get\_transit\_networks, sda.Sda.get\_layer3\_virtual\_networks, sda.Sda.get\_fabric\_sites, sda.Sda.get\_provisioned\_devices, sda.Sda.get\_fabric\_devices\_layer2\_handoffs, sda.Sda.get\_fabric\_devices\_layer3\_handoffs\_with\_sda\_transit, sda.Sda.get\_fabric\_devices\_layer3\_handoffs\_with\_ip\_transit, sda.Sda.get\_fabric\_devices, sda.Sda.add\_fabric\_devices, sda.Sda.add\_fabric\_devices\_layer2\_handoffs, sda.Sda.add\_fabric\_devices\_layer3\_handoffs\_with\_sda\_transit, sda.Sda.add\_fabric\_devices\_layer3\_handoffs\_with\_ip\_transit, sda.Sda.update\_fabric\_devices, sda.Sda.update\_fabric\_devices\_layer3\_handoffs\_with\_sda\_transit, sda.Sda.update\_fabric\_devices\_layer3\_handoffs\_with\_ip\_transit, sda.Sda.delete\_fabric\_device\_layer2\_handoff\_by\_id, sda.Sda.delete\_fabric\_device\_by\_id, sda.Sda.delete\_fabric\_device\_layer3\_handoffs\_with\_sda\_transit, sda.Sda.delete\_fabric\_device\_layer3\_handoff\_with\_ip\_transit\_by\_id, task.Task.get\_tasks\_by\_id, task.Task.get\_task\_details\_by\_id,
-   - Paths used are get /dna/intent/api/v1/sites get /dna/intent/api/v1/reserve-ip-subpool get /dna/intent/api/v1/network-device get /dna/intent/api/v1/sda/transitNetworks get /dna/intent/api/v1/sda/layer3VirtualNetworks get /dna/intent/api/v1/sda/fabricSites get /dna/intent/api/v1/sda/provisionDevices get /dna/intent/api/v1/sda/fabricDevices/layer2Handoffs get /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/sdaTransits get /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/ipTransits get /dna/intent/api/v1/sda/fabricDevices post /dna/intent/api/v1/sda/fabricDevices post /dna/intent/api/v1/sda/fabricDevices/layer2Handoffs post /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/sdaTransits post /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/ipTransits put /dna/intent/api/v1/sda/fabricDevices put /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/sdaTransits put /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/ipTransits delete /dna/intent/api/v1/sda/fabricDevices/${id} delete /dna/intent/api/v1/sda/fabricDevices/layer2Handoffs/${id} delete /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/sdaTransits delete /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/ipTransits/${id} get /dna/intent/api/v1/tasks/${id} get /dna/intent/api/v1/tasks/${id}/detail
+   - SDK Method used are site\_design.SiteDesign.get\_sites, network\_settings.NetworkSettings.get\_reserve\_ip\_subpool, devices.Devices.get\_device\_list, sda.Sda.get\_transit\_networks, sda.Sda.get\_layer3\_virtual\_networks, sda.Sda.get\_fabric\_sites, sda.Sda.get\_fabric\_zones, sda.Sda.get\_provisioned\_devices, sda.Sda.get\_fabric\_devices\_layer2\_handoffs, sda.Sda.get\_fabric\_devices\_layer3\_handoffs\_with\_sda\_transit, sda.Sda.get\_fabric\_devices\_layer3\_handoffs\_with\_ip\_transit, sda.Sda.get\_fabric\_devices, sda.Sda.add\_fabric\_devices, sda.Sda.add\_control\_plane\_device, sda.Sda.add\_fabric\_devices\_layer2\_handoffs, sda.Sda.add\_fabric\_devices\_layer3\_handoffs\_with\_sda\_transit, sda.Sda.add\_fabric\_devices\_layer3\_handoffs\_with\_ip\_transit, sda.Sda.update\_fabric\_devices, sda.Sda.update\_fabric\_devices\_layer3\_handoffs\_with\_sda\_transit, sda.Sda.update\_fabric\_devices\_layer3\_handoffs\_with\_ip\_transit, sda.Sda.delete\_fabric\_device\_layer2\_handoff\_by\_id, sda.Sda.delete\_fabric\_device\_by\_id, sda.Sda.delete\_fabric\_device\_layer3\_handoffs\_with\_sda\_transit, sda.Sda.delete\_fabric\_device\_layer3\_handoff\_with\_ip\_transit\_by\_id, task.Task.get\_tasks\_by\_id, task.Task.get\_task\_details\_by\_id,
+   - Paths used are get /dna/intent/api/v1/sites get /dna/intent/api/v1/reserve-ip-subpool get /dna/intent/api/v1/network-device get /dna/intent/api/v1/sda/transitNetworks get /dna/intent/api/v1/sda/layer3VirtualNetworks get /dna/intent/api/v1/sda/fabricSites get /dna/intent/api/v1/sda/fabricZones get /dna/intent/api/v1/sda/provisionDevices get /dna/intent/api/v1/sda/fabricDevices/layer2Handoffs get /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/sdaTransits get /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/ipTransits get /dna/intent/api/v1/sda/fabricDevices post /dna/intent/api/v1/sda/fabricDevices post /dna/intent/api/v1/business/sda/control-plane-device post /dna/intent/api/v1/sda/fabricDevices/layer2Handoffs post /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/sdaTransits post /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/ipTransits put /dna/intent/api/v1/sda/fabricDevices put /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/sdaTransits put /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/ipTransits delete /dna/intent/api/v1/sda/fabricDevices/${id} delete /dna/intent/api/v1/sda/fabricDevices/layer2Handoffs/${id} delete /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/sdaTransits delete /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/ipTransits/${id} get /dna/intent/api/v1/tasks/${id} get /dna/intent/api/v1/tasks/${id}/detail
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK
    - The parameters starting with dnac\_ are used by the Cisco Catalyst Center Python SDK to establish the connection
@@ -2252,6 +2302,54 @@ Examples
             device_config:
             - device_ip: 10.0.0.1
               device_roles: [CONTROL_PLANE_NODE]
+              route_distribution_protocol: LISP_PUB_SUB
+
+    - name: Create SDA fabric device with device role as CONTROL_PLANE_NODE, EDGE_NODE
+      cisco.dnac.sda_fabric_devices_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: True
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: merged
+        config_verify: True
+        config:
+        - fabric_devices:
+            fabric_name: Global/USA/SAN-JOSE
+            device_config:
+            - device_ip: 10.0.0.1
+              device_roles: [CONTROL_PLANE_NODE, EDGE_NODE]
+
+    - name: Create SDA fabric device with device role as CONTROL_PLANE_NODE, EDGE_NODE, BORDER_NODE
+      cisco.dnac.sda_fabric_devices_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: True
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: merged
+        config_verify: True
+        config:
+        - fabric_devices:
+            fabric_name: Global/USA/SAN-JOSE
+            device_config:
+            - device_ip: 10.0.0.1
+              device_roles: [CONTROL_PLANE_NODE, EDGE_NODE, BORDER_NODE]
+              borders_settings:
+                layer3_settings:
+                  local_autonomous_system_number: 1234
+                  is_default_exit: true
+                  import_external_routes: true
+                  border_priority: 1
+                  prepend_autonomous_system_count: 1
 
     - name: Update the SDA fabric device with the device roles with BORDER_NODE and add L2 Handoff
       cisco.dnac.sda_fabric_devices_workflow_manager:
@@ -2732,6 +2830,51 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-sample
 
       :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "string", "url": "string"}, "version": "string"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_13"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__return-response_13:
+
+      .. rst-class:: ansible-option-title
+
+      **response_13**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_13" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"endTime": "integer", "id": "string", "lastUpdate": "integer", "resultLocation": "string", "startTime": "integer", "status": "string", "version": "integer"}, "version": "string"}`
 
 
       .. raw:: html

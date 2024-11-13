@@ -42,7 +42,7 @@ cisco.dnac.swim_workflow_manager module -- Module to manage SWIM (Software Image
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.22.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.23.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1812,7 +1812,21 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Defines the device role, with permissible values including ALL, UNKNOWN, ACCESS, BORDER ROUTER, DISTRIBUTION, and CORE. ALL - This role typically represents all devices within the network, regardless of their specific roles or functions. UNKNOWN - This role is assigned to devices whose roles or functions have not been identified or classified within Cisco Catalsyt Center. This could happen if the platform is unable to determine the device's role based on available information. ACCESS - This role typically represents switches or access points that serve as access points for end-user devices to connect to the network. These devices are often located at the edge of the network and provide connectivity to end-user devices. BORDER ROUTER - These are devices that connect different network domains or segments together. They often serve as gateways between different networks, such as connecting an enterprise network to the internet or connecting multiple branch offices. DISTRIBUTION - This role represents function as distribution switches or routers in hierarchical network designs. They aggregate traffic from access switches and route it toward the core of the network or toward other distribution switches. CORE - This role typically represents high-capacity switches or routers that form the backbone of the network. They handle large volumes of traffic and provide connectivity between different parts of network, such as connecting distribution switches or providing interconnection between different network segments.
+      Specifies the device role(s) for tagging or untagging the image as golden.
+          Permissible values:
+          - 'ALL': Applies the golden tag to all devices, regardless of role.
+          - 'UNKNOWN': Tags devices without a specified classification.
+          - 'ACCESS': Tags devices that connect end-user devices (e.g., access switches).
+          - 'BORDER ROUTER': Tags devices linking different network segments or domains.
+          - 'DISTRIBUTION': Tags devices aggregating traffic toward the core.
+          - 'CORE': Tags backbone devices handling high-volume network traffic.
+          Behavior:
+          - If 'device\_role' is a single string (e.g., \`"ACCESS"\`), only that role is tagged as golden.
+          - If 'device\_role' contains multiple roles (e.g., \`"ACCESS,CORE"\`), all specified roles are tagged as golden.
+          Examples:
+          - device\_role: "ACCESS" tags only the \`ACCESS\` role as golden.
+          - device\_role: "ACCESS,CORE" tags both \`ACCESS\` and \`CORE\` roles as golden.
+          
 
 
       .. raw:: html
@@ -2728,6 +2742,25 @@ Examples
         - tagging_details:
             image_name: cat9k_iosxe.17.12.01.SPA.bin
             device_role: ACCESS
+            device_image_family_name: Cisco Catalyst 9300 Switch
+            site_name: Global/USA/San Francisco/BGL_18
+            tagging: True
+
+    - name: Tag the specified image as golden for multiple device roles and load it into the device
+      cisco.dnac.swim_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log_level: "{{dnac_log_level}}"
+        dnac_log: True
+        config:
+        - tagging_details:
+            image_name: cat9k_iosxe.17.12.01.SPA.bin
+            device_role: ACCESS,CORE
             device_image_family_name: Cisco Catalyst 9300 Switch
             site_name: Global/USA/San Francisco/BGL_18
             tagging: True

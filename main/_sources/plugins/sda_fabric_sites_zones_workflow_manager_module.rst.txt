@@ -42,7 +42,7 @@ cisco.dnac.sda_fabric_sites_zones_workflow_manager module -- Manage fabric site(
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.22.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.23.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -292,17 +292,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/fabric_sites/site_name"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_sites/site_name_hierarchy"></div>
 
-      .. _ansible_collections.cisco.dnac.sda_fabric_sites_zones_workflow_manager_module__parameter-config/fabric_sites/site_name:
+      .. _ansible_collections.cisco.dnac.sda_fabric_sites_zones_workflow_manager_module__parameter-config/fabric_sites/site_name_hierarchy:
 
       .. rst-class:: ansible-option-title
 
-      **site_name**
+      **site_name_hierarchy**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/fabric_sites/site_name" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_sites/site_name_hierarchy" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -1215,7 +1215,8 @@ Notes
 
 .. note::
    - To ensure the module operates correctly for scaled sets, which involve creating or updating fabric sites/zones and handling the updation of authentication profile template, please provide valid input in the playbook. If any failure is encountered, the module will and halt execution without proceeding to further operations.
-   - When deleting fabric sites, make sure to provide the input to remove the fabric zones associated with them in the playbook. Fabric sites cannot be deleted until all underlying fabric zones have been removed.
+   - When deleting fabric sites, make sure to provide the input to remove the fabric zones associated with them in the playbook. Fabric sites cannot be deleted until all underlying fabric zones have been removed and it can be any order as per the module design fabric zones will be deleted first followed by fabric sites.
+   - Parameter 'site\_name' is updated to 'site\_name\_hierarchy'.
    - SDK Method used are ccc\_fabric\_sites.FabricSitesZones.get\_site ccc\_fabric\_sites.FabricSitesZones.get\_fabric\_sites ccc\_fabric\_sites.FabricSitesZones.get\_fabric\_zones ccc\_fabric\_sites.FabricSitesZones.add\_fabric\_site ccc\_fabric\_sites.FabricSitesZones.update\_fabric\_site ccc\_fabric\_sites.FabricSitesZones.add\_fabric\_zone ccc\_fabric\_sites.FabricSitesZones.update\_fabric\_zone ccc\_fabric\_sites.FabricSitesZones.get\_authentication\_profiles ccc\_fabric\_sites.FabricSitesZones.update\_authentication\_profile ccc\_fabric\_sites.FabricSitesZones.delete\_fabric\_site\_by\_id ccc\_fabric\_sites.FabricSitesZones.delete\_fabric\_zone\_by\_id
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK
@@ -1246,7 +1247,7 @@ Examples
         state: merged
         config:
           - fabric_sites:
-            - site_name: "Global/Test_SDA/Bld1"
+            - site_name_hierarchy: "Global/Test_SDA/Bld1"
               authentication_profile: "Closed Authentication"
               is_pub_sub_enabled: False
 
@@ -1264,7 +1265,7 @@ Examples
         state: merged
         config:
           - fabric_sites:
-            - site_name: "Global/Test_SDA/Bld1"
+            - site_name_hierarchy: "Global/Test_SDA/Bld1"
               authentication_profile: "Open Authentication"
 
     - name: Update a fabric zone for SDA with the specified name.
@@ -1281,7 +1282,7 @@ Examples
         state: merged
         config:
           - fabric_sites:
-            - site_name: "Global/Test_SDA/Bld1/Floor1"
+            - site_name_hierarchy: "Global/Test_SDA/Bld1/Floor1"
               fabric_type: "fabric_zone"
               authentication_profile: "Closed Authentication"
 
@@ -1299,7 +1300,7 @@ Examples
         state: merged
         config:
           - fabric_sites:
-            - site_name: "Global/Test_SDA/Bld1/Floor1"
+            - site_name_hierarchy: "Global/Test_SDA/Bld1/Floor1"
               fabric_type: "fabric_zone"
               authentication_profile: "Open Authentication"
 
@@ -1317,7 +1318,7 @@ Examples
         state: merged
         config:
           - fabric_sites:
-            - site_name: "Global/Test_SDA/Bld1"
+            - site_name_hierarchy: "Global/Test_SDA/Bld1"
               fabric_type: "fabric_zone"
               authentication_profile: "Open Authentication"
               is_pub_sub_enabled: False
@@ -1341,7 +1342,7 @@ Examples
         state: deleted
         config:
           - fabric_sites:
-            - site_name: "Global/Test_SDA/Bld1"
+            - site_name_hierarchy: "Global/Test_SDA/Bld1"
 
     - name: Deleting/removing fabric zone from sda from Cisco Catalyst Center
       cisco.dnac.sda_fabric_sites_zones_workflow_manager:
@@ -1357,7 +1358,7 @@ Examples
         state: deleted
         config:
           - fabric_sites:
-            - site_name: "Global/Test_SDA/Bld1/Floor1"
+            - site_name_hierarchy: "Global/Test_SDA/Bld1/Floor1"
               fabric_type: "fabric_zone"
 
 
