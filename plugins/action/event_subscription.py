@@ -103,6 +103,7 @@ class EventSubscription(object):
                 family="event_management",
                 function="get_event_subscriptions",
             )
+            tmp_result = None
             if isinstance(items, dict):
                 if 'response' in items:
                     items = items.get('response')
