@@ -1079,3 +1079,9 @@ releases:
         - accesspoint_workflow_manager - added attribute bulk_update_aps
         - sda_fabric_devices_workflow_manager.py - added attribute route_distribution_protocol
         - sda_fabric_sites_zones_workflow_manager.py - added attribute site_name_hierarchy and removed attribute site_name 
+  6.24.0:
+    release_date: "2024-11-12"
+    changes:
+      release_summary: modifications to fix issues '#200'.
+      minor_changes:
+        - Removing duplicates in the discovery.py module. snmpRwCommunity property.
