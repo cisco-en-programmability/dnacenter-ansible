@@ -180,18 +180,18 @@ options:
             description: |
               Specifies the device role(s) for tagging or untagging the image as golden.
               Permissible values:
-              - `ALL`: Applies the golden tag to all devices, regardless of role.
-              - `UNKNOWN`: For devices without a specific classification.
-              - `ACCESS`: Devices connecting end-user devices (e.g., access switches).
-              - `BORDER ROUTER`: Devices linking different network segments or domains.
-              - `DISTRIBUTION`: Devices aggregating traffic towards the core.
-              - `CORE`: Backbone devices handling high-volume network traffic.
+              - 'ALL': Applies the golden tag to all devices, regardless of role.
+              - 'UNKNOWN': Tags devices without a specified classification.
+              - 'ACCESS': Tags devices that connect end-user devices (e.g., access switches).
+              - 'BORDER ROUTER': Tags devices linking different network segments or domains.
+              - 'DISTRIBUTION': Tags devices aggregating traffic toward the core.
+              - 'CORE': Tags backbone devices handling high-volume network traffic.
               Behavior:
-              - If `device_role` is provided as a single string (e.g., `"ACCESS"`), that role alone will be tagged as golden.
-              - If `device_role` is provided as a single string with multiple roles (e.g., `"ACCESS,CORE"`), both roles will be tagged as golden.
+              - If 'device_role' is a single string (e.g., `"ACCESS"`), only that role is tagged as golden.
+              - If 'device_role' contains multiple roles (e.g., `"ACCESS,CORE"`), all specified roles are tagged as golden.
               Examples:
-              - Given `device_role: "ACCESS"`, only the `ACCESS` role will be tagged as golden.
-              - If `device_role: "ACCESS,CORE"` is used, both `ACCESS` and `CORE` roles will be tagged as golden.
+              - device_role: "ACCESS" tags only the `ACCESS` role as golden.
+              - device_role: "ACCESS,CORE" tags both `ACCESS` and `CORE` roles as golden.
             type: str
           device_image_family_name:
             description: Device Image family name(Eg Cisco Catalyst 9300 Switch)
@@ -725,8 +725,8 @@ class Swim(DnacBase):
 
         Description:
             This function sends a request to Cisco Catalsyt Center to retrieve a list of software images
-            using the `returns_list_of_software_images` API. It then iterates through the response
-            to find a match for the provided `cco_image_name`. If a match is found, the corresponding
+            using the 'returns_list_of_software_images' API. It then iterates through the response
+            to find a match for the provided 'cco_image_name'. If a match is found, the corresponding
             image ID is returned. If no matching image is found, or if the image ID is not present
             in the response, the function logs an error message and raises an exception.
         """
@@ -1541,6 +1541,7 @@ class Swim(DnacBase):
         tag_image_golden = tagging_details.get("tagging")
         image_name = self.get_image_name_from_id(self.have.get("tagging_image_id"))
         device_role = tagging_details.get("device_role", "ALL")
+        self.log("Parsed device roles: {0}".format(device_role), "DEBUG")
         device_role_no, already_un_tagged_device_role, already_tagged_device_role = [], [], []
 
         device_roles = ["core", "distribution", "access", "border router", "unknown", "all"]
@@ -1559,6 +1560,7 @@ class Swim(DnacBase):
                 self.result['response'] = self.msg
                 self.check_return_status()
 
+        self.log("Checking golden tag status for each role...", "DEBUG")
         for role in device_role.split(','):
             image_params = {
                 "image_id": self.have.get("tagging_image_id"),
@@ -1567,6 +1569,7 @@ class Swim(DnacBase):
                 "device_role": role.upper()
             }
 
+            self.log("Parameters for checking tag status for role '{0}': {1}".format(role, image_params), "DEBUG")
             response = self.dnac._exec(
                 family="software_image_management_swim",
                 function="get_golden_tag_status_of_an_image",
@@ -1578,19 +1581,15 @@ class Swim(DnacBase):
             api_response = response.get('response')
             if api_response:
                 image_status = api_response.get('taggedGolden')
-                self.log(image_status)
-                self.log(tag_image_golden)
-
-                if image_status == tag_image_golden:
-                    self.log("inside if")
+                if image_status and tag_image_golden is True:
                     msg = "SWIM Image '{0}' already tagged as Golden image in Cisco Catalyst Center".format(image_name)
                     self.log(msg, "INFO")
                     already_tagged_device_role.append(role)
-
-                if not image_status and image_status == tag_image_golden:
+                elif not image_status and not tag_image_golden:
                     msg = "SWIM Image '{0}' already un-tagged from Golden image in Cisco Catalyst Center".format(image_name)
                     self.log(msg, "INFO")
                     already_un_tagged_device_role.append(role)
+            self.log("Verifying if all roles are in the desired tag status...", "DEBUG")
 
         # Check if all roles are tagged as Golden
         if tag_image_golden:
@@ -2184,6 +2183,7 @@ class Swim(DnacBase):
             response = response.get('response')
             if response:
                 image_status = response['taggedGolden']
+                self.log("Current golden tag status for image '{0}': {1}".format(image_name, image_status), "DEBUG")
                 if image_status == tag_image_golden:
                     if tag_image_golden:
                         self.msg = """The requested image '{0}' has been tagged as golden in the Cisco Catalyst Center and
