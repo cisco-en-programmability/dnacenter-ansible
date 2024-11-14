@@ -2197,7 +2197,13 @@ class NetworkSettings(DnacBase):
                 "gateway": pool_details.get("gateway"),
                 "type": pool_details.get("pool_type"),
             }
-            ip_address_space = pool_details.get("ip_address_space")
+
+            ip_address_space = pool_details.get("ip_address_space", "").upper()
+            if ip_address_space == "IPV4":
+                ip_address_space = "IPv4"
+            elif ip_address_space == "IPV6":
+                ip_address_space = "IPv6"
+
             if not ip_address_space:
                 self.msg = "Missing required parameter 'ip_address_space' under global_pool_details."
                 self.status = "failed"
@@ -3077,6 +3083,7 @@ class NetworkSettings(DnacBase):
                     "ippool": copy.deepcopy(create_global_pool)
                 }
             }
+
             try:
                 response = self.dnac._exec(
                     family="network_settings",
