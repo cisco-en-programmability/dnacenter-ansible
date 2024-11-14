@@ -2197,7 +2197,6 @@ class NetworkSettings(DnacBase):
                 "gateway": pool_details.get("gateway"),
                 "type": pool_details.get("pool_type"),
             }
-
             ip_address_space = pool_details.get("ip_address_space", "").upper()
             if ip_address_space == "IPV4":
                 ip_address_space = "IPv4"
