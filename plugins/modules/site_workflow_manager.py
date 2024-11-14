@@ -460,7 +460,7 @@ class Site(DnacBase):
         super().__init__(module)
         self.supported_states = ["merged", "deleted"]
         self.created_site_list, self.updated_site_list, self.update_not_needed_sites = [], [], []
-        self.deleted_site_list, self.site_absent_list = [], []
+        self.deleted_site_list, self.site_absent_list, self.old_version_deleted_list = [], [], []
         self.keymap = {}
         self.handle_config = {}
 
@@ -666,7 +666,6 @@ class Site(DnacBase):
 
         else:
             site_name_hierarchy = self.want.get("site_name_hierarchy")
-            self.log("CHECK {0}".format(site_name_hierarchy), "INFO")
             response = self.get_site_v1(site_name_hierarchy)
 
             if not response:
@@ -1625,6 +1624,45 @@ class Site(DnacBase):
             self.msg = "Unable to process the payload data : {}".format(str(e))
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
+    def is_site_exist(self, site_name):
+        """
+        Checks if a site exists in Cisco Catalyst Center by retrieving site information based on the provided site name.
+
+        Args:
+            site_name (str): The name or hierarchy of the site to be retrieved.
+
+        Returns:
+            tuple (bool, str or None): A tuple containing:
+                1. A boolean indicating whether the site exists (True if found, False otherwise).
+                2. The site ID (str) if the site exists, or None if the site does not exist or an error occurs.
+
+        Details:
+            - Calls `get_site()` to retrieve site details from Cisco Catalyst Center.
+            - If the site exists, its ID is extracted from the response, and the function returns (True, site ID).
+            - If the site does not exist, it returns (False, None) and logs an informational message.
+            - Logs detailed debug information about the retrieval attempt and any errors that occur.
+
+        """
+        site_exists = None
+        try:
+            response = self.get_site(site_name)
+
+            if response is None:
+                self.log("No site details retrieved for site name: {0}".format(site_name), "DEBUG")
+                return site_exists
+
+            self.log("Site details retrieved for site '{0}'': {1}".format(site_name, str(response)), "DEBUG")
+            site_exists = True
+
+        except Exception as e:
+            self.log(
+                "An exception occurred while retrieving Site details for Site '{0}' "
+                "does not exist in the Cisco Catalyst Center. Error: {1}".format(site_name, e),
+                "INFO"
+            )
+
+        return site_exists
+
     def get_diff_merged(self, config):
         """
         Update/Create site information in Cisco Catalyst Center with fields
@@ -1671,6 +1709,17 @@ class Site(DnacBase):
                             self.log("Added to floor: {}".format(payload_data), "DEBUG")
                     for each_type in ("area", "building", "floor"):
                         if self.handle_config[each_type]:
+                            for create_config in self.handle_config[each_type]:
+                                parent_name = create_config.get(self.keymap.get("parent_name_hierarchy"))
+                                self.log(self.pprint(create_config))
+
+                                site_exists = self.is_site_exist(parent_name)
+                                if not site_exists:
+                                    self.msg = "Parent name '{0}' does not exist in the Cisco Catalyst Center.".format(parent_name)
+                                    self.log(self.msg, "DEBUG")
+                                    self.site_absent_list.append(str(parent_name) + " does not exist ")
+                                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
                             response = self.creating_bulk_site(self.handle_config[each_type])
                             self.log("Response from creating_bulk_site for {}: {}".format(each_type, response), "DEBUG")
 
@@ -2042,17 +2091,13 @@ class Site(DnacBase):
         if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
             site_exists = self.have.get("site_exists")
             site_name_hierarchy = self.want.get("site_name_hierarchy")
-
-            if not site_exists:
-                self.status = "success"
-                self.site_absent_list.append(site_name_hierarchy)
-                self.log(
-                    "Unable to delete site '{0}' as it's not found in Cisco Catalyst Center".format(self.want.get("site_name_hierarchy")), "INFO")
-                return self
             site_id = self.have.get("site_id")
-            site_name_hierarchy = self.want.get("site_name_hierarchy")
+            if not site_exists:
+                if site_name_hierarchy not in self.deleted_site_list:
+                    self.site_absent_list.append(site_name_hierarchy)
+                self.log("Unable to delete site '{0}' as it's not found in Cisco Catalyst Center".format(site_name_hierarchy), "INFO")
+                return self
             api_response, response = self.get_device_ids_from_site(site_name_hierarchy, site_id)
-
             self.log(
                 "Received API response from 'get_membership': {0}".format(str(api_response)), "DEBUG")
 
@@ -2066,9 +2111,11 @@ class Site(DnacBase):
 
             sorted_site_resp = sorted(
                 site_response, key=lambda x: x.get("groupHierarchy"), reverse=True)
+            self.log(sorted_site_resp)
 
             for item in sorted_site_resp:
-                self.delete_single_site(item['id'], item['name'])
+                self.log(item)
+                self.delete_single_site(item['id'], item['groupNameHierarchy'])
 
             self.delete_single_site(site_id, site_name_hierarchy)
             self.log(
@@ -2293,8 +2340,7 @@ class Site(DnacBase):
             if self.update_not_needed_sites:
                 msg = """Site(s) '{0}' created successfully as well as Site(s) '{1}' updated successully and the some site(s)
                         '{2}' needs no update in Cisco Catalyst Center"""
-                self.msg = msg.format(str(self.created_site_list), str(
-                    self.updated_site_list), str(self.update_not_needed_sites))
+                self.msg = msg.format(str(self.created_site_list), str(self.updated_site_list), str(self.update_not_needed_sites))
             else:
                 self.msg = """Site(s) '{0}' created successfully in Cisco Catalyst Center as well as Site(s) '{1}' updated successully in
                         Cisco Catalyst Center""".format(str(self.created_site_list), str(self.updated_site_list))
