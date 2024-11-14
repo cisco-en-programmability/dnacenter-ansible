@@ -460,7 +460,7 @@ class Site(DnacBase):
         super().__init__(module)
         self.supported_states = ["merged", "deleted"]
         self.created_site_list, self.updated_site_list, self.update_not_needed_sites = [], [], []
-        self.deleted_site_list, self.site_absent_list, self.old_version_deleted_list = [], [], []
+        self.deleted_site_list, self.site_absent_list = [], []
         self.keymap = {}
         self.handle_config = {}
 
@@ -2111,10 +2111,8 @@ class Site(DnacBase):
 
             sorted_site_resp = sorted(
                 site_response, key=lambda x: x.get("groupHierarchy"), reverse=True)
-            self.log(sorted_site_resp)
 
             for item in sorted_site_resp:
-                self.log(item)
                 self.delete_single_site(item['id'], item['groupNameHierarchy'])
 
             self.delete_single_site(site_id, site_name_hierarchy)
