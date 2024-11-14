@@ -3083,7 +3083,6 @@ class NetworkSettings(DnacBase):
                     "ippool": copy.deepcopy(create_global_pool)
                 }
             }
-
             try:
                 response = self.dnac._exec(
                     family="network_settings",
