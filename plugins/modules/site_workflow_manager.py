@@ -826,7 +826,7 @@ class Site(DnacBase):
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return None
 
-            site_name_hierarchy = '/'.join([parent_name, name])
+            site_name_hierarchy = '/'.join([str(parent_name), str(name)])
             self.log("Constructed site name: {}".format(site_name_hierarchy), "INFO")
             return site_name_hierarchy
 
@@ -1792,9 +1792,9 @@ class Site(DnacBase):
 
                                 if response and isinstance(response, dict):
                                     taskid = response["response"]["taskId"]
-                                    task_details = self.get_task_details(taskid)
 
                                     while True:
+                                        task_details = self.get_task_details(taskid)
                                         if site_type != "floor":
                                             if task_details.get("progress") == "Group is updated successfully":
                                                 task_detail_list.append(task_details)
@@ -2162,8 +2162,8 @@ class Site(DnacBase):
                         task_id = response.get("response", {}).get("taskId")
 
                         if task_id:
-                            task_details = self.get_task_details(task_id)
                             while True:
+                                task_details = self.get_task_details(task_id)
                                 if site_type == "area":
                                     if task_details.get("progress") == "Group is deleted successfully":
                                         self.msg = "Area '{0}' deleted successfully.".format(site_name_hierarchy)
