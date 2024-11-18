@@ -44,62 +44,62 @@ options:
   required: true
   suboptions:
    global_pool_details:
-    description: Manages IPv4 and IPv6 IP pools in the global level.
-    type: dict
-    suboptions:
-     settings:
-      description: Global Pool's settings.
-      type: dict
+     description: Manages IPv4 and IPv6 IP pools in the global level.
+     type: dict
      suboptions:
-      ip_pool:
-       description: Contains a list of global IP pool configurations.
-       elements: dict
-       type: list
-       suboptions:
-        name:
-         description:
-            - Specifies the name assigned to the Global IP Pool.
-            - Required for the operations in the Global IP Pool.
-            - Length should be less than or equal to 100.
-            - Only letters, numbers and -_./ characters are allowed.
-         type: str
-        pool_type:
-          description: >
-                Includes both the Generic Ip Pool and Tunnel Ip Pool.
-                Generic - Used for general purpose within the network such as device
-                        management or communication between the network devices.
-                Tunnel - Designated for the tunnel interfaces to encapsulate packets
-                        within the network protocol. It is used in VPN connections,
-                        GRE tunnels, or other types of overlay networks.
-          default: Generic
-          choices: [Generic, Tunnel]
-          type: str
-        ip_address_space:
-           description: IP address space either IPv4 or IPv6.
-           type: str
-        cidr:
-           description: >
-            Defines the IP pool's Classless Inter-Domain Routing block,
-            enabling systematic IP address distribution within a network.
-           type: str
-        gateway:
-           description: Serves as an entry or exit point for data traffic between networks.
-           type: str
-        dhcp_server_ips:
-           description: >
-            The DHCP server IPs responsible for automatically assigning IP addresses
-            and network configuration parameters to devices on a local network.
-           elements: str
-           type: list
-        dns_server_ips:
-           description: Responsible for translating domain names into corresponding IP addresses.
-           elements: str
-           type: list
-        prev_name:
-           description: >
-            The former identifier for the global pool. It should be used
-            exclusively when you need to update the global pool's name.
-           type: str
+          settings:
+            description: Global Pool's settings.
+            type: dict
+            suboptions:
+              ip_pool:
+                description: Contains a list of global IP pool configurations.
+                elements: dict
+                type: list
+                suboptions:
+                  name:
+                    description:
+                     - Specifies the name assigned to the Global IP Pool.
+                     - Required for the operations in the Global IP Pool.
+                     - Length should be less than or equal to 100.
+                     - Only letters, numbers and -_./ characters are allowed.
+                    type: str
+                  pool_type:
+                    description: >
+                      Includes both the Generic Ip Pool and Tunnel Ip Pool.
+                      Generic - Used for general purpose within the network such as device
+                                management or communication between the network devices.
+                      Tunnel - Designated for the tunnel interfaces to encapsulate packets
+                               within the network protocol. It is used in VPN connections,
+                               GRE tunnels, or other types of overlay networks.
+                    default: Generic
+                    choices: [Generic, Tunnel]
+                    type: str
+                  ip_address_space:
+                    description: IP address space either IPv4 or IPv6.
+                    type: str
+                  cidr:
+                    description: >
+                      Defines the IP pool's Classless Inter-Domain Routing block,
+                      enabling systematic IP address distribution within a network.
+                    type: str
+                  gateway:
+                    description: Serves as an entry or exit point for data traffic between networks.
+                    type: str
+                  dhcp_server_ips:
+                    description: >
+                      The DHCP server IPs responsible for automatically assigning IP addresses
+                      and network configuration parameters to devices on a local network.
+                    elements: str
+                    type: list
+                  dns_server_ips:
+                    description: Responsible for translating domain names into corresponding IP addresses.
+                    elements: str
+                    type: list
+                  prev_name:
+                    description: >
+                      The former identifier for the global pool. It should be used
+                      exclusively when you need to update the global pool's name.
+                    type: str
 
    reserve_pool_details:
         description: Reserved IP subpool details from the global pool.
