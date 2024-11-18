@@ -38,15 +38,15 @@ options:
   default: merged
  config:
   description:
-    - List of details of global pool, reserved pool, network being managed.
+   - List of details of global pool, reserved pool, network being managed.
   type: list
   elements: dict
   required: true
   suboptions:
-    global_pool_details:
-      description: Manages IPv4 and IPv6 IP pools in the global level.
-      type: dict
-      suboptions:
+   global_pool_details:
+     description: Manages IPv4 and IPv6 IP pools in the global level.
+     type: dict
+     suboptions:
           settings:
             description: Global Pool's settings.
             type: dict
@@ -101,7 +101,7 @@ options:
                       exclusively when you need to update the global pool's name.
                     type: str
 
-    reserve_pool_details:
+   reserve_pool_details:
         description: Reserved IP subpool details from the global pool.
         type: dict
         suboptions:
@@ -227,7 +227,7 @@ options:
               Allows devices on IPv6 networks to self-configure their
               IP addresses autonomously, eliminating the need for manual setup.
             type: bool
-    network_management_details:
+   network_management_details:
         description: Set default network settings for the site
         type: list
         elements: dict
