@@ -146,5 +146,6 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  This alias returns the output of sda_virtual_network_ip_pool_v1.
+  description:
+    - This alias returns the output of sda_virtual_network_ip_pool_v1.
 """

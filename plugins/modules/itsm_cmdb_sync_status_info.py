@@ -64,5 +64,6 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  This alias returns the output of itsm_cmdb_sync_status_v1_info.
+  description:
+    - This alias returns the output of itsm_cmdb_sync_status_v1_info.
 """

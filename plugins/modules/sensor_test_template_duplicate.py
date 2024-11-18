@@ -55,5 +55,6 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  This alias returns the output of sensor_test_template_duplicate_v1.
+  description:
+    - This alias returns the output of sensor_test_template_duplicate_v1.
 """

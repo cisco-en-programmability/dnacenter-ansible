@@ -82,5 +82,6 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  This alias returns the output of network_device_inventory_insight_link_mismatch_v1_info.
+  description:
+    - This alias returns the output of network_device_inventory_insight_link_mismatch_v1_info.
 """

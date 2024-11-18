@@ -145,5 +145,6 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  This alias returns the output of reserve_ip_subpool_create_v1.
+  description:
+    - This alias returns the output of reserve_ip_subpool_create_v1.
 """

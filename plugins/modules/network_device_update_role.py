@@ -59,5 +59,6 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  This alias returns the output of network_device_update_role_v1.
+  description:
+    - This alias returns the output of network_device_update_role_v1.
 """

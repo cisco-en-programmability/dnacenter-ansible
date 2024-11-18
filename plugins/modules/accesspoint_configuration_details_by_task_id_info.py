@@ -57,5 +57,6 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  This alias returns the output of accesspoint_configuration_details_by_task_id_v1_info.
+  description:
+    - This alias returns the output of accesspoint_configuration_details_by_task_id_v1_info.
 """

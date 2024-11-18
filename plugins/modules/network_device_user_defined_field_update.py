@@ -65,5 +65,6 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  This alias returns the output of network_device_user_defined_field_update_v1.
+  description:
+    - This alias returns the output of network_device_user_defined_field_update_v1.
 """

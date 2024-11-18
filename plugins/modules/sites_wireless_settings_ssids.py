@@ -491,5 +491,6 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  This alias returns the output of sites_wireless_settings_ssids_v1.
+  description:
+    - This alias returns the output of sites_wireless_settings_ssids_v1.
 """

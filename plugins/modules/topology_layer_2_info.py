@@ -57,5 +57,6 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  This alias returns the output of topology_layer_2_v1_info.
+  description:
+    - This alias returns the output of topology_layer_2_v1_info.
 """

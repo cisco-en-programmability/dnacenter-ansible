@@ -61,5 +61,6 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  This alias returns the output of authentication_import_certificate_v1.
+  description:
+    - This alias returns the output of authentication_import_certificate_v1.
 """

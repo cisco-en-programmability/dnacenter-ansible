@@ -62,5 +62,6 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  This alias returns the output of discovery_device_count_v1_info.
+  description:
+    - This alias returns the output of discovery_device_count_v1_info.
 """

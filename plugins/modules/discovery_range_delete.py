@@ -56,5 +56,6 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  This alias returns the output of discovery_range_delete_v1.
+  description:
+    - This alias returns the output of discovery_range_delete_v1.
 """

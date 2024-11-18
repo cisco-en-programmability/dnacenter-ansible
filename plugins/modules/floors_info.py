@@ -62,5 +62,6 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  This alias returns the output of floors_v2_info.
+  description:
+    - This alias returns the output of floors_v2_info.
 """

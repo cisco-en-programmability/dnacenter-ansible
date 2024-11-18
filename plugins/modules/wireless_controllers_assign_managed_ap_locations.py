@@ -66,5 +66,6 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  This alias returns the output of wireless_controllers_assign_managed_ap_locations_v1.
+  description:
+    - This alias returns the output of wireless_controllers_assign_managed_ap_locations_v1.
 """

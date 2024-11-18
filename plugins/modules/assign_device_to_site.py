@@ -66,5 +66,6 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  This alias returns the output of assign_device_to_site_v1.
+  description:
+    - This alias returns the output of assign_device_to_site_v1.
 """

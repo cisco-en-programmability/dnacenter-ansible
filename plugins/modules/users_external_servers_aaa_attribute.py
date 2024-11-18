@@ -66,5 +66,6 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  This alias returns the output of users_external_servers_aaa_attribute_v1.
+  description:
+    - This alias returns the output of users_external_servers_aaa_attribute_v1.
 """

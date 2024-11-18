@@ -57,5 +57,6 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  This alias returns the output of wireless_access_points_factory_reset_request_status_v1_info.
+  description:
+    - This alias returns the output of wireless_access_points_factory_reset_request_status_v1_info.
 """

@@ -86,5 +86,6 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  This alias returns the output of images_site_wise_product_names_count_v1_info.
+  description:
+    - This alias returns the output of images_site_wise_product_names_count_v1_info.
 """

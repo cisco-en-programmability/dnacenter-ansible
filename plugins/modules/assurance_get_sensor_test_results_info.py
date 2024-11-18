@@ -74,5 +74,6 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  This alias returns the output of assurance_get_sensor_test_results_v1_info.
+  description:
+    - This alias returns the output of assurance_get_sensor_test_results_v1_info.
 """

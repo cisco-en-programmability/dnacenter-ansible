@@ -52,5 +52,6 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  This alias returns the output of flexible_report_schedules_v1_info.
+  description:
+    - This alias returns the output of flexible_report_schedules_v1_info.
 """

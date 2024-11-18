@@ -53,5 +53,6 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  This alias returns the output of license_device_deregistration_v1.
+  description:
+    - This alias returns the output of license_device_deregistration_v1.
 """

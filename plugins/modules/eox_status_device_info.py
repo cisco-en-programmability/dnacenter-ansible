@@ -74,5 +74,6 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  This alias returns the output of eox_status_device_v1_info.
+  description:
+    - This alias returns the output of eox_status_device_v1_info.
 """

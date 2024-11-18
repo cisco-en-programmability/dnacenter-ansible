@@ -315,5 +315,6 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  This alias returns the output of wireless_accesspoint_configuration_create_v2.
+  description:
+    - This alias returns the output of wireless_accesspoint_configuration_create_v2.
 """

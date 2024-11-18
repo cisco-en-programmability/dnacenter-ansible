@@ -56,5 +56,6 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  This alias returns the output of network_device_management_address_update_v1.
+  description:
+    - This alias returns the output of network_device_management_address_update_v1.
 """

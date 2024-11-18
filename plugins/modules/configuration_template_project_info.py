@@ -84,5 +84,6 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  This alias returns the output of configuration_template_project_v1_info.
+  description:
+    - This alias returns the output of configuration_template_project_v1_info.
 """

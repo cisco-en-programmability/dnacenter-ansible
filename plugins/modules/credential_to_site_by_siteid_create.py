@@ -75,5 +75,6 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  This alias returns the output of credential_to_site_by_siteid_create_v2.
+  description:
+    - This alias returns the output of credential_to_site_by_siteid_create_v2.
 """

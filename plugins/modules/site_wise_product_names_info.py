@@ -80,5 +80,6 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  This alias returns the output of site_wise_product_names_v1_info.
+  description:
+    - This alias returns the output of site_wise_product_names_v1_info.
 """

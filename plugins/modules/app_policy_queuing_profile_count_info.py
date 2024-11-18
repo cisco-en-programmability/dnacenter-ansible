@@ -52,5 +52,6 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  This alias returns the output of app_policy_queuing_profile_count_v1_info.
+  description:
+    - This alias returns the output of app_policy_queuing_profile_count_v1_info.
 """

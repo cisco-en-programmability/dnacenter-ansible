@@ -142,5 +142,6 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  This alias returns the output of sda_fabric_devices_layer2_handoffs_sda_transits_v1.
+  description:
+    - This alias returns the output of sda_fabric_devices_layer2_handoffs_sda_transits_v1.
 """

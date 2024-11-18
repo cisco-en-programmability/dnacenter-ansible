@@ -122,5 +122,6 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  This alias returns the output of assurance_events_query_v1.
+  description:
+    - This alias returns the output of assurance_events_query_v1.
 """

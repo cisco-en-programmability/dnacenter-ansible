@@ -72,5 +72,6 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  This alias returns the output of sda_multicast_virtual_networks_v1_info.
+  description:
+    - This alias returns the output of sda_multicast_virtual_networks_v1_info.
 """

@@ -87,5 +87,6 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  This alias returns the output of event_syslog_config_v1_info.
+  description:
+    - This alias returns the output of event_syslog_config_v1_info.
 """
