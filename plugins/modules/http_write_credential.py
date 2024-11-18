@@ -113,5 +113,6 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  This alias returns the output of http_write_credential_v1.
+  description:
+    - This alias returns the output of http_write_credential_v1.
 """

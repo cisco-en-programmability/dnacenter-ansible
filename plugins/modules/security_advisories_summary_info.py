@@ -52,5 +52,6 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  This alias returns the output of security_advisories_summary_v1_info.
+  description:
+    - This alias returns the output of security_advisories_summary_v1_info.
 """

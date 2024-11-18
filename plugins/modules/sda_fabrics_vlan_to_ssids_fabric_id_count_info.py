@@ -57,5 +57,6 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  This alias returns the output of sda_fabrics_vlan_to_ssids_fabric_id_count_v1_info.
+  description:
+    - This alias returns the output of sda_fabrics_vlan_to_ssids_fabric_id_count_v1_info.
 """

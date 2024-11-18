@@ -229,5 +229,6 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  This alias returns the output of endpoint_analytics_endpoints_v1_info.
+  description:
+    - This alias returns the output of endpoint_analytics_endpoints_v1_info.
 """

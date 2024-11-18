@@ -101,5 +101,6 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  This alias returns the output of pnp_server_profile_update_v1.
+  description:
+    - This alias returns the output of pnp_server_profile_update_v1.
 """

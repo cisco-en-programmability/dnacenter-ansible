@@ -99,5 +99,6 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  This alias returns the output of network_devices_network_profiles_for_sites_v1_info.
+  description:
+    - This alias returns the output of network_devices_network_profiles_for_sites_v1_info.
 """

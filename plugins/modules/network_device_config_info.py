@@ -74,5 +74,6 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  This alias returns the output of network_device_config_v1_info.
+  description:
+    - This alias returns the output of network_device_config_v1_info.
 """

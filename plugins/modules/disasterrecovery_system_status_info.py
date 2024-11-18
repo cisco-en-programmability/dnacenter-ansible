@@ -48,5 +48,6 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  This alias returns the output of disasterrecovery_system_status_v1_info.
+  description:
+    - This alias returns the output of disasterrecovery_system_status_v1_info.
 """

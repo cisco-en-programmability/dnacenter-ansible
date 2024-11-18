@@ -93,5 +93,6 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  This alias returns the output of sda_port_assignment_for_access_point_v1.
+  description:
+    - This alias returns the output of sda_port_assignment_for_access_point_v1.
 """

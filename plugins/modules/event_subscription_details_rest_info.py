@@ -86,5 +86,6 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  This alias returns the output of event_subscription_details_rest_v1_info.
+  description:
+    - This alias returns the output of event_subscription_details_rest_v1_info.
 """

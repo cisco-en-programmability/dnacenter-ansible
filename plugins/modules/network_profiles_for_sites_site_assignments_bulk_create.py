@@ -56,5 +56,6 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  This alias returns the output of network_profiles_for_sites_site_assignments_bulk_create_v1.
+  description:
+    - This alias returns the output of network_profiles_for_sites_site_assignments_bulk_create_v1.
 """

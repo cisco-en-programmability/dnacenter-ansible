@@ -52,5 +52,6 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  This alias returns the output of network_devices_not_assigned_to_site_count_v1_info.
+  description:
+    - This alias returns the output of network_devices_not_assigned_to_site_count_v1_info.
 """

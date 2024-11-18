@@ -62,5 +62,6 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  This alias returns the output of sda_port_assignment_for_user_device_v1_info.
+  description:
+    - This alias returns the output of sda_port_assignment_for_user_device_v1_info.
 """

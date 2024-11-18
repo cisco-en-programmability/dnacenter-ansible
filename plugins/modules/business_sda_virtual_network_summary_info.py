@@ -57,5 +57,6 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  This alias returns the output of business_sda_virtual_network_summary_v1_info.
+  description:
+    - This alias returns the output of business_sda_virtual_network_summary_v1_info.
 """

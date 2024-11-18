@@ -62,5 +62,6 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  This alias returns the output of sites_time_zone_settings_v1.
+  description:
+    - This alias returns the output of sites_time_zone_settings_v1.
 """

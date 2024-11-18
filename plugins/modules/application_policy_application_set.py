@@ -101,5 +101,6 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  This alias returns the output of application_policy_application_set_v2.
+  description:
+    - This alias returns the output of application_policy_application_set_v2.
 """

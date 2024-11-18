@@ -61,5 +61,6 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  This alias returns the output of wireless_provision_ssid_delete_reprovision_v1.
+  description:
+    - This alias returns the output of wireless_provision_ssid_delete_reprovision_v1.
 """

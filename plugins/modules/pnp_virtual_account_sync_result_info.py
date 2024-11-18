@@ -62,5 +62,6 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  This alias returns the output of pnp_virtual_account_sync_result_v1_info.
+  description:
+    - This alias returns the output of pnp_virtual_account_sync_result_v1_info.
 """

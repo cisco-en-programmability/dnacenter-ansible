@@ -138,5 +138,6 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  This alias returns the output of templates_details_v2_info.
+  description:
+    - This alias returns the output of templates_details_v2_info.
 """

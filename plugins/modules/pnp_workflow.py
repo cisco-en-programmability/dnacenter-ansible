@@ -259,5 +259,6 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  This alias returns the output of pnp_workflow_v1.
+  description:
+    - This alias returns the output of pnp_workflow_v1.
 """

@@ -53,5 +53,6 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  This alias returns the output of network_devices_unassign_from_site_apply_v1.
+  description:
+    - This alias returns the output of network_devices_unassign_from_site_apply_v1.
 """

@@ -160,5 +160,6 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  This alias returns the output of sda_port_channels_v1.
+  description:
+    - This alias returns the output of sda_port_channels_v1.
 """

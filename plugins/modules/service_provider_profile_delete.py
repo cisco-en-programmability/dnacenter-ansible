@@ -51,5 +51,6 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  This alias returns the output of service_provider_profile_delete_v1.
+  description:
+    - This alias returns the output of service_provider_profile_delete_v1.
 """

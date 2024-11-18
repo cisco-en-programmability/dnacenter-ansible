@@ -58,5 +58,6 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  This alias returns the output of endpoint_analytics_profiling_rules_count_v1_info.
+  description:
+    - This alias returns the output of endpoint_analytics_profiling_rules_count_v1_info.
 """

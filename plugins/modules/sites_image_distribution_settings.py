@@ -67,5 +67,6 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  This alias returns the output of sites_image_distribution_settings_v1.
+  description:
+    - This alias returns the output of sites_image_distribution_settings_v1.
 """

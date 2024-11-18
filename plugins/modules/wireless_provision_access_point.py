@@ -83,5 +83,6 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  This alias returns the output of wireless_provision_access_point_v1.
+  description:
+    - This alias returns the output of wireless_provision_access_point_v1.
 """

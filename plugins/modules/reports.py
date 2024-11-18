@@ -175,5 +175,6 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  This alias returns the output of reports_v1.
+  description:
+    - This alias returns the output of reports_v1.
 """
