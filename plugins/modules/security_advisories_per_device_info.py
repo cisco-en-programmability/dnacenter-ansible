@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: security_advisories_per_device_info
-short_description: Information module for Security Advisories Per Device
+short_description: Information module for Security Advisories Per Device Info
 description:
-- Get all Security Advisories Per Device.
-- Retrieves list of advisories for a device.
+- This module represents an alias of the module security_advisories_per_device_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -24,23 +24,24 @@ options:
     - DeviceId path parameter. Device instance UUID.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Security Advisories GetAdvisoriesPerDevice
-  description: Complete reference of the GetAdvisoriesPerDevice API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-advisories-per-device
+- name: Cisco DNA Center documentation for Security Advisories GetAdvisoriesPerDeviceV1
+  description: Complete reference of the GetAdvisoriesPerDeviceV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-advisories-per-device-v-1
 notes:
   - SDK Method used are
-    security_advisories.SecurityAdvisories.get_advisories_per_device,
+    security_advisories.SecurityAdvisories.get_advisories_per_device_v1,
 
   - Paths used are
     get /dna/intent/api/v1/security-advisory/device/{deviceId}/advisory,
+  - It should be noted that this module is an alias of security_advisories_per_device_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Security Advisories Per Device
+- name: Get all Security Advisories Per Device Info
   cisco.dnac.security_advisories_per_device_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -56,25 +57,5 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
-  returned: always
-  type: dict
-  sample: >
-    {
-      "response": {
-        "advisoryId": "string",
-        "deviceCount": 0,
-        "hiddenDeviceCount": 0,
-        "cves": [
-          "string"
-        ],
-        "publicationUrl": "string",
-        "sir": "string",
-        "detectionType": "string",
-        "defaultDetectionType": "string",
-        "defaultConfigMatchPattern": "string",
-        "fixedVersions": {}
-      },
-      "version": "string"
-    }
+  This alias returns the output of security_advisories_per_device_v1_info.
 """

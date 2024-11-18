@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: wireless_provision_device_create
 short_description: Resource module for Wireless Provision Device Create
 description:
-- Manage operation create of the resource Wireless Provision Device Create.
-- Provision wireless devices.
+- This module represents an alias of the module wireless_provision_device_create_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -55,18 +55,19 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Wireless Provision
-  description: Complete reference of the Provision API.
-  link: https://developer.cisco.com/docs/dna-center/#!provision
+- name: Cisco DNA Center documentation for Wireless ProvisionV1
+  description: Complete reference of the ProvisionV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!provision-v-1
 notes:
   - SDK Method used are
-    wireless.Wireless.provision,
+    wireless.Wireless.provision_v1,
 
   - Paths used are
     post /dna/intent/api/v1/wireless/provision,
+  - It should be noted that this module is an alias of wireless_provision_device_create_v1
 
 """
 
@@ -96,13 +97,5 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
-  returned: always
-  type: dict
-  sample: >
-    {
-      "executionId": "string",
-      "executionStatusUrl": "string",
-      "message": "string"
-    }
+  This alias returns the output of wireless_provision_device_create_v1.
 """

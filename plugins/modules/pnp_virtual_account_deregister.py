@@ -4,16 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: pnp_virtual_account_deregister
 short_description: Resource module for Pnp Virtual Account Deregister
 description:
-- Manage operation delete of the resource Pnp Virtual Account Deregister.
-- >
-   Deregisters the specified smart account & virtual account info and the associated device information from the PnP
-   System & database. The devices associated with the deregistered virtual account are removed from the PnP database
-   as well. The response payload contains the deregistered smart & virtual account information.
+- This module represents an alias of the module pnp_virtual_account_deregister_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -26,18 +23,19 @@ options:
     description: Name query parameter. Virtual Account Name.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Device Onboarding (PnP) DeregisterVirtualAccount
-  description: Complete reference of the DeregisterVirtualAccount API.
-  link: https://developer.cisco.com/docs/dna-center/#!deregister-virtual-account
+- name: Cisco DNA Center documentation for Device Onboarding (PnP) DeregisterVirtualAccountV1
+  description: Complete reference of the DeregisterVirtualAccountV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!deregister-virtual-account-v-1
 notes:
   - SDK Method used are
-    device_onboarding_pnp.DeviceOnboardingPnp.deregister_virtual_account,
+    device_onboarding_pnp.DeviceOnboardingPnp.deregister_virtual_account_v1,
 
   - Paths used are
     delete /dna/intent/api/v1/onboarding/pnp-settings/vacct,
+  - It should be noted that this module is an alias of pnp_virtual_account_deregister_v1
 
 """
 
@@ -57,42 +55,5 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
-  returned: always
-  type: dict
-  sample: >
-    {
-      "virtualAccountId": "string",
-      "autoSyncPeriod": 0,
-      "syncResultStr": "string",
-      "profile": {
-        "proxy": true,
-        "makeDefault": true,
-        "port": 0,
-        "profileId": "string",
-        "name": "string",
-        "addressIpV4": "string",
-        "cert": "string",
-        "addressFqdn": "string"
-      },
-      "ccoUser": "string",
-      "syncResult": {
-        "syncList": [
-          {
-            "syncType": "string",
-            "deviceSnList": [
-              "string"
-            ]
-          }
-        ],
-        "syncMsg": "string"
-      },
-      "token": "string",
-      "syncStartTime": 0,
-      "lastSync": 0,
-      "tenantId": "string",
-      "smartAccountId": "string",
-      "expiry": 0,
-      "syncStatus": "string"
-    }
+  This alias returns the output of pnp_virtual_account_deregister_v1.
 """

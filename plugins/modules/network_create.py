@@ -4,15 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: network_create
 short_description: Resource module for Network Create
 description:
-- Manage operation create of the resource Network Create.
-- >
-   API to create a network for DHCP, Syslog, SNMP, NTP, Network AAA, Client and EndPoint AAA, and/or DNS center
-   server settings.
+- This module represents an alias of the module network_create_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -134,18 +132,19 @@ options:
       the network settings.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Network Settings CreateNetwork
-  description: Complete reference of the CreateNetwork API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-network
+- name: Cisco DNA Center documentation for Network Settings CreateNetworkV1
+  description: Complete reference of the CreateNetworkV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!create-network-v-1
 notes:
   - SDK Method used are
-    network_settings.NetworkSettings.create_network,
+    network_settings.NetworkSettings.create_network_v1,
 
   - Paths used are
     post /dna/intent/api/v1/network/{siteId},
+  - It should be noted that this module is an alias of network_create_v1
 
 """
 
@@ -201,13 +200,5 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
-  returned: always
-  type: dict
-  sample: >
-    {
-      "executionId": "string",
-      "executionStatusUrl": "string",
-      "message": "string"
-    }
+  This alias returns the output of network_create_v1.
 """

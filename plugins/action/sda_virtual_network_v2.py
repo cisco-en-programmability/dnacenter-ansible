@@ -23,6 +23,7 @@ from ansible_collections.cisco.dnac.plugins.plugin_utils.dnac import (
     get_dict_result,
 )
 from ansible_collections.cisco.dnac.plugins.plugin_utils.exceptions import (
+    InconsistentParameters,
     AnsibleSDAException,
 )
 
@@ -88,7 +89,7 @@ class SdaVirtualNetworkV2(object):
         try:
             items = self.dnac.exec(
                 family="sda",
-                function="get_virtual_network_with_scalable_groups",
+                function="get_virtual_network_with_scalable_groups_v1",
                 params=self.get_all_params(name=name),
             )
             if isinstance(items, dict):
@@ -136,7 +137,7 @@ class SdaVirtualNetworkV2(object):
     def create(self):
         result = self.dnac.exec(
             family="sda",
-            function="add_virtual_network_with_scalable_groups",
+            function="add_virtual_network_with_scalable_groups_v1",
             params=self.create_params(),
             op_modifies=True,
         )
@@ -153,7 +154,7 @@ class SdaVirtualNetworkV2(object):
         result = None
         result = self.dnac.exec(
             family="sda",
-            function="update_virtual_network_with_scalable_groups",
+            function="update_virtual_network_with_scalable_groups_v1",
             params=self.update_all_params(),
             op_modifies=True,
         )
@@ -165,7 +166,7 @@ class SdaVirtualNetworkV2(object):
         result = None
         result = self.dnac.exec(
             family="sda",
-            function="delete_virtual_network_with_scalable_groups",
+            function="delete_virtual_network_with_scalable_groups_v1",
             params=self.delete_all_params(),
         )
         return result

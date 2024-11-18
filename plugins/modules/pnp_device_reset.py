@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: pnp_device_reset
 short_description: Resource module for Pnp Device Reset
 description:
-- Manage operation create of the resource Pnp Device Reset.
-- Recovers a device from a Workflow Execution Error state.
+- This module represents an alias of the module pnp_device_reset_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -59,18 +59,19 @@ options:
     description: Pnp Device Reset's workflowId.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Device Onboarding (PnP) ResetDevice
-  description: Complete reference of the ResetDevice API.
-  link: https://developer.cisco.com/docs/dna-center/#!reset-device
+- name: Cisco DNA Center documentation for Device Onboarding (PnP) ResetDeviceV1
+  description: Complete reference of the ResetDeviceV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!reset-device-v-1
 notes:
   - SDK Method used are
-    device_onboarding_pnp.DeviceOnboardingPnp.reset_device,
+    device_onboarding_pnp.DeviceOnboardingPnp.reset_device_v1,
 
   - Paths used are
     post /dna/intent/api/v1/onboarding/pnp-device/reset,
+  - It should be noted that this module is an alias of pnp_device_reset_v1
 
 """
 
@@ -100,16 +101,5 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
-  returned: always
-  type: dict
-  sample: >
-    {
-      "jsonArrayResponse": [
-        {}
-      ],
-      "jsonResponse": {},
-      "message": "string",
-      "statusCode": 0
-    }
+  This alias returns the output of pnp_device_reset_v1.
 """

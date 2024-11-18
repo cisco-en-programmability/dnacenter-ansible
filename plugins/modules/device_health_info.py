@@ -4,15 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: device_health_info
-short_description: Information module for Device Health
+short_description: Information module for Device Health Info
 description:
-- Get all Device Health.
-- >
-   Intent API for accessing DNA Assurance Device object for generating reports, creating dashboards or creating
-   additional value added services.
+- This module represents an alias of the module device_health_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -50,23 +48,24 @@ options:
     - Offset query parameter. The offset of the first device in the returned data (Mutiple of 'limit' + 1).
     type: float
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Devices Devices
-  description: Complete reference of the Devices API.
-  link: https://developer.cisco.com/docs/dna-center/#!api-devices-devices
+- name: Cisco DNA Center documentation for Devices DevicesV1
+  description: Complete reference of the DevicesV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!devices-v-1
 notes:
   - SDK Method used are
-    devices.Devices.devices,
+    devices.Devices.devices_v1,
 
   - Paths used are
     get /dna/intent/api/v1/device-health,
+  - It should be noted that this module is an alias of device_health_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Device Health
+- name: Get all Device Health Info
   cisco.dnac.device_health_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -88,94 +87,5 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
-  returned: always
-  type: dict
-  sample: >
-    {
-      "version": "string",
-      "totalCount": 0,
-      "response": [
-        {
-          "deviceType": "string",
-          "cpuUtilization": 0,
-          "overallHealth": 0,
-          "utilizationHealth": {
-            "radio0": 0,
-            "radio1": 0,
-            "radio2": 0,
-            "radio3": 0,
-            "Ghz24": 0,
-            "Ghz50": 0
-          },
-          "airQualityHealth": {
-            "radio0": 0,
-            "radio1": 0,
-            "radio2": 0,
-            "radio3": 0,
-            "Ghz24": 0,
-            "Ghz50": 0
-          },
-          "ipAddress": "string",
-          "cpuHealth": 0,
-          "deviceFamily": "string",
-          "issueCount": 0,
-          "macAddress": "string",
-          "noiseHealth": {
-            "radio0": 0,
-            "radio1": 0,
-            "radio2": 0,
-            "radio3": 0,
-            "Ghz24": 0,
-            "Ghz50": 0
-          },
-          "osVersion": "string",
-          "name": "string",
-          "interfaceLinkErrHealth": 0,
-          "memoryUtilization": 0,
-          "interDeviceLinkAvailHealth": 0,
-          "interferenceHealth": {
-            "radio0": 0,
-            "radio1": 0,
-            "radio2": 0,
-            "radio3": 0,
-            "Ghz24": 0,
-            "Ghz50": 0
-          },
-          "model": "string",
-          "location": "string",
-          "reachabilityHealth": "string",
-          "band": {
-            "radio0": "string",
-            "radio1": "string",
-            "radio2": "string",
-            "radio3": 0
-          },
-          "memoryUtilizationHealth": 0,
-          "clientCount": {
-            "radio0": 0,
-            "radio1": 0,
-            "radio2": 0,
-            "radio3": 0,
-            "Ghz24": 0,
-            "Ghz50": 0
-          },
-          "avgTemperature": 0,
-          "maxTemperature": 0,
-          "interDeviceLinkAvailFabric": 0,
-          "apCount": 0,
-          "freeTimerScore": 0,
-          "freeTimer": 0,
-          "packetPoolHealth": 0,
-          "packetPool": 0,
-          "freeMemoryBufferHealth": 0,
-          "freeMemoryBuffer": 0,
-          "wqePoolsHealth": 0,
-          "wqePools": 0,
-          "wanLinkUtilization": 0,
-          "cpuUlitilization": 0,
-          "uuid": "string"
-        }
-      ]
-    }
+  This alias returns the output of device_health_v1_info.
 """

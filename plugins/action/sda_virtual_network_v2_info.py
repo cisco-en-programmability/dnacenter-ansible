@@ -81,7 +81,7 @@ class ActionModule(ActionBase):
 
         response = dnac.exec(
             family="sda",
-            function='get_virtual_network_with_scalable_groups',
+            function='get_virtual_network_with_scalable_groups_v1',
             params=self.get_object(self._task.args),
         )
         self._result.update(dict(dnac_response=response))

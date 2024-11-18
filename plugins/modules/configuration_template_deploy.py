@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: configuration_template_deploy
 short_description: Resource module for Configuration Template Deploy
 description:
-- Manage operation create of the resource Configuration Template Deploy.
-- API to deploy a template.
+- This module represents an alias of the module configuration_template_deploy_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -27,7 +27,7 @@ options:
     type: str
   memberTemplateDeploymentInfo:
     description: MemberTemplateDeploymentInfo.
-    elements: dict
+    elements: str
     type: list
   targetInfo:
     description: Configuration Template Deploy's targetInfo.
@@ -45,7 +45,7 @@ options:
       resourceParams:
         description: Resource params to be provisioned. Refer to features page for usage
           details.
-        elements: dict
+        elements: str
         type: list
       type:
         description: Target type of device.
@@ -58,18 +58,19 @@ options:
     description: UUID of template to be provisioned.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Configuration Templates DeployTemplate
-  description: Complete reference of the DeployTemplate API.
-  link: https://developer.cisco.com/docs/dna-center/#!deploy-template
+- name: Cisco DNA Center documentation for Configuration Templates DeployTemplateV1
+  description: Complete reference of the DeployTemplateV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!deploy-template-v-1
 notes:
   - SDK Method used are
-    configuration_templates.ConfigurationTemplates.deploy_template,
+    configuration_templates.ConfigurationTemplates.deploy_template_v1,
 
   - Paths used are
     post /dna/intent/api/v1/template-programmer/template/deploy,
+  - It should be noted that this module is an alias of configuration_template_deploy_v1
 
 """
 
@@ -87,13 +88,13 @@ EXAMPLES = r"""
     isComposite: true
     mainTemplateId: string
     memberTemplateDeploymentInfo:
-    - {}
+    - string
     targetInfo:
     - hostName: string
       id: string
       params: {}
       resourceParams:
-      - {}
+      - string
       type: string
       versionedTemplateId: string
     templateId: string
@@ -101,34 +102,5 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
-  returned: always
-  type: dict
-  sample: >
-    {
-      "deploymentId": "string",
-      "deploymentName": "string",
-      "devices": [
-        {
-          "detailedStatusMessage": "string",
-          "deviceId": "string",
-          "duration": "string",
-          "endTime": "string",
-          "identifier": "string",
-          "ipAddress": "string",
-          "name": "string",
-          "startTime": "string",
-          "status": "string",
-          "targetType": "string"
-        }
-      ],
-      "duration": "string",
-      "endTime": "string",
-      "projectName": "string",
-      "startTime": "string",
-      "status": "string",
-      "statusMessage": "string",
-      "templateName": "string",
-      "templateVersion": "string"
-    }
+  This alias returns the output of configuration_template_deploy_v1.
 """

@@ -83,7 +83,7 @@ class ApplicationsV2(object):
         try:
             items = self.dnac.exec(
                 family="application_policy",
-                function="get_applications",
+                function="get_applications_v2",
                 params=self.get_all_params(name=name),
             )
             if isinstance(items, dict):
@@ -100,7 +100,7 @@ class ApplicationsV2(object):
         try:
             items = self.dnac.exec(
                 family="application_policy",
-                function="get_applications",
+                function="get_applications_v2",
                 params=self.get_all_params(id=id),
             )
             if isinstance(items, dict):
@@ -166,7 +166,7 @@ class ApplicationsV2(object):
     def create(self):
         result = self.dnac.exec(
             family="application_policy",
-            function="create_applications",
+            function="create_applications_v2",
             params=self.create_params(),
             op_modifies=True,
         )
@@ -181,7 +181,7 @@ class ApplicationsV2(object):
         result = None
         result = self.dnac.exec(
             family="application_policy",
-            function="edit_applications",
+            function="edit_applications_v2",
             params=self.update_all_params(),
             op_modifies=True,
         )
@@ -203,7 +203,7 @@ class ApplicationsV2(object):
                 self.new_object.update(dict(id=id_))
         result = self.dnac.exec(
             family="application_policy",
-            function="delete_application",
+            function="delete_application_v2",
             params=self.delete_by_id_params(),
         )
         return result

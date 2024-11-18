@@ -4,14 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: device_replacement
 short_description: Resource module for Device Replacement
 description:
-- Manage operations create and update of the resource Device Replacement.
-- Marks device for replacement.
-- UnMarks device for replacement.
+- This module represents an alias of the module device_replacement_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -66,23 +65,24 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Device Replacement MarkDeviceForReplacement
-  description: Complete reference of the MarkDeviceForReplacement API.
-  link: https://developer.cisco.com/docs/dna-center/#!mark-device-for-replacement
-- name: Cisco DNA Center documentation for Device Replacement UnMarkDeviceForReplacement
-  description: Complete reference of the UnMarkDeviceForReplacement API.
-  link: https://developer.cisco.com/docs/dna-center/#!un-mark-device-for-replacement
+- name: Cisco DNA Center documentation for Device Replacement MarkDeviceForReplacementV1
+  description: Complete reference of the MarkDeviceForReplacementV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!mark-device-for-replacement-v-1
+- name: Cisco DNA Center documentation for Device Replacement UnMarkDeviceForReplacementV1
+  description: Complete reference of the UnMarkDeviceForReplacementV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!un-mark-device-for-replacement-v-1
 notes:
   - SDK Method used are
-    device_replacement.DeviceReplacement.mark_device_for_replacement,
-    device_replacement.DeviceReplacement.unmark_device_for_replacement,
+    device_replacement.DeviceReplacement.mark_device_for_replacement_v1,
+    device_replacement.DeviceReplacement.unmark_device_for_replacement_v1,
 
   - Paths used are
     post /dna/intent/api/v1/device-replacement,
     put /dna/intent/api/v1/device-replacement,
+  - It should be noted that this module is an alias of device_replacement_v1
 
 """
 
@@ -96,7 +96,6 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    state: present
     payload:
     - creationTime: 0
       family: string
@@ -122,7 +121,6 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    state: present
     payload:
     - creationTime: 0
       family: string
@@ -142,15 +140,5 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
-  returned: always
-  type: dict
-  sample: >
-    {
-      "response": {
-        "taskId": "string",
-        "url": "string"
-      },
-      "version": "string"
-    }
+  This alias returns the output of device_replacement_v1.
 """

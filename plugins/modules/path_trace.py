@@ -4,16 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: path_trace
 short_description: Resource module for Path Trace
 description:
-- Manage operations create and delete of the resource Path Trace.
-- >
-   Initiates a new flow analysis with periodic refresh and stat collection options. Returns a request id and a task
-   id to get results and follow progress.
-- Deletes a flow analysis request by its id.
+- This module represents an alias of the module path_trace_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -49,23 +46,24 @@ options:
     description: Source Port, range 1-65535.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Path Trace InitiateANewPathtrace
-  description: Complete reference of the InitiateANewPathtrace API.
-  link: https://developer.cisco.com/docs/dna-center/#!initiate-a-new-pathtrace
-- name: Cisco DNA Center documentation for Path Trace DeletesPathtraceById
-  description: Complete reference of the DeletesPathtraceById API.
-  link: https://developer.cisco.com/docs/dna-center/#!deletes-pathtrace-by-id
+- name: Cisco DNA Center documentation for Path Trace InitiateANewPathtraceV1
+  description: Complete reference of the InitiateANewPathtraceV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!initiate-a-new-pathtrace-v-1
+- name: Cisco DNA Center documentation for Path Trace DeletesPathtraceByIdV1
+  description: Complete reference of the DeletesPathtraceByIdV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!deletes-pathtrace-by-id-v-1
 notes:
   - SDK Method used are
-    path_trace.PathTrace.deletes_pathtrace_by_id,
-    path_trace.PathTrace.initiate_a_new_pathtrace,
+    path_trace.PathTrace.deletes_pathtrace_by_id_v1,
+    path_trace.PathTrace.initiate_a_new_pathtrace_v1,
 
   - Paths used are
     post /dna/intent/api/v1/flow-analysis,
     delete /dna/intent/api/v1/flow-analysis/{flowAnalysisId},
+  - It should be noted that this module is an alias of path_trace_v1
 
 """
 
@@ -79,7 +77,6 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    state: present
     controlPath: true
     destIP: string
     destPort: string
@@ -99,22 +96,10 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    state: absent
     flowAnalysisId: string
 
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
-  returned: always
-  type: dict
-  sample: >
-    {
-      "response": {
-        "flowAnalysisId": "string",
-        "taskId": "string",
-        "url": "string"
-      },
-      "version": "string"
-    }
+  This alias returns the output of path_trace_v1.
 """

@@ -4,15 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: issues_enrichment_details_info
-short_description: Information module for Issues Enrichment Details
+short_description: Information module for Issues Enrichment Details Info
 description:
-- Get all Issues Enrichment Details.
-- >
-   Enriches a given network issue context an issue id or end user's Mac Address with details about the issues,
-   impacted hosts and suggested actions for remediation.
+- This module represents an alias of the module issues_enrichment_details_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -22,23 +20,24 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Issues GetIssueEnrichmentDetails
-  description: Complete reference of the GetIssueEnrichmentDetails API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-issue-enrichment-details
+- name: Cisco DNA Center documentation for Issues GetIssueEnrichmentDetailsV1
+  description: Complete reference of the GetIssueEnrichmentDetailsV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-issue-enrichment-details-v-1
 notes:
   - SDK Method used are
-    issues.Issues.get_issue_enrichment_details,
+    issues.Issues.get_issue_enrichment_details_v1,
 
   - Paths used are
     get /dna/intent/api/v1/issue-enrichment-details,
+  - It should be noted that this module is an alias of issues_enrichment_details_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Issues Enrichment Details
+- name: Get all Issues Enrichment Details Info
   cisco.dnac.issues_enrichment_details_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -53,36 +52,5 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
-  returned: always
-  type: dict
-  sample: >
-    {
-      "issue": [
-        {
-          "issueId": "string",
-          "issueSource": "string",
-          "issueCategory": "string",
-          "issueName": "string",
-          "issueDescription": "string",
-          "issueEntity": "string",
-          "issueEntityValue": "string",
-          "issueSeverity": "string",
-          "issuePriority": "string",
-          "issueSummary": "string",
-          "issueTimestamp": 0,
-          "suggestedActions": [
-            {
-              "message": "string",
-              "steps": [
-                {}
-              ]
-            }
-          ],
-          "impactedHosts": [
-            {}
-          ]
-        }
-      ]
-    }
+  This alias returns the output of issues_enrichment_details_v1_info.
 """

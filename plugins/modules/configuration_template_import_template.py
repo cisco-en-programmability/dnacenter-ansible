@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: configuration_template_import_template
 short_description: Resource module for Configuration Template Import Template
 description:
-- Manage operation create of the resource Configuration Template Import Template.
-- Imports the templates provided in the DTO by project Name.
+- This module represents an alias of the module configuration_template_import_template_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -523,18 +523,19 @@ options:
       project.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Configuration Templates ImportsTheTemplatesProvided
-  description: Complete reference of the ImportsTheTemplatesProvided API.
-  link: https://developer.cisco.com/docs/dna-center/#!imports-the-templates-provided
+- name: Cisco DNA Center documentation for Configuration Templates ImportsTheTemplatesProvidedV1
+  description: Complete reference of the ImportsTheTemplatesProvidedV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!imports-the-templates-provided-v-1
 notes:
   - SDK Method used are
-    configuration_templates.ConfigurationTemplates.imports_the_templates_provided,
+    configuration_templates.ConfigurationTemplates.imports_the_templates_provided_v1,
 
   - Paths used are
     post /dna/intent/api/v1/template-programmer/project/name/{projectName}/template/importtemplates,
+  - It should be noted that this module is an alias of configuration_template_import_template_v1
 
 """
 
@@ -711,15 +712,5 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
-  returned: always
-  type: dict
-  sample: >
-    {
-      "response": {
-        "taskId": "string",
-        "url": "string"
-      },
-      "version": "string"
-    }
+  This alias returns the output of configuration_template_import_template_v1.
 """

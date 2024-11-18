@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: task_count_info
-short_description: Information module for Task Count
+short_description: Information module for Task Count Info
 description:
-- Get all Task Count.
-- Returns Task count.
+- This module represents an alias of the module task_count_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -60,23 +60,24 @@ options:
     - ParentId query parameter. Fetch tasks that have this parent Id.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Task GetTaskCount
-  description: Complete reference of the GetTaskCount API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-task-count
+- name: Cisco DNA Center documentation for Task GetTaskCountV1
+  description: Complete reference of the GetTaskCountV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-task-count-v-1
 notes:
   - SDK Method used are
-    task.Task.get_task_count,
+    task.Task.get_task_count_v1,
 
   - Paths used are
     get /dna/intent/api/v1/task/count,
+  - It should be noted that this module is an alias of task_count_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Task Count
+- name: Get all Task Count Info
   cisco.dnac.task_count_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -101,12 +102,5 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
-  returned: always
-  type: dict
-  sample: >
-    {
-      "response": 0,
-      "version": "string"
-    }
+  This alias returns the output of task_count_v1_info.
 """

@@ -4,15 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: configuration_template_project_info
-short_description: Information module for Configuration Template Project
+short_description: Information module for Configuration Template Project Info
 description:
-- Get all Configuration Template Project.
-- Get Configuration Template Project by id.
-- Get the details of the given project by its id.
-- List the projects.
+- This module represents an alias of the module configuration_template_project_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -34,15 +32,15 @@ options:
     - ProjectId path parameter. ProjectId(UUID) of project to get project details.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Configuration Templates GetsAListOfProjects
-  description: Complete reference of the GetsAListOfProjects API.
-  link: https://developer.cisco.com/docs/dna-center/#!gets-a-list-of-projects
-- name: Cisco DNA Center documentation for Configuration Templates GetsTheDetailsOfAGivenProject
-  description: Complete reference of the GetsTheDetailsOfAGivenProject API.
-  link: https://developer.cisco.com/docs/dna-center/#!gets-the-details-of-a-given-project
+- name: Cisco DNA Center documentation for Configuration Templates GetsAListOfProjectsV1
+  description: Complete reference of the GetsAListOfProjectsV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!gets-a-list-of-projects-v-1
+- name: Cisco DNA Center documentation for Configuration Templates GetsTheDetailsOfAGivenProjectV1
+  description: Complete reference of the GetsTheDetailsOfAGivenProjectV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!gets-the-details-of-a-given-project-v-1
 notes:
   - SDK Method used are
     configuration_templates.ConfigurationTemplates.get_project_details,
@@ -51,11 +49,12 @@ notes:
   - Paths used are
     get /dna/intent/api/v1/template-programmer/project,
     get /dna/intent/api/v1/template-programmer/project/{projectId},
+  - It should be noted that this module is an alias of configuration_template_project_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Configuration Template Project
+- name: Get all Configuration Template Project Info
   cisco.dnac.configuration_template_project_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -69,7 +68,7 @@ EXAMPLES = r"""
     sortOrder: string
   register: result
 
-- name: Get Configuration Template Project by id
+- name: Get Configuration Template Project Info by id
   cisco.dnac.configuration_template_project_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -85,22 +84,5 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
-  returned: always
-  type: dict
-  sample: >
-    {
-      "tags": [
-        {
-          "id": "string",
-          "name": "string"
-        }
-      ],
-      "createTime": 0,
-      "description": "string",
-      "id": "string",
-      "lastUpdateTime": 0,
-      "name": "string",
-      "templates": {}
-    }
+  This alias returns the output of configuration_template_project_v1_info.
 """

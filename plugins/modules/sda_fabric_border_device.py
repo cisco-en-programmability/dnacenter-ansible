@@ -4,14 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: sda_fabric_border_device
 short_description: Resource module for Sda Fabric Border Device
 description:
-- Manage operations create and delete of the resource Sda Fabric Border Device.
-- Add border device in SDA Fabric.
-- Delete border device from SDA Fabric.
+- This module represents an alias of the module sda_fabric_border_device_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -125,15 +124,15 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for SDA AddBorderDeviceInSDAFabric
-  description: Complete reference of the AddBorderDeviceInSDAFabric API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-border-device-in-sda-fabric
-- name: Cisco DNA Center documentation for SDA DeleteBorderDeviceFromSDAFabric
-  description: Complete reference of the DeleteBorderDeviceFromSDAFabric API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-border-device-from-sda-fabric
+- name: Cisco DNA Center documentation for SDA AddBorderDeviceInSDAFabricV1
+  description: Complete reference of the AddBorderDeviceInSDAFabricV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!add-border-device-in-sda-fabric-v-1
+- name: Cisco DNA Center documentation for SDA DeleteBorderDeviceFromSDAFabricV1
+  description: Complete reference of the DeleteBorderDeviceFromSDAFabricV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!delete-border-device-from-sda-fabric-v-1
 notes:
   - SDK Method used are
     sda.Sda.adds_border_device,
@@ -142,6 +141,7 @@ notes:
   - Paths used are
     post /dna/intent/api/v1/business/sda/border-device,
     delete /dna/intent/api/v1/business/sda/border-device,
+  - It should be noted that this module is an alias of sda_fabric_border_device_v1
 
 """
 
@@ -155,7 +155,6 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    state: present
     payload:
     - borderPriority: string
       borderSessionType: string
@@ -191,22 +190,10 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    state: absent
     deviceManagementIpAddress: string
 
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
-  returned: always
-  type: dict
-  sample: >
-    {
-      "status": "string",
-      "description": "string",
-      "taskId": "string",
-      "taskStatusUrl": "string",
-      "executionStatusUrl": "string",
-      "executionId": "string"
-    }
+  This alias returns the output of sda_fabric_border_device_v1.
 """

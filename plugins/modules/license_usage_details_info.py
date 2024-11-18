@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: license_usage_details_info
-short_description: Information module for License Usage Details
+short_description: Information module for License Usage Details Info
 description:
-- Get License Usage Details by name.
-- Get count of purchased and in use Cisco DNA and Network licenses.
+- This module represents an alias of the module license_usage_details_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -34,23 +34,24 @@ options:
     - Device_type query parameter. Type of device like router, switch, wireless or ise.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Licenses LicenseUsageDetails
-  description: Complete reference of the LicenseUsageDetails API.
-  link: https://developer.cisco.com/docs/dna-center/#!license-usage-details
+- name: Cisco DNA Center documentation for Licenses LicenseUsageDetailsV1
+  description: Complete reference of the LicenseUsageDetailsV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!license-usage-details-v-1
 notes:
   - SDK Method used are
-    licenses.Licenses.license_usage_details,
+    licenses.Licenses.license_usage_details_v1,
 
   - Paths used are
     get /dna/intent/api/v1/licenses/usage/smartAccount/{smart_account_id}/virtualAccount/{virtual_account_name},
+  - It should be noted that this module is an alias of license_usage_details_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get License Usage Details by name
+- name: Get License Usage Details Info by name
   cisco.dnac.license_usage_details_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -68,64 +69,5 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
-  returned: always
-  type: dict
-  sample: >
-    {
-      "purchased_dna_license": {
-        "total_license_count": 0,
-        "license_count_by_type": [
-          {
-            "license_type": "string",
-            "license_count": 0
-          }
-        ]
-      },
-      "purchased_network_license": {
-        "total_license_count": 0,
-        "license_count_by_type": [
-          {
-            "license_type": "string",
-            "license_count": 0
-          }
-        ]
-      },
-      "used_dna_license": {
-        "total_license_count": 0,
-        "license_count_by_type": [
-          {
-            "license_type": "string",
-            "license_count": 0
-          }
-        ]
-      },
-      "used_network_license": {
-        "total_license_count": 0,
-        "license_count_by_type": [
-          {
-            "license_type": "string",
-            "license_count": 0
-          }
-        ]
-      },
-      "purchased_ise_license": {
-        "total_license_count": 0,
-        "license_count_by_type": [
-          {
-            "license_type": "string",
-            "license_count": 0
-          }
-        ]
-      },
-      "used_ise_license": {
-        "total_license_count": 0,
-        "license_count_by_type": [
-          {
-            "license_type": "string",
-            "license_count": 0
-          }
-        ]
-      }
-    }
+  This alias returns the output of license_usage_details_v1_info.
 """

@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: event_subscription_syslog_info
-short_description: Information module for Event Subscription Syslog
+short_description: Information module for Event Subscription Syslog Info
 description:
-- Get all Event Subscription Syslog.
-- Gets the list of Syslog Subscriptions's based on provided offset and limit.
+- This module represents an alias of the module event_subscription_syslog_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -60,23 +60,24 @@ options:
     - Name query parameter. List of subscriptions related to the respective name.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Event Management GetSyslogEventSubscriptions
-  description: Complete reference of the GetSyslogEventSubscriptions API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-syslog-event-subscriptions
+- name: Cisco DNA Center documentation for Event Management GetSyslogEventSubscriptionsV1
+  description: Complete reference of the GetSyslogEventSubscriptionsV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-syslog-event-subscriptions-v-1
 notes:
   - SDK Method used are
-    event_management.EventManagement.get_syslog_event_subscriptions,
+    event_management.EventManagement.get_syslog_event_subscriptions_v1,
 
   - Paths used are
     get /dna/intent/api/v1/event/subscription/syslog,
+  - It should be noted that this module is an alias of event_subscription_syslog_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Event Subscription Syslog
+- name: Get all Event Subscription Syslog Info
   cisco.dnac.event_subscription_syslog_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -101,71 +102,5 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
-  returned: always
-  type: list
-  elements: dict
-  sample: >
-    [
-      {
-        "version": "string",
-        "subscriptionId": "string",
-        "name": "string",
-        "description": "string",
-        "subscriptionEndpoints": [
-          {
-            "instanceId": "string",
-            "subscriptionDetails": {
-              "connectorType": "string",
-              "instanceId": "string",
-              "name": "string",
-              "description": "string",
-              "syslogConfig": {
-                "version": "string",
-                "tenantId": "string",
-                "configId": "string",
-                "name": "string",
-                "description": "string",
-                "host": "string",
-                "port": 0
-              }
-            },
-            "connectorType": "string"
-          }
-        ],
-        "filter": {
-          "eventIds": [
-            "string"
-          ],
-          "others": [
-            "string"
-          ],
-          "domainsSubdomains": [
-            {
-              "domain": "string",
-              "subDomains": [
-                "string"
-              ]
-            }
-          ],
-          "types": [
-            "string"
-          ],
-          "categories": [
-            "string"
-          ],
-          "severities": [
-            {}
-          ],
-          "sources": [
-            "string"
-          ],
-          "siteIds": [
-            "string"
-          ]
-        },
-        "isPrivate": true,
-        "tenantId": "string"
-      }
-    ]
+  This alias returns the output of event_subscription_syslog_v1_info.
 """

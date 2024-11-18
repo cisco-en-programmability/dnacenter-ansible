@@ -4,15 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: wireless_enterprise_ssid
 short_description: Resource module for Wireless Enterprise Ssid
 description:
-- Manage operations create, update and delete of the resource Wireless Enterprise Ssid.
-- Creates enterprise SSID.
-- Deletes given enterprise SSID.
-- Update enterprise SSID.
+- This module represents an alias of the module wireless_enterprise_ssid_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -27,12 +25,10 @@ options:
     elements: str
     type: list
   basicServiceSetClientIdleTimeout:
-    description: Basic Service Set Client Idle Timeout (Default 300 if enableBasicServiceSetMaxIdle
-      is true, 0 otherwise).
+    description: Basic Service Set Client Idle Timeout.
     type: int
   clientExclusionTimeout:
-    description: Client Exclusion Timeout(Default 180 if enableClientExclusion is true,
-      0 otherwise).
+    description: Client Exclusion Timeout.
     type: int
   clientRateLimit:
     description: Client Rate Limit (in bits per second).
@@ -41,13 +37,13 @@ options:
     description: Coverage Hole Detection Enable.
     type: bool
   enableBasicServiceSetMaxIdle:
-    description: Enable Basic Service Set Max Idle (Default true).
+    description: Enable Basic Service Set Max Idle.
     type: bool
   enableBroadcastSSID:
     description: Enable Broadcase SSID.
     type: bool
   enableClientExclusion:
-    description: Enable Client Exclusion(Default true).
+    description: Enable Client Exclusion.
     type: bool
   enableDirectedMulticastService:
     description: Enable Directed Multicast Service.
@@ -62,7 +58,7 @@ options:
     description: Enable Neighbor List.
     type: bool
   enableSessionTimeOut:
-    description: Enable Session Timeout(Default true).
+    description: Enable Session Timeout.
     type: bool
   fastTransition:
     description: Fast Transition.
@@ -127,7 +123,7 @@ options:
     description: Security Level.
     type: str
   sessionTimeOut:
-    description: Session Time Out (Default 1800 if enableSessionTimeOut is true, 0 otherwise).
+    description: Session Time Out.
     type: int
   ssidName:
     description: SsidName path parameter. Enter the SSID name to be deleted.
@@ -136,28 +132,29 @@ options:
     description: Traffic Type Enum (voicedata or data ).
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Wireless CreateEnterpriseSSID
-  description: Complete reference of the CreateEnterpriseSSID API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-enterprise-ssid
-- name: Cisco DNA Center documentation for Wireless DeleteEnterpriseSSID
-  description: Complete reference of the DeleteEnterpriseSSID API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-enterprise-ssid
-- name: Cisco DNA Center documentation for Wireless UpdateEnterpriseSSID
-  description: Complete reference of the UpdateEnterpriseSSID API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-enterprise-ssid
+- name: Cisco DNA Center documentation for Wireless CreateEnterpriseSSIDV1
+  description: Complete reference of the CreateEnterpriseSSIDV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!create-enterprise-ssid-v-1
+- name: Cisco DNA Center documentation for Wireless DeleteEnterpriseSSIDV1
+  description: Complete reference of the DeleteEnterpriseSSIDV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!delete-enterprise-ssid-v-1
+- name: Cisco DNA Center documentation for Wireless UpdateEnterpriseSSIDV1
+  description: Complete reference of the UpdateEnterpriseSSIDV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!update-enterprise-ssid-v-1
 notes:
   - SDK Method used are
-    wireless.Wireless.create_enterprise_ssid,
-    wireless.Wireless.delete_enterprise_ssid,
-    wireless.Wireless.update_enterprise_ssid,
+    wireless.Wireless.create_enterprise_ssid_v1,
+    wireless.Wireless.delete_enterprise_ssid_v1,
+    wireless.Wireless.update_enterprise_ssid_v1,
 
   - Paths used are
     post /dna/intent/api/v1/enterprise-ssid,
     delete /dna/intent/api/v1/enterprise-ssid/{ssidName},
     put /dna/intent/api/v1/enterprise-ssid,
+  - It should be noted that this module is an alias of wireless_enterprise_ssid_v1
 
 """
 
@@ -273,13 +270,5 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
-  returned: always
-  type: dict
-  sample: >
-    {
-      "executionId": "string",
-      "executionStatusUrl": "string",
-      "message": "string"
-    }
+  This alias returns the output of wireless_enterprise_ssid_v1.
 """

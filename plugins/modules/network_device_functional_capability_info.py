@@ -4,15 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: network_device_functional_capability_info
-short_description: Information module for Network Device Functional Capability
+short_description: Information module for Network Device Functional Capability Info
 description:
-- Get all Network Device Functional Capability.
-- Get Network Device Functional Capability by id.
-- Returns functional capability with given Id.
-- Returns the functional-capability for given devices.
+- This module represents an alias of the module network_device_functional_capability_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -29,36 +27,37 @@ options:
     type: str
   functionName:
     description:
-    - FunctionName query parameter.
-    elements: str
+    - FunctionName query parameter. 
+    elements: dict
     type: list
   id:
     description:
     - Id path parameter. Functional Capability UUID.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Devices GetFunctionalCapabilityById
-  description: Complete reference of the GetFunctionalCapabilityById API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-functional-capability-by-id
-- name: Cisco DNA Center documentation for Devices GetFunctionalCapabilityForDevices
-  description: Complete reference of the GetFunctionalCapabilityForDevices API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-functional-capability-for-devices
+- name: Cisco DNA Center documentation for Devices GetFunctionalCapabilityByIdV1
+  description: Complete reference of the GetFunctionalCapabilityByIdV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-functional-capability-by-id-v-1
+- name: Cisco DNA Center documentation for Devices GetFunctionalCapabilityForDevicesV1
+  description: Complete reference of the GetFunctionalCapabilityForDevicesV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-functional-capability-for-devices-v-1
 notes:
   - SDK Method used are
-    devices.Devices.get_functional_capability_by_id,
-    devices.Devices.get_functional_capability_for_devices,
+    devices.Devices.get_functional_capability_by_id_v1,
+    devices.Devices.get_functional_capability_for_devices_v1,
 
   - Paths used are
     get /dna/intent/api/v1/network-device/functional-capability,
     get /dna/intent/api/v1/network-device/functional-capability/{id},
+  - It should be noted that this module is an alias of network_device_functional_capability_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Network Device Functional Capability
+- name: Get all Network Device Functional Capability Info
   cisco.dnac.network_device_functional_capability_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -72,7 +71,7 @@ EXAMPLES = r"""
     functionName: []
   register: result
 
-- name: Get Network Device Functional Capability by id
+- name: Get Network Device Functional Capability Info by id
   cisco.dnac.network_device_functional_capability_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -88,25 +87,5 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
-  returned: always
-  type: dict
-  sample: >
-    {
-      "response": {
-        "attributeInfo": {},
-        "functionDetails": [
-          {
-            "attributeInfo": {},
-            "id": "string",
-            "propertyName": "string",
-            "stringValue": "string"
-          }
-        ],
-        "functionName": "string",
-        "functionOpState": "string",
-        "id": "string"
-      },
-      "version": "string"
-    }
+  This alias returns the output of network_device_functional_capability_v1_info.
 """
